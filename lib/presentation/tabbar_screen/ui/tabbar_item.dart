@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tabbar_newspaper.dart';
+import 'package:ccvc_mobile/presentation/base_choose_time/ui/base_choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_tabbar_calender_work.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,8 +53,9 @@ extension TabbarEnum on TabBarType {
           backgroundColor: Colors.red,
         );
       case TabBarType.report:
-        return const Scaffold(
+        return  Scaffold(
           backgroundColor: Colors.blue,
+          body: BaseChooseTimeScreen(today: a,),
         );
       case TabBarType.calendarWork:
         return const MainTabarCalenderWork();

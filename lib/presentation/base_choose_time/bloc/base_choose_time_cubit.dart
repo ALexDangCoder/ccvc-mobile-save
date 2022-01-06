@@ -28,17 +28,17 @@ class BaseChooseTimeCubit extends BaseCubit<BaseChooseTimeState> {
   }
 
   void onNextDay(DateTime time) {
-    int a = time.millisecondsSinceEpoch;
-    a = a + (24 * 60 * 60 * 1000);
-    times = DateTime.fromMillisecondsSinceEpoch(a);
+    int timeMillisecond = time.millisecondsSinceEpoch;
+    timeMillisecond = timeMillisecond + (24 * 60 * 60 * 1000);
+    times = DateTime.fromMillisecondsSinceEpoch(timeMillisecond);
     textDisplayTime = getDateToString(times);
     textDateTimeSubject.sink.add(textDisplayTime);
   }
 
   void onBackDay() {
-    int a = times.millisecondsSinceEpoch;
-    a = a - (24 * 60 * 60 * 1000);
-    times = DateTime.fromMillisecondsSinceEpoch(a);
+    int timeMillisecond = times.millisecondsSinceEpoch;
+    timeMillisecond = timeMillisecond - (24 * 60 * 60 * 1000);
+    times = DateTime.fromMillisecondsSinceEpoch(timeMillisecond);
     textDisplayTime = getDateToString(times);
     textDateTimeSubject.sink.add(textDisplayTime);
   }
@@ -53,12 +53,12 @@ class BaseChooseTimeCubit extends BaseCubit<BaseChooseTimeState> {
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
   void onNextWeek() {
-    int b = times.millisecondsSinceEpoch;
-    b = b + (7 * 24 * 60 * 60 * 1000);
-    times = DateTime.fromMillisecondsSinceEpoch(b);
-    final String a = DateFormat(DateFormat.WEEKDAY).format(times); // Tues
+    int timeMillisecond = times.millisecondsSinceEpoch;
+    timeMillisecond = timeMillisecond + (7 * 24 * 60 * 60 * 1000);
+    times = DateTime.fromMillisecondsSinceEpoch(timeMillisecond);
+    final String today = DateFormat(DateFormat.WEEKDAY).format(times); // Tues
     final weekDay = times.weekday == 7 ? 0 : times.weekday;
-    if (a == 'Sunday') {
+    if (today == 'Sunday') {
       textDisplayTime = getDateToString(
         DateTime.fromMillisecondsSinceEpoch(
           getDate(
@@ -91,12 +91,12 @@ class BaseChooseTimeCubit extends BaseCubit<BaseChooseTimeState> {
   }
 
   void onBackWeek() {
-    int b = times.millisecondsSinceEpoch;
-    b = b - (7 * 24 * 60 * 60 * 1000);
-    times = DateTime.fromMillisecondsSinceEpoch(b);
-    final String a = DateFormat(DateFormat.WEEKDAY).format(times); // Tues
+    int timeMillisecond = times.millisecondsSinceEpoch;
+    timeMillisecond = timeMillisecond - (7 * 24 * 60 * 60 * 1000);
+    times = DateTime.fromMillisecondsSinceEpoch(timeMillisecond);
+    final String today = DateFormat(DateFormat.WEEKDAY).format(times); // Tues
     final weekDay = times.weekday == 7 ? 0 : times.weekday;
-    if (a == 'Sunday') {
+    if (today == 'Sunday') {
       textDisplayTime = getDateToString(
         DateTime.fromMillisecondsSinceEpoch(
           getDate(
@@ -135,10 +135,11 @@ class BaseChooseTimeCubit extends BaseCubit<BaseChooseTimeState> {
       firstDayThisMonth.month + 1,
       firstDayThisMonth.day,
     );
-    final int c = firstDayNextMonth.difference(firstDayThisMonth).inDays;
-    int b = times.millisecondsSinceEpoch;
-    b = b + (c * 24 * 60 * 60 * 1000);
-    times = DateTime.fromMillisecondsSinceEpoch(b);
+    final int numberDay =
+        firstDayNextMonth.difference(firstDayThisMonth).inDays;
+    int timeMillisecond = times.millisecondsSinceEpoch;
+    timeMillisecond = timeMillisecond + (numberDay * 24 * 60 * 60 * 1000);
+    times = DateTime.fromMillisecondsSinceEpoch(timeMillisecond);
     textDisplayTime = getDateToString(
       DateTime.fromMillisecondsSinceEpoch(
         DateTime.utc(
@@ -163,10 +164,11 @@ class BaseChooseTimeCubit extends BaseCubit<BaseChooseTimeState> {
       firstDayThisMonth.month + 1,
       firstDayThisMonth.day,
     );
-    final int c = firstDayNextMonth.difference(firstDayThisMonth).inDays;
-    int b = times.millisecondsSinceEpoch;
-    b = b - (c * 24 * 60 * 60 * 1000);
-    times = DateTime.fromMillisecondsSinceEpoch(b);
+    final int numberDay =
+        firstDayNextMonth.difference(firstDayThisMonth).inDays;
+    int timeMillisecond = times.millisecondsSinceEpoch;
+    timeMillisecond = timeMillisecond - (numberDay * 24 * 60 * 60 * 1000);
+    times = DateTime.fromMillisecondsSinceEpoch(timeMillisecond);
     textDisplayTime = getDateToString(
       DateTime.fromMillisecondsSinceEpoch(
         DateTime.utc(
@@ -184,8 +186,8 @@ class BaseChooseTimeCubit extends BaseCubit<BaseChooseTimeState> {
     textDateTimeSubject.sink.add(textDisplayTime);
   }
 
-  void checkToOption(String a) {
-    switch (a) {
+  void checkToOption(String name) {
+    switch (name) {
       case 'Ngày':
         onNextDay(times);
         break;
@@ -198,8 +200,8 @@ class BaseChooseTimeCubit extends BaseCubit<BaseChooseTimeState> {
     }
   }
 
-  void checkToOptionBackDay(String a) {
-    switch (a) {
+  void checkToOptionBackDay(String name) {
+    switch (name) {
       case 'Ngày':
         onBackDay();
         break;

@@ -104,7 +104,7 @@ extension GetScreen on MenuType {
           backgroundColor: Colors.red,
         );
       case MenuType.baoChiMangXaHoi:
-        return const TabbarNewspaper();
+        return const Scaffold(body: TabbarNewspaper());
       case MenuType.ketNoi:
         return const Scaffold(
           backgroundColor: Colors.red,

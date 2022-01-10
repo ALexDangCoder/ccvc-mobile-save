@@ -61,11 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   loginCubit: loginCubit,
                   prefixIcon:  SvgPicture.asset(ImageAssets.imgAcount),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(
@@ -77,11 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   loginCubit: loginCubit,
                   prefixIcon: SvgPicture.asset(ImageAssets.imgPassword),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextPassword(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextPassword(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(

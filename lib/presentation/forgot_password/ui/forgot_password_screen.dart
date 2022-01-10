@@ -45,11 +45,6 @@ class _ForgotPassWordScreenState extends State<ForgotPassWordScreen> {
                   loginCubit: loginCubit,
                   prefixIcon: SvgPicture.asset(ImageAssets.icShieldDone),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(height: 16.0),
@@ -59,11 +54,6 @@ class _ForgotPassWordScreenState extends State<ForgotPassWordScreen> {
                   loginCubit: loginCubit,
                   prefixIcon: SvgPicture.asset(ImageAssets.icLock),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(height: 16.0),
@@ -73,11 +63,6 @@ class _ForgotPassWordScreenState extends State<ForgotPassWordScreen> {
                   loginCubit: loginCubit,
                   prefixIcon: SvgPicture.asset(ImageAssets.icLock),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(height: 16.0),

@@ -50,11 +50,6 @@ class _CreateNewPassWordScreenState extends State<CreateNewPassWordScreen> {
                   loginCubit: loginCubit,
                   prefixIcon: SvgPicture.asset(ImageAssets.icLock),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(height: 16.0),
@@ -64,11 +59,6 @@ class _CreateNewPassWordScreenState extends State<CreateNewPassWordScreen> {
                   loginCubit: loginCubit,
                   prefixIcon: SvgPicture.asset(ImageAssets.icLock),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(height: 20.0),

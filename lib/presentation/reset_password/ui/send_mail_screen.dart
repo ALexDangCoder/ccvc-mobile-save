@@ -37,11 +37,6 @@ class _SendMailScreenState extends State<SendMailScreen> {
                   loginCubit: loginCubit,
                   prefixIcon: SvgPicture.asset(ImageAssets.ic_email),
                   onChange: (text) {
-                    if (text.isEmpty) {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: true);
-                    } else {
-                      loginCubit.getShowEmptyTextTaiKhoan(isShow: false);
-                    }
                   },
                 ),
                 const SizedBox(height: 20.0),

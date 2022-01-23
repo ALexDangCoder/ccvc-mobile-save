@@ -170,7 +170,7 @@ class ManagerPersonalInformationModel {
       ManagerPersonalInformationRow(S.current.cmnd, cmtnd, TypeRow.text),
       ManagerPersonalInformationRow(
         S.current.gioi_tinh,
-        gioiTinh,
+        gioiTinh ?? false ? S.current.Nam : S.current.Nu,
         TypeRow.text,
       ),
       ManagerPersonalInformationRow(S.current.email, email, TypeRow.text),

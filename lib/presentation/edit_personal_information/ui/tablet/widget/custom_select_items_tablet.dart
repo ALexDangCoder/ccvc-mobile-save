@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/edit_personal_information_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
@@ -42,7 +41,6 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
   bool isSearching = false;
   double sizeWitdhTag = 0;
   BehaviorSubject<List<String>> searchItemSubject = BehaviorSubject();
-  EditPersonalInformationCubit cubit = EditPersonalInformationCubit();
 
   void showListItem(BuildContext context) {
     searchItemSubject = BehaviorSubject.seeded(widget.items);
@@ -277,15 +275,13 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                   border: Border.all(color: borderColor),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: selectedItems.isNotEmpty
-                    ? _buildTagView()
-                    : Text(
-                        widget.title ?? S.current.danh_sach_rong,
-                        style: tokenDetailAmount(
-                          fontSize: 14.0.textScale(),
-                          color: titleColor,
-                        ),
-                      ),
+                child: Text(
+                  widget.title ?? S.current.danh_sach_rong,
+                  style: tokenDetailAmount(
+                    fontSize: 14.0.textScale(),
+                    color: titleColor,
+                  ),
+                ),
               ),
             ],
           )

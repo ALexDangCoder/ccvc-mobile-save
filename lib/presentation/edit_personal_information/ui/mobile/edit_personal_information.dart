@@ -12,6 +12,8 @@ import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_form_field_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -29,14 +31,6 @@ class EditPersonInformationScreen extends StatefulWidget {
 
 class _EditPersonalInformationScreen
     extends State<EditPersonInformationScreen> {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeyName = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeyMa = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeyThuTu = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeyCmnd = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeyEmail = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeySdtCoQuan = GlobalKey<FormState>();
-  GlobalKey<FormState> formKeySDT = GlobalKey<FormState>();
   EditPersonalInformationCubit cubit = EditPersonalInformationCubit();
   TextEditingController nameController = TextEditingController();
   TextEditingController maCanBoController = TextEditingController();
@@ -46,6 +40,7 @@ class _EditPersonalInformationScreen
   TextEditingController sdtCoquanController = TextEditingController();
   TextEditingController sdtController = TextEditingController();
   TextEditingController diaChiLienHeController = TextEditingController();
+  final keyGroup = GlobalKey<FormGroupState>();
 
   @override
   void initState() {
@@ -84,19 +79,15 @@ class _EditPersonalInformationScreen
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Form(
-              key: formKeyName,
-              child: InputInfoUserWidget(
+        child: FormGroup(
+          key: keyGroup,
+          child: Column(
+            children: [
+              InputInfoUserWidget(
                 isObligatory: true,
                 title: user.keys.elementAt(1),
-                child: TextFormFieldWidget(
+                child: TextFieldValidator(
                   controller: nameController,
-                  isEnabled: true,
-                  onChange: (value) {
-                    formKeyName.currentState!.validate();
-                  },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return S.current.khong_duoc_de_trong;
@@ -105,18 +96,11 @@ class _EditPersonalInformationScreen
                   },
                 ),
               ),
-            ),
-            Form(
-              key: formKeyMa,
-              child: InputInfoUserWidget(
+              InputInfoUserWidget(
                 isObligatory: true,
                 title: user.keys.elementAt(2),
-                child: TextFormFieldWidget(
+                child: TextFieldValidator(
                   controller: maCanBoController,
-                  isEnabled: true,
-                  onChange: (value) {
-                    formKeyMa.currentState!.validate();
-                  },
                   validator: (value) {
                     if (value!.isEmpty) {
                       return S.current.khong_duoc_de_trong;
@@ -125,37 +109,26 @@ class _EditPersonalInformationScreen
                   },
                 ),
               ),
-            ),
-            Form(
-              key: formKeyThuTu,
-              child: InputInfoUserWidget(
+              InputInfoUserWidget(
                 title: user.keys.elementAt(3),
-                child: TextFormFieldWidget(
+                child: TextFieldValidator(
                   controller: thuTuController,
-                  isEnabled: true,
                 ),
               ),
-            ),
-            InputInfoUserWidget(
-              isObligatory: true,
-              title: user.keys.elementAt(4),
-              child: CustomSelectDate(
-                value: cubit.managerPersonalInformationModel.ngaySinh,
-                onSelectDate: (dateTime) {
-                  cubit.selectBirthdayEvent(dateTime.toString());
-                },
-              ),
-            ),
-            Form(
-              key: formKeyCmnd,
-              child: InputInfoUserWidget(
-                title: user.keys.elementAt(5),
-                child: TextFormFieldWidget(
-                  controller: cmndController,
-                  isEnabled: true,
-                  onChange: (value) {
-                    formKeyCmnd.currentState!.validate();
+              InputInfoUserWidget(
+                isObligatory: true,
+                title: user.keys.elementAt(4),
+                child: CustomSelectDate(
+                  value: cubit.managerPersonalInformationModel.ngaySinh,
+                  onSelectDate: (dateTime) {
+                    cubit.selectBirthdayEvent(dateTime.toString());
                   },
+                ),
+              ),
+              InputInfoUserWidget(
+                title: user.keys.elementAt(5),
+                child: TextFieldValidator(
+                  controller: cmndController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return S.current.khong_duoc_de_trong;
@@ -164,176 +137,150 @@ class _EditPersonalInformationScreen
                   },
                 ),
               ),
-            ),
-            InputInfoUserWidget(
-              isObligatory: true,
-              title: user.keys.elementAt(6),
-              child: CustomDropDown(
-                value: cubit.managerPersonalInformationModel.gioiTinh ?? false
-                    ? S.current.Nam
-                    : S.current.Nu,
-                items: cubit.fakeDataGioiTinh,
-                onSelectItem: (value) {
-                  if (value == 0) {
-                    cubit.selectGTEvent(true);
-                  } else {
-                    cubit.selectGTEvent(false);
-                  }
-                },
-              ),
-            ),
-            Form(
-              key: formKeyEmail,
-              child: InputInfoUserWidget(
-                title: user.keys.elementAt(7),
-                child: TextFormFieldWidget(
-                  controller: emailController,
-                  isEnabled: true,
-                  onChange: (value) {
-                    formKeyEmail.currentState!.validate();
+              InputInfoUserWidget(
+                isObligatory: true,
+                title: user.keys.elementAt(6),
+                child: CustomDropDown(
+                  value: cubit.managerPersonalInformationModel.gioiTinh ?? false
+                      ? S.current.Nam
+                      : S.current.Nu,
+                  items: cubit.fakeDataGioiTinh,
+                  onSelectItem: (value) {
+                    if (value == 0) {
+                      cubit.selectGTEvent(true);
+                    } else {
+                      cubit.selectGTEvent(false);
+                    }
                   },
+                ),
+              ),
+              InputInfoUserWidget(
+                title: user.keys.elementAt(7),
+                child: TextFieldValidator(
+                  controller: emailController,
                   validator: (value) {
                     return value!.checkEmail();
                   },
                 ),
               ),
-            ),
-            Form(
-              key: formKeySdtCoQuan,
-              child: InputInfoUserWidget(
+              InputInfoUserWidget(
                 title: user.keys.elementAt(8),
-                child: TextFormFieldWidget(
+                child: TextFieldValidator(
                   controller: sdtCoquanController,
                   textInputType: TextInputType.number,
-                  isEnabled: true,
-                  onChange: (value) {
-                    formKeySdtCoQuan.currentState!.validate();
-                  },
                   validator: (value) {
                     return value!.checkSdt();
                   },
                 ),
               ),
-            ),
-            //
-            Form(
-              key: formKeySDT,
-              child: InputInfoUserWidget(
+              //
+              InputInfoUserWidget(
                 title: user.keys.elementAt(9),
-                child: TextFormFieldWidget(
+                child: TextFieldValidator(
                   controller: sdtController,
                   textInputType: TextInputType.number,
-                  isEnabled: true,
-                  onChange: (value) {
-                    formKeySDT.currentState!.validate();
-                  },
                   validator: (value) {
                     return value!.checkSdt();
                   },
                 ),
               ),
-            ),
-            Form(
-              child: InputInfoUserWidget(
-                title: user.keys.elementAt(10),
-                child: CustomSelectItems(
-                  title: S.current.tinh_thanh,
-                  context: context,
-                  items: cubit.fakeDataTinh,
-                  onChange: (indexes) {
-                    if (indexes >= 0) {
-                      setState(() {
-                        // cubit.isCheckH(false);
-                        cubit.isCheckTinhSubject.sink.add(false);
-                      });
-                    }
-                  },
-                  onRemove: () {
-                    cubit.isCheckTinhSubject.sink.add(true);
-                    cubit.isCheckHuyenSubject.sink.add(true);
-                  },
-                  isCheckEnable: false,
+              Form(
+                child: InputInfoUserWidget(
+                  title: user.keys.elementAt(10),
+                  child: CustomSelectItems(
+                    title: S.current.tinh_thanh,
+                    context: context,
+                    items: cubit.fakeDataTinh,
+                    onChange: (indexes) {
+                      if (indexes >= 0) {
+                        setState(() {
+                          // cubit.isCheckH(false);
+                          cubit.isCheckTinhSubject.sink.add(false);
+                        });
+                      }
+                    },
+                    onRemove: () {
+                      cubit.isCheckTinhSubject.sink.add(true);
+                      cubit.isCheckHuyenSubject.sink.add(true);
+                    },
+                    isCheckEnable: false,
+                  ),
                 ),
               ),
-            ),
-            StreamBuilder<bool>(
-              stream: cubit.isCheckTinhStream,
-              builder: (context, snapshot) {
-                final snap = snapshot.data ?? true;
-                return Form(
-                  child: InputInfoUserWidget(
-                    title: user.keys.elementAt(11),
-                    child: CustomSelectItems(
-                      title: S.current.quan_huyen,
-                      context: context,
-                      items: cubit.fakeDataHuyen,
-                      onChange: (indexes) {
-                        if (indexes >= 0) {
-                          setState(() {
+              StreamBuilder<bool>(
+                stream: cubit.isCheckTinhStream,
+                builder: (context, snapshot) {
+                  final snap = snapshot.data ?? true;
+                  return Form(
+                    child: InputInfoUserWidget(
+                      title: user.keys.elementAt(11),
+                      child: CustomSelectItems(
+                        key: UniqueKey(),
+                        title: S.current.quan_huyen,
+                        context: context,
+                        items: cubit.fakeDataHuyen,
+                        onChange: (indexes) {
+                          if (indexes >= 0) {
                             cubit.isCheckHuyenSubject.sink.add(false);
-                          });
-                        }
-                      },
-                      onRemove: () {
-                        cubit.isCheckHuyenSubject.sink.add(true);
-                      },
-                      isCheckEnable: snap,
+                          }
+                        },
+                        onRemove: () {
+                          cubit.isCheckHuyenSubject.sink.add(true);
+                        },
+                        isCheckEnable: snap,
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-            StreamBuilder<bool>(
-              stream: cubit.isCheckHuyenStream,
-              builder: (context, snapshot) {
-                final snap = snapshot.data ?? true;
-                return Form(
-                  child: InputInfoUserWidget(
-                    title: user.keys.elementAt(12),
-                    child: CustomSelectItems(
-                      key: UniqueKey(),
-                      title: S.current.phuong_xa,
-                      context: context,
-                      items: cubit.fakeDataTinh,
-                      onChange: (indexes) {
-                        //  widget._viewModel.selectGroup(indexes);
-                      },
-                      isCheckEnable: snap,
+                  );
+                },
+              ),
+              StreamBuilder<bool>(
+                stream: cubit.isCheckHuyenStream,
+                builder: (context, snapshot) {
+                  final snap = snapshot.data ?? true;
+                  return Form(
+                    child: InputInfoUserWidget(
+                      title: user.keys.elementAt(12),
+                      child: CustomSelectItems(
+                        key: UniqueKey(),
+                        title: S.current.phuong_xa,
+                        context: context,
+                        items: cubit.fakeDataTinh,
+                        onChange: (indexes) {
+                          //  widget._viewModel.selectGroup(indexes);
+                        },
+                        isCheckEnable: snap,
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-            Form(
-              key: formKey,
-              child: InputInfoUserWidget(
+                  );
+                },
+              ),
+              InputInfoUserWidget(
                 title: user.keys.elementAt(13),
                 child: TextFormFieldWidget(
                   controller: diaChiLienHeController,
                   isEnabled: true,
                 ),
               ),
-            ),
-            spaceH20,
-            const WidgetDonVibMobile(),
-            spaceH20,
-            const WidgetUngDungMobile(),
-            spaceH20,
-            AvatarAndSignature(
-              editPersonalInformationCubit: EditPersonalInformationCubit(),
-            ),
-            spaceH20,
-            ButtonCustomBottom(
-              onPressed: () {
-                if (formKeyName.currentState!.validate() &&
-                    formKeyMa.currentState!.validate()) {
-                } else {}
-              },
-              title: S.current.thay_doi,
-              isColorBlue: true,
-            ),
-            spaceH32,
-          ],
+              spaceH20,
+              const WidgetDonVibMobile(),
+              spaceH20,
+              const WidgetUngDungMobile(),
+              spaceH20,
+              AvatarAndSignature(
+                editPersonalInformationCubit: EditPersonalInformationCubit(),
+              ),
+              spaceH20,
+              ButtonCustomBottom(
+                onPressed: () {
+                  if (keyGroup.currentState!.validator()) {
+                  } else {}
+                },
+                title: S.current.thay_doi,
+                isColorBlue: true,
+              ),
+              spaceH32,
+            ],
+          ),
         ),
       ),
     );

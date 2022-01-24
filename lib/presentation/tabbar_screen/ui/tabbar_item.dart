@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/add_cadres/ui/mobile/add_cadres_screen.dart';
+import 'package:ccvc_mobile/presentation/add_cadres/ui/tablet/add_cadres_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_tabbar_calender_work.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/tablet.dart';
@@ -53,14 +55,15 @@ extension TabbarEnum on TabBarType {
   Widget getScreen() {
     switch (this) {
       case TabBarType.home:
-        return screenDevice(
-          mobileScreen: HomeScreenMobile(
-            key: keyHomeMobile,
-          ),
-          tabletScreen: HomeScreenTablet(
-            key: keyHomeTablet,
-          ),
-        );
+        // return screenDevice(
+        //   mobileScreen: HomeScreenMobile(
+        //     key: keyHomeMobile,
+        //   ),
+        //   tabletScreen: HomeScreenTablet(
+        //     key: keyHomeTablet,
+        //   ),
+        // );
+        return const AddCadres();
       case TabBarType.report:
         return const Scaffold(
           backgroundColor: Colors.blue,

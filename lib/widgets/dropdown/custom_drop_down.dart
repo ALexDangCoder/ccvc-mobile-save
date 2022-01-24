@@ -38,7 +38,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.transparent,
+              // color: Colors.transparent,
               border: Border.all(
                 color: borderColor,
               ),
@@ -110,7 +110,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                           fontSize: 14.0.textScale(),
                                           color: titleColor,
                                         ),
-                                      ))
+                                      ),)
                                 ],
                         ),
                     ],

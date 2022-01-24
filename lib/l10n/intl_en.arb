@@ -217,6 +217,15 @@
   "thong_bao": "Thông báo",
   "vao_hop_truc_tuyen": "Vào họp trực tuyến :",
   "thong_bao_khan": "Thông báo khẩn",
-  "xem_truoc": "Xem trước"
+  "xem_truoc": "Xem trước",
+  "chon_thanh_phan_tham_gia": "Chọn thành phần tham gia",
+  "donvi_phongban": "Đơn vị/Phòng ban",
+  "ten_can_bo": "Tên cán bộ",
+  "chuc_vu": "Chức vụ",
+  "danh_sach_don_vi_tham_gia": "Danh sách đơn vị tham gia",
+  "nhap_donvi_phongban": "Nhập tên Đơn vị/Phòng ban?",
+  "dong": "Đóng",
+  "them": "Thêm",
+  "them_can_bo": "Thêm cán bộ"
 
 }

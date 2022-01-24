@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
@@ -70,8 +71,8 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                   border:
-                                  Border.all(color: const Color(0xffE2E8F0)),
-                                  color: const Color(0xffE2E8F0).withOpacity(0.1),
+                                  Border.all(color: borderItemCalender),
+                                  color: borderItemCalender.withOpacity(0.1),
                                   borderRadius:
                                   const BorderRadius.all(Radius.circular(6)),
                                 ),
@@ -115,8 +116,8 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                   border:
-                                  Border.all(color: const Color(0xffE2E8F0)),
-                                  color: const Color(0xffE2E8F0).withOpacity(0.1),
+                                  Border.all(color: borderItemCalender),
+                                  color: borderItemCalender.withOpacity(0.1),
                                   borderRadius:
                                   const BorderRadius.all(Radius.circular(6)),
                                 ),

@@ -217,6 +217,9 @@
   "thong_bao": "Thông báo",
   "vao_hop_truc_tuyen": "Vào họp trực tuyến :",
   "thong_bao_khan": "Thông báo khẩn",
-  "xem_truoc": "Xem trước"
-
+  "xem_truoc": "Xem trước",
+  "chi_tiet_lich_hop": "chi tiết lịch họp",
+  "cong_tac_chuan_bi": "Công tác chuẩn bị",
+  "thong_tin_phong": "Thông tin phòng",
+  "thong_tin_yeu_cau_thiet_bi": "Thông tin yêu cầu thiết bị"
 }

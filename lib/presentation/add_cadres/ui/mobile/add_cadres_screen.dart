@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/domain/model/Cadres/CadresModel.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/add_cadres/bloc/add_cadres__state.dart';
 import 'package:ccvc_mobile/presentation/add_cadres/bloc/add_cadres_cubit.dart';
-import 'package:ccvc_mobile/presentation/add_cadres/ui/tablet/widgets/item_cadres_tablet.dart';
+import 'package:ccvc_mobile/presentation/add_cadres/ui/mobile/widgets/item_cadres.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_textfield.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
@@ -30,7 +30,7 @@ class _AddCadresState extends State<AddCadres> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: Container(
+      bottomNavigationBar:  Container(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
@@ -57,10 +57,10 @@ class _AddCadresState extends State<AddCadres> {
       body: Container(
         width: double.maxFinite,
         padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(12),
-        //   border: Border.all(),
-        // ),
+        decoration: const BoxDecoration(
+          borderRadius:  BorderRadius.only(topLeft: Radius.circular(32)
+              ,topRight: Radius.circular(32),),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -114,7 +114,7 @@ class _AddCadresState extends State<AddCadres> {
             ),
             CustomTextField(
               isPass: false,
-              textHint: S.current.nhap_donvi_phongban,
+              textHint: '${S.current.nhap_donvi_phongban}?',
               prefixIcon: SvgPicture.asset(ImageAssets.ic_KinhRong),
             ),
             const SizedBox(
@@ -125,19 +125,25 @@ class _AddCadresState extends State<AddCadres> {
                 child: MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
-                  child: StreamBuilder<List<CadresModel>>(
-                    stream: cubit.getListCadres,
-                    builder: (context,snapshot){
-                      final List<CadresModel>listData=snapshot.data ?? [];
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount:listData.length,
-                        itemBuilder: (context,index){
-                          return ItemCadresTablet(ten: listData[index].ten,
-                              chucVu:listData[index].chuVu,);
+                  child: Column(
+                    children: [
+                      StreamBuilder<List<CadresModel>>(
+                        stream: cubit.getListCadres,
+                        builder: (context,snapshot){
+                          final List<CadresModel>listData=snapshot.data ?? [];
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount:listData.length,
+                            itemBuilder: (context,index){
+                              return ItemCadres(ten: listData[index].ten,
+                                  chucVu:listData[index].chuVu,);
+                            },
+                          );
                         },
-                      );
-                    },
+                      ),
+
+                    ],
                   ),
                 ),
               ),

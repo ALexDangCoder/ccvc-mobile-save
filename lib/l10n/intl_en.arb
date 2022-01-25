@@ -221,6 +221,11 @@
   "cong_tac_chuan_bi": "Công tác chuẩn bị",
   "thong_tin_phong": "Thông tin phòng",
   "thong_tin_yeu_cau_thiet_bi": "Thông tin yêu cầu thiết bị",
+  "chon_thanh_phan_tham_gia" : "Chọn thành phần tham gia",
+  "danh_sach_don_vi_tham_gia" : "Danh sách đơn vị tham gia",
+  "dong" : "Đóng",
+  "them" : "Thêm",
+  "them_don_vi" : "Thêm đơn vị",
   "danh_sach_lich_hop": "Danh sách lịch họp",
   "truc_tiep": "Trực tiếp"
 }

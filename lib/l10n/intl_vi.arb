@@ -192,7 +192,6 @@
   "danhSach": "Danh sách lịch sẽ được hiển thị những loại lịch nào?",
   "noi_dung": "Nội dung",
   "chinh_sua_hdsd": "Chỉnh sửa hướng dẫn sử dụng",
-  "xem_truoc": "Xem trước",
   "chu_de_hdsd": "Chủ đề HDSD",
   "xem_danh_sach": "Xem danh sách chi tiết",
   "them_moi": "Thêm mới",
@@ -220,6 +219,12 @@
   "thong_tin_phong": "Thông tin phòng",
   "thong_tin_yeu_cau_thiet_bi": "Thông tin yêu cầu thiết bị",
   "khong_co_du_lieu": "không có dữ liệu",
+  "xem_truoc": "Xem trước",
+  "chon_thanh_phan_tham_gia" : "Chọn thành phần tham gia",
+  "danh_sach_don_vi_tham_gia" : "Danh sách đơn vị tham gia",
+  "dong" : "Đóng",
+  "them" : "Thêm",
+  "them_don_vi" : "Thêm đơn vị",
   "danh_sach_lich_hop": "Danh sách lịch họp",
   "truc_tiep": "Trực tiếp"
 }

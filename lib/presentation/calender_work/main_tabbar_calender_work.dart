@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/presentation/calender_work/tab_calender_form/ui/in_c
 import 'package:ccvc_mobile/presentation/calender_work/tab_list_form/ui/in_list_form.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/mobile/drawer_menu.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/drawer_menu_tablet.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/tao_lich_hop_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
@@ -26,7 +27,15 @@ class _MainTabarCalenderWorkState extends State<MainTabarCalenderWork> {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  const TaoLichHopScreen(),
+                ),
+              );
+            },
             icon: SvgPicture.asset(ImageAssets.icAddButtonCalender),
           ),
           IconButton(
@@ -57,7 +66,6 @@ class _MainTabarCalenderWorkState extends State<MainTabarCalenderWork> {
       ),
       body: Column(
         children: [
-
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: BaseSearchBar(),

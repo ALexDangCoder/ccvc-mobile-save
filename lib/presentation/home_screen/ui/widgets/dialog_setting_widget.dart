@@ -34,47 +34,49 @@ class DialogSettingWidget extends StatelessWidget {
         : StreamBuilder<WidgetType?>(
             stream: HomeProvider.of(context).homeCubit.showDialogSetting,
             builder: (context, snapshot) {
-              return snapshot.data == type
-                  ? Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: AppTheme.getInstance().backGroundColor(),
-                        boxShadow: [
-                          BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                        border: Border.all(color: borderColor.withOpacity(0.5)),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
+              return Visibility(
+                maintainState: true,
+                visible: snapshot.data==type,
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: AppTheme.getInstance().backGroundColor(),
+                    boxShadow: [
+                      BoxShadow(
+                        color: shadowContainerColor.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
-                      child: customDialog ??
+                    ],
+                    border: Border.all(color: borderColor.withOpacity(0.5)),
+                    borderRadius:
+                    const BorderRadius.all(Radius.circular(12)),
+                  ),
+                  child: customDialog ??
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          labelWidget ?? const SizedBox(),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              labelWidget ?? const SizedBox(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: List.generate(
-                                    listSelectKey?.length ?? 0, (index) {
-                                  final data = listSelectKey?[index] ??
-                                      DialogData(key: [], title: '');
+                            children: List.generate(
+                                listSelectKey?.length ?? 0, (index) {
+                              final data = listSelectKey?[index] ??
+                                  DialogData(key: [], title: '');
 
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        top: index == 0 ? 0 : 26,),
-                                    child: SelectCell(
-                                      data: data,
-                                    ),
-                                  );
-                                }),
-                              )
-                            ],
-                          ),
-                    )
-                  : const SizedBox();
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  top: index == 0 ? 0 : 26,),
+                                child: SelectCell(
+                                  data: data,
+                                ),
+                              );
+                            }),
+                          )
+                        ],
+                      ),
+                ),
+              );
             },
           );
   }

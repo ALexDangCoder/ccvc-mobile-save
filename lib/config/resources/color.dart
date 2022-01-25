@@ -81,7 +81,7 @@ const borderItemCalender = Color(0xffE2E8F0);
 const numberOfCalenders = Color(0xff5A8DEE);
 const editColor = Color(0xffEDF0FD);
 const dotColor = Color(0xffD4DAE3);
-
+const bgTag = Color(0xffF2F0FF);
 
 
 const borderCaneder=Color(0xff586B8B);

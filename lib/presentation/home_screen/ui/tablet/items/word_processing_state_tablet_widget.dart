@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
@@ -32,19 +34,20 @@ class WordProcessingStateTabletWidget extends StatefulWidget {
 }
 
 class _WordProcessingStateWidgetState
-    extends State<WordProcessingStateTabletWidget> {
+    extends State<WordProcessingStateTabletWidget> with AutomaticKeepAliveClientMixin{
   late HomeCubit cubit;
-  @override
+@override
   void initState() {
     // TODO: implement initState
     super.initState();
+    log('message');
   }
-
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit..getDocument();
+
   }
 
   @override
@@ -191,4 +194,8 @@ class _WordProcessingStateWidgetState
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

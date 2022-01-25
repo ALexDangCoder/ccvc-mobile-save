@@ -23,7 +23,6 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/items/word_proces
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/items/work_list_tablet_widget.dart';
 
 import 'package:flutter/cupertino.dart';
-
 extension ItemExtension on WidgetType {
   Widget getItemsMobile() {
     switch (this) {
@@ -69,11 +68,10 @@ extension ItemExtension on WidgetType {
         return const SinhNhatWidget(homeItemType: WidgetType.sinhNhat);
     }
   }
-
   Widget getItemsTablet() {
     switch (this) {
       case WidgetType.wordProcessState:
-        return const WordProcessingStateTabletWidget(
+        return  WordProcessingStateTabletWidget(
           homeItemType: WidgetType.wordProcessState,
         );
       case WidgetType.document:

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 
 // todo chi tiet van ban
 class CongTacChuanBiScreen extends StatefulWidget {
-
   @override
   State<CongTacChuanBiScreen> createState() => _CongTacChuanBiScreenState();
 }
@@ -70,15 +69,14 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                                 margin: const EdgeInsets.only(top: 16),
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: borderItemCalender),
+                                  border: Border.all(color: borderItemCalender),
                                   color: borderItemCalender.withOpacity(0.1),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(6)),
                                 ),
                                 child: Column(
                                   children: snapshot.data!.toListRow().map(
-                                        (row) {
+                                    (row) {
                                       return DetailDocumentRow(
                                         row: row,
                                       );
@@ -115,15 +113,14 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                                 margin: const EdgeInsets.only(top: 16),
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: borderItemCalender),
+                                  border: Border.all(color: borderItemCalender),
                                   color: borderItemCalender.withOpacity(0.1),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(6)),
                                 ),
                                 child: Column(
                                   children: snapshot.data!.toListRow().map(
-                                        (row) {
+                                    (row) {
                                       return DetailDocumentRow(
                                         row: row,
                                       );
@@ -168,7 +165,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                   top: 10.5,
                   bottom: 10.5,
                 ),
-                child: const Text('aaaaaaaaaaaaa'),
+                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
               ),
               child: Container(
                 color: Colors.red,
@@ -192,7 +189,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                   top: 10.5,
                   bottom: 10.5,
                 ),
-                child: const Text('aaaaaaaaaaaaa'),
+                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
               ),
               child: Container(
                 color: Colors.red,
@@ -216,7 +213,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                   top: 10.5,
                   bottom: 10.5,
                 ),
-                child: const Text('aaaaaaaaaaaaa'),
+                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
               ),
               child: Container(
                 color: Colors.red,
@@ -240,7 +237,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                   top: 10.5,
                   bottom: 10.5,
                 ),
-                child: const Text('aaaaaaaaaaaaaa'),
+                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
               ),
               child: Container(
                 color: Colors.red,
@@ -264,7 +261,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                   top: 10.5,
                   bottom: 10.5,
                 ),
-                child: const Text('aaaaaaa'),
+                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
               ),
               child: Container(
                 color: Colors.red,

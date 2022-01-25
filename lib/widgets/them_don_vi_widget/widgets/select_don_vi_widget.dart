@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
@@ -68,11 +71,24 @@ class SelectDonViCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      padding: const EdgeInsets.all(7),
+      padding: EdgeInsets.all(7.0.textScale(space: 5)),
       decoration: BoxDecoration(
-        border: Border.all(color: borderButtomColor),
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-      ),
+          boxShadow: APP_DEVICE == DeviceType.MOBILE
+              ? []
+              : [
+                  BoxShadow(
+                    color: shadowContainerColor.withOpacity(0.05),
+                    offset: const Offset(0, 4),
+                    blurRadius: 10,
+                  )
+                ],
+          border: Border.all(
+            color: APP_DEVICE == DeviceType.MOBILE
+                ? borderButtomColor
+                : borderColor.withOpacity(0.5),
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(6.0.textScale())),
+          color: Colors.white),
       child: Wrap(
         spacing: 10,
         runSpacing: 10,
@@ -84,7 +100,7 @@ class SelectDonViCell extends StatelessWidget {
               child: TextField(
                 onChanged: onChange,
                 controller: controller,
-                style: textNormal(textTitle, 14),
+                style: textNormal(textTitle, 14.0.textScale()),
                 decoration: const InputDecoration(
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -109,16 +125,19 @@ class SelectDonViCell extends StatelessWidget {
   Widget tag({required String title, required Function onDelete}) {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
-      decoration: const BoxDecoration(
-        color: bgTag,
-        borderRadius: BorderRadius.all(Radius.circular(6)),
+      decoration: BoxDecoration(
+        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             title,
-            style: textNormal(linkColor, 12),
+            style: textNormal(
+              APP_DEVICE == DeviceType.MOBILE ? linkColor : backgroundColorApp,
+              12.0.textScale(),
+            ),
           ),
           GestureDetector(
             onTap: () {
@@ -130,7 +149,9 @@ class SelectDonViCell extends StatelessWidget {
                 ImageAssets.icClose,
                 width: 7.5,
                 height: 7.5,
-                color: labelColor,
+                color: APP_DEVICE == DeviceType.MOBILE
+                    ? labelColor
+                    : backgroundColorApp,
               ),
             ),
           )

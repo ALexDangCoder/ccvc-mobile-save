@@ -1,6 +1,3 @@
-
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
@@ -11,10 +8,10 @@ import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
 
-
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/enum_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -34,20 +31,21 @@ class WordProcessingStateTabletWidget extends StatefulWidget {
 }
 
 class _WordProcessingStateWidgetState
-    extends State<WordProcessingStateTabletWidget> with AutomaticKeepAliveClientMixin{
+    extends State<WordProcessingStateTabletWidget> {
   late HomeCubit cubit;
-@override
+  final TinhHinhXuLyCubit _xuLyCubit = TinhHinhXuLyCubit();
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    log('message');
+    _xuLyCubit.getDocument();
   }
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    cubit = HomeProvider.of(context).homeCubit..getDocument();
-
+    cubit = HomeProvider.of(context).homeCubit;
   }
 
   @override
@@ -57,17 +55,17 @@ class _WordProcessingStateWidgetState
       onTapIcon: () {
         cubit.showDialog(widget.homeItemType);
       },
+      selectKeyDialog: _xuLyCubit,
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         listSelectKey: <DialogData>[
           DialogData(
-            title: S.current.document,
-            key: [
-              SelectKey.HOM_NAY,
-              SelectKey.TUAN_NAY,
-              SelectKey.THANG_NAY,
-              SelectKey.NAM_NAY
-            ],
+            onSelect: (value, startDate, endDate) {
+              _xuLyCubit.selectDate(
+                  selectKey: value, startDate: startDate, endDate: endDate);
+            },
+            title: S.current.time,
+            initValue: _xuLyCubit.selectKeyTime,
           )
         ],
       ),
@@ -84,7 +82,7 @@ class _WordProcessingStateWidgetState
               child: titleChart(
                 S.current.document_incoming,
                 StreamBuilder<DocumentDashboardModel>(
-                  stream: cubit.getDocumentVBDen,
+                  stream: _xuLyCubit.getDocumentVBDen,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? DocumentDashboardModel();
                     if (snapshot.hasData) {
@@ -127,7 +125,7 @@ class _WordProcessingStateWidgetState
               child: titleChart(
                 S.current.document_out_going,
                 StreamBuilder<DocumentDashboardModel>(
-                  stream: cubit.getDocumentVBDi,
+                  stream: _xuLyCubit.getDocumentVBDi,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final data = snapshot.data!;
@@ -194,8 +192,4 @@ class _WordProcessingStateWidgetState
       ),
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

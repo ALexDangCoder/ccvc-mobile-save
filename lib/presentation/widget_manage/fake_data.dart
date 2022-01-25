@@ -8,6 +8,7 @@ class FakeData {
         component: 'TinhHinhXuLyVanBan',),
     WidgetModel(name: 'Văn bản', id: '', component: 'VanBanWidGet'),
     WidgetModel(name: 'Tổng hợp nhiệm vụ', id: '', component: 'TongHopNhiemVu'),
+    WidgetModel(name: 'Nhiệm vụ', id: '', component: 'NhienVuWidGet'),
     WidgetModel(
         name: 'Ý kiến người dân', id: '', component: 'YKienNguoiDanTongHop',),
     WidgetModel(name: 'Lịch làm việc', id: '', component: 'BoxLichLamViec'),

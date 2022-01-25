@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
@@ -22,12 +23,14 @@ class EventOfDayTabletWidget extends StatefulWidget {
 }
 
 class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
+  final SuKienTrongNgayCubit _suKienTrongNgayCubit = SuKienTrongNgayCubit();
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
       title: S.current.event_of_day,
       minHeight: 415,
       maxHeight: 415,
+      selectKeyDialog: _suKienTrongNgayCubit,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
@@ -35,13 +38,14 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
         type: widget.homeItemType,
         listSelectKey: <DialogData>[
           DialogData(
-            title: S.current.document,
-            key: [
-              SelectKey.HOM_NAY,
-              SelectKey.TUAN_NAY,
-              SelectKey.THANG_NAY,
-              SelectKey.NAM_NAY
-            ],
+            onSelect: (value,startDate,endDate) {
+              _suKienTrongNgayCubit.selectDate(
+                  selectKey: value,
+                  startDate: startDate,
+                  endDate: endDate);
+            },
+            title: S.current.time,
+
           )
         ],
       ),
@@ -49,11 +53,11 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
         child: ScrollBarWidget(
           children: List.generate(
             FakeData.suKienTrongNgay.length,
-                (index) {
-              final data= FakeData.suKienTrongNgay[index];
+            (index) {
+              final data = FakeData.suKienTrongNgay[index];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child:  EventWidget(
+                child: EventWidget(
                   onTap: () {},
                   title: data.name,
                 ),

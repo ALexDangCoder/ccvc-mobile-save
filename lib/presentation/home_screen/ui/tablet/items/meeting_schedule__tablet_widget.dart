@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
@@ -24,6 +25,7 @@ class MeetingScheduleTabletWidget extends StatefulWidget {
 }
 
 class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
+  final LichHopCubit _lichHopCubit = LichHopCubit();
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
@@ -32,27 +34,21 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      selectKeyDialog: _lichHopCubit,
+      listSelect: const [
+        SelectKey.LICH_HOP_CUA_TOI,
+        SelectKey.LICH_HOP_DUOC_MOI,
+        SelectKey.LICH_HOP_CAN_DUYET,
+      ],
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         listSelectKey: [
           DialogData(
-            title: S.current.meeting_schedule,
-            key: [
-              SelectKey.LICH_HOP_DUOC_MOI,
-              SelectKey.LICH_HOP_CAN_DUYET,
-              SelectKey.LICH_DUYET_PHONG,
-              SelectKey.LICH_HOP_DUYET_THIET_BI,
-              SelectKey.LICH_HOP_DUYET_YEU_CAU_CHUAN_BI
-            ],
-          ),
-          DialogData(
+            onSelect: (value, startDate, endDate) {
+              _lichHopCubit.selectDate(
+                  selectKey: value, startDate: startDate, endDate: endDate);
+            },
             title: S.current.time,
-            key: [
-              SelectKey.HOM_NAY,
-              SelectKey.TUAN_NAY,
-              SelectKey.THANG_NAY,
-              SelectKey.NAM_NAY
-            ],
           )
         ],
       ),

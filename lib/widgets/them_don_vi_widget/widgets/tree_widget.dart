@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -60,12 +61,13 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                               Expanded(
                                 child: Text(
                                   title(),
-                                  style: textNormal(textTitle, 14),
+                                  style:
+                                      textNormal(textTitle, 14.0.textScale()),
                                 ),
                               ),
                               if (widget.node.children.isNotEmpty)
                                 Transform.rotate(
-                                  angle: widget.node.expand ? 0 : 1.6,
+                                  angle: widget.node.expand ? 0 : 3.1,
                                   child: SvgPicture.asset(
                                     ImageAssets.icDropDownButton,
                                   ),

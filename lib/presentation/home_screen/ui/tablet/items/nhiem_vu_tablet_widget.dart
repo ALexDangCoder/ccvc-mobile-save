@@ -13,37 +13,37 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/enum_ext.dart';
 import 'package:flutter/material.dart';
 
-class PeopleOpinionsTabletWidget extends StatefulWidget {
+class NhiemVuTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
-  const PeopleOpinionsTabletWidget({Key? key, required this.homeItemType})
+  const NhiemVuTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
   @override
-  State<PeopleOpinionsTabletWidget> createState() => _PeopleOpinionsState();
+  State<NhiemVuTabletWidget> createState() => _NhiemVuTabletWidgetState();
 }
 
-class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
+class _NhiemVuTabletWidgetState extends State<NhiemVuTabletWidget> {
   final YKienNguoiDanCubit _danCubit = YKienNguoiDanCubit();
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
       maxHeight: 415,
-      title: S.current.people_opinions,
+      title: S.current.nhiem_vu,
+      isUnit: true,
+      listSelect: const [
+        SelectKey.CHO_PHAN_XU_LY,
+        SelectKey.DANG_THUC_HIEN,
+        SelectKey.DANH_SACH_CONG_VIEC
+      ],
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _danCubit,
-      listSelect: const [
-        SelectKey.CHO_TIEP_NHAN,
-        SelectKey.CHO_PHAN_XU_LY,
-        SelectKey.CHO_DUYET_XU_LY,
-        SelectKey.CHO_DUYET_TIEP_NHAN,
-      ],
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         listSelectKey: [
           DialogData(
-            onSelect: (value,startDate,endDate) {
+            onSelect: (value, startDate, endDate) {
               _danCubit.selectDate(
                 selectKey: value,
                 startDate: startDate,

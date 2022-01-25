@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -16,7 +15,6 @@ class TextFieldValidator extends StatefulWidget {
   final String? Function(String?)? validator;
   final TextInputType? textInputType;
   final int maxLine;
-
   const TextFieldValidator({
     Key? key,
     this.controller,

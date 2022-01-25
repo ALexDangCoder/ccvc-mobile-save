@@ -1,5 +1,8 @@
+
+
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
@@ -7,7 +10,7 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/enum_ext.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +25,7 @@ class CalendarWorkWidget extends StatefulWidget {
 }
 
 class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
+  final LichLamViecCubit _lamViecCubit = LichLamViecCubit();
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
@@ -30,27 +34,20 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      selectKeyDialog: _lamViecCubit,
       dialogSelect: StreamBuilder<WidgetType?>(
         stream: HomeProvider.of(context).homeCubit.showDialogSetting,
         builder: (context, snapshot) {
           return DialogSettingWidget(
             listSelectKey: [
               DialogData(
-                title: S.current.calendar_work,
-                key: [
-                  SelectKey.TAT_CA,
-                  SelectKey.LICH_CUA_TOI,
-                  SelectKey.LICH_DUOC_MOI,
-                ],
-              ),
-              DialogData(
+                onSelect: (value,startDate,endDate) {
+                  _lamViecCubit.selectDate(
+                      selectKey: value,
+                      startDate: startDate,
+                      endDate: endDate);
+                },
                 title: S.current.time,
-                key: [
-                  SelectKey.HOM_NAY,
-                  SelectKey.TUAN_NAY,
-                  SelectKey.THANG_NAY,
-                  SelectKey.NAM_NAY
-                ],
               )
             ],
             type: widget.homeItemType,

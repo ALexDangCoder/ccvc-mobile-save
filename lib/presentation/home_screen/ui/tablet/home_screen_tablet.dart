@@ -84,8 +84,11 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
             ),
             GestureDetector(
               onTap: () {
-                DrawerSlide.navigatorSlide(context: context,
-                    screen: const ThongBaoScreenTablet(), isLeft: false,);
+                DrawerSlide.navigatorSlide(
+                  context: context,
+                  screen: const ThongBaoScreenTablet(),
+                  isLeft: false,
+                );
               },
               child: const ThongBaoWidget(
                 sum: 19,
@@ -116,7 +119,7 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                         itemBuilder: (BuildContext context, int index) {
                           final int count = data.length;
                           final Animation<double> animation =
-                          Tween<double>(begin: 0.0, end: 1.0).animate(
+                              Tween<double>(begin: 0.0, end: 1.0).animate(
                             CurvedAnimation(
                               parent: animationController,
                               curve: Interval(

@@ -32,12 +32,13 @@ class PressSocialNetWorkTabletWidget extends StatefulWidget {
 
 class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
   late HomeCubit cubit;
+  final BaoChiMangXaHoiCubit _xaHoiCubit = BaoChiMangXaHoiCubit();
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;
-    cubit.getPress();
+    _xaHoiCubit.getPress();
   }
 
   @override
@@ -48,6 +49,8 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      spacingTitle: 0,
+      selectKeyDialog: _xaHoiCubit,
       dialogSelect: DialogSettingWidget(
         labelWidget: Padding(
           padding: const EdgeInsets.only(bottom: 16),
@@ -70,13 +73,13 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
         type: widget.homeItemType,
         listSelectKey: [
           DialogData(
+            onSelect: (value,startDate,endDate) {
+              _xaHoiCubit.selectDate(
+                  selectKey: value,
+                  startDate: startDate,
+                  endDate: endDate);
+            },
             title: S.current.time,
-            key: [
-              SelectKey.HOM_NAY,
-              SelectKey.TUAN_NAY,
-              SelectKey.THANG_NAY,
-              SelectKey.NAM_NAY
-            ],
           )
         ],
       ),
@@ -90,7 +93,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
             ),
             Flexible(
               child: StreamBuilder<List<PressNetWorkModel>>(
-                stream: cubit.getPressNetWork,
+                stream: _xaHoiCubit.getPressNetWork,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? <PressNetWorkModel>[];
                   if (data.isNotEmpty) {
@@ -232,7 +235,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       height: 26,
       child: StreamBuilder<List<TagModel>>(
         initialData: const [],
-        stream: cubit.getTag,
+        stream: _xaHoiCubit.getTag,
         builder: (context, snapshot) {
           final data = snapshot.data ?? <TagModel>[];
           return ListView.builder(
@@ -242,7 +245,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
               final result = data[index];
               return GestureDetector(
                 onTap: () {
-                  cubit.selectTag(result);
+                  _xaHoiCubit.selectTag(result);
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: 16, left: index == 0 ? 16 : 0),

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
@@ -9,11 +12,9 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
+import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/enum_ext.dart';
-import 'package:ccvc_mobile/widgets/listview/rows_sum_widget.dart';
-import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+
 import 'package:flutter/material.dart';
 
 class SummaryOfTaskWidget extends StatefulWidget {
@@ -27,12 +28,14 @@ class SummaryOfTaskWidget extends StatefulWidget {
 
 class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
   late HomeCubit cubit;
+  final TongHopNhiemVuCubit _nhiemVuCubit = TongHopNhiemVuCubit();
   @override
   void didChangeDependencies() {
+    log("message");
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;
-    cubit.getDataTongHopNhiemVu();
+    _nhiemVuCubit.getDataTongHopNhiemVu();
   }
 
   @override
@@ -42,99 +45,68 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      isUnit: true,
+      selectKeyDialog: _nhiemVuCubit,
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         listSelectKey: [
           DialogData(
-            title: S.current.summary_of_tasks,
+            onSelect: (value, _, __) {
+              _nhiemVuCubit.selectDonVi(
+                selectKey: value,
+              );
+            },
+            title: S.current.nhiem_vu,
+            initValue: _nhiemVuCubit.selectKeyDonVi,
             key: [
-              SelectKey.TAT_CA,
+              SelectKey.CA_NHAN,
               SelectKey.DON_VI,
             ],
           ),
           DialogData(
-            title: S.current.misson,
-            key: [
-              SelectKey.CHO_XU_LY,
-              SelectKey.DANG_XU_LY,
-            ],
-          ),
-          DialogData(
+            onSelect: (value, startDate, endDate) {
+              _nhiemVuCubit.selectDate(
+                selectKey: value,
+                startDate: startDate,
+                endDate: endDate,
+              );
+            },
+            startDate: _nhiemVuCubit.startDate,
+            endDate: _nhiemVuCubit.endDate,
             title: S.current.time,
-            key: [
-              SelectKey.HOM_NAY,
-              SelectKey.TUAN_NAY,
-              SelectKey.THANG_NAY,
-              SelectKey.NAM_NAY
-            ],
+            initValue: _nhiemVuCubit.selectKeyTime,
           )
         ],
       ),
       padding: EdgeInsets.zero,
-      child: Column(
-        children: [
-          StreamBuilder<List<DashboardSchedule>>(
-            stream: cubit.getTonghopNhiemVu,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <DashboardSchedule>[];
-              return RowSumInfoWidget(
-                padding: 16,
-                data: List.generate(data.length, (index) {
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: StreamBuilder<List<DashboardSchedule>>(
+          stream: _nhiemVuCubit.getTonghopNhiemVu,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? <DashboardSchedule>[];
+            return GridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 17,
+              crossAxisSpacing: 17,
+              childAspectRatio: 1.1,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: List.generate(
+                data.length,
+                (index) {
                   final img = FakeData.img[index];
                   final result = data[index];
-                  return DataInfo(
+                  return NhiemVuWidget(
                     title: result.typeName,
                     urlIcon: img,
                     value: result.numberOfCalendars.toString(),
                   );
-                }),
-              );
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          StreamBuilder<List<CalendarMeetingModel>>(
-            stream: cubit.getNhiemVu,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <CalendarMeetingModel>[];
-              if (data.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    children: List.generate(data.length, (index) {
-                      final result = data[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: ContainerInfoWidget(
-                          status: result.codeStatus.getText(),
-                          colorStatus: result.codeStatus.getColor(),
-                          title: result.title,
-                          listData: [
-                            InfoData(
-                              urlIcon: ImageAssets.icWork,
-                              key: S.current.loai_nhiem_vu,
-                              value: result.loaiNhiemVu,
-                            ),
-                            InfoData(
-                              urlIcon: ImageAssets.icCalendar,
-                              key: S.current.han_xu_ly,
-                              value: S.current.han_xu_ly,
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                  ),
-                );
-              }
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 30),
-                child: NodataWidget(),
-              );
-            },
-          )
-        ],
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

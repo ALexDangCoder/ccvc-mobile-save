@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 extension SelectKeyExt on SelectKey {
   String getText() {
     switch (this) {
-      case SelectKey.TAT_CA:
-        return S.current.all;
+      case SelectKey.CA_NHAN:
+        return S.current.ca_nhan;
       case SelectKey.DON_VI:
         return S.current.unit;
       case SelectKey.HOM_NAY:
@@ -28,8 +28,8 @@ extension SelectKeyExt on SelectKey {
         return S.current.dang_xu_ly;
       case SelectKey.CHO_TIEP_NHAN:
         return S.current.cho_tiep_nhan;
-      case SelectKey.LICH_CUA_TOI:
-        return S.current.lich_cua_toi;
+      case SelectKey.LICH_HOP_CUA_TOI:
+        return S.current.lich_hop_cua_toi;
       case SelectKey.LICH_DUOC_MOI:
         return S.current.lich_duoc_moi;
       case SelectKey.LICH_HOP_DUOC_MOI:
@@ -44,6 +44,28 @@ extension SelectKeyExt on SelectKey {
         return S.current.lich_hop_duyet_yeu_cau_tb;
       case SelectKey.CHO_TRINH_KY_VB_DI:
         return S.current.cho_trinh_ky_VB_di;
+      case SelectKey.CHO_VAO_SO:
+        return S.current.cho_vao_so;
+      case SelectKey.CHO_TRINH_KY:
+        return S.current.cho_trinh_ky;
+      case SelectKey.CHO_CAP_SO:
+        return S.current.cho_cap_so;
+      case SelectKey.CHO_BAN_HANH:
+        return S.current.cho_ban_hanh;
+      case SelectKey.CHO_PHAN_XU_LY:
+        return S.current.cho_phan_xu_ly;
+      case SelectKey.DANG_THUC_HIEN:
+        return S.current.dang_thuc_hien;
+      case SelectKey.DANH_SACH_CONG_VIEC:
+        return S.current.danh_sach_cong_viec;
+      case SelectKey.CHO_XU_LY_VB_DI:
+        return S.current.cho_xu_ly_vb_di;
+      case SelectKey.CHO_DUYET_XU_LY:
+        return S.current.cho_duyet_xu_ly;
+      case SelectKey.CHO_DUYET_TIEP_NHAN:
+        return S.current.cho_duyet_tiep_nhan;
+      case SelectKey.TUY_CHON:
+        return S.current.tuy_chon;
     }
   }
 }

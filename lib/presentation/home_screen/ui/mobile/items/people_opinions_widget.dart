@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
@@ -13,39 +16,41 @@ import 'package:flutter/material.dart';
 
 class PeopleOpinions extends StatefulWidget {
   final WidgetType homeItemType;
-  const PeopleOpinions({Key? key,required this.homeItemType}) : super(key: key);
+  const PeopleOpinions({Key? key, required this.homeItemType})
+      : super(key: key);
 
   @override
   State<PeopleOpinions> createState() => _PeopleOpinionsState();
 }
 
 class _PeopleOpinionsState extends State<PeopleOpinions> {
+  final YKienNguoiDanCubit _danCubit = YKienNguoiDanCubit();
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
       title: S.current.people_opinions,
-      onTapIcon: (){
+      onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      selectKeyDialog: _danCubit,
       spacingTitle: 0,
+      listSelect: const [
+        SelectKey.CHO_TIEP_NHAN,
+        SelectKey.CHO_PHAN_XU_LY,
+        SelectKey.CHO_DUYET_XU_LY,
+        SelectKey.CHO_DUYET_TIEP_NHAN,
+      ],
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         listSelectKey: [
           DialogData(
-            title: S.current.people_opinions,
-            key: [
-            SelectKey.CHO_TIEP_NHAN,
-            SelectKey.CHO_XU_LY
-            ],
-          ),
-          DialogData(
+            onSelect: (value,startDate,endDate) {
+              _danCubit.selectDate(
+                  selectKey: value,
+                  startDate: startDate,
+                  endDate: endDate);
+            },
             title: S.current.time,
-            key: [
-              SelectKey.HOM_NAY,
-              SelectKey.TUAN_NAY,
-              SelectKey.THANG_NAY,
-              SelectKey.NAM_NAY
-            ],
           )
         ],
       ),

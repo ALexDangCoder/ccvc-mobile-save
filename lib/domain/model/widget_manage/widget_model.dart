@@ -4,6 +4,7 @@ enum WidgetType {
   wordProcessState,
   document,
   summaryOfTask,
+  nhiemVu,
   situationHandlingPeople,
   peopleOpinions,
   workSchedule,
@@ -11,7 +12,7 @@ enum WidgetType {
   pressSocialNetWork,
   listWork,
   eventOfDay,
-  sinhNhat
+  sinhNhat,
 }
 
 class WidgetModel {
@@ -50,6 +51,8 @@ class WidgetModel {
         return WidgetType.sinhNhat;
       case WidgetTypeConstant.TINH_HINH_XU_LY_Y_KIEN:
         return WidgetType.situationHandlingPeople;
+      case WidgetTypeConstant.NHIEM_VU:
+        return WidgetType.nhiemVu;
     }
   }
 }

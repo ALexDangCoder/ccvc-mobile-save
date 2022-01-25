@@ -13,25 +13,36 @@ enum AuthMode { LOGIN, REGISTER }
 enum AuthType { ACCOUNT, PHONE }
 
 enum SelectKey {
-  TAT_CA,
+  CA_NHAN,
   DON_VI,
   HOM_NAY,
   TUAN_NAY,
   THANG_NAY,
   NAM_NAY,
+  TUY_CHON,
   CHO_XU_LY_VB_DEN,
+  CHO_XU_LY_VB_DI,
   CHO_CHO_Y_KIEN_VB_DEN,
   CHO_XU_LY,
   DANG_XU_LY,
   CHO_TIEP_NHAN,
-  LICH_CUA_TOI,
+  LICH_HOP_CUA_TOI,
   LICH_DUOC_MOI,
   LICH_HOP_DUOC_MOI,
   LICH_HOP_CAN_DUYET,
   LICH_DUYET_PHONG,
   LICH_HOP_DUYET_THIET_BI,
   LICH_HOP_DUYET_YEU_CAU_CHUAN_BI,
-  CHO_TRINH_KY_VB_DI
+  CHO_TRINH_KY_VB_DI,
+  CHO_VAO_SO,
+  CHO_TRINH_KY,
+  CHO_CAP_SO,
+  CHO_BAN_HANH,
+  CHO_PHAN_XU_LY,
+  DANG_THUC_HIEN,
+  DANH_SACH_CONG_VIEC,
+  CHO_DUYET_XU_LY,
+  CHO_DUYET_TIEP_NHAN
 }
 enum DocumentStatus {
   DEN_HAN,
@@ -110,6 +121,7 @@ class WidgetTypeConstant {
   static const String SU_KIEN_TRONG_NGAY = 'SuKienTrongNgay';
   static const String SINH_NHAT = 'SinhNhat';
   static const String TINH_HINH_XU_LY_Y_KIEN = 'TinhHinhXuLyYKienNguoiDan';
+  static const String NHIEM_VU = 'NhienVuWidGet';
 }
 class DateFormatApp {
   static String date = 'dd/MM/yyyy';

@@ -1,7 +1,13 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
+import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/select_key_row.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/enum_ext.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -15,6 +21,10 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final Function()? onTapIcon;
   final double spacingTitle;
   final EdgeInsetsGeometry paddingChild;
+  final SelectKeyDialog? selectKeyDialog;
+  final bool isUnit;
+  final double minHeight;
+  final List<SelectKey>? listSelect;
   const ContainerBackgroundWidget({
     Key? key,
     required this.child,
@@ -26,6 +36,10 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.onTapIcon,
     this.spacingTitle = 20,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
+    this.selectKeyDialog,
+    this.isUnit = false,
+    this.minHeight = 0,
+    this.listSelect,
   }) : super(key: key);
 
   @override
@@ -40,6 +54,7 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
       color: AppTheme.getInstance().backGroundColor(),
       padding: widget.paddingChild,
       margin: const EdgeInsets.only(top: 6),
+      constraints: BoxConstraints(minHeight: widget.minHeight),
       child: Stack(
         children: [
           Container(
@@ -52,6 +67,7 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MouseRegion(
                         onHover: (_) {
@@ -66,12 +82,33 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                                 padding: const EdgeInsets.only(right: 12),
                                 child: widget.leadingIcon,
                               ),
-                            Text(
-                              widget.title,
-                              style: textNormalCustom(
-                                fontSize: 16,
-                                color: AppTheme.getInstance().titleColor(),
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.title,
+                                  style: textNormalCustom(
+                                    fontSize: 16,
+                                    color: AppTheme.getInstance().titleColor(),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
+                                if (widget.selectKeyDialog != null)
+                                  StreamBuilder<bool>(
+                                    stream: widget.selectKeyDialog!
+                                        .selectKeyDialog.stream,
+                                    builder: (context, snapshot) {
+                                      return Text(
+                                        subTitle(),
+                                        style: textNormal(textBodyTime, 12),
+                                      );
+                                    },
+                                  )
+                                else
+                                  const SizedBox()
+                              ],
                             ),
                           ],
                         ),
@@ -83,7 +120,7 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                           } else {}
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           color: Colors.transparent,
                           alignment: Alignment.centerRight,
                           child: SvgPicture.asset(widget.urlIcon),
@@ -92,6 +129,18 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                     ],
                   ),
                 ),
+                if (widget.listSelect == null)
+                  const SizedBox()
+                else
+                  Container(
+                    margin: const EdgeInsets.only(top: 17),
+                    height: 32,
+                    color: Colors.transparent,
+                    width: double.infinity,
+                    child: SelectKeyRow(
+                      listSelect: widget.listSelect!,
+                    ),
+                  ),
                 SizedBox(
                   height: widget.spacingTitle,
                 ),
@@ -118,5 +167,19 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
         ],
       ),
     );
+  }
+
+  String subTitle() {
+    final data = widget.selectKeyDialog;
+    if (widget.isUnit) {
+      if (data?.selectKeyTime == SelectKey.TUY_CHON) {
+        return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
+      }
+      return '${data!.selectKeyDonVi.getText()} - ${data.selectKeyTime.getText()}';
+    }
+    if (data?.selectKeyTime == SelectKey.TUY_CHON) {
+      return '${data!.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
+    }
+    return data!.selectKeyTime.getText();
   }
 }

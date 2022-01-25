@@ -1,3 +1,5 @@
+
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/strings.dart';
 import 'package:ccvc_mobile/config/routes/router.dart';
@@ -42,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    checkDeviceType();
   }
 
   @override
@@ -95,5 +98,9 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+  void checkDeviceType() {
+    final shortestSide = MediaQueryData.fromWindow(WidgetsBinding.instance!.window).size.shortestSide;
+    APP_DEVICE = shortestSide < 700 ? DeviceType.MOBILE : DeviceType.TABLET;
   }
 }

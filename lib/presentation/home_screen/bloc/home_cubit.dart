@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
-import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
+
 import 'package:ccvc_mobile/domain/model/home/date_model.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/home/press_network_model.dart';
@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_state.dart';
 import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 import 'package:rxdart/rxdart.dart';
 
@@ -23,21 +24,10 @@ class HomeCubit extends BaseCubit<HomeState> {
       BehaviorSubject<List<TinhHuongKhanCapModel>>();
   final BehaviorSubject<UserInformationModel> _userInformation =
       BehaviorSubject<UserInformationModel>();
-  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
-      BehaviorSubject<DocumentDashboardModel>();
-  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
-      BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<TodoListModel> _getTodoList =
       BehaviorSubject<TodoListModel>();
-  final BehaviorSubject<List<PressNetWorkModel>> _getPressNetWork =
-      BehaviorSubject<List<PressNetWorkModel>>();
-  final BehaviorSubject<List<TagModel>> _getTag =
-      BehaviorSubject<List<TagModel>>();
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
-  final BehaviorSubject<List<DashboardSchedule>> _getTongHopNhiemVu =
-      BehaviorSubject<List<DashboardSchedule>>();
-  final BehaviorSubject<List<CalendarMeetingModel>> _getNhiemVu =
-      BehaviorSubject<List<CalendarMeetingModel>>();
+
   final BehaviorSubject<UserInformationModel> _getUserInformation =
       BehaviorSubject<UserInformationModel>();
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
@@ -62,12 +52,6 @@ class HomeCubit extends BaseCubit<HomeState> {
     _showDialogSetting.add(null);
   }
 
-  Future<void> getDocument() async {
-    await Future.delayed(const Duration(seconds: 10));
-    _getDocumentVBDen.sink.add(FakeData.tinhHinhXuLyDocVBDen);
-    _getDocumentVBDi.sink.add(FakeData.tinhHinhXuLyDocVBDi);
-  }
-
   void loadApi() {
     getUserInFor();
     _getTinhHuongKhanCap();
@@ -90,14 +74,8 @@ class HomeCubit extends BaseCubit<HomeState> {
     _showDialogSetting.close();
     _tinhHuongKhanCap.close();
     _getTodoList.close();
-    _getDocumentVBDen.close();
-    _getDocumentVBDi.close();
-    _getTag.close();
-    _getPressNetWork.close();
     _userInformation.close();
     _showAddTag.close();
-    _getTongHopNhiemVu.close();
-    _getNhiemVu.close();
     _getUserInformation.close();
     _getDate.close();
   }
@@ -106,15 +84,6 @@ class HomeCubit extends BaseCubit<HomeState> {
   Stream<UserInformationModel> get getUserInformation =>
       _getUserInformation.stream;
   Stream<List<WidgetModel>> get getConfigWidget => _getConfigWidget.stream;
-  Stream<List<CalendarMeetingModel>> get getNhiemVu => _getNhiemVu.stream;
-  Stream<DocumentDashboardModel> get getDocumentVBDen =>
-      _getDocumentVBDen.stream;
-  Stream<List<TagModel>> get getTag => _getTag.stream;
-  Stream<List<DashboardSchedule>> get getTonghopNhiemVu =>
-      _getTongHopNhiemVu.stream;
-  Stream<List<PressNetWorkModel>> get getPressNetWork =>
-      _getPressNetWork.stream;
-  Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
   Stream<UserInformationModel> get userInformation => _userInformation;
   Stream<List<TinhHuongKhanCapModel>> get tinhHuongKhanCap =>
       _tinhHuongKhanCap.stream;
@@ -131,7 +100,11 @@ extension GetConfigWidget on HomeCubit {
 }
 
 ///Báo chí mạng xã hội
-extension BaoChiMangXaHoi on HomeCubit {
+class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<List<PressNetWorkModel>> _getPressNetWork =
+      BehaviorSubject<List<PressNetWorkModel>>();
+  final BehaviorSubject<List<TagModel>> _getTag =
+      BehaviorSubject<List<TagModel>>();
   void getPress() {
     _getTag.sink.add(FakeData.tag);
     _getPressNetWork.sink.add(FakeData.fakeDataPress);
@@ -150,6 +123,16 @@ extension BaoChiMangXaHoi on HomeCubit {
   }
 
   void showAddTag() {}
+  Stream<List<TagModel>> get getTag => _getTag.stream;
+
+  Stream<List<PressNetWorkModel>> get getPressNetWork =>
+      _getPressNetWork.stream;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _getTag.close();
+    _getPressNetWork.close();
+  }
 }
 
 ///Danh sách công việc
@@ -254,9 +237,88 @@ extension DanhSachCongViec on HomeCubit {
 }
 
 /// Tổng hợp nhiệm vụ
-extension TongHopNhiemVu on HomeCubit {
+class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<List<DashboardSchedule>> _getTongHopNhiemVu =
+      BehaviorSubject<List<DashboardSchedule>>();
   void getDataTongHopNhiemVu() {
     _getTongHopNhiemVu.sink.add(FakeData.listCalendarWork);
-    _getNhiemVu.sink.add(FakeData.listNhiemView);
+  }
+
+  Stream<List<DashboardSchedule>> get getTonghopNhiemVu =>
+      _getTongHopNhiemVu.stream;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _getTongHopNhiemVu.close();
+  }
+}
+
+/// Tình hình xử lý văn bản
+class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
+      BehaviorSubject<DocumentDashboardModel>();
+  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
+      BehaviorSubject<DocumentDashboardModel>();
+  Future<void> getDocument() async {
+    await Future.delayed(const Duration(seconds: 10));
+    _getDocumentVBDen.sink.add(FakeData.tinhHinhXuLyDocVBDen);
+    _getDocumentVBDi.sink.add(FakeData.tinhHinhXuLyDocVBDi);
+  }
+
+  Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
+  Stream<DocumentDashboardModel> get getDocumentVBDen =>
+      _getDocumentVBDen.stream;
+  @override
+  void dispose() {
+    _getDocumentVBDen.close();
+    _getDocumentVBDi.close();
+  }
+}
+
+///Văn bản
+class VanBanCubit extends HomeCubit with SelectKeyDialog {}
+
+///Ý kiến người dân
+class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {}
+
+///Lịch làm việc
+class LichLamViecCubit extends HomeCubit with SelectKeyDialog {}
+
+///Lịch Họp
+class LichHopCubit extends HomeCubit with SelectKeyDialog {}
+
+/// SinhNhat
+class SinhNhatCubit extends HomeCubit with SelectKeyDialog {}
+
+/// Sự kiện trong ngày
+class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {}
+
+///Tình hình xử lý ý kiến người dân
+class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {}
+/// Nhiệm vụ
+class NhiemVuCubit extends HomeCubit with SelectKeyDialog{
+
+}
+///Mixin SelectKey Dialog
+mixin SelectKeyDialog {
+  SelectKey selectKeyTime = SelectKey.HOM_NAY;
+  SelectKey selectKeyDonVi = SelectKey.CA_NHAN;
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+  final BehaviorSubject<bool> selectKeyDialog = BehaviorSubject();
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    selectKeyTime = selectKey;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    selectKeyDialog.sink.add(true);
+  }
+
+  void selectDonVi({required SelectKey selectKey}) {
+    selectKeyDonVi = selectKey;
+    selectKeyDialog.sink.add(true);
   }
 }

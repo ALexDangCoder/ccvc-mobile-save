@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
@@ -23,29 +26,31 @@ class SinhNhatWidget extends StatefulWidget {
 }
 
 class _EventOfDayWidgetState extends State<SinhNhatWidget> {
+  final SinhNhatCubit sinhNhatCubit = SinhNhatCubit();
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
+      minHeight: 350,
       title: S.current.birthday,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      selectKeyDialog: sinhNhatCubit,
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         listSelectKey: <DialogData>[
           DialogData(
-            title: S.current.document,
-            key: [
-              SelectKey.HOM_NAY,
-              SelectKey.TUAN_NAY,
-              SelectKey.THANG_NAY,
-              SelectKey.NAM_NAY
-            ],
+            onSelect: (value,startDate,endDate) {
+              sinhNhatCubit.selectDate(
+                selectKey: value,
+                startDate: startDate,
+                endDate: endDate,
+              );
+            },
+            title: S.current.time,
           )
         ],
       ),
-      urlIcon: ImageAssets.icNext,
-      leadingIcon: SvgPicture.asset(ImageAssets.icSinhNhat),
       child: Column(
         children: List.generate(
           FakeData.sinhNhat.length,

@@ -243,20 +243,20 @@ class FakeData {
         nguoiChuTri: 'Phan Hà Minh'),
   ];
   static final List<String> img = [
-    ImageAssets.icTongSoLichLamviec,
-    ImageAssets.icLichCongTacTrongNuoc,
-    ImageAssets.icLichLamViec,
-    ImageAssets.icLichCongTacNuocNgoai,
-    ImageAssets.icLichTiepDan,
-    ImageAssets.icAdminTao,
+    ImageAssets.icTongSoNhiemVu,
+    ImageAssets.icHoanThanhNhiemVu,
+    ImageAssets.icNhiemVuDangThucHien,
+    ImageAssets.icHoanThanhQuaHan,
+    ImageAssets.icDangThucHienTrongHan,
+    ImageAssets.icDangThucHienQuaHan,
   ];
   static final listCalendarWork = [
-    DashboardSchedule(1, "22ssads2", "Tổng số lịch làm việc"),
-    DashboardSchedule(2, "2dasdsd22", "Lịch công tác trong nước"),
-    DashboardSchedule(3, "2dasda22", "Lịch làm việc"),
-    DashboardSchedule(4, "2asdas22", "Lịch công tác nước ngoài"),
-    DashboardSchedule(5, "sdasdasd", "Lịch tiếp dân"),
-    DashboardSchedule(5, "sdasdasd", "Admin tạo"),
+    DashboardSchedule(1, "22ssads2", "Tổng số nhiệm vụ"),
+    DashboardSchedule(2, "2dasdsd22", "Hoàn thành nhiệm vụ"),
+    DashboardSchedule(3, "2dasda22", "Nhiệm vụ đang thực hiện"),
+    DashboardSchedule(4, "2asdas22", "Hoàn thành quá hạn"),
+    DashboardSchedule(5, "sdasdasd", "Đang thực hiện trong hạn"),
+    DashboardSchedule(5, "sdasdasd", "Đang thực hiện quá hạn"),
   ];
   static final listNhiemView = [
     CalendarMeetingModel(
@@ -423,6 +423,7 @@ class FakeData {
         component: 'TinhHinhXuLyVanBan'),
     WidgetModel(name: 'Văn bản', id: '', component: 'VanBanWidGet'),
     WidgetModel(name: 'Tổng hợp nhiệm vụ', id: '', component: 'TongHopNhiemVu'),
+    WidgetModel(name: 'Nhiệm vụ', id: '', component: 'NhienVuWidGet'),
     WidgetModel(
         name: 'Ý kiến người dân', id: '', component: 'YKienNguoiDanTongHop'),
     WidgetModel(name: 'Lịch làm việc', id: '', component: 'BoxLichLamViec'),

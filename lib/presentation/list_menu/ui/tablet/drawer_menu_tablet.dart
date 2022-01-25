@@ -113,6 +113,7 @@ class _BaseMenuPhoneState extends State<BaseMenuTablet> {
                 child: Container(color: backgroundDrawer),
                 onTap: () {
                   Navigator.pop(context);
+
                 },
               ),
             ),

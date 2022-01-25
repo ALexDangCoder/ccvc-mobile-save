@@ -11,9 +11,10 @@ class ItemDrawerMenuTablet extends StatefulWidget {
   final String image;
   final ListMenuCubit cubit;
   final index;
+  final Function(String)? onSelectItem;
 
   ItemDrawerMenuTablet(this.cubit, this.image, this.title, this.index,
-      {Key? key})
+      {Key? key, this.onSelectItem})
       : super(key: key);
 
   @override
@@ -28,6 +29,7 @@ class _ItemDrawerMenuTabletState extends State<ItemDrawerMenuTablet> {
       child: GestureDetector(
         onTap: () {
           Navigator.pop(context);
+          widget.onSelectItem!(widget.title);
         },
         child: Row(
           children: [

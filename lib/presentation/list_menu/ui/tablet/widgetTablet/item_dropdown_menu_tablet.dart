@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/list_menu/bloc/list_menu_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -13,6 +12,7 @@ class ItemDropDownMenuTablet extends StatefulWidget {
   final String image;
   final ListMenuCubit cubit;
   final int index;
+  final Function(String)? onSelectItem;
 
   ItemDropDownMenuTablet({
     Key? key,
@@ -20,6 +20,7 @@ class ItemDropDownMenuTablet extends StatefulWidget {
     required this.image,
     required this.cubit,
     required this.index,
+    this.onSelectItem,
   }) : super(key: key);
 
   @override
@@ -33,22 +34,23 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
   Widget build(BuildContext context) {
     if (widget.cubit.menuItems[widget.index].badgeNumber != 0) {
       //number
-      return Container(
-        margin: const EdgeInsets.only(left: 27, right: 29, bottom: 24),
-        decoration: BoxDecoration(
-          border: Border.all(color: cellColorborder),
-          color: cellColor,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(8),
+      return GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          widget.onSelectItem!(widget.title);
+        },
+        child: Container(
+          margin: const EdgeInsets.only(left: 27, right: 29, bottom: 24),
+          decoration: BoxDecoration(
+            border: Border.all(color: cellColorborder),
+            color: cellColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(8),
+            ),
           ),
-        ),
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 20, right: 12, bottom: 12, top: 12),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 12, bottom: 12, top: 12),
             child: Row(
               children: [
                 SizedBox(
@@ -161,6 +163,11 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                   ),
                   onTap: () {
                     Navigator.pop(context);
+                    widget.onSelectItem!(
+                      widget
+                          .cubit.menuItems[widget.index].children[index].number
+                          .toString(),
+                    );
                   },
                 ),
               );

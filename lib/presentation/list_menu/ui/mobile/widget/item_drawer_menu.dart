@@ -6,35 +6,45 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ItemDrawerMenu extends StatelessWidget {
+class ItemDrawerMenu extends StatefulWidget {
   late String title;
   final String image;
   final ListMenuCubit cubit;
   final index;
+  final Function(String)? onSelectItem;
 
-  ItemDrawerMenu(this.cubit, this.image, this.title, this.index, {Key? key})
+  ItemDrawerMenu(this.cubit, this.image, this.title, this.index,
+      {Key? key, this.onSelectItem})
       : super(key: key);
 
+  @override
+  State<ItemDrawerMenu> createState() => _ItemDrawerMenuState();
+}
+
+class _ItemDrawerMenuState extends State<ItemDrawerMenu> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 25),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.pop(context);
+          widget.onSelectItem!(widget.title);
+        },
         child: Row(
           children: [
-            SvgPicture.asset(image),
+            SvgPicture.asset(widget.image),
             const SizedBox(
               width: 15,
             ),
             Text(
-              title,
+              widget.title,
               style: textNormalCustom(
                 fontSize: 14.0.textScale(),
               ),
             ),
             const Expanded(child: SizedBox()),
-            if (cubit.menuItems[index].badgeNumber == 0)
+            if (widget.cubit.menuItems[widget.index].badgeNumber == 0)
               const SizedBox()
             else
               Container(
@@ -46,9 +56,10 @@ class ItemDrawerMenu extends StatelessWidget {
                   ),
                 ),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
                   child: Text(
-                    cubit.menuItems[index].badgeNumber.toString(),
+                    widget.cubit.menuItems[widget.index].badgeNumber.toString(),
                     style: const TextStyle(color: fontColor, fontSize: 12),
                   ),
                 ),

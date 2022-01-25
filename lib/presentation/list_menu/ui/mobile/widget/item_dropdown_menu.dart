@@ -11,14 +11,15 @@ class ItemDropDownMenu extends StatefulWidget {
   final String image;
   final ListMenuCubit cubit;
   final index;
-  dynamic a;
+  final Function(String)? onSelectItem;
 
   ItemDropDownMenu(
       {Key? key,
       required this.title,
       required this.image,
       required this.cubit,
-      required this.index})
+      required this.index,
+      this.onSelectItem})
       : super(key: key);
 
   @override
@@ -34,7 +35,10 @@ class ItemDropDownMenuState extends State<ItemDropDownMenu> {
       return Padding(
         padding: const EdgeInsets.only(bottom: 23),
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+            widget.onSelectItem!(widget.title);
+          },
           child: Row(
             children: [
               SvgPicture.asset(widget.image),
@@ -58,7 +62,8 @@ class ItemDropDownMenuState extends State<ItemDropDownMenu> {
                     ),
                   ),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
                     child: Text(
                       widget.cubit.menuItems[widget.index].badgeNumber
                           .toString(),
@@ -137,7 +142,14 @@ class ItemDropDownMenuState extends State<ItemDropDownMenu> {
                                 ),
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pop(context);
+                              widget.onSelectItem!(
+                                widget.cubit.menuItems[widget.index]
+                                    .children[index].number
+                                    .toString(),
+                              );
+                            },
                           );
                         },
                       ),

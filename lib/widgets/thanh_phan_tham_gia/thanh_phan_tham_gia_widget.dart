@@ -13,8 +13,12 @@ import 'package:flutter/material.dart';
 class ThanhPhanThamGiaWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final Function(bool) phuongThucNhan;
+
+  final bool isPhuongThucNhan;
+
   const ThanhPhanThamGiaWidget({
     Key? key,
+    required this.isPhuongThucNhan,
     required this.onChange,
     required this.phuongThucNhan,
   }) : super(key: key);
@@ -25,6 +29,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   final ThanhPhanThamGiaCubit _cubit = ThanhPhanThamGiaCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -66,30 +71,37 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         SizedBox(
           height: 20.0.textScale(space: -2),
         ),
-        Row(
-          children: [
-            Text(
-              S.current.phuong_thuc_nhan_khac,
-              style: textNormal(textBodyTime, 14.0.textScale()),
-            ),
-            spaceW25,
-            StreamBuilder<bool>(
-              stream: _cubit.phuongThucNhanStream,
-              builder: (context, snapshot) {
-                return CustomCheckBox(
-                  title: S.current.gui_email,
-                  onChange: (isCheck) {
-                    _cubit.changePhuongThucNhan(value: isCheck);
-                  },
-                  isCheck: snapshot.data ?? false,
-                );
-              },
-            )
-          ],
-        ),
-        SizedBox(
-          height: 20.0.textScale(space: -2),
-        ),
+        if (widget.isPhuongThucNhan)
+          Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    S.current.phuong_thuc_nhan_khac,
+                    style: textNormal(textBodyTime, 14),
+                  ),
+                  spaceW25,
+                  StreamBuilder<bool>(
+                    stream: _cubit.phuongThucNhanStream,
+                    builder: (context, snapshot) {
+                      return CustomCheckBox(
+                        title: S.current.gui_email,
+                        onChange: (isCheck) {
+                          _cubit.changePhuongThucNhan(value: isCheck);
+                        },
+                        isCheck: snapshot.data ?? false,
+                      );
+                    },
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20.0.textScale(space: -2),
+              ),
+            ],
+          )
+        else
+          Container(),
         StreamBuilder<List<DonViModel>>(
           stream: _cubit.listPeopleThamGia,
           builder: (context, snapshot) {

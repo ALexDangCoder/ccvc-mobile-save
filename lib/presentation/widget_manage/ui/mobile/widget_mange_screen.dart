@@ -159,9 +159,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                 ButtonCustomBottom(
                   title: S.current.xem_truoc,
                   isColorBlue: true,
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                 )
               ],
             ),

@@ -81,12 +81,22 @@ const borderItemCalender = Color(0xffE2E8F0);
 const numberOfCalenders = Color(0xff5A8DEE);
 const editColor = Color(0xffEDF0FD);
 const dotColor = Color(0xffD4DAE3);
-const bgGridView = Color(0xffFBFCFD);
+const yellowColor = Color(0xffFDB000);
+const greenColor = Color(0xff058141);
+const blueberryColor = Color(0xff3E54AC);
+const lavenderColor = Color(0xff7A85CD);
+const grapeColor = Color(0xff9B51E0);
+const pinkColor = Color(0xffFB7897);
+const smokeColor = Color(0xff636363);
 
-const borderCaneder = Color(0xff586B8B);
 const bgTag = Color(0xffF2F0FF);
 
-const colorNumberCellQLVB = Color(0xff586B8B);
+const bgGridView = Color(0xffFBFCFD);
+const bgTabletItem = Color(0xffFBFCFD);
+
+const borderCaneder = Color(0xff586B8B);
+
+const colorNumberCellQLVB = Color(0xffFCFDFD);
 
 //tabbar color
 const labelColor = Color(0xff7966FF);
@@ -131,6 +141,9 @@ const titleColumn = Color(0xFF667793);
 const iconColor = Color(0xFFDADADA);
 const bgTabletColor = Color(0xffF9FAFF);
 const toDayColor = Color(0xFFDBDFEF);
+const gradientStart = Color(0xFF4D74FD);
+const gradientEnd = Color(0xFF4DFDF2);
+
 const unFocusColor = Color(0xffF2F0FF);
 
 ///=========== Using to make change app theme ================================

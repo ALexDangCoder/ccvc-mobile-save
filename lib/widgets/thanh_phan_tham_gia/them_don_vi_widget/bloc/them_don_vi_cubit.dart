@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -61,16 +60,12 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       element.removeCkeckBox();
       for (final vl in value) {
         final node = Node<DonViModel>(vl);
-
         final result = element.search(node);
         if (result != null) {
           selectNode.add(result);
           result.isCheck.isCheck = true;
         }
       }
-    }
-    for (final vl in value) {
-
     }
     _getTree.sink.add(listTree);
   }

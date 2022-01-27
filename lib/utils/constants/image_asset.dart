@@ -134,6 +134,7 @@ class ImageAssets {
   static const String icCameraTablet = '$baseImg/ic_camera_tablet.svg';
   static const String ic_KinhRong = '$baseImg/ic_kinh_rong.svg';
 
+
   static const String icSetting = '$baseImg/ic_setting.svg';
   static const String icUnion = '$baseImg/ic_union.svg';
 
@@ -159,11 +160,20 @@ class ImageAssets {
   static const String icDanger = '$baseImg/ic_danger.svg';
   static const String icMessenge = '$baseImg/ic_messenge.svg';
   static const String icVideo = '$baseImg/ic_video.svg';
+  static const String icCheck = '$baseImg/ic_check.svg';
+  static const String icDoublePerson = '$baseImg/ic_double_person.svg';
+  static const String icNhacLai = '$baseImg/ic_nhac_lai.svg';
+  static const String icViTri = '$baseImg/ic_vi_tri.svg';
+  static const String icDocument = '$baseImg/ic_document.svg';
   static const String icDayMonth = '$baseImg/ic_day_month.svg';
   static const String tongSoLichHop = '$baseImg/tong_so_lich_hop.svg';
   static const String soLichHopTrucTiep = '$baseImg/so_lich_hop_truc_tiep.svg';
-  static const String soLichHopTrucTuyen =
-      '$baseImg/so_lich_hop_truc_tuyen.svg';
+  static const String soLichHopTrucTuyen = '$baseImg/so_lich_hop_truc_tuyen.svg';
+  static const String ic_delete_book = '$baseImg/delete_book.svg';
+  static const String ic_danh_sach_y_kien = '$baseImg/ic_danhsachykien.svg';
+  static const String ic_danhsachykien = '$baseImg/ic_danhsachykien.svg';
+  static const String icShareFile = '$baseImg/ic_share_file.svg';
+  static const String icDelete = '$baseImg/ic_delete.svg';
 
   ///gif
   static const String gifKhanCap = '$baseImg/gif_khan_cap.gif';

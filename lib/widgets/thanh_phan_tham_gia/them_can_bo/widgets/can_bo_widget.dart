@@ -48,7 +48,7 @@ class _CanBoWidgetState extends State<CanBoWidget> {
               Text(
                 widget.canBoModel.name,
                 style: textNormalCustom(
-                    color: titleColor, fontSize: 14.0.textScale()),
+                    color: titleColor, fontSize: 14.0.textScale(),),
               )
             ],
           ),

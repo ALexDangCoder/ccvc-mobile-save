@@ -18,6 +18,13 @@ extension DateFormatString on DateTime {
     return dateString;
   }
 
+  String get formatDateTime {
+    final dateString = (DateFormat('HH:mm ,dd-MM').format(this))
+        .replaceAll('-', ' tháng ');
+
+    return dateString;
+  }
+
   String getDayofWeekTxt() {
     switch (weekday) {
       case 1:

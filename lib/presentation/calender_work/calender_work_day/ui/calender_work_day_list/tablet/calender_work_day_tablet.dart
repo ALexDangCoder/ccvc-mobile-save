@@ -41,14 +41,24 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                   final offsetAnimation = animation.drive(tween);
                   return screenDevice(
                     mobileScreen: BaseMenuPhone(
+                      const [],
+                      const [],
                       offsetAnimation,
                       S.current.calendar_work,
                       ImageAssets.icMenuCalender,
+                      (p0) => null,
+                      const [],
+                      const [],
                     ),
                     tabletScreen: BaseMenuTablet(
+                      const [],
+                      const [],
                       offsetAnimation,
                       S.current.calendar_work,
                       ImageAssets.icMenuCalender,
+                      (p0) => null,
+                      const [],
+                      const [],
                     ),
                   );
                 },

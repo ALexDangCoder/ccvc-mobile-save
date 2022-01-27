@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/menu_item_model.dart';
 import 'package:ccvc_mobile/presentation/list_menu/bloc/list_menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/mobile/widget/item_drawer_menu.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/mobile/widget/item_dropdown_menu.dart';
@@ -11,9 +12,24 @@ class BaseMenuPhone extends StatefulWidget {
   final Animation<Offset> offsetAnimation;
   final String title;
   final String image;
+  List<String> iconDrawer = [];
+  List<String> iconDropdown = [];
+  List<MenuItemSchedule> listDrawer = [];
+  List<MenuItemSchedule> listDropdown = [];
+  final Function(String)? onSelectItem;
 
   // const ModelMenuCCVC({Key? key}) : super(key: key);
-  const BaseMenuPhone(this.offsetAnimation, this.title, this.image);
+  BaseMenuPhone(
+    this.listDropdown,
+    this.listDrawer,
+    this.offsetAnimation,
+    this.title,
+    this.image,
+    this.onSelectItem,
+    this.iconDrawer,
+    this.iconDropdown, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   _BaseMenuPhoneState createState() => _BaseMenuPhoneState();
@@ -68,13 +84,16 @@ class _BaseMenuPhoneState extends State<BaseMenuPhone> {
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: _cubit.menuItems.length,
+                                itemCount: widget.listDrawer.length,
                                 itemBuilder: (context, index) {
                                   return ItemDrawerMenu(
                                     _cubit,
-                                    _cubit.img[index],
-                                    _cubit.menuItems[index].menuTitle,
+                                    widget.iconDrawer[index],
+                                    widget.listDrawer[index].menuTitle,
                                     index,
+                                    onSelectItem: (value) {
+                                      widget.onSelectItem!(value);
+                                    },
                                   );
                                 },
                               ),
@@ -90,13 +109,16 @@ class _BaseMenuPhoneState extends State<BaseMenuPhone> {
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: _cubit.menuItems.length,
+                                itemCount: widget.listDropdown.length,
                                 itemBuilder: (context, index) {
                                   return ItemDropDownMenu(
-                                    image: _cubit.img[index],
-                                    title: _cubit.menuItems[index].menuTitle,
+                                    image: widget.iconDropdown[index],
+                                    title: widget.listDropdown[index].menuTitle,
                                     cubit: _cubit,
                                     index: index,
+                                    onSelectItem: (value) {
+                                      widget.onSelectItem!(value);
+                                    },
                                   );
                                 },
                               ),

@@ -13,6 +13,7 @@ class ItemDropDownMenuTablet extends StatefulWidget {
   final String image;
   final ListMenuCubit cubit;
   final int index;
+  final Function(String)? onSelectItem;
 
   ItemDropDownMenuTablet({
     Key? key,
@@ -20,6 +21,7 @@ class ItemDropDownMenuTablet extends StatefulWidget {
     required this.image,
     required this.cubit,
     required this.index,
+    this.onSelectItem,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
               const EdgeInsets.only(left: 20, right: 12, bottom: 12, top: 12),
           child: GestureDetector(
             onTap: () {
+              widget.onSelectItem!(widget.title);
               Navigator.pop(context);
             },
             child: Row(
@@ -160,6 +163,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                     ),
                   ),
                   onTap: () {
+                    widget.onSelectItem!(widget.title);
                     Navigator.pop(context);
                   },
                 ),

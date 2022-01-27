@@ -1,21 +1,34 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/menu_item_model.dart';
 import 'package:ccvc_mobile/presentation/list_menu/bloc/list_menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/item_drawer_menu_tablet.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/item_dropdown_menu_tablet.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_close.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class BaseMenuTablet extends StatefulWidget {
   final Animation<Offset> offsetAnimation;
   final String title;
   final String image;
+  List<String> iconDrawer = [];
+  List<String> iconDropdown = [];
+  List<MenuItemSchedule> listDrawer = [];
+  List<MenuItemSchedule> listDropdown = [];
+  final Function(String)? onSelectItem;
 
   // const ModelMenuCCVC({Key? key}) : super(key: key);
-  const BaseMenuTablet(this.offsetAnimation, this.title, this.image);
+  BaseMenuTablet(
+      this.listDropdown,
+      this.listDrawer,
+      this.offsetAnimation,
+      this.title,
+      this.image,
+      this.onSelectItem,
+      this.iconDrawer,
+      this.iconDropdown,
+      {Key? key})
+      : super(key: key);
 
   @override
   _BaseMenuPhoneState createState() => _BaseMenuPhoneState();
@@ -54,12 +67,15 @@ class _BaseMenuPhoneState extends State<BaseMenuTablet> {
                             children: [
                               Column(
                                 children: List.generate(
-                                  _cubit.menuItems.length,
+                                  widget.listDrawer.length,
                                   (index) => ItemDrawerMenuTablet(
                                     _cubit,
-                                    _cubit.img[index],
-                                    _cubit.menuItems[index].menuTitle,
+                                    widget.iconDrawer[index],
+                                    widget.listDrawer[index].menuTitle,
                                     index,
+                                    onSelectItem: (value) {
+                                      widget.onSelectItem!(value);
+                                    },
                                   ),
                                 ),
                               ),
@@ -89,12 +105,14 @@ class _BaseMenuPhoneState extends State<BaseMenuTablet> {
                                 shrinkWrap: true,
                                 itemCount: _cubit.menuItems.length,
                                 itemBuilder: (context, index) {
-                                  return
-                                    ItemDropDownMenuTablet(
-                                    image: _cubit.img[index],
-                                    title: _cubit.menuItems[index].menuTitle,
+                                  return ItemDropDownMenuTablet(
+                                    image: widget.iconDropdown[index],
+                                    title: widget.listDropdown[index].menuTitle,
                                     cubit: _cubit,
                                     index: index,
+                                    onSelectItem: (value) {
+                                      widget.onSelectItem!(value);
+                                    },
                                   );
                                 },
                               ),

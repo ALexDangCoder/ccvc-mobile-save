@@ -26,7 +26,6 @@ class ListMenuCubit extends BaseCubit<ListMenuState> {
         isCheck[i] = false;
       }
     }
-
     checkExpandSubject.add(isCheck);
   }
 

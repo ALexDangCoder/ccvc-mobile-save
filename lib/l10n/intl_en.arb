@@ -240,5 +240,11 @@
   "them" : "Thêm",
   "them_don_vi" : "Thêm đơn vị",
   "danh_sach_lich_hop": "Danh sách lịch họp",
-  "truc_tiep": "Trực tiếp"
+  "truc_tiep": "Trực tiếp",
+  "thanh_phan_tham_gia": "Thành phần tham gia",
+  "tai_lieu": "Tài liệu",
+  "phat_bieu": "Phát biểu",
+  "bieu_quyet": "Biểu quyết",
+  "ket_luan_hop": "Kết luận họp",
+  "y_kien_cuop_hop": "Ý kiến cuộc họp"
 }

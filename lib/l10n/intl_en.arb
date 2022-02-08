@@ -311,5 +311,13 @@
   "bao_cao_thuong_vu" : "Báo cáo thường vụ",
   "chi_tiet_lich_hop" : "Chi tiết lịch họp",
   "xem_truoc" : "Xem trước",
-  "lich_cong_tac" : "Lịch công tác"
+  "lich_cong_tac" : "Lịch công tác",
+  "thong_tin_lien_he" : "Thông tin liên hệ",
+  "ho_ten" : "Họ tên",
+  "so_dien_thoai" : "Số điện thoại",
+  "chon_phong_hop" : "Chọn phòng họp",
+  "huy_duyet" : "Huỷ duyệt",
+  "da_duyet" : "Đã duyệt",
+  "danh_sach_phat_bieu": "Danh sách phát biểu",
+  "cho_duyet" : "Chờ duyệt"
 }

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/is_ca_ngay_widget.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/bloc/pick_date_cupertino_cubit.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/pick_date_cupertino.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,6 +33,7 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
           return Column(
             children: [
               const IsCaNgayWidget(),
+              SizedBox(height: 10.0.textScale(),),
               PicKDateCupertino(
                 key: UniqueKey(),
                 minimumDate: DateTime.now(),
@@ -48,6 +50,7 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
                 title: S.current.bat_dau,
                 startOfEnd: StartOfEnd.START,
               ),
+              SizedBox(height: 10.0.textScale(),),
               PicKDateCupertino(
                 key: UniqueKey(),
                 minimumDate: DateTime.now(),

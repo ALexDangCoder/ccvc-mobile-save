@@ -1,10 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/linh_vuc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/loai_lich_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/mau_mac_dinh_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nguoi_chu_tri_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nhac_lai_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/search_name_widget.dart';
@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
-import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -71,16 +70,13 @@ class _TaoLichLamViecChiTietScreenState
                       hint: S.current.tieu_de,
                     ),
                   ),
-
-                const LoaiLichWidget(),
-                // SelectOnlyExpand(urlIcon: ImageAssets.icCalendar,listSelect: ['12123','123123','1232'],title: "23432",value: '12123',),
+                  const LoaiLichWidget(),
                   const SearchNameWidget(),
                   StartEndDateWidget(
                     onEndDateTimeChanged: (DateTime value) {},
                     onStartDateTimeChanged: (DateTime value) {},
                   ),
                   const NhacLaiWidget(),
-                  const MauMacDinhWidget(),
                   const NguoiChuTriWidget(),
                   const LinhVucWidget(),
                   TextFormWidget(
@@ -98,6 +94,11 @@ class _TaoLichLamViecChiTietScreenState
                   const TaiLieuWidget(),
                   buttonTaoLich(
                     onTap: () {
+                      showBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return const SuaLichCongTacTrongNuocPhone();
+                          });
                       if (taoLichLamViecCubit.checkValidateTime()) {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

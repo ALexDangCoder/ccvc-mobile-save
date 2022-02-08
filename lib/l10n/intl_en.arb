@@ -310,5 +310,9 @@
   "khach_moi" : "khách mời",
   "tong_so_luong_khach" : "Tổng số lượng Khách",
   "nhap_so_luong" : "Nhập số lượng",
-  "them_tai_lieu_cuoc_hop" : "Thêm tài liệu cuộc họp"
+  "them_tai_lieu_cuoc_hop" : "Thêm tài liệu cuộc họp",
+  "sua_lich_cong_tac_trong_nuoc" : "Sửa lịch công tác trong nước",
+  "ubnd_tinh_dong_nai" : "UBND Tỉnh Đồng Nai",
+  "bao_cao_thuong_vu" : "Báo cáo thường vụ",
+  "lich_cong_tac" : "Lịch công tác"
 }

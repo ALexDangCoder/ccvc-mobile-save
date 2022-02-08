@@ -24,33 +24,31 @@ class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              S.current.thanh_phan_tham_gia,
-              style: textNormalCustom(
-                fontWeight: FontWeight.w500,
-                fontSize: 16.0.textScale(),
-                color: unselectedLabelColor,
+        GestureDetector(
+          onTap: () {
+            isExpand = !isExpand;
+            setState(() {});
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.current.thanh_phan_tham_gia,
+                style: textNormalCustom(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16.0.textScale(),
+                  color: unselectedLabelColor,
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                isExpand = !isExpand;
-                setState(() {});
-              },
-              child: isExpand
-                  ? const Icon(
+              if (isExpand) const Icon(
                       Icons.keyboard_arrow_up_rounded,
                       color: AqiColor,
-                    )
-                  : const Icon(
+                    ) else const Icon(
                       Icons.keyboard_arrow_down_outlined,
                       color: AqiColor,
-                    ),
-            )
-          ],
+                    )
+            ],
+          ),
         ),
 
         SizedBox(height: 16.5.textScale(),),

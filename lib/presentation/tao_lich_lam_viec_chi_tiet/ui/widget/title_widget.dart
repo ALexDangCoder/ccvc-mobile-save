@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,72 +37,72 @@ class TitleWidget extends StatefulWidget {
 
 class _TitleWidgetState extends State<TitleWidget> {
   bool isExpand = false;
+  GroupProvider? groupProvider;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 25.5.textScale()),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    if (widget.isColor)
-                      Container(
-                        height: 12.0.textScale(),
-                        width: 12.0.textScale(),
-                        decoration: BoxDecoration(
-                          color: widget.color,
-                          borderRadius: BorderRadius.circular(4),
+          GestureDetector(
+            onTap: () {
+              isExpand = !isExpand;
+              setState(() {});
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      if (widget.isColor)
+                        Container(
+                          height: 12.0.textScale(),
+                          width: 12.0.textScale(),
+                          decoration: BoxDecoration(
+                            color: widget.color,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        )
+                      else
+                        SizedBox(
+                          height: 12.0.textScale(),
+                          width: 12.0.textScale(),
+                          child: SvgPicture.asset(
+                            widget.image ?? ImageAssets.icNhacLai,
+                          ),
                         ),
-                      )
-                    else
                       SizedBox(
-                        height: 12.0.textScale(),
-                        width: 12.0.textScale(),
-                        child: SvgPicture.asset(
-                          widget.image ?? ImageAssets.icNhacLai,
+                        width: 20.5.textScale(),
+                      ),
+                      Text(
+                        widget.title,
+                        style: textNormalCustom(
+                          color: dateColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
                         ),
                       ),
-                    SizedBox(
-                      width: 20.5.textScale(),
-                    ),
-                    Text(
-                      widget.title,
-                      style: textNormalCustom(
-                        color: dateColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    widget.optinal
-                        .getText(context: context, title: widget.title2),
-                    GestureDetector(
-                      onTap: () {
-                        isExpand = !isExpand;
-                        setState(() {});
-                      },
-                      child: Icon(
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      widget.optinal
+                          .getText(context: context, title: widget.title2),
+                      Icon(
                         isExpand
                             ? Icons.keyboard_arrow_up_rounded
                             : Icons.keyboard_arrow_down_outlined,
                         color: AqiColor,
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
           if (widget.isLine)
             Container(

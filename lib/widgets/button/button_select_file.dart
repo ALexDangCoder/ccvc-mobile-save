@@ -21,8 +21,9 @@ class ButtonSelectFile extends StatefulWidget {
   final Function(List<File>) onChange;
   final Widget? builder;
   final bool isBuilder;
+  List<File> files;
 
-  const ButtonSelectFile({
+  ButtonSelectFile({
     Key? key,
     this.background,
     required this.title,
@@ -31,6 +32,7 @@ class ButtonSelectFile extends StatefulWidget {
     this.builder,
     required this.onChange,
     this.isBuilder = false,
+    required this.files,
   }) : super(key: key);
 
   @override
@@ -38,7 +40,6 @@ class ButtonSelectFile extends StatefulWidget {
 }
 
 class _ButtonSelectFileState extends State<ButtonSelectFile> {
-  List<File> files = [];
   final TaoLichLamViecCubit _cubit = TaoLichLamViecCubit();
 
   @override
@@ -52,12 +53,12 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 await FilePicker.platform.pickFiles(allowMultiple: true);
 
             if (result != null) {
-              files = result.paths.map((path) => File(path!)).toList();
+              widget.files = result.paths.map((path) => File(path!)).toList();
             } else {
               // User canceled the picker
             }
 
-            widget.onChange(files);
+            widget.onChange(widget.files);
             setState(() {});
           },
           child: Container(
@@ -91,19 +92,21 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         ),
         if (widget.isBuilder)
           Column(
-            children: files.isNotEmpty
-                ? files.map((e) => widget.builder ?? Container()).toList()
+            children: widget.files.isNotEmpty
+                ? widget.files
+                    .map((e) => widget.builder ?? Container())
+                    .toList()
                 : [Container()],
           )
         else
           Column(
-            children: files.isNotEmpty
-                ? files
+            children: widget.files.isNotEmpty
+                ? widget.files
                     .map(
                       (e) => itemListFile(
                         file: e,
                         onTap: () {
-                          _cubit.deleteFile(e, files);
+                          _cubit.deleteFile(e, widget.files);
                           setState(() {});
                         },
                       ),

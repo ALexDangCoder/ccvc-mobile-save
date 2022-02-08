@@ -337,12 +337,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 13.5,right: 18.5),
+                padding: const EdgeInsets.only(left: 13.5, right: 18.5),
                 child: ButtonSelectFile(
                   title: S.current.them_tai_lieu_cuoc_hop,
                   onChange: (List<File> files) {
                     print(files);
                   },
+                  files: [],
                 ),
               ),
               onChangeExpand: () {

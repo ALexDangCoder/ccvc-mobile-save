@@ -1,15 +1,20 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/custom_expand_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/icon_tiltle_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/bieu_quyet_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/cong_tac_chuan_bi_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/phat_bieu_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/tai_lieu_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/thanh_phan_tham_gia_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/y_kien_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,13 +28,6 @@ class DetailMeetCalenderScreen extends StatefulWidget {
 
 class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   late DetailMeetCalenderCubit cubit;
-  bool expanded = false;
-  bool expanded2 = false;
-  bool expanded3 = false;
-  bool expanded4 = false;
-  bool expanded5 = false;
-  bool expanded6 = false;
-  bool expanded7 = false;
 
   @override
   void initState() {
@@ -39,8 +37,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> openTab = [false, false, false];
-
     return Scaffold(
       // backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -127,7 +123,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
 // },
 
 class DetailMeetCalendarInherited extends InheritedWidget {
-  DetailDocumentCubit cubit;
+  DetailMeetCalenderCubit cubit;
 
   DetailMeetCalendarInherited(
       {Key? key, required this.cubit, required Widget child})

@@ -1,4 +1,5 @@
 import 'dart:developer';
+// import 'dart:html';
 
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/mobile/calender_work_day_lich_mobile.dart';
@@ -6,6 +7,7 @@ import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/cale
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/tablet/detail_meet_calender_tab.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
@@ -114,14 +116,13 @@ extension TabbarEnum on TabBarType {
           tabletScreen: const CalenderWorkDayLichTablet(),
         );
       case TabBarType.internalInteraction:
-        // return  Scaffold(
-        //   body: screenDevice(
-        //     mobileScreen: const ChiTietLichLamViecScreen(),
-        //     tabletScreen: const ChiTietLamViecTablet(),
-        //   ),
-        //   backgroundColor: Colors.cyanAccent,
-        // );
-        return DetailMeetCalenderScreen();
+        return  Scaffold(
+          body: screenDevice(
+            mobileScreen: DetailMeetCalenderScreen(),
+            tabletScreen: const ChiTietLamViecTablet(),
+          ),
+          backgroundColor: Colors.cyanAccent,
+        );
       case TabBarType.menu:
         return screenDevice(
           mobileScreen: const MenuScreen(),

@@ -8,12 +8,13 @@ import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
 
 // todo chi tiet van ban
-class CongTacChuanBiScreen extends StatefulWidget {
+class DetailMeetCalenderTablet extends StatefulWidget {
   @override
-  State<CongTacChuanBiScreen> createState() => _CongTacChuanBiScreenState();
+  State<DetailMeetCalenderTablet> createState() =>
+      _DetailMeetCalenderTabletState();
 }
 
-class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
+class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
   late DetailDocumentCubit cubit;
   bool expanded = false;
   bool expanded2 = false;
@@ -26,12 +27,10 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
   void initState() {
     super.initState();
     cubit = DetailDocumentCubit();
-    // widget.viewModel.loadingDetail(widget.taskId, widget.isPersonal);
   }
 
   @override
   Widget build(BuildContext context) {
-    // List<bool> openTab = [];
 
     return Scaffold(
       // backgroundColor: Theme.of(context).backgroundColor,
@@ -76,7 +75,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                                 ),
                                 child: Column(
                                   children: snapshot.data!.toListRow().map(
-                                        (row) {
+                                    (row) {
                                       return DetailDocumentRow(
                                         row: row,
                                       );
@@ -120,7 +119,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                                 ),
                                 child: Column(
                                   children: snapshot.data!.toListRow().map(
-                                        (row) {
+                                    (row) {
                                       return DetailDocumentRow(
                                         row: row,
                                       );

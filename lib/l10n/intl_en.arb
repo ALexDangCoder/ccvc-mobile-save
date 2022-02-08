@@ -216,8 +216,6 @@
   "thong_bao": "Thông báo",
   "vao_hop_truc_tuyen": "Vào họp trực tuyến :",
   "thong_bao_khan": "Thông báo khẩn",
-  "xem_truoc": "Xem trước",
-  "chi_tiet_lich_hop": "chi tiết lịch họp",
   "cong_tac_chuan_bi": "Công tác chuẩn bị",
   "thong_tin_phong": "Thông tin phòng",
   "thong_tin_yeu_cau_thiet_bi": "Thông tin yêu cầu thiết bị",
@@ -235,8 +233,6 @@
   "nhac_lai" : "Nhắc lại",
   "mau_mac_dinh" : "Màu mặc định",
   "linh_vuc" : "Lĩnh vực",
-  "thanh_phan_tham_gia" : "Thành phần tham gia",
-  "tai_lieu" : "Tài liệu",
   "ca_nhan" : "Cá nhân",
   "nhiem_vu" : "Nhiệm vụ",
   "dang_thuc_hien" : "Đang thực hiện",
@@ -274,7 +270,6 @@
   "danh_sach_y_kien": "Danh sách ý kiến",
   "thong_tin_bo_sung": "Thông tin bổ sung",
   "van_ban_dinh_kem": "Các văn bản đính kèm",
-  "truc_tiep": "Trực tiếp",
   "tai_lieu_dinh_kem" : "Tài liệu đính kèm",
   "ca_ngay" : "Cả ngày",
   "bat_dau" : "Bắt đầu",
@@ -318,6 +313,8 @@
   "danh_sach_phat_bieu" : "Danh sách phát biểu",
   "cho_duyet" : "Chờ duyệt",
   "da_duyet" : "Đã duyệt",
-  "huy_duyet" : "Hủy duyệt"
-
+  "huy_duyet" : "Hủy duyệt",
+  "chi_tiet_lich_hop" : "Chi tiết lịch họp",
+  "xem_truoc" : "Xem trước",
+  "lich_cong_tac" : "Lịch công tác"
 }

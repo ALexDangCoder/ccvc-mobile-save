@@ -314,5 +314,10 @@
   "sua_lich_cong_tac_trong_nuoc" : "Sửa lịch công tác trong nước",
   "ubnd_tinh_dong_nai" : "UBND Tỉnh Đồng Nai",
   "bao_cao_thuong_vu" : "Báo cáo thường vụ",
-  "lich_cong_tac" : "Lịch công tác"
+  "lich_cong_tac" : "Lịch công tác",
+  "danh_sach_phat_bieu" : "Danh sách phát biểu",
+  "cho_duyet" : "Chờ duyệt",
+  "da_duyet" : "Đã duyệt",
+  "huy_duyet" : "Hủy duyệt"
+
 }

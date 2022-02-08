@@ -38,6 +38,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Stream<HistoryProcessPage> get screenJobProfilesStream =>
       _subjectJobPriliesProcess.stream;
 
+
   DetailDocumentModel detailDocumentModel = DetailDocumentModel(
       soVanBan: 'M123',
       soDen: 'M123',

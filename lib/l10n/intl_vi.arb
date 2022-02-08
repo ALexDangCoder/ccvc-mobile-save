@@ -314,5 +314,9 @@
   "khach_moi" : "khách mời",
   "tong_so_luong_khach" : "Tổng số lượng Khách",
   "nhap_so_luong" : "Nhập số lượng",
-  "them_tai_lieu_cuoc_hop" : "Thêm tài liệu cuộc họp"
+  "them_tai_lieu_cuoc_hop" : "Thêm tài liệu cuộc họp",
+  "danh_sach_phat_bieu" : "Danh sách phát biểu",
+  "cho_duyet" : "Chờ duyệt",
+  "da_duyet" : "Đã duyệt",
+  "huy_duyet" : "Hủy duyệt"
 }

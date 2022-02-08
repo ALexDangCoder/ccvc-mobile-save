@@ -5,33 +5,24 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dar
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/custom_expand_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/icon_tiltle_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/ket_luan_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/phat_bieu_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/thanh_phan_tham_gia_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/y_kien_cuoc_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/custom_expand_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/icon_tiltle_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 // todo chi tiet van ban
-class CongTacChuanBiScreen extends StatefulWidget {
-  const CongTacChuanBiScreen({Key? key}) : super(key: key);
-
+class DetailMeetCalenderScreen extends StatefulWidget {
   @override
-  State<CongTacChuanBiScreen> createState() => _CongTacChuanBiScreenState();
+  State<DetailMeetCalenderScreen> createState() =>
+      _DetailMeetCalenderScreenState();
 }
 
-class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
-  late DetailDocumentCubit cubit;
+class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
+  late DetailMeetCalenderCubit cubit;
   bool expanded = false;
   bool expanded2 = false;
   bool expanded3 = false;
@@ -43,12 +34,13 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = DetailDocumentCubit();
-    // widget.viewModel.loadingDetail(widget.taskId, widget.isPersonal);
+    cubit = DetailMeetCalenderCubit();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<bool> openTab = [false, false, false];
+
     return Scaffold(
       // backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -115,6 +107,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
 //     }
 //   });
 // }
+
 }
 
 // expand: openTab[index],

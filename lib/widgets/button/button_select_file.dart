@@ -62,13 +62,13 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
             setState(() {});
           },
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.5,
             color: widget.background ?? labelColor.withOpacity(0.1),
             padding: EdgeInsets.symmetric(
               vertical: 8.0.textScale(),
               horizontal: 16.0.textScale(),
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile),

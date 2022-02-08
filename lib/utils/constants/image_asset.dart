@@ -187,6 +187,11 @@ class ImageAssets {
   static const String icGraph = '$baseImg/ic_graph.svg';
   static const String icTickCircle = '$baseImg/ic_tick_circle.svg';
   static const String icQuestionCircle = '$baseImg/ic_question_circle.svg';
+  static const String icAddUser = '$baseImg/icon_add_user.svg';
+  static const String icTickSquare = '$baseImg/icon_tick_square.svg';
+  static const String icVectorA = '$baseImg/icon_vector.svg';
+  static const String icVoice2 = '$baseImg/icon_voice2.svg';
+  static const String icPlus2 = '$baseImg/icon_plus.svg';
 
   ///gif
   static const String gifKhanCap = '$baseImg/gif_khan_cap.gif';

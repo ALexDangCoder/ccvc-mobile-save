@@ -182,6 +182,9 @@ class ImageAssets {
   static const String ic_danhsachykien = '$baseImg/ic_danhsachykien.svg';
   static const String icShareFile = '$baseImg/ic_share_file.svg';
   static const String icDelete = '$baseImg/ic_delete.svg';
+  static const String icAddCaledarScheduleMeet = '$baseImg/ic_add_calendar_schedule_meet.svg';
+  static const String icSeachTablet = '$baseImg/ic_search_tablet.svg';
+  static const String icMenuLichHopTablet = '$baseImg/ic_menu_tablet_lich_hop.svg';
   static const String icTreePerson = '$baseImg/ic_tree_person.svg';
   static const String icMess = '$baseImg/ic_mess.svg';
   static const String icGraph = '$baseImg/ic_graph.svg';

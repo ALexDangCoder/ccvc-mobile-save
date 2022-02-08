@@ -20,12 +20,12 @@ class CustomItemCalenderWorkTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
+      padding: const EdgeInsets.only(right: 28.0),
       child: Container(
-        height: 88.0,
-        width: 274,
+        height: 156.0,
+        width: 319.0,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(12.0),
           border: Border.all(color: cellColorborder),
           color: bgGridView,
         ),
@@ -34,11 +34,11 @@ class CustomItemCalenderWorkTablet extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Container(
-                height: 56,
-                width: 56,
+                height: 64,
+                width: 64,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: backgroundColorApp,
+                  color: colorImageLichHop,
                 ),
                 child: Center(
                   child: SvgPicture.asset(image),
@@ -56,8 +56,9 @@ class CustomItemCalenderWorkTablet extends StatelessWidget {
                     softWrap: true,
                     maxLines: 2,
                     style: textNormalCustom(
+                      fontWeight: FontWeight.w400,
                       color: titleCalenderWork,
-                      fontSize: 14.0.textScale(),
+                      fontSize: 16.0.textScale(),
                     ),
                   ),
                   Text(

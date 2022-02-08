@@ -5,8 +5,8 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dar
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/custom_expand_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/icon_tiltle_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/custom_expand_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/icon_tiltle_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';

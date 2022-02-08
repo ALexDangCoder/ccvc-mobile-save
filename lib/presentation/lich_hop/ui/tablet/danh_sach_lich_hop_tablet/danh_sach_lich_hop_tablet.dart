@@ -22,26 +22,25 @@ class _DanhSachLichHopTabletState extends State<DanhSachLichHopTablet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Padding(
-              padding:
-              const EdgeInsets.only(top: 28.0, right: 30.0, left: 30.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: listLichHop.length,
-                itemBuilder: (context, index) {
-                  return WidgetItemLichHop(
-                    ontap: () {},
-                    title: listLichHop[index].title,
-                    dateTimeFrom:
-                    DateTime.parse(listLichHop[index].dateTimeFrom)
-                        .toStringWithAMPM,
-                    dateTimeTo: DateTime.parse(listLichHop[index].dateTimeTo)
-                        .toStringWithAMPM,
-                    urlImage: listLichHop[index].urlImage,
-                  );
-                },
-              ),
+          Padding(
+            padding:
+            const EdgeInsets.only( right: 30.0, left: 30.0),
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: listLichHop.length,
+              itemBuilder: (context, index) {
+                return WidgetItemLichHop(
+                  ontap: () {},
+                  title: listLichHop[index].title,
+                  dateTimeFrom:
+                  DateTime.parse(listLichHop[index].dateTimeFrom)
+                      .toStringWithAMPM,
+                  dateTimeTo: DateTime.parse(listLichHop[index].dateTimeTo)
+                      .toStringWithAMPM,
+                  urlImage: listLichHop[index].urlImage,
+                );
+              },
             ),
           ),
         ],

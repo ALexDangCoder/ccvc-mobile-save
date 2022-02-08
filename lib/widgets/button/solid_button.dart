@@ -37,7 +37,7 @@ class SolidButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(urlIcon),
+            SvgPicture.asset(urlIcon,width: 20,height: 20,),
             const SizedBox(
               width: 8,
             ),

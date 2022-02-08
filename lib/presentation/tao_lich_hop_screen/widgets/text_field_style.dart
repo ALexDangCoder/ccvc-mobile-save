@@ -1,29 +1,37 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TextFieldStyle extends StatelessWidget {
   final String? hintText;
   final String urlIcon;
+  final int maxLines;
   const TextFieldStyle({
     Key? key,
     this.hintText,
     required this.urlIcon,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment:
+          maxLines == 1 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
-        SvgPicture.asset(urlIcon),
+        Container(
+          width: 16,
+          height: 16,
+          color: Colors.transparent,
+          child: SvgPicture.asset(urlIcon),
+        ),
         const SizedBox(
           width: 14,
         ),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 9),
+            padding: EdgeInsets.symmetric(vertical: maxLines == 1 ? 9 : 0),
             decoration: const BoxDecoration(
               border: Border(
                 bottom: BorderSide(color: lineColor),
@@ -38,13 +46,15 @@ class TextFieldStyle extends StatelessWidget {
 
   Widget textField() {
     return TextField(
+      maxLines: maxLines,
       style: textNormal(titleColor, 16),
       decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: textNormal(textBodyTime, 16),
-          border: InputBorder.none,
-          isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 0)),
+        hintText: hintText,
+        hintStyle: textNormal(textBodyTime, 16),
+        border: InputBorder.none,
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+      ),
     );
   }
 }

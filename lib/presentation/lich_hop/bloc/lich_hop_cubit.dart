@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/meeting_schedule.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
@@ -6,11 +7,13 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class LichHopCubit extends BaseCubit<LichHopState> {
   bool isCheckNgay = false;
   late BuildContext context;
+  BehaviorSubject<int> index=BehaviorSubject.seeded(0);
 
   LichHopCubit() : super(LichHopStateIntial());
   List<String> listImageLichHopCuaToi = [
@@ -22,10 +25,11 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 
   dynamic currentTime = DateFormat.yMMMEd().format(DateTime.now());
   List<MeetingSchedule> listMeeting = [
-    MeetingSchedule("hung", "2022-01-26T07:45:00", "2022-01-26T08:45:00"),
-    MeetingSchedule("hung", "2022-01-26T09:45:00", "2022-01-26T10:45:00"),
-    MeetingSchedule("hung", "2022-01-26T11:45:00", "2022-01-26T12:45:00"),
-    MeetingSchedule("hung", "2022-01-26T13:45:00", "2022-01-26T15:45:00"),
+
+    MeetingSchedule("hung", "2022-02-07T07:45:00", "2022-02-07T08:45:00"),
+    MeetingSchedule("hung", "2022-02-07T09:45:00", "2022-02-07T10:45:00"),
+    MeetingSchedule("hung", "2022-02-07T11:45:00", "2022-02-07T12:45:00"),
+    MeetingSchedule("hung", "2022-02-07T13:45:00", "2022-02-07T15:45:00"),
   ];
 
   DataSource getCalenderDataSource() {
@@ -42,7 +46,8 @@ class LichHopCubit extends BaseCubit<LichHopState> {
           startTime: DateTime.parse(listMeeting[i].dateTimeFrom),
           endTime: DateTime.parse(listMeeting[i].dateTimeTo),
           subject: listMeeting[i].title,
-          color: Colors.blue,
+          color: textColorMangXaHoi,
+          isAllDay: false
         ),
       );
     }

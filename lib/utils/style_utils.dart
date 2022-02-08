@@ -39,7 +39,7 @@ const spaceW25 = SizedBox(width: 25);
 const spaceW30 = SizedBox(width: 30);
 
 TextStyle textStyle({double size = 16, double height = 1.2}) =>
-    GoogleFonts.mulish(
+    GoogleFonts.roboto(
       fontSize: size,
       fontWeight: FontWeight.w500,
       color: dfTxtColor,

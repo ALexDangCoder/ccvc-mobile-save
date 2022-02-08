@@ -145,6 +145,7 @@ const gradientStart = Color(0xFF4D74FD);
 const gradientEnd = Color(0xFF4DFDF2);
 
 const unFocusColor = Color(0xffF2F0FF);
+const colorImageLichHop = Color(0xffF1F7FF);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

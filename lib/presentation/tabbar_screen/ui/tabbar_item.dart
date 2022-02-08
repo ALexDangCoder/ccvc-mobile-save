@@ -1,15 +1,17 @@
 import 'dart:developer';
-// import 'dart:html';
 
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/calender_work/main_tabbar_calender_work.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_screen.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/tablet.dart';
+import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/mobile/calender_work_day_lich_mobile.dart';
+import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/tablet/calender_work_day_lich_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/tao_lich_lam_viec_chi_tiet_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -69,7 +71,7 @@ extension TabbarEnum on TabBarType {
         );
       case TabBarType.report:
         final key = GlobalKey<FormGroupState>();
-        return  Scaffold(
+        return Scaffold(
           backgroundColor: Colors.blue,
           body: FormGroup(
             key: key,
@@ -79,22 +81,22 @@ extension TabbarEnum on TabBarType {
                   height: 100,
                 ),
                 TextFieldValidator(
-                  validator: (value){
-                   if(value!.isEmpty){
-                     return "32131";
-                   }
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "32131";
+                    }
                   },
                 ),
                 TextFieldValidator(
-                  validator: (value){
-                    if(value!.isEmpty){
+                  validator: (value) {
+                    if (value!.isEmpty) {
                       return "32131";
                     }
                   },
                 ),
                 GestureDetector(
-                  onTap: (){
-                   log("${ key.currentState?.checkValidator()}");
+                  onTap: () {
+                    log("${key.currentState?.checkValidator()}");
                   },
                   child: Container(
                     height: 100,
@@ -107,21 +109,24 @@ extension TabbarEnum on TabBarType {
           ),
         );
       case TabBarType.calendarWork:
-        return const MainTabarCalenderWork();
-      case TabBarType.internalInteraction:
         return screenDevice(
-          mobileScreen: CongTacChuanBiScreen(),
-          tabletScreen: CongTacChuanBiScreen(),
+          mobileScreen: const CalenderWorkDayLichMobile(),
+          tabletScreen: const CalenderWorkDayLichTablet(),
         );
-        //   const Scaffold(
+      case TabBarType.internalInteraction:
+        // return  Scaffold(
+        //   body: screenDevice(
+        //     mobileScreen: const ChiTietLichLamViecScreen(),
+        //     tabletScreen: const ChiTietLamViecTablet(),
+        //   ),
         //   backgroundColor: Colors.cyanAccent,
         // );
+        return DetailMeetCalenderScreen();
       case TabBarType.menu:
         return screenDevice(
           mobileScreen: const MenuScreen(),
           tabletScreen: const MenuTabletScreen(),
         );
-
     }
   }
 
@@ -132,7 +137,6 @@ extension TabbarEnum on TabBarType {
           icon: SvgPicture.asset(
             isSelect ? ImageAssets.icHomeFocus : ImageAssets.icHomeUnFocus,
             height: 16,
-
           ),
           text: S.current.home,
         );

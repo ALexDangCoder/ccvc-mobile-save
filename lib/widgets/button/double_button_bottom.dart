@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 class DoubleButtonBottom extends StatefulWidget {
   final String title1;
   final String title2;
-
   final Function onPressed1;
   final Function onPressed2;
 

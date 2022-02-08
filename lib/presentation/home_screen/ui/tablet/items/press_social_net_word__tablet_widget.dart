@@ -12,7 +12,6 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/container
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -87,6 +86,9 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       child: Flexible(
         child: Column(
           children: [
+            const SizedBox(
+              height: 16,
+            ),
             tagWidget(cubit),
             const SizedBox(
               height: 16,

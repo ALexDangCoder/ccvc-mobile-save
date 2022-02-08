@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -5,23 +7,28 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dar
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/custom_expand_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/icon_tiltle_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/widget/them_thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 // todo chi tiet van ban
-class CongTacChuanBiScreen extends StatefulWidget {
+class DetailMeetCalenderScreen extends StatefulWidget {
   @override
-  State<CongTacChuanBiScreen> createState() => _CongTacChuanBiScreenState();
+  State<DetailMeetCalenderScreen> createState() =>
+      _DetailMeetCalenderScreenState();
 }
 
-class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
-  late DetailDocumentCubit cubit;
+class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
+  late DetailMeetCalenderCubit cubit;
   bool expanded = false;
   bool expanded2 = false;
   bool expanded3 = false;
@@ -33,8 +40,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = DetailDocumentCubit();
-    // widget.viewModel.loadingDetail(widget.taskId, widget.isPersonal);
+    cubit = DetailMeetCalenderCubit();
   }
 
   @override
@@ -229,18 +235,30 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
               ),
               child: Column(
                 children: [
-                  IconWithTiltleWidget(
-                    icon: '',
-                    title: S.current.moi_nguoi_tham_gia,
-                    onPress: () {},
+                  Padding(
+                    padding: const EdgeInsets.only(left: 13.5),
+                    child: IconWithTiltleWidget(
+                      icon: ImageAssets.icAddUser,
+                      title: S.current.moi_nguoi_tham_gia,
+                      onPress: () {
+                        showBottomSheetCustom(
+                          context,
+                          child: const ThemThanhPhanThamGiaWidget(),
+                          title: S.current.them_thanh_phan_tham_gia,
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  IconWithTiltleWidget(
-                    icon: '',
-                    title: S.current.diem_danh,
-                    onPress: () {},
+                  Padding(
+                    padding: const EdgeInsets.only(left: 13.5),
+                    child: IconWithTiltleWidget(
+                      icon: ImageAssets.icTickSquare,
+                      title: S.current.diem_danh,
+                      onPress: () {},
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 13.5, right: 18.5),
@@ -318,9 +336,14 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                   ),
                 ),
               ),
-              child: Container(
-                color: Colors.red,
-                height: 50,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 13.5,right: 18.5),
+                child: ButtonSelectFile(
+                  title: S.current.them_tai_lieu_cuoc_hop,
+                  onChange: (List<File> files) {
+                    print(files);
+                  },
+                ),
               ),
               onChangeExpand: () {
                 setState(() {
@@ -350,10 +373,13 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
               ),
               child: Column(
                 children: [
-                  IconWithTiltleWidget(
-                    icon: '',
-                    title: S.current.dang_ky_phat_bieu,
-                    onPress: () {},
+                  Padding(
+                    padding: const EdgeInsets.only(left: 13.5),
+                    child: IconWithTiltleWidget(
+                      icon: ImageAssets.icVoice2,
+                      title: S.current.dang_ky_phat_bieu,
+                      onPress: () {},
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 13.5, right: 18.5),
@@ -379,7 +405,7 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
                                 ),
                                 child: Column(
                                   children: snapshot.data!.toListRow().map(
-                                        (row) {
+                                    (row) {
                                       return DetailDocumentRow(
                                         row: row,
                                       );
@@ -433,10 +459,13 @@ class _CongTacChuanBiScreenState extends State<CongTacChuanBiScreen> {
               ),
               child: Column(
                 children: [
-                  IconWithTiltleWidget(
-                    icon: '',
-                    title: S.current.them_bieu_quyet,
-                    onPress: () {},
+                  Padding(
+                    padding: const EdgeInsets.only(left: 13.5),
+                    child: IconWithTiltleWidget(
+                      icon: ImageAssets.icVectorA,
+                      title: S.current.them_bieu_quyet,
+                      onPress: () {},
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 13.5, right: 18.5),

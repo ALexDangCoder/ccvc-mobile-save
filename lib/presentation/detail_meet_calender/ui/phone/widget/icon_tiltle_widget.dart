@@ -26,7 +26,6 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
     return Row(
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 13.5),
           padding:
               const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 18),
           decoration: BoxDecoration(

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -15,6 +14,7 @@ class TextFieldValidator extends StatefulWidget {
   final String? Function(String?)? validator;
   final TextInputType? textInputType;
   final int maxLine;
+  final String? hintText;
   const TextFieldValidator({
     Key? key,
     this.controller,
@@ -24,6 +24,7 @@ class TextFieldValidator extends StatefulWidget {
     this.initialValue,
     this.maxLine = 1,
     this.textInputType,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -75,8 +76,10 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           fontSize: 14.0.textScale(),
           color: titleColor,
         ),
+
         enabled: widget.isEnabled,
         decoration: InputDecoration(
+          hintText: widget.hintText,
           contentPadding: widget.maxLine == 1
               ? const EdgeInsets.symmetric(vertical: 14, horizontal: 10)
               : null,

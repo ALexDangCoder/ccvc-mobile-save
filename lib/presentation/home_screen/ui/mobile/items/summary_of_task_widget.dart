@@ -31,7 +31,6 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
   final TongHopNhiemVuCubit _nhiemVuCubit = TongHopNhiemVuCubit();
   @override
   void didChangeDependencies() {
-    log("message");
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;

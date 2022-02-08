@@ -8,7 +8,6 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
@@ -38,7 +37,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Text(
         title,
-        style:titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+        style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
       ),
       centerTitle: true,
       leading: leadingIcon,

@@ -7,7 +7,6 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_documen
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/fake_data.dart';
 import 'package:flutter/foundation.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'datai_meet_calender_state.dart';
@@ -32,6 +31,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Stream<DetailDocumentProfileSend> get streamDetaiGuiNhan =>
       detailDocumentGuiNhan.stream;
+
+  final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
+  Stream<int> get checkRadioStream => _checkRadioSubject.stream;
+
+  void checkRadioButton(int _index) {
+    _checkRadioSubject.sink.add(_index);
+  }
 
   // BehaviorSubject<HistoryDetailDocument> detailDocumentHistorySubject =
   // BehaviorSubject<HistoryDetailDocument>();
@@ -134,7 +140,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     } else {
       // User canceled the picker
     }
-    final _result = await OpenFile.open(filePath);
+    // final _result = await OpenFile.open(filePath);
   }
 
   void dispose() {}

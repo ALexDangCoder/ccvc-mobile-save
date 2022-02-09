@@ -16,6 +16,7 @@ class BlockTextView extends StatefulWidget {
   final bool? validate;
   final bool isHideRequired;
   final bool useCustomTitle;
+  final bool isObligatory;
 
   const BlockTextView({
     Key? key,
@@ -28,6 +29,7 @@ class BlockTextView extends StatefulWidget {
     this.isRequired = true,
     this.isLimitCharacter = false,
     this.useCustomTitle = false,
+    this.isObligatory = false,
   }) : super(key: key);
 
   @override
@@ -40,12 +42,23 @@ class _BlockTextViewState extends State<BlockTextView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title,
-          style: tokenDetailAmount(
-            fontSize: 14.0.textScale(),
-            color: borderCaneder,
-          ),
+        Row(
+          children: [
+            Text(
+              widget.title,
+              style: tokenDetailAmount(
+                fontSize: 14.0.textScale(),
+                color: borderCaneder,
+              ),
+            ),
+            if (widget.isObligatory)
+              const Text(
+                ' *',
+                style: TextStyle(color: canceledColor),
+              )
+            else
+              const SizedBox()
+          ],
         ),
         SizedBox(
           height: 10.h,

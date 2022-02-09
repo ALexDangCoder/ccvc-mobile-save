@@ -76,19 +76,17 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
               expand = !expand;
               _runExpandCheck();
             },
-            child: Expanded(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  border: Border.all(color: choXuLyColor),
-                ),
-                child: Text(
-                  '${S.current.danh_sach_phat_bieu} (${widget.cubit.listHistory.length})',
-                  style: textNormalCustom(
-                    color: choXuLyColor,
-                  ),
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(30)),
+                border: Border.all(color: choXuLyColor),
+              ),
+              child: Text(
+                '${S.current.danh_sach_phat_bieu} (${widget.cubit.listHistory.length})',
+                style: textNormalCustom(
+                  color: choXuLyColor,
                 ),
               ),
             ),

@@ -20,16 +20,6 @@ class SelectOnlyWidget extends StatefulWidget {
 
 class _SelectOnlyWidgetState extends State<SelectOnlyWidget>
     with SingleTickerProviderStateMixin {
-  late AnimationController? expandController;
-
-  @override
-  void initState() {
-    super.initState();
-    expandController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

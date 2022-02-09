@@ -156,6 +156,10 @@ class ImageAssets {
   static const String ic_gui_y_kien = '$baseImg/icon_send.svg';
 
   static const String icKetNoiTablet = '$baseImg/ic_ket-noi_tablet.svg';
+  static const String icDocumentEnd = '$baseImg/ic_document_end.svg';
+  static const String icMessYealow = '$baseImg/ic_mess_yealow.svg';
+  static const String icPlusBlu = '$baseImg/ic_plus.svg';
+  static const String icSync = '$baseImg/ic_sync.svg';
 
   static const String icDeleteRed = '$baseImg/ic_delete_red.svg';
   static const String icEditBlue = '$baseImg/ic_edit_blue.svg';

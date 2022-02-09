@@ -334,5 +334,9 @@
   "trung_binh" : "Trung bình",
   "dat" : "Đạt",
   "chua_dat" : "Chưa đạt",
-  "file" : "File"
+  "file" : "File",
+  "tao_moi_nhiem_vu" : "Tạo mới nhiệm vụ",
+  "ket_luan_cuoc_hop" : "Kết luận cuộc họp",
+  "gui_mail_ket_luan" : "Gửi mail kết luận",
+  "thu_hoi" : "Thu hồi"
 }

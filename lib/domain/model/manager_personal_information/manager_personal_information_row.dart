@@ -1,4 +1,6 @@
-enum TypeRow { checkbox, text, status, list }
+import 'package:flutter/cupertino.dart';
+
+enum TypeRow { checkbox, text, status, list, file }
 
 class ManagerPersonalInformationRow {
   String title = '';

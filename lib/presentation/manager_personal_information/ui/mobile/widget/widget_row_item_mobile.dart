@@ -9,8 +9,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class WidgetRowItemMobile extends StatefulWidget {
   final ManagerPersonalInformationRow row;
+  final bool isHeader;
+  final Widget? header;
 
-  const WidgetRowItemMobile({Key? key, required this.row}) : super(key: key);
+  const WidgetRowItemMobile({
+    Key? key,
+    required this.row,
+    this.isHeader = false,
+    this.header,
+  }) : super(key: key);
 
   @override
   State<WidgetRowItemMobile> createState() => _WidgetRowItemMobileState();
@@ -23,6 +30,7 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
     return Column(
       children: [
         spaceH10,
+        if (widget.isHeader) widget.header ?? Container() else Container(),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

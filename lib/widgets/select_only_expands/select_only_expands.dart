@@ -70,7 +70,10 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
         children: List.generate(
           widget.listSelect.length,
           (index) => Padding(
-            padding: EdgeInsets.only(left: 28, top: index == 0 ? 0 : 8),
+            padding: EdgeInsets.only(
+              left: 30,
+              top: index == 0 ? 0 : 8,
+            ),
             child: GestureDetector(
               onTap: () {
                 valueSelect = widget.listSelect[index];
@@ -91,7 +94,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                         stream: selectBloc.stream,
                         builder: (context, snapshot) {
                           final data = snapshot.data;
-                          return data == index && data !=null
+                          return data == index && data != null
                               ? Padding(
                                   padding: const EdgeInsets.only(right: 4),
                                   child: SvgPicture.asset(ImageAssets.icCheck),
@@ -114,10 +117,13 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   Widget headerWidget() {
     return Row(
       children: [
-        SvgPicture.asset(
-          widget.urlIcon,
+        Container(
           width: 16,
           height: 16,
+          color: Colors.transparent,
+          child: SvgPicture.asset(
+            widget.urlIcon,
+          ),
         ),
         const SizedBox(
           width: 14,
@@ -128,6 +134,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
             builder: (context, _) => Container(
               padding: const EdgeInsets.symmetric(vertical: 9),
               decoration: BoxDecoration(
+                color: Colors.transparent,
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0

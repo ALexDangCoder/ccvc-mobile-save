@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/fake_data.dart';
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'datai_meet_calender_state.dart';
 import 'package:file_picker/file_picker.dart';
@@ -9,8 +15,13 @@ import 'package:file_picker/file_picker.dart';
 class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   DetailMeetCalenderCubit() : super(DetailMeetCalenderInitial());
 
+  BehaviorSubject<KetLuanHopModel> ketLuanHopSubject =
+      BehaviorSubject.seeded(ketLuanHop);
+
   BehaviorSubject<DetailDocumentModel> detailDocumentSubject =
       BehaviorSubject<DetailDocumentModel>();
+
+  Stream<KetLuanHopModel> get ketLuanHopStream => ketLuanHopSubject.stream;
 
   Stream<DetailDocumentModel> get streamDetaiMission =>
       detailDocumentSubject.stream;
@@ -105,6 +116,31 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     //     }
     //   }
     // });
+  }
+
+  final httpClient = HttpClient();
+
+  Future<File> _downloadFile(String url, String filename) async {
+    final request = await httpClient.getUrl(Uri.parse(url));
+    final response = await request.close();
+    final bytes = await consolidateHttpClientResponseBytes(response);
+    final String dir = (await getApplicationDocumentsDirectory()).path;
+    final File file = File('$dir/$filename');
+    await file.writeAsBytes(bytes);
+    return file;
+  }
+
+  Future<void> openFile(String url) async {
+    // var filePath = r'/storage/emulated/0/update.apk';
+    var filePath = url;
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      filePath = result.files.single.path!;
+    } else {
+      // User canceled the picker
+    }
+    // final _result = await OpenFile.open(filePath);
   }
 
   void dispose() {}

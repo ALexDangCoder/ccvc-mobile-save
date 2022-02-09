@@ -190,6 +190,8 @@ class ImageAssets {
   static const String icGraph = '$baseImg/ic_graph.svg';
   static const String icTickCircle = '$baseImg/ic_tick_circle.svg';
   static const String icQuestionCircle = '$baseImg/ic_question_circle.svg';
+  static const String icCuocGoi = '$baseImg/ic_cuoc_goi.svg';
+  static const String icChonPhongHop = '$baseImg/ic_chon_phong_hop.svg';
   static const String icAddUser = '$baseImg/icon_add_user.svg';
   static const String icTickSquare = '$baseImg/icon_tick_square.svg';
   static const String icVectorA = '$baseImg/icon_vector.svg';
@@ -197,6 +199,8 @@ class ImageAssets {
   static const String icPlus2 = '$baseImg/icon_plus.svg';
   static const String icUnchecked = '$baseImg/Unchecked.svg';
   static const String icchecked = '$baseImg/group.svg';
+  static const String icThreeDotMenu = '$baseImg/icon_tree_dot_menu.svg';
+
 
   ///gif
   static const String gifKhanCap = '$baseImg/gif_khan_cap.gif';

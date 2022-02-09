@@ -116,7 +116,7 @@ class ManagerPersonalInformationModel {
 
   List<ManagerPersonalInformationRow> toListMobile() {
     final List<ManagerPersonalInformationRow> list = [
-      ManagerPersonalInformationRow(S.current.ho_ten, hoTen, TypeRow.text),
+      ManagerPersonalInformationRow(S.current.ho_va_ten, hoTen, TypeRow.text),
       ManagerPersonalInformationRow(S.current.ma_can_bo, maCanBo, TypeRow.text),
       ManagerPersonalInformationRow(S.current.thu_tus, thuTu, TypeRow.text),
       ManagerPersonalInformationRow(
@@ -159,7 +159,7 @@ class ManagerPersonalInformationModel {
 
   List<ManagerPersonalInformationRow> toListRowDetailJob() {
     final List<ManagerPersonalInformationRow> list = [
-      ManagerPersonalInformationRow(S.current.ho_ten, hoTen, TypeRow.text),
+      ManagerPersonalInformationRow(S.current.ho_va_ten, hoTen, TypeRow.text),
       ManagerPersonalInformationRow(S.current.ma_can_bo, maCanBo, TypeRow.text),
       ManagerPersonalInformationRow(S.current.thu_tus, thuTu, TypeRow.text),
       ManagerPersonalInformationRow(
@@ -272,7 +272,7 @@ class ManagerPersonalInformationModel {
   Map<String, dynamic> getInfoToMap() {
     return {
       S.current.id: id ?? '',
-      S.current.ho_ten: hoTen ?? '',
+      S.current.ho_va_ten: hoTen ?? '',
       S.current.ma_can_bo: maCanBo ?? '',
       S.current.thu_tus: thuTu.toString(),
       S.current.ngay_sinh:

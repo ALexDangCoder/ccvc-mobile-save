@@ -20,6 +20,7 @@ dependencies:
   optimized_cached_image: ^3.0.0
 
   #Favourite library
+  open_file: ^3.2.1
   share: ^2.0.1
   provider: ^5.0.0
   device_info: ^2.0.0

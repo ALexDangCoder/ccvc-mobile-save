@@ -319,5 +319,12 @@
   "huy_duyet" : "Huỷ duyệt",
   "da_duyet" : "Đã duyệt",
   "danh_sach_phat_bieu": "Danh sách phát biểu",
-  "cho_duyet" : "Chờ duyệt"
+  "cho_duyet" : "Chờ duyệt",
+  "thoi_gian" : "Thời gian",
+  "tinh_trang" : "Tình trạng",
+  "chua_gui_duyet" : "Chưa gửi duyệt",
+  "trung_binh" : "Trung bình",
+  "dat" : "Đạt",
+  "chua_dat" : "Chưa đạt",
+  "file" : "File"
 }

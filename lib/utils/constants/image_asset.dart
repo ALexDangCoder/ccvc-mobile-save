@@ -197,7 +197,7 @@ class ImageAssets {
   static const String icVectorA = '$baseImg/icon_vector.svg';
   static const String icVoice2 = '$baseImg/icon_voice2.svg';
   static const String icPlus2 = '$baseImg/icon_plus.svg';
-  static const String icThreeDotMenu = '$baseImg/icon_tree_dot_menu.svg';
+  static const String icThreeDotMenu = '$baseImg/ic_tree_dot_menu.svg';
 
   ///gif
   static const String gifKhanCap = '$baseImg/gif_khan_cap.gif';

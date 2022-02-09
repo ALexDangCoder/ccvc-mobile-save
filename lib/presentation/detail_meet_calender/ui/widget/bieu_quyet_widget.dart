@@ -21,10 +21,10 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
   @override
   Widget build(BuildContext context) {
     final cubit = DetailMeetCalendarInherited.of(context).cubit;
-
     return SelectOnlyWidget(
       title: S.current.bieu_quyet,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 16),

@@ -336,5 +336,8 @@
   "cac_lua_chon_bieu_quyet" : "Các lựa chọn biểu quyết",
   "bo_khieu_kin" : "Bỏ phiếu kín",
   "bo_phieu_cong_khai" : "Bỏ phiếu công khai",
-  "cho_duyet" : "Chờ duyệt"
+  "cho_duyet" : "Chờ duyệt",
+  "phien_hop" : "Phiên họp",
+  "noi_dung_phat_bieu" : "Nội dung phát biểu",
+  "phut" : "Phút"
 }

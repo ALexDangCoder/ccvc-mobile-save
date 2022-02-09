@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_only_widget.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
       child: Padding(
         padding: const EdgeInsets.only(top: 16),
         child: ButtonSelectFile(
+          icon: ImageAssets.icDocument2,
           title: S.current.them_tai_lieu_cuoc_hop,
           onChange: (List<File> files) {
             print(files);

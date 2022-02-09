@@ -40,6 +40,7 @@ class _BlockTextViewState extends State<BlockTextView> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -60,9 +61,80 @@ class _BlockTextViewState extends State<BlockTextView> {
               const SizedBox()
           ],
         ),
-        SizedBox(
-          height: 10.h,
+        const SizedBox(
+          height: 8,
         ),
+        Form(
+          key: widget.formKey,
+          child: TextFormField(
+            controller: widget.contentController,
+            maxLines: 4,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            style: tokenDetailAmount(
+              fontSize: 14.0.textScale(),
+              color: titleColor,
+            ),
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              fillColor: backgroundColorApp,
+              filled: true,
+              focusedErrorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                  color: canceledColor,
+                ),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                  color: canceledColor,
+                ),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                  color: borderColor,
+                ),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                  color: borderColor,
+                ),
+              ),
+              contentPadding:
+              const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+              errorStyle: tokenDetailAmount(fontSize: 12, color: canceledColor),
+            ),
+            validator: (String? value) {
+              if (widget.validate ?? true) {
+                if (value == null ||
+                    value.trim().isEmpty && widget.isRequired) {
+                  return S.current.khong_duoc_de_trong;
+                }
+                // if (widget.isLimitCharacter && value.length > 255) {
+                //   return 'limit_character';
+                // }
+              }
+
+              return null;
+            },
+          ),
+        ),
+      ],
+    );
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         Form(
           key: widget.formKey,
           child: TextFormField(

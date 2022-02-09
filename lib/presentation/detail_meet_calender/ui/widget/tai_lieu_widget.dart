@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_only_widget.dart';
+import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:flutter/material.dart';
 
 class TaiLieuWidget extends StatefulWidget {
@@ -14,9 +17,14 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
   Widget build(BuildContext context) {
     return SelectOnlyWidget(
       title: S.current.tai_lieu,
-      child: Container(
-        color: Colors.red,
-        height: 50,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: ButtonSelectFile(
+          title: S.current.them_tai_lieu_cuoc_hop,
+          onChange: (List<File> files) {
+            print(files);
+          }, files: [],
+        ),
       ),
     );
   }

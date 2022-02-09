@@ -9,7 +9,7 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/cong_tac
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/thanh_phan_tham_gia_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/thanh_phan_tham_gia_widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/y_kien_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -68,7 +68,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
             child: ListView(
               children: const [
                  CongTacChuanBiWidget(),
-                 ThanhPhanThamGiaWidget(),
+                 MoiNguoiThamGiaWidget(),
                  TaiLieuWidget(),
                  PhatBieuWidget(),
                  BieuQuyetWidget(),

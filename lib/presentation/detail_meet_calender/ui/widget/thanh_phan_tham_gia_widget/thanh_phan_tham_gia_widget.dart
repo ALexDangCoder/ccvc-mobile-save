@@ -5,40 +5,49 @@ import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_docum
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/icon_tiltle_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_only_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/them_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-class BieuQuyetWidget extends StatefulWidget {
-  const BieuQuyetWidget({Key? key}) : super(key: key);
+import 'child_widget/moi_nguoi_tham_gia_widget.dart';
+
+class MoiNguoiThamGiaWidget extends StatefulWidget {
+  const MoiNguoiThamGiaWidget({Key? key}) : super(key: key);
 
   @override
-  _BieuQuyetWidgetState createState() => _BieuQuyetWidgetState();
+  _MoiNguoiThamGiaWidgetState createState() => _MoiNguoiThamGiaWidgetState();
 }
 
-class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
+class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
   @override
   Widget build(BuildContext context) {
     final cubit = DetailMeetCalendarInherited.of(context).cubit;
 
     return SelectOnlyWidget(
-      title: S.current.bieu_quyet,
+      title: S.current.thanh_phan_tham_gia,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: IconWithTiltleWidget(
-              icon: ImageAssets.icVectorA,
-              title: S.current.them_bieu_quyet,
-              onPress: () {
-                showBottomSheetCustom(
-                  context,
-                  title: S.current.tao_bieu_quyet,
-                  child: const TaoBieuQuyetWidget(),
-                );
-              },
-            ),
+          const SizedBox(
+            height: 16,
+          ),
+          IconWithTiltleWidget(
+            icon: ImageAssets.icAddUser,
+            title: S.current.moi_nguoi_tham_gia,
+            onPress: () {
+              showBottomSheetCustom(
+                context,
+                child: const ThemThanhPhanThamGiaWidget(),
+                title: S.current.them_thanh_phan_tham_gia,
+              );
+            },
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          IconWithTiltleWidget(
+            icon: ImageAssets.icTickSquare,
+            title: S.current.diem_danh,
+            onPress: () {},
           ),
           StreamBuilder<DetailDocumentProfileSend>(
             initialData: cubit.thongTinGuiNhan,

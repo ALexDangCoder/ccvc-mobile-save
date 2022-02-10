@@ -5,23 +5,25 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_c
 import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/block_textview.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/radio/cuctom_radio_check.dart';
 import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TaoBieuQuyetWidget extends StatefulWidget {
-  const TaoBieuQuyetWidget({
+class DangKyPhatBieuWidget extends StatefulWidget {
+  const DangKyPhatBieuWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<TaoBieuQuyetWidget> createState() => _TextFormFieldWidgetState();
+  State<DangKyPhatBieuWidget> createState() => _TextFormFieldWidgetState();
 }
 
-class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
+class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
   GlobalKey<FormState> formKeyNoiDung = GlobalKey<FormState>();
   TextEditingController noiDungController = TextEditingController();
@@ -34,64 +36,49 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 24),
+          padding: const EdgeInsets.only(top: 20, bottom: 8),
           child: Text(
-            S.current.loai_bieu_quyet,
+            S.current.phien_hop,
             style: tokenDetailAmount(
               color: dateColor,
               fontSize: 14.0,
             ),
           ),
         ),
-        StreamBuilder<int>(
-          initialData: 1,
-          stream: cubit.checkRadioStream,
-          builder: (context, snapshot) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        CustomDropDown(
+          items: const ['phiên họp 1', 'phiên họp 2'],
+          onSelectItem: (value) {},
+        ),
+        Column(
+          children: [
+            InputInfoUserWidget(
+              isObligatory: true,
+              title: S.current.noi_dung_phat_bieu,
+              child: const SizedBox(),
+            ),
+            Row(
               children: [
-                CustomRadioButtonCheck(
-                  isCheck: snapshot.data == 1 ? true : false,
-                  allowUnSelect: true,
-                  title: S.current.bo_khieu_kin,
-                  onSelectItem: (item) {
-                    cubit.checkRadioButton(1);
-                  },
-                  canSelect: true,
+                const Expanded(
+                  child: TextFieldValidator(),
                 ),
                 const SizedBox(
-                  height: 24,
+                  width: 16,
                 ),
-                CustomRadioButtonCheck(
-                  isCheck: snapshot.data == 2 ? true : false,
-                  allowUnSelect: true,
-                  title: S.current.bo_phieu_cong_khai,
-                  onSelectItem: (item) {
-                    cubit.checkRadioButton(2);
-                  },
-                  canSelect: true,
+                Expanded(
+                  child: InputInfoUserWidget(
+                    title: S.current.phut,
+                    child: const SizedBox(),
+                  ),
                 ),
               ],
-            );
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: InputInfoUserWidget(
-            isObligatory: true,
-            title: S.current.ngay_bieu_quyet,
-            child: CustomSelectDate(
-              leadingIcon: SvgPicture.asset(ImageAssets.icCalendarUnFocus),
-              // value: cubit.managerPersonalInformationModel.ngaySinh,
-              onSelectDate: (dateTime) {
-                // cubit.selectBirthdayEvent(dateTime.toString());
-              },
             ),
-          ),
+          ],
+        ),
+        const SizedBox(
+          height: 24,
         ),
         Flexible(
           child: BlockTextView(
-            isObligatory: true,
             formKey: formKeyNoiDung,
             contentController: noiDungController,
             title: S.current.ten_bieu_quyet,

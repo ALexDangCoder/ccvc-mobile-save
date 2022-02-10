@@ -204,6 +204,8 @@ class ImageAssets {
   static const String icThreeDotMenu = '$baseImg/ic_tree_dot_menu.svg';
   static const String icUnchecked = '$baseImg/Unchecked.svg';
   static const String icchecked = '$baseImg/group.svg';
+  static const String icDocument2 = '$baseImg/document2.svg';
+
 
   ///gif
   static const String gifKhanCap = '$baseImg/gif_khan_cap.gif';

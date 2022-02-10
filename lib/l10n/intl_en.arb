@@ -342,4 +342,8 @@
   "nhiem_vu_cpvpcp" : "Nhiệm vụ CP/VPCP",
   "nhiem_vu_ubnd" : "Nhiệm vụ UBND tỉnh",
   "nhiem_vu_dv" : "Nhiệm vụ Đơn vị"
+  "cho_duyet" : "Chờ duyệt",
+  "phien_hop" : "Phiên họp",
+  "noi_dung_phat_bieu" : "Nội dung phát biểu",
+  "phut" : "Phút"
 }

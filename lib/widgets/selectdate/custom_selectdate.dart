@@ -42,7 +42,7 @@ class _CustomDropDownState extends State<CustomSelectDate> {
   @override
   void initState() {
     if (!widget.isObligatory) {
-      dateSelect = widget.value ?? DateTime.now().toString();
+      dateSelect = widget.value ?? DateTime.now().hour.toString();
     }
     super.initState();
   }
@@ -135,6 +135,7 @@ class _CustomDropDownState extends State<CustomSelectDate> {
               ),
             ),
           ),
+
         ],
       ),
     );

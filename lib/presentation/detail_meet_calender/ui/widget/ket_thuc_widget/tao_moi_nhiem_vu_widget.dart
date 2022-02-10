@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/ket_thuc_widget/drop_down_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,19 @@ class TaoMoiNhiemVuWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-
+                  SizedBox(height: 20.0.textScale(),),
+                  DropDownWidget(
+                    isNote: true,
+                    title: S.current.loai_nhiem_vu,
+                    hint: S.current.loai_nhiem_vu,
+                    listData: [
+                      S.current.nhiem_vu_ubnd,
+                      S.current.nhiem_vu_cpvpcp,
+                      S.current.nhiem_vu_dv,
+                    ],
+                    onChange: (value) {
+                    },
+                  ),
 
                 ],
               ),

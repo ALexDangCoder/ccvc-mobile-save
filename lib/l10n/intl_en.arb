@@ -338,5 +338,8 @@
   "tao_moi_nhiem_vu" : "Tạo mới nhiệm vụ",
   "ket_luan_cuoc_hop" : "Kết luận cuộc họp",
   "gui_mail_ket_luan" : "Gửi mail kết luận",
-  "thu_hoi" : "Thu hồi"
+  "thu_hoi" : "Thu hồi",
+  "nhiem_vu_cpvpcp" : "Nhiệm vụ CP/VPCP",
+  "nhiem_vu_ubnd" : "Nhiệm vụ UBND tỉnh",
+  "nhiem_vu_dv" : "Nhiệm vụ Đơn vị"
 }

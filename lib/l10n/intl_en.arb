@@ -327,7 +327,6 @@
   "huy_duyet" : "Huỷ duyệt",
   "da_duyet" : "Đã duyệt",
   "danh_sach_phat_bieu": "Danh sách phát biểu",
-  "cho_duyet" : "Chờ duyệt",
   "thoi_gian" : "Thời gian",
   "tinh_trang" : "Tình trạng",
   "chua_gui_duyet" : "Chưa gửi duyệt",
@@ -341,9 +340,9 @@
   "thu_hoi" : "Thu hồi",
   "nhiem_vu_cpvpcp" : "Nhiệm vụ CP/VPCP",
   "nhiem_vu_ubnd" : "Nhiệm vụ UBND tỉnh",
-  "nhiem_vu_dv" : "Nhiệm vụ Đơn vị"
-  "cho_duyet" : "Chờ duyệt",
+  "nhiem_vu_dv" : "Nhiệm vụ Đơn vị",
   "phien_hop" : "Phiên họp",
   "noi_dung_phat_bieu" : "Nội dung phát biểu",
-  "phut" : "Phút"
+  "phut" : "Phút",
+  "cho_duyet" : "Chờ duyệt"
 }

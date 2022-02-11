@@ -156,6 +156,10 @@ class ImageAssets {
   static const String ic_gui_y_kien = '$baseImg/icon_send.svg';
 
   static const String icKetNoiTablet = '$baseImg/ic_ket-noi_tablet.svg';
+  static const String icDocumentEnd = '$baseImg/ic_document_end.svg';
+  static const String icMessYealow = '$baseImg/ic_mess_yealow.svg';
+  static const String icPlusBlu = '$baseImg/ic_plus.svg';
+  static const String icSync = '$baseImg/ic_sync.svg';
 
   static const String icDeleteRed = '$baseImg/ic_delete_red.svg';
   static const String icEditBlue = '$baseImg/ic_edit_blue.svg';
@@ -197,9 +201,9 @@ class ImageAssets {
   static const String icVectorA = '$baseImg/icon_vector.svg';
   static const String icVoice2 = '$baseImg/icon_voice2.svg';
   static const String icPlus2 = '$baseImg/icon_plus.svg';
+  static const String icThreeDotMenu = '$baseImg/ic_tree_dot_menu.svg';
   static const String icUnchecked = '$baseImg/Unchecked.svg';
   static const String icchecked = '$baseImg/group.svg';
-  static const String icThreeDotMenu = '$baseImg/icon_tree_dot_menu.svg';
   static const String icDocument2 = '$baseImg/document2.svg';
   static const String icTimer = '$baseImg/ic_timer.svg';
   static const String icChecked = '$baseImg/checked.svg';

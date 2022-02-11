@@ -33,17 +33,25 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       detailDocumentGuiNhan.stream;
 
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
+
   Stream<int> get checkRadioStream => _checkRadioSubject.stream;
 
   void checkRadioButton(int _index) {
     _checkRadioSubject.sink.add(_index);
   }
 
-  // BehaviorSubject<HistoryDetailDocument> detailDocumentHistorySubject =
-  // BehaviorSubject<HistoryDetailDocument>();
-  //
-  // Stream<HistoryDetailDocument> get streamDetailHistorySubject =>
-  //     detailDocumentHistorySubject.stream;
+  final BehaviorSubject<String> _themBieuQuyet = BehaviorSubject<String>();
+
+  Stream<String> get themBieuQuyet => _themBieuQuyet.stream;
+  List<String> cacLuaChonBieuQuyet = [];
+
+  void addValueToList(String value) {
+    cacLuaChonBieuQuyet.add(value);
+  }
+
+  void removeTag(String value) {
+    cacLuaChonBieuQuyet.remove(value);
+  }
 
   final BehaviorSubject<HistoryProcessPage> _subjectJobPriliesProcess =
       BehaviorSubject<HistoryProcessPage>();
@@ -56,6 +64,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Stream<HistoryProcessPage> get screenJobProfilesStream =>
       _subjectJobPriliesProcess.stream;
 
+  List<String> properties = [];
 
   DetailDocumentModel detailDocumentModel = DetailDocumentModel(
       soVanBan: 'M123',

@@ -339,5 +339,6 @@
   "cho_duyet" : "Chờ duyệt",
   "phien_hop" : "Phiên họp",
   "noi_dung_phat_bieu" : "Nội dung phát biểu",
-  "phut" : "Phút"
+  "phut" : "Phút",
+  "nguoi_tham_gia" : "Người tham gia"
 }

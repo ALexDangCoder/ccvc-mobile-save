@@ -8,6 +8,8 @@ class CustomRadioButtonCheck extends StatefulWidget {
   final bool canSelect;
   final String title;
   final Function(bool) onSelectItem;
+  final bool isTheRadio;
+  final bool isTheTitle;
 
   CustomRadioButtonCheck({
     Key? key,
@@ -16,6 +18,8 @@ class CustomRadioButtonCheck extends StatefulWidget {
     this.allowUnSelect = false,
     required this.onSelectItem,
     required this.canSelect,
+    this.isTheRadio = true,
+    this.isTheTitle = true,
   }) : super(key: key);
 
   @override
@@ -50,10 +54,21 @@ class _CustomRadioButtonCheckState extends State<CustomRadioButtonCheck> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SvgPicture.asset(
-                widget.isCheck ? ImageAssets.icchecked : ImageAssets.icUnchecked,
+                widget.isTheRadio
+                    ? widget.isCheck
+                        ? ImageAssets.icchecked
+                        : ImageAssets.icUnchecked
+                    : widget.isCheck
+                        ? ImageAssets.icChecked
+                        : ImageAssets.icChecked2,
               ),
-              const SizedBox(width: 10),
-              Text(widget.title),
+              if (widget.isTheTitle)
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(widget.title),
+                )
+              else
+                const SizedBox()
             ],
           ),
         ),

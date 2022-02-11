@@ -201,6 +201,9 @@ class ImageAssets {
   static const String icchecked = '$baseImg/group.svg';
   static const String icThreeDotMenu = '$baseImg/icon_tree_dot_menu.svg';
   static const String icDocument2 = '$baseImg/document2.svg';
+  static const String icTimer = '$baseImg/ic_timer.svg';
+  static const String icChecked = '$baseImg/checked.svg';
+  static const String icChecked2 = '$baseImg/checked2.svg';
 
 
   ///gif

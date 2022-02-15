@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/danh_sach_nhiem_vu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/extension_status.dart';
@@ -7,6 +8,7 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/item_menu_ket_t
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_only_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,85 +28,106 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   Widget build(BuildContext context) {
     final cubit = DetailMeetCalendarInherited.of(context).cubit;
 
-    return Container(
-      color: Colors.transparent,
-      child: SelectOnlyWidget(
-        title: S.current.ket_luan_hop,
-        child: Stack(
-          children: [
-            StreamBuilder<KetLuanHopModel>(
-              stream: cubit.ketLuanHopStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final data = snapshot.data;
+    return SelectOnlyWidget(
+      title: S.current.ket_luan_hop,
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              StreamBuilder<KetLuanHopModel>(
+                stream: cubit.ketLuanHopStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data;
 
-                  return ItemKetLuanHopWidget(
-                    title: S.current.ket_luan_hop,
-                    time: data?.thoiGian ?? '',
-                    trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                    tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-                    onTap: () {
-                      isShow = !isShow;
-                      setState(() {});
-                    },
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
-            if (isShow)
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  Align(
-                    alignment: const Alignment(0.5, 0.5),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 18.0.textScale(),
-                        horizontal: 17.0.textScale(),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: listKetThucView
-                            .map(
-                              (e) => GestureDetector(
-                                onTap: () {
-                                  showBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return e.ketThuc.getScreen();
-                                      },);
-                                },
-                                child: itemListKetThuc(
-                                  name: e.name,
-                                  icon: e.icon,
-                                ),
+                    return ItemKetLuanHopWidget(
+                      title: S.current.ket_luan_hop,
+                      time: data?.thoiGian ?? '',
+                      trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                      tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+                      onTap: () {
+                        isShow = !isShow;
+                        setState(() {});
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+              StreamBuilder<DanhSachNhiemVuLichHopModel>(
+                stream: cubit.streamDanhSachNhiemVuLichHop,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data;
+                    return ItemDanhSachNhiemVu(
+                      hanXuLy: DateTime.parse(data?.hanXuLy ?? ''),
+                      loaiNV: data?.loaiNhiemVu ?? '',
+                      ndTheoDoi: data?.noiDungTheoDoi ?? '',
+                      soNhiemVu: data?.soNhiemVu ?? '',
+                      tinhHinhThucHien: data?.tinhHinhThucHienNoiBo ?? '',
+                      trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              )
+            ],
+          ),
+          if (isShow)
+            Column(
+              children: [
+                const SizedBox(
+                  height: 32,
+                ),
+                Align(
+                  alignment: const Alignment(0.5, 0.5),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 18.0.textScale(),
+                      horizontal: 17.0.textScale(),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowContainerColor.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: listKetThucView
+                          .map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                showBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return e.ketThuc.getScreen();
+                                  },
+                                );
+                              },
+                              child: itemListKetThuc(
+                                name: e.name,
+                                icon: e.icon,
                               ),
-                            )
-                            .toList(),
-                      ),
+                            ),
+                          )
+                          .toList(),
                     ),
                   ),
-                ],
-              )
-            else
-              Container()
-          ],
-        ),
+                ),
+              ],
+            )
+          else
+            Container()
+        ],
       ),
     );
   }
@@ -234,26 +257,164 @@ class ItemKetLuanHopWidget extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget widgetRow({required String name, required Widget child}) {
-    return Container(
-      margin: EdgeInsets.only(top: 10.0.textScale()),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              name,
-              style: textNormalCustom(
-                color: titleColumn,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.textScale(),
-              ),
-            ),
+class ItemDanhSachNhiemVu extends StatelessWidget {
+  final String soNhiemVu;
+  final String ndTheoDoi;
+  final String tinhHinhThucHien;
+  final DateTime hanXuLy;
+  final String loaiNV;
+  final TrangThai trangThai;
+
+  const ItemDanhSachNhiemVu({
+    Key? key,
+    required this.soNhiemVu,
+    required this.ndTheoDoi,
+    required this.tinhHinhThucHien,
+    required this.hanXuLy,
+    required this.loaiNV,
+    required this.trangThai,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 16.0,
+        ),
+        Text(
+          S.current.danh_sach_nhiem_vu,
+          style: textNormalCustom(
+            fontWeight: FontWeight.w500,
+            fontSize: 14.0.textScale(),
+            color: dateColor,
           ),
-          Expanded(flex: 3, child: child),
-        ],
-      ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 16.0.textScale()),
+          padding: EdgeInsets.all(16.0.textScale()),
+          decoration: BoxDecoration(
+            color: bgDropDown.withOpacity(0.1),
+            border: Border.all(color: bgDropDown),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          S.current.so_nhiem_vu,
+                          style: textNormalCustom(
+                            color: titleColumn,
+                            fontSize: 14.0.textScale(),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Text(
+                          soNhiemVu,
+                          style: textNormalCustom(
+                            color: textTitle,
+                            fontSize: 14.0.textScale(),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+                  GestureDetector(
+                    onTap: () {
+                      //  onTap();
+                    },
+                    child: SvgPicture.asset(ImageAssets.icLuong),
+                  )
+                ],
+              ),
+              widgetRow(
+                name: S.current.noi_dung_theo_doi,
+                child: Text(
+                  ndTheoDoi,
+                  style: textNormalCustom(
+                    color: textTitle,
+                    fontSize: 14.0.textScale(),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              widgetRow(
+                name: S.current.tinh_hinh_thuc_hien_noi_bo,
+                child: Text(
+                  tinhHinhThucHien,
+                  style: textNormalCustom(
+                    color: textTitle,
+                    fontSize: 14.0.textScale(),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              widgetRow(
+                name: S.current.han_xu_ly,
+                child: Text(
+                  hanXuLy.toStringWithListFormat,
+                  style: textNormalCustom(
+                    color: textTitle,
+                    fontSize: 14.0.textScale(),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              widgetRow(
+                name: S.current.loai_nv,
+                child: Text(
+                  loaiNV,
+                  style: textNormalCustom(
+                    color: textTitle,
+                    fontSize: 14.0.textScale(),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              widgetRow(
+                name: S.current.trang_thai,
+                child: trangThai.getWidget(),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
+}
+
+Widget widgetRow({required String name, required Widget child}) {
+  return Container(
+    margin: EdgeInsets.only(top: 10.0.textScale()),
+    child: Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            name,
+            style: textNormalCustom(
+              color: titleColumn,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.textScale(),
+            ),
+          ),
+        ),
+        Expanded(flex: 3, child: child),
+      ],
+    ),
+  );
 }

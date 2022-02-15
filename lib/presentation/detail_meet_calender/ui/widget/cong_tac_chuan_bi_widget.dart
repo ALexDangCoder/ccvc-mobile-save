@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/cong_tac_chuan_bi_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
@@ -21,26 +22,22 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     final cubit = DetailMeetCalendarInherited.of(context).cubit;
     return SelectOnlyWidget(
       title: S.current.cong_tac_chuan_bi,
-
-    child: Padding(
-      padding: const EdgeInsets.only(
-        bottom: 16,
-        left: 16,
-        right: 16,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            S.current.thong_tin_phong,
-            style: titleAppbar(
-              fontSize: 14.0.textScale(),
-              color: dateColor,
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Text(
+              S.current.thong_tin_phong,
+              style: titleAppbar(
+                fontSize: 14.0.textScale(),
+                color: dateColor,
+              ),
             ),
           ),
-          StreamBuilder<DetailDocumentProfileSend>(
-            initialData: cubit.thongTinGuiNhan,
-            stream: cubit.detailDocumentGuiNhan,
+          StreamBuilder<CongTacChuanBiModel>(
+            initialData: cubit.thongTinPhong,
+            // stream: cubit.detailDocumentGuiNhan,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -52,16 +49,15 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       margin: const EdgeInsets.only(top: 16),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        border:
-                        Border.all(color: borderItemCalender),
+                        border: Border.all(color: borderItemCalender),
                         color: borderItemCalender.withOpacity(0.1),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(6),
                         ),
                       ),
                       child: Column(
-                        children: snapshot.data!.toListRow().map(
-                              (row) {
+                        children: snapshot.data!.toListRowThongTinPhong().map(
+                          (row) {
                             return DetailDocumentRow(
                               row: row,
                             );
@@ -94,9 +90,9 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
               color: dateColor,
             ),
           ),
-          StreamBuilder<DetailDocumentProfileSend>(
-            initialData: cubit.thongTinGuiNhan,
-            stream: cubit.detailDocumentGuiNhan,
+          StreamBuilder<CongTacChuanBiModel>(
+            initialData: cubit.thongTinYeuCauThietBi,
+            // stream: cubit.detailDocumentGuiNhan,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -108,16 +104,15 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                       margin: const EdgeInsets.only(top: 16),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        border:
-                        Border.all(color: borderItemCalender),
+                        border: Border.all(color: borderItemCalender),
                         color: borderItemCalender.withOpacity(0.1),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(6),
                         ),
                       ),
                       child: Column(
-                        children: snapshot.data!.toListRow().map(
-                              (row) {
+                        children: snapshot.data!.toListRowYeuCauThietBi().map(
+                          (row) {
                             return DetailDocumentRow(
                               row: row,
                             );
@@ -142,6 +137,6 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
           )
         ],
       ),
-    ),);
+    );
   }
 }

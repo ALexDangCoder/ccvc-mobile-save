@@ -205,6 +205,9 @@ class ImageAssets {
   static const String icUnchecked = '$baseImg/Unchecked.svg';
   static const String icchecked = '$baseImg/group.svg';
   static const String icDocument2 = '$baseImg/document2.svg';
+  static const String icTimer = '$baseImg/ic_timer.svg';
+  static const String icChecked = '$baseImg/checked.svg';
+  static const String icChecked2 = '$baseImg/checked2.svg';
 
 
   ///gif
@@ -218,6 +221,7 @@ class ImageAssets {
   static const String imgHeaderMenuTablet = '$baseImg/ic_header_menu_ipad.png';
   static const String imgCalendar = '$baseImg/img_calendar.png';
   static const String imgCheckBox = '$baseImg/img_check_box.png';
+  static const String icLuong = '$baseImg/ic_luong.svg';
 
   static SvgPicture svgAssets(
     String name, {

@@ -1,11 +1,20 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/dropdown_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/row_value_widget.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/bieu_quyet_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/cong_tac_chuan_bi_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/ket_luan_hop_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/nguoi_tham_gia_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/phat_bieu_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/tai_lieu_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/y_kien_cuoc_hop_widget_tablet.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:flutter/material.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 // todo chi tiet van ban
 class DetailMeetCalenderTablet extends StatefulWidget {
@@ -15,305 +24,196 @@ class DetailMeetCalenderTablet extends StatefulWidget {
 }
 
 class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
-  late DetailDocumentCubit cubit;
-  bool expanded = false;
-  bool expanded2 = false;
-  bool expanded3 = false;
-  bool expanded4 = false;
-  bool expanded5 = false;
-  bool expanded6 = false;
+  late DetailMeetCalenderCubit cubit;
+  var _controller = TabController(vsync: AnimatedListState(), length: 7);
+  late ScrollController scrollController;
 
   @override
   void initState() {
+    _controller = TabController(vsync: AnimatedListState(), length: 7);
+    cubit = DetailMeetCalenderCubit();
+    scrollController = ScrollController();
+    cubit.initData();
     super.initState();
-    cubit = DetailDocumentCubit();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      // backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBarDefaultBack(S.current.chi_tiet_lich_hop),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ExpansionTitleCustom(
-              expand: expanded,
-              paddingRightIcon: const EdgeInsets.only(right: 21),
-              title: Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 10.5,
-                  bottom: 10.5,
-                ),
-                child: Text(S.current.cong_tac_chuan_bi),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                child: Column(
-                  children: [
-                    Text(S.current.thong_tin_phong),
-                    StreamBuilder<DetailDocumentProfileSend>(
-                      initialData: cubit.thongTinGuiNhan,
-                      stream: cubit.detailDocumentGuiNhan,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 2,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.only(top: 16),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: borderItemCalender),
-                                  color: borderItemCalender.withOpacity(0.1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(6)),
-                                ),
-                                child: Column(
-                                  children: snapshot.data!.toListRow().map(
-                                    (row) {
-                                      return DetailDocumentRow(
-                                        row: row,
+      backgroundColor: bgQLVBTablet,
+      appBar: AppBarDefaultBack(
+        S.current.chi_tiet_lich_hop,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 28, right: 30.0, left: 30.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0)),
+            color: backgroundColorApp,
+          ),
+          child: DefaultTabController(
+            length: 7,
+            child: NestedScrollView(
+              headerSliverBuilder: (
+                BuildContext context,
+                bool innerBoxIsScrolled,
+              ) {
+                return <Widget>[
+                  SliverToBoxAdapter(
+                    child: DetailMeetCalendarInherited(
+                      cubit: cubit,
+                      child: ExpandGroup(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 25),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.circle,
+                                        size: 12,
+                                        color: statusCalenderRed,
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Text(
+                                        S.current.hop_noi_bo_cong_ty,
+                                        style: textNormalCustom(
+                                          color: textTitle,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  StreamBuilder<ChiTietLichLamViecModel>(
+                                    stream: cubit.chiTietLichLamViecStream,
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Container();
+                                      }
+
+                                      final data = snapshot.data;
+
+                                      return Column(
+                                        children: data
+                                                ?.dataRow()
+                                                .map(
+                                                  (e) => Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 24),
+                                                    child: RowValueWidget(
+                                                      row: e,
+                                                      isTablet: false,
+                                                    ),
+                                                  ),
+                                                )
+                                                .toList() ??
+                                            [Container()],
                                       );
                                     },
-                                  ).toList(),
-                                ),
-                              );
-                            },
-                          );
-                        } else {
-                          return SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            child: SizedBox(
-                              height: 200,
-                              child: Center(
-                                child: Text(S.current.khong_co_du_lieu),
+                                  ),
+                                ],
                               ),
                             ),
-                          );
-                        }
-                      },
+                          ),
+                        ),
+                      ),
                     ),
-                    Text(S.current.thong_tin_yeu_cau_thiet_bi),
-                    StreamBuilder<DetailDocumentProfileSend>(
-                      initialData: cubit.thongTinGuiNhan,
-                      stream: cubit.detailDocumentGuiNhan,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 2,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.only(top: 16),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: borderItemCalender),
-                                  color: borderItemCalender.withOpacity(0.1),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(6)),
-                                ),
-                                child: Column(
-                                  children: snapshot.data!.toListRow().map(
-                                    (row) {
-                                      return DetailDocumentRow(
-                                        row: row,
-                                      );
-                                    },
-                                  ).toList(),
-                                ),
-                              );
-                            },
-                          );
-                        } else {
-                          return SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            child: SizedBox(
-                              height: 200,
-                              child: Center(
-                                child: Text(S.current.khong_co_du_lieu),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                    )
+                  )
+                ];
+              },
+              body: StickyHeader(
+                overlapHeaders: true,
+                header: TabBar(
+                  controller: _controller,
+                  indicatorColor: indicatorColor,
+                  unselectedLabelColor: unselectLabelColor,
+                  labelColor: indicatorColor,
+                  isScrollable: true,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        S.current.cong_tac_chuan_bi,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.thanh_phan_tham_gia,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.tai_lieu,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.phat_bieu,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.bieu_quyet,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.ket_luan_hop,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.y_kien_cuop_hop,
+                      ),
+                    ),
+                  ],
+                ),
+                content: TabBarView(
+                  controller: _controller,
+                  children: const [
+                    CongTacChuanBiWidgetTablet(),
+                    MoiNguoiThamGiaWidgetTablet(),
+                    TaiLieuWidgetTablet(),
+                    PhatBieuWidgetTablet(),
+                    BieuQuyetWidgetTablet(),
+                    KetLuanHopWidgetTablet(),
+                    YKienCuocHopWidgetTablet(),
                   ],
                 ),
               ),
-              onChangeExpand: () {
-                setState(() {
-                  expanded = !expanded;
-                  // expanded2 = !expanded2;
-                });
-              },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ExpansionTitleCustom(
-              expand: expanded2,
-              paddingRightIcon: const EdgeInsets.only(right: 21),
-              title: Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 10.5,
-                  bottom: 10.5,
-                ),
-                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
-              ),
-              child: Container(
-                color: Colors.red,
-                height: 50,
-              ),
-              onChangeExpand: () {
-                setState(() {
-                  expanded2 = !expanded2;
-                });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ExpansionTitleCustom(
-              expand: expanded3,
-              paddingRightIcon: const EdgeInsets.only(right: 21),
-              title: Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 10.5,
-                  bottom: 10.5,
-                ),
-                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
-              ),
-              child: Container(
-                color: Colors.red,
-                height: 50,
-              ),
-              onChangeExpand: () {
-                setState(() {
-                  expanded3 = !expanded3;
-                });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ExpansionTitleCustom(
-              expand: expanded4,
-              paddingRightIcon: const EdgeInsets.only(right: 21),
-              title: Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 10.5,
-                  bottom: 10.5,
-                ),
-                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
-              ),
-              child: Container(
-                color: Colors.red,
-                height: 50,
-              ),
-              onChangeExpand: () {
-                setState(() {
-                  expanded4 = !expanded4;
-                });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ExpansionTitleCustom(
-              expand: expanded5,
-              paddingRightIcon: const EdgeInsets.only(right: 21),
-              title: Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 10.5,
-                  bottom: 10.5,
-                ),
-                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
-              ),
-              child: Container(
-                color: Colors.red,
-                height: 50,
-              ),
-              onChangeExpand: () {
-                setState(() {
-                  expanded5 = !expanded5;
-                });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ExpansionTitleCustom(
-              expand: expanded6,
-              paddingRightIcon: const EdgeInsets.only(right: 21),
-              title: Container(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 10.5,
-                  bottom: 10.5,
-                ),
-                child: Text(S.current.thong_tin_yeu_cau_thiet_bi),
-              ),
-              child: Container(
-                color: Colors.red,
-                height: 50,
-              ),
-              onChangeExpand: () {
-                setState(() {
-                  expanded6 = !expanded6;
-                });
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
-
-// void dowloadFile(YKienXuLyFileDinhKem file) {
-//   // EasyLoading.show();
-//
-//   APICommon.shared.dowloadFile(file.Ten, file.Id).then((value) {
-//     EasyLoading.dismiss(animation: true);
-//
-//     if (value.error != null) {
-//       CoolAlert.show(
-//         context: context,
-//         type: CoolAlertType.error,
-//         text: value.error,
-//       );
-//     } else {
-//       CoolAlert.show(
-//         context: context,
-//         type: CoolAlertType.success,
-//         text: value.data,
-//       );
-//     }
-//   });
-// }
-
 }
 
-// expand: openTab[index],
-// onChangeExpand: () {
-// final indexOpen = openTab
-//     .indexWhere((element) => element == true);
-// if (indexOpen >= 0) openTab[indexOpen] = false;
-// if (indexOpen != index) {
-// setState(() {
-// openTab[index] = !openTab[index];
-// });
-// } else {
-// setState(() {
-// openTab[index] = false;
-// });
-// }
-// },
+class DetailMeetCalendarInherited extends InheritedWidget {
+  DetailMeetCalenderCubit cubit;
+
+  DetailMeetCalendarInherited(
+      {Key? key, required this.cubit, required Widget child})
+      : super(key: key, child: child);
+
+  static DetailMeetCalendarInherited of(BuildContext context) {
+    final DetailMeetCalendarInherited? result = context
+        .dependOnInheritedWidgetOfExactType<DetailMeetCalendarInherited>();
+    assert(result != null, 'No element');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+    return true;
+  }
+}

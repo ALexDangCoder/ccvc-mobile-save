@@ -121,7 +121,6 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       },
                       child: SvgPicture.asset(ImageAssets.ic_search_calendar),
                     ),
-
                   ],
                 ),
               ),

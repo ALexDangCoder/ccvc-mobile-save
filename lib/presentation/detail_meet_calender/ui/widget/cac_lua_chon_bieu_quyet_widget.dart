@@ -1,69 +1,68 @@
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SelectSearchDonViWidget extends StatefulWidget {
-  final ThemDonViCubit themDonViCubit;
-  const SelectSearchDonViWidget({Key? key, required this.themDonViCubit})
-      : super(key: key);
+class CacLuaChonDonViWidget extends StatefulWidget {
+  // final ThemDonViCubit themDonViCubit;
+  final DetailMeetCalenderCubit detailMeetCalenderCubit;
+
+  const CacLuaChonDonViWidget({
+    Key? key,
+    // required this.themDonViCubit,
+    required this.detailMeetCalenderCubit,
+  }) : super(key: key);
 
   @override
-  State<SelectSearchDonViWidget> createState() =>
-      _SelectSearchDonViWidgetState();
+  State<CacLuaChonDonViWidget> createState() => _CacLuaChonDonViWidgetState();
 }
 
-class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
+class _CacLuaChonDonViWidgetState extends State<CacLuaChonDonViWidget> {
   final TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Node<DonViModel>>>(
-      stream: widget.themDonViCubit.selectDonVi,
+    return StreamBuilder<String>(
+      stream: widget.detailMeetCalenderCubit.themBieuQuyet,
       builder: (context, snapshot) {
-        final data = snapshot.data ?? <Node<DonViModel>>[];
-        if (data.isNotEmpty) {
-          return SelectDonViCell(
-            controller: controller,
-            listSelect: data,
-            onChange: (value) {
-              widget.themDonViCubit.onSearch(value);
-            },
-            onDelete: (value) {
-              widget.themDonViCubit.removeTag(value);
-            },
-          );
-        } else {
-          return BaseSearchBar(
-            controller: controller,
-            onChange: (value) {
-              widget.themDonViCubit.onSearch(value);
-            },
-          );
-        }
+        final data = snapshot.data ?? <String>[];
+        return SelectDonViCell(
+          controller: controller,
+          listSelect: widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet,
+          onSubmitted: (value) {
+            widget.detailMeetCalenderCubit.addValueToList(value);
+            controller.text = '';
+          },
+          onDelete: (value) {
+            widget.detailMeetCalenderCubit.removeTag(value);
+          },
+        );
       },
     );
   }
 }
 
 class SelectDonViCell extends StatelessWidget {
-  final List<Node<DonViModel>> listSelect;
-  final Function(Node<DonViModel>) onDelete;
+  final List<String> listSelect;
+  final Function(String) onDelete;
   final TextEditingController controller;
-  final Function(String) onChange;
+  final Function(String) onSubmitted;
+
   const SelectDonViCell({
     Key? key,
     required this.listSelect,
     required this.onDelete,
     required this.controller,
-    required this.onChange,
+    required this.onSubmitted,
   }) : super(key: key);
 
   @override
@@ -72,22 +71,23 @@ class SelectDonViCell extends StatelessWidget {
       width: double.maxFinite,
       padding: EdgeInsets.all(7.0.textScale(space: 5)),
       decoration: BoxDecoration(
-          boxShadow: APP_DEVICE == DeviceType.MOBILE
-              ? []
-              : [
-                  BoxShadow(
-                    color: shadowContainerColor.withOpacity(0.05),
-                    offset: const Offset(0, 4),
-                    blurRadius: 10,
-                  )
-                ],
-          border: Border.all(
-            color: APP_DEVICE == DeviceType.MOBILE
-                ? borderButtomColor
-                : borderColor.withOpacity(0.5),
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(6.0.textScale())),
-          color: Colors.white),
+        boxShadow: APP_DEVICE == DeviceType.MOBILE
+            ? []
+            : [
+                BoxShadow(
+                  color: shadowContainerColor.withOpacity(0.05),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10,
+                )
+              ],
+        border: Border.all(
+          color: APP_DEVICE == DeviceType.MOBILE
+              ? borderButtomColor
+              : borderColor.withOpacity(0.5),
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(6.0.textScale())),
+        color: Colors.white,
+      ),
       child: Wrap(
         spacing: 10,
         runSpacing: 10,
@@ -97,8 +97,7 @@ class SelectDonViCell extends StatelessWidget {
               width: 200,
               color: Colors.transparent,
               child: TextField(
-
-                onChanged: onChange,
+                onSubmitted: onSubmitted,
                 controller: controller,
                 style: textNormal(textTitle, 14.0.textScale()),
                 decoration: const InputDecoration(
@@ -112,7 +111,7 @@ class SelectDonViCell extends StatelessWidget {
           }
           final data = listSelect[index];
           return tag(
-            title: data.value.name,
+            title: data,
             onDelete: () {
               onDelete(data);
             },
@@ -132,11 +131,19 @@ class SelectDonViCell extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            title,
-            style: textNormal(
-              APP_DEVICE == DeviceType.MOBILE ? linkColor : backgroundColorApp,
-              12.0.textScale(),
+          Container(
+            constraints: const BoxConstraints(
+              maxWidth: 200,
+            ),
+            child: Text(
+              title,
+              style: textNormal(
+                APP_DEVICE == DeviceType.MOBILE
+                    ? linkColor
+                    : backgroundColorApp,
+                12.0.textScale(),
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           GestureDetector(

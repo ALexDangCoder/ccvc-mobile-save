@@ -116,10 +116,10 @@ extension TabbarEnum on TabBarType {
           tabletScreen: const CalenderWorkDayLichTablet(),
         );
       case TabBarType.internalInteraction:
-        return  Scaffold(
+        return Scaffold(
           body: screenDevice(
             mobileScreen: DetailMeetCalenderScreen(),
-            tabletScreen: const ChiTietLamViecTablet(),
+            tabletScreen: DetailMeetCalenderTablet(),
           ),
           backgroundColor: Colors.cyanAccent,
         );

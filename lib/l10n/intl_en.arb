@@ -344,5 +344,14 @@
   "phien_hop" : "Phiên họp",
   "noi_dung_phat_bieu" : "Nội dung phát biểu",
   "phut" : "Phút",
-  "cho_duyet" : "Chờ duyệt"
+  "cho_duyet" : "Chờ duyệt",
+  "don_vi_theo_doi" : "Đơn vị theo dõi",
+  "nguoi_theo_doi" : "Người theo dõi",
+  "noi_dung_theo_doi" : "Nội dung theo dõi",
+  "nguoi_giao_nhiem_vu" : "Người giao nhiệm vụ",
+  "van_ban_giao_nhiem_vu" : "Văn bản giao nhiệm vụ",
+  "van_ban_khac" : "Văn bản khác",
+  "ngay_van_ban" : "Ngày văn bản",
+  "trich_yeu" : "Trích yếu"
+
 }

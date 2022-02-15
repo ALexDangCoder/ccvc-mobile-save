@@ -1,10 +1,10 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class TextFieldValidator extends StatefulWidget {
   final TextEditingController? controller;
@@ -15,6 +15,7 @@ class TextFieldValidator extends StatefulWidget {
   final TextInputType? textInputType;
   final int maxLine;
   final String? hintText;
+
   const TextFieldValidator({
     Key? key,
     this.controller,
@@ -34,6 +35,7 @@ class TextFieldValidator extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
   FormProvider? formProvider;
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -76,9 +78,13 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           fontSize: 14.0.textScale(),
           color: titleColor,
         ),
-
         enabled: widget.isEnabled,
         decoration: InputDecoration(
+          hintStyle: textNormalCustom(
+            color: Colors.grey,
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+          ),
           hintText: widget.hintText,
           contentPadding: widget.maxLine == 1
               ? const EdgeInsets.symmetric(vertical: 14, horizontal: 10)

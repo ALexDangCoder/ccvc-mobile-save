@@ -26,82 +26,85 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   Widget build(BuildContext context) {
     final cubit = DetailMeetCalendarInherited.of(context).cubit;
 
-    return SelectOnlyWidget(
-      title: S.current.ket_luan_hop,
-      child: Stack(
-        children: [
-          StreamBuilder<KetLuanHopModel>(
-            stream: cubit.ketLuanHopStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final data = snapshot.data;
+    return Container(
+      color: Colors.transparent,
+      child: SelectOnlyWidget(
+        title: S.current.ket_luan_hop,
+        child: Stack(
+          children: [
+            StreamBuilder<KetLuanHopModel>(
+              stream: cubit.ketLuanHopStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final data = snapshot.data;
 
-                return ItemKetLuanHopWidget(
-                  title: S.current.ket_luan_hop,
-                  time: data?.thoiGian ?? '',
-                  trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                  tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-                  onTap: () {
-                    isShow = !isShow;
-                    setState(() {});
-                  },
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
-          if (isShow)
-            Column(
-              children: [
-                const SizedBox(
-                  height: 32,
-                ),
-                Align(
-                  alignment: const Alignment(0.5, 0.5),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 18.0.textScale(),
-                      horizontal: 17.0.textScale(),
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: listKetThucView
-                          .map(
-                            (e) => GestureDetector(
-                              onTap: () {
-                                showBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return e.ketThuc.getScreen();
-                                    },);
-                              },
-                              child: itemListKetThuc(
-                                name: e.name,
-                                icon: e.icon,
+                  return ItemKetLuanHopWidget(
+                    title: S.current.ket_luan_hop,
+                    time: data?.thoiGian ?? '',
+                    trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                    tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+                    onTap: () {
+                      isShow = !isShow;
+                      setState(() {});
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+            if (isShow)
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Align(
+                    alignment: const Alignment(0.5, 0.5),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 18.0.textScale(),
+                        horizontal: 17.0.textScale(),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: shadowContainerColor.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: listKetThucView
+                            .map(
+                              (e) => GestureDetector(
+                                onTap: () {
+                                  showBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return e.ketThuc.getScreen();
+                                      },);
+                                },
+                                child: itemListKetThuc(
+                                  name: e.name,
+                                  icon: e.icon,
+                                ),
                               ),
-                            ),
-                          )
-                          .toList(),
+                            )
+                            .toList(),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-          else
-            Container()
-        ],
+                ],
+              )
+            else
+              Container()
+          ],
+        ),
       ),
     );
   }

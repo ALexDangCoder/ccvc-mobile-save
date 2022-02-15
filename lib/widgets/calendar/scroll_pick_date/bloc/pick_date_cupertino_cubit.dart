@@ -5,6 +5,9 @@ import 'package:rxdart/rxdart.dart';
 class PicKDateCupertinoCubit extends BaseCubit<PickDateCupertinoState> {
   PicKDateCupertinoCubit() : super(PickDateCupertinoInitial());
 
+  BehaviorSubject<DateTime> taoLichHopSubject =
+      BehaviorSubject.seeded(DateTime.now());
+
   BehaviorSubject<bool> isDateTimeSubject = BehaviorSubject.seeded(true);
 
   BehaviorSubject<DateTime> startDateSubject = BehaviorSubject.seeded(
@@ -14,6 +17,8 @@ class PicKDateCupertinoCubit extends BaseCubit<PickDateCupertinoState> {
   BehaviorSubject<DateTime> endDateSubject = BehaviorSubject.seeded(
     DateTime.now(),
   );
+
+  Stream<DateTime> get taoLichHopStream => taoLichHopSubject.stream;
 
   Stream<bool> get isDateTimeStream => isDateTimeSubject.stream;
 
@@ -27,5 +32,9 @@ class PicKDateCupertinoCubit extends BaseCubit<PickDateCupertinoState> {
 
   void listeningEndDataTime(DateTime dateAndTime) {
     endDateSubject.add(dateAndTime);
+  }
+
+  void listeningTaoLichHop(DateTime dateAndTime) {
+    taoLichHopSubject.add(dateAndTime);
   }
 }

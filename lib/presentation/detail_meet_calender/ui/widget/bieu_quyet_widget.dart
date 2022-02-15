@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
@@ -40,9 +41,9 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
               },
             ),
           ),
-          StreamBuilder<DetailDocumentProfileSend>(
-            initialData: cubit.thongTinGuiNhan,
-            stream: cubit.detailDocumentGuiNhan,
+          StreamBuilder<PhatBieuModel>(
+            initialData: cubit.phatBieu,
+            // stream: cubit.detailDocumentGuiNhan,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -61,7 +62,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                         ),
                       ),
                       child: Column(
-                        children: snapshot.data!.toListRow().map(
+                        children: snapshot.data!.toListRowPhatBieu().map(
                           (row) {
                             return DetailDocumentRow(
                               row: row,

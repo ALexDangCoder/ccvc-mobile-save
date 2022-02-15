@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/th%C3%A0nh_phan_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
@@ -49,9 +50,9 @@ class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
             title: S.current.diem_danh,
             onPress: () {},
           ),
-          StreamBuilder<DetailDocumentProfileSend>(
-            initialData: cubit.thongTinGuiNhan,
-            stream: cubit.detailDocumentGuiNhan,
+          StreamBuilder<ThanhPhanThamGiaModel>(
+            initialData: cubit.thanhPhanThamGiaModel,
+            // stream: cubit.detailDocumentGuiNhan,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -70,7 +71,7 @@ class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
                         ),
                       ),
                       child: Column(
-                        children: snapshot.data!.toListRow().map(
+                        children: snapshot.data!.toListRowThanhPhanThamGia().map(
                           (row) {
                             return DetailDocumentRow(
                               row: row,

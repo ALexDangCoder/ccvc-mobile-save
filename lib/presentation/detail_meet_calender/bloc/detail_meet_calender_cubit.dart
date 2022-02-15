@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/danh_sach_nhiem_vu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
@@ -31,6 +32,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Stream<DetailDocumentProfileSend> get streamDetaiGuiNhan =>
       detailDocumentGuiNhan.stream;
+
+  BehaviorSubject<DanhSachNhiemVuLichHopModel> danhSachNhiemVuLichHopSubject =
+      BehaviorSubject.seeded(danhSachNhiemVuLichHopModel);
+
+  Stream<DanhSachNhiemVuLichHopModel> get streamDanhSachNhiemVuLichHop =>
+      danhSachNhiemVuLichHopSubject.stream;
 
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
 

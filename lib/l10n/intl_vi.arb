@@ -345,5 +345,10 @@
   "noi_dung_phat_bieu" : "Nội dung phát biểu",
   "phut" : "Phút",
   "nguoi_tham_gia" : "Người tham gia",
-  "cho_duyet" : "Chờ duyệt"
+  "danh_sach_nhiem_vu" : "Danh sách nhiệm vụ",
+  "cho_duyet" : "Chờ duyệt",
+  "noi_dung_theo_doi" : "ND theo dõi",
+  "loai_nv" : "Loại NV",
+  "so_nhiem_vu" : "Số nhiệm vụ",
+  "tinh_hinh_thuc_hien_noi_bo" : "Tình hình thực hiện nội bộ"
 }

@@ -119,7 +119,7 @@ extension TabbarEnum on TabBarType {
         return  Scaffold(
           body: screenDevice(
             mobileScreen: DetailMeetCalenderScreen(),
-            tabletScreen: const ChiTietLamViecTablet(),
+            tabletScreen: DetailMeetCalenderTablet(),
           ),
           backgroundColor: Colors.cyanAccent,
         );

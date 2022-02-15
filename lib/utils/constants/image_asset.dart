@@ -221,6 +221,7 @@ class ImageAssets {
   static const String imgHeaderMenuTablet = '$baseImg/ic_header_menu_ipad.png';
   static const String imgCalendar = '$baseImg/img_calendar.png';
   static const String imgCheckBox = '$baseImg/img_check_box.png';
+  static const String icLuong = '$baseImg/ic_luong.svg';
 
   static SvgPicture svgAssets(
     String name, {

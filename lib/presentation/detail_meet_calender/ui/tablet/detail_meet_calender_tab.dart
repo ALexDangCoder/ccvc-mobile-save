@@ -1,24 +1,20 @@
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/bieu_quyet_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/cong_tac_chuan_bi_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/ket_luan_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/phat_bieu_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/thanh_phan_tham_gia_widget/thanh_phan_tham_gia_widget.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/y_kien_cuoc_hop_widget.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/bieu_quyet_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/cong_tac_chuan_bi_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/ket_luan_hop_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/nguoi_tham_gia_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/phat_bieu_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/tai_lieu_widget_tablet.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/y_kien_cuoc_hop_widget_tablet.dart';
+import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 // todo chi tiet van ban
 class DetailMeetCalenderTablet extends StatefulWidget {
@@ -29,111 +25,171 @@ class DetailMeetCalenderTablet extends StatefulWidget {
 
 class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
   late DetailMeetCalenderCubit cubit;
+  var _controller = TabController(vsync: AnimatedListState(), length: 7);
+  late ScrollController scrollController;
 
   @override
   void initState() {
-    super.initState();
+    _controller = TabController(vsync: AnimatedListState(), length: 7);
     cubit = DetailMeetCalenderCubit();
+    scrollController = ScrollController();
     cubit.initData();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.light,
-        ),
-        backgroundColor: backgroundColorApp,
-        bottomOpacity: 0.0,
-        elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
-        shadowColor: bgDropDown,
-        automaticallyImplyLeading: false,
-        title: Text(
-          S.current.chi_tiet_lich_hop,
-          style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => {Navigator.pop(context)},
-          icon: SvgPicture.asset(
-            ImageAssets.icBack,
-          ),
-        ),
+      backgroundColor: bgQLVBTablet,
+      appBar: AppBarDefaultBack(
+        S.current.chi_tiet_lich_hop,
       ),
-      body: DetailMeetCalendarInherited(
-        cubit: cubit,
-        child: ExpandGroup(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 25),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.circle,
-                              size: 12,
-                              color: statusCalenderRed,
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Text(
-                              S.current.hop_noi_bo_cong_ty,
-                              style: textNormalCustom(
-                                color: textTitle,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            )
-                          ],
-                        ),
-                        StreamBuilder<ChiTietLichLamViecModel>(
-                          stream: cubit.chiTietLichLamViecStream,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container();
-                            }
-
-                            final data = snapshot.data;
-
-                            return Column(
-                              children: data
-                                      ?.dataRow()
-                                      .map(
-                                        (e) => Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 24),
-                                          child: RowValueWidget(
-                                            row: e,
-                                            isTablet: false,
-                                          ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 28, right: 30.0, left: 30.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0)),
+            color: backgroundColorApp,
+          ),
+          child: DefaultTabController(
+            length: 7,
+            child: NestedScrollView(
+              headerSliverBuilder: (
+                BuildContext context,
+                bool innerBoxIsScrolled,
+              ) {
+                return <Widget>[
+                  SliverToBoxAdapter(
+                    child: DetailMeetCalendarInherited(
+                      cubit: cubit,
+                      child: ExpandGroup(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 25),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.circle,
+                                        size: 12,
+                                        color: statusCalenderRed,
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Text(
+                                        S.current.hop_noi_bo_cong_ty,
+                                        style: textNormalCustom(
+                                          color: textTitle,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       )
-                                      .toList() ??
-                                  [Container()],
-                            );
-                          },
+                                    ],
+                                  ),
+                                  StreamBuilder<ChiTietLichLamViecModel>(
+                                    stream: cubit.chiTietLichLamViecStream,
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Container();
+                                      }
+
+                                      final data = snapshot.data;
+
+                                      return Column(
+                                        children: data
+                                                ?.dataRow()
+                                                .map(
+                                                  (e) => Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 24),
+                                                    child: RowValueWidget(
+                                                      row: e,
+                                                      isTablet: false,
+                                                    ),
+                                                  ),
+                                                )
+                                                .toList() ??
+                                            [Container()],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  )
+                ];
+              },
+              body: StickyHeader(
+                overlapHeaders: true,
+                header: TabBar(
+                  controller: _controller,
+                  indicatorColor: indicatorColor,
+                  unselectedLabelColor: unselectLabelColor,
+                  labelColor: indicatorColor,
+                  isScrollable: true,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        S.current.cong_tac_chuan_bi,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.thanh_phan_tham_gia,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.tai_lieu,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.phat_bieu,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.bieu_quyet,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.ket_luan_hop,
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        S.current.y_kien_cuop_hop,
+                      ),
+                    ),
+                  ],
                 ),
-                CongTacChuanBiWidget(),
-                MoiNguoiThamGiaWidget(),
-                TaiLieuWidget(),
-                PhatBieuWidget(),
-                BieuQuyetWidget(),
-                KetLuanHopWidget(),
-                YKienCuocHopWidget(),
-              ],
+                content: TabBarView(
+                  controller: _controller,
+                  children: const [
+                    CongTacChuanBiWidgetTablet(),
+                    MoiNguoiThamGiaWidgetTablet(),
+                    TaiLieuWidgetTablet(),
+                    PhatBieuWidgetTablet(),
+                    BieuQuyetWidgetTablet(),
+                    KetLuanHopWidgetTablet(),
+                    YKienCuocHopWidgetTablet(),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

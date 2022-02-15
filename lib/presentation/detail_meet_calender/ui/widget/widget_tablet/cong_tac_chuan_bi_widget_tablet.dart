@@ -5,10 +5,12 @@ class CongTacChuanBiWidgetTablet extends StatefulWidget {
   const CongTacChuanBiWidgetTablet({Key? key}) : super(key: key);
 
   @override
-  _CongTacChuanBiWidgetTabletState createState() => _CongTacChuanBiWidgetTabletState();
+  _CongTacChuanBiWidgetTabletState createState() =>
+      _CongTacChuanBiWidgetTabletState();
 }
 
-class _CongTacChuanBiWidgetTabletState extends State<CongTacChuanBiWidgetTablet> {
+class _CongTacChuanBiWidgetTabletState
+    extends State<CongTacChuanBiWidgetTablet> {
   @override
   Widget build(BuildContext context) {
     return Center(

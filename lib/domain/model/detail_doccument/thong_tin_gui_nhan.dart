@@ -8,6 +8,11 @@ class DetailDocumentProfileSend {
   String? donViNhan = '';
   String? vaiTro = '';
   String? trangThai = '';
+  String? tenPhong = '';
+  String? sucChua = '';
+  String? diaDiem = '';
+  String? loaiThietBi = '';
+  String? soLuong = '';
 
   DetailDocumentProfileSend({
     required this.nguoiGui,
@@ -41,9 +46,8 @@ class DetailDocumentProfileSend {
       DocumentDetailRow('Nơi gửi', nguoiNhan, TypeDocumentDetailRow.text),
       DocumentDetailRow('Loại văn bản', donViNhan, TypeDocumentDetailRow.text),
       DocumentDetailRow('Số ký hiệu', vaiTro, TypeDocumentDetailRow.text),
-      DocumentDetailRow('Ngày BH', trangThai, TypeDocumentDetailRow.text),
+      DocumentDetailRow('Ngày BH', trangThai, TypeDocumentDetailRow.status),
     ];
-
     return list;
   }
 }

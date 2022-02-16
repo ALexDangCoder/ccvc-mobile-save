@@ -3,20 +3,20 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/edit_personal_information_cubit.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/avatar_tablet.dart';
-import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/custom_select_items_tablet.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/custom_select_items_mobile.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/double_button_edit_seen.dart';
-import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_don_vi.dart';
-import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_ung_dung.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_form_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class EditPersonInformationTabletScreen extends StatefulWidget {
   final ManagerPersonalInformationModel managerPersonalInformationModel;
@@ -75,10 +75,11 @@ class _EditPersonalInformationTabletScreen
     return Scaffold(
       backgroundColor: bgManagerColor,
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.chinh_sua_thong_tin),
+      appBar: AppBarDefaultBack(
+        S.current.chinh_sua_thong_tin,
+      ),
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColorApp,
@@ -87,11 +88,58 @@ class _EditPersonalInformationTabletScreen
           ),
           margin:
               const EdgeInsets.only(top: 28, left: 30, right: 30, bottom: 30),
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
           child: FormGroup(
             key: keyGroup,
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.current.thong_tin,
+                      style: textNormalCustom(
+                        fontSize: 18,
+                        color: fontColorTablet2,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        nameController.text =
+                            widget.managerPersonalInformationModel.hoTen ?? '';
+                        maCanBoController.text =
+                            widget.managerPersonalInformationModel.maCanBo ??
+                                '';
+                        thuTuController.text = widget
+                            .managerPersonalInformationModel.thuTu
+                            .toString();
+                        cmndController.text =
+                            widget.managerPersonalInformationModel.cmtnd ?? '';
+                        emailController.text =
+                            widget.managerPersonalInformationModel.email ?? '';
+                        sdtCoquanController.text = widget
+                                .managerPersonalInformationModel.phoneCoQuan ??
+                            '';
+                        sdtController.text = widget
+                                .managerPersonalInformationModel.phoneDiDong ??
+                            '';
+                        diaChiLienHeController.text =
+                            widget.managerPersonalInformationModel.diaChi ?? '';
+                        cubit.isCheckButtonReset.sink.add(
+                          !cubit.isCheckButtonReset.value,
+                        );
+                        cubit.isCheckData();
+                      },
+                      child: Text(
+                        S.current.reset,
+                        style: titleText(
+                          fontSize: 16,
+                          color: numberColorTablet,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -99,6 +147,7 @@ class _EditPersonalInformationTabletScreen
                       child: Column(
                         children: [
                           InputInfoUserWidget(
+                            needMargin: false,
                             isObligatory: true,
                             title: user.keys.elementAt(1),
                             child: TextFieldValidator(
@@ -125,16 +174,26 @@ class _EditPersonalInformationTabletScreen
                               isEnabled: true,
                             ),
                           ),
-                          InputInfoUserWidget(
-                            isObligatory: true,
-                            title: user.keys.elementAt(4),
-                            child: CustomSelectDate(
-                              value: cubit
-                                  .managerPersonalInformationModel.ngaySinh,
-                              onSelectDate: (dateTime) {
-                                cubit.selectBirthdayEvent(dateTime.toString());
-                              },
-                            ),
+                          StreamBuilder<bool>(
+                            stream: cubit.isCheckButtonReset,
+                            builder: (context, snapshot) {
+                              return InputInfoUserWidget(
+                                isObligatory: true,
+                                title: user.keys.elementAt(4),
+                                child: SelectDate(
+                                  key: UniqueKey(),
+                                  paddings: 10,
+                                  leadingIcon: SvgPicture.asset(
+                                    ImageAssets.icEditInfor,
+                                  ),
+                                  value: cubit
+                                      .managerPersonalInformationModel.ngaySinh,
+                                  onSelectDate: (dateTime) {
+                                    cubit.selectBirthdayEvent(dateTime);
+                                  },
+                                ),
+                              );
+                            },
                           ),
                           InputInfoUserWidget(
                             title: user.keys.elementAt(5),
@@ -145,24 +204,29 @@ class _EditPersonalInformationTabletScreen
                               },
                             ),
                           ),
-                          InputInfoUserWidget(
-                            isObligatory: true,
-                            title: user.keys.elementAt(6),
-                            child: CustomDropDown(
-                              value: cubit.managerPersonalInformationModel
-                                          .gioiTinh ??
-                                      false
-                                  ? S.current.Nam
-                                  : S.current.Nu,
-                              items: cubit.fakeDataGioiTinh,
-                              onSelectItem: (value) {
-                                if (value == 0) {
-                                  cubit.selectGTEvent(true);
-                                } else {
-                                  cubit.selectGTEvent(false);
-                                }
-                              },
-                            ),
+                          StreamBuilder<bool>(
+                            stream: cubit.isCheckButtonReset,
+                            builder: (context, snapshot) {
+                              return InputInfoUserWidget(
+                                isObligatory: true,
+                                title: user.keys.elementAt(6),
+                                child: CustomDropDown(
+                                  value: cubit.managerPersonalInformationModel
+                                              .gioiTinh ??
+                                          false
+                                      ? S.current.Nam
+                                      : S.current.Nu,
+                                  items: cubit.fakeDataGioiTinh,
+                                  onSelectItem: (value) {
+                                    if (value == 0) {
+                                      cubit.selectGTEvent(true);
+                                    } else {
+                                      cubit.selectGTEvent(false);
+                                    }
+                                  },
+                                ),
+                              );
+                            },
                           ),
                           InputInfoUserWidget(
                             title: user.keys.elementAt(7),
@@ -181,6 +245,7 @@ class _EditPersonalInformationTabletScreen
                       child: Column(
                         children: [
                           InputInfoUserWidget(
+                            needMargin: false,
                             title: user.keys.elementAt(8),
                             child: TextFieldValidator(
                               controller: sdtCoquanController,
@@ -200,26 +265,31 @@ class _EditPersonalInformationTabletScreen
                               },
                             ),
                           ),
-                          InputInfoUserWidget(
-                            title: user.keys.elementAt(10),
-                            child: CustomSelectItemsTablet(
-                              title: S.current.tinh_thanh,
-                              context: context,
-                              items: cubit.fakeDataTinh,
-                              onChange: (indexes) {
-                                if (indexes >= 0) {
-                                  setState(() {
-                                    // cubit.isCheckH(false);
-                                    cubit.isCheckTinhSubject.sink.add(false);
-                                  });
-                                }
-                              },
-                              onRemove: () {
-                                cubit.isCheckTinhSubject.sink.add(true);
-                                cubit.isCheckHuyenSubject.sink.add(true);
-                              },
-                              isCheckEnable: false,
-                            ),
+                          StreamBuilder<bool>(
+                            stream: cubit.isCheckButtonReset,
+                            builder: (context, snapshot) {
+                              return InputInfoUserWidget(
+                                title: user.keys.elementAt(10),
+                                child: CustomSelectItems(
+                                  title: S.current.tinh_thanh,
+                                  key: UniqueKey(),
+                                  value: cubit
+                                      .managerPersonalInformationModel.tinh,
+                                  context: context,
+                                  items: cubit.fakeDataTinh,
+                                  onChange: (indexes) {
+                                    if (indexes >= 0) {
+                                      cubit.isCheckTinhSubject.sink.add(false);
+                                    }
+                                  },
+                                  onRemove: () {
+                                    cubit.isCheckTinhSubject.sink.add(true);
+                                    cubit.isCheckHuyenSubject.sink.add(true);
+                                  },
+                                  isCheckEnable: false,
+                                ),
+                              );
+                            },
                           ),
                           StreamBuilder<bool>(
                             stream: cubit.isCheckTinhStream,
@@ -228,8 +298,10 @@ class _EditPersonalInformationTabletScreen
                               return Form(
                                 child: InputInfoUserWidget(
                                   title: user.keys.elementAt(11),
-                                  child: CustomSelectItemsTablet(
+                                  child: CustomSelectItems(
                                     key: UniqueKey(),
+                                    value: cubit
+                                        .managerPersonalInformationModel.huyen,
                                     title: S.current.quan_huyen,
                                     context: context,
                                     items: cubit.fakeDataHuyen,
@@ -255,8 +327,10 @@ class _EditPersonalInformationTabletScreen
                               return Form(
                                 child: InputInfoUserWidget(
                                   title: user.keys.elementAt(12),
-                                  child: CustomSelectItemsTablet(
+                                  child: CustomSelectItems(
                                     key: UniqueKey(),
+                                    value: cubit
+                                        .managerPersonalInformationModel.xa,
                                     title: S.current.phuong_xa,
                                     context: context,
                                     items: cubit.fakeDataTinh,
@@ -300,7 +374,7 @@ class _EditPersonalInformationTabletScreen
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(color: borderItemCalender),
                         ),
-                        child: const WidgetDonVi(),
+                        // child: const WidgetDonVi(),
                       ),
                     ),
                     spaceW28,
@@ -316,7 +390,7 @@ class _EditPersonalInformationTabletScreen
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(color: borderItemCalender),
                         ),
-                        child: const WidgetUngDung(),
+                        // child: const WidgetUngDung(),
                       ),
                     )
                   ],

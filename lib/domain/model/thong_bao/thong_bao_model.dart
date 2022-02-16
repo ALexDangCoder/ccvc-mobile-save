@@ -5,6 +5,7 @@ class ThongBaoModel {
   bool status = false;
   String time = '';
   String typeNotify = '';
+
   ThongBaoModel.empty();
 
   ThongBaoModel({

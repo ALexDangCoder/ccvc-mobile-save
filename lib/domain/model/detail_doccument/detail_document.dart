@@ -116,9 +116,7 @@ class DetailDocumentModel {
       DocumentDetailRow(
           'Phương thức nhận', phuongThucNhan, TypeDocumentDetailRow.text),
       DocumentDetailRow('Trích yếu', trichYeu, TypeDocumentDetailRow.text),
-
     ];
-
 
     //   if (ProcessTypeName == 'Nhiệm vụ CP/VPCP') {
     //     list.insert(

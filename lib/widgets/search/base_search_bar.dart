@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,6 @@ class BaseSearchBar extends StatelessWidget {
         color: Colors.white,
         border: Border.all(
           color: const Color(0xffDBDFEF),
-          width: 1.0,
         ),
       ),
       child: TextField(
@@ -34,7 +34,7 @@ class BaseSearchBar extends StatelessWidget {
         focusNode: focusNode,
         textAlignVertical: TextAlignVertical.center,
         cursorColor: Colors.black,
-        style: const TextStyle(
+        style: tokenDetailAmount(
           color: Colors.black,
           fontSize: 14,
         ),

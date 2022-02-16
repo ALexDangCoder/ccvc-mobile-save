@@ -7,12 +7,12 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rounded_date_picker/src/era_mode.dart';
 
-const double kItemExtent = 32.0;
+const double kItemExtent = 40.0;
 
 const bool kUseMagnifier = true;
 const double kMagnification = 1.08;
 const double kDatePickerPadSize = 12.0;
-const double kSqueeze = 1.25;
+const double kSqueeze = 0.7;
 
 const TextStyle _kDefaultPickerTextStyle = TextStyle(
   letterSpacing: -0.83,

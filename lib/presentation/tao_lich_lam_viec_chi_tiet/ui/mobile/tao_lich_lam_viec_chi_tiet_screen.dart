@@ -76,6 +76,7 @@ class _TaoLichLamViecChiTietScreenState
                     onEndDateTimeChanged: (DateTime value) {},
                     onStartDateTimeChanged: (DateTime value) {},
                   ),
+                  const SizedBox(height: 26,),
                   const NhacLaiWidget(),
                   const NguoiChuTriWidget(),
                   const LinhVucWidget(),
@@ -94,11 +95,6 @@ class _TaoLichLamViecChiTietScreenState
                   const TaiLieuWidget(),
                   buttonTaoLich(
                     onTap: () {
-                      showBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return const SuaLichCongTacTrongNuocPhone();
-                          });
                       if (taoLichLamViecCubit.checkValidateTime()) {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

@@ -12,6 +12,10 @@ class CustomDropDown extends StatefulWidget {
   List<String> items = [];
   final Function(int)? onSelectItem;
   final Widget? hint;
+  final double? paddingLeft;
+  final double? paddingRight;
+  final double? paddingTop;
+  final double? paddingBottom;
 
   CustomDropDown({
     Key? key,
@@ -19,6 +23,10 @@ class CustomDropDown extends StatefulWidget {
     required this.items,
     this.onSelectItem,
     this.hint,
+    this.paddingLeft,
+    this.paddingRight,
+    this.paddingTop,
+    this.paddingBottom,
   }) : super(key: key);
 
   @override
@@ -47,11 +55,11 @@ class _CustomDropDownState extends State<CustomDropDown> {
             child: Stack(
               children: [
                 Container(
-                  padding: const EdgeInsets.only(
-                    left: 8,
-                    right: 24,
-                    top: 2,
-                    bottom: 2,
+                  padding:  EdgeInsets.only(
+                    left: widget.paddingLeft ?? 8,
+                    right: widget.paddingRight??24,
+                    top: widget.paddingTop ?? 2,
+                    bottom: widget.paddingBottom ?? 2,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,8 +90,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
                               setState(() {
                                 widget.value = value;
                               });
-                              final index = widget.items.indexOf(value ?? '');
-                              widget.onSelectItem!(index);
+                              // final index = widget.items.indexOf(value ?? '');
+                              // widget.onSelectItem!(index);
                             }
                           },
                           items: widget.items.isNotEmpty

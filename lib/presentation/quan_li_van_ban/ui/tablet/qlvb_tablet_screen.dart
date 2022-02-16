@@ -2,7 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/base_choose_time/ui/base_choose_time_screen.dart';
+import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/incoming_document_tablet.dart';
 import 'package:ccvc_mobile/presentation/outgoing_document/bloc/outgoing_document_cubit.dart';
@@ -56,7 +56,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
               SliverToBoxAdapter(
                 child: Container(
                   color: Colors.white,
-                  child: BaseChooseTimeScreen(
+                  child: ChooseTimeScreen(
                     today: DateTime.now(),
                   ),
                 ),

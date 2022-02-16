@@ -23,10 +23,10 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     ImageAssets.icLichCongTacNuocNgoai,
   ];
 
-  dynamic currentTime = DateFormat.yMMMEd().format(DateTime.now());
+  dynamic currentTime = DateFormat.MMMMEEEEd().format(DateTime.now());
   List<MeetingSchedule> listMeeting = [
 
-    MeetingSchedule("hung", "2022-02-07T07:45:00", "2022-02-07T08:45:00"),
+    MeetingSchedule("hung hung hung", "2022-02-07T07:45:00", "2022-02-07T08:45:00"),
     MeetingSchedule("hung", "2022-02-07T09:45:00", "2022-02-07T10:45:00"),
     MeetingSchedule("hung", "2022-02-07T11:45:00", "2022-02-07T12:45:00"),
     MeetingSchedule("hung", "2022-02-07T13:45:00", "2022-02-07T15:45:00"),
@@ -67,8 +67,10 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   chooseTypeDay(Type_Choose_Option_Day type) {
     if (state is LichHopStateDangLich) {
       emit(LichHopStateDangLich(type));
-    } else {
+    }if(state is LichHopStateDangList)  {
       emit(LichHopStateDangList(type));
+    }if(state is LichHopStateDangDanhSach) {
+      emit(LichHopStateDangDanhSach(type));
     }
   }
 }

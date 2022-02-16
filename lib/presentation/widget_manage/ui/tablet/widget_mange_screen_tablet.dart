@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/prev_view_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/drag_item_list.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -33,7 +34,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
       widgetManageCubit: widgetManageCubit,
       child: Scaffold(
         backgroundColor: bgWidgets,
-        appBar: AppBarDefaultBack(S.current.widget_manage,),
+        appBar: AppBarDefaultBack(
+          S.current.widget_manage,
+        ),
         body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Container(
@@ -50,45 +53,75 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 const SizedBox(height: 20,),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: textDefault,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding:const EdgeInsets.symmetric(horizontal: 24,
-                      vertical: 13,),
-                    width: 185,
-                    height: 44,
-                    child: GestureDetector(
-                      child: Center(
-                        child: Text(
-                          S.current.dat_lai_mac_dinh,
-                          style: textNormalCustom(
-                            fontSize: 16,
-                             color:backgroundColorApp,
-                        ),
-                      ),
-                  ),
-                      onTap: (){},
-                    ),),
                   const SizedBox(
-                    height: 24,
+                    height: 20,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset(ImageAssets.ic_hoicham),
-                      const SizedBox(
-                        width: 8,
+                      Row(
+                        children: [
+                          SvgPicture.asset(ImageAssets.ic_hoicham),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            S.current.keep_drop,
+                            style: textNormal(textTitle, 14.0.textScale()),
+                          ),
+                        ],
                       ),
-                      Text(
-                        S.current.keep_drop,
-                        style: textNormal(textTitle, 14.0.textScale()),
+                      GestureDetector(
+                        child: Center(
+                          child: Text(
+                            S.current.dat_lai_mac_dinh,
+                            style: textNormalCustom(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: labelColor,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                        },
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 28,
+                  ),
+                  Center(
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                            const PrevViewWidgetTablet(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: unFocusColor,
+                        ),
+                        height: 40,
+                        width: 360,
+                        child: Center(
+                          child: Text(
+                            S.current.xem_truoc,
+                            style: textNormalCustom(
+                              fontSize: 16,
+                              color: labelColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 28,
                   ),
                   Text(
                     S.current.using,

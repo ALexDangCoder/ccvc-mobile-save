@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,10 @@ class BaseAppBarMobile extends StatelessWidget with PreferredSizeWidget {
 
   BaseAppBarMobile(
       {Key? key,
-        required this.title,
-        this.leadingIcon,
-        this.actions,
-        this.elevation})
+      required this.title,
+      this.leadingIcon,
+      this.actions,
+      this.elevation})
       : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 

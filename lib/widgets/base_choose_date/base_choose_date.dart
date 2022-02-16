@@ -6,7 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BaseChooseDate extends StatefulWidget {
-  const BaseChooseDate({Key? key}) : super(key: key);
+  final Function? onTapDay;
+  final Function? onTapWeek;
+  final Function? onTapMonth;
+
+  const BaseChooseDate({
+    Key? key,
+    this.onTapDay,
+    this.onTapWeek,
+    this.onTapMonth,
+  }) : super(key: key);
 
   @override
   _BaseChooseDateState createState() => _BaseChooseDateState();
@@ -21,7 +30,9 @@ class _BaseChooseDateState extends State<BaseChooseDate> {
         children: [
           Expanded(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                widget.onTapDay!();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -29,7 +40,7 @@ class _BaseChooseDateState extends State<BaseChooseDate> {
                   spaceW13,
                   Text(
                     S.current.ngay,
-                    style: textDetailHDSD(fontSize: 14, color: linkColor),
+                    style: textDetailHDSD(fontSize: 14, color: iconColorDown),
                   )
                 ],
               ),
@@ -37,7 +48,9 @@ class _BaseChooseDateState extends State<BaseChooseDate> {
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                widget.onTapWeek!();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -45,7 +58,7 @@ class _BaseChooseDateState extends State<BaseChooseDate> {
                   spaceW13,
                   Text(
                     S.current.tuan,
-                    style: textDetailHDSD(fontSize: 14, color: textBodyTime),
+                    style: textDetailHDSD(fontSize: 14, color: iconColorDown),
                   )
                 ],
               ),
@@ -53,7 +66,9 @@ class _BaseChooseDateState extends State<BaseChooseDate> {
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                widget.onTapMonth!();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

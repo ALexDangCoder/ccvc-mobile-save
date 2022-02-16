@@ -1,10 +1,10 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 class TextFieldValidator extends StatefulWidget {
   final TextEditingController? controller;
@@ -12,10 +12,14 @@ class TextFieldValidator extends StatefulWidget {
   final bool isEnabled;
   final Function(String)? onChange;
   final String? Function(String?)? validator;
+  final Function()? onTap;
   final TextInputType? textInputType;
   final int maxLine;
   final String? hintText;
-
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final bool? obscureText;
+ final Color? fillColor;
   const TextFieldValidator({
     Key? key,
     this.controller,
@@ -26,6 +30,14 @@ class TextFieldValidator extends StatefulWidget {
     this.maxLine = 1,
     this.textInputType,
     this.hintText,
+    this.suffixIcon,
+    this.prefixIcon,
+
+    this.onTap,
+
+
+    this.obscureText,
+    this.fillColor,
   }) : super(key: key);
 
   @override
@@ -35,7 +47,6 @@ class TextFieldValidator extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
   FormProvider? formProvider;
-
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -63,6 +74,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
       key: key,
       child: TextFormField(
         controller: widget.controller,
+        obscureText: widget.obscureText??false,
         onChanged: (value) {
           if (formProvider != null) {
             formProvider?.validator[key] = key.currentState!.validate();
@@ -74,10 +86,16 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,
         maxLines: widget.maxLine,
+        onTap: (){
+          if(widget.onTap != null){
+            widget.onTap!();
+          }
+        },
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
           color: titleColor,
         ),
+
         enabled: widget.isEnabled,
         decoration: InputDecoration(
           hintStyle: textNormalCustom(
@@ -86,11 +104,14 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
             fontSize: 14,
           ),
           hintText: widget.hintText,
+          hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
           contentPadding: widget.maxLine == 1
               ? const EdgeInsets.symmetric(vertical: 14, horizontal: 10)
               : null,
+          suffixIcon: widget.suffixIcon,
+          prefixIcon: widget.prefixIcon,
           fillColor: widget.isEnabled
-              ? Colors.transparent
+              ? widget.fillColor ?? Colors.transparent
               : borderColor.withOpacity(0.3),
           filled: true,
           border: const OutlineInputBorder(

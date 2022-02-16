@@ -32,7 +32,6 @@ dependencies:
   path_provider: ^2.0.1
   webview_flutter: ^2.0.10
   shared_preferences: ^2.0.5
-  font_awesome_flutter: ^9.0.0
   lint: ^1.6.0
   table_calendar: ^3.0.2
   image_picker: ^0.8.4+3
@@ -50,28 +49,29 @@ dependencies:
   fluttertoast: ^8.0.3
   retrofit: ^2.0.1
   json_annotation: ^4.0.1
-  flutter_screenutil: ^5.0.0
+  flutter_screenutil: 5.0.0
   cached_network_image: ^3.0.0
-  smooth_page_indicator: ^0.3.0-nullsafety.0
   flutter_staggered_grid_view: ^0.4.0
   logger: any
   rxdart: ^0.27.1
+  hive: ^2.0.5
+
   #  permission_handler: ^8.1.4+2
   file_picker: ^4.0.2
   cool_alert: ^1.1.0
   expandable: 5.0.1
-  sliding_up_panel: ^2.0.0+1
+  queue: ^3.1.0+1
 
 
-  carousel_slider: ^4.0.0-nullsafety.0
   dots_indicator: ^2.0.0
   dotted_border:
   #svg
   flutter_svg: ^0.22.0
   cupertino_icons: ^1.0.2
   dart_ipify: ^1.1.0
-  crypto: ^3.0.1
-  shimmer: ^2.0.0
+
+
+
 
 
   # GETX
@@ -86,6 +86,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   retrofit_generator: any
+  hive_generator:
   build_runner:  #flutter pub run build_runner build --delete-conflicting-outputs
   json_serializable: ^4.1.0
   injectable_generator: ^1.4.1

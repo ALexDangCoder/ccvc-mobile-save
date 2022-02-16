@@ -18,7 +18,7 @@ class ChiTietLichLamViecModel {
 
   ChiTietLichLamViecModel.Empty();
 
-  ChiTietLichLamViecModel ({
+  ChiTietLichLamViecModel({
     required this.id,
     required this.time,
     required this.date,
@@ -30,20 +30,31 @@ class ChiTietLichLamViecModel {
     required this.diaDiem,
     required this.noiDung,
   });
-  
+
   List<TypeData> dataRow() {
     List<TypeData> list = [
       TypeData(icon: ImageAssets.icNhacLai, value: time, type: typeData.text),
-      TypeData(icon: ImageAssets.icCalendarUnFocus, value: date, type: typeData.text),
-      TypeData(icon: ImageAssets.icCalendarUnFocus, value: loaiLich, type: typeData.text),
-      TypeData(icon: ImageAssets.icDoublePerson, value: listPerSon, type: typeData.listperson),
-      TypeData(icon: ImageAssets.icNhacLai, value: nhacLai, type: typeData.text),
+      TypeData(
+          icon: ImageAssets.icCalendarUnFocus,
+          value: date,
+          type: typeData.text),
+      TypeData(
+          icon: ImageAssets.icCalendarUnFocus,
+          value: loaiLich,
+          type: typeData.text),
+      TypeData(
+          icon: ImageAssets.icDoublePerson,
+          value: listPerSon,
+          type: typeData.listperson),
+      TypeData(
+          icon: ImageAssets.icNhacLai, value: nhacLai, type: typeData.text),
       TypeData(icon: ImageAssets.icPerson, value: chuTri, type: typeData.text),
       TypeData(icon: ImageAssets.icWork, value: linhVuc, type: typeData.text),
       TypeData(icon: ImageAssets.icViTri, value: diaDiem, type: typeData.text),
-      TypeData(icon: ImageAssets.icDocument, value: noiDung, type: typeData.text),
+      TypeData(
+          icon: ImageAssets.icDocument, value: noiDung, type: typeData.text),
     ];
-    
+
     return list;
   }
 }
@@ -78,7 +89,7 @@ class Person {
   });
 }
 
-enum typeData {text, listperson}
+enum typeData { text, listperson }
 
 class TypeData {
   String icon;

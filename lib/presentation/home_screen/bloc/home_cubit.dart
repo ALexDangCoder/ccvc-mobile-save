@@ -1,39 +1,52 @@
-import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'dart:async';
+import 'dart:developer';
 
+import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/account/data_user.dart';
+import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
 import 'package:ccvc_mobile/domain/model/home/date_model.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/home/press_network_model.dart';
 import 'package:ccvc_mobile/domain/model/home/tinh_huong_khan_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/home/todo_model.dart';
-import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
+import 'package:ccvc_mobile/domain/model/select_key/select_key_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
+import 'package:ccvc_mobile/domain/repository/home_repository/home_repository.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_state.dart';
 import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-
+import 'package:get/get.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
+  HomeRepository get homeRep => Get.find();
   final BehaviorSubject<List<WidgetModel>> _getConfigWidget =
       BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<WidgetType?> _showDialogSetting =
       BehaviorSubject<WidgetType?>();
   final BehaviorSubject<List<TinhHuongKhanCapModel>> _tinhHuongKhanCap =
       BehaviorSubject<List<TinhHuongKhanCapModel>>();
-  final BehaviorSubject<UserInformationModel> _userInformation =
-      BehaviorSubject<UserInformationModel>();
+  final BehaviorSubject<DataUser> _userInformation =
+      BehaviorSubject<DataUser>();
   final BehaviorSubject<TodoListModel> _getTodoList =
       BehaviorSubject<TodoListModel>();
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
 
-  final BehaviorSubject<UserInformationModel> _getUserInformation =
-      BehaviorSubject<UserInformationModel>();
+  final BehaviorSubject<DataUser> _getUserInformation =
+      BehaviorSubject<DataUser>();
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
 
-  void _getTinhHuongKhanCap() {
-    _tinhHuongKhanCap.sink.add(FakeData.tinhKhanCap);
+  Future<void> _getTinhHuongKhanCap() async {
+    final result = await homeRep.getTinhHuongKhanCap();
+    result.when(
+      success: (res) {
+        _tinhHuongKhanCap.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   void showDialog(WidgetType type) {
@@ -52,22 +65,43 @@ class HomeCubit extends BaseCubit<HomeState> {
     _showDialogSetting.add(null);
   }
 
-  void loadApi() {
-    getUserInFor();
-    _getTinhHuongKhanCap();
-    getDate();
+  Future<void> loadApi() async {
+    final queue = Queue(parallel: 4);
+
+    showLoading();
+    unawaited(queue.add(() => getUserInFor()));
+    unawaited(queue.add(() => getDate()));
+    unawaited(queue.add(() => _getTinhHuongKhanCap()));
+    unawaited(queue.add(() => configWidget()));
+    await queue.onComplete;
+    showContent();
+    queue.dispose();
   }
 
   void orderWidget(List<WidgetModel> listWidgetConfig) {
     _getConfigWidget.sink.add(listWidgetConfig);
   }
 
-  void getUserInFor() {
-    _getUserInformation.sink.add(FakeData.userInfo);
+  Future<void> getUserInFor() async {
+    final result = await homeRep.getPhamVi();
+    result.when(
+        success: (res) {
+          final dataUser = HiveLocal.getDataUser();
+          dataUser?.userInformation?.chucVu = res.chucVu;
+          _getUserInformation.sink.add(dataUser ?? DataUser());
+        },
+        error: (err) {});
   }
 
-  void getDate() {
-    _getDate.sink.add(FakeData.dateModel);
+  Future<void> getDate() async {
+    final now = DateTime.now();
+    final result = await homeRep.getLunarDate(now.toString());
+    result.when(
+      success: (res) {
+        _getDate.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   void dispose() {
@@ -81,10 +115,9 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   Stream<DateModel> get getDateStream => _getDate.stream;
-  Stream<UserInformationModel> get getUserInformation =>
-      _getUserInformation.stream;
+  Stream<DataUser> get getUserInformation => _getUserInformation.stream;
   Stream<List<WidgetModel>> get getConfigWidget => _getConfigWidget.stream;
-  Stream<UserInformationModel> get userInformation => _userInformation;
+  Stream<DataUser> get userInformation => _userInformation;
   Stream<List<TinhHuongKhanCapModel>> get tinhHuongKhanCap =>
       _tinhHuongKhanCap.stream;
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
@@ -94,8 +127,13 @@ class HomeCubit extends BaseCubit<HomeState> {
 /// Get Config Widget
 extension GetConfigWidget on HomeCubit {
   Future<void> configWidget() async {
-    await Future.delayed(Duration(seconds: 10));
-    _getConfigWidget.sink.add(FakeData.listUseWidget);
+    final result = await homeRep.getDashBoardConfig();
+    result.when(
+      success: (res) {
+        _getConfigWidget.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 }
 
@@ -259,10 +297,73 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
       BehaviorSubject<DocumentDashboardModel>();
-  Future<void> getDocument() async {
-    await Future.delayed(const Duration(seconds: 10));
-    _getDocumentVBDen.sink.add(FakeData.tinhHinhXuLyDocVBDen);
-    _getDocumentVBDi.sink.add(FakeData.tinhHinhXuLyDocVBDi);
+  void getDocument() {
+    final data = HiveLocal.getSelect(SelectKeyPath.KEY_DASH_BOARD_TONG_HOP_NV);
+    if (data != null) {
+      startDate = DateTime.parse(data.startDate);
+      endDate = DateTime.parse(data.endDate);
+      selectKeyTime = data.selectKey;
+    }
+
+    callApi(startDate.toString(), endDate.toString());
+  }
+
+  @override
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    if (selectKey != selectKeyTime) {
+      selectKeyTime = selectKey;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      HiveLocal.setSelect(
+        path: SelectKeyPath.KEY_DASH_BOARD_TONG_HOP_NV,
+        selectkeyModel: SelectkeyModel(
+          key: selectKeyTime.toString(),
+          startDate: startDate.toString(),
+          endDate: endDate.toString(),
+        ),
+      );
+      callApi(startDate.toString(), endDate.toString());
+    }
+    selectKeyDialog.sink.add(true);
+  }
+
+  Future<void> callApi(String startDate, String endDate) async {
+    showLoading();
+    final queue = Queue(parallel: 2);
+    unawaited(
+      queue.add(
+        () => homeRep.getVBden(startDate, endDate).then(
+          (value) {
+            value.when(
+              success: (res) {
+                _getDocumentVBDen.sink.add(res);
+              },
+              error: (err) {},
+            );
+          },
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => homeRep.getVBdi(startDate, endDate).then(
+          (value) {
+            value.when(
+              success: (res) {
+                _getDocumentVBDi.sink.add(res);
+              },
+              error: (err) {},
+            );
+          },
+        ),
+      ),
+    );
+    await queue.onComplete;
+    showContent();
   }
 
   Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
@@ -295,10 +396,10 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {}
 
 ///Tình hình xử lý ý kiến người dân
 class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {}
-/// Nhiệm vụ
-class NhiemVuCubit extends HomeCubit with SelectKeyDialog{
 
-}
+/// Nhiệm vụ
+class NhiemVuCubit extends HomeCubit with SelectKeyDialog {}
+
 ///Mixin SelectKey Dialog
 mixin SelectKeyDialog {
   SelectKey selectKeyTime = SelectKey.HOM_NAY;

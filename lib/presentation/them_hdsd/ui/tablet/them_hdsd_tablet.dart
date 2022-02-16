@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/block_textview.dart';
+import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/double_button_edit_hdsd.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';

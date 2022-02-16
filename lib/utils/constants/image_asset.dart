@@ -58,6 +58,12 @@ class ImageAssets {
   static const String icThemCanBo = '$baseImg/ic_them_can_bo.svg';
   static const String icPerson = '$baseImg/ic_person.svg';
   static const String icMenuDot = '$baseImg/ic_menu_dot.svg';
+  static const String icCalenderDayBig = '$baseImg/ic_calender_day_big.svg';
+  static const String icCalenderWeekBig = '$baseImg/ic_calender_week_big.svg';
+  static const String icCalenderMonthBig = '$baseImg/ic_calender_month_big.svg';
+  static const String icPhone = '$baseImg/ic_phone.svg';
+  static const String icGroupPeople = '$baseImg/ic_group_people.svg';
+  static const String icClock = '$baseImg/ic_clock.svg';
 
   ///SvgImage
   static const String appBarBackground = '$baseImg/app_bar_background.png';
@@ -93,6 +99,10 @@ class ImageAssets {
   static const String imgView = '$baseImg/ic_view.svg';
   static const String imgBackGroundLogin =
       '$baseImg/image_login_background.svg';
+
+  static const String icThoiTiet = '$baseImg/ic_thoi_tiet.png';
+
+  static const String imgLoginPng = '$baseImg/img_login.png';
 
   static const String icYKienNguoiDan = '$baseImg/ic_y_kien_nguoi_dan.svg';
   static const String icQuanLyVanBan = '$baseImg/ic_quan_ly_van_ban.svg';
@@ -155,7 +165,12 @@ class ImageAssets {
   static const String ic_hoicham = '$baseImg/ic_hoicham.svg';
   static const String ic_gui_y_kien = '$baseImg/icon_send.svg';
 
+  //
+  static const String ic_CheckedDate = '$baseImg/ic_check_date.svg';
+  static const String ic_unChecked = '$baseImg/ic_unchecked.svg';
+
   static const String icKetNoiTablet = '$baseImg/ic_ket-noi_tablet.svg';
+ static const String anhDaiDienMacDinh = '$baseImg/anh_dai_dien.png';
   static const String icDocumentEnd = '$baseImg/ic_document_end.svg';
   static const String icMessYealow = '$baseImg/ic_mess_yealow.svg';
   static const String icPlusBlu = '$baseImg/ic_plus.svg';
@@ -175,9 +190,13 @@ class ImageAssets {
   static const String icDayMonth = '$baseImg/ic_day_month.svg';
   static const String tongSoLichHop = '$baseImg/tong_so_lich_hop.svg';
   static const String soLichHopTrucTiep = '$baseImg/so_lich_hop_truc_tiep.svg';
-  static const String soLichHopTrucTuyen = '$baseImg/so_lich_hop_truc_tuyen.svg';
+  static const String soLichHopTrucTuyen =
+      '$baseImg/so_lich_hop_truc_tuyen.svg';
+  static const String ic_delete_do = '$baseImg/delete_do.svg';
+  static const String ic_edit = '$baseImg/edit.svg';
   static const String icDayCalenderWeek = '$baseImg/ic_calender_work_week.svg';
-  static const String icDayCalenderMonth = '$baseImg/ic_calender_work_month.svg';
+  static const String icDayCalenderMonth =
+      '$baseImg/ic_calender_work_month.svg';
   static const String lichCanKlch = '$baseImg/lich_can_klch.svg';
   static const String lichSapToi = '$baseImg/lich_sap_toi.svg';
   static const String icAddCalenderWhite = '$baseImg/ic_add_calender_white.svg';
@@ -186,9 +205,11 @@ class ImageAssets {
   static const String ic_danhsachykien = '$baseImg/ic_danhsachykien.svg';
   static const String icShareFile = '$baseImg/ic_share_file.svg';
   static const String icDelete = '$baseImg/ic_delete.svg';
-  static const String icAddCaledarScheduleMeet = '$baseImg/ic_add_calendar_schedule_meet.svg';
+  static const String icAddCaledarScheduleMeet =
+      '$baseImg/ic_add_calendar_schedule_meet.svg';
   static const String icSeachTablet = '$baseImg/ic_search_tablet.svg';
-  static const String icMenuLichHopTablet = '$baseImg/ic_menu_tablet_lich_hop.svg';
+  static const String icMenuLichHopTablet =
+      '$baseImg/ic_menu_tablet_lich_hop.svg';
   static const String icTreePerson = '$baseImg/ic_tree_person.svg';
   static const String icMess = '$baseImg/ic_mess.svg';
   static const String icGraph = '$baseImg/ic_graph.svg';
@@ -219,8 +240,14 @@ class ImageAssets {
   static const String bgAppBarTablet = '$baseImg/bg_app_bar.png';
   static const String imgHeaderTablet = '$baseImg/ic_header_tablet.png';
   static const String imgHeaderMenuTablet = '$baseImg/ic_header_menu_ipad.png';
+  static const String ic_baocao = '$baseImg/ic_graph.svg';
+  static const String ic_delete_baocao = '$baseImg/ic_delete_baocao.svg';
+  static const String ic_file = '$baseImg/file.svg';
   static const String imgCalendar = '$baseImg/img_calendar.png';
   static const String imgCheckBox = '$baseImg/img_check_box.png';
+  static const String icClearLogin = '$baseImg/ic_clear_login.svg';
+  static const String icFaceId = '$baseImg/ic_face_id.svg';
+  static const String icFingerprint = '$baseImg/ic_fingerprint.svg';
   static const String icLuong = '$baseImg/ic_luong.svg';
 
   static SvgPicture svgAssets(

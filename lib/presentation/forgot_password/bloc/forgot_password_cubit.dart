@@ -4,6 +4,12 @@ import 'package:ccvc_mobile/presentation/forgot_password/bloc/forgot_password_st
 
 class ForgotPasswordCubit extends BaseCubit<ForgotPassWordState> {
   ForgotPasswordCubit() : super(ForgotPassWordStateIntial());
+  bool isCheckEye=false;
+  bool isCheckEye1=false;
+  bool isCheckEye2=false;
+  bool isHideEye=false;
+  bool isHideEye1=false;
+  bool isHideEye2=false;
 
   validateInputText(String inputText) {
     if (inputText.isEmpty) {

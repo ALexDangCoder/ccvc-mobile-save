@@ -61,11 +61,11 @@ class _LichHopTheoTuanTabletState extends State<LichHopTheoTuanTablet> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-                child: Text(
-                 appointment.subject,
-                  style: textNormalCustom(fontSize: 12),
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
+                child: Expanded(
+                  child: Text(
+                   appointment.subject,
+                    style: textNormalCustom(fontSize: 12),
+                  ),
                 ),
               ),
             ),

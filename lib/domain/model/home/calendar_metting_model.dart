@@ -8,6 +8,7 @@ class CalendarMeetingModel {
   final DocumentStatus codeStatus;
   final String loaiNhiemVu;
   final String hanXuLy;
+
   CalendarMeetingModel({
     this.title = '',
     this.time = '',

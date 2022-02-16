@@ -4,6 +4,7 @@ class PressNetWorkModel {
   final String publishedTime;
   final String url;
   final String domain;
+
   PressNetWorkModel({
     required this.avatar,
     required this.title,
@@ -14,7 +15,8 @@ class PressNetWorkModel {
 }
 
 class TagModel {
-   String title;
-   bool select;
+  String title;
+  bool select;
+
   TagModel(this.title, this.select);
 }

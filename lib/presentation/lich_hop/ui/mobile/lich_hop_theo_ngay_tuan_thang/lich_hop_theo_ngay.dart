@@ -57,6 +57,8 @@ class _LichHopTheoNgayState extends State<LichHopTheoNgay> {
                     child: Text(
                       appointment.subject,
                       style: textNormalCustom(),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                   const SizedBox(height: 4.0),

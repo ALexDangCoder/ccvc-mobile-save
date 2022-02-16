@@ -1,4 +1,4 @@
-enum TypeDocumentDetailRow { checkbox, text, fileActacks, status}
+enum TypeDocumentDetailRow { checkbox, text, fileActacks, status }
 
 class DocumentDetailRow {
   String title = '';

@@ -33,9 +33,10 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
           return Column(
             children: [
               const IsCaNgayWidget(),
-              SizedBox(height: 10.0.textScale(),),
+              SizedBox(height: 24.0.textScale(),),
               PicKDateCupertino(
                 key: UniqueKey(),
+                isUnderLine: true,
                 minimumDate: DateTime.now(),
                 mode: dataBool
                     ? CupertinoDatePickerMode.date
@@ -50,9 +51,10 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
                 title: S.current.bat_dau,
                 startOfEnd: StartOfEnd.START,
               ),
-              SizedBox(height: 10.0.textScale(),),
+              SizedBox(height: 16.0.textScale(),),
               PicKDateCupertino(
                 key: UniqueKey(),
+                isUnderLine: true,
                 minimumDate: DateTime.now(),
                 mode: dataBool
                     ? CupertinoDatePickerMode.date

@@ -32,7 +32,7 @@ class ButtonSelectFile extends StatefulWidget {
     this.builder,
     required this.onChange,
     this.isBuilder = false,
-    required this.files,
+    this.files = const [],
   }) : super(key: key);
 
   @override
@@ -62,14 +62,17 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
             setState(() {});
           },
           child: Container(
-            color: widget.background ?? labelColor.withOpacity(0.1),
+            decoration: BoxDecoration(
+              color: widget.background ?? labelColor.withOpacity(0.1),
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+            ),
             padding: EdgeInsets.symmetric(
-              vertical: 8.0.textScale(),
+              vertical: 6.0.textScale(),
               horizontal: 16.0.textScale(),
             ),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile),
                 SizedBox(

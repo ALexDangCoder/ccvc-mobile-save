@@ -98,11 +98,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
 
         enabled: widget.isEnabled,
         decoration: InputDecoration(
-          hintStyle: textNormalCustom(
-            color: Colors.grey,
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-          ),
           hintText: widget.hintText,
           hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
           contentPadding: widget.maxLine == 1

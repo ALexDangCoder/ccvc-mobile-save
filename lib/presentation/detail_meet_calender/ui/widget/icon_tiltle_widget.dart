@@ -8,12 +8,14 @@ class IconWithTiltleWidget extends StatefulWidget {
   String title;
   Function onPress;
   String icon;
+  bool type2;
 
   IconWithTiltleWidget({
     Key? key,
     required this.icon,
     required this.title,
     required this.onPress,
+    this.type2 = false,
   }) : super(key: key);
 
   @override
@@ -24,12 +26,15 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           padding:
               const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 18),
           decoration: BoxDecoration(
-            color: textDefault.withOpacity(0.1),
+            color: widget.type2
+                ? statusCalenderRed.withOpacity(0.1)
+                : textDefault.withOpacity(0.1),
             borderRadius: const BorderRadius.all(
               Radius.circular(4.0),
             ),
@@ -48,7 +53,7 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
                   Text(
                     widget.title,
                     style: textNormalCustom(
-                      color: textDefault,
+                      color: widget.type2 ? statusCalenderRed : textDefault,
                     ),
                   ),
                 ],
@@ -56,7 +61,7 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
             ),
           ),
         ),
-        const Expanded(child: SizedBox())
+        if (widget.type2) const SizedBox() else const Expanded(child: SizedBox())
       ],
     );
   }

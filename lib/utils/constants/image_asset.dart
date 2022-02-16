@@ -208,6 +208,7 @@ class ImageAssets {
   static const String icTimer = '$baseImg/ic_timer.svg';
   static const String icChecked = '$baseImg/checked.svg';
   static const String icChecked2 = '$baseImg/checked2.svg';
+  static const String icVector2 = '$baseImg/vector.svg';
 
 
   ///gif

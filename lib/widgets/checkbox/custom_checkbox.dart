@@ -10,11 +10,11 @@ class CustomCheckBox extends StatefulWidget {
 
   CustomCheckBox(
       {Key? key,
-        required this.title,
-        this.onChange,
-        required this.isCheck,
-        this.color,
-        this.isAction = true})
+      required this.title,
+      this.onChange,
+      required this.isCheck,
+      this.color,
+      this.isAction = true})
       : super(key: key);
 
   @override
@@ -28,11 +28,11 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       onTap: widget.onChange == null
           ? null
           : () {
-        setState(() {
-          widget.isCheck = !widget.isCheck;
-          widget.onChange!(widget.isCheck);
-        });
-      },
+              setState(() {
+                widget.isCheck = !widget.isCheck;
+                widget.onChange!(widget.isCheck);
+              });
+            },
       child: Container(
         height: 20,
         child: Row(
@@ -40,16 +40,16 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  color:  widget.color == null
-                      ? widget.isAction
-                      ? Colors.white
-                      : const Color(0xffDBDFEF).withOpacity(0.3)
-                      : widget.color,
-                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                  border: Border.all(
-                    color: const Color(0xffDBDFEF),
-                    width: 1.0,
-                  )),
+                color: widget.color == null
+                    ? widget.isAction
+                        ? Colors.white
+                        : const Color(0xffDBDFEF).withOpacity(0.3)
+                    : widget.color,
+                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                border: Border.all(
+                  color: const Color(0xffDBDFEF),
+                ),
+              ),
               width: 20,
               height: 20,
               child: Checkbox(

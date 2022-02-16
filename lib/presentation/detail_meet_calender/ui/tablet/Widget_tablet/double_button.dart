@@ -36,7 +36,7 @@ class _DoubleButtonWidgetState extends State<DoubleButtonWidget> {
               ),
               child: Center(
                 child: Text(
-                  S.current.huy,
+                  S.current.tham_gia,
                   style: textNormalCustom(
                     fontSize: 14.0.textScale(space: 4.0),
                     color: textTitle,
@@ -60,7 +60,7 @@ class _DoubleButtonWidgetState extends State<DoubleButtonWidget> {
               ),
               child: Center(
                 child: Text(
-                  S.current.tham_gia,
+                  S.current.huy,
                   style: textNormalCustom(
                     fontSize: 14.0.textScale(space: 4.0),
                     color: textTitle,

@@ -39,14 +39,10 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                     icon: ImageAssets.icVoice2,
                     title: S.current.dang_ky_phat_bieu,
                     onPress: () {
-                      showDiaLogTablet(
+                      showBottomSheetCustom(
                         context,
                         title: S.current.dang_ky_phat_bieu,
                         child: const DangKyPhatBieuWidget(),
-                        isBottomShow: false,
-                        funcBtnOk: () {
-                          Navigator.pop(context);
-                        },
                       );
                     },
                   ),

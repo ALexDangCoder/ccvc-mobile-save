@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/th%C3%A0nh_phan_tham_gia_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
@@ -36,14 +35,10 @@ class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
             icon: ImageAssets.icAddUser,
             title: S.current.moi_nguoi_tham_gia,
             onPress: () {
-              showDiaLogTablet(
+              showBottomSheetCustom(
                 context,
                 title: S.current.them_thanh_phan_tham_gia,
                 child: const ThemThanhPhanThamGiaWidget(),
-                isBottomShow: false,
-                funcBtnOk: () {
-                  Navigator.pop(context);
-                },
               );
             },
           ),

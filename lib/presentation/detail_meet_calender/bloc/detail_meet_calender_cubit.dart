@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/fake_data.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,6 +26,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Stream<ChiTietLichLamViecModel> get chiTietLichLamViecStream =>
       chiTietLichLamViecSubject.stream;
+
+  final BehaviorSubject<bool> subjectStreamCheck = BehaviorSubject();
 
   void initData() {
     ChiTietLichLamViecModel fakeData = ChiTietLichLamViecModel(
@@ -111,6 +114,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Stream<DetailDocumentProfileSend> get streamDetaiGuiNhan =>
       detailDocumentGuiNhan.stream;
 
+  BehaviorSubject<List<ThanhPhanThamGiaModel>> thanhPhanThamGia =
+      BehaviorSubject<List<ThanhPhanThamGiaModel>>();
+
+  Stream<List<ThanhPhanThamGiaModel>> get streamthanhPhanThamGia =>
+      thanhPhanThamGia.stream;
+
   BehaviorSubject<DanhSachNhiemVuLichHopModel> danhSachNhiemVuLichHopSubject =
       BehaviorSubject.seeded(danhSachNhiemVuLichHopModel);
 
@@ -150,7 +159,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       _subjectJobPriliesProcess.stream;
 
   List<String> properties = [];
-
+  bool check = false;
   DetailDocumentModel detailDocumentModel = DetailDocumentModel(
     soVanBan: 'M123',
     soDen: 'M123',
@@ -227,6 +236,33 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     }
   }
 
+  List<ThanhPhanThamGiaModel> listFakeThanhPhanThamGiaModel = [
+    ThanhPhanThamGiaModel(
+      tebCanBo: 'Lê Sĩ Lâm',
+      trangThai: 'Chờ xác nhận',
+      diemDanh: 'Có mặt',
+      tenDonVi: 'Lãnh đạo UBND Tỉnh Đồng Nai',
+      ndCongViec: 'Họp nội bộ',
+      vaiTro: 'Cán bộ chủ trì',
+    ),
+    ThanhPhanThamGiaModel(
+      tebCanBo: 'Lê Sĩ Lâm2',
+      trangThai: 'Chờ xác nhận',
+      diemDanh: 'Có mặt',
+      tenDonVi: 'Lãnh đạo UBND Tỉnh Đồng Nai',
+      ndCongViec: 'Họp nội bộ',
+      vaiTro: 'Cán bộ chủ trì',
+    ),
+    ThanhPhanThamGiaModel(
+      tebCanBo: 'vu thi tuyet',
+      trangThai: 'xác nhận',
+      diemDanh: 'Có mặt',
+      tenDonVi: 'Lãnh đạo UBND Tỉnh Đồng Nai',
+      ndCongViec: 'Họp nội bộ',
+      vaiTro: 'Cán bộ chủ trì',
+    ),
+  ];
+
   DetailDocumentModel info = DetailDocumentModel.fromDetail();
 
   Future<void> uploadFileDocument(
@@ -243,6 +279,23 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     //     }
     //   }
     // });
+  }
+
+  List<ThanhPhanThamGiaModel> timKiem = [];
+
+  void search(String text) {
+    final searchTxt = text.trim().toLowerCase().vietNameseParse();
+    bool isListCanBo(ThanhPhanThamGiaModel canBo) {
+      return canBo.tebCanBo!
+          .toLowerCase()
+          .vietNameseParse()
+          .contains(searchTxt);
+    }
+
+    final value = listFakeThanhPhanThamGiaModel
+        .where((element) => isListCanBo(element))
+        .toList();
+    thanhPhanThamGia.sink.add(value);
   }
 
   final httpClient = HttpClient();

@@ -34,14 +34,10 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
               icon: ImageAssets.icVectorA,
               title: S.current.them_bieu_quyet,
               onPress: () {
-                showDiaLogTablet(
+                showBottomSheetCustom(
                   context,
                   title: S.current.tao_bieu_quyet,
                   child: const TaoBieuQuyetWidget(),
-                  isBottomShow: false,
-                  funcBtnOk: () {
-                    Navigator.pop(context);
-                  },
                 );
               },
             ),

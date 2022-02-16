@@ -47,7 +47,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
       body: Padding(
         padding: const EdgeInsets.only(top: 28, right: 30.0, left: 30.0),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12.0),
                 topRight: Radius.circular(12.0)),
@@ -135,9 +135,11 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                 overlapHeaders: true,
                 header: TabBar(
                   controller: _controller,
+                  unselectedLabelStyle: textNormalCustom(fontSize: 16,fontWeight: FontWeight.w400),
                   indicatorColor: indicatorColor,
                   unselectedLabelColor: unselectLabelColor,
                   labelColor: indicatorColor,
+                  labelStyle: textNormalCustom(fontSize: 16,fontWeight: FontWeight.w400),
                   isScrollable: true,
                   tabs: [
                     Tab(

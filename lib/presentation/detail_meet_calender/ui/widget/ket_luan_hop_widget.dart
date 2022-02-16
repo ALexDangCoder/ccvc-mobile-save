@@ -30,104 +30,112 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
 
     return SelectOnlyWidget(
       title: S.current.ket_luan_hop,
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              StreamBuilder<KetLuanHopModel>(
-                stream: cubit.ketLuanHopStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final data = snapshot.data;
-
-                    return ItemKetLuanHopWidget(
-                      title: S.current.ket_luan_hop,
-                      time: data?.thoiGian ?? '',
-                      trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                      tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-                      onTap: () {
-                        isShow = !isShow;
-                        setState(() {});
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              StreamBuilder<DanhSachNhiemVuLichHopModel>(
-                stream: cubit.streamDanhSachNhiemVuLichHop,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final data = snapshot.data;
-                    return ItemDanhSachNhiemVu(
-                      hanXuLy: DateTime.parse(data?.hanXuLy ?? ''),
-                      loaiNV: data?.loaiNhiemVu ?? '',
-                      ndTheoDoi: data?.noiDungTheoDoi ?? '',
-                      soNhiemVu: data?.soNhiemVu ?? '',
-                      tinhHinhThucHien: data?.tinhHinhThucHienNoiBo ?? '',
-                      trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              )
-            ],
-          ),
-          if (isShow)
+      child: GestureDetector(
+        onTap: (){
+          if (isShow) {
+            isShow = false;
+            setState(() {});
+          }
+        },
+        child: Stack(
+          children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 32,
+                StreamBuilder<KetLuanHopModel>(
+                  stream: cubit.ketLuanHopStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data;
+
+                      return ItemKetLuanHopWidget(
+                        title: S.current.ket_luan_hop,
+                        time: data?.thoiGian ?? '',
+                        trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                        tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+                        onTap: () {
+                          isShow = !isShow;
+                          setState(() {});
+                        },
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
                 ),
-                Align(
-                  alignment: const Alignment(0.5, 0.5),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 18.0.textScale(),
-                      horizontal: 17.0.textScale(),
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: listKetThucView
-                          .map(
-                            (e) => GestureDetector(
-                              onTap: () {
-                                showBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return e.ketThuc.getScreen();
-                                  },
-                                );
-                              },
-                              child: itemListKetThuc(
-                                name: e.name,
-                                icon: e.icon,
+                StreamBuilder<DanhSachNhiemVuLichHopModel>(
+                  stream: cubit.streamDanhSachNhiemVuLichHop,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data;
+                      return ItemDanhSachNhiemVu(
+                        hanXuLy: DateTime.parse(data?.hanXuLy ?? ''),
+                        loaiNV: data?.loaiNhiemVu ?? '',
+                        ndTheoDoi: data?.noiDungTheoDoi ?? '',
+                        soNhiemVu: data?.soNhiemVu ?? '',
+                        tinhHinhThucHien: data?.tinhHinhThucHienNoiBo ?? '',
+                        trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                )
+              ],
+            ),
+            if (isShow)
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Align(
+                    alignment: const Alignment(0.5, 0.5),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 18.0.textScale(),
+                        horizontal: 17.0.textScale(),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: shadowContainerColor.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: listKetThucView
+                            .map(
+                              (e) => GestureDetector(
+                                onTap: () {
+                                  showBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return e.ketThuc.getScreen();
+                                    },
+                                  );
+                                },
+                                child: itemListKetThuc(
+                                  name: e.name,
+                                  icon: e.icon,
+                                ),
                               ),
-                            ),
-                          )
-                          .toList(),
+                            )
+                            .toList(),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-          else
-            Container()
-        ],
+                ],
+              )
+            else
+              Container()
+          ],
+        ),
       ),
     );
   }
@@ -335,7 +343,6 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                   )),
                   GestureDetector(
                     onTap: () {
-                      //  onTap();
                     },
                     child: SvgPicture.asset(ImageAssets.icLuong),
                   )

@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/extension_status.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/item_menu_ket_thuc.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -27,112 +26,131 @@ class _KetLuanHopWidgetTabletState extends State<KetLuanHopWidgetTablet> {
 
   @override
   Widget build(BuildContext context) {
-    //   final cubit = DetailMeetCalendarInherited.of(context).cubit;
-    return SingleChildScrollView(
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 60,
-                ),
-                StreamBuilder<KetLuanHopModel>(
-                  stream: cubit.ketLuanHopStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data;
+    return GestureDetector(
+      onTap: () {
+        if (isShow) {
+          isShow = false;
+          setState(() {});
+        }
+      },
+      child: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 60,
+                  ),
+                  StreamBuilder<KetLuanHopModel>(
+                    stream: cubit.ketLuanHopStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final data = snapshot.data;
 
-                      return ItemKetLuanHopWidgetTablet(
-                        title: S.current.ket_luan_hop,
-                        time: data?.thoiGian ?? '',
-                        trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                        tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-                        onTap: () {
-                          isShow = !isShow;
-                          setState(() {});
-                        },
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-                StreamBuilder<DanhSachNhiemVuLichHopModel>(
-                  stream: cubit.streamDanhSachNhiemVuLichHop,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data;
-                      return ItemDanhSachNhiemVu(
-                        hanXuLy: DateTime.parse(data?.hanXuLy ?? ''),
-                        loaiNV: data?.loaiNhiemVu ?? '',
-                        ndTheoDoi: data?.noiDungTheoDoi ?? '',
-                        soNhiemVu: data?.soNhiemVu ?? '',
-                        tinhHinhThucHien: data?.tinhHinhThucHienNoiBo ?? '',
-                        trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                )
-              ],
-            ),
-          ),
-          if (isShow)
-            Column(
-              children: [
-                const SizedBox(
-                  height: 130,
-                ),
-                Align(
-                  alignment: const Alignment(0.85, 0),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 18.0.textScale(),
-                      horizontal: 17.0.textScale(),
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: listKetThucView
-                          .map(
-                            (e) => GestureDetector(
-                              onTap: () {
-                                showBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return e.ketThuc.getScreen();
-                                  },
-                                );
-                              },
-                              child: itemListKetThuc(
-                                name: e.name,
-                                icon: e.icon,
-                              ),
-                            ),
-                          )
-                          .toList(),
+                        return ItemKetLuanHopWidgetTablet(
+                          title: S.current.ket_luan_hop,
+                          time: data?.thoiGian ?? '',
+                          trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                          tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+                          onTap: () {
+                            isShow = !isShow;
+                            setState(() {});
+                          },
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  Text(
+                    S.current.danh_sach_nhiem_vu,
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0.textScale(),
+                      color: dateColor,
                     ),
                   ),
-                ),
-              ],
-            )
-          else
-            Container()
-        ],
+                  StreamBuilder<DanhSachNhiemVuLichHopModel>(
+                    stream: cubit.streamDanhSachNhiemVuLichHop,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final data = snapshot.data;
+                        return ItemDanhSachNhiemVuTablet(
+                          hanXuLy: DateTime.parse(data?.hanXuLy ?? ''),
+                          loaiNV: data?.loaiNhiemVu ?? '',
+                          ndTheoDoi: data?.noiDungTheoDoi ?? '',
+                          soNhiemVu: data?.soNhiemVu ?? '',
+                          tinhHinhThucHien: data?.tinhHinhThucHienNoiBo ?? '',
+                          trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                          index: 00,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  )
+                ],
+              ),
+            ),
+            if (isShow)
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 130,
+                  ),
+                  Align(
+                    alignment: const Alignment(0.85, 0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 18.0.textScale(),
+                        horizontal: 17.0.textScale(),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: shadowContainerColor.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: listKetThucView
+                            .map(
+                              (e) => GestureDetector(
+                                onTap: () {
+                                  showBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return e.ketThuc.getScreen();
+                                    },
+                                  );
+                                },
+                                child: itemListKetThuc(
+                                  name: e.name,
+                                  icon: e.icon,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            else
+              Container()
+          ],
+        ),
       ),
     );
   }
@@ -231,47 +249,47 @@ class ItemKetLuanHopWidgetTablet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                flex: 3,
+                  flex: 3,
                   child: Column(
-                children: [
-                  widgetRow(
-                    name: S.current.thoi_gian,
-                    child: Text(
-                      time,
-                      style: textNormalCustom(
-                        color: textTitle,
-                        fontSize: 14.0.textScale(),
-                        fontWeight: FontWeight.w400,
+                    children: [
+                      widgetRow(
+                        name: S.current.thoi_gian,
+                        child: Text(
+                          time,
+                          style: textNormalCustom(
+                            color: textTitle,
+                            fontSize: 14.0.textScale(),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  widgetRow(
-                    name: S.current.file,
-                    child: Text(
-                      'filename.docx',
-                      style: textNormalCustom(
-                        color: choXuLyColor,
-                        fontSize: 14.0.textScale(),
-                        fontWeight: FontWeight.w400,
+                      widgetRow(
+                        name: S.current.file,
+                        child: Text(
+                          'filename.docx',
+                          style: textNormalCustom(
+                            color: choXuLyColor,
+                            fontSize: 14.0.textScale(),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              )),
+                    ],
+                  )),
               Expanded(
-                flex: 2,
+                  flex: 2,
                   child: Column(
-                children: [
-                  widgetRowTrangThai(
-                    name: S.current.trang_thai,
-                    child: trangThai.getWidget(),
-                  ),
-                  widgetRowTrangThai(
-                    name: S.current.tinh_trang,
-                    child: tinhTrang.getWidget(),
-                  ),
-                ],
-              )),
+                    children: [
+                      widgetRowTrangThai(
+                        name: S.current.trang_thai,
+                        child: trangThai.getWidget(),
+                      ),
+                      widgetRowTrangThai(
+                        name: S.current.tinh_trang,
+                        child: tinhTrang.getWidget(),
+                      ),
+                    ],
+                  )),
             ],
           )
         ],
@@ -279,6 +297,7 @@ class ItemKetLuanHopWidgetTablet extends StatelessWidget {
     );
   }
 }
+
 class ItemDanhSachNhiemVuTablet extends StatelessWidget {
   final String soNhiemVu;
   final String ndTheoDoi;
@@ -286,6 +305,7 @@ class ItemDanhSachNhiemVuTablet extends StatelessWidget {
   final DateTime hanXuLy;
   final String loaiNV;
   final TrangThai trangThai;
+  final int index;
 
   const ItemDanhSachNhiemVuTablet({
     Key? key,
@@ -295,127 +315,130 @@ class ItemDanhSachNhiemVuTablet extends StatelessWidget {
     required this.hanXuLy,
     required this.loaiNV,
     required this.trangThai,
+    required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 16.0,
-        ),
-        Text(
-          S.current.danh_sach_nhiem_vu,
-          style: textNormalCustom(
-            fontWeight: FontWeight.w500,
-            fontSize: 14.0.textScale(),
-            color: dateColor,
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 16.0.textScale()),
-          padding: EdgeInsets.all(16.0.textScale()),
-          decoration: BoxDecoration(
-            color: bgDropDown.withOpacity(0.1),
-            border: Border.all(color: bgDropDown),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Column(
+    return Container(
+      margin: EdgeInsets.only(top: 16.0.textScale()),
+      padding: EdgeInsets.all(16.0.textScale()),
+      decoration: BoxDecoration(
+        color: bgDropDown.withOpacity(0.1),
+        border: Border.all(color: bgDropDown),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Text(
-                              S.current.so_nhiem_vu,
-                              style: textNormalCustom(
-                                color: titleColumn,
-                                fontSize: 14.0.textScale(),
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Text(
-                              soNhiemVu,
-                              style: textNormalCustom(
-                                color: textTitle,
-                                fontSize: 14.0.textScale(),
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                  GestureDetector(
-                    onTap: () {
-                      //  onTap();
-                    },
-                    child: SvgPicture.asset(ImageAssets.icLuong),
-                  )
-                ],
-              ),
-              widgetRow(
-                name: S.current.noi_dung_theo_doi,
+              SizedBox(
+                width: 30,
                 child: Text(
-                  ndTheoDoi,
+                  '${index.toString().padLeft(2, '0')}.',
                   style: textNormalCustom(
-                    color: textTitle,
-                    fontSize: 14.0.textScale(),
+                    fontSize: 16.0,
+                    color: titleItemEdit,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-              ),
-              widgetRow(
-                name: S.current.tinh_hinh_thuc_hien_noi_bo,
-                child: Text(
-                  tinhHinhThucHien,
-                  style: textNormalCustom(
-                    color: textTitle,
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              widgetRow(
-                name: S.current.han_xu_ly,
-                child: Text(
-                  hanXuLy.toStringWithListFormat,
-                  style: textNormalCustom(
-                    color: textTitle,
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              widgetRow(
-                name: S.current.loai_nv,
-                child: Text(
-                  loaiNV,
-                  style: textNormalCustom(
-                    color: textTitle,
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              widgetRow(
-                name: S.current.trang_thai,
-                child: trangThai.getWidget(),
               ),
             ],
           ),
-        ),
-      ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${S.current.loai_nhiem_vu}: $loaiNV',
+                        style:
+                            textNormalCustom(fontSize: 18.0, color: textTitle),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          //  onTap();
+                        },
+                        child: SvgPicture.asset(ImageAssets.icLuong),
+                      )
+                    ],
+                  ),
+                  widgetRow(
+                    name: S.current.so_nhiem_vu,
+                    child: Text(
+                      soNhiemVu,
+                      style: textNormalCustom(
+                        color: textTitle,
+                        fontSize: 14.0.textScale(),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  widgetRow(
+                    name: S.current.noi_dung_theo_doi,
+                    child: Text(
+                      ndTheoDoi,
+                      style: textNormalCustom(
+                        color: textTitle,
+                        fontSize: 14.0.textScale(),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  widgetRow(
+                    name: S.current.han_xu_ly,
+                    child: Text(
+                      hanXuLy.toStringWithListFormat,
+                      style: textNormalCustom(
+                        color: textTitle,
+                        fontSize: 14.0.textScale(),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 7,
+                        child: widgetRowTrangThai(
+                          name: S.current.tinh_hinh_thuc_hien_noi_bo,
+                          child: Text(
+                            tinhHinhThucHien,
+                            style: textNormalCustom(
+                              color: textTitle,
+                              fontSize: 14.0.textScale(),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            trangThai.getWidget(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+
 Widget widgetRowTrangThai({required String name, required Widget child}) {
   return Container(
     margin: EdgeInsets.only(top: 10.0.textScale()),

@@ -141,7 +141,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   }
 
   Widget itemListKetThuc({required String icon, required String name}) {
-    return SizedBox(
+    return Container(
       width: 170,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

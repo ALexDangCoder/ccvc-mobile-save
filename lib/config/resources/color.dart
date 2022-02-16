@@ -53,6 +53,7 @@ const bgDropDown = Color(0xFFE2E8F0);
 const bgButtonDropDown = Color(0xff7966FF);
 const bgQLVBTablet = Color(0xffF9FAFF);
 
+const bgrCalendar = Color(0xFFE9E9E9);
 const homeColor = Color(0xffEEF3FF);
 const borderColor = Color(0xffDBDFEF);
 const AqiColor = Color(0xffA2AEBD);

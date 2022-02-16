@@ -73,9 +73,9 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                             ),
                           )
                     : Container(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(30)),
-                          // color: widget.row.value == '' ? ,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          color: daXuLyColor,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(

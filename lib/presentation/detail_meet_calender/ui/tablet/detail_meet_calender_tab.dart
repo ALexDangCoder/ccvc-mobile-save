@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_la
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/cong_tac_chuan_bi_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/ket_luan_hop_widget.dart';
@@ -19,6 +20,8 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'Widget_tablet/double_button.dart';
 
 // todo chi tiet van ban
 class DetailMeetCalenderTablet extends StatefulWidget {
@@ -72,57 +75,155 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 25),
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                    child: StreamBuilder<ChiTietLichLamViecModel>(
+                      stream: cubit.chiTietLichLamViecStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container();
+                        }
+
+                        final data = snapshot.data;
+
+                        final listText = data
+                                ?.dataRow()
+                                .where(
+                                    (element) => element.type == typeData.text)
+                                .toList() ??
+                            [];
+
+                        final listText1 = listText.sublist(0, 2);
+                        final listText2 = listText.sublist(3, listText.length);
+
+                        return Column(
                           children: [
-                            const Icon(
-                              Icons.circle,
-                              size: 12,
-                              color: statusCalenderRed,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 24),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.circle,
+                                    size: 16,
+                                    color: statusCalenderRed,
+                                  ),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  Text(
+                                    S.current.hop_noi_bo_cong_ty,
+                                    style: textNormalCustom(
+                                      color: textTitle,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             const SizedBox(
-                              width: 16,
+                              height: 28,
                             ),
-                            Text(
-                              S.current.hop_noi_bo_cong_ty,
-                              style: textNormalCustom(
-                                color: textTitle,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            )
-                          ],
-                        ),
-                        StreamBuilder<ChiTietLichLamViecModel>(
-                          stream: cubit.chiTietLichLamViecStream,
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container();
-                            }
-
-                            final data = snapshot.data;
-
-                            return Column(
-                              children: data
-                                      ?.dataRow()
-                                      .map(
-                                        (e) => Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 24),
-                                          child: RowValueWidget(
-                                            row: e,
-                                            isTablet: false,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Column(
+                                            children: listText1
+                                                .map(
+                                                  (e) => Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                      bottom: 24,
+                                                    ),
+                                                    child: RowValueWidget(
+                                                      row: e,
+                                                      isTablet: true,
+                                                      // isMarinLeft: true,
+                                                    ),
+                                                  ),
+                                                )
+                                                .toList(),
                                           ),
-                                        ),
+                                          Column(
+                                            children: listText2
+                                                .map(
+                                                  (e) => Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                      bottom: 24,
+                                                    ),
+                                                    child: RowValueWidget(
+                                                      row: e,
+                                                      isTablet: true,
+                                                    ),
+                                                  ),
+                                                )
+                                                .toList(),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    children: [
+                                      DoubleButtonWidget(
+                                        onPressed2: () {},
+                                        onPressed1: () {},
+                                      ),
+                                      const SizedBox(
+                                        height: 28,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Expanded(
+                                            flex: 2,
+                                            child: SizedBox(),
+                                          ),
+                                          Expanded(
+                                            flex: 7,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: (data
+                                                          ?.dataRow()
+                                                          .where(
+                                                            (element) =>
+                                                                element.type ==
+                                                                typeData
+                                                                    .listperson,
+                                                          )
+                                                          .toList())
+                                                      ?.map(
+                                                        (e) => RowValueWidget(
+                                                          row: e,
+                                                          isTablet: true,
+                                                        ),
+                                                      )
+                                                      .toList() ??
+                                                  [
+                                                    Container(),
+                                                  ],
+                                            ),
+                                          )
+                                        ],
                                       )
-                                      .toList() ??
-                                  [Container()],
-                            );
-                          },
-                        ),
-                      ],
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -139,25 +240,5 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
         ),
       ),
     );
-  }
-}
-
-class DetailMeetCalendarInherited extends InheritedWidget {
-  DetailMeetCalenderCubit cubit;
-
-  DetailMeetCalendarInherited(
-      {Key? key, required this.cubit, required Widget child})
-      : super(key: key, child: child);
-
-  static DetailMeetCalendarInherited of(BuildContext context) {
-    final DetailMeetCalendarInherited? result = context
-        .dependOnInheritedWidgetOfExactType<DetailMeetCalendarInherited>();
-    assert(result != null, 'No element');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
   }
 }

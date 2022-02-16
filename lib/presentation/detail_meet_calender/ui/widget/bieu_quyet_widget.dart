@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/icon_til
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_only_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/them_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -33,10 +34,14 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
               icon: ImageAssets.icVectorA,
               title: S.current.them_bieu_quyet,
               onPress: () {
-                showBottomSheetCustom(
+                showDiaLogTablet(
                   context,
                   title: S.current.tao_bieu_quyet,
                   child: const TaoBieuQuyetWidget(),
+                  isBottomShow: false,
+                  funcBtnOk: () {
+                    Navigator.pop(context);
+                  },
                 );
               },
             ),

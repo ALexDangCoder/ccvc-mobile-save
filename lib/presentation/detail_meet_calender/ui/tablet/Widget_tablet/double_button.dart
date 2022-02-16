@@ -1,28 +1,24 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
-class DoubleButtonBottom extends StatefulWidget {
-  final String title1;
-  final String title2;
+class DoubleButtonWidget extends StatefulWidget {
   final Function onPressed1;
   final Function onPressed2;
 
-
-  const DoubleButtonBottom({
+  const DoubleButtonWidget({
     Key? key,
-    required this.title1,
-    required this.title2,
     required this.onPressed1,
     required this.onPressed2,
   }) : super(key: key);
 
   @override
-  State<DoubleButtonBottom> createState() => _DoubleButtonBottomState();
+  State<DoubleButtonWidget> createState() => _DoubleButtonWidgetState();
 }
 
-class _DoubleButtonBottomState extends State<DoubleButtonBottom> {
+class _DoubleButtonWidgetState extends State<DoubleButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -33,17 +29,17 @@ class _DoubleButtonBottomState extends State<DoubleButtonBottom> {
               widget.onPressed1();
             },
             child: Container(
-              height: 40.0.textScale(space: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0.textScale(space: 4.0)),
-                color: buttonColor2,
+                color: itemWidgetUsing.withOpacity(0.1),
               ),
               child: Center(
                 child: Text(
-                  widget.title1,
+                  S.current.huy,
                   style: textNormalCustom(
                     fontSize: 14.0.textScale(space: 4.0),
-                    color: textDefault,
+                    color: textTitle,
                   ),
                 ),
               ),
@@ -57,17 +53,17 @@ class _DoubleButtonBottomState extends State<DoubleButtonBottom> {
               widget.onPressed2();
             },
             child: Container(
-              height: 40.0.textScale(space: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0.textScale(space: 4.0)),
-                color: textDefault,
+                color: statusCalenderRed.withOpacity(0.1),
               ),
               child: Center(
                 child: Text(
-                  widget.title2,
+                  S.current.tham_gia,
                   style: textNormalCustom(
                     fontSize: 14.0.textScale(space: 4.0),
-                    color: backgroundColorApp,
+                    color: textTitle,
                   ),
                 ),
               ),

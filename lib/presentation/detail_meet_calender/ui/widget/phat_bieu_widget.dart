@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/icon_til
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_only_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/state_phat_bieu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -38,10 +39,14 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                     icon: ImageAssets.icVoice2,
                     title: S.current.dang_ky_phat_bieu,
                     onPress: () {
-                      showBottomSheetCustom(
+                      showDiaLogTablet(
                         context,
                         title: S.current.dang_ky_phat_bieu,
                         child: const DangKyPhatBieuWidget(),
+                        isBottomShow: false,
+                        funcBtnOk: () {
+                          Navigator.pop(context);
+                        },
                       );
                     },
                   ),

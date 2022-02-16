@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_me
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/icon_tiltle_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_only_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +36,14 @@ class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
             icon: ImageAssets.icAddUser,
             title: S.current.moi_nguoi_tham_gia,
             onPress: () {
-              showBottomSheetCustom(
+              showDiaLogTablet(
                 context,
-                child: const ThemThanhPhanThamGiaWidget(),
                 title: S.current.them_thanh_phan_tham_gia,
+                child: const ThemThanhPhanThamGiaWidget(),
+                isBottomShow: false,
+                funcBtnOk: () {
+                  Navigator.pop(context);
+                },
               );
             },
           ),
@@ -71,7 +76,8 @@ class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
                         ),
                       ),
                       child: Column(
-                        children: snapshot.data!.toListRowThanhPhanThamGia().map(
+                        children:
+                            snapshot.data!.toListRowThanhPhanThamGia().map(
                           (row) {
                             return DetailDocumentRow(
                               row: row,

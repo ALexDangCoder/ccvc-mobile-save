@@ -8,6 +8,7 @@ class ExpandOnlyWidget extends StatefulWidget {
   final Widget child;
   final bool isShowIcon;
   final AnimationController? initController;
+
   const ExpandOnlyWidget({
     Key? key,
     this.initExpand = false,
@@ -28,6 +29,7 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
   bool isExpanded = false;
   GroupProvider? groupProvider;
   final key = UniqueKey();
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +72,9 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
       if (expand) {
         expandController.forward();
       } else {
-        expandController.reverse();
+        if (expandController.isCompleted) {
+          expandController.reverse();
+        }
       }
     } else {
       if (isExpanded) {

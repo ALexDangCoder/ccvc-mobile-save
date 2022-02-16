@@ -397,6 +397,14 @@
   "loai_nv" : "Loại NV",
   "so_nhiem_vu" : "Số nhiệm vụ",
   "tinh_hinh_thuc_hien_noi_bo" : "Tình hình thực hiện nội bộ",
+  "them_y_kien" : "Thêm ý kiến",
+  "y_kien" : "Ý kiến",
+  "cuoc_hop" : "Cuộc họp",
+  "khong_co_file" : "Không có file",
+  "cac_van_ban_dinh_kem" : "Các văn bản đính kèm",
+  "nhap_y_kien_cua_ban" : "Nhập ý kiến của bạn"
+
+  "tinh_hinh_thuc_hien_noi_bo" : "Tình hình thực hiện nội bộ",
 
   "truc_tiep": "Trực tiếp",
   "tai_lieu_dinh_kem": "Tài liệu đính kèm",

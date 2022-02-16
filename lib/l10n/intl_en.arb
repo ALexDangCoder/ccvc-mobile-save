@@ -207,7 +207,6 @@
   "danhSach": "Danh sách lịch sẽ được hiển thị những loại lịch nào?",
   "noi_dung": "Nội dung",
   "chinh_sua_hdsd": "Chỉnh sửa hướng dẫn sử dụng",
-  "xem_truoc": "Xem trước",
   "chu_de_hdsd": "Chủ đề HDSD",
   "xem_danh_sach": "Xem danh sách chi tiết",
   "them_moi": "Thêm mới",
@@ -396,6 +395,13 @@
   "noi_dung_theo_doi" : "ND theo dõi",
   "loai_nv" : "Loại NV",
   "so_nhiem_vu" : "Số nhiệm vụ",
+  "tinh_hinh_thuc_hien_noi_bo" : "Tình hình thực hiện nội bộ",
+  "them_y_kien" : "Thêm ý kiến",
+  "y_kien" : "Ý kiến",
+  "cuoc_hop" : "Cuộc họp",
+  "khong_co_file" : "Không có file",
+  "cac_van_ban_dinh_kem" : "Các văn bản đính kèm",
+  "nhap_y_kien_cua_ban" : "Nhập ý kiến của bạn"
   "tinh_hinh_thuc_hien_noi_bo" : "Tình hình thực hiện nội bộ",
 
   "truc_tiep": "Trực tiếp",

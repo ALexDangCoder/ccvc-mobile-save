@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/handing_comment.dart'
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/y_kien_cuoc_hop_widget/send_comment_widget_lich_hop.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class CommentWidget extends StatefulWidget {
@@ -27,10 +28,10 @@ class _CommentWidgetState extends State<CommentWidget> {
           border: Border.all(
             color: toDayColor.withOpacity(0.4),
           ),
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.0.textScale(space: 4.0)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,8 +42,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                     backgroundImage:
                         CachedNetworkImageProvider(widget.object.Avatar),
                   ),
-                  const SizedBox(
-                    width: 14.0,
+                   SizedBox(
+                    width: 14.0.textScale(),
                   ),
                   Expanded(
                     flex: 3,
@@ -50,7 +51,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       widget.object.TenNhanVien,
                       style: textNormalCustom(
                         color: titleColor,
-                        fontSize: 14.0,
+                        fontSize: 14.0.textScale(),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -63,20 +64,20 @@ class _CommentWidgetState extends State<CommentWidget> {
                     DateTime.parse(widget.object.NgayTao).formatDdMMYYYY,
                     style: textNormalCustom(
                       color: infoColor,
-                      fontSize: 12.0,
+                      fontSize: 12.0.textScale(space: 4.0),
                       fontWeight: FontWeight.w400,
                     ),
                   )
                 ],
               ),
-              const SizedBox(
-                height: 12,
+               SizedBox(
+                height: 12.0.textScale(space: 4.0),
               ),
               Text(
                 widget.object.NoiDung,
                 style: textNormalCustom(
                   color: titleColor,
-                  fontSize: 14.0,
+                  fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -91,7 +92,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                       S.current.cac_van_ban_dinh_kem,
                       style: textNormalCustom(
                         color: titleItemEdit,
-                        fontSize: 12.0,
+                        fontSize: 12.0.textScale(),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -115,7 +116,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                 style: textNormalCustom(
                                   color: textColorMangXaHoi,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 12.0,
+                                  fontSize: 12.0.textScale(),
                                 ),
                               ),
                             ),
@@ -130,16 +131,17 @@ class _CommentWidgetState extends State<CommentWidget> {
                 )
               else
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding:  EdgeInsets.only(top: 10.0.textScale(space: 4.0)),
                   child: Text(
                     S.current.khong_co_file,
                     style: textNormalCustom(
                       color: toDayColor,
-                      fontSize: 12.0,
+                      fontSize: 12.0.textScale(),
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
+              SizedBox(height:16.0.textScale(space: 4.0),),
               SendCommentWidgetLichHop(
                 isReComment: true,
                 onSendComment:(text, listFile){

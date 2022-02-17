@@ -93,7 +93,9 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
           onPressed1: () {
             Navigator.pop(context);
           },
-          onPressed2: () {},
+          onPressed2: () {
+            Navigator.pop(context);
+          },
         ),
         const SizedBox(
           height: 32,

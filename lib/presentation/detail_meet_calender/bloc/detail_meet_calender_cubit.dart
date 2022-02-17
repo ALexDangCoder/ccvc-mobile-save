@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_la
 import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/fake_data.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/foundation.dart';
@@ -28,6 +29,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       chiTietLichLamViecSubject.stream;
 
   final BehaviorSubject<bool> subjectStreamCheck = BehaviorSubject();
+
+  List<String> selectedIds = [];
 
   void initData() {
     ChiTietLichLamViecModel fakeData = ChiTietLichLamViecModel(
@@ -119,6 +122,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Stream<List<ThanhPhanThamGiaModel>> get streamthanhPhanThamGia =>
       thanhPhanThamGia.stream;
+
+  BehaviorSubject<List<PhatBieuModel>> phatbieu =
+      BehaviorSubject<List<PhatBieuModel>>();
+
+  Stream<List<PhatBieuModel>> get streamPhatBieu => phatbieu.stream;
 
   BehaviorSubject<DanhSachNhiemVuLichHopModel> danhSachNhiemVuLichHopSubject =
       BehaviorSubject.seeded(danhSachNhiemVuLichHopModel);
@@ -215,6 +223,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     tenDonVi: 'Lãnh đạo UBND Tỉnh Đồng Nai',
     ndCongViec: 'Họp nội bộ',
     vaiTro: 'Cán bộ chủ trì',
+    statusDiemDanh: false,
   );
   PhatBieuModel phatBieu = PhatBieuModel(
     tthoiGian: '5/11/2021  9:10:03 PM',
@@ -238,28 +247,55 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<ThanhPhanThamGiaModel> listFakeThanhPhanThamGiaModel = [
     ThanhPhanThamGiaModel(
+      id: '0',
       tebCanBo: 'Lê Sĩ Lâm',
       trangThai: 'Chờ xác nhận',
       diemDanh: 'Có mặt',
       tenDonVi: 'Lãnh đạo UBND Tỉnh Đồng Nai',
       ndCongViec: 'Họp nội bộ',
       vaiTro: 'Cán bộ chủ trì',
+      statusDiemDanh: false,
     ),
     ThanhPhanThamGiaModel(
+      id: '1',
       tebCanBo: 'Lê Sĩ Lâm2',
       trangThai: 'Chờ xác nhận',
       diemDanh: 'Có mặt',
       tenDonVi: 'Lãnh đạo UBND Tỉnh Đồng Nai',
       ndCongViec: 'Họp nội bộ',
       vaiTro: 'Cán bộ chủ trì',
+      statusDiemDanh: false,
     ),
     ThanhPhanThamGiaModel(
+      id: '2',
       tebCanBo: 'vu thi tuyet',
       trangThai: 'xác nhận',
       diemDanh: 'Có mặt',
       tenDonVi: 'Lãnh đạo UBND Tỉnh Đồng Nai',
       ndCongViec: 'Họp nội bộ',
       vaiTro: 'Cán bộ chủ trì',
+      statusDiemDanh: false,
+    ),
+  ];
+
+  List<PhatBieuModel> listPhatBieu = [
+    PhatBieuModel(
+      tthoiGian: '5/11/2021  9:10:03 PM',
+      nguoiPhatBieu: 'Lê Sĩ Lâm',
+      ndPhatBieu: 'Cán bộ chủ trì',
+      phienHop: 'Lãnh đạo UBND Tỉnh Đồng Nai',
+    ),
+    PhatBieuModel(
+      tthoiGian: '5/11/2021  9:10:03 PM',
+      nguoiPhatBieu: 'Lê Sĩ Lâm',
+      ndPhatBieu: 'Cán bộ chủ trì',
+      phienHop: 'Lãnh đạo UBND Tỉnh Đồng Nai',
+    ),
+    PhatBieuModel(
+      tthoiGian: '5/11/2021  9:10:03 PM',
+      nguoiPhatBieu: 'Lê Sĩ Lâm',
+      ndPhatBieu: 'Cán bộ chủ trì',
+      phienHop: 'Lãnh đạo UBND Tỉnh Đồng Nai',
     ),
   ];
 
@@ -323,5 +359,32 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     // final _result = await OpenFile.open(filePath);
   }
 
+  final BehaviorSubject<bool> checkBoxCheck = BehaviorSubject();
+
+  Stream<bool> get checkBoxCheckBool => checkBoxCheck.stream;
+
+  void checkBoxButton() {
+    checkBoxCheck.sink.add(check);
+  }
+
+  final BehaviorSubject<String> typeStatus =
+      BehaviorSubject.seeded(S.current.danh_sach_phat_bieu);
+
+  Stream<String> get getTypeStatus => typeStatus.stream;
+
+  void getValueStatus(String value) {
+    if (value == S.current.danh_sach_phat_bieu) {
+      phatbieu.sink.add(listPhatBieu);
+    } else if (value == S.current.cho_duyet) {
+      phatbieu.sink.add(listPhatBieu);
+    } else if (value == S.current.da_duyet){
+      phatbieu.sink.add(listPhatBieu);
+    } else {
+      phatbieu.sink.add(listPhatBieu);
+    }
+    phatbieu.sink.add(listPhatBieu);
+    typeStatus.sink.add(value);
+    print(value);
+  }
   void dispose() {}
 }

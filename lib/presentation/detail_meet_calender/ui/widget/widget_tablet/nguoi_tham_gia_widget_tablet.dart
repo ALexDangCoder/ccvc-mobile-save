@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_hop/th%C3%A0nh_phan_tham_gia_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/thanh_phan_tham_gia_check_box.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/tablet/Widget_tablet/cell_thanh_phan_tham_gia_tablet.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/thanh_phan_tham_gia_widget/child_widget/moi_nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -13,7 +14,6 @@ import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import '../icon_tiltle_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/icon_tiltle_widget.dart';
 
 class MoiNguoiThamGiaWidgetTablet extends StatefulWidget {
@@ -64,7 +64,7 @@ class _MoiNguoiThamGiaWidgetTabletState
                 ),
               ),
               const Expanded(child: SizedBox()),
-              Flexible(
+              SizedBox(
                 child: IconWithTiltleWidget(
                   type2: true,
                   icon: ImageAssets.icVector2,
@@ -88,19 +88,24 @@ class _MoiNguoiThamGiaWidgetTabletState
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(
-                  height: 20,
-                  width: 41,
-                  child: CustomCheckBox(
-                    title: '',
-                    isCheck: cubit.check,
-                    onChange: (VALUE) {
-                      cubit.check = !cubit.check;
-                      cubit.subjectStreamCheck.sink.add(VALUE);
-                      print(VALUE);
-                    },
-                  ),
+                StreamBuilder<bool>(
+                  // initialData: false,
+                  stream: cubit.checkBoxCheckBool,
+                  builder: (context, snapshot) {
+                    return CustomCheckBox(
+                      title: '',
+                      isCheck: snapshot.data ?? false,
+                      onChange: (value) {
+                        cubit.check = !cubit.check;
+                        cubit.checkAll();
+                        // cubit.subjectStreamCheck.sink.add(VALUE);
+                        // setState(() {});
+                        print({value});
+                      },
+                    );
+                  },
                 ),
+                const SizedBox(width: 14,),
                 AutoSizeText(
                   S.current.chon_tat_ca,
                   style: textNormalCustom(
@@ -116,14 +121,16 @@ class _MoiNguoiThamGiaWidgetTabletState
             initialData: cubit.listFakeThanhPhanThamGiaModel,
             stream: cubit.thanhPhanThamGia,
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              final _list = snapshot.data ?? [];
+              if (_list.isNotEmpty) {
                 return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: cubit.listFakeThanhPhanThamGiaModel.length,
+                  itemCount: _list.length,
                   itemBuilder: (context, index) {
                     return CellThanhPhanThamGia(
-                      index: index,
+                      cubit: cubit,
+                      infoModel: _list[index],
                     );
                   },
                 );

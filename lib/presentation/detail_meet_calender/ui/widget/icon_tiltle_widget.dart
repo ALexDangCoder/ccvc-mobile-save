@@ -61,7 +61,7 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
             ),
           ),
         ),
-        if (widget.type2) const SizedBox() else const Expanded(child: SizedBox())
+        widget.type2 ? const SizedBox() : const Expanded(child: SizedBox())
       ],
     );
   }

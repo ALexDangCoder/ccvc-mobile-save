@@ -1,20 +1,24 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 
 class ThanhPhanThamGiaModel {
+  String? id = '';
   String? tenDonVi = '';
   String? tebCanBo = '';
   String? vaiTro = '';
   String? ndCongViec = '';
   String? trangThai = '';
   String? diemDanh = '';
+  bool statusDiemDanh = false;
 
   ThanhPhanThamGiaModel({
-    required this.tenDonVi,
-    required this.tebCanBo,
-    required this.vaiTro,
-    required this.ndCongViec,
-    required this.trangThai,
-    required this.diemDanh,
+    this.id,
+    this.tenDonVi,
+    this.tebCanBo,
+     this.vaiTro,
+     this.ndCongViec,
+     this.trangThai,
+     this.diemDanh,
+     required this.statusDiemDanh,
   });
 
   ThanhPhanThamGiaModel.fromDetail();

@@ -73,7 +73,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                   ),
                   const Expanded(child: SizedBox()),
                   Text(
-                    '${S.current.phien_hop}: ${widget.infoModel.tthoiGian}',
+                    '${widget.infoModel.tthoiGian}',
                     style: textNormalCustom(
                       fontSize: 16,
                       color: infoColor,

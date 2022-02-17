@@ -280,19 +280,19 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<PhatBieuModel> listPhatBieu = [
     PhatBieuModel(
-      tthoiGian: '5/11/2021  9:10:03 PM',
+      tthoiGian: '11:00, 14/01/2021',
       nguoiPhatBieu: 'Lê Sĩ Lâm',
       ndPhatBieu: 'Cán bộ chủ trì',
       phienHop: 'Lãnh đạo UBND Tỉnh Đồng Nai',
     ),
     PhatBieuModel(
-      tthoiGian: '5/11/2021  9:10:03 PM',
+      tthoiGian: '11:00, 14/01/2021',
       nguoiPhatBieu: 'Lê Sĩ Lâm',
       ndPhatBieu: 'Cán bộ chủ trì',
       phienHop: 'Lãnh đạo UBND Tỉnh Đồng Nai',
     ),
     PhatBieuModel(
-      tthoiGian: '5/11/2021  9:10:03 PM',
+      tthoiGian: '11:00, 14/01/2021',
       nguoiPhatBieu: 'Lê Sĩ Lâm',
       ndPhatBieu: 'Cán bộ chủ trì',
       phienHop: 'Lãnh đạo UBND Tỉnh Đồng Nai',

@@ -32,97 +32,77 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      cubit.getValueStatus(S.current.danh_sach_phat_bieu);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: backgroundColorApp,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        border: Border.all(color: choXuLyColor),
+              child: StreamBuilder<List<PhatBieuModel>>(
+                initialData: cubit.listPhatBieu,
+                stream: cubit.streamPhatBieu,
+                builder: (context, snapshot) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ButtonStatus(
+                        lengthList: cubit.listPhatBieu.length,
+                        onTap: () {
+                          cubit.getValueStatus(S.current.danh_sach_phat_bieu);
+                        },
+                        text: S.current.danh_sach_phat_bieu,
+                        backgroup: cubit.typeStatus.value ==
+                                S.current.danh_sach_phat_bieu
+                            ? choXuLyColor
+                            : backgroundColorApp,
+                        colorText: cubit.typeStatus.value ==
+                                S.current.danh_sach_phat_bieu
+                            ? backgroundColorApp
+                            : choXuLyColor,
+                        colorBorder: choXuLyColor,
                       ),
-                      child: Text(
-                        '${S.current.danh_sach_phat_bieu} (${cubit.listHistory.length})',
-                        style: textNormalCustom(
-                          color: choXuLyColor,
-                        ),
+                      const SizedBox(width: 16),
+                      ButtonStatus(
+                        lengthList: cubit.listPhatBieu.length,
+                        onTap: () {
+                          cubit.getValueStatus(S.current.cho_duyet);
+                        },
+                        text: S.current.cho_duyet,
+                        backgroup: cubit.typeStatus.value == S.current.cho_duyet
+                            ? itemWidgetNotUse
+                            : backgroundColorApp,
+                        colorText: cubit.typeStatus.value == S.current.cho_duyet
+                            ? backgroundColorApp
+                            : itemWidgetNotUse,
+                        colorBorder: itemWidgetNotUse,
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: () {
-                      cubit.getValueStatus(S.current.cho_duyet);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: backgroundColorApp,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        border: Border.all(color: itemWidgetNotUse),
+                      const SizedBox(width: 16),
+                      ButtonStatus(
+                        lengthList: cubit.listPhatBieu.length,
+                        onTap: () {
+                          cubit.getValueStatus(S.current.da_duyet);
+                        },
+                        text: S.current.da_duyet,
+                        backgroup: cubit.typeStatus.value == S.current.da_duyet
+                            ? itemWidgetUsing
+                            : backgroundColorApp,
+                        colorText: cubit.typeStatus.value == S.current.da_duyet
+                            ? backgroundColorApp
+                            : itemWidgetUsing,
+                        colorBorder: itemWidgetUsing,
                       ),
-                      child: Text(
-                        '${S.current.cho_duyet} (${cubit.listHistory.length})',
-                        style: textNormalCustom(
-                          color: itemWidgetNotUse,
-                        ),
+                      const SizedBox(width: 16),
+                      ButtonStatus(
+                        lengthList: cubit.listPhatBieu.length,
+                        onTap: () {
+                          cubit.getValueStatus(S.current.huy_duyet);
+                        },
+                        text: S.current.huy_duyet,
+                        backgroup: cubit.typeStatus.value == S.current.huy_duyet
+                            ? statusCalenderRed
+                            : backgroundColorApp,
+                        colorText: cubit.typeStatus.value == S.current.huy_duyet
+                            ? backgroundColorApp
+                            : statusCalenderRed,
+                        colorBorder: statusCalenderRed,
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: () {
-                      cubit.getValueStatus(S.current.da_duyet);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: backgroundColorApp,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        border: Border.all(color: itemWidgetUsing),
-                      ),
-                      child: Text(
-                        '${S.current.da_duyet} (${cubit.listHistory.length})',
-                        style: textNormalCustom(
-                          color: itemWidgetUsing,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: () {
-                      cubit.getValueStatus(S.current.huy_duyet);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: backgroundColorApp,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        border: Border.all(color: statusCalenderRed),
-                      ),
-                      child: Text(
-                        '${S.current.huy_duyet} (${cubit.listHistory.length})',
-                        style: textNormalCustom(
-                          color: statusCalenderRed,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
             IconWithTiltleWidget(
@@ -220,26 +200,30 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
     );
   }
 
-  // Future<Widget> ButtonStatus(
-  //     {required Function onTap, required int lengthList}) async {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       onTap;
-  //     },
-  //     child: Container(
-  //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //       decoration: BoxDecoration(
-  //         color: backgroundColorApp,
-  //         borderRadius: const BorderRadius.all(Radius.circular(30)),
-  //         border: Border.all(color: statusCalenderRed),
-  //       ),
-  //       child: Text(
-  //         '${S.current.huy_duyet} (${lengthList})',
-  //         style: textNormalCustom(
-  //           color: statusCalenderRed,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget ButtonStatus({
+    required String text,
+    required Function() onTap,
+    required int lengthList,
+    required Color colorText,
+    required Color colorBorder,
+    required Color backgroup,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: backgroup,
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+          border: Border.all(color: colorBorder),
+        ),
+        child: Text(
+          '${text} (${lengthList})',
+          style: textNormalCustom(
+            color: colorText,
+          ),
+        ),
+      ),
+    );
+  }
 }

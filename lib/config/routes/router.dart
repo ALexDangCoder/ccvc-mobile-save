@@ -13,7 +13,9 @@ class AppRouter {
     // final args = settings.arguments;
     switch (settings.name) {
       case splash:
-        return MaterialPageRoute(builder: (ctx) => const SplashScreen());
+        return MaterialPageRoute(
+          builder: (ctx) => const SplashScreen(),
+        );
     }
   }
 }
@@ -48,7 +50,9 @@ class PageTransition<T> extends PageRouteBuilder<T> {
     this.reverseDuration = const Duration(milliseconds: 300),
     RouteSettings? settings,
   })  : assert(
-            inheritTheme, "'ctx' cannot be null when 'inheritTheme' is true",),
+          inheritTheme,
+          "'ctx' cannot be null when 'inheritTheme' is true",
+        ),
         super(
           pageBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation) {

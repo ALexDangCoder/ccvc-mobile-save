@@ -121,7 +121,12 @@ class _MequeeWidgetState extends State<_MarqueeCell> {
       timer = getAnimationRun();
     });
   }
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    timer.cancel();
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -182,7 +187,7 @@ class _MequeeWidgetState extends State<_MarqueeCell> {
         offset1 = widthWidget + widget.spacing;
       }
 
-      setState(() {});
+     if(mounted) setState(() {});
     });
   }
 }

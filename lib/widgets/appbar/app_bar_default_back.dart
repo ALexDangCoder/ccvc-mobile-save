@@ -14,11 +14,10 @@ class AppBarDefaultBack extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
   final String title;
+  final Color? backGroundColors;
 
-  AppBarDefaultBack(
-    this.title, {
-    Key? key,
-  })  : preferredSize = const Size.fromHeight(kToolbarHeight),
+  AppBarDefaultBack(this.title, {Key? key, this.backGroundColors})
+      : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   @override
@@ -27,7 +26,8 @@ class AppBarDefaultBack extends StatelessWidget with PreferredSizeWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
       ),
-      backgroundColor: backgroundColorApp,
+      backgroundColor:
+          APP_DEVICE == DeviceType.MOBILE ? backgroundColorApp : bgQLVBTablet,
       bottomOpacity: 0.0,
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
       shadowColor: bgDropDown,

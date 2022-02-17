@@ -11,8 +11,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TableCalendarWidget extends StatefulWidget {
+  final bool isCalendar;
+
   const TableCalendarWidget({
     Key? key,
+    this.isCalendar = true,
   }) : super(key: key);
 
   @override
@@ -50,20 +53,31 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: shadowContainerColor.withOpacity(0.1),
-                blurRadius: 20.0.textScale(),
-                offset: const Offset(0, 4),
-              ),
-            ],
-            color: Colors.white,
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-          ),
+          decoration: widget.isCalendar
+              ? BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowContainerColor.withOpacity(0.1),
+                      blurRadius: 20.0.textScale(),
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                )
+              : BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: shadowContainerColor.withOpacity(0.1),
+                      blurRadius: 20.0.textScale(),
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                  color: Colors.white,
+                ),
           child: Column(
             children: [
               Container(
@@ -124,73 +138,81 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                   ],
                 ),
               ),
-              TableCalendar(
-                eventLoader: _getEventsfromDay,
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                onDaySelected: (date, events) {
-                  if (!isSameDay(_selectedDay, date)) {
-                    setState(() {
-                      _selectedDay = date;
-                      _focusedDay.value = _selectedDay;
-                    });
-                  }
-                },
-                daysOfWeekVisible: true,
-                onFormatChanged: (CalendarFormat _format) {
-                  setState(() {
-                    isFomat
-                        ? _calendarFormatWeek = _format
-                        : _calendarFormatMonth = _format;
-                  });
-                },
-                selectedDayPredicate: (day) {
-                  return isSameDay(_selectedDay, day);
-                },
-                calendarStyle: CalendarStyle(
-                  cellMargin: const EdgeInsets.all(11),
-                  weekendTextStyle: textNormalCustom(
-                    color: titleCalenderWork,
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  defaultTextStyle: textNormalCustom(
-                    color: titleColor,
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  selectedTextStyle: textNormalCustom(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14.0.textScale(),
-                    color: Colors.white,
-                  ),
-                  todayDecoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: toDayColor,
-                  ),
-                  todayTextStyle: textNormalCustom(
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w500,
-                    color: buttonColor,
-                  ),
-                  selectedDecoration: const BoxDecoration(
-                    color: radioFocusColor,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                headerVisible: false,
-                calendarFormat:
-                    isFomat ? _calendarFormatWeek : _calendarFormatMonth,
-                firstDay: DateTime.utc(2021, 8, 20),
-                lastDay: DateTime.utc(2030, 8, 20),
-                focusedDay: _selectedDay,
-              ),
-              ..._getEventsfromDay(_selectedDay).map(
-                (Event event) => ListTile(
-                  title: Text(
-                    event.title,
-                  ),
-                ),
-              ),
+              if (widget.isCalendar)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TableCalendar(
+                      eventLoader: _getEventsfromDay,
+                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      onDaySelected: (date, events) {
+                        if (!isSameDay(_selectedDay, date)) {
+                          setState(() {
+                            _selectedDay = date;
+                            _focusedDay.value = _selectedDay;
+                          });
+                        }
+                      },
+                      daysOfWeekVisible: true,
+                      onFormatChanged: (CalendarFormat _format) {
+                        setState(() {
+                          isFomat
+                              ? _calendarFormatWeek = _format
+                              : _calendarFormatMonth = _format;
+                        });
+                      },
+                      selectedDayPredicate: (day) {
+                        return isSameDay(_selectedDay, day);
+                      },
+                      calendarStyle: CalendarStyle(
+                        cellMargin: const EdgeInsets.all(11),
+                        weekendTextStyle: textNormalCustom(
+                          color: titleCalenderWork,
+                          fontSize: 14.0.textScale(),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        defaultTextStyle: textNormalCustom(
+                          color: titleColor,
+                          fontSize: 14.0.textScale(),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        selectedTextStyle: textNormalCustom(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0.textScale(),
+                          color: Colors.white,
+                        ),
+                        todayDecoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: toDayColor,
+                        ),
+                        todayTextStyle: textNormalCustom(
+                          fontSize: 14.0.textScale(),
+                          fontWeight: FontWeight.w500,
+                          color: buttonColor,
+                        ),
+                        selectedDecoration: const BoxDecoration(
+                          color: radioFocusColor,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      headerVisible: false,
+                      calendarFormat:
+                          isFomat ? _calendarFormatWeek : _calendarFormatMonth,
+                      firstDay: DateTime.utc(2021, 8, 20),
+                      lastDay: DateTime.utc(2030, 8, 20),
+                      focusedDay: _selectedDay,
+                    ),
+                    ..._getEventsfromDay(_selectedDay).map(
+                      (Event event) => ListTile(
+                        title: Text(
+                          event.title,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              else
+                Container(),
             ],
           ),
         ),

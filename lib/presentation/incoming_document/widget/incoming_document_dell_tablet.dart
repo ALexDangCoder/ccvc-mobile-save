@@ -58,9 +58,10 @@ class IncomingDocumentCellTablet extends StatelessWidget {
                           width: 30,
                           child: Text(
                             '${index.toString().padLeft(2, '0')}.',
-                            style: titleAppbar(
+                            style: textNormalCustom(
                               fontSize: 16.0,
-                              color: colorNumberCellQLVB,
+                              color: titleItemEdit,
+                              fontWeight: FontWeight.w400
                             ),
                           ),
                         ),

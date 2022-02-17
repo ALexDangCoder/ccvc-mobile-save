@@ -2,8 +2,8 @@ import 'dart:developer';
 // import 'dart:html';
 
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/mobile/calender_work_day_lich_mobile.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/tablet/calender_work_day_lich_tablet.dart';
+import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
+import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
@@ -12,8 +12,6 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/home_screen.dart'
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_screen.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/tao_lich_lam_viec_chi_tiet_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -63,14 +61,14 @@ extension TabbarEnum on TabBarType {
   Widget getScreen() {
     switch (this) {
       case TabBarType.home:
-        return screenDevice(
-          mobileScreen: HomeScreenMobile(
-            key: keyHomeMobile,
-          ),
-          tabletScreen: HomeScreenTablet(
-            key: keyHomeTablet,
-          ),
-        );
+         return screenDevice(
+           mobileScreen: HomeScreenMobile(
+             key: keyHomeMobile,
+           ),
+           tabletScreen: HomeScreenTablet(
+             key: keyHomeTablet,
+           ),
+         );
       case TabBarType.report:
         final key = GlobalKey<FormGroupState>();
         return Scaffold(
@@ -112,8 +110,8 @@ extension TabbarEnum on TabBarType {
         );
       case TabBarType.calendarWork:
         return screenDevice(
-          mobileScreen: const CalenderWorkDayLichMobile(),
-          tabletScreen: const CalenderWorkDayLichTablet(),
+          mobileScreen: const CalenderWorkDayMobile(),
+          tabletScreen: const CalenderWorkDayTablet(),
         );
       case TabBarType.internalInteraction:
         return Scaffold(

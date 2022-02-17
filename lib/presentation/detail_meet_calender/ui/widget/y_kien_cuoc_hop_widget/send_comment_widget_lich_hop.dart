@@ -35,7 +35,7 @@ class _SendCommentWidgetLichHopState extends State<SendCommentWidgetLichHop> {
     return Column(
       children: [
         SizedBox(
-          height: 62,
+          height: 62.0.textScale(space: 18.0),
           child: Row(
             children: [
               Expanded(
@@ -70,13 +70,13 @@ class _SendCommentWidgetLichHopState extends State<SendCommentWidgetLichHop> {
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 16,
+                      vertical: 12,
                     ),
                     hintText: S.current.nhap_y_kien_cua_ban,
                     hintStyle: textNormalCustom(
                       color: sideTextInactiveColor,
                       fontWeight: FontWeight.w400,
-                      fontSize: 14,
+                      fontSize: 14.0.textScale(),
                     ),
                   ),
                 ),

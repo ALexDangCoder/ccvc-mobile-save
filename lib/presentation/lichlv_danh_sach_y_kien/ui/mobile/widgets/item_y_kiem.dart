@@ -19,12 +19,12 @@ class ItemYKien extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color:bgDropDown.withOpacity(0.1),
+        color: bgDropDown.withOpacity(0.1),
         border: Border.all(color: bgDropDown),
       ),
       child: Column(
@@ -54,7 +54,7 @@ class ItemYKien extends StatelessWidget {
                   color: titleColor,
                 ),
               ),
-               Expanded(
+              Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
@@ -69,7 +69,9 @@ class ItemYKien extends StatelessWidget {
               )
             ],
           ),
-          const SizedBox(height: 12,),
+          const SizedBox(
+            height: 12,
+          ),
           Text(
             S.current.thong_tin_bo_sung,
             style: textNormalCustom(
@@ -93,7 +95,7 @@ class ItemYKien extends StatelessWidget {
             height: 6,
           ),
           Text(
-            nameFile ??'',
+            nameFile ?? '',
             style: textNormalCustom(
               color: textColorMangXaHoi,
               fontWeight: FontWeight.w400,

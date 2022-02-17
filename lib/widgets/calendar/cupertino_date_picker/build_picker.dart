@@ -27,12 +27,13 @@ class BuildPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPicker(
       scrollController: controller,
-      offAxisFraction: offAxisFraction,
-      itemExtent: kItemExtent,
+      itemExtent: 40,
       useMagnifier: kUseMagnifier,
       magnification: kMagnification,
+
       backgroundColor: backgroundColor,
       squeeze: kSqueeze,
+      diameterRatio: 3,
       selectionOverlay: CupertinoPickerDefaultSelectionOverlayWidget(
         canBorderRight: canBorderRight,
         canBorderLeft: canBorderLeft,
@@ -55,7 +56,7 @@ class CupertinoPickerDefaultSelectionOverlayWidget extends StatelessWidget {
     this.canBorderLeft = false,
     this.canBorderRight = false,
   }) : super(key: key);
-  static const double _border = 4;
+  static const double _border = 8;
 
   @override
   Widget build(BuildContext context) {

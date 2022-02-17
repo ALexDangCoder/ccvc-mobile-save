@@ -4,9 +4,9 @@ class FakeDataTaoLichHop {
     'Họp chuyên môn',
     'Họp chuyên đề',
     'Họp giải quyết công việc',
-    "Họp tập huấn triển khai",
+    'Họp tập huấn triển khai',
     'Họp tham mưu,tư vấn',
-    "Họp điều phối",
+    'Họp điều phối',
     'Họp giao ban'
   ];
   static final linhVuc = [

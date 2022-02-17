@@ -542,7 +542,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     // If all of the menu items will not fit within availableHeight then
     // compute the scroll offset that will line the selected menu item up
     // with the select item. This is only done when the menu is first
-    // shown - subsequently we leave the scroll offset where the user left
+    // shown - subsequently we leave the scroll offset where the account left
     // it. This scroll offset is only accurate for fixed height menu items
     // (the default).
     if (preferredMenuHeight > maxMenuHeight) {
@@ -736,12 +736,12 @@ class DropdownMenuItemWidget<T> extends _DropdownMenuItemContainer {
   /// Called when the dropdown menu item is tapped.
   final VoidCallback? onTap;
 
-  /// The value to return if the user selects this menu item.
+  /// The value to return if the account selects this menu item.
   ///
   /// Eventually returned in a call to [DropdownButton.onChanged].
   final T? value;
 
-  /// Whether or not a user can select this menu item.
+  /// Whether or not a account can select this menu item.
   ///
   /// Defaults to `true`.
   final bool enabled;
@@ -774,7 +774,7 @@ class DropdownButtonHideUnderline extends InheritedWidget {
 
 /// A material design button for selecting from a list of items.
 ///
-/// A dropdown button lets the user select from a number of items. The button
+/// A dropdown button lets the account select from a number of items. The button
 /// shows the currently selected item as well as an arrow that opens a menu for
 /// selecting another item.
 ///
@@ -916,7 +916,7 @@ class DropdownButtonWidget<T> extends StatefulWidget {
         assert(itemHeight == null || itemHeight >=  44),
         super(key: key);
 
-  /// The list of items the user can select.
+  /// The list of items the account can select.
   ///
   /// If the [onChanged] callback is null or the list of items is null
   /// then the dropdown button will be disabled, i.e. its arrow will be
@@ -949,7 +949,7 @@ class DropdownButtonWidget<T> extends StatefulWidget {
   final Widget? disabledHint;
 
   /// {@template flutter.material.dropdownButton.onChanged}
-  /// Called when the user selects an item.
+  /// Called when the account selects an item.
   ///
   /// If the [onChanged] callback is null or the list of [DropdownButton.items]
   /// is null then the dropdown button will be disabled, i.e. its arrow will be
@@ -962,7 +962,7 @@ class DropdownButtonWidget<T> extends StatefulWidget {
 
   /// Called when the dropdown button is tapped.
   ///
-  /// This is distinct from [onChanged], which is called when the user
+  /// This is distinct from [onChanged], which is called when the account
   /// selects an item from the dropdown.
   ///
   /// The callback will not be invoked if the dropdown button is disabled.
@@ -1150,7 +1150,7 @@ class DropdownButtonWidget<T> extends StatefulWidget {
   ///
   /// The maximum height of the menu must be at least one row shorter than
   /// the height of the app's view. This ensures that a tappable area
-  /// outside of the simple menu is present so the user can dismiss the menu.
+  /// outside of the simple menu is present so the account can dismiss the menu.
   ///
   /// If this property is set above the maximum allowable height threshold
   /// mentioned above, then the menu defaults to being padded at the top

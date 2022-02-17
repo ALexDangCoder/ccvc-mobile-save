@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -18,7 +17,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SelectDonVi extends StatefulWidget {
   final Function(DonViModel) onChange;
-  const SelectDonVi({Key? key,required this.onChange}) : super(key: key);
+  final String? title;
+  final String? hintText;
+  const SelectDonVi({
+    Key? key,
+    required this.onChange,
+    this.title,
+    this.hintText,
+  }) : super(key: key);
 
   @override
   State<SelectDonVi> createState() => _SelectDonViState();
@@ -30,9 +36,9 @@ class _SelectDonViState extends State<SelectDonVi> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-    _themDonViCubit.getTreeDonVi();
-  });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _themDonViCubit.getTreeDonVi();
+    });
   }
 
   @override
@@ -41,12 +47,12 @@ class _SelectDonViState extends State<SelectDonVi> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          S.current.don_vi_phong_ban,
+          widget.title ?? S.current.don_vi_phong_ban,
           style: textNormal(titleItemEdit, 14.0.textScale()),
         ),
         SizedBox(
-         height: 8.0.textScale(),
-       ),
+          height: 8.0.textScale(),
+        ),
         GestureDetector(
           onTap: () {
             showSelect();
@@ -74,8 +80,8 @@ class _SelectDonViState extends State<SelectDonVi> {
       ],
     );
   }
-  void showSelect() {
 
+  void showSelect() {
     if (isMobile()) {
       showBottomSheetCustom<Node<DonViModel>>(
         context,
@@ -111,7 +117,7 @@ class _SelectDonViState extends State<SelectDonVi> {
 
   String title() {
     if (_themDonViCubit.selectNodeOnlyValue == null) {
-      return S.current.chon_don_vi_phong_ban;
+      return widget.hintText ?? S.current.chon_don_vi_phong_ban;
     } else {
       final Node<DonViModel> nodeDonVi = _themDonViCubit.selectNodeOnlyValue!;
       if (nodeDonVi.children.isEmpty) {

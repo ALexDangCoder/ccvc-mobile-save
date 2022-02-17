@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -12,6 +13,7 @@ class PieChart extends StatelessWidget {
   final Function(int)? onTap;
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
+
   const PieChart({
     Key? key,
     required this.chartData,
@@ -45,33 +47,36 @@ class PieChart extends StatelessWidget {
         SizedBox(
           width: 270,
           height: 270,
-          child: SfCircularChart(
-            margin: EdgeInsets.zero,
-            series: [
-              // Renders doughnut chart
-              DoughnutSeries<ChartData, String>(
-                innerRadius: '45',
-                dataSource: chartData,
-                pointColorMapper: (ChartData data, _) => data.color,
-                xValueMapper: (ChartData data, _) => data.title,
-                yValueMapper: (ChartData data, _) => data.value,
-                dataLabelMapper: (ChartData data, _) => percent(data.value),
-                onPointTap: (value) {
-                  if (onTap != null) {
-                    onTap!(value.pointIndex ?? 0);
-                  } else {}
-                },
-                dataLabelSettings: DataLabelSettings(
-                  isVisible: true,
-                  showZeroValue: false,
-                  textStyle: textNormalCustom(
-                    color: AppTheme.getInstance().backGroundColor(),
-                    fontSize: 14,
-                  ),
+          child: chartData.indexWhere((element) => element.value != 0) == -1
+              ? const NodataWidget()
+              : SfCircularChart(
+                  margin: EdgeInsets.zero,
+                  series: [
+                    // Renders doughnut chart
+                    DoughnutSeries<ChartData, String>(
+                      innerRadius: '45',
+                      dataSource: chartData,
+                      pointColorMapper: (ChartData data, _) => data.color,
+                      xValueMapper: (ChartData data, _) => data.title,
+                      yValueMapper: (ChartData data, _) => data.value,
+                      dataLabelMapper: (ChartData data, _) =>
+                          percent(data.value),
+                      onPointTap: (value) {
+                        if (onTap != null) {
+                          onTap!(value.pointIndex ?? 0);
+                        } else {}
+                      },
+                      dataLabelSettings: DataLabelSettings(
+                        isVisible: true,
+                        showZeroValue: false,
+                        textStyle: textNormalCustom(
+                          color: AppTheme.getInstance().backGroundColor(),
+                          fontSize: 14,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
         ),
         if (isSubjectInfo)
           Padding(
@@ -121,7 +126,7 @@ class PieChart extends StatelessWidget {
             ),
           )
         else
-           const SizedBox()
+          const SizedBox()
       ],
     );
   }
@@ -138,6 +143,7 @@ class PieChart extends StatelessWidget {
 
 class ChartData {
   ChartData(this.title, this.value, this.color);
+
   final String title;
   final double value;
   final Color color;

@@ -3,11 +3,13 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/prev_view_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/drag_item_list.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 
 class WidgetManageScreen extends StatefulWidget {
@@ -159,7 +161,14 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                 ButtonCustomBottom(
                   title: S.current.xem_truoc,
                   isColorBlue: true,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => const PrevViewWidget(),
+                      ),
+                    );
+                  },
                 )
               ],
             ),

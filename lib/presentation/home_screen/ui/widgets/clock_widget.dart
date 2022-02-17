@@ -17,7 +17,7 @@ class _ClockWidgetState extends State<ClockWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
- timer=Timer.periodic(const Duration(seconds: 5), (timer) {
+ timer=Timer.periodic(const Duration(seconds: 1), (timer) {
    setState(() {
 
    });
@@ -28,8 +28,9 @@ class _ClockWidgetState extends State<ClockWidget> {
     final now = DateTime.now();
     final  hour= now.hour<10 ? '0${now.hour}' : now.hour.toString();
     final minute =now.minute <10 ? '0${now.minute}' : now.minute.toString();
+    final second = now.second <10 ?'0${now.second}' : now.second.toString();
     return  Text(
-      '$hour:$minute',
+      '$hour:$minute:$second',
       style: textNormalCustom(
           fontSize: 32.0.textScale(space: 4),
           fontWeight: FontWeight.w500,

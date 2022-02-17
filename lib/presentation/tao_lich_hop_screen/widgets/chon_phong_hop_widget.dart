@@ -14,8 +14,9 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopWidget> {
   @override
   Widget build(BuildContext context) {
     return SolidButton(
-        onTap: () {},
-        text: S.current.chon_phong_hop,
-        urlIcon: ImageAssets.icChonPhongHop);
+      onTap: () {},
+      text: S.current.chon_phong_hop,
+      urlIcon: ImageAssets.icChonPhongHop,
+    );
   }
 }

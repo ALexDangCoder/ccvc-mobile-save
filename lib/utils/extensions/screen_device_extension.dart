@@ -12,7 +12,8 @@ Widget screenDevice({
     return tabletScreen;
   }
 }
-bool isMobile(){
+
+bool isMobile() {
   if (APP_DEVICE == DeviceType.MOBILE) {
     return true;
   } else {

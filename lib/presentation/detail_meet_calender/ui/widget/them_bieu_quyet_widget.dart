@@ -5,12 +5,12 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_c
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/cac_lua_chon_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/nguoi_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/select_hour_widget.dart';
-import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/block_textview.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/radio/cuctom_radio_check.dart';
 import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
+import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

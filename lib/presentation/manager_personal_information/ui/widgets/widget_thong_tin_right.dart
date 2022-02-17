@@ -3,16 +3,15 @@ import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets
 import 'package:flutter/material.dart';
 
 class WidgetThongTinRight extends StatefulWidget {
-  const WidgetThongTinRight({Key? key}) : super(key: key);
+  final ManagerPersonalInformationCubit cubit;
+
+  const WidgetThongTinRight({Key? key, required this.cubit}) : super(key: key);
 
   @override
   State<WidgetThongTinRight> createState() => _WidgetThongTinRightState();
 }
 
 class _WidgetThongTinRightState extends State<WidgetThongTinRight> {
-  final ManagerPersonalInformationCubit _cubit =
-      ManagerPersonalInformationCubit();
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,7 +20,7 @@ class _WidgetThongTinRightState extends State<WidgetThongTinRight> {
         Padding(
           padding: const EdgeInsets.only(bottom: 16),
           child: Column(
-            children: _cubit.managerPersonalInformationModel
+            children: widget.cubit.managerPersonalInformationModel
                 .toListAdress()
                 .map(
                   (row) => WidgetRowItem(

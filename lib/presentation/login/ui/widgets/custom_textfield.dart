@@ -52,10 +52,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             fontWeight: FontWeight.normal,
             color: colorBlack),
         decoration: InputDecoration(
-          prefixIcon: SizedBox(width: 50, height: 14, child: widget.prefixIcon),
-          prefixIconConstraints: BoxConstraints(
-            maxWidth: 40.0.textScale(space: 16.0),
-            maxHeight: 14,
+          prefixIcon: IconButton(
+            icon: widget.prefixIcon!,
+            onPressed: () {},
           ),
           suffixIcon: Visibility(
             visible: widget.isPass,

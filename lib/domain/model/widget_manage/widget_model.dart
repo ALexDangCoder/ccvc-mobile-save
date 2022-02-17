@@ -20,6 +20,7 @@ class WidgetModel {
   String name = '';
   String component = '';
   WidgetType? widgetType;
+
   WidgetModel({
     required this.id,
     required this.name,
@@ -27,6 +28,7 @@ class WidgetModel {
   }) {
     widgetType = fromEnum();
   }
+
   WidgetType? fromEnum() {
     switch (component) {
       case WidgetTypeConstant.TINH_HINH_XU_LY_VAN_BAN:

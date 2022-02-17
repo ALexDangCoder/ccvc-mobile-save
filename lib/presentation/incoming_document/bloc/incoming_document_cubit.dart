@@ -7,17 +7,17 @@ class IncomingDocumentCubit extends BaseCubit<IncomingDocumentState> {
 
   List<IncomingDocument> listIncomingDocument = [
     IncomingDocument(
-        'Khẩn cấp',
+        'Thượng khẩn',
         'V/v kết nối, liên thông phần mềm QLVB drtgdfgdf',
         '2022-01-11T00:00:00',
         'Hà Kiều Anh'),
-    IncomingDocument('Khẩn cấp', 'V/v kết nối, liên thông phần mềm QLVB',
+    IncomingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
         '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    IncomingDocument('Khẩn cấp', 'V/v kết nối, liên thông phần mềm QLVB',
+    IncomingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
         '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    IncomingDocument('Khẩn cấp', 'V/v kết nối, liên thông phần mềm QLVB',
+    IncomingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
         '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    IncomingDocument('Khẩn cấp', 'V/v kết nối, liên thông phần mềm QLVB',
+    IncomingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
         '2022-01-11T00:00:00', 'Hà Kiều Anh'),
   ];
 }

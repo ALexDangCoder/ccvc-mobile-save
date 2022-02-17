@@ -55,7 +55,7 @@ class FakeDrawerLichHop extends StatelessWidget {
                             children: [
                               IconButton(onPressed: (){
 
-                              }, icon: SvgPicture.asset(image1)),
+                              }, icon: SvgPicture.asset(image1),),
                               Text(title1),
 
                             ],
@@ -69,7 +69,7 @@ class FakeDrawerLichHop extends StatelessWidget {
                              children: [
                                IconButton(onPressed: (){
 
-                               }, icon: SvgPicture.asset(image2)),
+                               }, icon: SvgPicture.asset(image2),),
                                Text(title2),
 
                              ],
@@ -83,7 +83,7 @@ class FakeDrawerLichHop extends StatelessWidget {
                              children: [
                                IconButton(onPressed: (){
 
-                               }, icon: SvgPicture.asset(image3)),
+                               }, icon: SvgPicture.asset(image3),),
                                Text(title3),
 
                              ],

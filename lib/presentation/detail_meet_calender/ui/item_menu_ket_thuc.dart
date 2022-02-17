@@ -34,6 +34,23 @@ extension GetScreen on KetThuc {
         return Container();
     }
   }
+  Widget getScreenTablet(){
+    switch (this) {
+      case KetThuc.taomoinv:
+        return const TaoMoiNhiemVuWidget();
+      case KetThuc.ketluanch:
+        return Container();
+
+      case KetThuc.guimail:
+        return Container();
+
+      case KetThuc.thuhoi:
+        return Container();
+
+      case KetThuc.xoa:
+        return Container();
+    }
+  }
 }
 
 class KetThucView {

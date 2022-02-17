@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -40,8 +39,6 @@ class _LichHopTheoTuanState extends State<LichHopTheoTuan> {
         ) {
           final Appointment appointment =
               calendarAppointmentDetails.appointments.first;
-          // final distanceTime =
-          //     appointment.startTime.difference(appointment.endTime);
           return Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6.0),
@@ -57,20 +54,8 @@ class _LichHopTheoTuanState extends State<LichHopTheoTuan> {
                     child: Text(
                       appointment.subject,
                       style: textNormalCustom(),
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
                     ),
                   ),
-                  const SizedBox(height: 4.0),
-                  Flexible(
-                    child: Text(
-                      '${appointment.startTime.toStringWithAMPM} - ${appointment.endTime.toStringWithAMPM}',
-                      style: textNormalCustom(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),

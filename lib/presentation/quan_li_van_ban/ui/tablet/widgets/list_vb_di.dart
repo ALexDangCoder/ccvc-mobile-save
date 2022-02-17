@@ -58,7 +58,7 @@ class _ListVBDiState extends State<ListVBDi> {
                     dateTime: widget.list[index].ngayBanHanh,
                     userName: widget.list[index].nguoiSoanThao,
                     status: widget.list[index].doKhan,
-                    userImage: '',
+                    userImage: 'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                     index: index,
                   );
                 },

@@ -11,6 +11,7 @@ import 'package:rxdart/subjects.dart';
 
 // ignore: must_be_immutable
 class CustomSelectItemsTablet extends StatefulWidget {
+  final String? value;
   final BuildContext context;
   final List<String> items;
   String? title;
@@ -18,9 +19,11 @@ class CustomSelectItemsTablet extends StatefulWidget {
   Function(int)? onSelectItem;
   Function? onRemove;
   bool isCheckEnable = false;
+  Function onRemoveValue;
 
   CustomSelectItemsTablet({
     Key? key,
+    this.value,
     this.onSelectItem,
     this.onRemove,
     this.title,
@@ -28,6 +31,7 @@ class CustomSelectItemsTablet extends StatefulWidget {
     required this.items,
     required this.onChange,
     required this.isCheckEnable,
+    required this.onRemoveValue,
   }) : super(key: key);
 
   @override
@@ -228,6 +232,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
         Expanded(
           child: GestureDetector(
             onTap: () {
+              widget.onRemoveValue();
               if (widget.onRemove != null) {
                 widget.onRemove!();
               }
@@ -287,7 +292,6 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
           )
         : GestureDetector(
             onTap: () {
-              // showBottomSheet(Widgets.context);
               showListItem(widget.context);
             },
             child: Column(

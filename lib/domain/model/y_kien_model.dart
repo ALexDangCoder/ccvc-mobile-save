@@ -3,6 +3,7 @@ class YKienModel {
   String name = '';
   String imgAvatar = '';
   String fileName = '';
+
   YKienModel({
     required this.time,
     required this.fileName,

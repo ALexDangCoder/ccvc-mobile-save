@@ -30,7 +30,9 @@ abstract class QuanLyVanBanClient {
 
   @POST(ApiConstants.DANH_SACH_VB_DI)
   Future<DanhSachVBDiResponse> getListVBDi(
-      @Body() DanhSachVBDiRequest danhSachVBDiRequest,);
+    @Body() DanhSachVBDiRequest danhSachVBDiRequest,
+  );
+
   @POST(ApiConstants.DANH_SACH_VB_DEN)
   Future<DanhSachVBDenResponse> getDanhSachVanBanDen(
     @Body() DanhSachVBDiRequest danhSachVBDiRequest,

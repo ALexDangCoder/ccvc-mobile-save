@@ -7,25 +7,24 @@ import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_den_r
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_di_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/quan_ly_van_ban/qlvb_service.dart';
-import 'package:ccvc_mobile/domain/model/document/incoming_document.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
-import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/data/services/quan_ly_van_ban/qlvb_service.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
+
 class QLVBImlp implements QLVBRepository {
   final QuanLyVanBanClient _quanLyVanBanClient;
 
   QLVBImlp(this._quanLyVanBanClient);
 
   @override
-  Future<Result<DocumentDashboardModel>> getVBDen(String startTime, String endTime) {
+  Future<Result<DocumentDashboardModel>> getVBDen(
+      String startTime, String endTime) {
     return runCatchingAsync<DoashBoashVBDenResponse, DocumentDashboardModel>(
       () => _quanLyVanBanClient.getVbDen(
         VBDenRequest(
-          NgayDauTien: startTime,
-          NgayCuoiCung: endTime,
+          ngayDauTien: startTime,
+          ngayCuoiCung: endTime,
         ),
       ),
       (response) => response.toDomain(),
@@ -33,10 +32,11 @@ class QLVBImlp implements QLVBRepository {
   }
 
   @override
-  Future<Result<DocumentDashboardModel>> getVBDi(String startTime, String endTime) {
-    return runCatchingAsync<DoashBoashVBDiResponse,DocumentDashboardModel>(
+  Future<Result<DocumentDashboardModel>> getVBDi(
+      String startTime, String endTime) {
+    return runCatchingAsync<DoashBoashVBDiResponse, DocumentDashboardModel>(
       () => _quanLyVanBanClient
-          .getVbDi(VBDiRequest(NgayDauTien: startTime, NgayCuoiCung: endTime)),
+          .getVbDi(VBDiRequest(ngayDauTien: startTime, ngayCuoiCung: endTime)),
       (response) {
         return response.danhSachVB.toDomain();
       },
@@ -53,18 +53,18 @@ class QLVBImlp implements QLVBRepository {
     );
   }
 
-
   @override
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDen(
       String startDate, String endDate, int index, int size) {
     return runCatchingAsync<DanhSachVBDenResponse, DanhSachVanBanModel>(
-            () => _quanLyVanBanClient.getDanhSachVanBanDen(
-          DanhSachVBDiRequest(
-              ThoiGianStartFilter: startDate,
-              ThoiGianEndFilter: endDate,
-              Size: size,
-              Index: index,),
-        ), (response) {
+        () => _quanLyVanBanClient.getDanhSachVanBanDen(
+              DanhSachVBDiRequest(
+                thoiGianStartFilter: startDate,
+                thoiGianEndFilter: endDate,
+                size: size,
+                index: index,
+              ),
+            ), (response) {
       return response.danhSachVB.toDomain();
     });
   }
@@ -75,13 +75,13 @@ class QLVBImlp implements QLVBRepository {
     return runCatchingAsync<DanhSachVBDiResponse, DanhSachVanBanDiModel>(
         () => _quanLyVanBanClient.getDanhSachVanBanDi(
               DanhSachVBDiRequest(
-                  ThoiGianStartFilter: startDate,
-                  ThoiGianEndFilter: endDate,
-                  Size: size,
-                  Index: index,),
+                thoiGianStartFilter: startDate,
+                thoiGianEndFilter: endDate,
+                size: size,
+                index: index,
+              ),
             ), (response) {
       return response.danhSachVB.toDomain();
     });
   }
-
 }

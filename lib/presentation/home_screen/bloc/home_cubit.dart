@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/home/lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/home/lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/home/nhiem_vu_request.dart';
+import 'package:ccvc_mobile/data/request/home/to_do_list_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
-import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/home/date_model.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
@@ -20,7 +21,6 @@ import 'package:ccvc_mobile/domain/model/select_key/select_key_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/home_repository/home_repository.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_state.dart';
-import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:get/get.dart';
@@ -38,8 +38,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       BehaviorSubject<List<TinhHuongKhanCapModel>>();
   final BehaviorSubject<DataUser> _userInformation =
       BehaviorSubject<DataUser>();
-  final BehaviorSubject<TodoListModel> _getTodoList =
-      BehaviorSubject<TodoListModel>();
+
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
 
   final BehaviorSubject<DataUser> _getUserInformation =
@@ -80,7 +79,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     unawaited(queue.add(() => getDate()));
     unawaited(queue.add(() => _getTinhHuongKhanCap()));
     unawaited(queue.add(() => configWidget()));
-    await queue.onComplete;
+    await queue.onComplete.catchError((er) {});
     showContent();
     queue.dispose();
   }
@@ -92,12 +91,13 @@ class HomeCubit extends BaseCubit<HomeState> {
   Future<void> getUserInFor() async {
     final result = await homeRep.getPhamVi();
     result.when(
-        success: (res) {
-          final dataUser = HiveLocal.getDataUser();
-          dataUser?.userInformation?.chucVu = res.chucVu;
-          _getUserInformation.sink.add(dataUser ?? DataUser());
-        },
-        error: (err) {});
+      success: (res) {
+        final dataUser = HiveLocal.getDataUser();
+        dataUser?.userInformation?.chucVu = res.chucVu;
+        _getUserInformation.sink.add(dataUser ?? DataUser());
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> getDate() async {
@@ -114,7 +114,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   void dispose() {
     _showDialogSetting.close();
     _tinhHuongKhanCap.close();
-    _getTodoList.close();
+
     _userInformation.close();
     _showAddTag.close();
     _getUserInformation.close();
@@ -128,7 +128,6 @@ class HomeCubit extends BaseCubit<HomeState> {
   Stream<List<TinhHuongKhanCapModel>> get tinhHuongKhanCap =>
       _tinhHuongKhanCap.stream;
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
-  Stream<TodoListModel> get getTodoList => _getTodoList.stream;
 }
 
 /// Get Config Widget
@@ -148,27 +147,90 @@ extension GetConfigWidget on HomeCubit {
 class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<PressNetWorkModel>> _getPressNetWork =
       BehaviorSubject<List<PressNetWorkModel>>();
-  final BehaviorSubject<List<TagModel>> _getTag =
-      BehaviorSubject<List<TagModel>>();
-  void getPress() {
-    _getTag.sink.add(FakeData.tag);
-    _getPressNetWork.sink.add(FakeData.fakeDataPress);
+  final BehaviorSubject<List<String>> _getTag = BehaviorSubject<List<String>>();
+  final BehaviorSubject<bool> showAddTagStream = BehaviorSubject.seeded(false);
+  bool isShowTag = false;
+  String tagKey = 'Covid-19';
+  String nameUser = '';
+  BaoChiMangXaHoiCubit() {
+    final dataUser = HiveLocal.getDataUser();
+    if (dataUser != null) {
+      nameUser = dataUser.userInformation?.hoTen ?? '';
+    }
+  }
+  void showAddTag() {
+    showAddTagStream.sink.add(true);
+  }
+void removeTag(String tag){
+    final value  = _getTag.value;
+    HiveLocal.removeTag(tag);
+    value.remove(tag);
+    _getTag.sink.add(value);
+
+}
+  void addTag(String value) {
+    final data = _getTag.value;
+    showAddTagStream.sink.add(false);
+    if (data
+        .where((element) => element.toLowerCase() == value.toLowerCase())
+        .isEmpty) {
+      HiveLocal.addTag(value);
+
+      _getTag.sink.add(data..add(value));
+    }
   }
 
-  void selectTag(TagModel tagModel) {
-    final oldSelect = _getTag.value.indexWhere(
-      (element) => element.select == true,
+  void getPress() async {
+    List<String> listTag = HiveLocal.getTag();
+    if (listTag.isEmpty) {
+      final listDataDefault = ['Covid-19', 'Vaccine', nameUser];
+      await HiveLocal.addTagList(['Covid-19', 'Vaccine', nameUser]);
+      listTag = listDataDefault;
+    }
+    _getTag.sink.add(listTag);
+    await callApi();
+  }
+
+  Future<void> callApi() async {
+    showLoading();
+    final result = await homeRep.getBaoChiMangXaHoi(
+      1,
+      5,
+      startDate.formatApiSS,
+      endDate.formatApiSS,
+      tagKey,
     );
-    _getTag.value[oldSelect].select = false;
-    final newSelect = _getTag.value.indexWhere(
-      (element) => element.title == tagModel.title,
+    showContent();
+    result.when(
+      success: (res) {
+        _getPressNetWork.sink.add(res);
+      },
+      error: (err) {},
     );
-    _getTag.value[newSelect].select = true;
+  }
+
+  void selectTag(String tag) {
+    tagKey = tag;
+    callApi();
     _getTag.sink.add(_getTag.value);
   }
 
-  void showAddTag() {}
-  Stream<List<TagModel>> get getTag => _getTag.stream;
+  @override
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    if (selectKey != selectKeyTime) {
+      selectKeyTime = selectKey;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      callApi();
+      selectKeyDialog.sink.add(true);
+    }
+  }
+
+  Stream<List<String>> get getTag => _getTag.stream;
 
   Stream<List<PressNetWorkModel>> get getPressNetWork =>
       _getPressNetWork.stream;
@@ -181,9 +243,31 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
 }
 
 ///Danh sách công việc
-extension DanhSachCongViec on HomeCubit {
+class DanhSachCongViecCubit extends HomeCubit {
+  final BehaviorSubject<TodoListModel> _getTodoList =
+      BehaviorSubject<TodoListModel>();
+  String id = '';
+  DanhSachCongViecCubit() {
+    id = HiveLocal.getDataUser()?.userInformation?.id ?? '';
+  }
+  Stream<TodoListModel> get getTodoList => _getTodoList.stream;
+
   void tickerListWord({required TodoModel todo, bool removeDone = true}) {
     final data = _getTodoList.value;
+    homeRep.upDateTodo(
+      ToDoListRequest(
+        id: todo.id,
+        inUsed: true,
+        important: todo.important,
+        isDeleted: todo.isDeleted,
+        createdOn: todo.createdOn,
+        createdBy: todo.createdBy,
+        isTicked: !removeDone,
+        label: todo.label,
+        updatedBy: id,
+        updatedOn: DateTime.now().formatApi,
+      ),
+    );
     if (removeDone) {
       _removeInsertImportant(data, todo);
     } else {
@@ -191,27 +275,38 @@ extension DanhSachCongViec on HomeCubit {
     }
   }
 
-  void addTodo(String label) {
-    final data = _getTodoList.value;
-    data.listTodoImportant.insert(
-      0,
-      TodoModel(
-        important: true,
-        inUsed: true,
-        isDeleted: false,
-        isTicked: false,
+  Future<void> addTodo(String label) async {
+    if (label.trim().isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await homeRep.createTodo(
+      CreateToDoRequest(
         label: label,
+        isTicked: false,
+        important: false,
+        inUsed: true,
       ),
     );
-    _getTodoList.sink.add(data);
+    showContent();
+    result.when(
+      success: (res) {
+        final data = _getTodoList.value;
+        data.listTodoImportant.insert(
+          0,
+          res,
+        );
+        _getTodoList.sink.add(data);
+      },
+      error: (err) {},
+    );
   }
 
   void _removeInsertImportant(TodoListModel data, TodoModel todo) {
     final result = data.listTodoDone.removeAt(
       data.listTodoDone.indexWhere((element) => element.id == todo.id),
     );
-
-    data.listTodoImportant.insert(0, result..important = true);
+    data.listTodoImportant.insert(0, result..isTicked = false);
     _getTodoList.sink.add(
       TodoListModel(
         listTodoImportant: data.listTodoImportant,
@@ -225,19 +320,31 @@ extension DanhSachCongViec on HomeCubit {
       data.listTodoImportant.indexWhere((element) => element.id == todo.id),
     );
 
-    data.listTodoDone.insert(0, result..important = false);
+    data.listTodoDone.insert(0, result..isTicked = true);
     _getTodoList.sink.add(
       data,
     );
   }
 
-  String changeLabelTodo(String newLabel, TodoModel todo) {
+  void changeLabelTodo(String newLabel, TodoModel todo) {
     final data = _getTodoList.value;
     if (newLabel == todo.label) {
-      return newLabel;
-    } else if (newLabel.isEmpty) {
-      return todo.label.toString();
+      return;
     }
+    homeRep.upDateTodo(
+      ToDoListRequest(
+        id: todo.id,
+        inUsed: true,
+        important: todo.important,
+        isDeleted: todo.isDeleted,
+        createdOn: todo.createdOn,
+        createdBy: todo.createdBy,
+        isTicked: todo.isTicked,
+        label: newLabel,
+        updatedBy: id,
+        updatedOn: DateTime.now().formatApi,
+      ),
+    );
     final index =
         data.listTodoImportant.indexWhere((element) => element.id == todo.id);
     final result = data.listTodoImportant.removeAt(
@@ -247,41 +354,83 @@ extension DanhSachCongViec on HomeCubit {
     _getTodoList.sink.add(
       data,
     );
-    return newLabel;
   }
 
   void tickerQuanTrongTodo(TodoModel todo, {bool removeDone = true}) {
     final data = _getTodoList.value;
+    homeRep.upDateTodo(
+      ToDoListRequest(
+        id: todo.id,
+        inUsed: true,
+        important: !(todo.important ?? false),
+        isDeleted: todo.isDeleted,
+        createdOn: todo.createdOn,
+        createdBy: todo.createdBy,
+        isTicked: todo.isTicked,
+        label: todo.label,
+        updatedBy: id,
+        updatedOn: DateTime.now().formatApi,
+      ),
+    );
     if (removeDone) {
       final result = data.listTodoDone.removeAt(
         data.listTodoDone.indexWhere((element) => element.id == todo.id),
       );
-      data.listTodoDone.insert(0, result..isTicked = !(todo.isTicked ?? false));
+      data.listTodoDone
+          .insert(0, result..important = !(todo.important ?? false));
     } else {
       final result = data.listTodoImportant.removeAt(
         data.listTodoImportant.indexWhere((element) => element.id == todo.id),
       );
       data.listTodoImportant
-          .insert(0, result..isTicked = !(todo.isTicked ?? false));
+          .insert(0, result..important = !(todo.important ?? false));
     }
     _getTodoList.sink.add(data);
   }
 
-  void getToDoList() {
-    final data = FakeData.listTodoWork;
-    final result = TodoListModel(
-      listTodoDone: data
-          .where((element) => element.toDoStatus == ToDoStatus.done)
-          .toList(),
-      listTodoImportant: data
-          .where((element) => element.toDoStatus == ToDoStatus.unfinished)
-          .toList(),
+  void deleteCongViec(TodoModel todoModel, {bool removeDone = true}) {
+    final data = _getTodoList.value;
+    homeRep.upDateTodo(
+      ToDoListRequest(
+        id: todoModel.id,
+        inUsed: false,
+        important: todoModel.important,
+        isDeleted: todoModel.isDeleted,
+        createdOn: todoModel.createdOn,
+        createdBy: todoModel.createdBy,
+        isTicked: todoModel.isTicked,
+        label: todoModel.label,
+        updatedBy: id,
+        updatedOn: DateTime.now().formatApi,
+      ),
     );
-    _getTodoList.sink.add(result);
+    if (removeDone) {
+      data.listTodoDone.removeAt(
+        data.listTodoDone.indexWhere((element) => element.id == todoModel.id),
+      );
+    } else {
+      data.listTodoImportant.removeAt(
+        data.listTodoImportant
+            .indexWhere((element) => element.id == todoModel.id),
+      );
+    }
+    _getTodoList.sink.add(data);
+  }
+
+  Future<void> getToDoList() async {
+    showLoading();
+    final result = await homeRep.getListTodo();
+    showContent();
+    result.when(
+      success: (res) {
+        _getTodoList.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 }
 
-/// Tổng hợp nhiệm vụ
+///  hợp nhiệm vụ
 class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<TongHopNhiemVuModel>> _getTongHopNhiemVu =
       BehaviorSubject<List<TongHopNhiemVuModel>>();
@@ -374,14 +523,15 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
       BehaviorSubject<DocumentDashboardModel>();
-  void getDocument() {
+  TinhHinhXuLyCubit() {
     final data = HiveLocal.getSelect(SelectKeyPath.KEY_DASH_BOARD_TONG_HOP_NV);
     if (data != null) {
       startDate = DateTime.parse(data.startDate);
       endDate = DateTime.parse(data.endDate);
       selectKeyTime = data.selectKey;
     }
-
+  }
+  void getDocument() {
     callApi(startDate.toString(), endDate.toString());
   }
 
@@ -537,7 +687,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         callSearchVB();
         break;
       case SelectKey.CHO_XU_LY_VB_DEN:
-        maTrangThai = ["CHO_XU_LY", "CHO_PHAN_XU_LY"];
+        maTrangThai = ['CHO_XU_LY', 'CHO_PHAN_XU_LY'];
         isChoYKien = false;
         callApiVB();
         break;
@@ -576,10 +726,11 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
   }
 
   @override
-  void selectDate(
-      {required SelectKey selectKey,
-      required DateTime startDate,
-      required DateTime endDate}) {
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
     if (selectKey != selectKeyTime) {
       selectKeyTime = selectKey;
       this.startDate = startDate;
@@ -593,8 +744,10 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         ),
       );
       selectKeyDialog.sink.add(true);
-      selectTrangThaiVanBan(this.selectKey ?? SelectKey.CHO_VAO_SO,
-          filterTime: true);
+      selectTrangThaiVanBan(
+        this.selectKey ?? SelectKey.CHO_VAO_SO,
+        filterTime: true,
+      );
     }
   }
 
@@ -615,7 +768,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
   DataUser? dataUser;
   String donViId = '';
   String userId = '';
-  String trangThai = "1";
+  String trangThai = '1';
   String? loaiMenu;
   SelectKey selectKeyTrangThai = SelectKey.CHO_TIEP_NHAN;
   YKienNguoiDanCubit() {
@@ -629,20 +782,22 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
   Future<void> callApi() async {
     showLoading();
     final result = await homeRep.getYKienNguoidan(
-        100000,
-        1,
-        trangThai,
-        startDate.toStringWithListFormat,
-        endDate.toStringWithListFormat,
-        donViId,
-        userId,
-        loaiMenu);
+      100000,
+      1,
+      trangThai,
+      startDate.toStringWithListFormat,
+      endDate.toStringWithListFormat,
+      donViId,
+      userId,
+      loaiMenu,
+    );
     showContent();
     result.when(
-        success: (res) {
-          _getYKien.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        _getYKien.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   void selectTrangThaiApi(SelectKey selectKey) {
@@ -660,7 +815,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
         break;
       case SelectKey.CHO_DUYET_XU_LY:
         trangThai = '6,13,18';
-        loaiMenu = "XuLy";
+        loaiMenu = 'XuLy';
         callApi();
         break;
       case SelectKey.CHO_DUYET_TIEP_NHAN:
@@ -668,17 +823,17 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
         loaiMenu = 'TiepNhan';
         callApi();
         break;
-
       default:
         {}
     }
   }
 
   @override
-  void selectDate(
-      {required SelectKey selectKey,
-      required DateTime startDate,
-      required DateTime endDate}) {
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
     if (selectKey != selectKeyTime) {
       selectKeyTime = selectKey;
       this.startDate = startDate;
@@ -691,10 +846,124 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
 }
 
 ///Lịch làm việc
-class LichLamViecCubit extends HomeCubit with SelectKeyDialog {}
+class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<List<CalendarMeetingModel>> _getListLichLamViec =
+      BehaviorSubject<List<CalendarMeetingModel>>();
+
+  Stream<List<CalendarMeetingModel>> get getListLichLamViec =>
+      _getListLichLamViec.stream;
+  Future<void> callApi() async {
+    showLoading();
+    final result = await homeRep.getListLichLamViec(
+      LichLamViecRequest(
+        dateFrom: startDate.formatApi,
+        dateTo: endDate.formatApi,
+        isTatCa: true,
+      ),
+    );
+    result.when(
+      success: (res) {
+        _getListLichLamViec.sink.add(res);
+      },
+      error: (err) {},
+    );
+    showContent();
+  }
+
+  @override
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    if (selectKey != selectKeyTime) {
+      selectKeyTime = selectKey;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      selectKeyDialog.sink.add(true);
+      callApi();
+    }
+  }
+}
 
 ///Lịch Họp
-class LichHopCubit extends HomeCubit with SelectKeyDialog {}
+class LichHopCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<List<CalendarMeetingModel>> _getLichHop =
+      BehaviorSubject<List<CalendarMeetingModel>>();
+
+  Stream<List<CalendarMeetingModel>> get getLichHop => _getLichHop.stream;
+  SelectKey trangThaiLichHop = SelectKey.LICH_HOP_CUA_TOI;
+  bool isLichHopCuaToi = true;
+  bool isLichDuocMoi = false;
+  bool isDuyetLich = false;
+  bool isChoXacNhan = false;
+  Future<void> callApi() async {
+    showLoading();
+    final result = await homeRep.getLichHop(
+      LichHopRequest(
+        isChoXacNhan: isChoXacNhan,
+        isDuyetLich: isDuyetLich,
+        isLichDuocMoi: isLichDuocMoi,
+        isLichCuaToi: isLichHopCuaToi,
+        dateFrom: startDate.formatApi,
+        dateTo: endDate.formatApi,
+      ),
+    );
+    showContent();
+    result.when(
+        success: (res) {
+          _getLichHop.sink.add(res);
+        },
+        error: (err) {});
+  }
+
+  void selectTrangThaiHop(SelectKey selectKey) {
+    if(trangThaiLichHop == selectKey){
+      return;
+    }
+    trangThaiLichHop = selectKey;
+
+    switch (selectKey) {
+      case SelectKey.LICH_HOP_CUA_TOI:
+        isLichHopCuaToi = true;
+        isLichDuocMoi = false;
+        isDuyetLich = false;
+        isChoXacNhan = false;
+        callApi();
+        break;
+      case SelectKey.LICH_HOP_DUOC_MOI:
+        isLichHopCuaToi = false;
+        isLichDuocMoi = true;
+        isDuyetLich = false;
+        isChoXacNhan = false;
+        callApi();
+        break;
+      case SelectKey.LICH_HOP_CAN_DUYET:
+        isLichHopCuaToi = false;
+        isLichDuocMoi = false;
+        isDuyetLich = true;
+        isChoXacNhan = true;
+        callApi();
+        break;
+      default:
+        {}
+    }
+  }
+  @override
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    if (selectKey != selectKeyTime) {
+      selectKeyTime = selectKey;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      selectKeyDialog.sink.add(true);
+      callApi();
+    }
+  }
+}
 
 /// SinhNhat
 class SinhNhatCubit extends HomeCubit with SelectKeyDialog {}
@@ -724,17 +993,19 @@ class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {
     );
     showContent();
     result.when(
-        success: (res) {
-          _getTinhHinhXuLy.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        _getTinhHinhXuLy.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   @override
-  void selectDate(
-      {required SelectKey selectKey,
-      required DateTime startDate,
-      required DateTime endDate}) {
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
     if (selectKey != selectKeyTime) {
       selectKeyTime = selectKey;
       this.startDate = startDate;
@@ -755,16 +1026,16 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
 
   Stream<List<CalendarMeetingModel>> get getNhiemVu => _getNhiemVu.stream;
   SelectKey selectTrangThai = SelectKey.CHO_PHAN_XU_LY;
-  List<String> mangTrangThai = ["CHUA_THUC_HIEN", "CHO_PHAN_XU_LY"];
+  List<String> mangTrangThai = ['CHUA_THUC_HIEN', 'CHO_PHAN_XU_LY'];
   void selectTrangThaiNhiemVu(SelectKey selectKey) {
     selectTrangThai = selectKey;
     switch (selectKey) {
       case SelectKey.CHO_PHAN_XU_LY:
-        mangTrangThai = ["CHUA_THUC_HIEN", "CHO_PHAN_XU_LY"];
+        mangTrangThai = ['CHUA_THUC_HIEN', 'CHO_PHAN_XU_LY'];
         callApi();
         break;
       case SelectKey.DANG_THUC_HIEN:
-        mangTrangThai = ["DANG_THUC_HIEN"];
+        mangTrangThai = ['DANG_THUC_HIEN'];
         callApi();
         break;
       case SelectKey.DANH_SACH_CONG_VIEC:
@@ -816,14 +1087,19 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
     } else {
       isCaNhan = true;
     }
-    final result = await homeRep.getNhiemVu(NhiemVuRequest(
+    final result = await homeRep.getNhiemVu(
+      NhiemVuRequest(
         size: 10,
         index: 1,
         isNhiemVuCaNhan: isCaNhan,
         mangTrangThai: mangTrangThai,
         isSortByHanXuLy: true,
         ngayTaoNhiemVu: NgayTaoNhiemVu(
-            fromDate: startDate.toString(), toDate: endDate.toString())));
+          fromDate: startDate.toString(),
+          toDate: endDate.toString(),
+        ),
+      ),
+    );
     showContent();
     result.when(
       success: (res) {

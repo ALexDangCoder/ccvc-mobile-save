@@ -87,7 +87,7 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
                       return NhiemVuWidget(
                         value: result.value.toString(),
                         urlIcon:result.tongHopNhiemVuModel.urlImg(),
-                        title: result.tongHopNhiemVuModel.urlImg(),
+                        title: result.tongHopNhiemVuModel.getText(),
                       );
                     },
                   ),

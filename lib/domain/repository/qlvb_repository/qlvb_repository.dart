@@ -8,6 +8,7 @@ mixin QLVBRepository {
     String startTime,
     String endTime,
   );
+
   //
   Future<Result<DocumentDashboardModel>> getVBDi(
     String startTime,

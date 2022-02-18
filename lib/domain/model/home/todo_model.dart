@@ -5,7 +5,6 @@ class TodoListModel {
   TodoListModel({required this.listTodoImportant, required this.listTodoDone});
 }
 
-enum ToDoStatus { done, unfinished }
 
 class TodoModel {
   String? id;
@@ -19,8 +18,6 @@ class TodoModel {
   String? updatedOn;
   String? updatedBy;
   String? note;
-  ToDoStatus toDoStatus = ToDoStatus.unfinished;
-
   TodoModel({
     this.id,
     this.label,
@@ -33,14 +30,7 @@ class TodoModel {
     this.updatedOn,
     this.updatedBy,
     this.note,
-  }) {
-    toDoStatus = fromEnum();
-  }
+  });
 
-  ToDoStatus fromEnum() {
-    if (important ?? false) {
-      return ToDoStatus.unfinished;
-    }
-    return ToDoStatus.done;
-  }
+
 }

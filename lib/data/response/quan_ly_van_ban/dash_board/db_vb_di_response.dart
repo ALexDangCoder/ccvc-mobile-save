@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -19,6 +18,7 @@ class DoashBoashVBDiResponse {
   @override
   List<Object?> get props => [];
 }
+
 @JsonSerializable()
 class DataResponseDoashBoashVBDi {
   @JsonKey(name: 'SoLuongChoTrinhKy')
@@ -29,19 +29,21 @@ class DataResponseDoashBoashVBDi {
   int? soLuongDaXuLy;
   @JsonKey(name: 'SoLuongThuongKhan')
   int? soLuongThuongKhan;
-  DataResponseDoashBoashVBDi(
-      this.soLuongChoTrinhKy, this.soLuongChoXuLy, this.soLuongDaXuLy, this.soLuongThuongKhan);
+
+  DataResponseDoashBoashVBDi(this.soLuongChoTrinhKy, this.soLuongChoXuLy,
+      this.soLuongDaXuLy, this.soLuongThuongKhan);
+
   factory DataResponseDoashBoashVBDi.fromJson(Map<String, dynamic> json) =>
       _$DataResponseDoashBoashVBDiFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataResponseDoashBoashVBDiToJson(this);
 
   DocumentDashboardModel toDomain() => DocumentDashboardModel(
-    soLuongChoTrinhKy: soLuongChoTrinhKy,
-    soLuongChoXuLy: soLuongChoXuLy,
-    soLuongDaXuLy: soLuongDaXuLy,
-    soLuongThuongKhan: soLuongThuongKhan,
-  );
+        soLuongChoTrinhKy: soLuongChoTrinhKy,
+        soLuongChoXuLy: soLuongChoXuLy,
+        soLuongDaXuLy: soLuongDaXuLy,
+        soLuongThuongKhan: soLuongThuongKhan,
+      );
 
   @override
   List<Object?> get props => [];

@@ -14,7 +14,8 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   BehaviorSubject<bool> isCheckNgay = BehaviorSubject();
   BehaviorSubject<int> checkIndex = BehaviorSubject();
   BehaviorSubject<int> index = BehaviorSubject.seeded(0);
-  BehaviorSubject<List<bool>> selectTypeCalendarSubject = BehaviorSubject();
+  BehaviorSubject<List<bool>> selectTypeCalendarSubject =
+      BehaviorSubject.seeded([true, false]);
 
   Stream<int> get checkIndexStream => checkIndex.stream;
 

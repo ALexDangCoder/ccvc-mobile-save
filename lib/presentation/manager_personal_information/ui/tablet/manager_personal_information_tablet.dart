@@ -28,11 +28,12 @@ class _ManagerPersonalInformationTabletState
     extends State<ManagerPersonalInformationTablet> {
   final ManagerPersonalInformationCubit _cubit =
       ManagerPersonalInformationCubit();
+  String id = 'b5a6b584-b4a1-4337-900d-ad2e499ad6c0';
 
   @override
   void initState() {
     // TODO: implement initState
-    _cubit.getInfo();
+    _cubit.loadApi(id: id);
     super.initState();
   }
 
@@ -55,8 +56,7 @@ class _ManagerPersonalInformationTabletState
                 context,
                 MaterialPageRoute(
                   builder: (context) => EditPersonInformationTabletScreen(
-                    managerPersonalInformationModel:
-                        _cubit.managerPersonalInformationModel,
+                    id: id,
                   ),
                 ),
               );

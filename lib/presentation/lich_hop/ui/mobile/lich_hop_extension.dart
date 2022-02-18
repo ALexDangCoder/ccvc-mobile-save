@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/lich_hop_theo_ngay_t
 import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/lich_hop_theo_ngay_tuan_thang_tablet/lich_hop_theo_tuan_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'danh_sach_lich_hop/danh_sach_lich_hop.dart';
@@ -42,7 +43,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
     }
   }
 
-  Widget getTextWidget(LichHopCubit cubit) {
+  Widget getTextWidget(TableCalendarTabletCubit cubit) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
         return StreamBuilder<DateTime>(

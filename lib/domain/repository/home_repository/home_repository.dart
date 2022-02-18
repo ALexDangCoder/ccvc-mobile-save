@@ -1,13 +1,18 @@
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/home/lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/home/lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/home/nhiem_vu_request.dart';
+import 'package:ccvc_mobile/data/request/home/to_do_list_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/home/date_model.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/home/document_model.dart';
 import 'package:ccvc_mobile/domain/model/home/pham_vi_model.dart';
+import 'package:ccvc_mobile/domain/model/home/press_network_model.dart';
 import 'package:ccvc_mobile/domain/model/home/tinh_hinh_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/home/tinh_huong_khan_cap_model.dart';
+import 'package:ccvc_mobile/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/domain/model/home/tong_hop_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 
@@ -49,6 +54,23 @@ abstract class HomeRepository {
       String denNgay,
       String donViId,
       String userId,
-      [String? loaiMenu]
-      );
+      [String? loaiMenu]);
+
+  Future<Result<TodoListModel>> getListTodo();
+
+  Future<Result<TodoModel>> upDateTodo(ToDoListRequest toDoListRequest);
+
+  Future<Result<TodoModel>> createTodo(CreateToDoRequest createToDoRequest);
+
+  Future<Result<List<PressNetWorkModel>>> getBaoChiMangXaHoi(
+    int pageIndex,
+    int pageSize,
+    String fromDate,
+    String toDate,
+    String keyWord,
+  );
+  Future<Result<List<CalendarMeetingModel>>> getListLichLamViec(LichLamViecRequest lamViecRequest);
+
+  Future<Result<List<CalendarMeetingModel>>> getLichHop(LichHopRequest lichHopRequest);
+
 }

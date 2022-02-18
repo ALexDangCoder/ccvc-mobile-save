@@ -1,12 +1,11 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/document/incoming_document.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
@@ -39,7 +38,6 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
     qlvbCubit.callAPi();
     cubitIncoming.callAPi();
     cubitOutgoing.callAPi();
-
   }
 
   @override
@@ -64,6 +62,7 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                     return Container(
                       padding: const EdgeInsets.all(16.0),
                       child: CommonInformationMobile(
+                        qlvbcCubit: qlvbCubit,
                         documentDashboardModel: dataVBDen,
                         isVbDen: true,
                         title: S.current.document_incoming,
@@ -82,6 +81,7 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                     return Container(
                       padding: const EdgeInsets.all(16.0),
                       child: CommonInformationMobile(
+                        qlvbcCubit: qlvbCubit,
                         documentDashboardModel: dataVBDi,
                         isVbDen: false,
                         title: S.current.document_out_going,
@@ -135,13 +135,20 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                                   listData.length < 3 ? listData.length : 3,
                               itemBuilder: (context, index) {
                                 return IncomingDocumentCell(
-                                  onTap: () {},
-                                  title: listData[index].loaiVanBan??'',
-                                  dateTime:
-                                      DateTime.parse(listData[index].ngayDen??'')
-                                          .toStringWithListFormat,
-                                  userName: listData[index].nguoiSoanThao??'',
-                                  status: listData[index].doKhan??'',
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailDocument(),
+                                      ),
+                                    );
+                                  },
+                                  title: listData[index].loaiVanBan ?? '',
+                                  dateTime: DateTime.parse(
+                                          listData[index].ngayDen ?? '')
+                                      .toStringWithListFormat,
+                                  userName: listData[index].nguoiSoanThao ?? '',
+                                  status: listData[index].doKhan ?? '',
                                   userImage:
                                       'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                                 );
@@ -198,23 +205,30 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount:
-                              listData.length < 3 ? listData.length : 3,
+                                  listData.length < 3 ? listData.length : 3,
                               itemBuilder: (context, index) {
                                 return IncomingDocumentCell(
-                                  onTap: () {},
-                                  title: listData[index].loaiVanBan??'',
-                                  dateTime:
-                                  DateTime.parse(listData[index].ngayTao??'')
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailDocument(),
+                                      ),
+                                    );
+                                  },
+                                  title: listData[index].loaiVanBan ?? '',
+                                  dateTime: DateTime.parse(
+                                          listData[index].ngayTao ?? '')
                                       .toStringWithListFormat,
-                                  userName: listData[index].nguoiSoanThao??'',
-                                  status: listData[index].doKhan??'',
+                                  userName: listData[index].nguoiSoanThao ?? '',
+                                  status: listData[index].doKhan ?? '',
                                   userImage:
-                                  'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                      'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                                 );
                               },
                             );
                           } else {
-                            return Container(height: 100,color: Colors.red,);
+                            return const SizedBox();
                           }
                         },
                       ),

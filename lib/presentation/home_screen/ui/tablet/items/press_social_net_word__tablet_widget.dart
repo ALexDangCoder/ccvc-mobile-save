@@ -72,11 +72,12 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
         type: widget.homeItemType,
         listSelectKey: [
           DialogData(
-            onSelect: (value,startDate,endDate) {
+            onSelect: (value, startDate, endDate) {
               _xaHoiCubit.selectDate(
-                  selectKey: value,
-                  startDate: startDate,
-                  endDate: endDate);
+                selectKey: value,
+                startDate: startDate,
+                endDate: endDate,
+              );
             },
             title: S.current.time,
           )
@@ -238,11 +239,11 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
   Widget tagWidget(HomeCubit cubit) {
     return SizedBox(
       height: 26,
-      child: StreamBuilder<List<TagModel>>(
+      child: StreamBuilder<List<String>>(
         initialData: const [],
         stream: _xaHoiCubit.getTag,
         builder: (context, snapshot) {
-          final data = snapshot.data ?? <TagModel>[];
+          final data = snapshot.data ?? <String>[];
           return ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: data.length,
@@ -257,15 +258,15 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                   decoration: BoxDecoration(
-                    color: result.select
+                    color: result == _xaHoiCubit.tagKey
                         ? linkColor
                         : radioFocusColor.withOpacity(0.1),
                     borderRadius: const BorderRadius.all(Radius.circular(6)),
                   ),
                   child: Text(
-                    '#${result.title}',
+                    '#$result',
                     style: textNormal(
-                      result.select
+                      result == _xaHoiCubit.tagKey
                           ? AppTheme.getInstance().dfBtnTxtColor()
                           : linkColor,
                       12.0.textScale(),

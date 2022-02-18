@@ -15,7 +15,7 @@ class ContainerMenuWidget extends StatefulWidget {
   final int index;
   final bool isTypeContainer;
   final TypeContainer type;
-  final Widget childExpand;
+  final Widget? childExpand;
   final Function onTap;
 
   const ContainerMenuWidget({
@@ -26,7 +26,7 @@ class ContainerMenuWidget extends StatefulWidget {
     this.type = TypeContainer.number,
     this.index = 0,
     this.isTypeContainer = true,
-    required this.childExpand,
+    this.childExpand,
     required this.onTap,
   }) : super(key: key);
 
@@ -56,35 +56,42 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    if (widget.isIcon)
-                      SizedBox(
-                        height: 15.0.textScale(space: 8),
-                        width: 15.0.textScale(space: 8),
-                        child: SvgPicture.asset(
-                          widget.icon,
-                          color: Colors.grey,
+                Expanded(
+                  child: Row(
+                    children: [
+                      if (widget.isIcon)
+                        SizedBox(
+                          height: 15.0.textScale(space: 8),
+                          width: 15.0.textScale(space: 8),
+                          child: SvgPicture.asset(
+                            widget.icon,
+                            color: Colors.grey,
+                          ),
+                        )
+                      else
+                        const SizedBox(
+                          height: 15,
+                          width: 15,
                         ),
-                      )
-                    else
-                      const SizedBox(
-                        height: 15,
-                        width: 15,
+                      SizedBox(
+                        width: 14.0.textScale(),
                       ),
-                    SizedBox(
-                      width: 14.0.textScale(),
-                    ),
-                    Text(
-                      widget.name,
-                      style: textNormalCustom(
-                        color: textTitle,
-                        fontSize: 16.0.textScale(),
-                        fontWeight: FontWeight.w400,
+                      Expanded(
+                        child: Text(
+                          widget.name,
+                          style: textNormalCustom(
+                            color: textTitle,
+                            fontSize: 16.0.textScale(),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+
+                const SizedBox(width: 12,),
+
                 if (widget.isTypeContainer)
                   if (widget.type == TypeContainer.number)
                     Container(
@@ -120,7 +127,7 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
         if (widget.type == TypeContainer.expand)
           ExpandedSection(
             expand: isExpand,
-            child: widget.childExpand,
+            child: widget.childExpand ?? Container(),
           ),
       ],
     );

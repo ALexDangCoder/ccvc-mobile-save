@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/manager_personal_information.dart';
@@ -123,6 +124,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     title: S.current.dang_xuat,
                     onPressed: () {
                      AppStateCt.of(context).appState.setToken('');
+                     HiveLocal.clearData();
                     },
                     isColorBlue: false,
                   ),

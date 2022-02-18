@@ -39,6 +39,7 @@ class _SituationOfHandlingPeopleWidgetState
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
+      minHeight: 420,
       title: S.current.situation_of_handling_people,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);

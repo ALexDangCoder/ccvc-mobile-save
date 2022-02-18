@@ -10,10 +10,12 @@ class CommonInformationMobile extends StatefulWidget {
   final DocumentDashboardModel documentDashboardModel;
   final String? title;
   final bool isVbDen;
+  final QLVBCCubit qlvbcCubit;
 
   const CommonInformationMobile({
     Key? key,
     required this.documentDashboardModel,
+    required this.qlvbcCubit,
     this.title,
     required this.isVbDen,
   }) : super(key: key);
@@ -24,12 +26,9 @@ class CommonInformationMobile extends StatefulWidget {
 }
 
 class _CommonInformationMobileState extends State<CommonInformationMobile> {
-  QLVBCCubit qlvbcCubit = QLVBCCubit();
-
   @override
   void initState() {
     super.initState();
-    qlvbcCubit.callAPi();
   }
 
   @override
@@ -40,8 +39,8 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
         PieChart(
           title: widget.title ?? '',
           chartData: widget.isVbDen
-              ? qlvbcCubit.chartDataVbDen
-              : qlvbcCubit.chartDataVbDi,
+              ? widget.qlvbcCubit.chartDataVbDen
+              : widget.qlvbcCubit.chartDataVbDi,
           onTap: (int value) {},
         ),
         Container(height: 20),

@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_w
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/enum_ext.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/loading_only.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,7 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
+      minHeight: 250,
       title: S.current.people_opinions,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
@@ -71,6 +73,12 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
           stream: _danCubit.getYKien,
           builder: (context, snapshot) {
             final data = snapshot.data ?? <DocumentModel>[];
+            if (data.isEmpty) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 100),
+                child:  NodataWidget(),
+              );
+            }
             return Column(
               children: List.generate(data.length, (index) {
                 final result = data[index];

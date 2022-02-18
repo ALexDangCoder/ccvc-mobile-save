@@ -24,8 +24,7 @@ class _WigetImageState extends State<WigetImage> {
         Column(
           children: [
             Image.network(
-              widget.cubit.managerPersonalInformationModel.anhChuKyFilePath ??
-                  ImageAssets.icProfile,
+              ImageAssets.icProfile,
               errorBuilder: (_, __, ___) {
                 return Image.asset(
                   ImageAssets.icProfile,
@@ -46,8 +45,7 @@ class _WigetImageState extends State<WigetImage> {
         Column(
           children: [
             Image.network(
-              widget.cubit.managerPersonalInformationModel.anhChuKyFilePath ??
-                  ImageAssets.icProfile,
+              ImageAssets.icProfile,
               errorBuilder: (_, __, ___) {
                 return Image.asset(
                   ImageAssets.icProfile,
@@ -68,8 +66,7 @@ class _WigetImageState extends State<WigetImage> {
         Column(
           children: [
             Image.network(
-              widget.cubit.managerPersonalInformationModel.anhChuKyFilePath ??
-                  ImageAssets.icProfile,
+              ImageAssets.icProfile,
               errorBuilder: (_, __, ___) {
                 return Image.asset(
                   ImageAssets.icProfile,

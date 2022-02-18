@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/document/incoming_document.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/tablet.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_dell_tablet.dart';
@@ -12,7 +11,6 @@ class ListVBDen extends StatefulWidget {
   final String titleButton;
   final List<VanBanModel> list;
   final Function() onTap;
-
 
   const ListVBDen({
     required this.titleButton,
@@ -44,7 +42,7 @@ class _ListVBDenState extends State<ListVBDen> {
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.list.length>3 ? 3: widget.list.length,
+                itemCount: widget.list.length > 3 ? 3 : widget.list.length,
                 itemBuilder: (context, index) {
                   return IncomingDocumentCellTablet(
                     onTap: () {
@@ -55,11 +53,12 @@ class _ListVBDenState extends State<ListVBDen> {
                         ),
                       );
                     },
-                    title: widget.list[index].loaiVanBan??'',
-                    dateTime: widget.list[index].ngayDen?? '',
+                    title: widget.list[index].loaiVanBan ?? '',
+                    dateTime: widget.list[index].ngayDen ?? '',
                     userName: widget.list[index].nguoiSoanThao ?? '',
                     status: widget.list[index].doKhan ?? '',
-                    userImage: 'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                    userImage:
+                        'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                     index: index,
                   );
                 },

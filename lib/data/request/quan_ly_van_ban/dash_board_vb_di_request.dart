@@ -4,14 +4,18 @@ part 'dash_board_vb_di_request.g.dart';
 
 @JsonSerializable()
 class VBDiRequest {
-  final String NgayDauTien;
-  final String NgayCuoiCung;
-  VBDiRequest({
-    required this.NgayDauTien,
-    required this.NgayCuoiCung,
+  @JsonKey(name: 'NgayDauTien')
+  final String ngayDauTien;
+  @JsonKey(name: 'NgayCuoiCung')
+  final String ngayCuoiCung;
 
+  VBDiRequest({
+    required this.ngayDauTien,
+    required this.ngayCuoiCung,
   });
+
   factory VBDiRequest.fromJson(Map<String, dynamic> json) =>
       _$VBDiRequestFromJson(json);
+
   Map<String, dynamic> toJson() => _$VBDiRequestToJson(this);
 }

@@ -17,25 +17,26 @@ class DoashBoashVBDenResponse {
   Map<String, dynamic> toJson() => _$DoashBoashVBDenResponseToJson(this);
 
   DocumentDashboardModel toDomain() {
-      final Map<String, int> mapData = {};
-      DocumentDashboardModel documentDashboardModel=DocumentDashboardModel();
-      if(dataDashBoardVBDen.isNotEmpty){
-        for (final  element in dataDashBoardVBDen) {
-          mapData['${element.code}'] = element.value ?? 0;
-        }
-         documentDashboardModel = DocumentDashboardModel(
-          soLuongChoXuLy: mapData[VBDenDocumentType.CHO_XU_LY.getName()],
-          soLuongDangXuLy: mapData[VBDenDocumentType.DANG_XU_LY.getName()],
-          soLuongDaXuLy: mapData[VBDenDocumentType.DA_XU_LY.getName()],
-          soLuongChoVaoSo: mapData[VBDenDocumentType.CHO_VAO_SO.getName()],
-          soLuongTrongHan: mapData[VBDenDocumentType.TRONG_HAN.getName()],
-          soLuongQuaHan: mapData[VBDenDocumentType.QUA_HAN.getName()],
-          soLuongThuongKhan: mapData[VBDenDocumentType.THUONG_KHAN.getName()],
-        );
+    final Map<String, int> mapData = {};
+    DocumentDashboardModel documentDashboardModel = DocumentDashboardModel();
+    if (dataDashBoardVBDen.isNotEmpty) {
+      for (final element in dataDashBoardVBDen) {
+        mapData['${element.code}'] = element.value ?? 0;
       }
+      documentDashboardModel = DocumentDashboardModel(
+        soLuongChoXuLy: mapData[VBDenDocumentType.CHO_XU_LY.getName()],
+        soLuongDangXuLy: mapData[VBDenDocumentType.DANG_XU_LY.getName()],
+        soLuongDaXuLy: mapData[VBDenDocumentType.DA_XU_LY.getName()],
+        soLuongChoVaoSo: mapData[VBDenDocumentType.CHO_VAO_SO.getName()],
+        soLuongTrongHan: mapData[VBDenDocumentType.TRONG_HAN.getName()],
+        soLuongQuaHan: mapData[VBDenDocumentType.QUA_HAN.getName()],
+        soLuongThuongKhan: mapData[VBDenDocumentType.THUONG_KHAN.getName()],
+      );
+    }
 
-      return documentDashboardModel;
+    return documentDashboardModel;
   }
+
   @override
   List<Object?> get props => [];
 }

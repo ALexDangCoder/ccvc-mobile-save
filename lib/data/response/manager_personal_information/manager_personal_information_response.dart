@@ -11,7 +11,8 @@ class ManagerPersonalInformationResponse {
   ManagerPersonalInformationResponse(this.data);
 
   factory ManagerPersonalInformationResponse.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$ManagerPersonalInformationResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
@@ -66,6 +67,12 @@ class PersonalInformationResponse {
   String? huyen;
   @JsonKey(name: 'xa')
   String? xa;
+  @JsonKey(name: 'tinhId')
+  String? tinhId;
+  @JsonKey(name: 'huyenId')
+  String? huyenId;
+  @JsonKey(name: 'xaId')
+  String? xaId;
   @JsonKey(name: 'departments')
   List<DepartmentsResponse>? departments;
   @JsonKey(name: 'userAccounts')
@@ -107,6 +114,9 @@ class PersonalInformationResponse {
         tinh: tinh,
         huyen: huyen,
         xa: xa,
+        tinhId: tinhId,
+        huyenId: huyenId,
+        xaId: xaId,
         departments: departments?.map((e) => e.toModel()).toList() ?? [],
         userAccounts: userAccounts?.map((e) => e.toModel()).toList() ?? [],
       );

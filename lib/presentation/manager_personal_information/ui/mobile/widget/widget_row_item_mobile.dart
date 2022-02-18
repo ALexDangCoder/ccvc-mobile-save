@@ -39,7 +39,7 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
               child: Text(
                 widget.row.title,
                 style: textDetailHDSD(
-                  fontSize: 12.0.textScale(),
+                  fontSize: 14.0,
                   color: titleItemEdit,
                   textHeight: 1.7,
                 ),
@@ -52,7 +52,7 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
                   ? Text(
                       '${widget.row.value}',
                       style: textDetailHDSD(
-                        fontSize: 12.0.textScale(),
+                        fontSize: 14,
                         color: titleCalenderWork,
                         textHeight: 1.7,
                       ),

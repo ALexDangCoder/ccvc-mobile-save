@@ -33,7 +33,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   void callAPi() {
     dataVBDi(startDate: '2022-02-01', endDate: '2022-02-28');
     dataVBDen(startDate: '2022-02-01', endDate: '2022-02-28');
-    // listDataVBDen();
   }
 
   final QLVBRepository _QLVBRepo = Get.find();
@@ -54,21 +53,21 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         chartDataVbDi.add(
           ChartData(
             S.current.cho_trinh_ky,
-            dataVbDi.soLuongChoTrinhKy?.toDouble() ??0,
+            dataVbDi.soLuongChoTrinhKy?.toDouble() ?? 0,
             choTrinhKyColor,
           ),
         );
         chartDataVbDi.add(
           ChartData(
             S.current.cho_xu_ly,
-            dataVbDi.soLuongChoXuLy?.toDouble()??0,
+            dataVbDi.soLuongChoXuLy?.toDouble() ?? 0,
             choXuLyColor,
           ),
         );
         chartDataVbDi.add(
           ChartData(
             S.current.da_xu_ly,
-            dataVbDi.soLuongDaXuLy?.toDouble()??0,
+            dataVbDi.soLuongDaXuLy?.toDouble() ?? 0,
             daXuLyColor,
           ),
         );
@@ -91,28 +90,28 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         chartDataVbDen.add(
           ChartData(
             S.current.cho_xu_ly,
-            dataVbDen.soLuongChoXuLy?.toDouble() ??0,
+            dataVbDen.soLuongChoXuLy?.toDouble() ?? 0,
             choXuLyColor,
           ),
         );
         chartDataVbDen.add(
           ChartData(
             S.current.dang_xu_ly,
-            dataVbDen.soLuongDangXuLy?.toDouble()??0,
+            dataVbDen.soLuongDangXuLy?.toDouble() ?? 0,
             dangXyLyColor,
           ),
         );
         chartDataVbDen.add(
           ChartData(
             S.current.da_xu_ly,
-            dataVbDen.soLuongDaXuLy?.toDouble()??0,
+            dataVbDen.soLuongDaXuLy?.toDouble() ?? 0,
             daXuLyColor,
           ),
         );
         chartDataVbDen.add(
           ChartData(
             S.current.cho_vao_so,
-            dataVbDen.soLuongChoVaoSo?.toDouble()??0,
+            dataVbDen.soLuongChoVaoSo?.toDouble() ?? 0,
             choVaoSoColor,
           ),
         );

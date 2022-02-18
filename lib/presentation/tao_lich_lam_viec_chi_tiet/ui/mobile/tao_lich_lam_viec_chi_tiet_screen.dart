@@ -1,11 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/is_ca_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/linh_vuc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/loai_lich_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/mau_mac_dinh_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nguoi_chu_tri_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nhac_lai_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/search_name_widget.dart';
@@ -13,9 +12,9 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/ta
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/text_form_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
-import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/pick_date_cupertino.dart';
+import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -56,132 +55,82 @@ class _TaoLichLamViecChiTietScreenState
             },
           ),
         ),
-        body: Container(
-          margin: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Form(
-                  key: _formKey,
-                  child: TextFormWidget(
-                    controller: tieuDeController,
-                    image: ImageAssets.icEdit,
-                    hint: S.current.tieu_de,
+        body: ExpandGroup(
+          child: Container(
+            margin: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: TextFormWidget(
+                      controller: tieuDeController,
+                      image: ImageAssets.icEdit,
+                      hint: S.current.tieu_de,
+                    ),
                   ),
-                ),
-                const LoaiLichWidget(),
-                const SearchNameWidget(),
-                const IsCaNgayWidget(),
-
-                StreamBuilder<bool>(
-                  stream: taoLichLamViecCubit.isDateTimeStream,
-                  builder: (context, snapshot) {
-                    final dataBool = snapshot.data ?? true;
-                    return Column(
-                      children: [
-                        StreamBuilder<DateTime>(
-                          stream: taoLichLamViecCubit.startDateSubject,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? DateTime.now();
-
-
-                            return PicKDateCupertino(
-                              key: UniqueKey(),
-                              minimumDate: DateTime.now(),
-                              mode: dataBool
-                                  ? CupertinoDatePickerMode.date
-                                  : CupertinoDatePickerMode.dateAndTime,
-                              onDateTimeChanged: (DateTime value) {
-                                taoLichLamViecCubit.listeningStartDataTime(
-                                  value,
-                                );
-                              },
-                              title: S.current.bat_dau,
-                              dateAndTime: data.formatDateTime,
-                            );
-                          },
-                        ),
-
-                        StreamBuilder<DateTime>(
-                          stream: taoLichLamViecCubit.endDateSubject,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? DateTime.now();
-
-                            return PicKDateCupertino(
-                              key: UniqueKey(),
-                              minimumDate: DateTime.now(),
-                              mode: dataBool
-                                  ? CupertinoDatePickerMode.date
-                                  : CupertinoDatePickerMode.dateAndTime,
-                              onDateTimeChanged: (DateTime value) {
-                                taoLichLamViecCubit.listeningEndDataTime(
-                                  value,
-                                );
-                              },
-                              title: S.current.ket_thuc,
-                              dateAndTime: data.formatDateTime,
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                ),
-
-                const NhacLaiWidget(),
-                const MauMacDinhWidget(),
-                const NguoiChuTriWidget(),
-                const LinhVucWidget(),
-                TextFormWidget(
-                  image: ImageAssets.icViTri,
-                  hint: S.current.dia_diem,
-                ),
-                TextFormWidget(
-                  image: ImageAssets.icDocument,
-                  hint: S.current.noi_dung,
-                ),
-
-                const ThanhPhanThamGiaTLWidget(),
-                const TaiLieuWidget(),
-
-                buttonTaoLich(
-                  onTap: () {
-                    if (taoLichLamViecCubit.checkValidateTime()) {
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: backgroundDrawerMenu,
-                          content: Text(
-                            S.current.vui_long_kiem_tra_lai_time,
-                            style: textNormalCustom(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                  const LoaiLichWidget(),
+                  const SearchNameWidget(),
+                  StartEndDateWidget(
+                    onEndDateTimeChanged: (DateTime value) {},
+                    onStartDateTimeChanged: (DateTime value) {},
+                  ),
+                  const SizedBox(height: 26,),
+                  const NhacLaiWidget(),
+                  const NguoiChuTriWidget(),
+                  const LinhVucWidget(),
+                  TextFormWidget(
+                    image: ImageAssets.icViTri,
+                    hint: S.current.dia_diem,
+                  ),
+                  TextFormWidget(
+                    image: ImageAssets.icDocument,
+                    hint: S.current.noi_dung,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const ThanhPhanThamGiaTLWidget(),
+                  const TaiLieuWidget(),
+                  buttonTaoLich(
+                    onTap: () {
+                      if (taoLichLamViecCubit.checkValidateTime()) {
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: backgroundDrawerMenu,
+                            content: Text(
+                              S.current.vui_long_kiem_tra_lai_time,
+                              style: textNormalCustom(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
+                        );
+                      }
 
-                    if (tieuDeController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: backgroundDrawerMenu,
-                          content: Text(
-                            S.current.khong_duoc_de_trong,
-                            style: textNormalCustom(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                      if (tieuDeController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: backgroundDrawerMenu,
+                            content: Text(
+                              S.current.khong_duoc_de_trong,
+                              style: textNormalCustom(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

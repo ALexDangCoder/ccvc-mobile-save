@@ -18,7 +18,8 @@ class ThongKe {
   });
 
   factory ThongKe.fromJson(Map<String, dynamic> json) {
-    return ThongKe(BaoChi: json['BaoChi'],
+    return ThongKe(
+        BaoChi: json['BaoChi'],
         Blog: json['Blog'],
         Forum: json['Forum'],
         MangXaHoi: json['MangXaHoi'],

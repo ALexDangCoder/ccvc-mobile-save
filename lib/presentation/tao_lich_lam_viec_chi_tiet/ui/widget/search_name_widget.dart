@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_person_widget.dart';
@@ -32,11 +34,17 @@ class _SearchNameWidgetState extends State<SearchNameWidget> {
                   height: 29,
                   child: Form(
                     child: TextFormField(
-                      decoration: const InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
+                      decoration: InputDecoration(
+                        hintText: S.current.them_nguoi,
+                        hintStyle: textNormalCustom(
+                          color: unselectLabelColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.0.textScale(),
+                        ),
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: lineColor),
                         ),
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: lineColor),
                         ),
                       ),

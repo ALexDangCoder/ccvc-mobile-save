@@ -437,10 +437,8 @@ class FakeData {
 
   static DateModel dateModel = DateModel(
       dateMore: 'Thứ 3, ngày 27 tháng 04 năm 2021',
-      aqiStatus: 'Tốt',
-      dayLunar: 'Ngày hoàng đạo',
       lunarDate: '16 tháng 3 (Đ), Tân Sửu',
-      aqi: '49');
+      );
 
 
   static final List<WidgetModel> listSearchWidget = [

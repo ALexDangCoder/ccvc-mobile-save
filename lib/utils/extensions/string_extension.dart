@@ -106,9 +106,21 @@ extension CheckValidate on String {
   }
 
   String? checkNull() {
-    if (isEmpty) {
+    if (trim().isEmpty) {
       return S.current.khong_duoc_de_trong;
     }
     return null;
+  }
+
+  String? checkInt() {
+    final result = checkNull();
+    if (result != null) {
+      return result;
+    }
+    try {
+      int.parse(this);
+    } catch (e) {
+      return S.current.check_so_luong;
+    }
   }
 }

@@ -1,5 +1,6 @@
 class EventModel {
-   String id = '';
-   String name = '';
-   EventModel(this.id,this.name);
+  String id = '';
+  String name = '';
+
+  EventModel(this.id, this.name);
 }

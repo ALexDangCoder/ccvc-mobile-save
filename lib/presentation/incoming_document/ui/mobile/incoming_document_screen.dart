@@ -45,7 +45,7 @@ class _IncomingDocumentScreenState extends State<IncomingDocumentScreen> {
                     dateTime: cubit.listIncomingDocument[index].ngayTao,
                     userName: cubit.listIncomingDocument[index].nguoiSoanThao,
                     status: cubit.listIncomingDocument[index].doKhan,
-                    userImage: '',
+                    userImage: 'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                   );
                 },
               ),

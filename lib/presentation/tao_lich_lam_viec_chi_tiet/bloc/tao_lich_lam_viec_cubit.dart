@@ -17,54 +17,14 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     DateTime.now(),
   );
 
-  DateTime startDate = DateTime.now();
-
-  BehaviorSubject<bool> isDateTimeSubject = BehaviorSubject.seeded(true);
-
-  BehaviorSubject<List<ItemSelectModel>> listItemLoaiLichSubject =
-      BehaviorSubject.seeded(listLoaiLich);
-
   BehaviorSubject<List<String>> listItemPersonSubject =
       BehaviorSubject.seeded(listPerson);
-
-  BehaviorSubject<List<ItemSelectModel>> listTimeSubject =
-      BehaviorSubject.seeded(listTime);
-
-  BehaviorSubject<ItemSelectModel> timeSelectSubject =
-      BehaviorSubject.seeded(listTime[3]);
-
-  BehaviorSubject<List<ItemSelectModel>> listColorDefaultSubject =
-      BehaviorSubject.seeded(listColorDefault);
-
-  BehaviorSubject<List<ItemSelectModel>> listNguoiChuTriSubject =
-      BehaviorSubject.seeded(listChuTri);
-
-  BehaviorSubject<List<ItemSelectModel>> listLinhVucSubject =
-      BehaviorSubject.seeded(listLinhVuc);
-
-  Stream<bool> get isDateTimeStream => isDateTimeSubject.stream;
 
   Stream<DateTime> get startDateStream => startDateSubject.stream;
 
   Stream<DateTime> get endDateStream => endDateSubject.stream;
 
-  Stream<List<ItemSelectModel>> get listLinhVucStream =>
-      listLinhVucSubject.stream;
-
-  Stream<List<ItemSelectModel>> get listChuTriStream =>
-      listNguoiChuTriSubject.stream;
-
-  Stream<List<ItemSelectModel>> get listColorDefaultStream =>
-      listColorDefaultSubject.stream;
-
-  Stream<ItemSelectModel> get timeSelectStream => timeSelectSubject.stream;
-
-  Stream<List<ItemSelectModel>> get listTimeStream => listTimeSubject.stream;
-
   Stream<List<String>> get listItemPersonStream => listItemPersonSubject.stream;
-
-  Stream<List<ItemSelectModel>> get listItemLoaiLichStream =>
-      listItemLoaiLichSubject.stream;
 
   void listeningStartDataTime(DateTime dateAndTime) {
     startDateSubject.add(dateAndTime);
@@ -72,67 +32,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   void listeningEndDataTime(DateTime dateAndTime) {
     endDateSubject.add(dateAndTime);
-  }
-
-  void selectLoaiLich(ItemSelectModel itemSelectModel) {
-    listLoaiLich.forEach((element) {
-      if (element == itemSelectModel) {
-        element.isSelect = true;
-      } else {
-        element.isSelect = false;
-      }
-    });
-
-    listItemLoaiLichSubject.add(listLoaiLich);
-  }
-
-  void selectNhacLai(ItemSelectModel time) {
-    listTime.forEach((element) {
-      if (time == element) {
-        element.isSelect = true;
-      } else {
-        element.isSelect = false;
-      }
-    });
-
-    listTimeSubject.add(listTime);
-    timeSelectSubject.add(time);
-  }
-
-  void selectColor(ItemSelectModel color) {
-    listColorDefault.forEach((element) {
-      if (color == element) {
-        element.isSelect = true;
-      } else {
-        element.isSelect = false;
-      }
-    });
-
-    listColorDefaultSubject.add(listColorDefault);
-  }
-
-  void selectChuTri(ItemSelectModel chuTri) {
-    listChuTri.forEach((element) {
-      if (chuTri == element) {
-        element.isSelect = true;
-      } else {
-        element.isSelect = false;
-      }
-    });
-
-    listNguoiChuTriSubject.add(listChuTri);
-  }
-
-  void selectLinhVuc(ItemSelectModel chuTri) {
-    listLinhVuc.forEach((element) {
-      if (chuTri == element) {
-        element.isSelect = true;
-      } else {
-        element.isSelect = false;
-      }
-    });
-
-    listLinhVucSubject.add(listLinhVuc);
   }
 
   bool checkValidateTime() {
@@ -150,10 +49,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   Future<void> deleteFile(File deleteFile, List<File> list) async {
-    for(final e in list) {
-      if(e == deleteFile) {
-        list.remove(e);
-      }
-    }
+        list.remove(deleteFile);
   }
 }

@@ -6,10 +6,12 @@ class DonViModel {
   String tenCanBo = '';
   String chucVu = '';
   String noidung = '';
+
   DonViModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['tenDonVi'];
   }
+
   DonViModel(
       {required this.id,
       required this.name,
@@ -24,15 +26,18 @@ class Node<T> {
   CheckBox isCheck = CheckBox();
   int level = 0;
   List<Node<T>> children = [];
+
   Node(T init) {
     value = init;
   }
+
   Node.init(Node<T> node) {
     value = node.value;
     parent = node.parent;
     expand = node.expand;
     isCheck = node.isCheck;
   }
+
   Node<DonViModel>? search(Node<DonViModel> node) {
     final nodeTree = value as DonViModel;
     if (node.value.id == nodeTree.id) {

@@ -1,9 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/tablet/calender_work_day_lich_tablet.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/widget/in_list_form_tablet.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/list/in_list_form_tablet.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/mobile/drawer_menu.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/drawer_menu_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -50,7 +50,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                       const [],
                       const [],
                     ),
-                    tabletScreen: BaseMenuTablet(
+                    tabletScreen: BaseMenuPhone(
                       const [],
                       const [],
                       offsetAnimation,

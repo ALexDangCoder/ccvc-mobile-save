@@ -9,6 +9,7 @@ class RadioButton<T> extends StatelessWidget {
   final T groupValue;
   final Function(T?) onChange;
   final String title;
+
   const RadioButton({
     Key? key,
     required this.value,
@@ -50,7 +51,9 @@ class RadioButton<T> extends StatelessWidget {
             Text(
               title,
               style: textNormal(
-                  AppTheme.getInstance().titleColor(), 14.0.textScale(),),
+                AppTheme.getInstance().titleColor(),
+                14.0.textScale(),
+              ),
             ),
           ],
         ),

@@ -27,13 +27,15 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Text(
                 widget.row.title,
-                style: tokenDetailAmount(
+                style: textDetailHDSD(
                   fontSize: 12.0.textScale(),
                   color: titleItemEdit,
+                  textHeight: 1.7,
                 ),
+                maxLines: 2,
               ),
             ),
             Expanded(
@@ -41,9 +43,10 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
               child: widget.row.type == TypeRow.text
                   ? Text(
                       '${widget.row.value}',
-                      style: tokenDetailAmount(
+                      style: textDetailHDSD(
                         fontSize: 12.0.textScale(),
                         color: titleCalenderWork,
+                        textHeight: 1.7,
                       ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,

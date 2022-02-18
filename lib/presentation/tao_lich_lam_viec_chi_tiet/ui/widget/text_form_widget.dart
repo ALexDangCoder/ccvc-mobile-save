@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -27,8 +28,8 @@ class _TextFormWidgetState extends State<TextFormWidget> {
     return Row(
       children: [
         SvgPicture.asset(widget.image),
-        const SizedBox(
-          width: 14,
+        SizedBox(
+          width: 14.0.textScale(),
         ),
         Expanded(
           child: TextFormField(
@@ -38,7 +39,7 @@ class _TextFormWidgetState extends State<TextFormWidget> {
               hintStyle: textNormalCustom(
                 color: unselectLabelColor,
                 fontWeight: FontWeight.w400,
-                fontSize: 16,
+                fontSize: 16.0.textScale(),
               ),
               hintText: widget.hint,
               focusedBorder: const UnderlineInputBorder(

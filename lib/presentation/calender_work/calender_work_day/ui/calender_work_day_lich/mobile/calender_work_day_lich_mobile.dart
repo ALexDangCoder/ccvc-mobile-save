@@ -1,10 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/bloc/calender_cubit.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/mobile/widget/in_calender_form.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/lich/in_calender_form.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/mobile/drawer_menu.dart';
-import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/drawer_menu_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -68,7 +67,7 @@ class _CalenderWorkDayLichMobileState extends State<CalenderWorkDayLichMobile> {
                         const [],
                         const [],
                       ),
-                      tabletScreen: BaseMenuTablet(
+                      tabletScreen: BaseMenuPhone(
                         const [],
                         const [],
                         offsetAnimation,

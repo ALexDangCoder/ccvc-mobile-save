@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/flutter_svg.dart';
 
 Future<T?> showDiaLogTablet<T>(
@@ -50,6 +49,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final bool isBottomShow;
   final double maxHeight;
   final double width;
+
   const _DiaLogFeatureWidget({
     Key? key,
     required this.title,

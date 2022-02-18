@@ -196,13 +196,16 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                     const SizedBox(
                       width: 13,
                     ),
-                    Expanded(
-                      child: FittedBox(
-                        child: Text(
-                          DateTime.parse(data.publishedTime).formatDdMMYYYY,
-                          style: textNormal(
-                            infoColor,
-                            14.0.textScale(),
+                    Flexible(
+                      child: SizedBox(
+                        height: 20,
+                        child: FittedBox(
+                          child: Text(
+                            DateTime.parse(data.publishedTime).formatDdMMYYYY,
+                            style: textNormal(
+                              infoColor,
+                              14.0.textScale(),
+                            ),
                           ),
                         ),
                       ),

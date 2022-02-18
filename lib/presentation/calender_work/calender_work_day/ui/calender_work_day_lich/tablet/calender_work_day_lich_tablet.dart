@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/bloc/calender_cubit.dart';
-import 'package:ccvc_mobile/presentation/calender_work/calender_work_day/ui/calender_work_day_lich/tablet/widget/in_calender_form_tablet.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/list_menu/bloc/list_menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/mobile/drawer_menu.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/drawer_menu_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -23,6 +23,7 @@ class _CalenderWorkDayLichTabletState extends State<CalenderWorkDayLichTablet> {
 
   @override
   Widget build(BuildContext context) {
+    ListMenuCubit listMenuCubit = ListMenuCubit();
     return Scaffold(
       appBar: BaseAppBar(
         title: S.current.lich_cua_toi,
@@ -39,13 +40,14 @@ class _CalenderWorkDayLichTabletState extends State<CalenderWorkDayLichTablet> {
                   final tween = Tween(begin: begin, end: end);
                   final offsetAnimation = animation.drive(tween);
                   return screenDevice(
+
                     mobileScreen: BaseMenuPhone(
                       const [],
                       const [],
                       offsetAnimation,
                       S.current.calendar_work,
                       ImageAssets.icMenuCalender,
-                      (p0) => null,
+                          (p0) => null,
                       const [],
                       const [],
                     ),
@@ -72,7 +74,7 @@ class _CalenderWorkDayLichTabletState extends State<CalenderWorkDayLichTablet> {
       ),
       body: Column(
         children: const [
-          Expanded(child: InCalenderFormTablet()),
+          // Expanded(child: InCalenderFormTablet()),
         ],
       ),
       floatingActionButton: FloatingActionButton(

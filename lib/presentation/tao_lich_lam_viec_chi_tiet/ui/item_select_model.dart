@@ -1,5 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:flutter/material.dart';
 
 class ItemSelectModel {
@@ -116,3 +119,57 @@ List<ItemSelectModel> listLinhVuc = [
   ItemSelectModel(isSelect: false, text: 'Ngoại giao'),
   ItemSelectModel(isSelect: false, text: 'Xuất khẩu lao động'),
 ];
+
+enum StartOfEnd { START, END, DIFFERENCE }
+
+extension StartOfEndExtension on StartOfEnd {
+  Widget getText({required BuildContext context, String? title}) {
+    switch (this) {
+      case StartOfEnd.START:
+        return StreamBuilder<DateTime>(
+            stream: StartEndDateInherited.of(context)
+                .picKDateCupertinoCubit
+                .startDateStream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? DateTime.now();
+
+              return Text(
+                data.formatDateTime,
+                style: textNormalCustom(
+                  color: dateColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              );
+            },);
+
+      case StartOfEnd.END :
+        return StreamBuilder<DateTime>(
+          stream: StartEndDateInherited.of(context)
+              .picKDateCupertinoCubit
+              .endDateStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? DateTime.now();
+
+            return Text(
+              data.formatDateTime,
+              style: textNormalCustom(
+                color: dateColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ),
+            );
+          },);
+
+      case StartOfEnd.DIFFERENCE :
+        return Text(
+          title ?? '',
+          style: textNormalCustom(
+            color: dateColor,
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+          ),
+        );
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/forgot_password/bloc/forgot_password_cubit.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_textfield.dart';
-import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/reset_password_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
+import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -18,7 +19,7 @@ class SendMailScreen extends StatefulWidget {
 class _SendMailScreenState extends State<SendMailScreen> {
   ForgotPasswordCubit cubit = ForgotPasswordCubit();
   TextEditingController emailController = TextEditingController();
-  final keytextEmail = GlobalKey<FormState>();
+  final keyGroup = GlobalKey<FormGroupState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,41 +30,37 @@ class _SendMailScreenState extends State<SendMailScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: SizedBox(
             width: double.maxFinite,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20.0),
-                Form(
-                  key: keytextEmail,
-                  child: CustomTextField(
+            child: FormGroup(
+              key: keyGroup,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20.0),
+                  TextFieldValidator(
                     controller: emailController,
-                    isPass: true,
-                    textHint: S.current.email,
-                    prefixIcon: SvgPicture.asset(ImageAssets.ic_email),
-                    onChange: (text) {
-                      keytextEmail.currentState?.validate();
-                    },
-                    validate: (value) {
-                      return cubit.validateInputText(value!);
+                    hintText: S.current.email,
+                   prefixIcon: SizedBox(
+                     width: 20,
+                     height: 20,
+                     child: Center(
+                         child: SvgPicture.asset(ImageAssets.ic_email),),
+                   ),
+                    validator: (value) {
+                      return (value ?? '').checkEmail();
                     },
                   ),
-                ),
-                const SizedBox(height: 20.0),
-                ButtonCustomBottom(
-                  isColorBlue: false,
-                  title: S.current.tiep_theo,
-                  onPressed: () {
-                    keytextEmail.currentState?.validate();
-                    if(emailController.value.text.isNotEmpty) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ResetPasswordScreen(),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
+                  const SizedBox(height: 20.0),
+                  ButtonCustomBottom(
+                    isColorBlue: false,
+                    title: S.current.tiep_theo,
+                    onPressed: () {
+                      if (keyGroup.currentState!.validator()) {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

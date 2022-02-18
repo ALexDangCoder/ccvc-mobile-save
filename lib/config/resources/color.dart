@@ -125,6 +125,7 @@ const fontColorTablet2 = Color(0xff3D5586);
 const numberColorTablet = Color(0xff7966FF);
 const numberColorTabletbg = Color(0xffECEAFF);
 const iconColorDown = Color(0xffA2AEBD);
+const bgCalenderColor = Color(0xffF9FAFF);
 Color cellColorborder = Color(0xffDBDFEF).withOpacity(0.5);
 Color cellColor = Color(0xffDBDFEF).withOpacity(0.1);
 
@@ -145,6 +146,7 @@ const gradientStart = Color(0xFF4D74FD);
 const gradientEnd = Color(0xFF4DFDF2);
 
 const unFocusColor = Color(0xffF2F0FF);
+const colorImageLichHop = Color(0xffF1F7FF);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

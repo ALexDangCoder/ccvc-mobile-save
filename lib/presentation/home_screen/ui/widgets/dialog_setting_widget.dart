@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -10,6 +12,7 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/custom_select_da
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 import 'package:ccvc_mobile/utils/enum_ext.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/radio/radio_button.dart';
@@ -87,6 +90,35 @@ class DialogSettingWidget extends StatelessWidget {
           );
   }
 
+  void selectTime(SelectKey value, DialogData data) {
+    switch (value) {
+      case SelectKey.HOM_NAY:
+        final result = DateTime.now().dateTimeFormRange();
+        data.onSelect(value, result[0], result[1]);
+        break;
+      case SelectKey.TUAN_NAY:
+        final result =
+            DateTime.now().dateTimeFormRange(timeRange: TimeRange.TUAN_NAY);
+        data.onSelect(value, result[0], result[1]);
+        break;
+      case SelectKey.THANG_NAY:
+        final result =
+            DateTime.now().dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+        data.onSelect(value, result[0], result[1]);
+        break;
+      case SelectKey.NAM_NAY:
+        final result =
+            DateTime.now().dateTimeFormRange(timeRange: TimeRange.NAM_NAY);
+        data.onSelect(value, result[0], result[1]);
+        break;
+      default:
+        {
+          data.onSelect(value,DateTime.now(),DateTime.now());
+          return;
+        }
+    }
+  }
+
   void selectCell(BuildContext context, SelectKey value, DialogData data) {
     if (value == SelectKey.TUY_CHON) {
       if (APP_DEVICE == DeviceType.MOBILE) {
@@ -126,11 +158,7 @@ class DialogSettingWidget extends StatelessWidget {
         );
       }
     } else {
-      data.onSelect(
-        value,
-        DateTime.now(),
-        DateTime.now(),
-      );
+      selectTime(value, data);
     }
   }
 }

@@ -4,6 +4,8 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/ta
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_select_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/title_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,36 +21,10 @@ class _LoaiLichWidgetState extends State<LoaiLichWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ItemSelectModel>>(
-        stream: WidgetTaoLichLVInherited.of(context)
-            .taoLichLamViecCubit
-            .listItemLoaiLichStream,
-        builder: (context, snapshot) {
-          return Column(
-            children: [
-              TitleWidget(
-                image: ImageAssets.icCalendarUnFocus,
-                title: S.current.loai_lich,
-                child:  Column(
-                  children: listLoaiLich
-                      .map(
-                        (e) => GestureDetector(
-                      onTap: () {
-                        WidgetTaoLichLVInherited.of(context)
-                            .taoLichLamViecCubit
-                            .selectLoaiLich(e);
-                      },
-                      child: ItemSelectWidget(
-                        isSelect: e.isSelect,
-                        text: e.text,
-                      ),
-                    ),
-                  )
-                      .toList(),
-                ),
-              ),
-            ],
-          );
-        },);
+    return SelectOnlyExpand(
+      urlIcon: ImageAssets.icCalendarUnFocus,
+      listSelect: listLoaiLich.map<String>((e) => e.text).toList(),
+      title: S.current.lich_cong_tac,
+    );
   }
 }

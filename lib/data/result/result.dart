@@ -38,6 +38,7 @@ Future<Result<E>> runCatchingAsync<T, E>(
   }
   try {
     final response = await block();
+
     return Result.success(map(response));
   } catch (e) {
     logger.e(e);

@@ -1,21 +1,24 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/edit_personal_information_cubit.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/avatar.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/custom_select_items_mobile.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_don_vi_mobile.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_ung_dung_mobile.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_form_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class EditPersonInformationScreen extends StatefulWidget {
   final ManagerPersonalInformationModel managerPersonalInformationModel;
@@ -75,7 +78,51 @@ class _EditPersonalInformationScreen
         cubit.managerPersonalInformationModel.getInfoToMap();
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.chinh_sua_thong_tin),
+      appBar: BaseAppBar(
+        title: S.current.chinh_sua_thong_tin,
+        leadingIcon: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            icon: SvgPicture.asset(ImageAssets.icBack),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: TextButton(
+              onPressed: () {
+                nameController.text =
+                    widget.managerPersonalInformationModel.hoTen ?? '';
+                maCanBoController.text =
+                    widget.managerPersonalInformationModel.maCanBo ?? '';
+                thuTuController.text =
+                    widget.managerPersonalInformationModel.thuTu.toString();
+                cmndController.text =
+                    widget.managerPersonalInformationModel.cmtnd ?? '';
+                emailController.text =
+                    widget.managerPersonalInformationModel.email ?? '';
+                sdtCoquanController.text =
+                    widget.managerPersonalInformationModel.phoneCoQuan ?? '';
+                sdtController.text =
+                    widget.managerPersonalInformationModel.phoneDiDong ?? '';
+                diaChiLienHeController.text =
+                    widget.managerPersonalInformationModel.diaChi ?? '';
+                cubit.isCheckButtonReset.sink.add(
+                  !cubit.isCheckButtonReset.value,
+                );
+                cubit.isCheckData();
+              },
+              child: Text(
+                S.current.reset,
+                style: textNormalCustom(fontSize: 14, color: labelColor),
+              ),
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -102,7 +149,7 @@ class _EditPersonalInformationScreen
                 child: TextFieldValidator(
                   controller: maCanBoController,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if ((value ?? '').isEmpty) {
                       return S.current.khong_duoc_de_trong;
                     }
                     return null;
@@ -115,15 +162,23 @@ class _EditPersonalInformationScreen
                   controller: thuTuController,
                 ),
               ),
-              InputInfoUserWidget(
-                isObligatory: true,
-                title: user.keys.elementAt(4),
-                child: CustomSelectDate(
-                  value: cubit.managerPersonalInformationModel.ngaySinh,
-                  onSelectDate: (dateTime) {
-                    cubit.selectBirthdayEvent(dateTime.toString());
-                  },
-                ),
+              StreamBuilder<bool>(
+                stream: cubit.isCheckButtonReset,
+                builder: (context, snapshot) {
+                  return InputInfoUserWidget(
+                    isObligatory: true,
+                    title: user.keys.elementAt(4),
+                    child: SelectDate(
+                      key: UniqueKey(),
+                      paddings: 10,
+                      leadingIcon: SvgPicture.asset(ImageAssets.icEditInfor),
+                      value: cubit.managerPersonalInformationModel.ngaySinh,
+                      onSelectDate: (dateTime) {
+                        cubit.selectBirthdayEvent(dateTime);
+                      },
+                    ),
+                  );
+                },
               ),
               InputInfoUserWidget(
                 title: user.keys.elementAt(5),
@@ -137,22 +192,28 @@ class _EditPersonalInformationScreen
                   },
                 ),
               ),
-              InputInfoUserWidget(
-                isObligatory: true,
-                title: user.keys.elementAt(6),
-                child: CustomDropDown(
-                  value: cubit.managerPersonalInformationModel.gioiTinh ?? false
-                      ? S.current.Nam
-                      : S.current.Nu,
-                  items: cubit.fakeDataGioiTinh,
-                  onSelectItem: (value) {
-                    if (value == 0) {
-                      cubit.selectGTEvent(true);
-                    } else {
-                      cubit.selectGTEvent(false);
-                    }
-                  },
-                ),
+              StreamBuilder<bool>(
+                stream: cubit.isCheckButtonReset,
+                builder: (context, snapshot) {
+                  return InputInfoUserWidget(
+                    isObligatory: true,
+                    title: user.keys.elementAt(6),
+                    child: CustomDropDown(
+                      value: cubit.managerPersonalInformationModel.gioiTinh ??
+                              false
+                          ? S.current.Nam
+                          : S.current.Nu,
+                      items: cubit.fakeDataGioiTinh,
+                      onSelectItem: (value) {
+                        if (value == 0) {
+                          cubit.selectGTEvent(true);
+                        } else {
+                          cubit.selectGTEvent(false);
+                        }
+                      },
+                    ),
+                  );
+                },
               ),
               InputInfoUserWidget(
                 title: user.keys.elementAt(7),
@@ -184,28 +245,30 @@ class _EditPersonalInformationScreen
                   },
                 ),
               ),
-              Form(
-                child: InputInfoUserWidget(
-                  title: user.keys.elementAt(10),
-                  child: CustomSelectItems(
-                    title: S.current.tinh_thanh,
-                    context: context,
-                    items: cubit.fakeDataTinh,
-                    onChange: (indexes) {
-                      if (indexes >= 0) {
-                        setState(() {
-                          // cubit.isCheckH(false);
+              StreamBuilder<bool>(
+                stream: cubit.isCheckButtonReset,
+                builder: (context, snapshot) {
+                  return InputInfoUserWidget(
+                    title: user.keys.elementAt(10),
+                    child: CustomSelectItems(
+                      title: S.current.tinh_thanh,
+                      key: UniqueKey(),
+                      value: cubit.managerPersonalInformationModel.tinh,
+                      context: context,
+                      items: cubit.fakeDataTinh,
+                      onChange: (indexes) {
+                        if (indexes >= 0) {
                           cubit.isCheckTinhSubject.sink.add(false);
-                        });
-                      }
-                    },
-                    onRemove: () {
-                      cubit.isCheckTinhSubject.sink.add(true);
-                      cubit.isCheckHuyenSubject.sink.add(true);
-                    },
-                    isCheckEnable: false,
-                  ),
-                ),
+                        }
+                      },
+                      onRemove: () {
+                        cubit.isCheckTinhSubject.sink.add(true);
+                        cubit.isCheckHuyenSubject.sink.add(true);
+                      },
+                      isCheckEnable: false,
+                    ),
+                  );
+                },
               ),
               StreamBuilder<bool>(
                 stream: cubit.isCheckTinhStream,
@@ -216,6 +279,7 @@ class _EditPersonalInformationScreen
                       title: user.keys.elementAt(11),
                       child: CustomSelectItems(
                         key: UniqueKey(),
+                        value: cubit.managerPersonalInformationModel.huyen,
                         title: S.current.quan_huyen,
                         context: context,
                         items: cubit.fakeDataHuyen,
@@ -242,12 +306,11 @@ class _EditPersonalInformationScreen
                       title: user.keys.elementAt(12),
                       child: CustomSelectItems(
                         key: UniqueKey(),
+                        value: cubit.managerPersonalInformationModel.xa,
                         title: S.current.phuong_xa,
                         context: context,
                         items: cubit.fakeDataTinh,
-                        onChange: (indexes) {
-                          //  widget._viewModel.selectGroup(indexes);
-                        },
+                        onChange: (indexes) {},
                         isCheckEnable: snap,
                       ),
                     ),
@@ -262,9 +325,9 @@ class _EditPersonalInformationScreen
                 ),
               ),
               spaceH20,
-              const WidgetDonVibMobile(),
+            //  WidgetDonVibMobile(cubit: ,),
               spaceH20,
-              const WidgetUngDungMobile(),
+           //   WidgetUngDungMobile(),
               spaceH20,
               AvatarAndSignature(
                 editPersonalInformationCubit: EditPersonalInformationCubit(),

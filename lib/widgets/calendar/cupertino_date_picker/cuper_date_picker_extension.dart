@@ -16,6 +16,8 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       offAxisFraction: offAxisFraction,
       controller: dayController,
       backgroundColor: widget.background,
+      canBorderLeft: true,
+
       children: List<Widget>.generate(31, (int index) {
         TextStyle textStyle = themeTextStyle(context);
         if (index >= daysInCurrentMonth) {
@@ -80,10 +82,11 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     return CupertinoPicker.builder(
       scrollController: yearController,
       itemExtent: kItemExtent,
-      offAxisFraction: offAxisFraction,
       useMagnifier: kUseMagnifier,
       magnification: kMagnification,
       backgroundColor: widget.background,
+      squeeze: kSqueeze,
+      diameterRatio: 3,
       selectionOverlay: const CupertinoPickerDefaultSelectionOverlayWidget(
         canBorderRight: true,
       ),

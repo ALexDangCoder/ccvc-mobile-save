@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/presentation/base_choose_time/ui/widgets/form_display_text.dart';
+import 'package:ccvc_mobile/presentation/choose_time/ui/widgets/form_display_text.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/bloc/hoi_dap_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +94,7 @@ class _ShowDropDownButtonHoiDapState extends State<ShowDropDownButtonHoiDap> {
     return showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.transparent, // user must tap button!
+      barrierColor: Colors.transparent, // account must tap button!
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {

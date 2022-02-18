@@ -16,6 +16,7 @@ class DocumentDashboardModel {
   int? soLuongThuongKhan = 0;
   int? soLuongDangXuLy = 0;
   int? soLuongChoVaoSo = 0;
+
   DocumentDashboardModel({
     this.soLuongChoTrinhKy,
     this.soLuongChoXuLy,

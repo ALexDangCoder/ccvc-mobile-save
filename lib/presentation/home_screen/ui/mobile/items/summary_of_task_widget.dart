@@ -1,19 +1,17 @@
 import 'dart:developer';
 
-import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
-import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
+import 'package:ccvc_mobile/domain/model/home/tong_hop_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
-import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
-import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/container_info_widget.dart';
+
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/views/loading_only.dart';
 
 import 'package:flutter/material.dart';
 
@@ -80,31 +78,32 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
       padding: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: StreamBuilder<List<DashboardSchedule>>(
-          stream: _nhiemVuCubit.getTonghopNhiemVu,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? <DashboardSchedule>[];
-            return GridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 17,
-              crossAxisSpacing: 17,
-              childAspectRatio: 1.1,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: List.generate(
-                data.length,
-                (index) {
-                  final img = FakeData.img[index];
-                  final result = data[index];
-                  return NhiemVuWidget(
-                    title: result.typeName,
-                    urlIcon: img,
-                    value: result.numberOfCalendars.toString(),
-                  );
-                },
-              ),
-            );
-          },
+        child: LoadingOnly(
+          stream: _nhiemVuCubit.stateStream,
+          child: StreamBuilder<List<TongHopNhiemVuModel>>(
+            stream: _nhiemVuCubit.getTonghopNhiemVu,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <TongHopNhiemVuModel>[];
+              return GridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 17,
+                crossAxisSpacing: 17,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: List.generate(
+                  data.length,
+                  (index) {
+                    final result = data[index];
+                    return NhiemVuWidget(
+                      title: result.tongHopNhiemVuModel.getText(),
+                      urlIcon: result.tongHopNhiemVuModel.urlImg(),
+                      value: result.value.toString(),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

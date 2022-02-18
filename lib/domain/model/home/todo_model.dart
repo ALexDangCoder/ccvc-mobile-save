@@ -20,6 +20,7 @@ class TodoModel {
   String? updatedBy;
   String? note;
   ToDoStatus toDoStatus = ToDoStatus.unfinished;
+
   TodoModel({
     this.id,
     this.label,
@@ -35,6 +36,7 @@ class TodoModel {
   }) {
     toDoStatus = fromEnum();
   }
+
   ToDoStatus fromEnum() {
     if (important ?? false) {
       return ToDoStatus.unfinished;

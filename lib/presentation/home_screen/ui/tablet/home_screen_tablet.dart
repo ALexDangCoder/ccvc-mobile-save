@@ -43,7 +43,7 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
     );
     super.initState();
     homeCubit.loadApi();
-    homeCubit.configWidget();
+
   }
 
   @override

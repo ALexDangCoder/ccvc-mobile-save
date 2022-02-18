@@ -58,7 +58,7 @@ class HeaderWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: const EdgeInsets.only(top: 14),
                     child:const DayTimeWidget(),
                   ),
                 )

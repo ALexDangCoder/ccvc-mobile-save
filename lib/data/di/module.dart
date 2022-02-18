@@ -1,20 +1,19 @@
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
-
+import 'package:ccvc_mobile/data/repository_impl/quan_ly_van_ban_impl/qlvb_respository_imlp.dart';
+import 'package:ccvc_mobile/data/services/account_service.dart';
+import 'package:ccvc_mobile/data/services/quan_ly_van_ban/qlvb_service.dart';
 import 'package:ccvc_mobile/data/repository_impl/home_impl/home_impl.dart';
-
 import 'package:ccvc_mobile/data/services/account_service.dart';
 import 'package:ccvc_mobile/data/services/home_service/home_service.dart';
-
-
 import 'package:ccvc_mobile/data/repository_impl/manager_repo_impl/manager_repository_impl.dart';
-
 import 'package:ccvc_mobile/data/services/manager_service.dart';
-
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/repository/home_repository/home_repository.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/domain/repository/manager_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' as Foundation;
@@ -22,6 +21,11 @@ import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 void configureDependencies() {
+  Get.put(QuanLyVanBanClient(provideDio(),
+      baseUrl: BaseUrlConstants.baseUrlGateway,),);
+  Get.put<QLVBRepository>(
+    QLVBImlp(Get.find()),
+  );
   //login
   Get.put(AccountService(provideDio()));
   Get.put<AccountRepository>(

@@ -17,63 +17,71 @@ class DayTimeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: mainAxisAlignment,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Row(
+          mainAxisAlignment: mainAxisAlignment,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ClockWidget(),
-            StreamBuilder<DateModel>(
-              initialData: DateModel(),
-              stream: HomeProvider.of(context).homeCubit.getDateStream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? DateModel();
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (data.dateMore.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: FittedBox(
-                          child: Text(
-                            data.dateMore,
-                            style: textNormalCustom(
-                              color: AppTheme.getInstance().titleColor(),
-                              fontSize: 14.0.textScale(),
-                              fontWeight: FontWeight.w600,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ClockWidget(),
+                spaceH6,
+                StreamBuilder<DateModel>(
+                  initialData: DateModel(),
+                  stream: HomeProvider.of(context).homeCubit.getDateStream,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? DateModel();
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (data.dateMore.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: FittedBox(
+                              child: Text(
+                                data.dateMore,
+                                style: textNormalCustom(
+                                  color: AppTheme.getInstance().titleColor(),
+                                  fontSize: 12.0.textScale(),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
+                          )
+                        else
+                          const SizedBox(),
+                        Text(
+                          data.lunarDate.isNotEmpty ? '(${data.lunarDate})' : '',
+                          style: textNormal(
+                            AqiColor.withOpacity(0.8),
+                            12.0.textScale(),
                           ),
                         ),
-                      )
-                    else
-                      const SizedBox(),
-                    Text(
-                      data.lunarDate.isNotEmpty ? '(${data.lunarDate})' : '',
-                      style: textNormal(
-                        AqiColor.withOpacity(0.8),
-                        14.0.textScale(),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            )
+                      ],
+                    );
+                  },
+                )
+              ],
+            ),
+
           ],
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Image.asset(ImageAssets.icThoiTiet),
-            spaceW12,
-            Text(
-              '32°C',
-              style: textNormalCustom(fontSize: 16, color: titleColor),
-            )
-          ],
+        Positioned(
+          right: 0,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Image.asset(ImageAssets.icThoiTiet),
+              spaceW12,
+              Text(
+                '32°C',
+                style: textNormalCustom(fontSize: 16, color: titleColor),
+              )
+            ],
+          ),
         )
       ],
     );

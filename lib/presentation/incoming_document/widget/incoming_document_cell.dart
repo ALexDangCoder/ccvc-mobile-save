@@ -77,7 +77,8 @@ class IncomingDocumentCell extends StatelessWidget {
                             maxLines: 1,
                           ),
                           Text(
-                            DateTime.parse(dateTime).toStringWithListFormat,
+                            //DateTime.parse(dateTime).toStringWithListFormat,
+                            dateTime,
                             style: textNormalCustom(
                               color: textBodyTime,
                               fontWeight: FontWeight.w400,

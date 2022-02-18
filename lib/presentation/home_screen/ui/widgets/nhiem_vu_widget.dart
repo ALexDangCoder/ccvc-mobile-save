@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NhiemVuWidget extends StatelessWidget {
-  final String urlIcon;
+  final String? urlIcon;
   final String title;
   final String value;
   const NhiemVuWidget({
     Key? key,
-    required this.value,
-    required this.title,
-    required this.urlIcon,
+    this.value = '0',
+    this.title = '',
+    this.urlIcon,
   }) : super(key: key);
 
   @override
@@ -26,7 +26,17 @@ class NhiemVuWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(urlIcon),
+          if (urlIcon == null)
+            Container(
+              height: 50,
+              width: 50,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: tabSelected,
+              ),
+            )
+          else
+            SvgPicture.asset(urlIcon ?? ''),
           SizedBox(
             height: 12.0.textScale(space: 16),
           ),

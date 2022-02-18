@@ -3,11 +3,11 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:flutter/material.dart';
 class BoxStatusVanBan extends StatelessWidget {
   final Color color;
-  final String value;
+  final int value;
   final String  statusName;
   final Function() onTap;
-  const BoxStatusVanBan({Key? key,required this.color,required
-  this.value,required this.onTap,required this.statusName,}) : super(key: key);
+  const BoxStatusVanBan({Key? key,required this.color,
+   this.value=0,required this.onTap,required this.statusName,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class BoxStatusVanBan extends StatelessWidget {
             children: [
               FittedBox(
                 child: Text(
-                  value,
+                  value.toString(),
                   style:  titleText(
                     fontSize: 28,
                     color: color,

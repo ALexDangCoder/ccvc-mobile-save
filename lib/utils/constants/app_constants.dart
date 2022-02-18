@@ -1,3 +1,5 @@
+import 'package:flutter_html/shims/dart_ui_fake.dart';
+
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -124,14 +126,30 @@ class WidgetTypeConstant {
   static const String NHIEM_VU = 'NhienVuWidGet';
 }
 
-class DocumentState{
+class DocumentState {
   static const String CHO_XU_LY = 'CHO_XU_LY';
   static const String DANG_XU_LY = 'DANG_XU_LY';
   static const String DA_XU_LY = 'DA_XU_LY';
   static const String CHO_VAO_SO = 'CHO_VAO_SO';
 }
-class SelectKeyPath{
+
+class SelectKeyPath {
   static const KEY_DASH_BOARD_TONG_HOP_NV = 'KEY_DASHBOARD_TONGHOPNV_TYPE';
+  static const KEY_DASHBOARDVB = 'KEY_DASHBOARDVB';
+  static const KEY_DASHBOARDNV_TIME = 'KEY_DASHBOARDNV_TIME';
+  static const KEY_DASHBOARD_TONGHOPNV_TYPE = 'KEY_DASHBOARD_TONGHOPNV_TYPE';
+
+  static const KEY_DASHBOARD_NHIEM_VU_TYPE = 'KEY_DASHBOARD_NHIEM_VU_TYPE';
+  static const KEY_DASHBOARD_NHIEM_VU_TIME = 'KEY_DASHBOARD_NHIEM_VU_TIME';
+}
+
+class NhiemVuStatus {
+  static const TONG_SO_NHIEM_VU = 'TONG_NHIEM_VU';
+  static const HOAN_THANH_NHIEM_VU = 'NHIEM_VU_HOAN_THANH';
+  static const NHIEM_VU_DANG_THUC_HIEN = 'NHIEM_VU_DANG_THUC_HIEN';
+  static const HOAN_THANH_QUA_HAN = 'HOAN_THANH_QUA_HAN';
+  static const DANG_THUC_HIEN_TRONG_HAN = 'DANG_THUC_HIEN_TRONG_HAN';
+  static const DANG_THUC_HIEN_QUA_HAN = 'DANG_THUC_HIEN_QUA_HAN';
 }
 
 class DateFormatApp {

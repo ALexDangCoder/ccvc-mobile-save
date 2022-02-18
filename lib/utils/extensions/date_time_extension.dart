@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:intl/intl.dart';
 
@@ -23,9 +21,32 @@ extension DateFormatString on DateTime {
     return dateString;
   }
 
+  String get formatDayCalendar {
+    final dateString =
+        (DateFormat(' dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');
+
+    return dateString;
+  }
+
+  String get startEndWeek {
+    final day = DateTime(year, month, this.day);
+
+    final startDate = day.subtract(Duration(days: day.weekday - 1));
+    final endDate = day.add(Duration(days: DateTime.daysPerWeek - day.weekday));
+
+    return '${startDate.formatMonth} - ${endDate.formatDayCalendar}';
+  }
+
   String get formatDateTime {
     final dateString =
         (DateFormat('HH:mm ,dd-MM').format(this)).replaceAll('-', ' tháng ');
+
+    return dateString;
+  }
+
+  String get formatMonth {
+    final dateString =
+        (DateFormat('dd-MM').format(this)).replaceAll('-', ' tháng ');
 
     return dateString;
   }
@@ -72,38 +93,21 @@ extension DateFormatString on DateTime {
   }
 
   List<DateTime> _thangNay() {
-    DateTime now = DateTime.now();
-    final firstDayThisMonth = DateTime(now.year, now.month, now.day);
-    final firstDayNextMonth = DateTime(
-      firstDayThisMonth.year,
-      firstDayThisMonth.month + 1,
-      firstDayThisMonth.day,
-    );
-    final int c = firstDayNextMonth.difference(firstDayThisMonth).inDays;
-    int b = now.millisecondsSinceEpoch;
-    b = b - (c * 24 * 60 * 60 * 1000);
-    now = DateTime.fromMillisecondsSinceEpoch(b);
-
-    final startDate = DateTime.fromMillisecondsSinceEpoch(
-      DateTime.utc(
-        now.year,
-        now.month,
-      ).millisecondsSinceEpoch,
-    );
+    final startDate = DateTime(year,month,);
     final endDate = DateTime.fromMillisecondsSinceEpoch(
       DateTime.utc(
-        now.year,
-        now.month + 1,
+        year,
+        month + 1,
       ).subtract(const Duration(days: 1)).millisecondsSinceEpoch,
     );
     return [startDate, endDate];
   }
 
   List<DateTime> _namNay() {
-    DateTime now = DateTime.now();
-    final startDate = DateTime(now.year, 1, 1);
 
-    return [startDate, DateTime(DateTime.now().year, 12, 31)];
+    final startDate = DateTime(year, 1, 1);
+
+    return [startDate, DateTime(year, 12, 31)];
   }
 
   DateTime _getDate(DateTime d) => DateTime(d.year, d.month, d.day);

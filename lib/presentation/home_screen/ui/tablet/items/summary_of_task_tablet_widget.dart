@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/home/tong_hop_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
@@ -73,21 +74,20 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
       child: Flexible(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 22),
-          child: StreamBuilder<List<DashboardSchedule>>(
+          child: StreamBuilder<List<TongHopNhiemVuModel>>(
             stream: _nhiemVuCubit.getTonghopNhiemVu,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? <DashboardSchedule>[];
+              final data = snapshot.data ?? <TongHopNhiemVuModel>[];
               if (data.isNotEmpty) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TongHopNhiemVuCell(
                     builder: (context, index) {
-                      final img = FakeData.img[index];
                       final result = data[index];
                       return NhiemVuWidget(
-                        value: result.numberOfCalendars.toString(),
-                        urlIcon: img,
-                        title: result.typeName,
+                        value: result.value.toString(),
+                        urlIcon:result.tongHopNhiemVuModel.urlImg(),
+                        title: result.tongHopNhiemVuModel.urlImg(),
                       );
                     },
                   ),

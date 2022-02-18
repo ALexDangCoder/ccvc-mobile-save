@@ -50,8 +50,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
             children: [
               Expanded(
                 child: BoxStatusVanBan(
-                  value:
-                      widget.documentDashboardModel.soLuongTrongHan.toString(),
+                  value: widget.documentDashboardModel.soLuongTrongHan ?? 0,
                   onTap: () {},
                   color: numberOfCalenders,
                   statusName: S.current.trong_han,
@@ -62,7 +61,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
               ),
               Expanded(
                 child: BoxStatusVanBan(
-                  value: widget.documentDashboardModel.soLuongQuaHan.toString(),
+                  value: widget.documentDashboardModel.soLuongQuaHan ?? 0,
                   onTap: () {},
                   color: statusCalenderRed,
                   statusName: S.current.qua_han,
@@ -73,8 +72,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
               ),
               Expanded(
                 child: BoxStatusVanBan(
-                  value: widget.documentDashboardModel.soLuongThuongKhan
-                      .toString(),
+                  value: widget.documentDashboardModel.soLuongThuongKhan ?? 0,
                   onTap: () {},
                   color: textColorForum,
                   statusName: S.current.thuong_khan,
@@ -86,7 +84,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
           SizedBox(
             width: 103,
             child: BoxStatusVanBan(
-              value: widget.documentDashboardModel.soLuongThuongKhan.toString(),
+              value: widget.documentDashboardModel.soLuongThuongKhan ?? 0,
               onTap: () {},
               color: textColorForum,
               statusName: S.current.thuong_khan,

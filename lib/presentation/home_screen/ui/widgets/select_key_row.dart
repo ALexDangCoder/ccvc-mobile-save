@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 
 class SelectKeyRow extends StatefulWidget {
   final List<SelectKey> listSelect;
-  const SelectKeyRow({Key? key, required this.listSelect}) : super(key: key);
+  final Function(SelectKey) onChange;
+  const SelectKeyRow({
+    Key? key,
+    required this.listSelect,
+    required this.onChange,
+  }) : super(key: key);
 
   @override
   _SelectKeyRowState createState() => _SelectKeyRowState();
@@ -25,6 +30,7 @@ class _SelectKeyRowState extends State<SelectKeyRow> {
           return GestureDetector(
             onTap: () {
               selectKey = index;
+              widget.onChange(data);
               setState(() {});
             },
             child: Container(

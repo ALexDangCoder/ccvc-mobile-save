@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/menu/calendar_work_menu_phone.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/select_option_header.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/lich_lv_extension.dart';
@@ -12,6 +13,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/ta
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/table_calendar_widget.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -57,48 +59,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  reverseTransitionDuration: const Duration(milliseconds: 250),
-                  transitionDuration: const Duration(milliseconds: 250),
-                  pageBuilder: (_, animation, ___) {
-                    const begin = Offset(-1.0, 0.0);
-                    const end = Offset.zero;
-                    final tween = Tween(begin: begin, end: end);
-                    final offsetAnimation = animation.drive(tween);
-                    return FakeDrawerLichHop(
-                      offsetAnimation: offsetAnimation,
-                      title1: 'lich theo dang lich',
-                      title2: 'lich theo dang list',
-                      title3: '',
-                      image1: ImageAssets.icMenuCalender,
-                      image2: ImageAssets.icMenuCalender,
-                      image3: ImageAssets.icMenuCalender,
-                      ontap1: () {
-                        setState(() {
-                          cubit.chooseTypeListLv(
-                            Type_Choose_Option_List.DANG_LICH,
-                          );
-                          cubit.index.sink.add(0);
-                          Navigator.pop(context);
-                        });
-                      },
-                      ontap2: () {
-                        setState(() {
-                          cubit.chooseTypeListLv(
-                            Type_Choose_Option_List.DANG_LIST,
-                          );
-                          cubit.index.sink.add(0);
-                          Navigator.pop(context);
-                        });
-                      },
-                      ontap3: () {},
-                    );
-                  },
-                  opaque: false,
-                ),
-              );
+              DrawerSlide.navigatorSlide(context: context, screen: CalendarWorkMenu());
             },
             icon: SvgPicture.asset(ImageAssets.icMenuCalender),
           )

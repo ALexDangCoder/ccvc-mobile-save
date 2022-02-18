@@ -8,7 +8,8 @@ class CalendarMeetingModel {
   final DocumentStatus codeStatus;
   final String loaiNhiemVu;
   final String hanXuLy;
-
+  final String id;
+  final String maTrangThai;
   CalendarMeetingModel({
     this.title = '',
     this.time = '',
@@ -17,5 +18,7 @@ class CalendarMeetingModel {
     this.nguoiChuTri = '',
     this.hanXuLy = '',
     this.loaiNhiemVu = '',
+    this.id = '',
+    this.maTrangThai = '',
   });
 }

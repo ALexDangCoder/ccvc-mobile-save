@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
+import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/menu/calendar_work_menu_tablet.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/widget/custom_item_calender_work_tablet.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/lich_lv_extension.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/widget_select_option_header.dart';
@@ -39,44 +40,8 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
           onPressed: () {
             Navigator.push(
               context,
-              PageRouteBuilder(
-                reverseTransitionDuration: const Duration(milliseconds: 250),
-                transitionDuration: const Duration(milliseconds: 250),
-                pageBuilder: (_, animation, ___) {
-                  const begin = Offset(-1.0, 0.0);
-                  const end = Offset.zero;
-                  final tween = Tween(begin: begin, end: end);
-                  final offsetAnimation = animation.drive(tween);
-                  return FakeDrawerLichHop(
-                    offsetAnimation: offsetAnimation,
-                    title1: 'lich theo dang lich',
-                    title2: 'lich theo dang list',
-                    title3: '',
-                    image1: ImageAssets.icMenuCalender,
-                    image2: ImageAssets.icMenuCalender,
-                    image3: ImageAssets.icMenuCalender,
-                    ontap1: () {
-                      setState(() {
-                        _cubit.chooseTypeListLv(
-                          Type_Choose_Option_List.DANG_LICH,
-                        );
-                        _cubit.index.sink.add(0);
-                        Navigator.pop(context);
-                      });
-                    },
-                    ontap2: () {
-                      setState(() {
-                        _cubit.chooseTypeListLv(
-                          Type_Choose_Option_List.DANG_LIST,
-                        );
-                        _cubit.index.sink.add(0);
-                        Navigator.pop(context);
-                      });
-                    },
-                    ontap3: () {},
-                  );
-                },
-                opaque: false,
+              MaterialPageRoute(
+                builder: (context) => const CalendarWorkMenuTablet(),
               ),
             );
           },
@@ -109,7 +74,6 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Container(
-
                   color: backgroundColorApp,
                   height: 116,
                   width: MediaQuery.of(context).size.width,
@@ -121,8 +85,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                       return CustomItemCalenderWorkTablet(
                         image: _cubit.img[index],
                         typeName: _cubit.list[index].typeName,
-                        numberOfCalendars:
-                            _cubit.list[index].numberOfCalendars,
+                        numberOfCalendars: _cubit.list[index].numberOfCalendars,
                       );
                     },
                   ),

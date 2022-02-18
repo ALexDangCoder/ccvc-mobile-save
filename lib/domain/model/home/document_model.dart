@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
 class DocumentModel {
+  final String id;
   final String kyHieu;
   final String noiGui;
   final String status;
@@ -13,7 +14,8 @@ class DocumentModel {
       required this.noiGui,
       required this.status,
       required this.code,
-      required this.title}) {
+      required this.title,
+      this.id = ''}) {
     documentStatus = byStatus();
   }
 

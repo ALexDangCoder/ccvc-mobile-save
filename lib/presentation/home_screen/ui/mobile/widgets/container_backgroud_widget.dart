@@ -25,6 +25,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final bool isUnit;
   final double minHeight;
   final List<SelectKey>? listSelect;
+  final Function(SelectKey)? onChangeKey;
   const ContainerBackgroundWidget({
     Key? key,
     required this.child,
@@ -38,8 +39,9 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
     this.selectKeyDialog,
     this.isUnit = false,
-    this.minHeight = 0,
+    this.minHeight = 465,
     this.listSelect,
+    this.onChangeKey,
   }) : super(key: key);
 
   @override
@@ -59,7 +61,9 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
         children: [
           Container(
             color: Colors.transparent,
+            width: double.infinity,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
@@ -69,48 +73,51 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MouseRegion(
-                        onHover: (_) {
-                          HomeProvider.of(context).homeCubit.closeDialog();
-                        },
-                        child: Row(
-                          children: [
-                            if (widget.leadingIcon == null)
-                              const SizedBox()
-                            else
-                              Padding(
-                                padding: const EdgeInsets.only(right: 12),
-                                child: widget.leadingIcon,
-                              ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.title,
-                                  style: textNormalCustom(
-                                    fontSize: 16,
-                                    color: AppTheme.getInstance().titleColor(),
+                      Expanded(
+                        child: MouseRegion(
+                          onHover: (_) {
+                            HomeProvider.of(context).homeCubit.closeDialog();
+                          },
+                          child: Row(
+                            children: [
+                              if (widget.leadingIcon == null)
+                                const SizedBox()
+                              else
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: widget.leadingIcon,
+                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.title,
+                                    style: textNormalCustom(
+                                      fontSize: 16,
+                                      color:
+                                          AppTheme.getInstance().titleColor(),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                if (widget.selectKeyDialog != null)
-                                  StreamBuilder<bool>(
-                                    stream: widget.selectKeyDialog!
-                                        .selectKeyDialog.stream,
-                                    builder: (context, snapshot) {
-                                      return Text(
-                                        subTitle(),
-                                        style: textNormal(textBodyTime, 12),
-                                      );
-                                    },
-                                  )
-                                else
-                                  const SizedBox()
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  if (widget.selectKeyDialog != null)
+                                    StreamBuilder<bool>(
+                                      stream: widget.selectKeyDialog!
+                                          .selectKeyDialog.stream,
+                                      builder: (context, snapshot) {
+                                        return Text(
+                                          subTitle(),
+                                          style: textNormal(textBodyTime, 12),
+                                        );
+                                      },
+                                    )
+                                  else
+                                    const SizedBox()
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       GestureDetector(
@@ -139,6 +146,12 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                     width: double.infinity,
                     child: SelectKeyRow(
                       listSelect: widget.listSelect!,
+                      onChange: (value) {
+                        if (widget.onChangeKey != null) {
+                          HomeProvider.of(context).homeCubit.closeDialog();
+                          widget.onChangeKey!(value);
+                        }
+                      },
                     ),
                   ),
                 SizedBox(

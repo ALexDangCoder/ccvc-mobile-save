@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
@@ -37,6 +38,8 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
     scrollController = ScrollController();
     super.initState();
     qlvbCubit.callAPi();
+    outgoingDocumentCubit.callAPi();
+    incomingDocumentCubit.callAPi();
   }
 
   @override
@@ -146,31 +149,53 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
             ),
             content: TabBarView(
               children: [
-                ListVBDen(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const IncomingDocumentScreenTablet(),
-                      ),
-                    );
+                StreamBuilder<List<VanBanModel>>(
+                  stream: incomingDocumentCubit.getListVbDen,
+                  builder: (context, snapshot) {
+                    final List<VanBanModel> listData =
+                        snapshot.data ?? [];
+                    if (listData.isNotEmpty) {
+                      return  ListVBDen(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                const IncomingDocumentScreenTablet(),
+                              ),
+                            );
+                          },
+                          titleButton: S.current.xem_danh_sach,
+                          list:listData
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
                   },
-                  titleButton: S.current.xem_danh_sach,
-                  list: incomingDocumentCubit.listIncomingDocument,
                 ),
-                ListVBDi(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const OutgoingDocumentScreenTablet(),
-                      ),
-                    );
+                StreamBuilder<List<VanBanModel>>(
+                  stream: outgoingDocumentCubit.getListVbDi,
+                  builder: (context, snapshot) {
+                    final List<VanBanModel> listData =
+                        snapshot.data ?? [];
+                    if (listData.isNotEmpty) {
+                      return  ListVBDen(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                              const IncomingDocumentScreenTablet(),
+                            ),
+                          );
+                        },
+                        titleButton: S.current.xem_danh_sach,
+                        list:listData
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
                   },
-                  titleButton: S.current.xem_danh_sach,
-                  list: outgoingDocumentCubit.listIncomingDocument,
                 ),
               ],
             ),

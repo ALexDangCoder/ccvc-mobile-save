@@ -496,5 +496,19 @@
   "nhap_ten_phien_hop": "Nhập tên phiên họp",
   "thoi_gian_hop": "Thời gian họp",
   "chon_nguoi_chu_tri": "Chọn người chủ trì",
-  "noi_dung_phien_hop": "Nội dung phiên họp"
+  "noi_dung_phien_hop": "Nội dung phiên họp",
+
+  "tong_so_nhiem_vu" : "Tổng số nhiệm vụ",
+  "hoan_thanh_nhiem_vu" : "Hoàn thành nhiệm vụ",
+  "nhiem_vu_dang_thuc_hien" : "Nhiệm vụ đang thực hiện",
+  "hoan_thanh_qua_han" : "Hoàn thành quá hạn",
+  "dang_thuc_hien_trong_han" : "Đang thực hiện trong hạn",
+  "dang_thuc_hien_qua_han" : "Đang thực hiện quá hạn",
+
+  "theo_dang_danh_sach" : "Theo dạng danh sách",
+  "lich_theo_trang_thai" : "Lịch theo trạng thái",
+  "lich_theo_lanh_dao" : "Lịch theo lãnh đạo",
+  "menu_lich_lam_viec" : "Menu Lịch làm việc",
+  "dang_nhap_that_bai" : "Đăng nhập thất bại hãy thử lại"
+
 }

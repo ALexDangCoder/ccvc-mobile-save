@@ -18,9 +18,7 @@ class DataLoginResponse extends Equatable {
   String? accessToken;
   @JsonKey(name: 'refreshToken')
   String? refreshToken;
-
   DataLoginResponse();
-
   factory DataLoginResponse.fromJson(Map<String, dynamic> json) =>
       _$DataLoginResponseFromJson(json);
 

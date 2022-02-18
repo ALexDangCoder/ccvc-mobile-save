@@ -32,7 +32,7 @@ class _ClockWidgetState extends State<ClockWidget> {
     return  Text(
       '$hour:$minute:$second',
       style: textNormalCustom(
-          fontSize: 32.0.textScale(space: 4),
+          fontSize: 28.0.textScale(space: 4),
           fontWeight: FontWeight.w500,
           color: AppTheme.getInstance().titleColor(),),
     );

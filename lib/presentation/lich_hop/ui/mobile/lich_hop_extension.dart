@@ -1,3 +1,6 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/danh_sach_lich_hop_tablet/danh_sach_lich_hop_ngay_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/lich_hop_danh_sach_ngay_tuan_thang_tablet/lich_hop_theo_danh_sach_ngay_tablet.dart';
@@ -5,6 +8,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/lich_hop_theo_ngay_t
 import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/lich_hop_theo_ngay_tuan_thang_tablet/lich_hop_theo_thang_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/lich_hop_theo_ngay_tuan_thang_tablet/lich_hop_theo_tuan_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'danh_sach_lich_hop/danh_sach_lich_hop.dart';
@@ -38,6 +42,56 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
     }
   }
 
+  Widget getTextWidget(LichHopCubit cubit) {
+    switch (this) {
+      case Type_Choose_Option_Day.DAY:
+        return StreamBuilder<DateTime>(
+            stream: cubit.moveTimeSubject.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? cubit.selectedDay;
+              return Text(
+                data.formatDayCalendar,
+                style: textNormalCustom(
+                  color: textDefault,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              );
+            });
+
+      case Type_Choose_Option_Day.WEEK:
+        return StreamBuilder<DateTime>(
+            stream: cubit.moveTimeSubject.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? cubit.selectedDay;
+              return Text(
+                data.startEndWeek,
+                style: textNormalCustom(
+                  color: textDefault,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              );
+            });
+
+      case Type_Choose_Option_Day.MONTH:
+        return StreamBuilder<DateTime>(
+            stream: cubit.moveTimeSubject.stream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? cubit.selectedDay;
+
+              return Text(
+                'Tháng ${data.month}',
+                style: textNormalCustom(
+                  color: textDefault,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              );
+            });
+    }
+  }
+
   Widget getLichHopStateDangLich() {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
@@ -50,6 +104,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
         return const SizedBox();
     }
   }
+
   Widget getLichHopStateDanhSach() {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
@@ -62,6 +117,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
         return const SizedBox();
     }
   }
+
   // icons
   Widget getLichHopIconsMobile() {
     switch (this) {
@@ -95,12 +151,13 @@ extension lichHopCubit on LichHopState {
       return const SizedBox();
     }
   }
+
   Widget lichLamViecIconsMobile() {
     if (this is LichHopStateDangList) {
       return type.getLichHopIconsMobile();
     } else if (this is LichHopStateDangLich) {
       return type.getLichHopIconsMobile();
-    }else if (this is LichHopStateDangDanhSach) {
+    } else if (this is LichHopStateDangDanhSach) {
       return type.getLichHopIconsMobile();
     } else {
       return const SizedBox();
@@ -134,6 +191,7 @@ extension lichHopOptionDayCubitTablet on Type_Choose_Option_Day {
         return const SizedBox();
     }
   }
+
   Widget getLichHopStateDanhSachTablet() {
     switch (this) {
       case Type_Choose_Option_Day.DAY:

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/widgets/views/state_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -63,17 +64,20 @@ class _ModalProgressHUDState extends State<ModalProgressHUD> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        widget.child,
-        Visibility(
-          visible: widget.inAsyncCall,
-          child: Positioned(
-              top: size.height / 2,
-              right: size.width / 2,
-              child: Center(child: widget.progressIndicator)),
-        )
-      ],
+    return Container(
+      color: Colors.transparent,
+      child: Stack(
+        children: [
+          widget.child,
+          Visibility(
+            visible: widget.inAsyncCall,
+            child: Positioned(
+                top: size.height / 2,
+                right: size.width / 2 - 20,
+                child: Center(child: widget.progressIndicator)),
+          )
+        ],
+      ),
     );
   }
 }

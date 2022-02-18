@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -111,6 +113,7 @@ class DialogSettingWidget extends StatelessWidget {
         break;
       default:
         {
+          data.onSelect(value,DateTime.now(),DateTime.now());
           return;
         }
     }

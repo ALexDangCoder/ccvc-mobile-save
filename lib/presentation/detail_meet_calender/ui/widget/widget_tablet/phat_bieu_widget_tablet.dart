@@ -30,8 +30,24 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+
+            IconWithTiltleWidget(
+              icon: ImageAssets.icVoice2,
+              title: S.current.dang_ky_phat_bieu,
+              onPress: () {
+                showDiaLogTablet(
+                  context,
+                  title: S.current.dang_ky_phat_bieu,
+                  child: const DangKyPhatBieuWidget(),
+                  isBottomShow: false,
+                  funcBtnOk: () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(top: 16),
               child: StreamBuilder<List<PhatBieuModel>>(
                 initialData: cubit.listPhatBieu,
                 stream: cubit.streamPhatBieu,
@@ -46,11 +62,11 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                         },
                         text: S.current.danh_sach_phat_bieu,
                         backgroup: cubit.typeStatus.value ==
-                                S.current.danh_sach_phat_bieu
+                            S.current.danh_sach_phat_bieu
                             ? choXuLyColor
                             : backgroundColorApp,
                         colorText: cubit.typeStatus.value ==
-                                S.current.danh_sach_phat_bieu
+                            S.current.danh_sach_phat_bieu
                             ? backgroundColorApp
                             : choXuLyColor,
                         colorBorder: choXuLyColor,
@@ -104,21 +120,6 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                   );
                 },
               ),
-            ),
-            IconWithTiltleWidget(
-              icon: ImageAssets.icVoice2,
-              title: S.current.dang_ky_phat_bieu,
-              onPress: () {
-                showDiaLogTablet(
-                  context,
-                  title: S.current.dang_ky_phat_bieu,
-                  child: const DangKyPhatBieuWidget(),
-                  isBottomShow: false,
-                  funcBtnOk: () {
-                    Navigator.pop(context);
-                  },
-                );
-              },
             ),
             StreamBuilder<List<PhatBieuModel>>(
               initialData: cubit.listPhatBieu,

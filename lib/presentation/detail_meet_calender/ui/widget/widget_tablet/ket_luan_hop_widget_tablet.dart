@@ -147,8 +147,6 @@ class _KetLuanHopWidgetTabletState extends State<KetLuanHopWidgetTablet> {
                   ),
                 ],
               )
-            else
-              Container()
           ],
         ),
       ),

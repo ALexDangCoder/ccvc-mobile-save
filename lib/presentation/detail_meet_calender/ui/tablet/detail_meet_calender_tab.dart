@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_la
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/bloc/detail_meet_calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/item_menu_ket_thuc.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/bieu_quyet_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/cong_tac_chuan_bi_widget_tablet.dart';
@@ -12,9 +13,13 @@ import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_t
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/phat_bieu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/tai_lieu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/widget/widget_tablet/y_kien_cuoc_hop_widget_tablet.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import 'Widget_tablet/double_button.dart';
@@ -44,8 +49,57 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgQLVBTablet,
-      appBar: AppBarDefaultBack(
-        S.current.chi_tiet_lich_hop,
+      appBar: BaseAppBar(
+        title: S.current.chi_tiet_lich_hop,
+        leadingIcon: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(
+            ImageAssets.icBack,
+          ),
+        ),
+        actions: [
+          PopupMenuButton(
+            icon: SvgPicture.asset(ImageAssets.icShape),
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: listChiTietLichHop
+                        .map(
+                          (e) => GestureDetector(
+                            onTap: () {
+                              showDiaLogTablet(
+                                context,
+                                title: e.name,
+                                child: e.chiTietLichHop
+                                    .getScreenChiTietLichHop(),
+                                isBottomShow: false,
+                                funcBtnOk: () {
+                                  Navigator.pop(context);
+                                },
+                                maxHeight: e.name == S.current.thu_hoi ||
+                                        e.name == S.current.phan_cong_thu_ky ||
+                                        e.name == S.current.tao_boc_bang_cuoc_hop
+                                    ? 270
+                                    : 878,
+                              );
+                            },
+                            child: itemListKetThuc(
+                              name: e.name,
+                              icon: e.icon,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                )
+              ];
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 28, right: 30.0, left: 30.0),
@@ -236,11 +290,13 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                 overlapHeaders: true,
                 header: TabBar(
                   controller: _controller,
-                  unselectedLabelStyle: textNormalCustom(fontSize: 16,fontWeight: FontWeight.w400),
+                  unselectedLabelStyle: textNormalCustom(
+                      fontSize: 16, fontWeight: FontWeight.w400),
                   indicatorColor: indicatorColor,
                   unselectedLabelColor: unselectLabelColor,
                   labelColor: indicatorColor,
-                  labelStyle: textNormalCustom(fontSize: 16,fontWeight: FontWeight.w400),
+                  labelStyle: textNormalCustom(
+                      fontSize: 16, fontWeight: FontWeight.w400),
                   isScrollable: true,
                   tabs: [
                     Tab(
@@ -296,6 +352,49 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget itemListKetThuc({required String icon, required String name}) {
+    return SizedBox(
+      width: 170,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(child: SvgPicture.asset(icon)),
+          SizedBox(
+            width: 10.0.textScale(),
+          ),
+          Expanded(
+            flex: 7,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: textNormalCustom(
+                    color: textTitle,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0.textScale(),
+                  ),
+                ),
+                SizedBox(
+                  height: 14.0.textScale(),
+                ),
+                Container(
+                  height: 1,
+                  color: borderColor.withOpacity(0.5),
+                ),
+                SizedBox(
+                  height: 14.0.textScale(),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -509,6 +509,11 @@
   "lich_theo_trang_thai" : "Lịch theo trạng thái",
   "lich_theo_lanh_dao" : "Lịch theo lãnh đạo",
   "menu_lich_lam_viec" : "Menu Lịch làm việc",
-  "dang_nhap_that_bai" : "Đăng nhập thất bại hãy thử lại"
+  "dang_nhap_that_bai" : "Đăng nhập thất bại hãy thử lại",
+  "huy_lich_hop" : "Hủy lịch họp",
+  "xoa_lich" : "Xóa lịch",
+  "sua_lich" : "Sửa lịch",
+  "phan_cong_thu_ky" : "Phân công thư ký",
+  "tao_boc_bang_cuoc_hop" : "Tạo bóc băng cuộc họp"
 
 }

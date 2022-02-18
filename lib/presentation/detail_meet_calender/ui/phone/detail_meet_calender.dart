@@ -16,9 +16,12 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../item_menu_ket_thuc.dart';
 
 // todo chi tiet van ban
 class DetailMeetCalenderScreen extends StatefulWidget {
@@ -61,6 +64,38 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
             ImageAssets.icBack,
           ),
         ),
+        actions: [
+          PopupMenuButton(
+            icon: SvgPicture.asset(ImageAssets.icShape),
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: listChiTietLichHop
+                        .map(
+                          (e) => GestureDetector(
+                        onTap: () {
+                          showBottomSheetCustom(
+                            context,
+                            title: e.name,
+                            child: e.chiTietLichHop
+                                .getScreenChiTietLichHop(),
+                          );
+                        },
+                        child: itemListKetThuc(
+                          name: e.name,
+                          icon: e.icon,
+                        ),
+                      ),
+                    )
+                        .toList(),
+                  ),
+                )
+              ];
+            },
+          )
+        ],
       ),
       body: DetailMeetCalendarInherited(
         cubit: cubit,
@@ -139,7 +174,53 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
         ),
       ),
     );
+
+
   }
+  Widget itemListKetThuc({required String icon, required String name}) {
+    return SizedBox(
+      width: 170,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(child: SvgPicture.asset(icon)),
+          SizedBox(
+            width: 10.0.textScale(),
+          ),
+          Expanded(
+            flex: 7,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  style: textNormalCustom(
+                    color: textTitle,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0.textScale(),
+                  ),
+                ),
+                SizedBox(
+                  height: 14.0.textScale(),
+                ),
+                Container(
+                  height: 1,
+                  color: borderColor.withOpacity(0.5),
+                ),
+                SizedBox(
+                  height: 14.0.textScale(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 
 // void dowloadFile(YKienXuLyFileDinhKem file) {
 //   // EasyLoading.show();
@@ -198,4 +279,6 @@ class DetailMeetCalendarInherited extends InheritedWidget {
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
     return true;
   }
+
+
 }

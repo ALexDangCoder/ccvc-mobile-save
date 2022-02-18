@@ -239,6 +239,12 @@ class ImageAssets {
   static const String icChecked = '$baseImg/checked.svg';
   static const String icChecked2 = '$baseImg/checked2.svg';
   static const String icVector2 = '$baseImg/vector.svg';
+  static const String icShape = '$baseImg/Shape.svg';
+  static const String icCloseSquare2 = '$baseImg/CloseSquare.svg';
+  static const String icDelete2 = '$baseImg/Delete2.svg';
+  static const String icEdit2 = '$baseImg/Edit2.svg';
+  static const String icSwap = '$baseImg/Swap.svg';
+  static const String icVideos = '$baseImg/Video.svg';
 
 
   ///gif
@@ -259,6 +265,7 @@ class ImageAssets {
   static const String icFaceId = '$baseImg/ic_face_id.svg';
   static const String icFingerprint = '$baseImg/ic_fingerprint.svg';
   static const String icLuong = '$baseImg/ic_luong.svg';
+
 
   static SvgPicture svgAssets(
     String name, {

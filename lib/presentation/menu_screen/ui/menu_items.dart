@@ -7,8 +7,12 @@ import 'package:ccvc_mobile/presentation/hoi_dap/ui/mobile/hoi_dap_screen.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/tablet/hoi_dap_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/main_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/main_lich_hop_tablet.dart';
+import 'package:ccvc_mobile/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_mobile.dart';
+import 'package:ccvc_mobile/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/qlvb_mobile_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/qlvb_tablet_screen.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/y_kien_nguoidan_screen.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/yknd_tablet_screen.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -152,16 +156,18 @@ extension GetScreen on MenuType {
           tabletScreen: const MainLichHopTabLet(),
         );
       case MenuType.quanLyNhiemVu:
-        return const Scaffold(
-          backgroundColor: Colors.red,
+        return screenDevice(
+          mobileScreen: const MainNhieVuMobile(),
+          tabletScreen: const MainNhiemVuTablet(),
         );
       case MenuType.hanhChinhCong:
         return const Scaffold(
           backgroundColor: Colors.red,
         );
       case MenuType.yKienNguoiDan:
-        return const Scaffold(
-          backgroundColor: Colors.red,
+        return screenDevice(
+          mobileScreen: const YKienNguoiDanScreen(),
+          tabletScreen: const YKNDScreenTablet(),
         );
       case MenuType.quanLyVanBan:
         return screenDevice(

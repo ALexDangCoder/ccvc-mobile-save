@@ -66,6 +66,11 @@ class ImageAssets {
   static const String icClock = '$baseImg/ic_clock.svg';
   static const String icTheoDangLich = '$baseImg/ic_theo_dang_lich.svg';
   static const String icHeaderLVVV = '$baseImg/ic_header_lvv.svg';
+  static const String icMessItemMenu = '$baseImg/ic_messsage_y_kien.svg';
+  static const String icPersonItemMenu = '$baseImg/ic_person_y_kien_menu.svg';
+  static const String icBaoCaoItemNenu = '$baseImg/ic_baocao_y_kien_menu.svg';
+  static const String icChoDuyetYKND = '$baseImg/cho_duyen_yknd.svg';
+  static const String icDongHoYKND = '$baseImg/dong_ho_yknd.svg';
 
   ///SvgImage
   static const String appBarBackground = '$baseImg/app_bar_background.png';
@@ -147,6 +152,7 @@ class ImageAssets {
   static const String ic_next_color = '$baseImg/ic_next_color.svg';
   static const String ic_prev_box = '$baseImg/prev_box_ic.svg';
   static const String ic_next_box = '$baseImg/next_box_ic.svg';
+  static const String ic_mennu_ykien = '$baseImg/ic_menu_y_kien.svg';
 
   static const String icCameraTablet = '$baseImg/ic_camera_tablet.svg';
   static const String ic_KinhRong = '$baseImg/ic_kinh_rong.svg';
@@ -266,6 +272,8 @@ class ImageAssets {
   static const String icFaceId = '$baseImg/ic_face_id.svg';
   static const String icFingerprint = '$baseImg/ic_fingerprint.svg';
   static const String icLuong = '$baseImg/ic_luong.svg';
+
+  static const String icDonViNhiemVu = '$baseImg/ic_don_vi_nhiem_vu.svg';
 
 
   static SvgPicture svgAssets(

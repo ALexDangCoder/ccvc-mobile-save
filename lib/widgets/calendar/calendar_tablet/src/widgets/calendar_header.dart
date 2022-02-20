@@ -3,9 +3,8 @@
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/main_lich_hop_tablet.dart';
+import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +26,7 @@ class CalendarHeader extends StatelessWidget {
   final Map<CalendarFormat, String> availableCalendarFormats;
   final DayBuilder? headerTitleBuilder;
   final Type_Choose_Option_Day typeCalendar;
+  final TableCalendarTabletCubit cubitCalendar;
 
   const CalendarHeader({
     Key? key,
@@ -42,14 +42,13 @@ class CalendarHeader extends StatelessWidget {
     required this.availableCalendarFormats,
     required this.typeCalendar,
     this.headerTitleBuilder,
+    required this.cubitCalendar,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final text = headerStyle.titleTextFormatter?.call(focusedMonth, locale) ??
         DateFormat.yMMMM(locale).format(focusedMonth);
-
-    final LichHopCubit cubit = TableCalendarTabletInherited.of(context).cubit;
 
     return Container(
       decoration: headerStyle.decoration,
@@ -63,26 +62,28 @@ class CalendarHeader extends StatelessWidget {
           Expanded(
             child: headerTitleBuilder?.call(context, focusedMonth) ??
                 GestureDetector(
-                    onTap: onHeaderTap,
-                    onLongPress: onHeaderLongPress,
-                    child: Row(
-                      children: [
-                        StreamBuilder<DateTime>(
-                            stream: cubit.moveTimeSubject.stream,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ?? cubit.selectedDay;
+                  onTap: onHeaderTap,
+                  onLongPress: onHeaderLongPress,
+                  child: Row(
+                    children: [
+                      StreamBuilder<DateTime>(
+                        stream: cubitCalendar.moveTimeSubject.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? cubitCalendar.selectedDay;
 
-                              return Text(
-                                'Tháng ${data.month} - ${data.year}',
-                                style: textNormalCustom(
-                                  color: textTitle,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 32,
-                                ),
-                              );
-                            },)
-                      ],
-                    ),),
+                          return Text(
+                            'Tháng ${data.month} - ${data.year}',
+                            style: textNormalCustom(
+                              color: textTitle,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 32,
+                            ),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
           ),
           if (headerStyle.leftChevronVisible)
             CustomIconButton(
@@ -91,7 +92,7 @@ class CalendarHeader extends StatelessWidget {
               margin: headerStyle.leftChevronMargin,
               padding: headerStyle.leftChevronPadding,
             ),
-          typeCalendar.getTextWidget(cubit),
+          typeCalendar.getTextWidget(cubitCalendar),
           if (headerStyle.rightChevronVisible)
             CustomIconButton(
               icon: headerStyle.rightChevronIcon,

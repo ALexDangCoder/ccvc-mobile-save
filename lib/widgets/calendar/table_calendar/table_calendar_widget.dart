@@ -12,10 +12,13 @@ import 'package:table_calendar/table_calendar.dart';
 
 class TableCalendarWidget extends StatefulWidget {
   final bool isCalendar;
+  final Function(DateTime? start, DateTime? end, DateTime? focusedDay)?
+      onChangeRange;
 
   const TableCalendarWidget({
     Key? key,
     this.isCalendar = true,
+    this.onChangeRange,
   }) : super(key: key);
 
   @override
@@ -23,6 +26,9 @@ class TableCalendarWidget extends StatefulWidget {
 }
 
 class _TableCalendarWidgetState extends State<TableCalendarWidget> {
+  DateTime? _startTime;
+  DateTime? _endTime;
+
   List<Event> _getEventsfromDay(DateTime date) {
     return selectedEvents[date] ?? [];
   }
@@ -152,6 +158,13 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                             _focusedDay.value = _selectedDay;
                           });
                         }
+                      },
+                      rangeSelectionMode: RangeSelectionMode.toggledOff,
+                      rangeStartDay: _startTime,
+                      rangeEndDay: _endTime,
+                      onRangeSelected: (startTime, endTime, focusedDay) {
+
+                        print('$startTime ....... $endTime');
                       },
                       daysOfWeekVisible: true,
                       onFormatChanged: (CalendarFormat _format) {

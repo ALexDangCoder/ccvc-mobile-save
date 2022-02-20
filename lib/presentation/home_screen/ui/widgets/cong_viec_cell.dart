@@ -13,7 +13,7 @@ class CongViecCell extends StatefulWidget {
   final bool borderBottom;
   final Function(bool) onCheckBox;
   final Function onStar;
-  final Function onClose;
+  final Function() onClose;
   final TodoModel todoModel;
   final Function(TextEditingController)? onChange;
   const CongViecCell({
@@ -66,7 +66,8 @@ class _CongViecCellState extends State<CongViecCell> {
                 borderRadius: BorderRadius.circular(3),
               ),
               side: const BorderSide(width: 1.5, color: lineColor),
-              value: !(widget.todoModel.important ?? false),
+              value: widget.todoModel.isTicked ?? false,
+
               onChanged: (value) {
                 widget.onCheckBox(value ?? false);
               },
@@ -108,7 +109,7 @@ class _CongViecCellState extends State<CongViecCell> {
                   widget.onStar();
                 },
                 child: SvgPicture.asset(
-                  widget.todoModel.isTicked ?? false
+                  widget.todoModel.important ?? false
                       ? ImageAssets.icStarFocus
                       : ImageAssets.icStarUnfocus,
                 ),
@@ -120,8 +121,11 @@ class _CongViecCellState extends State<CongViecCell> {
                 onTap: () {
                   widget.onClose();
                 },
-                child: SvgPicture.asset(
-                  ImageAssets.icClose,
+                child: Container(
+                  color: Colors.transparent,
+                  child: SvgPicture.asset(
+                    ImageAssets.icClose,
+                  ),
                 ),
               )
             ],

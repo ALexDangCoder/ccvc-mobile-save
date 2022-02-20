@@ -3,10 +3,8 @@
 
 import 'dart:math';
 
-import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/ui/tablet/main_lich_hop_tablet.dart';
-import 'package:date_format/date_format.dart';
+import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet_cubit.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -207,6 +205,8 @@ class TableCalendar<T> extends StatefulWidget {
 
   final Type_Choose_Option_Day typeCalendar;
 
+  final TableCalendarTabletCubit cubitCalendar;
+
   /// Creates a `TableCalendar` widget.
   TableCalendar({
     Key? key,
@@ -214,6 +214,7 @@ class TableCalendar<T> extends StatefulWidget {
     required DateTime firstDay,
     required DateTime lastDay,
     required this.typeCalendar,
+    required this.cubitCalendar,
     DateTime? currentDay,
     this.locale,
     this.rangeStartDay,
@@ -280,7 +281,6 @@ class TableCalendar<T> extends StatefulWidget {
 }
 
 class _TableCalendarState<T> extends State<TableCalendar<T>> {
-  late LichHopCubit cubit;
   late final PageController _pageController;
   late final ValueNotifier<DateTime> _focusedDay;
   late RangeSelectionMode _rangeSelectionMode;
@@ -438,7 +438,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
   void _onLeftChevronTap() {
     if (widget.typeCalendar == Type_Choose_Option_Day.MONTH) {
       _pageController.animateToPage(
-          _pageController.page!.toInt() - cubit.leftPageMonth(),
+          _pageController.page!.toInt() - widget.cubitCalendar.leftPageMonth(),
           duration: widget.pageAnimationDuration,
           curve: Curves.easeIn);
     } else if (widget.typeCalendar == Type_Choose_Option_Day.WEEK) {
@@ -447,7 +447,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
         curve: widget.pageAnimationCurve,
       );
     } else {
-      if (cubit.selectedDay.weekday == 7) {
+      if (widget.cubitCalendar.selectedDay.weekday == 7) {
         _pageController.previousPage(
           duration: widget.pageAnimationDuration,
           curve: widget.pageAnimationCurve,
@@ -455,24 +455,24 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
       }
     }
 
-    cubit.onLeft(widget.typeCalendar);
+    widget.cubitCalendar.onLeft(widget.typeCalendar);
   }
 
   void _onRightChevronTap() {
     if (widget.typeCalendar == Type_Choose_Option_Day.MONTH) {
       _pageController.animateToPage(
-          _pageController.page!.toInt() + cubit.nextPageMonth(),
+          _pageController.page!.toInt() + widget.cubitCalendar.nextPageMonth(),
           duration: widget.pageAnimationDuration,
           curve: Curves.easeIn);
     } else if (widget.typeCalendar == Type_Choose_Option_Day.WEEK) {
-      if (cubit.selectedDay.weekday != 7) {
+      if (widget.cubitCalendar.selectedDay.weekday != 7) {
         _pageController.nextPage(
           duration: widget.pageAnimationDuration,
           curve: widget.pageAnimationCurve,
         );
       }
     } else {
-      if (cubit.selectedDay.weekday == 6) {
+      if (widget.cubitCalendar.selectedDay.weekday == 6) {
         _pageController.nextPage(
           duration: widget.pageAnimationDuration,
           curve: widget.pageAnimationCurve,
@@ -480,12 +480,11 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
       }
     }
 
-    cubit.onRight(widget.typeCalendar);
+    widget.cubitCalendar.onRight(widget.typeCalendar);
   }
 
   @override
   Widget build(BuildContext context) {
-    cubit = TableCalendarTabletInherited.of(context).cubit;
     return Column(
       children: [
         if (widget.headerVisible)
@@ -513,6 +512,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
                   widget.onFormatChanged?.call(format);
                 },
                 typeCalendar: widget.typeCalendar,
+                cubitCalendar: widget.cubitCalendar,
               );
             },
           ),
@@ -662,7 +662,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
         if (!isDisabled) {
           final events = widget.eventLoader?.call(day) ?? [];
           Widget? markerWidget =
-          widget.calendarBuilders.markerBuilder?.call(context, day, events);
+              widget.calendarBuilders.markerBuilder?.call(context, day, events);
 
           if (events.isNotEmpty && markerWidget == null) {
             final center = constraints.maxHeight / 2;

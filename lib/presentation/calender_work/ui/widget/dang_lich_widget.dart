@@ -37,7 +37,7 @@ class TheoDangLichWidget extends StatelessWidget {
               width: 15.0.textScale(space: 8),
               child: SvgPicture.asset(
                 icon,
-                color: isSelect ? Colors.white : textDefault,
+                color: Colors.white,
               ),
             ),
             SizedBox(

@@ -1,13 +1,20 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:flutter/material.dart';
+
 class BoxStatusVanBan extends StatelessWidget {
   final Color color;
-  final String value;
-  final String  statusName;
+  final int value;
+  final String statusName;
   final Function() onTap;
-  const BoxStatusVanBan({Key? key,required this.color,required
-  this.value,required this.onTap,required this.statusName,}) : super(key: key);
+
+  const BoxStatusVanBan({
+    Key? key,
+    required this.color,
+    this.value = 0,
+    required this.onTap,
+    required this.statusName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +23,7 @@ class BoxStatusVanBan extends StatelessWidget {
       child: Container(
         height: 80,
         decoration: BoxDecoration(
-          borderRadius:const BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(6),
           ),
           color: radioUnfocusColor.withOpacity(0.1),
@@ -28,23 +35,25 @@ class BoxStatusVanBan extends StatelessWidget {
             children: [
               FittedBox(
                 child: Text(
-                  value,
-                  style:  titleText(
+                  value.toString(),
+                  style: titleText(
                     fontSize: 28,
                     color: color,
-                  ),),
+                  ),
+                ),
               ),
-               const SizedBox(
-                 height: 4,
-               ),
-               FittedBox(
-                 child: Text(
+              const SizedBox(
+                height: 4,
+              ),
+              FittedBox(
+                child: Text(
                   statusName,
-                   style: textNormal(
-                     color,14,
-                   ),
-                 ),
-               ),
+                  style: textNormal(
+                    color,
+                    14,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -52,5 +61,3 @@ class BoxStatusVanBan extends StatelessWidget {
     );
   }
 }
-
-

@@ -46,104 +46,104 @@ class _CustomDropDownState extends State<SelectDate> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: widget.isObligatory
-                  ? borderColor.withOpacity(0.3)
-                  : widget.backgroundColor ?? Colors.transparent,
-              border: Border.all(
-                color: borderColor,
-              ),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                        top: 14,
-                        bottom: 14,
-                        left: 10,
-                      ),
-                      child: widget.value == null
-                          ? Text(
-                              widget.hintText ?? S.current.vuiLongChon,
-                              style: tokenDetailAmount(
-                                fontSize: 14.0.textScale(),
-                                color: titleColor,
-                              ),
-                            )
-                          : Text(
-                              widget.isObligatory
-                                  ? '${widget.value}'
-                                  : DateTime.parse(dateSelect)
-                                      .toStringWithListFormat,
-                              style: tokenDetailAmount(
-                                fontSize: 14.0.textScale(),
-                                color: titleColor,
-                              ),
-                            ),
-                    )
-                  ],
+    return GestureDetector(
+      onTap: () {
+        showBottomSheetCustom(
+          context,
+          title: S.current.chon_ngay,
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: FlutterRoundedCupertinoDatePickerWidget(
+                  onDateTimeChanged: (value) {
+                    dateSelect = value.toString();
+                  },
+                  textStyleDate: titleAppbar(),
+                  initialDateTime: DateTime.now(),
                 ),
-                Positioned(
-                  right: widget.paddings ?? 3,
-                  height: 44,
-                  child: GestureDetector(
-                    onTap: () {
-                      showBottomSheetCustom(
-                        context,
-                        title: S.current.chon_ngay,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.4,
-                              child: FlutterRoundedCupertinoDatePickerWidget(
-                                onDateTimeChanged: (value) {
-                                  dateSelect = value.toString();
-                                },
-                                textStyleDate: titleAppbar(),
-                                initialDateTime: DateTime.now(),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(
-                                top: 24,
-                                bottom: 32,
-                              ),
-                              child: DoubleButtonBottom(
-                                title2: S.current.chon,
-                                title1: S.current.dong,
-                                onPressed2: () {
-                                  setState(() {
-                                    widget.onSelectDate(dateSelect);
-                                  });
-                                  Navigator.pop(context);
-                                },
-                                onPressed1: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            )
-                          ],
+              ),
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 24,
+                  bottom: 32,
+                ),
+                child: DoubleButtonBottom(
+                  title2: S.current.chon,
+                  title1: S.current.dong,
+                  onPressed2: () {
+                    setState(() {
+                      widget.onSelectDate(dateSelect);
+                    });
+                    Navigator.pop(context);
+                  },
+                  onPressed1: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+            ],
+          ),
+        );
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.isObligatory
+                    ? borderColor.withOpacity(0.3)
+                    : widget.backgroundColor ?? Colors.transparent,
+                border: Border.all(
+                  color: borderColor,
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(
+                          top: 14,
+                          bottom: 14,
+                          left: 10,
                         ),
-                      );
-                    },
+                        child: widget.value == null
+                            ? Text(
+                                widget.hintText ?? S.current.vuiLongChon,
+                                style: tokenDetailAmount(
+                                  fontSize: 14.0.textScale(),
+                                  color: titleColor,
+                                ),
+                              )
+                            : Text(
+                                widget.isObligatory
+                                    ? '${widget.value}'
+                                    : DateTime.parse(dateSelect)
+                                        .toStringWithListFormat,
+                                style: tokenDetailAmount(
+                                  fontSize: 14.0.textScale(),
+                                  color: titleColor,
+                                ),
+                              ),
+                      )
+                    ],
+                  ),
+                  Positioned(
+                    right: widget.paddings ?? 3,
+                    height: 44,
                     child: Center(
                       child: widget.leadingIcon ?? const SizedBox(),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

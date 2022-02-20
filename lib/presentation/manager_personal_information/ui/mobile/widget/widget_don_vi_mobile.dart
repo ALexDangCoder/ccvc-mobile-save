@@ -43,6 +43,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: ListView.builder(
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.cubit.managerPersonalInformationModel
                           .departments?.length ??
                       0,
@@ -58,7 +59,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               Text(
                                 S.current.stt,
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleItemEdit,
                                   textHeight: 2.5,
                                 ),
@@ -67,7 +68,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               Text(
                                 S.current.don_vi,
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleItemEdit,
                                   textHeight: 2.5,
                                 ),
@@ -76,7 +77,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               Text(
                                 S.current.chuc_vu,
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleItemEdit,
                                   textHeight: 2.5,
                                 ),
@@ -85,7 +86,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               Text(
                                 S.current.trang_thai,
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleItemEdit,
                                   textHeight: 2.5,
                                 ),
@@ -94,7 +95,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               Text(
                                 S.current.mac_dinh,
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleItemEdit,
                                   textHeight: 2.5,
                                 ),
@@ -111,7 +112,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               Text(
                                 '${index + 1}',
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleCalenderWork,
                                   textHeight: 2.5,
                                 ),
@@ -123,7 +124,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                         .departments?[index].tenDonVi ??
                                     '',
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleCalenderWork,
                                   textHeight: 2.5,
                                 ),
@@ -135,14 +136,14 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                         .departments?[index].tenChucVu ??
                                     '',
                                 style: textDetailHDSD(
-                                  fontSize: 12.0.textScale(),
+                                  fontSize: 14.0,
                                   color: titleCalenderWork,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              spaceH8,
+                              spaceH12,
                               Container(
                                 decoration: const BoxDecoration(
                                   color: daXuLyColor,
@@ -172,7 +173,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                   ),
                                 ),
                               ),
-                              spaceH8,
+                              spaceH12,
                               Row(
                                 children: [
                                   customSwitch(

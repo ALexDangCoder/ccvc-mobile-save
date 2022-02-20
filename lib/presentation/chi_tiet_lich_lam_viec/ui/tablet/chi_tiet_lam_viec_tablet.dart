@@ -45,7 +45,9 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
           ),
         ],
         leadingIcon: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: const Icon(
             Icons.arrow_back_ios,
             color: AqiColor,
@@ -56,6 +58,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 23),
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: toDayColor.withOpacity(0.5),

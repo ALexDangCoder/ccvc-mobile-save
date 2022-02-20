@@ -59,7 +59,8 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
         actions: [
           IconButton(
             onPressed: () {
-              DrawerSlide.navigatorSlide(context: context, screen: CalendarWorkMenu());
+              DrawerSlide.navigatorSlide(
+                  context: context, screen: const CalendarWorkMenu(),);
             },
             icon: SvgPicture.asset(ImageAssets.icMenuCalender),
           )
@@ -190,8 +191,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-              const TaoLichLamViecChiTietScreen(),
+              builder: (context) => const TaoLichLamViecChiTietScreen(),
             ),
           );
         },

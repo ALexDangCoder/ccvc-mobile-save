@@ -1,15 +1,18 @@
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/press_network_model.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BaoChiWidget extends StatelessWidget {
-  PressNetWorkModel data;
+  final PressNetWorkModel data;
 
-  BaoChiWidget({Key? key, required this.data}) : super(key: key);
+ const BaoChiWidget({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +38,21 @@ class BaoChiWidget extends StatelessWidget {
             width: 110,
             height: 90,
             clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(
+            decoration: const BoxDecoration(
+              borderRadius:  BorderRadius.all(
                 Radius.circular(10),
               ),
-              image: DecorationImage(
-                image: NetworkImage(
-                  data.avatar,
-                ),
-                fit: BoxFit.cover,
-              ),
+            ),
+            child:  CachedNetworkImage(
+              imageUrl: data.avatar,
+              fit: BoxFit.cover,
+              errorWidget: (context, _, err) {
+                return Image.network(
+                  ImageConstants.noImageFound,
+                  fit: BoxFit.cover,
+                );
+              },
+
             ),
           ),
           const SizedBox(

@@ -53,7 +53,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
       child: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
-        error: AppException("1", ""),
+        error: AppException('', S.current.something_went_wrong),
         stream: homeCubit.stateStream,
         child: Scaffold(
           backgroundColor: homeColor,

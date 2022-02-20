@@ -10,10 +10,12 @@ class CommonInformationTablet extends StatefulWidget {
   final DocumentDashboardModel documentDashboardModel;
   final String? title;
   final bool isVbDen;
+  final QLVBCCubit qlvbcCubit;
 
   const CommonInformationTablet({
     Key? key,
     required this.documentDashboardModel,
+    required this.qlvbcCubit,
     this.title,
     required this.isVbDen,
   }) : super(key: key);
@@ -24,12 +26,9 @@ class CommonInformationTablet extends StatefulWidget {
 }
 
 class _CommonInformationTabletState extends State<CommonInformationTablet> {
-  QLVBCCubit qlvbcCubit = QLVBCCubit();
-
   @override
   void initState() {
     super.initState();
-    qlvbcCubit.callAPi();
   }
 
   @override
@@ -42,8 +41,8 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
           PieChart(
             title: widget.title ?? '',
             chartData: widget.isVbDen
-                ? qlvbcCubit.chartDataVbDen
-                : qlvbcCubit.chartDataVbDi,
+                ? widget.qlvbcCubit.chartDataVbDen
+                : widget.qlvbcCubit.chartDataVbDi,
             onTap: (int value) {},
           ),
           Container(height: 20),
@@ -52,8 +51,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
               children: [
                 Expanded(
                   child: BoxStatusVanBan(
-                    value: widget.documentDashboardModel.soLuongTrongHan
-                        .toString(),
+                    value: widget.documentDashboardModel.soLuongTrongHan ?? 0,
                     onTap: () {},
                     color: numberOfCalenders,
                     statusName: S.current.trong_han,
@@ -64,8 +62,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
                 ),
                 Expanded(
                   child: BoxStatusVanBan(
-                    value:
-                        widget.documentDashboardModel.soLuongQuaHan.toString(),
+                    value: widget.documentDashboardModel.soLuongQuaHan ?? 0,
                     onTap: () {},
                     color: statusCalenderRed,
                     statusName: S.current.qua_han,
@@ -76,8 +73,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
                 ),
                 Expanded(
                   child: BoxStatusVanBan(
-                    value: widget.documentDashboardModel.soLuongThuongKhan
-                        .toString(),
+                    value: widget.documentDashboardModel.soLuongThuongKhan ?? 0,
                     onTap: () {},
                     color: textColorForum,
                     statusName: S.current.thuong_khan,
@@ -89,8 +85,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
             SizedBox(
               width: 103,
               child: BoxStatusVanBan(
-                value:
-                    widget.documentDashboardModel.soLuongThuongKhan.toString(),
+                value: widget.documentDashboardModel.soLuongThuongKhan ?? 0,
                 onTap: () {},
                 color: textColorForum,
                 statusName: S.current.thuong_khan,

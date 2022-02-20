@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
 import 'package:ccvc_mobile/widgets/views/state_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LoadingOnly extends StatelessWidget {
   final Stream<StateLayout> stream;
@@ -16,8 +18,8 @@ class LoadingOnly extends StatelessWidget {
       builder: (context, snapshot) {
         return ModalProgressHUD(
           inAsyncCall: snapshot.data == StateLayout.showLoading,
-          opacity: 0,
-          progressIndicator: const CircularProgressIndicator(),
+
+          progressIndicator: const CupertinoLoading(),
           child: child,
         );
       },
@@ -58,10 +60,24 @@ class _ModalProgressHUDState extends State<ModalProgressHUD> {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       final renderBox = context.findRenderObject() as RenderBox;
       size = renderBox.size;
-      setState(() {});
+     _isAsyncCall.sink.add(widget.inAsyncCall);
     });
   }
-
+@override
+  void didUpdateWidget(covariant ModalProgressHUD oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    final renderBox = context.findRenderObject() as RenderBox;
+    size = renderBox.size;
+    _isAsyncCall.sink.add(widget.inAsyncCall);
+  }
+  final BehaviorSubject<bool> _isAsyncCall = BehaviorSubject();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _isAsyncCall.close();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,12 +85,17 @@ class _ModalProgressHUDState extends State<ModalProgressHUD> {
       child: Stack(
         children: [
           widget.child,
-          Visibility(
-            visible: widget.inAsyncCall,
-            child: Positioned(
-                top: size.height / 2,
-                right: size.width / 2 - 20,
-                child: Center(child: widget.progressIndicator)),
+          StreamBuilder<bool>(
+            stream: _isAsyncCall.stream,
+            builder: (context, snapshot) {
+              return Visibility(
+                visible: widget.inAsyncCall,
+                child: Positioned(
+                    top: size.height / 2 -50,
+                    right: size.width / 2 - 50,
+                    child: Center(child: widget.progressIndicator)),
+              );
+            }
           )
         ],
       ),

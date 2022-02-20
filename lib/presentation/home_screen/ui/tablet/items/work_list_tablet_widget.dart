@@ -28,12 +28,13 @@ class WorkListTabletWidget extends StatefulWidget {
 
 class _WorkListWidgetState extends State<WorkListTabletWidget> {
   late HomeCubit cubit;
-
+  DanhSachCongViecCubit danhSachCVCubit = DanhSachCongViecCubit();
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    cubit = HomeProvider.of(context).homeCubit..getToDoList();
+    cubit = HomeProvider.of(context).homeCubit;
+    danhSachCVCubit.getToDoList();
   }
 
   @override
@@ -51,7 +52,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
         customDialog: AddToDoWidget(
           onTap: (value) {
             cubit.closeDialog();
-            cubit.addTodo(value);
+            danhSachCVCubit.addTodo(value);
           },
         ),
       ),
@@ -59,7 +60,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
         child: ScrollBarWidget(
           children: [
             StreamBuilder<TodoListModel>(
-              stream: cubit.getTodoList,
+              stream: danhSachCVCubit.getTodoList,
               builder: (context, snapshot) {
                 final data = snapshot.data?.listTodoImportant ?? <TodoModel>[];
                 if (data.isNotEmpty) {
@@ -71,15 +72,19 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                         text: todo.label ?? '',
                         todoModel: todo,
                         onCheckBox: (value) {
-                          cubit.tickerListWord(todo: todo, removeDone: false);
+                          danhSachCVCubit.tickerListWord(
+                              todo: todo, removeDone: false);
                         },
                         onStar: () {
-                          cubit.tickerQuanTrongTodo(todo, removeDone: false);
+                          danhSachCVCubit.tickerQuanTrongTodo(todo,
+                              removeDone: false);
                         },
                         onClose: () {},
                         onChange: (controller) {
-                          final result = cubit.changeLabelTodo(
-                              controller.text.trim(), todo,);
+                          danhSachCVCubit.changeLabelTodo(
+                            controller.text.trim(),
+                            todo,
+                          );
                         },
                       );
                     }),
@@ -102,7 +107,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                   style: textNormalCustom(fontSize: 14, color: infoColor),
                 ),
                 StreamBuilder<TodoListModel>(
-                  stream: cubit.getTodoList,
+                  stream: danhSachCVCubit.getTodoList,
                   builder: (context, snapshot) {
                     final data = snapshot.data?.listTodoDone ?? <TodoModel>[];
                     if (data.isNotEmpty) {
@@ -114,11 +119,11 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                             enabled: false,
                             todoModel: todo,
                             onCheckBox: (value) {
-                              cubit.tickerListWord(todo: todo);
+                              danhSachCVCubit.tickerListWord(todo: todo);
                             },
                             onClose: () {},
                             onStar: () {
-                              cubit.tickerQuanTrongTodo(todo);
+                              danhSachCVCubit.tickerQuanTrongTodo(todo);
                             },
                             text: todo.label ?? '',
                           );

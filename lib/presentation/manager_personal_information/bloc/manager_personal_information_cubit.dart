@@ -52,6 +52,19 @@ class ManagerPersonalInformationCubit
     result.when(
       success: (res) {
         managerPersonalInformationModel = res;
+        if (res.tinhId != null) {
+          getDataHuyenXa(
+            parentId: res.tinhId ?? '',
+            isXa: false,
+          );
+        }
+        if (res.huyenId != null) {
+          getDataHuyenXa(
+            isXa: true,
+            parentId:
+            res.huyenId ?? '',
+          );
+        }
         managerPersonSubject.sink.add(managerPersonalInformationModel);
       },
       error: (error) {},

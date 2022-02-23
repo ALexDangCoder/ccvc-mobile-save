@@ -261,6 +261,11 @@ class _EditPersonalInformationScreen
                                 onChange: (indexes, id) {
                                   cubit.huyenSubject.sink.add([]);
                                   cubit.xaSubject.sink.add([]);
+                                  cubit.managerPersonalInformationModel.huyen =
+                                      null;
+                                  cubit.managerPersonalInformationModel.xa =
+                                      null;
+
                                   cubit.getDataHuyenXa(
                                     isXa: false,
                                     parentId: cubit.tinhModel[indexes].id ?? '',
@@ -298,6 +303,8 @@ class _EditPersonalInformationScreen
                                 items: data,
                                 onChange: (indexes, id) {
                                   cubit.xaSubject.sink.add([]);
+                                  cubit.managerPersonalInformationModel.xa =
+                                      null;
                                   cubit.getDataHuyenXa(
                                     isXa: true,
                                     parentId:

@@ -66,7 +66,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.items.isEmpty) {
+        if (widget.items.isEmpty && widget.initialValue == null) {
           return;
         }
         searchItemSubject = BehaviorSubject.seeded(widget.items);

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/tao_lich_hop/linh_vuc.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
@@ -27,11 +28,13 @@ class TaoLichHopScreen extends StatefulWidget {
 
 class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
   final TaoLichHopCubit _cubit = TaoLichHopCubit();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _cubit.loadData();
+    print('init==============');
+    _cubit.getLinhVucTaoLich(body: _cubit.fakeBody);
   }
 
   @override
@@ -82,15 +85,18 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
                           );
                         }),
                     spaceH5,
-                    StreamBuilder<List<LoaiSelectModel>>(
-                        stream: _cubit.linhVuc,
+                    StreamBuilder<LinhVucModel>(
+                        stream: _cubit.linhVucStream,
                         builder: (context, snapshot) {
-                          final data = snapshot.data ?? <LoaiSelectModel>[];
+                          final data = snapshot.data ?? LinhVucModel.empty();
+                          final listSelect = data.items ?? [];
+                          final List<String> dataListSelect =
+                              listSelect.map((e) => e.name ?? '').toList();
                           return SelectOnlyExpand(
                             urlIcon: ImageAssets.icWork,
                             title: S.current.linh_vuc,
                             value: _cubit.selectLinhVuc?.name ?? '',
-                            listSelect: data.map((e) => e.name).toList(),
+                            listSelect: dataListSelect,
                           );
                         }),
                     StartEndDateWidget(

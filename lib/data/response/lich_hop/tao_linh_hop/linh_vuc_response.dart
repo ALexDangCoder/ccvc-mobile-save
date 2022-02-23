@@ -63,7 +63,7 @@ class LinhVucDataResponse extends Equatable {
         totalPage: totalPage,
       );
 
-  LinhVucDataResponse.fromJson(Map<String, dynamic> json) =>
+  factory LinhVucDataResponse.fromJson(Map<String, dynamic> json) =>
       _$LinhVucDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$LinhVucDataResponseToJson(this);

@@ -5,6 +5,8 @@ class LinhVucModel {
   int? totalCount;
   int? totalPage;
 
+  LinhVucModel.empty();
+
   LinhVucModel({
     required this.items,
     required this.pageIndex,

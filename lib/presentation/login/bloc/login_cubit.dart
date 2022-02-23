@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -53,6 +54,7 @@ class LoginCubit extends BaseCubit<LoginState> {
                     username: res.username,
                     userInformation: res.userInformation,
                   );
+
                   HiveLocal.saveDataUser(dataUser);
                 },
                 error: (err) {

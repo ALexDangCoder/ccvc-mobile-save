@@ -72,7 +72,6 @@
   "default_word": "Mặc định",
   "no_data": "Không có dữ liệu",
   "widget_manage": "Quản lý widgets",
-  "bao_cao_thong_ke": "Báo cáo thống kê",
   "den_han": "Đến hạn",
   "qua_han": "Quá hạn",
   "hoan_thanh": "Hoàn thành",
@@ -497,8 +496,10 @@
   "da_nhan_ban_giay" : "Đã nhận bản giấy",
   "chon_can_bo_hoac_don_vi_de_thu_hoi" : "Chọn cán bộ hoặc đơn vị để thu hồi",
   "chon_thu_ky_cuoc_hop" : "Chọn thư ký cuộc họp",
-  "Chon_can_bo_boc_bang" : "Chọn cán sử dụng bóc băng",
+  "tong_so_lich_lam_viec": "Tổng số lịch làm việc",
+  "Chon_can_bo_boc_bang" : "Chọn cán bộ sử dụng bóc băng",
   "Chon_don_vi_su_dung" : "Chọn đơn vị sử dụng",
   "nhap_ten_don_vi": "Nhập tên đơn vị",
-  "thu_hoi_lich" : "Thu hồi lịch"
+  "thu_hoi_lich" : "Thu hồi lịch",
+  "bao_cao_thong_ke": "Báo cáo thống kê"
 }

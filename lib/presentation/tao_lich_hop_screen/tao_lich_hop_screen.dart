@@ -1,6 +1,9 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/fake_data_tao_lich.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
@@ -12,7 +15,7 @@ import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
-import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
+
 import 'package:flutter/material.dart';
 
 class TaoLichHopScreen extends StatefulWidget {
@@ -23,6 +26,21 @@ class TaoLichHopScreen extends StatefulWidget {
 }
 
 class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
+  final TaoLichHopCubit _cubit = TaoLichHopCubit();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _cubit.loadData();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _cubit.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,25 +70,31 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
                       onChange: (value) {},
                     ),
                     spaceH5,
-                    SelectOnlyExpand(
-                      urlIcon: ImageAssets.icCalendar,
-                      title: S.current.loai_hop,
-                      value: FakeDataTaoLichHop.loaiHop.first,
-                      listSelect: FakeDataTaoLichHop.loaiHop,
-                    ),
+                    StreamBuilder<List<LoaiSelectModel>>(
+                        stream: _cubit.loaiLich,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <LoaiSelectModel>[];
+                          return SelectOnlyExpand(
+                            urlIcon: ImageAssets.icCalendar,
+                            title: S.current.loai_hop,
+                            value: _cubit.selectLoaiHop?.name ?? '',
+                            listSelect: data.map((e) => e.name).toList(),
+                          );
+                        }),
                     spaceH5,
-                    SelectOnlyExpand(
-                      urlIcon: ImageAssets.icWork,
-                      title: S.current.linh_vuc,
-                      value: FakeDataTaoLichHop.linhVuc.first,
-                      listSelect: FakeDataTaoLichHop.linhVuc,
-                    ),
-                    spaceH5,
-                    TextFieldStyle(
-                      urlIcon: ImageAssets.icDoublePerson,
-                      hintText: S.current.them_nguoi,
-                    ),
+                    StreamBuilder<List<LoaiSelectModel>>(
+                        stream: _cubit.linhVuc,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <LoaiSelectModel>[];
+                          return SelectOnlyExpand(
+                            urlIcon: ImageAssets.icWork,
+                            title: S.current.linh_vuc,
+                            value: _cubit.selectLinhVuc?.name ?? '',
+                            listSelect: data.map((e) => e.name).toList(),
+                          );
+                        }),
                     StartEndDateWidget(
+                      icMargin: false,
                       onEndDateTimeChanged: (DateTime value) {},
                       onStartDateTimeChanged: (DateTime value) {},
                     ),
@@ -85,8 +109,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
                     SelectOnlyExpand(
                       urlIcon: ImageAssets.icNhacLai,
                       title: S.current.lich_lap,
-                      value: FakeDataTaoLichHop.nhacLai.first,
-                      listSelect: FakeDataTaoLichHop.nhacLai,
+                      value: FakeDataTaoLichHop.lichLap.first,
+                      listSelect: FakeDataTaoLichHop.lichLap,
                     ),
                     spaceH5,
                     SelectOnlyExpand(
@@ -96,12 +120,17 @@ class _TaoLichHopScreenState extends State<TaoLichHopScreen> {
                       listSelect: FakeDataTaoLichHop.mucDoHop,
                     ),
                     spaceH5,
-                    SelectOnlyExpand(
-                      urlIcon: ImageAssets.icPeople,
-                      title: S.current.nguoi_chu_tri,
-                      value: FakeDataTaoLichHop.nguoiChuTri.last,
-                      listSelect: FakeDataTaoLichHop.nguoiChuTri,
-                    ),
+                    StreamBuilder<List<NguoiChutriModel>>(
+                        stream: _cubit.nguoiChuTri,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <NguoiChutriModel>[];
+                          return SelectOnlyExpand(
+                            urlIcon: ImageAssets.icPeople,
+                            title: S.current.nguoi_chu_tri,
+                            value: _cubit.selectNguoiChuTri?.title() ?? '',
+                            listSelect: data.map((e) => e.title()).toList(),
+                          );
+                        }),
                     spaceH24,
                     TextFieldStyle(
                       urlIcon: ImageAssets.icDocument,

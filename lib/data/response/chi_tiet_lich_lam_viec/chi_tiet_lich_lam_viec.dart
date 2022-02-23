@@ -129,15 +129,14 @@ class DetailCalenderWorkResponseData extends Equatable {
 
   Map<String, dynamic> toJson() => _$DetailCalenderWorkResponseDataToJson(this);
 
-
-
   @override
   List<Object?> get props => throw [];
 
   ChiTietLichLamViecModel toModel() => ChiTietLichLamViecModel(
         id: id ?? '',
         time: '$timeFrom - $timeTo',
-        date: DateTime.parse(dateTimeFrom??'').formatDayCalendar ?? '',
+        date: DateTime.parse(dateTimeFrom ?? DateTime.now().toString())
+            .formatDayCalendar,
         loaiLich: typeScheduleName ?? '',
         // listPerSon: fakeDataListPerson(),
         nhacLai: '',

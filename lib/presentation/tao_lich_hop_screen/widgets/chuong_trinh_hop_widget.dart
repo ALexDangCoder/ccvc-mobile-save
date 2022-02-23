@@ -118,23 +118,15 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 BaseChooseTimerWidget(
                   key: _keyBaseTime,
-                  validator: () {
-                    return '213';
-                  },
+                  validator: () {},
                 ),
                 InputInfoUserWidget(
                   title: S.current.nguoi_chu_tri,
-                  child: const DropDownSearch(
-                    listSelect: [
-                     "Tokuda",
-                      'Thầy ông nội',
-                      'Lực ô da woa',
-                      "Hòa dâm dê",
-                      'Hòa rocket',
-                      'Hòa lực sỹ',
-                      'Hòa yếu sinh lý',
-                      'Hòa chưa có ny'
-                    ],
+                  child: DropDownSearch(
+                    title: S.current.nguoi_chu_tri,
+                    hintText: S.current.chon_nguoi_chu_tri,
+                    onChange: (value) {},
+                    listSelect: [],
                   ),
                 ),
                 InputInfoUserWidget(

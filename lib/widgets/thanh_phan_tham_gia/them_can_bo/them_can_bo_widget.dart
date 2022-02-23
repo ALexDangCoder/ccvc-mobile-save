@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/bloc/them_can_bo_state.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/widgets/can_bo_widget.dart';
@@ -24,9 +25,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
+  final ThanhPhanThamGiaCubit cubit;
   const ThemCanBoWidget({
     Key? key,
     required this.onChange,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -52,7 +55,9 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
         title: S.current.chon_thanh_phan_tham_gia,
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.8,
-          child: const ThemCanBoScreen(),
+          child: ThemCanBoScreen(
+            cubit: widget.cubit,
+          ),
         ),
       ).then((value) {
         if (value != null) {
@@ -63,7 +68,9 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
       showDiaLogTablet(
         context,
         title: S.current.chon_thanh_phan_tham_gia,
-        child: const ThemCanBoScreen(),
+        child: ThemCanBoScreen(
+          cubit: widget.cubit,
+        ),
         isBottomShow: false,
         funcBtnOk: () {},
         maxHeight: 841,
@@ -77,7 +84,8 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
 }
 
 class ThemCanBoScreen extends StatefulWidget {
-  const ThemCanBoScreen({Key? key}) : super(key: key);
+  final ThanhPhanThamGiaCubit cubit;
+  const ThemCanBoScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _ThemCanBoScreenState createState() => _ThemCanBoScreenState();
@@ -110,6 +118,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
             height: 20.0.textScale(space: 4),
           ),
           SelectDonVi(
+            cubit: widget.cubit,
             onChange: (value) {
               _themCanBoCubit.getCanBo(value);
             },

@@ -23,6 +23,14 @@ class FakeDataTaoLichHop {
     'Trước 30 phút',
     'Trước 1 giờ'
   ];
+  static final lichLap = [
+    'Không lặp lại',
+    'Lặp hàng ngày',
+    'Từ thứ 2 đến thứ 6 hàng tuần',
+    'Lặp lại hằng tuần',
+    'Lặp lại hàng tháng',
+    'Lặp lại hàng năm'
+  ];
   static final mucDoHop=[
     "Bình thường",
     "Đột xuất"

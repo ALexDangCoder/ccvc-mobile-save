@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/widgets/select_don_vi.dart';
 import 'package:flutter/material.dart';
 
@@ -61,6 +62,7 @@ class _ChonPhongHopScreen extends StatefulWidget {
 
 class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   final TextEditingController controller = TextEditingController();
+  ThanhPhanThamGiaCubit cubit =ThanhPhanThamGiaCubit();
   final _key = GlobalKey<FormState>();
   @override
   void initState() {
@@ -113,6 +115,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                 title: S.current.don_vi,
                 hintText: S.current.chon_don_vi,
                 onChange: (value) {},
+                cubit: cubit,
               ),
               spaceH20,
               YeuCauThemThietBiWidget(

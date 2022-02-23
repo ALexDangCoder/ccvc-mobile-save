@@ -1,211 +1,200 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DropDownSearch extends StatefulWidget {
   final List<String> listSelect;
-  const DropDownSearch({Key? key, required this.listSelect}) : super(key: key);
+  final String title;
+  final Function(int) onChange;
+  final String hintText;
+  const DropDownSearch({
+    Key? key,
+    required this.listSelect,
+    this.title = '',
+    required this.onChange,
+    this.hintText = '',
+  }) : super(key: key);
 
   @override
   State<DropDownSearch> createState() => _DropDownSearchState();
 }
 
 class _DropDownSearchState extends State<DropDownSearch> {
-  OverlayEntry? _overlayEntry;
   final TextEditingController textEditingController = TextEditingController();
+  BehaviorSubject<List<String>> searchItemSubject = BehaviorSubject();
+  List<String> searchList = [];
+  String select = '';
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: textEditingController,
-      onChanged: (value) {},
+    return GestureDetector(
       onTap: () {
-        _overlayEntry = _createOverlay();
-
-        Overlay.of(context)!.insert(_overlayEntry!);
+        showListItem(context);
       },
-      style: tokenDetailAmount(
-        fontSize: 14.0.textScale(),
-        color: titleColor,
-      ),
-      decoration: InputDecoration(
-        hintText: "1212",
-        hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-        fillColor: Colors.transparent,
-        filled: true,
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-      ),
-    );
-  }
-
-  OverlayEntry _createOverlay() {
-    // ignore: cast_nullable_to_non_nullable
-    final renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
-
-    final offset = renderBox.localToGlobal(Offset.zero);
-    return OverlayEntry(
-      builder: (context) => SelectCell(
-        offset: offset,
-        size: size,
-        overlayEntry: _overlayEntry,
-        listSelect: widget.listSelect,
-        textEditingController: textEditingController,
-      ),
-    );
-  }
-}
-
-class SelectCell extends StatefulWidget {
-  final Offset offset;
-  final Size size;
-  final OverlayEntry? overlayEntry;
-  final List<String> listSelect;
-  final TextEditingController textEditingController;
-  const SelectCell({
-    Key? key,
-    required this.offset,
-    required this.size,
-    required this.overlayEntry,
-    required this.listSelect,
-    required this.textEditingController,
-  }) : super(key: key);
-
-  @override
-  _SelectCellState createState() => _SelectCellState();
-}
-
-class _SelectCellState extends State<SelectCell> {
-  double maxHeight = 0;
-  final BehaviorSubject<List<String>> _listSearch = BehaviorSubject();
-   List<String> listSearch = [];
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _listSearch.sink.add(widget.listSelect);
-    widget.textEditingController.addListener(() {
-      listSearch = widget.listSelect.where((element) =>
-          element.toLowerCase().vietNameseParse() ==
-          widget.textEditingController.text.toLowerCase().vietNameseParse()).toList();
-      _listSearch.sink.add(listSearch);
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    maxHeight = MediaQuery.of(context).size.height / 2 - 100;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          GestureDetector(
-            onTap: () {
-              widget.overlayEntry?.remove();
-            },
-            child: SizedBox.expand(
-              child: Container(
-                color: Colors.transparent,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+        width: double.infinity,
+        decoration: BoxDecoration(
+            border: Border.all(color: borderColor),
+            borderRadius: const BorderRadius.all(Radius.circular(6))),
+        child: select.isEmpty
+            ? Text(
+                widget.hintText,
+                style: textNormal(
+                  titleItemEdit,
+                  14.0.textScale(),
+                ),
+              )
+            : Text(
+                select,
+                style: tokenDetailAmount(
+                  fontSize: 14.0.textScale(),
+                  color: titleColor,
+                ),
               ),
-            ),
-          ),
-          Positioned(
-            left: widget.offset.dx,
-            top: offset(widget.listSelect.length).dy + 3,
-            width: widget.size.width,
-            child: Material(
-              color: Colors.transparent,
-              child: _suggestionsBuilder(),
-            ),
-          ),
-        ],
       ),
     );
   }
 
-  Widget _suggestionsBuilder() {
-    return Container(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height / 2 - 100,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: borderColor),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(6),
-          topRight: Radius.circular(6),
-        ),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: StreamBuilder<List<String>>(
-          stream: _listSearch.stream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? <String>[];
-            return Scrollbar(
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                reverse: true,
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  final result = data[index];
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 30,
-                      margin: const EdgeInsets.only(top: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      width: double.infinity,
-                      decoration:
-                          BoxDecoration(color: smokeColor.withOpacity(0.1)),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        result,
-                        style: textNormal(titleColor, 14),
+  void showListItem(BuildContext context) {
+    searchItemSubject = BehaviorSubject.seeded(widget.listSelect);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.symmetric(
+              vertical:
+                  MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
+                      ? 100
+                      : 20,
+              horizontal: 20,
+            ),
+            child: Scaffold(
+              resizeToAvoidBottomInset: true,
+              backgroundColor: Colors.transparent,
+              body: Container(
+                decoration: const BoxDecoration(
+                    color: backgroundColorApp,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 56,
+                        child: Stack(
+                          children: [
+                            Align(
+                              child: Text(
+                                widget.title,
+                                style: titleAppbar(
+                                    fontSize: 18.0.textScale(space: 6.0)),
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: SvgPicture.asset(ImageAssets.icClose),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                      BaseSearchBar(onChange: (keySearch) async {
+                        searchList = widget.listSelect
+                            .where(
+                              (item) => item
+                                  .trim()
+                                  .toLowerCase()
+                                  .vietNameseParse()
+                                  .contains(
+                                    keySearch
+                                        .trim()
+                                        .toLowerCase()
+                                        .vietNameseParse(),
+                                  ),
+                            )
+                            .toList();
+                        searchItemSubject.sink.add(searchList);
+                      }),
+                      Expanded(
+                        child: StreamBuilder<List<String>>(
+                            stream: searchItemSubject,
+                            builder: (context, snapshot) {
+                              final listData = snapshot.data ?? [];
+                              return listData.isEmpty
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(16),
+                                      child: NodataWidget(),
+                                    )
+                                  : ListView.separated(
+                                      itemBuilder: (context, index) {
+                                        final itemTitle =
+                                            snapshot.data?[index] ?? '';
+                                        return GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              select = itemTitle;
+                                            });
+                                            widget.onChange(selectIndex());
+                                            Navigator.of(context).pop();
+                                            searchItemSubject.close();
+                                          },
+                                          child: Container(
+                                            color: Colors.transparent,
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 8,
+                                            ),
+                                            child: Text(
+                                              itemTitle,
+                                              style: textNormalCustom(
+                                                color: titleItemEdit,
+                                                fontWeight: itemTitle == select
+                                                    ? FontWeight.w600
+                                                    : FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return const Divider(
+                                          color: borderColor,
+                                        );
+                                      },
+                                      itemCount: snapshot.data?.length ?? 0,
+                                    );
+                            }),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      )
+                    ],
+                  ),
+                ),
               ),
-            );
-          }),
-    );
+            ),
+          );
+        });
   }
 
-  Offset offset(int countItem) {
-    if (countItem * 40 > maxHeight) {
-      return Offset(0, widget.offset.dy - maxHeight);
-    } else {
-      return Offset(0, widget.offset.dy - (countItem * 12));
-    }
+  int selectIndex() {
+    final index = widget.listSelect.indexOf(select);
+    return index;
   }
 }

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
@@ -53,6 +54,21 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   }
 
   @override
+  void didUpdateWidget(covariant SelectOnlyExpand oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if (widget.listSelect.isNotEmpty) {
+      final index =
+          widget.listSelect.indexWhere((element) => element == widget.value);
+      if (index != -1) {
+        valueSelect = widget.listSelect[index];
+        selectBloc.sink.add(index);
+      }
+    }
+    setState(() {});
+  }
+
+  @override
   void dispose() {
     selectBloc.close();
     super.dispose();
@@ -65,9 +81,9 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
       isShowIcon: false,
       initController: expandController,
       header: headerWidget(),
-      child: Column(
+      child: widget.listSelect.isEmpty ? const NodataWidget():Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: List.generate(
+        children:   List.generate(
           widget.listSelect.length,
           (index) => Padding(
             padding: EdgeInsets.only(

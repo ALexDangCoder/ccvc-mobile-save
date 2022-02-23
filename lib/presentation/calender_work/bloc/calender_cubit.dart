@@ -1,12 +1,16 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
 import 'package:ccvc_mobile/domain/model/meeting_schedule.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -25,11 +29,12 @@ class CalenderCubit extends BaseCubit<CalenderState> {
 
   Stream<bool> get isCheckNgayStream => isCheckNgay.stream;
 
-  Stream<TypeCalendarMenu> get changeItemMenuStream => changeItemMenuSubject.stream;
+  Stream<TypeCalendarMenu> get changeItemMenuStream =>
+      changeItemMenuSubject.stream;
 
   bool isCheck = false;
   List<String> img = [
-    ImageAssets.icTongSoLichLamviec,
+    //ImageAssets.icTongSoLichLamviec,
     ImageAssets.icLichCongTacTrongNuoc,
     ImageAssets.icLichLamViec,
     ImageAssets.icLichCongTacNuocNgoai,
@@ -135,6 +140,76 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     } else {
       emit(LichLVStateDangList(type));
     }
+  }
+
+  //tong dashbroad
+
+  BehaviorSubject<LichLamViecDashBroad> lichLamViecDashBroadSubject =
+      BehaviorSubject.seeded(LichLamViecDashBroad(countScheduleCaNhan: 0));
+
+  Stream<LichLamViecDashBroad> get streamLichLamViec =>
+      lichLamViecDashBroadSubject.stream;
+  LichLamViecDashBroad lichLamViecDashBroads = LichLamViecDashBroad();
+
+  LichLamViecRepository get _lichLamViec => Get.find();
+
+  void callAPi() {
+    showLoading();
+    dataLichLamViec(startDate: '2022-02-01', endDate: '2022-02-28');
+    dataLichLamViecRight(
+      startDate: '2022-02-01',
+      endDate: '2022-02-28',
+      type: 3,
+    );
+    showContent();
+  }
+
+  Future<void> dataLichLamViec({
+    required String startDate,
+    required String endDate,
+  }) async {
+    final result = await _lichLamViec.getLichLv(startDate, endDate);
+    result.when(
+      success: (res) {
+        showLoading();
+        lichLamViecDashBroads = res;
+        lichLamViecDashBroadSubject.sink.add(lichLamViecDashBroads);
+        showContent();
+      },
+      error: (err) {
+        return;
+      },
+    );
+  }
+
+  BehaviorSubject<List<LichLamViecDashBroadItem>>
+      lichLamViecDashBroadRightSubject = BehaviorSubject();
+
+  Stream<List<LichLamViecDashBroadItem>> get streamLichLamViecRight =>
+      lichLamViecDashBroadRightSubject.stream;
+  List<LichLamViecDashBroadItem> lichLamViecDashBroadRight = [];
+
+  Future<void> dataLichLamViecRight({
+    required String startDate,
+    required String endDate,
+    required int type,
+  }) async {
+    final result = await _lichLamViec.getLichLvRight(
+      startDate,
+      endDate,
+      type,
+    );
+    result.when(
+      success: (res) {
+        showLoading();
+        lichLamViecDashBroadRight = res;
+        lichLamViecDashBroadRightSubject.sink.add(lichLamViecDashBroadRight);
+        showContent();
+      },
+      error: (err) {
+        return;
+      },
+    );
   }
 }
 

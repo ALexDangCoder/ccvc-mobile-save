@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/fake_date_tao_lich_hop.dart';
+import 'package:get/get.dart';
 
 class DonViModel {
   String id = '';
@@ -37,6 +38,20 @@ class Node<T> {
     expand = node.expand;
     isCheck = node.isCheck;
   }
+  Node.copyWith(Node<T> node) {
+    value = node.value;
+    parent = node.parent;
+    expand = node.expand;
+    isCheck = node.isCheck;
+    level = node.level;
+  }
+  Node<T> coppyWith() {
+    final Node<T> node = Node.copyWith(this);
+    for (final vl in children) {
+      node.addChild(vl.coppyWith());
+    }
+    return node;
+  }
 
   Node<DonViModel>? search(Node<DonViModel> node) {
     final nodeTree = value as DonViModel;
@@ -74,6 +89,7 @@ class Node<T> {
 class CheckBox {
   //dùng tham chiếu để đỡ phải duyệt tree
   bool isCheck = false;
+  CheckBox({this.isCheck = false});
 }
 
 List<Node<DonViModel>> batTree() {

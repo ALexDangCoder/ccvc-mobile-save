@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'linh_vuc_response.g.dart';
 
 @JsonSerializable()
-class DashBoardLichHopResponse extends Equatable {
+class LinhVucResponse extends Equatable {
   @JsonKey(name: 'data')
   LinhVucDataResponse? data;
   @JsonKey(name: 'statusCode')
@@ -17,7 +17,7 @@ class DashBoardLichHopResponse extends Equatable {
   @JsonKey(name: 'message')
   String? message;
 
-  DashBoardLichHopResponse(
+  LinhVucResponse(
     this.data,
     this.statusCode,
     this.succeeded,
@@ -25,10 +25,10 @@ class DashBoardLichHopResponse extends Equatable {
     this.message,
   );
 
-  factory DashBoardLichHopResponse.fromJson(Map<String, dynamic> json) =>
-      _$DashBoardLichHopResponseFromJson(json);
+  factory LinhVucResponse.fromJson(Map<String, dynamic> json) =>
+      _$LinhVucResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DashBoardLichHopResponseToJson(this);
+  Map<String, dynamic> toJson() => _$LinhVucResponseToJson(this);
 
   @override
   List<Object?> get props => [];
@@ -36,10 +36,15 @@ class DashBoardLichHopResponse extends Equatable {
 
 @JsonSerializable()
 class LinhVucDataResponse extends Equatable {
+  @JsonKey(name: 'items')
   List<ItemLinhVucResponse>? items;
+  @JsonKey(name: 'pageIndex')
   int? pageIndex;
+  @JsonKey(name: 'pageSize')
   int? pageSize;
+  @JsonKey(name: 'totalCount')
   int? totalCount;
+  @JsonKey(name: 'totalPage')
   int? totalPage;
 
   LinhVucDataResponse({
@@ -50,9 +55,15 @@ class LinhVucDataResponse extends Equatable {
     required this.totalPage,
   });
 
-  LinhVucModel toModel() =>
+  LinhVucModel toModel() => LinhVucModel(
+        items: items?.map((e) => e.toModel()).toList() ?? [],
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        totalCount: totalCount,
+        totalPage: totalPage,
+      );
 
-  factory LinhVucDataResponse.fromJson(Map<String, dynamic> json) =>
+  LinhVucDataResponse.fromJson(Map<String, dynamic> json) =>
       _$LinhVucDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$LinhVucDataResponseToJson(this);
@@ -63,9 +74,13 @@ class LinhVucDataResponse extends Equatable {
 
 @JsonSerializable()
 class ItemLinhVucResponse extends Equatable {
+  @JsonKey(name: 'id')
   String? id;
+  @JsonKey(name: 'name')
   String? name;
+  @JsonKey(name: 'code')
   String? code;
+  @JsonKey(name: 'totalItems')
   int? totalItems;
 
   ItemLinhVucResponse({
@@ -75,7 +90,7 @@ class ItemLinhVucResponse extends Equatable {
     required this.totalItems,
   });
 
-  ItemLinhVucResponse toModel() => ItemLinhVucResponse(
+  ItemLinhVucModel toModel() => ItemLinhVucModel(
         id: id,
         name: name,
         code: code,

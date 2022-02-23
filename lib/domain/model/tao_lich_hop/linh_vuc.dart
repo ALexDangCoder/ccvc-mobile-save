@@ -1,5 +1,5 @@
 class LinhVucModel {
-  List<ItemLinhVuc>? items;
+  List<ItemLinhVucModel>? items;
   int? pageIndex;
   int? pageSize;
   int? totalCount;

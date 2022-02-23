@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/linh_vuc_request.dart';
@@ -5,7 +7,6 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
-import 'package:ccvc_mobile/domain/model/tao_lich_hop/linh_vuc.dart';
 import 'package:ccvc_mobile/domain/repository/hop_repository.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_state.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   NguoiChutriModel? selectNguoiChuTri;
 
   LinhVucRequest fakeBody = LinhVucRequest(pageIndex: 1, pageSize: 100,);
-  
+
   void loadData() {
     _getLoaiLich();
     _getPhamVi();

@@ -19,10 +19,10 @@ class ApiConstants {
   static const String GET_DASHBOARD_VB_DEN =
       '/qlvb/api/danh-muc/dashboard-van-ban-den';
   static const String GET_VB_DI_SO_LUONG = '/qlvb/api/van-ban-di/so-luong?';
-
   static const String GET_INFO = '/api/CanBo';
   static const String GET_TINH_HUYEN_XA = '/api/DanhMuc/tinh-thanh';
   static const String GET_TINH_HUYEN_XA_CHILD = '/api/DanhMuc/tinh-thanh';
+  static const String LIST_LICH_LV = '/vpdt/api/Schedules/danh-sach-lich';
 
   static const DASH_BOARD_VBDEN = '/qlvb/api/danh-muc/dashboard-van-ban-den';
   static const DASH_BOARD_VBDi = '/qlvb/api/van-ban-di/so-luong';

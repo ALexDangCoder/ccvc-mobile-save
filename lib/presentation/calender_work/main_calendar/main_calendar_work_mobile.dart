@@ -40,7 +40,6 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
   void initState() {
     super.initState();
     cubit.chooseTypeListLv(Type_Choose_Option_List.DANG_LIST);
-    cubit.callAPi();
   }
 
   @override
@@ -48,126 +47,135 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
     return StreamBuilder<TypeCalendarMenu>(
       stream: cubit.changeItemMenuStream,
       builder: (context, snapshot) {
-        return Scaffold(
-          appBar: BaseAppBar(
-            title: snapshot.data?.getTitle() ??
-                TypeCalendarMenu.LichCuaToi.getTitle(),
-            leadingIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  cubit.isCheck = !cubit.isCheck;
-                });
-              },
-              icon: BlocBuilder<CalenderCubit, CalenderState>(
-                bloc: cubit,
-                builder: (context, state) {
-                  return state.lichLamViecIconsMobile();
-                },
-              ),
-            ),
-            actions: [
-              IconButton(
+        return StateStreamLayout(
+          stream: cubit.stateStream,
+          retry: () {},
+          textEmpty: S.current.khong_co_du_lieu,
+          error: AppException(
+            S.current.error,
+            S.current.error,
+          ),
+          child: Scaffold(
+            appBar: BaseAppBar(
+              title: snapshot.data?.getTitle() ??
+                  TypeCalendarMenu.LichCuaToi.getTitle(),
+              leadingIcon: IconButton(
                 onPressed: () {
-                  DrawerSlide.navigatorSlide(
-                    context: context,
-                    screen: CalendarWorkMenu(
-                      cubit: cubit,
-                    ),
-                  );
+                  setState(() {
+                    cubit.isCheck = !cubit.isCheck;
+                  });
                 },
-                icon: SvgPicture.asset(ImageAssets.icMenuCalender),
-              )
-            ],
-          ),
-          body: Stack(
-            children: [
-              Column(
-                children: [
-                  if (snapshot.data == TypeCalendarMenu.LichCuaToi)
-                    BlocBuilder<CalenderCubit, CalenderState>(
-                      bloc: cubit,
-                      builder: (context, state) {
-                        return state.itemCalendarWork(cubit);
-                      },
-                    )
-                  else
-                    BlocBuilder<CalenderCubit, CalenderState>(
-                      bloc: cubit,
-                      builder: (context, state) {
-                        if (state.type != Type_Choose_Option_Day.MONTH) {
-                          return const SizedBox(
-                            height: 130,
-                          );
-                        } else {
-                          return const SizedBox(
-                            height: 70,
-                          );
-                        }
-                      },
-                    ),
-                  Expanded(
-                    child: BlocBuilder<CalenderCubit, CalenderState>(
-                      bloc: cubit,
-                      builder: (context, state) {
-                        return state.lichLamViecMobile(cubit);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  if (cubit.isCheck)
-                    BlocBuilder(
-                      bloc: cubit,
-                      builder: (context, state) {
-                        return SelectOptionHeader(
-                          onTapDay: () {
-                            setState(() {});
-                            cubit.chooseTypeCalender(
-                              Type_Choose_Option_Day.DAY,
-                            );
-                          },
-                          onTapWeek: () {
-                            setState(() {});
-                            cubit.chooseTypeCalender(
-                              Type_Choose_Option_Day.WEEK,
-                            );
-                          },
-                          onTapmonth: () {
-                            setState(() {});
-                            cubit.chooseTypeCalender(
-                              Type_Choose_Option_Day.MONTH,
-                            );
-                          },
-                          cubit: cubit,
-                        );
-                      },
-                    )
-                  else
-                    Container(),
-                  BlocBuilder<CalenderCubit, CalenderState>(
-                    bloc: cubit,
-                    builder: (context, state) {
-                      return state.tableCalendar(cubit);
-                    },
-                  ),
-                ],
-              ),
-              spaceH16,
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TaoLichLamViecChiTietScreen(),
+                icon: BlocBuilder<CalenderCubit, CalenderState>(
+                  bloc: cubit,
+                  builder: (context, state) {
+                    return state.lichLamViecIconsMobile();
+                  },
                 ),
-              );
-            },
-            backgroundColor: labelColor,
-            child: SvgPicture.asset(ImageAssets.icVectorCalender),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    DrawerSlide.navigatorSlide(
+                      context: context,
+                      screen: CalendarWorkMenu(
+                        cubit: cubit,
+                      ),
+                    );
+                  },
+                  icon: SvgPicture.asset(ImageAssets.icMenuCalender),
+                )
+              ],
+            ),
+            body: Stack(
+              children: [
+                Column(
+                  children: [
+                    if (snapshot.data == TypeCalendarMenu.LichCuaToi)
+                      BlocBuilder<CalenderCubit, CalenderState>(
+                        bloc: cubit,
+                        builder: (context, state) {
+                          return state.itemCalendarWork(cubit);
+                        },
+                      )
+                    else
+                      BlocBuilder<CalenderCubit, CalenderState>(
+                        bloc: cubit,
+                        builder: (context, state) {
+                          if (state.type != Type_Choose_Option_Day.MONTH) {
+                            return const SizedBox(
+                              height: 130,
+                            );
+                          } else {
+                            return const SizedBox(
+                              height: 70,
+                            );
+                          }
+                        },
+                      ),
+                    Expanded(
+                      child: BlocBuilder<CalenderCubit, CalenderState>(
+                        bloc: cubit,
+                        builder: (context, state) {
+                          return state.lichLamViecMobile(cubit);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    if (cubit.isCheck)
+                      BlocBuilder(
+                        bloc: cubit,
+                        builder: (context, state) {
+                          return SelectOptionHeader(
+                            onTapDay: () {
+                              setState(() {});
+                              cubit.chooseTypeCalender(
+                                Type_Choose_Option_Day.DAY,
+                              );
+                            },
+                            onTapWeek: () {
+                              setState(() {});
+                              cubit.chooseTypeCalender(
+                                Type_Choose_Option_Day.WEEK,
+                              );
+                            },
+                            onTapmonth: () {
+                              setState(() {});
+                              cubit.chooseTypeCalender(
+                                Type_Choose_Option_Day.MONTH,
+                              );
+                            },
+                            cubit: cubit,
+                          );
+                        },
+                      )
+                    else
+                      Container(),
+                    BlocBuilder<CalenderCubit, CalenderState>(
+                      bloc: cubit,
+                      builder: (context, state) {
+                        return state.tableCalendar(cubit);
+                      },
+                    ),
+                  ],
+                ),
+                spaceH16,
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TaoLichLamViecChiTietScreen(),
+                  ),
+                );
+              },
+              backgroundColor: labelColor,
+              child: SvgPicture.asset(ImageAssets.icVectorCalender),
+            ),
           ),
         );
       },
@@ -208,60 +216,54 @@ Widget itemCalendarWorkIscheck(CalenderCubit cubit) {
 Widget itemCalendarWorkDefault(CalenderCubit cubit) {
   return CalenderProvider(
     cubit: cubit,
-    child: StateStreamLayout(
-      textEmpty: S.current.khong_co_du_lieu,
-      retry: () {},
-      error: AppException('', S.current.something_went_wrong),
-      stream: cubit.stateStream,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            margin: EdgeInsets.only(
-              left: 16.0,
-              top: cubit.isCheck ? 150 : 120,
-            ),
-            height: 88,
-            child: Row(
-              children: [
-                StreamBuilder<LichLamViecDashBroad>(
-                  stream: cubit.streamLichLamViec,
-                  builder: (context, snapshot) {
-                    return CustomItemCalenderWork(
-                      image: ImageAssets.icTongSoLichLamviec,
-                      typeName: S.current.tong_so_lich_lam_viec,
-                      numberOfCalendars: cubit.lichLamViecDashBroadSubject
-                              .value.countScheduleCaNhan ??
-                          0,
+    child: Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          margin: EdgeInsets.only(
+            left: 16.0,
+            top: cubit.isCheck ? 150 : 120,
+          ),
+          height: 88,
+          child: Row(
+            children: [
+              StreamBuilder<LichLamViecDashBroad>(
+                initialData: LichLamViecDashBroad(countScheduleCaNhan: 0),
+                stream: cubit.streamLichLamViec,
+                builder: (context, snapshot) {
+                  return CustomItemCalenderWork(
+                    image: ImageAssets.icTongSoLichLamviec,
+                    typeName: S.current.tong_so_lich_lam_viec,
+                    numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
+                            .countScheduleCaNhan ??
+                        0,
+                  );
+                },
+              ),
+              StreamBuilder<List<LichLamViecDashBroadItem>>(
+                stream: cubit.streamLichLamViecRight,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? [];
+                  if (data.isNotEmpty) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return CustomItemCalenderWork(
+                          image: cubit.img[index],
+                          typeName: data[index].typeName ?? '',
+                          numberOfCalendars: data[index].numberOfCalendars ?? 0,
+                        );
+                      },
                     );
-                  },
-                ),
-                StreamBuilder<List<LichLamViecDashBroadItem>>(
-                  stream: cubit.streamLichLamViecRight,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? [];
-                    if (data.isNotEmpty) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return CustomItemCalenderWork(
-                            image: cubit.img[index],
-                            typeName: data[index].typeName ?? '',
-                            numberOfCalendars:
-                                data[index].numberOfCalendars ?? 0,
-                          );
-                        },
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-              ],
-            ),
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),

@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/list_lich_lv/list_lich_lv_request.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'package:ccvc_mobile/domain/model/meeting_schedule.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
-import 'package:ccvc_mobile/domain/model/meeting_schedule.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
@@ -32,7 +34,59 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   Stream<TypeCalendarMenu> get changeItemMenuStream =>
       changeItemMenuSubject.stream;
 
+  /// ListLichLvRequest lichLvRequest = fakeData;
+
   bool isCheck = false;
+  BehaviorSubject<DataLichLvModel> listLichSubject = BehaviorSubject();
+  DataLichLvModel dataLichLvModel = DataLichLvModel();
+  int page = 1;
+  int totalPage = 1;
+
+  Stream<DataLichLvModel> get streamListLich => listLichSubject.stream;
+
+  void callApi() {
+    getListLichHop(
+      dateFrom: '2022-02-01',
+      dateTo: '2022-02-28',
+      isLichCuaToi: true,
+      pageIndex: page,
+      pageSize: 10,
+    );
+    dataLichLamViec(startDate: '2022-02-01', endDate: '2022-02-28');
+    dataLichLamViecRight(
+      startDate: '2022-02-01',
+      endDate: '2022-02-28',
+      type: 3,
+    );
+  }
+
+  Future<void> getListLichHop({
+    required String dateFrom,
+    required String dateTo,
+    required bool isLichCuaToi,
+    required int pageIndex,
+    required int pageSize,
+  }) async {
+    final ListLichLvRequest data = ListLichLvRequest(
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+      isLichCuaToi: isLichCuaToi,
+      pageIndex: pageIndex,
+      pageSize: pageSize,
+    );
+    showLoading();
+    final result = await _lichLamViec.getListLichLamViec(data);
+    result.when(
+      success: (res) {
+        totalPage = res.totalPage ?? 1;
+        dataLichLvModel = res;
+        listLichSubject.sink.add(dataLichLvModel);
+        showContent();
+      },
+      error: (error) {},
+    );
+  }
+
   List<String> img = [
     //ImageAssets.icTongSoLichLamviec,
     ImageAssets.icLichCongTacTrongNuoc,
@@ -153,37 +207,32 @@ class CalenderCubit extends BaseCubit<CalenderState> {
 
   LichLamViecRepository get _lichLamViec => Get.find();
 
-  void callAPi() {
-    showLoading();
-    dataLichLamViec(startDate: '2022-02-01', endDate: '2022-02-28');
-    dataLichLamViecRight(
-      startDate: '2022-02-01',
-      endDate: '2022-02-28',
-      type: 3,
-    );
-    showContent();
-  }
-
   Future<void> dataLichLamViec({
     required String startDate,
     required String endDate,
   }) async {
+    showLoading();
     final result = await _lichLamViec.getLichLv(startDate, endDate);
     result.when(
       success: (res) {
-        showLoading();
         lichLamViecDashBroads = res;
         lichLamViecDashBroadSubject.sink.add(lichLamViecDashBroads);
-        showContent();
       },
       error: (err) {
         return;
       },
     );
+    showContent();
   }
 
   BehaviorSubject<List<LichLamViecDashBroadItem>>
-      lichLamViecDashBroadRightSubject = BehaviorSubject();
+      lichLamViecDashBroadRightSubject = BehaviorSubject.seeded([
+    LichLamViecDashBroadItem(
+      numberOfCalendars: 0,
+      typeId: '',
+      typeName: '',
+    )
+  ]);
 
   Stream<List<LichLamViecDashBroadItem>> get streamLichLamViecRight =>
       lichLamViecDashBroadRightSubject.stream;
@@ -194,6 +243,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     required String endDate,
     required int type,
   }) async {
+    showLoading();
     final result = await _lichLamViec.getLichLvRight(
       startDate,
       endDate,
@@ -201,15 +251,14 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     );
     result.when(
       success: (res) {
-        showLoading();
         lichLamViecDashBroadRight = res;
         lichLamViecDashBroadRightSubject.sink.add(lichLamViecDashBroadRight);
-        showContent();
       },
       error: (err) {
         return;
       },
     );
+    showContent();
   }
 }
 

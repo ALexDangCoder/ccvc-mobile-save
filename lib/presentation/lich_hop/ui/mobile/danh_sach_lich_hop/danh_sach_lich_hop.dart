@@ -28,13 +28,13 @@ class _DanhSachLichHopState extends State<DanhSachLichHop> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-
         if (widget.cubit.page < widget.cubit.totalPage) {
-          widget.cubit.page = widget.cubit.page+1;
+          widget.cubit.page = widget.cubit.page + 1;
           widget.cubit.danhSachLichHopRequest.PageIndex = widget.cubit.page;
           widget.cubit
               .postDanhSachLichHop(body: widget.cubit.danhSachLichHopRequest);
-          print('================= ${widget.cubit.danhSachLichHopRequest.PageIndex}');
+          print(
+              '================= ${widget.cubit.danhSachLichHopRequest.PageIndex}');
         }
       }
     });
@@ -54,40 +54,41 @@ class _DanhSachLichHopState extends State<DanhSachLichHop> {
         ),
         Expanded(
           child: StreamBuilder<DanhSachLichHopModel>(
-              stream: widget.cubit.danhSachLichHopStream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? DanhSachLichHopModel.empty();
+            stream: widget.cubit.danhSachLichHopStream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? DanhSachLichHopModel.empty();
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                  ),
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    itemCount: data.items?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return WidgetItemLichHop(
-                        ontap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => DetailMeetCalenderScreen(),
-                            ),
-                          );
-                        },
-                        title: data.items?[index].title ?? '',
-                        dateTimeFrom: DateTime.parse(
-                          data.items?[index].dateTimeFrom ?? '',
-                        ).toStringWithAMPM,
-                        dateTimeTo: DateTime.parse(
-                          data.items?[index].dateTimeTo ?? '',
-                        ).toStringWithAMPM,
-                        urlImage: urlImage,
-                      );
-                    },
-                  ),
-                );
-              }),
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                ),
+                child: ListView.builder(
+                  controller: _scrollController,
+                  shrinkWrap: true,
+                  itemCount: data.items?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return WidgetItemLichHop(
+                      ontap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => DetailMeetCalenderScreen(),
+                          ),
+                        );
+                      },
+                      title: data.items?[index].title ?? '',
+                      dateTimeFrom: DateTime.parse(
+                        data.items?[index].dateTimeFrom ?? '',
+                      ).toStringWithAMPM,
+                      dateTimeTo: DateTime.parse(
+                        data.items?[index].dateTimeTo ?? '',
+                      ).toStringWithAMPM,
+                      urlImage: urlImage,
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ],
     );

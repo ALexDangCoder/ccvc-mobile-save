@@ -1,5 +1,7 @@
+import 'package:ccvc_mobile/data/request/list_lich_lv/list_lich_lv_request.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec_dashbroad/lich_lam_viec_dashbroad_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec_dashbroad/lich_lam_viec_dashbroad_right_response.dart';
+import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -10,8 +12,7 @@ part 'lich_lam_viec_service.g.dart';
 @RestApi()
 abstract class LichLamViecService {
   @factoryMethod
-  factory LichLamViecService(Dio dio, {String baseUrl}) =
-      _LichLamViecService;
+  factory LichLamViecService(Dio dio, {String baseUrl}) = _LichLamViecService;
 
   @GET(ApiConstants.LICH_LAM_VIEC_DASHBOARD)
   Future<LichLamViecDashBroadResponse> getLichLamViec(
@@ -24,5 +25,10 @@ abstract class LichLamViecService {
     @Query('dateStart') String dateStart,
     @Query('dateTo') String dateTo,
     @Query('type') int type,
+  );
+
+  @POST(ApiConstants.LIST_LICH_LV)
+  Future<ListLichLvResponse> getListLichLv(
+    @Body() ListLichLvRequest lichLvRequest,
   );
 }

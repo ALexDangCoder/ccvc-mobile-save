@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/tinh_huyen_xa/tinh_huyen_xa_model.dart';
+import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/radio_button.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
@@ -66,7 +66,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.items.isEmpty) {
+        if (widget.items.isEmpty && widget.initialValue == null) {
           return;
         }
         searchItemSubject = BehaviorSubject.seeded(widget.items);

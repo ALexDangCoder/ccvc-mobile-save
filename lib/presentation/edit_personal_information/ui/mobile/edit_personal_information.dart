@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
-import 'package:ccvc_mobile/domain/model/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/custom_select_tinh.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
@@ -261,6 +261,11 @@ class _EditPersonalInformationScreen
                                 onChange: (indexes, id) {
                                   cubit.huyenSubject.sink.add([]);
                                   cubit.xaSubject.sink.add([]);
+                                  cubit.managerPersonalInformationModel.huyen =
+                                      null;
+                                  cubit.managerPersonalInformationModel.xa =
+                                      null;
+
                                   cubit.getDataHuyenXa(
                                     isXa: false,
                                     parentId: cubit.tinhModel[indexes].id ?? '',
@@ -298,6 +303,8 @@ class _EditPersonalInformationScreen
                                 items: data,
                                 onChange: (indexes, id) {
                                   cubit.xaSubject.sink.add([]);
+                                  cubit.managerPersonalInformationModel.xa =
+                                      null;
                                   cubit.getDataHuyenXa(
                                     isXa: true,
                                     parentId:

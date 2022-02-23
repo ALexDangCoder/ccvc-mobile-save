@@ -1,9 +1,12 @@
+import 'package:ccvc_mobile/data/request/list_lich_lv/list_lich_lv_request.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec_dashbroad/lich_lam_viec_dashbroad_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec_dashbroad/lich_lam_viec_dashbroad_right_response.dart';
+import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_service.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
+import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 
 class LichLamViecImlp implements LichLamViecRepository {
@@ -36,6 +39,15 @@ class LichLamViecImlp implements LichLamViecRepository {
         type,
       ),
       (response) => response.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<DataLichLvModel>> getListLichLamViec(
+      ListLichLvRequest lichLvRequest) {
+    return runCatchingAsync<ListLichLvResponse, DataLichLvModel>(
+      () => lichLamViecService.getListLichLv(lichLvRequest),
+      (response) => response.data.toDomain(),
     );
   }
 }

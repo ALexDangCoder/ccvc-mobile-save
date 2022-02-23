@@ -1,6 +1,5 @@
-import 'package:ccvc_mobile/domain/model/tinh_huyen_xa/tinh_huyen_xa_model.dart';
+import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 part 'tinh_huyen_xa_response.g.dart';
 
 @JsonSerializable()

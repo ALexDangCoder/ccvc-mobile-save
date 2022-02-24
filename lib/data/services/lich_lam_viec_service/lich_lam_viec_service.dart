@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/trang_thai/trang_thai_lv_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
@@ -15,10 +16,10 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_y_kien_respons
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/lich_lam_viec_dashbroad_right_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_trang_bao_cao_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/request/list_lich_lv/list_lich_lv_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
-
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/huy_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
@@ -58,11 +59,11 @@ abstract class LichLamViecService {
 
   @POST(ApiConstants.SEARCH_CAN_BO)
   Future<NguoiChuTriResponse> getNguoiChuTri(
-      @Body() NguoiChuTriRequest nguoiChuTriRequest);
+      @Body() NguoiChuTriRequest nguoiChuTriRequest,);
 
   @POST(ApiConstants.SCHEDULE_FIELD)
   Future<CatogoryListResponse> getLinhVuc(
-      @Body() CatogoryListRequest catogoryListRequest);
+      @Body() CatogoryListRequest catogoryListRequest,);
 
   @GET(ApiConstants.CHI_TIET_LICH_LAM_VIEC)
   Future<DetailCalenderWorkResponse> detailCalenderWork(@Path('id') String id);
@@ -88,8 +89,7 @@ abstract class LichLamViecService {
 
   @GET(ApiConstants.SCHEDULE_OPINION_LIST)
   Future<DanhSachYKienResponse> getDanhSachYKien(
-      @Query('scheduleId') String scheduleId);
-
+      @Query('scheduleId') String scheduleId,);
 
   @PUT(ApiConstants.UPDATE_SCHEDULE_REPORT)
   @MultiPart()
@@ -108,6 +108,8 @@ abstract class LichLamViecService {
   @GET(ApiConstants.TRANG_THAI)
   Future<TrangThaiLVResponse> detailTrangThai();
 
-
-
+  @POST(ApiConstants.TAO_MOI_BAN_GHI)
+  Future<TaoMoiBanGhiResponse> taoMoiBanGhi(
+    @Body() TaoMoiBanGhiRequest body,
+  );
 }

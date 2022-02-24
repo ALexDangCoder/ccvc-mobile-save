@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/widget/lich_su_pha
 import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/widget/lich_su_thu_hoi.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/widget/lich_su_tra_lai.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/widget/van_ban_lien_quan_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/widget/y_kien_nhiem_vu.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -99,6 +100,9 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen> {
                   cubit: cubit,
                 );
               },
+            ),
+            YKienNhiemVuWidget(
+              cubit:cubit ,
             ),
             StreamBuilder<List<LichSuCapNhatTHTHModel>>(
               stream: cubit.lichSuCapNhatTHTHModelStream,

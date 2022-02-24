@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_scree
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -79,7 +80,7 @@ extension TabbarEnum on TabBarType {
       case TabBarType.internalInteraction:
         return Scaffold(
           body: screenDevice(
-            mobileScreen: const ChiTietNhiemVuPhoneScreen(),
+            mobileScreen:  NotifyWidget(content: 'Thanh Cong', textButtom: 'dong', image:  ImageAssets.icVideo,),
             tabletScreen: const ChiTietNhiemVuTabletScreen(),
           ),
           backgroundColor: Colors.cyanAccent,

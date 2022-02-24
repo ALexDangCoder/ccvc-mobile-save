@@ -16,17 +16,22 @@ import 'package:flutter_svg/svg.dart';
 class ButtonSelectFile extends StatefulWidget {
   final Color? background;
   final String title;
+  final Color? titleColor;
   final String? icon;
+  final bool isIcon;
   final bool childDiffence;
   final Function(List<File>) onChange;
   final Widget Function(BuildContext, File)? builder;
   List<File> files;
+
   ButtonSelectFile({
     Key? key,
     this.background,
     required this.title,
+    this.titleColor,
     this.icon,
     this.childDiffence = false,
+    this.isIcon = true,
     required this.onChange,
     this.builder,
     this.files = const [],
@@ -71,14 +76,21 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile),
-                SizedBox(
-                  width: 11.25.textScale(),
-                ),
+                if (widget.isIcon)
+                  Row(
+                    children: [
+                      SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile),
+                      SizedBox(
+                        width: 11.25.textScale(),
+                      ),
+                    ],
+                  )
+                else
+                  Container(),
                 Text(
                   widget.title,
                   style: textNormalCustom(
-                    color: labelColor,
+                    color:widget.titleColor?? labelColor,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w500,
                   ),

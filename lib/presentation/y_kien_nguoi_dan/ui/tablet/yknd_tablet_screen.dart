@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y__kien_nguoi_dan_item.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/menu_y_kien_nguoi_dan_tablet.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/row_indicator_tablet.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/y__kien_nguoi_dan_item_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -297,7 +298,7 @@ class _YKNDScreenTabletState extends State<YKNDScreenTablet>
                         ? cubit.listYKienNguoiDan.length
                         : 3,
                     itemBuilder: (context, index) {
-                      return YKienNguoiDanCell(
+                      return YKienNguoiDanCellTablet(
                         onTap: () {},
                         title: cubit.listYKienNguoiDan[index].ngheNghiep ?? '',
                         dateTime:

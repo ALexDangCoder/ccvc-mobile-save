@@ -97,7 +97,8 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
     return listData;
   }
 
-  List<DataRow> getMapDataThongTinXuLy() {
+  List<DataRow
+  > getMapDataThongTinXuLy() {
     final List<DataRow> listData = [];
     listData.add(
       DataRow(

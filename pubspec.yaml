@@ -71,7 +71,6 @@ dependencies:
   # GETX
   get: ^4.1.4
   pretty_dio_logger: ^1.1.1
-
   injectable: ^1.4.1
   freezed: ^0.14.2
   tuple: ^2.0.0

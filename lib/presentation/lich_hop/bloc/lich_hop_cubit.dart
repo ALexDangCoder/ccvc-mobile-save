@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_nhiem_vu/danh_sach_cong_viec.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
@@ -147,6 +146,22 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     if (state is LichHopStateDangDanhSach) {
       emit(LichHopStateDangDanhSach(type));
     }
+  }
+
+  final HopRepository _HopRepo = Get.find();
+
+  Future<void> themYKien() async {
+    ThemYKienRequest themYKienRequest = ThemYKienRequest(
+        content: 'them y kien',
+        scheduleId: 'ab675c7d-fb86-4ec1-806f-5308b0f97af1');
+    final result = await _HopRepo.themYKien(themYKienRequest);
+    result.when(
+      success: (res) {
+      },
+      error: (err) {
+        return;
+      },
+    );
   }
 }
 

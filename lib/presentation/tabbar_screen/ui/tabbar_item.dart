@@ -57,14 +57,14 @@ extension TabbarEnum on TabBarType {
   Widget getScreen() {
     switch (this) {
       case TabBarType.home:
-        return screenDevice(
-          mobileScreen: HomeScreenMobile(
-            key: keyHomeMobile,
-          ),
-          tabletScreen: HomeScreenTablet(
-            key: keyHomeTablet,
-          ),
-        );
+        // return screenDevice(
+        //   mobileScreen: HomeScreenMobile(
+        //     key: keyHomeMobile,
+        //   ),
+        //   tabletScreen: HomeScreenTablet(
+        //     key: keyHomeTablet,
+        //   ),
+        // );
         return const ChiTietYKNDScreen();
       case TabBarType.report:
         return screenDevice(

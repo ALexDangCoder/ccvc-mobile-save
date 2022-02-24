@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'danh_sach_lich_hop_request.g.dart';
@@ -59,16 +60,15 @@ class DanhSachLichHopRequest {
 
   Map<String, dynamic> toJson() => _$DanhSachLichHopRequestToJson(this);
 }
-
 DanhSachLichHopRequest fakeDataBody = DanhSachLichHopRequest(
-  DateFrom: "2022-02-11",
-  DateTo: "2022-02-11",
+  DateFrom: DateTime.now().formatApi,
+  DateTo:  DateTime.now().formatApi,
   DonViId: "0bf3b2c3-76d7-4e05-a587-9165c3624d76",
   IsLichLanhDao: null,
   PageIndex: 1,
   PageSize: 10,
   Title: null,
-  UserId: "39227131-3db7-48f8-a1b2-57697430cc69",
+  UserId: "19266143-feee-44d0-828a-e29df215f481",
   isChoXacNhan: null,
   isChuaCoBaoCao: null,
   isDaCoBaoCao: null,
@@ -85,3 +85,4 @@ DanhSachLichHopRequest fakeDataBody = DanhSachLichHopRequest(
   isLichYeuCauChuanBi: null,
   isPublish: null,
 );
+

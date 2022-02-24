@@ -34,6 +34,7 @@ class _MainLichHopState extends State<MainLichHop> {
   @override
   void initState() {
     super.initState();
+    cubit.themYKien();
     cubit.chooseTypeList(Type_Choose_Option_List.DANG_LIST);
     cubit.page = 1;
     cubit.getDashboard(dateStart: '2022-02-13', dateTo: '2022-02-13');

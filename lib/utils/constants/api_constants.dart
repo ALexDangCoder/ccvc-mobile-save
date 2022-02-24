@@ -70,6 +70,8 @@ class ApiConstants {
 
   static const POST_DANH_SACH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/danh-sach-lich';
+  static const POST_THEM_Y_KIEN_HOP =
+      '/vpdt/api/ScheduleOpinion/create';
 
   static const CANCEL_TIET_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/change-status?scheduleId={id}&statusId=8&isMulti=false';

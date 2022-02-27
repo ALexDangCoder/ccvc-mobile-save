@@ -210,6 +210,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     final result = await hopRp.getXemKetLuanHop(id);
     result.when(success: (res) {}, error: (err) {});
   }
+  // danh sach ket luan hop
+  Future<void> getDanhSachKetLuanHop() async {
+    final result = await hopRp.getDanhSachKetLuanHop(id);
+    result.when(success: (res) {}, error: (err) {});
+  }
 
   ListPerSon fakeDataListPerson() {
     ListPerSon fakeDataListPersona = ListPerSon(

@@ -112,6 +112,8 @@ class ApiConstants {
       '/vpdt/api/ScheduleReport/send-email-bao-cao';
   static const XEM_KET_LUAN_HOP =
       ' https://api-gateway-ccvc-uat.chinhquyendientu.vn/vpdt/api/ScheduleReport/xem-ket-luan?';
+  static const DANH_SACH_KET_LUAN_HOP =
+      'https://api-gateway-ccvc-uat.chinhquyendientu.vn/vpdt/api/ReportStatus/list?';
 }
 
 class ImageConstants {

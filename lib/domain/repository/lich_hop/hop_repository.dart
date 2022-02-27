@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
@@ -32,7 +33,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart
 import 'package:ccvc_mobile/domain/model/lich_hop/them_y_kiem_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
-
 
 mixin HopRepository {
   Future<Result<DashBoardLichHopModel>> getDashBoardLichHop(
@@ -130,4 +130,7 @@ mixin HopRepository {
       String lichHopId);
 
   Future<Result<XemKetLuanHopModel>> getXemKetLuanHop(String id);
+
+  Future<Result<List<DanhSachKetLuanHopModel>>> getDanhSachKetLuanHop(
+      String id);
 }

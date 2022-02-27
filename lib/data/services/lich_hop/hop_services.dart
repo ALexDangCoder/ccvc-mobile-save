@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_b
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/list_ket_luan_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_luan_hop_response.dart';
@@ -137,7 +138,6 @@ abstract class HopServices {
   Future<ThemMoiBieuQuyetResponse> themBieuQuyet(
       @Body() BieuQuyetRequest bieuQuyetRequest);
 
-
   @POST(ApiConstants.MOI_HOP)
   Future<MoiHopResponse> postMoiHop(
     @Query('lichHopId') String lichHopId,
@@ -160,6 +160,7 @@ abstract class HopServices {
     @Part() String reportTemplateId,
     @Part() List<File> files,
   );
+
   @POST(ApiConstants.CHON_MAU_BIEN_BAN)
   Future<ChonBienBanCuocHopResponse> postChonMauBienBan(
     @Body() ChonBienBanHopRequest chonBienBanHopRequest,
@@ -167,4 +168,9 @@ abstract class HopServices {
 
   @GET(ApiConstants.XEM_KET_LUAN_HOP)
   Future<XemKetLuanHopDataResponse> getXemKetLuanHop(@Query('id') String id);
+
+  @GET(ApiConstants.DANH_SACH_KET_LUAN_HOP)
+  Future<ListKetLuanHopResponse> getDanhSachKetLuanHop(
+    @Query('id') String id,
+  );
 }

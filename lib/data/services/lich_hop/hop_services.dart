@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/xem_ket_luan_hop_response.dart';
 
 import 'package:ccvc_mobile/data/response/lich_hop/chon_bien_ban_cuoc_hop_response.dart';
 
@@ -163,4 +164,7 @@ abstract class HopServices {
   Future<ChonBienBanCuocHopResponse> postChonMauBienBan(
     @Body() ChonBienBanHopRequest chonBienBanHopRequest,
   );
+
+  @GET(ApiConstants.XEM_KET_LUAN_HOP)
+  Future<XemKetLuanHopDataResponse> getXemKetLuanHop(@Query('id') String id);
 }

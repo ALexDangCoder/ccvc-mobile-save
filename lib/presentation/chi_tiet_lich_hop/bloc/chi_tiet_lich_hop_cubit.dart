@@ -79,6 +79,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   String id = '434d4166-4732-4a90-b6ff-a783d65d7fd6';
   List<LoaiSelectModel> listLoaiHop = [];
+
   void addValueToList(String value) {
     cacLuaChonBieuQuyet.add(value);
   }
@@ -104,7 +105,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
           chiTietLichLamViecSubject.add(res);
         },
         error: (err) {});
-
   }
 
   Future<void> postMoiHop({
@@ -146,7 +146,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       error: (error) {},
     );
   }
-  void getDanhSachPhatBieu(){
+
+  void getDanhSachPhatBieu() {
     getDanhSachPhatBieuLichHop('e908def0-e519-4f3b-b9c7-ef841ef15331');
     getDanhSachBieuQuyetLichHop('e908def0-e519-4f3b-b9c7-ef841ef15331');
   }
@@ -202,6 +203,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
           _getListThietBiPhongHop.sink.add(res);
         },
         error: (err) {});
+  }
+
+  // xem ket luan hop
+  Future<void> getXemKetLuanHop() async {
+    final result = await hopRp.getXemKetLuanHop(id);
+    result.when(success: (res) {}, error: (err) {});
   }
 
   ListPerSon fakeDataListPerson() {
@@ -296,12 +303,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       },
     );
   }
+
   Future<void> sendMailKetLuatHop() async {
-    final result =
-    await _hopRepo.sendMailKetLuanHop('f6b9aae0-23b1-497d-8096-866c964f2e17');
+    final result = await _hopRepo
+        .sendMailKetLuanHop('f6b9aae0-23b1-497d-8096-866c964f2e17');
     result.when(
-      success: (res) {
-      },
+      success: (res) {},
       error: (err) {
         return;
       },
@@ -310,7 +317,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Future<void> themBieuQuyetHop() async {
     final BieuQuyetRequest bieuQuyetRequest = BieuQuyetRequest(
-        dateStart:'01/01/1900',
+        dateStart: '01/01/1900',
         lichHopId: 'ab675c7d-fb86-4ec1-806f-5308b0f97af1',
         loaiBieuQuyet: false,
         noiDung: 'noi dung',
@@ -318,27 +325,27 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
         thoiGianBatDau: '1900-01-01T09:55',
         thoiGianKetThuc: '1900-01-01T10:30',
         trangThai: 0,
-        danhSachLuaChon:[DanhSachLuaChon(
-          tenLuaChon: 'gio tay',
-          mauBieuQuyet: 'primary',
-        )],
-      danhSachThanhPhanThamGia: [DanhSachThanhPhanThamGia(
-          canBoId: '39227131-3db7-48f8-a1b2-57697430cc69',
-          donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
-          idPhienhopCanbo: '904c6a02-1540-4768-8b72-db8aa3aabb8d',
-      )]
-
-    );
+        danhSachLuaChon: [
+          DanhSachLuaChon(
+            tenLuaChon: 'gio tay',
+            mauBieuQuyet: 'primary',
+          )
+        ],
+        danhSachThanhPhanThamGia: [
+          DanhSachThanhPhanThamGia(
+            canBoId: '39227131-3db7-48f8-a1b2-57697430cc69',
+            donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
+            idPhienhopCanbo: '904c6a02-1540-4768-8b72-db8aa3aabb8d',
+          )
+        ]);
     final result = await _HopRepo.themBieuQuyet(bieuQuyetRequest);
     result.when(
-      success: (res) {
-      },
+      success: (res) {},
       error: (err) {
         return;
       },
     );
   }
 
-
-void dispose() {}
+  void dispose() {}
 }

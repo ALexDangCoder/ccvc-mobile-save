@@ -110,6 +110,8 @@ class ApiConstants {
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
   static const SEND_EMAIL_KL_HOP =
       '/vpdt/api/ScheduleReport/send-email-bao-cao';
+  static const XEM_KET_LUAN_HOP =
+      ' https://api-gateway-ccvc-uat.chinhquyendientu.vn/vpdt/api/ScheduleReport/xem-ket-luan?';
 }
 
 class ImageConstants {

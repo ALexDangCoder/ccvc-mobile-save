@@ -29,6 +29,8 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Stream<ChartData> get dataChatVbDen => _dataChartVBDen.stream;
 
   Stream<ChartData> get dataChatVbDi => _dataChartVBDi.stream;
+  String startDate='2022-02-01';
+  String endDate='2022-03-03';
 
   void callAPi() {
     dataVBDi(startDate: '2022-02-01', endDate: '2022-02-28');

@@ -26,26 +26,8 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
 
   Stream<List<VanBanModel>> get getListVbDen => _getListVBDen.stream;
 
-  Future<void> callAPi({int? nextPage}) async {
-    final queue = Queue(parallel: 2);
-    unawaited(
-      queue.add(
-        () => listDataVBDen(),
-      ),
-    );
-    unawaited(
-      queue.add(
-        () => listDataDanhSachVBDen(
-          startDate: '2022-02-01',
-          endDate: '2022-02-28',
-          page: nextPage ?? 1,
-          size: 10,
-        ),
-      ),
-    );
-    await queue.onComplete;
-    showContent();
-    queue.dispose();
+  Future<void> callAPi() async {
+   await listDataVBDen();
   }
 
   final QLVBRepository _QLVBRepo = Get.find();

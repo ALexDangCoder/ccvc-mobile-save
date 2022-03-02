@@ -1,9 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
-import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_mobile.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
@@ -110,11 +110,12 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                       IncomingDocumentScreen(
-                                      title: S.current.danh_sach_van_ban_den,
-                                         type: TypeScreen.VAN_BAN_DEN,
-                                      ),
+                                  builder: (context) => IncomingDocumentScreen(
+                                    title: S.current.danh_sach_van_ban_den,
+                                    type: TypeScreen.VAN_BAN_DEN,
+                                    startDate: qlvbCubit.startDate,
+                                    endDate: qlvbCubit.endDate,
+                                  ),
                                 ),
                               );
                             },
@@ -135,22 +136,29 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   listData.length < 3 ? listData.length : 3,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(bottom: 16,),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 16,
+                                  ),
                                   child: IncomingDocumentCell(
                                     onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ChiTietVanBanMobile(),
+                                              ChiTietVanBanDenMobile(
+                                            processId: listData[index].iD ?? '',
+                                            taskId:
+                                                listData[index].taskId ?? '',
+                                          ),
                                         ),
                                       );
                                     },
                                     title: listData[index].loaiVanBan ?? '',
                                     dateTime: DateTime.parse(
-                                            listData[index].ngayDen ?? '')
-                                        .toStringWithListFormat,
-                                    userName: listData[index].nguoiSoanThao ?? '',
+                                      listData[index].ngayDen ?? '',
+                                    ).toStringWithListFormat,
+                                    userName:
+                                        listData[index].nguoiSoanThao ?? '',
                                     status: listData[index].doKhan ?? '',
                                     userImage:
                                         'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
@@ -189,11 +197,12 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      IncomingDocumentScreen(
-                                        title: S.current.danh_sach_van_ban_di,
-                                        type: TypeScreen.VAN_BAN_DI,
-                                      ),
+                                  builder: (context) => IncomingDocumentScreen(
+                                    title: S.current.danh_sach_van_ban_di,
+                                    type: TypeScreen.VAN_BAN_DI,
+                                    startDate: qlvbCubit.startDate,
+                                    endDate: qlvbCubit.endDate,
+                                  ),
                                 ),
                               );
                             },
@@ -214,7 +223,9 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   listData.length < 3 ? listData.length : 3,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(bottom: 16,),
+                                  padding: const EdgeInsets.only(
+                                    bottom: 16,
+                                  ),
                                   child: IncomingDocumentCell(
                                     onTap: () {
                                       Navigator.push(
@@ -229,7 +240,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                     dateTime: DateTime.parse(
                                             listData[index].ngayDen ?? '')
                                         .toStringWithListFormat,
-                                    userName: listData[index].nguoiSoanThao ?? '',
+                                    userName:
+                                        listData[index].nguoiSoanThao ?? '',
                                     status: listData[index].doKhan ?? '',
                                     userImage:
                                         'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',

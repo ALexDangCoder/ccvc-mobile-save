@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_mobile.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
@@ -13,11 +14,15 @@ import 'package:flutter/material.dart';
 class IncomingDocumentScreen extends StatefulWidget {
   final String title;
   final TypeScreen type;
+  final String startDate;
+  final String endDate;
 
   const IncomingDocumentScreen({
     Key? key,
     required this.title,
     required this.type,
+    required this.startDate,
+    required this.endDate,
   }) : super(key: key);
 
   @override
@@ -72,7 +77,7 @@ class _IncomingDocumentScreenState extends State<IncomingDocumentScreen> {
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,
-      callApi: (page) => {callApi(page, '2022-02-01', '2022-02-28')},
+      callApi: (page) => {callApi(page, widget.startDate, widget.endDate)},
       viewItem: (value, index) => itemVanBan(value as VanBanModel, index ?? 0),
     );
   }
@@ -89,7 +94,16 @@ class _IncomingDocumentScreenState extends State<IncomingDocumentScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const ChiTietVanBanMobile(),
+              builder: (context) {
+                if (widget.type == TypeScreen.VAN_BAN_DEN) {
+                  return ChiTietVanBanDenMobile(
+                    processId: data.iD ?? '',
+                    taskId: data.taskId ?? '',
+                  );
+                } else {
+                  return const ChiTietVanBanMobile();
+                }
+              },
             ),
           );
         },

@@ -1,21 +1,16 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
-import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_mobile.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_tablet.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/incoming_document_tablet.dart';
-import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
 import 'package:ccvc_mobile/presentation/outgoing_document/bloc/outgoing_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/common_infor_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/list_vb_den.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/list_vb_di.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -166,10 +161,12 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                     IncomingDocumentScreenTablet(
-                                      title: S.current.danh_sach_van_ban_den,
-                                      type: TypeScreen.VAN_BAN_DEN,
-                                    ),
+                                    IncomingDocumentScreenTablet(
+                                  title: S.current.danh_sach_van_ban_den,
+                                  type: TypeScreen.VAN_BAN_DEN,
+                                  startDate: qlvbCubit.startDate,
+                                  endDate: qlvbCubit.endDate,
+                                ),
                               ),
                             );
                           },
@@ -186,20 +183,23 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                     final List<VanBanModel> listData = snapshot.data ?? [];
                     if (listData.isNotEmpty) {
                       return ListVBDi(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                 IncomingDocumentScreenTablet(
-                                   title: S.current.danh_sach_van_ban_di,
-                                   type: TypeScreen.VAN_BAN_DI,
-                                 ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  IncomingDocumentScreenTablet(
+                                title: S.current.danh_sach_van_ban_di,
+                                type: TypeScreen.VAN_BAN_DI,
+                                startDate: qlvbCubit.startDate,
+                                endDate: qlvbCubit.endDate,
                               ),
-                            );
-                          },
-                          titleButton: S.current.xem_danh_sach,
-                          list: listData,);
+                            ),
+                          );
+                        },
+                        titleButton: S.current.xem_danh_sach,
+                        list: listData,
+                      );
                     } else {
                       return const SizedBox();
                     }

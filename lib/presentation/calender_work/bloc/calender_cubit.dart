@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/lich_lam_viec/danh_sach_lich_lam_viec.d
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
+import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/domain/model/meeting_schedule.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
@@ -120,7 +121,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
         ),
       );
     }
-    print("sssssssssssssssssssssssss${appointments}");
     return DataSource(appointments);
   }
 
@@ -188,10 +188,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   void getDay() {
     final DateTime textTime = DateTime.now();
     textDay = getDateToString(textTime);
-  }
-
-  String getDateToString(DateTime time) {
-    return 'Thứ ${time.weekday},${time.day} tháng ${time.month}';
   }
 
   void chooseTypeListLv(Type_Choose_Option_List type) {

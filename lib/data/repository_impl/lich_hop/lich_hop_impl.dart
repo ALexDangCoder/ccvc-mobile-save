@@ -311,4 +311,5 @@ class HopRepositoryImpl implements HopRepository {
       (res) => res.data!.toModel(),
     );
   }
+
 }

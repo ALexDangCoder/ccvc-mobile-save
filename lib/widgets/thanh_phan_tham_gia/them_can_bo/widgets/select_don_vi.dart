@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widgets/tree_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,13 @@ class SelectDonVi extends StatefulWidget {
   final Function(DonViModel) onChange;
   final String? title;
   final String? hintText;
+  final ThanhPhanThamGiaCubit cubit;
   const SelectDonVi({
     Key? key,
     required this.onChange,
     this.title,
     this.hintText,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -36,9 +39,9 @@ class _SelectDonViState extends State<SelectDonVi> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _themDonViCubit.getTreeDonVi();
-    });
+   widget.cubit.getTreeDonVi.listen((event) {
+     _themDonViCubit.getTreeDonVi(event);
+   });
   }
 
   @override

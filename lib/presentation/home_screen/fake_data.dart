@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/home/date_model.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/home/document_model.dart';
-import 'package:ccvc_mobile/domain/model/home/event_model.dart';
 import 'package:ccvc_mobile/domain/model/home/press_network_model.dart';
 import 'package:ccvc_mobile/domain/model/home/tinh_huong_khan_cap_model.dart';
 import 'package:ccvc_mobile/domain/model/home/todo_model.dart';
@@ -453,19 +452,6 @@ class FakeData {
 
   static final userInfo = UserInformationModel(
       hoTen: 'Cao Tiến Dũng', chucVu: 'Chủ thích UBND tỉnh');
-  static final suKienTrongNgay = [
-    EventModel('', "Talkshow “Trí tuệ nhân tạo với cuộc sống”"),
-    EventModel('', "Talkshow “Trí tuệ nhân tạo với cuộc sống”"),
-    EventModel('', "Talkshow “Trí tuệ nhân tạo với cuộc sống”"),
-    EventModel('', "Talkshow “Trí tuệ nhân tạo với cuộc sống”"),
-    EventModel('', "Talkshow “Trí tuệ nhân tạo với cuộc sống”"),
-    EventModel('', "Talkshow “Trí tuệ nhân tạo với cuộc sống”")
-  ];
-  static final sinhNhat = [
-    EventModel('', "Sinh nhật bà Vy Vũ Hồng Thảo - (26/10/2021)"),
-    EventModel('', "Sinh nhật ông Nguyễn Thanh Tú - (27/10/2021)"),
-    EventModel('', "Sinh nhật ông Hồ Văn Hà - (28/10/2021)"),
-    EventModel('', "Sinh nhật ông Cao Văn Thành - (29/10/2021)"),
-    EventModel('', "Sinh nhật ông Lê Sĩ Lâm - (30/10/2021)"),
-  ];
+
+
 }

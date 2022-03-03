@@ -31,6 +31,11 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
     // TODO: implement initState
     super.initState();
     _danCubit.callApi();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        _danCubit.callApi();
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -53,19 +58,26 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
           _danCubit.selectTrangThaiApi(value);
         }
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value,startDate,endDate) {
-              _danCubit.selectDate(
-                  selectKey: value,
-                  startDate: startDate,
-                  endDate: endDate);
-            },
-            title: S.current.time,
-          )
-        ],
+      dialogSelect:StreamBuilder(
+          stream: _danCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                  onSelect: (value,startDate,endDate) {
+                    _danCubit.selectDate(
+                      selectKey: value,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                  },
+                  initValue: _danCubit.selectKeyTime,
+                  title: S.current.time,
+                )
+              ],
+            );
+          }
       ),
       child: LoadingOnly(
         stream: _danCubit.stateStream,

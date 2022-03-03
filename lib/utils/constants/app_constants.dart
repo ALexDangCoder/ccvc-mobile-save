@@ -53,7 +53,13 @@ enum DocumentStatus {
   HOAN_THANH,
   CHO_XAC_NHAN,
   THAM_GIA,
-  CHO_PHAN_XU_LY
+  CHO_PHAN_XU_LY,
+  HOA_TOC,
+  KHAN,
+  BINH_THUONG,
+  THUONG_KHAN,
+  CHUA_THUC_HIEN,
+  DANG_THUC_HIEN
 }
 enum PageTransitionType {
   FADE,
@@ -97,6 +103,7 @@ const _dtFormat2 = 'hh:mm a';
 const _dtFormat3 = 'dd/MM hh:mm a';
 const _dtFormat4 = 'yyyy-MM-dd';
 const _dtFormat5 = 'MMM dd, yyyy';
+const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -104,6 +111,7 @@ class DateTimeFormat {
   static const CREATE_FORMAT = _dtFormat3;
   static const DOB_FORMAT = _dtFormat4;
   static const CREATE_BLOG_FORMAT = _dtFormat5;
+  static const DATE_MM_DD_YYYY = _dtFormat6;
 }
 
 class ThongBaoTypeConstant {

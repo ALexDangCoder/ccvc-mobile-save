@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/tabbar_screen/ui/tabbar_item.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/material.dart';
 
 class BottomTabBarWidget extends StatelessWidget {
@@ -24,12 +25,31 @@ class BottomTabBarWidget extends StatelessWidget {
         border: const Border(top: BorderSide(color: fittingBg)),
       ),
       child: SafeArea(
-        child: Row(
-          children: List.generate(listItem.length, (index) {
-            final tab = listItem[index];
+        child: screenDevice(
+          mobileScreen: Row(
+            children: List.generate(listItem.length, (index) {
+              final tab = listItem[index];
 
-            return Expanded(
-              child: GestureDetector(
+              return Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    onChange(tab);
+                  },
+                  child: tabBarItem(
+                    context: context,
+                    item: tab,
+                    isSelect: index == selectItemIndex,
+                  ),
+                ),
+              );
+            }),
+          ),
+          tabletScreen: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(listItem.length, (index) {
+              final tab = listItem[index];
+
+              return GestureDetector(
                 onTap: () {
                   onChange(tab);
                 },
@@ -38,9 +58,9 @@ class BottomTabBarWidget extends StatelessWidget {
                   item: tab,
                   isSelect: index == selectItemIndex,
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -51,24 +71,45 @@ class BottomTabBarWidget extends StatelessWidget {
     required TabBarType item,
     bool isSelect = false,
   }) {
-    return Container(
-      color: Colors.transparent,
-      height: 32,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          item.getTabBarItem(isSelect: isSelect).icon,
-          FittedBox(
-            child: Text(
-              item.getTabBarItem().text,
-              style: textNormal(
-                isSelect ? const Color(0xff7966FF) : const Color(0xffA2AEBD),
-                10,
+    return screenDevice(
+      mobileScreen: Container(
+        color: Colors.transparent,
+        height: 32,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            item.getTabBarItem(isSelect: isSelect).icon,
+            FittedBox(
+              child: Text(
+                item.getTabBarItem().text,
+                style: textNormal(
+                  isSelect ? textDefault : unselectLabelColor,
+                  10,
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
+      ),
+      tabletScreen: Container(
+        height: 40,
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            item.getTabBarItem(isSelect: isSelect).icon,
+            spaceW13,
+            FittedBox(
+              child: Text(
+                item.getTabBarItem().text,
+                style: textNormal(
+                  isSelect ? textDefault : unselectLabelColor,
+                  18,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

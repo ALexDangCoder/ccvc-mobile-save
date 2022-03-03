@@ -8,7 +8,7 @@ import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart'
 import 'package:ccvc_mobile/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/ui/tablet/widget/list_danh_sach_cong_viec.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/ui/tablet/widget/list_danh_sach_nhiem_vu.dart';
-import 'package:ccvc_mobile/presentation/nhiem_vu/widget/bieu_do_nhiem_vu_mobile.dart';
+import 'package:ccvc_mobile/presentation/nhiem_vu/widget/bieu_do_nhiem_vu_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
@@ -47,10 +47,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                   Container(
                     color: bgQLVBTablet,
                     child: Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 20,
-                      ),
+                      margin: const EdgeInsets.only(top: 20.0,right: 30.0,left: 30.0,),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -61,17 +58,17 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: BieuDoNhiemVuMobile(
+                            child: BieuDoNhiemVuTablet(
                               title: S.current.nhiem_vu,
-                              nhiemVuDashBoardModel:
+                              nhiemVuDashboardModel:
                               nhiemVuDashBoardModel,
                               chartData: widget.cubit.chartDataNhiemVu,
                             ),
                           ),
                           Expanded(
-                            child: BieuDoNhiemVuMobile(
+                            child: BieuDoNhiemVuTablet(
                               title: S.current.cong_viec,
-                              nhiemVuDashBoardModel:
+                              nhiemVuDashboardModel:
                               nhiemVuDashBoardModel,
                               chartData: widget.cubit.chartDataCongViec,
                             ),

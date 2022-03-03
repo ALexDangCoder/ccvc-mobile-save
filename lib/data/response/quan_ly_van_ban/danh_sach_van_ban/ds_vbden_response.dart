@@ -14,15 +14,20 @@ class DanhSachVBDenResponse {
       _$DanhSachVBDenResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DanhSachVBDenResponseToJson(this);
-
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
 class DataResponseVBDen {
   @JsonKey(name: 'PageData')
   List<PageDataResponseVBDen> pageData;
+  @JsonKey(name: 'CurrentPage')
+  int? currentPage;
+  @JsonKey(name: 'PageSize')
+  int? pageSize;
+  @JsonKey(name: 'TotalPage')
+  int? totalPage;
+  @JsonKey(name: 'TotalRows')
+  int? totalRows;
 
   DataResponseVBDen(
     this.pageData,
@@ -35,16 +40,22 @@ class DataResponseVBDen {
 
   DanhSachVanBanModel toDomain() => DanhSachVanBanModel(
         pageData: pageData
-            .map((e) => VanBanModel(
+            .map(
+              (e) => VanBanModel(
                 doKhan: e.doKhan,
                 loaiVanBan: e.loaiVanBan,
                 ngayDen: e.ngayDen,
-                nguoiSoanThao: e.nguoiSoanThao))
+                iD: e.iD,
+                nguoiSoanThao: e.nguoiSoanThao,
+                taskId: e.taskId,
+              ),
+            )
             .toList(),
+        currentPage: currentPage,
+        pageSize: pageSize,
+        totalPage: totalPage,
+        totalRows: totalRows,
       );
-
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
@@ -57,9 +68,18 @@ class PageDataResponseVBDen {
   String? ngayDen;
   @JsonKey(name: 'ChuTri')
   String? nguoiSoanThao;
+  @JsonKey(name: 'Id')
+  String? iD;
+  @JsonKey(name: 'TaskId')
+  String? taskId;
 
   PageDataResponseVBDen(
-      this.doKhan, this.loaiVanBan, this.ngayDen, this.nguoiSoanThao);
+      {this.iD,
+      this.doKhan,
+      this.loaiVanBan,
+      this.ngayDen,
+      this.nguoiSoanThao,
+      this.taskId});
 
   factory PageDataResponseVBDen.fromJson(Map<String, dynamic> json) =>
       _$PageDataResponseVBDenFromJson(json);
@@ -67,12 +87,10 @@ class PageDataResponseVBDen {
   Map<String, dynamic> toJson() => _$PageDataResponseVBDenToJson(this);
 
   VanBanModel toDomain() => VanBanModel(
-        nguoiSoanThao: nguoiSoanThao,
-        loaiVanBan: loaiVanBan,
-        doKhan: doKhan,
-        ngayDen: ngayDen,
-      );
-
-  @override
-  List<Object?> get props => [];
+      iD: iD,
+      nguoiSoanThao: nguoiSoanThao,
+      loaiVanBan: loaiVanBan,
+      doKhan: doKhan,
+      ngayDen: ngayDen,
+      taskId: taskId,);
 }

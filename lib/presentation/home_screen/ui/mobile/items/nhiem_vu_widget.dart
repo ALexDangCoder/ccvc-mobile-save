@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
-import 'package:ccvc_mobile/presentation/home_screen/fake_data.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
 
@@ -31,6 +30,11 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
     // TODO: implement initState
     super.initState();
     _nhiemVuCubit.callApi();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        _nhiemVuCubit.callApi();
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -52,34 +56,39 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
           _nhiemVuCubit.selectTrangThaiNhiemVu(value);
         }
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: <DialogData>[
-          DialogData(
-            onSelect: (value,_,__) {
-              _nhiemVuCubit.selectDonVi(
-                selectKey: value,
-              );
-            },
-            title: S.current.nhiem_vu,
-            initValue: _nhiemVuCubit.selectKeyDonVi,
-            key: [
-              SelectKey.CA_NHAN,
-              SelectKey.DON_VI,
-            ],
-          ),
-          DialogData(
-            onSelect: (value,startDate,endDate) {
-              _nhiemVuCubit.selectDate(
-                selectKey: value,
-                startDate: startDate,
-                endDate: endDate,
-              );
-            },
-            initValue: _nhiemVuCubit.selectKeyTime,
-            title: S.current.time,
-          )
-        ],
+      dialogSelect: StreamBuilder(
+          stream: _nhiemVuCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                  onSelect: (value, _, __) {
+                    _nhiemVuCubit.selectDonVi(
+                      selectKey: value,
+                    );
+                  },
+                  title: S.current.nhiem_vu,
+                  initValue: _nhiemVuCubit.selectKeyDonVi,
+                  key: [
+                    SelectKey.CA_NHAN,
+                    SelectKey.DON_VI,
+                  ],
+                ),
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _nhiemVuCubit.selectDate(
+                      selectKey: value,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                  },
+                  initValue: _nhiemVuCubit.selectKeyTime,
+                  title: S.current.time,
+                )
+              ],
+            );
+          }
       ),
       child: LoadingOnly(
         stream: _nhiemVuCubit.stateStream,

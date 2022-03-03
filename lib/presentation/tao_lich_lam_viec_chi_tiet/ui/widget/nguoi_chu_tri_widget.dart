@@ -1,14 +1,14 @@
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_select_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/title_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
 
 class NguoiChuTriWidget extends StatefulWidget {
-  const NguoiChuTriWidget({Key? key}) : super(key: key);
+  final TaoLichLamViecCubit taoLichLamViecCubit ;
+
+  const NguoiChuTriWidget({Key? key, required this.taoLichLamViecCubit}) : super(key: key);
 
   @override
   _NguoiChuTriWidgetState createState() => _NguoiChuTriWidgetState();
@@ -18,10 +18,17 @@ class _NguoiChuTriWidgetState extends State<NguoiChuTriWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SelectOnlyExpand(
-      urlIcon: ImageAssets.icPeople,
-      listSelect: listChuTri.map<String>((e) => e.text).toList(),
-      title:  S.current.nguoi_chu_tri,
+    return StreamBuilder<List<NguoiChutriModel>>(
+      stream: widget.taoLichLamViecCubit.nguoiChuTri,
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? <NguoiChutriModel>[];
+        return SelectOnlyExpand(
+          urlIcon: ImageAssets.icPeople,
+          listSelect: data.map((e) => e.title()).toList(),
+          value: widget.taoLichLamViecCubit.selectNguoiChuTri?.title() ?? '',
+          title:  S.current.nguoi_chu_tri,
+        );
+      }
     );
   }
 }

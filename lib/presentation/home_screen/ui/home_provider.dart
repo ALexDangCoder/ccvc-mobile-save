@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class HomeProvider extends InheritedWidget {
   final HomeCubit homeCubit;
-
+  final ScrollController controller;
   const HomeProvider({
     Key? key,
     required this.homeCubit,
     required Widget child,
+    required this.controller,
   }) : super(key: key, child: child);
 
   static HomeProvider of(BuildContext context) {

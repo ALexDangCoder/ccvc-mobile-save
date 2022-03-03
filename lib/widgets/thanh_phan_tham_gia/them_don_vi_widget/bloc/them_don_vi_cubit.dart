@@ -26,10 +26,13 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
       BehaviorSubject<Node<DonViModel>>();
   Stream<Node<DonViModel>> get selectOnlyDonVi => _selectOnlyDonVi.stream;
 
-  void getTreeDonVi() {
-    final result = batTree();
-    _getTree.sink.add(result);
-    listTree = result;
+  void getTreeDonVi(List<Node<DonViModel>> tree) {
+    final data = <Node<DonViModel>>[];
+    for (final vl in tree) {
+      data.add(vl.coppyWith());
+    }
+    _getTree.sink.add(data);
+    listTree = data;
   }
 
   void addSelectNode(Node<DonViModel> node, {required bool isCheck}) {

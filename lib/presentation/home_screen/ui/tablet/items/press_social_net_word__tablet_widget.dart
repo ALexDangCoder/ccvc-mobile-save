@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -12,11 +13,14 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/container
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:ccvc_mobile/widgets/views/loading_only.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PressSocialNetWorkTabletWidget extends StatefulWidget {
@@ -32,12 +36,24 @@ class PressSocialNetWorkTabletWidget extends StatefulWidget {
 class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
   late HomeCubit cubit;
   final BaoChiMangXaHoiCubit _xaHoiCubit = BaoChiMangXaHoiCubit();
+  final ScrollController scrollController = ScrollController();
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     _xaHoiCubit.getPress();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        _xaHoiCubit.getPress();
+      });
+    });
   }
 
   @override
@@ -50,56 +66,76 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       },
       spacingTitle: 0,
       selectKeyDialog: _xaHoiCubit,
-      dialogSelect: DialogSettingWidget(
-        labelWidget: Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Row(
-            children: [
-              SvgPicture.asset(ImageAssets.icTag),
-              const SizedBox(
-                width: 9,
-              ),
-              Text(
-                'Chỉnh sửa tag',
-                style: textNormalCustom(
-                  fontSize: 14,
-                  color: textDefault,
+      dialogSelect: StreamBuilder(
+          stream: _xaHoiCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              onLabel: () {
+                cubit.closeDialog();
+                _xaHoiCubit.showAddTag();
+                WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+                  scrollController.animateTo(
+                    scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.linear,
+                  );
+                });
+              },
+              labelWidget: Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(ImageAssets.icTag),
+                    const SizedBox(
+                      width: 9,
+                    ),
+                    Text(
+                      S.current.chinh_sua_tag,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: textDefault,
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-              _xaHoiCubit.selectDate(
-                selectKey: value,
-                startDate: startDate,
-                endDate: endDate,
-              );
-            },
-            title: S.current.time,
-          )
-        ],
-      ),
+              ),
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                    onSelect: (value, startDate, endDate) {
+                      _xaHoiCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate,
+                      );
+                    },
+                    title: S.current.time,
+                    initValue: _xaHoiCubit.selectKeyTime)
+              ],
+            );
+          }),
       padding: EdgeInsets.zero,
       child: Flexible(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 16,
-            ),
-            tagWidget(cubit),
-            const SizedBox(
-              height: 16,
-            ),
-            Flexible(
-              child: StreamBuilder<List<PressNetWorkModel>>(
-                stream: _xaHoiCubit.getPressNetWork,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? <PressNetWorkModel>[];
-                  if (data.isNotEmpty) {
+        child: LoadingOnly(
+          stream: _xaHoiCubit.stateStream,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 16,
+              ),
+              tagWidget(cubit),
+              const SizedBox(
+                height: 16,
+              ),
+              Flexible(
+                child: StreamBuilder<List<PressNetWorkModel>>(
+                  stream: _xaHoiCubit.getPressNetWork,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? <PressNetWorkModel>[];
+                    if (data.isEmpty) {
+                      return const NodataWidget();
+                    }
                     return ScrollBarWidget(
                       children: List.generate(data.length, (index) {
                         final result = data[index];
@@ -122,15 +158,11 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                         );
                       }),
                     );
-                  }
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: NodataWidget(),
-                  );
-                },
-              ),
-            )
-          ],
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -159,16 +191,20 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
             width: 110,
             height: 106,
             clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
-              image: DecorationImage(
-                image: NetworkImage(
-                  data.avatar,
-                ),
-                fit: BoxFit.cover,
-              ),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: data.avatar,
+              fit: BoxFit.cover,
+              errorWidget: (context, _, err) {
+                return Image.network(
+                  ImageConstants.noImageFound,
+                  fit: BoxFit.cover,
+                );
+              },
             ),
           ),
           const SizedBox(
@@ -244,40 +280,155 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
         stream: _xaHoiCubit.getTag,
         builder: (context, snapshot) {
           final data = snapshot.data ?? <String>[];
-          return ListView.builder(
+          return SingleChildScrollView(
+            controller: scrollController,
             scrollDirection: Axis.horizontal,
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              final result = data[index];
-              return GestureDetector(
-                onTap: () {
-                  _xaHoiCubit.selectTag(result);
-                },
-                child: Container(
-                  margin: EdgeInsets.only(right: 16, left: index == 0 ? 16 : 0),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: result == _xaHoiCubit.tagKey
-                        ? linkColor
-                        : radioFocusColor.withOpacity(0.1),
-                    borderRadius: const BorderRadius.all(Radius.circular(6)),
-                  ),
-                  child: Text(
-                    '#$result',
-                    style: textNormal(
-                      result == _xaHoiCubit.tagKey
-                          ? AppTheme.getInstance().dfBtnTxtColor()
-                          : linkColor,
-                      12.0.textScale(),
-                    ),
-                  ),
+            child: Row(
+              children: [
+                ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: data.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final result = data[index];
+                    return GestureDetector(
+                      onTap: () {
+                        cubit.closeDialog();
+                        _xaHoiCubit.selectTag(result);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          right: 16,
+                          left: index == 0 ? 16 : 0,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: result == _xaHoiCubit.tagKey
+                              ? linkColor
+                              : radioFocusColor.withOpacity(0.1),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(6)),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              '#$result',
+                              style: textNormal(
+                                result == _xaHoiCubit.tagKey
+                                    ? AppTheme.getInstance().dfBtnTxtColor()
+                                    : linkColor,
+                                12.0.textScale(),
+                              ),
+                            ),
+                            StreamBuilder<bool>(
+                              stream: _xaHoiCubit.showAddTagStream,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? false;
+                                return data
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          _xaHoiCubit.removeTag(result);
+                                        },
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: SizedBox(
+                                            width: 7,
+                                            height: 7,
+                                            child: SvgPicture.asset(
+                                              ImageAssets.icClose,
+                                              color:
+                                                  result == _xaHoiCubit.tagKey
+                                                      ? AppTheme.getInstance()
+                                                          .dfBtnTxtColor()
+                                                      : linkColor,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox();
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+                addTagWidget()
+              ],
+            ),
           );
         },
       ),
+    );
+  }
+
+  Widget addTagWidget() {
+    return StreamBuilder<bool>(
+      stream: _xaHoiCubit.showAddTagStream,
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? false;
+        return data
+            ? Container(
+                width: 97,
+                decoration: BoxDecoration(
+                  color: textDefault.withOpacity(0.1),
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: TextField(
+                  style: textNormal(linkColor, 12.0.textScale()),
+                  onSubmitted: (value) {
+                    _xaHoiCubit.addTag(value);
+                  },
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(50),
+                  ],
+                  decoration: InputDecoration(
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                    filled: true,
+                    isDense: false,
+                    hintText: S.current.them_tag,
+                    hintStyle: textNormal(textBodyTime, 12.0.textScale()),
+                    fillColor: Colors.transparent,
+                    prefixIconConstraints: BoxConstraints(
+                      maxWidth: 12.0.textScale(),
+                      maxHeight: 20,
+                    ),
+                    prefixIcon: Text(
+                      '#',
+                      style: textNormal(textBodyTime, 12.0.textScale()),
+                    ),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    focusedErrorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                  ),
+                ),
+              )
+            : const SizedBox();
+      },
     );
   }
 }

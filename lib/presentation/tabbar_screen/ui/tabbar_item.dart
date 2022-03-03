@@ -1,23 +1,19 @@
-import 'dart:developer';
-// import 'dart:html';
-
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/phone/detail_meet_calender.dart';
-import 'package:ccvc_mobile/presentation/detail_meet_calender/ui/tablet/detail_meet_calender_tab.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/phone/chi_tiet_nhiem_vu_phone_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
+import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/danh_sach_bao_cao_dang_girdview.dart';
+import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/tablet/grid_view/danh_sach_bao_cao_dang_girdview.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_screen.dart';
-import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/y_kien_nguoidan_screen.dart';
-import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/yknd_tablet_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
-import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
-import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,7 +50,6 @@ extension TabbarEnum on TabBarType {
         return 3;
       case TabBarType.menu:
         return 4;
-
       default:
         return 1;
     }
@@ -62,7 +57,7 @@ extension TabbarEnum on TabBarType {
 
   Widget getScreen() {
     switch (this) {
-      case TabBarType.home:
+       case TabBarType.home:
         return screenDevice(
           mobileScreen: HomeScreenMobile(
             key: keyHomeMobile,
@@ -71,45 +66,10 @@ extension TabbarEnum on TabBarType {
             key: keyHomeTablet,
           ),
         );
-        return const YKNDScreenTablet();
       case TabBarType.report:
-        final key = GlobalKey<FormGroupState>();
-        return Scaffold(
-          backgroundColor: Colors.blue,
-          body: FormGroup(
-            key: key,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 100,
-                ),
-                TextFieldValidator(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "32131";
-                    }
-                  },
-                ),
-                TextFieldValidator(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "32131";
-                    }
-                  },
-                ),
-                GestureDetector(
-                  onTap: () {
-                    log("${key.currentState?.checkValidator()}");
-                  },
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    color: Colors.red,
-                  ),
-                )
-              ],
-            ),
-          ),
+        return screenDevice(
+          mobileScreen: const DanhSachBaoCaoDangGirdviewMobile(),
+          tabletScreen: const DanhSachBaoCaoDangGirdviewTablet(),
         );
       case TabBarType.calendarWork:
         return screenDevice(
@@ -119,8 +79,8 @@ extension TabbarEnum on TabBarType {
       case TabBarType.internalInteraction:
         return Scaffold(
           body: screenDevice(
-            mobileScreen: DetailMeetCalenderScreen(),
-            tabletScreen: DetailMeetCalenderTablet(),
+            mobileScreen:  NotifyWidget(content: 'Thanh Cong', textButtom: 'dong', image:  ImageAssets.icVideo,),
+            tabletScreen: const ChiTietNhiemVuTabletScreen(),
           ),
           backgroundColor: Colors.cyanAccent,
         );
@@ -138,7 +98,7 @@ extension TabbarEnum on TabBarType {
         return TabBarItem(
           icon: SvgPicture.asset(
             isSelect ? ImageAssets.icHomeFocus : ImageAssets.icHomeUnFocus,
-            height: 16,
+            height: 16.0.textScale(),
           ),
           text: S.current.home,
         );
@@ -146,7 +106,7 @@ extension TabbarEnum on TabBarType {
         return TabBarItem(
           icon: SvgPicture.asset(
             isSelect ? ImageAssets.icChartFocus : ImageAssets.icChartUnFocus,
-            height: 16,
+            height: 16.0.textScale(),
           ),
           text: S.current.report,
         );
@@ -156,7 +116,7 @@ extension TabbarEnum on TabBarType {
             isSelect
                 ? ImageAssets.icCalendarFocus
                 : ImageAssets.icCalendarUnFocus,
-            height: 16,
+            height: 16.0.textScale(),
           ),
           text: S.current.calendar_work,
         );
@@ -166,7 +126,7 @@ extension TabbarEnum on TabBarType {
             isSelect
                 ? ImageAssets.icMessageFocus
                 : ImageAssets.icMessageUnFocus,
-            height: 16,
+            height: 16.0.textScale(),
           ),
           text: S.current.internal_interaction,
         );
@@ -174,7 +134,7 @@ extension TabbarEnum on TabBarType {
         return TabBarItem(
           icon: SvgPicture.asset(
             isSelect ? ImageAssets.icMenuFocus : ImageAssets.icMenuUnFocus,
-            height: 16,
+            height: 16.0.textScale(),
           ),
           text: S.current.menu,
         );

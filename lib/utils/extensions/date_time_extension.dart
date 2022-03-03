@@ -33,6 +33,16 @@ extension DateFormatString on DateTime {
   String get formatApiSS {
     return DateFormat('yyyy/MM/dd HH:mm:ss').format(this);
   }
+
+  String get formatApiStartDay {
+    return DateFormat('yyyy/MM/dd 00:00:00').format(this);
+  }
+  String get formatApiEndDay {
+    return DateFormat('yyyy/MM/dd 23:59:59').format(this);
+  }
+  String get formatApiDDMMYYYY{
+    return DateFormat('dd-MM-yyyy').format(this);
+  }
   String get startEndWeek {
     final day = DateTime(year, month, this.day);
 

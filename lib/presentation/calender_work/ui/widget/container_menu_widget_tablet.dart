@@ -10,7 +10,7 @@ import 'container_menu_widget.dart';
 
 class ContainerMenuWidgetTablet extends StatefulWidget {
   final String name;
-  final String icon;
+  final String? icon;
   final bool isIcon;
   final int index;
   final bool isTypeContainer;
@@ -21,7 +21,7 @@ class ContainerMenuWidgetTablet extends StatefulWidget {
   const ContainerMenuWidgetTablet({
     Key? key,
     required this.name,
-    required this.icon,
+    this.icon,
     this.isIcon = true,
     this.type = TypeContainer.number,
     this.index = 0,
@@ -69,13 +69,18 @@ class _ContainerMenuWidgetTabletState extends State<ContainerMenuWidgetTablet> {
                   Row(
                     children: [
                       if (widget.isIcon)
-                        SizedBox(
-                          height: 15.0.textScale(space: 8),
-                          width: 15.0.textScale(space: 8),
-                          child: SvgPicture.asset(
-                            widget.icon,
-                          ),
-                        )
+                        widget.icon != null
+                            ? SizedBox(
+                                height: 15.0.textScale(space: 8),
+                                width: 15.0.textScale(space: 8),
+                                child: SvgPicture.asset(
+                                  widget.icon ?? '',
+                                ),
+                              )
+                            : SizedBox(
+                                height: 15.0.textScale(space: 8),
+                                width: 15.0.textScale(space: 8),
+                              )
                       else
                         const SizedBox(
                           height: 15,
@@ -127,7 +132,6 @@ class _ContainerMenuWidgetTabletState extends State<ContainerMenuWidgetTablet> {
             ),
           ),
         ),
-
         if (widget.type == TypeContainer.expand)
           ExpandedSection(
             expand: isExpand,

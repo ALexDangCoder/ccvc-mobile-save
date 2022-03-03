@@ -47,16 +47,8 @@ class Data {
     totalPage = json['totalPage'];
   }
   List<CalendarMeetingModel> toDomain() {
-    int index = 0;
-    final data = <CalendarMeetingModel>[];
-    for (final element in items ?? <Items>[]) {
-      data.add(element.toDomain());
-      index++;
-      if (index == 20) {
-        return data;
-      }
-    }
-    return data;
+
+    return items?.map((e) => e.toDomain()).toList() ?? [];
   }
 }
 

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
+
 class DashBoardResponse {
   List<Data>? data;
   int? statusCode;
@@ -28,6 +30,17 @@ class DashBoardResponse {
     succeeded = json['succeeded'];
     code = json['code'];
     message = json['message'];
+  }
+  List<WidgetModel> toDomain() {
+    final Set<String> listComponent = {};
+    final List<WidgetModel> listWidget = [];
+    data?.forEach((element) {
+      if (listComponent.contains(element.component) == false) {
+        listWidget.add(element.toDomain());
+      }
+      listComponent.add(element.component ?? '');
+    });
+    return listWidget;
   }
 }
 

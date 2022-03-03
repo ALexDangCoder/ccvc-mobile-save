@@ -9,10 +9,13 @@ import 'package:flutter/cupertino.dart';
 class StartEndDateWidget extends StatefulWidget {
   final Function(DateTime value) onStartDateTimeChanged;
   final Function(DateTime value) onEndDateTimeChanged;
-
-  const StartEndDateWidget(
-      {Key? key, required this.onStartDateTimeChanged,
-      required this.onEndDateTimeChanged,}) : super(key: key);
+  final bool icMargin;
+  const StartEndDateWidget({
+    Key? key,
+    required this.onStartDateTimeChanged,
+    required this.onEndDateTimeChanged,
+    this.icMargin = true,
+  }) : super(key: key);
 
   @override
   _StartEndDateWidgetState createState() => _StartEndDateWidgetState();
@@ -32,8 +35,12 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
           final dataBool = snapshot.data ?? true;
           return Column(
             children: [
-              const IsCaNgayWidget(),
-              SizedBox(height: 24.0.textScale(),),
+              IsCaNgayWidget(
+                isMargin: widget.icMargin,
+              ),
+              SizedBox(
+                height: 16.0.textScale(),
+              ),
               PicKDateCupertino(
                 key: UniqueKey(),
                 isUnderLine: true,
@@ -51,7 +58,9 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
                 title: S.current.bat_dau,
                 startOfEnd: StartOfEnd.START,
               ),
-              SizedBox(height: 16.0.textScale(),),
+              SizedBox(
+                height: 16.0.textScale(),
+              ),
               PicKDateCupertino(
                 key: UniqueKey(),
                 isUnderLine: true,

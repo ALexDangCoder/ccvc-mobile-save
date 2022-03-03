@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_null_aware_method_calls, unnecessary_statements
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/calendar/event.dart';
@@ -14,11 +16,15 @@ class TableCalendarWidget extends StatefulWidget {
   final bool isCalendar;
   final Function(DateTime? start, DateTime? end, DateTime? focusedDay)?
       onChangeRange;
+  final Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
+  final Function(String value)? onSearch;
 
   const TableCalendarWidget({
     Key? key,
     this.isCalendar = true,
+    this.onSearch,
     this.onChangeRange,
+    required this.onDaySelected,
   }) : super(key: key);
 
   @override
@@ -108,6 +114,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                               fontSize: 14.0.textScale(),
                             ),
                           ),
+                          onSubmitted: (value) {
+                            print('click submit');
+                            widget.onSearch != null
+                                ? widget.onSearch!(value)
+                                : null;
+                          },
                         ),
                       )
                     else
@@ -158,12 +170,13 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                             _focusedDay.value = _selectedDay;
                           });
                         }
+
+                        widget.onDaySelected(date, events);
                       },
                       rangeSelectionMode: RangeSelectionMode.toggledOff,
                       rangeStartDay: _startTime,
                       rangeEndDay: _endTime,
                       onRangeSelected: (startTime, endTime, focusedDay) {
-
                         print('$startTime ....... $endTime');
                       },
                       daysOfWeekVisible: true,

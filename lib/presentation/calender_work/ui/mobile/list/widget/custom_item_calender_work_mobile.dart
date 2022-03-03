@@ -9,6 +9,7 @@ class CustomItemCalenderMobile extends StatelessWidget {
   final String dateTimeFrom;
   final String dateTimeTo;
   final String urlImage;
+  final bool isTrung;
   final Function onTap;
 
   const CustomItemCalenderMobile({
@@ -17,6 +18,7 @@ class CustomItemCalenderMobile extends StatelessWidget {
     required this.dateTimeFrom,
     required this.dateTimeTo,
     required this.urlImage,
+    required this.isTrung,
     required this.onTap,
   }) : super(key: key);
 
@@ -78,24 +80,27 @@ class CustomItemCalenderMobile extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 3, left: 15),
-                          decoration: BoxDecoration(
-                            color: statusCalenderRed.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: statusCalenderRed.withOpacity(0.1),
-                            ),
-                          ),
-                          height: 24,
-                          child: Text(
-                            S.current.trung,
-                            style: textNormalCustom(
-                              color: statusCalenderRed,
-                              fontSize: 12.0,
-                            ),
-                          ),
-                        ),
+                        child: isTrung
+                            ? Container(
+                                padding:
+                                    const EdgeInsets.only(top: 3, left: 15),
+                                decoration: BoxDecoration(
+                                  color: statusCalenderRed.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                    color: statusCalenderRed.withOpacity(0.1),
+                                  ),
+                                ),
+                                height: 24,
+                                child: Text(
+                                  S.current.trung,
+                                  style: textNormalCustom(
+                                    color: statusCalenderRed,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              )
+                            : Container(),
                       ),
                       spaceW16
                     ],

@@ -3,11 +3,13 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/tablet/widgets/btn_show_bao_cao_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/tablet/show_bottom_sheet_ds_y_Kien_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/row_value_widget.dart';
-import 'package:ccvc_mobile/presentation/lich_lv_bao_cao_ket_qua/ui/tablet/widgets/btn_show_bao_cao_tablet.dart';
-import 'package:ccvc_mobile/presentation/lichlv_danh_sach_y_kien/ui/tablet/show_bottom_sheet_ds_y_Kien_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -27,7 +29,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
   @override
   void initState() {
     super.initState();
-    chiTietLichLamViecCubit.initData();
+    chiTietLichLamViecCubit.data('dcfb06d3-09df-44f6-adbc-ea31ba69697f');
   }
 
   @override
@@ -36,9 +38,58 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
       appBar: BaseAppBar(
         title: S.current.chi_tiet_lich_lam_viec,
         actions: [
-          GestureDetector(
-            onTap: () {},
-            child: SvgPicture.asset(ImageAssets.icMenuDot),
+          MenuSelectWidget(
+            listSelect: [
+              QData(
+                  urlImage: ImageAssets.icHuy,
+                  text: S.current.huy,
+                  onTap: () {
+                    showDiaLog(
+                      context,
+                      showTablet: true,
+                      textContent: S.current.ban_chan_chan_huy_lich_nay,
+                      btnLeftTxt: S.current.khong,
+                      funcBtnRight: () {
+                        chiTietLichLamViecCubit
+                            .cancel('dcfb06d3-09df-44f6-adbc-ea31ba69697f');
+                
+                      },
+                      title: S.current.huy_lich,
+                      btnRightTxt: S.current.dong_y,
+                      icon: SvgPicture.asset(ImageAssets.icHuyLich),
+                    );
+                  }),
+              QData(
+                  urlImage: ImageAssets.icChartFocus,
+                  text: S.current.bao_cao_ket_qua,
+                  onTap: () {}),
+              QData(
+                  urlImage: ImageAssets.icChoYKien,
+                  text: S.current.cho_y_kien,
+                  onTap: () {}),
+              QData(
+                  urlImage: ImageAssets.icDelete,
+                  text: S.current.xoa_lich,
+                  onTap: () {
+                    showDiaLog(
+                      context,
+                      showTablet: true,
+                      textContent: S.current.ban_co_muon_xoa_lich_lam_viec,
+                      btnLeftTxt: S.current.khong,
+                      funcBtnRight: () {
+                        chiTietLichLamViecCubit
+                            .dataDelete('dcfb06d3-09df-44f6-adbc-ea31ba69697f');
+                      },
+                      title: S.current.xoa_lich_lam_viec,
+                      btnRightTxt: S.current.dong_y,
+                      icon: SvgPicture.asset(ImageAssets.icDeleteLichHop),
+                    );
+                  }),
+              QData(
+                  urlImage: ImageAssets.icEditBlue,
+                  text: S.current.sua_lich,
+                  onTap: () {}),
+            ],
           ),
           const SizedBox(
             width: 20,
@@ -112,7 +163,9 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 28,),
+                  const SizedBox(
+                    height: 28,
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -156,12 +209,15 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                                 )
                               ],
                             ),
-
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 24),
-                              child: const BtnShowBaoCaoTablet(),
+                              child: BtnShowBaoCaoTablet(
+                                cubit: chiTietLichLamViecCubit,
+                              ),
                             ),
-                            const DanhSachYKienButtomTablet(),
+                            DanhSachYKienButtomTablet(
+                              cubit: chiTietLichLamViecCubit,
+                            ),
                           ],
                         ),
                       ),

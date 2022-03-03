@@ -13,7 +13,9 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/scroll_ba
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/cong_viec_cell.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:ccvc_mobile/widgets/views/loading_only.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -34,7 +36,18 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     danhSachCVCubit.getToDoList();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        danhSachCVCubit.getToDoList();
+      });
+    });
   }
 
   @override
@@ -43,10 +56,12 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
       paddingChild: const EdgeInsets.only(top: 20),
       title: S.current.work_list,
       maxHeight: 415,
+      minHeight: 415,
       urlIcon: ImageAssets.icPlus,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      isCustomDialog: true,
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         customDialog: AddToDoWidget(
@@ -57,88 +72,123 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
         ),
       ),
       child: Flexible(
-        child: ScrollBarWidget(
-          children: [
-            StreamBuilder<TodoListModel>(
-              stream: danhSachCVCubit.getTodoList,
-              builder: (context, snapshot) {
-                final data = snapshot.data?.listTodoImportant ?? <TodoModel>[];
-                if (data.isNotEmpty) {
-                  return Column(
-                    key: UniqueKey(),
-                    children: List.generate(data.length, (index) {
-                      final todo = data[index];
-                      return CongViecCell(
-                        text: todo.label ?? '',
-                        todoModel: todo,
-                        onCheckBox: (value) {
-                          danhSachCVCubit.tickerListWord(
-                              todo: todo, removeDone: false);
-                        },
-                        onStar: () {
-                          danhSachCVCubit.tickerQuanTrongTodo(todo,
-                              removeDone: false);
-                        },
-                        onClose: () {},
-                        onChange: (controller) {
-                          danhSachCVCubit.changeLabelTodo(
-                            controller.text.trim(),
-                            todo,
-                          );
-                        },
-                      );
-                    }),
-                  );
-                }
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: NodataWidget(),
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  S.current.da_hoan_thanh,
-                  style: textNormalCustom(fontSize: 14, color: infoColor),
-                ),
-                StreamBuilder<TodoListModel>(
-                  stream: danhSachCVCubit.getTodoList,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data?.listTodoDone ?? <TodoModel>[];
-                    if (data.isNotEmpty) {
-                      return Column(
-                        key: UniqueKey(),
-                        children: List.generate(data.length, (index) {
-                          final todo = data[index];
-                          return CongViecCell(
-                            enabled: false,
-                            todoModel: todo,
-                            onCheckBox: (value) {
-                              danhSachCVCubit.tickerListWord(todo: todo);
-                            },
-                            onClose: () {},
-                            onStar: () {
-                              danhSachCVCubit.tickerQuanTrongTodo(todo);
-                            },
-                            text: todo.label ?? '',
-                          );
-                        }),
-                      );
-                    }
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 30),
-                      child: NodataWidget(),
+        child: LoadingOnly(
+          stream: danhSachCVCubit.stateStream,
+          child: ScrollBarWidget(
+            children: [
+              StreamBuilder<TodoListModel>(
+                stream: danhSachCVCubit.getTodoList,
+                builder: (context, snapshot) {
+                  final data =
+                      snapshot.data?.listTodoImportant ?? <TodoModel>[];
+                  if (data.isNotEmpty) {
+                    return Column(
+                      key: UniqueKey(),
+                      children: List.generate(data.length, (index) {
+                        final todo = data[index];
+                        return CongViecCell(
+                          text: todo.label ?? '',
+                          todoModel: todo,
+                          onCheckBox: (value) {
+                            danhSachCVCubit.tickerListWord(
+                                todo: todo, removeDone: false);
+                          },
+                          onStar: () {
+                            danhSachCVCubit.tickerQuanTrongTodo(todo,
+                                removeDone: false);
+                          },
+                          onClose: () {
+                            showDiaLog(
+                              context,
+                              funcBtnRight: () {
+                                danhSachCVCubit.deleteCongViec(todo,
+                                    removeDone: false);
+                              },
+                              showTablet: true,
+                              icon: SvgPicture.asset(
+                                ImageAssets.icDeleteLichHop,
+                              ),
+                              title: S.current.xoa_cong_viec,
+                              textContent: S.current.ban_chac_chan_muon_xoa,
+                              btnLeftTxt: S.current.huy,
+                              btnRightTxt: S.current.xoa,
+                            );
+                          },
+                          onChange: (controller) {
+                            danhSachCVCubit.changeLabelTodo(
+                              controller.text.trim(),
+                              todo,
+                            );
+                          },
+                        );
+                      }),
                     );
-                  },
-                )
-              ],
-            )
-          ],
+                  }
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 30),
+                    child: NodataWidget(),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    S.current.da_hoan_thanh,
+                    style: textNormalCustom(fontSize: 14, color: infoColor),
+                  ),
+                  StreamBuilder<TodoListModel>(
+                    stream: danhSachCVCubit.getTodoList,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data?.listTodoDone ?? <TodoModel>[];
+                      if (data.isNotEmpty) {
+                        return Column(
+                          key: UniqueKey(),
+                          children: List.generate(data.length, (index) {
+                            final todo = data[index];
+                            return CongViecCell(
+                              enabled: false,
+                              todoModel: todo,
+                              onCheckBox: (value) {
+                                danhSachCVCubit.tickerListWord(todo: todo);
+                              },
+                              onClose: () {
+                                showDiaLog(
+                                  context,
+                                  funcBtnRight: () {
+                                    danhSachCVCubit.deleteCongViec(todo);
+                                  },
+                                  showTablet: true,
+                                  icon: SvgPicture.asset(
+                                    ImageAssets.icDeleteLichHop,
+                                  ),
+                                  title: S.current.xoa_cong_viec,
+                                  textContent: S.current.ban_chac_chan_muon_xoa,
+                                  btnLeftTxt: S.current.huy,
+                                  btnRightTxt: S.current.xoa,
+                                );
+                              },
+                              onStar: () {
+                                danhSachCVCubit.tickerQuanTrongTodo(todo);
+                              },
+                              text: todo.label ?? '',
+                            );
+                          }),
+                        );
+                      }
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 30),
+                        child: NodataWidget(),
+                      );
+                    },
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -156,6 +206,7 @@ class AddToDoWidget extends StatefulWidget {
 class _AddToDoWidgetState extends State<AddToDoWidget> {
   bool isAdd = false;
   TextEditingController controller = TextEditingController();
+  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -186,6 +237,8 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
                   onChanged: (value) {
                     if (isAdd) {
                       widget.onTap(controller.text.trim());
+                      controller.text = '';
+                      focusNode.unfocus();
                     }
                   },
                 ),
@@ -202,6 +255,7 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
             ),
             child: TextFormField(
               controller: controller,
+              focusNode: focusNode,
               onChanged: (value) {
                 if (value.isEmpty) {
                   isAdd = false;

@@ -1,5 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/day_time_widget.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/home/date_model.dart';
+import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
+import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/clock_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/info_user_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/mequee_widget.dart';
 
@@ -54,9 +58,79 @@ class HeaderTabletWidget extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   color: borderItemCalender,
                 ),
-                const Expanded(
-                  child: DayTimeWidget(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                Expanded(
+                  child: Stack(
+                    children: [
+                      StreamBuilder<DateModel>(
+                        initialData: DateModel(),
+                        stream:
+                            HomeProvider.of(context).homeCubit.getDateStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? DateModel();
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const ClockWidget(),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    if (data.dateMore.isNotEmpty)
+                                      FittedBox(
+                                        child: Text(
+                                          data.dateMore,
+                                          style: textNormalCustom(
+                                            color: AppTheme.getInstance()
+                                                .titleColor(),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      const SizedBox(),
+                                    spaceW12,
+                                    if (data.lunarDate.isNotEmpty)
+                                      Expanded(
+                                        child: FittedBox(
+                                          child: Text(
+                                            data.lunarDate.isNotEmpty
+                                                ? '(${data.lunarDate})'
+                                                : '',
+                                            style: textNormal(
+                                              AqiColor.withOpacity(0.8),
+                                              16,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      const SizedBox()
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                      Positioned(
+                        right: 0,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Image.asset(ImageAssets.icThoiTiet),
+                            spaceW12,
+                            Text(
+                              '32°C',
+                              style: textNormalCustom(
+                                fontSize: 20,
+                                color: titleColor,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 )
               ],

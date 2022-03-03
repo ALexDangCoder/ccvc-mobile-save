@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/container_menu_widget.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/dang_lich_widget.dart';
+import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,130 +12,125 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../item_thong_bao.dart';
 
 class CalendarWorkMenu extends StatefulWidget {
-  const CalendarWorkMenu({Key? key}) : super(key: key);
+  final CalenderCubit cubit;
+
+  const CalendarWorkMenu({Key? key, required this.cubit}) : super(key: key);
 
   @override
   State<CalendarWorkMenu> createState() => _CalendarWorkMenuState();
 }
 
 class _CalendarWorkMenuState extends State<CalendarWorkMenu> {
-  CalenderCubit cubit = CalenderCubit();
-
   @override
   Widget build(BuildContext context) {
-    return CalendarWorkPhoneInher(
-      cubit: cubit,
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 58,
-            ),
-            headerWidget(menu: S.current.lich_lam_viec),
-            const SizedBox(
-              height: 24,
-            ),
-            Expanded(
-              flex: 8,
-              child: StreamBuilder<List<bool>>(
-                stream: cubit.selectTypeCalendarSubject.stream,
-                builder: (context, snapshot) {
-                  return Column(
-                    children: [
-                      TheoDangLichWidget(
-                        icon: ImageAssets.icTheoDangLich,
-                        name: S.current.lich_lam_viec,
-                        onTap: () {
-                          cubit.selectTypeCalendarSubject.add([true, false]);
-                        },
-                        isSelect: snapshot.data![0],
-                      ),
-                      TheoDangLichWidget(
-                        icon: ImageAssets.icTheoDangDanhSachGrey,
-                        name: S.current.theo_dang_danh_sach,
-                        onTap: () {
-                          cubit.selectTypeCalendarSubject.add([false, true]);
-                        },
-                        isSelect: snapshot.data![1],
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: bgDropDown,
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 58,
+          ),
+          headerWidget(menu: S.current.hop),
+          const SizedBox(
+            height: 24,
+          ),
+          Expanded(
+            flex: 8,
+            child: Column(
+              children: [
+                StreamBuilder<List<bool>>(
+                  stream: widget.cubit.selectTypeCalendarSubject.stream,
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: [
+                        TheoDangLichWidget(
+                          icon: ImageAssets.icTheoDangLich,
+                          name: S.current.theo_dang_lich,
+                          onTap: () {
+                            widget.cubit.selectTypeCalendarSubject
+                                .add([true, false]);
+                            widget.cubit.chooseTypeListLv(
+                                Type_Choose_Option_List.DANG_LICH);
+                            Navigator.pop(context);
+                          },
+                          isSelect: snapshot.data?[0] ?? true,
+                        ),
+                        TheoDangLichWidget(
+                          icon: ImageAssets.icTheoDangDanhSachGrey,
+                          name: S.current.theo_dang_danh_sach,
+                          onTap: () {
+                            widget.cubit.selectTypeCalendarSubject
+                                .add([false, true]);
+                            widget.cubit.chooseTypeListLv(
+                                Type_Choose_Option_List.DANG_LIST);
+                            Navigator.pop(context);
+                          },
+                          isSelect: snapshot.data?[1] ?? true,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: bgDropDown,
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              ContainerMenuWidget(
-                                name: S.current.lich_cua_toi,
-                                icon: ImageAssets.icPerson,
-                                childExpand: Container(),
-                                onTap: () {},
-                              ),
-                              MediaQuery.removePadding(
-                                context: context,
-                                removeTop: true,
-                                child: ContainerMenuWidget(
-                                  name: S.current.lich_theo_trang_thai,
-                                  icon: ImageAssets.icLichTheoTrangThai,
-                                  childExpand: Column(
-                                    children: lichTheoTrangThai
+                      ],
+                    );
+                  },
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: listThongBao
+                          .map(
+                            (e) => ContainerMenuWidget(
+                              name: e.typeMenu.getTitle(),
+                              icon: e.icon,
+                              type: e.type,
+                              index: e.index ?? 0,
+                              childExpand: Column(
+                                children: e.typeMenu == TypeCalendarMenu.LichTheoTrangThai
+                                    ? listTheoTrangThai
                                         .map(
                                           (e) => ContainerMenuWidget(
-                                            name: e.name,
+                                            icon: e.icon,
+                                            name: e.typeMenu.getTitle(),
+                                            index: e.index ?? 0,
+                                            isIcon: false,
                                             onTap: () {
-                                              e.navigator(context, cubit);
+                                              e.onTap(context, widget.cubit);
                                             },
-                                            icon: '',
-                                            index: e.index,
+                                          ),
+                                        )
+                                        .toList()
+                                    : listLanhDao
+                                        .map(
+                                          (e) => ContainerMenuWidget(
+                                            icon: e.icon,
+                                            name: e.typeMenu.getTitle(),
+                                            index: e.index ?? 0,
+                                            isIcon: false,
+                                            onTap: () {
+                                              e.onTap(context, widget.cubit);
+                                            },
                                           ),
                                         )
                                         .toList(),
-                                  ),
-                                  type: TypeContainer.expand,
-                                  onTap: () {},
-                                ),
                               ),
-                              MediaQuery.removePadding(
-                                context: context,
-                                removeTop: true,
-                                child: ContainerMenuWidget(
-                                  name: S.current.lich_theo_lanh_dao,
-                                  icon: ImageAssets.icLichLanhDao,
-                                  childExpand: Column(
-                                    children: lichLanhDao
-                                        .map(
-                                          (e) => ContainerMenuWidget(
-                                            onTap: () {
-                                              e.navigator(context, cubit);
-                                            },
-                                            icon: '',
-                                            name: e.name,
-                                            index: e.index,
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                  type: TypeContainer.expand,
-                                  onTap: () {},
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              ),
+                              onTap: () {
+                                e.onTap(context, widget.cubit);
+                              },
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                )
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -159,27 +155,5 @@ class _CalendarWorkMenuState extends State<CalendarWorkMenu> {
         )
       ],
     );
-  }
-}
-
-class CalendarWorkPhoneInher extends InheritedWidget {
-  final CalenderCubit cubit;
-
-  const CalendarWorkPhoneInher({
-    Key? key,
-    required this.cubit,
-    required Widget child,
-  }) : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
-  }
-
-  static CalendarWorkPhoneInher of(BuildContext context) {
-    final CalendarWorkPhoneInher? result =
-    context.dependOnInheritedWidgetOfExactType<CalendarWorkPhoneInher>();
-    assert(result != null, 'No elenment');
-    return result!;
   }
 }

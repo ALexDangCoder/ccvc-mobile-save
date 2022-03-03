@@ -10,7 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class IsCaNgayWidget extends StatefulWidget {
-  const IsCaNgayWidget({Key? key}) : super(key: key);
+  final bool isMargin;
+  const IsCaNgayWidget({
+    Key? key,
+    this.isMargin = true,
+  }) : super(key: key);
 
   @override
   State<IsCaNgayWidget> createState() => _IsCaNgayWidgetState();
@@ -22,7 +26,9 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 12.0.textScale()),
+      margin: widget.isMargin
+          ? EdgeInsets.only(top: 12.0.textScale())
+          : EdgeInsets.zero,
       child: Row(
         children: [
           SizedBox(
@@ -35,7 +41,9 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 16.0.textScale()),
+              padding: EdgeInsets.symmetric(
+                vertical: widget.isMargin ? 16.0.textScale() : 14.0.textScale(),
+              ),
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
@@ -60,7 +68,9 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
                       isCheck = !isCheck;
                       StartEndDateInherited.of(context)
                           .picKDateCupertinoCubit
-                          .isDateTimeSubject.sink.add(isCheck);
+                          .isDateTimeSubject
+                          .sink
+                          .add(isCheck);
                       setState(() {});
                     },
                   )

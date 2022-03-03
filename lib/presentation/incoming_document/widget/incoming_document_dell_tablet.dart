@@ -30,7 +30,7 @@ class IncomingDocumentCellTablet extends StatelessWidget {
         onTap();
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 24.0),
+        // margin: const EdgeInsets.only(bottom: 24.0),
         height: 105,
         decoration: BoxDecoration(
           border: Border.all(color: borderItemCalender),

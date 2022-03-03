@@ -1,4 +1,5 @@
 
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -32,6 +33,11 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
     // TODO: implement initState
     super.initState();
     _lichHopCubit.callApi();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        _lichHopCubit.callApi();
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -51,19 +57,23 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
       onChangeKey: (value){
           _lichHopCubit.selectTrangThaiHop(value);
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value,startDate,endDate) {
-              _lichHopCubit.selectDate(
-                  selectKey: value,
-                  startDate: startDate,
-                  endDate: endDate);
-            },
-            title: S.current.time,
-          )
-        ],
+      dialogSelect: StreamBuilder(
+          stream: _lichHopCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _lichHopCubit.selectDate(
+                        selectKey: value, startDate: startDate, endDate: endDate);
+                  },
+                  initValue: _lichHopCubit.selectKeyTime,
+                  title: S.current.time,
+                )
+              ],
+            );
+          }
       ),
       child: LoadingOnly(
         stream: _lichHopCubit.stateStream,
@@ -83,15 +93,19 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 16),
                   child: ContainerInfoWidget(
-                    status: result.codeStatus.getText(),
-                    colorStatus: result.codeStatus.getColor(),
+                    status: result.isHopTrucTuyen
+                        ? S.current.truc_tuyen
+                        : S.current.truc_tiep,
+                    colorStatus: result.isHopTrucTuyen
+                        ? sideBtnSelected.withOpacity(0.5)
+                        : choXuLyColor,
                     backGroundStatus: true,
                     title: result.title,
                     listData: [
                       InfoData(
                         urlIcon: ImageAssets.icTime,
                         key: S.current.time,
-                        value: result.time,
+                        value: result.convertTime(),
                       ),
                       InfoData(
                         urlIcon: ImageAssets.icPeople,

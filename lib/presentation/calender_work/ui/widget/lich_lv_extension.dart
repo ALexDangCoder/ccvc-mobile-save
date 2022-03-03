@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
+import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/lich/calender_form_month.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/lich/calender_week_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/lich/in_calender_form.dart';
@@ -9,23 +11,27 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/lich/calender_w
 import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/list/in_list_form_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/calendar/table_calendar/table_calendar_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
 extension LichLVOpition on Type_Choose_Option_Day {
-  Widget getLichLVDangList() {
+  Widget getLichLVDangList(CalenderCubit cubit) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
         return InListFormTablet(
           isHindText: true,
+          cubit: cubit,
         );
       case Type_Choose_Option_Day.WEEK:
         return InListFormTablet(
           isHindText: true,
+          cubit: cubit,
         );
       case Type_Choose_Option_Day.MONTH:
         return InListFormTablet(
           isHindText: true,
+          cubit: cubit,
         );
       default:
         return Container();
@@ -46,14 +52,20 @@ extension LichLVOpition on Type_Choose_Option_Day {
   }
 
 //mobile
-  Widget getLichLVDangListMobile() {
+  Widget getLichLVDangListMobile(CalenderCubit cubit) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
-        return const InListForm();
+        return InListForm(
+          cubit: cubit,
+        );
       case Type_Choose_Option_Day.WEEK:
-        return const InListForm();
+        return InListForm(
+          cubit: cubit,
+        );
       case Type_Choose_Option_Day.MONTH:
-        return const InListForm();
+        return InListForm(
+          cubit: cubit,
+        );
       default:
         return Container();
     }
@@ -94,9 +106,9 @@ extension LichLVOpition on Type_Choose_Option_Day {
 }
 
 extension LichLv on CalenderState {
-  Widget lichLamViec() {
+  Widget lichLamViec(CalenderCubit cubit) {
     if (this is LichLVStateDangList) {
-      return type.getLichLVDangList();
+      return type.getLichLVDangList(cubit);
     } else if (this is LichLVStateDangLich) {
       return type.getCalendarLvStateDangLich();
     } else {
@@ -104,9 +116,34 @@ extension LichLv on CalenderState {
     }
   }
 
-  Widget lichLamViecMobile() {
+  Widget tableCalendar(CalenderCubit cubit) {
+    if (this is LichLVStateDangLich || this is LichLVStateDangList) {
+      if (type == Type_Choose_Option_Day.MONTH) {
+        return TableCalendarWidget(
+          isCalendar: false,
+          onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
+        );
+      }
+      return TableCalendarWidget(
+        onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
+      );
+    }
+    return Container();
+  }
+
+  Widget itemCalendarWork(CalenderCubit cubit) {
+    if (this is LichLVStateDangLich || this is LichLVStateDangList) {
+      if (type == Type_Choose_Option_Day.MONTH) {
+        return itemCalendarWorkIscheck(cubit);
+      }
+      return itemCalendarWorkDefault(cubit);
+    }
+    return Container();
+  }
+
+  Widget lichLamViecMobile(CalenderCubit cubit) {
     if (this is LichLVStateDangList) {
-      return type.getLichLVDangListMobile();
+      return type.getLichLVDangListMobile(cubit);
     } else if (this is LichLVStateDangLich) {
       return type.getCalendarLvStateDangLichMobile();
     } else {

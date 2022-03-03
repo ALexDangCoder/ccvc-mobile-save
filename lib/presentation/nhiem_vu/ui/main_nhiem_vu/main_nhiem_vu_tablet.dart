@@ -61,10 +61,12 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
             actions: [
               IconButton(
                 onPressed: () {
-                  DrawerSlide.navigatorSlide(
-                    context: context,
-                    screen: NhiemVuMenuTablet(
-                      cubit: cubit,
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NhiemVuMenuTablet(
+                        cubit: cubit,
+                      ),
                     ),
                   );
                 },
@@ -72,7 +74,7 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
               )
             ],
           ),
-          body:BlocBuilder<NhiemVuCubit, NhiemVuState>(
+          body: BlocBuilder<NhiemVuCubit, NhiemVuState>(
             bloc: cubit,
             builder: (context, state) {
               if (state is NhiemVuCaNhan) {
@@ -86,7 +88,6 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
               }
             },
           ),
-
         );
       },
     );

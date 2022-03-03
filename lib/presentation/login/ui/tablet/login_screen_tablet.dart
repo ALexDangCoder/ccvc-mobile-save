@@ -73,6 +73,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                             height: 350,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
+                                fit: BoxFit.fill,
                                 image: AssetImage(
                                   ImageAssets.imgLoginPng,
                                 ),
@@ -226,12 +227,14 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               title: S.current.login,
                               isColorBlue: true,
                               onPressed: () async {
-                                keyGroup.currentState!.validator();
-                                await loginCubit.loginAndSaveinfo(
+                                if (keyGroup.currentState!.validator()) {
+                                  await loginCubit.loginAndSaveinfo(
                                     context: context,
                                     passWord: textPasswordController.text,
                                     userName: textTaiKhoanController.text,
-                                    appCode: APP_CODE);
+                                    appCode: APP_CODE,
+                                  );
+                                } else {}
                                 if (loginCubit.passIsError == true) {
                                   _showToast(context);
                                 }

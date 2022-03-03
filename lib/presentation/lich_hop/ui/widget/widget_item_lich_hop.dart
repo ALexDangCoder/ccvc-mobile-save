@@ -11,7 +11,7 @@ class WidgetItemLichHop extends StatelessWidget {
   final String dateTimeFrom;
   final String dateTimeTo;
   final List<String> urlImage;
-  final Function ontap;
+  final Function() ontap;
 
   const WidgetItemLichHop({
     Key? key,
@@ -25,7 +25,7 @@ class WidgetItemLichHop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ontap(),
+      onTap: ontap,
       child: Container(
         height: 99.0.textScale(space: 37),
         margin: const EdgeInsets.only(bottom: 20.0),

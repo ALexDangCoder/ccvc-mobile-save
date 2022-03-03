@@ -16,22 +16,24 @@ import 'package:flutter_svg/svg.dart';
 class ButtonSelectFile extends StatefulWidget {
   final Color? background;
   final String title;
+  final Color? titleColor;
   final String? icon;
+  final bool isIcon;
   final bool childDiffence;
   final Function(List<File>) onChange;
-  final Widget? builder;
-  final bool isBuilder;
+  final Widget Function(BuildContext, File)? builder;
   List<File> files;
 
   ButtonSelectFile({
     Key? key,
     this.background,
     required this.title,
+    this.titleColor,
     this.icon,
     this.childDiffence = false,
-    this.builder,
+    this.isIcon = true,
     required this.onChange,
-    this.isBuilder = false,
+    this.builder,
     this.files = const [],
   }) : super(key: key);
 
@@ -74,14 +76,21 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile),
-                SizedBox(
-                  width: 11.25.textScale(),
-                ),
+                if (widget.isIcon)
+                  Row(
+                    children: [
+                      SvgPicture.asset(widget.icon ?? ImageAssets.icShareFile),
+                      SizedBox(
+                        width: 11.25.textScale(),
+                      ),
+                    ],
+                  )
+                else
+                  Container(),
                 Text(
                   widget.title,
                   style: textNormalCustom(
-                    color: labelColor,
+                    color:widget.titleColor?? labelColor,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w500,
                   ),
@@ -93,30 +102,22 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
         SizedBox(
           height: 16.0.textScale(),
         ),
-        if (widget.isBuilder)
-          Column(
-            children: widget.files.isNotEmpty
-                ? widget.files
-                    .map((e) => widget.builder ?? Container())
-                    .toList()
-                : [Container()],
-          )
-        else
-          Column(
-            children: widget.files.isNotEmpty
-                ? widget.files
-                    .map(
-                      (e) => itemListFile(
-                        file: e,
-                        onTap: () {
-                          _cubit.deleteFile(e, widget.files);
-                          setState(() {});
-                        },
-                      ),
-                    )
-                    .toList()
-                : [Container()],
-          )
+        Column(
+          children: widget.files.isNotEmpty
+              ? widget.files.map((e) {
+                  if (widget.builder == null) {
+                    return itemListFile(
+                      file: e,
+                      onTap: () {
+                        _cubit.deleteFile(e, widget.files);
+                        setState(() {});
+                      },
+                    );
+                  }
+                  return widget.builder!(context, e);
+                }).toList()
+              : [Container()],
+        )
       ],
     );
   }

@@ -29,63 +29,63 @@ extension ItemExtension on WidgetType {
   Widget getItemsMobile() {
     switch (this) {
       case WidgetType.wordProcessState:
-        return const WordProcessingStateWidget(
-          key: ValueKey(WidgetType.wordProcessState),
+        return WordProcessingStateWidget(
+          key: KeyKeepAlive._keyWordProcessState,
           homeItemType: WidgetType.wordProcessState,
         );
       case WidgetType.document:
-        return const DocumentWidget(
-          key: ValueKey(WidgetType.document),
+        return DocumentWidget(
+          key: KeyKeepAlive._keyDocument,
           homeItemType: WidgetType.document,
         );
       case WidgetType.summaryOfTask:
-        return const SummaryOfTaskWidget(
-          key: ValueKey(WidgetType.summaryOfTask),
+        return SummaryOfTaskWidget(
+          key: KeyKeepAlive._keySummaryOfTask,
           homeItemType: WidgetType.summaryOfTask,
         );
       case WidgetType.situationHandlingPeople:
-        return const SituationOfHandlingPeopleWidget(
-          key: ValueKey(WidgetType.situationHandlingPeople),
+        return SituationOfHandlingPeopleWidget(
+          key: KeyKeepAlive._keySituationHandlingPeople,
           homeItemType: WidgetType.situationHandlingPeople,
         );
       case WidgetType.peopleOpinions:
-        return const PeopleOpinions(
-          key: ValueKey(WidgetType.peopleOpinions),
+        return PeopleOpinions(
+          key: KeyKeepAlive._keyPeopleOpinions,
           homeItemType: WidgetType.peopleOpinions,
         );
       case WidgetType.workSchedule:
-        return const CalendarWorkWidget(
-          key: ValueKey(WidgetType.workSchedule),
+        return CalendarWorkWidget(
+          key: KeyKeepAlive._keyWorkSchedule,
           homeItemType: WidgetType.workSchedule,
         );
       case WidgetType.meetingSchedule:
-        return const MeetingScheduleWidget(
-          key: ValueKey(WidgetType.meetingSchedule),
+        return MeetingScheduleWidget(
+          key: KeyKeepAlive._keyMeetingSchedule,
           homeItemType: WidgetType.meetingSchedule,
         );
       case WidgetType.pressSocialNetWork:
-        return const PressSocialNetWork(
-          key: ValueKey(WidgetType.pressSocialNetWork),
+        return PressSocialNetWork(
+          key: KeyKeepAlive._keyPressSocialNetWork,
           homeItemType: WidgetType.pressSocialNetWork,
         );
       case WidgetType.listWork:
-        return const WorkListWidget(
-          key: ValueKey(WidgetType.listWork),
+        return WorkListWidget(
+          key: KeyKeepAlive._keyListWork,
           homeItemType: WidgetType.listWork,
         );
       case WidgetType.eventOfDay:
-        return const EventOfDayWidget(
-          key: ValueKey(WidgetType.eventOfDay),
+        return EventOfDayWidget(
+          key: KeyKeepAlive._keyEventOfDay,
           homeItemType: WidgetType.eventOfDay,
         );
       case WidgetType.sinhNhat:
-        return const SinhNhatWidget(
-          key: ValueKey(WidgetType.sinhNhat),
+        return SinhNhatWidget(
+          key: KeyKeepAlive._keySinhNhat,
           homeItemType: WidgetType.sinhNhat,
         );
       case WidgetType.nhiemVu:
-        return const NhiemVuWidget(
-          key: ValueKey(WidgetType.nhiemVu),
+        return NhiemVuWidget(
+          key: KeyKeepAlive._keyNhiemVu,
           homeItemType: WidgetType.nhiemVu,
         );
     }

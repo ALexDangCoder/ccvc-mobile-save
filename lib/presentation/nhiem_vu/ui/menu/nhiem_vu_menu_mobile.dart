@@ -1,9 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/calender_work/ui/widget/dang_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/bloc/nhiem_vu_state.dart';
+import 'package:ccvc_mobile/presentation/nhiem_vu/widget/widget_item_menu_nhiem_vu_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class _NhiemVuMenuMobileState extends State<NhiemVuMenuMobile> {
                 final data = snapshot.data ?? [true, false];
                 return Column(
                   children: [
-                    TheoDangLichWidget(
+                    ItemMenuNhiemVuWidgetMobile(
                       icon: ImageAssets.icPerson,
                       name: S.current.nhiem_vu_ca_nhan,
                       onTap: () {
@@ -52,7 +52,7 @@ class _NhiemVuMenuMobileState extends State<NhiemVuMenuMobile> {
                       },
                       isSelect: data[0],
                     ),
-                    TheoDangLichWidget(
+                    ItemMenuNhiemVuWidgetMobile(
                       icon: ImageAssets.icDonViNhiemVu,
                       name: S.current.nhiem_vu_don_vi,
                       onTap: () {

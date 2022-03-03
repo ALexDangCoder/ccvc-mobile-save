@@ -34,6 +34,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _cubit.getTree();
     _cubit.listPeopleThamGia.listen((event) {
       widget.onChange(event);
     });
@@ -51,6 +52,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           stream: _cubit.listPeopleThamGia,
           builder: (context, snapshot) {
             return ThemDonViWidget(
+              cubit: _cubit,
               listSelectNode: snapshot.data ?? [],
               onChange: (value) {
                 _cubit.addPeopleThamGia(
@@ -64,6 +66,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           height: 16.0.textScale(space: 8),
         ),
         ThemCanBoWidget(
+          cubit: _cubit,
           onChange: (value) {
             _cubit.addPeopleThamGia(value);
           },

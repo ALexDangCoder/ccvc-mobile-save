@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class DetailDocumentRowTablet extends StatefulWidget {
   final DocumentDetailRow row;
 
-  const DetailDocumentRowTablet({Key? key, required this.row}) : super(key: key);
+  const DetailDocumentRowTablet({Key? key, required this.row})
+      : super(key: key);
 
   @override
   State<DetailDocumentRowTablet> createState() =>
@@ -32,9 +33,10 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                 flex: 4,
                 child: AutoSizeText(
                   widget.row.title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xff667793),
+                  style: textNormalCustom(
+                    color: titleItemEdit,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
@@ -51,6 +53,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               '${widget.row.value}',
                               style: textNormalCustom(
                                 fontSize: 16,
+                                fontWeight: FontWeight.w400,
                                 color: titleColor,
                               ),
                               maxLines: 3,
@@ -68,24 +71,11 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               '${widget.row.value}',
                               style: textNormalCustom(
                                 fontSize: 16,
+                                fontWeight: FontWeight.w400,
                                 color: titleColor,
                               ),
                             ),
                           )
-                    // : Row(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: [
-                    //       SizedBox(
-                    //         height: 20,
-                    //         width: 41,
-                    //         child: CustomCheckBox(
-                    //           title: '',
-                    //           isCheck: widget.row.value,
-                    //         ),
-                    //       ),
-                    //       Container()
-                    //     ],
-                    //   ),
                     : const SizedBox(),
               )
             ],
@@ -105,8 +95,9 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
               AutoSizeText(
                 widget.row.title,
                 style: textNormalCustom(
-                  fontSize: 16,
-                  color: const Color(0xff667793),
+                  color: titleItemEdit,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],

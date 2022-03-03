@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/home/tong_hop_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,11 +9,13 @@ class NhiemVuWidget extends StatelessWidget {
   final String? urlIcon;
   final String title;
   final String value;
+  final TongHopNhiemVuType type;
   const NhiemVuWidget({
     Key? key,
     this.value = '0',
     this.title = '',
     this.urlIcon,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -56,7 +59,11 @@ class NhiemVuWidget extends StatelessWidget {
           ),
           Text(
             value,
-            style: titleText(color: numberOfCalenders, fontSize: 22),
+            style: titleText(
+                color: type == TongHopNhiemVuType.dangThucHienQuaHan
+                    ? statusCalenderRed
+                    : numberOfCalenders,
+                fontSize: 22),
           )
         ],
       ),

@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/outgoing_document/bloc/outgoing_documen
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/common_infor_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/list_vb_den.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/list_vb_di.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
@@ -25,7 +26,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
     with SingleTickerProviderStateMixin {
   QLVBCCubit qlvbCubit = QLVBCCubit();
   OutgoingDocumentCubit outgoingDocumentCubit = OutgoingDocumentCubit();
-  IncomingDocumentCubit incomingDocumentCubit = IncomingDocumentCubit();
+  IncomingDocumentCubit cubitIncoming = IncomingDocumentCubit();
   late TabController controller;
 
   late ScrollController scrollController;
@@ -37,7 +38,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
     super.initState();
     qlvbCubit.callAPi();
     outgoingDocumentCubit.callAPi();
-    incomingDocumentCubit.callAPi();
+    cubitIncoming.callAPi();
   }
 
   @override
@@ -150,7 +151,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
             content: TabBarView(
               children: [
                 StreamBuilder<List<VanBanModel>>(
-                  stream: incomingDocumentCubit.getListVbDen,
+                  stream: cubitIncoming.getListVbDen,
                   builder: (context, snapshot) {
                     final List<VanBanModel> listData = snapshot.data ?? [];
                     if (listData.isNotEmpty) {
@@ -160,7 +161,12 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const IncomingDocumentScreenTablet(),
+                                    IncomingDocumentScreenTablet(
+                                  title: S.current.danh_sach_van_ban_den,
+                                  type: TypeScreen.VAN_BAN_DEN,
+                                  startDate: qlvbCubit.startDate,
+                                  endDate: qlvbCubit.endDate,
+                                ),
                               ),
                             );
                           },
@@ -172,22 +178,28 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                   },
                 ),
                 StreamBuilder<List<VanBanModel>>(
-                  stream: outgoingDocumentCubit.getListVbDi,
+                  stream: outgoingDocumentCubit.getDanhSachVbDi,
                   builder: (context, snapshot) {
                     final List<VanBanModel> listData = snapshot.data ?? [];
                     if (listData.isNotEmpty) {
-                      return ListVBDen(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const IncomingDocumentScreenTablet(),
+                      return ListVBDi(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  IncomingDocumentScreenTablet(
+                                title: S.current.danh_sach_van_ban_di,
+                                type: TypeScreen.VAN_BAN_DI,
+                                startDate: qlvbCubit.startDate,
+                                endDate: qlvbCubit.endDate,
                               ),
-                            );
-                          },
-                          titleButton: S.current.xem_danh_sach,
-                          list: listData);
+                            ),
+                          );
+                        },
+                        titleButton: S.current.xem_danh_sach,
+                        list: listData,
+                      );
                     } else {
                       return const SizedBox();
                     }

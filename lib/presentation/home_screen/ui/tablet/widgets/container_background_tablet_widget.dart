@@ -28,6 +28,8 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
   final SelectKeyDialog? selectKeyDialog;
   final bool isUnit;
   final List<SelectKey>? listSelect;
+  final Function(SelectKey)? onChangeKey;
+  final bool isCustomDialog;
   const ContainerBackgroundTabletWidget({
     Key? key,
     required this.child,
@@ -44,6 +46,8 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.selectKeyDialog,
     this.isUnit = false,
     this.listSelect,
+    this.onChangeKey,
+    this.isCustomDialog = false,
   }) : super(key: key);
 
   @override
@@ -87,65 +91,71 @@ class _ContainerBackgroudWidgetState
                   Container(
                     padding: EdgeInsets.only(
                       left: 24,
-
                       bottom: widget.spacingTitle,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            if (widget.leadingIcon == null)
-                              const SizedBox()
-                            else
-                              Padding(
-                                padding: const EdgeInsets.only(right: 12),
-                                child: widget.leadingIcon,
-                              ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.title,
-                                  style: textNormalCustom(
-                                    fontSize: 16.0.textScale(space: 4),
-                                    color: AppTheme.getInstance().titleColor(),
-                                  ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              if (widget.leadingIcon == null)
+                                const SizedBox()
+                              else
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: widget.leadingIcon,
                                 ),
-                                if (widget.selectKeyDialog != null) ...[
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  StreamBuilder<bool>(
-                                    stream: widget.selectKeyDialog!
-                                        .selectKeyDialog.stream,
-                                    builder: (context, snapshot) {
-                                      return Text(
-                                        subTitle(),
-                                        style: textNormal(titleColumn, 16),
-                                      );
-                                    },
-                                  )
-                                ] else
-                                  const SizedBox()
-                              ],
-                            ),
-                          ],
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if (widget.onTapIcon != null) {
-                              widget.onTapIcon!();
-                            } else {}
-                          },
-                          child: Container(
-                            padding:const EdgeInsets.symmetric(horizontal: 24),
-                            color: Colors.transparent,
-                            alignment: Alignment.centerRight,
-                            child: SvgPicture.asset(widget.urlIcon),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.title,
+                                      style: textNormalCustom(
+                                        fontSize: 16.0.textScale(space: 4),
+                                        color:
+                                            AppTheme.getInstance().titleColor(),
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    if (widget.selectKeyDialog != null) ...[
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      StreamBuilder<bool>(
+                                        stream: widget.selectKeyDialog!
+                                            .selectKeyDialog.stream,
+                                        builder: (context, snapshot) {
+                                          return Text(
+                                            subTitle(),
+                                            style: textNormal(titleColumn, 16),
+                                          );
+                                        },
+                                      )
+                                    ] else
+                                      const SizedBox()
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        )
+                        ),
+                        if (widget.isCustomDialog) GestureDetector(
+                                onTap: () {
+                                  if (widget.onTapIcon != null) {
+                                    widget.onTapIcon!();
+                                  } else {}
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 24),
+                                  color: Colors.transparent,
+                                  alignment: Alignment.centerRight,
+                                  child: SvgPicture.asset(widget.urlIcon),
+                                ),
+                              ) else widget.dialogSelect ?? const SizedBox()
                       ],
                     ),
                   ),
@@ -154,12 +164,15 @@ class _ContainerBackgroudWidgetState
                   else
                     Container(
                       height: 32,
-                      margin:const EdgeInsets.only(bottom: 20),
+                      margin: const EdgeInsets.only(bottom: 20),
                       color: Colors.transparent,
                       width: double.infinity,
                       child: SelectKeyRow(
-                        onChange: (value){
-
+                        onChange: (value) {
+                          HomeProvider.of(context).homeCubit.closeDialog();
+                          if (widget.onChangeKey != null) {
+                            widget.onChangeKey!(value);
+                          }
                         },
                         listSelect: widget.listSelect!,
                       ),
@@ -169,11 +182,11 @@ class _ContainerBackgroudWidgetState
               ),
             ),
           ),
-          Positioned(
+        if (widget.isCustomDialog) Positioned(
             top: 30,
             right: 16,
             child: widget.dialogSelect ?? const SizedBox(),
-          )
+          ) else const SizedBox()
         ],
       ),
     );

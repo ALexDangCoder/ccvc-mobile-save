@@ -2,16 +2,24 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
-import 'package:ccvc_mobile/domain/model/y%20_kien_nguoi_dan/nguoi_dan_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_state.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:rxdart/rxdart.dart';
 
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
+  BehaviorSubject<List<bool>> selectTypeYKNDSubject =
+      BehaviorSubject.seeded([true, false]);
   bool isCheck = false;
+
+  // void selectItemMenu(List<bool> listSelect) {
+  //   selectTypeYKNDSubject.sink.add(listSelect);
+  // }
+
   List<DashboardSchedule> list = [
     DashboardSchedule(1, '22ssads2', 'Chờ duyệt'),
     DashboardSchedule(2, '2dasdsd22', 'Thời gian'),
@@ -55,22 +63,20 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   ];
   List<NguoiDanModel> listYKienNguoiDan = [
     NguoiDanModel(
-      ngheNghiep: 'Nhan vien van phong that nghiep',
-      ngayThang: '18/10/2021',
-      ten: 'Ha Kieu Anh',
-      trangThai: 'dang xu ly',
-    ),
+        ngheNghiep: 'Nhan vien van phong that nghiep',
+        ngayThang: '18/10/2021',
+        ten: 'Ha Kieu Anh',
+        statusData: StatusYKien.DANG_XU_LY),
+    NguoiDanModel(
+        ngheNghiep: 'Nhan vien van phong that nghiep',
+        ngayThang: '18/10/2021',
+        ten: 'Ha Kieu Anh',
+        statusData: StatusYKien.QUA_HAN),
     NguoiDanModel(
       ngheNghiep: 'Nhan vien van phong that nghiep',
       ngayThang: '18/10/2021',
       ten: 'Ha Kieu Anh',
-      trangThai: 'dang xu ly',
-    ),
-    NguoiDanModel(
-      ngheNghiep: 'Nhan vien van phong that nghiep',
-      ngayThang: '18/10/2021',
-      ten: 'Ha Kieu Anh',
-      trangThai: 'dang xu ly',
+      statusData: StatusYKien.DANG_XU_LY,
     ),
   ];
 }

@@ -4,9 +4,14 @@ import 'package:ccvc_mobile/domain/model/nhiem_vu/danh_sach_cong_viec_model.dart
 import 'package:ccvc_mobile/domain/model/nhiem_vu/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/domain/model/nhiem_vu/nhiem_vu_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_cong_viec_nhiem_vu/ui/mobile/chi_tiet_cong_viec_nhiem_vu.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/phone/chi_tiet_nhiem_vu_phone_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
+import 'package:ccvc_mobile/presentation/nhiem_vu/ui/mobile/danh_sach/danh_sach_cong_viec_mobile.dart';
+import 'package:ccvc_mobile/presentation/nhiem_vu/ui/mobile/danh_sach/danh_sach_nhiem_vu_mobile.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/widget/bieu_do_nhiem_vu_mobile.dart';
+import 'package:ccvc_mobile/presentation/nhiem_vu/widget/nhiem_vu_item_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/table_calendar_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +27,6 @@ class NhiemVuDonViMobile extends StatefulWidget {
 }
 
 class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
-  //  = NhiemVuCubit();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -59,7 +63,11 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                 color: homeColor,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(
+                  right: 16.0,
+                  left: 16.0,
+                  bottom: 20.0,
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -74,28 +82,35 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         ),
                         IconButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //     const IncomingDocumentScreen(),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const DanhSachNhiemVuMobile(),
+                              ),
+                            );
                           },
                           icon: SvgPicture.asset(ImageAssets.ic_next_color),
                         )
                       ],
                     ),
-                    const SizedBox(height: 16.0),
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: listDanhSachNhiemVu.length,
                       itemBuilder: (context, index) {
-                        return IncomingDocumentCell(
-                          onTap: () {},
+                        return NhiemVuItemMobile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChiTietNhiemVuPhoneScreen()));
+                          },
                           title: listDanhSachNhiemVu[index].noiDung ?? '',
-                          dateTime: listDanhSachNhiemVu[index].timeStart ?? '',
+                          timeStart:
+                              listDanhSachCongViec[index].timeStart ?? '',
+                          timeEnd: listDanhSachCongViec[index].timeEnd ?? '',
                           userName: listDanhSachNhiemVu[index].nguoiTao ?? '',
                           status: listDanhSachNhiemVu[index].trangThai ?? '',
                           userImage:
@@ -111,7 +126,11 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                 color: homeColor,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(
+                  right: 16.0,
+                  left: 16.0,
+                  bottom: 20.0,
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -126,28 +145,37 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         ),
                         IconButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //     const OutgoingDocumentScreen(),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const DanhSachCongViecMobile(),
+                              ),
+                            );
                           },
                           icon: SvgPicture.asset(ImageAssets.ic_next_color),
                         )
                       ],
                     ),
-                    const SizedBox(height: 16.0),
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: listDanhSachCongViec.length,
                       itemBuilder: (context, index) {
-                        return IncomingDocumentCell(
-                          onTap: () {},
+                        return NhiemVuItemMobile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ChitietCongViecNhiemVuMobile(),
+                              ),
+                            );
+                          },
                           title: listDanhSachCongViec[index].noiDung ?? '',
-                          dateTime: listDanhSachCongViec[index].timeStart ?? '',
+                          timeStart:
+                              listDanhSachCongViec[index].timeStart ?? '',
+                          timeEnd: listDanhSachCongViec[index].timeEnd ?? '',
                           userName: listDanhSachCongViec[index].nguoiTao ?? '',
                           status: listDanhSachCongViec[index].trangThai ?? '',
                           userImage:
@@ -161,7 +189,9 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
             ],
           ),
         ),
-        const TableCalendarWidget(),
+        TableCalendarWidget(
+          onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
+        ),
       ],
     );
   }

@@ -31,6 +31,11 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
     // TODO: implement initState
     super.initState();
     _lamViecCubit.callApi();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        _lamViecCubit.callApi();
+      });
+    });
   }
 
   @override
@@ -43,22 +48,21 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _lamViecCubit,
-      dialogSelect: StreamBuilder<WidgetType?>(
-        stream: HomeProvider.of(context).homeCubit.showDialogSetting,
-        builder: (context, snapshot) {
-          return DialogSettingWidget(
-            listSelectKey: [
-              DialogData(
-                onSelect: (value, startDate, endDate) {
-                  _lamViecCubit.selectDate(
-                      selectKey: value, startDate: startDate, endDate: endDate);
-                },
-                title: S.current.time,
-              )
-            ],
-            type: widget.homeItemType,
-          );
-        },
+      dialogSelect: StreamBuilder(
+        stream: _lamViecCubit.selectKeyDialog,
+        builder: (context, _) => DialogSettingWidget(
+          listSelectKey: [
+            DialogData(
+              initValue: _lamViecCubit.selectKeyTime,
+              onSelect: (value, startDate, endDate) {
+                _lamViecCubit.selectDate(
+                    selectKey: value, startDate: startDate, endDate: endDate);
+              },
+              title: S.current.time,
+            )
+          ],
+          type: widget.homeItemType,
+        ),
       ),
       child: LoadingOnly(
         stream: _lamViecCubit.stateStream,

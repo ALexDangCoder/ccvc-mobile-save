@@ -92,12 +92,6 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
   }
 
   @override
-  void dispose() {
-    expandController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

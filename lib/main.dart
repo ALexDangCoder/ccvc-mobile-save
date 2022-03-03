@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/splash/bloc/app_state.dart';
-
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,6 +48,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
+
   @override
   void initState() {
     super.initState();
@@ -123,6 +123,7 @@ class _MyAppState extends State<MyApp> {
 
 class AppStateCt extends InheritedWidget {
   final AppState appState;
+
   const AppStateCt({
     Key? key,
     required this.appState,

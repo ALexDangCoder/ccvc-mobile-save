@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -21,8 +22,8 @@ class TextFieldStyle extends StatelessWidget {
           maxLines == 1 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         Container(
-          width: 16,
-          height: 16,
+          width: 16.0.textScale(space: 4),
+          height: 16.0.textScale(space: 4),
           color: Colors.transparent,
           child: SvgPicture.asset(urlIcon),
         ),

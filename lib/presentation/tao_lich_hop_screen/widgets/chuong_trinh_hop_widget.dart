@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
@@ -18,7 +20,11 @@ import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
 import 'package:flutter/material.dart';
 
 class ChuongTrinhHopWidget extends StatelessWidget {
-  const ChuongTrinhHopWidget({Key? key}) : super(key: key);
+  final TaoLichHopCubit cubit;
+
+  const ChuongTrinhHopWidget({Key? key, required this.cubit}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,9 @@ class ChuongTrinhHopWidget extends StatelessWidget {
             onTap: () {
               showBottomSheetCustom(
                 context,
-                child: const ThemPhienHopScreen(),
+                child: ThemPhienHopScreen(
+                  cubit: cubit,
+                ),
                 title: S.current.them_phien_hop,
               );
             },
@@ -57,7 +65,9 @@ class ChuongTrinhHopWidget extends StatelessWidget {
 }
 
 class ThemPhienHopScreen extends StatefulWidget {
-  const ThemPhienHopScreen({Key? key}) : super(key: key);
+  final TaoLichHopCubit cubit;
+
+  const ThemPhienHopScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _ThemPhienHopScreenState createState() => _ThemPhienHopScreenState();
@@ -66,6 +76,13 @@ class ThemPhienHopScreen extends StatefulWidget {
 class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   final _key = GlobalKey<FormGroupState>();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.cubit.getChuongTrinhHop('7b4f68c6-f835-4bea-b6f2-06250412ae70');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -118,24 +135,27 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 BaseChooseTimerWidget(
                   key: _keyBaseTime,
-                  validator: () {
-                    return '213';
-                  },
+                  validator: () {},
                 ),
                 InputInfoUserWidget(
                   title: S.current.nguoi_chu_tri,
-                  child: const DropDownSearch(
-                    listSelect: [
-                     "Tokuda",
-                      'Thầy ông nội',
-                      'Lực ô da woa',
-                      "Hòa dâm dê",
-                      'Hòa rocket',
-                      'Hòa lực sỹ',
-                      'Hòa yếu sinh lý',
-                      'Hòa chưa có ny'
-                    ],
-                  ),
+                  child: StreamBuilder<ChuongTrinhHopModel>(
+                      stream: widget.cubit.chuongTrinhHopStream,
+                      builder: (context, snapshot) {
+                        final data =
+                            snapshot.data ?? ChuongTrinhHopModel.empty();
+                        final dataString = data.listCanBo
+                                ?.map((e) => e.tenCanBo ?? '')
+                                .toList() ??
+                            [];
+
+                        return DropDownSearch(
+                          title: S.current.nguoi_chu_tri,
+                          hintText: S.current.chon_nguoi_chu_tri,
+                          onChange: (value) {},
+                          listSelect: dataString,
+                        );
+                      },),
                 ),
                 InputInfoUserWidget(
                   title: S.current.noi_dung_phien_hop,

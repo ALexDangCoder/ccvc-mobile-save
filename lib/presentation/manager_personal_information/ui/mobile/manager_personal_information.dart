@@ -18,7 +18,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ManagerPersonalInformation extends StatefulWidget {
-  const ManagerPersonalInformation({Key? key}) : super(key: key);
+  final String id ;
+  const ManagerPersonalInformation({Key? key,required this.id}) : super(key: key);
 
   @override
   _ManagerPersonalInformationState createState() =>
@@ -29,12 +30,12 @@ class _ManagerPersonalInformationState
     extends State<ManagerPersonalInformation> {
   final ManagerPersonalInformationCubit _cubit =
       ManagerPersonalInformationCubit();
-  String id = 'b5a6b584-b4a1-4337-900d-ad2e499ad6c0';
+
 
   @override
   void initState() {
     // TODO: implement initState
-    _cubit.loadApi(id: id);
+    _cubit.loadApi(id: widget.id);
     super.initState();
   }
 
@@ -60,7 +61,7 @@ class _ManagerPersonalInformationState
                 context,
                 MaterialPageRoute(
                   builder: (context) => EditPersonInformationScreen(
-                    id: id,
+                    id: widget.id,
                   ),
                 ),
               );
@@ -83,7 +84,7 @@ class _ManagerPersonalInformationState
           stream: _cubit.stateStream,
           child: RefreshIndicator(
             onRefresh: () async {
-              await _cubit.loadApi(id: id);
+              await _cubit.loadApi(id: widget.id);
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

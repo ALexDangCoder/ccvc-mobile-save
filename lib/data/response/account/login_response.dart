@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'login_response.g.dart';
 
 @JsonSerializable()
-class LoginResponse extends Equatable {
+class LoginResponse  {
   @JsonKey(name: 'data')
   DataLoginResponse data;
 
@@ -16,7 +16,4 @@ class LoginResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
 }

@@ -9,12 +9,15 @@ class NodataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        S.current.khong_co_du_lieu,
-        style: textNormal(
-          AppTheme.getInstance().titleColor(),
-          14.0.textScale(),
+    return Container(
+      color: Colors.transparent,
+      child: Center(
+        child: Text(
+          S.current.khong_co_du_lieu,
+          style: textNormal(
+            AppTheme.getInstance().titleColor(),
+            14.0.textScale(),
+          ),
         ),
       ),
     );

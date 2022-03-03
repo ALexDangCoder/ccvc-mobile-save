@@ -33,6 +33,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
           children: [
             ListView.builder(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: widget.cubit.managerPersonalInformationModel
                       .departments?.length ??
                   0,
@@ -105,7 +106,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                               color: titleCalenderWork,
                               textHeight: 2.5,
                             ),
-                            maxLines: 3,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
@@ -117,7 +118,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                               color: titleCalenderWork,
                               textHeight: 2.5,
                             ),
-                            maxLines: 3,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(

@@ -1,18 +1,28 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_tablet.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
-import 'package:ccvc_mobile/presentation/incoming_document/ui/incoming_documment_provider.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_dell_tablet.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
-import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class IncomingDocumentScreenTablet extends StatefulWidget {
-  const IncomingDocumentScreenTablet({Key? key}) : super(key: key);
+  final String title;
+  final TypeScreen type;
+  final String startDate;
+  final String endDate;
+
+  const IncomingDocumentScreenTablet({
+    Key? key,
+    required this.title,
+    required this.type,
+    required this.startDate,
+    required this.endDate,
+  }) : super(key: key);
 
   @override
   _IncomingDocumentScreenTabletState createState() =>
@@ -21,82 +31,88 @@ class IncomingDocumentScreenTablet extends StatefulWidget {
 
 class _IncomingDocumentScreenTabletState
     extends State<IncomingDocumentScreenTablet> {
-  IncomingDocumentCubit cubit = IncomingDocumentCubit();
+  late IncomingDocumentCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    cubit.callAPi();
+    cubit = IncomingDocumentCubit();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cubit.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        cubit.callAPi();
-      },
-      child: InComingDocumentProvider(
-        outGoingCubit: cubit,
-        child: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException('1', ''),
-          stream: cubit.stateStream,
-          child: Scaffold(
-            appBar: AppBarDefaultBack(S.current.danh_sach_van_ban_den),
-            body: Container(
-              color: bgTabletColor,
-              child: Column(
-                children: [
-                  Flexible(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 28.0,
-                          right: 30.0,
-                          left: 30.0,
-                        ),
-                        child: StreamBuilder<List<VanBanModel>>(
-                          stream: cubit.getListVbDen,
-                          builder: (context, snapshot) {
-                            final List<VanBanModel> listData =
-                                snapshot.data ?? [];
-                            return ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: listData.length,
-                              itemBuilder: (context, index) {
-                                return IncomingDocumentCellTablet(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (contetx) =>
-                                            DetailDocumentTablet(),
-                                      ),
-                                    );
-                                  },
-                                  title: listData[index].loaiVanBan ?? '',
-                                  dateTime: listData[index].ngayDen ?? '',
-                                  userName: listData[index].nguoiSoanThao ?? '',
-                                  status: listData[index].doKhan ?? '',
-                                  userImage:
-                                      'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
-                                  index: index + 1,
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+    return Scaffold(
+      backgroundColor: bgTabletColor,
+      appBar: AppBarDefaultBack(widget.title),
+      body: _content(),
+    );
+  }
+
+  void callApi(int page, String startDate, String endDate) {
+    if (widget.type == TypeScreen.VAN_BAN_DEN) {
+      cubit.listDataDanhSachVBDen(
+        startDate: startDate,
+        endDate: endDate,
+        page: page,
+        size: ApiConstants.DEFAULT_PAGE_SIZE,
+      );
+    } else {
+      cubit.listDataDanhSachVBDi(
+        startDate: startDate,
+        endDate: endDate,
+        index: page,
+        size: ApiConstants.DEFAULT_PAGE_SIZE,
+      );
+    }
+  }
+
+  Widget _content() {
+    return ListViewLoadMore(
+      cubit: cubit,
+      isListView: true,
+      callApi: (page) => {callApi(page, widget.startDate ,widget.endDate)},
+      viewItem: (value, index) => itemVanBan(value as VanBanModel, index ?? 0),
+    );
+  }
+
+  Widget itemVanBan(VanBanModel data, int index) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 24.0,
+        right: 30.0,
+        left: 30.0,
+      ),
+      child: IncomingDocumentCellTablet(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                if (widget.type == TypeScreen.VAN_BAN_DEN) {
+                  return ChiTietVanBanDenTablet(
+                    processId: data.iD ?? '',
+                    taskId: data.taskId ?? '',
+                  );
+                } else {
+                  return const ChiTietVanBanTablet();
+                }
+              },
             ),
-          ),
-        ),
+          );
+        },
+        title: data.loaiVanBan ?? '',
+        dateTime: data.ngayDen ?? '',
+        userName: data.nguoiSoanThao ?? '',
+        status: data.doKhan ?? '',
+        userImage:
+            'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+        index: index + 1,
       ),
     );
   }

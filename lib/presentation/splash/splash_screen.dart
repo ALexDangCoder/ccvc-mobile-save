@@ -5,8 +5,10 @@ import 'package:ccvc_mobile/presentation/login/ui/tablet/login_screen_tablet.dar
 import 'package:ccvc_mobile/presentation/tabbar_screen/ui/main_screen.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
 import 'package:flutter/material.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -15,7 +17,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -26,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     SizeConfig.init(context);
+    MessageConfig.init(context);
   }
 
   @override

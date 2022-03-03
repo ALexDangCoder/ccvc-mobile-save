@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/build_picker.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +17,6 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       controller: dayController,
       backgroundColor: widget.background,
       canBorderLeft: true,
-
       children: List<Widget>.generate(31, (int index) {
         TextStyle textStyle = themeTextStyle(context);
         if (index >= daysInCurrentMonth) {
@@ -46,7 +45,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
   }
 
   String _getDayOfWeek(int index) {
-    return '''${DateTime(selectedYear, selectedMonth, index + 1).getDayofWeekTxt()}, ${localizations.datePickerDayOfMonth(index + 1)}''';
+    return localizations.datePickerDayOfMonth(index + 1);
   }
 
   Widget buildMonthPicker(
@@ -60,7 +59,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       children: List<Widget>.generate(12, (int index) {
         return itemPositioningBuilder(
           context,
-          Text('${index + 1}', style: widget.textStyleDate),
+          Text('${S.current.thang} ${index + 1}', style: widget.textStyleDate),
         );
       }),
       onSelectItem: (index) {

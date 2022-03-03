@@ -10,7 +10,7 @@ enum TypeContainer { expand, number }
 
 class ContainerMenuWidget extends StatefulWidget {
   final String name;
-  final String icon;
+  final String? icon;
   final bool isIcon;
   final int index;
   final bool isTypeContainer;
@@ -21,7 +21,7 @@ class ContainerMenuWidget extends StatefulWidget {
   const ContainerMenuWidget({
     Key? key,
     required this.name,
-    required this.icon,
+    this.icon,
     this.isIcon = true,
     this.type = TypeContainer.number,
     this.index = 0,
@@ -60,14 +60,19 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
                   child: Row(
                     children: [
                       if (widget.isIcon)
-                        SizedBox(
-                          height: 15.0.textScale(space: 8),
-                          width: 15.0.textScale(space: 8),
-                          child: SvgPicture.asset(
-                            widget.icon,
-                            color: Colors.grey,
-                          ),
-                        )
+                        widget.icon != null
+                            ? SizedBox(
+                                height: 15.0.textScale(space: 8),
+                                width: 15.0.textScale(space: 8),
+                                child: SvgPicture.asset(
+                                  widget.icon ?? '',
+                                  color: Colors.grey,
+                                ),
+                              )
+                            : SizedBox(
+                                height: 15.0.textScale(space: 8),
+                                width: 15.0.textScale(space: 8),
+                              )
                       else
                         const SizedBox(
                           height: 15,
@@ -89,9 +94,9 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
                     ],
                   ),
                 ),
-
-                const SizedBox(width: 12,),
-
+                const SizedBox(
+                  width: 12,
+                ),
                 if (widget.isTypeContainer)
                   if (widget.type == TypeContainer.number)
                     Container(

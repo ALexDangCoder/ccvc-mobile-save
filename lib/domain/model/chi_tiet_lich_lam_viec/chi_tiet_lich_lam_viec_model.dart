@@ -7,8 +7,6 @@ class ChiTietLichLamViecModel {
   String date = '';
   String loaiLich = '';
 
-  ListPerSon listPerSon = ListPerSon.Empty();
-
   String nhacLai = '';
 
   String chuTri = '';
@@ -23,7 +21,6 @@ class ChiTietLichLamViecModel {
     required this.time,
     required this.date,
     required this.loaiLich,
-    required this.listPerSon,
     required this.nhacLai,
     required this.chuTri,
     required this.linhVuc,
@@ -42,10 +39,6 @@ class ChiTietLichLamViecModel {
           icon: ImageAssets.icCalendarUnFocus,
           value: loaiLich,
           type: typeData.text),
-      TypeData(
-          icon: ImageAssets.icDoublePerson,
-          value: listPerSon,
-          type: typeData.listperson),
       TypeData(
           icon: ImageAssets.icNhacLai, value: nhacLai, type: typeData.text),
       TypeData(icon: ImageAssets.icPerson, value: chuTri, type: typeData.text),
@@ -98,3 +91,14 @@ class TypeData {
 
   TypeData({required this.icon, required this.value, required this.type});
 }
+
+ListPerSon fakeDataListPerson() {
+  ListPerSon fakeDataListPersona = ListPerSon(
+      tongSoNguoi: 0,
+      soNguoiDongY: 0,
+      soNguoiChoXacNhan: 0,
+      listPerson: listFake);
+  return fakeDataListPersona;
+}
+
+List<Person> listFake = [];

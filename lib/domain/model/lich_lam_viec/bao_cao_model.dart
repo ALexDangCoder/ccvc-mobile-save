@@ -5,6 +5,9 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 enum BaoCaoStatus { TRUNG_BINH, DAT, KHONG_DAT }
+const _TRUNG_BINH = 'trung-binh';
+const _DAT = 'dat';
+const _KHONG_DAT = 'khong-dat';
 
 extension BaoCao on BaoCaoStatus {
   StatusText getText() {
@@ -29,11 +32,35 @@ class StatusText {
 class BaoCaoModel {
   BaoCaoStatus status;
   String content = '';
-  List<File> listFile = [];
-
+  List<FileModel> listFile = [];
+  String reportStatusCode;
+  String id;
   BaoCaoModel({
-    required this.status,
+    this.status = BaoCaoStatus.TRUNG_BINH,
     required this.content,
     required this.listFile,
-  });
+    this.reportStatusCode = '',
+    this.id = '',
+  }) {
+    status = fromEnum();
+  }
+  BaoCaoStatus fromEnum() {
+    {
+      switch (reportStatusCode) {
+        case _TRUNG_BINH:
+          return BaoCaoStatus.TRUNG_BINH;
+        case _DAT:
+          return BaoCaoStatus.DAT;
+        case _KHONG_DAT:
+          return BaoCaoStatus.KHONG_DAT;
+      }
+      return BaoCaoStatus.TRUNG_BINH;
+    }
+  }
+}
+
+class FileModel {
+  String? id;
+  String? name;
+  FileModel({this.id, this.name});
 }

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/nhiem_vu/danh_sach_cong_viec_model.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/widget/nhiem_vu_item_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _ListDanhSachCongViecState extends State<ListDanhSachCongViec> {
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
           color: bgQLVBTablet,
-          padding: const EdgeInsets.fromLTRB(30, 60, 30, 20),
+          padding: const EdgeInsets.fromLTRB(30, 60, 30,0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -46,7 +47,13 @@ class _ListDanhSachCongViecState extends State<ListDanhSachCongViec> {
                 itemBuilder: (context, index) {
                   return  NhiemVuCellTablet(
                     onTap: () {
-
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                          const ChiTietNhiemVuTabletScreen(),
+                        ),
+                      );
                     },
                     title: widget.list[index].title??'',
                     noiDung: widget.list[index].noiDung??'',

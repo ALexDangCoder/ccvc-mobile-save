@@ -15,9 +15,6 @@ class DanhSachVBDiResponse {
       _$DanhSachVBDiResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DanhSachVBDiResponseToJson(this);
-
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
@@ -34,18 +31,16 @@ class DataResponseVBDi {
 
   Map<String, dynamic> toJson() => _$DataResponseVBDiToJson(this);
 
-  DanhSachVanBanDiModel toDomain() => DanhSachVanBanDiModel(
+  DanhSachVanBanModel toDomain() => DanhSachVanBanModel(
         pageData: pageData
-            .map((e) => VanBanDiModel(
+            .map((e) => VanBanModel(
+                iD:e.iD,
                 doKhan: e.doKhan,
                 loaiVanBan: e.loaiVanBan,
-                ngayTao: e.ngayDen,
-                nguoiSoanThao: e.nguoiSoanThao))
+                ngayDen: e.ngayDen,
+                nguoiSoanThao: e.nguoiSoanThao,),)
             .toList(),
       );
-
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
@@ -56,11 +51,13 @@ class PageDataResponseVBDi {
   String? loaiVanBan;
   @JsonKey(name: 'NgayTao')
   String? ngayDen;
-  @JsonKey(name: 'ChuTri')
+  @JsonKey(name: 'NguoiSoanThao')
   String? nguoiSoanThao;
+  @JsonKey(name: 'Id')
+  String? iD;
 
   PageDataResponseVBDi(
-      this.doKhan, this.loaiVanBan, this.ngayDen, this.nguoiSoanThao);
+      this.iD,this.doKhan, this.loaiVanBan, this.ngayDen, this.nguoiSoanThao,);
 
   factory PageDataResponseVBDi.fromJson(Map<String, dynamic> json) =>
       _$PageDataResponseVBDiFromJson(json);
@@ -72,8 +69,6 @@ class PageDataResponseVBDi {
         loaiVanBan: loaiVanBan,
         doKhan: doKhan,
         ngayDen: ngayDen,
+        iD: iD,
       );
-
-  @override
-  List<Object?> get props => [];
 }

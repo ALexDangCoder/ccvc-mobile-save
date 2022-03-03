@@ -157,7 +157,7 @@ class DepartmentsResponse {
   @override
   List<Object?> get props => throw [];
 
-  Departments toModel() => Departments(
+  DepartmentsModel toModel() => DepartmentsModel(
         id: id,
         chucVuId: chucVuId,
         tenChucVu: tenChucVu,

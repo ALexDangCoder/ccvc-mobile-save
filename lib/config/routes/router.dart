@@ -55,7 +55,7 @@ class PageTransition<T> extends PageRouteBuilder<T> {
         ),
         super(
           pageBuilder: (BuildContext context, Animation<double> animation,
-              Animation<double> secondaryAnimation) {
+              Animation<double> secondaryAnimation,) {
             return inheritTheme
                 ? InheritedTheme.captureAll(
                     ctx!,
@@ -70,7 +70,7 @@ class PageTransition<T> extends PageRouteBuilder<T> {
           transitionsBuilder: (BuildContext context,
               Animation<double> animation,
               Animation<double> secondaryAnimation,
-              Widget child) {
+              Widget child,) {
             switch (type) {
               case PageTransitionType.FADE:
                 return FadeTransition(opacity: animation, child: child);

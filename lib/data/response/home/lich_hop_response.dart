@@ -52,16 +52,7 @@ class Data {
     totalPage = json['totalPage'];
   }
   List<CalendarMeetingModel> toDomain() {
-    final List<CalendarMeetingModel> listCalendarMeeting = [];
-    int index = 0;
-    for (final vl in items ?? <Items>[]) {
-      listCalendarMeeting.add(vl.toDomain());
-      index++;
-      if (index == 20) {
-        return listCalendarMeeting;
-      }
-    }
-    return listCalendarMeeting;
+    return items?.map((e) => e.toDomain()).toList() ?? [];
   }
 }
 
@@ -163,13 +154,13 @@ class Items {
         : null;
   }
   CalendarMeetingModel toDomain() => CalendarMeetingModel(
-        title: title ?? '',
-        nguoiChuTri: canBoChuTriInfo?.hoTen ?? '',
-        dataTimeFrom: dateTimeFrom ?? DateTime.now().toString(),
-        dateTimeTo: dateTimeTo ?? DateTime.now().toString(),
-        timeFrom: timeStart ?? '',
-        timeTo: timeTo ?? '',
-      );
+      title: title ?? '',
+      nguoiChuTri: canBoChuTriInfo?.hoTen ?? '',
+      dataTimeFrom: dateTimeFrom ?? DateTime.now().toString(),
+      dateTimeTo: dateTimeTo ?? DateTime.now().toString(),
+      timeFrom: timeStart ?? '',
+      timeTo: timeTo ?? '',
+      isHopTrucTuyen: bitHopTrucTuyen ?? false);
 }
 
 class CanBoChuTriInfo {

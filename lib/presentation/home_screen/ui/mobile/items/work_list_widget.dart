@@ -42,6 +42,11 @@ class _WorkListWidgetState extends State<WorkListWidget> {
     // TODO: implement initState
     super.initState();
     danhSachCVCubit.getToDoList();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        danhSachCVCubit.getToDoList();
+      });
+    });
   }
 
   @override
@@ -54,6 +59,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      isCustomDialog: true,
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         customDialog: AddToDoWidget(

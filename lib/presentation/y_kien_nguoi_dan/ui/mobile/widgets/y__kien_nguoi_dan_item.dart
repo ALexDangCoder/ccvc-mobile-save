@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class YKienNguoiDanCell extends StatelessWidget {
   final String title;
@@ -8,12 +10,14 @@ class YKienNguoiDanCell extends StatelessWidget {
   final String userImage;
   final String userName;
   final String status;
+  final Color stausColor;
   final Function onTap;
 
   const YKienNguoiDanCell({
     Key? key,
     required this.title,
     required this.dateTime,
+    required this.stausColor,
     required this.userImage,
     required this.userName,
     required this.status,
@@ -111,11 +115,13 @@ class YKienNguoiDanCell extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                width: 101.0,
-                                height: 24.0,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.0),
-                                  color: textColorForum,
+                                  color: stausColor,
                                 ),
                                 child: Center(
                                   child: Text(

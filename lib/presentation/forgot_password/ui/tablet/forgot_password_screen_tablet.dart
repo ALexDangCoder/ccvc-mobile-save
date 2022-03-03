@@ -28,7 +28,6 @@ class _ForgotPassWordScreenTabletState
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,20 +62,20 @@ class _ForgotPassWordScreenTabletState
                     obscureText: cubit.isCheckEye,
                     suffixIcon: cubit.isHideEye
                         ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {});
-                            cubit.isCheckEye = !cubit.isCheckEye;
-                          },
-                          child: cubit.isCheckEye
-                              ? SvgPicture.asset(ImageAssets.imgViewHide)
-                              : SvgPicture.asset(ImageAssets.imgView),
-                        ),
-                      ),
-                    )
+                            width: 20,
+                            height: 20,
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {});
+                                  cubit.isCheckEye = !cubit.isCheckEye;
+                                },
+                                child: cubit.isCheckEye
+                                    ? SvgPicture.asset(ImageAssets.imgView)
+                                    : SvgPicture.asset(ImageAssets.imgViewHide),
+                              ),
+                            ),
+                          )
                         : const SizedBox(),
                     hintText: S.current.mat_khau_hien_tai,
                     prefixIcon: SizedBox(
@@ -105,20 +104,20 @@ class _ForgotPassWordScreenTabletState
                     obscureText: cubit.isCheckEye1,
                     suffixIcon: cubit.isHideEye1
                         ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {});
-                            cubit.isCheckEye1 = !cubit.isCheckEye1;
-                          },
-                          child: cubit.isCheckEye1
-                              ? SvgPicture.asset(ImageAssets.imgViewHide)
-                              : SvgPicture.asset(ImageAssets.imgView),
-                        ),
-                      ),
-                    )
+                            width: 20,
+                            height: 20,
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {});
+                                  cubit.isCheckEye1 = !cubit.isCheckEye1;
+                                },
+                                child: cubit.isCheckEye1
+                                    ? SvgPicture.asset(ImageAssets.imgView)
+                                    : SvgPicture.asset(ImageAssets.imgViewHide),
+                              ),
+                            ),
+                          )
                         : const SizedBox(),
                     hintText: S.current.mat_khau_moi,
                     prefixIcon: SizedBox(
@@ -147,20 +146,20 @@ class _ForgotPassWordScreenTabletState
                     obscureText: cubit.isCheckEye2,
                     suffixIcon: cubit.isHideEye2
                         ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {});
-                            cubit.isCheckEye2 = !cubit.isCheckEye2;
-                          },
-                          child: cubit.isCheckEye2
-                              ? SvgPicture.asset(ImageAssets.imgViewHide)
-                              : SvgPicture.asset(ImageAssets.imgView),
-                        ),
-                      ),
-                    )
+                            width: 20,
+                            height: 20,
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {});
+                                  cubit.isCheckEye2 = !cubit.isCheckEye2;
+                                },
+                                child: cubit.isCheckEye2
+                                    ? SvgPicture.asset(ImageAssets.imgView)
+                                    : SvgPicture.asset(ImageAssets.imgViewHide),
+                              ),
+                            ),
+                          )
                         : const SizedBox(),
                     hintText: S.current.nhap_lai_mat_khau,
                     prefixIcon: SizedBox(

@@ -42,7 +42,7 @@ class _SuaLichCongTacTrongNuocPhoneState
       child: Container(
         height: MediaQuery.of(context).size.height * 0.85,
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all( 16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -97,15 +97,20 @@ class _SuaLichCongTacTrongNuocPhoneState
                           hint: S.current.lich_cong_tac_trong_nuoc,
                         ),
                       ),
-                      const LoaiLichWidget(),
+                      LoaiLichWidget(
+                        taoLichLamViecCubit: taoLichLamViecCubit,
+                      ),
                       const SearchNameWidget(),
                       StartEndDateWidget(
                         onEndDateTimeChanged: (DateTime value) {},
                         onStartDateTimeChanged: (DateTime value) {},
                       ),
                       const NhacLaiWidget(),
-                      const NguoiChuTriWidget(),
-                      const LinhVucWidget(),
+                      NguoiChuTriWidget(
+                          taoLichLamViecCubit: taoLichLamViecCubit),
+                      LinhVucWidget(
+                        taoLichLamViecCubit: taoLichLamViecCubit,
+                      ),
                       TextFormWidget(
                         image: ImageAssets.icViTri,
                         hint: S.current.ubnd_tinh_dong_nai,
@@ -119,8 +124,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                       ),
                       ButtonSelectFile(
                         title: S.current.tai_lieu_dinh_kem,
-                        onChange: (List<File> files) {
-                        },
+                        onChange: (List<File> files) {},
                         files: const [],
                       ),
                       ThanhPhanThamGiaWidget(
@@ -144,15 +148,17 @@ class _SuaLichCongTacTrongNuocPhoneState
                       onTap: () {},
                     ),
                   ),
-
-                  const SizedBox(width: 16,),
-
+                  const SizedBox(
+                    width: 16,
+                  ),
                   Expanded(
-                      child: btnSuaLich(
-                          name: S.current.luu,
-                          bgr: labelColor,
-                          colorName: Colors.white,
-                          onTap: () {},),)
+                    child: btnSuaLich(
+                      name: S.current.luu,
+                      bgr: labelColor,
+                      colorName: Colors.white,
+                      onTap: () {},
+                    ),
+                  )
                 ],
               ),
             ],

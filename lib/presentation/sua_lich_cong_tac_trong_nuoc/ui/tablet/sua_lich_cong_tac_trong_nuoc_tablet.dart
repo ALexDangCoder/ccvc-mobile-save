@@ -92,15 +92,15 @@ class _SuaLichCongTacTrongNuocTabletState extends State<SuaLichCongTacTrongNuocT
                                 hint: S.current.lich_cong_tac_trong_nuoc,
                               ),
                             ),
-                            const LoaiLichWidget(),
+                            LoaiLichWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
                             const SearchNameWidget(),
                             StartEndDateWidget(
                               onEndDateTimeChanged: (DateTime value) {},
                               onStartDateTimeChanged: (DateTime value) {},
                             ),
                             const NhacLaiWidget(),
-                            const NguoiChuTriWidget(),
-                            const LinhVucWidget(),
+                            NguoiChuTriWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
+                             LinhVucWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
                             TextFormWidget(
                               image: ImageAssets.icViTri,
                               hint: S.current.ubnd_tinh_dong_nai,

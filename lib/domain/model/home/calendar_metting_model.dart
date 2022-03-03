@@ -1,12 +1,15 @@
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 
+const _CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
+const _DANG_THUC_HIEN = 'DANG_THUC_HIEN';
+
 class CalendarMeetingModel {
   final String title;
   final String time;
   final String address;
   final String nguoiChuTri;
-  final DocumentStatus codeStatus;
+  DocumentStatus codeStatus;
   final String loaiNhiemVu;
   final String hanXuLy;
   final String id;
@@ -15,6 +18,7 @@ class CalendarMeetingModel {
   final String dateTimeTo;
   final String timeFrom;
   final String timeTo;
+  final bool isHopTrucTuyen;
   CalendarMeetingModel(
       {this.title = '',
       this.time = '',
@@ -28,7 +32,11 @@ class CalendarMeetingModel {
       this.dataTimeFrom = '',
       this.dateTimeTo = '',
       this.timeFrom = '',
-      this.timeTo = ''});
+      this.timeTo = '',
+      this.isHopTrucTuyen = false
+      }) {
+    codeStatus = fromEnum();
+  }
 
   String convertTime() {
     String time = '';
@@ -44,5 +52,15 @@ class CalendarMeetingModel {
       return '';
     }
     return time;
+  }
+
+  DocumentStatus fromEnum() {
+    switch (maTrangThai) {
+      case _CHUA_THUC_HIEN:
+        return DocumentStatus.CHUA_THUC_HIEN;
+      case _DANG_THUC_HIEN:
+        return DocumentStatus.DANG_THUC_HIEN;
+    }
+    return DocumentStatus.CHO_PHAN_XU_LY;
   }
 }

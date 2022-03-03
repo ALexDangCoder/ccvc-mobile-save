@@ -87,6 +87,19 @@ extension DocumentStatusEx on DocumentStatus {
         return S.current.tham_gia;
       case DocumentStatus.CHO_PHAN_XU_LY:
         return S.current.cho_phan_xu_ly;
+      case DocumentStatus.HOA_TOC:
+        return S.current.hoa_toc;
+
+      case DocumentStatus.KHAN:
+        return S.current.khan;
+      case DocumentStatus.BINH_THUONG:
+        return S.current.binh_thuong;
+      case DocumentStatus.THUONG_KHAN:
+        return S.current.thuong_khan;
+      case DocumentStatus.CHUA_THUC_HIEN:
+        return S.current.chua_thuc_hien;
+      case DocumentStatus.DANG_THUC_HIEN:
+        return S.current.dang_thuc_hien;
     }
   }
 
@@ -106,6 +119,18 @@ extension DocumentStatusEx on DocumentStatus {
         return itemWidgetUsing;
       case DocumentStatus.CHO_PHAN_XU_LY:
         return choXuLyColor;
+      case DocumentStatus.HOA_TOC:
+        return statusCalenderRed;
+      case DocumentStatus.KHAN:
+        return yellowColor;
+      case DocumentStatus.BINH_THUONG:
+        return indicatorColor;
+      case DocumentStatus.THUONG_KHAN:
+        return yellowColor;
+      case DocumentStatus.CHUA_THUC_HIEN:
+        return yellowColor;
+      case DocumentStatus.DANG_THUC_HIEN:
+        return AqiColor;
     }
   }
 }

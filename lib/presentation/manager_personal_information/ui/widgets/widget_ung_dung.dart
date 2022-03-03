@@ -32,6 +32,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
               padding: const EdgeInsets.only(bottom: 16),
               child: ListView.builder(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: widget.cubit.managerPersonalInformationModel
                         .userAccounts?.length ??
                     0,
@@ -56,7 +57,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                           Expanded(
                             flex: 6,
                             child: Text(
-                              '0',
+                              '${index + 1}',
                               style: textDetailHDSD(
                                 fontSize: 16.0,
                                 color: titleCalenderWork,
@@ -125,6 +126,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                             flex: 6,
                             child: ListView.builder(
                               shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: widget
                                       .cubit
                                       .managerPersonalInformationModel
@@ -144,8 +146,9 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                                   style: textDetailHDSD(
                                     fontSize: 16.0,
                                     color: titleCalenderWork,
+                                    textHeight: 2.5,
                                   ),
-                                  maxLines: 3,
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 );
                               },
@@ -173,7 +176,6 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                spaceH10,
                                 Container(
                                   padding: const EdgeInsets.only(
                                     left: 8,

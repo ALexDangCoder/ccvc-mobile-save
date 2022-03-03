@@ -13,7 +13,7 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
   final Size preferredSize;
   final Widget? leadingIcon;
   final String title;
-
+  final Color? backGroundColorTablet;
   final List<Widget>? actions;
 
   AppBarWithTwoLeading({
@@ -21,6 +21,7 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
     required this.title,
     this.leadingIcon,
     this.actions,
+    this.backGroundColorTablet,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -30,7 +31,7 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
       ),
-      backgroundColor: backgroundColorApp,
+      backgroundColor: backGroundColorTablet ?? backgroundColorApp,
       bottomOpacity: 0.0,
       leadingWidth: 100,
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,

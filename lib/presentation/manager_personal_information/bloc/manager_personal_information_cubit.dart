@@ -2,12 +2,16 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
+import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
+import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
-import 'package:ccvc_mobile/domain/model/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
-import 'package:ccvc_mobile/domain/repository/manager_repository.dart';
-import 'package:ccvc_mobile/domain/repository/tinh_huyen_xa_repository.dart';
+import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -22,18 +26,19 @@ class ManagerPersonalInformationCubit
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;
+  EditPersonInformationRequest editPersonInformationRequest =
+      EditPersonInformationRequest();
 
 //tinh huyen sss
   BehaviorSubject<List<TinhHuyenXaModel>> tinhSubject = BehaviorSubject.seeded(
     [],
   );
+
   List<TinhHuyenXaModel> tinhModel = [];
 
   Stream<List<TinhHuyenXaModel>> get tinhStream => tinhSubject.stream;
 
-  ManagerRepository get _managerRepo => Get.find();
-
-  TinhHuyenXaRepository get _tinhHuyenXaRepo => Get.find();
+  AccountRepository get _managerRepo => Get.find();
 
   //
   ManagerPersonalInformationModel managerPersonalInformationModel =
@@ -46,6 +51,18 @@ class ManagerPersonalInformationCubit
     result.when(
       success: (res) {
         managerPersonalInformationModel = res;
+        if (res.tinhId != null) {
+          getDataHuyenXa(
+            parentId: res.tinhId ?? '',
+            isXa: false,
+          );
+        }
+        if (res.huyenId != null) {
+          getDataHuyenXa(
+            isXa: true,
+            parentId: res.huyenId ?? '',
+          );
+        }
         managerPersonSubject.sink.add(managerPersonalInformationModel);
       },
       error: (error) {},
@@ -53,7 +70,7 @@ class ManagerPersonalInformationCubit
   }
 
   Future<void> getDataTinh() async {
-    final result = await _tinhHuyenXaRepo.getData();
+    final result = await _managerRepo.getData();
     result.when(
       success: (res) {
         tinhModel = res;
@@ -79,7 +96,7 @@ class ManagerPersonalInformationCubit
     String parentId = '',
     required bool isXa,
   }) async {
-    final result = await _tinhHuyenXaRepo.getDataChild(parentId);
+    final result = await _managerRepo.getDataChild(parentId);
     result.when(
       success: (res) {
         if (isXa) {
@@ -91,6 +108,85 @@ class ManagerPersonalInformationCubit
         }
       },
       error: (error) {},
+    );
+  }
+
+  //
+  DataEditPersonInformation dataEditPersonInformation =
+      DataEditPersonInformation();
+  BehaviorSubject<DataEditPersonInformation> dataEditSubject =
+      BehaviorSubject();
+
+  Future<void> getEditPerson({
+    String id = '',
+    String maCanBo = '',
+    String name = '',
+    String sdtCoQuan = '',
+    String sdt = '',
+    String email = '',
+    bool gioitinh = true,
+    String ngaySinh = '',
+    String cmnt = '',
+    String diaChiLienHe = '',
+    DonViDetail? donViDetail,
+    int thuTu = 0,
+    String tinh = '',
+    String huyen = '',
+    String xa = '',
+  }) async {
+    final EditPersonInformationRequest editPerson =
+        EditPersonInformationRequest(
+      id: id,
+      maCanBo: maCanBo,
+      hoTen: name,
+      phoneDiDong: '',
+      phoneCoQuan: sdtCoQuan,
+      phoneNhaRieng: sdt,
+      email: email,
+      gioiTinh: gioitinh,
+      ngaySinh: DateTime.parse(ngaySinh).formatApiSS,
+      userName: '',
+      userId: '',
+      iDDonViHoatDong: '',
+      cmtnd: cmnt,
+      anhDaiDienFilePath: '',
+      anhChuKyFilePath: '',
+      anhChuKyNhayFilePath: '',
+      bitChuyenCongTac: true,
+      thoiGianCapNhat: '',
+      bitNhanTinBuonEmail: true,
+      bitNhanTinBuonSMS: true,
+      bitDanhBa: true,
+      chucVu: '',
+      donVi: '',
+      bitThuTruongDonVi: true,
+      bitDauMoiPAKN: true,
+      diaChi: diaChiLienHe,
+      donViDetail: donViDetail,
+      chucVuDetail: '',
+      nhomChucVuDetail: '',
+      thuTu: thuTu,
+      iThuTu: 0,
+      tinh: tinh,
+      huyen: huyen,
+      xa: xa,
+      tinhId: '',
+      huyenId: '',
+      xaId: '',
+      departments: editPersonInformationRequest.departments,
+      userAccounts: editPersonInformationRequest.userAccounts,
+      lsCanBoKiemNhiemResponse: [],
+    );
+    final result = await _managerRepo.getEditPerson(editPerson);
+    result.when(
+      success: (res) {
+        dataEditPersonInformation = res;
+        dataEditSubject.sink.add(dataEditPersonInformation);
+        MessageConfig.show(title: S.current.sua_thanh_cong);
+      },
+      error: (error) {
+        MessageConfig.show(title: S.current.sua_that_bai);
+      },
     );
   }
 
@@ -135,7 +231,6 @@ class ManagerPersonalInformationCubit
     ManagerPersonalInformationModel managerPersonalInformationModel,
   ) async {
     this.managerPersonalInformationModel = managerPersonalInformationModel;
-    ngaySinh = managerPersonalInformationModel.ngaySinh ?? '';
     gioiTinh = managerPersonalInformationModel.gioiTinh ?? false;
     tinh = managerPersonalInformationModel.tinh ?? '';
     huyen = managerPersonalInformationModel.huyen ?? '';
@@ -162,8 +257,6 @@ class ManagerPersonalInformationCubit
   }
 
   Future<void> uploadImage({required File xFile}) async {
-    // File file = File();
-
     saveFile.sink.add(xFile);
   }
 
@@ -186,27 +279,6 @@ class ManagerPersonalInformationCubit
   List<String> fakeDataGioiTinh = [
     'Nam',
     'Nữ',
-  ];
-
-  List<String> fakeDataTinh = [
-    'hà nôi',
-    'lam loi',
-    'phú tho',
-    'hà nam',
-    'an giang',
-    'phúc thọ',
-    'bình thuận',
-    'phú mỹ',
-  ];
-  List<String> fakeDataHuyen = [
-    'hà nôi',
-    'lam loi',
-    'phú tho',
-    'hà nam',
-    'an giang',
-    'phúc thọ',
-    'bình thuận',
-    'phú mỹ',
   ];
 
   void dispose() {

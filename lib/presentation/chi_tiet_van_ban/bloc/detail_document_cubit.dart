@@ -1,13 +1,29 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
+import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
+import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
+import 'package:get/get.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
-import 'datai_doccument_state.dart';
+import 'detai_doccument_state.dart';
 import 'package:file_picker/file_picker.dart';
 
 class DetailDocumentCubit extends BaseCubit<DetailDocumentState> {
   DetailDocumentCubit() : super(DetailDocumentInitial());
+  bool expanded = false;
+  bool expanded2 = false;
+  bool expanded3 = false;
+  bool expanded4 = false;
+  bool expanded5 = false;
+  bool expanded6 = false;
+
+  final QLVBRepository _QLVBRepo = Get.find();
 
   BehaviorSubject<DetailDocumentModel> detailDocumentSubject =
       BehaviorSubject<DetailDocumentModel>();
@@ -37,6 +53,49 @@ class DetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
   Stream<HistoryProcessPage> get screenJobProfilesStream =>
       _subjectJobPriliesProcess.stream;
+
+  //chi tiet van ban di
+  BehaviorSubject<ChiTietVanBanDiModel> chiTietVanBanDiSubject =
+      BehaviorSubject();
+  ChiTietVanBanDiModel chiTietVanBanDiModel = ChiTietVanBanDiModel();
+  //chi tiet van ban den
+  BehaviorSubject<ChiTietVanBanDenModel> chiTietVanBanDenSubject =
+  BehaviorSubject();
+  ChiTietVanBanDenModel chiTietVanBanDenModel = ChiTietVanBanDenModel();
+
+  final BehaviorSubject<WidgetType?> _showDialogSetting =
+  BehaviorSubject<WidgetType?>();
+
+  Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
+  Future<void> loadDataVanBanDen({required String processId, required String taskId,}) async {
+    final queue = Queue(parallel: 1);
+    unawaited(queue.add(() => getChiTietVanBanDen(processId,taskId)));
+
+    await queue.onComplete;
+    showContent();
+    queue.dispose();
+  }
+
+  Future<void> getChiTietVanBanDi(String id) async {
+    final result = await _QLVBRepo.getDataChiTietVanBanDi(id);
+    result.when(
+      success: (res) {
+        chiTietVanBanDiModel = res;
+        chiTietVanBanDiSubject.sink.add(chiTietVanBanDiModel);
+      },
+      error: (error) {},
+    );
+  }
+  Future<void> getChiTietVanBanDen(String processId, String taskId,) async {
+    final result = await _QLVBRepo.getDataChiTietVanBanDen(processId,taskId,false);
+    result.when(
+      success: (res) {
+        chiTietVanBanDenModel = res;
+        chiTietVanBanDenSubject.sink.add(chiTietVanBanDenModel);
+      },
+      error: (error) {},
+    );
+  }
 
   DetailDocumentModel detailDocumentModel = DetailDocumentModel(
       soVanBan: 'M123',

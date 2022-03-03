@@ -55,9 +55,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
             child: Stack(
               children: [
                 Container(
-                  padding:  EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     left: widget.paddingLeft ?? 8,
-                    right: widget.paddingRight??24,
+                    right: widget.paddingRight ?? 24,
                     top: widget.paddingTop ?? 2,
                     bottom: widget.paddingBottom ?? 2,
                   ),
@@ -90,8 +90,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
                               setState(() {
                                 widget.value = value;
                               });
-                              // final index = widget.items.indexOf(value ?? '');
-                              // widget.onSelectItem!(index);
+
+                              final index = widget.items.indexOf(value ?? '');
+                              widget.onSelectItem!(index);
                             }
                           },
                           items: widget.items.isNotEmpty
@@ -111,14 +112,15 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                 }).toList()
                               : [
                                   DropdownMenuItemWidget(
-                                      value: S.current.danh_sach_rong,
-                                      child: Text(
-                                        S.current.danh_sach_rong,
-                                        style: tokenDetailAmount(
-                                          fontSize: 14.0.textScale(),
-                                          color: titleColor,
-                                        ),
-                                      ))
+                                    value: S.current.danh_sach_rong,
+                                    child: Text(
+                                      S.current.danh_sach_rong,
+                                      style: tokenDetailAmount(
+                                        fontSize: 14.0.textScale(),
+                                        color: titleColor,
+                                      ),
+                                    ),
+                                  )
                                 ],
                         ),
                     ],

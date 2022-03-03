@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/thong_bao_screen_ta
 
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,7 +45,6 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
     );
     super.initState();
     homeCubit.loadApi();
-
   }
 
   @override
@@ -58,115 +59,131 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
   Widget build(BuildContext context) {
     return HomeProvider(
       homeCubit: homeCubit,
-      child: Scaffold(
-        backgroundColor: bgTabletColor,
-        appBar: AppBarWidget(
-          leading: const Icon(
-            Icons.menu,
-            size: 26,
-            color: backgroundColorApp,
-          ),
-          title: S.current.home,
-          acction: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SearchScreenTablet(),
-                  ),
-                );
-              },
-              child: SvgPicture.asset(ImageAssets.icSearchWhite),
+      controller: scrollController,
+      child: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException('', S.current.something_went_wrong),
+        stream: homeCubit.stateStream,
+        child: Scaffold(
+          backgroundColor: bgTabletColor,
+          appBar: AppBarWidget(
+            leading: const Icon(
+              Icons.menu,
+              size: 26,
+              color: backgroundColorApp,
             ),
-            const SizedBox(
-              width: 31,
-            ),
-            GestureDetector(
-              onTap: () {
-                DrawerSlide.navigatorSlide(
-                  context: context,
-                  screen: const ThongBaoScreenTablet(),
-                  isLeft: false,
-                );
-              },
-              child: const ThongBaoWidget(
-                sum: 19,
+            title: S.current.home,
+            acction: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreenTablet(),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(ImageAssets.icSearchWhite),
               ),
-            )
-          ],
-        ),
-        body: SizedBox.expand(
-          child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            physics: const ClampingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            ),
-            child: Column(
-              children: [
-                const HeaderTabletWidget(),
-                StreamBuilder<List<WidgetModel>>(
-                  stream: homeCubit.getConfigWidget,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <WidgetModel>[];
-                    if (data.isNotEmpty) {
-                      return StaggeredGridView.countBuilder(
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final int count = data.length;
-                          final Animation<double> animation =
-                              Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                              parent: animationController,
-                              curve: Interval(
-                                (1 / count) * index,
-                                1.0,
-                                curve: Curves.fastOutSlowIn,
-                              ),
-                            ),
-                          );
-                          if (animationController.status ==
-                              AnimationStatus.dismissed) {
-                            animationController.forward();
-                          }
-                          final type = data[index];
-                          return AnimatedBuilder(
-                            animation: animationController,
-                            builder: (context, _) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: Transform(
-                                  transform: Matrix4.translationValues(
-                                    0.0,
-                                    100 * (1.0 - animation.value),
-                                    0.0,
+              const SizedBox(
+                width: 31,
+              ),
+              GestureDetector(
+                onTap: () {
+                  DrawerSlide.navigatorSlide(
+                    context: context,
+                    screen: const ThongBaoScreenTablet(),
+                    isLeft: false,
+                  );
+                },
+                child: const ThongBaoWidget(
+                  sum: 19,
+                ),
+              )
+            ],
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await homeCubit.refreshData();
+            },
+            child: SizedBox.expand(
+              child: SingleChildScrollView(
+                controller: scrollController,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const ClampingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                child: Column(
+                  children: [
+                    const HeaderTabletWidget(),
+                    StreamBuilder<List<WidgetModel>>(
+                      stream: homeCubit.getConfigWidget,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? <WidgetModel>[];
+                        if (data.isNotEmpty) {
+                          return StaggeredGridView.countBuilder(
+                            crossAxisCount: 2,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final int count = data.length;
+                              final Animation<double> animation =
+                                  Tween<double>(begin: 0.0, end: 1.0).animate(
+                                CurvedAnimation(
+                                  parent: animationController,
+                                  curve: Interval(
+                                    (1 / count) * index,
+                                    1.0,
+                                    curve: Curves.fastOutSlowIn,
                                   ),
-                                  child: type.widgetType?.getItemsTablet() ??
-                                      const SizedBox(),
                                 ),
                               );
+                              if (animationController.status ==
+                                  AnimationStatus.dismissed) {
+                                animationController.forward();
+                              }
+                              final type = data[index];
+                              return AnimatedBuilder(
+                                animation: animationController,
+                                builder: (context, _) {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: Transform(
+                                      transform: Matrix4.translationValues(
+                                        0.0,
+                                        100 * (1.0 - animation.value),
+                                        0.0,
+                                      ),
+                                      child:
+                                          type.widgetType?.getItemsTablet() ??
+                                              const SizedBox(),
+                                    ),
+                                  );
+                                },
+                              );
                             },
+                            staggeredTileBuilder: (int index) {
+                              final type = data[index];
+                              if (type.widgetType ==
+                                  WidgetType.wordProcessState) {
+                                return const StaggeredTile.fit(2);
+                              }
+                              return const StaggeredTile.fit(1);
+                            },
+                            mainAxisSpacing: 28,
+                            crossAxisSpacing: 28,
                           );
-                        },
-                        staggeredTileBuilder: (int index) {
-                          final type = data[index];
-                          if (type.widgetType == WidgetType.wordProcessState) {
-                            return const StaggeredTile.fit(2);
-                          }
-                          return const StaggeredTile.fit(1);
-                        },
-                        mainAxisSpacing: 28,
-                        crossAxisSpacing: 28,
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                )
-              ],
+                        }
+                        return const SizedBox();
+                      },
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),

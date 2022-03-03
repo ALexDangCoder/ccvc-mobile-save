@@ -1,5 +1,8 @@
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-
+const _HOA_TOC = 'HoaToc';
+const _THUONG_KHAN = 'ThuongKhan';
+const _KHAN = 'Khan';
+const _BINH_THUONG = 'BinhThuong';
 class DocumentModel {
   final String id;
   final String kyHieu;
@@ -29,6 +32,14 @@ class DocumentModel {
         return DocumentStatus.CHO_TIEP_NHAN;
       case THAM_GIA:
         return DocumentStatus.THAM_GIA;
+      case _BINH_THUONG:
+        return DocumentStatus.BINH_THUONG;
+      case _KHAN:
+        return DocumentStatus.KHAN;
+      case _THUONG_KHAN:
+       return DocumentStatus.THUONG_KHAN;
+      case _HOA_TOC:
+        return DocumentStatus.HOA_TOC;
     }
     return DocumentStatus.THAM_GIA;
   }

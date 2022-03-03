@@ -62,12 +62,11 @@ class HeaderMenuWidget extends StatelessWidget {
                     child: data?.anhDaiDienFilePath == null
                         ? const SizedBox()
                         : CachedNetworkImage(
-                            imageUrl: data?.anhDaiDienFilePath ?? '',
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) {
-                              return const SizedBox();
-                            },
-                          ),
+                      imageUrl: data?.anhDaiDienFilePath ?? '',
+                      errorWidget: (context, url, error) => Container(
+                          color: Colors.black,
+                          child: Image.asset(ImageAssets.anhDaiDienMacDinh)),
+                    ),
                   ),
                 ),
               ),

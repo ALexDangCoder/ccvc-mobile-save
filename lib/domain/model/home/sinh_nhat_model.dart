@@ -1,0 +1,39 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+
+enum GioiTinh { Nam, Nu }
+
+class SinhNhatUserModel {
+  final String canBoId;
+  final String ngaySinh;
+  final String tenCanBo;
+  final String gioiTinh;
+  GioiTinh gioiTinhEnum = GioiTinh.Nam;
+  SinhNhatUserModel({
+    this.canBoId = '',
+    this.ngaySinh = '',
+    this.tenCanBo = '',
+    this.gioiTinh = '',
+  }) {
+    gioiTinhEnum = fromEnum();
+  }
+  String title() {
+    String title = '';
+    if (gioiTinhEnum == GioiTinh.Nam) {
+      title = '${S.current.birthday} ${S.current.ong}';
+    } else {
+      title = '${S.current.birthday} ${S.current.ba}';
+    }
+    return '$title $tenCanBo - ($ngaySinh)';
+  }
+
+  GioiTinh fromEnum() {
+    switch (gioiTinh.toLowerCase().vietNameseParse()) {
+      case 'nam':
+        return GioiTinh.Nam;
+      case 'nu':
+        return GioiTinh.Nu;
+    }
+    return GioiTinh.Nam;
+  }
+}

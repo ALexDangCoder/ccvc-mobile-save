@@ -20,10 +20,10 @@ class OutgoingDocumentCubit extends BaseCubit<IncomingDocumentState> {
   Stream<List<VanBanModel>> get getListVbDi => _getListVBDi.stream;
 
 
-  final BehaviorSubject<List<VanBanDiModel>> _getDanhSachVBDi =
-      BehaviorSubject<List<VanBanDiModel>>();
+  final BehaviorSubject<List<VanBanModel>> _getDanhSachVBDi =
+      BehaviorSubject<List<VanBanModel>>();
 
-  Stream<List<VanBanDiModel>> get getDanhSachVbDi => _getDanhSachVBDi.stream;
+  Stream<List<VanBanModel>> get getDanhSachVbDi => _getDanhSachVBDi.stream;
 
   void callAPi() async{
     final queue = Queue(parallel: 1);
@@ -52,12 +52,13 @@ class OutgoingDocumentCubit extends BaseCubit<IncomingDocumentState> {
     required int index,
     required int size,
   }) async {
-    List<VanBanDiModel> listVbDi = [];
+    List<VanBanModel> listVbDi = [];
     final result =
         await _QLVBRepo.getDanhSachVbDi(startDate, endDate, index, size);
     result.when(
       success: (res) {
         listVbDi=res.pageData??[];
+
         _getDanhSachVBDi.sink.add(listVbDi);
 
       },
@@ -67,31 +68,4 @@ class OutgoingDocumentCubit extends BaseCubit<IncomingDocumentState> {
     );
   }
 
-  List<OutgoingDocument> listIncomingDocument = [
-    OutgoingDocument(
-        'Thượng khẩn',
-        'V/v kết nối, liên thông phần mềm QLVB drtgdfgdf',
-        '2022-01-11T00:00:00',
-        'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-    OutgoingDocument('Thượng khẩn', 'V/v kết nối, liên thông phần mềm QLVB',
-        '2022-01-11T00:00:00', 'Hà Kiều Anh'),
-  ];
 }

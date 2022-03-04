@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/widget_mange_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
@@ -79,12 +80,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                   width: 200,
                   child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Navigator(
-                        onGenerateRoute: (setting) {
-                          return MaterialPageRoute(
-                              builder: (_) => const TextQuanLyWidget(),);
-                        },
-                      ),),
+                      child: TextQuanLyWidget(),),
                 ),
                 GridView.count(
                   shrinkWrap: true,
@@ -96,12 +92,9 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                   children: List.generate(listFeature.length, (index) {
                     final type = listFeature[index];
                     return containerType(type, () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => type.getScreen(),
-                        ),
-                      );
+                      Navigator.of(context,rootNavigator: true).push( PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => type.getScreen(),
+                      ),);
                     });
                   }),
                 ),

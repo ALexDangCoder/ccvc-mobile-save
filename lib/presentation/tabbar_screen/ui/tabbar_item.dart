@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/home_screen.dart'
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/menu_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/tablet/menu_tablet_screen.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/widget_mange_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -89,7 +90,9 @@ extension TabbarEnum on TabBarType {
           mobileScreen: const MenuScreen(),
           tabletScreen: Navigator(
             onGenerateRoute: (setting){
-              return MaterialPageRoute(builder: (_) => const MenuTabletScreen(),);
+              Widget page = MenuTabletScreen();
+              if(setting.name == 'a') page =  WidgetManageScreenTablet();
+              return MaterialPageRoute(builder: (_) =>  page,);
             },
           )
         );

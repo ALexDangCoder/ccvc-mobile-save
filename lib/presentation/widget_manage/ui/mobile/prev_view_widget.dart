@@ -19,7 +19,7 @@ class PrevViewWidget extends StatefulWidget {
 class _PrevViewWidgetState extends State<PrevViewWidget> {
   WidgetManageCubit cubit = WidgetManageCubit();
   HomeCubit homeCubit = HomeCubit();
-
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     // TODO: implement initState
@@ -36,7 +36,9 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
       ),
       body: HomeProvider(
         homeCubit: homeCubit,
+        controller: scrollController,
         child: SingleChildScrollView(
+          controller: scrollController,
           child: Column(
             children: [
               Container(

@@ -35,7 +35,7 @@ class NhiemVuCellTablet extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 24.0),
-        height: 105,
+        height: 137,
         decoration: BoxDecoration(
           border: Border.all(color: borderItemCalender),
           borderRadius: BorderRadius.circular(10.0),

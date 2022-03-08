@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/presentation/search_screen/ui/tablet/search_screen_t
 import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/thong_bao_screen_tablet.dart';
 
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
   Widget build(BuildContext context) {
     return HomeProvider(
       homeCubit: homeCubit,
+      controller: scrollController,
       child: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
@@ -67,11 +69,6 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
         child: Scaffold(
           backgroundColor: bgTabletColor,
           appBar: AppBarWidget(
-            leading: const Icon(
-              Icons.menu,
-              size: 26,
-              color: backgroundColorApp,
-            ),
             title: S.current.home,
             acction: [
               GestureDetector(
@@ -108,7 +105,9 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
             },
             child: SizedBox.expand(
               child: SingleChildScrollView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                controller: scrollController,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const ClampingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
@@ -155,8 +154,9 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                                         100 * (1.0 - animation.value),
                                         0.0,
                                       ),
-                                      child: type.widgetType?.getItemsTablet() ??
-                                          const SizedBox(),
+                                      child:
+                                          type.widgetType?.getItemsTablet() ??
+                                              const SizedBox(),
                                     ),
                                   );
                                 },

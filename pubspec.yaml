@@ -2,7 +2,7 @@ name: ccvc_mobile
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -22,7 +22,7 @@ dependencies:
   #Favourite library
   share: ^2.0.1
   provider: ^5.0.0
-  device_info: ^2.0.0
+  device_info: 2.0.0
   flutter_bloc: ^7.0.0
   package_info: ^2.0.0
   google_fonts: 2.0.0
@@ -45,7 +45,7 @@ dependencies:
   intl: ^0.17.0
   event_bus: ^2.0.0
   equatable: ^2.0.0
-  fluttertoast: ^8.0.3
+  fluttertoast: 8.0.3
   retrofit: ^2.0.1
   json_annotation: ^4.0.1
   flutter_screenutil: 5.0.0
@@ -68,7 +68,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   dart_ipify: ^1.1.0
 
-  # GETX
+  # GET
   get: ^4.1.4
   pretty_dio_logger: ^1.1.1
 

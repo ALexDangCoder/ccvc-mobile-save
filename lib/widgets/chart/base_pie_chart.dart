@@ -110,12 +110,14 @@ class PieChart extends StatelessWidget {
                       const SizedBox(
                         width: 12,
                       ),
-                      FittedBox(
-                        child: Text(
-                          '${result.title} (${result.value.toInt()})',
-                          style: textNormal(
-                            infoColor,
-                            14.0.textScale(),
+                      Flexible(
+                        child: FittedBox(
+                          child: Text(
+                            '${result.title} (${result.value.toInt()})',
+                            style: textNormal(
+                              infoColor,
+                              14.0.textScale(),
+                            ),
                           ),
                         ),
                       )

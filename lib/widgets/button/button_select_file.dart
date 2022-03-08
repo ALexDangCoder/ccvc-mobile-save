@@ -23,7 +23,7 @@ class ButtonSelectFile extends StatefulWidget {
   final Function(List<File>) onChange;
   final Widget Function(BuildContext, File)? builder;
   List<File> files;
-
+  final double? spacingFile;
   ButtonSelectFile({
     Key? key,
     this.background,
@@ -35,6 +35,7 @@ class ButtonSelectFile extends StatefulWidget {
     required this.onChange,
     this.builder,
     this.files = const [],
+    this.spacingFile,
   }) : super(key: key);
 
   @override
@@ -90,7 +91,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 Text(
                   widget.title,
                   style: textNormalCustom(
-                    color:widget.titleColor?? labelColor,
+                    color: widget.titleColor ?? labelColor,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w500,
                   ),
@@ -100,19 +101,19 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
           ),
         ),
         SizedBox(
-          height: 16.0.textScale(),
+          height: widget.spacingFile == null ? 16.0.textScale() : 0,
         ),
         Column(
           children: widget.files.isNotEmpty
               ? widget.files.map((e) {
                   if (widget.builder == null) {
                     return itemListFile(
-                      file: e,
-                      onTap: () {
-                        _cubit.deleteFile(e, widget.files);
-                        setState(() {});
-                      },
-                    );
+                        file: e,
+                        onTap: () {
+                          _cubit.deleteFile(e, widget.files);
+                          setState(() {});
+                        },
+                        spacingFile: widget.spacingFile);
                   }
                   return widget.builder!(context, e);
                 }).toList()
@@ -123,12 +124,10 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
   }
 }
 
-Widget itemListFile({
-  required File file,
-  required Function onTap,
-}) {
+Widget itemListFile(
+    {required File file, required Function onTap, double? spacingFile}) {
   return Container(
-    margin: EdgeInsets.only(top: 16.0.textScale()),
+    margin: EdgeInsets.only(top: spacingFile ?? 16.0.textScale()),
     padding: EdgeInsets.all(16.0.textScale()),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(6.0.textScale()),

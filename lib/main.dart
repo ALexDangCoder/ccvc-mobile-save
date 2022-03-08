@@ -47,14 +47,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
+
   @override
   void initState() {
     super.initState();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +122,7 @@ class _MyAppState extends State<MyApp> {
 
 class AppStateCt extends InheritedWidget {
   final AppState appState;
+
   const AppStateCt({
     Key? key,
     required this.appState,

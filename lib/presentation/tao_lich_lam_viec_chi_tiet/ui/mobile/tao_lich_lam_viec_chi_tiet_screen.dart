@@ -1,19 +1,20 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/linh_vuc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/loai_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nguoi_chu_tri_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nhac_lai_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/search_name_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tao_lich_lam_viec_provider.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/text_form_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
@@ -21,6 +22,7 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaoLichLamViecChiTietScreen extends StatefulWidget {
   const TaoLichLamViecChiTietScreen({Key? key}) : super(key: key);
@@ -46,156 +48,131 @@ class _TaoLichLamViecChiTietScreenState
 
   @override
   Widget build(BuildContext context) {
-    return WidgetTaoLichLVInherited(
-      taoLichLamViecCubit: taoLichLamViecCubit,
-      child: Scaffold(
-        appBar: BaseAppBar(
-          title: S.current.tao_lich_cong_tac_trong_nuoc,
-          leadingIcon: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_rounded,
-              color: unselectLabelColor,
-              size: 18,
+    return BlocListener<TaoLichLamViecCubit, TaoLichLamViecState>(
+      bloc: taoLichLamViecCubit,
+      listener: (context, state) {
+        if (state is CreateSuccess) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => NotifyWidget(
+                content: S.current.ban_da_tao_lich_lam_viec_thanh_cong,
+                image: ImageAssets.icTaoLichLamViecThanhCong,
+                textButtom: S.current.quay_lai,
+              ),
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-        body: TaoLichLamViecProvider(
-          taoLichLamViecCubit: taoLichLamViecCubit,
-          child: StateStreamLayout(
-            textEmpty: S.current.khong_co_du_lieu,
-            retry: () {},
-            error: AppException('1', ''),
-            stream: taoLichLamViecCubit.stateStream,
-            child: RefreshIndicator(
-              onRefresh: () async {
-                await taoLichLamViecCubit.loadData();
+          ).then((value) {
+            if (value == null) {
+              Navigator.pop(context, true);
+            }
+            if (value) {
+              Navigator.pop(context, true);
+            } else {
+              Navigator.pop(context, false);
+            }
+          });
+        } else {}
+      },
+      child: WidgetTaoLichLVInherited(
+        taoLichLamViecCubit: taoLichLamViecCubit,
+        child: Scaffold(
+          appBar: BaseAppBar(
+            title: S.current.tao_lich_cong_tac_trong_nuoc,
+            leadingIcon: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                color: unselectLabelColor,
+                size: 18,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
               },
-              child: ExpandGroup(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Form(
-                          key: _formKey,
-                          child: TextFormWidget(
-                            controller: tieuDeController,
-                            image: ImageAssets.icEdit,
-                            hint: S.current.tieu_de,
+            ),
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await taoLichLamViecCubit.loadData();
+            },
+            child: ProviderWidget<TaoLichLamViecCubit>(
+              cubit: taoLichLamViecCubit,
+              child: StateStreamLayout(
+                textEmpty: S.current.khong_co_du_lieu,
+                retry: () {},
+                error: AppException(
+                  S.current.error,
+                  S.current.error,
+                ),
+                stream: taoLichLamViecCubit.stateStream,
+                child: ExpandGroup(
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Form(
+                            key: _formKey,
+                            child: TextFormWidget(
+                              controller: tieuDeController,
+                              image: ImageAssets.icEdit,
+                              hint: S.current.tieu_de,
+                              validator: (value) {
+                                return (value ?? '').checkNull();
+                              },
+                            ),
                           ),
-                        ),
-                        LoaiLichWidget(
-                          taoLichLamViecCubit: taoLichLamViecCubit,
-                        ),
-                        const SearchNameWidget(),
-                        StartEndDateWidget(
-                          onEndDateTimeChanged: (DateTime value) {
-                            taoLichLamViecCubit.listeningEndDataTime(value);
-                            print('$value');
-                          },
-                          onStartDateTimeChanged: (DateTime value) {
-                            print('$value');
-                            taoLichLamViecCubit.listeningStartDataTime(value);
-                          },
-                        ),
-                        const SizedBox(
-                          height: 26,
-                        ),
-                        const NhacLaiWidget(),
-                        NguoiChuTriWidget(
-                          taoLichLamViecCubit: taoLichLamViecCubit,
-                        ),
-                        LinhVucWidget(
-                          taoLichLamViecCubit: taoLichLamViecCubit,
-                        ),
-                        TextFormWidget(
-                          controller: diaDiemController,
-                          image: ImageAssets.icViTri,
-                          hint: S.current.dia_diem,
-                        ),
-                        TextFormWidget(
-                          controller: noiDungController,
-                          image: ImageAssets.icDocument,
-                          hint: S.current.noi_dung,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const ThanhPhanThamGiaTLWidget(),
-                        const TaiLieuWidget(),
-                        buttonTaoLich(
-                          onTap: () {
-                            taoLichLamViecCubit.taoMoiBanGhi(
-                              taoLichLamViecCubit.requestBanGhi,
-                            );
-                            if (taoLichLamViecCubit.checkValidateTime()) {
-                              taoLichLamViecCubit.taoLichLamViec(
-                                title: tieuDeController.value.text,
-                                typeScheduleId:
-                                'bfa0c6db-01c5-4836-bc13-4e41fd32108b',
-                                content: noiDungController.value.text,
-                                location: diaDiemController.value.text,
-                              );
-
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: backgroundDrawerMenu,
-                                  content: Text(
-                                    S.current.vui_long_kiem_tra_lai_time,
-                                    style: textNormalCustom(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-
-                            if (tieuDeController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: backgroundDrawerMenu,
-                                  content: Text(
-                                    S.current.khong_duoc_de_trong,
-                                    style: textNormalCustom(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-
-                            if (tieuDeController.text.isNotEmpty &&
-                                taoLichLamViecCubit.checkValidateTime()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      StreamBuilder<MessageModel>(
-                                    stream:
-                                        taoLichLamViecCubit.taoMoiBanGhiStream,
-                                    builder: (context, snapshot) {
-                                      return NotifyWidget(
-                                        image: ImageAssets.imgCalendar,
-                                        content: snapshot.data?.code ?? '',
-                                        textButtom: S.current.dong,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
+                          LoaiLichWidget(
+                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
+                          StartEndDateWidget(
+                            icMargin: false,
+                            onEndDateTimeChanged: (DateTime value) {
+                              taoLichLamViecCubit.listeningEndDataTime(value);
+                            },
+                            onStartDateTimeChanged: (DateTime value) {
+                              taoLichLamViecCubit.listeningStartDataTime(value);
+                            },
+                          ),
+                          const NhacLaiWidget(),
+                          NguoiChuTriWidget(
+                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
+                          LinhVucWidget(
+                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
+                          TextFormWidget(
+                            controller: diaDiemController,
+                            image: ImageAssets.icViTri,
+                            hint: S.current.dia_diem,
+                          ),
+                          LichLapWidget(
+                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
+                          TextFormWidget(
+                            controller: noiDungController,
+                            image: ImageAssets.icDocument,
+                            hint: S.current.noi_dung,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ThanhPhanThamGiaTLWidget(
+                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
+                          const TaiLieuWidget(),
+                          buttonTaoLich(
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                await taoLichLamViecCubit.taoLichLamViec(
+                                  title: tieuDeController.value.text,
+                                  content: noiDungController.value.text,
+                                  location: diaDiemController.value.text,
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

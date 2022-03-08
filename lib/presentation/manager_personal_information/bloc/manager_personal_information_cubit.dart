@@ -8,8 +8,10 @@ import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_per
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -49,6 +51,7 @@ class ManagerPersonalInformationCubit
     result.when(
       success: (res) {
         managerPersonalInformationModel = res;
+        //  numbers.sort((a, b) => a.length.compareTo(b.length));
         if (res.tinhId != null) {
           getDataHuyenXa(
             parentId: res.tinhId ?? '',
@@ -58,8 +61,7 @@ class ManagerPersonalInformationCubit
         if (res.huyenId != null) {
           getDataHuyenXa(
             isXa: true,
-            parentId:
-            res.huyenId ?? '',
+            parentId: res.huyenId ?? '',
           );
         }
         managerPersonSubject.sink.add(managerPersonalInformationModel);
@@ -101,9 +103,11 @@ class ManagerPersonalInformationCubit
         if (isXa) {
           xaModel = res;
           xaSubject.sink.add(xaModel);
+          print('${res.length} =============1');
         } else {
           huyenModel = res;
           huyenSubject.sink.add(huyenModel);
+          print('${res.length} ==================2');
         }
       },
       error: (error) {},
@@ -181,8 +185,11 @@ class ManagerPersonalInformationCubit
       success: (res) {
         dataEditPersonInformation = res;
         dataEditSubject.sink.add(dataEditPersonInformation);
+        MessageConfig.show(title: S.current.sua_thanh_cong);
       },
-      error: (error) {},
+      error: (error) {
+        MessageConfig.show(title: S.current.sua_that_bai);
+      },
     );
   }
 
@@ -253,8 +260,6 @@ class ManagerPersonalInformationCubit
   }
 
   Future<void> uploadImage({required File xFile}) async {
-    // File file = File();
-
     saveFile.sink.add(xFile);
   }
 

@@ -25,11 +25,11 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
       padding: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (APP_DEVICE == DeviceType.MOBILE) Text(
                   S.current.chon_thu_ky_cuoc_hop,
-                  style: textNormalCustom(color: textTitle),
+                  style: textNormalCustom(color: infoColor),
                 ) else SizedBox(),
           const SizedBox(
             height: 8,

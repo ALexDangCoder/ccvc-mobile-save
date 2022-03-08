@@ -43,17 +43,10 @@ class _ListDanhSachCongViecState extends State<ListDanhSachCongViec> {
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.list.length,
+                itemCount: widget.list.length<3?widget.list.length:3,
                 itemBuilder: (context, index) {
                   return  NhiemVuCellTablet(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                          const ChiTietNhiemVuTabletScreen(),
-                        ),
-                      );
                     },
                     title: widget.list[index].title??'',
                     noiDung: widget.list[index].noiDung??'',

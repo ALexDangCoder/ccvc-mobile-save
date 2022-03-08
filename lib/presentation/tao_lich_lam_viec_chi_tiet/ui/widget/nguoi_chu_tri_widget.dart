@@ -21,8 +21,14 @@ class _NguoiChuTriWidgetState extends State<NguoiChuTriWidget> {
     return StreamBuilder<List<NguoiChutriModel>>(
       stream: widget.taoLichLamViecCubit.nguoiChuTri,
       builder: (context, snapshot) {
-        final data = snapshot.data ?? <NguoiChutriModel>[];
+        final data = snapshot.data ?? [];
         return SelectOnlyExpand(
+          onChange: (value) {
+            widget.taoLichLamViecCubit
+                .selectNguoiChuTri?.userId = data[value].userId;
+            widget.taoLichLamViecCubit
+                .selectNguoiChuTri?.donViId = data[value].donViId;
+          },
           urlIcon: ImageAssets.icPeople,
           listSelect: data.map((e) => e.title()).toList(),
           value: widget.taoLichLamViecCubit.selectNguoiChuTri?.title() ?? '',

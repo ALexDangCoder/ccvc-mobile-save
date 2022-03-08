@@ -23,7 +23,7 @@ class DanhSachPhatBieuLichHopModel {
   String? phienHopId;
   String? personName;
   String? unitName;
-  int? time;
+  String? time;
   int? meetingSection;
   int? status;
   String? content;

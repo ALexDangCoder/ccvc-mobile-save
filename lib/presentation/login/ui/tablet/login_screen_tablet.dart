@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_cubit.dart';
@@ -51,8 +52,10 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
         stream: loginCubit.stateStream,
         child: BlocListener<LoginCubit, LoginState>(
           bloc: loginCubit,
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is LoginSuccess) {
+              await PrefsService.saveToken(state.token);
+              await loginCubit.getPermission();
               AppStateCt.of(context).appState.setToken(state.token);
             }
           },
@@ -73,6 +76,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                             height: 350,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
+                                fit: BoxFit.fill,
                                 image: AssetImage(
                                   ImageAssets.imgLoginPng,
                                 ),
@@ -226,12 +230,14 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               title: S.current.login,
                               isColorBlue: true,
                               onPressed: () async {
-                                keyGroup.currentState!.validator();
-                                await loginCubit.loginAndSaveinfo(
+                                if (keyGroup.currentState!.validator()) {
+                                  await loginCubit.loginAndSaveinfo(
                                     context: context,
                                     passWord: textPasswordController.text,
                                     userName: textTaiKhoanController.text,
-                                    appCode: APP_CODE);
+                                    appCode: APP_CODE,
+                                  );
+                                } else {}
                                 if (loginCubit.passIsError == true) {
                                   _showToast(context);
                                 }

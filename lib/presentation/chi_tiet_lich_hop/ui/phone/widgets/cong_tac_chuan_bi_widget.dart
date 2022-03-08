@@ -39,11 +39,11 @@ class CongTacChuanBiWidget extends StatelessWidget {
       children: [
         titleType(
           title: S.current.thong_tin_phong,
-          child: StreamBuilder<ThongTinPhongHopModel>(
+          child: StreamBuilder<ThongTinPhongHopModel?>(
             stream: cubit.getThongTinPhongHop,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? ThongTinPhongHopModel();
-              if (!snapshot.hasData) {
+              final data = snapshot.data;
+              if (data == null) {
                 return const Padding(
                   padding: EdgeInsets.symmetric(vertical: 50),
                   child: NodataWidget(),

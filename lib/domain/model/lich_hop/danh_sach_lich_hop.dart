@@ -47,6 +47,8 @@ class ItemDanhSachLichHop {
   CanBo? canBoChuTriInfo;
   CanBo? canBoDangKyInfo;
 
+  ItemDanhSachLichHop.empty();
+
   ItemDanhSachLichHop({
     required this.id,
     required this.soNguoiThamDu,

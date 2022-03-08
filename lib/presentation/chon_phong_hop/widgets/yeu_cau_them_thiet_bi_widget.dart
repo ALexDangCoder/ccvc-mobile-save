@@ -7,10 +7,12 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/bloc/chon_phong_hoc_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -74,16 +76,31 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
   }
 
   void showSelect() {
-    showBottomSheetCustom<ThietBiValue>(
-      context,
-      title: S.current.them_thiet_bi_trong_phong,
-      child: const ThemThietBiScreen(),
-    ).then((value) {
-      if (value != null) {
-        widget.chonPhongHopCubit.addThietBi(value);
-      }
-      widget.onClose();
-    });
+    if (isMobile()) {
+      showBottomSheetCustom<ThietBiValue>(
+        context,
+        title: S.current.them_thiet_bi_trong_phong,
+        child: const ThemThietBiScreen(),
+      ).then((value) {
+        if (value != null) {
+          widget.chonPhongHopCubit.addThietBi(value);
+        }
+        widget.onClose();
+      });
+    } else {
+      showDiaLogTablet<ThietBiValue>(
+        context,
+        title: S.current.them_thiet_bi_trong_phong,
+        child: const ThemThietBiScreen(),
+        funcBtnOk: () {},
+        isBottomShow: false,
+      ).then((value) {
+        if (value != null) {
+          widget.chonPhongHopCubit.addThietBi(value);
+        }
+        widget.onClose();
+      });
+    }
   }
 
   Widget thietBiWidget({
@@ -176,6 +193,7 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
     return FormGroup(
       key: _key,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: EdgeInsets.only(bottom: _viewInsert.bottom),
@@ -197,6 +215,7 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
                   child: TextFieldValidator(
                     textInputType: TextInputType.number,
                     controller: soLuong,
+                    hintText: S.current.nhap_so_luong,
                     validator: (value) {
                       final result = (value ?? '').checkNull();
                       if (result != null) {
@@ -216,8 +235,9 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
           Visibility(
             visible: _viewInsert.bottom <= kHeightKeyBoard,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
               child: DoubleButtonBottom(
+                isTablet: isMobile() == false,
                 title1: S.current.dong,
                 title2: S.current.xac_nhan,
                 onPressed1: () {

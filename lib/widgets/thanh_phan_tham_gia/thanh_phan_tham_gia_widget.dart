@@ -98,9 +98,9 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   )
                 ],
               ),
-              SizedBox(
-                height: 20.0.textScale(space: -2),
-              ),
+              // SizedBox(
+              //   height: 20.0.textScale(space: -2),
+              // ),
             ],
           )
         else
@@ -113,7 +113,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               children: List.generate(
                 data.length,
                 (index) => Padding(
-                  padding: EdgeInsets.only(top: index == 0 ? 0 : 20),
+                  padding:  EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: PeopleThamGiaWidget(
                     donVi: data[index],
                     cubit: _cubit,

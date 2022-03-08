@@ -35,13 +35,13 @@ class NhiemVuCubit extends BaseCubit<NhiemVuState> {
     ChartData(
       S.current.chua_thuc_hien,
       30,
-      daXuLyColor,
+      yellowColor,
     ),
-    ChartData(S.current.dang_thuc_hien, 14, dangXyLyColor),
+    ChartData(S.current.dang_thuc_hien, 14, dangThucHienPurble),
     ChartData(
       S.current.da_thuc_hien,
       12,
-      yellowColor,
+      daXuLyColor,
     ),
   ];
 }

@@ -24,13 +24,8 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
         Expanded(
           child: Column(
             children: [
-              Image.network(
+              Image.asset(
                 ImageAssets.icProfile,
-                errorBuilder: (_, __, ___) {
-                  return Image.asset(
-                    ImageAssets.icProfile,
-                  );
-                },
               ),
               spaceH12,
               Text(
@@ -47,13 +42,8 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
         Expanded(
           child: Column(
             children: [
-              Image.network(
+              Image.asset(
                 ImageAssets.icProfile,
-                errorBuilder: (_, __, ___) {
-                  return Image.asset(
-                    ImageAssets.icProfile,
-                  );
-                },
               ),
               spaceH12,
               Text(
@@ -70,13 +60,8 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
         Expanded(
           child: Column(
             children: [
-              Image.network(
+              Image.asset(
                 ImageAssets.icProfile,
-                errorBuilder: (_, __, ___) {
-                  return Image.asset(
-                    ImageAssets.icProfile,
-                  );
-                },
               ),
               spaceH12,
               Text(

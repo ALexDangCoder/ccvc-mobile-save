@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 class ButtonBottom extends StatelessWidget {
   final Function onPressed;
   final String text;
-
   const ButtonBottom({Key? key, required this.onPressed, required this.text})
       : super(key: key);
 

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/radio/radio_button.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,9 @@ class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 0.0.textScale(space: 4),
+        ),
         RadioButton<LoaiPhongHopEnum>(
           value: LoaiPhongHopEnum.PHONG_HOP_THUONG,
           groupValue: selectLoaiPhong,
@@ -50,8 +54,8 @@ class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
             setState(() {});
           },
         ),
-        const SizedBox(
-          height: 20,
+         SizedBox(
+          height: 20.0.textScale(space: -2),
         ),
         RadioButton<LoaiPhongHopEnum>(
           value: LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH,

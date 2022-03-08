@@ -1,6 +1,6 @@
 class ApiConstants {
   static const LOGIN = '/api/auth/login';
-  static const int DEFAULT_PAGE_SIZE = 45;
+  static const int DEFAULT_PAGE_SIZE = 10;
   static const int PAGE_BEGIN = 1;
   static const int NOT_SAVED_ID = -1;
   static const int TIME_OUT = 30;
@@ -23,7 +23,8 @@ class ApiConstants {
   static const String GET_TINH_HUYEN_XA = '/api/DanhMuc/tinh-thanh';
   static const String GET_TINH_HUYEN_XA_CHILD = '/api/DanhMuc/tinh-thanh';
   static const String LIST_LICH_LV = '/vpdt/api/Schedules/danh-sach-lich';
-
+  static const String DANH_SACH_CONG_VIEC =
+      '/qlvb/api/qlnv/cong-viec/danhsachcongvieccanhan';
   static const DASH_BOARD_VBDEN = '/qlvb/api/danh-muc/dashboard-van-ban-den';
   static const DASH_BOARD_VBDi = '/qlvb/api/van-ban-di/so-luong';
   static const DANH_SACH_VB_DEN = '/qlvb/api/vanban/getdanhsachvanban';
@@ -56,7 +57,7 @@ class ApiConstants {
       '/vpdt/api/Schedules/dashboard-schedule';
   static const GET_TREE_DON_VI = '/common/DonVi/get-tree?';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
-  static const CATEGORY_LIST = '/vpdt/api/Category/list';
+  static const CATEGORY_LIST = '/fvpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
@@ -84,8 +85,13 @@ class ApiConstants {
   static const SCHEDULE_OPINION_LIST = '/vpdt/api/ScheduleOpinion/list';
   static const UPDATE_SCHEDULE_REPORT = '/vpdt/api/ScheduleReport/update';
   static const REPORT_STATUS_LIST = '/vpdt/api/ReportStatus/list';
+
+  static const String POST_FILE_TAO_LICH_HOP =
+      '/vpdt/api/Files/add-file-with-meeting';
+
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
+
   static const DETAIL_MEETING_SCHEDULE = '/vpdt/api/MeetingSchedule/detail';
   static const MEETING_ROOM_DANH_SACH_PHONG_HOP =
       '/vpdt/api/MeetingRoom/danh-sach-phong-hop';
@@ -108,12 +114,26 @@ class ApiConstants {
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-bieu-quyet';
   static const DANH_SACH_LICH_HOP_TPTG =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
+  static const ADD_FILE_TAI_LIEU_TAO_LICH_HOP =
+      '/vpdt/api/Files/add-file-with-meeting';
   static const SEND_EMAIL_KL_HOP =
       '/vpdt/api/ScheduleReport/send-email-bao-cao';
+<<<<<<< HEAD
   static const XEM_KET_LUAN_HOP =
       ' https://api-gateway-ccvc-uat.chinhquyendientu.vn/vpdt/api/ScheduleReport/xem-ket-luan?';
   static const DANH_SACH_KET_LUAN_HOP =
       'https://api-gateway-ccvc-uat.chinhquyendientu.vn/vpdt/api/ReportStatus/list?';
+=======
+  static const DASH_BOARD_TAT_CA_CHU_DE = '/api/NewsNetViews/dashboard';
+  static const GET_LIST_TAT_CA_CHU_DE = '/api/NewsNetViews/search_news';
+  static const CHI_TIET_VAN_BAN_DEN = '/qlvb/api/VanBan/ChiTietVanBanDen';
+  static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
+  static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
+  static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
+  static const XEM_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/xem-ket-luan?';
+  static const LICH_SU_VAN_BAN_DEN = '/qlvb/api/vanban/lich-su-by-type';
+  static const LIST_PERMISSION = '/api/auth/list-permission';
+>>>>>>> develop
 }
 
 class ImageConstants {

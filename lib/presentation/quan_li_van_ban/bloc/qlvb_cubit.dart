@@ -1,9 +1,12 @@
+import 'dart:core';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -29,21 +32,25 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Stream<ChartData> get dataChatVbDen => _dataChartVBDen.stream;
 
   Stream<ChartData> get dataChatVbDi => _dataChartVBDi.stream;
+  late String startDate;
+  late String endDate;
 
   void callAPi() {
-    dataVBDi(startDate: '2022-02-01', endDate: '2022-02-28');
-    dataVBDen(startDate: '2022-02-01', endDate: '2022-02-28');
+    initTimeRange();
+    dataVBDen(startDate: startDate, endDate: endDate);
+    dataVBDi(startDate:startDate, endDate:endDate);
   }
 
-  final QLVBRepository _QLVBRepo = Get.find();
+  final QLVBRepository _qLVBRepo = Get.find();
 
   Future<void> dataVBDi({
     required String startDate,
     required String endDate,
   }) async {
-    final result = await _QLVBRepo.getVBDi(startDate, endDate);
+    final result = await _qLVBRepo.getVBDi(startDate, endDate);
     result.when(
       success: (res) {
+        chartDataVbDi.clear();
         final dataVbDi = DocumentDashboardModel(
           soLuongChoTrinhKy: res.soLuongChoTrinhKy,
           soLuongChoXuLy: res.soLuongChoXuLy,
@@ -83,10 +90,11 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     required String startDate,
     required String endDate,
   }) async {
-    final result = await _QLVBRepo.getVBDen(startDate, endDate);
+    final result = await _qLVBRepo.getVBDen(startDate, endDate);
     result.when(
       success: (res) {
-        DocumentDashboardModel dataVbDen = res;
+        chartDataVbDen.clear();
+        final DocumentDashboardModel dataVbDen = res;
         chartDataVbDen.add(
           ChartData(
             S.current.cho_xu_ly,
@@ -121,5 +129,12 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         return;
       },
     );
+  }
+
+  void initTimeRange() {
+    final dataDateTime =
+        DateTime.now().dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+    startDate = dataDateTime.first.formatApi;
+    endDate = dataDateTime.last.formatApi;
   }
 }

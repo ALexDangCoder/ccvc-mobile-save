@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_svg/svg.dart';
 
 class NotifyWidget extends StatelessWidget {
   final String image;
@@ -24,7 +25,7 @@ class NotifyWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(image),
+            SvgPicture.asset(image),
             SizedBox(
               height: 25.0.textScale(),
             ),
@@ -41,7 +42,7 @@ class NotifyWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context,true);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(

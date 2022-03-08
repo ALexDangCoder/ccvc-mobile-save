@@ -220,7 +220,11 @@ Widget ButtonStatus({
         border: Border.all(color: colorBorder),
       ),
       child: Text(
+<<<<<<< HEAD
         '$text ($lengthList)',
+=======
+        '${text} (${lengthList})',
+>>>>>>> develop
         style: textNormalCustom(
           color: colorText,
         ),

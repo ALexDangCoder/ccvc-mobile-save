@@ -52,7 +52,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
         animationController.reverse();
       },
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black38,
         body: Center(
           child: AnimatedBuilder(
             animation: animationController,
@@ -65,14 +65,13 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 50),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 45),
-                  width: double.infinity,
+                     const  EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                  constraints: const BoxConstraints(minWidth: 300),
                   decoration: BoxDecoration(
                     color: backgroundColorApp,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(20),
                     ),
-                    border: Border.all(color: borderItemCalender),
                     boxShadow: [
                       BoxShadow(
                         color: shadowContainerColor.withOpacity(0.05),

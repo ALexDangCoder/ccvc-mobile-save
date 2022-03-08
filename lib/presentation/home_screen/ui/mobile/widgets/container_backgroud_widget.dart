@@ -26,6 +26,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final double minHeight;
   final List<SelectKey>? listSelect;
   final Function(SelectKey)? onChangeKey;
+  final bool isCustomDialog;
   const ContainerBackgroundWidget({
     Key? key,
     required this.child,
@@ -42,6 +43,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.minHeight = 465,
     this.listSelect,
     this.onChangeKey,
+    this.isCustomDialog = false,
   }) : super(key: key);
 
   @override
@@ -120,19 +122,20 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                           ),
                         ),
                       ),
-                      GestureDetector(
+                      if (widget.isCustomDialog) GestureDetector(
                         onTap: () {
                           if (widget.onTapIcon != null) {
                             widget.onTapIcon!();
                           } else {}
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24),
                           color: Colors.transparent,
                           alignment: Alignment.centerRight,
                           child: SvgPicture.asset(widget.urlIcon),
                         ),
-                      )
+                      ) else widget.dialogSelect ?? const SizedBox()
                     ],
                   ),
                 ),
@@ -172,11 +175,11 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
               ],
             ),
           ),
-          Positioned(
+          if (widget.isCustomDialog) Positioned(
             top: 30,
             right: 16,
             child: widget.dialogSelect ?? const SizedBox(),
-          )
+          ) else const SizedBox()
         ],
       ),
     );

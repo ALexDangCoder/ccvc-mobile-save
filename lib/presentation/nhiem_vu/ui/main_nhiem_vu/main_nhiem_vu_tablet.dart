@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/presentation/nhiem_vu/ui/tablet/nhiem_vu_ca_nhan_tab
 import 'package:ccvc_mobile/presentation/nhiem_vu/ui/tablet/nhiem_vu_don_vi_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
-import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -70,7 +69,7 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
                     ),
                   );
                 },
-                icon: SvgPicture.asset(ImageAssets.icMenuUnFocus),
+                icon: SvgPicture.asset(ImageAssets.icMenuLichHopTablet),
               )
             ],
           ),

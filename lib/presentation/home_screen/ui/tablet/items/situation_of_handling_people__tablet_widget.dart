@@ -49,19 +49,25 @@ class _SituationOfHandlingPeopleWidgetState
           HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
         },
         selectKeyDialog: _yKienCubit,
-        dialogSelect: DialogSettingWidget(
-          type: widget.homeItemType,
-          listSelectKey: <DialogData>[
-            DialogData(
-              onSelect: (value,startDate,endDate) {
-                _yKienCubit.selectDate(
-                    selectKey: value,
-                    startDate: startDate,
-                    endDate: endDate);
-              },
-              title: S.current.time,
-            )
-          ],
+        dialogSelect: StreamBuilder(
+          stream: _yKienCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: <DialogData>[
+                DialogData(
+                  onSelect: (value,startDate,endDate) {
+                    _yKienCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate);
+                  },
+                  initValue: _yKienCubit.selectKeyTime,
+                  title: S.current.time,
+                )
+              ],
+            );
+          }
         ),
       child: Flexible(
         child: LoadingOnly(

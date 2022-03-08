@@ -118,7 +118,7 @@ class _SuaLichCongTacTrongNuocTabletState extends State<SuaLichCongTacTrongNuocT
                         padding: const EdgeInsets.only(left: 14),
                         child: Column(
                           children: const [
-                            ThanhPhanThamGiaTLWidget(),
+                            // ThanhPhanThamGiaTLWidget(),
                             TaiLieuWidget(),
                           ],
                         ),

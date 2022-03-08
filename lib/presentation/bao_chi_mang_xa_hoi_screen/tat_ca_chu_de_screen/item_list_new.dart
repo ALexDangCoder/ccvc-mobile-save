@@ -19,14 +19,18 @@ class ItemListNews extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-              flex: 3,
-              child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  clipBehavior: Clip.antiAlias,
-                  child: Image(
-                    image: NetworkImage(image),
-                  ),),),
+            flex: 3,
+            child:Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
+              clipBehavior: Clip.antiAlias,
+              child: image.isNotEmpty
+                  ? Image(
+                      image: NetworkImage(image),
+                    )
+                  : Image.asset(ImageAssets.icDongNai),
+            ),
+          ),
           const SizedBox(
             width: 10,
           ),
@@ -38,9 +42,10 @@ class ItemListNews extends StatelessWidget {
                 Text(
                   title,
                   style: textNormalCustom(
-                      color: titleColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,),
+                    color: titleColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -56,9 +61,10 @@ class ItemListNews extends StatelessWidget {
                     Text(
                       date,
                       style: textNormalCustom(
-                          color: unselectedLabelColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,),
+                        color: unselectedLabelColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
                     ),
                   ],
                 ),

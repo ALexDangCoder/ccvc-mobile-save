@@ -24,6 +24,10 @@ String paserString(int status) {
   }
 }
 
+String getDateToString(DateTime time) {
+  return 'Thứ ${time.weekday},${time.day} tháng ${time.month}';
+}
+
 class ManagerPersonalInformationModel {
   String? id;
   String? maCanBo;

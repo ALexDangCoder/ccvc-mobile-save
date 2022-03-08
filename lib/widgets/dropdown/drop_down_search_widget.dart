@@ -2,8 +2,10 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -65,136 +67,151 @@ class _DropDownSearchState extends State<DropDownSearch> {
 
   void showListItem(BuildContext context) {
     searchItemSubject = BehaviorSubject.seeded(widget.listSelect);
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            backgroundColor: Colors.transparent,
-            insetPadding: EdgeInsets.symmetric(
-              vertical:
-                  MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
-                      ? 100
-                      : 20,
-              horizontal: 20,
-            ),
-            child: Scaffold(
-              resizeToAvoidBottomInset: true,
+    if (isMobile()) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
               backgroundColor: Colors.transparent,
-              body: Container(
-                decoration: const BoxDecoration(
-                    color: backgroundColorApp,
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        height: 56,
-                        child: Stack(
-                          children: [
-                            Align(
-                              child: Text(
-                                widget.title,
-                                style: titleAppbar(
-                                    fontSize: 18.0.textScale(space: 6.0)),
+              insetPadding: EdgeInsets.symmetric(
+                vertical:
+                    MediaQuery.of(context).viewInsets.bottom <= kHeightKeyBoard
+                        ? 100
+                        : 20,
+                horizontal: 20,
+              ),
+              child: Scaffold(
+                resizeToAvoidBottomInset: true,
+                backgroundColor: Colors.transparent,
+                body: Container(
+                  decoration: const BoxDecoration(
+                      color: backgroundColorApp,
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 56,
+                          child: Stack(
+                            children: [
+                              Align(
+                                child: Text(
+                                  widget.title,
+                                  style: titleAppbar(
+                                      fontSize: 18.0.textScale(space: 6.0)),
+                                ),
                               ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              bottom: 0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: SvgPicture.asset(ImageAssets.icClose),
-                              ),
-                            )
-                          ],
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: SvgPicture.asset(ImageAssets.icClose),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      BaseSearchBar(onChange: (keySearch) async {
-                        searchList = widget.listSelect
-                            .where(
-                              (item) => item
-                                  .trim()
-                                  .toLowerCase()
-                                  .vietNameseParse()
-                                  .contains(
-                                    keySearch
-                                        .trim()
-                                        .toLowerCase()
-                                        .vietNameseParse(),
-                                  ),
-                            )
-                            .toList();
-                        searchItemSubject.sink.add(searchList);
-                      }),
-                      Expanded(
-                        child: StreamBuilder<List<String>>(
-                            stream: searchItemSubject,
-                            builder: (context, snapshot) {
-                              final listData = snapshot.data ?? [];
-                              return listData.isEmpty
-                                  ? const Padding(
-                                      padding: EdgeInsets.all(16),
-                                      child: NodataWidget(),
-                                    )
-                                  : ListView.separated(
-                                      itemBuilder: (context, index) {
-                                        final itemTitle =
-                                            snapshot.data?[index] ?? '';
-                                        return GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              select = itemTitle;
-                                            });
-                                            widget.onChange(selectIndex());
-                                            Navigator.of(context).pop();
-                                            searchItemSubject.close();
-                                          },
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8,
-                                            ),
-                                            child: Text(
-                                              itemTitle,
-                                              style: textNormalCustom(
-                                                color: titleItemEdit,
-                                                fontWeight: itemTitle == select
-                                                    ? FontWeight.w600
-                                                    : FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      separatorBuilder: (context, index) {
-                                        return const Divider(
-                                          color: borderColor,
-                                        );
-                                      },
-                                      itemCount: snapshot.data?.length ?? 0,
-                                    );
-                            }),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      )
-                    ],
+                        Flexible(child: dialogCell()),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          });
+    } else {
+      showDiaLogTablet(context,
+          title: widget.title, child: dialogCell(), funcBtnOk: () {});
+    }
   }
 
   int selectIndex() {
     final index = widget.listSelect.indexOf(select);
     return index;
+  }
+
+  Widget dialogCell() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        BaseSearchBar(
+          onChange: (keySearch) async {
+            searchList = widget.listSelect
+                .where(
+                  (item) =>
+                      item.trim().toLowerCase().vietNameseParse().contains(
+                            keySearch.trim().toLowerCase().vietNameseParse(),
+                          ),
+                )
+                .toList();
+            searchItemSubject.sink.add(searchList);
+          },
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          child: StreamBuilder<List<String>>(
+            stream: searchItemSubject,
+            builder: (context, snapshot) {
+              final listData = snapshot.data ?? [];
+              return listData.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.all(16),
+                      child: NodataWidget(),
+                    )
+                  : ListView.separated(
+                      itemBuilder: (context, index) {
+                        final itemTitle = snapshot.data?[index] ?? '';
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              select = itemTitle;
+                            });
+                            widget.onChange(selectIndex());
+                            Navigator.of(context).pop();
+                            searchItemSubject.close();
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                            ),
+                            child: Text(
+                              itemTitle,
+                              style: textNormalCustom(
+                                color: titleItemEdit,
+                                fontWeight: itemTitle == select
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          color: borderColor,
+                        );
+                      },
+                      itemCount: snapshot.data?.length ?? 0,
+                    );
+            },
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        )
+      ],
+    );
   }
 }

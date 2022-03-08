@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
@@ -25,6 +27,7 @@ class _DanhSachLichHopState extends State<DanhSachLichHop> {
   @override
   void initState() {
     super.initState();
+    widget.cubit.listDSLH = [];
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -67,8 +70,14 @@ class _DanhSachLichHopState extends State<DanhSachLichHop> {
                       ontap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
+<<<<<<< HEAD
                             builder: (context) =>
                                 const DetailMeetCalenderScreen(id: '',),
+=======
+                            builder: (context) => DetailMeetCalenderScreen(
+                              id: data.items?[index].id ?? '',
+                            ),
+>>>>>>> develop
                           ),
                         );
                       },

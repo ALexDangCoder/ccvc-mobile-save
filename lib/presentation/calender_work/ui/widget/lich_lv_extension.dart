@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/lich/calender_w
 import 'package:ccvc_mobile/presentation/calender_work/ui/tablet/list/in_list_form_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/calendar/table_calendar/table_calendar_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -57,14 +56,23 @@ extension LichLVOpition on Type_Choose_Option_Day {
       case Type_Choose_Option_Day.DAY:
         return InListForm(
           cubit: cubit,
+          onTap: () {
+            cubit.callApi();
+          },
         );
       case Type_Choose_Option_Day.WEEK:
         return InListForm(
           cubit: cubit,
+          onTap: () {
+            cubit.callApiTuan();
+          },
         );
       case Type_Choose_Option_Day.MONTH:
         return InListForm(
           cubit: cubit,
+          onTap: () {
+            cubit.callApiMonth();
+          },
         );
       default:
         return Container();
@@ -116,17 +124,12 @@ extension LichLv on CalenderState {
     }
   }
 
-  Widget tableCalendar(CalenderCubit cubit) {
+  Widget tableCalendar({
+    required CalenderCubit cubit,
+    Type_Choose_Option_Day type = Type_Choose_Option_Day.DAY,
+  }) {
     if (this is LichLVStateDangLich || this is LichLVStateDangList) {
-      if (type == Type_Choose_Option_Day.MONTH) {
-        return TableCalendarWidget(
-          isCalendar: false,
-          onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
-        );
-      }
-      return TableCalendarWidget(
-        onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
-      );
+      return type.getTableCalendar(cubit: cubit, type: type);
     }
     return Container();
   }

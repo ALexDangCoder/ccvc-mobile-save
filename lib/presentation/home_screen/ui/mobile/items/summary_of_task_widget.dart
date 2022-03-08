@@ -55,36 +55,41 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
       },
       isUnit: true,
       selectKeyDialog: _nhiemVuCubit,
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value, _, __) {
-              _nhiemVuCubit.selectDonVi(
-                selectKey: value,
-              );
-            },
-            title: S.current.nhiem_vu,
-            initValue: _nhiemVuCubit.selectKeyDonVi,
-            key: [
-              SelectKey.CA_NHAN,
-              SelectKey.DON_VI,
-            ],
-          ),
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-              _nhiemVuCubit.selectDate(
-                selectKey: value,
-                startDate: startDate,
-                endDate: endDate,
-              );
-            },
-            startDate: _nhiemVuCubit.startDate,
-            endDate: _nhiemVuCubit.endDate,
-            title: S.current.time,
-            initValue: _nhiemVuCubit.selectKeyTime,
-          )
-        ],
+      dialogSelect: StreamBuilder(
+          stream: _nhiemVuCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                  onSelect: (value, _, __) {
+                    _nhiemVuCubit.selectDonVi(
+                      selectKey: value,
+                    );
+                  },
+                  title: S.current.nhiem_vu,
+                  initValue: _nhiemVuCubit.selectKeyDonVi,
+                  key: [
+                    SelectKey.CA_NHAN,
+                    SelectKey.DON_VI,
+                  ],
+                ),
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _nhiemVuCubit.selectDate(
+                      selectKey: value,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                  },
+                  startDate: _nhiemVuCubit.startDate,
+                  endDate: _nhiemVuCubit.endDate,
+                  title: S.current.time,
+                  initValue: _nhiemVuCubit.selectKeyTime,
+                )
+              ],
+            );
+          }
       ),
       padding: EdgeInsets.zero,
       child: Padding(
@@ -105,11 +110,15 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                   data.length,
                   (index) {
                     final result = data[index];
-                    return NhiemVuWidget(
-                      title: result.tongHopNhiemVuModel.getText(),
-                      urlIcon: result.tongHopNhiemVuModel.urlImg(),
-                      value: result.value.toString(),
-                      type: result.tongHopNhiemVuModel,
+                    return GestureDetector(
+                      onTap: (){
+                      },
+                      child: NhiemVuWidget(
+                        title: result.tongHopNhiemVuModel.getText(),
+                        urlIcon: result.tongHopNhiemVuModel.urlImg(),
+                        value: result.value.toString(),
+                        type: result.tongHopNhiemVuModel,
+                      ),
                     );
                   },
                 ),

@@ -19,7 +19,7 @@ class WidgetHeadChiTietVanBan extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<ChiTietVanBanDiModel>(
       initialData: cubit.chiTietVanBanDiModel,
-      stream: cubit.chiTietVanBanSubject,
+      stream: cubit.chiTietVanBanDiSubject,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Column(

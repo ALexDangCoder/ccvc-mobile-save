@@ -5,10 +5,12 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
@@ -32,15 +34,27 @@ class _ThemDonViPhoiHopKhacWidgetState
   Widget build(BuildContext context) {
     return SolidButton(
       onTap: () {
-        showBottomSheetCustom(
-          context,
-          child: const ThemDonViPhoiHopKhacScreen(),
-          title: S.current.don_vi_phoi_hop_khac,
-        );
+        showDialog(context);
       },
       text: S.current.them_thanh_phan_tham_gia,
       urlIcon: ImageAssets.icAddButtonCalenderTablet,
     );
+  }
+
+  void showDialog(BuildContext context) {
+    if (isMobile()) {
+      showBottomSheetCustom(
+        context,
+        child: const ThemDonViPhoiHopKhacScreen(),
+        title: S.current.don_vi_phoi_hop_khac,
+      );
+    } else {
+      showDiaLogTablet(context,
+          title: S.current.don_vi_phoi_hop_khac,
+          isBottomShow: false,
+          child: const ThemDonViPhoiHopKhacScreen(),
+          funcBtnOk: () {});
+    }
   }
 }
 
@@ -69,8 +83,9 @@ class _ThemDonViPhoiHopKhacScreenState
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.85),
       child: FollowKeyBoardWidget(
         bottomWidget: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
+          padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
           child: DoubleButtonBottom(
+            isTablet: isMobile() == false,
             title1: S.current.dong,
             title2: S.current.them,
             onPressed1: () {

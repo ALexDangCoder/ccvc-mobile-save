@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -6,8 +5,10 @@ import 'package:ccvc_mobile/presentation/chon_phong_hop/bloc/chon_phong_hoc_cubi
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/loai_phong_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/yeu_cau_them_thiet_bi_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -38,17 +39,32 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
   }
 
   void showBottomSheet() {
-    showBottomSheetCustom<ChonPhongHopModel>(
-      context,
-      child: _ChonPhongHopScreen(
-        chonPhongHopCubit: _cubit,
-      ),
-      title: S.current.chon_phong_hop,
-    ).then((value) {
-      if (value != null) {
-        widget.onChange(value);
-      }
-    });
+    if (isMobile()) {
+      showBottomSheetCustom<ChonPhongHopModel>(
+        context,
+        child: _ChonPhongHopScreen(
+          chonPhongHopCubit: _cubit,
+        ),
+        title: S.current.chon_phong_hop,
+      ).then((value) {
+        if (value != null) {
+          widget.onChange(value);
+        }
+      });
+    } else {
+      showDiaLogTablet<ChonPhongHopModel>(context,
+              title: S.current.chon_phong_hop,
+              child: _ChonPhongHopScreen(
+                chonPhongHopCubit: _cubit,
+              ),
+              isBottomShow: false,
+              funcBtnOk: () {})
+          .then((value) {
+        if (value != null) {
+          widget.onChange(value);
+        }
+      });
+    }
   }
 }
 
@@ -62,7 +78,7 @@ class _ChonPhongHopScreen extends StatefulWidget {
 
 class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   final TextEditingController controller = TextEditingController();
-  ThanhPhanThamGiaCubit cubit =ThanhPhanThamGiaCubit();
+  ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
   final _key = GlobalKey<FormState>();
   @override
   void initState() {
@@ -71,7 +87,6 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -79,8 +94,9 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
       width: double.infinity,
       child: FollowKeyBoardWidget(
         bottomWidget: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
+          padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
           child: DoubleButtonBottom(
+            isTablet: isMobile() == false,
             title1: S.current.dong,
             title2: S.current.xac_nhan,
             onPressed1: () {
@@ -90,8 +106,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
               Navigator.pop(
                 context,
                 ChonPhongHopModel(
-                  loaiPhongHopEnum:
-                  widget.chonPhongHopCubit.loaiPhongHopEnum,
+                  loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
                   listThietBi: widget.chonPhongHopCubit.listThietBi,
                   yeuCauKhac: controller.text,
                 ),
@@ -120,8 +135,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
               spaceH20,
               YeuCauThemThietBiWidget(
                 chonPhongHopCubit: widget.chonPhongHopCubit,
-                onClose: () {
-                },
+                onClose: () {},
               ),
               spaceH20,
               BlockTextView(
@@ -130,12 +144,10 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                 title: S.current.yeu_cau_de_chuan_bi_phong,
                 contentController: controller,
               ),
-
             ],
           ),
         ),
       ),
     );
   }
-
 }

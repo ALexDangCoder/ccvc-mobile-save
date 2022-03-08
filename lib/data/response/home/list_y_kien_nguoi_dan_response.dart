@@ -125,7 +125,7 @@ class DanhSachKetQua {
   DocumentModel toDomain() => DocumentModel(
         kyHieu: soPAKN ?? '',
         status: 'Quá Hạn',
-        title: tieuDe ?? '',
+        title: tieuDe?.trim() ?? '',
         code: '',
         noiGui: diaChi ?? '',
       );

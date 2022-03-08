@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import 'dart:io';
+=======
+>>>>>>> develop
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -27,8 +30,13 @@ class XemKetLuanHopDataResponse extends Equatable {
   });
 
   factory XemKetLuanHopDataResponse.fromJson(
+<<<<<<< HEAD
     Map<String, dynamic> json,
   ) =>
+=======
+      Map<String, dynamic> json,
+      ) =>
+>>>>>>> develop
       _$XemKetLuanHopDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$XemKetLuanHopDataResponseToJson(this);
@@ -90,6 +98,7 @@ class XemKetLuanHopDataResponseData extends Equatable {
   List<Object?> get props => throw [];
 
   XemKetLuanHopModel toModel() => XemKetLuanHopModel(
+<<<<<<< HEAD
         id: id,
         scheduleId: scheduleId,
         reportStatusId: reportStatusId,
@@ -110,4 +119,26 @@ class XemKetLuanHopDataResponseData extends Equatable {
         noiDungHuy: noiDungHuy,
         title: title,
       );
+=======
+    id: id,
+    scheduleId: scheduleId,
+    reportStatusId: reportStatusId,
+    startDate: startDate,
+    endDate: endDate,
+    content: content,
+    status: status,
+    statusName: statusName,
+    scheduleTitle: scheduleTitle,
+    reportStatus: reportStatus,
+    reportStatusCode: reportStatusCode,
+    createBy: createBy,
+    canBoChuTriId: canBoChuTriId,
+    nguoiTao: nguoiTao,
+    nguoiChuTri: nguoiChuTri,
+    files: files,
+    reportTemplateId: reportTemplateId,
+    noiDungHuy: noiDungHuy,
+    title: title,
+  );
+>>>>>>> develop
 }

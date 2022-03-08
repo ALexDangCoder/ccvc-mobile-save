@@ -1,8 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/nhiem_vu/nhiem_vu_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_vb.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
@@ -20,12 +18,10 @@ class BieuDoNhiemVuTablet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BieuDoNhiemVuTabletState createState() =>
-      _BieuDoNhiemVuTabletState();
+  _BieuDoNhiemVuTabletState createState() => _BieuDoNhiemVuTabletState();
 }
 
 class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
-
   @override
   void initState() {
     super.initState();
@@ -35,7 +31,7 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      padding: const EdgeInsets.only(left: 20.0,right: 20.0,bottom: 20.0),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
       child: Column(
         children: [
           PieChart(
@@ -44,41 +40,40 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
             onTap: (int value) {},
           ),
           Container(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: BoxStatusVanBan(
-                    value: widget.nhiemVuDashboardModel.soLuongTrongHan??0,
-                    onTap: () {},
-                    color: numberOfCalenders,
-                    statusName: S.current.trong_han,
-                  ),
+          Row(
+            children: [
+              Expanded(
+                child: BoxStatusVanBan(
+                  value: widget.nhiemVuDashboardModel.soLuongTrongHan ?? 0,
+                  onTap: () {},
+                  color: numberOfCalenders,
+                  statusName: S.current.trong_han,
                 ),
-                const SizedBox(
-                  width: 16,
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: BoxStatusVanBan(
+                  value: widget.nhiemVuDashboardModel.soLuongQuaHan ?? 0,
+                  onTap: () {},
+                  color: dangXyLyColor,
+                  statusName: S.current.den_han,
                 ),
-                Expanded(
-                  child: BoxStatusVanBan(
-                    value:
-                    widget.nhiemVuDashboardModel.soLuongQuaHan??0,
-                    onTap: () {},
-                    color: dangXyLyColor,
-                    statusName: S.current.den_han,
-                  ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: BoxStatusVanBan(
+                  value: widget.nhiemVuDashboardModel.soLuongQuaHan ?? 0,
+                  onTap: () {},
+                  color: statusCalenderRed,
+                  statusName: S.current.qua_han,
                 ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: BoxStatusVanBan(
-                    value: widget.nhiemVuDashboardModel.soLuongQuaHan??0,
-                    onTap: () {},
-                    color: statusCalenderRed,
-                      statusName: S.current.qua_han,
-                  ),
-                ),
-              ],
-            )
+              ),
+            ],
+          )
         ],
       ),
     );

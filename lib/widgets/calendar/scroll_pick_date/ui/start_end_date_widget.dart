@@ -10,6 +10,7 @@ class StartEndDateWidget extends StatefulWidget {
   final Function(DateTime value) onStartDateTimeChanged;
   final Function(DateTime value) onEndDateTimeChanged;
   final bool icMargin;
+
   const StartEndDateWidget({
     Key? key,
     required this.onStartDateTimeChanged,
@@ -61,22 +62,31 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
               SizedBox(
                 height: 16.0.textScale(),
               ),
-              PicKDateCupertino(
-                key: UniqueKey(),
-                isUnderLine: true,
-                minimumDate: DateTime.now(),
-                mode: dataBool
-                    ? CupertinoDatePickerMode.date
-                    : CupertinoDatePickerMode.dateAndTime,
-                onDateTimeChanged: (DateTime value) {
-                  picKDateCupertinoCubit.listeningEndDataTime(
-                    value,
-                  );
-                  widget.onEndDateTimeChanged(value);
-                },
-                title: S.current.ket_thuc,
-                startOfEnd: StartOfEnd.END,
-              )
+              StreamBuilder<DateTime>(
+                  stream: StartEndDateInherited.of(context)
+                      .picKDateCupertinoCubit
+                      .startDateStream,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? DateTime.now();
+                  return PicKDateCupertino(
+                      key: UniqueKey(),
+                      isUnderLine: true,
+                      minimumDate: data,
+                      maximumDate:
+                          DateTime(data.year + 5, data.month, data.day),
+                      mode: dataBool
+                          ? CupertinoDatePickerMode.date
+                          : CupertinoDatePickerMode.dateAndTime,
+                      onDateTimeChanged: (DateTime value) {
+                        picKDateCupertinoCubit.listeningEndDataTime(
+                          value,
+                        );
+                        widget.onEndDateTimeChanged(value);
+                      },
+                      title: S.current.ket_thuc,
+                      startOfEnd: StartOfEnd.END,
+                    );
+                  },)
             ],
           );
         },

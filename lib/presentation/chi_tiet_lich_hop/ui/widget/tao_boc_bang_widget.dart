@@ -17,56 +17,48 @@ class TaoBocBangWidget extends StatefulWidget {
 
 class _TaoBocBangWidgetState extends State<TaoBocBangWidget> {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (APP_DEVICE == DeviceType.MOBILE)
-            Text(
-              S.current.Chon_can_bo_boc_bang,
-              style: textNormalCustom(color: textTitle),
-            )
-          else
-            const SizedBox(),
-          const SizedBox(
-            height: 8,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(
+          height: 8,
+        ),
+        Text(
+          S.current.can_bo_boc_bang,
+          style: textNormalCustom(color: infoColor),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        CustomDropDown(
+          items: cubit.dataBocBang,
+          onSelectItem: (value) {},
+        ),
+        const SizedBox(
+          height: 36,
+        ),
+        Padding(
+          padding: APP_DEVICE == DeviceType.MOBILE
+              ? const EdgeInsets.all(0)
+              : const EdgeInsets.symmetric(horizontal: 100),
+          child: DoubleButtonBottom(
+            title1: S.current.dong,
+            title2: S.current.xac_nhan,
+            onPressed1: () {
+              Navigator.pop(context);
+            },
+            onPressed2: () {
+              Navigator.pop(context);
+            },
           ),
-          CustomDropDown(
-            hint: Text(
-              S.current.Chon_don_vi_su_dung,
-              style: textNormalCustom(color: titleItemEdit),
-            ),
-            items: cubit.fakeDataDropdown,
-            onSelectItem: (value) {},
-          ),
-          const SizedBox(
-            height: 36,
-          ),
-          Padding(
-            padding: APP_DEVICE == DeviceType.MOBILE
-                ? const EdgeInsets.all(0)
-                : const EdgeInsets.symmetric(horizontal: 100),
-            child: DoubleButtonBottom(
-              title1: S.current.dong,
-              title2: S.current.xac_nhan,
-              onPressed1: () {
-                Navigator.pop(context);
-              },
-              onPressed2: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+      ],
     );
   }
 }

@@ -21,10 +21,10 @@ class ChiTietYKNDScreen extends StatefulWidget {
 class _ChiTietYKNDScreenState extends State<ChiTietYKNDScreen>
     with SingleTickerProviderStateMixin {
   ChiTietYKienNguoiDanCubit cubit = ChiTietYKienNguoiDanCubit();
-  late AnimationController controller;
 
   @override
   void initState() {
+    super.initState();
     cubit.getMapDataKetQuaXuLy();
   }
 

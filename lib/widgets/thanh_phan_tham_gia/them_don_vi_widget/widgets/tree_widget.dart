@@ -103,7 +103,9 @@ class _TreeWidgetState extends State<TreeViewWidget> {
           ),
         ),
         if (widget.node.children.isNotEmpty && widget.node.expand)
-          Column(
+          ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             children: List.generate(widget.node.children.length, (index) {
               final node = widget.node.children[index];
               return TreeViewWidget(

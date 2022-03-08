@@ -2,77 +2,14 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/utils/get_ext.dart';
+
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/android_dialog_widget.dart';
-import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
-import 'package:ccvc_mobile/widgets/dialog/ios_dialog_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
+
 
 class DialogUtils {
-  static void showAlert({
-    bool cancelable = false,
-    @required String? content,
-    String? title,
-    TextStyle? titleStyle,
-    TextStyle? contentStyle,
-    String? ok,
-    String? cancel,
-    Function? onConfirm,
-    Function? onCancel,
-  }) {
-    if (Get.isDialogOpen == true) return;
-    Get.dialog(
-      isAndroid()
-          ? AndroidDialog(
-              onWillPop: cancelable,
-              content: content,
-              title: title,
-              titleStyle: titleStyle,
-              contentStyle: contentStyle,
-              ok: ok,
-              cancel: cancel,
-              onConfirm: onConfirm,
-              onCancel: onCancel,
-            )
-          : IOSDialog(
-              content: content,
-              title: title,
-              titleStyle: titleStyle,
-              contentStyle: contentStyle,
-              ok: ok,
-              cancel: cancel,
-              onConfirm: onConfirm,
-              onCancel: onCancel,
-            ),
-      barrierDismissible: cancelable,
-    );
-  }
-
-  static void showLoading() {
-    Get.dialog(
-      WillPopScope(
-        child: const Dialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          child: Center(child: CupertinoLoading()),
-        ),
-        onWillPop: () async => false,
-      ),
-      barrierDismissible: false,
-    );
-  }
-
-  static void hideLoading() {
-    if (Get.isDialogOpen == true) Get.back();
-  }
-
-  static void dismiss() {
-    if (Get.isDialogOpen == true) Get.back();
-  }
-
   static Future<void> showDialogDelete(
     BuildContext context, {
     required String title,

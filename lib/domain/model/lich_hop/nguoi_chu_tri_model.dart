@@ -1,12 +1,12 @@
 class NguoiChutriModel {
-  final String tenDonVi;
-  final String userId;
+  String? tenDonVi;
+  String? userId;
 
-  final String hoTen;
+  String? hoTen;
 
-  final String userTaoHoId;
+  String? userTaoHoId;
 
-  final String id;
+  String? id;
   String? donViId;
 
   NguoiChutriModel(
@@ -16,6 +16,7 @@ class NguoiChutriModel {
       this.userTaoHoId = '',
       this.donViId = '',
       this.id = ''});
+
   String title() {
     return '$hoTen - $tenDonVi';
   }

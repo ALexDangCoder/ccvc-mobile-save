@@ -45,20 +45,23 @@ class _EventOfDayWidgetState extends State<EventOfDayWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-              _suKienTrongNgayCubit.selectDate(
-                selectKey: value,
-                startDate: startDate,
-                endDate: endDate,
-              );
-            },
-            title: S.current.time,
-          )
-        ],
+      dialogSelect: StreamBuilder<Object>(
+          stream: _suKienTrongNgayCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: <DialogData>[
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _suKienTrongNgayCubit.selectDate(
+                        selectKey: value, startDate: startDate, endDate: endDate);
+                  },
+                  initValue: _suKienTrongNgayCubit.selectKeyTime,
+                  title: S.current.time,
+                )
+              ],
+            );
+          }
       ),
       selectKeyDialog: _suKienTrongNgayCubit,
       child: LoadingOnly(

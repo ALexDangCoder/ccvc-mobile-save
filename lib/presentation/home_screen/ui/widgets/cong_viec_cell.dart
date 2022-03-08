@@ -87,7 +87,7 @@ class _CongViecCellState extends State<CongViecCell> {
                         style: textNormal(
                           infoColor,
                           14,
-                        ),
+                        ).copyWith(decoration: TextDecoration.lineThrough),
                       ),
                     ),
                   )

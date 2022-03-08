@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/slide_expand.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/thanh_phan_tham_gia_widget.dart';
@@ -9,7 +10,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaTLWidget extends StatefulWidget {
-  const ThanhPhanThamGiaTLWidget({Key? key}) : super(key: key);
+  final TaoLichLamViecCubit taoLichLamViecCubit ;
+
+  const ThanhPhanThamGiaTLWidget({Key? key, required this.taoLichLamViecCubit}) : super(key: key);
 
   @override
   _ThanhPhanThamGiaTLWidgetState createState() =>
@@ -18,7 +21,6 @@ class ThanhPhanThamGiaTLWidget extends StatefulWidget {
 
 class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
   bool isExpand = false;
-  List<DonViModel> list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
           expand: isExpand,
           child: ThanhPhanThamGiaWidget(
             onChange: (value) {
-              list = value;
+              widget.taoLichLamViecCubit.donviModel=value;
             },
             phuongThucNhan: (value) {},
             isPhuongThucNhan: false,

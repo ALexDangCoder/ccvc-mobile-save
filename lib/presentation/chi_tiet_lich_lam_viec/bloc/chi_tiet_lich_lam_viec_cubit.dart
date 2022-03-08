@@ -1,16 +1,12 @@
 import 'dart:async';
-
-
 import 'dart:io';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
-
-
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
-
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/tinh_trang_bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -29,6 +25,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   ChiTietLichLamViecCubit() : super(DetailDocumentInitial());
   List<TinhTrangBaoCaoModel> listTinhTrang = [];
+
   Stream<ChiTietLichLamViecModel> get chiTietLichLamViecStream =>
       chiTietLichLamViecSubject.stream;
   final BehaviorSubject<List<BaoCaoModel>> _listBaoCaoKetQua =
@@ -51,7 +48,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         },
         error: (error) {});
   }
-
 
   BehaviorSubject<List<TrangThaiLvModel>> listTrangThaiSubject =
       BehaviorSubject();
@@ -100,10 +96,8 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
     rs.when(success: (data) {}, error: (error) {});
   }
 
-
   // huy lich lam viec
   LichLamViecRepository get cancelLichLamViec => Get.find();
-
 
   Future<void> cancel(String id) async {
     final rs = await detailLichLamViec.cancelCalenderWork(id);

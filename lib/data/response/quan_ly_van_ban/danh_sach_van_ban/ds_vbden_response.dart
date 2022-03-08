@@ -20,6 +20,14 @@ class DanhSachVBDenResponse {
 class DataResponseVBDen {
   @JsonKey(name: 'PageData')
   List<PageDataResponseVBDen> pageData;
+  @JsonKey(name: 'CurrentPage')
+  int? currentPage;
+  @JsonKey(name: 'PageSize')
+  int? pageSize;
+  @JsonKey(name: 'TotalPage')
+  int? totalPage;
+  @JsonKey(name: 'TotalRows')
+  int? totalRows;
 
   DataResponseVBDen(
     this.pageData,
@@ -32,13 +40,21 @@ class DataResponseVBDen {
 
   DanhSachVanBanModel toDomain() => DanhSachVanBanModel(
         pageData: pageData
-            .map((e) => VanBanModel(
+            .map(
+              (e) => VanBanModel(
                 doKhan: e.doKhan,
                 loaiVanBan: e.loaiVanBan,
                 ngayDen: e.ngayDen,
                 iD: e.iD,
-                nguoiSoanThao: e.nguoiSoanThao,),)
+                nguoiSoanThao: e.nguoiSoanThao,
+                taskId: e.taskId,
+              ),
+            )
             .toList(),
+        currentPage: currentPage,
+        pageSize: pageSize,
+        totalPage: totalPage,
+        totalRows: totalRows,
       );
 }
 
@@ -54,9 +70,16 @@ class PageDataResponseVBDen {
   String? nguoiSoanThao;
   @JsonKey(name: 'Id')
   String? iD;
+  @JsonKey(name: 'TaskId')
+  String? taskId;
 
   PageDataResponseVBDen(
-      this.iD,this.doKhan, this.loaiVanBan, this.ngayDen, this.nguoiSoanThao,);
+      {this.iD,
+      this.doKhan,
+      this.loaiVanBan,
+      this.ngayDen,
+      this.nguoiSoanThao,
+      this.taskId});
 
   factory PageDataResponseVBDen.fromJson(Map<String, dynamic> json) =>
       _$PageDataResponseVBDenFromJson(json);
@@ -64,10 +87,10 @@ class PageDataResponseVBDen {
   Map<String, dynamic> toJson() => _$PageDataResponseVBDenToJson(this);
 
   VanBanModel toDomain() => VanBanModel(
-        iD: iD,
-        nguoiSoanThao: nguoiSoanThao,
-        loaiVanBan: loaiVanBan,
-        doKhan: doKhan,
-        ngayDen: ngayDen,
-      );
+      iD: iD,
+      nguoiSoanThao: nguoiSoanThao,
+      loaiVanBan: loaiVanBan,
+      doKhan: doKhan,
+      ngayDen: ngayDen,
+      taskId: taskId,);
 }

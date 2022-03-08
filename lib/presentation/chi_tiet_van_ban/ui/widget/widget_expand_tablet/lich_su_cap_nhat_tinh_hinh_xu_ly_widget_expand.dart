@@ -1,18 +1,22 @@
-import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/dropdown_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/history_widget/history_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_in_expand_van_ban.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
 class LichSuCapNhatTinhHinhWidgetExpandTablet extends StatefulWidget {
   final DetailDocumentCubit cubit;
+  final List<LichSuVanBanModel> lichSuVanBanCapNhatModel;
   bool expanded;
 
-  LichSuCapNhatTinhHinhWidgetExpandTablet(
-      {Key? key, required this.cubit, required this.expanded})
-      : super(key: key);
+  LichSuCapNhatTinhHinhWidgetExpandTablet({
+    Key? key,
+    required this.cubit,
+    required this.expanded,
+    required this.lichSuVanBanCapNhatModel,
+  }) : super(key: key);
 
   @override
   State<LichSuCapNhatTinhHinhWidgetExpandTablet> createState() =>
@@ -34,15 +38,17 @@ class _LichSuCapNhatTinhHinhWidgetExpandTabletState
         ),
         child: Text(S.current.lich_su_cap_nhat_tinh_hinh_xu_ly),
       ),
-      child: StreamBuilder<HistoryProcessPage>(
-        stream: widget.cubit.screenJobProfilesStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && widget.cubit.listHistory.isNotEmpty) {
-            return HistoryWidget(widget.cubit);
-          } else {
-            return const NodataWidget();
-          }
-        },
+      child: Column(
+        children: widget.lichSuVanBanCapNhatModel.isNotEmpty
+            ? widget.lichSuVanBanCapNhatModel
+            .map(
+              (e) => WidgetInExpandVanBan(
+            row: e.toListRowLichSuCapNhat(),
+            cubit: widget.cubit,
+          ),
+        )
+            .toList()
+            : [const NodataWidget()],
       ),
       onChangeExpand: () {
         setState(() {

@@ -46,7 +46,7 @@ class _TongSoLuongKhachWidgetState extends State<TongSoLuongKhachWidget> {
           _key.currentState?.validate();
           onChange(value);
         },
-        maxLines: 1.0.textScale(space: 3).toInt(),
+        keyboardType: TextInputType.number,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,

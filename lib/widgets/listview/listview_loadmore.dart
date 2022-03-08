@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/utils/app_utils.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/loading_loadmore.dart';
@@ -13,57 +12,47 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListViewLoadMore extends StatelessWidget {
   final BaseCubit<dynamic> cubit;
-  final Function() callApi;
-  final Function() callApiMore;
-  final Widget Function(dynamic) viewItem;
+  final Function(int page) callApi;
+  final Widget Function(dynamic,int?) viewItem;
+  final bool isListView;
 
-  const ListViewLoadMore(
-      this.cubit, this.callApi, this.callApiMore, this.viewItem,
-      {Key? key})
-      : super(key: key);
+  ListViewLoadMore({
+    Key? key,
+    required this.cubit,
+    required this.isListView,
+    required this.callApi,
+    required this.viewItem,
+  }) : super(key: key);
 
   Future<void> refreshPosts() async {
     if (!cubit.loadMoreLoading) {
-      cubit.showLoading();
-      cubit.loadMorePage = 1;
+      cubit.loadMorePage = ApiConstants.PAGE_BEGIN;
       cubit.loadMoreRefresh = true;
       cubit.loadMoreLoading = true;
-      await callApi();
+      await callApi(cubit.loadMorePage);
     }
   }
 
   Future<void> loadMorePosts() async {
     if (!cubit.loadMoreLoading) {
-      cubit.loadMorePage += 1;
+      cubit.loadMorePage += ApiConstants.PAGE_BEGIN;
       cubit.loadMoreRefresh = false;
       cubit.loadMoreLoading = true;
-      await callApiMore();
+      cubit.loadMoreSink.add(cubit.loadMoreLoading);
+      await callApi(cubit.loadMorePage);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool _isLoading = false;
     refreshPosts();
     return BlocConsumer(
       bloc: cubit,
       listener: (ctx, state) {
-        // Loading
-        if (state is Loading && cubit.loadMoreRefresh) {
-          if (!_isLoading) {
-            _isLoading = true;
-            showLoading(ctx, close: (value) {
-              _isLoading = false;
-            });
-          }
-        }
-        if (_isLoading && state is! Loading) {
-          hideLoading(ctx);
-        }
-        //Get Blog List Completed
         if (state is CompletedLoadMore) {
           if (state.completeType == CompleteType.SUCCESS) {
-            if (cubit.loadMoreRefresh) {
+            if (cubit.loadMoreRefresh ||
+                cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
               cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
                 cubit.showEmpty();
@@ -77,8 +66,10 @@ class ListViewLoadMore extends StatelessWidget {
           }
           cubit.loadMoreList.addAll(state.posts ?? []);
           cubit.canLoadMore =
-              cubit.loadMoreList.length >= ApiConstants.DEFAULT_PAGE_SIZE;
+              (state.posts?.length ?? 0) >= ApiConstants.DEFAULT_PAGE_SIZE;
           cubit.loadMoreLoading = false;
+          cubit.loadMoreSink.add(cubit.loadMoreLoading);
+          cubit.loadMoreListController.add(cubit.loadMoreList);
         }
       },
       builder: (BuildContext context, Object? state) {
@@ -86,8 +77,11 @@ class ListViewLoadMore extends StatelessWidget {
           retry: () {
             refreshPosts();
           },
-          error: AppException('', S.current.something_went_wrong),
-          textEmpty: '',
+          error: AppException(
+            S.current.error,
+            S.current.something_went_wrong,
+          ),
+          textEmpty: S.current.list_empty,
           stream: cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
@@ -100,15 +94,54 @@ class ListViewLoadMore extends StatelessWidget {
             },
             child: RefreshIndicator(
               onRefresh: refreshPosts,
-              child: ListView.builder(
-                itemCount: cubit.loadMoreItemCount,
-                itemBuilder: (ctx, index) {
-                  if (index < cubit.loadMoreList.length) {
-                    return viewItem(cubit.loadMoreList[index]);
-                  } else {
-                    return LoadingItem();
-                  }
-                },
+              child: Stack(
+                children: [
+                  StreamBuilder(
+                    stream: cubit.loadMoreListStream,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<dynamic>> snapshot) {
+                      return isListView == true
+                          ? ListView.builder(
+                              itemCount: snapshot.data?.length ?? 0,
+                              itemBuilder: (ctx, index) {
+                                return viewItem(snapshot.data![index],index);
+                              },
+                            )
+                          : GridView.builder(
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                                top: 16,
+                                bottom: 32,
+                              ),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 16,
+                                crossAxisSpacing: 16,
+                                childAspectRatio: 2 / 3,
+                              ),
+                              itemCount: snapshot.data?.length ?? 0,
+                              itemBuilder: (_, index) {
+                                return viewItem(snapshot.data![index],index);
+                              },
+                            );
+                    },
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    right: 16,
+                    left: 16,
+                    child: StreamBuilder<bool>(
+                      stream: cubit.loadMoreStream,
+                      builder: (context, snapshot) {
+                        return snapshot.data ?? false
+                            ? LoadingItem()
+                            : const SizedBox();
+                      },
+                    ),
+                  )
+                ],
               ),
             ),
           ),

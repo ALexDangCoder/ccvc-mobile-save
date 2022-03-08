@@ -59,7 +59,9 @@ class _LichHopTheoDanhSachNgayTabletState
                         ontap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => DetailMeetCalenderTablet(),
+                              builder: (context) => DetailMeetCalenderTablet(
+                                id: data.items?[index].id ?? '',
+                              ),
                             ),
                           );
                         },

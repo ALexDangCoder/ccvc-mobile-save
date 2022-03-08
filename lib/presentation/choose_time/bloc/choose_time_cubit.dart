@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_state.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -16,15 +18,22 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
   String textDisplayTime = '';
   String changeOption = 'Ngày';
   String dateChange = '';
+  String startDate='';
+  String endDate='';
   DateTime times = DateTime.now();
   BehaviorSubject<String> textDateTimeSubject = BehaviorSubject();
 
   Stream<String> get textDateTimeStream => textDateTimeSubject.stream;
 
+
   void getState(DateTime time) {
     times = time;
     textDisplayTime = getDateToString(time);
     textDateTimeSubject.sink.add(textDisplayTime);
+    final dataDateTime =
+    times.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+    startDate = dataDateTime.first.formatApi;
+    endDate = dataDateTime.last.formatApi;
   }
 
   void onNextDay(DateTime time) {
@@ -33,6 +42,8 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
     times = DateTime.fromMillisecondsSinceEpoch(a);
     textDisplayTime = getDateToString(times);
     textDateTimeSubject.sink.add(textDisplayTime);
+    startDate=times.formatApi;
+    endDate=times.formatApi;
   }
 
   void onBackDay() {
@@ -41,6 +52,8 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
     times = DateTime.fromMillisecondsSinceEpoch(a);
     textDisplayTime = getDateToString(times);
     textDateTimeSubject.sink.add(textDisplayTime);
+    startDate=times.formatApi;
+    endDate=times.formatApi;
   }
 
   void ontoDay() {
@@ -48,6 +61,8 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
     times = now;
     textDisplayTime = getDateToString(times);
     textDateTimeSubject.sink.add(textDisplayTime);
+    startDate=times.formatApi;
+    endDate=times.formatApi;
   }
 
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -58,7 +73,7 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
     times = DateTime.fromMillisecondsSinceEpoch(b);
     final String a = DateFormat(DateFormat.WEEKDAY).format(times); // Tues
     final weekDay = times.weekday == 7 ? 0 : times.weekday;
-    if (a == 'Sunday') {
+    if (a == S.current.sun_day) {
       textDisplayTime = getDateToString(
         DateTime.fromMillisecondsSinceEpoch(
           getDate(
@@ -80,6 +95,7 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
                   .millisecondsSinceEpoch +
               (24 * 60 * 60 * 1000),
         ),
+
         DateTime.fromMillisecondsSinceEpoch(
           getDate(times.add(Duration(days: DateTime.daysPerWeek - weekDay - 1)))
                   .millisecondsSinceEpoch +
@@ -87,6 +103,10 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
         ),
       );
       textDateTimeSubject.sink.add(textDisplayTime);
+      final dataDateTime =
+      times.dateTimeFormRange(timeRange: TimeRange.TUAN_NAY);
+      startDate=dataDateTime.first.formatApi;
+      endDate=dataDateTime.last.formatApi;
     }
   }
 
@@ -96,7 +116,7 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
     times = DateTime.fromMillisecondsSinceEpoch(b);
     final String a = DateFormat(DateFormat.WEEKDAY).format(times); // Tues
     final weekDay = times.weekday == 7 ? 0 : times.weekday;
-    if (a == 'Sunday') {
+    if (a == S.current.sun_day) {
       textDisplayTime = getDateToString(
         DateTime.fromMillisecondsSinceEpoch(
           getDate(
@@ -125,6 +145,10 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
         ),
       );
       textDateTimeSubject.sink.add(textDisplayTime);
+      final dataDateTime =
+      times.dateTimeFormRange(timeRange: TimeRange.TUAN_NAY);
+      startDate=dataDateTime.first.formatApi;
+      endDate=dataDateTime.last.formatApi;
     }
   }
 
@@ -154,6 +178,10 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
       ),
     );
     textDateTimeSubject.sink.add(textDisplayTime);
+    final dataDateTime =
+    times.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+    startDate=dataDateTime.first.formatApi;
+    endDate=dataDateTime.last.formatApi;
   }
 
   void onBackMonth() {
@@ -182,6 +210,10 @@ class ChooseTimeCubit extends BaseCubit<ChooseTimeState> {
       ),
     );
     textDateTimeSubject.sink.add(textDisplayTime);
+    final dataDateTime =
+    times.dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
+    startDate=dataDateTime.first.formatApi;
+    endDate=dataDateTime.last.formatApi;
   }
 
   void checkToOption(String a) {

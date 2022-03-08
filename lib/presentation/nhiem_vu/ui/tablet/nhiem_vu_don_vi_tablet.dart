@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/nhiem_vu/danh_sach_cong_viec_model.dart
 import 'package:ccvc_mobile/domain/model/nhiem_vu/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/domain/model/nhiem_vu/nhiem_vu_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/ui/tablet/widget/list_danh_sach_cong_viec.dart';
@@ -25,6 +26,8 @@ class NhiemVuDonViTablet extends StatefulWidget {
 }
 
 class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
+  ChooseTimeCubit chooseTimeCubit=ChooseTimeCubit();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,6 +40,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
               child: Container(
                 color: Colors.white,
                 child: ChooseTimeScreen(
+                  baseChooseTimeCubit: chooseTimeCubit,
                   today: DateTime.now(),
                 ),
               ),

@@ -23,17 +23,17 @@ class _ExpandOnlyNhiemVuState extends State<ExpandOnlyNhiemVu> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        isExpand = !isExpand;
-        setState(() {});
-      },
-      child: Container(
-        margin: EdgeInsets.only(bottom: 10.0.textScale()),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.0.textScale()),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              isExpand = !isExpand;
+              setState(() {});
+            },
+            child: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 16.0.textScale(space: 4),
                 vertical: 10.5.textScale(space: 4),
@@ -62,12 +62,12 @@ class _ExpandOnlyNhiemVuState extends State<ExpandOnlyNhiemVu> {
                 ],
               ),
             ),
-            ExpandedSection(
-              expand: isExpand,
-              child: widget.child,
-            ),
-          ],
-        ),
+          ),
+          ExpandedSection(
+            expand: isExpand,
+            child: widget.child,
+          ),
+        ],
       ),
     );
   }

@@ -61,6 +61,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      isCustomDialog: true,
       dialogSelect: DialogSettingWidget(
         type: widget.homeItemType,
         customDialog: AddToDoWidget(
@@ -100,9 +101,8 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                             showDiaLog(
                               context,
                               funcBtnRight: () {
-                                Navigator.pop(context);
-
-                                danhSachCVCubit.deleteCongViec(todo);
+                                danhSachCVCubit.deleteCongViec(todo,
+                                    removeDone: false);
                               },
                               showTablet: true,
                               icon: SvgPicture.asset(
@@ -159,7 +159,6 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
                                 showDiaLog(
                                   context,
                                   funcBtnRight: () {
-                                    Navigator.pop(context);
                                     danhSachCVCubit.deleteCongViec(todo);
                                   },
                                   showTablet: true,

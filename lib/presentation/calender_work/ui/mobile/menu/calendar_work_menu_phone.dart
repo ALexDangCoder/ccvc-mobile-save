@@ -90,7 +90,8 @@ class _CalendarWorkMenuState extends State<CalendarWorkMenu> {
                               type: e.type,
                               index: e.index ?? 0,
                               childExpand: Column(
-                                children: e.typeMenu == TypeCalendarMenu.LichTheoTrangThai
+                                children: e.typeMenu ==
+                                        TypeCalendarMenu.LichTheoTrangThai
                                     ? listTheoTrangThai
                                         .map(
                                           (e) => ContainerMenuWidget(

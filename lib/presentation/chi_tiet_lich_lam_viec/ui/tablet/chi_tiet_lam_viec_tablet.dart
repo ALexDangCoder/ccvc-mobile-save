@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChiTietLamViecTablet extends StatefulWidget {
-  const ChiTietLamViecTablet({Key? key}) : super(key: key);
+  final String id;
+  const ChiTietLamViecTablet({Key? key,this.id = ''}) : super(key: key);
 
   @override
   _ChiTietLamViecTabletState createState() => _ChiTietLamViecTabletState();
@@ -29,7 +30,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
   @override
   void initState() {
     super.initState();
-    chiTietLichLamViecCubit.data('dcfb06d3-09df-44f6-adbc-ea31ba69697f');
+    chiTietLichLamViecCubit.data(widget.id);
   }
 
   @override
@@ -51,8 +52,8 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                       btnLeftTxt: S.current.khong,
                       funcBtnRight: () {
                         chiTietLichLamViecCubit
-                            .cancel('dcfb06d3-09df-44f6-adbc-ea31ba69697f');
-                        Navigator.pop(context);
+                            .cancel(widget.id);
+                
                       },
                       title: S.current.huy_lich,
                       btnRightTxt: S.current.dong_y,
@@ -78,8 +79,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                       btnLeftTxt: S.current.khong,
                       funcBtnRight: () {
                         chiTietLichLamViecCubit
-                            .dataDelete('dcfb06d3-09df-44f6-adbc-ea31ba69697f');
-                        Navigator.pop(context);
+                            .dataDelete(widget.id);
                       },
                       title: S.current.xoa_lich_lam_viec,
                       btnRightTxt: S.current.dong_y,

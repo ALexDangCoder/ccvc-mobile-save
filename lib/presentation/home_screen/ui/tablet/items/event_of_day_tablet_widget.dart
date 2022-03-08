@@ -40,24 +40,30 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
-      title: S.current.event_of_day,
+      title: S.current.su_kien,
       minHeight: 415,
       maxHeight: 415,
       selectKeyDialog: _suKienTrongNgayCubit,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: <DialogData>[
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-              _suKienTrongNgayCubit.selectDate(
-                  selectKey: value, startDate: startDate, endDate: endDate);
-            },
-            title: S.current.time,
-          )
-        ],
+      dialogSelect: StreamBuilder<Object>(
+        stream: _suKienTrongNgayCubit.selectKeyDialog,
+        builder: (context, snapshot) {
+          return DialogSettingWidget(
+            type: widget.homeItemType,
+            listSelectKey: <DialogData>[
+              DialogData(
+                onSelect: (value, startDate, endDate) {
+                  _suKienTrongNgayCubit.selectDate(
+                      selectKey: value, startDate: startDate, endDate: endDate);
+                },
+                initValue: _suKienTrongNgayCubit.selectKeyTime,
+                title: S.current.time,
+              )
+            ],
+          );
+        }
       ),
       child: Flexible(
         child: LoadingOnly(

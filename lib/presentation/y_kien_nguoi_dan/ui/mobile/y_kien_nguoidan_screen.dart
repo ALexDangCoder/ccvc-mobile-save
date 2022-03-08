@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/mobile/danh_sach_yknd_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_vb.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
@@ -78,10 +79,13 @@ class _YKienNguoiDanScreenState extends State<YKienNguoiDanScreen> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16),
+                  padding: const EdgeInsets.only(top: 16),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: SizedBox(
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        left: 16.0,
+                      ),
                       height: 88,
                       child: ListView.builder(
                         shrinkWrap: true,
@@ -227,7 +231,15 @@ class _YKienNguoiDanScreenState extends State<YKienNguoiDanScreen> {
                             : 3,
                         itemBuilder: (context, index) {
                           return YKienNguoiDanCell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ChiTietYKNDScreen(),
+                                ),
+                              );
+                            },
                             title:
                                 cubit.listYKienNguoiDan[index].ngheNghiep ?? '',
                             dateTime:
@@ -252,7 +264,9 @@ class _YKienNguoiDanScreenState extends State<YKienNguoiDanScreen> {
             ),
           ),
           TableCalendarWidget(
-            onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
+            onChangeRange:
+                (DateTime? start, DateTime? end, DateTime? focusedDay) {},
+            onChange: (DateTime startDate, DateTime end) {},
           ),
         ],
       ),

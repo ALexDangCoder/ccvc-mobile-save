@@ -5,12 +5,13 @@ class DataLichLvModel {
   int? totalCount;
   int? totalPage;
 
-  DataLichLvModel(
-      {this.listLichLVModel,
-      this.pageIndex,
-      this.pageSize,
-      this.totalCount,
-      this.totalPage});
+  DataLichLvModel({
+    this.listLichLVModel,
+    this.pageIndex,
+    this.pageSize,
+    this.totalCount,
+    this.totalPage,
+  });
 }
 
 class ListLichLVModel {

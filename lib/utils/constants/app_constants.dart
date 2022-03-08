@@ -53,7 +53,13 @@ enum DocumentStatus {
   HOAN_THANH,
   CHO_XAC_NHAN,
   THAM_GIA,
-  CHO_PHAN_XU_LY
+  CHO_PHAN_XU_LY,
+  HOA_TOC,
+  KHAN,
+  BINH_THUONG,
+  THUONG_KHAN,
+  CHUA_THUC_HIEN,
+  DANG_THUC_HIEN
 }
 enum PageTransitionType {
   FADE,

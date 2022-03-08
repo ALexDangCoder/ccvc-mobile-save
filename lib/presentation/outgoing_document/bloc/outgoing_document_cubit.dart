@@ -20,13 +20,12 @@ class OutgoingDocumentCubit extends BaseCubit<IncomingDocumentState> {
   Stream<List<VanBanModel>> get getListVbDi => _getListVBDi.stream;
 
 
-  final BehaviorSubject<List<VanBanDiModel>> _getDanhSachVBDi =
-      BehaviorSubject<List<VanBanDiModel>>();
+  final BehaviorSubject<List<VanBanModel>> _getDanhSachVBDi =
+      BehaviorSubject<List<VanBanModel>>();
 
-  Stream<List<VanBanDiModel>> get getDanhSachVbDi => _getDanhSachVBDi.stream;
+  Stream<List<VanBanModel>> get getDanhSachVbDi => _getDanhSachVBDi.stream;
 
   void callAPi() async{
-    print('--------------------------------------?????-------------------------------------------');
     final queue = Queue(parallel: 1);
     showLoading();
     unawaited(
@@ -53,18 +52,17 @@ class OutgoingDocumentCubit extends BaseCubit<IncomingDocumentState> {
     required int index,
     required int size,
   }) async {
-    List<VanBanDiModel> listVbDi = [];
+    List<VanBanModel> listVbDi = [];
     final result =
         await _QLVBRepo.getDanhSachVbDi(startDate, endDate, index, size);
     result.when(
       success: (res) {
         listVbDi=res.pageData??[];
-        print('hahhhhhhhhhhhhhhhhhhhhhhhhhhhhhahaa ${listVbDi.length}');
+
         _getDanhSachVBDi.sink.add(listVbDi);
 
       },
       error: (err) {
-        print('--------------------------------------loi-------------------- ${listVbDi.length}');
         return err;
       },
     );

@@ -101,7 +101,9 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: listDanhSachNhiemVu.length,
+                      itemCount: listDanhSachNhiemVu.length < 3
+                          ? listDanhSachNhiemVu.length
+                          : 3,
                       itemBuilder: (context, index) {
                         return NhiemVuItemMobile(
                           onTap: () {
@@ -162,7 +164,9 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: listDanhSachCongViec.length,
+                      itemCount: listDanhSachCongViec.length < 3
+                          ? listDanhSachCongViec.length
+                          : 3,
                       itemBuilder: (context, index) {
                         return NhiemVuItemMobile(
                           onTap: () {
@@ -192,7 +196,9 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           ),
         ),
         TableCalendarWidget(
-          onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
+          onChange: (DateTime selectedDay, DateTime focusedDay) {},
+          onChangeRange:
+              (DateTime? start, DateTime? end, DateTime? focusedDay) {},
         ),
       ],
     );

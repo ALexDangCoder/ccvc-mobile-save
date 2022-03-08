@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -16,6 +19,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final String urlIcon;
   final bool isShowValue;
   final Widget? customValue;
+  final Function(int)? onChange;
   const SelectOnlyExpand({
     Key? key,
     this.initExpand = false,
@@ -25,6 +29,7 @@ class SelectOnlyExpand extends StatefulWidget {
     this.title = '',
     required this.urlIcon,
     this.customValue,
+    this.onChange,
   }) : super(key: key);
 
   @override
@@ -48,6 +53,9 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect = widget.listSelect[index];
+        if (widget.onChange != null) {
+          widget.onChange!(index);
+        }
         selectBloc.sink.add(index);
       }
     }
@@ -81,52 +89,62 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
       isShowIcon: false,
       initController: expandController,
       header: headerWidget(),
-      child: widget.listSelect.isEmpty ? const NodataWidget():Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:   List.generate(
-          widget.listSelect.length,
-          (index) => Padding(
-            padding: EdgeInsets.only(
-              left: 30,
-              top: index == 0 ? 0 : 8,
-            ),
-            child: GestureDetector(
-              onTap: () {
-                valueSelect = widget.listSelect[index];
-                selectBloc.sink.add(index);
-              },
-              child: Container(
-                color: Colors.transparent,
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      widget.listSelect[index],
-                      style: textNormal(titleColor, 16),
+      child: widget.listSelect.isEmpty
+          ? const NodataWidget()
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
+                widget.listSelect.length,
+                (index) => Padding(
+                  padding: EdgeInsets.only(
+                    left: 30,
+                    top: index == 0 ? 0 : 8,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      valueSelect = widget.listSelect[index];
+                      if (widget.onChange != null) {
+                        widget.onChange!(index);
+                      }
+                      selectBloc.sink.add(index);
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              widget.listSelect[index],
+                              style: textNormal(titleColor, 16),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (widget.isShowValue)
+                            StreamBuilder<int>(
+                              stream: selectBloc.stream,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data;
+                                return data == index && data != null
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 4),
+                                        child: SvgPicture.asset(
+                                            ImageAssets.icCheck),
+                                      )
+                                    : const SizedBox();
+                              },
+                            )
+                          else
+                            const SizedBox()
+                        ],
+                      ),
                     ),
-                    if (widget.isShowValue)
-                      StreamBuilder<int>(
-                        stream: selectBloc.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data;
-                          return data == index && data != null
-                              ? Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: SvgPicture.asset(ImageAssets.icCheck),
-                                )
-                              : const SizedBox();
-                        },
-                      )
-                    else
-                      const SizedBox()
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -172,11 +190,22 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                         StreamBuilder<int>(
                           stream: selectBloc.stream,
                           builder: (context, snapshot) {
-                            return Text(
-                              valueSelect,
-                              style: textNormal(titleColor, 16),
-                              overflow: TextOverflow.ellipsis,
-                            );
+                            return screenDevice(
+                                mobileScreen: Text(
+                                  valueSelect,
+                                  style: textNormal(titleColor, 16),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                tabletScreen: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 26),
+                                      child: Text(
+                                        valueSelect,
+                                        style: textNormal(titleColor, 16),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )));
                           },
                         ),
                   ),

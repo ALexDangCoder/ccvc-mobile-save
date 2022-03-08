@@ -41,7 +41,6 @@ class _ThemDonViScreenState extends State<ThemDonViWidget> {
     // TODO: implement initState
     super.initState();
     widget.cubit.getTreeDonVi.listen((event) {
-
       _themDonViCubit.getTreeDonVi(event);
     });
   }
@@ -137,19 +136,17 @@ class TreeDonVi extends StatelessWidget {
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? <Node<DonViModel>>[];
                       if (data.isNotEmpty) {
-                        return SingleChildScrollView(
+                        return ListView.builder(
                           keyboardDismissBehavior: isMobile()
                               ? ScrollViewKeyboardDismissBehavior.onDrag
                               : ScrollViewKeyboardDismissBehavior.manual,
-                          child: Column(
-                            children: List.generate(
-                              data.length,
-                              (index) => TreeViewWidget(
-                                themDonViCubit: themDonViCubit,
-                                node: data[index],
-                              ),
-                            ),
-                          ),
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return TreeViewWidget(
+                              themDonViCubit: themDonViCubit,
+                              node: data[index],
+                            );
+                          },
                         );
                       }
                       return Column(

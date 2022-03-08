@@ -1,9 +1,7 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/phone/chi_tiet_nhiem_vu_phone_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/danh_sach_bao_cao_dang_girdview.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/tablet/grid_view/danh_sach_bao_cao_dang_girdview.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/home_screen.dart';
@@ -57,7 +55,7 @@ extension TabbarEnum on TabBarType {
 
   Widget getScreen() {
     switch (this) {
-       case TabBarType.home:
+      case TabBarType.home:
         return screenDevice(
           mobileScreen: HomeScreenMobile(
             key: keyHomeMobile,
@@ -79,16 +77,25 @@ extension TabbarEnum on TabBarType {
       case TabBarType.internalInteraction:
         return Scaffold(
           body: screenDevice(
-            mobileScreen:  NotifyWidget(content: 'Thanh Cong', textButtom: 'dong', image:  ImageAssets.icVideo,),
+            mobileScreen: NotifyWidget(
+              content: 'Thanh Cong',
+              textButtom: 'dong',
+              image: ImageAssets.icVideo,
+            ),
             tabletScreen: const ChiTietNhiemVuTabletScreen(),
           ),
           backgroundColor: Colors.cyanAccent,
         );
       case TabBarType.menu:
         return screenDevice(
-          mobileScreen: const MenuScreen(),
-          tabletScreen: const MenuTabletScreen(),
-        );
+            mobileScreen: const MenuScreen(),
+            tabletScreen: Navigator(
+              onGenerateRoute: (setting) {
+                return MaterialPageRoute(
+                  builder: (_) => const MenuTabletScreen(),
+                );
+              },
+            ));
     }
   }
 

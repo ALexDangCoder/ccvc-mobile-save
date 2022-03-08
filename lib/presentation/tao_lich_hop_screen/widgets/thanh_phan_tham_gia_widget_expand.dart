@@ -16,26 +16,26 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpandOnlyWidget(
-      header: GestureDetector(
-        onTap: () {},
-        child: Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                color: Colors.transparent,
-                child: Text(
-                  S.current.thanh_phan_tham_gia,
-                  style: textNormalCustom(color: titleColumn, fontSize: 16),
-                ),
+      header: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              color: Colors.transparent,
+              child: Text(
+                S.current.thanh_phan_tham_gia,
+                style: textNormalCustom(color: titleColumn, fontSize: 16.0.textScale()),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(
+            height: 0.0.textScale(space: 10),
+          ),
           ThanhPhanThamGiaWidget(
             isPhuongThucNhan: true,
             onChange: (value) {},

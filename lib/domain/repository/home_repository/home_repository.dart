@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/home/danh_sach_cong_viec_resquest.dart';
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/data/request/home/lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/home/lich_lam_viec_request.dart';
@@ -79,6 +80,8 @@ abstract class HomeRepository {
 
   Future<Result<List<SuKienModel>>> getSuKien(String dateFrom, String dateTo);
 
-  Future<Result<List<SinhNhatUserModel>>> getSinhNhat(String dataFrom,String dateTo);
-
+  Future<Result<List<SinhNhatUserModel>>> getSinhNhat(
+      String dataFrom, String dateTo);
+  Future<Result<List<CalendarMeetingModel>>> getDanhSachCongViec(
+      DanhSachCongViecRequest request);
 }

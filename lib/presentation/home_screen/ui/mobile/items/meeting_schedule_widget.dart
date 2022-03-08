@@ -1,11 +1,10 @@
-
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
-
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
-
 import 'package:ccvc_mobile/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
@@ -38,6 +37,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
@@ -53,63 +53,91 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
-      onChangeKey: (value){
-          _lichHopCubit.selectTrangThaiHop(value);
+      onChangeKey: (value) {
+        _lichHopCubit.selectTrangThaiHop(value);
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value,startDate,endDate) {
-              _lichHopCubit.selectDate(
-                  selectKey: value,
-                  startDate: startDate,
-                  endDate: endDate);
-            },
-            title: S.current.time,
-          )
-        ],
-      ),
+      dialogSelect: StreamBuilder(
+          stream: _lichHopCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _lichHopCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate);
+                  },
+                  initValue: _lichHopCubit.selectKeyTime,
+                  title: S.current.time,
+                )
+              ],
+            );
+          }),
       child: LoadingOnly(
         stream: _lichHopCubit.stateStream,
         child: StreamBuilder<List<CalendarMeetingModel>>(
-          stream: _lichHopCubit.getLichHop,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? <CalendarMeetingModel>[];
-            if (data.isEmpty) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 100),
-                child: NodataWidget(),
-              );
-            }
-            return Column(
-              children: List.generate(data.length, (index) {
-                final result = data[index];
-                return Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: ContainerInfoWidget(
-                    status: result.codeStatus.getText(),
-                    colorStatus: result.codeStatus.getColor(),
-                    backGroundStatus: true,
-                    title: result.title,
-                    listData: [
-                      InfoData(
-                        urlIcon: ImageAssets.icTime,
-                        key: S.current.time,
-                        value: result.convertTime(),
-                      ),
-                      InfoData(
-                        urlIcon: ImageAssets.icPeople,
-                        key: S.current.nguoi_chu_tri,
-                        value: result.nguoiChuTri,
-                      ),
-                    ],
-                  ),
+            stream: _lichHopCubit.getLichHop,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <CalendarMeetingModel>[];
+              if (data.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 100),
+                  child: NodataWidget(),
                 );
-              }),
-            );
-          }
-        ),
+              }
+              return Column(
+                children: List.generate(data.length, (index) {
+                  final result = data[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailMeetCalenderScreen(
+                              id: result.id,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ContainerInfoWidget(
+                        status: result.isHopTrucTuyen
+                            ? S.current.truc_tuyen
+                            : S.current.truc_tiep,
+                        colorStatus: result.isHopTrucTuyen
+                            ? sideBtnSelected.withOpacity(0.5)
+                            : choXuLyColor,
+                        backGroundStatus: true,
+                        status2: result
+                                .trangThaiTheoUserEnum(_lichHopCubit.userId)
+                                ?.getText() ??
+                            '',
+                        colorStatus2: result
+                            .trangThaiTheoUserEnum(_lichHopCubit.userId)
+                            ?.getColor(),
+                        backGroundStatus2: true,
+                        title: result.title,
+                        listData: [
+                          InfoData(
+                            urlIcon: ImageAssets.icTime,
+                            key: S.current.time,
+                            value: result.convertTime(),
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icPeople,
+                            key: S.current.nguoi_chu_tri,
+                            value: result.nguoiChuTri,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              );
+            }),
       ),
     );
   }

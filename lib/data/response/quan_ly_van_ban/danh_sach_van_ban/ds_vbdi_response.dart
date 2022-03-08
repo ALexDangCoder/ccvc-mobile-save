@@ -31,13 +31,13 @@ class DataResponseVBDi {
 
   Map<String, dynamic> toJson() => _$DataResponseVBDiToJson(this);
 
-  DanhSachVanBanDiModel toDomain() => DanhSachVanBanDiModel(
+  DanhSachVanBanModel toDomain() => DanhSachVanBanModel(
         pageData: pageData
-            .map((e) => VanBanDiModel(
+            .map((e) => VanBanModel(
                 iD:e.iD,
                 doKhan: e.doKhan,
                 loaiVanBan: e.loaiVanBan,
-                ngayTao: e.ngayDen,
+                ngayDen: e.ngayDen,
                 nguoiSoanThao: e.nguoiSoanThao,),)
             .toList(),
       );
@@ -51,7 +51,7 @@ class PageDataResponseVBDi {
   String? loaiVanBan;
   @JsonKey(name: 'NgayTao')
   String? ngayDen;
-  @JsonKey(name: 'ChuTri')
+  @JsonKey(name: 'NguoiSoanThao')
   String? nguoiSoanThao;
   @JsonKey(name: 'Id')
   String? iD;

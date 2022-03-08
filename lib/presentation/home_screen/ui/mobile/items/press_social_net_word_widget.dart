@@ -57,7 +57,6 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
     // TODO: implement dispose
     super.dispose();
     _xaHoiCubit.dispose();
-
   }
 
   @override
@@ -69,52 +68,54 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _xaHoiCubit,
-      dialogSelect: DialogSettingWidget(
-        labelWidget: Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Row(
-            children: [
-              SvgPicture.asset(ImageAssets.icTag),
-              const SizedBox(
-                width: 9,
-              ),
-              GestureDetector(
-                onTap: () {
-                  cubit.closeDialog();
-                  _xaHoiCubit.showAddTag();
-                  WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-                    scrollController.animateTo(
-                      scrollController.position.maxScrollExtent,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.linear,
-                    );
-                  });
-                },
-                child: Text(
-                  S.current.chinh_sua_tag,
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: textDefault,
-                  ),
+      dialogSelect: StreamBuilder(
+          stream: _xaHoiCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              onLabel: () {
+                cubit.closeDialog();
+                _xaHoiCubit.showAddTag();
+                WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+                  scrollController.animateTo(
+                    scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.linear,
+                  );
+                });
+              },
+              labelWidget: Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(ImageAssets.icTag),
+                    const SizedBox(
+                      width: 9,
+                    ),
+                    Text(
+                      S.current.chinh_sua_tag,
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: textDefault,
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-              _xaHoiCubit.selectDate(
-                selectKey: value,
-                startDate: startDate,
-                endDate: endDate,
-              );
-            },
-            title: S.current.time,
-          )
-        ],
-      ),
+              ),
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                    onSelect: (value, startDate, endDate) {
+                      _xaHoiCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate,
+                      );
+                    },
+                    title: S.current.time,
+                    initValue: _xaHoiCubit.selectKeyTime)
+              ],
+            );
+          }),
       padding: EdgeInsets.zero,
       child: LoadingOnly(
         stream: _xaHoiCubit.stateStream,

@@ -62,8 +62,8 @@ class _ForgotPassWordScreenState extends State<ForgotPassWordScreen> {
                                   cubit.isCheckEye = !cubit.isCheckEye;
                                 },
                                 child: cubit.isCheckEye
-                                    ? SvgPicture.asset(ImageAssets.imgViewHide)
-                                    : SvgPicture.asset(ImageAssets.imgView),
+                                    ? SvgPicture.asset(ImageAssets.imgView)
+                                    : SvgPicture.asset(ImageAssets.imgViewHide),
                               ),
                             ),
                           )
@@ -103,8 +103,8 @@ class _ForgotPassWordScreenState extends State<ForgotPassWordScreen> {
                                   cubit.isCheckEye1 = !cubit.isCheckEye1;
                                 },
                                 child: cubit.isCheckEye1
-                                    ? SvgPicture.asset(ImageAssets.imgViewHide)
-                                    : SvgPicture.asset(ImageAssets.imgView),
+                                    ? SvgPicture.asset(ImageAssets.imgView)
+                                    : SvgPicture.asset(ImageAssets.imgViewHide),
                               ),
                             ),
                           )
@@ -144,8 +144,8 @@ class _ForgotPassWordScreenState extends State<ForgotPassWordScreen> {
                                   cubit.isCheckEye2 = !cubit.isCheckEye2;
                                 },
                                 child: cubit.isCheckEye2
-                                    ? SvgPicture.asset(ImageAssets.imgViewHide)
-                                    : SvgPicture.asset(ImageAssets.imgView),
+                                    ? SvgPicture.asset(ImageAssets.imgView)
+                                    : SvgPicture.asset(ImageAssets.imgViewHide),
                               ),
                             ),
                           )
@@ -185,7 +185,7 @@ class _ForgotPassWordScreenState extends State<ForgotPassWordScreen> {
                       );
                     },
                     child: Text(
-                        '${S.current.quen_mat_khau}?',
+                      '${S.current.quen_mat_khau}?',
                       style: textNormalCustom(color: textDefault),
                     ),
                   ),

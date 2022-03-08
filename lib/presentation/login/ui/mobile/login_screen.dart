@@ -2,8 +2,10 @@ import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/main.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/login_provider.dart';
@@ -14,6 +16,7 @@ import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,8 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
           resizeToAvoidBottomInset: true,
           body: BlocListener<LoginCubit, LoginState>(
             bloc: loginCubit,
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is LoginSuccess) {
+                await PrefsService.saveToken(state.token);
+                await loginCubit.getPermission();
                 AppStateCt.of(context).appState.setToken(state.token);
               }
             },
@@ -67,9 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 200,
+                        height: 250,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
+                            fit: BoxFit.fill,
                             image: AssetImage(
                               ImageAssets.imgLoginPng,
                             ),
@@ -205,25 +211,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 20,
                       ),
                       BlocBuilder<LoginCubit, LoginState>(
-                          bloc: loginCubit,
-                          builder: (context, state) {
-                            return ButtonCustomBottom(
-                              title: S.current.login,
-                              isColorBlue: true,
-                              onPressed: () async {
-                                keyGroup.currentState!.validator();
+                        bloc: loginCubit,
+                        builder: (context, state) {
+                          return ButtonCustomBottom(
+                            title: S.current.login,
+                            isColorBlue: true,
+                            onPressed: () async {
+                              if (keyGroup.currentState!.validator()) {
                                 await loginCubit.loginAndSaveinfo(
                                   context: context,
                                   passWord: textPasswordController.text,
                                   userName: textTaiKhoanController.text,
                                   appCode: APP_CODE,
                                 );
-                                if (loginCubit.passIsError == true) {
-                                  _showToast(context);
-                                }
-                              },
-                            );
-                          }),
+                              } else {}
+
+                              if (loginCubit.passIsError == true) {
+                                _showToast(context);
+                              }
+                            },
+                          );
+                        },
+                      ),
                       const SizedBox(
                         height: 32,
                       ),
@@ -281,7 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content:  Text(S.current.dang_nhap_that_bai),
+        content: Text(S.current.dang_nhap_that_bai),
       ),
     );
   }

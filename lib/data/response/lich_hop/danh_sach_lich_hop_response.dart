@@ -71,7 +71,7 @@ class DanhSachLichHopItemResponse extends Equatable {
 
 @JsonSerializable()
 class ItemDanhSachLichHopResponse extends Equatable {
-  @JsonKey(name: 'items')
+  @JsonKey(name: 'id')
   String? id;
   @JsonKey(name: 'soNguoiThamDu')
   dynamic soNguoiThamDu;

@@ -47,30 +47,32 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
       },
       selectKeyDialog: _danCubit,
       spacingTitle: 0,
-      listSelect: const [
-        SelectKey.CHO_TIEP_NHAN,
-        SelectKey.CHO_PHAN_XU_LY,
-        SelectKey.CHO_DUYET_XU_LY,
-        SelectKey.CHO_DUYET_TIEP_NHAN,
-      ],
+      listSelect: _danCubit.selectKeyPermission,
       onChangeKey: (value){
         if(_danCubit.selectKeyTrangThai !=value){
           _danCubit.selectTrangThaiApi(value);
         }
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value,startDate,endDate) {
-              _danCubit.selectDate(
-                  selectKey: value,
-                  startDate: startDate,
-                  endDate: endDate);
-            },
-            title: S.current.time,
-          )
-        ],
+      dialogSelect:StreamBuilder(
+          stream: _danCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                  onSelect: (value,startDate,endDate) {
+                    _danCubit.selectDate(
+                      selectKey: value,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                  },
+                  initValue: _danCubit.selectKeyTime,
+                  title: S.current.time,
+                )
+              ],
+            );
+          }
       ),
       child: LoadingOnly(
         stream: _danCubit.stateStream,

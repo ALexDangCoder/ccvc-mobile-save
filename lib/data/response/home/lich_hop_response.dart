@@ -160,6 +160,10 @@ class Items {
         dateTimeTo: dateTimeTo ?? DateTime.now().toString(),
         timeFrom: timeStart ?? '',
         timeTo: timeTo ?? '',
+        isHopTrucTuyen: bitHopTrucTuyen ?? false,
+        id: id ?? '',
+        trangThaiTheoUser: trangThaiTheoUser ?? 0,
+        nguoiChuTriId: canBoChuTriInfo?.canBoId ?? '',
       );
 }
 

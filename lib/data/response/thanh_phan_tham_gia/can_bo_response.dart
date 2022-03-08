@@ -90,10 +90,10 @@ class Items {
 
   DonViModel toDomain() {
     return DonViModel(
-      id: id ?? '',
-      name: tenDonVi ?? '',
-      tenCanBo: hoTen ?? '',
-      chucVu: chucVu ?? '',
-    );
+        id: id ?? '',
+        name: tenDonVi ?? '',
+        tenCanBo: hoTen ?? '',
+        chucVu: chucVu ?? '',
+        canBoId: canBoId ?? '');
   }
 }

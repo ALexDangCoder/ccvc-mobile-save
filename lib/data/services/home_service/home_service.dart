@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/home/danh_sach_cong_viec_resquest.dart';
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/data/request/home/lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/home/lich_lam_viec_request.dart';
@@ -5,6 +6,7 @@ import 'package:ccvc_mobile/data/request/home/nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/home/to_do_list_request.dart';
 import 'package:ccvc_mobile/data/response/home/bao_chi_mang_xa_hoi_response.dart';
 import 'package:ccvc_mobile/data/response/home/config_widget_dash_board_response.dart';
+import 'package:ccvc_mobile/data/response/home/danh_sach_cong_viec_response.dart';
 import 'package:ccvc_mobile/data/response/home/danh_sach_van_ban_response.dart';
 import 'package:ccvc_mobile/data/response/home/dash_board_van_ban_den_response.dart';
 import 'package:ccvc_mobile/data/response/home/lich_hop_response.dart';
@@ -105,6 +107,9 @@ abstract class HomeServiceGateWay {
   @POST(ApiConstants.CANLENDAR_LIST_MEETING)
   @FormUrlEncoded()
   Future<LichHopResponse> getLichHop(@Body() LichHopRequest lichHopRequest);
+
+  @POST(ApiConstants.DANH_SACH_CONG_VIEC)
+  Future<DanhSachCongViecResponse> getDanhSachCongViec(@Body() DanhSachCongViecRequest request);
 }
 
 @RestApi()
@@ -163,4 +168,5 @@ abstract class HomeServiceCCVC {
   @GET(ApiConstants.GET_DASHBOARD_WIDGET)
   @FormUrlEncoded()
   Future<DashBoardResponse> getDashBoard();
+
 }

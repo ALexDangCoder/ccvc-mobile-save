@@ -5,8 +5,10 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/radio_button.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -89,10 +91,16 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                     onChange: (keySearch) async {
                       searchList = widget.items
                           .where(
-                            (item) =>
-                                (item.name ?? '').trim().toLowerCase().contains(
-                                      keySearch.trim().toLowerCase(),
-                                    ),
+                            (item) => (item.name ?? '')
+                                .trim()
+                                .toLowerCase()
+                                .vietNameseParse()
+                                .contains(
+                                  keySearch
+                                      .trim()
+                                      .toLowerCase()
+                                      .vietNameseParse(),
+                                ),
                           )
                           .toList();
                       searchItemSubject.sink.add(searchList);
@@ -100,63 +108,85 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                   ),
                   spaceH4,
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: widget.items.length,
-                      itemBuilder: (context, index) {
-                        final data = widget.items[index];
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              color: Colors.transparent,
-                              padding: const EdgeInsets.only(
-                                top: 18,
-                                bottom: 18,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      data.name ?? '',
-                                      style: tokenDetailAmount(
-                                        color: titleColor,
-                                        fontSize: 14,
+                    child: StreamBuilder<List<TinhHuyenXaModel>>(
+                      stream: searchItemSubject,
+                      builder: (context, snapshot) {
+                        final listData = snapshot.data ?? [];
+                        return listData.isEmpty
+                            ? const Padding(
+                                padding: EdgeInsets.all(16),
+                                child: NodataWidget(),
+                              )
+                            : ListView.builder(
+                                itemCount: snapshot.data?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  final data = snapshot.data?[index] ??
+                                      TinhHuyenXaModel();
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        color: Colors.transparent,
+                                        padding: const EdgeInsets.only(
+                                          top: 18,
+                                          bottom: 18,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                data.name ?? '',
+                                                style: tokenDetailAmount(
+                                                  color: titleColor,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  CustomRadioButtonCheck(
+                                                    isCheckButton:
+                                                        itemSelected ==
+                                                            (widget.items[index]
+                                                                    .id ??
+                                                                ''),
+                                                    onSelectItem: () {
+                                                      itemSelected = widget
+                                                              .items[index]
+                                                              .id ??
+                                                          '';
+                                                      selectedItemSubject.sink
+                                                          .add(
+                                                        widget.items[index]
+                                                                .name ??
+                                                            '',
+                                                      );
+                                                      widget.onChange(
+                                                        index,
+                                                        data.id ?? '',
+                                                      );
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        CustomRadioButtonCheck(
-                                          isCheckButton: itemSelected ==
-                                              (widget.items[index].id ?? ''),
-                                          onSelectItem: () {
-                                            itemSelected =
-                                                widget.items[index].id ?? '';
-                                            selectedItemSubject.sink.add(
-                                              widget.items[index].name ?? '',
-                                            );
-                                            widget.onChange(
-                                              index,
-                                              data.id ?? '',
-                                            );
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 1,
-                              color: cellColorborder,
-                            )
-                          ],
-                        );
+                                      Container(
+                                        height: 1,
+                                        color: cellColorborder,
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
                       },
                     ),
                   ),

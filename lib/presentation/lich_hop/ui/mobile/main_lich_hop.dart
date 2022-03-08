@@ -31,7 +31,6 @@ class MainLichHop extends StatefulWidget {
 class _MainLichHopState extends State<MainLichHop> {
   final CalenderCubit calenderCubit = CalenderCubit();
   LichHopCubit cubit = LichHopCubit();
-  DetailMeetCalenderCubit detailMeetCalenderCubit = DetailMeetCalenderCubit();
 
   @override
   void initState() {
@@ -40,9 +39,6 @@ class _MainLichHopState extends State<MainLichHop> {
     cubit.page = 1;
     cubit.getDashboard();
     cubit.postDanhSachLichHop();
-    detailMeetCalenderCubit.themYKien();
-    detailMeetCalenderCubit.getTongPhienHop();
-    detailMeetCalenderCubit.selectPhienHop();
   }
 
   @override
@@ -231,6 +227,7 @@ class _MainLichHopState extends State<MainLichHop> {
                           onTapWeek: () {
                             setState(() {});
                             cubit.chooseTypeDay(Type_Choose_Option_Day.WEEK);
+                            cubit.postDanhSachLichHop();
                           },
                           onTapmonth: () {
                             setState(() {});
@@ -250,25 +247,32 @@ class _MainLichHopState extends State<MainLichHop> {
                         if (state.type == Type_Choose_Option_Day.MONTH) {
                           return TableCalendarWidget(
                             isCalendar: false,
-                            onDaySelected:
-                                (DateTime selectedDay, DateTime focusedDay) {
-                              cubit.startDate = selectedDay;
-                              cubit.endDate = selectedDay;
+                            onChange:
+                                (DateTime startDate, DateTime endDate) {
+                              cubit.startDate = startDate;
+                              cubit.endDate = endDate;
                               cubit.getDashboard();
 
                               cubit.postDanhSachLichHop();
                             },
+                            onChangeRange: (
+                              DateTime? start,
+                              DateTime? end,
+                              DateTime? focusedDay,
+                            ) {},
                           );
                         }
                         return TableCalendarWidget(
-                          onDaySelected:
-                              (DateTime selectedDay, DateTime focusedDay) {
-                            cubit.startDate = selectedDay;
-                            cubit.endDate = selectedDay;
+                          onChange:
+                              (DateTime startDate, DateTime endDate) {
+                            cubit.startDate = startDate;
+                            cubit.endDate = endDate;
 
                             cubit.postDanhSachLichHop();
                             cubit.getDashboard();
                           },
+                          onChangeRange: (DateTime? start, DateTime? end,
+                              DateTime? focusedDay) {},
                         );
                       }
                       return Container();
@@ -284,7 +288,6 @@ class _MainLichHopState extends State<MainLichHop> {
           child: FloatingActionButton(
             elevation: 0.0,
             onPressed: () {
-
               Navigator.push(
                 context,
                 PageRouteBuilder(

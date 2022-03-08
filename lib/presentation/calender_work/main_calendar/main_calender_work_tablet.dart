@@ -1,5 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
@@ -12,6 +16,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/ta
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,14 +35,23 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
   void initState() {
     super.initState();
     cubit.chooseTypeListLv(Type_Choose_Option_List.DANG_LIST);
+    cubit.callApi();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<TypeCalendarMenu>(
-        stream: cubit.changeItemMenuStream,
-        builder: (context, snapshot) {
-          return Scaffold(
+      stream: cubit.changeItemMenuStream,
+      builder: (context, snapshot) {
+        return StateStreamLayout(
+          stream: cubit.stateStream,
+          retry: () {},
+          textEmpty: S.current.khong_co_du_lieu,
+          error: AppException(
+            S.current.error,
+            S.current.error,
+          ),
+          child: Scaffold(
             appBar: BaseAppBar(
               title: snapshot.data?.getTitle() ??
                   TypeCalendarMenu.LichCuaToi.getTitle(),
@@ -67,19 +81,27 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                         builder: (context) =>
                             const TaoLichLamViecChiTietTablet(),
                       ),
-                    );
+                    ).then((value) {
+                      if (value == null) {}
+                      if (value == true) {
+                        cubit.callApi();
+                      }
+                    });
                   },
                   onTapDay: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.DAY);
+                    cubit.callApi();
                   },
                   onTapMonth: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.MONTH);
+                    cubit.callApiMonth();
                   },
                   onTapWeek: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.WEEK);
+                    cubit.callApiTuan();
                   },
                   cubit: cubit,
                 ),
@@ -88,6 +110,14 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                   builder: (context, state) {
                     return TableCandarTablet(
                       type: state.type,
+                      onChangeRange: (
+                        DateTime? start,
+                        DateTime? end,
+                        DateTime? focusedDay,
+                      ) {},
+                      onChange: (DateTime startDate, DateTime endDate) {
+                        cubit.callApiNgay(startDate, endDate);
+                      },
                     );
                   },
                 ),
@@ -98,21 +128,56 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Container(
+                          margin: const EdgeInsets.only(
+                            left: 28.0,
+                          ),
                           color: backgroundColorApp,
                           height: 116,
-                          width: MediaQuery.of(context).size.width,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: cubit.list.length,
-                            itemBuilder: (context, index) {
-                              return CustomItemCalenderWorkTablet(
-                                image: cubit.img[index],
-                                typeName: cubit.list[index].typeName,
-                                numberOfCalendars:
-                                    cubit.list[index].numberOfCalendars,
-                              );
-                            },
+                          child: Row(
+                            children: [
+                              StreamBuilder<LichLamViecDashBroad>(
+                                initialData: LichLamViecDashBroad(
+                                  countScheduleCaNhan: 0,
+                                ),
+                                stream: cubit.streamLichLamViec,
+                                builder: (context, snapshot) {
+                                  return CustomItemCalenderWorkTablet(
+                                    image: ImageAssets.icTongSoLichLamviec,
+                                    typeName: S.current.tong_so_lich_lam_viec,
+                                    numberOfCalendars: cubit
+                                            .lichLamViecDashBroadSubject
+                                            .value
+                                            .countScheduleCaNhan ??
+                                        0,
+                                  );
+                                },
+                              ),
+                              StreamBuilder<List<LichLamViecDashBroadItem>>(
+                                stream: cubit.streamLichLamViecRight,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ?? [];
+
+                                  if (data.isNotEmpty) {
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        return CustomItemCalenderWorkTablet(
+                                          image: cubit.img[index],
+                                          typeName: data[index].typeName ?? '',
+                                          numberOfCalendars:
+                                              data[index].numberOfCalendars ??
+                                                  0,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -136,7 +201,9 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                 ),
               ],
             ),
-          );
-        },);
+          ),
+        );
+      },
+    );
   }
 }

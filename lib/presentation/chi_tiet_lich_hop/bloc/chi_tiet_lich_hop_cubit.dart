@@ -162,7 +162,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
   }
 
+<<<<<<< HEAD
   void getID() {
+=======
+  void getDanhSachPhatBieu() {
+>>>>>>> develop
     getDanhSachPhatBieuLichHop(id);
     getDanhSachBieuQuyetLichHop(id);
   }
@@ -323,6 +327,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }
 
   List<String> selectedIds = [];
+<<<<<<< HEAD
 
   bool checkIsSelected(String id) {
     bool vl = false;
@@ -372,6 +377,57 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<String> dataDropdown = ['1', '2', '3'];
 
+=======
+
+  bool checkIsSelected(String id) {
+    bool vl = false;
+    if (selectedIds.contains(id)) {
+      vl = true;
+    }
+    validateCheckAll();
+    return vl;
+  }
+
+  void addOrRemoveId({
+    required bool isSelected,
+    required String id,
+  }) {
+    if (isSelected) {
+      selectedIds.remove(id);
+    } else {
+      selectedIds.add(id);
+      final temp = selectedIds.toSet();
+      selectedIds = temp.toList();
+    }
+    validateCheckAll();
+  }
+
+  void checkAll() {
+    selectedIds.clear();
+    if (check) {
+      selectedIds = dataThanhPhanThamGia.map((e) => e.id ?? '').toList();
+      log('LEN : ${selectedIds.length}');
+    }
+    List<ThanhPhanThamGiaModel> _tempList = [];
+    if (thanhPhanThamGia.hasValue) {
+      _tempList = thanhPhanThamGia.value;
+    } else {
+      _tempList = dataThanhPhanThamGia;
+    }
+    thanhPhanThamGia.sink.add(_tempList);
+  }
+
+  void validateCheckAll() {
+    check = selectedIds.length == dataThanhPhanThamGia.length;
+    log(check.toString());
+    checkBoxCheck.sink.add(check);
+  }
+
+  List<ThanhPhanThamGiaModel> dataThanhPhanThamGia = [];
+
+  List<String> dataDropdown = ['1', '2', '3'];
+
+>>>>>>> develop
   BehaviorSubject<List<PhatBieuModel>> phatbieu =
       BehaviorSubject<List<PhatBieuModel>>();
 
@@ -403,7 +459,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   SoLuongPhatBieuModel dataSoLuongPhatBieu = SoLuongPhatBieuModel();
 
+<<<<<<< HEAD
   Future<void> soLuongPhatBieuData({required String id}) async {
+=======
+  Future<void> soLuongPhatBieuData() async {
+>>>>>>> develop
     final result = await hopRp.getSoLuongPhatBieu(id);
     result.when(
         success: (res) {
@@ -412,9 +472,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
           dataSoLuongPhatBieu.daDuyet = res.daDuyet;
           dataSoLuongPhatBieu.huyDuyet = res.huyDuyet;
         },
+<<<<<<< HEAD
         error: (err) {
           print('lỗi số lượng phát biểu');
         });
+=======
+        error: (err) {});
+>>>>>>> develop
   }
 
   List<PhatBieuModel> listPhatBieu = [];
@@ -469,6 +533,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
           );
           ketLuanHopSubject.sink.add(ketLuanHopModel);
         },
+<<<<<<< HEAD
         error: (err) {
           KetLuanHopModel ketLuanHopModel = KetLuanHopModel(
             id: '',
@@ -480,6 +545,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
           ketLuanHopSubject.sink.add(ketLuanHopModel);
           print('aaaaaaaaaaaaaaaaaaaaaaaa looi ket luan hop');
         });
+=======
+        error: (err) {});
+>>>>>>> develop
   }
 
   BehaviorSubject<KetLuanHopModel> ketLuanHopSubject = BehaviorSubject();

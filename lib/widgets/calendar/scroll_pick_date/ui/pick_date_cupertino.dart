@@ -64,7 +64,7 @@ class _PicKDateCupertinoState extends State<PicKDateCupertino>
               backgroundColor: widget.background,
               mode: widget.mode,
               use24hFormat: true,
-              initialDateTime: DateTime.now(),
+              initialDateTime: widget.maximumDate,
               onDateTimeChanged: (DateTime value) {
                 widget.onDateTimeChanged(value);
               },
@@ -81,46 +81,51 @@ class _PicKDateCupertinoState extends State<PicKDateCupertino>
       builder: (BuildContext context, Widget? child) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 32.5.textScale(),
-                    ),
-                    Text(
-                      widget.title,
-                      style: textNormalCustom(
-                        color: dateColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
+          Container(
+            color: Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 32.5.textScale(),
                       ),
-                    ),
-                  ],
+                      Text(
+                        widget.title,
+                        style: textNormalCustom(
+                          color: dateColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    widget.startOfEnd
-                        .getText(context: context, title: widget.title2),
-                    if (expandController!.value == 0)
-                      const Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        color: AqiColor,
-                      )
-                    else
-                      const Icon(
-                        Icons.keyboard_arrow_up_rounded,
-                        color: AqiColor,
-                      )
-                  ],
-                ),
-              )
-            ],
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: widget.startOfEnd
+                            .getText(context: context, title: widget.title2),
+                      ),
+                      if (expandController!.value == 0)
+                        const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: AqiColor,
+                        )
+                      else
+                        const Icon(
+                          Icons.keyboard_arrow_up_rounded,
+                          color: AqiColor,
+                        )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
           if (widget.isUnderLine)
             Container(

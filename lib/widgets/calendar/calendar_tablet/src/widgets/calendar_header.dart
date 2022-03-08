@@ -4,7 +4,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
-import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet_cubit.dart';
+import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +26,7 @@ class CalendarHeader extends StatelessWidget {
   final Map<CalendarFormat, String> availableCalendarFormats;
   final DayBuilder? headerTitleBuilder;
   final Type_Choose_Option_Day typeCalendar;
-  final TableCalendarTabletCubit cubitCalendar;
+  final TableCalendarCubit cubitCalendar;
 
   const CalendarHeader({
     Key? key,
@@ -92,7 +92,7 @@ class CalendarHeader extends StatelessWidget {
               margin: headerStyle.leftChevronMargin,
               padding: headerStyle.leftChevronPadding,
             ),
-          typeCalendar.getTextWidget(cubitCalendar),
+          typeCalendar.getTextWidget(cubit : cubitCalendar),
           if (headerStyle.rightChevronVisible)
             CustomIconButton(
               icon: headerStyle.rightChevronIcon,

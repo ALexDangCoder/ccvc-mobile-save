@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
@@ -66,20 +68,25 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
         cubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _xuLyCubit,
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: <DialogData>[
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-
-              _xuLyCubit.selectDate(
-                  selectKey: value, startDate: startDate, endDate: endDate);
-            },
-            title: S.current.document,
-            initValue: _xuLyCubit.selectKeyTime,
-          )
-        ],
-      ),
+      dialogSelect: StreamBuilder(
+          stream: _xuLyCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: <DialogData>[
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _xuLyCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate);
+                  },
+                  title: S.current.time,
+                  initValue: _xuLyCubit.selectKeyTime,
+                )
+              ],
+            );
+          }),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -116,7 +123,8 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                           choVaoSoColor,
                         ),
                       ],
-                      onTap: (value) {},
+                      onTap: (value) {
+                      },
                     );
                   }
                   return const Padding(

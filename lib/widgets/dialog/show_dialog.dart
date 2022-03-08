@@ -15,6 +15,7 @@ Future<T?> showDiaLog<T>(
   required String btnLeftTxt,
   bool showTablet = false,
   bool isBottomShow = true,
+  bool isOneButton = true,
   required Function funcBtnRight,
 }) {
   return showDialog(
@@ -66,43 +67,70 @@ Future<T?> showDiaLog<T>(
                 title,
                 style: titleAppbar(),
               ),
-              SizedBox(
-                height: showTablet ? 14.0.textScale() : 14,
-              ),
-              Text(
-                textContent,
-                style:
-                    textNormal(dateColor, showTablet ? 14.0.textScale() : 14),
-              ),
+              if (isOneButton)
+                Column(
+                  children: [
+                    SizedBox(
+                      height: showTablet ? 14.0.textScale() : 14,
+                    ),
+                    Text(
+                      textContent,
+                      style: textNormal(
+                        dateColor,
+                        showTablet ? 14.0.textScale() : 14,
+                      ),
+                    ),
+                  ],
+                )
+              else
+                const SizedBox(),
               SizedBox(
                 height: showTablet ? 24.0.textScale(space: 8) : 24,
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ButtonCustomBottom(
-                      isColorBlue: false,
-                      title: btnLeftTxt,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+              if (isOneButton)
+                Row(
+                  children: [
+                    Expanded(
+                      child: ButtonCustomBottom(
+                        isColorBlue: false,
+                        title: btnLeftTxt,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: showTablet ? 16.0.textScale(space: 20) : 16,
-                  ),
-                  Expanded(
-                    child: ButtonCustomBottom(
-                      isColorBlue: true,
-                      title: btnRightTxt,
-                      onPressed: () {
-                        funcBtnRight();
-                        Navigator.pop(context);
-                      },
+                    SizedBox(
+                      width: showTablet ? 16.0.textScale(space: 20) : 16,
                     ),
-                  ),
-                ],
-              )
+                    Expanded(
+                      child: ButtonCustomBottom(
+                        isColorBlue: true,
+                        title: btnRightTxt,
+                        onPressed: () {
+                          funcBtnRight();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              else
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 86,
+                      child: ButtonCustomBottom(
+                        isColorBlue: true,
+                        title: btnRightTxt,
+                        onPressed: () {
+                          funcBtnRight();
+                          Navigator.pop(context, true);
+                        },
+                      ),
+                    ),
+                  ],
+                )
             ],
           ),
         ),

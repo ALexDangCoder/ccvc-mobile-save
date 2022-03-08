@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
-import 'package:ccvc_mobile/domain/repository/chi_tiet_van_ban_repository/chi_tiet_van_ban_di_repository.dart';
+import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
+import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:get/get.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'detai_doccument_state.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,7 +24,9 @@ class DetailDocumentCubit extends BaseCubit<DetailDocumentState> {
   bool expanded5 = false;
   bool expanded6 = false;
 
-  ChiTietVanBanRepository get _chiTietVanBanDiRepo => Get.find();
+  String CAP_NHAT_TINH_HINH_THUC_HIEN = 'CAP_NHAT_TINH_HINH_THUC_HIEN';
+
+  final QLVBRepository _QLVBRepo = Get.find();
 
   BehaviorSubject<DetailDocumentModel> detailDocumentSubject =
       BehaviorSubject<DetailDocumentModel>();
@@ -26,17 +34,21 @@ class DetailDocumentCubit extends BaseCubit<DetailDocumentState> {
   Stream<DetailDocumentModel> get streamDetaiMission =>
       detailDocumentSubject.stream;
 
-  BehaviorSubject<DetailDocumentProfileSend> detailDocumentGuiNhan =
-      BehaviorSubject<DetailDocumentProfileSend>();
+  //thong tin gui nhan
+  ThongTinGuiNhanModel thongTinGuiNhanModel = ThongTinGuiNhanModel();
+  BehaviorSubject<List<ThongTinGuiNhanModel>> thongTinGuiNhanSubject =
+      BehaviorSubject();
 
-  Stream<DetailDocumentProfileSend> get streamDetaiGuiNhan =>
-      detailDocumentGuiNhan.stream;
+  Stream<List<ThongTinGuiNhanModel>> get thongTinGuiNhanStream =>
+      thongTinGuiNhanSubject.stream;
 
-  // BehaviorSubject<HistoryDetailDocument> detailDocumentHistorySubject =
-  // BehaviorSubject<HistoryDetailDocument>();
-  //
-  // Stream<HistoryDetailDocument> get streamDetailHistorySubject =>
-  //     detailDocumentHistorySubject.stream;
+  //lich su cap nhat xu ly
+  BehaviorSubject<List<LichSuVanBanModel>> lichSuCapNhatXuLySubject =
+  BehaviorSubject();
+
+  Stream<List<LichSuVanBanModel>> get lichSuCapNhatXuLyStream =>
+      lichSuCapNhatXuLySubject.stream;
+
 
   final BehaviorSubject<HistoryProcessPage> _subjectJobPriliesProcess =
       BehaviorSubject<HistoryProcessPage>();
@@ -50,17 +62,104 @@ class DetailDocumentCubit extends BaseCubit<DetailDocumentState> {
       _subjectJobPriliesProcess.stream;
 
   //chi tiet van ban di
-  BehaviorSubject<ChiTietVanBanDiModel> chiTietVanBanSubject =
+  BehaviorSubject<ChiTietVanBanDiModel> chiTietVanBanDiSubject =
       BehaviorSubject();
   ChiTietVanBanDiModel chiTietVanBanDiModel = ChiTietVanBanDiModel();
 
+  //chi tiet van ban den
+  BehaviorSubject<ChiTietVanBanDenModel> chiTietVanBanDenSubject =
+      BehaviorSubject();
+  ChiTietVanBanDenModel chiTietVanBanDenModel = ChiTietVanBanDenModel();
+
+  final BehaviorSubject<WidgetType?> _showDialogSetting =
+      BehaviorSubject<WidgetType?>();
+
+  Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
+
+  Future<void> loadDataVanBanDen({
+    required String processId,
+    required String taskId,
+  }) async {
+    final queue = Queue(parallel: 2);
+    unawaited(queue.add(() => getChiTietVanBanDen(processId, taskId)));
+    unawaited(queue.add(() => getThongTinGuiNhan(processId)));
+    unawaited(queue.add(() => getLichSuVanBanLichSuCapNhat(processId,CAP_NHAT_TINH_HINH_THUC_HIEN)));
+
+    await queue.onComplete;
+    showContent();
+    queue.dispose();
+  }
+
   Future<void> getChiTietVanBanDi(String id) async {
-    final result = await _chiTietVanBanDiRepo.getDataChiTietVanBanDi(id);
+    final result = await _QLVBRepo.getDataChiTietVanBanDi(id);
     result.when(
       success: (res) {
         chiTietVanBanDiModel = res;
-        chiTietVanBanSubject.sink.add(chiTietVanBanDiModel);
+        chiTietVanBanDiSubject.sink.add(chiTietVanBanDiModel);
       },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getChiTietVanBanDen(
+    String processId,
+    String taskId,
+  ) async {
+    final result =
+        await _QLVBRepo.getDataChiTietVanBanDen(processId, taskId, false);
+    result.when(
+      success: (res) {
+        chiTietVanBanDenModel = res;
+        chiTietVanBanDenSubject.sink.add(chiTietVanBanDenModel);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getThongTinGuiNhan(String id) async {
+    final result = await _QLVBRepo.getDataThongTinGuiNhan(id);
+    result.when(
+      success: (res) {
+        thongTinGuiNhanSubject.add(res.data ?? []);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getLichSuVanBanLichSuCapNhat(
+      String processId, String type) async {
+    final result = await _QLVBRepo.getDataLichSuVanBanDen(processId, type);
+    result.when(
+      success: (res) {
+        lichSuCapNhatXuLySubject.add(res.data??[]);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getLichSuVanBanLichSuTraLai(
+      String processId, String type) async {
+    final result = await _QLVBRepo.getDataLichSuVanBanDen(processId, type);
+    result.when(
+      success: (res) {},
+      error: (error) {},
+    );
+  }
+
+  Future<void> getLichSuVanBanLichSuThuHoi(
+      String processId, String type) async {
+    final result = await _QLVBRepo.getDataLichSuVanBanDen(processId, type);
+    result.when(
+      success: (res) {},
+      error: (error) {},
+    );
+  }
+
+  Future<void> getLichSuVanBanLichSuLienThong(
+      String processId, String type) async {
+    final result = await _QLVBRepo.getDataLichSuVanBanDen(processId, type);
+    result.when(
+      success: (res) {},
       error: (error) {},
     );
   }
@@ -86,16 +185,16 @@ class DetailDocumentCubit extends BaseCubit<DetailDocumentState> {
       soTrang: 56,
       vanBanQlPL: true);
 
-  DetailDocumentProfileSend thongTinGuiNhan = DetailDocumentProfileSend(
-      nguoiGui: 'Văn thu bọ',
-      donViGui: 'UBND Đồng Nai',
-      donViNhan: 'UBND Đồng Nai',
-      trangThai: 'Chờ vào sổ',
-      nguoiNhan: 'Hà Kiều Anh',
-      thoiGian: '10/09/2021 | 17:06:53',
-      vaiTro: 'Chủ trì');
-
-  // List<DetailDocumentModel> thongTinGuiNhan = [];
+  List<ThongTinGuiNhanModel> thongTinGuiNhan = [
+    ThongTinGuiNhanModel(
+        nguoiGui: 'Văn thu bộ',
+        donViGui: 'UBND Đồng Nai',
+        donViNhan: 'UBND Đồng Nai',
+        trangThai: 'CHO_VAO_SO',
+        nguoiNhan: 'Hà Kiều Anh',
+        thoiGian: '10/09/2021 | 17:06:53',
+        vaiTroXuLy: 'Chủ trì'),
+  ];
 
   List<String> listIdFile = [];
   List<String> listIdFileReComment = [];

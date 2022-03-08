@@ -29,6 +29,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
   final bool isUnit;
   final List<SelectKey>? listSelect;
   final Function(SelectKey)? onChangeKey;
+  final bool isCustomDialog;
   const ContainerBackgroundTabletWidget({
     Key? key,
     required this.child,
@@ -46,6 +47,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.isUnit = false,
     this.listSelect,
     this.onChangeKey,
+    this.isCustomDialog = false,
   }) : super(key: key);
 
   @override
@@ -140,19 +142,20 @@ class _ContainerBackgroudWidgetState
                             ],
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            if (widget.onTapIcon != null) {
-                              widget.onTapIcon!();
-                            } else {}
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            color: Colors.transparent,
-                            alignment: Alignment.centerRight,
-                            child: SvgPicture.asset(widget.urlIcon),
-                          ),
-                        )
+                        if (widget.isCustomDialog) GestureDetector(
+                                onTap: () {
+                                  if (widget.onTapIcon != null) {
+                                    widget.onTapIcon!();
+                                  } else {}
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 24),
+                                  color: Colors.transparent,
+                                  alignment: Alignment.centerRight,
+                                  child: SvgPicture.asset(widget.urlIcon),
+                                ),
+                              ) else widget.dialogSelect ?? const SizedBox()
                       ],
                     ),
                   ),
@@ -179,11 +182,11 @@ class _ContainerBackgroudWidgetState
               ),
             ),
           ),
-          Positioned(
+        if (widget.isCustomDialog) Positioned(
             top: 30,
             right: 16,
             child: widget.dialogSelect ?? const SizedBox(),
-          )
+          ) else const SizedBox()
         ],
       ),
     );

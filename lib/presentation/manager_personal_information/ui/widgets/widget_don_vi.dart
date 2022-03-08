@@ -106,7 +106,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                               color: titleCalenderWork,
                               textHeight: 2.5,
                             ),
-                            maxLines: 3,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
@@ -118,7 +118,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                               color: titleCalenderWork,
                               textHeight: 2.5,
                             ),
-                            maxLines: 3,
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(

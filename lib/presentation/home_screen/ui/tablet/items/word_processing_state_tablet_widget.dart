@@ -62,18 +62,23 @@ class _WordProcessingStateWidgetState
         cubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _xuLyCubit,
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: <DialogData>[
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-              _xuLyCubit.selectDate(
-                  selectKey: value, startDate: startDate, endDate: endDate);
-            },
-            title: S.current.time,
-            initValue: _xuLyCubit.selectKeyTime,
-          )
-        ],
+      dialogSelect: StreamBuilder(
+        stream: _xuLyCubit.selectKeyDialog,
+        builder: (context, snapshot) {
+          return DialogSettingWidget(
+            type: widget.homeItemType,
+            listSelectKey: <DialogData>[
+              DialogData(
+                onSelect: (value, startDate, endDate) {
+                  _xuLyCubit.selectDate(
+                      selectKey: value, startDate: startDate, endDate: endDate);
+                },
+                title: S.current.time,
+                initValue: _xuLyCubit.selectKeyTime,
+              )
+            ],
+          );
+        }
       ),
       child: Container(
         color: Colors.transparent,
@@ -165,7 +170,7 @@ class _WordProcessingStateWidgetState
                             ),
                             ChartData(
                               S.current.cho_ban_hanh,
-                              data.soLuongChoTrinhKy?.toDouble() ?? 0,
+                              data.soLuongChoBanHanh?.toDouble() ?? 0,
                               choBanHanhColor,
                             )
                           ],

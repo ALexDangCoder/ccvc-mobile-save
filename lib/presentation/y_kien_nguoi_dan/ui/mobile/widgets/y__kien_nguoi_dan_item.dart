@@ -28,12 +28,7 @@ class YKienNguoiDanCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ChiTietYKNDScreen(),
-          ),
-        );
+        onTap();
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20.0),

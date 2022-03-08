@@ -93,3 +93,5 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
     );
   }
 }
+
+

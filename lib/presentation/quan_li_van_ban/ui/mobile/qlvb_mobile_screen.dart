@@ -1,15 +1,14 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
-import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_mobile.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
 import 'package:ccvc_mobile/presentation/outgoing_document/bloc/outgoing_document_cubit.dart';
-import 'package:ccvc_mobile/presentation/outgoing_document/ui/mobile/outgoing_document_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -19,14 +18,14 @@ import 'package:ccvc_mobile/widgets/calendar/table_calendar/table_calendar_widge
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class QLVBScreenMobile extends StatefulWidget {
-  const QLVBScreenMobile({Key? key}) : super(key: key);
+class QLVBMobileScreen extends StatefulWidget {
+  const QLVBMobileScreen({Key? key}) : super(key: key);
 
   @override
-  _QLVBScreenMobileState createState() => _QLVBScreenMobileState();
+  _QLVBMobileScreenState createState() => _QLVBMobileScreenState();
 }
 
-class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
+class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
   QLVBCCubit qlvbCubit = QLVBCCubit();
   OutgoingDocumentCubit cubitOutgoing = OutgoingDocumentCubit();
   IncomingDocumentCubit cubitIncoming = IncomingDocumentCubit();
@@ -111,8 +110,12 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const IncomingDocumentScreen(),
+                                  builder: (context) => IncomingDocumentScreen(
+                                    title: S.current.danh_sach_van_ban_den,
+                                    type: TypeScreen.VAN_BAN_DEN,
+                                    startDate: qlvbCubit.startDate,
+                                    endDate: qlvbCubit.endDate,
+                                  ),
                                 ),
                               );
                             },
@@ -120,7 +123,6 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                           )
                         ],
                       ),
-                      const SizedBox(height: 16.0),
                       StreamBuilder<List<VanBanModel>>(
                         stream: cubitIncoming.getListVbDen,
                         builder: (context, snapshot) {
@@ -133,24 +135,34 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                               itemCount:
                                   listData.length < 3 ? listData.length : 3,
                               itemBuilder: (context, index) {
-                                return IncomingDocumentCell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ChiTietVanBanMobile(),
-                                      ),
-                                    );
-                                  },
-                                  title: listData[index].loaiVanBan ?? '',
-                                  dateTime: DateTime.parse(
-                                          listData[index].ngayDen ?? '')
-                                      .toStringWithListFormat,
-                                  userName: listData[index].nguoiSoanThao ?? '',
-                                  status: listData[index].doKhan ?? '',
-                                  userImage:
-                                      'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 16,
+                                  ),
+                                  child: IncomingDocumentCell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChiTietVanBanDenMobile(
+                                            processId: listData[index].iD ?? '',
+                                            taskId:
+                                                listData[index].taskId ?? '',
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    title: listData[index].loaiVanBan ?? '',
+                                    dateTime: DateTime.parse(
+                                      listData[index].ngayDen ?? '',
+                                    ).toStringWithListFormat,
+                                    userName:
+                                        listData[index].nguoiSoanThao ?? '',
+                                    status: listData[index].doKhan ?? '',
+                                    userImage:
+                                        'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                  ),
                                 );
                               },
                             );
@@ -185,8 +197,12 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OutgoingDocumentScreen(),
+                                  builder: (context) => IncomingDocumentScreen(
+                                    title: S.current.danh_sach_van_ban_di,
+                                    type: TypeScreen.VAN_BAN_DI,
+                                    startDate: qlvbCubit.startDate,
+                                    endDate: qlvbCubit.endDate,
+                                  ),
                                 ),
                               );
                             },
@@ -194,11 +210,10 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                           )
                         ],
                       ),
-                      const SizedBox(height: 16.0),
-                      StreamBuilder<List<VanBanDiModel>>(
+                      StreamBuilder<List<VanBanModel>>(
                         stream: cubitOutgoing.getDanhSachVbDi,
                         builder: (context, snapshot) {
-                          final List<VanBanDiModel> listData =
+                          final List<VanBanModel> listData =
                               snapshot.data ?? [];
                           if (listData.isNotEmpty) {
                             return ListView.builder(
@@ -207,24 +222,30 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
                               itemCount:
                                   listData.length < 3 ? listData.length : 3,
                               itemBuilder: (context, index) {
-                                return IncomingDocumentCell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ChiTietVanBanMobile(),
-                                      ),
-                                    );
-                                  },
-                                  title: listData[index].loaiVanBan ?? '',
-                                  dateTime: DateTime.parse(
-                                          listData[index].ngayTao ?? '')
-                                      .toStringWithListFormat,
-                                  userName: listData[index].nguoiSoanThao ?? '',
-                                  status: listData[index].doKhan ?? '',
-                                  userImage:
-                                      'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 16,
+                                  ),
+                                  child: IncomingDocumentCell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ChiTietVanBanDiMobile(),
+                                        ),
+                                      );
+                                    },
+                                    title: listData[index].loaiVanBan ?? '',
+                                    dateTime: DateTime.parse(
+                                            listData[index].ngayDen ?? '')
+                                        .toStringWithListFormat,
+                                    userName:
+                                        listData[index].nguoiSoanThao ?? '',
+                                    status: listData[index].doKhan ?? '',
+                                    userImage:
+                                        'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                  ),
                                 );
                               },
                             );
@@ -242,7 +263,24 @@ class _QLVBScreenMobileState extends State<QLVBScreenMobile> {
             ),
           ),
           TableCalendarWidget(
-            onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
+            onChange: (DateTime startDate, DateTime endDate) {},
+            onChangeRange:
+                (DateTime? start, DateTime? end, DateTime? focusedDay) {
+              qlvbCubit.startDate =
+                  start?.formatApi ?? DateTime.now().formatApi;
+              qlvbCubit.endDate = end?.formatApi ?? qlvbCubit.startDate;
+            },
+            onSearch: (value) {
+              qlvbCubit.dataVBDen(
+                startDate: qlvbCubit.startDate,
+                endDate: qlvbCubit.endDate,
+              );
+              qlvbCubit.dataVBDi(
+                startDate: qlvbCubit.startDate,
+                endDate: qlvbCubit.endDate,
+              );
+            },
+
           ),
         ],
       ),

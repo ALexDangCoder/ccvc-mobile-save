@@ -11,6 +11,9 @@ class ContainerInfoWidget extends StatelessWidget {
   final String status;
   final Color? colorStatus;
   final bool backGroundStatus;
+  final String status2;
+  final Color? colorStatus2;
+  final bool backGroundStatus2;
   const ContainerInfoWidget({
     Key? key,
     required this.listData,
@@ -18,6 +21,9 @@ class ContainerInfoWidget extends StatelessWidget {
     this.status = '',
     this.colorStatus,
     this.backGroundStatus = false,
+    this.status2 = '',
+    this.colorStatus2,
+    this.backGroundStatus2 = false,
   }) : super(key: key);
 
   @override
@@ -77,27 +83,58 @@ class ContainerInfoWidget extends StatelessWidget {
               );
             }),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 28, top: backGroundStatus ? 4 : 0),
-            child: Container(
-              padding: !backGroundStatus
-                  ? EdgeInsets.zero
-                  : const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              decoration: BoxDecoration(
-                color: backGroundStatus ? colorStatus : Colors.transparent,
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
-              ),
-              child: Text(
-                status,
-                style: textNormalCustom(
-                  color: backGroundStatus
-                      ? AppTheme.getInstance().backGroundColor()
-                      : colorStatus,
-                  fontSize:
-                      backGroundStatus ? 12.0.textScale() : 14.0.textScale(),
+          Row(
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 28, top: backGroundStatus ? 4 : 0),
+                child: Container(
+                  padding: !backGroundStatus
+                      ? EdgeInsets.zero
+                      : const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: backGroundStatus ? colorStatus : Colors.transparent,
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Text(
+                    status,
+                    style: textNormalCustom(
+                      color: backGroundStatus
+                          ? AppTheme.getInstance().backGroundColor()
+                          : colorStatus,
+                      fontSize: backGroundStatus
+                          ? 12.0.textScale()
+                          : 14.0.textScale(),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 10, top: backGroundStatus2 ? 4 : 0),
+                child: Container(
+                  padding: !backGroundStatus2
+                      ? EdgeInsets.zero
+                      : const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  decoration: BoxDecoration(
+                    color:
+                        backGroundStatus2 ? colorStatus2 : Colors.transparent,
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Text(
+                    status2,
+                    style: textNormalCustom(
+                      color: backGroundStatus2
+                          ? AppTheme.getInstance().backGroundColor()
+                          : colorStatus2,
+                      fontSize: backGroundStatus2
+                          ? 12.0.textScale()
+                          : 14.0.textScale(),
+                    ),
+                  ),
+                ),
+              )
+            ],
           )
         ],
       ),

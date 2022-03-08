@@ -13,3 +13,7 @@ class Loading extends TaoLichLamViecState {
   @override
   List<Object> get props => [];
 }
+class CreateSuccess extends TaoLichLamViecState {
+  @override
+  List<Object> get props => [];
+}

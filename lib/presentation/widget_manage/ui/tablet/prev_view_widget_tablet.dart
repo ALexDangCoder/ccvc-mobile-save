@@ -22,7 +22,7 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
   late AnimationController animationController;
   WidgetManageCubit cubit = WidgetManageCubit();
   HomeCubit homeCubit = HomeCubit();
-
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     // TODO: implement initState
@@ -40,8 +40,10 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
         S.current.xem_truoc_widget,
       ),
       body: HomeProvider(
+        controller: scrollController,
         homeCubit: homeCubit,
         child: SingleChildScrollView(
+          controller: scrollController,
           child: Column(
             children: [
               Container(

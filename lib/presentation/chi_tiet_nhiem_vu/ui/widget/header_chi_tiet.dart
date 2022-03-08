@@ -21,7 +21,7 @@ class HeaderChiTiet extends StatelessWidget {
           : const EdgeInsets.all(16),
       decoration: APP_DEVICE == DeviceType.TABLET
           ? BoxDecoration(
-              color: Colors.white, 
+              color: Colors.white,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
                 color: toDayColor.withOpacity(0.5),
@@ -44,28 +44,36 @@ class HeaderChiTiet extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Text(
-                      e.key,
-                      style: textNormalCustom(
-                        color: unselectedLabelColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.0.textScale(),
+                    Expanded(
+                      flex: 2,
+                      child: RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: e.key,
+                              style: textNormalCustom(
+                                color: unselectedLabelColor,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.0.textScale(),
+                              ),
+                            ),
+                            if (e.isNote)
+                              TextSpan(text: ' *', style: textNormalCustom(
+                                color: Colors.red,
+                                  fontSize: 14.0.textScale(),
+                                ),
+                              )
+                            else
+                              const TextSpan(text: ''),
+                          ],
+                        ),
                       ),
                     ),
-                    if (e.isNote)
-                      Text(
-                        ' *',
-                        style: textNormalCustom(
-                          color: Colors.red,
-                          fontSize: 14.0.textScale(),
-                        ),
-                      )
-                    else
-                      Container(),
                     SizedBox(
                       width: 20.0.textScale(),
                     ),
                     Expanded(
+                      flex: 5,
                       child: Text(
                         e.value,
                         style: textNormalCustom(

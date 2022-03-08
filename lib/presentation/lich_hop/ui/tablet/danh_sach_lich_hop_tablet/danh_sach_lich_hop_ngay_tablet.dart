@@ -62,8 +62,9 @@ class _DanhSachLichHopNgayTabletState extends State<DanhSachLichHopNgayTablet> {
                           ontap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailMeetCalenderTablet(),
+                                builder: (context) => DetailMeetCalenderTablet(
+                                  id: data.items?[index].id ?? '',
+                                ),
                               ),
                             );
                           },

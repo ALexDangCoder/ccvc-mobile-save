@@ -47,7 +47,6 @@ class Data {
     totalPage = json['totalPage'];
   }
   List<CalendarMeetingModel> toDomain() {
-
     return items?.map((e) => e.toDomain()).toList() ?? [];
   }
 }
@@ -123,6 +122,9 @@ class Items {
       timeTo: timeTo ?? '',
       dataTimeFrom: dateTimeFrom ?? DateTime.now().toString(),
       dateTimeTo: dateTimeTo ?? DateTime.now().toString(),
+      nguoiChuTriId: canBoChuTri?.id ?? '',
+      trangThaiTheoUser: trangThaiTheoUser ?? 0,
+      id: id ?? '',
     );
   }
 }

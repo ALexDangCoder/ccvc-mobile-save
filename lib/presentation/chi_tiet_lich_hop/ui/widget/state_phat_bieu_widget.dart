@@ -74,8 +74,12 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
               expand = !expand;
               _runExpandCheck();
             },
+<<<<<<< HEAD
             child: (widget.cubit.typeStatus.value ==
                     widget.cubit.danhSachphatBieu)
+=======
+            child: (widget.cubit.typeStatus.value == widget.cubit.danhSachphatBieu)
+>>>>>>> develop
                 ? Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -125,8 +129,12 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
                               ),
                             ),
                           )
+<<<<<<< HEAD
                         : (widget.cubit.typeStatus.value ==
                                 widget.cubit.huyDuyet
+=======
+                        : (widget.cubit.typeStatus.value == widget.cubit.huyDuyet
+>>>>>>> develop
                             ? Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),

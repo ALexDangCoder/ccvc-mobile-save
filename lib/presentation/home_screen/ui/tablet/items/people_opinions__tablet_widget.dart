@@ -8,7 +8,7 @@ import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/container
 import 'package:ccvc_mobile/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/enum_ext.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -46,31 +46,32 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _danCubit,
-      listSelect: const [
-        SelectKey.CHO_TIEP_NHAN,
-        SelectKey.CHO_PHAN_XU_LY,
-        SelectKey.CHO_DUYET_XU_LY,
-        SelectKey.CHO_DUYET_TIEP_NHAN,
-      ],
+      listSelect: _danCubit.selectKeyPermission,
       onChangeKey: (value){
         if(_danCubit.selectKeyTrangThai !=value){
           _danCubit.selectTrangThaiApi(value);
         }
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: [
-          DialogData(
-            onSelect: (value,startDate,endDate) {
-              _danCubit.selectDate(
-                selectKey: value,
-                startDate: startDate,
-                endDate: endDate,
-              );
-            },
-            title: S.current.time,
-          )
-        ],
+      dialogSelect: StreamBuilder(
+        stream: _danCubit.selectKeyDialog,
+        builder: (context, snapshot) {
+          return DialogSettingWidget(
+            type: widget.homeItemType,
+            listSelectKey: [
+              DialogData(
+                onSelect: (value,startDate,endDate) {
+                  _danCubit.selectDate(
+                    selectKey: value,
+                    startDate: startDate,
+                    endDate: endDate,
+                  );
+                },
+                initValue: _danCubit.selectKeyTime,
+                title: S.current.time,
+              )
+            ],
+          );
+        }
       ),
       child: Flexible(
         child: LoadingOnly(

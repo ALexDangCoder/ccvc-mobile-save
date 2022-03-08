@@ -2,12 +2,15 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
+import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/custom_select_tinh.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/avatar_tablet.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/double_button_edit_seen.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_don_vi.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_ung_dung.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
@@ -96,7 +99,8 @@ class _EditPersonalInformationTabletScreen
               decoration: BoxDecoration(
                 color: backgroundColorApp,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: borderItemCalender.withOpacity(0.5)),
+                border:
+                    Border.all(color: borderItemCalender.withOpacity(0.5)),
               ),
               margin: const EdgeInsets.only(
                 top: 28,
@@ -107,103 +111,107 @@ class _EditPersonalInformationTabletScreen
               padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
               child: FormGroup(
                 key: keyGroup,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: StreamBuilder<ManagerPersonalInformationModel>(
+                  stream: cubit.managerStream,
+                  builder: (context, snap) {
+                    if (!snap.hasData) {
+                      return const SizedBox();
+                    }
+                    return Column(
                       children: [
-                        Text(
-                          S.current.thong_tin,
-                          style: textNormalCustom(
-                            fontSize: 18,
-                            color: fontColorTablet2,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            cubit.getInfo(id: widget.id);
-                            if (keyGroup.currentState!.validator()) {
-                            } else {}
-                          },
-                          child: Text(
-                            S.current.reset,
-                            style: titleText(
-                              fontSize: 16,
-                              color: numberColorTablet,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              S.current.thong_tin,
+                              style: textNormalCustom(
+                                fontSize: 18,
+                                color: fontColorTablet2,
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              InputInfoUserWidget(
-                                needMargin: false,
-                                isObligatory: true,
-                                title: user.keys.elementAt(1),
-                                child: TextFieldValidator(
-                                  controller: nameController,
-                                  validator: (value) {
-                                    return value?.checkNull();
-                                  },
+                            TextButton(
+                              onPressed: () {
+                                cubit.getInfo(id: widget.id);
+                                // if (keyGroup.currentState!.validator()) {
+                                // } else {}
+                              },
+                              child: Text(
+                                S.current.reset,
+                                style: titleText(
+                                  fontSize: 16,
+                                  color: numberColorTablet,
                                 ),
                               ),
-                              InputInfoUserWidget(
-                                isObligatory: true,
-                                title: user.keys.elementAt(2),
-                                child: TextFieldValidator(
-                                  controller: maCanBoController,
-                                  validator: (value) {
-                                    return value?.checkNull();
-                                  },
-                                ),
-                              ),
-                              InputInfoUserWidget(
-                                title: user.keys.elementAt(3),
-                                child: TextFormFieldWidget(
-                                  controller: thuTuController,
-                                  isEnabled: true,
-                                ),
-                              ),
-                              StreamBuilder<bool>(
-                                stream: cubit.isCheckButtonReset,
-                                builder: (context, snapshot) {
-                                  return InputInfoUserWidget(
+                            )
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  InputInfoUserWidget(
+                                    needMargin: false,
+                                    isObligatory: true,
+                                    title: user.keys.elementAt(1),
+                                    child: TextFieldValidator(
+                                      controller: nameController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return S
+                                              .current.khong_duoc_de_trong;
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                  InputInfoUserWidget(
+                                    isObligatory: true,
+                                    title: user.keys.elementAt(2),
+                                    child: TextFieldValidator(
+                                      controller: maCanBoController,
+                                      validator: (value) {
+                                        return value?.checkNull();
+                                      },
+                                    ),
+                                  ),
+                                  InputInfoUserWidget(
+                                    title: user.keys.elementAt(3),
+                                    child: TextFormFieldWidget(
+                                      controller: thuTuController,
+                                      isEnabled: true,
+                                    ),
+                                  ),
+                                  InputInfoUserWidget(
                                     isObligatory: true,
                                     title: user.keys.elementAt(4),
                                     child: SelectDate(
                                       key: UniqueKey(),
                                       paddings: 10,
                                       leadingIcon: SvgPicture.asset(
-                                        ImageAssets.icEditInfor,
+                                        ImageAssets.icCalenders,
                                       ),
                                       value: cubit
-                                          .managerPersonalInformationModel
-                                          .ngaySinh,
+                                              .managerPersonalInformationModel
+                                              .ngaySinh ??
+                                          '',
                                       onSelectDate: (dateTime) {
                                         cubit.selectBirthdayEvent(dateTime);
+                                        dateTimes = dateTime;
                                       },
                                     ),
-                                  );
-                                },
-                              ),
-                              InputInfoUserWidget(
-                                title: user.keys.elementAt(5),
-                                child: TextFieldValidator(
-                                  controller: cmndController,
-                                  validator: (value) {
-                                    return value?.checkNull();
-                                  },
-                                ),
-                              ),
-                              StreamBuilder<bool>(
-                                stream: cubit.isCheckButtonReset,
-                                builder: (context, snapshot) {
-                                  return InputInfoUserWidget(
+                                  ),
+                                  InputInfoUserWidget(
+                                    title: user.keys.elementAt(5),
+                                    child: TextFieldValidator(
+                                      controller: cmndController,
+                                      validator: (value) {
+                                        return value?.checkNull();
+                                      },
+                                    ),
+                                  ),
+                                  InputInfoUserWidget(
                                     isObligatory: true,
                                     title: user.keys.elementAt(6),
                                     child: CustomDropDown(
@@ -217,237 +225,286 @@ class _EditPersonalInformationTabletScreen
                                       onSelectItem: (value) {
                                         if (value == 0) {
                                           cubit.selectGTEvent(true);
+                                          gioiTinh = true;
                                         } else {
                                           cubit.selectGTEvent(false);
+                                          gioiTinh = false;
                                         }
                                       },
                                     ),
-                                  );
-                                },
-                              ),
-                              InputInfoUserWidget(
-                                title: user.keys.elementAt(7),
-                                child: TextFieldValidator(
-                                  controller: emailController,
-                                  validator: (value) {
-                                    return value!.checkEmail();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        spaceW28,
-                        Expanded(
-                          child: Column(
-                            children: [
-                              InputInfoUserWidget(
-                                needMargin: false,
-                                title: user.keys.elementAt(8),
-                                child: TextFieldValidator(
-                                  controller: sdtCoquanController,
-                                  textInputType: TextInputType.number,
-                                  validator: (value) {
-                                    return value!.checkSdt();
-                                  },
-                                ),
-                              ),
-                              InputInfoUserWidget(
-                                title: user.keys.elementAt(9),
-                                child: TextFieldValidator(
-                                  controller: sdtController,
-                                  textInputType: TextInputType.number,
-                                  validator: (value) {
-                                    return value!.checkSdt();
-                                  },
-                                ),
-                              ),
-                              StreamBuilder<List<TinhHuyenXaModel>>(
-                                stream: cubit.tinhStream,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? [];
-                                  return InputInfoUserWidget(
-                                    title: user.keys.elementAt(10),
-                                    child: CustomSelectTinh(
-                                      initialValue: cubit
-                                          .managerPersonalInformationModel.tinh,
-                                      key: UniqueKey(),
-                                      title: S.current.tinh_thanh,
-                                      items: data,
-                                      onChange: (indexes, id) {
-                                        cubit.huyenSubject.sink.add([]);
-                                        cubit.xaSubject.sink.add([]);
-                                        cubit.getDataHuyenXa(
-                                          isXa: false,
-                                          parentId:
-                                              cubit.tinhModel[indexes].id ?? '',
-                                        );
-                                        if (indexes >= 0) {
-                                          cubit.isCheckTinhSubject.sink
-                                              .add(false);
-                                        }
+                                  ),
+                                  InputInfoUserWidget(
+                                    title: user.keys.elementAt(7),
+                                    child: TextFieldValidator(
+                                      controller: emailController,
+                                      validator: (value) {
+                                        return (value ?? '').checkEmail();
                                       },
-                                      onRemove: () {
-                                        cubit.huyenSubject.sink.add([]);
-                                        cubit.isCheckTinhSubject.sink.add(true);
-                                        cubit.isCheckHuyenSubject.sink
-                                            .add(true);
-                                      },
-                                      cubit: cubit,
-                                      isEnable:
-                                          cubit.huyenSubject.value.isEmpty,
                                     ),
-                                  );
-                                },
+                                  ),
+                                ],
                               ),
-                              StreamBuilder<List<TinhHuyenXaModel>>(
-                                stream: cubit.huyenStream,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? [];
-                                  if (data.isEmpty) {
-                                    cubit.xaSubject.sink.add([]);
-                                  }
-                                  return InputInfoUserWidget(
-                                    title: user.keys.elementAt(11),
-                                    child: CustomSelectTinh(
-                                      initialValue: cubit
-                                          .managerPersonalInformationModel
-                                          .huyen,
-                                      key: UniqueKey(),
-                                      title: S.current.quan_huyen,
-                                      items: data,
-                                      onChange: (indexes, id) {
-                                        cubit.xaSubject.sink.add([]);
-                                        cubit.getDataHuyenXa(
-                                          isXa: true,
-                                          parentId:
-                                              cubit.huyenModel[indexes].id ??
+                            ),
+                            spaceW28,
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  InputInfoUserWidget(
+                                    needMargin: false,
+                                    title: user.keys.elementAt(8),
+                                    child: TextFieldValidator(
+                                      controller: sdtCoquanController,
+                                      textInputType: TextInputType.number,
+                                      validator: (value) {
+                                        return (value ?? '').checkSdt();
+                                      },
+                                    ),
+                                  ),
+                                  InputInfoUserWidget(
+                                    title: user.keys.elementAt(9),
+                                    child: TextFieldValidator(
+                                      controller: sdtController,
+                                      textInputType: TextInputType.number,
+                                      validator: (value) {
+                                        return value!.checkSdt();
+                                      },
+                                    ),
+                                  ),
+                                  StreamBuilder<List<TinhHuyenXaModel>>(
+                                    stream: cubit.tinhStream,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? [];
+                                      return InputInfoUserWidget(
+                                        title: user.keys.elementAt(10),
+                                        child: CustomSelectTinh(
+                                          initialValue: cubit
+                                              .managerPersonalInformationModel
+                                              .tinh,
+                                          key: UniqueKey(),
+                                          title: S.current.tinh_thanh,
+                                          items: data,
+                                          onChange: (indexes, id) {
+                                            cubit.huyenSubject.sink.add([]);
+                                            cubit.xaSubject.sink.add([]);
+                                            cubit
+                                                .managerPersonalInformationModel
+                                                .huyen = null;
+                                            cubit
+                                                .managerPersonalInformationModel
+                                                .xa = null;
+
+                                            cubit.getDataHuyenXa(
+                                              isXa: false,
+                                              parentId: cubit
+                                                      .tinhModel[indexes]
+                                                      .id ??
                                                   '',
-                                        );
-                                        if (indexes >= 0) {
-                                          cubit.isCheckTinhSubject.sink
-                                              .add(false);
-                                        }
-                                      },
-                                      onRemove: () {
+                                            );
+                                            if (indexes >= 0) {
+                                              cubit.isCheckTinhSubject.sink
+                                                  .add(false);
+                                            }
+                                            tinh = data[indexes].name ?? '';
+                                          },
+                                          onRemove: () {
+                                            cubit.huyenSubject.sink.add([]);
+                                            cubit.isCheckTinhSubject.sink
+                                                .add(true);
+                                            cubit.isCheckHuyenSubject.sink
+                                                .add(true);
+                                          },
+                                          cubit: cubit,
+                                          isEnable: cubit
+                                              .huyenSubject.value.isEmpty,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  StreamBuilder<List<TinhHuyenXaModel>>(
+                                    stream: cubit.huyenStream,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? [];
+                                      if (data.isEmpty) {
                                         cubit.xaSubject.sink.add([]);
-                                        cubit.isCheckTinhSubject.sink.add(true);
-                                        cubit.isCheckHuyenSubject.sink
-                                            .add(true);
-                                      },
-                                      cubit: cubit,
-                                      isEnable:
-                                          cubit.huyenSubject.value.isEmpty,
+                                      }
+                                      return InputInfoUserWidget(
+                                        title: user.keys.elementAt(11),
+                                        child: CustomSelectTinh(
+                                          initialValue: cubit
+                                              .managerPersonalInformationModel
+                                              .huyen,
+                                          key: UniqueKey(),
+                                          title: S.current.quan_huyen,
+                                          items: data,
+                                          onChange: (indexes, id) {
+                                            cubit.xaSubject.sink.add([]);
+                                            cubit
+                                                .managerPersonalInformationModel
+                                                .xa = null;
+                                            cubit.getDataHuyenXa(
+                                              isXa: true,
+                                              parentId: cubit
+                                                      .huyenModel[indexes]
+                                                      .id ??
+                                                  '',
+                                            );
+                                            if (indexes >= 0) {
+                                              cubit.isCheckTinhSubject.sink
+                                                  .add(false);
+                                            }
+                                            huyen = data[indexes].name ?? '';
+                                          },
+                                          onRemove: () {
+                                            cubit.xaSubject.sink.add([]);
+                                            cubit.isCheckTinhSubject.sink
+                                                .add(true);
+                                            cubit.isCheckHuyenSubject.sink
+                                                .add(true);
+                                          },
+                                          cubit: cubit,
+                                          isEnable: cubit
+                                              .huyenSubject.value.isEmpty,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  StreamBuilder<List<TinhHuyenXaModel>>(
+                                    stream: cubit.xaStream,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? [];
+                                      return InputInfoUserWidget(
+                                        title: user.keys.elementAt(12),
+                                        child: CustomSelectTinh(
+                                          initialValue: cubit
+                                              .managerPersonalInformationModel
+                                              .xa,
+                                          key: UniqueKey(),
+                                          title: S.current.phuong_xa,
+                                          items: data,
+                                          onChange: (indexes, id) {
+                                            if (indexes >= 0) {
+                                              cubit.isCheckTinhSubject.sink
+                                                  .add(false);
+                                            }
+                                            xa = data[indexes].name ?? '';
+                                          },
+                                          onRemove: () {
+                                            cubit.isCheckTinhSubject.sink
+                                                .add(true);
+                                            cubit.isCheckHuyenSubject.sink
+                                                .add(true);
+                                          },
+                                          cubit: cubit,
+                                          isEnable:
+                                              cubit.xaSubject.value.isEmpty,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  InputInfoUserWidget(
+                                    title: user.keys.elementAt(13),
+                                    child: TextFormFieldWidget(
+                                      controller: diaChiLienHeController,
+                                      isEnabled: true,
                                     ),
-                                  );
-                                },
+                                  ),
+                                ],
                               ),
-                              StreamBuilder<List<TinhHuyenXaModel>>(
-                                stream: cubit.xaStream,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? [];
-                                  return InputInfoUserWidget(
-                                    title: user.keys.elementAt(12),
-                                    child: CustomSelectTinh(
-                                      initialValue: cubit
-                                          .managerPersonalInformationModel.xa,
-                                      key: UniqueKey(),
-                                      title: S.current.phuong_xa,
-                                      items: data,
-                                      onChange: (indexes, id) {
-                                        if (indexes >= 0) {
-                                          cubit.isCheckTinhSubject.sink
-                                              .add(false);
-                                        }
-                                      },
-                                      onRemove: () {
-                                        cubit.isCheckTinhSubject.sink.add(true);
-                                        cubit.isCheckHuyenSubject.sink
-                                            .add(true);
-                                      },
-                                      cubit: cubit,
-                                      isEnable: cubit.xaSubject.value.isEmpty,
-                                    ),
-                                  );
-                                },
-                              ),
-                              InputInfoUserWidget(
-                                title: user.keys.elementAt(13),
-                                child: TextFormFieldWidget(
-                                  controller: diaChiLienHeController,
-                                  isEnabled: true,
+                            ),
+                          ],
+                        ),
+                        spaceH28,
+                        Container(
+                          height: 1,
+                          color: borderItemCalender,
+                        ),
+                        spaceH28,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                  top: 20,
+                                  left: 20,
+                                  bottom: 20,
+                                  right: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: borderItemCalender.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border:
+                                      Border.all(color: borderItemCalender),
+                                ),
+                                child: WidgetDonVi(
+                                  cubit: cubit,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            spaceW28,
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                  top: 20,
+                                  left: 20,
+                                  bottom: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: borderItemCalender.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border:
+                                      Border.all(color: borderItemCalender),
+                                ),
+                                child: WidgetUngDung(
+                                  cubit: cubit,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                    spaceH28,
-                    Container(
-                      height: 1,
-                      color: borderItemCalender,
-                    ),
-                    spaceH28,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                              top: 20,
-                              left: 20,
-                              bottom: 20,
-                            ),
-                            decoration: BoxDecoration(
-                              color: borderItemCalender.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: borderItemCalender),
-                            ),
-                            // child: const WidgetDonVi(),
-                          ),
+                        spaceH28,
+                        Container(
+                          height: 1,
+                          color: borderItemCalender,
                         ),
-                        spaceW28,
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                              top: 20,
-                              left: 20,
-                              bottom: 20,
-                            ),
-                            decoration: BoxDecoration(
-                              color: borderItemCalender.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(color: borderItemCalender),
-                            ),
-                            // child: const WidgetUngDung(),
-                          ),
-                        )
+                        spaceH28,
+                        AvatarAndSignatureTablet(
+                          cubit: cubit,
+                        ),
+                        spaceH48,
+                        DoubleButtonEditScreen(
+                          onPressed1: () {
+                            Navigator.pop(context);
+                          },
+                          onPressed2: () {
+                            if (keyGroup.currentState!.validator()) {
+                              cubit.getEditPerson(
+                                id: widget.id,
+                                maCanBo: maCanBoController.value.text,
+                                name: nameController.value.text,
+                                sdtCoQuan: sdtCoquanController.value.text,
+                                sdt: sdtController.value.text,
+                                email: emailController.value.text,
+                                gioitinh: gioiTinh,
+                                ngaySinh: dateTimes,
+                                cmnt: cmndController.value.text,
+                                diaChiLienHe:
+                                    diaChiLienHeController.value.text,
+                                donViDetail: cubit
+                                    .editPersonInformationRequest.donViDetail,
+                                tinh: tinh,
+                                huyen: huyen,
+                                xa: xa,
+                              );
+                            } else {}
+                          },
+                          title1: S.current.huy,
+                          title2: S.current.thay_doi,
+                        ),
+                        spaceH32,
                       ],
-                    ),
-                    spaceH28,
-                    Container(
-                      height: 1,
-                      color: borderItemCalender,
-                    ),
-                    spaceH28,
-                    AvatarAndSignatureTablet(
-                      cubit: cubit,
-                    ),
-                    spaceH48,
-                    DoubleButtonEditScreen(
-                      onPressed1: () {
-                        Navigator.pop(context);
-                      },
-                      onPressed2: () {
-                        if (keyGroup.currentState!.validator()) {
-                        } else {}
-                      },
-                      title1: S.current.huy,
-                      title2: S.current.thay_doi,
-                    ),
-                    spaceH32,
-                  ],
+                    );
+                  },
                 ),
               ),
             ),

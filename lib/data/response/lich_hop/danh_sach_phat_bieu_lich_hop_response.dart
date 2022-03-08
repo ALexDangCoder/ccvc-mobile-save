@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -33,7 +33,7 @@ class DanhSachPhatBieuLichHopDataResponse extends Equatable {
   Map<String, dynamic> toJson() =>
       _$DanhSachPhatBieuLichHopDataResponseToJson(this);
 
-  List<DanhSachPhatBieuLichHopModel> toModel() =>
+  List<PhatBieuModel> toModel() =>
       data?.map((e) => e.toModel()).toList() ?? [];
 
   //todo convert to Model to use
@@ -60,7 +60,7 @@ class DanhSachPhatBieuLichHopResponse extends Equatable {
   @JsonKey(name: 'unitName')
   String? unitName;
   @JsonKey(name: 'time')
-  int? time;
+  String? time;
   @JsonKey(name: 'meetingSection')
   int? meetingSection;
   @JsonKey(name: 'status')
@@ -98,22 +98,11 @@ class DanhSachPhatBieuLichHopResponse extends Equatable {
   Map<String, dynamic> toJson() =>
       _$DanhSachPhatBieuLichHopResponseToJson(this);
 
-  DanhSachPhatBieuLichHopModel toModel() => DanhSachPhatBieuLichHopModel(
-        chuTriCanBoId: chuTriCanBoId,
-        chuTriDonViId: chuTriDonViId,
-        id: id,
-        userId: userId,
-        donViId: donViId,
-        phienHopId: phienHopId,
-        personName: personName,
-        unitName: unitName,
-        time: time,
-        meetingSection: meetingSection,
-        status: status,
-        content: content,
-        lichHopId: lichHopId,
-        tenPhienHop: tenPhienHop,
-        createdBy: createdBy,
+  PhatBieuModel toModel() => PhatBieuModel(
+        nguoiPhatBieu: personName,
+        phienHop: tenPhienHop,
+        tthoiGian: time,
+        ndPhatBieu: content,
       );
 
   //todo convert to Model to use

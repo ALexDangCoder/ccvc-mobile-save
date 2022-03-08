@@ -3,6 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/chi_tiet_yknd_tablet.dart';
+import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/tablet/danh_sach_yknd_tablet.dart';
 import 'package:ccvc_mobile/presentation/nhiem_vu/ui/tablet/widget/list_danh_sach_cong_viec.dart';
@@ -27,6 +29,7 @@ class YKNDScreenTablet extends StatefulWidget {
 class _YKNDScreenTabletState extends State<YKNDScreenTablet>
     with SingleTickerProviderStateMixin {
   YKienNguoiDanCubitt cubit = YKienNguoiDanCubitt();
+  ChooseTimeCubit chooseTimeScreen = ChooseTimeCubit();
 
   @override
   void initState() {
@@ -66,6 +69,7 @@ class _YKNDScreenTabletState extends State<YKNDScreenTablet>
         child: Column(
           children: [
             ChooseTimeScreen(
+              baseChooseTimeCubit: chooseTimeScreen,
               today: DateTime.now(),
             ),
             Padding(
@@ -298,7 +302,15 @@ class _YKNDScreenTabletState extends State<YKNDScreenTablet>
                         : 3,
                     itemBuilder: (context, index) {
                       return YKienNguoiDanCell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const ChiTietVanBanTabletScreen(),
+                            ),
+                          );
+                        },
                         title: cubit.listYKienNguoiDan[index].ngheNghiep ?? '',
                         dateTime:
                             cubit.listYKienNguoiDan[index].ngayThang ?? '',

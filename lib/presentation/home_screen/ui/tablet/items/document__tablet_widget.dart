@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/domain/model/home/document_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_tablet.dart';
 import 'package:ccvc_mobile/presentation/home_screen/bloc/home_cubit.dart';
 
 import 'package:ccvc_mobile/presentation/home_screen/ui/home_provider.dart';
@@ -43,6 +45,7 @@ class _DocumentWidgetState extends State<DocumentTabletWidget> {
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
       maxHeight: 415,
+      minHeight: 415,
       title: S.current.document,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
@@ -63,57 +66,91 @@ class _DocumentWidgetState extends State<DocumentTabletWidget> {
         }
         _vanBanCubit.selectTrangThaiVanBan(value);
       },
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        listSelectKey: <DialogData>[
-          DialogData(
-            onSelect: (value, startDate, endDate) {
-              _vanBanCubit.selectDate(
-                  selectKey: value, startDate: startDate, endDate: endDate);
-            },
-            title: S.current.time,
-          )
-        ],
-      ),
+      dialogSelect: StreamBuilder<Object>(
+          stream: _vanBanCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: <DialogData>[
+                DialogData(
+                  initValue: _vanBanCubit.selectKeyTime,
+                  onSelect: (value, startDate, endDate) {
+                    _vanBanCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate);
+                  },
+                  title: S.current.time,
+                )
+              ],
+            );
+          }),
       child: Flexible(
         child: LoadingOnly(
           stream: _vanBanCubit.stateStream,
           child: StreamBuilder<List<DocumentModel>>(
-            stream: _vanBanCubit.getDanhSachVb,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <DocumentModel>[];
-              if (data.isEmpty) {
-                return const NodataWidget();
-              }
-              return ScrollBarWidget(
-                children: List.generate(data.length, (index) {
-                  final result = data[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: ContainerInfoWidget(
-                      title: result.title,
-                      status: result.status,
-                      colorStatus: result.documentStatus.getColor(),
-                      listData: [
-                        InfoData(
-                          urlIcon: ImageAssets.icSoKyHieu,
-                          key: S.current.so_ky_hieu,
-                          value: result.kyHieu,
+              stream: _vanBanCubit.getDanhSachVb,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? <DocumentModel>[];
+                if (data.isEmpty) {
+                  return const NodataWidget();
+                }
+                return ScrollBarWidget(
+                  children: List.generate(data.length, (index) {
+                    final result = data[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          pushScreen(id: result.id, taskId: result.taskId);
+                        },
+                        child: ContainerInfoWidget(
+                          title: result.title,
+                          status: result.status,
+                          colorStatus: result.documentStatus.getColor(),
+                          listData: [
+                            InfoData(
+                              urlIcon: ImageAssets.icSoKyHieu,
+                              key: S.current.so_ky_hieu,
+                              value: result.kyHieu,
+                            ),
+                            InfoData(
+                              urlIcon: ImageAssets.icAddress,
+                              key: S.current.noi_gui,
+                              value: result.noiGui,
+                            ),
+                          ],
                         ),
-                        InfoData(
-                          urlIcon: ImageAssets.icAddress,
-                          key: S.current.noi_gui,
-                          value: result.noiGui,
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              );
-            }
-          ),
+                      ),
+                    );
+                  }),
+                );
+              }),
         ),
       ),
     );
+  }
+
+  void pushScreen({String id = '', String taskId = ''}) {
+    if (_vanBanCubit.isVanBanDen) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChiTietVanBanDenTablet(
+            taskId: taskId,
+            processId: id,
+          ),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChiTietVanBanTablet(
+            id: id,
+          ),
+        ),
+      );
+    }
   }
 }

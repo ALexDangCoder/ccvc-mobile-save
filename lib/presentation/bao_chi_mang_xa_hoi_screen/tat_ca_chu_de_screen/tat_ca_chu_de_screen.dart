@@ -1,10 +1,14 @@
 import 'dart:ui';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/list_chu_de.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/bloc/bao_chi_mang_xa_hoi_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/hot_new.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/item_infomation.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/item_list_new.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/item_table_topic.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/table_calendar_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +25,7 @@ class TatCaChuDeScreen extends StatefulWidget {
 
 class _TatCaChuDeScreenState extends State<TatCaChuDeScreen> {
   ScrollController _scrollController = ScrollController();
+  BaoChiMangXaHoiBloc baoChiMangXaHoiBloc = BaoChiMangXaHoiBloc();
 
   @override
   void initState() {
@@ -29,6 +34,10 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {}
     });
+    baoChiMangXaHoiBloc.getListTatCaCuDe(
+      baoChiMangXaHoiBloc.startDate,
+      baoChiMangXaHoiBloc.endDate,
+    );
   }
 
   @override
@@ -134,27 +143,35 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen> {
                         height: 1,
                       ),
                     ),
-                    ListView.builder(
-                      // controller: _scrollController,
-                      itemCount: 10,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: const [
-                            ItemListNews(
-                              'https://recmiennam.com/wp-content/uploads/2018/01/phong-canh-thien-nhien-dep-1.jpg',
-                              'Những cuộc thương lượng thưởng Tết',
-                              '5/11/2021  9:10:03 PM',
-                            ),
-                            SizedBox(
-                              height: 16,
-                              child: Divider(
-                                color: lineColor,
-                                height: 1,
-                              ),
-                            ),
-                          ],
+                    StreamBuilder<List<ChuDeModel>>(
+                      stream: baoChiMangXaHoiBloc.listYKienNguoiDan,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return ListView.builder(
+                          // controller: _scrollController,
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                ItemListNews(
+                                  data[index].avartar ?? '',
+                                  data[index].title ?? '',
+                                  DateTime.parse(
+                                    data[index].publishedTime ?? '',
+                                  ).formatApiSS,
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                  child: Divider(
+                                    color: lineColor,
+                                    height: 1,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
                     ),
@@ -163,7 +180,18 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen> {
               ),
             ),
             TableCalendarWidget(
-              onDaySelected: (DateTime selectedDay, DateTime focusedDay) {},
+              onChange: (DateTime startDate, DateTime endDate) {
+                baoChiMangXaHoiBloc.startDate = startDate.formatApiStartDay;
+                baoChiMangXaHoiBloc.endDate = endDate.formatApiEndDay;
+              },
+              onSearch: (value) {
+                baoChiMangXaHoiBloc.getListTatCaCuDe(
+                  baoChiMangXaHoiBloc.startDate,
+                  baoChiMangXaHoiBloc.endDate,
+                );
+              },
+              onChangeRange:
+                  (DateTime? start, DateTime? end, DateTime? focusedDay) {},
             ),
           ],
         ),

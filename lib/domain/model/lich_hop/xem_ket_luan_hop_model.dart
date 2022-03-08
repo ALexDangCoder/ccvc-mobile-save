@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import 'dart:io';
 
+=======
+>>>>>>> develop
 class XemKetLuanHopModel {
   String? id;
   String? scheduleId;
@@ -43,3 +46,7 @@ class XemKetLuanHopModel {
     required this.title,
   });
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop

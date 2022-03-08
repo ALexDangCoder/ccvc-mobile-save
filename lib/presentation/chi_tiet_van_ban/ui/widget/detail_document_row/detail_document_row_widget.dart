@@ -31,10 +31,9 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                 flex: 4,
                 child: AutoSizeText(
                   widget.row.title,
-                  style: textNormalCustom(
-                    color: titleItemEdit,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w400,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xff667793),
                   ),
                 ),
               ),
@@ -42,49 +41,99 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                 flex: 6,
                 child: widget.row.type == TypeDocumentDetailRow.text
                     ? cubit.isCheckLine
-                        ? GestureDetector(
-                            onTap: () {
-                              cubit.isCheckLine = !cubit.isCheckLine;
-                              setState(() {});
-                            },
-                            child: Text(
-                              '${widget.row.value}',
-                              style: textNormalCustom(
-                                fontSize: 14,
-                                color: titleColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              cubit.isCheckLine = !cubit.isCheckLine;
-                              setState(
-                                () {},
-                              );
-                            },
-                            child: Text(
-                              '${widget.row.value}',
-                              style: textNormalCustom(
-                                fontSize: 14,
-                                color: titleColor,
-                              ),
-                            ),
-                          )
-                    : const SizedBox(),
+                    ? GestureDetector(
+                  onTap: () {
+                    cubit.isCheckLine = !cubit.isCheckLine;
+                    setState(() {});
+                  },
+                  child: Text(
+                    '${widget.row.value}',
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: titleColor,
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+                    : GestureDetector(
+                  onTap: () {
+                    cubit.isCheckLine = !cubit.isCheckLine;
+                    setState(
+                          () {},
+                    );
+                  },
+                  child: Text(
+                    '${widget.row.value}',
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: titleColor,
+                    ),
+                  ),
+                )
+                    : Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: daXuLyColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 3),
+                    child: Text(
+                      '${widget.row.value}',
+                      style: textNormalCustom(
+                        fontSize: 14,
+                        color: titleColor,
+                      ),
+                    ),
+                  ),
+                ),
               )
             ],
           )
-        else
-          GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            childAspectRatio: 2.3,
-            children: [
-              checkBoxCusTom(widget.row),
-              // checkBoxCusTom(widget.row),
+        else if (widget.row.type == TypeDocumentDetailRow.status)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                flex: 4,
+                child: AutoSizeText(
+                  widget.row.title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xff667793),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        color: daXuLyColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 3,
+                        ),
+                        child: Text(
+                          '${widget.row.value}',
+                          style: textNormalCustom(
+                            fontSize: 14,
+                            color: titleColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // const Expanded(flex: 3, child: SizedBox())
             ],
           )
       ],
@@ -107,7 +156,7 @@ Widget checkBoxCusTom(DocumentDetailRow row) {
       AutoSizeText(row.title,
           style: textNormalCustom(
             fontSize: 14,
-            color: titleItemEdit,
+            color: const Color(0xff667793),
           )),
     ],
   );

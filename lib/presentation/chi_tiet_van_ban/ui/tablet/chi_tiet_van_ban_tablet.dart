@@ -14,7 +14,8 @@ import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:flutter/material.dart';
 
 class ChiTietVanBanTablet extends StatefulWidget {
-  const ChiTietVanBanTablet({Key? key}) : super(key: key);
+  final String id;
+  const ChiTietVanBanTablet({Key? key,this.id = ''}) : super(key: key);
 
   @override
   _ChiTietVanBanTabletState createState() => _ChiTietVanBanTabletState();
@@ -60,19 +61,19 @@ class _ChiTietVanBanTabletState extends State<ChiTietVanBanTablet> {
                             ),
                             child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: ThongTinGuiNhanWidgetExpandTablet(
-                                    cubit: cubit,
-                                    expanded: cubit.expanded,
-                                  ),
-                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(top: 10),
+                                //   child: ThongTinGuiNhanWidgetExpandTablet(
+                                //     cubit: cubit,
+                                //     expanded: cubit.expanded,
+                                //   ),
+                                // ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child:
                                       LichSuCapNhatTinhHinhWidgetExpandTablet(
                                     cubit: cubit,
-                                    expanded: cubit.expanded2,
+                                    expanded: cubit.expanded2, lichSuVanBanCapNhatModel: [],
                                   ),
                                 ),
                                 Padding(

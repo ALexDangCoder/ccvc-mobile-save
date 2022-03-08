@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -7,7 +9,7 @@ part 'tao_lich_lam_viec_response.g.dart';
 @JsonSerializable()
 class TaoLichLamViecResponse extends Equatable {
   @JsonKey(name: 'data')
-  String? data;
+  bool? data;
   @JsonKey(name: 'statusCode')
   int? statusCode;
   @JsonKey(name: 'succeeded')
@@ -25,8 +27,9 @@ class TaoLichLamViecResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$TaoLichLamViecResponseToJson(this);
 
-  MessageModel toDomain() =>
-      MessageModel(code: code ?? '', succeeded: succeeded ?? false);
+  MessageModel toDomain() {
+   return MessageModel(code: code ?? '', succeeded: succeeded ?? false);
+  }
 
   //todo convert to Model to use
   @override

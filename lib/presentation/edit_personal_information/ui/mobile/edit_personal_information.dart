@@ -96,6 +96,8 @@ class _EditPersonalInformationScreen
             child: TextButton(
               onPressed: () {
                 cubit.getInfo(id: widget.id);
+                cubit.huyenSubject.sink.add([]);
+                cubit.xaSubject.sink.add([]);
                 if (keyGroup.currentState!.validator()) {
                 } else {}
               },
@@ -172,7 +174,7 @@ class _EditPersonalInformationScreen
                             key: UniqueKey(),
                             paddings: 10,
                             leadingIcon:
-                                SvgPicture.asset(ImageAssets.icEditInfor),
+                                SvgPicture.asset(ImageAssets.icCalenders),
                             value: cubit
                                     .managerPersonalInformationModel.ngaySinh ??
                                 '',

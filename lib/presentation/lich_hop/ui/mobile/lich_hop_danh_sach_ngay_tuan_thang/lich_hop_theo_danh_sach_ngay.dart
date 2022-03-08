@@ -73,7 +73,7 @@ class _LichHopTheoDanhSachNgayState extends State<LichHopTheoDanhSachNgay> {
                       ontap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => DetailMeetCalenderScreen(),
+                            builder: (context) => const DetailMeetCalenderScreen(id: '',),
                           ),
                         );
                       },

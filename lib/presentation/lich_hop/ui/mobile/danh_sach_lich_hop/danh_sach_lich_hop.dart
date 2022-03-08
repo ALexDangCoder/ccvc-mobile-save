@@ -68,7 +68,7 @@ class _DanhSachLichHopState extends State<DanhSachLichHop> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) =>
-                                const DetailMeetCalenderScreen(),
+                                const DetailMeetCalenderScreen(id: '',),
                           ),
                         );
                       },

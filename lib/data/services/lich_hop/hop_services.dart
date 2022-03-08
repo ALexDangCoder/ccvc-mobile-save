@@ -114,7 +114,7 @@ abstract class HopServices {
   );
 
   @GET(ApiConstants.SO_LUONG_PHAT_BIEU)
-  Future<SoLuongPhatBieuResponse> getSoLuongPhatBieu(@Query('id') String id);
+  Future<SoLuongPhatBieuResponse> getSoLuongPhatBieu(@Query('Id') String id);
 
   @GET(ApiConstants.TONG_PHIEN_HOP)
   Future<TongPhienHopResponse> getTongPhienHop(@Query('LichHopId') String id);

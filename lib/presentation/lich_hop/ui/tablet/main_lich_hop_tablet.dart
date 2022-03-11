@@ -154,7 +154,7 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                                 );
                               },
                             );
-                          });
+                          },);
                     },
                   ),
                   BlocBuilder<LichHopCubit, LichHopState>(
@@ -189,7 +189,7 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                                   ),
                                 ),
                               );
-                            });
+                            },);
                       }
                     },
                   ),

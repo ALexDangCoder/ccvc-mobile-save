@@ -35,6 +35,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
   void initState() {
     super.initState();
     cubit.chooseTypeListLv(Type_Choose_Option_List.DANG_LICH);
+    cubit.page = 1;
     cubit.callApi();
   }
 
@@ -91,22 +92,16 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                   onTapDay: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.DAY);
-                    cubit.listDSLV.clear();
-                    cubit.page = 1;
                     cubit.callApi();
                   },
                   onTapWeek: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.WEEK);
-                    cubit.listDSLV.clear();
-                    cubit.page = 1;
                     cubit.callApiTuan();
                   },
                   onTapMonth: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.MONTH);
-                    cubit.listDSLV.clear();
-                    cubit.page = 1;
                     cubit.callApiMonth();
                   },
                   cubit: cubit,
@@ -115,27 +110,29 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                   bloc: cubit,
                   builder: (context, state) {
                     return StreamBuilder<List<DateTime>>(
-                      stream: cubit.eventsStream,
-                      builder: (context, snapshot) {
-                        return TableCandarTablet(
-                          eventsLoader: snapshot.data,
-                          type: state.type,
-                          onChangeRange: (
-                            DateTime? start,
-                            DateTime? end,
-                            DateTime? focusedDay,
-                          ) {},
-                          onChange: (DateTime startDate, DateTime endDate,
-                              DateTime selectDay, ) {
-                            cubit.startDates = startDate;
-                            cubit.endDates = endDate;
-                            cubit.listDSLV.clear();
-                            cubit.page = 1;
-                            cubit.callApi();
-                          },
-                        );
-                      }
-                    );
+                        stream: cubit.eventsStream,
+                        builder: (context, snapshot) {
+                          return TableCandarTablet(
+                            eventsLoader: snapshot.data,
+                            type: state.type,
+                            onChangeRange: (
+                              DateTime? start,
+                              DateTime? end,
+                              DateTime? focusedDay,
+                            ) {},
+                            onChange: (
+                              DateTime startDate,
+                              DateTime endDate,
+                              DateTime selectDay,
+                            ) {
+                              cubit.getDataCalendar(
+                                startDate,
+                                endDate,
+                                selectDay,
+                              );
+                            },
+                          );
+                        },);
                   },
                 ),
                 if (snapshot.data == TypeCalendarMenu.LichCuaToi)

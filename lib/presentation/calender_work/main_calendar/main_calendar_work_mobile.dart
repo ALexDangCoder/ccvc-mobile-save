@@ -37,7 +37,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
   void initState() {
     super.initState();
     cubit.chooseTypeListLv(Type_Choose_Option_List.DANG_LICH);
-    cubit.callApi();
+    cubit.initData();
   }
 
   @override
@@ -132,8 +132,6 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.DAY,
                               );
-                              cubit.listDSLV.clear();
-                              cubit.page = 1;
                               cubit.callApi();
                             },
                             onTapWeek: () {
@@ -141,8 +139,6 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.WEEK,
                               );
-                              cubit.listDSLV.clear();
-                              cubit.page = 1;
                               cubit.callApiTuan();
                             },
                             onTapmonth: () {
@@ -150,8 +146,6 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.MONTH,
                               );
-                              cubit.listDSLV.clear();
-                              cubit.page = 1;
                               cubit.callApiMonth();
                             },
                             cubit: cubit,

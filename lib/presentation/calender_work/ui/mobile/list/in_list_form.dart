@@ -9,10 +9,8 @@ import 'package:flutter/material.dart';
 
 class InListForm extends StatefulWidget {
   final CalenderCubit cubit;
-  final Function onTap;
 
-  const InListForm({Key? key, required this.cubit, required this.onTap})
-      : super(key: key);
+  const InListForm({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _InListFormState createState() => _InListFormState();
@@ -33,11 +31,11 @@ class _InListFormState extends State<InListForm> {
           _scrollController.position.maxScrollExtent) {
         if (widget.cubit.page < widget.cubit.totalPage) {
           widget.cubit.page = widget.cubit.page + 1;
-          widget.onTap();
+          widget.cubit.callApi();
         }
       }
     });
-    widget.onTap();
+    widget.cubit.callApi();
   }
 
   @override

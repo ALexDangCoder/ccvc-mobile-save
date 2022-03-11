@@ -62,11 +62,34 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   DateTime startDates = DateTime.now();
   DateTime endDates = DateTime.now();
 
+  void initData() {
+    page = 1;
+    callApiNgay();
+    postEventsCalendar();
+  }
+
   void callApi() {
     startDates = selectDay;
     endDates = selectDay;
     callApiNgay();
-    postEventsCalendar();
+  }
+
+  void getDataCalendar(
+    DateTime startTime,
+    DateTime endTime,
+    DateTime selectTime,
+  ) {
+    startDates = startTime;
+    endDates = endTime;
+    selectDay = selectTime;
+    listDSLV.clear();
+    page = 1;
+
+    if (state.type == Type_Choose_Option_Day.DAY) {
+      callApiNgay();
+    } else {
+      callApiNgay();
+    }
   }
 
   void callApiNgay() {
@@ -87,6 +110,26 @@ class CalenderCubit extends BaseCubit<CalenderState> {
       endDate: endDates.formatApi,
       type: 0,
     );
+  }
+
+  void callApiTuan() {
+    final day = selectDay;
+    startDates = day.subtract(Duration(days: day.weekday - 1));
+    endDates = day.add(Duration(days: DateTime.daysPerWeek - day.weekday));
+    listDSLV.clear();
+    page = 1;
+    callApiNgay();
+    postEventsCalendar();
+  }
+
+  void callApiMonth() {
+    final day = selectDay;
+    startDates = DateTime(day.year, day.month, 1);
+    endDates = DateTime(day.year, day.month + 1, 0);
+    listDSLV.clear();
+    page = 1;
+    callApiNgay();
+    postEventsCalendar();
   }
 
   Future<void> postEventsCalendar({
@@ -118,22 +161,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
       },
       error: (error) {},
     );
-  }
-
-  void callApiTuan() {
-    final day = selectDay;
-    startDates = day.subtract(Duration(days: day.weekday - 1));
-    endDates = day.add(Duration(days: DateTime.daysPerWeek - day.weekday));
-    callApiNgay();
-    postEventsCalendar();
-  }
-
-  void callApiMonth() {
-    final day = selectDay;
-    startDates = DateTime(day.year, day.month, 1);
-    endDates = DateTime(day.year, day.month + 1, 0);
-    callApiNgay();
-    postEventsCalendar();
   }
 
   List<ListLichLVModel> listDSLV = [];

@@ -23,25 +23,16 @@ extension LichLVOpition on Type_Choose_Option_Day {
         return InListFormTablet(
           isHindText: true,
           cubit: cubit,
-          onTap: () {
-            cubit.callApi();
-          },
         );
       case Type_Choose_Option_Day.WEEK:
         return InListFormTablet(
           isHindText: true,
           cubit: cubit,
-          onTap: () {
-            cubit.callApiTuan();
-          },
         );
       case Type_Choose_Option_Day.MONTH:
         return InListFormTablet(
           isHindText: true,
           cubit: cubit,
-          onTap: () {
-            cubit.callApiMonth();
-          },
         );
       default:
         return Container();
@@ -73,23 +64,14 @@ extension LichLVOpition on Type_Choose_Option_Day {
       case Type_Choose_Option_Day.DAY:
         return InListForm(
           cubit: cubit,
-          onTap: () {
-            cubit.callApi();
-          },
         );
       case Type_Choose_Option_Day.WEEK:
         return InListForm(
           cubit: cubit,
-          onTap: () {
-            cubit.callApiTuan();
-          },
         );
       case Type_Choose_Option_Day.MONTH:
         return InListForm(
           cubit: cubit,
-          onTap: () {
-            cubit.callApiMonth();
-          },
         );
       default:
         return Container();
@@ -159,13 +141,11 @@ extension LichLv on CalenderState {
             eventsLoader: snapshot.data,
             type: type,
             isCalendar: false,
-            onChange: (DateTime start, DateTime end, selectDay) {
-              cubit.callApi();
-            },
+            onChange: (DateTime start, DateTime end, selectDay) {},
             onChangeRange:
                 (DateTime? start, DateTime? end, DateTime? focusedDay) {},
           );
-        }
+        },
       );
     }
     return StreamBuilder<List<DateTime>>(
@@ -175,16 +155,16 @@ extension LichLv on CalenderState {
           eventsLoader: snapshot.data,
           type: type,
           onChange: (DateTime start, DateTime end, selectDay) {
-            cubit.startDates = start;
-            cubit.endDates = end;
-            cubit.selectDay = selectDay;
-            cubit.listDSLV.clear();
-            cubit.page = 1;
-            cubit.callApi();
+            cubit.getDataCalendar(
+              start,
+              end,
+              selectDay,
+            );
           },
-          onChangeRange: (DateTime? start, DateTime? end, DateTime? focusedDay) {},
+          onChangeRange:
+              (DateTime? start, DateTime? end, DateTime? focusedDay) {},
         );
-      }
+      },
     );
   }
 

@@ -1,15 +1,10 @@
-import 'package:equatable/equatable.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
 
-abstract class KetNoiState extends Equatable {
+abstract class KetNoiState extends BaseState {
   const KetNoiState();
 }
 
-class MainStateInitial extends KetNoiState {
+class KetNoiStateInitial extends KetNoiState {
   @override
-  List<Object> get props => [];
-}
-
-class Loading extends KetNoiState {
-  @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }

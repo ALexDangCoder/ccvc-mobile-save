@@ -50,7 +50,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<YKienBottomSheet> {
                 ),
                 Expanded(
                   child: ButtonCustomBottom(
-                    title: S.current.sua,
+                    title: S.current.them,
                     isColorBlue: true,
                     onPressed: () {
                       Navigator.pop(context);

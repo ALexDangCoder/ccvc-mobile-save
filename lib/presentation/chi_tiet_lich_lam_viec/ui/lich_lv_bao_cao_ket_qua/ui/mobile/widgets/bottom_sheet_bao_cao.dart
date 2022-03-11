@@ -49,7 +49,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                 ),
                 Expanded(
                   child: ButtonCustomBottom(
-                    title: S.current.sua,
+                    title: S.current.them,
                     isColorBlue: true,
                     onPressed: () {
                       Navigator.pop(context);

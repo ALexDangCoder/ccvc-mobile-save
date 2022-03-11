@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PeopleThamGiaWidget extends StatelessWidget {
   final DonViModel donVi;
   final ThanhPhanThamGiaCubit cubit;
+
   const PeopleThamGiaWidget({
     Key? key,
     required this.donVi,
@@ -33,9 +34,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
             children: [
               rowInfo(
                 value: donVi.name,
-                key: isMobile()
-                    ? S.current.dv_phoi_hop
-                    : S.current.don_vi_phoi_hop,
+                key: S.current.don_vi_phoi_hop,
               ),
               SizedBox(
                 height: 10.0.textScale(space: 10),

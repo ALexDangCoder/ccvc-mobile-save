@@ -86,17 +86,12 @@ class _InListFormTabletState extends State<InListFormTablet> {
                             'https://lh3.googleusercontent.com/ogw/ADea4I7KuOHLBX4h7PqlUfbDpmYAuuvb9iBc5eaCvicoFg=s192-c-mo',
                         onTap: () {
                           final String typeCalendar = _cubit.dataLichLvModel
-                              .listLichLVModel?[index].typeSchedule ??
+                                  .listLichLVModel?[index].typeSchedule ??
                               'MeetingSchedule';
-
-                          typeCalendar.getTypeCalendar
-                              .navigatorDetailTablet(context, _cubit);
-                          Navigator.push(
+                          typeCalendar.getTypeCalendar.navigatorDetailTablet(
                             context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const ChiTietLamViecTablet(),
-                            ),
+                            _cubit.dataLichLvModel.listLichLVModel?[index].id ??
+                                '',
                           );
                         },
                         isTrung: _cubit.dataLichLvModel.listLichLVModel?[index]

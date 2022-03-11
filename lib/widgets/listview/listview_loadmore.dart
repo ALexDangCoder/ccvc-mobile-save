@@ -13,8 +13,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ListViewLoadMore extends StatelessWidget {
   final BaseCubit<dynamic> cubit;
   final Function(int page) callApi;
-  final Widget Function(dynamic,int?) viewItem;
+  final Widget Function(dynamic, int?) viewItem;
   final bool isListView;
+  final double? checkRatio;
+  final double? crossAxisSpacing;
 
   ListViewLoadMore({
     Key? key,
@@ -22,6 +24,8 @@ class ListViewLoadMore extends StatelessWidget {
     required this.isListView,
     required this.callApi,
     required this.viewItem,
+    this.checkRatio,
+    this.crossAxisSpacing,
   }) : super(key: key);
 
   Future<void> refreshPosts() async {
@@ -104,7 +108,7 @@ class ListViewLoadMore extends StatelessWidget {
                           ? ListView.builder(
                               itemCount: snapshot.data?.length ?? 0,
                               itemBuilder: (ctx, index) {
-                                return viewItem(snapshot.data![index],index);
+                                return viewItem(snapshot.data![index], index);
                               },
                             )
                           : GridView.builder(
@@ -115,15 +119,15 @@ class ListViewLoadMore extends StatelessWidget {
                                 bottom: 32,
                               ),
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 16,
-                                crossAxisSpacing: 16,
-                                childAspectRatio: 2 / 3,
+                                crossAxisSpacing: crossAxisSpacing ?? 16,
+                                childAspectRatio: checkRatio ?? 2 / 3,
                               ),
                               itemCount: snapshot.data?.length ?? 0,
                               itemBuilder: (_, index) {
-                                return viewItem(snapshot.data![index],index);
+                                return viewItem(snapshot.data![index], index);
                               },
                             );
                     },

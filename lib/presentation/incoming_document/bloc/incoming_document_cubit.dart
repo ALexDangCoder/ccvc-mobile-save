@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/domain/model/document/incoming_document.dart';
-import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_state.dart';
@@ -12,7 +11,6 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum TypeScreen { VAN_BAN_DEN, VAN_BAN_DI }
@@ -29,7 +27,7 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
   Stream<List<VanBanModel>> get getListVbDen => _getListVBDen.stream;
 
   Future<void> callAPi() async {
-   await listDataVBDen();
+    await listDataVBDen();
   }
 
   final QLVBRepository _QLVBRepo = Get.find();
@@ -55,18 +53,17 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
     required int size,
   }) async {
     loadMorePage = page;
-    final result =
-        await _QLVBRepo.getDanhSachVbDen(
-          DanhSachVBRequest(
-            maTrangThai: maTrangThai,
-            index: page,
-            isChoYKien: false,
-            isSortByDoKhan: true,
-            thoiGianStartFilter: startDate,
-            thoiGianEndFilter: endDate,
-            size: 10,
-          ),
-        );
+    final result = await _QLVBRepo.getDanhSachVbDen(
+      DanhSachVBRequest(
+        maTrangThai: maTrangThai,
+        index: page,
+        isChoYKien: false,
+        isSortByDoKhan: true,
+        thoiGianStartFilter: startDate,
+        thoiGianEndFilter: endDate,
+        size: 10,
+      ),
+    );
     result.when(
       success: (res) {
         if (page == ApiConstants.PAGE_BEGIN) {

@@ -63,7 +63,6 @@ extension DateFormatString on DateTime {
   String get formatMonth {
     final dateString =
         (DateFormat('dd-MM').format(this)).replaceAll('-', ' tháng ');
-
     return dateString;
   }
 

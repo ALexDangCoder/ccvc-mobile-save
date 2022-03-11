@@ -29,7 +29,8 @@ class FakeDataTaoLichHop {
     'Từ thứ 2 đến thứ 6 hàng tuần',
     'Lặp lại hằng tuần',
     'Lặp lại hàng tháng',
-    'Lặp lại hàng năm'
+    'Lặp lại hàng năm',
+    'Tuỳ chỉnh',
   ];
   static final mucDoHop=[
     "Bình thường",

@@ -1,23 +1,35 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/data/request/home/lich_hop_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DetailMeetCalenderScreen extends StatefulWidget {
-  const DetailMeetCalenderScreen({Key? key}) : super(key: key);
+  final String id;
+
+  const DetailMeetCalenderScreen({Key? key, required this.id})
+      : super(key: key);
 
   @override
   State<DetailMeetCalenderScreen> createState() =>
@@ -31,37 +43,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   void initState() {
     super.initState();
     cubit = DetailMeetCalenderCubit();
-    cubit.initData();
-    cubit.postMoiHop(
-      lichHopId: '01deb932-db51-4d25-8904-223d44e76f4e',
-      IsMultipe: false,
-      isSendMail: true,
-      body: [
-        MoiHopRequest(
-          CanBoId: '4da4b3a3-0d1f-41f8-a70d-dc6c48904747',
-          DonViId: '43c679ab-149f-4017-afd5-a6401ff60616',
-          VaiTroThamGia: 2,
-          chucVu: 'Giám đốc sở',
-          hoTen: 'Trần Vũ Hoài Hạ',
-          id: null,
-          status: 0,
-          tenDonVi: 'Sở Kế hoạch và Đầu tư',
-          type: 1,
-          userId: '4da4b3a3-0d1f-41f8-a70d-dc6c48904747',),
-      ],
-    );
-
-    cubit.suaKetLuan(scheduleId: '01deb932-db51-4d25-8904-223d44e76f4e',
-        content: '<h2>a</h2>',
-        reportStatusId: 'de579dda-ce28-4a53-8640-1ece74683a7b',
-        reportTemplateId: '3b03b9f5-70c9-4823-9046-b6d30f903d14',
-        files: [],);
+    cubit.initData(widget.id);
+    cubit.soLuongPhatBieuData(id: widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).backgroundColor,
       appBar: BaseAppBar(
         leadingIcon: IconButton(
           onPressed: () {
@@ -90,18 +78,36 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
               ),
               QData(
                 urlImage: ImageAssets.icThuHoi,
-                text: S.current.xoa_lich,
-                onTap: () {},
+                text: S.current.thu_hoi,
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.phan_cong_thu_ky,
+                    child: const ThuHoiLichWidget(),
+                  );
+                },
               ),
               QData(
                 urlImage: ImageAssets.icPhanCongThuKy,
                 text: S.current.phan_cong_thu_ky,
-                onTap: () {},
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.phan_cong_thu_ky,
+                    child: const PhanCongThuKyWidget(),
+                  );
+                },
               ),
               QData(
                 urlImage: ImageAssets.icTaoBocBang,
                 text: S.current.tao_boc_bang_cuoc_hop,
-                onTap: () {},
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    title: S.current.phan_cong_thu_ky,
+                    child: const TaoBocBangWidget(),
+                  );
+                },
               ),
             ],
           ),
@@ -123,9 +129,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     if (!snapshot.hasData) {
                       return Container();
                     }
-
                     final data = snapshot.data ?? ChiTietLichHopModel();
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -173,17 +177,26 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   },
                 ),
                 const SizedBox(
-                  height: 8,
+                  height: 16,
                 ),
-                CongTacChuanBiWidget(cubit: cubit,)
-
-                // CongTacChuanBiWidget(),
-                // MoiNguoiThamGiaWidget(),
-                // TaiLieuWidget(),
-                // PhatBieuWidget(),
-                // BieuQuyetWidget(),
-                // KetLuanHopWidget(),
-                // YKienCuocHopWidget(),
+                CongTacChuanBiWidget(
+                  cubit: cubit,
+                ),
+                const ChuongTrinhHopWidget(),
+                const SizedBox(
+                  height: 16,
+                ),
+                const MoiNguoiThamGiaWidget(),
+                const TaiLieuWidget(),
+                const PhatBieuWidget(),
+                const BieuQuyetWidget(),
+                KetLuanHopWidget(
+                  cubit: cubit,
+                  id: widget.id,
+                ),
+                YKienCuocHopWidget(
+                  cubit: cubit,
+                )
               ],
             ),
           ),

@@ -33,6 +33,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
       IsMultipe: false,
     );
     super.initState();
+    cubit.soLuongPhatBieuData(id: widget.id);
   }
 
   @override

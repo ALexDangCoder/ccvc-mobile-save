@@ -5,7 +5,7 @@ part 'so_luong_phat_bieu_response.g.dart';
 
 @JsonSerializable()
 class SoLuongPhatBieuResponse {
-  @JsonKey(name: 'Data')
+  @JsonKey(name: 'data')
   SoLuongPhatBieuDataResponse data;
 
   SoLuongPhatBieuResponse(this.data);
@@ -45,9 +45,9 @@ class SoLuongPhatBieuDataResponse {
   List<Object?> get props => throw [];
 
   SoLuongPhatBieuModel toDomain() => SoLuongPhatBieuModel(
-        danhSachPhatBieu: danhSachPhatBieu,
-        choDuyet: choDuyet,
-        daDuyet: daDuyet,
-        huyDuyet: huyDuyet,
+        danhSachPhatBieu: danhSachPhatBieu ?? 0,
+        choDuyet: choDuyet ?? 0,
+        daDuyet: daDuyet ?? 0,
+        huyDuyet: huyDuyet ?? 0,
       );
 }

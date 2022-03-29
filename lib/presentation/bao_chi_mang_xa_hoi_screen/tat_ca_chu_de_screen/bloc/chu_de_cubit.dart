@@ -67,7 +67,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
   String endDate = DateTime.now().formatApiEndDay;
 
   Future<void> callApi() async {
-    final queue = Queue(parallel: 1);
+    final queue = Queue(parallel: 3);
     unawaited(
       queue.add(
         () => getDashboard(

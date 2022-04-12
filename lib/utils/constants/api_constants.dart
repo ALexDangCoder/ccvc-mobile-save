@@ -169,6 +169,7 @@ class ApiConstants {
   static const DON_VI_XU_LY = '/pakn/api/Dashboard/statistics-by-unit';
   static const SO_LUONG_BY_MONTH= '/api/NewsNetViews/tong_quan';
   static const TONG_QUAN_BAO_CAO_BCMXH= '/api/NewsNetViews/tong_quan';
+  static const TIN_TONG_HOP_BAO_CAO_BCMXH= '/api/NewsNetViews/dashboard_statistical';
 
 }
 

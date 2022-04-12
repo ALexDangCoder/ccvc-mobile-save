@@ -67,4 +67,9 @@ mixin BaoChiMangXaHoiRepository {
     String enddDate,
     int treeNode,
   );
+
+  Future<Result<List<TinTongHopModel>>> tinTongHopBaoCaoThongKe(
+      String fromDate,
+      String enddDate,
+      );
 }

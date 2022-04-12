@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/tin_tong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/tong_quan_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke_resopnse.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/dash_board_tat_ca_chu_de_response.dart';
@@ -173,6 +174,22 @@ class BaoChiMangXaHoiImpl implements BaoChiMangXaHoiRepository {
               treeNode,
             ), (res) {
       return res.toDomain();
+    });
+  }
+
+  @override
+  Future<Result<List<TinTongHopModel>>> tinTongHopBaoCaoThongKe(
+      String fromDate, String enddDate,) {
+    return runCatchingAsync<String, List<TinTongHopModel>>(
+        () => _baoChiMangXaHoiService.tinTongHop(
+              fromDate,
+              enddDate,
+            ), (res) {
+      final data = TinTongHopResponse.fromJson(json.decode(res));
+      return data.tinTongHop
+              ?.map((e) => e.interactionStatistic.tinTongHopData.toDomain())
+              .toList() ??
+          [];
     });
   }
 }

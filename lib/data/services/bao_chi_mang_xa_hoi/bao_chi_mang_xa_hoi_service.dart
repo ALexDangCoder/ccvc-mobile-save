@@ -82,4 +82,9 @@ abstract class BaoChiMangXaHoiService {
     @Query('toDate') String toDate,
     @Query('treeNode') int treeNode,
   );
+  @GET(ApiConstants.TIN_TONG_HOP_BAO_CAO_BCMXH)
+  Future<String> tinTongHop(
+      @Query('fromDate') String fromDate,
+      @Query('toDate') String toDate,
+      );
 }

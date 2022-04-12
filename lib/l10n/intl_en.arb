@@ -839,5 +839,8 @@
   "yeu_cau_phoi_hop": " yêu cầu phối hợp",
   "cho_bo_sung_tt": "chờ bổ sung thông tin",
   "linh_vuc_xu_ly": "Lĩnh vực xử lý",
-  "so_luong_yknd": "Số lượng ý kiến người dân qua thời gian"
+  "so_luong_yknd": "Số lượng ý kiến người dân qua thời gian",
+  "tich_cuc": "Tích cực",
+  "tieu_cuc": "Tiêu cực",
+  "trung_lap": "Trùng Lặp"
 }

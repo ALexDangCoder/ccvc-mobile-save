@@ -19,9 +19,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 enum dropDown { tinRadio, tinTrongNuoc, tinQuocTe }
 
 class TinTucThoiSuScreen extends StatefulWidget {
-  final TinTucThoiSuBloc tinTucThoiSuBloc;
   final BuildContext pContext;
-
+  final TinTucThoiSuBloc tinTucThoiSuBloc;
   const TinTucThoiSuScreen({
     Key? key,
     required this.tinTucThoiSuBloc,
@@ -32,8 +31,10 @@ class TinTucThoiSuScreen extends StatefulWidget {
   State<TinTucThoiSuScreen> createState() => _TinTucThoiSuScreenState();
 }
 
-class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>  with AutomaticKeepAliveClientMixin{
+class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
+    with AutomaticKeepAliveClientMixin {
   dropDown? valueChoose = dropDown.tinRadio;
+
 
   @override
   void initState() {
@@ -119,10 +120,8 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>  with Automatic
                                 listTinTuc: valueChoose == dropDown.tinRadio
                                     ? widget.tinTucThoiSuBloc.listTinTuc
                                     : valueChoose == dropDown.tinTrongNuoc
-                                        ? widget.tinTucThoiSuBloc
-                                            .listTinTucTrongNuoc
-                                        : widget
-                                            .tinTucThoiSuBloc.listTinTucQuocTe,
+                                        ? widget.tinTucThoiSuBloc.listTinTucTrongNuoc
+                                        : widget.tinTucThoiSuBloc.listTinTucQuocTe,
                               );
                             },
                           );
@@ -191,7 +190,7 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>  with Automatic
                       widget.tinTucThoiSuBloc.listTinTucTrongNuoc.clear();
                       return Expanded(
                         child: ListViewLoadMore(
-                          cubit: widget.tinTucThoiSuBloc,
+                          cubit:widget.tinTucThoiSuBloc,
                           isListView: true,
                           callApi: (page) => {
                             callApiTrongNuoc(
@@ -238,8 +237,7 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>  with Automatic
   }
 
   void callApi(int page) {
-    widget.tinTucThoiSuBloc
-        .getListTinTucRadio(page, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc.getListTinTucRadio(page, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   Widget itemTinTucThoiSu(TinTucRadioModel data, int index) {
@@ -267,8 +265,8 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>  with Automatic
   }
 
   void callApiTrongNuoc(int page) {
-    widget.tinTucThoiSuBloc
-        .getListTinTucRadioTrongNuoc(page, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc.getListTinTucRadioTrongNuoc(
+        page, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   Widget itemTinTucThoiSuTrongNuoc(TinTucRadioModel data, int index) {
@@ -299,8 +297,8 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>  with Automatic
   }
 
   void callApiQuocTe(int page) {
-    widget.tinTucThoiSuBloc
-        .getListTinTucRadioQuocTe(page, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc.getListTinTucRadioQuocTe(
+        page, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   Widget itemTinTucThoiSuQuocTe(TinTucRadioModel data, int index) {

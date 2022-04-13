@@ -79,9 +79,9 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
           labelColor: selectColorTabbar,
           isScrollable: true,
           onTap: (value) {
-            if (value == 3) {
-              blocTinTuc.listTinTuc.clear();
-            }
+            // if (value == 3) {
+            //   blocTinTuc.listTinTuc.clear();
+            // }
           },
           tabs: [
             Tab(
@@ -102,7 +102,7 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
         ),
       ),
       body: ProviderWidget<BaoChiMangXaHoiBloc>(
-        cubit:cubit,
+        cubit: cubit,
         child: StateStreamLayout(
           stream: cubit.stateStream,
           retry: () {},

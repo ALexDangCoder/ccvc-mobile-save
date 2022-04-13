@@ -119,3 +119,9 @@ class LineChartWidget extends StatelessWidget {
     );
   }
 }
+class LineChartData{
+  final String date;
+  final int count;
+
+  LineChartData({required this.date,required this.count});
+}

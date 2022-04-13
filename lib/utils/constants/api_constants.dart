@@ -170,6 +170,9 @@ class ApiConstants {
   static const SO_LUONG_BY_MONTH= '/api/NewsNetViews/tong_quan';
   static const TONG_QUAN_BAO_CAO_BCMXH= '/api/NewsNetViews/tong_quan';
   static const TIN_TONG_HOP_BAO_CAO_BCMXH= '/api/NewsNetViews/dashboard_statistical';
+  static const BAO_CAO_THEO_NGUON_BCMXH= '/api/NewsNetViews/thong_ke_theo_ty_le_nguon';
+  static const BAO_CAO_THEO_SAC_THAI= '/api/NewsNetViews/thong_ke_theo_ty_le_sac_thai';
+  static const BAO_CAO_THEO_THOI_GIAN= '/api/NewsNetViews/thong_ke_theo_thoi_gian';
 
 }
 

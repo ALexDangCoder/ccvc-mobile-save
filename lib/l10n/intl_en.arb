@@ -842,5 +842,11 @@
   "so_luong_yknd": "Số lượng ý kiến người dân qua thời gian",
   "tich_cuc": "Tích cực",
   "tieu_cuc": "Tiêu cực",
-  "trung_lap": "Trùng Lặp"
+  "trung_lap": "Trùng Lặp",
+  "khac": "Khác",
+  "tong_quan": "Tổng quan",
+  "thong_ke_theo_nguon_tin": "Thống kê theo tỷ lệ nguồn tin",
+  "thong_ke_theo_sac_thai": "Thống kê theo tỷ lệ sắc thái"
+
+
 }

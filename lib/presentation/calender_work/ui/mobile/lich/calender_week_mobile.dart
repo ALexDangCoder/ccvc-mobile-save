@@ -58,6 +58,7 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
                   ) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
+                    print("sss${calendarAppointmentDetails.appointments.length}");
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6.0),

@@ -86,11 +86,13 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                               return SelectOnlyExpand(
                                 urlIcon: ImageAssets.icDocument,
                                 title: S.current.loai_bai_viet,
-                                value: data.map((e) => e.title).first,
-                                listSelect: data.map((e) => e.title).toList(),
+                                value: data.map((e) => e.title).first ?? '',
+                                listSelect:
+                                    data.map((e) => (e.title) ?? '').toList(),
                                 onChange: (value) {
                                   widget.cubit.loaiBaiViet = value;
                                 },
+                                dataLoaiBaiViet: data,
                               );
                             }
                             return const SizedBox();
@@ -314,12 +316,16 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                                     return SelectOnlyExpand(
                                       urlIcon: ImageAssets.icDocument,
                                       title: S.current.loai_bai_viet,
-                                      value: data.map((e) => e.title).first,
-                                      listSelect:
-                                          data.map((e) => e.title).toList(),
+                                      value:
+                                          data.map((e) => e.title).first ?? '',
                                       onChange: (value) {
+                                        print("zzzzz${value}");
                                         widget.cubit.loaiBaiViet = value;
                                       },
+                                      listSelect: data
+                                          .map((e) => e.title ?? '')
+                                          .toList(),
+                                      dataLoaiBaiViet: data,
                                     );
                                   }
                                   return const SizedBox();

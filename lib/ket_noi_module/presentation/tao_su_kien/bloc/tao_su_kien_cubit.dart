@@ -1,10 +1,8 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/request/tao_su_kien_resquest.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/model/loai_bai_viet_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/repository/ket_noi_repository.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/tao_su_kien/bloc/tao_su_kien_state.dart';
-import 'package:ccvc_mobile/ket_noi_module/widgets/dialog/dialog.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -34,7 +32,7 @@ class TaoSuKienCubit extends BaseCubit<TaoSuKienState> {
   }
 
   Future<void> callApis() async {
-   await postTaoSuKien(
+    await postTaoSuKien(
       loaiBaiViet: loaiBaiViet.join(','),
       tieuDe: tenSuKien,
       ngayBatDau: thoiGian,
@@ -60,7 +58,7 @@ class TaoSuKienCubit extends BaseCubit<TaoSuKienState> {
       success: (res) {
         listData.clear();
         listData.addAll(res);
-        loaiBaiVietSubject.sink.add(res.first.childrens);
+        loaiBaiVietSubject.sink.add(res.first.childrens ?? []);
         showContent();
       },
       error: (error) {
@@ -91,12 +89,8 @@ class TaoSuKienCubit extends BaseCubit<TaoSuKienState> {
     );
     final result = await repo.postTaoSuKien(taoSuKienRequest);
     result.when(
-      success: (res) {
-        // MessageConfig.show(title: S.current.tao_thanh_cong);
-      },
-      error: (error) {
-        // MessageConfig.show(title: S.current.tao_that_bai);
-      },
+      success: (res) {},
+      error: (error) {},
     );
   }
 }

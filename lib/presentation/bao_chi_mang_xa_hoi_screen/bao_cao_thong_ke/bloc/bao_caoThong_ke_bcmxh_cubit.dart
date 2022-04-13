@@ -44,53 +44,62 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
       '2022/04/08 00:00:00',
       848,
     );
-
     result.when(
       success: (res) {
-        chartDataTongQuan.add(
-          BarChartModel(soLuong: res.tongTin ?? 0, ten: S.current.tong_tin),
-        );
-        chartDataTongQuan.add(
-          BarChartModel(
-            soLuong: res.mangXaHoi ?? 0,
-            ten: S.current.mang_xa_hoi,
-          ),
-        );
-        chartDataTongQuan.add(
-          BarChartModel(soLuong: res.baoChi ?? 0, ten: S.current.bao_chi),
-        );
-        chartDataTongQuan.add(
-          BarChartModel(soLuong: res.forum ?? 0, ten: S.current.forum),
-        );
-        chartDataTongQuan.add(
-          BarChartModel(soLuong: res.blog ?? 0, ten: S.current.blog),
-        );
-        chartDataTongQuan.add(
-          BarChartModel(soLuong: res.nguonKhac ?? 0, ten: S.current.nguon_khac),
-        );
-
-        chartDataStatusTongQuan
-            .add(BarChartModel(soLuong: res.like ?? 0, ten: S.current.like));
-
-        chartDataStatusTongQuan
-            .add(BarChartModel(soLuong: res.share ?? 0, ten: S.current.share));
-        chartDataStatusTongQuan.add(
-          BarChartModel(soLuong: res.comment ?? 0, ten: S.current.comment),
-        );
-        chartDataStatusTongQuan.add(
-          BarChartModel(soLuong: res.tichCuc ?? 0, ten: S.current.tich_cuc),
-        );
-        chartDataStatusTongQuan.add(
-          BarChartModel(soLuong: res.tieuCuc ?? 0, ten: S.current.tieu_cuc),
-        );
-        chartDataStatusTongQuan.add(
-          BarChartModel(
-            soLuong: res.trungLap ?? 0,
-            ten: S.current.trung_lap,
-          ),
-        );
-        dataTongQuan[KEY_TONG_QUAN] = chartDataTongQuan;
-        dataTongQuan[KEY_STATUS_TONG_QUAN] = chartDataStatusTongQuan;
+        // chartDataTongQuan.add(
+        //   BarChartModel(soLuong: res.tongTin ?? 0, ten: S.current.tong_tin),
+        // );
+        // chartDataTongQuan.add(
+        //   BarChartModel(
+        //     soLuong: res.mangXaHoi ?? 0,
+        //     ten: S.current.mang_xa_hoi,
+        //   ),
+        // );
+        // chartDataTongQuan.add(
+        //   BarChartModel(soLuong: res.baoChi ?? 0, ten: S.current.bao_chi),
+        // );
+        // chartDataTongQuan.add(
+        //   BarChartModel(soLuong: res.forum ?? 0, ten: S.current.forum),
+        // );
+        // chartDataTongQuan.add(
+        //   BarChartModel(soLuong: res.blog ?? 0, ten: S.current.blog),
+        // );
+        // chartDataTongQuan.add(
+        //   BarChartModel(soLuong: res.nguonKhac ?? 0, ten: S.current.nguon_khac),
+        // );
+        //
+        // chartDataStatusTongQuan
+        //     .add(BarChartModel(soLuong: res.like ?? 0, ten: S.current.like));
+        //
+        // chartDataStatusTongQuan
+        //     .add(BarChartModel(soLuong: res.share ?? 0, ten: S.current.share));
+        // chartDataStatusTongQuan.add(
+        //   BarChartModel(soLuong: res.comment ?? 0, ten: S.current.comment),
+        // );
+        // chartDataStatusTongQuan.add(
+        //   BarChartModel(soLuong: res.tichCuc ?? 0, ten: S.current.tich_cuc),
+        // );
+        // chartDataStatusTongQuan.add(
+        //   BarChartModel(soLuong: res.tieuCuc ?? 0, ten: S.current.tieu_cuc),
+        // );
+        // chartDataStatusTongQuan.add(
+        //   BarChartModel(
+        //     soLuong: res.trungLap ?? 0,
+        //     ten: S.current.trung_lap,
+        //   ),
+        // );
+        final List<BarChartModel> listOne=[
+          BarChartModel(soLuong: 3000, ten: 'ten'),
+          BarChartModel(soLuong: 2000, ten: 'bai nghin'),
+          BarChartModel(soLuong: 1500, ten: 'nghin ruoi')
+        ];
+        final List<BarChartModel> listTwo=[
+          BarChartModel(soLuong: 3000, ten: 'ten'),
+          BarChartModel(soLuong: 2000, ten: 'bai nghin'),
+          BarChartModel(soLuong: 1500, ten: 'nghin ruoi')
+        ];
+        dataTongQuan[KEY_TONG_QUAN] = listOne;
+        dataTongQuan[KEY_STATUS_TONG_QUAN] = listTwo;
         _mapTongQuan.sink.add(dataTongQuan);
         showContent();
       },
@@ -99,32 +108,34 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
       },
     );
   }
-  void clear(){
+
+  void clear() {
     showContent();
   }
+
   Future<void> getTinTongHop() async {
     showLoading();
     final result = await _BCMXHRepo.tinTongHopBaoCaoThongKe(
       '2022/03/01 00:00:00',
       '2022/04/08 00:00:00',
     );
+    showContent();
     result.when(
       success: (res) {
         final List<List<BarChartModel>> listbarChar = [];
         for (final element in res) {
-          final List<BarChartModel> barCharData = [];
-          barCharData.add(BarChartModel(
-              soLuong: element.reach.toInt(), ten: S.current.bai_viet,),);
-          barCharData.add(BarChartModel(
-              soLuong: element.like.toInt(), ten: S.current.like,),);
-          barCharData.add(BarChartModel(
-              soLuong: element.share.toInt(), ten: S.current.share,),);
-          barCharData.add(BarChartModel(
-              soLuong: element.comment.toInt(), ten: S.current.comment,),);
-          listbarChar.add(barCharData);
+          // final List<BarChartModel> barCharData = [];
+          // barCharData.add(BarChartModel(
+          //     soLuong: element.reach.toInt(), ten: S.current.bai_viet,),);
+          // barCharData.add(BarChartModel(
+          //     soLuong: element.like.toInt(), ten: S.current.like,),);
+          // barCharData.add(BarChartModel(
+          //     soLuong: element.share.toInt(), ten: S.current.share,),);
+          // barCharData.add(BarChartModel(
+          //     soLuong: element.comment.toInt(), ten: S.current.comment,),);
+          // listbarChar.add(barCharData);
         }
         _listTinTongHop.sink.add(listbarChar);
-        showContent();
       },
       error: (err) {
         return;

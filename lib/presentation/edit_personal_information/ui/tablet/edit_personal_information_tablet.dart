@@ -5,8 +5,8 @@ import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_mod
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/custom_select_tinh.dart';
-import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/avatar_tablet.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/select_date_tablet.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/double_button_edit_seen.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_don_vi.dart';
@@ -48,11 +48,6 @@ class _EditPersonalInformationTabletScreen
   TextEditingController sdtController = TextEditingController();
   TextEditingController diaChiLienHeController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
-  String tinh = '';
-  String huyen = '';
-  String xa = '';
-  String dateTimes = '';
-  bool gioiTinh = true;
 
   @override
   void initState() {
@@ -68,7 +63,6 @@ class _EditPersonalInformationTabletScreen
       sdtCoquanController.text = event.phoneCoQuan ?? '';
       sdtController.text = event.phoneDiDong ?? '';
       diaChiLienHeController.text = event.diaChi ?? '';
-      dateTimes = cubit.managerPersonalInformationModel.ngaySinh ?? '';
     });
     super.initState();
   }
@@ -189,7 +183,7 @@ class _EditPersonalInformationTabletScreen
                                   InputInfoUserWidget(
                                     isObligatory: true,
                                     title: user.keys.elementAt(4),
-                                    child: SelectDate(
+                                    child: SelectDateTablet(
                                       key: UniqueKey(),
                                       paddings: 10,
                                       leadingIcon: SvgPicture.asset(
@@ -201,7 +195,7 @@ class _EditPersonalInformationTabletScreen
                                           '',
                                       onSelectDate: (dateTime) {
                                         cubit.selectBirthdayEvent(dateTime);
-                                        dateTimes = dateTime;
+                                        cubit.ngaySinh = dateTime;
                                       },
                                     ),
                                   ),
@@ -226,10 +220,10 @@ class _EditPersonalInformationTabletScreen
                                       onSelectItem: (value) {
                                         if (value == 0) {
                                           cubit.selectGTEvent(true);
-                                          gioiTinh = true;
+                                          cubit.gioiTinh = true;
                                         } else {
                                           cubit.selectGTEvent(false);
-                                          gioiTinh = false;
+                                          cubit.gioiTinh = false;
                                         }
                                       },
                                     ),
@@ -307,7 +301,10 @@ class _EditPersonalInformationTabletScreen
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            tinh = data[indexes].name ?? '';
+                                            cubit.tinh =
+                                                data[indexes].name ?? '';
+                                            cubit.idTinh =
+                                                data[indexes].id ?? '';
                                           },
                                           onRemove: () {
                                             cubit.huyenSubject.sink.add([]);
@@ -354,7 +351,10 @@ class _EditPersonalInformationTabletScreen
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            huyen = data[indexes].name ?? '';
+                                            cubit.huyen =
+                                                data[indexes].name ?? '';
+                                            cubit.idHuyen =
+                                                data[indexes].id ?? '';
                                           },
                                           onRemove: () {
                                             cubit.xaSubject.sink.add([]);
@@ -388,7 +388,8 @@ class _EditPersonalInformationTabletScreen
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            xa = data[indexes].name ?? '';
+                                            cubit.xa = data[indexes].name ?? '';
+                                            cubit.idXa = data[indexes].id ?? '';
                                           },
                                           onRemove: () {
                                             cubit.isCheckTinhSubject.sink
@@ -513,15 +514,19 @@ class _EditPersonalInformationTabletScreen
                                 sdtCoQuan: sdtCoquanController.value.text,
                                 sdt: sdtController.value.text,
                                 email: emailController.value.text,
-                                gioitinh: gioiTinh,
-                                ngaySinh: dateTimes,
+                                gioitinh: cubit.gioiTinh,
+                                ngaySinh: cubit.ngaySinh,
                                 cmnt: cmndController.value.text,
                                 diaChiLienHe: diaChiLienHeController.value.text,
                                 donViDetail: cubit
                                     .editPersonInformationRequest.donViDetail,
-                                tinh: tinh,
-                                huyen: huyen,
-                                xa: xa,
+                                thuTu: int.parse(thuTuController.text),
+                                tinh: cubit.tinh,
+                                huyen: cubit.huyen,
+                                xa: cubit.xa,
+                                idTinh: cubit.idTinh,
+                                idHuyen: cubit.idHuyen,
+                                idXa: cubit.idXa,
                               )
                                   .then(
                                 (value) {
@@ -536,7 +541,11 @@ class _EditPersonalInformationTabletScreen
                                 ),
                               );
                               Navigator.pop(context);
-                            } else {}
+                            } else {
+                              MessageConfig.show(
+                                title: S.current.sua_that_bai,
+                              );
+                            }
                           },
                           title1: S.current.dong,
                           title2: S.current.luu_lai,

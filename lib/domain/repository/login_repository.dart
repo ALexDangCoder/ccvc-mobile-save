@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_app_model.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
@@ -30,4 +31,9 @@ mixin AccountRepository {
   Future<Result<PhamViModel>> getPhamVi();
 
   Future<Result<PermissionApp>> getListPermissionApp();
+  Future<Result<ChangePassModel>> changePass(
+      String passwordOld,
+      String password,
+      String repeatPassword,
+      );
 }

@@ -7,8 +7,8 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tabbar_newspaper.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/ui/tablet/tabbar_newspaper_tablet.dart';
 import 'package:ccvc_mobile/presentation/cai_dat_giao_dien_screen/cai_dat_giao_dien_screen.dart';
-import 'package:ccvc_mobile/presentation/forgot_password/ui/mobile/forgot_password_screen.dart';
-import 'package:ccvc_mobile/presentation/forgot_password/ui/tablet/forgot_password_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/change_password/ui/mobile/change_password_screen.dart';
+import 'package:ccvc_mobile/presentation/change_password/ui/tablet/change_password_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/mobile/hoi_dap_screen.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/ui/tablet/hoi_dap_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/main_lich_hop.dart';
@@ -213,8 +213,8 @@ extension GetScreen on MenuType {
         );
       case MenuType.doiMatKhau:
         return screenDevice(
-          mobileScreen: const ForgotPassWordScreen(),
-          tabletScreen: const ForgotPassWordScreenTablet(),
+          mobileScreen: const ChangePassWordScreen(),
+          tabletScreen: const ChangePassWordScreenTablet(),
         );
     }
   }

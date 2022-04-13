@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -65,26 +66,38 @@ class _InCalenderFormState extends State<InCalenderForm> {
                           ) {
                             final Appointment appointment =
                                 calendarAppointmentDetails.appointments.first;
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 5.0,
-                                vertical: 2.0,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6.0),
-                                color: textColorMangXaHoi,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      appointment.subject,
-                                      style: textNormalCustom(fontSize: 12.0),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ChiTietLichLamViecScreen(
+                                      id: appointment.id.toString(),
                                     ),
                                   ),
-                                  const SizedBox(height: 4.0),
-                                ],
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0,
+                                  vertical: 2.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  color: textColorMangXaHoi,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        appointment.subject,
+                                        style: textNormalCustom(fontSize: 12.0),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4.0),
+                                  ],
+                                ),
                               ),
                             );
                           },

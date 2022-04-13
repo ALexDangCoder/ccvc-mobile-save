@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_inf
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
-import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -19,28 +18,66 @@ class ManagerPersonalInformationCubit
     extends BaseCubit<ManagerPersonalInformationState> {
   ManagerPersonalInformationCubit() : super(BaseChooseTimeInitial());
 
-  BehaviorSubject<ManagerPersonalInformationModel> managerPersonSubject =
-      BehaviorSubject();
-
-  Stream<ManagerPersonalInformationModel> get managerStream =>
-      managerPersonSubject.stream;
   EditPersonInformationRequest editPersonInformationRequest =
       EditPersonInformationRequest();
 
-//tinh huyen sss
-  BehaviorSubject<List<TinhHuyenXaModel>> tinhSubject = BehaviorSubject.seeded(
+  final BehaviorSubject<String> avatarPathSubject = BehaviorSubject();
+  final BehaviorSubject<String> chuKyPathSubject = BehaviorSubject();
+  final BehaviorSubject<String> kyNhayPathSubject = BehaviorSubject();
+  final BehaviorSubject<bool> isCheckTinhSubject = BehaviorSubject();
+  final BehaviorSubject<File> saveFile = BehaviorSubject();
+  final BehaviorSubject<ManagerPersonalInformationModel> managerPersonSubject =
+      BehaviorSubject();
+  final BehaviorSubject<bool> isCheckHuyenSubject = BehaviorSubject();
+  final BehaviorSubject<DataEditPersonInformation> dataEditSubject =
+      BehaviorSubject();
+
+  final BehaviorSubject<List<TinhHuyenXaModel>> tinhSubject =
+      BehaviorSubject.seeded(
     [],
   );
+  final BehaviorSubject<List<TinhHuyenXaModel>> huyenSubject =
+      BehaviorSubject.seeded([]);
+  final BehaviorSubject<String> isCheckRadioButton = BehaviorSubject();
+  final BehaviorSubject<bool> isCheckButtonReset = BehaviorSubject.seeded(true);
+  final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
+  final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
+      BehaviorSubject.seeded([]);
 
-  List<TinhHuyenXaModel> tinhModel = [];
+  Stream<ManagerPersonalInformationModel> get managerStream =>
+      managerPersonSubject.stream;
+
+  Stream<File> get saveFileStream => saveFile.stream;
+
+  Stream<bool> get isCheckTinhStream => isCheckTinhSubject.stream;
+
+  Stream<bool> get isCheckHuyenStream => isCheckHuyenSubject.stream;
+
+  Stream<int> get checkRadioStream => _checkRadioSubject.stream;
+
+  Stream<List<TinhHuyenXaModel>> get huyenStream => huyenSubject.stream;
+
+  Stream<List<TinhHuyenXaModel>> get xaStream => xaSubject.stream;
 
   Stream<List<TinhHuyenXaModel>> get tinhStream => tinhSubject.stream;
+  String ngaySinh = '';
+  String tinh = '';
+  String huyen = '';
+  String idTinh = '';
+  String idHuyen = '';
+  String idXa = '';
 
-  AccountRepository get _managerRepo => Get.find();
-
-  //
+  String xa = '';
+  bool gioiTinh = false;
+  DataEditPersonInformation dataEditPersonInformation =
+      DataEditPersonInformation();
+  List<TinhHuyenXaModel> huyenModel = [];
+  List<TinhHuyenXaModel> tinhModel = [];
+  List<TinhHuyenXaModel> xaModel = [];
   ManagerPersonalInformationModel managerPersonalInformationModel =
       ManagerPersonalInformationModel();
+
+  AccountRepository get _managerRepo => Get.find();
 
   Future<void> getInfo({
     String id = '',
@@ -78,18 +115,6 @@ class ManagerPersonalInformationCubit
     );
   }
 
-  BehaviorSubject<List<TinhHuyenXaModel>> huyenSubject =
-      BehaviorSubject.seeded([]);
-
-  Stream<List<TinhHuyenXaModel>> get huyenStream => huyenSubject.stream;
-  List<TinhHuyenXaModel> huyenModel = [];
-
-  BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
-      BehaviorSubject.seeded([]);
-
-  Stream<List<TinhHuyenXaModel>> get xaStream => xaSubject.stream;
-  List<TinhHuyenXaModel> xaModel = [];
-
   Future<void> getDataHuyenXa({
     String parentId = '',
     required bool isXa,
@@ -109,12 +134,6 @@ class ManagerPersonalInformationCubit
     );
   }
 
-  //
-  DataEditPersonInformation dataEditPersonInformation =
-      DataEditPersonInformation();
-  BehaviorSubject<DataEditPersonInformation> dataEditSubject =
-      BehaviorSubject();
-
   Future<void> getEditPerson({
     String id = '',
     String maCanBo = '',
@@ -131,6 +150,9 @@ class ManagerPersonalInformationCubit
     String tinh = '',
     String huyen = '',
     String xa = '',
+    String idTinh = '',
+    String idHuyen = '',
+    String idXa = '',
   }) async {
     final EditPersonInformationRequest editPerson =
         EditPersonInformationRequest(
@@ -150,14 +172,14 @@ class ManagerPersonalInformationCubit
       anhDaiDienFilePath: '',
       anhChuKyFilePath: '',
       anhChuKyNhayFilePath: '',
-      bitChuyenCongTac: true,
+      bitChuyenCongTac: false,
       thoiGianCapNhat: '',
-      bitNhanTinBuonEmail: true,
-      bitNhanTinBuonSMS: true,
-      bitDanhBa: true,
+      bitNhanTinBuonEmail: false,
+      bitNhanTinBuonSMS: false,
+      bitDanhBa: false,
       chucVu: '',
       donVi: '',
-      bitThuTruongDonVi: true,
+      bitThuTruongDonVi: false,
       bitDauMoiPAKN: true,
       diaChi: diaChiLienHe,
       donViDetail: donViDetail,
@@ -168,9 +190,9 @@ class ManagerPersonalInformationCubit
       tinh: tinh,
       huyen: huyen,
       xa: xa,
-      tinhId: '',
-      huyenId: '',
-      xaId: '',
+      tinhId: idTinh,
+      huyenId: idHuyen,
+      xaId: idXa,
       departments: editPersonInformationRequest.departments,
       userAccounts: editPersonInformationRequest.userAccounts,
       lsCanBoKiemNhiemResponse: [],
@@ -186,38 +208,6 @@ class ManagerPersonalInformationCubit
   }
 
   //
-  BehaviorSubject<File> saveFile = BehaviorSubject();
-
-  final BehaviorSubject<String> avatarPathSubject = BehaviorSubject();
-  final BehaviorSubject<String> chuKyPathSubject = BehaviorSubject();
-  final BehaviorSubject<String> kyNhayPathSubject = BehaviorSubject();
-
-  Stream<File> get saveFileStream => saveFile.stream;
-  BehaviorSubject<bool> isCheckTinhSubject = BehaviorSubject();
-
-  Stream<bool> get isCheckTinhStream => isCheckTinhSubject.stream;
-
-  BehaviorSubject<bool> isCheckHuyenSubject = BehaviorSubject();
-
-  Stream<bool> get isCheckHuyenStream => isCheckHuyenSubject.stream;
-
-  final BehaviorSubject<WidgetType?> _showDialogSetting =
-      BehaviorSubject<WidgetType?>();
-
-  Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
-
-  String ngaySinh = '';
-  String tinh = '';
-  String huyen = '';
-  String xa = '';
-  bool gioiTinh = false;
-  final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
-
-  Stream<int> get checkRadioStream => _checkRadioSubject.stream;
-
-  BehaviorSubject<String> isCheckRadioButton = BehaviorSubject();
-  BehaviorSubject<bool> isCheckButtonReset = BehaviorSubject.seeded(true);
-
   void checkRadioButton(int _index) {
     _checkRadioSubject.sink.add(_index);
   }
@@ -226,6 +216,7 @@ class ManagerPersonalInformationCubit
     ManagerPersonalInformationModel managerPersonalInformationModel,
   ) async {
     this.managerPersonalInformationModel = managerPersonalInformationModel;
+    ngaySinh = managerPersonalInformationModel.ngaySinh ?? '';
     gioiTinh = managerPersonalInformationModel.gioiTinh ?? false;
     tinh = managerPersonalInformationModel.tinh ?? '';
     huyen = managerPersonalInformationModel.huyen ?? '';
@@ -255,28 +246,10 @@ class ManagerPersonalInformationCubit
     saveFile.sink.add(xFile);
   }
 
-  void showDialog(WidgetType type) {
-    if (_showDialogSetting.hasValue) {
-      if (_showDialogSetting.value == type) {
-        closeDialog();
-      } else {
-        _showDialogSetting.add(type);
-      }
-    } else {
-      _showDialogSetting.add(type);
-    }
-  }
-
-  void closeDialog() {
-    _showDialogSetting.add(null);
-  }
-
   List<String> fakeDataGioiTinh = [
     'Nam',
     'Nữ',
   ];
 
-  void dispose() {
-    _showDialogSetting.close();
-  }
+  void dispose() {}
 }

@@ -1,5 +1,7 @@
+import 'package:ccvc_mobile/data/request/account/change_pass_request.dart';
 import 'package:ccvc_mobile/data/request/account_request.dart';
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
+import 'package:ccvc_mobile/data/response/account/change_pass_response.dart';
 import 'package:ccvc_mobile/data/response/account/list_permission_response.dart';
 import 'package:ccvc_mobile/data/response/account/login_response.dart';
 import 'package:ccvc_mobile/data/response/account/tinh_huyen_xa/tinh_huyen_xa_response.dart';
@@ -8,6 +10,7 @@ import 'package:ccvc_mobile/data/response/home/pham_vi_response.dart';
 import 'package:ccvc_mobile/data/response/manager_personal_information/manager_personal_information_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/account_service.dart';
+import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_app_model.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
@@ -19,6 +22,7 @@ import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 class AccountImpl implements AccountRepository {
   final AccountService _accountServiceCommon;
   final AccountServiceGateWay _accountServiceGateWay;
+
   AccountImpl(this._accountServiceCommon, this._accountServiceGateWay);
 
   @override
@@ -82,5 +86,19 @@ class AccountImpl implements AccountRepository {
           res.data?.toDomain() ??
           PermissionApp(qLVB: [], pAKN: [], vPDT: [], qLNV: []),
     );
+  }
+
+  @override
+  Future<Result<ChangePassModel>> changePass(
+      String passwordOld, String password, String repeatPassword) {
+    return runCatchingAsync<ChangePassResponse, ChangePassModel>(
+        () => _accountServiceCommon.changePass(
+              ChangePassRequest(
+                passwordOld: passwordOld,
+                password: password,
+                repeatPassword: repeatPassword,
+              ),
+            ),
+        (response) => response.toModel());
   }
 }

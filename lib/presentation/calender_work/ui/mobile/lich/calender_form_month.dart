@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -96,10 +97,23 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                               child: Column(
                                 children: [
                                   Flexible(
-                                    child: Text(
-                                      appointment.subject,
-                                      style: textNormalCustom(fontSize: 8),
-                                      overflow: TextOverflow.ellipsis,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                ChiTietLichLamViecScreen(
+                                              id: appointment.id.toString(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        appointment.subject,
+                                        style: textNormalCustom(fontSize: 8),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   )
                                 ],

@@ -30,6 +30,8 @@ class EditPersonInformationRequest {
   bool? bitThuTruongDonVi;
   bool? bitDauMoiPAKN;
   String? diaChi;
+  String? duongDanIdDonViCha;
+  String? duongDanIdDonViBietPhaiCha;
   DonViDetail? donViDetail;
   String? chucVuDetail;
   String? nhomChucVuDetail;
@@ -72,6 +74,8 @@ class EditPersonInformationRequest {
     this.bitThuTruongDonVi,
     this.bitDauMoiPAKN,
     this.diaChi,
+    this.duongDanIdDonViCha,
+    this.duongDanIdDonViBietPhaiCha,
     this.donViDetail,
     this.chucVuDetail,
     this.nhomChucVuDetail,

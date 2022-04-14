@@ -74,6 +74,8 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                                 cubit.chooseTypeListLv(
                                   Type_Choose_Option_List.DANG_LICH,
                                 );
+                                cubit.modeLLV =
+                                    Type_Choose_Option_List.DANG_LICH;
                               }
 
                               if (value == S.current.theo_dang_danh_sach) {
@@ -81,6 +83,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                                   Type_Choose_Option_List.DANG_LIST,
                                 );
                               }
+                              cubit.modeLLV = Type_Choose_Option_List.DANG_LIST;
                             },
                             listItem: listThongBao,
                             onTapLanhDao: (value) {
@@ -95,6 +98,9 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                         ),
                       ).then((value) {
                         final data = value as TypeCalendarMenu;
+                        cubit.chooseTypeCalender(
+                          cubit.stateOptionDay,
+                        );
                         cubit.changeScreenMenu(data);
                         if (data == TypeCalendarMenu.LichTheoLanhDao) {}
                         if (state.type == Type_Choose_Option_Day.DAY) {
@@ -133,18 +139,21 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                   onTapDay: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.DAY);
+                    cubit.stateOptionDay = Type_Choose_Option_Day.DAY;
 
                     cubit.callApi();
                   },
                   onTapWeek: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.WEEK);
+                    cubit.stateOptionDay = Type_Choose_Option_Day.WEEK;
 
                     cubit.callApiTuan();
                   },
                   onTapMonth: () {
                     setState(() {});
                     cubit.chooseTypeCalender(Type_Choose_Option_Day.MONTH);
+                    cubit.stateOptionDay = Type_Choose_Option_Day.MONTH;
 
                     cubit.callApiMonth();
                   },

@@ -46,13 +46,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     }
   }
 
+  Type_Choose_Option_Day stateOptionDay = Type_Choose_Option_Day.DAY;
   List<ItemThongBaoModelMyCalender> dataMenu = listThongBaoMyCalendar;
   List<ItemThongBaoModelMyCalender> listLanhDaoLichHop = [];
   String idDonViLanhDao = '';
   String titleAppbar = '';
   BehaviorSubject<List<bool>> selectTypeCalendarSubject =
       BehaviorSubject.seeded([true, false, false]);
-
+  Type_Choose_Option_List typeLH = Type_Choose_Option_List.DANG_LICH;
   List<ItemDanhSachLichHop> listDSLH = [];
   DateTime selectDay = DateTime.now();
   DateTime startDate = DateTime.now();
@@ -349,7 +350,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     stateCalendarSubject.add(controller);
   }
 
-  Future<void> initData()  async {
+  Future<void> initData() async {
     page = 1;
     getDashboard();
     postDanhSachLichHop();
@@ -427,12 +428,12 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     listDSLH.clear();
     page = 1;
 
+    postDanhSachLichHop();
+    getDashboard();
     menuCalendar();
     postEventsCalendar();
-
-    postDanhSachLichHop();
-
     postStatisticByMonth();
+
     getDashBoardThongKe();
     postCoCauLichHop();
     postToChucBoiDonVi();
@@ -516,7 +517,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
         isLichThamGia: getStateLDM.value.getListState(stateLDM.ThamGia),
         isLichTuChoi: getStateLDM.value.getListState(stateLDM.TuChoi),
         PageIndex: page,
-        PageSize: 10,
+        PageSize: typeLH == Type_Choose_Option_List.DANG_LICH ? 1000 : 10,
         UserId: userId,
       ),
     );

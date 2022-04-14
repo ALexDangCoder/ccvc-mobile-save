@@ -154,6 +154,17 @@ const dangThucHienPurble = Color(0xffBB6BD9);
 const textUnfocus = Color(0xffF9F9FA);
 const colorNenLam = Color(0xff27AE60);
 const choXuLyYKND = Color(0xff20C997);
+// chart color
+const blueDamChart = Color(0xFF5E47FF);
+const orangeDamChart = Color(0xFFFF9F43);
+const blueNhatChart = Color(0xFF5A8DEE);
+const redChart = Color(0xFFEA5455);
+const greenChart = Color(0xFF28C76F);
+const orangeNhatChart = Color(0xFFFDB000);
+const purpleChart = Color(0xFF8E7EFF);
+const grayChart = Color(0xFF667793);
+
+
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

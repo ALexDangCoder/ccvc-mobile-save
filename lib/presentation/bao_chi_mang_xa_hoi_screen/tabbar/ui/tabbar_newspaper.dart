@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/bloc/tin_tuc_thoi_su_bloc.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/tin_tuc_thoi_su_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,9 +79,9 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
           labelColor: selectColorTabbar,
           isScrollable: true,
           onTap: (value) {
-            if (value == 3) {
-              blocTinTuc.listTinTuc.clear();
-            }
+            // if (value == 3) {
+            //   blocTinTuc.listTinTuc.clear();
+            // }
           },
           tabs: [
             Tab(
@@ -100,35 +101,44 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
           ],
         ),
       ),
-      body: StateStreamLayout(
-        stream: cubit.stateStream,
-        retry: () {},
-        textEmpty: S.current.khong_co_du_lieu,
-        error: AppException(
-          S.current.error,
-          S.current.error,
-        ),
-        child: TabBarView(
-          controller: _controller,
-          children: [
-            BaoCaoThongKeBCMXHScreen(
-              topic: cubit.topic,
-            ),
-            const TatCaChuDeScreen(),
-            StreamBuilder(
-              stream: cubit.changeItemMenu,
-              builder: (context, snapshot) {
-                return TheoDoiBaiVietScreen(
-                  key: UniqueKey(),
-                  topic: cubit.topic,
-                );
-              },
-            ),
-            TinTucThoiSuScreen(
-              tinTucThoiSuBloc: blocTinTuc,
-              pContext: context,
-            ),
-          ],
+      body: ProviderWidget<BaoChiMangXaHoiBloc>(
+        cubit: cubit,
+        child: StateStreamLayout(
+          stream: cubit.stateStream,
+          retry: () {},
+          textEmpty: S.current.khong_co_du_lieu,
+          error: AppException(
+            S.current.error,
+            S.current.error,
+          ),
+          child: TabBarView(
+            controller: _controller,
+            children: [
+              StreamBuilder(
+                stream: cubit.changeItemMenu,
+                builder: (context,snapshot){
+                  return BaoCaoThongKeBCMXHScreen(
+                    key: UniqueKey(),
+                    topic: cubit.topic,
+                  );
+                },
+              ),
+              const TatCaChuDeScreen(),
+              StreamBuilder(
+                stream: cubit.changeItemMenu,
+                builder: (context, snapshot) {
+                  return TheoDoiBaiVietScreen(
+                    key: UniqueKey(),
+                    topic: cubit.topic,
+                  );
+                },
+              ),
+              TinTucThoiSuScreen(
+                tinTucThoiSuBloc: blocTinTuc,
+                pContext: context,
+              ),
+            ],
+          ),
         ),
       ),
     );

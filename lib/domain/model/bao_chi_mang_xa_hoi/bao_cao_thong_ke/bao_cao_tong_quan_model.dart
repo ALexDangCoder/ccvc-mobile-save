@@ -27,3 +27,12 @@ class BaoCaoTongQuanModel {
     this.comment,
   });
 }
+
+class TinTongHopModel {
+  double reach;
+  double like;
+  double share;
+  double comment;
+
+  TinTongHopModel({required this.reach, required this.like, required this.share, required this.comment});
+}

@@ -170,6 +170,12 @@ class ApiConstants {
   static const DON_VI_XU_LY = '/pakn/api/Dashboard/statistics-by-unit';
   static const SO_LUONG_BY_MONTH= '/api/NewsNetViews/tong_quan';
   static const TONG_QUAN_BAO_CAO_BCMXH= '/api/NewsNetViews/tong_quan';
+  static const TIN_TONG_HOP_BAO_CAO_BCMXH= '/api/NewsNetViews/dashboard_statistical';
+  static const BAO_CAO_THEO_NGUON_BCMXH= '/api/NewsNetViews/thong_ke_theo_ty_le_nguon';
+  static const BAO_CAO_THEO_SAC_THAI= '/api/NewsNetViews/thong_ke_theo_ty_le_sac_thai';
+  static const BAO_CAO_THEO_THOI_GIAN= '/api/NewsNetViews/thong_ke_theo_thoi_gian';
+  static const BAO_CAO_THEO_NGUON_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_nguon';
+  static const BAO_CAO_THEO_SAC_THAI_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_sac_thai';
   static const CHANGE_PASS= '/api/auth/change-pass';
 
 }

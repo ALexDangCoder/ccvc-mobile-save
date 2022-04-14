@@ -120,6 +120,7 @@ class QLVBImlp implements QLVBRepository {
           DanhSachVBDiRequest(
             thoiGianStartFilter: startDate,
             thoiGianEndFilter: endDate,
+            doKhan: null,
             size: size,
             index: index,
             keySearch: keySearch,

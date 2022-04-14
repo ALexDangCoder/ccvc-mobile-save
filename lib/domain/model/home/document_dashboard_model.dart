@@ -94,36 +94,51 @@ extension TypeVBDen on VBDenDocumentType {
 }
 
 extension TypeVBDi on String {
-  // String getNameTrangThai() {
-  //   switch (this) {
-  //     case VBDenDocumentDASHBOARDType.CHO_TRINH_KY:
-  //       return 'CHO_TRINH_KY';
-  //     case VBDenDocumentDASHBOARDType.DA_XU_LY:
-  //       return 'DA_XU_LY';
-  //     case VBDenDocumentDASHBOARDType.CHO_XU_LY:
-  //       return 'CHO_XU_LY';
-  //   }
-  // }
-
-  bool? getTrangThaiBool() {
-    switch (this) {
-      case 'CHO_TRINH_KY':
-        return true;
-      case 'DA_XU_LY':
-        return true;
-      case 'CHO_XU_LY':
-        return true;
+  bool getTrangThaiChoTrinhKy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return true;
+    } else if (trangThai == 'DA_XU_LY') {
+      return false;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return false;
+    } else {
+      return false;
     }
-    return false;
   }
-  int? getTrangThaiNumber() {
+
+  bool getTrangThaiDaXuLy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return false;
+    } else if (trangThai == 'DA_XU_LY') {
+      return true;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  bool getTrangThaiChoXuLy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return false;
+    } else if (trangThai == 'DA_XU_LY') {
+      return false;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  List<int> getTrangThaiNumber() {
     switch (this) {
       case 'CHO_TRINH_KY':
-        return 1;
+        return [1];
       case 'DA_XU_LY':
-        return 2;
-      case' CHO_XU_LY':
-        return null;
+        return [];
+      case ' CHO_XU_LY':
+        return [2];
     }
+    return [];
   }
 }

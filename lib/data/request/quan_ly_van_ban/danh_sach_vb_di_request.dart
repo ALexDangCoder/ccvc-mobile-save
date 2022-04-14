@@ -8,6 +8,8 @@ class DanhSachVBDiRequest {
   final String thoiGianStartFilter;
   @JsonKey(name: 'ThoiGianEndFilter')
   final String thoiGianEndFilter;
+  @JsonKey(name: 'DoKhan')
+  final String? doKhan;
   @JsonKey(name: 'IsDanhSachChoTrinhKy')
   final bool? isDanhSachChoTrinhKy;
   @JsonKey(name: 'IsDanhSachChoXuLy')
@@ -27,6 +29,7 @@ class DanhSachVBDiRequest {
   DanhSachVBDiRequest({
       required this.thoiGianStartFilter,
       required this.thoiGianEndFilter,
+       this.doKhan,
        this.isDanhSachChoTrinhKy,
        this.isDanhSachChoXuLy,
        this.isDanhSachDaXuLy,

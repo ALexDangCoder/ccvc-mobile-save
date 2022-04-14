@@ -112,13 +112,13 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   title: S.current.danh_sach_van_ban_di,
                                   startDate: qlvbCubit.startDate,
                                   endDate: qlvbCubit.endDate,
-                                  isDanhSachDaXuLy: value.getTrangThaiBool(),
+                                  isDanhSachDaXuLy:
+                                      value.getTrangThaiDaXuLy(value),
                                   isDanhSachChoTrinhKy:
-                                      value.getTrangThaiBool(),
-                                  isDanhSachChoXuLy: value.getTrangThaiBool(),
-                                  trangThaiFilter: [
-                                    value.getTrangThaiNumber() ?? 0
-                                  ],
+                                      value.getTrangThaiChoTrinhKy(value),
+                                  isDanhSachChoXuLy:
+                                      value.getTrangThaiChoXuLy(value),
+                                  trangThaiFilter: value.getTrangThaiNumber(),
                                 ),
                               ),
                             );

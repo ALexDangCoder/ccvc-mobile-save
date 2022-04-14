@@ -25,9 +25,9 @@ class IncomingDocumentScreenDashBoard extends StatefulWidget {
     required this.title,
     required this.startDate,
     required this.endDate,
-    required this.isDanhSachChoTrinhKy,
-    required this.isDanhSachDaXuLy,
-    required this.isDanhSachChoXuLy,
+     this.isDanhSachChoTrinhKy=false,
+     this.isDanhSachDaXuLy=false,
+     this.isDanhSachChoXuLy=false,
     required this.trangThaiFilter,
   }) : super(key: key);
 
@@ -76,9 +76,11 @@ class _IncomingDocumentScreenDashBoardState
       endDate: endDate,
       index: page,
       size: ApiConstants.DEFAULT_PAGE_SIZE,
-      isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
-      isDanhSachDaXuLy: isDanhSachDaXuLy,
       isDanhSachChoXuLy: isDanhSachChoXuLy,
+      isDanhSachDaXuLy: isDanhSachDaXuLy,
+      isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
+
+
       trangThaiFilter: trangThaiFilter,
     );
   }
@@ -93,8 +95,8 @@ class _IncomingDocumentScreenDashBoardState
           widget.startDate,
           widget.endDate,
           widget.isDanhSachChoTrinhKy??false,
-          widget.isDanhSachChoXuLy??false,
           widget.isDanhSachDaXuLy??false,
+          widget.isDanhSachChoXuLy??false,
           widget.trangThaiFilter,
         )
       },

@@ -37,6 +37,12 @@ class DocumentDashboardModel {
     this.soLuongChoVaoSo,
   });
 }
+
+enum VBDenDocumentDASHBOARDType {
+  CHO_TRINH_KY,
+  CHO_XU_LY,
+  DA_XU_LY,
+}
 enum VBDenDocumentType {
   CHO_XU_LY,
   DANG_XU_LY,
@@ -46,6 +52,7 @@ enum VBDenDocumentType {
   TRONG_HAN,
   THUONG_KHAN
 }
+
 extension TypeVBDen on VBDenDocumentType {
   String getName() {
     switch (this) {
@@ -63,6 +70,60 @@ extension TypeVBDen on VBDenDocumentType {
         return 'TRONG_HAN';
       case VBDenDocumentType.THUONG_KHAN:
         return 'THUONG_KHAN';
+    }
+  }
+
+  bool getTrangThai() {
+    switch (this) {
+      case VBDenDocumentType.CHO_VAO_SO:
+        return true;
+      case VBDenDocumentType.DANG_XU_LY:
+        return true;
+      case VBDenDocumentType.DA_XU_LY:
+        return true;
+      case VBDenDocumentType.CHO_XU_LY:
+        return true;
+      case VBDenDocumentType.QUA_HAN:
+        return true;
+      case VBDenDocumentType.TRONG_HAN:
+        return true;
+      case VBDenDocumentType.THUONG_KHAN:
+        return true;
+    }
+  }
+}
+
+extension TypeVBDi on String {
+  // String getNameTrangThai() {
+  //   switch (this) {
+  //     case VBDenDocumentDASHBOARDType.CHO_TRINH_KY:
+  //       return 'CHO_TRINH_KY';
+  //     case VBDenDocumentDASHBOARDType.DA_XU_LY:
+  //       return 'DA_XU_LY';
+  //     case VBDenDocumentDASHBOARDType.CHO_XU_LY:
+  //       return 'CHO_XU_LY';
+  //   }
+  // }
+
+  bool? getTrangThaiBool() {
+    switch (this) {
+      case 'CHO_TRINH_KY':
+        return true;
+      case 'DA_XU_LY':
+        return true;
+      case 'CHO_XU_LY':
+        return true;
+    }
+    return false;
+  }
+  int? getTrangThaiNumber() {
+    switch (this) {
+      case 'CHO_TRINH_KY':
+        return 1;
+      case 'DA_XU_LY':
+        return 2;
+      case' CHO_XU_LY':
+        return null;
     }
   }
 }

@@ -15,6 +15,7 @@ class IncomingDocumentScreenTablet extends StatefulWidget {
   final TypeScreen type;
   final String startDate;
   final String endDate;
+  final  List<String> maTrangThai;
 
   const IncomingDocumentScreenTablet({
     Key? key,
@@ -22,6 +23,7 @@ class IncomingDocumentScreenTablet extends StatefulWidget {
     required this.type,
     required this.startDate,
     required this.endDate,
+    required this.maTrangThai,
   }) : super(key: key);
 
   @override
@@ -54,13 +56,14 @@ class _IncomingDocumentScreenTabletState
     );
   }
 
-  void callApi(int page, String startDate, String endDate) {
+  void callApi(int page, String startDate, String endDate,List<String>maTrangThai) {
     if (widget.type == TypeScreen.VAN_BAN_DEN) {
       cubit.listDataDanhSachVBDen(
         startDate: startDate,
         endDate: endDate,
         page: page,
         size: ApiConstants.DEFAULT_PAGE_SIZE,
+        maTrangThai: maTrangThai,
       );
     } else {
       cubit.listDataDanhSachVBDi(
@@ -76,7 +79,7 @@ class _IncomingDocumentScreenTabletState
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,
-      callApi: (page) => {callApi(page, widget.startDate ,widget.endDate)},
+      callApi: (page) => {callApi(page, widget.startDate ,widget.endDate,widget.maTrangThai)},
       viewItem: (value, index) => itemVanBan(value as VanBanModel, index ?? 0),
     );
   }

@@ -119,6 +119,20 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                       qlvbcCubit: qlvbCubit,
                                       isVbDen: true,
                                       title: S.current.document_incoming,
+                                      ontap: (value) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => IncomingDocumentScreenTablet(
+                                              title: S.current.danh_sach_van_ban_den,
+                                              type: TypeScreen.VAN_BAN_DEN,
+                                              startDate: qlvbCubit.startDate,
+                                              endDate: qlvbCubit.endDate,
+                                              maTrangThai: [value],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
                                 ),
@@ -134,6 +148,20 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                       documentDashboardModel: dataVBDi,
                                       isVbDen: false,
                                       title: S.current.document_out_going,
+                                      ontap: (value) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => IncomingDocumentScreenTablet(
+                                              title: S.current.danh_sach_van_ban_di,
+                                              type: TypeScreen.VAN_BAN_DI,
+                                              startDate: qlvbCubit.startDate,
+                                              endDate: qlvbCubit.endDate,
+                                              maTrangThai: [value],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
                                 ),
@@ -191,7 +219,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                     title: S.current.danh_sach_van_ban_den,
                                     type: TypeScreen.VAN_BAN_DEN,
                                     startDate: qlvbCubit.startDate,
-                                    endDate: qlvbCubit.endDate,
+                                    endDate: qlvbCubit.endDate, maTrangThai: [],
                                   ),
                                 ),
                               );
@@ -218,7 +246,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                   title: S.current.danh_sach_van_ban_di,
                                   type: TypeScreen.VAN_BAN_DI,
                                   startDate: qlvbCubit.startDate,
-                                  endDate: qlvbCubit.endDate,
+                                  endDate: qlvbCubit.endDate, maTrangThai: [],
                                 ),
                               ),
                             );

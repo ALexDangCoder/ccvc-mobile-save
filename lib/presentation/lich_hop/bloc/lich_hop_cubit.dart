@@ -564,15 +564,15 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   }) async {
     showLoading();
     final TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest(
-        canBoId,
-        donViId,
-        thoiGian_BatDau,
-        thoiGian_KetThuc,
-        noiDung,
-        tieuDe,
-        hoTen,
-        IsMultipe,
-        file);
+        canBoId: canBoId,
+        donViId: donViId,
+        thoiGian_BatDau: thoiGian_BatDau,
+        thoiGian_KetThuc: thoiGian_KetThuc,
+        noiDung: noiDung,
+        tieuDe: tieuDe,
+        hoTen: hoTen,
+        IsMultipe: IsMultipe,
+        file: file);
     final result = await hopRepo.getThemPhienHop(lichHopId, taoPhienHopRepuest);
 
     result.when(

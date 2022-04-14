@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
@@ -13,6 +14,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_t
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
@@ -62,19 +64,27 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                               TextEditingController(text: dataDetail.title),
                           urlIcon: ImageAssets.icEdit,
                           hintText: S.current.tieu_de,
-                          onChange: (vl) {},
+                          onChange: (vl) {
+                            widget.cubit.taoLichHopRequest.title = vl;
+                          },
                         ),
                         spaceH5,
                         ContainerToggleWidget(
                           initData: dataDetail.bit_HopTrucTuyen,
                           title: S.current.hop_truc_tuyen,
-                          onChange: (value) {},
+                          onChange: (value) {
+                            widget.cubit.taoLichHopRequest.bitHopTrucTuyen =
+                                value;
+                          },
                         ),
                         spaceH5,
                         ContainerToggleWidget(
                           initData: dataDetail.bit_TrongDonVi,
                           title: S.current.trong_don_vi,
-                          onChange: (value) {},
+                          onChange: (value) {
+                            widget.cubit.taoLichHopRequest.bitTrongDonVi =
+                                value;
+                          },
                         ),
                         spaceH5,
                         StreamBuilder<List<LoaiSelectModel>>(
@@ -86,6 +96,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                               title: S.current.loai_hop,
                               value: dataDetail.loaiHop,
                               listSelect: data.map((e) => e.name).toList(),
+                              onChange: (vl) {},
                             );
                           },
                         ),
@@ -99,13 +110,24 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                               title: S.current.linh_vuc,
                               value: dataDetail.linhVuc,
                               listSelect: data.map((e) => e.name).toList(),
+                              onChange: (vl) {
+                                widget.cubit.taoLichHopRequest.linhVucId =
+                                    data[vl].id;
+                              },
                             );
                           },
                         ),
                         StartEndDateWidget(
                           icMargin: dataDetail.isAllDay,
-                          onEndDateTimeChanged: (DateTime value) {},
-                          onStartDateTimeChanged: (DateTime value) {}, isCheck: (bool value) {  },
+                          onEndDateTimeChanged: (DateTime value) {
+                            widget.cubit.taoLichHopRequest.ngayBatDau =
+                                value.toString();
+                          },
+                          onStartDateTimeChanged: (DateTime value) {
+                            widget.cubit.taoLichHopRequest.ngayKetThuc =
+                                value.toString();
+                          },
+                          isCheck: (bool value) {},
                         ),
                         spaceH5,
                         SelectOnlyExpand(
@@ -113,6 +135,10 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                           title: S.current.nhac_lai,
                           value: dataDetail.nhacLai(),
                           listSelect: FakeDataTaoLichHop.nhacLai,
+                          onChange: (vl) {
+                            widget.cubit.taoLichHopRequest.typeReminder =
+                                widget.cubit.nhacLai(vl);
+                          },
                         ),
                         spaceH5,
                         SelectOnlyExpand(
@@ -120,6 +146,9 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                           title: S.current.lich_lap,
                           value: dataDetail.lichLap(),
                           listSelect: FakeDataTaoLichHop.lichLap,
+                          onChange: (vl) {
+                            widget.cubit.taoLichHopRequest.typeRepeat = vl + 1;
+                          },
                         ),
                         spaceH5,
                         SelectOnlyExpand(
@@ -138,6 +167,15 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                               title: S.current.nguoi_chu_tri,
                               value: dataDetail.chuTriModel.data(),
                               listSelect: data.map((e) => e.title()).toList(),
+                              onChange: (vl) {
+                                final result = data[vl];
+                                widget.cubit.taoLichHopRequest.chuTri = ChuTri(
+                                  donViId: result.donViId,
+                                  canBoId: result.userId,
+                                  tenCanBo: result.hoTen,
+                                  tenCoQuan: result.tenDonVi,
+                                );
+                              },
                             );
                           },
                         ),
@@ -148,6 +186,9 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                           urlIcon: ImageAssets.icDocument,
                           hintText: S.current.noi_dung,
                           maxLines: 4,
+                          onChange: (vl) {
+                            widget.cubit.taoLichHopRequest.title = vl;
+                          },
                         ),
                         spaceH24
                       ],
@@ -162,12 +203,20 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                               text: dataDetail.chuTriModel.dauMoiLienHe),
                           urlIcon: ImageAssets.icPeople,
                           hintText: S.current.ho_ten,
+                          onChange: (vl) {
+                            widget.cubit.taoLichHopRequest.chuTri
+                                ?.dauMoiLienHe = vl;
+                          },
                         ),
                         TextFieldStyle(
                           controller: TextEditingController(
                               text: dataDetail.chuTriModel.soDienThoai),
                           urlIcon: ImageAssets.icCuocGoi,
                           hintText: S.current.so_dien_thoai,
+                          onChange: (vl) {
+                            widget.cubit.taoLichHopRequest.chuTri?.soDienThoai =
+                                vl;
+                          },
                         ),
                       ],
                     ),
@@ -183,7 +232,10 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                       Navigator.pop(context);
                     },
                     title2: S.current.luu,
-                    onPressed2: () {},
+                    onPressed2: () {
+                      Navigator.pop(context);
+                      widget.cubit.postSuaLichHop();
+                    },
                   ),
                 ],
               );

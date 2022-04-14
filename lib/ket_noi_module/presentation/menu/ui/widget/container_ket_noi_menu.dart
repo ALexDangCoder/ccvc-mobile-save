@@ -33,7 +33,7 @@ class _ContainerKetNoiMenuWidgetState extends State<ContainerKetNoiMenuWidget> {
       children: [
         GestureDetector(
           onTap: () {
-            if (widget.data.childrens.isEmpty) {
+            if ((widget.data.childrens ?? []).isEmpty) {
               widget.onTap();
               Navigator.pop(context);
             } else {
@@ -74,7 +74,7 @@ class _ContainerKetNoiMenuWidgetState extends State<ContainerKetNoiMenuWidget> {
                       ),
                       Expanded(
                         child: Text(
-                          widget.data.title,
+                          widget.data.title ?? '',
                           style: textNormalCustom(
                             color: textTitle,
                             fontSize: 14.0.textScale(),
@@ -88,7 +88,7 @@ class _ContainerKetNoiMenuWidgetState extends State<ContainerKetNoiMenuWidget> {
                 const SizedBox(
                   width: 12,
                 ),
-                if (widget.data.childrens.isEmpty)
+                if ((widget.data.childrens ?? []).isEmpty)
                   Container()
                 else
                   Icon(
@@ -101,7 +101,7 @@ class _ContainerKetNoiMenuWidgetState extends State<ContainerKetNoiMenuWidget> {
             ),
           ),
         ),
-        if (widget.data.childrens.isNotEmpty)
+        if ((widget.data.childrens ?? []).isNotEmpty)
           ExpandedSection(
             expand: widget.data.isShowExpanded ?? false,
             child: widget.childExpand ?? Container(),

@@ -62,6 +62,13 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
     selectedItemSubject = BehaviorSubject.seeded(
       widget.initialValue ?? widget.title ?? '',
     );
+    final tinhHuyenXa = widget.items.firstWhere(
+      (element) => element.name == widget.initialValue,
+      orElse: () {
+        return TinhHuyenXaModel();
+      },
+    );
+    itemSelected = tinhHuyenXa.id ?? '';
   }
 
   @override

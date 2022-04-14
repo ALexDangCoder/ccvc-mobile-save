@@ -75,9 +75,9 @@ class _KetNoiMenuTabletState extends State<KetNoiMenuTablet> {
       childExpand: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: data.childrens.length,
+        itemCount: data.childrens?.length ?? 0,
         itemBuilder: (context, index) {
-          return items(data.childrens[index]);
+          return items(data.childrens?[index] ?? LoaiBaiVietModel());
         },
       ),
       onTap: () {

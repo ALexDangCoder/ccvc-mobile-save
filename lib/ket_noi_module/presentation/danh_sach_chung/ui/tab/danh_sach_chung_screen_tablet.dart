@@ -56,7 +56,12 @@ class _DanhSachChungScreenTabletState extends State<DanhSachChungScreenTablet> {
                     cubit: taoSuKienCubit,
                   ),
                 ),
-              );
+              ).then((value) {
+                if (value == true) {
+                  callApi(1);
+                }
+                return;
+              });
             },
             icon: Container(
               padding: const EdgeInsets.only(top: 8, bottom: 8),

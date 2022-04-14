@@ -43,7 +43,7 @@ class _ContainerKetNoiTabletState extends State<ContainerKetNoiTablet> {
           ),
           child: GestureDetector(
             onTap: () {
-              if (widget.data.childrens.isEmpty) {
+              if ((widget.data.childrens ?? []).isEmpty) {
                 widget.onTap();
                 Navigator.pop(context);
               } else {
@@ -83,7 +83,7 @@ class _ContainerKetNoiTabletState extends State<ContainerKetNoiTablet> {
                         ),
                         Expanded(
                           child: Text(
-                            widget.data.title,
+                            widget.data.title ?? '',
                             style: textNormalCustom(
                               color: textTitle,
                               fontSize: 14.0.textScale(),
@@ -97,7 +97,7 @@ class _ContainerKetNoiTabletState extends State<ContainerKetNoiTablet> {
                   const SizedBox(
                     width: 12,
                   ),
-                  if (widget.data.childrens.isEmpty)
+                  if ((widget.data.childrens ?? []).isEmpty)
                     Container()
                   else
                     Icon(
@@ -111,7 +111,7 @@ class _ContainerKetNoiTabletState extends State<ContainerKetNoiTablet> {
             ),
           ),
         ),
-        if (widget.data.childrens.isNotEmpty)
+        if ((widget.data.childrens ?? []).isNotEmpty)
           ExpandedSection(
             expand: widget.data.isShowExpanded ?? false,
             child: widget.childExpand ?? Container(),

@@ -59,10 +59,12 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                       ),
                       monthViewSettings: MonthViewSettings(
                         showTrailingAndLeadingDates: false,
-                        appointmentDisplayCount: 2,
+                       // appointmentDisplayCount: 2,
                         monthCellStyle: MonthCellStyle(
                           trailingDatesTextStyle: textNormalCustom(
-                              fontSize: 14, color: iconColorDown),
+                            fontSize: 14,
+                            color: iconColorDown,
+                          ),
                           textStyle: textNormalCustom(
                             fontSize: 14,
                             color: fontColorTablet2,
@@ -79,10 +81,12 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                       ) {
                         final Appointment appointment =
                             calendarAppointmentDetails.appointments.first;
+                        print("aaa${calendarAppointmentDetails.appointments.length}");
+
                         return Padding(
                           padding: const EdgeInsets.only(left: 4, bottom: 2),
                           child: Container(
-                            height: 500,
+                            // height: 500,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(2.0),
                               color: textColorMangXaHoi,

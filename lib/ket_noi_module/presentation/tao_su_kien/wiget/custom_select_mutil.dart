@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/model/loai_bai_viet_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
@@ -8,21 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SelectOnlyExpand extends StatefulWidget {
+class CustomSelectMutil extends StatefulWidget {
   final bool initExpand;
-  final List<String> listSelect;
   final String value;
   final String title;
   final String urlIcon;
   final bool isShowValue;
   final Widget? customValue;
   final List<LoaiBaiVietModel> dataLoaiBaiViet;
-  final Function(List<String>) onChange;
+  final Function(List<LoaiBaiVietModel>) onChange;
 
-  const SelectOnlyExpand({
+  const CustomSelectMutil({
     Key? key,
     this.initExpand = false,
-    this.listSelect = const [],
     this.value = '',
     this.isShowValue = true,
     this.title = '',
@@ -36,16 +35,14 @@ class SelectOnlyExpand extends StatefulWidget {
   _ExpandedSectionState createState() => _ExpandedSectionState();
 }
 
-class _ExpandedSectionState extends State<SelectOnlyExpand>
+class _ExpandedSectionState extends State<CustomSelectMutil>
     with SingleTickerProviderStateMixin {
   final BehaviorSubject<List<int>> selectBloc = BehaviorSubject();
   late AnimationController? expandController;
   double sizeWitdhTag = 0;
   bool checkbox = false;
-  List<String> valueSelect = [];
+  List<LoaiBaiVietModel> valueSelect = [];
   List<int> addIndex = [];
-  List<String> listIdLoaiBaiViet = [];
-  String id = '';
 
   @override
   void initState() {
@@ -54,21 +51,12 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    if (widget.listSelect.isNotEmpty) {
-      final index =
-          widget.listSelect.indexWhere((element) => element == widget.value);
+    if (widget.dataLoaiBaiViet.isNotEmpty) {
+      final index = widget.dataLoaiBaiViet
+          .indexWhere((element) => element.title == widget.value);
       if (index != -1) {
-        valueSelect.add(widget.listSelect[index]);
-        for (final element in valueSelect) {
-          for (int i = 0; i < widget.dataLoaiBaiViet.length; i++) {
-            if (element == widget.dataLoaiBaiViet[i].title) {
-              id = widget.dataLoaiBaiViet[i].id ?? '';
-              break;
-            }
-          }
-        }
-        listIdLoaiBaiViet.add(id);
-        widget.onChange(listIdLoaiBaiViet);
+        valueSelect.add(widget.dataLoaiBaiViet[index]);
+        widget.onChange(valueSelect);
         addIndex.add(index);
         selectBloc.sink.add(addIndex);
       }
@@ -76,30 +64,21 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   }
 
   @override
-  void didUpdateWidget(covariant SelectOnlyExpand oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-    if (widget.listSelect.isNotEmpty) {
-      final index =
-          widget.listSelect.indexWhere((element) => element == widget.value);
-      if (index != -1) {
-        valueSelect.add(widget.listSelect[index]);
-        for (final element in valueSelect) {
-          for (int i = 0; i < widget.dataLoaiBaiViet.length; i++) {
-            if (element == widget.dataLoaiBaiViet[i].title) {
-              id = widget.dataLoaiBaiViet[i].id ?? '';
-              break;
-            }
-          }
-        }
-        listIdLoaiBaiViet.add(id);
-        widget.onChange(listIdLoaiBaiViet);
-        addIndex.add(index);
-        selectBloc.sink.add(addIndex);
-      }
-    }
-    setState(() {});
-  }
+  // void didUpdateWidget(covariant CustomSelectMutil oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   if (widget.dataLoaiBaiViet.isNotEmpty) {
+  //     final index = widget.dataLoaiBaiViet
+  //         .indexWhere((element) => element.title == widget.value);
+  //     if (index != -1) {
+  //       valueSelect.add(widget.dataLoaiBaiViet[index]);
+  //       widget.onChange(valueSelect);
+  //       addIndex.add(index);
+  //       selectBloc.sink.add(addIndex);
+  //     }
+  //   }
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +87,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
       isShowIcon: false,
       initController: expandController,
       header: headerWidget(),
-      child: widget.listSelect.isEmpty
+      child: widget.dataLoaiBaiViet.isEmpty
           ? const NodataWidget()
           : StreamBuilder<List<int>>(
               stream: selectBloc.stream,
@@ -116,7 +95,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: List.generate(
-                    widget.listSelect.length,
+                    widget.dataLoaiBaiViet.length,
                     (index) => Padding(
                       padding: EdgeInsets.only(
                         left: 30,
@@ -125,45 +104,12 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                       child: GestureDetector(
                         onTap: () {
                           setState(() {});
-                          if (valueSelect.contains(widget.listSelect[index])) {
-                            valueSelect.remove(widget.listSelect[index]);
+                          if (valueSelect
+                              .contains(widget.dataLoaiBaiViet[index])) {
+                            valueSelect.remove(widget.dataLoaiBaiViet[index]);
                           } else {
-                            valueSelect.add(widget.listSelect[index]);
+                            valueSelect.add(widget.dataLoaiBaiViet[index]);
                           }
-                          //
-                          for (final element in valueSelect) {
-                            for (int i = 0;
-                                i < widget.dataLoaiBaiViet.length;
-                                i++) {
-                              if (element == widget.dataLoaiBaiViet[i].title) {
-                                id = widget.dataLoaiBaiViet[i].id ?? '';
-                                break;
-                              }
-                            }
-                          }
-                          //
-                          print("idsssss ${id}");
-                          // for (final value in listIdLoaiBaiViet) {
-                          //   if (id == value) {
-                          //     listIdLoaiBaiViet.remove(value);
-                          //     print("remove");
-                          //     print(
-                          //         "listRemove${listIdLoaiBaiViet.toString()} /n");
-                          //   } else {
-                          //     listIdLoaiBaiViet.add(id);
-                          //     print("add");
-                          //     print(
-                          //         "listAdd${listIdLoaiBaiViet.toString()} /n");
-                          //   }
-                          // }
-                          // if (listIdLoaiBaiViet.contains(id)) {
-                          //
-                          // } else {
-                          //
-                          // }
-                          //
-                          //listIdLoaiBaiViet.add(id);
-
                           if (addIndex.contains(index)) {
                             addIndex.remove(index);
                             selectBloc.sink.add(addIndex);
@@ -171,7 +117,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             addIndex.add(index);
                             selectBloc.sink.add(addIndex);
                           }
-                          widget.onChange(listIdLoaiBaiViet);
+                          widget.onChange(valueSelect);
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -181,7 +127,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             children: [
                               Flexible(
                                 child: Text(
-                                  widget.listSelect[index],
+                                  widget.dataLoaiBaiViet[index].title ?? '',
                                   style: textNormal(titleColor, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -214,7 +160,8 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                     ),
                   ),
                 );
-              }),
+              },
+            ),
     );
   }
 
@@ -249,11 +196,11 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
               ),
               child: Row(
                 children: [
-                  if (widget.value == null)
+                  if (valueSelect.isEmpty)
                     Expanded(
                       child: Text(
-                        widget.title,
-                        style: textNormal(titleColumn, 16),
+                        S.current.khong_duoc_de_trong,
+                        style: textNormal(statusCalenderRed, 12),
                       ),
                     )
                   else
@@ -296,7 +243,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   List<Widget> _listTag() {
     final listWidget = <Widget>[];
     for (int index = 0; index < valueSelect.length; index++) {
-      listWidget.add(_buildTagItem(valueSelect[index], index));
+      listWidget.add(_buildTagItem(valueSelect[index].title ?? '', index));
     }
     return listWidget;
   }
@@ -319,11 +266,9 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           GestureDetector(
             onTap: () {
               setState(() {});
-              // widget.onChange(valueSelect);
               valueSelect.removeAt(index);
               addIndex.removeAt(index);
-              listIdLoaiBaiViet.removeAt(index);
-              widget.onChange(listIdLoaiBaiViet);
+              widget.onChange(valueSelect);
             },
             child: Container(
               padding: const EdgeInsets.only(top: 8, right: 8, left: 8),

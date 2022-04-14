@@ -82,7 +82,12 @@ class _DanhSachChungScreenState extends State<DanhSachChungScreen> {
                 cubit: taoSuKienCubit,
               ),
             ),
-          );
+          ).then((value) {
+            if (value == true) {
+              callApi(1);
+            }
+            return;
+          });
         },
         child: SvgPicture.asset(ImageAssets.ic_vector),
       ),

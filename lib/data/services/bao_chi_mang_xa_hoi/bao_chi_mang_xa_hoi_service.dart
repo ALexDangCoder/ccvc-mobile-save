@@ -1,3 +1,9 @@
+import 'package:ccvc_mobile/data/request/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_thoi_gian_request.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_sac_thai_line_chart_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_nguon_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_sac_thai_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_thoi_gian_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_ty_le_nguon_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/tong_quan_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/dash_board_tat_ca_chu_de_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/list_chu_de_response.dart';
@@ -86,5 +92,39 @@ abstract class BaoChiMangXaHoiService {
   Future<String> tinTongHop(
       @Query('fromDate') String fromDate,
       @Query('toDate') String toDate,
+      );
+
+  @GET(ApiConstants.BAO_CAO_THEO_NGUON_BCMXH)
+  Future<TyLeNguonResponse> baoCaoTheoNguon(
+      @Query('fromDate') String fromDate,
+      @Query('toDate') String toDate,
+      @Query('treeNode') int treeNode,
+      );
+  @GET(ApiConstants.BAO_CAO_THEO_SAC_THAI)
+  Future<SacThaiResponse> baoCaoTheoSacThai(
+      @Query('fromDate') String fromDate,
+      @Query('toDate') String toDate,
+      @Query('treeNode') int treeNode,
+      );
+
+  @POST(ApiConstants.BAO_CAO_THEO_THOI_GIAN)
+  Future<List<ThongKeTheoThoiGianResponse>> baoCaoTheoThoiGian(
+      @Body() ThongKeTheoThoiGianRequest thoiGianRequest,
+      );
+
+  @GET(ApiConstants.BAO_CAO_THEO_NGUON_LINE_CHART)
+  Future<ThongKeTheoNguonResponse> baoCaoLineChart(
+      @Query('fromDate') String fromDate,
+      @Query('toDate') String toDate,
+      @Query('treeNodes[0][id]') int treeNodeID,
+      @Query('treeNodes[0][title]') String treeNodeTitle,
+      @Query('sourceId') int sourceId,
+      );
+
+  @GET(ApiConstants.BAO_CAO_THEO_SAC_THAI_LINE_CHART)
+  Future<ThongKeTheoSacThaiResponse> baoCaoTheoSacThaiLineChart(
+      @Query('fromDate') String fromDate,
+      @Query('toDate') String toDate,
+      @Query('treeNode') int treeNode,
       );
 }

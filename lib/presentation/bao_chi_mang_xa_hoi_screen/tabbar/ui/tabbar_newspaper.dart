@@ -114,8 +114,14 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
           child: TabBarView(
             controller: _controller,
             children: [
-              BaoCaoThongKeBCMXHScreen(
-                topic: cubit.topic,
+              StreamBuilder(
+                stream: cubit.changeItemMenu,
+                builder: (context,snapshot){
+                  return BaoCaoThongKeBCMXHScreen(
+                    key: UniqueKey(),
+                    topic: cubit.topic,
+                  );
+                },
               ),
               const TatCaChuDeScreen(),
               StreamBuilder(

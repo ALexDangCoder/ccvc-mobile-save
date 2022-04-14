@@ -4,10 +4,10 @@ import 'package:ccvc_mobile/ket_noi_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ket_noi_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/model/loai_bai_viet_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/tao_su_kien/bloc/tao_su_kien_cubit.dart';
+import 'package:ccvc_mobile/ket_noi_module/presentation/tao_su_kien/wiget/custom_select_mutil.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
-import 'package:ccvc_mobile/ket_noi_module/widgets/custom_mutil_select/custom_mutil_select.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/explan_group/explan_group.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/from_group/form_group.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/text_field/text_field_style.dart';
@@ -32,6 +32,7 @@ class TaoSuKienKetNoi extends StatefulWidget {
 
 class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
   final keyGroup = GlobalKey<FormGroupState>();
+  bool isValidate = false;
 
   @override
   void initState() {
@@ -83,19 +84,26 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? [];
                             if (data.isNotEmpty) {
-                              return SelectOnlyExpand(
-                                urlIcon: ImageAssets.icDocument,
-                                title: S.current.loai_bai_viet,
-                                value: data.map((e) => e.title).first ?? '',
-                                listSelect:
-                                    data.map((e) => (e.title) ?? '').toList(),
-                                onChange: (value) {
-                                  widget.cubit.loaiBaiViet = value;
-                                },
-                                dataLoaiBaiViet: data,
+                              return Column(
+                                children: [
+                                  CustomSelectMutil(
+                                    urlIcon: ImageAssets.icDocument,
+                                    title: S.current.loai_bai_viet,
+                                    value: data.map((e) => e.title).first ??
+                                        S.current.loai_bai_viet,
+                                    onChange: (value) {
+                                      widget.cubit.listName(value);
+                                      value.isNotEmpty
+                                          ? isValidate = true
+                                          : isValidate = false;
+                                    },
+                                    dataLoaiBaiViet: data,
+                                  ),
+                                ],
                               );
+                            } else {
+                              return const SizedBox();
                             }
-                            return const SizedBox();
                           },
                         ),
                         spaceH5,
@@ -138,7 +146,7 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                         ),
                         spaceH5,
                         TextFieldStyle(
-                          urlIcon: ImageAssets.icDocument,
+                          urlIcon: ImageAssets.icCaling,
                           hintText: S.current.so_dien_thoai,
                           validator: (value) {
                             return (value ?? '').checkSdt();
@@ -188,22 +196,23 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                             Navigator.pop(context);
                           },
                           onPressed2: () async {
-                            if (keyGroup.currentState!.validator()) {
+                            if (keyGroup.currentState!.validator() &&
+                                isValidate == true) {
                               await widget.cubit.callApis().then(
                                 (value) {
                                   MessageConfig.show(
                                     title: S.current.tao_thanh_cong,
                                   );
+                                  Navigator.pop(context, true);
                                 },
                               ).onError(
-                                (error, stackTrace) {
-                                  MessageConfig.show(
-                                    title: S.current.tao_that_bai,
-                                  );
-                                },
+                                (error, stackTrace) {},
                               );
-                              Navigator.pop(context);
-                            } else {}
+                            } else {
+                              MessageConfig.show(
+                                title: S.current.tao_that_bai,
+                              );
+                            }
                           },
                         )
                       ],
@@ -313,18 +322,17 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                                 builder: (context, snapshot) {
                                   final data = snapshot.data ?? [];
                                   if (data.isNotEmpty) {
-                                    return SelectOnlyExpand(
+                                    return CustomSelectMutil(
                                       urlIcon: ImageAssets.icDocument,
                                       title: S.current.loai_bai_viet,
-                                      value:
-                                          data.map((e) => e.title).first ?? '',
+                                      value: data.map((e) => e.title).first ??
+                                          S.current.loai_bai_viet,
                                       onChange: (value) {
-                                        print("zzzzz${value}");
-                                        widget.cubit.loaiBaiViet = value;
+                                        widget.cubit.listName(value);
+                                        value.isNotEmpty
+                                            ? isValidate = true
+                                            : isValidate = false;
                                       },
-                                      listSelect: data
-                                          .map((e) => e.title ?? '')
-                                          .toList(),
                                       dataLoaiBaiViet: data,
                                     );
                                   }
@@ -376,22 +384,23 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                     leftTxt: S.current.huy,
                     rightTxt: S.current.tao_su_kien,
                     funcBtnOk: () async {
-                      if (keyGroup.currentState!.validator()) {
+                      if (keyGroup.currentState!.validator() &&
+                          isValidate == true) {
                         await widget.cubit.callApis().then(
                           (value) {
                             MessageConfig.show(
                               title: S.current.tao_thanh_cong,
                             );
+                            Navigator.pop(context, true);
                           },
                         ).onError(
-                          (error, stackTrace) {
-                            MessageConfig.show(
-                              title: S.current.tao_that_bai,
-                            );
-                          },
+                          (error, stackTrace) {},
                         );
-                        Navigator.pop(context);
-                      } else {}
+                      } else {
+                        MessageConfig.show(
+                          title: S.current.tao_that_bai,
+                        );
+                      }
                     },
                   ),
                 ),

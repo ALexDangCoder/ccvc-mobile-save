@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/ket_noi_module/data/request/tao_su_kien_resquest.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/response/detail_chung_ket_noi_response.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/response/list_chung_ket_noi_response.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/response/loai_bai_viet_response.dart';
@@ -66,10 +65,18 @@ class KetNoiRepoImpl implements KetNoiRepository {
 
   @override
   Future<Result<TaoSuKienModel>> postTaoSuKien(
-    TaoSuKienRequest taoSuKienRequest,
+    String loaiBaiViet,
+    String tieuDe,
+    String ngayBatDau,
+    String diaDiem,
+    bool coXuatBan,
+    String noiDung,
+    Map<String, String> thongTinLienHe,
+    String type,
   ) {
     return runCatchingAsync<TaoSuKienResponse, TaoSuKienModel>(
-      () => _ketNoiService.postTaoSuKien(taoSuKienRequest),
+      () => _ketNoiService.postTaoSuKien(loaiBaiViet, tieuDe, ngayBatDau,
+          diaDiem, coXuatBan, noiDung, thongTinLienHe, type),
       (response) => response.toDoMain(),
     );
   }

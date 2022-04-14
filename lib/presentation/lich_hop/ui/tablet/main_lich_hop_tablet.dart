@@ -81,24 +81,29 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                             MaterialPageRoute(
                               builder: (context) => MenuWidget(
                                 cubit: cubitMenu,
-                                isBaoCaoThongKe: true,
                                 onTap: (value) {
                                   if (value == S.current.theo_dang_lich) {
                                     cubit.chooseTypeList(
                                       Type_Choose_Option_List.DANG_LICH,
                                     );
+                                    cubit.typeLH =
+                                        Type_Choose_Option_List.DANG_LICH;
                                   }
 
                                   if (value == S.current.theo_dang_danh_sach) {
                                     cubit.chooseTypeList(
                                       Type_Choose_Option_List.DANG_LIST,
                                     );
+                                    cubit.typeLH =
+                                        Type_Choose_Option_List.DANG_LIST;
                                   }
 
                                   if (value == S.current.bao_cao_thong_ke) {
                                     cubit.chooseTypeList(
                                       Type_Choose_Option_List.DANG_THONG_KE,
                                     );
+                                    cubit.typeLH =
+                                        Type_Choose_Option_List.DANG_LIST;
                                   }
 
                                   cubit.index.sink.add(0);
@@ -114,6 +119,9 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                             ),
                           ).then((value) {
                             final data = value as TypeCalendarMenu;
+                            cubit.chooseTypeDay(
+                              cubit.stateOptionDay,
+                            );
                             cubit.changeScreenMenu(data);
                             if (data == TypeCalendarMenu.LichTheoLanhDao) {}
                             if (state.type == Type_Choose_Option_Day.DAY) {
@@ -161,16 +169,22 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                         onTapDay: () {
                           setState(() {});
                           cubit.chooseTypeDay(Type_Choose_Option_Day.DAY);
+                          cubit.stateOptionDay = Type_Choose_Option_Day.DAY;
+
                           cubit.postDSLHDay();
                         },
                         onTapWeek: () {
                           setState(() {});
                           cubit.chooseTypeDay(Type_Choose_Option_Day.WEEK);
+                          cubit.stateOptionDay = Type_Choose_Option_Day.WEEK;
+
                           cubit.postDSLHWeek();
                         },
                         onTapMonth: () {
                           setState(() {});
                           cubit.chooseTypeDay(Type_Choose_Option_Day.MONTH);
+                          cubit.stateOptionDay = Type_Choose_Option_Day.MONTH;
+
                           cubit.postDSLHMonth();
                         },
                       ),
@@ -277,7 +291,7 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                             return const SizedBox();
                           } else {
                             return Padding(
-                              padding:  EdgeInsets.only(
+                              padding: EdgeInsets.only(
                                 left: 30.0,
                                 right: 30,
                                 top: 28,

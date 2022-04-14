@@ -109,7 +109,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
                         StartEndDateWidget(
                           icMargin: false,
                           onEndDateTimeChanged: (DateTime value) {},
-                          onStartDateTimeChanged: (DateTime value) {},
+                          onStartDateTimeChanged: (DateTime value) {}, isCheck: (bool value) {  },
                         ),
                         spaceH5,
                         SelectOnlyExpand(

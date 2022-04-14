@@ -159,6 +159,31 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     dataMenu[2].listWidget = listLanhDaoLichHop;
   }
 
+  double getMax(List<ToChucBoiDonViModel> data) {
+    double value = 0;
+    data.forEach((element) {
+      if ((element.quantities?.toDouble() ?? 0.0) > value) {
+        value = element.quantities?.toDouble() ?? 0.0;
+      }
+    });
+    final double range = value % 10;
+
+    return (value + (10.0 - range)) / 5.0;
+  }
+
+  double getMaxTiLe(List<TiLeThamGiaModel> data) {
+    double value = 0;
+    data.forEach((element) {
+      if ((element.rate?.toDouble() ?? 0.0) > value) {
+        value = element.rate?.toDouble() ?? 0.0;
+      }
+    });
+
+    final double range = value % 10;
+
+    return (value + (10.0 - range)) / 5.0;
+  }
+
   Future<void> postCoCauLichHop() async {
     final result = await hopRepo.postCoCauLichHop(
       startDate.formatApiDDMMYYYYSlash,
@@ -324,7 +349,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     stateCalendarSubject.add(controller);
   }
 
-  void initData() {
+  Future<void> initData()  async {
     page = 1;
     getDashboard();
     postDanhSachLichHop();
@@ -539,15 +564,15 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   }) async {
     showLoading();
     final TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest(
-        canBoId,
-        donViId,
-        thoiGian_BatDau,
-        thoiGian_KetThuc,
-        noiDung,
-        tieuDe,
-        hoTen,
-        IsMultipe,
-        file);
+        canBoId: canBoId,
+        donViId: donViId,
+        thoiGian_BatDau: thoiGian_BatDau,
+        thoiGian_KetThuc: thoiGian_KetThuc,
+        noiDung: noiDung,
+        tieuDe: tieuDe,
+        hoTen: hoTen,
+        IsMultipe: IsMultipe,
+        file: file);
     final result = await hopRepo.getThemPhienHop(lichHopId, taoPhienHopRepuest);
 
     result.when(

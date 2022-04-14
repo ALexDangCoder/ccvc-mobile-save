@@ -67,8 +67,11 @@ class _SuaLichCongTacTrongNuocPhoneState
                       StartEndDateWidget(
                         onEndDateTimeChanged: (DateTime value) {},
                         onStartDateTimeChanged: (DateTime value) {},
+                        isCheck: (bool value) {},
                       ),
-                      const NhacLaiWidget(),
+                      NhacLaiWidget(
+                        taoLichLamViecCubit: taoLichLamViecCubit,
+                      ),
                       NguoiChuTriWidget(
                           taoLichLamViecCubit: taoLichLamViecCubit),
                       LinhVucWidget(

@@ -58,6 +58,7 @@ class Data {
   String? tenLinhVuc;
   String? typeScheduleId;
   PhongHop? phongHop;
+  List<FileData>? fileData;
 
   Data(
       {this.nguoiTaoStr,
@@ -97,7 +98,8 @@ class Data {
       this.linhVucId,
       this.tenLinhVuc,
       this.typeScheduleId,
-      this.phongHop});
+      this.phongHop,
+      this.fileData});
 
   Data.fromJson(Map<String, dynamic> json) {
     nguoiTaoStr = json['nguoiTao_str'];
@@ -107,9 +109,7 @@ class Data {
     createdBy = json['createdBy'];
     updatedAt = json['updatedAt'];
     updatedBy = json['updatedBy'];
-
     isTaoBocBang = json['isTaoBocBang'];
-
     id = json['id'];
     title = json['title'];
     bitHopTrucTuyen = json['bit_HopTrucTuyen'];
@@ -144,35 +144,40 @@ class Data {
     linhVucId = json['linhVucId'];
     tenLinhVuc = json['tenLinhVuc'];
     typeScheduleId = json['typeScheduleId'];
+    if (json['fileData'] != null) {
+      fileData = <FileData>[];
+      json['fileData'].forEach((v) {
+        fileData!.add(FileData.fromJson(v));
+      });
+    }
   }
 
   ChiTietLichHopModel toDomain() => ChiTietLichHopModel(
-      id: id ?? '',
-      typeScheduleId: typeScheduleId ?? '',
-      chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
-      linhVuc: tenLinhVuc ?? '',
-      noiDung: noiDung ?? '',
-      title: title ?? '',
-      phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
-      tenLinhVuc: tenLinhVuc ?? '',
-      timeTo: timeTo ?? '',
-      timeStart: timeStart ?? '',
-      ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
-      ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
-      mucDoHop: mucDo,
-      bit_HopTrucTuyen: bitHopTrucTuyen ?? false,
-      bit_TrongDonVi: bitTrongDonVi ?? false,
-      isAllDay: isAllDay ?? false,
-      typeReminder: typeReminder,
-      typeRepeat: typeRepeat);
+        id: id ?? '',
+        typeScheduleId: typeScheduleId ?? '',
+        chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
+        linhVuc: tenLinhVuc ?? '',
+        noiDung: noiDung ?? '',
+        title: title ?? '',
+        phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
+        tenLinhVuc: tenLinhVuc ?? '',
+        timeTo: timeTo ?? '',
+        timeStart: timeStart ?? '',
+        ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
+        ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
+        mucDoHop: mucDo,
+        bit_HopTrucTuyen: bitHopTrucTuyen ?? false,
+        bit_TrongDonVi: bitTrongDonVi ?? false,
+        isAllDay: isAllDay ?? false,
+        typeReminder: typeReminder,
+        typeRepeat: typeRepeat,
+      );
 }
 
 class ChuTri {
   String? donViId;
   String? canBoId;
-
   int? vaiTroThamGia;
-
   String? soDienThoai;
   String? dauMoiLienHe;
   String? tenCanBo;
@@ -231,4 +236,58 @@ class PhongHop {
   }
 
   PhongHopMode toDomain() => PhongHopMode(id: id ?? '', ten: ten ?? '');
+}
+
+class FileData {
+  String? createdAt;
+
+  String? createdBy;
+  String? entityId;
+  String? entityId_DM;
+  String? entityName;
+  int? entityType;
+  String? extension;
+  String? id;
+  bool? isPrivate;
+  String? name;
+  String? path;
+  int? size;
+  String? updatedAt;
+  String? updatedBy;
+
+  FileData({
+    this.createdAt,
+    this.createdBy,
+    this.entityId,
+    this.entityId_DM,
+    this.entityName,
+    this.entityType,
+    this.extension,
+    this.id,
+    this.isPrivate,
+    this.name,
+    this.path,
+    this.size,
+    this.updatedAt,
+    this.updatedBy,
+  });
+
+  FileData.fromJson(Map<String, dynamic> json) {
+    createdAt = json['createdAt'];
+    createdBy = json['createdBy'];
+    entityId = json['entityId'];
+    entityId_DM = json['entityId_DM'];
+    entityName = json['entityName'];
+    entityType = json['entityType'];
+    extension = json['extension'];
+    id = json['id'];
+    isPrivate = json['isPrivate'];
+    name = json['name'];
+    path = json['path'];
+    size = json['size'];
+    updatedAt = json['updatedAt'];
+    updatedBy = json['updatedBy'];
+  }
+
+  file toDomain() => file(name: name, path: path);
 }

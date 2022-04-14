@@ -1,7 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/utils/provider_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
@@ -220,14 +222,19 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     cubit: cubit,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 16),
-                  child: ChuongTrinhHopWidget(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: ChuongTrinhHopWidget(
+                    id: widget.id,
+                    cubit: cubit,
+                  ),
                 ),
                 MoiNguoiThamGiaWidget(
                   cubit: cubit,
                 ),
-                const TaiLieuWidget(),
+                TaiLieuWidget(
+                  cubit: cubit,
+                ),
                 PhatBieuWidget(
                   cubit: cubit,
                   id: widget.id,

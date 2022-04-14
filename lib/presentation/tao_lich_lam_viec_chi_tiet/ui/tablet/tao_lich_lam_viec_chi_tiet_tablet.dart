@@ -152,7 +152,7 @@ class _TaoLichLamViecChiTietTabletState
                                       key: _formKey,
                                       child: TextFormWidget(
                                         controller: tieuDeController,
-                                        image:  ImageAssets.icEdit,
+                                        image: ImageAssets.icEdit,
                                         hint: S.current.tieu_de,
                                         validator: (value) {
                                           return (value ?? '').checkNull();
@@ -171,15 +171,17 @@ class _TaoLichLamViecChiTietTabletState
                                         taoLichLamViecCubit
                                             .listeningStartDataTime(value);
                                       },
+                                      isCheck: (bool value) {},
                                     ),
-                                    const NhacLaiWidget(),
+                                    NhacLaiWidget(
+                                      taoLichLamViecCubit: taoLichLamViecCubit,
+                                    ),
                                     const SizedBox(
                                       height: 10,
                                     ),
                                     MauMacDinhWidget(
                                         taoLichLamViecCubit:
                                             taoLichLamViecCubit),
-
                                     NguoiChuTriWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                     ),

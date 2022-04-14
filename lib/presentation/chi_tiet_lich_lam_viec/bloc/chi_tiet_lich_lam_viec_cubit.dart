@@ -91,7 +91,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   // xoa lich lam viec
   LichLamViecRepository get deleteLichLamViec => Get.find();
 
-  Future<void> dataDelete(String id) async {
+  Future dataDelete(String id) async {
     final rs = await detailLichLamViec.deleteCalenderWork(id);
     rs.when(success: (data) {}, error: (error) {});
   }

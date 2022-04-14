@@ -169,11 +169,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                             DateTime endDate,
                             DateTime selectDay,
                           ) {
-                            cubit.startDates = startDate;
-                            cubit.endDates = endDate;
-                            cubit.listDSLV.clear();
-                            cubit.page = 1;
-
+                            cubit.selectDay = selectDay;
                             if (state.type == Type_Choose_Option_Day.DAY) {
                               cubit.callApi();
                             } else if (state.type ==

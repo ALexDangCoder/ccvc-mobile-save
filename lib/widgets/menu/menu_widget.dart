@@ -26,7 +26,7 @@ class MenuWidget extends StatefulWidget {
 
   const MenuWidget({
     Key? key,
-    required this.isBaoCaoThongKe,
+    this.isBaoCaoThongKe = true,
     required this.onTap,
     required this.listItem,
     required this.onTapLanhDao,
@@ -77,6 +77,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                               widget.onTap(S.current.theo_dang_lich);
                               Navigator.pop(
                                 context,
+                                TypeCalendarMenu.LichCuaToi,
                               );
                             },
                             isSelect: snapshot.data?[0] ?? true,
@@ -90,6 +91,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                               widget.onTap(S.current.theo_dang_danh_sach);
                               Navigator.pop(
                                 context,
+                                TypeCalendarMenu.LichCuaToi,
                               );
                             },
                             isSelect: snapshot.data?[1] ?? true,
@@ -261,18 +263,21 @@ class _MenuWidgetState extends State<MenuWidget> {
                 const SizedBox(
                   height: 16,
                 ),
-                TheoDangLichWidget(
-                  icon: ImageAssets.icCalendar,
-                  name: S.current.bao_cao_thong_ke,
-                  onTap: () {
-                    widget.cubit.selectTypeCalendarSubject
-                        .add([false, false, true]);
-                    widget.onTap(S.current.bao_cao_thong_ke);
+                if (widget.isBaoCaoThongKe)
+                  TheoDangLichWidget(
+                    icon: ImageAssets.icCalendar,
+                    name: S.current.bao_cao_thong_ke,
+                    onTap: () {
+                      widget.cubit.selectTypeCalendarSubject
+                          .add([false, false, true]);
+                      widget.onTap(S.current.bao_cao_thong_ke);
 
-                    Navigator.pop(context);
-                  },
-                  isSelect: snapshot.data?[2] ?? true,
-                ),
+                      Navigator.pop(context);
+                    },
+                    isSelect: snapshot.data?[2] ?? true,
+                  )
+                else
+                  Container(),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(

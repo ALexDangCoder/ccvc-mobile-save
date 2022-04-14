@@ -11,9 +11,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class IsCaNgayWidget extends StatefulWidget {
   final bool isMargin;
+  final Function(bool value) isCheck;
+
   const IsCaNgayWidget({
     Key? key,
     this.isMargin = true,
+    required this.isCheck,
   }) : super(key: key);
 
   @override
@@ -71,6 +74,7 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
                           .isDateTimeSubject
                           .sink
                           .add(isCheck);
+                      widget.isCheck(value);
                       setState(() {});
                     },
                   )

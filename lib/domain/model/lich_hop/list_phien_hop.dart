@@ -11,7 +11,7 @@ class ListPhienHopModel {
   String? noiDung;
   String? hoTen;
   String? createBy;
-  List<Files>? files;
+  List<Files> files;
 
   ListPhienHopModel({
     required this.id,

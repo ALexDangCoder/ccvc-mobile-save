@@ -24,6 +24,7 @@ class ChiTietLichHopModel {
   ChuTriModel chuTriModel;
   PhongHopMode phongHopMode;
   String typeScheduleId;
+  List<file>? fileData;
 
   bool bit_HopTrucTuyen;
   bool bit_TrongDonVi;
@@ -51,7 +52,8 @@ class ChiTietLichHopModel {
       this.bit_TrongDonVi = false,
       this.isAllDay = false,
       this.typeReminder,
-      this.typeRepeat});
+      this.typeRepeat,
+      this.fileData});
 
   String mucDoHopWithInt() {
     switch (mucDoHop) {
@@ -272,4 +274,38 @@ class ChiTietDataRow {
   final String text;
 
   ChiTietDataRow({required this.urlIcon, required this.text});
+}
+
+class file {
+  final String? createdAt;
+
+  final String? createdBy;
+  final String? entityId;
+  final String? entityId_DM;
+  final String? entityName;
+  final int? entityType;
+  final String? extension;
+  final String? id;
+  final bool? isPrivate;
+  final String? name;
+  final String? path;
+  final int? size;
+  final String? updatedAt;
+  final String? updatedBy;
+
+  file(
+      {this.createdAt,
+      this.createdBy,
+      this.entityId,
+      this.entityId_DM,
+      this.entityName,
+      this.entityType,
+      this.extension,
+      this.id,
+      this.isPrivate,
+      this.name,
+      this.path,
+      this.size,
+      this.updatedAt,
+      this.updatedBy});
 }

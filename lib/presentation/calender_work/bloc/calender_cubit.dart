@@ -279,6 +279,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
           ),
           subject: dataLichLvModels.listLichLVModel?[i].title ?? '',
           color: Colors.blue,
+          id: dataLichLvModels.listLichLVModel?[i].id ?? '',
         ),
       );
     }

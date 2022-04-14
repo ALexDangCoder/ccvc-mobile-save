@@ -185,6 +185,9 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
+                                  margin: const EdgeInsets.only(
+                                    top: 10,
+                                  ),
                                   padding: const EdgeInsets.only(
                                     left: 8,
                                     right: 8,

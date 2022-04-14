@@ -28,6 +28,7 @@ class PicKDateCupertinoCubit extends BaseCubit<PickDateCupertinoState> {
 
   void listeningStartDataTime(DateTime dateAndTime) {
     startDateSubject.add(dateAndTime);
+    endDateSubject.add(dateAndTime);
   }
 
   void listeningEndDataTime(DateTime dateAndTime) {

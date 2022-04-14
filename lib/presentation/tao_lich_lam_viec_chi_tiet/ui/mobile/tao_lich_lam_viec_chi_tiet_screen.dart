@@ -132,9 +132,11 @@ class _TaoLichLamViecChiTietScreenState
                             },
                             onStartDateTimeChanged: (DateTime value) {
                               taoLichLamViecCubit.listeningStartDataTime(value);
+                            }, isCheck: (bool value) {
+                              taoLichLamViecCubit.isCheckAllDaySubject.add(value);
                             },
                           ),
-                          const NhacLaiWidget(),
+                           NhacLaiWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
                           const SizedBox(
                             height: 10,
                           ),

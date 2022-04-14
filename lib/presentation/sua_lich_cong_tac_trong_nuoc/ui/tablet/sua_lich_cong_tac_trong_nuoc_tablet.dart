@@ -19,10 +19,12 @@ class SuaLichCongTacTrongNuocTablet extends StatefulWidget {
   const SuaLichCongTacTrongNuocTablet({Key? key}) : super(key: key);
 
   @override
-  _SuaLichCongTacTrongNuocTabletState createState() => _SuaLichCongTacTrongNuocTabletState();
+  _SuaLichCongTacTrongNuocTabletState createState() =>
+      _SuaLichCongTacTrongNuocTabletState();
 }
 
-class _SuaLichCongTacTrongNuocTabletState extends State<SuaLichCongTacTrongNuocTablet> {
+class _SuaLichCongTacTrongNuocTabletState
+    extends State<SuaLichCongTacTrongNuocTablet> {
   final TaoLichLamViecCubit taoLichLamViecCubit = TaoLichLamViecCubit();
   final _formKey = GlobalKey<FormState>();
   TextEditingController tieuDeController = TextEditingController();
@@ -52,7 +54,7 @@ class _SuaLichCongTacTrongNuocTabletState extends State<SuaLichCongTacTrongNuocT
               Container(
                 padding: const EdgeInsets.all(20),
                 margin:
-                const EdgeInsets.symmetric(vertical: 28, horizontal: 30),
+                    const EdgeInsets.symmetric(vertical: 28, horizontal: 30),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: borderColor.withOpacity(0.5)),
@@ -90,15 +92,24 @@ class _SuaLichCongTacTrongNuocTabletState extends State<SuaLichCongTacTrongNuocT
                                 hint: S.current.lich_cong_tac_trong_nuoc,
                               ),
                             ),
-                            LoaiLichWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
+                            LoaiLichWidget(
+                              taoLichLamViecCubit: taoLichLamViecCubit,
+                            ),
                             const SearchNameWidget(),
                             StartEndDateWidget(
                               onEndDateTimeChanged: (DateTime value) {},
                               onStartDateTimeChanged: (DateTime value) {},
+                              isCheck: (bool value) {},
                             ),
-                            const NhacLaiWidget(),
-                            NguoiChuTriWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
-                             LinhVucWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
+                            NhacLaiWidget(
+                              taoLichLamViecCubit: taoLichLamViecCubit,
+                            ),
+                            NguoiChuTriWidget(
+                              taoLichLamViecCubit: taoLichLamViecCubit,
+                            ),
+                            LinhVucWidget(
+                              taoLichLamViecCubit: taoLichLamViecCubit,
+                            ),
                             TextFormWidget(
                               image: ImageAssets.icViTri,
                               hint: S.current.ubnd_tinh_dong_nai,
@@ -155,7 +166,6 @@ class _SuaLichCongTacTrongNuocTabletState extends State<SuaLichCongTacTrongNuocT
     );
   }
 }
-
 
 Widget buttomWidget({
   required String title,

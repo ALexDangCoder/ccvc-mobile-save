@@ -21,63 +21,67 @@ class ChartLinhVucXuLyWidget extends StatelessWidget {
       builder: (context, snapshot) {
         final data = snapshot.data ?? [];
         return cubit.checkDataList(data)
-            ? SfCartesianChart(
-                tooltipBehavior: TooltipBehavior(
-                  enable: true,
-                  textStyle: textNormalCustom(
-                    color: infoColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 10,
-                  ),
-                ),
-                primaryXAxis: CategoryAxis(
-                  placeLabelsNearAxisLine: true,
-                  labelStyle: textNormalCustom(
-                    color: AqiColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  maximumLabelWidth: 60,
-                  majorGridLines: const MajorGridLines(width: 0),
-                ),
-                primaryYAxis: CategoryAxis(
-                  labelStyle: textNormalCustom(
-                    color: AqiColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  placeLabelsNearAxisLine: true,
-                  axisLine: const AxisLine(
-                    color: AqiColor,
-                    width: 0.41,
-                  ),
-                  interval: 5,
-                  minimum: 0,
-                  majorGridLines: const MajorGridLines(
-                    width: 0.34,
-                    color: AqiColor,
-                    dashArray: [5, 5],
-                  ),
-                ),
-                series: <ChartSeries<LinhVucKhacModel, String>>[
-                  BarSeries<LinhVucKhacModel, String>(
-                    color: bgrChart,
-                    dataLabelSettings: DataLabelSettings(
-                      isVisible: true,
-                      textStyle: textNormalCustom(
-                        color: infoColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 11,
-                      ),
-                      labelAlignment: ChartDataLabelAlignment.outer,
-                      labelPosition: ChartDataLabelPosition.outside,
+            ? SizedBox(
+                height: 70.0 * data.length,
+                child: SfCartesianChart(
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                    textStyle: textNormalCustom(
+                      color: infoColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 10,
                     ),
-                    dataSource: data,
-                    xValueMapper: (LinhVucKhacModel data, _) => data.tenLinhVuc,
-                    yValueMapper: (LinhVucKhacModel data, _) =>
-                        data.soPhanAnhKienNghi,
                   ),
-                ],
+                  primaryXAxis: CategoryAxis(
+                    placeLabelsNearAxisLine: true,
+                    labelStyle: textNormalCustom(
+                      color: AqiColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maximumLabelWidth: 60,
+                    majorGridLines: const MajorGridLines(width: 0),
+                  ),
+                  primaryYAxis: CategoryAxis(
+                    labelStyle: textNormalCustom(
+                      color: AqiColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    placeLabelsNearAxisLine: true,
+                    axisLine: const AxisLine(
+                      color: AqiColor,
+                      width: 0.41,
+                    ),
+                    interval: 5,
+                    minimum: 0,
+                    majorGridLines: const MajorGridLines(
+                      width: 0.34,
+                      color: AqiColor,
+                      dashArray: [5, 5],
+                    ),
+                  ),
+                  series: <ChartSeries<LinhVucKhacModel, String>>[
+                    BarSeries<LinhVucKhacModel, String>(
+                      color: bgrChart,
+                      dataLabelSettings: DataLabelSettings(
+                        isVisible: true,
+                        textStyle: textNormalCustom(
+                          color: infoColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 11,
+                        ),
+                        labelAlignment: ChartDataLabelAlignment.outer,
+                        labelPosition: ChartDataLabelPosition.outside,
+                      ),
+                      dataSource: data,
+                      xValueMapper: (LinhVucKhacModel data, _) =>
+                          data.tenLinhVuc,
+                      yValueMapper: (LinhVucKhacModel data, _) =>
+                          data.soPhanAnhKienNghi,
+                    ),
+                  ],
+                ),
               )
             : Container(
                 margin: const EdgeInsets.all(30),

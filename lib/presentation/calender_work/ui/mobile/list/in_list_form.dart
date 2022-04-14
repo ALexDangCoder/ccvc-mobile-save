@@ -70,6 +70,7 @@ class _InListFormState extends State<InListForm> {
                   itemCount:
                       _cubit.dataLichLvModel.listLichLVModel?.length ?? 0,
                   itemBuilder: (context, index) {
+                    print("==============${_cubit.dataLichLvModel.listLichLVModel?.length}");
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
                       child: CustomItemCalenderMobile(
@@ -91,10 +92,10 @@ class _InListFormState extends State<InListForm> {
                         onTap: () {
                           final String typeCalendar = _cubit.dataLichLvModel
                                   .listLichLVModel?[index].typeSchedule ??
-                              'MeetingSchedule';
+                              'Schedule';
 
                           typeCalendar.getTypeCalendar
-                              .navigatorDetail(context, _cubit);
+                              .navigatorDetail(context, _cubit, index);
                         },
                         isTrung: _cubit.dataLichLvModel.listLichLVModel?[index]
                                 .isLichLap ??

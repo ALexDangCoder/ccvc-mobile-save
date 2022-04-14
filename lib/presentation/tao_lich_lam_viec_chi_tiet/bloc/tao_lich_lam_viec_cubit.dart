@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.d
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/nhac_lai_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
@@ -42,6 +43,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   BehaviorSubject<DateTime> endDateSubject = BehaviorSubject.seeded(
     DateTime.now(),
   );
+  BehaviorSubject<bool> isCheckAllDaySubject = BehaviorSubject.seeded(false);
+
+  Stream<bool> get isCheckAllDayStream => isCheckAllDaySubject.stream;
 
   BehaviorSubject<List<String>> listItemPersonSubject =
       BehaviorSubject.seeded(listPerson);
@@ -65,7 +69,12 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       BehaviorSubject();
   final BehaviorSubject<List<LoaiSelectModel>> _linhVuc = BehaviorSubject();
 
+  final BehaviorSubject<List<NhacLaiModel>> _nhacLai =
+      BehaviorSubject.seeded(listNhacLai);
+
   Stream<List<LoaiSelectModel>> get linhVuc => _linhVuc.stream;
+
+  Stream<List<NhacLaiModel>> get nhacLai => _nhacLai.stream;
 
   Stream<List<NguoiChutriModel>> get nguoiChuTri => _nguoiChuTri.stream;
 
@@ -73,6 +82,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   LoaiSelectModel? selectLoaiLich;
   LoaiSelectModel? selectLinhVuc;
   NguoiChutriModel? selectNguoiChuTri;
+  NhacLaiModel selectNhacLai = NhacLaiModel.seeded();
   List<DonViModel>? donviModel;
 
   String? dateFrom;
@@ -240,10 +250,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       selectNguoiChuTri?.userId ?? '',
       selectNguoiChuTri?.donViId ?? '',
       '',
-      allDay,
+      isCheckAllDaySubject.value,
       true,
       donviModel ?? [],
-      1,
+      selectNhacLai.value ?? 1,
       1,
       dateFrom ?? DateTime.now().formatApi,
       dateEnd ?? DateTime.now().formatApi,

@@ -233,8 +233,8 @@ abstract class HopServices {
 
   @POST(ApiConstants.STATISTIC_BY_MONTH)
   Future<StatisticByMonthResponse> postStatisticByMonth(
-      @Field('dateFrom') String dateFrom,
-      @Field('dateTo') String dateTo,
+    @Field('dateFrom') String dateFrom,
+    @Field('dateTo') String dateTo,
   );
 
   @POST(ApiConstants.DASHBOARD_THONG_KE)
@@ -245,19 +245,24 @@ abstract class HopServices {
 
   @POST(ApiConstants.CO_CAU_LICH_HOP)
   Future<CoCauLichHopResponse> postCoCauLichHop(
-      @Field('dateFrom') String dateFrom,
-      @Field('dateTo') String dateTo,
+    @Field('dateFrom') String dateFrom,
+    @Field('dateTo') String dateTo,
   );
 
   @POST(ApiConstants.TO_CHUC_BOI_DON_VI)
   Future<ToChucBoiDonViResponse> postToChucBoiDonVi(
-      @Field('dateFrom') String dateFrom,
-      @Field('dateTo') String dateTo,
+    @Field('dateFrom') String dateFrom,
+    @Field('dateTo') String dateTo,
   );
 
   @POST(ApiConstants.TI_LE_THAM_GIA)
   Future<TiLeThamGiaResponse> postTiLeThamGia(
-      @Field('dateFrom') String dateFrom,
-      @Field('dateTo') String dateTo,
+    @Field('dateFrom') String dateFrom,
+    @Field('dateTo') String dateTo,
+  );
+
+  @POST(ApiConstants.SUA_LICH_HOP)
+  Future<ChiTietLichHopResponse> postSuaLichHop(
+    @Body() TaoLichHopRequest taoLichHopRequest,
   );
 }

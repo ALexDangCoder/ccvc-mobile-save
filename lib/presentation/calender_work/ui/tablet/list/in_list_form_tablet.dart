@@ -88,7 +88,7 @@ class _InListFormTabletState extends State<InListFormTablet> {
                         onTap: () {
                           final String typeCalendar = _cubit.dataLichLvModel
                                   .listLichLVModel?[index].typeSchedule ??
-                              'MeetingSchedule';
+                              'Schedule';
                           typeCalendar.getTypeCalendar.navigatorDetailTablet(
                             context,
                             _cubit.dataLichLvModel.listLichLVModel?[index].id ??

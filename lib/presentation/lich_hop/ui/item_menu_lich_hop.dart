@@ -201,7 +201,7 @@ extension GetDataMenu on TypeCalendarMenu {
   String getTitleLichHop() {
     switch (this) {
       case TypeCalendarMenu.LichCuaToi:
-        return S.current.lich_hop_cua_toi;
+        return S.current.lich_cua_toi;
 
       case TypeCalendarMenu.BaoCaoThongKe:
         return S.current.bao_cao_thong_ke;
@@ -213,18 +213,18 @@ extension GetDataMenu on TypeCalendarMenu {
         return S.current.lich_theo_lanh_dao;
 
       case TypeCalendarMenu.LichDuocMoi:
-        return S.current.lich_hop_duoc_moi;
+        return S.current.lich_duoc_moi;
 
       case TypeCalendarMenu.LichTaoHo:
-        return S.current.lich_hop_tao_ho;
+        return S.current.lich_tao_ho;
 
       case TypeCalendarMenu.LichHuy:
-        return S.current.lich_hop_huy;
+        return S.current.lich_huy;
       case TypeCalendarMenu.LichChuaCoBaoCao:
         return S.current.lich_chua_co_bao_cao;
 
       case TypeCalendarMenu.LichThuHoi:
-        return S.current.lich_hop_thu_hoi;
+        return S.current.lich_thu_hoi;
 
       case TypeCalendarMenu.LichDaCoBaoCao:
         return S.current.lich_da_co_bao_cao;

@@ -195,4 +195,8 @@ mixin HopRepository {
     int statusId,
     bool isMulti,
   );
+
+  Future<Result<ChiTietLichHopModel>> postSuaLichHop(
+    TaoLichHopRequest TaoLichHopRequest,
+  );
 }

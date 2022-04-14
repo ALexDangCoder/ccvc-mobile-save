@@ -9,11 +9,11 @@ class DeleteCalenderWorkResponse extends Equatable {
   @JsonKey(name: 'code')
   String? code;
   @JsonKey(name: 'data')
-  String? data;
+  bool? data;
   @JsonKey(name: 'message')
   String? message;
   @JsonKey(name: 'succeeded')
-  String? succeeded;
+  bool? succeeded;
 
   DeleteCalenderWorkResponse();
 

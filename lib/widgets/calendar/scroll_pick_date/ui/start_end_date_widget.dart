@@ -9,13 +9,19 @@ import 'package:flutter/cupertino.dart';
 class StartEndDateWidget extends StatefulWidget {
   final Function(DateTime value) onStartDateTimeChanged;
   final Function(DateTime value) onEndDateTimeChanged;
+  final DateTime? initStartData;
+  final DateTime? initEndData;
   final bool icMargin;
+  final Function(bool value) isCheck;
 
   const StartEndDateWidget({
     Key? key,
     required this.onStartDateTimeChanged,
     required this.onEndDateTimeChanged,
     this.icMargin = true,
+    this.initStartData,
+    this.initEndData,
+    required this.isCheck,
   }) : super(key: key);
 
   @override
@@ -38,6 +44,9 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
             children: [
               IsCaNgayWidget(
                 isMargin: widget.icMargin,
+                isCheck: (bool value) {
+                  widget.isCheck(value);
+                },
               ),
               SizedBox(
                 height: 16.0.textScale(),
@@ -45,6 +54,7 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
               PicKDateCupertino(
                 key: UniqueKey(),
                 isUnderLine: true,
+                initData: widget.initStartData,
                 minimumDate: DateTime.now(),
                 mode: dataBool
                     ? CupertinoDatePickerMode.date
@@ -62,30 +72,31 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
                 height: 16.0.textScale(),
               ),
               StreamBuilder<DateTime>(
-                  stream: StartEndDateInherited.of(context)
-                      .picKDateCupertinoCubit
-                      .startDateStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? DateTime.now();
+                stream: StartEndDateInherited.of(context)
+                    .picKDateCupertinoCubit
+                    .startDateStream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? DateTime.now();
                   return PicKDateCupertino(
-                      key: UniqueKey(),
-                      isUnderLine: true,
-                      minimumDate: data,
-                      maximumDate:
-                          DateTime(data.year, 12, 31, 23, 59, 59),
-                      mode: dataBool
-                          ? CupertinoDatePickerMode.date
-                          : CupertinoDatePickerMode.dateAndTime,
-                      onDateTimeChanged: (DateTime value) {
-                        picKDateCupertinoCubit.listeningEndDataTime(
-                          value,
-                        );
-                        widget.onEndDateTimeChanged(value);
-                      },
-                      title: S.current.ket_thuc,
-                      startOfEnd: StartOfEnd.END,
-                    );
-                  },)
+                    key: UniqueKey(),
+                    isUnderLine: true,
+                    minimumDate: data,
+                    initData: widget.initEndData,
+                    maximumDate: DateTime(data.year, 12, 31, 23, 59, 59),
+                    mode: dataBool
+                        ? CupertinoDatePickerMode.date
+                        : CupertinoDatePickerMode.dateAndTime,
+                    onDateTimeChanged: (DateTime value) {
+                      picKDateCupertinoCubit.listeningEndDataTime(
+                        value,
+                      );
+                      widget.onEndDateTimeChanged(value);
+                    },
+                    title: S.current.ket_thuc,
+                    startOfEnd: StartOfEnd.END,
+                  );
+                },
+              )
             ],
           );
         },

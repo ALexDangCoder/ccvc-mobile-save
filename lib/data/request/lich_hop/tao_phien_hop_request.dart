@@ -16,7 +16,7 @@ class TaoPhienHopRepuest {
   List<FilesRepuest>? file;
 
   TaoPhienHopRepuest(
-      this.canBoId,
+      {this.canBoId,
       this.donViId,
       this.thoiGian_BatDau,
       this.thoiGian_KetThuc,
@@ -24,7 +24,7 @@ class TaoPhienHopRepuest {
       this.tieuDe,
       this.hoTen,
       this.IsMultipe,
-      this.file);
+      this.file});
 
   factory TaoPhienHopRepuest.fromJson(Map<String, dynamic> json) =>
       _$TaoPhienHopRepuestFromJson(json);

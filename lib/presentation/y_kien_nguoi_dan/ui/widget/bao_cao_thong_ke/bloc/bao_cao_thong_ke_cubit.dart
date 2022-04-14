@@ -26,19 +26,18 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
       BehaviorSubject<List<ChartData>>();
 
   final BehaviorSubject<List<LinhVucKhacModel>> _chartLinhVucXuLy =
-  BehaviorSubject<List<LinhVucKhacModel>>();
+      BehaviorSubject<List<LinhVucKhacModel>>();
 
   final BehaviorSubject<List<DonViYKNDModel>> _chartDonViXuLy =
-  BehaviorSubject<List<DonViYKNDModel>>();
+      BehaviorSubject<List<DonViYKNDModel>>();
 
   final BehaviorSubject<List<YKNDByMonth>> _chartSoLuongYkNDByMonth =
-  BehaviorSubject<List<YKNDByMonth>>();
+      BehaviorSubject<List<YKNDByMonth>>();
 
   Stream<List<YKNDByMonth>> get chartSoLuongYkNDByMonth =>
       _chartSoLuongYkNDByMonth.stream;
 
-  Stream<List<DonViYKNDModel>> get chartDonViXuLy =>
-      _chartDonViXuLy.stream;
+  Stream<List<DonViYKNDModel>> get chartDonViXuLy => _chartDonViXuLy.stream;
 
   Stream<List<LinhVucKhacModel>> get chartLinhVucXuLy =>
       _chartLinhVucXuLy.stream;
@@ -130,6 +129,18 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     );
   }
 
+  double getMax(List<DonViYKNDModel> data) {
+    double value = 0;
+    data.forEach((element) {
+      if ((element.soPhanAnhKienNghi.toDouble()) > value) {
+        value = element.soPhanAnhKienNghi.toDouble();
+      }
+    });
+    final double range = value % 10;
+
+    return (value + (10.0 - range)) / 5;
+  }
+
   Future<void> dashBoardBaoCaoYKND(
     String tuNgay,
     String denNgay,
@@ -190,10 +201,11 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
       },
     );
   }
+
   Future<void> dashBoardLinhKhacXuLy(
-      String tuNgay,
-      String denNgay,
-      ) async {
+    String tuNgay,
+    String denNgay,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.chartLinhVucKhac(
       tuNgay,
@@ -211,9 +223,9 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
   }
 
   Future<void> dashBoardDonViXuLy(
-      String tuNgay,
-      String denNgay,
-      ) async {
+    String tuNgay,
+    String denNgay,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.chartDonVi(
       tuNgay,
@@ -222,17 +234,18 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     showContent();
     result.when(
       success: (res) {
-         _chartDonViXuLy.sink.add(res.listChartData);
+        _chartDonViXuLy.sink.add(res.listChartData);
       },
       error: (err) {
         return;
       },
     );
   }
+
   Future<void> dashBoardSoLuongByMonth(
-      String tuNgay,
-      String denNgay,
-      ) async {
+    String tuNgay,
+    String denNgay,
+  ) async {
     showLoading();
     final result = await _YKNDRepo.chartSoLuongByMonth(
       tuNgay,
@@ -249,7 +262,6 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     );
   }
 
-
   bool checkDataList(List<dynamic> data) {
     for (final i in data) {
       if (i.soPhanAnhKienNghi != 0) return true;
@@ -257,7 +269,6 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     return false;
   }
 }
-
 
 void getDataDashBoardBaoCaoThongKe(
   DashBoardBaoCaoYKNDData data,

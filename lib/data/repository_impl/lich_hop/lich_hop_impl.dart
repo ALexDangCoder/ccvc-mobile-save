@@ -483,4 +483,15 @@ class HopRepositoryImpl implements HopRepository {
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
     );
   }
+
+  @override
+  Future<Result<ChiTietLichHopModel>> postSuaLichHop(
+      TaoLichHopRequest taoLichHopRequest,
+      ) {
+    return runCatchingAsync<ChiTietLichHopResponse,
+        ChiTietLichHopModel>(
+          () => _hopServices.postSuaLichHop(taoLichHopRequest),
+          (response) => response.data?.toDomain() ?? ChiTietLichHopModel(),
+    );
+  }
 }

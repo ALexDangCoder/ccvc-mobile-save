@@ -116,7 +116,7 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                           onEndDateTimeChanged: (DateTime value) {},
                           onStartDateTimeChanged: (DateTime value) {
                             widget.cubit.thoiGian = value.formatApiSS;
-                          },
+                          }, isCheck: (bool value) {  },
                         ),
                         spaceH5,
                         TextFieldStyle(
@@ -345,7 +345,7 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                                 onEndDateTimeChanged: (DateTime value) {},
                                 onStartDateTimeChanged: (DateTime value) {
                                   widget.cubit.thoiGian = value.formatApiSS;
-                                },
+                                }, isCheck: (bool value) {  },
                               ),
                               spaceH5,
                               TextFieldStyle(

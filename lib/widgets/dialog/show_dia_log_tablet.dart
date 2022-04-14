@@ -15,6 +15,7 @@ Future<T?> showDiaLogTablet<T>(
   required Function funcBtnOk,
   double maxHeight = 878,
   double width = 592,
+  double? setHeight,
 }) {
   return showDialog(
     context: context,
@@ -31,7 +32,7 @@ Future<T?> showDiaLogTablet<T>(
           btnRightTxt: btnRightTxt ?? S.current.them,
           funcBtnOk: funcBtnOk,
           isBottomShow: isBottomShow,
-          maxHeight: maxHeight,
+          maxHeight: setHeight ?? maxHeight,
           width: width,
           child: child,
         ),
@@ -111,7 +112,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                     spaceW20,
                     button(
                       onTap: () {
-                        funcBtnOk();
+                        funcBtnOk(context);
                       },
                       title: btnRightTxt,
                       isLeft: false,

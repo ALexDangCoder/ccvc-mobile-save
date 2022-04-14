@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/forgot_password/bloc/forgot_password_cubit.dart';
+import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
@@ -17,7 +17,7 @@ class SendMailScreen extends StatefulWidget {
 }
 
 class _SendMailScreenState extends State<SendMailScreen> {
-  ForgotPasswordCubit cubit = ForgotPasswordCubit();
+  ChangePasswordCubit cubit = ChangePasswordCubit();
   TextEditingController emailController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
   @override

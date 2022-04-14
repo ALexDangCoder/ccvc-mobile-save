@@ -99,6 +99,7 @@ class ApiConstants {
   static const MENU_LICH_LV = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
   static const TO_CHUC_BOI_DON_VI = '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA = '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
+  static const SUA_LICH_HOP = '/api/MeetingSchedule/edit-meeting';
 
   static const String POST_FILE_TAO_LICH_HOP =
       '/vpdt/api/Files/add-file-with-meeting';
@@ -175,6 +176,7 @@ class ApiConstants {
   static const BAO_CAO_THEO_THOI_GIAN= '/api/NewsNetViews/thong_ke_theo_thoi_gian';
   static const BAO_CAO_THEO_NGUON_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_nguon';
   static const BAO_CAO_THEO_SAC_THAI_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_sac_thai';
+  static const CHANGE_PASS= '/api/auth/change-pass';
 
 }
 

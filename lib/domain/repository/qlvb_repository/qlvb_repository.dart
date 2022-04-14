@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
@@ -38,6 +39,18 @@ mixin QLVBRepository {
     String keySearch = '',
   ]);
 
+  Future<Result<DanhSachVanBanModel>> getDanhSachVbDiDashBoard(
+    String startDate,
+    String endDate,
+    bool isDanhSachChoXuLy,
+    bool isDanhSachDaXuLy,
+    bool isDanhSachChoTrinhKy,
+    List<int> trangThaiFilter,
+    int index,
+    int size, [
+    String keySearch = '',
+  ]);
+
   Future<Result<ChiTietVanBanDiModel>> getDataChiTietVanBanDi(String id);
 
   Future<Result<ChiTietVanBanDenModel>> getDataChiTietVanBanDen(
@@ -48,8 +61,7 @@ mixin QLVBRepository {
   Future<Result<DataLichSuVanBanModel>> getDataLichSuVanBanDen(
       String processId, String type);
 
-  Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(
-      String vanBanId);
+  Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(String vanBanId);
 
   Future<Result<DataLichSuThuHoiVanBanDi>> getLichSuThuHoiVanBanDi(
       String id, String vanBanId);

@@ -37,6 +37,12 @@ class DocumentDashboardModel {
     this.soLuongChoVaoSo,
   });
 }
+
+enum VBDenDocumentDASHBOARDType {
+  CHO_TRINH_KY,
+  CHO_XU_LY,
+  DA_XU_LY,
+}
 enum VBDenDocumentType {
   CHO_XU_LY,
   DANG_XU_LY,
@@ -46,6 +52,7 @@ enum VBDenDocumentType {
   TRONG_HAN,
   THUONG_KHAN
 }
+
 extension TypeVBDen on VBDenDocumentType {
   String getName() {
     switch (this) {
@@ -64,5 +71,74 @@ extension TypeVBDen on VBDenDocumentType {
       case VBDenDocumentType.THUONG_KHAN:
         return 'THUONG_KHAN';
     }
+  }
+
+  bool getTrangThai() {
+    switch (this) {
+      case VBDenDocumentType.CHO_VAO_SO:
+        return true;
+      case VBDenDocumentType.DANG_XU_LY:
+        return true;
+      case VBDenDocumentType.DA_XU_LY:
+        return true;
+      case VBDenDocumentType.CHO_XU_LY:
+        return true;
+      case VBDenDocumentType.QUA_HAN:
+        return true;
+      case VBDenDocumentType.TRONG_HAN:
+        return true;
+      case VBDenDocumentType.THUONG_KHAN:
+        return true;
+    }
+  }
+}
+
+extension TypeVBDi on String {
+  bool getTrangThaiChoTrinhKy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return true;
+    } else if (trangThai == 'DA_XU_LY') {
+      return false;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  bool getTrangThaiDaXuLy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return false;
+    } else if (trangThai == 'DA_XU_LY') {
+      return true;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  bool getTrangThaiChoXuLy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return false;
+    } else if (trangThai == 'DA_XU_LY') {
+      return false;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  List<int> getTrangThaiNumber() {
+    switch (this) {
+      case 'CHO_TRINH_KY':
+        return [1];
+      case 'DA_XU_LY':
+        return [];
+      case ' CHO_XU_LY':
+        return [2];
+    }
+    return [];
   }
 }

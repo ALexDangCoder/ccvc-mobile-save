@@ -10,29 +10,35 @@ import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class IncomingDocumentScreenTablet extends StatefulWidget {
+class IncomingDocumentScreenDashBoardTablet extends StatefulWidget {
   final String title;
   final TypeScreen type;
   final String startDate;
   final String endDate;
-  final  List<String> maTrangThai;
+  final bool? isDanhSachChoTrinhKy;
+  final bool? isDanhSachChoXuLy;
+  final bool? isDanhSachDaXuLy;
+  final List<int> trangThaiFilter;
 
-  const IncomingDocumentScreenTablet({
+  const IncomingDocumentScreenDashBoardTablet({
     Key? key,
     required this.title,
     required this.type,
     required this.startDate,
     required this.endDate,
-    required this.maTrangThai,
+    required this.isDanhSachChoTrinhKy,
+    required this.isDanhSachChoXuLy,
+    required this.isDanhSachDaXuLy,
+    required this.trangThaiFilter,
   }) : super(key: key);
 
   @override
-  _IncomingDocumentScreenTabletState createState() =>
-      _IncomingDocumentScreenTabletState();
+  _IncomingDocumentScreenDashBoardTabletState createState() =>
+      _IncomingDocumentScreenDashBoardTabletState();
 }
 
-class _IncomingDocumentScreenTabletState
-    extends State<IncomingDocumentScreenTablet> {
+class _IncomingDocumentScreenDashBoardTabletState
+    extends State<IncomingDocumentScreenDashBoardTablet> {
   late IncomingDocumentCubit cubit;
 
   @override
@@ -56,30 +62,42 @@ class _IncomingDocumentScreenTabletState
     );
   }
 
-  void callApi(int page, String startDate, String endDate,List<String>maTrangThai) {
-    if (widget.type == TypeScreen.VAN_BAN_DEN) {
-      cubit.listDataDanhSachVBDen(
-        startDate: startDate,
-        endDate: endDate,
-        page: page,
-        size: ApiConstants.DEFAULT_PAGE_SIZE,
-        maTrangThai: maTrangThai,
-      );
-    } else {
-      cubit.listDataDanhSachVBDi(
-        startDate: startDate,
-        endDate: endDate,
-        index: page,
-        size: ApiConstants.DEFAULT_PAGE_SIZE,
-      );
-    }
+  void callApi(
+    int page,
+    String startDate,
+    String endDate,
+      bool isDanhSachChoTrinhKy,
+      bool isDanhSachDaXuLy,
+      bool isDanhSachChoXuLy,
+      List<int> trangThaiFilter
+  ) {
+    cubit.listDataDanhSachVBDiDashBoard(
+      startDate: startDate,
+      endDate: endDate,
+      index: page,
+      size: ApiConstants.DEFAULT_PAGE_SIZE,
+      isDanhSachChoXuLy: isDanhSachChoXuLy,
+      isDanhSachDaXuLy: isDanhSachDaXuLy,
+      isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
+      trangThaiFilter: trangThaiFilter,
+    );
   }
 
   Widget _content() {
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,
-      callApi: (page) => {callApi(page, widget.startDate ,widget.endDate,widget.maTrangThai)},
+      callApi: (page) => {
+        callApi(
+          page,
+          widget.startDate,
+          widget.endDate,
+          widget.isDanhSachChoTrinhKy ?? false,
+          widget.isDanhSachDaXuLy ?? false,
+          widget.isDanhSachChoXuLy ?? false,
+          widget.trangThaiFilter,
+        )
+      },
       viewItem: (value, index) => itemVanBan(value as VanBanModel, index ?? 0),
     );
   }
@@ -103,8 +121,8 @@ class _IncomingDocumentScreenTabletState
                     taskId: data.taskId ?? '',
                   );
                 } else {
-                  return  ChiTietVanBanDiTablet(
-                     id: data.iD??'',
+                  return ChiTietVanBanDiTablet(
+                    id: data.iD ?? '',
                   );
                 }
               },

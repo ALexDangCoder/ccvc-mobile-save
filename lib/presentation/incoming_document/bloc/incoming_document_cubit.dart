@@ -14,12 +14,17 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum TypeScreen { VAN_BAN_DEN, VAN_BAN_DI }
+enum TypeScreenDashBoard { DASHBOARD }
 
 class IncomingDocumentCubit extends BaseCubit<BaseState> {
   IncomingDocumentCubit() : super(IncomingDocumentStateIntial());
   int nextPage = 1;
   int totalPage = 1;
   List<String> maTrangThai = [];
+  bool? isDanhSachChoXuLy;
+  bool? isDanhSachDaXuLy;
+  bool? isDanhSachChoTrinhKy;
+  List<int> trangThaiFilter = [];
 
   final BehaviorSubject<List<VanBanModel>> _getListVBDen =
       BehaviorSubject<List<VanBanModel>>();
@@ -51,13 +56,14 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
     required String endDate,
     required int page,
     required int size,
+    required List<String> maTrangThai,
   }) async {
     loadMorePage = page;
     final result = await _QLVBRepo.getDanhSachVbDen(
       DanhSachVBRequest(
         maTrangThai: maTrangThai,
         index: page,
-        isChoYKien: false,
+        isChoYKien: null,
         isSortByDoKhan: true,
         thoiGianStartFilter: startDate,
         thoiGianEndFilter: endDate,
@@ -94,6 +100,46 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
     loadMorePage = index;
     final result =
         await _QLVBRepo.getDanhSachVbDi(startDate, endDate, index, size);
+    result.when(
+      success: (res) {
+        if (index == ApiConstants.PAGE_BEGIN) {
+          if (res.pageData?.isEmpty ?? true) {
+            showEmpty();
+          } else {
+            showContent();
+            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+          }
+        } else {
+          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+        }
+      },
+      error: (err) {
+        return err;
+      },
+    );
+  }
+
+  Future<void> listDataDanhSachVBDiDashBoard({
+    required String startDate,
+    required String endDate,
+    required bool isDanhSachChoXuLy,
+    required bool isDanhSachDaXuLy,
+    required bool isDanhSachChoTrinhKy,
+    required List<int> trangThaiFilter,
+    required int index,
+    required int size,
+  }) async {
+    if (index == ApiConstants.PAGE_BEGIN) {}
+    loadMorePage = index;
+    final result = await _QLVBRepo.getDanhSachVbDiDashBoard(
+        startDate,
+        endDate,
+        isDanhSachChoXuLy,
+        isDanhSachDaXuLy,
+        isDanhSachChoTrinhKy,
+        trangThaiFilter,
+        index,
+        size);
     result.when(
       success: (res) {
         if (index == ApiConstants.PAGE_BEGIN) {

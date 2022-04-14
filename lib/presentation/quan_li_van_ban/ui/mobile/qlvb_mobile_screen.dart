@@ -8,6 +8,8 @@ import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen_dashboard.dart';
+import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
@@ -58,8 +60,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                   StreamBuilder<DocumentDashboardModel>(
                     stream: qlvbCubit.getVbDen,
                     builder: (context, snapshot) {
-                      final dataVBDen = snapshot.data ??
-                          DocumentDashboardModel();
+                      final dataVBDen =
+                          snapshot.data ?? DocumentDashboardModel();
                       return Container(
                         padding: const EdgeInsets.all(16.0),
                         child: CommonInformationMobile(
@@ -67,6 +69,20 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                           documentDashboardModel: dataVBDen,
                           isVbDen: true,
                           title: S.current.document_incoming,
+                          ontap: (value) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => IncomingDocumentScreen(
+                                  title: S.current.danh_sach_van_ban_den,
+                                  type: TypeScreen.VAN_BAN_DEN,
+                                  startDate: qlvbCubit.startDate,
+                                  endDate: qlvbCubit.endDate,
+                                  maTrangThai: [value],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
@@ -78,8 +94,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                   StreamBuilder<DocumentDashboardModel>(
                     stream: qlvbCubit.getVbDi,
                     builder: (context, snapshot) {
-                      final dataVBDi = snapshot.data ??
-                          DocumentDashboardModel();
+                      final dataVBDi =
+                          snapshot.data ?? DocumentDashboardModel();
                       return Container(
                         padding: const EdgeInsets.all(16.0),
                         child: CommonInformationMobile(
@@ -87,6 +103,26 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                           documentDashboardModel: dataVBDi,
                           isVbDen: false,
                           title: S.current.document_out_going,
+                          ontap: (value) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    IncomingDocumentScreenDashBoard(
+                                  title: S.current.danh_sach_van_ban_di,
+                                  startDate: qlvbCubit.startDate,
+                                  endDate: qlvbCubit.endDate,
+                                  isDanhSachDaXuLy:
+                                      value.getTrangThaiDaXuLy(value),
+                                  isDanhSachChoTrinhKy:
+                                      value.getTrangThaiChoTrinhKy(value),
+                                  isDanhSachChoXuLy:
+                                      value.getTrangThaiChoXuLy(value),
+                                  trangThaiFilter: value.getTrangThaiNumber(),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
@@ -116,12 +152,12 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         IncomingDocumentScreen(
-                                          title: S.current
-                                              .danh_sach_van_ban_den,
-                                          type: TypeScreen.VAN_BAN_DEN,
-                                          startDate: qlvbCubit.startDate,
-                                          endDate: qlvbCubit.endDate,
-                                        ),
+                                      title: S.current.danh_sach_van_ban_den,
+                                      type: TypeScreen.VAN_BAN_DEN,
+                                      startDate: qlvbCubit.startDate,
+                                      endDate: qlvbCubit.endDate,
+                                      maTrangThai: [],
+                                    ),
                                   ),
                                 );
                               },
@@ -139,7 +175,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount:
-                                listData.length < 3 ? listData.length : 3,
+                                    listData.length < 3 ? listData.length : 3,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.only(
@@ -152,25 +188,23 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 ChiTietVanBanDenMobile(
-                                                  processId: listData[index]
-                                                      .iD ?? '',
-                                                  taskId:
+                                              processId:
+                                                  listData[index].iD ?? '',
+                                              taskId:
                                                   listData[index].taskId ?? '',
-                                                ),
+                                            ),
                                           ),
                                         );
                                       },
                                       title: listData[index].loaiVanBan ?? '',
-                                      dateTime: DateTime
-                                          .parse(
+                                      dateTime: DateTime.parse(
                                         listData[index].ngayDen ?? '',
-                                      )
-                                          .toStringWithListFormat,
+                                      ).toStringWithListFormat,
                                       userName:
-                                      listData[index].nguoiSoanThao ?? '',
+                                          listData[index].nguoiSoanThao ?? '',
                                       status: listData[index].doKhan ?? '',
                                       userImage:
-                                      'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                          'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                                     ),
                                   );
                                 },
@@ -208,11 +242,12 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         IncomingDocumentScreen(
-                                          title: S.current.danh_sach_van_ban_di,
-                                          type: TypeScreen.VAN_BAN_DI,
-                                          startDate: qlvbCubit.startDate,
-                                          endDate: qlvbCubit.endDate,
-                                        ),
+                                      title: S.current.danh_sach_van_ban_di,
+                                      type: TypeScreen.VAN_BAN_DI,
+                                      startDate: qlvbCubit.startDate,
+                                      endDate: qlvbCubit.endDate,
+                                      maTrangThai: [],
+                                    ),
                                   ),
                                 );
                               },
@@ -230,7 +265,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount:
-                                listData.length < 3 ? listData.length : 3,
+                                    listData.length < 3 ? listData.length : 3,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.only(
@@ -241,22 +276,22 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => ChiTietVanBanDiMobile(
-                                              id: listData[index].iD??'',
+                                            builder: (context) =>
+                                                ChiTietVanBanDiMobile(
+                                              id: listData[index].iD ?? '',
                                             ),
                                           ),
                                         );
                                       },
                                       title: listData[index].loaiVanBan ?? '',
-                                      dateTime: DateTime
-                                          .parse(
-                                          listData[index].ngayDen ?? '')
+                                      dateTime: DateTime.parse(
+                                              listData[index].ngayDen ?? '')
                                           .toStringWithListFormat,
                                       userName:
-                                      listData[index].nguoiSoanThao ?? '',
+                                          listData[index].nguoiSoanThao ?? '',
                                       status: listData[index].doKhan ?? '',
                                       userImage:
-                                      'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                          'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                                     ),
                                   );
                                 },
@@ -275,7 +310,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
               ),
             ),
             TableCalendarWidget(
-              onChange: (DateTime startDate, DateTime endDate, DateTime selectDay) {
+              onChange:
+                  (DateTime startDate, DateTime endDate, DateTime selectDay) {
                 qlvbCubit.startDate = startDate.formatApi;
                 qlvbCubit.endDate = endDate.formatApi;
                 qlvbCubit.dataVBDen(
@@ -286,13 +322,15 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                   startDate: qlvbCubit.startDate,
                   endDate: qlvbCubit.endDate,
                 );
+                qlvbCubit.listDataDanhSachVBDen(
+                    endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
+                qlvbCubit.listDataDanhSachVBDi(
+                    endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
               },
               onChangeRange:
                   (DateTime? start, DateTime? end, DateTime? focusedDay) {
                 qlvbCubit.startDate =
-                    start?.formatApi ?? DateTime
-                        .now()
-                        .formatApi;
+                    start?.formatApi ?? DateTime.now().formatApi;
                 qlvbCubit.endDate = end?.formatApi ?? qlvbCubit.startDate;
                 qlvbCubit.dataVBDen(
                   startDate: qlvbCubit.startDate,
@@ -302,6 +340,10 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                   startDate: qlvbCubit.startDate,
                   endDate: qlvbCubit.endDate,
                 );
+                qlvbCubit.listDataDanhSachVBDen(
+                    endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
+                qlvbCubit.listDataDanhSachVBDi(
+                    endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
               },
               onSearch: (value) {
                 // qlvbCubit.searchDataDanhSachVBDi(
@@ -309,7 +351,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                 //   keySearch: value,
                 // );
                 qlvbCubit.searchDataDanhSachVBDen(
-                  startDate: qlvbCubit.startDate, endDate: qlvbCubit.endDate,
+                  startDate: qlvbCubit.startDate,
+                  endDate: qlvbCubit.endDate,
                   keySearch: value,
                 );
               },

@@ -178,6 +178,7 @@ class ApiConstants {
   static const BAO_CAO_THEO_SAC_THAI_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_sac_thai';
   static const CHANGE_PASS= '/api/auth/change-pass';
 
+  static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
 }
 
 class ImageConstants {

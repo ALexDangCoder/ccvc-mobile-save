@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/data/repository_impl/lich_lam_viec_impl/lich_lam_vie
 import 'package:ccvc_mobile/data/repository_impl/quan_ly_van_ban_impl/qlvb_respository_imlp.dart';
 import 'package:ccvc_mobile/data/repository_impl/quan_ly_widget/quan_ly_widget_imlp.dart';
 import 'package:ccvc_mobile/data/repository_impl/thanh_phan_tham_gia_impl/thanh_phan_tham_gia_impl.dart';
+import 'package:ccvc_mobile/data/repository_impl/thong_bao_impl/thong_bao_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/y_kien_nguoi_dan_impl/y_kien_nguoi_dan_impl.dart';
 import 'package:ccvc_mobile/data/services/account_service.dart';
 import 'package:ccvc_mobile/data/services/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_service.dart';
@@ -14,6 +15,7 @@ import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_se
 import 'package:ccvc_mobile/data/services/quan_ly_van_ban/qlvb_service.dart';
 import 'package:ccvc_mobile/data/services/quan_ly_widget/quan_ly_widget_service.dart';
 import 'package:ccvc_mobile/data/services/thanh_phan_tham_gia/thanh_phan_tham_gia_service.dart';
+import 'package:ccvc_mobile/data/services/thong_bao_service/thong_bao_service.dart';
 import 'package:ccvc_mobile/data/services/y_kien_nguoi_dan/y_kien_nguoi_dan_service.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
@@ -24,6 +26,7 @@ import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_respository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
+import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/repository_impl/ket_noi_repo.dart';
 import 'package:ccvc_mobile/ket_noi_module/data/service/ket_noi_service.dart';
@@ -71,6 +74,10 @@ void configureDependencies() {
   Get.put<LichLamViecRepository>(
     LichLamViecImlp(Get.find()),
   );
+
+  Get.put(ThongBaoService(provideDio(baseOption: BaseURLOption.GATE_WAY)));
+
+  Get.put<ThongBaoRepository>(ThongBaoImpl(Get.find()));
 
   Get.put(
     YKienNguoiDanService(

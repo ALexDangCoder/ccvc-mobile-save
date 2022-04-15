@@ -1,14 +1,17 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
+import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_mobile.dart';
-import 'package:ccvc_mobile/widgets/appbar/mobile/base_app_bar_mobile.dart';
-import 'package:ccvc_mobile/widgets/switch/custom_switch.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_quan_trong.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/thong_bao_quan_trong_widget.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ThongBaoScreen extends StatefulWidget {
   const ThongBaoScreen({
@@ -25,115 +28,118 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
   @override
   void initState() {
     super.initState();
-    thongBaoCubit.getThongBao();
+    thongBaoCubit.initData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ThongBaoInherted(
-      thongBaoCubit: thongBaoCubit,
-      child: Scaffold(
-        appBar: BaseAppBarMobile(
-          title: S.current.thong_bao,
-          leadingIcon: IconButton(
-            icon: const Icon(
+    return Scaffold(
+      appBar: BaseAppBar(
+        title: S.current.thong_bao,
+        elevation: 0.5,
+        actions: [
+          GestureDetector(
+            onTap: () {},
+            child: SvgPicture.asset(ImageAssets.icSettingNotify),
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+        ],
+        leadingIcon: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const SizedBox(
+            height: 18,
+            width: 18,
+            child: Icon(
               Icons.arrow_back_ios_sharp,
-              color: unselectLabelColor,
+              color: textBodyTime,
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
         ),
-        body: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StreamBuilder<List<ThongBaoModel>>(
-                  stream: thongBaoCubit.thongBaoStream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container();
-                    }
+      ),
+      body: Container(
+        color: Colors.white,
+        child: StreamBuilder<List<ThongBaoModel>>(
+          stream: thongBaoCubit.thongBaoStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            if (!snapshot.hasData) {
+              return dontData();
+            }
 
-                    final data = snapshot.data ?? [];
-
-                    return ListView.builder(
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return ItemThongBaoMobile(
-                          image: data[index].image,
-                          title: data[index].title,
-                          content: data[index].content,
-                          time: data[index].time,
-                          status: data[index].status,
-                          typeNotify: data[index].typeNotify,
+                          image: ImageAssets.icCamera,
+                          title: data[index].name ?? '',
+                          id: data[index].id ?? '',
+                          unreadCount: data[index].unreadCount ?? 0,
+                          isLine: index != data.length - 1,
                         );
                       },
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 26.5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      S.current.thong_bao_khan,
-                      style: textNormalCustom(
-                        color: titleColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                      ),
                     ),
-                    CustomSwitch(
-                      onToggle: (value) {
-                        thongBaoCubit.isSwitch = value;
-                        setState(() {});
-                      },
-                      value: thongBaoCubit.isSwitch,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 18.5,
-                ),
-                if (thongBaoCubit.isSwitch)
-                  StreamBuilder<List<ThongBaoModel>>(
-                    stream: thongBaoCubit.canhBaoStream,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Container();
-                      }
-
-                      final data = snapshot.data ?? [];
-
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return ItemThongBaoMobile(
-                            image: data[index].image,
-                            title: data[index].title,
-                            content: data[index].content,
-                            time: data[index].time,
-                            status: data[index].status,
-                            typeNotify: data[index].typeNotify,
-                          );
-                        },
-                      );
-                    },
-                  )
-                else
-                  Container(),
-              ],
-            ),
-          ),
+                  ),
+                  ThongBaoQuanTrongWidget(
+                    cubit: thongBaoCubit,
+                  ),
+                  StreamBuilder<ThongBaoQuanTrongModel>(
+                      stream: thongBaoCubit.thongBaoQuanTrongStream,
+                      builder: (context, snapshot) {
+                        final dataTBQT = snapshot.data?.items ?? [];
+                        return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: dataTBQT.length,
+                          itemBuilder: (context, index) {
+                            return ItemThongBaoQuanTrong(
+                              title: dataTBQT[index].title ?? '',
+                              message: dataTBQT[index].message ?? '',
+                              date: dataTBQT[index].seenDate ?? '',
+                              seen: dataTBQT[index].seen ?? false,
+                            );
+                          },
+                        );
+                      },),
+                ],
+              ),
+            );
+          },
         ),
+      ),
+    );
+  }
+
+  Widget dontData() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            ImageAssets.icDontData,
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Text(
+            S.current.hien_tai_ban_chua_co_thong_bao,
+            style: textNormalCustom(
+              color: titleColumn,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          )
+        ],
       ),
     );
   }

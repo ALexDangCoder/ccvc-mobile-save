@@ -15,7 +15,8 @@ class IncomingDocumentScreenTablet extends StatefulWidget {
   final TypeScreen type;
   final String startDate;
   final String endDate;
-  final  List<String> maTrangThai;
+  final List<String> maTrangThai;
+  final bool? isDanhSachDaXuLy;
 
   const IncomingDocumentScreenTablet({
     Key? key,
@@ -24,6 +25,7 @@ class IncomingDocumentScreenTablet extends StatefulWidget {
     required this.startDate,
     required this.endDate,
     required this.maTrangThai,
+    this.isDanhSachDaXuLy,
   }) : super(key: key);
 
   @override
@@ -56,7 +58,8 @@ class _IncomingDocumentScreenTabletState
     );
   }
 
-  void callApi(int page, String startDate, String endDate,List<String>maTrangThai) {
+  void callApi(int page, String startDate, String endDate,
+      List<String> maTrangThai, bool isDanhSachDaXuLy) {
     if (widget.type == TypeScreen.VAN_BAN_DEN) {
       cubit.listDataDanhSachVBDen(
         startDate: startDate,
@@ -64,6 +67,7 @@ class _IncomingDocumentScreenTabletState
         page: page,
         size: ApiConstants.DEFAULT_PAGE_SIZE,
         maTrangThai: maTrangThai,
+        isDanhSachDaXuLy: isDanhSachDaXuLy,
       );
     } else {
       cubit.listDataDanhSachVBDi(
@@ -79,7 +83,15 @@ class _IncomingDocumentScreenTabletState
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,
-      callApi: (page) => {callApi(page, widget.startDate ,widget.endDate,widget.maTrangThai)},
+      callApi: (page) => {
+        callApi(
+          page,
+          widget.startDate,
+          widget.endDate,
+          widget.maTrangThai,
+          widget.isDanhSachDaXuLy ?? false,
+        )
+      },
       viewItem: (value, index) => itemVanBan(value as VanBanModel, index ?? 0),
     );
   }
@@ -103,8 +115,8 @@ class _IncomingDocumentScreenTabletState
                     taskId: data.taskId ?? '',
                   );
                 } else {
-                  return  ChiTietVanBanDiTablet(
-                     id: data.iD??'',
+                  return ChiTietVanBanDiTablet(
+                    id: data.iD ?? '',
                   );
                 }
               },

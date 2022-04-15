@@ -77,9 +77,11 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                           keySearch: value,
                         );
                         qlvbCubit.listDataDanhSachVBDen(
-                            endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
                         qlvbCubit.listDataDanhSachVBDi(
-                            endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
                       },
                       onChangTime: () {
                         qlvbCubit.dataVBDen(
@@ -91,9 +93,11 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                           endDate: chooseTimeCubit.endDate,
                         );
                         qlvbCubit.listDataDanhSachVBDen(
-                            endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
                         qlvbCubit.listDataDanhSachVBDi(
-                            endDate: qlvbCubit.endDate, startDate: qlvbCubit.startDate);
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
                       },
                     ),
                   ),
@@ -139,7 +143,9 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                               type: TypeScreen.VAN_BAN_DEN,
                                               startDate: qlvbCubit.startDate,
                                               endDate: qlvbCubit.endDate,
-                                              maTrangThai: [value],
+                                              isDanhSachDaXuLy:
+                                                  value.isDanhSachDaXuLy(),
+                                              maTrangThai: value.daHoanThanh(),
                                             ),
                                           ),
                                         );

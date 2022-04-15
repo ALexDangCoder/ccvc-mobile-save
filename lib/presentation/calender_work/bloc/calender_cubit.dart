@@ -36,6 +36,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   BehaviorSubject<bool> isCheckNgay = BehaviorSubject();
   BehaviorSubject<int> checkIndex = BehaviorSubject();
   BehaviorSubject<int> index = BehaviorSubject.seeded(0);
+  BehaviorSubject<bool> isCheckList = BehaviorSubject();
   BehaviorSubject<List<bool>> selectTypeCalendarSubject =
       BehaviorSubject.seeded([true, false]);
   BehaviorSubject<TypeCalendarMenu> changeItemMenuSubject =
@@ -254,7 +255,6 @@ class CalenderCubit extends BaseCubit<CalenderState> {
           color: Colors.blue,
           isAllDay: dataLichLvModels.listLichLVModel?[i].isAllDay ?? false,
           id: dataLichLvModels.listLichLVModel?[i].id ?? '',
-
         ),
       );
     }

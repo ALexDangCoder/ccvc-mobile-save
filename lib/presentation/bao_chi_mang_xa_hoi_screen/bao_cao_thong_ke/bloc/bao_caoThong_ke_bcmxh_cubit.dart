@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_thoi_gian_request.dart';
@@ -12,6 +14,7 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
@@ -77,6 +80,79 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
   ];
   static const String KEY_TONG_QUAN = 'tongguan';
   static const String KEY_STATUS_TONG_QUAN = 'status';
+
+  Future<void> callApi(int topic) async {
+    final queue = Queue(parallel: 7);
+    await queue.add(
+      () => initDateTIme(),
+    );
+    unawaited(
+      queue.add(
+        () => getTongQuanBaoCao(
+          initStartDate,
+          initEndDate,
+          topic,
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => getTinTongHop(
+          initStartDate,
+          initEndDate,
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => getBaoCaoTheoNguon(
+          initStartDate,
+          initEndDate,
+          topic,
+        ),
+      ),
+    );
+
+    unawaited(
+      queue.add(
+        () => getBaoCaoTheoThoiGian(
+          initStartDate,
+          initEndDate,
+          topic,
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => getBaoCaoTheoNguonLineChart(
+          initStartDate,
+          initEndDate,
+          topic,
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => getSacThaiLineChart(
+          initStartDate,
+          initEndDate,
+          topic,
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => getBaoCaoTheoSacThai(
+          initStartDate,
+          initEndDate,
+          topic,
+        ),
+      ),
+    );
+    await queue.onComplete;
+    showContent();
+    queue.dispose();
+  }
 
   Future<void> getTongQuanBaoCao(
     String startDate,
@@ -240,7 +316,8 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
     );
   }
 
-  Future<void> getBaoCaoTheoSacThai( String startDate, String endDate, int topic) async {
+  Future<void> getBaoCaoTheoSacThai(
+      String startDate, String endDate, int topic) async {
     final formatStartDate = DateTime.parse(startDate).formatApiSS;
     final formatEndDate = DateTime.parse(endDate).formatApiSS;
     showLoading();
@@ -343,7 +420,7 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
     return false;
   }
 
-  void initDateTIme() {
+  Future<void> initDateTIme() async {
     const int millisecondOfWeek = 7 * 24 * 60 * 60 * 1000;
     final int millisecondNow = DateTime.now().millisecondsSinceEpoch;
     final int prevWeek = millisecondNow - millisecondOfWeek;

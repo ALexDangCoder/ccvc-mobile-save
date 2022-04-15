@@ -17,11 +17,13 @@ class SelectDate extends StatefulWidget {
   final Widget? leadingIcon;
   final bool isObligatory;
   final double? paddings;
+  final DateTime? initDateTime;
 
   const SelectDate({
     Key? key,
     this.value,
     required this.onSelectDate,
+    this.initDateTime,
     this.hintText,
     this.backgroundColor,
     this.leadingIcon,
@@ -61,7 +63,7 @@ class _CustomDropDownState extends State<SelectDate> {
                     widget.onSelectDate(dateSelect);
                   },
                   textStyleDate: titleAppbar(),
-                  initialDateTime: DateTime.now(),
+                  initialDateTime:widget.initDateTime?? DateTime.now(),
                 ),
               ),
               Container(

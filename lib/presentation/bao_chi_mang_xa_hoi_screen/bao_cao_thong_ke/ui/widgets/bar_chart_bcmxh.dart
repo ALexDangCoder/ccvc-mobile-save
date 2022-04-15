@@ -86,8 +86,8 @@ double getMax(List<BarChartModel> data) {
     }
   }
   final double range = value % 10;
-
   return (value + (10.0 - range)) / 5;
 }
+
 
 

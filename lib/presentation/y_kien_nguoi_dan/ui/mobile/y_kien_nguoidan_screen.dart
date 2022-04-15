@@ -89,7 +89,7 @@ class _YKienNguoiDanScreenState extends State<YKienNguoiDanScreen> {
       children: [
         IconButton(
           onPressed: () {},
-          icon: SvgPicture.asset(ImageAssets.ic_kinh_to),
+          icon: SvgPicture.asset(ImageAssets.ic_search_calendar),
         ),
         GestureDetector(
           onTap: () {

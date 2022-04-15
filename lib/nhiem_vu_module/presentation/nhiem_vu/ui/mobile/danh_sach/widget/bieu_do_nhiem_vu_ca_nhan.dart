@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_mod
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_vb.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +10,14 @@ class BieuDoNhiemVuCaNhan extends StatefulWidget {
   final String? title;
   final DanhSachCubit cubit;
   final List<ChartData> chartData;
+  final Function(String) ontap;
 
   const BieuDoNhiemVuCaNhan({
     Key? key,
     required this.cubit,
     required this.chartData,
     this.title,
+    required this.ontap,
   }) : super(key: key);
 
   @override
@@ -42,7 +45,12 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
               return PieChart(
                 title: widget.title ?? '',
                 chartData: data,
-                onTap: (int value) {},
+                onTap: (int value) {
+                  widget.ontap(widget.cubit.chartDataNhiemVuCaNhan[value].title.split(' ')
+                      .join('_')
+                      .toUpperCase()
+                      .vietNameseParse());
+                },
               );
             },
           ),

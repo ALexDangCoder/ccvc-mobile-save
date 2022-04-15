@@ -78,6 +78,19 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         title: S.current.nhiem_vu,
                         chartData: data,
                         cubit: danhSachCubit,
+                        ontap: (value){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachNhiemVuMobile(
+                                isCheck: widget.isCheck,
+                                ngayBatDau: danhSachCubit.ngayDauTien,
+                                ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                mangTrangThai: value.trangThaiBieuDoNhiemVu(),
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -102,6 +115,21 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         title: S.current.cong_viec,
                         chartData: data,
                         cubit: danhSachCubit,
+                        ontap: (value ) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachCongViecMobile(
+                                isCheck: widget.isCheck,
+                                ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                ngayBatDau: danhSachCubit.ngayDauTien,
+                                mangTrangThai: [
+                                  value
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -136,6 +164,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     isCheck: widget.isCheck,
                                     ngayBatDau: danhSachCubit.ngayDauTien,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                    mangTrangThai: [],
                                   ),
                                 ),
                               );
@@ -216,7 +245,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     // cubit: danhSachCubit,
                                     isCheck: widget.isCheck,
                                     ngayKetThuc: '',
-                                    ngayBatDau: '',
+                                    ngayBatDau: '', mangTrangThai: [],
                                   ),
                                 ),
                               );
@@ -272,14 +301,16 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
           TableCalendarWidget(
             onChange:
                 (DateTime startDate, DateTime endDate, DateTime selectDay) {
-              danhSachCubit.ngayDauTien = startDate.formatApi;
-              danhSachCubit.ngayKetThuc = endDate.formatApi;
+              // danhSachCubit.ngayDauTien = startDate.formatApi;
+              // danhSachCubit.ngayKetThuc = endDate.formatApi;
               danhSachCubit.callApiDashBroashDonVi(false);
             },
             onChangeRange:
                 (DateTime? start, DateTime? end, DateTime? focusedDay) {
               danhSachCubit.ngayDauTien = (start ?? DateTime.now()).formatApi;
               danhSachCubit.ngayKetThuc = (end ?? DateTime.now()).formatApi;
+              print("start ${start}");
+              print("end-- ${end}");
               danhSachCubit.callApiDashBroashDonVi(false);
             },
           ),

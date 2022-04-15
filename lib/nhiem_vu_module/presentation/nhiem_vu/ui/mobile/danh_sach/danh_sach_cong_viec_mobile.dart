@@ -12,12 +12,14 @@ class DanhSachCongViecMobile extends StatefulWidget {
   final bool isCheck;
   final String ngayBatDau;
   final String ngayKetThuc;
+  final List<String> mangTrangThai;
 
   const DanhSachCongViecMobile({
     Key? key,
     required this.isCheck,
     required this.ngayBatDau,
     required this.ngayKetThuc,
+    required this.mangTrangThai,
   }) : super(key: key);
 
   @override
@@ -27,15 +29,6 @@ class DanhSachCongViecMobile extends StatefulWidget {
 class _DanhSachCongViecMobileState extends State<DanhSachCongViecMobile> {
   final DanhSachCubit cubit = DanhSachCubit();
 
-  @override
-  void initState() {
-    super.initState();
-    cubit.apiDanhSachCongViecCaNhan(
-      widget.ngayBatDau,
-      widget.ngayKetThuc,
-      widget.isCheck,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +75,7 @@ class _DanhSachCongViecMobileState extends State<DanhSachCongViecMobile> {
           isCaNhan: widget.isCheck,
           isSortByHanXuLy: true,
           keySearch: cubit.keySearch,
-          mangTrangThai: [],
+          mangTrangThai: widget.mangTrangThai,
           size: cubit.pageSize,
           trangThaiHanXuLy: '',
         )

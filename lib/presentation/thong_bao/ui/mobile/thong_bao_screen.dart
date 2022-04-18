@@ -101,7 +101,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                   ImageAssets.icCamera,
                               title: data[index].name ?? '',
                               id: data[index].id ?? '',
-                              unreadCount: data[index].unreadCount ?? 0,
+                              unreadCount: data[index].total ?? 0,
                               isLine: index != data.length - 1,
                               onTap: () {
                                 thongBaoCubit.appCode = data[index].code ?? '';

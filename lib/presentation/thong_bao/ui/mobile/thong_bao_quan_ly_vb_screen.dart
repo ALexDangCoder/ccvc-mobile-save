@@ -24,10 +24,23 @@ class ThongBaoQuanLyVanBanScreen extends StatefulWidget {
 
 class _ThongBaoQuanLyVanBanScreenState
     extends State<ThongBaoQuanLyVanBanScreen> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     widget.cubit.getListThongBao();
+    widget.cubit.listThongBao.clear();
+    widget.cubit.page = 1;
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (widget.cubit.page < widget.cubit.totalPage) {
+          widget.cubit.page = widget.cubit.page + 1;
+          widget.cubit.getListThongBao();
+        }
+      }
+    });
   }
 
   @override
@@ -77,9 +90,7 @@ class _ThongBaoQuanLyVanBanScreenState
               final data = snapshot.data?.items ?? [];
               if (data.isEmpty) {
                 return dontData();
-              }
-
-             else {
+              } else {
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: data.length,

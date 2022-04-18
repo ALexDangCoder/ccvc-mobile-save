@@ -98,31 +98,31 @@ class ItemThongBaoQuanTrong extends StatelessWidget {
                   ImageAssets.ic_three_dot_doc,
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: borderColor.withOpacity(0.5),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowContainerColor.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  children: cubit.listMenu
-                      .map(
-                        (e) => Container(
-                          padding: const EdgeInsets.all(7),
-                          child: SvgPicture.asset(e),
-                        ),
-                      )
-                      .toList(),
-                ),
-              )
+              // Container(
+              //   decoration: BoxDecoration(
+              //     border: Border.all(
+              //       color: borderColor.withOpacity(0.5),
+              //     ),
+              //     boxShadow: [
+              //       BoxShadow(
+              //         color: shadowContainerColor.withOpacity(0.05),
+              //         blurRadius: 10,
+              //         offset: const Offset(0, 4),
+              //       ),
+              //     ],
+              //     borderRadius: BorderRadius.circular(12),
+              //   ),
+              //   child: Column(
+              //     children: cubit.listMenu
+              //         .map(
+              //           (e) => Container(
+              //             padding: const EdgeInsets.all(7),
+              //             child: SvgPicture.asset(e),
+              //           ),
+              //         )
+              //         .toList(),
+              //   ),
+              // )
             ],
           )
         ],

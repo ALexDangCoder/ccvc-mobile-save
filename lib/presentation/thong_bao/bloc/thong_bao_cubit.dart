@@ -15,12 +15,15 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
   ThongBaoRepository get _service => Get.find();
   bool isSwitch = false;
   String appCode = 'COMMON';
-
+  int page = 1;
+  int totalPage = 1;
   List<String> listMenu = [
     ImageAssets.icDeleteRed,
   ];
+  List<Item> listThongBao = [];
 
-  BehaviorSubject<ThongBaoQuanTrongModel> getListNotiSubject = BehaviorSubject();
+  BehaviorSubject<ThongBaoQuanTrongModel> getListNotiSubject =
+      BehaviorSubject();
 
   Stream<ThongBaoQuanTrongModel> get getListNotiStream =>
       getListNotiSubject.stream;
@@ -59,7 +62,7 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
       appCode: appCode,
       active: true,
       seen: -1,
-      currentPage: 1,
+      currentPage: page,
       pageSize: 10,
     );
 
@@ -78,12 +81,15 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
       appCode: appCode,
       active: true,
       seen: -1,
-      currentPage: 1,
+      currentPage: page,
       pageSize: 10,
     );
 
     result.when(
       success: (value) {
+        totalPage = value.paging?.pagesCount ?? 1;
+        listThongBao.addAll(value.items ?? []);
+        value.items = listThongBao;
         getListNotiSubject.add(value);
       },
       error: (error) {},

@@ -69,6 +69,7 @@ class PieChart extends StatelessWidget {
                         } else {}
                       },
                       dataLabelSettings: DataLabelSettings(
+                        labelPosition: ChartDataLabelPosition.outside,
                         isVisible: true,
                         showZeroValue: false,
                         textStyle: textNormalCustom(

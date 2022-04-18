@@ -46,7 +46,7 @@ import 'package:flutter/foundation.dart' as Foundation;
 import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT }
+enum BaseURLOption { GATE_WAY, COMMON, CCVC, API_AND_UAT, NOTI }
 
 void configureDependencies() {
   Get.put(
@@ -75,7 +75,7 @@ void configureDependencies() {
     LichLamViecImlp(Get.find()),
   );
 
-  Get.put(ThongBaoService(provideDio(baseOption: BaseURLOption.GATE_WAY)));
+  Get.put(ThongBaoService(provideDio(baseOption: BaseURLOption.NOTI)));
 
   Get.put<ThongBaoRepository>(ThongBaoImpl(Get.find()));
 
@@ -169,6 +169,9 @@ Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
       break;
     case BaseURLOption.CCVC:
       baseUrl = appConstants.baseUrlCCVC;
+      break;
+    case BaseURLOption.NOTI:
+      baseUrl = appConstants.baseUrlNOTI;
       break;
     case BaseURLOption.API_AND_UAT:
       baseUrl = DO_MAIN_LICH_AM_DUONG;

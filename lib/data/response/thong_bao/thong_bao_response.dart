@@ -40,8 +40,14 @@ class ThongBaoData {
   @JsonKey(name: 'total')
   int? total;
 
-  ThongBaoData(this.id, this.name, this.code, this.description,
-      this.unreadCount, this.total);
+  ThongBaoData(
+    this.id,
+    this.name,
+    this.code,
+    this.description,
+    this.unreadCount,
+    this.total,
+  );
 
   factory ThongBaoData.fromJson(Map<String, dynamic> json) =>
       _$ThongBaoDataFromJson(json);
@@ -49,10 +55,11 @@ class ThongBaoData {
   Map<String, dynamic> toJson() => _$ThongBaoDataToJson(this);
 
   ThongBaoModel toModel() => ThongBaoModel(
-      id: id,
-      name: name,
-      code: code,
-      description: description,
-      unreadCount: unreadCount,
-      total: total);
+        id: id,
+        name: name,
+        code: code,
+        description: description,
+        unreadCount: unreadCount,
+        total: total,
+      );
 }

@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dar
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_state.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -13,84 +14,16 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   ThongBaoRepository get _service => Get.find();
   bool isSwitch = false;
-  List<ThongBaoModel> fakeData = [
-    ThongBaoModel(
-      id: 'id',
-      name: 'Báo cáo',
-      code: 'code',
-      description: 'description',
-      unreadCount: 20,
-      total: 10,
-    ),
-    ThongBaoModel(
-      id: 'id',
-      name: 'Báo cáo',
-      code: 'code',
-      description: 'description',
-      unreadCount: 20,
-      total: 10,
-    ),
-    ThongBaoModel(
-      id: 'id',
-      name: 'Báo cáo',
-      code: 'code',
-      description: 'description',
-      unreadCount: 200,
-      total: 10,
-    ),
+  String appCode = 'COMMON';
+
+  List<String> listMenu = [
+    ImageAssets.icDeleteRed,
   ];
 
-  ThongBaoQuanTrongModel fakeData1 = ThongBaoQuanTrongModel(
-    items: [
-      Item(
-        active: true,
-        confirmAction: 'confirmAction',
-        createAt: 'createAt',
-        icon: 'icon',
-        id: 'id',
-        message: 'COMMON demo noti 5',
-        needConfirmation: false,
-        pin: false,
-        receiceId: '39227131-3db7-48f8-a1b2-57697430cc69',
-        redirectUrl: 'redirectUrl',
-        rejectReason: 'rejectReason',
-        seen: true,
-        seenDate: '2022-04-15T14:36:55.0866667',
-        sentId: '3f2124a0-d74d-435f-3ed9-08d8a64939ff',
-        status: 1,
-        subSystem: 'COMMON',
-        timeSent: '2022-01-24T16:35:23.06',
-        title: 'common',
-      ),
-      Item(
-        active: true,
-        confirmAction: 'confirmAction',
-        createAt: 'createAt',
-        icon: 'icon',
-        id: 'id',
-        message: 'COMMON demo noti 5',
-        needConfirmation: false,
-        pin: false,
-        receiceId: '39227131-3db7-48f8-a1b2-57697430cc69',
-        redirectUrl: 'redirectUrl',
-        rejectReason: 'rejectReason',
-        seen: false,
-        seenDate: '2022-04-15T14:36:55.0866667',
-        sentId: '3f2124a0-d74d-435f-3ed9-08d8a64939ff',
-        status: 1,
-        subSystem: 'COMMON',
-        timeSent: '2022-01-24T16:35:23.06',
-        title: 'common',
-      ),
-    ],
-    paging: Paging(
-      currentPage: 1,
-      pageSize: 2,
-      pagesCount: 3,
-      rowsCount: 4,
-      startRowIndex: 5,
-    ),
-  );
+  BehaviorSubject<ThongBaoQuanTrongModel> getListNotiSubject = BehaviorSubject();
+
+  Stream<ThongBaoQuanTrongModel> get getListNotiStream =>
+      getListNotiSubject.stream;
 
   BehaviorSubject<ThongBaoQuanTrongModel> thongBaoQuanTrongSubject =
       BehaviorSubject();
@@ -102,10 +35,9 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   Stream<List<ThongBaoModel>> get thongBaoStream => thongBaoSubject.stream;
 
-  void initData() {
-    thongBaoSubject.add(fakeData);
-    thongBaoQuanTrongSubject.add(fakeData1);
-    // getNotifyAppCodes();
+  Future<void> initData() async {
+    await getNotifyAppCodes();
+    await getThongBaoQuanTrong();
   }
 
   Future<void> getNotifyAppCodes() async {
@@ -115,6 +47,44 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     result.when(
       success: (value) {
         thongBaoSubject.add(value);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  Future<void> getThongBaoQuanTrong() async {
+    showLoading();
+    final result = await _service.getThongBaoQuanTrong(
+      appCode: appCode,
+      active: true,
+      seen: -1,
+      currentPage: 1,
+      pageSize: 10,
+    );
+
+    result.when(
+      success: (value) {
+        thongBaoQuanTrongSubject.add(value);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  Future<void> getListThongBao() async {
+    showLoading();
+    final result = await _service.getThongBaoQuanTrong(
+      appCode: appCode,
+      active: true,
+      seen: -1,
+      currentPage: 1,
+      pageSize: 10,
+    );
+
+    result.when(
+      success: (value) {
+        getListNotiSubject.add(value);
       },
       error: (error) {},
     );

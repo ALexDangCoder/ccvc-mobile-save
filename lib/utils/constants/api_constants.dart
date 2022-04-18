@@ -179,6 +179,7 @@ class ApiConstants {
   static const CHANGE_PASS= '/api/auth/change-pass';
 
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
+  static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
 }
 
 class ImageConstants {

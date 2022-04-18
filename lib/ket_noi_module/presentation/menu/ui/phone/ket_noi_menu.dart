@@ -36,7 +36,7 @@ class _KetNoiMenuState extends State<KetNoiMenu> {
           const SizedBox(
             height: 58,
           ),
-          headerWidget(menu: S.current.chung),
+          headerWidget(menu: S.current.ket_noi),
           const SizedBox(
             height: 24,
           ),
@@ -67,9 +67,9 @@ class _KetNoiMenuState extends State<KetNoiMenu> {
       childExpand: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: data.childrens.length,
+        itemCount: data.childrens?.length ?? 0,
         itemBuilder: (context, index) {
-          return items(data.childrens[index]);
+          return items(data.childrens?[index] ?? LoaiBaiVietModel());
         },
       ),
       onTap: () {

@@ -88,12 +88,16 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                                 cubit.chooseTypeListLv(
                                   Type_Choose_Option_List.DANG_LICH,
                                 );
+                                cubit.modeLLV =
+                                    Type_Choose_Option_List.DANG_LICH;
                               }
 
                               if (value == S.current.theo_dang_danh_sach) {
                                 cubit.chooseTypeListLv(
                                   Type_Choose_Option_List.DANG_LIST,
                                 );
+                                cubit.modeLLV =
+                                    Type_Choose_Option_List.DANG_LIST;
                               }
                             },
                             listItem: listThongBao,
@@ -108,6 +112,9 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                           ),
                           thenValue: (value) {
                             final data = value as TypeCalendarMenu;
+                            cubit.chooseTypeCalender(
+                              cubit.stateOptionDay,
+                            );
                             cubit.changeScreenMenu(data);
                             if (data == TypeCalendarMenu.LichTheoLanhDao) {}
                             if (state.type == Type_Choose_Option_Day.DAY) {
@@ -154,6 +161,13 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                           }
                         },
                       ),
+                    if (cubit.isCheck &&
+                        cubit.stateOptionDay == Type_Choose_Option_Day.WEEK)
+                      const SizedBox(
+                        height: 15,
+                      )
+                    else
+                      Container(),
                     Expanded(
                       child: BlocBuilder<CalenderCubit, CalenderState>(
                         bloc: cubit,
@@ -166,7 +180,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                 ),
                 Column(
                   children: [
-                    if (cubit.isCheck)
+                    if (cubit.isCheck)...[
                       BlocBuilder(
                         bloc: cubit,
                         builder: (context, state) {
@@ -176,7 +190,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.DAY,
                               );
-
+                              cubit.stateOptionDay = Type_Choose_Option_Day.DAY;
                               cubit.callApi();
                             },
                             onTapWeek: () {
@@ -184,6 +198,9 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.WEEK,
                               );
+                              cubit.stateOptionDay =
+                                  Type_Choose_Option_Day.WEEK;
+
                               cubit.callApiTuan();
                             },
                             onTapmonth: () {
@@ -191,14 +208,15 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.MONTH,
                               );
+                              cubit.stateOptionDay =
+                                  Type_Choose_Option_Day.MONTH;
+
                               cubit.callApiMonth();
                             },
                             cubit: cubit,
                           );
                         },
-                      )
-                    else
-                      Container(),
+                      )],
                     BlocBuilder<CalenderCubit, CalenderState>(
                       bloc: cubit,
                       builder: (context, state) {
@@ -244,7 +262,7 @@ Widget itemCalendarWorkIscheck(CalenderCubit cubit) {
     child: SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(
-        margin: const EdgeInsets.only(left: 16.0, top:  120),
+        margin: const EdgeInsets.only(left: 16.0, top: 120),
         height: 88,
         child: Row(
           children: [

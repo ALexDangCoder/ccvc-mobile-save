@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/imcoming_document_screen_dashboard_tablet.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/incoming_document_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/common_infor_tablet.dart';
@@ -27,7 +28,7 @@ class QLVBScreenTablet extends StatefulWidget {
 class _QLVBScreenTabletState extends State<QLVBScreenTablet>
     with SingleTickerProviderStateMixin {
   QLVBCCubit qlvbCubit = QLVBCCubit();
-  ChooseTimeCubit chooseTimeCubit=ChooseTimeCubit();
+  ChooseTimeCubit chooseTimeCubit = ChooseTimeCubit();
   late TabController controller;
   late ScrollController scrollController;
 
@@ -64,7 +65,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                     child: ChooseTimeScreen(
                       baseChooseTimeCubit: chooseTimeCubit,
                       today: DateTime.now(),
-                      onSubmit: (value){
+                      onSubmit: (value) {
                         qlvbCubit.searchDataDanhSachVBDen(
                           startDate: chooseTimeCubit.startDate,
                           endDate: chooseTimeCubit.endDate,
@@ -75,8 +76,14 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                           endDate: chooseTimeCubit.endDate,
                           keySearch: value,
                         );
+                        qlvbCubit.listDataDanhSachVBDen(
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
+                        qlvbCubit.listDataDanhSachVBDi(
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
                       },
-                      onChangTime: (){
+                      onChangTime: () {
                         qlvbCubit.dataVBDen(
                           startDate: chooseTimeCubit.startDate,
                           endDate: chooseTimeCubit.endDate,
@@ -85,6 +92,12 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                           startDate: chooseTimeCubit.startDate,
                           endDate: chooseTimeCubit.endDate,
                         );
+                        qlvbCubit.listDataDanhSachVBDen(
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
+                        qlvbCubit.listDataDanhSachVBDi(
+                            endDate: qlvbCubit.endDate,
+                            startDate: qlvbCubit.startDate);
                       },
                     ),
                   ),
@@ -112,13 +125,31 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                 child: StreamBuilder<DocumentDashboardModel>(
                                   stream: qlvbCubit.getVbDen,
                                   builder: (context, snapshot) {
-                                    final dataVBDen =
-                                        snapshot.data ?? DocumentDashboardModel();
+                                    final dataVBDen = snapshot.data ??
+                                        DocumentDashboardModel();
                                     return CommonInformationTablet(
                                       documentDashboardModel: dataVBDen,
                                       qlvbcCubit: qlvbCubit,
                                       isVbDen: true,
                                       title: S.current.document_incoming,
+                                      ontap: (value) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                IncomingDocumentScreenTablet(
+                                              title: S.current
+                                                  .danh_sach_van_ban_den,
+                                              type: TypeScreen.VAN_BAN_DEN,
+                                              startDate: qlvbCubit.startDate,
+                                              endDate: qlvbCubit.endDate,
+                                              isDanhSachDaXuLy:
+                                                  value.isDanhSachDaXuLy(),
+                                              maTrangThai: value.daHoanThanh(),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
                                 ),
@@ -127,13 +158,37 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                 child: StreamBuilder<DocumentDashboardModel>(
                                   stream: qlvbCubit.getVbDi,
                                   builder: (context, snapshot) {
-                                    final dataVBDi =
-                                        snapshot.data ?? DocumentDashboardModel();
+                                    final dataVBDi = snapshot.data ??
+                                        DocumentDashboardModel();
                                     return CommonInformationTablet(
                                       qlvbcCubit: qlvbCubit,
                                       documentDashboardModel: dataVBDi,
                                       isVbDen: false,
                                       title: S.current.document_out_going,
+                                      ontap: (value) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                IncomingDocumentScreenDashBoardTablet(
+                                              title: S
+                                                  .current.danh_sach_van_ban_di,
+                                              type: TypeScreen.VAN_BAN_DI,
+                                              startDate: qlvbCubit.startDate,
+                                              endDate: qlvbCubit.endDate,
+                                              isDanhSachDaXuLy: value
+                                                  .getTrangThaiDaXuLy(value),
+                                              isDanhSachChoTrinhKy:
+                                                  value.getTrangThaiChoTrinhKy(
+                                                      value),
+                                              isDanhSachChoXuLy: value
+                                                  .getTrangThaiChoXuLy(value),
+                                              trangThaiFilter:
+                                                  value.getTrangThaiNumber(),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
                                 ),
@@ -192,6 +247,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                     type: TypeScreen.VAN_BAN_DEN,
                                     startDate: qlvbCubit.startDate,
                                     endDate: qlvbCubit.endDate,
+                                    maTrangThai: [],
                                   ),
                                 ),
                               );
@@ -219,6 +275,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                                   type: TypeScreen.VAN_BAN_DI,
                                   startDate: qlvbCubit.startDate,
                                   endDate: qlvbCubit.endDate,
+                                  maTrangThai: [],
                                 ),
                               ),
                             );

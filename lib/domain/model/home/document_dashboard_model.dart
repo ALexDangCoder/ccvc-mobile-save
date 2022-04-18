@@ -37,6 +37,12 @@ class DocumentDashboardModel {
     this.soLuongChoVaoSo,
   });
 }
+
+enum VBDenDocumentDASHBOARDType {
+  CHO_TRINH_KY,
+  CHO_XU_LY,
+  DA_XU_LY,
+}
 enum VBDenDocumentType {
   CHO_XU_LY,
   DANG_XU_LY,
@@ -44,8 +50,10 @@ enum VBDenDocumentType {
   CHO_VAO_SO,
   QUA_HAN,
   TRONG_HAN,
-  THUONG_KHAN
+  THUONG_KHAN,
+  CHO_PHAN_XU_LY
 }
+
 extension TypeVBDen on VBDenDocumentType {
   String getName() {
     switch (this) {
@@ -63,6 +71,121 @@ extension TypeVBDen on VBDenDocumentType {
         return 'TRONG_HAN';
       case VBDenDocumentType.THUONG_KHAN:
         return 'THUONG_KHAN';
+      case VBDenDocumentType.CHO_PHAN_XU_LY:
+        return 'CHO_PHAN_XU_LY';
     }
+  }
+
+  bool getTrangThai() {
+    switch (this) {
+      case VBDenDocumentType.CHO_VAO_SO:
+        return true;
+      case VBDenDocumentType.DANG_XU_LY:
+        return true;
+      case VBDenDocumentType.DA_XU_LY:
+        return true;
+      case VBDenDocumentType.CHO_XU_LY:
+        return true;
+      case VBDenDocumentType.QUA_HAN:
+        return true;
+      case VBDenDocumentType.TRONG_HAN:
+        return true;
+      case VBDenDocumentType.THUONG_KHAN:
+        return true;
+      case VBDenDocumentType.CHO_PHAN_XU_LY:
+        return true;
+    }
+  }
+}
+
+extension TypeVBDi on String {
+  bool getTrangThaiChoTrinhKy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return true;
+    } else if (trangThai == 'DA_XU_LY') {
+      return false;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  bool getTrangThaiDaXuLy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return false;
+    } else if (trangThai == 'DA_XU_LY') {
+      return true;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  bool getTrangThaiChoXuLy(String trangThai) {
+    if (trangThai == 'CHO_TRINH_KY') {
+      return false;
+    } else if (trangThai == 'DA_XU_LY') {
+      return false;
+    } else if (trangThai == 'CHO_XU_LY') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  List<int> getTrangThaiNumber() {
+    switch (this) {
+      case 'CHO_TRINH_KY':
+        return [1];
+      case 'DA_XU_LY':
+        return [];
+      case ' CHO_XU_LY':
+        return [2];
+    }
+    return [];
+  }
+  List<String> daHoanThanh(){
+    switch (this) {
+      case 'CHO_VAO_SO':
+        return ['CHO_VAO_SO'];
+      case 'DANG_XU_LY':
+        return ['DANG_XU_LY'];
+      case 'DA_XU_LY':
+        return ['DA_XU_LY'];
+      case 'CHO_XU_LY':
+        return ['CHO_XU_LY','CHO_PHAN_XU_LY'];
+      case 'QUA_HAN':
+        return ['DANG_THUC_HIEN'];
+      case 'TRONG_HAN':
+        return ['TRONG_HAN'];
+      case 'THUONG_KHAN':
+        return ['THUONG_KHAN'];
+      case 'CHO_PHAN_XU_LY':
+        return ['CHO_PHAN_XU_LY'];
+    }
+    return [];
+  }
+  bool isDanhSachDaXuLy(){
+    switch (this) {
+      case 'CHO_VAO_SO':
+        return false;
+      case 'DANG_XU_LY':
+        return false;
+      case 'DA_XU_LY':
+        return false;
+      case 'CHO_XU_LY':
+        return true;
+      case 'QUA_HAN':
+        return false;
+      case 'TRONG_HAN':
+        return false;
+      case 'THUONG_KHAN':
+        return false;
+      case 'CHO_PHAN_XU_LY':
+        return false;
+    }
+    return false;
   }
 }

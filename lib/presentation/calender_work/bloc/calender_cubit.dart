@@ -31,9 +31,12 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   int page = 1;
   int totalPage = 1;
   int pageSize = 100;
+  Type_Choose_Option_List modeLLV = Type_Choose_Option_List.DANG_LICH;
+  Type_Choose_Option_Day stateOptionDay = Type_Choose_Option_Day.DAY;
   BehaviorSubject<bool> isCheckNgay = BehaviorSubject();
   BehaviorSubject<int> checkIndex = BehaviorSubject();
   BehaviorSubject<int> index = BehaviorSubject.seeded(0);
+  BehaviorSubject<bool> isCheckList = BehaviorSubject();
   BehaviorSubject<List<bool>> selectTypeCalendarSubject =
       BehaviorSubject.seeded([true, false]);
   BehaviorSubject<TypeCalendarMenu> changeItemMenuSubject =
@@ -86,24 +89,15 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   }
 
   void callApi() {
-    listDSLV.clear();
-    page = 1;
     startDates = selectDay;
     endDates = selectDay;
-    callApiNgay();
-    postEventsCalendar();
-    dataLichLamViec(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
-    );
-    menuCalendar();
     initDataMenu();
-    final CalendarController controller = CalendarController();
-    controller.displayDate = selectDay;
-    stateCalendarSubject.add(controller);
+    callApiNgay();
   }
 
   void callApiNgay() {
+    listDSLV.clear();
+    page = 1;
     getListLichLV();
     dataLichLamViec(
       startDate: startDates.formatApi,
@@ -115,6 +109,10 @@ class CalenderCubit extends BaseCubit<CalenderState> {
       type: 0,
     );
     menuCalendar();
+    postEventsCalendar();
+    final CalendarController controller = CalendarController();
+    controller.displayDate = selectDay;
+    stateCalendarSubject.add(controller);
   }
 
   Future<void> menuCalendar() async {
@@ -173,40 +171,17 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   }
 
   void callApiTuan() {
-    listDSLV.clear();
-    page = 1;
     final day = selectDay;
     startDates = day.subtract(Duration(days: day.weekday - 1));
     endDates = day.add(Duration(days: DateTime.daysPerWeek - day.weekday));
     callApiNgay();
-    postEventsCalendar();
-
-    dataLichLamViec(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
-    );
-    menuCalendar();
-    final CalendarController controller = CalendarController();
-    controller.displayDate = selectDay;
-    stateCalendarSubject.add(controller);
   }
 
   void callApiMonth() {
-    listDSLV.clear();
-    page = 1;
     final day = selectDay;
     startDates = DateTime(day.year, day.month, 1);
     endDates = DateTime(day.year, day.month + 1, 0);
     callApiNgay();
-    postEventsCalendar();
-    dataLichLamViec(
-      startDate: startDates.formatApi,
-      endDate: endDates.formatApi,
-    );
-    menuCalendar();
-    final CalendarController controller = CalendarController();
-    controller.displayDate = selectDay;
-    stateCalendarSubject.add(controller);
   }
 
   List<ListLichLVModel> listDSLV = [];
@@ -240,14 +215,13 @@ class CalenderCubit extends BaseCubit<CalenderState> {
       isLichThamGia: getStateLDM.value.getListState(stateLDM.ThamGia),
       isLichTuChoi: getStateLDM.value.getListState(stateLDM.TuChoi),
       PageIndex: page,
-      PageSize: 10,
+      PageSize: modeLLV == Type_Choose_Option_List.DANG_LICH ? 1000 : 10,
       UserId: HiveLocal.getDataUser()?.userId ?? '',
     );
     showLoading();
     final result = await _lichLamViec.getListLichLamViec(data);
     result.when(
       success: (res) {
-        // listDSLV.clear();
         totalPage = res.totalPage ?? 1;
         dataLichLvModel = res;
         listDSLV.addAll(dataLichLvModel.listLichLVModel ?? []);
@@ -279,6 +253,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
           ),
           subject: dataLichLvModels.listLichLVModel?[i].title ?? '',
           color: Colors.blue,
+          isAllDay: dataLichLvModels.listLichLVModel?[i].isAllDay ?? false,
           id: dataLichLvModels.listLichLVModel?[i].id ?? '',
         ),
       );

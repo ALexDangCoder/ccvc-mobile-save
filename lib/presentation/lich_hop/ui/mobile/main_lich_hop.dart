@@ -22,7 +22,6 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'lich_hop_extension.dart';
 
@@ -102,18 +101,21 @@ class _MainLichHopState extends State<MainLichHop> {
                           DrawerSlide.navigatorSlide(
                             context: context,
                             screen: MenuWidget(
-                              isBaoCaoThongKe: true,
                               onTap: (value) {
                                 if (value == S.current.theo_dang_lich) {
                                   cubit.chooseTypeList(
                                     Type_Choose_Option_List.DANG_LICH,
                                   );
+                                  cubit.typeLH =
+                                      Type_Choose_Option_List.DANG_LICH;
                                 }
 
                                 if (value == S.current.theo_dang_danh_sach) {
                                   cubit.chooseTypeList(
                                     Type_Choose_Option_List.DANG_LIST,
                                   );
+                                  cubit.typeLH =
+                                      Type_Choose_Option_List.DANG_LIST;
                                 }
 
                                 if (value == S.current.bao_cao_thong_ke) {
@@ -133,6 +135,9 @@ class _MainLichHopState extends State<MainLichHop> {
                             ),
                             thenValue: (value) {
                               final data = value as TypeCalendarMenu;
+                              cubit.chooseTypeDay(
+                                cubit.stateOptionDay,
+                              );
                               cubit.changeScreenMenu(data);
                               if (data == TypeCalendarMenu.LichTheoLanhDao) {}
                               if (state.type == Type_Choose_Option_Day.DAY) {
@@ -384,6 +389,9 @@ class _MainLichHopState extends State<MainLichHop> {
                                       cubit.chooseTypeDay(
                                         Type_Choose_Option_Day.DAY,
                                       );
+                                      cubit.stateOptionDay =
+                                          Type_Choose_Option_Day.DAY;
+
                                       cubit.postDSLHDay();
                                     },
                                     onTapWeek: () {
@@ -391,6 +399,9 @@ class _MainLichHopState extends State<MainLichHop> {
                                       cubit.chooseTypeDay(
                                         Type_Choose_Option_Day.WEEK,
                                       );
+                                      cubit.stateOptionDay =
+                                          Type_Choose_Option_Day.WEEK;
+
                                       cubit.postDSLHWeek();
                                     },
                                     onTapmonth: () {
@@ -398,6 +409,9 @@ class _MainLichHopState extends State<MainLichHop> {
                                       cubit.chooseTypeDay(
                                         Type_Choose_Option_Day.MONTH,
                                       );
+                                      cubit.stateOptionDay =
+                                          Type_Choose_Option_Day.MONTH;
+
                                       cubit.postDSLHMonth();
                                     },
                                   );

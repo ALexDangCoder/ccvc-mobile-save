@@ -156,6 +156,27 @@ extension CheckColor on String {
         return statusCalenderRed;
     }
   }
+
+  List<String> trangThaiBieuDoNhiemVu() {
+    switch (this) {
+      case 'CHUA_THUC_HIEN':
+        return ['CHUA_THUC_HIEN'];
+      case 'DANG_THUC_HIEN':
+        return ['DANG_THUC_HIEN'];
+      case 'DA_THUC_HIEN':
+        return ['DA_THUC_HIEN'];
+      case 'DA_HOAN_THANH':
+        return ['DA_HOAN_THANH'];
+        case 'THU_HOI':
+        return ['THU_HOI'];
+      case 'CHO_PHAN_XU_LY':
+        return ['CHO_PHAN_XU_LY'];
+        case 'TRA_LAI':
+        return ['TRA_LAI'];
+      default:
+        return [];
+    }
+  }
 }
 
 class TrangThaiDonViXuLyModel {

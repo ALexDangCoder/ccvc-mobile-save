@@ -4,14 +4,14 @@ part 'tao_su_kien_resquest.g.dart';
 
 @JsonSerializable()
 class TaoSuKienRequest {
-  String? loaiBaiViet;
-  String? tieuDe;
-  String? ngayBatDau;
-  String? diaDiem;
-  bool? coXuatBan;
-  String? noiDung;
-  Map<String, String>? thongTinLienHe;
-  String? type;
+  String loaiBaiViet;
+  String tieuDe;
+  String ngayBatDau;
+  String diaDiem;
+  bool coXuatBan;
+  String noiDung;
+  Map<String, String> thongTinLienHe;
+  String type;
 
   TaoSuKienRequest({
     required this.loaiBaiViet,

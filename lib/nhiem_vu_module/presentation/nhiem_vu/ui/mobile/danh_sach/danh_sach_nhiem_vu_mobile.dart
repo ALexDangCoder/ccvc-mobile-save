@@ -12,12 +12,14 @@ class DanhSachNhiemVuMobile extends StatefulWidget {
   final bool isCheck;
   final String ngayBatDau;
   final String ngayKetThuc;
+  final List<String>mangTrangThai;
 
   const DanhSachNhiemVuMobile({
     Key? key,
     required this.isCheck,
     required this.ngayBatDau,
     required this.ngayKetThuc,
+    required this.mangTrangThai,
   }) : super(key: key);
 
   @override
@@ -77,7 +79,7 @@ class _DanhSachNhiemVuMobileState extends State<DanhSachNhiemVuMobile> {
           index: page,
           isNhiemVuCaNhan: widget.isCheck,
           isSortByHanXuLy: true,
-          mangTrangThai: [],
+          mangTrangThai: widget.mangTrangThai,
           ngayTaoNhiemVu: {
             'FromDate': cubit.ngayDauTien,
             'ToDate': cubit.ngayKetThuc

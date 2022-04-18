@@ -103,6 +103,36 @@ class QLVBImlp implements QLVBRepository {
       return response.danhSachVB.toDomain();
     });
   }
+  @override
+  Future<Result<DanhSachVanBanModel>> getDanhSachVbDiDashBoard(
+      String startDate,
+      String endDate,
+      bool isDanhSachChoXuLy,
+      bool isDanhSachDaXuLy,
+      bool isDanhSachChoTrinhKy,
+      List<int> trangThaiFilter,
+      int index,
+      int size, [
+        String keySearch = '',
+      ]) {
+    return runCatchingAsync<DanhSachVBDiResponse, DanhSachVanBanModel>(
+            () => _quanLyVanBanClient.getDanhSachVanBanDiDashBoard(
+          DanhSachVBDiRequest(
+            thoiGianStartFilter: startDate,
+            thoiGianEndFilter: endDate,
+            doKhan: null,
+            size: size,
+            index: index,
+            keySearch: keySearch,
+            trangThaiFilter: trangThaiFilter,
+            isDanhSachChoXuLy: isDanhSachChoXuLy,
+            isDanhSachDaXuLy: isDanhSachDaXuLy,
+            isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
+          ),
+        ), (response) {
+      return response.danhSachVB.toDomain();
+    });
+  }
 
   @override
   Future<Result<ChiTietVanBanDiModel>> getDataChiTietVanBanDi(String id) {
@@ -138,45 +168,55 @@ class QLVBImlp implements QLVBRepository {
   }
 
   @override
-  Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(
-      String vanBanId) {
-    return runCatchingAsync<DataDanhSachYKienXuLyResponse, DataDanhSachYKienXuLy>(
-            () => _quanLyVanBanClient.getDataDanhSachYKien(vanBanId),
-            (response) => response.toModel());
+  Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(String vanBanId) {
+    return runCatchingAsync<DataDanhSachYKienXuLyResponse,
+            DataDanhSachYKienXuLy>(
+        () => _quanLyVanBanClient.getDataDanhSachYKien(vanBanId),
+        (response) => response.toModel());
   }
+
   @override
-  Future<Result<DataLichSuThuHoiVanBanDi>> getLichSuThuHoiVanBanDi(String id,
-      String vanBanId) {
-    return runCatchingAsync<DataLichSuThuHoiVanBanDiResponse, DataLichSuThuHoiVanBanDi>(
-            () => _quanLyVanBanClient.getLichSuThuHoiVanBanDi(id,vanBanId),
-            (response) => response.toModel());
+  Future<Result<DataLichSuThuHoiVanBanDi>> getLichSuThuHoiVanBanDi(
+      String id, String vanBanId) {
+    return runCatchingAsync<DataLichSuThuHoiVanBanDiResponse,
+            DataLichSuThuHoiVanBanDi>(
+        () => _quanLyVanBanClient.getLichSuThuHoiVanBanDi(id, vanBanId),
+        (response) => response.toModel());
   }
+
   @override
-  Future<Result<DataLichSuTraLaiVanBanDi>> getLichSuTraLaiVanBanDi(String id,
-      String vanBanId) {
-    return runCatchingAsync<DataLichSuTraLaiVanBanDiResponse, DataLichSuTraLaiVanBanDi>(
-            () => _quanLyVanBanClient.getLichSuTraLaiVanBanDi(id,vanBanId),
-            (response) => response.toModel());
+  Future<Result<DataLichSuTraLaiVanBanDi>> getLichSuTraLaiVanBanDi(
+      String id, String vanBanId) {
+    return runCatchingAsync<DataLichSuTraLaiVanBanDiResponse,
+            DataLichSuTraLaiVanBanDi>(
+        () => _quanLyVanBanClient.getLichSuTraLaiVanBanDi(id, vanBanId),
+        (response) => response.toModel());
   }
+
   @override
-  Future<Result<DataLichSuKyDuyetVanBanDi>> getLichSuKyDuyetVanBanDi(String id,
-      String vanBanId) {
-    return runCatchingAsync<DataLichSuKyDuyetVanBanDiResponse, DataLichSuKyDuyetVanBanDi>(
-            () => _quanLyVanBanClient.getLichSuKyDuyetVanBanDi(id,vanBanId),
-            (response) => response.toModel());
+  Future<Result<DataLichSuKyDuyetVanBanDi>> getLichSuKyDuyetVanBanDi(
+      String id, String vanBanId) {
+    return runCatchingAsync<DataLichSuKyDuyetVanBanDiResponse,
+            DataLichSuKyDuyetVanBanDi>(
+        () => _quanLyVanBanClient.getLichSuKyDuyetVanBanDi(id, vanBanId),
+        (response) => response.toModel());
   }
+
   @override
-  Future<Result<DataLichSuHuyDuyetVanBanDi>> getLichSuHuyDuyetVanBanDi(String id,
-      String vanBanId) {
-    return runCatchingAsync<DataLichSuHuyDuyetVanBanDiResponse, DataLichSuHuyDuyetVanBanDi>(
-            () => _quanLyVanBanClient.getLichSuHuyDuyetVanBanDi(id,vanBanId),
-            (response) => response.toModel());
+  Future<Result<DataLichSuHuyDuyetVanBanDi>> getLichSuHuyDuyetVanBanDi(
+      String id, String vanBanId) {
+    return runCatchingAsync<DataLichSuHuyDuyetVanBanDiResponse,
+            DataLichSuHuyDuyetVanBanDi>(
+        () => _quanLyVanBanClient.getLichSuHuyDuyetVanBanDi(id, vanBanId),
+        (response) => response.toModel());
   }
+
   @override
-  Future<Result<DataLichSuCapNhatVanBanDi>> getLichSuCapNhatVanBanDi(String id,
-      String vanBanId) {
-    return runCatchingAsync<DataLichSuCapNhatVanBanDiResponse, DataLichSuCapNhatVanBanDi>(
-            () => _quanLyVanBanClient.getLichSuCapNhatVanBanDi(id,vanBanId),
-            (response) => response.toModel());
+  Future<Result<DataLichSuCapNhatVanBanDi>> getLichSuCapNhatVanBanDi(
+      String id, String vanBanId) {
+    return runCatchingAsync<DataLichSuCapNhatVanBanDiResponse,
+            DataLichSuCapNhatVanBanDi>(
+        () => _quanLyVanBanClient.getLichSuCapNhatVanBanDi(id, vanBanId),
+        (response) => response.toModel());
   }
 }

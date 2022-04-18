@@ -1,6 +1,13 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:ccvc_mobile/data/request/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_thoi_gian_request.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_sac_thai_line_chart_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_nguon_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_sac_thai_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_thoi_gian_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/thong_ke_theo_ty_le_nguon_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/tin_tong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke/tong_quan_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/bao_cao_thong_ke_resopnse.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/dash_board_tat_ca_chu_de_response.dart';
@@ -12,6 +19,7 @@ import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/tin_tuc_thoi_su_re
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_service.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/bao_cao_thong_ke/bao_cao_tong_quan_model.dart';
+import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/bao_cao_thong_ke/nguon_bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/menu_bcmxh.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/bao_cao_thong_ke.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/dashboard_item.dart';
@@ -20,6 +28,7 @@ import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/tin_t
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/theo_doi_bai_viet/theo_doi_bai_viet_model.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/bao_cao_thong_ke/ui/widgets/line_chart.dart';
 
 class BaoChiMangXaHoiImpl implements BaoChiMangXaHoiRepository {
   final BaoChiMangXaHoiService _baoChiMangXaHoiService;
@@ -173,6 +182,105 @@ class BaoChiMangXaHoiImpl implements BaoChiMangXaHoiRepository {
               enddDate,
               treeNode,
             ), (res) {
+      return res.toDomain();
+    });
+  }
+
+  @override
+  Future<Result<List<TinTongHopModel>>> tinTongHopBaoCaoThongKe(
+    String fromDate,
+    String enddDate,
+  ) {
+    return runCatchingAsync<String, List<TinTongHopModel>>(
+        () => _baoChiMangXaHoiService.tinTongHop(
+              fromDate,
+              enddDate,
+            ), (res) {
+      final data = TinTongHopResponse.fromJson(json.decode(res));
+      return data.tinTongHop
+              ?.map((e) => e.interactionStatistic.tinTongHopData.toDomain())
+              .toList() ??
+          [];
+    });
+  }
+
+  @override
+  Future<Result<NguonBaoCaoModel>> baoCaoTheoNguon(
+    String fromDate,
+    String enddDate,
+    int treeNode,
+  ) {
+    return runCatchingAsync<TyLeNguonResponse, NguonBaoCaoModel>(
+        () => _baoChiMangXaHoiService.baoCaoTheoNguon(
+              fromDate,
+              enddDate,
+              treeNode,
+            ), (res) {
+      return res.toDomain();
+    });
+  }
+
+  @override
+  Future<Result<SacThaiModel>> baoCaoTheoSacThai(
+      String fromDate, String enddDate, int treeNode) {
+    return runCatchingAsync<SacThaiResponse, SacThaiModel>(
+        () => _baoChiMangXaHoiService.baoCaoTheoSacThai(
+              fromDate,
+              enddDate,
+              treeNode,
+            ), (res) {
+      return res.toDomain();
+    });
+  }
+
+  @override
+  Future<Result<List<LineChartData>>> baoCaoTheoThoiGian(
+    ThongKeTheoThoiGianRequest thoiGianRequest,
+  ) {
+    return runCatchingAsync<List<ThongKeTheoThoiGianResponse>,
+            List<LineChartData>>(
+        () => _baoChiMangXaHoiService.baoCaoTheoThoiGian(
+              thoiGianRequest,
+            ), (res) {
+      if (res.isNotEmpty) {
+        final listDataLineChart = res.map((e) => e.toDomain());
+        return listDataLineChart.first;
+      } else {
+        return [];
+      }
+    });
+  }
+
+  @override
+  Future<Result<NguonBaoCaoLineChartModel>> baoCaoTheoNguonLineChart(
+    String fromDate,
+    String endDate,
+    int treeNodesID,
+    String treeNodesTitle,
+    int sourceId,
+  ) {
+    return runCatchingAsync<ThongKeTheoNguonResponse,
+            NguonBaoCaoLineChartModel>(
+        () => _baoChiMangXaHoiService.baoCaoLineChart(
+              fromDate,
+              endDate,
+              treeNodesID,
+              treeNodesTitle,
+              sourceId,
+            ), (res) {
+      return res.toDomain();
+    });
+  }
+
+  @override
+  Future<Result<SacThaiLineChartModel>> baoCaoTheoSacThaiLineChart(
+      String fromDate, String enddDate, int treeNode) {
+    return runCatchingAsync<ThongKeTheoSacThaiResponse, SacThaiLineChartModel>(
+            () => _baoChiMangXaHoiService.baoCaoTheoSacThaiLineChart(
+          fromDate,
+          enddDate,
+          treeNode,
+        ), (res) {
       return res.toDomain();
     });
   }

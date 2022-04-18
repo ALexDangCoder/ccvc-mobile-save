@@ -16,6 +16,8 @@ class IncomingDocumentScreen extends StatefulWidget {
   final TypeScreen type;
   final String startDate;
   final String endDate;
+  final List<String> maTrangThai;
+  final bool? isDanhSachDaXuLy;
 
   const IncomingDocumentScreen({
     Key? key,
@@ -23,6 +25,8 @@ class IncomingDocumentScreen extends StatefulWidget {
     required this.type,
     required this.startDate,
     required this.endDate,
+    required this.maTrangThai,
+    this.isDanhSachDaXuLy,
   }) : super(key: key);
 
   @override
@@ -55,13 +59,16 @@ class _IncomingDocumentScreenState extends State<IncomingDocumentScreen> {
     );
   }
 
-  void callApi(int page, String startDate, String endDate) {
+  void callApi(int page, String startDate, String endDate,
+      List<String> maTrangThai, bool isDanhSachDaXuLy) {
     if (widget.type == TypeScreen.VAN_BAN_DEN) {
       cubit.listDataDanhSachVBDen(
+        isDanhSachDaXuLy: isDanhSachDaXuLy,
         startDate: startDate,
         endDate: endDate,
         page: page,
         size: ApiConstants.DEFAULT_PAGE_SIZE,
+        maTrangThai: maTrangThai,
       );
     } else {
       cubit.listDataDanhSachVBDi(
@@ -77,7 +84,15 @@ class _IncomingDocumentScreenState extends State<IncomingDocumentScreen> {
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,
-      callApi: (page) => {callApi(page, widget.startDate, widget.endDate)},
+      callApi: (page) => {
+        callApi(
+          page,
+          widget.startDate,
+          widget.endDate,
+          widget.maTrangThai,
+          widget.isDanhSachDaXuLy ?? false,
+        )
+      },
       viewItem: (value, index) => itemVanBan(value as VanBanModel, index ?? 0),
     );
   }
@@ -101,8 +116,8 @@ class _IncomingDocumentScreenState extends State<IncomingDocumentScreen> {
                     taskId: data.taskId ?? '',
                   );
                 } else {
-                  return  ChiTietVanBanDiMobile(
-                    id: data.iD??'',
+                  return ChiTietVanBanDiMobile(
+                    id: data.iD ?? '',
                   );
                 }
               },

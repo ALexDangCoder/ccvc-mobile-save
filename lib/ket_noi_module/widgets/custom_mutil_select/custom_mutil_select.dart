@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/ket_noi_module/domain/model/loai_bai_viet_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -15,6 +16,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final String urlIcon;
   final bool isShowValue;
   final Widget? customValue;
+  final List<LoaiBaiVietModel> dataLoaiBaiViet;
   final Function(List<String>) onChange;
 
   const SelectOnlyExpand({
@@ -27,6 +29,7 @@ class SelectOnlyExpand extends StatefulWidget {
     required this.urlIcon,
     this.customValue,
     required this.onChange,
+    required this.dataLoaiBaiViet,
   }) : super(key: key);
 
   @override
@@ -41,6 +44,8 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   bool checkbox = false;
   List<String> valueSelect = [];
   List<int> addIndex = [];
+  List<String> listIdLoaiBaiViet = [];
+  String id = '';
 
   @override
   void initState() {
@@ -54,7 +59,16 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect.add(widget.listSelect[index]);
-        widget.onChange(valueSelect);
+        for (final element in valueSelect) {
+          for (int i = 0; i < widget.dataLoaiBaiViet.length; i++) {
+            if (element == widget.dataLoaiBaiViet[i].title) {
+              id = widget.dataLoaiBaiViet[i].id ?? '';
+              break;
+            }
+          }
+        }
+        listIdLoaiBaiViet.add(id);
+        widget.onChange(listIdLoaiBaiViet);
         addIndex.add(index);
         selectBloc.sink.add(addIndex);
       }
@@ -70,7 +84,16 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect.add(widget.listSelect[index]);
-        widget.onChange(valueSelect);
+        for (final element in valueSelect) {
+          for (int i = 0; i < widget.dataLoaiBaiViet.length; i++) {
+            if (element == widget.dataLoaiBaiViet[i].title) {
+              id = widget.dataLoaiBaiViet[i].id ?? '';
+              break;
+            }
+          }
+        }
+        listIdLoaiBaiViet.add(id);
+        widget.onChange(listIdLoaiBaiViet);
         addIndex.add(index);
         selectBloc.sink.add(addIndex);
       }
@@ -107,7 +130,39 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                           } else {
                             valueSelect.add(widget.listSelect[index]);
                           }
-                          widget.onChange(valueSelect);
+                          //
+                          for (final element in valueSelect) {
+                            for (int i = 0;
+                                i < widget.dataLoaiBaiViet.length;
+                                i++) {
+                              if (element == widget.dataLoaiBaiViet[i].title) {
+                                id = widget.dataLoaiBaiViet[i].id ?? '';
+                                break;
+                              }
+                            }
+                          }
+                          //
+                          print("idsssss ${id}");
+                          // for (final value in listIdLoaiBaiViet) {
+                          //   if (id == value) {
+                          //     listIdLoaiBaiViet.remove(value);
+                          //     print("remove");
+                          //     print(
+                          //         "listRemove${listIdLoaiBaiViet.toString()} /n");
+                          //   } else {
+                          //     listIdLoaiBaiViet.add(id);
+                          //     print("add");
+                          //     print(
+                          //         "listAdd${listIdLoaiBaiViet.toString()} /n");
+                          //   }
+                          // }
+                          // if (listIdLoaiBaiViet.contains(id)) {
+                          //
+                          // } else {
+                          //
+                          // }
+                          //
+                          //listIdLoaiBaiViet.add(id);
 
                           if (addIndex.contains(index)) {
                             addIndex.remove(index);
@@ -116,6 +171,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             addIndex.add(index);
                             selectBloc.sink.add(addIndex);
                           }
+                          widget.onChange(listIdLoaiBaiViet);
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -263,9 +319,11 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           GestureDetector(
             onTap: () {
               setState(() {});
-              widget.onChange(valueSelect);
+              // widget.onChange(valueSelect);
               valueSelect.removeAt(index);
               addIndex.removeAt(index);
+              listIdLoaiBaiViet.removeAt(index);
+              widget.onChange(listIdLoaiBaiViet);
             },
             child: Container(
               padding: const EdgeInsets.only(top: 8, right: 8, left: 8),

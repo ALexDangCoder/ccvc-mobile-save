@@ -33,17 +33,15 @@ class _InListFormState extends State<InListForm> {
     // TODO: implement initState
     super.initState();
     widget.cubit.getDay();
-    widget.cubit.listDSLV = [];
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         if (widget.cubit.page < widget.cubit.totalPage) {
           widget.cubit.page = widget.cubit.page + 1;
-          widget.onTap();
+          widget.cubit.getListLichLV();
         }
       }
     });
-    widget.onTap();
   }
 
   @override

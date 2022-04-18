@@ -51,8 +51,8 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
   void callAPi() {
     initTimeRange();
-    dataVBDen(startDate: startDate, endDate: endDate);
-    dataVBDi(startDate: startDate, endDate: endDate);
+    dataVBDen(startDate: '', endDate: '');
+    dataVBDi(startDate: '', endDate: '');
     listDataDanhSachVBDen(
       endDate: startDate,
       startDate: endDate,
@@ -182,7 +182,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       DanhSachVBRequest(
         maTrangThai: maTrangThai,
         index: 1,
-        isChoYKien: false,
+        isChoYKien: null,
         isSortByDoKhan: true,
         thoiGianStartFilter: startDate,
         thoiGianEndFilter: endDate,
@@ -207,7 +207,12 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   }) async {
     List<VanBanModel> listVbDi = [];
     final result = await _qLVBRepo.getDanhSachVbDi(
-        startDate, endDate, index, size, keySearch ?? '',);
+      startDate,
+      endDate,
+      index,
+      size,
+      keySearch ?? '',
+    );
     result.when(
       success: (res) {
         listVbDi = res.pageData ?? [];
@@ -218,6 +223,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       },
     );
   }
+
   Future<void> searchDataDanhSachVBDen({
     required String startDate,
     required String endDate,
@@ -228,12 +234,12 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       DanhSachVBRequest(
         maTrangThai: maTrangThai,
         index: 1,
-        isChoYKien: false,
+        isChoYKien: null,
         isSortByDoKhan: true,
         thoiGianStartFilter: startDate,
         thoiGianEndFilter: endDate,
         size: 10,
-        keySearch: keySearch??'',
+        keySearch: keySearch ?? '',
       ),
     );
     result.when(

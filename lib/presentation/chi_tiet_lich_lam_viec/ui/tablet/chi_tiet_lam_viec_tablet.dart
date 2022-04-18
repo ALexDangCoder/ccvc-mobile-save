@@ -1,15 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/mobile/widgets/bottom_sheet_bao_cao.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lich_lv_bao_cao_ket_qua/ui/tablet/widgets/btn_show_bao_cao_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/mobile/widgets/bottom_sheet_y_kien.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_sach_y_kien/ui/tablet/show_bottom_sheet_ds_y_Kien_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/row_value_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -80,7 +75,10 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                   showBottomSheetCustom(
                     context,
                     title: S.current.cho_y_kien,
-                    child: const YKienBottomSheet(),
+                    child: YKienBottomSheet(
+                      id: '',
+                    //  chiTietLichLamViecCubit: chiTietLichLamViecCubit,
+                    ),
                   );
                 },
               ),
@@ -144,135 +142,137 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
             )
           ],
         ),
-        child: SingleChildScrollView(
-          child: StreamBuilder<ChiTietLichLamViecModel>(
-            stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Container();
-              }
-
-              final data = snapshot.data;
-
-              final listText = data
-                      ?.dataRow()
-                      .where((element) => element.type == typeData.text)
-                      .toList() ??
-                  [];
-
-              final listText1 = listText.sublist(0, 2);
-              final listText2 = listText.sublist(3, listText.length);
-
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.circle,
-                        size: 16,
-                        color: statusCalenderRed,
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        S.current.hop_noi_bo_cong_ty,
-                        style: textNormalCustom(
-                          color: textTitle,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 28,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: listText1
-                                      .map(
-                                        (e) => Container(
-                                          margin: const EdgeInsets.only(
-                                            bottom: 24,
-                                          ),
-                                          child: RowValueWidget(
-                                            row: e,
-                                            isTablet: true,
-                                            isMarinLeft: true,
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                                Column(
-                                  children: listText2
-                                      .map(
-                                        (e) => Container(
-                                          margin: const EdgeInsets.only(
-                                            bottom: 24,
-                                          ),
-                                          child: RowValueWidget(
-                                            row: e,
-                                            isTablet: true,
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                )
-                              ],
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 24),
-                              child: BtnShowBaoCaoTablet(
-                                cubit: chiTietLichLamViecCubit,
-                              ),
-                            ),
-                            DanhSachYKienButtomTablet(
-                              cubit: chiTietLichLamViecCubit,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: (data
-                                      ?.dataRow()
-                                      .where(
-                                        (element) =>
-                                            element.type == typeData.listperson,
-                                      )
-                                      .toList())
-                                  ?.map(
-                                    (e) => RowValueWidget(
-                                      row: e,
-                                      isTablet: true,
-                                    ),
-                                  )
-                                  .toList() ??
-                              [
-                                Container(),
-                              ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
+        // child: SingleChildScrollView(
+        //   child: StreamBuilder<ChiTietLichLamViecModel>(
+        //     stream: chiTietLichLamViecCubit.chiTietLichLamViecStream,
+        //     builder: (context, snapshot) {
+        //       if (!snapshot.hasData) {
+        //         return Container();
+        //       }
+        //
+        //       final data = snapshot.data;
+        //
+        //       // final listText = data
+        //       //         ?.dataRow()
+        //       //         .where((element) => element.type == typeData.text)
+        //       //         .toList() ??
+        //       //     [];
+        //
+        //
+        //       // final listText1 = listText.sublist(0, 2);
+        //       // final listText2 = listText.sublist(3, listText.length);
+        //       final listText1 = listText.sublist(0, 2);
+        //       final listText2 = listText.sublist(3, listText.length);
+        //       return Column(
+        //         children: [
+        //           Row(
+        //             children: [
+        //               const Icon(
+        //                 Icons.circle,
+        //                 size: 16,
+        //                 color: statusCalenderRed,
+        //               ),
+        //               const SizedBox(
+        //                 width: 16,
+        //               ),
+        //               Text(
+        //                 S.current.hop_noi_bo_cong_ty,
+        //                 style: textNormalCustom(
+        //                   color: textTitle,
+        //                   fontSize: 20,
+        //                   fontWeight: FontWeight.w500,
+        //                 ),
+        //               )
+        //             ],
+        //           ),
+        //           const SizedBox(
+        //             height: 28,
+        //           ),
+        //           Row(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Expanded(
+        //                 flex: 4,
+        //                 child: Column(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     Column(
+        //                       children: [
+        //                         Row(
+        //                           children: listText1
+        //                               .map(
+        //                                 (e) => Container(
+        //                                   margin: const EdgeInsets.only(
+        //                                     bottom: 24,
+        //                                   ),
+        //                                   child: RowValueWidget(
+        //                                     row: e,
+        //                                     isTablet: true,
+        //                                     isMarinLeft: true,
+        //                                   ),
+        //                                 ),
+        //                               )
+        //                               .toList(),
+        //                         ),
+        //                         Column(
+        //                           children: listText2
+        //                               .map(
+        //                                 (e) => Container(
+        //                                   margin: const EdgeInsets.only(
+        //                                     bottom: 24,
+        //                                   ),
+        //                                   child: RowValueWidget(
+        //                                     row: e,
+        //                                     isTablet: true,
+        //                                   ),
+        //                                 ),
+        //                               )
+        //                               .toList(),
+        //                         )
+        //                       ],
+        //                     ),
+        //                     Container(
+        //                       margin: const EdgeInsets.symmetric(vertical: 24),
+        //                       child: BtnShowBaoCaoTablet(
+        //                         cubit: chiTietLichLamViecCubit,
+        //                       ),
+        //                     ),
+        //                     DanhSachYKienButtomTablet(
+        //                       cubit: chiTietLichLamViecCubit,
+        //                     ),
+        //                   ],
+        //                 ),
+        //               ),
+        //               Expanded(
+        //                 flex: 2,
+        //                 child: Column(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: (data
+        //                               ?.dataRow()
+        //                               .where(
+        //                                 (element) =>
+        //                                     element.type == typeData.listperson,
+        //                               )
+        //                               .toList())
+        //                           ?.map(
+        //                             (e) => RowValueWidget(
+        //                               row: e,
+        //                               isTablet: true,
+        //                             ),
+        //                           )
+        //                           .toList() ??
+        //                       [
+        //                         Container(),
+        //                       ],
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ],
+        //       );
+        //     },
+        //   ),
+        // ),
       ),
     );
   }

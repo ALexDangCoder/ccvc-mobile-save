@@ -244,8 +244,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                   builder: (context) => DanhSachCongViecMobile(
                                     // cubit: danhSachCubit,
                                     isCheck: widget.isCheck,
-                                    ngayKetThuc: '',
-                                    ngayBatDau: '', mangTrangThai: [],
+                                    ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                    ngayBatDau: danhSachCubit.ngayDauTien, mangTrangThai: [],
                                   ),
                                 ),
                               );

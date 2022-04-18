@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
@@ -10,6 +11,7 @@ class BieuDoDonViTablet extends StatefulWidget {
   final String? title;
   final List<ChartData> chartData;
   final bool isCheck;
+  final Function(String) onTap;
 
   const BieuDoDonViTablet({
     Key? key,
@@ -17,6 +19,7 @@ class BieuDoDonViTablet extends StatefulWidget {
     this.title,
     required this.chartData,
     required this.isCheck,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -45,7 +48,14 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                   child: PieChart(
                     title: widget.title ?? '',
                     chartData: widget.chartData,
-                    onTap: (int value) {},
+                    onTap: (int value) {
+                      print('-------------++++${widget.chartData[value].title}');
+                      widget.onTap(widget.chartData[value].title
+                          .split(' ')
+                          .join('_')
+                          .toUpperCase()
+                          .vietNameseParse());
+                    },
                   ),
                 )
               else
@@ -54,7 +64,18 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                   child: PieChart(
                     title: widget.title ?? '',
                     chartData: widget.chartData,
-                    onTap: (int value) {},
+                    onTap: (int value) {
+                      print('-------------++++${widget.chartData[value].title
+                          .split(' ')
+                          .join('_')
+                          .toUpperCase()
+                          .vietNameseParse()}');
+                      widget.onTap(widget.chartData[value].title
+                          .split(' ')
+                          .join('_')
+                          .toUpperCase()
+                          .vietNameseParse());
+                    },
                   ),
                 ),
             ],

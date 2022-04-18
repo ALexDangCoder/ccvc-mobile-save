@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
@@ -68,6 +69,11 @@ abstract class HopServices {
   @POST(ApiConstants.POST_DANH_SACH_LICH_HOP)
   Future<DanhSachLichHopResponse> postData(
     @Body() DanhSachLichHopRequest bodyDSLH,
+  );
+
+  @POST(ApiConstants.POST_DANH_SACH_THONG_KE)
+  Future<DanhSachLichHopResponse> postDataThongKe(
+    @Body() DanhSachThongKeRequest bodyDSLH,
   );
 
   @POST(ApiConstants.CATEGORY_LIST)

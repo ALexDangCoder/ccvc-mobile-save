@@ -6,6 +6,8 @@ class ApiConstants {
   static const int TIME_OUT = 30;
   static const String POST_DANH_SACH_LICH_HOP =
       '/vpdt/api/MeetingSchedule/calendar-list';
+  static const String POST_DANH_SACH_THONG_KE =
+      '/vpdt/api/Statistic/calendar-list-by-statistic';
   static const String GET_DASH_BOARD_LH =
       '/vpdt/api/MeetingSchedule/count-in-dashboard';
   static const String GET_LIST_TOKEN = '/market/coin-list';

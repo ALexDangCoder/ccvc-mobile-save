@@ -21,6 +21,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/moi_hop.dart';
@@ -182,7 +183,7 @@ mixin HopRepository {
 
   Future<Result<XemKetLuanHopModel>> getXemKetLuanHop(String id);
 
-  Future<Result<List<YKienModel>>> getDanhSachYKien(String id);
+  Future<Result<List<YkienCuocHopModel>>> getDanhSachYKien(String id);
 
   Future<Result<List<StatusKetLuanHopModel>>> getListStatusKetLuanHop();
 

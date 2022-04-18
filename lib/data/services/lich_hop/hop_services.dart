@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_b
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
@@ -112,7 +113,7 @@ abstract class HopServices {
   @POST(ApiConstants.THEM_PHIEN_HOP_CHI_TIET)
   Future<TaoPhienHopResponse> getThemPhienHop(
     @Query('lichHopId') String lichHopId,
-    @Part() TaoPhienHopRepuest taoPhienHopRepuest,
+    @Part(name: '[0].') TaoPhienHopRepuest taoPhienHopRepuest,
   );
 
   @GET(ApiConstants.CHUONG_TRINH_HOP)
@@ -204,7 +205,7 @@ abstract class HopServices {
   Future<XemKetLuanHopDataResponse> getXemKetLuanHop(@Query('id') String id);
 
   @GET(ApiConstants.SCHEDULE_OPINION_LIST)
-  Future<DanhSachYKienResponse> getDanhSachYKien(
+  Future<DanhSachYKienlichHopResponse> getDanhSachYKien(
       @Query('scheduleId') String scheduleId);
 
   @GET(ApiConstants.STATUS_LIST_KET_LUAN_HOP)

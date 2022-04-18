@@ -18,6 +18,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class MeetingScheduleWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const MeetingScheduleWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -27,6 +28,7 @@ class MeetingScheduleWidget extends StatefulWidget {
 
 class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
   final LichHopCubit _lichHopCubit = LichHopCubit();
+
   @override
   void initState() {
     // TODO: implement initState

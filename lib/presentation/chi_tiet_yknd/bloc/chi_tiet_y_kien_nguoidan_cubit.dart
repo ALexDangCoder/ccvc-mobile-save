@@ -28,7 +28,7 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
       BehaviorSubject<List<YKienXuLyYKNDModel>>();
 
   final BehaviorSubject<List<DataRowChiTietKienNghi>> _headerRowData =
-  BehaviorSubject<List<DataRowChiTietKienNghi>>();
+      BehaviorSubject<List<DataRowChiTietKienNghi>>();
 
   Stream<List<DataRowChiTietKienNghi>> get headerRowData =>
       _headerRowData.stream;
@@ -47,7 +47,6 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
 
   List<DataRowChiTietKienNghi> dataRowHeader = [];
   String yKienXuLy = '';
-
 
   List<DataRowChiTietKienNghi> initDataHeadler = [];
   final fakeDataNguoiPhanAnh = NguoiPhanAnhModel(
@@ -232,13 +231,13 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
         chiTietYKNDSubject.sink.add(res.chiTietYKNDModel);
         checkIndex = res.chiTietYKNDModel.doiTuongId;
         final data = res.chiTietYKNDModel;
-        String listFile='';
-        if(data.fileDinhKem.isNotEmpty){
-           final List<String>listFileName=[];
-           for (final element in data.fileDinhKem) {
-             listFileName.add(element.tenFile);
-           }
-           listFile = listFileName.join('\n');
+        String listFile = '';
+        if (data.fileDinhKem.isNotEmpty) {
+          final List<String> listFileName = [];
+          for (final element in data.fileDinhKem) {
+            listFileName.add(element.tenFile);
+          }
+          listFile = listFileName.join('\n');
         }
         final HeaderChiTietYKNDModel headerChiTietYKNDModel =
             HeaderChiTietYKNDModel(
@@ -293,7 +292,6 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
         );
         List<DataRowChiTietKienNghi> dataRowTienTrinhXuLy =
             getMapDataKetQuaXuLy(tienTrinhXuLy);
-
 
         _headerRowData.sink.add(dataRowHeader);
         _rowDataChiTietYKienNguoiDan.sink.add(

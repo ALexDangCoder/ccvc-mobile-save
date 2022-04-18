@@ -35,12 +35,6 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   bool isShow = false;
 
   @override
-  void initState() {
-    widget.cubit.getXemKetLuanHop(widget.id);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
@@ -51,12 +45,13 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 StreamBuilder<KetLuanHopModel>(
-                  stream: widget.cubit.ketLuanHopStream,
+                  stream: widget.cubit.ketLuanHopSubject.stream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final data = snapshot.data;
                       return ItemKetLuanHopWidget(
-                        title: S.current.ket_luan_hop,
+                        title:
+                            '${S.current.ket_luan_hop} (${data?.title ?? ''})',
                         time: data?.thoiGian ?? '',
                         trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
                         tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
@@ -66,6 +61,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                           isShow = !isShow;
                           setState(() {});
                         },
+                        listFile: data?.file ?? [],
                       );
                     } else {
                       return const SizedBox(
@@ -77,7 +73,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                 ),
                 StreamBuilder<DanhSachNhiemVuLichHopModel>(
                   initialData: widget.cubit.danhSachNhiemVu,
-                  stream: widget.cubit.streamDanhSachNhiemVuLichHop,
+                  stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final data = snapshot.data;
@@ -111,12 +107,13 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   StreamBuilder<KetLuanHopModel>(
-                    stream: widget.cubit.ketLuanHopStream,
+                    stream: widget.cubit.ketLuanHopSubject.stream,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final data = snapshot.data;
                         return ItemKetLuanHopWidget(
-                          title: S.current.ket_luan_hop,
+                          title:
+                              '${S.current.ket_luan_hop}(${data?.title ?? ''})',
                           time: data?.thoiGian ?? '',
                           trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
                           tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
@@ -126,6 +123,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                             isShow = !isShow;
                             setState(() {});
                           },
+                          listFile: data?.file ?? [],
                         );
                       } else {
                         return const SizedBox(
@@ -137,7 +135,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                   ),
                   StreamBuilder<DanhSachNhiemVuLichHopModel>(
                     initialData: widget.cubit.danhSachNhiemVu,
-                    stream: widget.cubit.streamDanhSachNhiemVuLichHop,
+                    stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final data = snapshot.data;
@@ -175,6 +173,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
   final Function onTap;
   final DetailMeetCalenderCubit cubit;
   final String id;
+  final List<String> listFile;
 
   const ItemKetLuanHopWidget({
     Key? key,
@@ -185,6 +184,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
     required this.onTap,
     required this.cubit,
     required this.id,
+    required this.listFile,
   }) : super(key: key);
 
   @override
@@ -198,6 +198,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -234,6 +235,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                             title: S.current.ket_luan_cuoc_hop,
                             child: XemKetLuanHopWidget(
                               cubit: cubit,
+                              id: id,
                             ),
                           );
                         },
@@ -320,13 +322,19 @@ class ItemKetLuanHopWidget extends StatelessWidget {
           ),
           widgetRow(
             name: S.current.file,
-            child: Text(
-              'filename.docx',
-              style: textNormalCustom(
-                color: choXuLyColor,
-                fontSize: 14.0.textScale(),
-                fontWeight: FontWeight.w400,
-              ),
+            child: ListView.builder(
+              itemCount: listFile.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final data = listFile;
+                return Text(
+                  data[index],
+                  style: textDetailHDSD(
+                    fontSize: 14.0.textScale(),
+                    color: choXuLyColor,
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -475,6 +483,7 @@ Widget widgetRow({required String name, required Widget child}) {
   return Container(
     margin: EdgeInsets.only(top: 10.0.textScale()),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 2,

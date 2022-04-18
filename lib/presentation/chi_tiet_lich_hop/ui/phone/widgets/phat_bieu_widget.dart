@@ -47,8 +47,7 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                     child: StreamBuilder<int>(
                       stream: widget.cubit.typeStatus,
                       builder: (context, snapshot) {
-                        if (widget.cubit.typeStatus.value ==
-                            widget.cubit.choDuyet) {
+                        if (widget.cubit.typeStatus.value == CHODUYET) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 150),
                             child: DoubleButtonBottom(
@@ -60,15 +59,14 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                               onPressed2: () {},
                             ),
                           );
-                        } else if (widget.cubit.typeStatus.value ==
-                            widget.cubit.daDuyet) {
+                        } else if (widget.cubit.typeStatus.value == DADUYET) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 250),
                             child: ButtonCustomBottom(
                               title: S.current.huy_duyet,
                               onPressed: () {
                                 widget.cubit.getDanhSachPhatBieuLichHop(
-                                  widget.cubit.daDuyet,
+                                  DADUYET,
                                   widget.id,
                                 );
                                 setState(() {});
@@ -76,8 +74,7 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                               isColorBlue: false,
                             ),
                           );
-                        } else if (widget.cubit.typeStatus.value ==
-                            widget.cubit.huyDuyet) {
+                        } else if (widget.cubit.typeStatus.value == HUYDUYET) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 250),
                             child: ButtonCustomBottom(

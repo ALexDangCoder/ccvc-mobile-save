@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/handing_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/send_comment_widget_lich_hop.dart';
@@ -10,12 +10,12 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class CommentWidget extends StatefulWidget {
-  final DetailMeetCalenderCubit cubit;
   final String id;
-  final HandingCommentLichHop object;
+  final DetailMeetCalenderCubit cubit;
+  final YkienCuocHopModel object;
 
   const CommentWidget(
-      {Key? key, required this.object, required this.id, required this.cubit})
+      {Key? key, required this.object, required this.cubit, required this.id})
       : super(key: key);
 
   @override
@@ -23,8 +23,18 @@ class CommentWidget extends StatefulWidget {
 }
 
 class _CommentWidgetState extends State<CommentWidget> {
+  late bool showRecoment;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    showRecoment = true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final data = widget.object.traLoiYKien ?? [];
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: Container(
@@ -38,125 +48,116 @@ class _CommentWidgetState extends State<CommentWidget> {
         child: Padding(
           padding: EdgeInsets.all(16.0.textScale(space: 4.0)),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage:
-                        CachedNetworkImageProvider(widget.object.Avatar),
-                  ),
-                  SizedBox(
-                    width: 14.0.textScale(),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      widget.object.TenNhanVien,
-                      style: textNormalCustom(
-                        color: titleColor,
-                        fontSize: 14.0.textScale(),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  // const Spacer(),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    DateTime.parse(widget.object.NgayTao).formatDdMMYYYY,
-                    style: textNormalCustom(
-                      color: infoColor,
-                      fontSize: 12.0.textScale(space: 4.0),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-                ],
+              YkienWidget(
+                nguoiTao: widget.object.nguoiTao ?? '',
+                ngayTao: widget.object.ngayTao ?? '',
+                content: widget.object.content ?? '',
               ),
-              SizedBox(
-                height: 12.0.textScale(space: 4.0),
-              ),
-              Text(
-                widget.object.NoiDung,
-                style: textNormalCustom(
-                  color: titleColor,
-                  fontSize: 14.0.textScale(),
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              if (widget.object.list.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      S.current.cac_van_ban_dinh_kem,
-                      style: textNormalCustom(
-                        color: titleItemEdit,
-                        fontSize: 12.0.textScale(),
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: widget.object.list.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                //xem file
-                              },
-                              child: Text(
-                                widget.object.list[index],
-                                style: textNormalCustom(
-                                  color: textColorMangXaHoi,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12.0.textScale(),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                          ],
-                        );
-                      },
-                    )
-                  ],
-                )
-              else
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0.textScale(space: 4.0)),
-                  child: Text(
-                    S.current.khong_co_file,
-                    style: textNormalCustom(
-                      color: toDayColor,
-                      fontSize: 12.0.textScale(),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
               SizedBox(
                 height: 16.0.textScale(space: 4.0),
               ),
-              SendCommentWidgetLichHop(
-                isReComment: true,
-                onSendComment: (text, listFile) {},
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: GestureDetector(
+                  onTap: () {
+                    showRecoment = !showRecoment;
+                    setState(() {});
+                  },
+                  child: Text(
+                    showRecoment ? 'Ẩn' : 'Hiện',
+                    style: textNormalCustom(
+                      color: titleColor,
+                      fontSize: 14.0.textScale(),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              if (showRecoment)
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 48, bottom: 16),
+                      child: YkienWidget(
+                        nguoiTao: data[index].nguoiTao ?? '',
+                        ngayTao: data[index].ngayTao ?? '',
+                        content: data[index].content ?? '',
+                      ),
+                    );
+                  },
+                ),
+              Padding(
+                padding: const EdgeInsets.only(left: 48),
+                child: SendCommentWidgetLichHop(
+                  isReComment: true,
+                  onSendComment: (vl) {
+                    widget.cubit.themYKien(
+                      idLichHop: widget.id,
+                      yKien: vl,
+                      scheduleOpinionId: widget.object.id ?? '',
+                    );
+                    widget.cubit.initData(id: widget.id, danhSachYKien: true);
+                  },
+                ),
               )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget YkienWidget({
+    required String nguoiTao,
+    required String ngayTao,
+    required String content,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Text(
+                nguoiTao,
+                style: textNormalCustom(
+                  color: titleColor,
+                  fontSize: 14.0.textScale(),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            // const Spacer(),
+            const SizedBox(
+              width: 6,
+            ),
+            Text(
+              ngayTao,
+              style: textNormalCustom(
+                color: infoColor,
+                fontSize: 12.0.textScale(space: 4.0),
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Text(
+          content,
+          style: textNormalCustom(
+            color: titleColor,
+            fontSize: 14.0.textScale(),
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
     );
   }
 }

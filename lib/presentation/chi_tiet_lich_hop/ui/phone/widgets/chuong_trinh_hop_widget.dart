@@ -73,39 +73,14 @@ class ChuongTrinhHopWidget extends StatelessWidget {
               height: 24,
             ),
             StreamBuilder<List<ListPhienHopModel>>(
-              initialData: [
-                ListPhienHopModel(
-                  vaiTroThamGia: null,
-                  files: [
-                    Files(
-                        name: 'DOC.X',
-                        entityName: '',
-                        entityId: '',
-                        size: '',
-                        extension: '',
-                        path: '',
-                        id: '')
-                  ],
-                  id: '',
-                  hoTen: 'abc',
-                  thoiGianBatDau: 'sadsadsadsa',
-                  createBy: 'ádasdasdasd',
-                  canBoId: 'ádasdsadasd',
-                  noiDung: 'zxgvxzf',
-                  lichHopId: 'asf',
-                  donViId: 'sáafaD',
-                  thuTu: null,
-                  thoiGianKetThuc: 'SÀASFSAF',
-                  tieuDe: 'ACBBBBB',
-                )
-              ],
-              // stream: cubit.danhSachChuongTrinhHop.stream,
+              stream: cubit.danhSachChuongTrinhHop.stream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
                 if (!snapshot.hasData) {
                   return Container();
                 }
                 return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
@@ -168,6 +143,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
 
   Widget CellDetailMeet({required ListPhienHopModel listPhienHopModel}) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(6)),
@@ -196,40 +172,42 @@ class ChuongTrinhHopWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      S.current.thoi_gian,
-                      style: textDetailHDSD(
-                        fontSize: 14.0.textScale(),
-                        color: infoColor,
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        S.current.thoi_gian,
+                        style: textDetailHDSD(
+                          fontSize: 14.0.textScale(),
+                          color: infoColor,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      'Người phụ trách',
-                      style: textDetailHDSD(
-                        fontSize: 14.0.textScale(),
-                        color: infoColor,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        'Người phụ trách',
+                        style: textDetailHDSD(
+                          fontSize: 14.0.textScale(),
+                          color: infoColor,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      S.current.noi_dung,
-                      style: textDetailHDSD(
-                        fontSize: 14.0.textScale(),
-                        color: infoColor,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        S.current.noi_dung,
+                        style: textDetailHDSD(
+                          fontSize: 14.0.textScale(),
+                          color: infoColor,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(
                 width: 14,
@@ -266,9 +244,10 @@ class ChuongTrinhHopWidget extends StatelessWidget {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                S.current.file,
+                '${S.current.file}                      ',
                 style: textDetailHDSD(
                   fontSize: 14.0.textScale(),
                   color: infoColor,
@@ -277,23 +256,23 @@ class ChuongTrinhHopWidget extends StatelessWidget {
               const SizedBox(
                 width: 14,
               ),
-              // SizedBox(
-              //   child: ListView.builder(
-              //     itemCount: listPhienHopModel.files.length,
-              //     shrinkWrap: true,
-              //     itemBuilder: (context, index) {
-              //       final data =
-              //           listPhienHopModel.files.map((e) => e.name).toList();
-              //       return Text(
-              //         data[index] ?? '',
-              //         style: textDetailHDSD(
-              //           fontSize: 14.0.textScale(),
-              //           color: textTitle,
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // )
+              Expanded(
+                child: ListView.builder(
+                  itemCount: listPhienHopModel.files.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final data =
+                        listPhienHopModel.files.map((e) => e.name).toList();
+                    return Text(
+                      data[index] ?? S.current.khong_co_tep_nao,
+                      style: textDetailHDSD(
+                        fontSize: 14.0.textScale(),
+                        color: choXuLyColor,
+                      ),
+                    );
+                  },
+                ),
+              )
             ],
           )
         ],
@@ -421,8 +400,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 spaceH20,
                 ButtonSelectFile(
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (value) {
-                  },
+                  onChange: (value) {},
                 )
               ],
             ),

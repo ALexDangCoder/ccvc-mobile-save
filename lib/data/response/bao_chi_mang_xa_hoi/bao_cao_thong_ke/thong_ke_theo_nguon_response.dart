@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/bao_cao_thong_ke/nguon_bao_cao_model.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/bao_cao_thong_ke/ui/widgets/line_chart.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'thong_ke_theo_nguon_response.g.dart';
@@ -57,7 +59,7 @@ class LineData {
   Map<String, dynamic> toJson() => _$LineDataToJson(this);
 
   LineChartData toDomain() => LineChartData(
-        date: date ?? '',
+        date:DateFormat('yyyy/MM/dd HH:mm:ss').parse(date??'').toStringWithListFormat,
         count: value ?? 0,
       );
 }

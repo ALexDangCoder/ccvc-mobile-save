@@ -50,7 +50,8 @@ enum VBDenDocumentType {
   CHO_VAO_SO,
   QUA_HAN,
   TRONG_HAN,
-  THUONG_KHAN
+  THUONG_KHAN,
+  CHO_PHAN_XU_LY
 }
 
 extension TypeVBDen on VBDenDocumentType {
@@ -70,6 +71,8 @@ extension TypeVBDen on VBDenDocumentType {
         return 'TRONG_HAN';
       case VBDenDocumentType.THUONG_KHAN:
         return 'THUONG_KHAN';
+      case VBDenDocumentType.CHO_PHAN_XU_LY:
+        return 'CHO_PHAN_XU_LY';
     }
   }
 
@@ -88,6 +91,8 @@ extension TypeVBDen on VBDenDocumentType {
       case VBDenDocumentType.TRONG_HAN:
         return true;
       case VBDenDocumentType.THUONG_KHAN:
+        return true;
+      case VBDenDocumentType.CHO_PHAN_XU_LY:
         return true;
     }
   }
@@ -140,5 +145,47 @@ extension TypeVBDi on String {
         return [2];
     }
     return [];
+  }
+  List<String> daHoanThanh(){
+    switch (this) {
+      case 'CHO_VAO_SO':
+        return ['CHO_VAO_SO'];
+      case 'DANG_XU_LY':
+        return ['DANG_XU_LY'];
+      case 'DA_XU_LY':
+        return ['DA_XU_LY'];
+      case 'CHO_XU_LY':
+        return ['CHO_XU_LY','CHO_PHAN_XU_LY'];
+      case 'QUA_HAN':
+        return ['DANG_THUC_HIEN'];
+      case 'TRONG_HAN':
+        return ['TRONG_HAN'];
+      case 'THUONG_KHAN':
+        return ['THUONG_KHAN'];
+      case 'CHO_PHAN_XU_LY':
+        return ['CHO_PHAN_XU_LY'];
+    }
+    return [];
+  }
+  bool isDanhSachDaXuLy(){
+    switch (this) {
+      case 'CHO_VAO_SO':
+        return false;
+      case 'DANG_XU_LY':
+        return false;
+      case 'DA_XU_LY':
+        return false;
+      case 'CHO_XU_LY':
+        return true;
+      case 'QUA_HAN':
+        return false;
+      case 'TRONG_HAN':
+        return false;
+      case 'THUONG_KHAN':
+        return false;
+      case 'CHO_PHAN_XU_LY':
+        return false;
+    }
+    return false;
   }
 }

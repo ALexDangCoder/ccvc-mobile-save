@@ -52,6 +52,7 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
   }
 
   Future<void> listDataDanhSachVBDen({
+    required bool isDanhSachDaXuLy,
     required String startDate,
     required String endDate,
     required int page,
@@ -61,10 +62,11 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
     loadMorePage = page;
     final result = await _QLVBRepo.getDanhSachVbDen(
       DanhSachVBRequest(
+        isDanhSachDaXuLy:isDanhSachDaXuLy ,
         maTrangThai: maTrangThai,
         index: page,
         isChoYKien: null,
-        isSortByDoKhan: true,
+        isSortByDoKhan: null,
         thoiGianStartFilter: startDate,
         thoiGianEndFilter: endDate,
         size: 10,

@@ -64,6 +64,8 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                           showBottomSheetCustom(
                             context,
                             child: PopupChoiceTimeWidget(
+                              initEndDate: endTime,
+                              initStartDate: startTime,
                               onChoiceTime: (startDate, endDate) {
                                 widget.onChoiceDate(startDate, endDate);
                                 setState(() {

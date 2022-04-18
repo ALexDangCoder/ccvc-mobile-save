@@ -15,24 +15,24 @@ class LineChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<YKNDByMonth> listTest1=[
-      YKNDByMonth(month: 1,quantities: 10),
-      YKNDByMonth(month: 2,quantities: 20),
-      YKNDByMonth(month: 3,quantities: 30),
-      YKNDByMonth(month: 4,quantities: 40),
-      YKNDByMonth(month: 5,quantities: 50),
+    final List<YKNDByMonth> listTest1 = [
+      YKNDByMonth(month: 1, quantities: 10),
+      YKNDByMonth(month: 2, quantities: 20),
+      YKNDByMonth(month: 3, quantities: 30),
+      YKNDByMonth(month: 4, quantities: 40),
+      YKNDByMonth(month: 5, quantities: 50),
     ];
-    final List<YKNDByMonth> listTest2=[
-    YKNDByMonth(month: 1,quantities: 100),
-    YKNDByMonth(month: 2,quantities: 80),
-    YKNDByMonth(month: 3,quantities: 120),
-    YKNDByMonth(month: 4,quantities: 160),
-    YKNDByMonth(month: 5,quantities: 180),
+    final List<YKNDByMonth> listTest2 = [
+      YKNDByMonth(month: 1, quantities: 100),
+      YKNDByMonth(month: 2, quantities: 80),
+      YKNDByMonth(month: 3, quantities: 120),
+      YKNDByMonth(month: 4, quantities: 160),
+      YKNDByMonth(month: 5, quantities: 180),
     ];
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      child:  SfCartesianChart(
+      child: SfCartesianChart(
         margin: const EdgeInsets.only(top: 20),
         primaryXAxis: CategoryAxis(
           title: AxisTitle(
@@ -79,8 +79,7 @@ class LineChartWidget extends StatelessWidget {
             color: choXuLyColor,
             dataSource: listData,
             xValueMapper: (LineChartData sales, _) => sales.date,
-            yValueMapper: (LineChartData sales, _) =>
-            sales.count,
+            yValueMapper: (LineChartData sales, _) => sales.count,
             dataLabelSettings: DataLabelSettings(
               isVisible: true,
               textStyle: textNormalCustom(
@@ -100,9 +99,37 @@ class LineChartWidget extends StatelessWidget {
     );
   }
 }
-class LineChartData{
+
+class LineChartData {
   final String date;
   final int count;
 
-  LineChartData({required this.date,required this.count});
+  LineChartData({required this.date, required this.count});
+}
+
+double getMax(List<LineChartData> data) {
+  double value = 0;
+  for (final element in data) {
+    if ((element.count.toDouble()) > value) {
+      value = element.count.toDouble();
+      print('value :  ${value}');
+    }
+  }
+  final double range = value % 10;
+  print('max ');
+  print((value + (10.0 - range)) / 5);
+  return (value + (10.0 - range)) / 5;
+}
+
+double getMaxList(List<List<LineChartData>> listData) {
+  double value = 0;
+  for (final element in listData) {
+    final double max = getMax(element);
+    if (value < max) {
+      value = max;
+    }
+  }
+  print('max list');
+  print(value);
+  return value;
 }

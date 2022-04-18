@@ -78,6 +78,20 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                         title: S.current.nhiem_vu,
                         chartData: data,
                         cubit: danhSachCubit,
+                        ontap: (value) {
+                          print('------------nhiemVuCaNhan${value}');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachNhiemVuMobile(
+                                isCheck: widget.isCheck,
+                                ngayBatDau: danhSachCubit.ngayDauTien,
+                                ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                mangTrangThai: [value],
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -102,6 +116,19 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                         title: S.current.cong_viec,
                         chartData: data,
                         cubit: danhSachCubit,
+                        ontap: (value) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachCongViecMobile(
+                                isCheck: widget.isCheck,
+                                ngayBatDau: danhSachCubit.ngayDauTien,
+                                ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                mangTrangThai: [value],
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -133,6 +160,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                     isCheck: widget.isCheck,
                                     ngayBatDau: danhSachCubit.ngayDauTien,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                    mangTrangThai: [],
                                   ),
                                 ),
                               );
@@ -211,6 +239,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                     isCheck: widget.isCheck,
                                     ngayBatDau: danhSachCubit.ngayDauTien,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                    mangTrangThai: [],
                                   ),
                                 ),
                               );

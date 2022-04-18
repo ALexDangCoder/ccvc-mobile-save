@@ -180,7 +180,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                 ),
                 Column(
                   children: [
-                    if (cubit.isCheck)
+                    if (cubit.isCheck)...[
                       BlocBuilder(
                         bloc: cubit,
                         builder: (context, state) {
@@ -216,9 +216,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                             cubit: cubit,
                           );
                         },
-                      )
-                    else
-                      Container(),
+                      )],
                     BlocBuilder<CalenderCubit, CalenderState>(
                       bloc: cubit,
                       builder: (context, state) {

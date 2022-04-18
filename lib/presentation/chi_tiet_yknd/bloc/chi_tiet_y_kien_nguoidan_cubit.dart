@@ -28,7 +28,13 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
       BehaviorSubject<List<YKienXuLyYKNDModel>>();
 
   final BehaviorSubject<List<DataRowChiTietKienNghi>> _headerRowData =
-  BehaviorSubject<List<DataRowChiTietKienNghi>>();
+      BehaviorSubject<List<DataRowChiTietKienNghi>>();
+
+  final BehaviorSubject<List<List<DataRowChiTietKienNghi>>> _tienTrinhXuLyRowData =
+      BehaviorSubject<List<List<DataRowChiTietKienNghi>>>();
+
+  Stream<List<List<DataRowChiTietKienNghi>>> get tienTrinhXuLyRowData =>
+      _tienTrinhXuLyRowData.stream;
 
   Stream<List<DataRowChiTietKienNghi>> get headerRowData =>
       _headerRowData.stream;
@@ -48,58 +54,34 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
   List<DataRowChiTietKienNghi> dataRowHeader = [];
   String yKienXuLy = '';
 
-
   List<DataRowChiTietKienNghi> initDataHeadler = [];
-  final fakeDataNguoiPhanAnh = NguoiPhanAnhModel(
-    doiTuong: 0,
-    tenCaNhan: 'PAKN 2',
-    cmnd: '017496898',
-    diaChiEmail: 'chuyenviendonvi@gmail.com',
-    soDienthoai: '0964950763',
-    diaChiChiTiet:
-        'Khu phố 6, Phường Trung Dũng, Thành phố Biên Hòa - Đồng Nai',
-  );
-  final fakeThongTinXuLY = ThongTinXuLy(
-    tenDonVi: 'UBND Đồng Nai',
-    vaiTro: 'Chuyên viên',
-  );
-  final fakeKetQuaXuLy = KetQuaXuLy(
-    yKienXuLy: 'Giám sát tiến độ',
-    thoiGianThaoTac: '23:27 16/09/2021',
-    donViThaoTac: 'UBND Đồng Nai',
-    taiKhoanThaoTac: 'Chuyên viên',
-    trangThaiXuLy: 'Đã tạo PAKN',
-    noiDungXuLy: 'Không có',
-    fileDinhKem: 'file.pdf',
-  );
 
   List<DataRowChiTietKienNghi> getMapDataKetQuaXuLy(KetQuaXuLy ketQuaXuLy) {
-    yKienXuLy = fakeKetQuaXuLy.yKienXuLy ?? '';
     final List<DataRowChiTietKienNghi> listData = [];
-    listData.add(
-      DataRowChiTietKienNghi(
-        title: S.current.thoi_gian_thao_tac,
-        content: ketQuaXuLy.thoiGianThaoTac ?? '',
-      ),
-    );
-    listData.add(
-      DataRowChiTietKienNghi(
-        title: S.current.don_vi_thao_tac,
-        content: ketQuaXuLy.donViThaoTac ?? '',
-      ),
-    );
-    listData.add(
-      DataRowChiTietKienNghi(
-        title: S.current.tai_khoan_thao_tac,
-        content: ketQuaXuLy.taiKhoanThaoTac ?? '',
-      ),
-    );
-    listData.add(
-      DataRowChiTietKienNghi(
-        title: S.current.trang_thai_xu_ly,
-        content: ketQuaXuLy.trangThaiXuLy ?? '',
-      ),
-    );
+    // listData.add(
+    //   DataRowChiTietKienNghi(
+    //     title: S.current.thoi_gian_thao_tac,
+    //     content: ketQuaXuLy.thoiGianThaoTac ?? '',
+    //   ),
+    // );
+    // listData.add(
+    //   DataRowChiTietKienNghi(
+    //     title: S.current.don_vi_thao_tac,
+    //     content: ketQuaXuLy.donViThaoTac ?? '',
+    //   ),
+    // );
+    // listData.add(
+    //   DataRowChiTietKienNghi(
+    //     title: S.current.tai_khoan_thao_tac,
+    //     content: ketQuaXuLy.taiKhoanThaoTac ?? '',
+    //   ),
+    // );
+    // listData.add(
+    //   DataRowChiTietKienNghi(
+    //     title: S.current.trang_thai_xu_ly,
+    //     content: ketQuaXuLy.trangThaiXuLy ?? '',
+    //   ),
+    // );
     listData.add(
       DataRowChiTietKienNghi(
         title: S.current.noi_dung_xu_ly,
@@ -232,13 +214,13 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
         chiTietYKNDSubject.sink.add(res.chiTietYKNDModel);
         checkIndex = res.chiTietYKNDModel.doiTuongId;
         final data = res.chiTietYKNDModel;
-        String listFile='';
-        if(data.fileDinhKem.isNotEmpty){
-           final List<String>listFileName=[];
-           for (final element in data.fileDinhKem) {
-             listFileName.add(element.tenFile);
-           }
-           listFile = listFileName.join('\n');
+        String listFile = '';
+        if (data.fileDinhKem.isNotEmpty) {
+          final List<String> listFileName = [];
+          for (final element in data.fileDinhKem) {
+            listFileName.add(element.tenFile);
+          }
+          listFile = listFileName.join('\n');
         }
         final HeaderChiTietYKNDModel headerChiTietYKNDModel =
             HeaderChiTietYKNDModel(
@@ -271,29 +253,30 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
             getMapDataThongTinXuLy(thongTinXuLy);
 
         final KetQuaXuLy ketQuaXuLy = KetQuaXuLy(
-          yKienXuLy: data.yKienChiDao,
-          thoiGianThaoTac: data.donViDuocPhanXuLy,
-          donViThaoTac: data.donViDuocPhanXuLy,
-          taiKhoanThaoTac: data.donViDuocPhanXuLy,
-          trangThaiXuLy: data.donViDuocPhanXuLy,
-          noiDungXuLy: data.donViDuocPhanXuLy,
-          fileDinhKem: data.donViDuocPhanXuLy,
-        );
+            // chuyenVienXuLy:data.
+            // donViXuLy
+            // vaiTroXuLy
+            // noiDungXuLy
+            // soHieuVanBan
+            // ngayBanHanh
+            // trichYeu
+            // coQuanBanHanh
+            // fileDinhKem
+            );
         List<DataRowChiTietKienNghi> dataRowKetQuaXuLy =
             getMapDataKetQuaXuLy(ketQuaXuLy);
 
         final KetQuaXuLy tienTrinhXuLy = KetQuaXuLy(
-          yKienXuLy: data.yKienChiDao,
-          thoiGianThaoTac: data.donViDuocPhanXuLy,
-          donViThaoTac: data.donViDuocPhanXuLy,
-          taiKhoanThaoTac: data.donViDuocPhanXuLy,
-          trangThaiXuLy: data.donViDuocPhanXuLy,
-          noiDungXuLy: data.donViDuocPhanXuLy,
-          fileDinhKem: data.donViDuocPhanXuLy,
-        );
+            // yKienXuLy: data.yKienChiDao,
+            // thoiGianThaoTac: data.donViDuocPhanXuLy,
+            // donViThaoTac: data.donViDuocPhanXuLy,
+            // taiKhoanThaoTac: data.donViDuocPhanXuLy,
+            // trangThaiXuLy: data.donViDuocPhanXuLy,
+            // noiDungXuLy: data.donViDuocPhanXuLy,
+            // fileDinhKem: data.donViDuocPhanXuLy,
+            );
         List<DataRowChiTietKienNghi> dataRowTienTrinhXuLy =
             getMapDataKetQuaXuLy(tienTrinhXuLy);
-
 
         _headerRowData.sink.add(dataRowHeader);
         _rowDataChiTietYKienNguoiDan.sink.add(
@@ -312,14 +295,71 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
   }
 
   Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
+    showLoading();
     final result = await _YKNDRepo.getDanhSachYKienPAKN(
       kienNghiId,
       2,
     );
+    showContent();
     result.when(
         success: (res) {
           _yKienXuLyYkndSubject.sink.add(res.danhSachKetQua ?? []);
         },
         error: (error) {});
+  }
+
+  Future<void> getTienTrinhXyLy(String kienNghiId) async {
+    showLoading();
+    final result = await _YKNDRepo.tienTrinhXuLy(
+      kienNghiId,
+    );
+    showContent();
+    result.when(success: (res) {
+      final List<List<DataRowChiTietKienNghi>> listData=[];
+      for (final element in res) {
+        final List<DataRowChiTietKienNghi>rowData=[];
+           rowData.add(DataRowChiTietKienNghi(
+             title: S.current.thoi_gian_thao_tac,
+             content: element.ngayBatDau,
+           ),);
+
+           rowData.add(DataRowChiTietKienNghi(
+             title: S.current.don_vi_thao_tac,
+             content: element.donViThaoTac,
+           ),);
+
+           rowData.add(DataRowChiTietKienNghi(
+             title: S.current.tai_khoan_thao_tac,
+             content: element.taiKhoanThaoTac,
+           ),);
+           rowData.add(DataRowChiTietKienNghi(
+             title: S.current.trang_thai_xu_ly,
+             content: element.trangThaiXuLy,
+           ),);
+           rowData.add(DataRowChiTietKienNghi(
+             title: S.current.noi_dung_xu_ly,
+             content: element.noiDungXuLy,
+           ),);
+           listData.add(rowData);
+           _tienTrinhXuLyRowData.sink.add(listData);
+      }
+    }, error: (error) {
+
+    });
+  }
+
+  Future<void> getKetQuaXuLy(String kienNghiId, String taskID) async {
+    showLoading();
+    final result = await _YKNDRepo.ketQuaXuLy(
+      kienNghiId,
+      taskID,
+    );
+    showContent();
+    result.when(success: (res) {
+
+    }, error: (error) {
+
+
+    });
   }
 }

@@ -7,16 +7,16 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
-class YKienSuLyPAKNWidget extends StatefulWidget {
+class YKienXuLyPAKNWidget extends StatefulWidget {
   final YKienXuLyYKNDModel object;
 
-  const YKienSuLyPAKNWidget({Key? key, required this.object}) : super(key: key);
+  const YKienXuLyPAKNWidget({Key? key, required this.object}) : super(key: key);
 
   @override
-  _YKienSuLyPAKNWidgetState createState() => _YKienSuLyPAKNWidgetState();
+  _YKienXuLyPAKNWidgetState createState() => _YKienXuLyPAKNWidgetState();
 }
 
-class _YKienSuLyPAKNWidgetState extends State<YKienSuLyPAKNWidget> {
+class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(

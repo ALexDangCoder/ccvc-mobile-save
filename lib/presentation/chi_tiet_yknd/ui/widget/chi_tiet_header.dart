@@ -49,7 +49,7 @@ class ItemRow extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Text(
                 title,
                 style: textNormalCustom(
@@ -63,7 +63,7 @@ class ItemRow extends StatelessWidget {
               width: 16,
             ),
             Expanded(
-              flex: 6,
+              flex: 7,
               child: Text(
                 content ?? '',
                 style: textNormalCustom(

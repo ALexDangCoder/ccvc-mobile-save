@@ -33,7 +33,6 @@ class _ChiTietYKNDHeaderState extends State<ChiTietYKNDHeader> {
 class ItemRow extends StatelessWidget {
   final String title;
   final String? content;
-
   const ItemRow({
     Key? key,
     required this.title,

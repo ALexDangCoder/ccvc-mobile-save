@@ -38,9 +38,10 @@ class ListItemRow extends StatelessWidget {
             Expanded(
               flex: 7,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: content?.map((e) =>
                     Text(
-                      e ?? '',
+                      e,
                       style: textNormalCustom(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

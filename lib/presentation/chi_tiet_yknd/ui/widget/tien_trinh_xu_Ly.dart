@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/bloc/chi_tiet_y_kien_nguoidan_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_row_data.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/widget/chi_tiet_header.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class TienTrinhXuLyScreen extends StatefulWidget {
 class _TienTrinhXuLyScreenState extends State<TienTrinhXuLyScreen> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder <List<List<DataRowChiTietKienNghi>>>(
+    return StreamBuilder <List<List<ListRowYKND>>>(
       stream: widget.cubit.tienTrinhXuLyRowData,
       builder: (context, snapshot){
         final data= snapshot.data??[];
@@ -40,7 +41,7 @@ class _TienTrinhXuLyScreenState extends State<TienTrinhXuLyScreen> {
                   shrinkWrap: true,
                   itemCount: data[indexItem].length,
                   itemBuilder: (context, index) {
-                    return ItemRow(
+                    return ListItemRow(
                       title: data[indexItem][index].title,
                       content: data[indexItem][index].content,
                     );

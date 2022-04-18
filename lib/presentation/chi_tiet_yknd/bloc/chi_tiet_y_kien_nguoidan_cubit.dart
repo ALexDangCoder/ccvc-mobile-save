@@ -30,11 +30,16 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
   final BehaviorSubject<List<DataRowChiTietKienNghi>> _headerRowData =
       BehaviorSubject<List<DataRowChiTietKienNghi>>();
 
-  final BehaviorSubject<List<List<DataRowChiTietKienNghi>>> _tienTrinhXuLyRowData =
-      BehaviorSubject<List<List<DataRowChiTietKienNghi>>>();
+  final BehaviorSubject<List<List<ListRowYKND>>> _tienTrinhXuLyRowData =
+      BehaviorSubject<List<List<ListRowYKND>>>();
+  final BehaviorSubject<List<List<ListRowYKND>>> _ketQuaXuLyRowData =
+      BehaviorSubject<List<List<ListRowYKND>>>();
 
-  Stream<List<List<DataRowChiTietKienNghi>>> get tienTrinhXuLyRowData =>
+  Stream<List<List<ListRowYKND>>> get tienTrinhXuLyRowData =>
       _tienTrinhXuLyRowData.stream;
+
+  Stream<List<List<ListRowYKND>>> get ketQuaXuLyRowData =>
+      _ketQuaXuLyRowData.stream;
 
   Stream<List<DataRowChiTietKienNghi>> get headerRowData =>
       _headerRowData.stream;
@@ -314,38 +319,54 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
       kienNghiId,
     );
     showContent();
-    result.when(success: (res) {
-      final List<List<DataRowChiTietKienNghi>> listData=[];
-      for (final element in res) {
-        final List<DataRowChiTietKienNghi>rowData=[];
-           rowData.add(DataRowChiTietKienNghi(
-             title: S.current.thoi_gian_thao_tac,
-             content: element.ngayBatDau,
-           ),);
+    result.when(
+        success: (res) {
+          final List<List<ListRowYKND>> listData = [];
+          for (final element in res) {
+            final List<ListRowYKND> rowData = [];
+            rowData.add(
+              ListRowYKND(
+                title: S.current.thoi_gian_thao_tac,
+                content: [element.ngayBatDau],
+              ),
+            );
 
-           rowData.add(DataRowChiTietKienNghi(
-             title: S.current.don_vi_thao_tac,
-             content: element.donViThaoTac,
-           ),);
+            rowData.add(
+              ListRowYKND(
+                title: S.current.don_vi_thao_tac,
+                content: [element.donViThaoTac],
+              ),
+            );
 
-           rowData.add(DataRowChiTietKienNghi(
-             title: S.current.tai_khoan_thao_tac,
-             content: element.taiKhoanThaoTac,
-           ),);
-           rowData.add(DataRowChiTietKienNghi(
-             title: S.current.trang_thai_xu_ly,
-             content: element.trangThaiXuLy,
-           ),);
-           rowData.add(DataRowChiTietKienNghi(
-             title: S.current.noi_dung_xu_ly,
-             content: element.noiDungXuLy,
-           ),);
-           listData.add(rowData);
-           _tienTrinhXuLyRowData.sink.add(listData);
-      }
-    }, error: (error) {
-
-    });
+            rowData.add(
+              ListRowYKND(
+                title: S.current.tai_khoan_thao_tac,
+                content: [element.taiKhoanThaoTac],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.trang_thai_xu_ly,
+                content: [element.trangThaiXuLy],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.noi_dung_xu_ly,
+                content: [element.noiDungXuLy],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.file_dinh_kem,
+                content: element.taiLieus.map((e) => e.ten).toList(),
+              ),
+            );
+            listData.add(rowData);
+            _tienTrinhXuLyRowData.sink.add(listData);
+          }
+        },
+        error: (error) {});
   }
 
   Future<void> getKetQuaXuLy(String kienNghiId, String taskID) async {
@@ -355,11 +376,88 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
       taskID,
     );
     showContent();
-    result.when(success: (res) {
+    result.when(
+        success: (res) {
+          final List<List<ListRowYKND>> listData = [];
+          for (final element in res) {
+            final List<ListRowYKND> rowData = [];
+            rowData.add(
+              ListRowYKND(
+                title: S.current.chuyen_vien_xu_ly,
+                content: [element.nguoiKyDuyet],
+              ),
+            );
 
-    }, error: (error) {
+            rowData.add(
+              ListRowYKND(
+                title: S.current.don_vi_xu_ly,
+                content: [element.tenDonVi],
+              ),
+            );
 
+            rowData.add(
+              ListRowYKND(
+                title: S.current.vai_tro_xu_ly,
+                content: element.isChuTri
+                    ? [S.current.chu_tri]
+                    : [S.current.chuyen_vien],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.trang_thai_xu_ly,
+                content: [element.trangThai.toString()],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.noi_dung_xu_ly,
+                content: [element.taskContent],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.so_hieu_van_ban,
+                content: [element.soVanBanDi],
+              ),
+            );
 
-    });
+            rowData.add(
+              ListRowYKND(
+                title: S.current.so_hieu_van_ban,
+                content: [element.soVanBanDi],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.ngay_ban_hanh,
+                content: [element.ngayKyVanBanDi],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.trich_yeu,
+                content: [element.trichYeu],
+              ),
+            );
+            rowData.add(
+              ListRowYKND(
+                title: S.current.co_quan_ban_hanh,
+                content: [element.coQuanBanHanh],
+              ),
+            );
+
+            rowData.add(
+              ListRowYKND(
+                title: S.current.file_dinh_kem,
+                content: [element.dSFile],
+              ),
+            );
+
+            listData.add(rowData);
+            _ketQuaXuLyRowData.sink.add(listData);
+          }
+        },
+        error: (error) {});
   }
 }

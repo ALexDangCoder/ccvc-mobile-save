@@ -172,7 +172,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
             child: ExpandGroup(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await cubit.initData(id: widget.id);
+                  await cubit.initData(id: widget.id, danhSachYKien: true);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

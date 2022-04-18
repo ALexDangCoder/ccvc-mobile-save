@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
@@ -60,7 +61,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<ChonBienBanCuocHopModel> dataMauBienBan = BehaviorSubject();
   List<String> dataThuhoi = ['thu hoi', 'thu hồi'];
   List<String> dataBocBang = ['boc bang', 'boc bang2'];
-  List<PhienhopModel> phienHop = [];
+  BehaviorSubject<List<PhienhopModel>> phienHop = BehaviorSubject();
   List<String> dataDropdown = ['1', '2', '3'];
   BehaviorSubject<String> noiDung = BehaviorSubject();
   List<CanBoModel> dataThanhPhanThamGia = [];
@@ -72,10 +73,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<NguoiChutriModel>> listNguoiCHuTriModel =
       BehaviorSubject();
-
-  BehaviorSubject<MessageModel> messageSubject = BehaviorSubject();
-
-  Stream<MessageModel> get messageStream => messageSubject.stream;
 
   BehaviorSubject<List<MoiHopModel>> listMoiHopSubject = BehaviorSubject();
 
@@ -114,8 +111,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<KetLuanHopModel> ketLuanHopSubject = BehaviorSubject();
 
-  BehaviorSubject<DanhSachNhiemVuLichHopModel> danhSachNhiemVuLichHopSubject =
-      BehaviorSubject();
+  BehaviorSubject<List<DanhSachNhiemVuLichHopModel>>
+      danhSachNhiemVuLichHopSubject = BehaviorSubject();
 
   List<String> cacLuaChonBieuQuyet = [];
 
@@ -130,28 +127,41 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     cacLuaChonBieuQuyet.remove(value);
   }
 
-  Future<void> initData({String? id, bool? danhSachYKien}) async {
+  Future<void> initData({
+    String? id,
+    bool? xemKetLuanHop,
+    bool? danhSachNhiemVu,
+    bool? danhSachPhienHopYkien,
+    bool? danhSachYKien,
+  }) async {
     showLoading();
     // await getChiTietLichHop(id);
-    // final queue = Queue(parallel: 1);
+    final queue = Queue(parallel: 1);
     // unawaited(queue.add(() => getThongTinPhongHopApi()));
     // unawaited(queue.add(() => getDanhSachThietBi()));
     // unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
-    // unawaited(queue.add(() => getXemKetLuanHop(id)));
+    if (xemKetLuanHop == true) {
+      unawaited(queue.add(() => getXemKetLuanHop(id ?? '')));
+    }
+    if (danhSachNhiemVu == true) {
+      unawaited(queue.add(() => getDanhSachNhiemVu(id ?? '')));
+    }
     // await queue.onComplete.catchError((er) {});
     // await getDanhSachPhatBieuLichHop(typeStatus.value, id);
     // await getDanhSachBieuQuyetLichHop(id);
     // await soLuongPhatBieuData(id: id);
-    // await getDanhSachPhienHop(id);
+    if (danhSachPhienHopYkien == true) {
+      await getDanhSachPhienHop(id ?? '');
+    }
     if (danhSachYKien == true) {
-      await getDanhSachYKien(id ?? '');
+      await getDanhSachYKien(id ?? '', '');
     }
     // await postChonMauHop();
     // await ListStatusKetLuanHop();
     // await danhSachCanBoTPTG(id: id);
     // await getListPhienHop(id);
     showContent();
-    // queue.dispose();
+    queue.dispose();
   }
 
   Future<void> getChiTietLichHop(String id) async {
@@ -270,20 +280,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
           _getListThietBiPhongHop.sink.add(res);
         },
         error: (err) {});
-  }
-
-  // danh sách phiên họp ý kiến cuộc họp
-  Future<void> getDanhSachPhienHop(String id) async {
-    showLoading();
-    final result = await hopRp.getTongPhienHop(id);
-    result.when(
-      success: (res) {
-        phienHop = res.danhSachPhienHop!.toList();
-      },
-      error: (err) {
-        return;
-      },
-    );
   }
 
   void getTimeHour({required TimerData startT, required TimerData endT}) {
@@ -444,14 +440,16 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     }
   }
 
-  DanhSachNhiemVuLichHopModel danhSachNhiemVu = DanhSachNhiemVuLichHopModel(
-    soNhiemVu: 'Chua tao duoc data tren web de ghep',
-    noiDungTheoDoi: 'Chua tao duoc data tren web de ghep ',
-    tinhHinhThucHienNoiBo: ' Chua tao duoc data tren web de ghep',
-    hanXuLy: '2021-10-29T11:42:42.4179289',
-    loaiNhiemVu: 'Chua tao duoc data tren web de ghep',
-    trangThai: TrangThai.DaDuyet,
-  );
+  List<DanhSachNhiemVuLichHopModel> danhSachNhiemVu = [
+    DanhSachNhiemVuLichHopModel(
+      soNhiemVu: 'Chua tao duoc data tren web de ghep',
+      noiDungTheoDoi: 'Chua tao duoc data tren web de ghep ',
+      tinhHinhThucHienNoiBo: ' Chua tao duoc data tren web de ghep',
+      hanXuLy: '2021-10-29T11:42:42.4179289',
+      loaiNhiemVu: 'Chua tao duoc data tren web de ghep',
+      trangThai: TrangThaiNhiemVu.ChoPhanXuLy,
+    )
+  ];
 
   Future<void> deleteChiTietLichHop(String id) async {
     final result = await hopRp.deleteChiTietLichHop(id);
@@ -615,9 +613,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     );
 
     result.when(
-      success: (value) {
-        messageSubject.add(value);
-      },
+      success: (value) {},
       error: (error) {},
     );
   }
@@ -688,8 +684,8 @@ extension KetLuanHop on DetailMeetCalenderCubit {
 
 ///Y kien cuoc hop
 extension YKienCuocHop on DetailMeetCalenderCubit {
-  Future<void> getDanhSachYKien(String id) async {
-    final result = await hopRp.getDanhSachYKien(id);
+  Future<void> getDanhSachYKien(String id, String? phienHopId) async {
+    final result = await hopRp.getDanhSachYKien(id, phienHopId ?? '');
     result.when(
       success: (res) {
         listYKienCuocHop.sink.add(res);
@@ -702,12 +698,14 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
     required String yKien,
     required String idLichHop,
     required String scheduleOpinionId,
+    required String phienHopId,
   }) async {
     showLoading();
     final ThemYKienRequest themYKienRequest = ThemYKienRequest(
-      content: yKien,
+      content: yKien != '' ? yKien : '',
       scheduleId: idLichHop,
-      scheduleOpinionId: scheduleOpinionId,
+      scheduleOpinionId: scheduleOpinionId != '' ? scheduleOpinionId : null,
+      phienHopId: phienHopId != '' ? phienHopId : null,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
     result.when(
@@ -716,5 +714,65 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
         return;
       },
     );
+  }
+
+  // danh sách phiên họp - ý kiến cuộc họp
+  Future<void> getDanhSachPhienHop(String id) async {
+    showLoading();
+    final result = await hopRp.getTongPhienHop(id);
+    result.when(
+      success: (res) {
+        phienHop.sink.add(res.danhSachPhienHop ?? []);
+      },
+      error: (err) {
+        return;
+      },
+    );
+  }
+
+  Future<void> getDanhSachNhiemVu(String idCuocHop) async {
+    showLoading();
+    final result = await hopRp.getNhiemVuCHiTietHop(
+      NhiemVuChiTietHopRequest(
+        idCuocHop: idCuocHop,
+        index: 1,
+        isNhiemVuCaNhan: true,
+        size: 1000,
+      ),
+    );
+    result.when(
+      success: (res) {
+        final List<DanhSachNhiemVuLichHopModel> danhSachNhiemVuLichHopModel =
+            [];
+        for (final e in res) {
+          danhSachNhiemVuLichHopModel.add(
+            DanhSachNhiemVuLichHopModel(
+              soNhiemVu: e.soNhiemVu,
+              noiDungTheoDoi: e.noiDungTheoDoi,
+              tinhHinhThucHienNoiBo: e.tinhHinhThucHienNoiBo,
+              hanXuLy: e.hanXuLy,
+              loaiNhiemVu: e.loaiNhiemVu,
+              trangThai: trangThaiNhiemVu(e.maTrangThai),
+            ),
+          );
+          danhSachNhiemVuLichHopSubject.sink.add(danhSachNhiemVuLichHopModel);
+        }
+      },
+      error: (err) {
+        return;
+      },
+    );
+  }
+
+  TrangThaiNhiemVu trangThaiNhiemVu(String tt) {
+    switch (tt) {
+      case 'CHO_PHAN_XU_LY':
+        return TrangThaiNhiemVu.ChoPhanXuLy;
+      case 'DANG_THUC_HIEN':
+        return TrangThaiNhiemVu.DangThucHien;
+      case 'DA_THUC_HIEN':
+        return TrangThaiNhiemVu.DaThucHien;
+    }
+    return TrangThaiNhiemVu.ChoPhanXuLy;
   }
 }

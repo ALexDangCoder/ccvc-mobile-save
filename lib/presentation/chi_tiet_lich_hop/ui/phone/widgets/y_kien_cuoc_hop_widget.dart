@@ -44,9 +44,10 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                 onPress: () {
                   showBottomSheetCustom(
                     context,
-                    title: S.current.them_y_kien,
+                    title: S.current.y_kien,
                     child: ThemYKienWidget(
                       cubit: cubit,
+                      id: widget.id,
                     ),
                   );
                 },
@@ -90,6 +91,7 @@ class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
                     title: S.current.them_y_kien,
                     child: ThemYKienWidget(
                       cubit: cubit,
+                      id: widget.id,
                     ),
                   );
                 },

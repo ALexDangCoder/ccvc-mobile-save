@@ -35,6 +35,17 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   bool isShow = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.cubit.initData(
+      id: widget.id,
+      xemKetLuanHop: false,
+      danhSachNhiemVu: true,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
@@ -71,19 +82,24 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                     }
                   },
                 ),
-                StreamBuilder<DanhSachNhiemVuLichHopModel>(
-                  initialData: widget.cubit.danhSachNhiemVu,
+                StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
                   stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final data = snapshot.data;
-                      return ItemDanhSachNhiemVu(
-                        hanXuLy: DateTime.parse(data?.hanXuLy ?? ''),
-                        loaiNV: data?.loaiNhiemVu ?? '',
-                        ndTheoDoi: data?.noiDungTheoDoi ?? '',
-                        soNhiemVu: data?.soNhiemVu ?? '',
-                        tinhHinhThucHien: data?.tinhHinhThucHienNoiBo ?? '',
-                        trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                      final data = snapshot.data ?? [];
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return ItemDanhSachNhiemVu(
+                            hanXuLy: DateTime.parse(data[index].hanXuLy),
+                            loaiNV: data[index].loaiNhiemVu,
+                            ndTheoDoi: data[index].noiDungTheoDoi,
+                            soNhiemVu: data[index].soNhiemVu,
+                            tinhHinhThucHien: data[index].tinhHinhThucHienNoiBo,
+                            trangThaiNhiemVu: data[index].trangThai,
+                          );
+                        },
                       );
                     } else {
                       return const SizedBox(
@@ -133,19 +149,26 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                       }
                     },
                   ),
-                  StreamBuilder<DanhSachNhiemVuLichHopModel>(
+                  StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
                     initialData: widget.cubit.danhSachNhiemVu,
                     stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        final data = snapshot.data;
-                        return ItemDanhSachNhiemVu(
-                          hanXuLy: DateTime.parse(data?.hanXuLy ?? ''),
-                          loaiNV: data?.loaiNhiemVu ?? '',
-                          ndTheoDoi: data?.noiDungTheoDoi ?? '',
-                          soNhiemVu: data?.soNhiemVu ?? '',
-                          tinhHinhThucHien: data?.tinhHinhThucHienNoiBo ?? '',
-                          trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+                        final data = snapshot.data ?? [];
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return ItemDanhSachNhiemVu(
+                              hanXuLy: DateTime.parse(data[index].hanXuLy),
+                              loaiNV: data[index].loaiNhiemVu,
+                              ndTheoDoi: data[index].noiDungTheoDoi,
+                              soNhiemVu: data[index].soNhiemVu,
+                              tinhHinhThucHien:
+                                  data[index].tinhHinhThucHienNoiBo,
+                              trangThaiNhiemVu: data[index].trangThai,
+                            );
+                          },
                         );
                       } else {
                         return const SizedBox(
@@ -222,7 +245,9 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           showBottomSheetCustom(
                             context,
                             title: S.current.tao_moi_nhiem_vu,
-                            child: const TaoMoiNhiemVuWidget(),
+                            child: TaoMoiNhiemVuWidget(
+                              cubit: cubit,
+                            ),
                           );
                         },
                       ),
@@ -260,7 +285,8 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                       ),
                       QData(
                         urlImage: ImageAssets.Group2,
-                        text: S.current.thu_hoi,
+                        text:
+                            '${S.current.thu_hoi} (Không có thu hồi trên web)',
                         onTap: () {
                           showDiaLog(
                             context,
@@ -323,6 +349,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
           widgetRow(
             name: S.current.file,
             child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: listFile.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -349,7 +376,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
   final String tinhHinhThucHien;
   final DateTime hanXuLy;
   final String loaiNV;
-  final TrangThai trangThai;
+  final TrangThaiNhiemVu trangThaiNhiemVu;
 
   const ItemDanhSachNhiemVu({
     Key? key,
@@ -358,7 +385,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
     required this.tinhHinhThucHien,
     required this.hanXuLy,
     required this.loaiNV,
-    required this.trangThai,
+    required this.trangThaiNhiemVu,
   }) : super(key: key);
 
   @override
@@ -469,7 +496,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
               ),
               widgetRow(
                 name: S.current.trang_thai,
-                child: trangThai.getWidget(),
+                child: trangThaiNhiemVu.getWidgetTTNhiemVu(),
               ),
             ],
           ),

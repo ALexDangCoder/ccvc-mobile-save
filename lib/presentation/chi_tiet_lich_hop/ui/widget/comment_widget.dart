@@ -77,6 +77,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               ),
               if (showRecoment)
                 ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
@@ -98,7 +99,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     widget.cubit.themYKien(
                       idLichHop: widget.id,
                       yKien: vl,
-                      scheduleOpinionId: widget.object.id ?? '',
+                      scheduleOpinionId: widget.object.id ?? '', phienHopId: '',
                     );
                     widget.cubit.initData(id: widget.id, danhSachYKien: true);
                   },

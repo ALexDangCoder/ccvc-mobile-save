@@ -8,6 +8,7 @@ class DanhSachVBRequest {
   String? thoiGianStartFilter;
   String? thoiGianEndFilter;
   String? keySearch;
+  bool? isDanhSachDaXuLy;
 
   DanhSachVBRequest({
     this.maTrangThai,
@@ -19,6 +20,7 @@ class DanhSachVBRequest {
     this.thoiGianStartFilter,
     this.thoiGianEndFilter,
     this.keySearch,
+    this.isDanhSachDaXuLy,
   });
 
   Map<String, dynamic> toJson() {
@@ -32,6 +34,7 @@ class DanhSachVBRequest {
     data['ThoiGianStartFilter'] = thoiGianStartFilter;
     data['ThoiGianEndFilter'] = thoiGianEndFilter;
     data['KeySearch'] = keySearch;
+    data['IsDanhSachDaXuLy'] = isDanhSachDaXuLy;
     return data;
   }
 }

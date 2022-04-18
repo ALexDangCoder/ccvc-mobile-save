@@ -78,7 +78,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   type: TypeScreen.VAN_BAN_DEN,
                                   startDate: qlvbCubit.startDate,
                                   endDate: qlvbCubit.endDate,
-                                  maTrangThai: [value],
+                                  isDanhSachDaXuLy: value.isDanhSachDaXuLy(),
+                                  maTrangThai: value.daHoanThanh(),
                                 ),
                               ),
                             );

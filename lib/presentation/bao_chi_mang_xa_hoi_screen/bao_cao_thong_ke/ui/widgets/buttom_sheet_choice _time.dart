@@ -6,10 +6,19 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class PopupChoiceTimeWidget extends StatefulWidget {
+  final String initStartDate;
+  final String initEndDate;
   final Function(String startDate, String endDate) onChoiceTime;
-  const PopupChoiceTimeWidget({Key? key,required this.onChoiceTime}) : super(key: key);
+
+  const PopupChoiceTimeWidget(
+      {Key? key,
+      required this.onChoiceTime,
+      required this.initStartDate,
+      required this.initEndDate,})
+      : super(key: key);
 
   @override
   _PopupChoiceDateState createState() => _PopupChoiceDateState();
@@ -22,8 +31,10 @@ class _PopupChoiceDateState extends State<PopupChoiceTimeWidget> {
   @override
   void initState() {
     super.initState();
-    initDateTime();
+    startDate=widget.initStartDate;
+    endDate=widget.initEndDate;
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -63,12 +74,13 @@ class _PopupChoiceDateState extends State<PopupChoiceTimeWidget> {
           children: [
             Expanded(
               child: SelectDate(
+                initDateTime: DateFormat('yyyy-MM-dd').parse(startDate),
                 key: UniqueKey(),
                 paddings: 10,
                 leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                value:startDate,
+                value: startDate,
                 onSelectDate: (dateTime) {
-                  startDate=dateTime;
+                  startDate = dateTime;
                 },
               ),
             ),
@@ -77,12 +89,13 @@ class _PopupChoiceDateState extends State<PopupChoiceTimeWidget> {
             ),
             Expanded(
               child: SelectDate(
+                initDateTime: DateFormat('yyyy-MM-dd').parse(endDate),
                 key: UniqueKey(),
                 paddings: 10,
                 leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                 value: endDate,
                 onSelectDate: (dateTime) {
-                  endDate=dateTime;
+                  endDate = dateTime;
                 },
               ),
             )
@@ -123,12 +136,5 @@ class _PopupChoiceDateState extends State<PopupChoiceTimeWidget> {
         ),
       ],
     );
-  }
-  void initDateTime() {
-    const int millisecondOfWeek = 7 * 24 * 60 * 60 * 1000;
-    final int millisecondNow = DateTime.now().millisecondsSinceEpoch;
-    final int prevWeek = millisecondNow - millisecondOfWeek;
-    endDate = DateTime.now().toString();
-    startDate = DateTime.fromMillisecondsSinceEpoch(prevWeek).toString();
   }
 }

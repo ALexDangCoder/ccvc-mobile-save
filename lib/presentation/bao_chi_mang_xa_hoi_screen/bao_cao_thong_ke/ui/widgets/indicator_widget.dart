@@ -17,8 +17,8 @@ class ChartIndicatorWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          height: 14,
-          width: 14,
+          height: 12,
+          width: 12,
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
@@ -33,7 +33,7 @@ class ChartIndicatorWidget extends StatelessWidget {
               title,
               style: textNormal(
                 infoColor,
-                14.0.textScale(),
+                12.0.textScale(),
               ),
             ),
           ),

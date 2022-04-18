@@ -28,6 +28,13 @@ class LineChartTheoNguonWidget extends StatelessWidget {
               forum: [],
               blog: [],
             );
+        final List<List<LineChartData>> listData = [
+          data.baoChi,
+          data.nguonKhac,
+          data.mangXaHoi,
+          data.forum,
+          data.blog,
+        ];
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           child: SfCartesianChart(
@@ -65,7 +72,7 @@ class LineChartTheoNguonWidget extends StatelessWidget {
                 color: AqiColor,
                 width: 0.41,
               ),
-              interval: 10,
+              interval: getMaxList(listData),
               minimum: 0,
               majorGridLines: const MajorGridLines(
                 width: 0.41,
@@ -73,26 +80,7 @@ class LineChartTheoNguonWidget extends StatelessWidget {
               ),
             ),
             series: <ChartSeries<LineChartData, String>>[
-              StackedLineSeries<LineChartData, String>(
-                color: orangeDamChart,
-                dataSource: data.mangXaHoi,
-                xValueMapper: (LineChartData sales, _) => sales.date,
-                yValueMapper: (LineChartData sales, _) => sales.count,
-                dataLabelSettings: DataLabelSettings(
-                  isVisible: true,
-                  textStyle: textNormalCustom(
-                    color: infoColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                  ),
-                  labelAlignment: ChartDataLabelAlignment.outer,
-                ),
-                markerSettings: const MarkerSettings(
-                  isVisible: true,
-                  color: orangeDamChart,
-                ),
-              ),
-              StackedLineSeries<LineChartData, String>(
+              LineSeries<LineChartData, String>(
                 color: redChart,
                 dataSource: data.baoChi,
                 xValueMapper: (LineChartData sales, _) => sales.date,
@@ -111,11 +99,30 @@ class LineChartTheoNguonWidget extends StatelessWidget {
                   color: redChart,
                 ),
               ),
-              StackedLineSeries<LineChartData, String>(
+              LineSeries<LineChartData, String>(
+                color: orangeDamChart,
+                dataSource: data.mangXaHoi,
+                xValueMapper: (LineChartData sales, _) => sales.date,
+                yValueMapper: (LineChartData sales, _) => sales.count,
+                dataLabelSettings: DataLabelSettings(
+                  isVisible: true,
+                  textStyle: textNormalCustom(
+                    color: infoColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                  ),
+                  labelAlignment: ChartDataLabelAlignment.outer,
+                ),
+                markerSettings: const MarkerSettings(
+                  isVisible: true,
+                  color: orangeDamChart,
+                ),
+              ),
+              LineSeries<LineChartData, String>(
                 color: purpleChart,
                 dataSource: data.blog,
                 xValueMapper: (LineChartData sales, _) => sales.date,
-                yValueMapper: (LineChartData sales, _) => sales.count,
+                yValueMapper: (LineChartData sales, _) => 15,
                 dataLabelSettings: DataLabelSettings(
                   isVisible: true,
                   textStyle: textNormalCustom(
@@ -130,7 +137,7 @@ class LineChartTheoNguonWidget extends StatelessWidget {
                   color: purpleChart,
                 ),
               ),
-              StackedLineSeries<LineChartData, String>(
+              LineSeries<LineChartData, String>(
                 color: orangeNhatChart,
                 dataSource: data.forum,
                 xValueMapper: (LineChartData sales, _) => sales.date,
@@ -149,7 +156,7 @@ class LineChartTheoNguonWidget extends StatelessWidget {
                   color: orangeNhatChart,
                 ),
               ),
-              StackedLineSeries<LineChartData, String>(
+              LineSeries<LineChartData, String>(
                 color: orangeDamChart,
                 dataSource: data.nguonKhac,
                 xValueMapper: (LineChartData sales, _) => sales.date,

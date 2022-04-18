@@ -26,6 +26,11 @@ class LineChartTheoSacThaiWidget extends StatelessWidget {
               tieuCuc: [],
               trungLap: [],
             );
+        final List<List<LineChartData>> listData = [
+          data.trungLap,
+          data.tieuCuc,
+          data.tichCuc,
+        ];
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           child: SfCartesianChart(
@@ -63,7 +68,7 @@ class LineChartTheoSacThaiWidget extends StatelessWidget {
                 color: AqiColor,
                 width: 0.41,
               ),
-              interval: 5,
+              interval: getMaxList(listData),
               minimum: 0,
               majorGridLines: const MajorGridLines(
                 width: 0.41,
@@ -71,7 +76,7 @@ class LineChartTheoSacThaiWidget extends StatelessWidget {
               ),
             ),
             series: <ChartSeries<LineChartData, String>>[
-              StackedLineSeries<LineChartData, String>(
+              LineSeries<LineChartData, String>(
                 color: grayChart,
                 dataSource: data.trungLap,
                 xValueMapper: (LineChartData sales, _) => sales.date,
@@ -90,7 +95,7 @@ class LineChartTheoSacThaiWidget extends StatelessWidget {
                   color: grayChart,
                 ),
               ),
-              StackedLineSeries<LineChartData, String>(
+              LineSeries<LineChartData, String>(
                 color: redChart,
                 dataSource: data.tieuCuc,
                 xValueMapper: (LineChartData sales, _) => sales.date,
@@ -109,7 +114,7 @@ class LineChartTheoSacThaiWidget extends StatelessWidget {
                   color: redChart,
                 ),
               ),
-              StackedLineSeries<LineChartData, String>(
+              LineSeries<LineChartData, String>(
                 color: greenChart,
                 dataSource: data.tichCuc,
                 xValueMapper: (LineChartData sales, _) => sales.date,

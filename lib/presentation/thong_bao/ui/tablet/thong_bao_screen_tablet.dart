@@ -24,6 +24,9 @@ class ThongBaoScreenTablet extends StatefulWidget {
 }
 
 class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
+  String titleAppbar =
+      '${S.current.thong_bao} ';
+
   ThongBaoCubit thongBaoCubit = ThongBaoCubit();
 
   @override
@@ -37,7 +40,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          S.current.thong_bao,
+          titleAppbar,
           style: textNormalCustom(
             color: buttonColor,
             fontSize: 24,
@@ -65,7 +68,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
           ),
         ],
       ),
-      body: Container(
+      body:  Container(
         color: Colors.white,
         child: StreamBuilder<List<ThongBaoModel>>(
           stream: thongBaoCubit.thongBaoStream,
@@ -99,8 +102,8 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
                               MaterialPageRoute(
                                 builder: (context) =>
                                     ThongBaoQuanLyVanBanScreen(
-                                  cubit: thongBaoCubit,
-                                ),
+                                      cubit: thongBaoCubit,
+                                    ),
                               ),
                             );
                           },
@@ -139,9 +142,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
         ),
       ),
     );
-  }
-
-  Widget dontData() {
+  }  Widget dontData() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -164,4 +165,5 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
       ),
     );
   }
+
 }

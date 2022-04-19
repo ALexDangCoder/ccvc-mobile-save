@@ -31,7 +31,9 @@ class CoCauLichHopWidget extends StatelessWidget {
               cubit.chooseTypeList(
                 Type_Choose_Option_List.DANG_LIST,
               );
+              cubit.idThongKe = data[value].id ?? '';
               cubit.postDanhSachThongKe(data[value].id ?? '');
+              cubit.isListThongKeSubject.add(true);
             },
             isThongKeLichHop: false,
           );

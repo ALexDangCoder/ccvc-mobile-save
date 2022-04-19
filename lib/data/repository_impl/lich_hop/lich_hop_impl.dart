@@ -508,11 +508,12 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<List<CalendarMeetingModel>>> getNhiemVuCHiTietHop(
-      NhiemVuChiTietHopRequest nhiemVuChiTietHopRequest,
-      ) {
-    return runCatchingAsync<ListNhiemVuChiTietLichHopResponse, List<CalendarMeetingModel>>(
-          () => _hopServices.getNhiemVuCHiTietHop(nhiemVuChiTietHopRequest),
-          (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? [],
+    NhiemVuChiTietHopRequest nhiemVuChiTietHopRequest,
+  ) {
+    return runCatchingAsync<ListNhiemVuChiTietLichHopResponse,
+        List<CalendarMeetingModel>>(
+      () => _hopServices.getNhiemVuCHiTietHop(nhiemVuChiTietHopRequest),
+      (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
 

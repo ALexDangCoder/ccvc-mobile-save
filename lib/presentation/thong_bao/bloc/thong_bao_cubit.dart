@@ -75,6 +75,13 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     showContent();
   }
 
+  Future<void> deleteNoti(String id) async {
+    final result = await _service.deleteNotify(id);
+    result.when(success: (success) {
+      getThongBaoQuanTrong();
+    }, error: (error) {},);
+  }
+
   Future<void> getListThongBao() async {
     showLoading();
     final result = await _service.getThongBaoQuanTrong(

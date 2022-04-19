@@ -52,6 +52,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   List<ItemThongBaoModelMyCalender> listLanhDaoLichHop = [];
   String idDonViLanhDao = '';
   String titleAppbar = '';
+  String idThongKe = '';
   BehaviorSubject<List<bool>> selectTypeCalendarSubject =
       BehaviorSubject.seeded([true, false, false]);
   Type_Choose_Option_List typeLH = Type_Choose_Option_List.DANG_LICH;
@@ -65,6 +66,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   int totalPage = 2;
   bool isCheckNgay = false;
 
+  BehaviorSubject<bool> isListThongKeSubject = BehaviorSubject.seeded(false);
   late BuildContext context;
   BehaviorSubject<int> index = BehaviorSubject.seeded(0);
 
@@ -354,16 +356,16 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 
   Future<void> initData() async {
     page = 1;
-    await getDashboard();
-    await postDanhSachLichHop();
-    await postEventsCalendar();
-    await menuCalendar();
+    getDashboard();
+    postDanhSachLichHop();
+    postEventsCalendar();
+    menuCalendar();
     initDataMenu();
-    await postStatisticByMonth();
-    await getDashBoardThongKe();
-    await postCoCauLichHop();
-    await postToChucBoiDonVi();
-    await postTiLeThamDu();
+    postStatisticByMonth();
+    getDashBoardThongKe();
+    postCoCauLichHop();
+    postToChucBoiDonVi();
+    postTiLeThamDu();
   }
 
   Future<void> postStatisticByMonth() async {
@@ -430,10 +432,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     listDSLH.clear();
     page = 1;
 
-    postDanhSachLichHop();
-    getDashboard();
+    if (isListThongKeSubject.value) {
+      postDanhSachThongKe(idThongKe);
+      getDashboard();
+      postEventsCalendar();
+    } else {
+      postDanhSachLichHop();
+    }
     menuCalendar();
-    postEventsCalendar();
     postStatisticByMonth();
 
     getDashBoardThongKe();
@@ -450,10 +456,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 
     listDSLH.clear();
     page = 1;
-    postDanhSachLichHop();
-    getDashboard();
+    if (isListThongKeSubject.value) {
+      postDanhSachThongKe(idThongKe);
+      getDashboard();
+      postEventsCalendar();
+    } else {
+      postDanhSachLichHop();
+    }
     menuCalendar();
-    postEventsCalendar();
     postStatisticByMonth();
 
     getDashBoardThongKe();
@@ -468,10 +478,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     endDate = selectDay;
     listDSLH.clear();
     page = 1;
-    postDanhSachLichHop();
-    getDashboard();
+    if (isListThongKeSubject.value) {
+      postDanhSachThongKe(idThongKe);
+      getDashboard();
+      postEventsCalendar();
+    } else {
+      postDanhSachLichHop();
+    }
     menuCalendar();
-    postEventsCalendar();
     postStatisticByMonth();
     getDashBoardThongKe();
     postCoCauLichHop();
@@ -484,8 +498,8 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     showLoading();
     final result = await hopRepo.postDanhSachThongKe(
       DanhSachThongKeRequest(
-        dateFrom: startDate.formatApi,
-        dateTo: endDate.formatApi,
+        dateFrom: startDate.formatApiDDMMYYYYSlash,
+        dateTo: endDate.formatApiDDMMYYYYSlash,
         pageIndex: page,
         pageSize: 10,
         typeCalendarId: id,
@@ -495,9 +509,6 @@ class LichHopCubit extends BaseCubit<LichHopState> {
       success: (value) {
         totalPage = value.totalPage ?? 1;
 
-        listDSLH.addAll(value.items ?? []);
-
-        value.items = listDSLH;
         danhSachLichHopSubject.add(value);
       },
       error: (error) {},

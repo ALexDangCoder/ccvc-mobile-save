@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ItemThongBaoQuanTrong extends StatelessWidget {
+class ItemThongBaoQuanTrong extends StatefulWidget {
   final String id;
   final String title;
   final String message;
@@ -27,9 +27,16 @@ class ItemThongBaoQuanTrong extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ItemThongBaoQuanTrong> createState() => _ItemThongBaoQuanTrongState();
+}
+
+class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
+  bool isVisible = false;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      color: seen ? Colors.white : statusNotify,
+      color: widget.seen ? Colors.white : statusNotify,
       padding: EdgeInsets.symmetric(
         horizontal: 16.0.textScale(),
         vertical: 12.0.textScale(),
@@ -52,7 +59,7 @@ class ItemThongBaoQuanTrong extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      widget.title,
                       style: textNormalCustom(
                         color: textTitle,
                         fontWeight: FontWeight.w500,
@@ -63,7 +70,7 @@ class ItemThongBaoQuanTrong extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      message,
+                      widget.message,
                       style: textNormalCustom(
                         color: infoColor,
                         fontWeight: FontWeight.w400,
@@ -74,7 +81,7 @@ class ItemThongBaoQuanTrong extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      date,
+                      widget.date,
                       style: textNormalCustom(
                         color: AqiColor,
                         fontWeight: FontWeight.w400,
@@ -91,38 +98,55 @@ class ItemThongBaoQuanTrong extends StatelessWidget {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  isVisible = !isVisible;
+                  setState(() {});
+                },
                 child: SvgPicture.asset(
                   ImageAssets.ic_three_dot_doc,
                 ),
               ),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     border: Border.all(
-              //       color: borderColor.withOpacity(0.5),
-              //     ),
-              //     boxShadow: [
-              //       BoxShadow(
-              //         color: shadowContainerColor.withOpacity(0.05),
-              //         blurRadius: 10,
-              //         offset: const Offset(0, 4),
-              //       ),
-              //     ],
-              //     borderRadius: BorderRadius.circular(12),
-              //   ),
-              //   child: Column(
-              //     children: cubit.listMenu
-              //         .map(
-              //           (e) => Container(
-              //             padding: const EdgeInsets.all(7),
-              //             child: SvgPicture.asset(e),
-              //           ),
-              //         )
-              //         .toList(),
-              //   ),
-              // )
+              if (isVisible)
+                GestureDetector(
+                  onTap: () {
+                    widget.cubit.deleteNoti(widget.id);
+                    isVisible = !isVisible;
+                    setState(() {});
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: borderColor.withOpacity(0.5),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowContainerColor.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: widget.cubit.listMenu
+                          .map(
+                            (e) => Container(
+                              padding: const EdgeInsets.all(7),
+                              child: SvgPicture.asset(e),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                )
+              else
+                Container(),
             ],
           )
         ],

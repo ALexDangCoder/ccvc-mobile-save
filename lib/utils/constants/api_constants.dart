@@ -184,6 +184,7 @@ class ApiConstants {
 
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
+  static const DELETE_NOTIFY = '/api/Notification/delete';
 }
 
 class ImageConstants {

@@ -1,7 +1,9 @@
+import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_quan_trong_response.dart';
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/thong_bao_service/thong_bao_service.dart';
+import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
@@ -33,4 +35,15 @@ class ThongBaoImpl implements ThongBaoRepository {
       (res) => res.data.toModel(),
     );
   }
+
+  @override
+  Future<Result<MessageModel>> deleteNotify(String id) {
+    return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
+          () => service.deleteNotify(
+        id,),
+          (res) => res.toDomain(),
+    );
+  }
+
+
 }

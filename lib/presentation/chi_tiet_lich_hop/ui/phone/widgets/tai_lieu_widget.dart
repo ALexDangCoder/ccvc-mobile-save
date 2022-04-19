@@ -54,7 +54,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return ListFileFromAPI(
-                          fileName: data[index] ?? '',
+                          data: data,
                           onTap: () {},
                         );
                       },
@@ -91,7 +91,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return ListFileFromAPI(
-                      fileName: data[index] ?? '',
+                      data: data,
                       onTap: () {},
                     );
                   },
@@ -103,27 +103,43 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
       ),
     );
   }
+}
 
-  Widget ListFileFromAPI({required String fileName, required Function onTap}) =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              fileName,
-              style: textNormalCustom(
-                color: choXuLyColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.textScale(),
+class ListFileFromAPI extends StatelessWidget {
+  final Function onTap;
+  final List<String?> data;
+
+  const ListFileFromAPI({Key? key, required this.onTap, required this.data})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: data.length,
+        itemBuilder: (context, index) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  data[index] ?? '',
+                  style: textNormalCustom(
+                    color: choXuLyColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.0.textScale(),
+                  ),
+                ),
               ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              onTap();
-            },
-            child: SvgPicture.asset(ImageAssets.icDelete),
-          ),
-        ],
-      );
+              GestureDetector(
+                onTap: () {
+                  onTap();
+                },
+                child: SvgPicture.asset(ImageAssets.icDelete),
+              ),
+            ],
+          );
+        });
+  }
 }

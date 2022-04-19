@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tong_so_luong_khach_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -10,8 +12,11 @@ import 'package:ccvc_mobile/widgets/thong_tin_khach_moi_widget/them_thong_tin_kh
 import 'package:flutter/cupertino.dart';
 
 class ThemThanhPhanThamGiaWidget extends StatefulWidget {
+  final DetailMeetCalenderCubit cubit;
+
   const ThemThanhPhanThamGiaWidget({
     Key? key,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -41,8 +46,27 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                 ),
                 ThanhPhanThamGiaWidget(
                   isPhuongThucNhan: true,
-                  onChange: (value) {},
-                  phuongThucNhan: (value) {},
+                  onChange: (value) {
+                    for (final a in value) {
+                      widget.cubit.moiHopRequest.add(
+                        MoiHopRequest(
+                          CanBoId: a.canBoId,
+                          DonViId: '',
+                          VaiTroThamGia: 0,
+                          chucVu: a.chucVu,
+                          hoTen: a.tenCanBo,
+                          id: a.id,
+                          status: 0,
+                          tenDonVi: a.name,
+                          type: 0,
+                          userId: '',
+                        ),
+                      );
+                    }
+                  },
+                  phuongThucNhan: (value) {
+                    widget.cubit.phuongThucNhan = value;
+                  },
                 ),
                 spaceH16,
                 TitleChildWidget(
@@ -69,7 +93,10 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
               onPressed1: () {
                 Navigator.pop(context);
               },
-              onPressed2: () {},
+              onPressed2: () {
+                widget.cubit.moiHopRequest.clear();
+                widget.cubit.phuongThucNhan = false;
+              },
             ),
             const SizedBox(
               height: 32,

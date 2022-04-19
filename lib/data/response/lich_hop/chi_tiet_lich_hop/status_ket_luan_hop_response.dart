@@ -61,14 +61,14 @@ class StatusKetLuanHopData {
   Map<String, dynamic> toJson() => _$StatusKetLuanHopDataToJson(this);
 
   StatusKetLuanHopModel toModel() => StatusKetLuanHopModel(
-        code: code,
-        createdAt: createdAt,
-        createdBy: createdBy,
+        code: code ?? '',
+        createdAt: createdAt ?? '',
+        createdBy: createdBy ?? '',
         displayName: displayName ?? '',
-        id: id,
-        type: type,
-        updatedAt: updatedAt,
-        updatedBy: updatedBy,
+        id: id ?? '',
+        type: type ?? '',
+        updatedAt: updatedAt ?? '',
+        updatedBy: updatedBy ?? '',
       );
 
   @override

@@ -141,7 +141,7 @@ class ApiConstants {
   static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
   static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
   static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
-  static const XEM_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/xem-ket-luan?';
+  static const XEM_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/xem-ket-luan';
   static const LICH_SU_VAN_BAN_DEN = '/qlvb/api/vanban/lich-su-by-type';
   static const LIST_PERMISSION = '/api/auth/list-permission';
   static const GET_DANH_SACH_Y_KIEN =
@@ -170,7 +170,7 @@ class ApiConstants {
   static const UPDATE_LIST_WIDGET = '/api/Widget/update-dashboard-widget-config';
   static const BAO_CAO_LINH_VUC_KHAC = '/pakn/api/Dashboard/statistics-by-field';
   static const DON_VI_XU_LY = '/pakn/api/Dashboard/statistics-by-unit';
-  static const SO_LUONG_BY_MONTH= '/api/NewsNetViews/tong_quan';
+  static const SO_LUONG_BY_MONTH= '/pakn/api/Dashboard/statistics-by-month';
   static const TONG_QUAN_BAO_CAO_BCMXH= '/api/NewsNetViews/tong_quan';
   static const TIN_TONG_HOP_BAO_CAO_BCMXH= '/api/NewsNetViews/dashboard_statistical';
   static const BAO_CAO_THEO_NGUON_BCMXH= '/api/NewsNetViews/thong_ke_theo_ty_le_nguon';
@@ -179,6 +179,8 @@ class ApiConstants {
   static const BAO_CAO_THEO_NGUON_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_nguon';
   static const BAO_CAO_THEO_SAC_THAI_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_sac_thai';
   static const CHANGE_PASS= '/api/auth/change-pass';
+  static const TIEN_TRINH_XU_LY= '/pakn/api/KienNghi/TienTrinhXulyPAKN';
+  static const KET_QUA_XU_LY= '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
 
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';

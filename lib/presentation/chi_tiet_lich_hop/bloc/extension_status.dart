@@ -35,13 +35,13 @@ extension trangThai on TrangThai {
   Widget getWidget() {
     switch (this) {
       case TrangThai.ChoDuyet:
-        return status(S.current.cho_duyet, itemWidgetUsing);
+        return status(S.current.cho_duyet, processingColor);
 
       case TrangThai.ChuaGuiDuyet:
-        return status(S.current.chua_gui_duyet, itemWidgetUsing);
+        return status(S.current.chua_gui_duyet, colorPrimary);
 
       case TrangThai.HuyDuyet:
-        return status(S.current.huy_duyet, itemWidgetUsing);
+        return status(S.current.huy_duyet, canceledColor);
 
       case TrangThai.DaDuyet:
         return status(S.current.da_duyet, itemWidgetUsing);
@@ -51,17 +51,15 @@ extension trangThai on TrangThai {
 
 extension tinhTrang on TinhTrang {
   Widget getWidget() {
-    switch(this) {
+    switch (this) {
       case TinhTrang.TrungBinh:
         return status(S.current.trung_binh, itemWidgetNotUse);
 
       case TinhTrang.Dat:
-        return status(S.current.dat, itemWidgetNotUse);
+        return status(S.current.dat, itemWidgetUsing);
 
       case TinhTrang.ChuaDat:
-        return status(S.current.chua_dat, itemWidgetNotUse);
+        return status(S.current.chua_dat, canceledColor);
     }
   }
 }
-
-

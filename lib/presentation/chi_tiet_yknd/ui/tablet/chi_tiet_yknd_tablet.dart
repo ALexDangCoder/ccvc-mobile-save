@@ -36,8 +36,9 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
   @override
   void initState() {
     super.initState();
-    cubit.getchiTietYKienNguoiDan(widget.iD, widget.taskID);
-    cubit.getDanhSachYKienXuLyPAKN(widget.iD);
+    // cubit.getchiTietYKienNguoiDan(widget.iD, widget.taskID);
+    // cubit.getDanhSachYKienXuLyPAKN(widget.iD);
+    cubit.getTienTrinhXyLy(widget.iD);
   }
 
   @override

@@ -5,14 +5,13 @@ part 'tao_phien_hop_request.g.dart';
 @JsonSerializable()
 class TaoPhienHopRepuest {
   String? canBoId;
-
   String? donViId;
   String? thoiGian_BatDau;
   String? thoiGian_KetThuc;
   String? noiDung;
   String? tieuDe;
   String? hoTen;
-  bool? IsMultipe;
+  bool IsMultipe;
   List<FilesRepuest>? file;
 
   TaoPhienHopRepuest(
@@ -23,7 +22,7 @@ class TaoPhienHopRepuest {
       this.noiDung,
       this.tieuDe,
       this.hoTen,
-      this.IsMultipe,
+      this.IsMultipe = false,
       this.file});
 
   factory TaoPhienHopRepuest.fromJson(Map<String, dynamic> json) =>

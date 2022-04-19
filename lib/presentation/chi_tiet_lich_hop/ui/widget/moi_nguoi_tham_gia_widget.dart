@@ -14,17 +14,17 @@ import 'package:flutter_svg/svg.dart';
 
 import 'icon_with_title_widget.dart';
 
-class MoiNguoiThamGiaWidget extends StatefulWidget {
+class ThanhPhanThamGiaWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
-  const MoiNguoiThamGiaWidget({Key? key, required this.cubit})
+  const ThanhPhanThamGiaWidget({Key? key, required this.cubit})
       : super(key: key);
 
   @override
-  _MoiNguoiThamGiaWidgetState createState() => _MoiNguoiThamGiaWidgetState();
+  _ThanhPhanThamGiaWidgetState createState() => _ThanhPhanThamGiaWidgetState();
 }
 
-class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
+class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   @override
   Widget build(BuildContext context) {
     return SelectOnlyWidget(
@@ -41,7 +41,9 @@ class _MoiNguoiThamGiaWidgetState extends State<MoiNguoiThamGiaWidget> {
               showBottomSheetCustom(
                 context,
                 title: S.current.them_thanh_phan_tham_gia,
-                child: const ThemThanhPhanThamGiaWidget(),
+                child: ThemThanhPhanThamGiaWidget(
+                  cubit: widget.cubit,
+                ),
               );
             },
           ),

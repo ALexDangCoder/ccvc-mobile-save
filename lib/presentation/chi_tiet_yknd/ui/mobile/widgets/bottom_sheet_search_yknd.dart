@@ -1,10 +1,13 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -16,6 +19,16 @@ class BottomSheetSearchYKND extends StatefulWidget {
 }
 
 class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
+  final ThanhPhanThamGiaCubit _cubit = ThanhPhanThamGiaCubit();
+   @override
+  void initState() {
+    super.initState();
+    _cubit.getTree();
+    // _cubit.listPeopleThamGia.listen((event) {
+    //   widget.onChange(event);
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,22 +47,36 @@ class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
           const SizedBox(
             height: 8,
           ),
-          CustomDropDown(
-            paddingLeft: 16,
-            hint: Text(
-              S.current.nhap_ten_don_vi,
-              style: textNormalCustom(
-                fontSize: 14,
-                color: borderCaneder,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            items: [
-              S.current.trung_binh,
-              S.current.dat,
-              S.current.khong_dat,
-            ],
+          StreamBuilder<List<DonViModel>>(
+            stream: _cubit.listPeopleThamGia,
+            builder: (context, snapshot) {
+              return ThemDonViWidget(
+                cubit: _cubit,
+                listSelectNode: snapshot.data ?? [],
+                onChange: (value) {
+                  _cubit.addPeopleThamGia(
+                    value.map((e) => e.value).toList(),
+                  );
+                },
+              );
+            },
           ),
+          // CustomDropDown(
+          //   paddingLeft: 16,
+          //   hint: Text(
+          //     S.current.nhap_ten_don_vi,
+          //     style: textNormalCustom(
+          //       fontSize: 14,
+          //       color: borderCaneder,
+          //       fontWeight: FontWeight.w400,
+          //     ),
+          //   ),
+          //   items: [
+          //     S.current.trung_binh,
+          //     S.current.dat,
+          //     S.current.khong_dat,
+          //   ],
+          // ),
           const SizedBox(
             height: 20,
           ),

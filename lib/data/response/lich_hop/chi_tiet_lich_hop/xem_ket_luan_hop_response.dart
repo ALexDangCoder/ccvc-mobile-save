@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:ccvc_mobile/domain/model/lich_hop/file_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
@@ -27,8 +29,8 @@ class XemKetLuanHopDataResponse extends Equatable {
   });
 
   factory XemKetLuanHopDataResponse.fromJson(
-      Map<String, dynamic> json,
-      ) =>
+    Map<String, dynamic> json,
+  ) =>
       _$XemKetLuanHopDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$XemKetLuanHopDataResponseToJson(this);
@@ -89,25 +91,72 @@ class XemKetLuanHopDataResponseData extends Equatable {
   @override
   List<Object?> get props => throw [];
 
-  XemKetLuanHopModel toModel() => XemKetLuanHopModel(
-    id: id ?? '',
-    scheduleId: scheduleId ?? '',
-    reportStatusId: reportStatusId ?? '',
-    startDate: startDate ?? '',
-    endDate: endDate ?? '',
-    content: content!.parseHtml(),
-    status: status ?? 0,
-    statusName: statusName ?? '',
-    scheduleTitle: scheduleTitle ?? '',
-    reportStatus: reportStatus ?? '',
-    reportStatusCode: reportStatusCode ?? '',
-    createBy: createBy ?? '',
-    canBoChuTriId: canBoChuTriId ?? '',
-    nguoiTao: nguoiTao ?? '',
-    nguoiChuTri: nguoiChuTri ?? '',
-    files: files ?? '',
-    reportTemplateId: reportTemplateId ?? '',
-    noiDungHuy: noiDungHuy ?? '',
-    title: title ?? '',
-  );
+  XemKetLuanHopModel toModel() {
+    final List<FileDetailMeetModel> listFile = [];
+    if (files != null) {
+      final listData = jsonDecode(files ?? '') as List<dynamic>;
+      for (final element in listData) {
+        listFile.add(ListFileDataresponse.fromJson(element).toModel());
+      }
+    }
+    return XemKetLuanHopModel(
+      id: id ?? '',
+      scheduleId: scheduleId ?? '',
+      reportStatusId: reportStatusId ?? '',
+      startDate: startDate ?? '',
+      endDate: endDate ?? '',
+      content: content!.parseHtml(),
+      status: status ?? 0,
+      statusName: statusName ?? '',
+      scheduleTitle: scheduleTitle ?? '',
+      reportStatus: reportStatus ?? '',
+      reportStatusCode: reportStatusCode ?? '',
+      createBy: createBy ?? '',
+      canBoChuTriId: canBoChuTriId ?? '',
+      nguoiTao: nguoiTao ?? '',
+      nguoiChuTri: nguoiChuTri ?? '',
+      files: listFile,
+      reportTemplateId: reportTemplateId ?? '',
+      noiDungHuy: noiDungHuy ?? '',
+      title: title ?? '',
+    );
+  }
+}
+
+@JsonSerializable()
+class ListFileDataresponse extends Equatable {
+  @JsonKey(name: 'Id')
+  String? Id;
+  @JsonKey(name: 'Name')
+  String? Name;
+  @JsonKey(name: 'Extension')
+  String? Extension;
+  @JsonKey(name: 'Size')
+  double? Size;
+  @JsonKey(name: 'Path')
+  String? Path;
+  @JsonKey(name: 'Documents')
+  String? Documents;
+  @JsonKey(name: 'EntityId')
+  String? EntityId;
+
+  ListFileDataresponse();
+
+  factory ListFileDataresponse.fromJson(Map<String, dynamic> json) =>
+      _$ListFileDataresponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ListFileDataresponseToJson(this);
+
+  @override
+  List<Object?> get props => throw [];
+
+  FileDetailMeetModel toModel() => FileDetailMeetModel(
+        Id: Id ?? '',
+        Name: Name ?? '',
+        Extension: Extension ?? '',
+        Size: Size,
+        Path: Path ?? '',
+        Documents: Documents ?? '',
+        EntityId: EntityId ?? '',
+      );
 }

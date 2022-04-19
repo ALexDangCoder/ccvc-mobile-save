@@ -28,18 +28,18 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   @override
   void initState() {
     super.initState();
-    // baoCaoCubit.baoCaoYKND(
-    //   DateTime.now().toStringWithListFormat,
-    //   DateTime.now().toStringWithListFormat,
-    // );
-    // baoCaoCubit.dashBoardBaoCaoYKND(
-    //   DateTime.now().toStringWithListFormat,
-    //   DateTime.now().toStringWithListFormat,
-    // );
-    // baoCaoCubit.dashBoardLinhKhacXuLy(DateTime.now().toStringWithListFormat,
-    //     DateTime.now().toStringWithListFormat);
-    // baoCaoCubit.dashBoardDonViXuLy(DateTime.now().toStringWithListFormat,
-    //     DateTime.now().toStringWithListFormat);
+    baoCaoCubit.baoCaoYKND(
+      DateTime.now().toStringWithListFormat,
+      DateTime.now().toStringWithListFormat,
+    );
+    baoCaoCubit.dashBoardBaoCaoYKND(
+      DateTime.now().toStringWithListFormat,
+      DateTime.now().toStringWithListFormat,
+    );
+    baoCaoCubit.dashBoardLinhKhacXuLy(DateTime.now().toStringWithListFormat,
+        DateTime.now().toStringWithListFormat);
+    baoCaoCubit.dashBoardDonViXuLy(DateTime.now().toStringWithListFormat,
+        DateTime.now().toStringWithListFormat,);
     baoCaoCubit.dashBoardSoLuongByMonth(DateTime.now().toStringWithListFormat,
         DateTime.now().toStringWithListFormat,);
   }

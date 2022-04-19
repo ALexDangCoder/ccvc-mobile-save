@@ -33,7 +33,6 @@ class _ChiTietYKNDHeaderState extends State<ChiTietYKNDHeader> {
 class ItemRow extends StatelessWidget {
   final String title;
   final String? content;
-
   const ItemRow({
     Key? key,
     required this.title,
@@ -49,7 +48,7 @@ class ItemRow extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Text(
                 title,
                 style: textNormalCustom(
@@ -63,7 +62,7 @@ class ItemRow extends StatelessWidget {
               width: 16,
             ),
             Expanded(
-              flex: 6,
+              flex: 7,
               child: Text(
                 content ?? '',
                 style: textNormalCustom(

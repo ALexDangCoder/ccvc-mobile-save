@@ -850,6 +850,14 @@
   "thong_ke_theo_thoi_gian": "Biểu đồ thống kê thông tin theo thời gian",
   "bieu_do_theo_nguon": "Biểu đồ thống kê theo nguồn",
   "thong_ke_sac_thai": "thống kê theo sắc thái",
-  "cap_nhat_mk_thanh_cong": "Cập nhật mật khẩu thành công"
+  "cap_nhat_mk_thanh_cong": "Cập nhật mật khẩu thành công",
+  "thoi_gian_theo_tac": "Thời gian thao tác",
+  "chuyen_vien_xu_ly": "Chuyên viên xử lý",
+  "so_hieu_van_ban": "Số hiệu văn bản",
+  "co_quan_ban_hanh":"Cơ quan ban hành",
+  "chu_tri":"chủ trì",
+  "chuyen_vien": "chuyên viên"
+
+
 
 }

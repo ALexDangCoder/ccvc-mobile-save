@@ -11,11 +11,15 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_k
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/y_kien_nguoi_dan/y_kien_nguoi_dan_service.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket%20_qua_xu_ly.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/tien_trinh_xu_ly_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_board_phan_loai_mode.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
@@ -120,7 +124,8 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       String tuKhoa,
       String userId,
       String donViId) {
-    return runCatchingAsync<SearchYKienNguoiDanResponse, List<YKienNguoiDanModel>>(
+    return runCatchingAsync<SearchYKienNguoiDanResponse,
+        List<YKienNguoiDanModel>>(
       () => _yKienNguoIDanService.searchDanhSachYKienNguoiDan(
         tuNgay,
         denNgay,
@@ -130,7 +135,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
         userId,
         donViId,
       ),
-      (res) => res.listDanhSachYKien?.map((e) => e.toDomain()).toList()??[],
+      (res) => res.listDanhSachYKien?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
 
@@ -219,6 +224,28 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
         ),
       ),
       (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<List<TienTrinhXuLyModel>>> tienTrinhXuLy(String paknId) {
+    return runCatchingAsync<TienTrinhXuLyResponse, List<TienTrinhXuLyModel>>(
+      () => _yKienNguoIDanService.getTienTrinhXuLyYKND(
+        paknId,
+      ),
+      (res) => res.tienTrinhXuLyData.map((e) => e.toDomain()).toList(),
+    );
+  }
+
+  @override
+  Future<Result<List<KetQuaXuLyModel>>> ketQuaXuLy(
+      String kienNghiId, String taskId) {
+    return runCatchingAsync<KetQuaXuLyResponse, List<KetQuaXuLyModel>>(
+      () => _yKienNguoIDanService.getKetQuaXuLyYKND(
+        kienNghiId,
+        taskId,
+      ),
+      (res) => res.listKetQuaXuLy.map((e) => e.toDomain()).toList(),
     );
   }
 }

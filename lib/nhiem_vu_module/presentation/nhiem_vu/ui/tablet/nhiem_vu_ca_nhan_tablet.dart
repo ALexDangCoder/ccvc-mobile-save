@@ -99,6 +99,22 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                   chartData: data,
                                   isCheck: true,
                                   cubit: danhSachCubit,
+                                  onTap: (value) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DanhSachNhiemVuTablet(
+                                          isCheck: widget.isCheck,
+                                          ngayBatDau: danhSachCubit.ngayDauTien,
+                                          ngayKetThuc:
+                                              danhSachCubit.ngayKetThuc,
+                                          mangTrangThai:
+                                              value.trangThaiBieuDoNhiemVu(),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -110,12 +126,27 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                   danhSachCubit.chartDataCongViecCaNhan,
                               builder: (context, snapshot) {
                                 final data = snapshot.data ??
-                                    widget.cubit.chartDataCongViec;
+                                    widget.cubit.chartDataNhiemVu;
                                 return BieuDoNhiemVuTablet(
                                   title: S.current.cong_viec,
                                   isCheck: false,
                                   cubit: danhSachCubit,
                                   chartData: data,
+                                  onTap: (value) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DanhSachCongViecTablet(
+                                          isCheck: widget.isCheck,
+                                          ngayBatDau: danhSachCubit.ngayDauTien,
+                                          ngayKetThuc:
+                                              danhSachCubit.ngayKetThuc,
+                                          mangTrangThai: [value],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -174,6 +205,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                               isCheck: widget.isCheck,
                               ngayBatDau: danhSachCubit.ngayDauTien,
                               ngayKetThuc: danhSachCubit.ngayKetThuc,
+                              mangTrangThai: [],
                             ),
                           ),
                         );
@@ -205,6 +237,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                               isCheck: widget.isCheck,
                               ngayBatDau: danhSachCubit.ngayDauTien,
                               ngayKetThuc: danhSachCubit.ngayKetThuc,
+                              mangTrangThai: [],
                             ),
                           ),
                         );

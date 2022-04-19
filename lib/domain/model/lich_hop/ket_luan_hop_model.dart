@@ -6,7 +6,8 @@ class KetLuanHopModel {
   String thoiGian = '';
   TrangThai trangThai = TrangThai.ChoDuyet;
   TinhTrang tinhTrang = TinhTrang.ChuaDat;
-  String file = '';
+  List<String> file = [];
+  String? title;
 
   KetLuanHopModel.empty();
 
@@ -16,5 +17,6 @@ class KetLuanHopModel {
     required this.trangThai,
     required this.tinhTrang,
     required this.file,
+    this.title
   });
 }

@@ -1,3 +1,5 @@
+import 'file_model.dart';
+
 class XemKetLuanHopModel {
   String? id;
   String? scheduleId;
@@ -14,7 +16,7 @@ class XemKetLuanHopModel {
   String? canBoChuTriId;
   String? nguoiTao;
   String? nguoiChuTri;
-  String? files;
+  List<FileDetailMeetModel>? files;
   String? reportTemplateId;
   String? noiDungHuy;
   String? title;

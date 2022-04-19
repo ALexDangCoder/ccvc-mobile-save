@@ -532,7 +532,7 @@
   "sua_that_bai": "Sửa thất bại",
   "phat_bieu": "Phát Biểu",
   "bieu_quyet": "Biểu Quyết",
-  "ket_luan_hop": "Kết luận ",
+  "ket_luan_hop": "Kết luận Cuộc họp",
   "y_kien_cuop_hop": "Ý kiến cuộc họp",
   "thong_tin_yeu_cau_thiet_bi": "Thông tin yêu cầu thiết bị",
   "moi_nguoi_tham_gia": "Mời người tham gia",
@@ -852,5 +852,11 @@
   "thong_ke_sac_thai": "thống kê theo sắc thái",
   "cap_nhat_mk_thanh_cong": "Cập nhật mật khẩu thành công",
   "cho_y_kien_thanh_cong": "Cho ý kiến thành công",
-  "cho_y_kien_that_bai": "Cho ý kiến thất bại"
+  "cho_y_kien_that_bai": "Cho ý kiến thất bại",
+  "thoi_gian_theo_tac": "Thời gian thao tác",
+  "chuyen_vien_xu_ly": "Chuyên viên xử lý",
+  "so_hieu_van_ban": "Số hiệu văn bản",
+  "co_quan_ban_hanh": "Cơ quan ban hành",
+  "chu_tri": "chủ trì",
+  "chuyen_vien": "chuyên viên"
 }

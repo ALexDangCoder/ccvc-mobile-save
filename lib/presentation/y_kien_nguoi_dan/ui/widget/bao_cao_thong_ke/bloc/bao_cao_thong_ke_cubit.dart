@@ -235,6 +235,7 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     result.when(
       success: (res) {
         _chartDonViXuLy.sink.add(res.listChartData);
+         print(res.listChartData.length);
       },
       error: (err) {
         return;

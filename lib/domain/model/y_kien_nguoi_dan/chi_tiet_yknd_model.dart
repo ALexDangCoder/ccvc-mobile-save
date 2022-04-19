@@ -181,11 +181,20 @@ class HeaderChiTietYKNDModel {
   });
 }
 
+
+
 class DataRowChiTietKienNghi {
   final String title;
   final String? content;
 
   DataRowChiTietKienNghi({required this.title, this.content});
+}
+
+class ListRowYKND {
+  final String title;
+  final List<String>? content;
+
+  ListRowYKND({required this.title, this.content});
 }
 
 class NguoiPhanAnhModel {
@@ -214,21 +223,25 @@ class ThongTinXuLy {
 }
 
 class KetQuaXuLy {
-  final String? yKienXuLy;
-  final String? thoiGianThaoTac;
-  final String? donViThaoTac;
-  final String? taiKhoanThaoTac;
-  final String? trangThaiXuLy;
-  final String? noiDungXuLy;
+  final String? chuyenVienXuLy;
+  final String? donViXuLy;
+  final String?  vaiTroXuLy;
+  final String?  noiDungXuLy;
+  final String? soHieuVanBan;
+  final String? ngayBanHanh;
+  final String? trichYeu;
+  final String? coQuanBanHanh;
   final String? fileDinhKem;
 
   KetQuaXuLy({
-    this.yKienXuLy,
-    this.thoiGianThaoTac,
-    this.donViThaoTac,
-    this.taiKhoanThaoTac,
-    this.trangThaiXuLy,
+    this.chuyenVienXuLy,
+    this.donViXuLy,
+    this.vaiTroXuLy,
     this.noiDungXuLy,
+    this.soHieuVanBan,
+    this.ngayBanHanh,
+    this.trichYeu,
+    this.coQuanBanHanh,
     this.fileDinhKem,
   });
 }

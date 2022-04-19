@@ -40,7 +40,7 @@ class _ChitietCongViecNhiemVuTabletState
         },
         child: ProviderWidget<ChiTietCongViecNhiemVuCubit>(
           cubit: cubit,
-          child:  StateStreamLayout(
+          child: StateStreamLayout(
             textEmpty: S.current.khong_co_du_lieu,
             retry: () {},
             error: AppException(
@@ -61,7 +61,8 @@ class _ChitietCongViecNhiemVuTabletState
                           cubit: cubit,
                           data: data ?? ChiTietCongViecNhiemVuModel(),
                         );
-                      },),
+                      },
+                    ),
                   ],
                 ),
               ),

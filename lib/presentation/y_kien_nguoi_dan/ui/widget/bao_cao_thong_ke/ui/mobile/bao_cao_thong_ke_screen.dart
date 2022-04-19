@@ -1,22 +1,33 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/yknd_dash_board_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_vb.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/bloc/bao_cao_thong_ke_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_don_vi_xu_ly.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_linh_vu_xu_ly.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_so_luong_by_month.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/search_bao_cao_thong_ke.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BaoCaoThongKeScreen extends StatefulWidget {
-  const BaoCaoThongKeScreen({Key? key}) : super(key: key);
+  final  YKienNguoiDanCubitt cubit;
+  const BaoCaoThongKeScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _BaoCaoThongKeScreenState createState() => _BaoCaoThongKeScreenState();
@@ -24,29 +35,81 @@ class BaoCaoThongKeScreen extends StatefulWidget {
 
 class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
+  ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+
 
   @override
   void initState() {
     super.initState();
-    baoCaoCubit.baoCaoYKND(
-      DateTime.now().toStringWithListFormat,
-      DateTime.now().toStringWithListFormat,
-    );
-    baoCaoCubit.dashBoardBaoCaoYKND(
-      DateTime.now().toStringWithListFormat,
-      DateTime.now().toStringWithListFormat,
-    );
-    baoCaoCubit.dashBoardLinhKhacXuLy(DateTime.now().toStringWithListFormat,
-        DateTime.now().toStringWithListFormat);
-    baoCaoCubit.dashBoardDonViXuLy(DateTime.now().toStringWithListFormat,
-        DateTime.now().toStringWithListFormat,);
-    baoCaoCubit.dashBoardSoLuongByMonth(DateTime.now().toStringWithListFormat,
-        DateTime.now().toStringWithListFormat,);
+    baoCaoCubit.callApi(thamGiaCubit);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppBar(
+        title: S.current.bao_cao_thong_ke,
+        leadingIcon: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(
+            ImageAssets.icBack,
+          ),
+        ),
+        actions: [
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  showBottomSheetCustom(
+                    context,
+                    child: StreamBuilder<List<DonViModel>>(
+                      stream: thamGiaCubit.listPeopleThamGia,
+                      builder: (context, snapshot) {
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.8,
+                          ),
+                          child: SearchBaoCaoThongKeWidget(
+                            cubit: thamGiaCubit,
+                            listSelectNode: snapshot.data ?? [],
+                            onChange: (value) {
+                              thamGiaCubit.addPeopleThamGia(
+                                value.map((e) => e.value).toList(),
+                              );
+                            },
+                            onSearch:
+                                (String startDate, String endDate, String donViID) {
+                              print(donViID);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    title: S.current.tim_kiem,
+                  );
+                },
+                icon: SvgPicture.asset(ImageAssets.ic_search_calendar),
+              ),
+              GestureDetector(
+                onTap: () {
+                  DrawerSlide.navigatorSlide(
+                    context: context,
+                    screen: YKienNguoiDanMenu(
+                      cubit: widget.cubit,
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(ImageAssets.icMenuCalender),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
+            ],
+          ),
+        ],
+      ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},

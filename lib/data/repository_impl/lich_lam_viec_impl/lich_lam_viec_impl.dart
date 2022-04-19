@@ -57,7 +57,8 @@ class LichLamViecImlp implements LichLamViecRepository {
     String startTime,
     String endTime,
   ) {
-    return runCatchingAsync<LichLamViecDashBroadResponse, DashBoardLichHopModel>(
+    return runCatchingAsync<LichLamViecDashBroadResponse,
+        DashBoardLichHopModel>(
       () => lichLamViecService.getLichLamViec(startTime, endTime),
       (response) => response.data.toDomain(),
     );
@@ -260,6 +261,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String dateRepeat,
     String dateRepeat1,
     bool only,
+    List<int> days,
   ) {
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
@@ -318,6 +320,9 @@ class LichLamViecImlp implements LichLamViecRepository {
           MapEntry('repeatCalendar.dateRepeat[$i]', dateRepeats[i].toString()));
     }
     _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
+    for (int i = 0; i < days.length; i++) {
+      _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
+    }
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
       () => lichLamViecService.taoLichLamviec(_data),

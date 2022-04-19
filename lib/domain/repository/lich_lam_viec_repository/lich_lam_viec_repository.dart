@@ -119,6 +119,7 @@ mixin LichLamViecRepository {
     String dateRepeat,
     String dateRepeat1,
     bool only,
+    List<int> days,
   );
 
   Future<Result<MessageModel>> taoBaoCaoKetQua(

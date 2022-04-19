@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -16,7 +17,9 @@ import 'chon_ngay_widget.dart';
 import 'dropdown_widget.dart';
 
 class TaoMoiNhiemVuWidget extends StatefulWidget {
-  const TaoMoiNhiemVuWidget({Key? key}) : super(key: key);
+  final DetailMeetCalenderCubit cubit;
+
+  const TaoMoiNhiemVuWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   State<TaoMoiNhiemVuWidget> createState() => _TaoMoiNhiemVuWidgetState();
@@ -79,7 +82,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                       hint: '',
                       title: S.current.noi_dung_theo_doi,
                       controller: ndTheoDoiController,
-                      isNote: true,
+                      isRequired: true,
                       maxLine: 8,
                       validator: (String? value) {
                         return value?.checkNull();

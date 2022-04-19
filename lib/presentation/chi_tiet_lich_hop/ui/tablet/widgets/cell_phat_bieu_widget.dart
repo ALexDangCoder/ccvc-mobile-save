@@ -134,8 +134,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                 ),
               ],
             ),
-            if (widget.cubit.typeStatus.value !=
-                    widget.cubit.danhSachphatBieu &&
+            if (widget.cubit.typeStatus.value != DANHSACHPHATBIEU &&
                 widget.isthePhatBieu == true)
               CustomCheckBox(
                 title: '',
@@ -168,8 +167,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8),
-                child: (widget.cubit.typeStatus.value !=
-                        widget.cubit.danhSachphatBieu)
+                child: (widget.cubit.typeStatus.value != DANHSACHPHATBIEU)
                     ? CustomCheckBox(
                         title: '',
                         isCheck: widget.cubit.check,

@@ -289,7 +289,7 @@ class file {
   final bool? isPrivate;
   final String? name;
   final String? path;
-  final int? size;
+  final double? size;
   final String? updatedAt;
   final String? updatedBy;
 

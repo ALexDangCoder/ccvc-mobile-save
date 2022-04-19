@@ -10,7 +10,7 @@ import 'package:flutter_svg/svg.dart';
 
 class SendCommentWidgetLichHop extends StatefulWidget {
   final TextEditingController contentController = TextEditingController();
-  final Function(String, List<String>) onSendComment;
+  final Function(String) onSendComment;
   bool isReComment = false;
   final ValueNotifier<bool> _isDisableButtonNotifier = ValueNotifier(true);
 
@@ -44,8 +44,7 @@ class _SendCommentWidgetLichHopState extends State<SendCommentWidgetLichHop> {
               Expanded(
                 child: TextFormField(
                   onChanged: (text) {
-                    widget._isDisableButtonNotifier.value =
-                        text.trim().isEmpty;
+                    widget._isDisableButtonNotifier.value = text.trim().isEmpty;
                   },
                   controller: widget.contentController,
                   maxLines: 3,
@@ -99,8 +98,7 @@ class _SendCommentWidgetLichHopState extends State<SendCommentWidgetLichHop> {
                               : ImageAssets.ic_gui_y_kien,
                         ),
                         onPressed: () {
-                          cubit.themYKien(
-                              yKien: widget.contentController.text, id: 'id');
+                          widget.onSendComment(widget.contentController.text);
                         },
                       );
                     },

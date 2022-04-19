@@ -153,25 +153,25 @@ class Data {
   }
 
   ChiTietLichHopModel toDomain() => ChiTietLichHopModel(
-        id: id ?? '',
-        typeScheduleId: typeScheduleId ?? '',
-        chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
-        linhVuc: tenLinhVuc ?? '',
-        noiDung: noiDung ?? '',
-        title: title ?? '',
-        phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
-        tenLinhVuc: tenLinhVuc ?? '',
-        timeTo: timeTo ?? '',
-        timeStart: timeStart ?? '',
-        ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
-        ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
-        mucDoHop: mucDo,
-        bit_HopTrucTuyen: bitHopTrucTuyen ?? false,
-        bit_TrongDonVi: bitTrongDonVi ?? false,
-        isAllDay: isAllDay ?? false,
-        typeReminder: typeReminder,
-        typeRepeat: typeRepeat,
-      );
+      id: id ?? '',
+      typeScheduleId: typeScheduleId ?? '',
+      chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
+      linhVuc: tenLinhVuc ?? '',
+      noiDung: noiDung ?? '',
+      title: title ?? '',
+      phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
+      tenLinhVuc: tenLinhVuc ?? '',
+      timeTo: timeTo ?? '',
+      timeStart: timeStart ?? '',
+      ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
+      ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
+      mucDoHop: mucDo,
+      bit_HopTrucTuyen: bitHopTrucTuyen ?? false,
+      bit_TrongDonVi: bitTrongDonVi ?? false,
+      isAllDay: isAllDay ?? false,
+      typeReminder: typeReminder,
+      typeRepeat: typeRepeat,
+      fileData: fileData?.map((e) => e.toDomain()).toList() ?? []);
 }
 
 class ChuTri {
@@ -251,7 +251,7 @@ class FileData {
   bool? isPrivate;
   String? name;
   String? path;
-  int? size;
+  double? size;
   String? updatedAt;
   String? updatedBy;
 

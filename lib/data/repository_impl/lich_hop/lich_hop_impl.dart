@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
@@ -14,6 +15,8 @@ import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_b
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
@@ -48,6 +51,7 @@ import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/lich_hop/hop_services.dart';
 import 'package:ccvc_mobile/domain/model/add_file_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
+import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
@@ -56,6 +60,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/moi_hop.dart';
@@ -368,9 +373,13 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<List<YKienModel>>> getDanhSachYKien(String id) {
-    return runCatchingAsync<DanhSachYKienResponse, List<YKienModel>>(
-      () => _hopServices.getDanhSachYKien(id),
+  Future<Result<List<YkienCuocHopModel>>> getDanhSachYKien(
+    String id,
+    String phienHopId,
+  ) {
+    return runCatchingAsync<DanhSachYKienlichHopResponse,
+        List<YkienCuocHopModel>>(
+      () => _hopServices.getDanhSachYKien(id, phienHopId),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -486,12 +495,21 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ChiTietLichHopModel>> postSuaLichHop(
-      TaoLichHopRequest taoLichHopRequest,
+    TaoLichHopRequest taoLichHopRequest,
+  ) {
+    return runCatchingAsync<ChiTietLichHopResponse, ChiTietLichHopModel>(
+      () => _hopServices.postSuaLichHop(taoLichHopRequest),
+      (response) => response.data?.toDomain() ?? ChiTietLichHopModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<CalendarMeetingModel>>> getNhiemVuCHiTietHop(
+      NhiemVuChiTietHopRequest nhiemVuChiTietHopRequest,
       ) {
-    return runCatchingAsync<ChiTietLichHopResponse,
-        ChiTietLichHopModel>(
-          () => _hopServices.postSuaLichHop(taoLichHopRequest),
-          (response) => response.data?.toDomain() ?? ChiTietLichHopModel(),
+    return runCatchingAsync<ListNhiemVuChiTietLichHopResponse, List<CalendarMeetingModel>>(
+          () => _hopServices.getNhiemVuCHiTietHop(nhiemVuChiTietHopRequest),
+          (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
 }

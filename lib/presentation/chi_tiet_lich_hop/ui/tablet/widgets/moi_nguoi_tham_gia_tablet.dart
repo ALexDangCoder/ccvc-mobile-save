@@ -46,7 +46,9 @@ class _MoiNguoiThamGiaWidgetTabletState
               showDiaLogTablet(
                 context,
                 title: S.current.them_thanh_phan_tham_gia,
-                child: const ThemThanhPhanThamGiaWidget(),
+                child: ThemThanhPhanThamGiaWidget(
+                  cubit: widget.cubit,
+                ),
                 isBottomShow: false,
                 funcBtnOk: () {
                   Navigator.pop(context);

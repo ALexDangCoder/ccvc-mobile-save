@@ -8,7 +8,7 @@ part 'chi_tiet_lich_lam_viec.g.dart';
 
 @JsonSerializable()
 class DetailCalenderWorkResponse extends Equatable {
-  @JsonKey(name: 'data' )
+  @JsonKey(name: 'data')
   DetailCalenderWorkResponseData data;
 
   DetailCalenderWorkResponse(this.data);

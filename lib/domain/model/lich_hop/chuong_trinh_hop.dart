@@ -88,9 +88,9 @@ class CanBoModel {
   String diemDanhTPTG() {
     if (isVangMat == true) {
       return S.current.vang_mat;
-    } else if (isVangMat == false || diemDanh == true) {
+    } else if (isVangMat == false && diemDanh == true) {
       return S.current.da_diem_danh;
-    } else if (isVangMat == false || diemDanh == false) {
+    } else if (isVangMat == false && diemDanh == false) {
       return S.current.chua_diem_danh;
     } else {
       return '';
@@ -100,9 +100,9 @@ class CanBoModel {
   Color diemDanhColors() {
     if (isVangMat == true) {
       return infoColor;
-    } else if (isVangMat == false || diemDanh == true) {
+    } else if (isVangMat == false && diemDanh == true) {
       return deliveredColor;
-    } else if (isVangMat == false || diemDanh == false) {
+    } else if (isVangMat == false && diemDanh == false) {
       return statusCalenderRed;
     } else {
       return backgroundColorApp;

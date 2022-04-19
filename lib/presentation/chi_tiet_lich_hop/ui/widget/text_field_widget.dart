@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class ItemTextFieldWidget extends StatelessWidget {
   final String title;
   final String hint;
-  final bool isNote;
+  final bool isRequired;
   final int maxLine;
   final TextEditingController controller;
   final Function(String value) onChange;
@@ -17,7 +17,7 @@ class ItemTextFieldWidget extends StatelessWidget {
     Key? key,
     required this.title,
     required this.hint,
-    this.isNote = false,
+    this.isRequired = false,
     required this.controller,
     required this.onChange,
     required this.validator,
@@ -38,7 +38,7 @@ class ItemTextFieldWidget extends StatelessWidget {
                 fontSize: 14.0.textScale(),
               ),
             ),
-            if (isNote)
+            if (isRequired)
               Text(
                 ' *',
                 style: textNormalCustom(

@@ -16,12 +16,14 @@ class DanhSachCongViecTablet extends StatefulWidget {
   final bool isCheck;
   final String ngayBatDau;
   final String ngayKetThuc;
+  final List<String> mangTrangThai;
 
   const DanhSachCongViecTablet({
     Key? key,
     required this.isCheck,
     required this.ngayBatDau,
     required this.ngayKetThuc,
+    required this.mangTrangThai,
   }) : super(key: key);
 
   @override
@@ -36,11 +38,6 @@ class _DanhSachCongViecTabletState extends State<DanhSachCongViecTablet> {
   @override
   void initState() {
     super.initState();
-    danhSachCubit.apiDanhSachCongViecCaNhan(
-      widget.ngayBatDau,
-      widget.ngayKetThuc,
-      widget.isCheck,
-    );
   }
 
   @override
@@ -52,15 +49,7 @@ class _DanhSachCongViecTabletState extends State<DanhSachCongViecTablet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(
-                left: 30,
-                right: 30,
-                bottom: 28,
-                top: 28,
-              ),
-              child: _content(),
-            ),
+            child: _content(),
           ),
         ],
       ),
@@ -81,26 +70,34 @@ class _DanhSachCongViecTabletState extends State<DanhSachCongViecTablet> {
           isCaNhan: widget.isCheck,
           isSortByHanXuLy: true,
           keySearch: danhSachCubit.keySearch,
-          mangTrangThai: [],
+          mangTrangThai: widget.mangTrangThai,
           size: danhSachCubit.pageSize,
           trangThaiHanXuLy: '',
         )
       },
       viewItem: (value, index) {
         try {
-          return CellDanhSachCongViecTablet(
-            data: value as PageDatas,
-            index: index ?? 0,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChitietCongViecNhiemVuTablet(
-                    id: value.id ?? '',
+          return Container(
+            padding: const EdgeInsets.only(
+              right: 30.0,
+              left: 30.0,
+            ),
+            margin:
+                index == 0 ? const EdgeInsets.only(top: 24) : EdgeInsets.zero,
+            child: CellDanhSachCongViecTablet(
+              data: value as PageDatas,
+              index: index ?? 0,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChitietCongViecNhiemVuTablet(
+                      id: value.id ?? '',
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         } catch (e) {
           return const SizedBox();

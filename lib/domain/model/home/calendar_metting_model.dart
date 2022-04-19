@@ -5,6 +5,7 @@ const _CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
 const _DANG_THUC_HIEN = 'DANG_THUC_HIEN';
 const _CHO_XAC_NHAN = 0;
 const _THAM_GIA = 1;
+
 class CalendarMeetingModel {
   final String title;
   final String time;
@@ -22,6 +23,10 @@ class CalendarMeetingModel {
   final String timeTo;
   final bool isHopTrucTuyen;
   final int trangThaiTheoUser;
+  final String noiDungTheoDoi;
+  final String soNhiemVu;
+  final String tinhHinhThucHienNoiBo;
+
   CalendarMeetingModel({
     this.title = '',
     this.time = '',
@@ -39,6 +44,9 @@ class CalendarMeetingModel {
     this.isHopTrucTuyen = false,
     this.trangThaiTheoUser = 0,
     this.nguoiChuTriId = '',
+    this.noiDungTheoDoi = '',
+    this.soNhiemVu = '',
+    this.tinhHinhThucHienNoiBo = '',
   }) {
     codeStatus = fromEnum();
   }
@@ -68,11 +76,12 @@ class CalendarMeetingModel {
     }
     return DocumentStatus.CHO_PHAN_XU_LY;
   }
-  DocumentStatus? trangThaiTheoUserEnum(String userId){
-    if(userId == nguoiChuTriId){
+
+  DocumentStatus? trangThaiTheoUserEnum(String userId) {
+    if (userId == nguoiChuTriId) {
       return null;
     }
-    switch(trangThaiTheoUser){
+    switch (trangThaiTheoUser) {
       case _CHO_XAC_NHAN:
         return DocumentStatus.CHO_XAC_NHAN;
       case _THAM_GIA:

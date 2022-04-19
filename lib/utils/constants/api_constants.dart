@@ -139,7 +139,7 @@ class ApiConstants {
   static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
   static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
   static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
-  static const XEM_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/xem-ket-luan?';
+  static const XEM_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/xem-ket-luan';
   static const LICH_SU_VAN_BAN_DEN = '/qlvb/api/vanban/lich-su-by-type';
   static const LIST_PERMISSION = '/api/auth/list-permission';
   static const GET_DANH_SACH_Y_KIEN =

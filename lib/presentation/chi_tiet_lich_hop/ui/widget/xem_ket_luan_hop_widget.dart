@@ -3,8 +3,12 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -19,15 +23,33 @@ import 'chon_ngay_widget.dart';
 import 'edit_ket_luan_hop_screen.dart';
 
 class XemKetLuanHopWidget extends StatefulWidget {
+  final String id;
   final DetailMeetCalenderCubit cubit;
 
-  const XemKetLuanHopWidget({Key? key, required this.cubit}) : super(key: key);
+  const XemKetLuanHopWidget({Key? key, required this.cubit, required this.id})
+      : super(key: key);
 
   @override
   _XemKetLuanHopWidgetState createState() => _XemKetLuanHopWidgetState();
 }
 
 class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
+  late String valueEdit;
+  late bool show;
+  late String reportStatusId;
+  late String reportTemplateId;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    valueEdit = '';
+    show = false;
+    reportStatusId = '';
+    reportTemplateId = '';
+    widget.cubit.getXemKetLuanHop(widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,31 +66,35 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      Text(
-                        S.current.tinh_trang,
-                        style: textNormal(titleItemEdit, 14),
-                      ),
-                      Text(
-                        ' *',
-                        style: textNormalCustom(color: canceledColor),
-                      ),
-                    ],
+                  child: TitleWithRedStartWidget(
+                    title: S.current.tinh_trang,
                   ),
                 ),
-                StreamBuilder<List<String>>(
+                ShowRequied(
+                  isShow: show,
+                  child: StreamBuilder<List<StatusKetLuanHopModel>>(
                     stream: widget.cubit.dataTinhTrangKetLuanHop,
                     builder: (context, snapshot) {
+                      final datatinhTrang = snapshot.data ?? [];
                       return CustomDropDown(
                         hint: Text(
-                          '${widget.cubit.xemKetLuanHopModel.reportStatus ?? ''}',
+                          widget.cubit.xemKetLuanHopModel.reportStatus ?? '',
                           style: textNormal(titleItemEdit, 14),
                         ),
-                        items: snapshot.data ?? [],
-                        onSelectItem: (value) {},
+                        items: datatinhTrang.map((e) => e.displayName).toList(),
+                        onSelectItem: (value) {
+                          final vlSelect = datatinhTrang[value];
+                          if (widget.cubit.xemKetLuanHopModel.reportStatusId !=
+                              vlSelect.id) {
+                            reportStatusId = vlSelect.id ?? '';
+                            show = false;
+                            setState(() {});
+                          }
+                        },
                       );
-                    }),
+                    },
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8, top: 20),
                   child: Text(
@@ -76,17 +102,29 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                     style: textNormal(titleItemEdit, 14),
                   ),
                 ),
-                StreamBuilder<List<String>>(
+                StreamBuilder<ChonBienBanCuocHopModel>(
                     stream: widget.cubit.dataMauBienBan,
                     builder: (context, snapshot) {
+                      final data = snapshot.data?.items ?? [];
                       return CustomDropDown(
-                        hint: Text(
-                          widget.cubit.dataMauBienBan.value.last,
-                          style: textNormal(titleItemEdit, 14),
-                        ),
-                        items: snapshot.data ?? [],
+                        hint: data.isNotEmpty
+                            ? Text(
+                                widget.cubit.getValueMauBienBanWithId(
+                                  widget.cubit.xemKetLuanHopModel
+                                          .reportTemplateId ??
+                                      '',
+                                ),
+                                style: textNormal(titleItemEdit, 14),
+                              )
+                            : const SizedBox(),
+                        items: data.map((e) => e.name).toList(),
                         onSelectItem: (value) {
                           widget.cubit.getValueMauBienBan(value);
+                          if (widget
+                                  .cubit.xemKetLuanHopModel.reportTemplateId !=
+                              data[value].id) {
+                            reportTemplateId = data[value].id ?? '';
+                          }
                         },
                       );
                     }),
@@ -111,7 +149,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                   },
                   child: Container(
                     width: double.infinity,
-                    height: 200,
+                    height: 300,
                     padding: const EdgeInsets.only(
                         bottom: 8, top: 10, left: 8, right: 8),
                     decoration: BoxDecoration(
@@ -120,57 +158,32 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                     ),
                     child: SingleChildScrollView(
                       child: StreamBuilder<String>(
-                        stream: widget.cubit.noiDung,
+                        stream: widget.cubit.noiDung.stream,
                         builder: (context, snapshot) {
-                          return widget.cubit.valueEdit != snapshot.data
-                              ? Html(
-                                  data: snapshot.data ?? '',
-                                )
-                              : Html(
-                                  data: widget.cubit.valueEdit,
-                                );
+                          return Html(
+                            data: valueEdit != snapshot.data
+                                ? (snapshot.data ?? '')
+                                : valueEdit,
+                          );
                         },
                       ),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 20),
-                  child: PickDateWidget(
-                    title: S.current.han_xu_ly,
-                    minimumDate: DateTime.now(),
-                    onChange: (DateTime value) {},
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: RichText(
-                    text: TextSpan(
-                      text: S.current.tong_so_luong_khach,
-                      style: textNormal(infoColor, 14),
-                      children: const <TextSpan>[
-                        TextSpan(
-                            text: ' *', style: TextStyle(color: Colors.red)),
-                      ],
-                    ),
-                  ),
-                ),
-                TextFieldValidator(
-                  hintText: S.current.nhap_so_luong,
-                ),
-                Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: ButtonSelectFile(
                     title: S.current.them_tai_lieu_cuoc_hop,
-                    onChange: (List<File> files) {
-                      print(files);
-                    },
-                    files: const [],
+                    onChange: (List<File> files) {},
                   ),
+                ),
+                ListFileFromAPI(
+                  data: [],
+                  onTap: () {},
                 ),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE
-                      ? const EdgeInsets.all(0)
+                      ? EdgeInsets.zero
                       : const EdgeInsets.symmetric(horizontal: 100),
                   child: DoubleButtonBottom(
                     title1: S.current.dong,
@@ -179,7 +192,17 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                       Navigator.pop(context);
                     },
                     onPressed2: () {
-                      Navigator.pop(context);
+                      if (reportStatusId.isNotEmpty) {
+                        widget.cubit.suaKetLuan(
+                          scheduleId: widget.id,
+                          reportStatusId: reportStatusId,
+                          reportTemplateId: reportTemplateId,
+                        );
+                        Navigator.pop(context);
+                      } else {
+                        show = true;
+                        setState(() {});
+                      }
                     },
                   ),
                 ),
@@ -191,6 +214,61 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TitleWithRedStartWidget extends StatelessWidget {
+  final String title;
+
+  const TitleWithRedStartWidget({Key? key, required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: textNormal(titleItemEdit, 14),
+        ),
+        Text(
+          ' *',
+          style: textNormalCustom(color: canceledColor),
+        ),
+      ],
+    );
+  }
+}
+
+class ShowRequied extends StatelessWidget {
+  final Widget child;
+  final bool isShow;
+  String textShow;
+
+  ShowRequied(
+      {Key? key, required this.child, this.isShow = false, this.textShow = ''})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        child,
+        if (isShow)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 10,
+            ),
+            child: Text(
+              textShow == '' ? S.current.khong_duoc_de_trong : textShow,
+              style: textDetailHDSD(color: canceledColor, fontSize: 12),
+            ),
+          )
+        else
+          const SizedBox()
+      ],
     );
   }
 }

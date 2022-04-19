@@ -98,6 +98,19 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                   chartData: data,
                                   isCheck: true,
                                   cubit: danhSachCubit,
+                                  onTap: (value ) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DanhSachNhiemVuTablet(
+                                          isCheck: widget.isCheck,
+                                          ngayBatDau: danhSachCubit.ngayDauTien,
+                                          ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                          mangTrangThai: value.trangThaiBieuDoNhiemVu(),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -113,7 +126,20 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                   title: S.current.cong_viec,
                                   chartData: data,
                                   cubit: danhSachCubit,
-                                  isCheck: false,
+                                  isCheck:  false,
+                                  onTap: (value ) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DanhSachCongViecTablet(
+                                          isCheck: widget.isCheck,
+                                          ngayBatDau: danhSachCubit.ngayDauTien,
+                                          ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                          mangTrangThai: [value],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -169,9 +195,10 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DanhSachNhiemVuTablet(
-                              isCheck: false,
+                              isCheck: widget.isCheck,
                               ngayBatDau: danhSachCubit.ngayDauTien,
                               ngayKetThuc: danhSachCubit.ngayKetThuc,
+                              mangTrangThai: [],
                             ),
                           ),
                         );
@@ -200,9 +227,10 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DanhSachCongViecTablet(
-                              isCheck: false,
+                              isCheck: widget.isCheck,
                               ngayBatDau: danhSachCubit.ngayDauTien,
                               ngayKetThuc: danhSachCubit.ngayKetThuc,
+                              mangTrangThai: [],
                             ),
                           ),
                         );

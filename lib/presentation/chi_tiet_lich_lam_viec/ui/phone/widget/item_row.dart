@@ -32,7 +32,8 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
         ),
         rowData(
           icon: ImageAssets.icCalendarUnFocus,
-          value: widget.data.dateTo,
+          value: widget.cubit
+              .parseDate(widget.data.dateTo ?? DateTime.now().formatApi),
         ),
         rowData(
           icon: ImageAssets.icCalendarUnFocus,
@@ -43,9 +44,9 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           icon: ImageAssets.icPerson,
           value: widget.data.canBoChuTri?.hoTen ?? '',
         ),
-        rowData(icon: ImageAssets.icWork, value: widget.data.linhVuc),
-        rowData(icon: ImageAssets.icViTri, value: widget.data.location),
-        rowData(icon: ImageAssets.icDocument, value: widget.data.content),
+        rowData(icon: ImageAssets.icWork, value: widget.data.linhVuc ?? ''),
+        rowData(icon: ImageAssets.icViTri, value: widget.data.location ?? ''),
+        rowData(icon: ImageAssets.icDocument, value: widget.data.content ?? ''),
       ],
     );
   }

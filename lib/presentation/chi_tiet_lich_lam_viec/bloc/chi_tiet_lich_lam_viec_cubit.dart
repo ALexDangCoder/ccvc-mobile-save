@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
@@ -14,11 +15,12 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
+class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   BehaviorSubject<ChiTietLichLamViecModel> chiTietLichLamViecSubject =
       BehaviorSubject();
 
@@ -134,10 +136,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<void> getDanhSachYKien(String id) async {
     final result = await detailLichLamViec.getDanhSachYKien(id);
     result.when(
-        success: (res) {
-          _listYKien.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        _listYKien.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> xoaBaoCaoKetQua(String id) async {
@@ -155,6 +158,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           }
         },
         error: (err) {});
+  }
+
+  String parseDate(String ngay) {
+    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(ngay);
+
+    return '${dateTime.day} ${S.current.thang} ${dateTime.month},${dateTime.year}';
   }
 
   Future<void> updateBaoCaoKetQua({

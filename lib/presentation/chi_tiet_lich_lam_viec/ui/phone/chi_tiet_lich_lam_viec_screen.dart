@@ -178,7 +178,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     final data = snapshot.data ?? ChiTietLichLamViecModel();
                     if (!snapshot.hasData) {
                       return Center(
-                        child: Text(S.current.khong_duoc_de_trong),
+                        child: Text(S.current.khong_co_du_lieu),
                       );
                     }
                     return ItemRowChiTiet(

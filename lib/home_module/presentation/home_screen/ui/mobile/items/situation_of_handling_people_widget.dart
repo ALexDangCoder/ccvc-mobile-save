@@ -85,12 +85,16 @@ class _SituationOfHandlingPeopleWidgetState
                     final result = data[index];
                     final color = TinhHinhYKienModel.listColor[index];
                     return ChartData(
-                      title: result.status,
-                      value: result.soLuong.toDouble(),
-                      color: color,
+                   result.status,
+                   result.soLuong.toDouble(),
+                      color,
+
                     );
                   },
                 ),
+                onTap: (value,key){
+
+                },
               );
             }),
       ),

@@ -19,13 +19,14 @@ class DanhSachNhiemVuTablet extends StatefulWidget {
   final String ngayBatDau;
   final String ngayKetThuc;
   final List<String> mangTrangThai;
-
+  final int? trangThaiHanXuLy;
   const DanhSachNhiemVuTablet({
     Key? key,
     required this.isCheck,
     required this.ngayBatDau,
     required this.ngayKetThuc,
     required this.mangTrangThai,
+    this.trangThaiHanXuLy
   }) : super(key: key);
 
   @override

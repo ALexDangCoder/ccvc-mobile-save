@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/danh_sach_tablet/danh_sach_nhiem_vu_tablet.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -105,11 +106,31 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
                     child: TongHopNhiemVuCell(
                       builder: (context, index) {
                         final result = data[index];
-                        return NhiemVuWidget(
-                          value: result.value.toString(),
-                          urlIcon:result.tongHopNhiemVuModel.urlImg(),
-                          title: result.tongHopNhiemVuModel.getText(),
-                          type: result.tongHopNhiemVuModel,
+                        return GestureDetector(
+                          onTap: (){
+                            _nhiemVuCubit.clickScreen(result.tongHopNhiemVuModel);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DanhSachNhiemVuTablet(
+                                  ngayBatDau: _nhiemVuCubit.startDate.toString(),
+                                  ngayKetThuc: _nhiemVuCubit.endDate.toString(),
+                                  isCheck: _nhiemVuCubit.selectKeyDonVi ==
+                                      SelectKey.DON_VI
+                                      ? false
+                                      : true,
+                                  mangTrangThai: _nhiemVuCubit.mangTrangThai,
+                                  trangThaiHanXuLy: _nhiemVuCubit.trangThaiHanXuLy,
+                                ),
+                              ),
+                            );
+                          },
+                          child: NhiemVuWidget(
+                            value: result.value.toString(),
+                            urlIcon:result.tongHopNhiemVuModel.urlImg(),
+                            title: result.tongHopNhiemVuModel.getText(),
+                            type: result.tongHopNhiemVuModel,
+                          ),
                         );
                       },
                     ),

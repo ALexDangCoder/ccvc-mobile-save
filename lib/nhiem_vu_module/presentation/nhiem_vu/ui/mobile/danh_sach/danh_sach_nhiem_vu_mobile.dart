@@ -12,14 +12,15 @@ class DanhSachNhiemVuMobile extends StatefulWidget {
   final bool isCheck;
   final String ngayBatDau;
   final String ngayKetThuc;
-  final List<String>mangTrangThai;
-
+  final List<String> mangTrangThai;
+final int? trangThaiHanXuLy;
   const DanhSachNhiemVuMobile({
     Key? key,
     required this.isCheck,
     required this.ngayBatDau,
     required this.ngayKetThuc,
     required this.mangTrangThai,
+    this.trangThaiHanXuLy,
   }) : super(key: key);
 
   @override

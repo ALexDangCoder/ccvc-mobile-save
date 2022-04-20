@@ -1,3 +1,6 @@
+import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/imcoming_document_screen_dashboard_tablet.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/incoming_document_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -101,27 +104,44 @@ class _WordProcessingStateWidgetState
                           paddingTop: 0,
                           chartData: [
                             ChartData(
-                              title: S.current.cho_xu_ly,
-                              value: data.soLuongChoXuLy?.toDouble() ?? 0,
-                              color: choXuLyColor,
+                             S.current.cho_xu_ly,
+                             data.soLuongChoXuLy?.toDouble() ?? 0,
+                            choXuLyColor,
                             ),
                             ChartData(
-                              title: S.current.dang_xu_ly,
-                              value: data.soLuongDangXuLy?.toDouble() ?? 0,
-                              color: dangXyLyColor,
+                               S.current.dang_xu_ly,
+                            data.soLuongDangXuLy?.toDouble() ?? 0,
+                              dangXyLyColor,
                             ),
                             ChartData(
-                              title: S.current.da_xu_ly,
-                              value: data.soLuongDaXuLy?.toDouble() ?? 0,
-                              color: daXuLyColor,
+                              S.current.da_xu_ly,
+                            data.soLuongDaXuLy?.toDouble() ?? 0,
+                              daXuLyColor,
                             ),
                             ChartData(
-                              title: S.current.cho_vao_so,
-                              value: data.soLuongChoVaoSo?.toDouble() ?? 0,
-                              color: choVaoSoColor,
+                            S.current.cho_vao_so,
+                             data.soLuongChoVaoSo?.toDouble() ?? 0,
+                               choVaoSoColor,
                             ),
                           ],
-                          onTap: (value) {},
+                          onTap: (value, key) {
+                            if (key != null) {
+                              _xuLyCubit.selectTrangThaiVBDen(key);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      IncomingDocumentScreenTablet(
+                                    startDate: _xuLyCubit.startDate.toString(),
+                                    title: S.current.danh_sach_van_ban_den,
+                                    endDate: _xuLyCubit.endDate.toString(),
+                                    type: TypeScreen.VAN_BAN_DEN,
+                                    maTrangThai: _xuLyCubit.maTrangThaiVBDen,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                         );
                       }
                       return const Padding(
@@ -147,31 +167,55 @@ class _WordProcessingStateWidgetState
                           paddingTop: 0,
                           chartData: [
                             ChartData(
-                              title: S.current.cho_trinh_ky,
-                              value: data.soLuongChoTrinhKy?.toDouble() ?? 0,
-                              color: choTrinhKyColor,
+                             S.current.cho_trinh_ky,
+                              data.soLuongChoTrinhKy?.toDouble() ?? 0,
+                             choTrinhKyColor,
                             ),
                             ChartData(
-                              title: S.current.cho_xu_ly,
-                              value: data.soLuongChoXuLy?.toDouble() ?? 0,
-                              color: choXuLyColor,
+                             S.current.cho_xu_ly,
+                              data.soLuongChoXuLy?.toDouble() ?? 0,
+                              choXuLyColor,
                             ),
                             ChartData(
-                              title: S.current.da_xu_ly,
-                              value: data.soLuongDaXuLy?.toDouble() ?? 0,
-                              color: daXuLyColor,
+                              S.current.da_xu_ly,
+                          data.soLuongDaXuLy?.toDouble() ?? 0,
+                             daXuLyColor,
                             ),
                             ChartData(
-                              title: S.current.cho_cap_so,
-                              value: data.soLuongChoCapSo?.toDouble() ?? 0,
-                              color: choCapSoColor,
+                              S.current.cho_cap_so,
+                             data.soLuongChoCapSo?.toDouble() ?? 0,
+                              choCapSoColor,
                             ),
                             ChartData(
-                              title: S.current.cho_ban_hanh,
-                              value: data.soLuongChoBanHanh?.toDouble() ?? 0,
-                              color: choBanHanhColor,
+                              S.current.cho_ban_hanh,
+                              data.soLuongChoBanHanh?.toDouble() ?? 0,
+                             choBanHanhColor,
                             )
                           ],
+                          onTap: (value, key) {
+                            if (key != null) {
+                              _xuLyCubit.selectTrangThaiVBDi(key);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      IncomingDocumentScreenDashBoardTablet(
+                                    startDate: _xuLyCubit.startDate.toString(),
+                                    endDate: _xuLyCubit.endDate.toString(),
+                                    title: S.current.danh_sach_van_ban_di,
+                                    trangThaiFilter: _xuLyCubit.trangThaiFilter,
+                                    isDanhSachChoTrinhKy:
+                                        _xuLyCubit.isDanhSachChoTrinhKy,
+                                    isDanhSachChoXuLy:
+                                        _xuLyCubit.isDanhSachChoXuLy,
+                                    isDanhSachDaXuLy:
+                                        _xuLyCubit.isDanhSachDaXuLy,
+                                    type: TypeScreen.VAN_BAN_DI,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                         );
                       }
                       return const Padding(

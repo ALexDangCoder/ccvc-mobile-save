@@ -6,6 +6,8 @@ class ApiConstants {
   static const int TIME_OUT = 30;
   static const String POST_DANH_SACH_LICH_HOP =
       '/vpdt/api/MeetingSchedule/calendar-list';
+  static const String POST_DANH_SACH_THONG_KE =
+      '/vpdt/api/Statistic/calendar-list-by-statistic';
   static const String GET_DASH_BOARD_LH =
       '/vpdt/api/MeetingSchedule/count-in-dashboard';
   static const String GET_LIST_TOKEN = '/market/coin-list';
@@ -184,7 +186,6 @@ class ApiConstants {
   static const BAO_CAO_LINH_VUC_KHAC =
       '/pakn/api/Dashboard/statistics-by-field';
   static const DON_VI_XU_LY = '/pakn/api/Dashboard/statistics-by-unit';
-
   static const SO_LUONG_BY_MONTH = '/api/NewsNetViews/tong_quan';
   static const TONG_QUAN_BAO_CAO_BCMXH = '/api/NewsNetViews/tong_quan';
   static const TIN_TONG_HOP_BAO_CAO_BCMXH =
@@ -203,6 +204,9 @@ class ApiConstants {
   static const THEM_Y_KIEN = '/vpdt/api/ScheduleOpinion/create';
   static const TIEN_TRINH_XU_LY = '/pakn/api/KienNghi/TienTrinhXulyPAKN';
   static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
+  static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
+  static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
+  static const DELETE_NOTIFY = '/api/Notification/delete';
 }
 
 class ImageConstants {

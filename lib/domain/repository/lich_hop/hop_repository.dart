@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
@@ -39,11 +40,9 @@ import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_g
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/them_y_kiem_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 
 mixin HopRepository {
   Future<Result<List<DashBoardThongKeModel>>> getDashBoardThongKe(
@@ -77,6 +76,10 @@ mixin HopRepository {
   );
 
   Future<Result<List<MenuModel>>> getDataMenu(String startTime, String endTime);
+
+  Future<Result<DanhSachLichHopModel>> postDanhSachThongKe(
+    DanhSachThongKeRequest body,
+  );
 
   Future<Result<DanhSachLichHopModel>> postDanhSachLichHop(
     DanhSachLichHopRequest body,

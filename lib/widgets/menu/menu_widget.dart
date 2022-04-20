@@ -23,6 +23,7 @@ class MenuWidget extends StatefulWidget {
   final Function(MenuModel model) onTapLanhDao;
   final MenuCalendarCubit cubit;
   final String title;
+  final bool visible;
 
   const MenuWidget({
     Key? key,
@@ -33,6 +34,7 @@ class MenuWidget extends StatefulWidget {
     required this.cubit,
     required this.streamDashBoard,
     required this.title,
+    this.visible = false,
   }) : super(key: key);
 
   @override
@@ -125,82 +127,87 @@ class _MenuWidgetState extends State<MenuWidget> {
                       );
                     },
                   ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: widget.listItem
-                            .map(
-                              (e) => StreamBuilder<DashBoardLichHopModel>(
-                                  stream: widget.streamDashBoard,
-                                  builder: (context, snapshot) {
-                                    final dataDashBoard = snapshot.data ??
-                                        DashBoardLichHopModel.empty();
-                                    return ContainerMenuWidget(
-                                      name: e.typeMenu.getTitleLichHop(),
-                                      icon: e.typeMenu.getIconMobile(),
-                                      type: e.type,
-                                      index: e.typeMenu.getIndexMenuLichHop(
-                                        dataDashBoard,
-                                      ),
-                                      childExpand: Column(
-                                        children: e.listWidget
-                                                ?.map(
-                                                  (e) => ContainerMenuWidget(
-                                                    icon: e.typeMenu
-                                                        .getIconMobile(),
-                                                    name: e.typeMenu ==
+                  if (widget.visible)
+                    Container()
+                  else
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: widget.listItem
+                              .map(
+                                (e) => StreamBuilder<DashBoardLichHopModel>(
+                                    stream: widget.streamDashBoard,
+                                    builder: (context, snapshot) {
+                                      final dataDashBoard = snapshot.data ??
+                                          DashBoardLichHopModel.empty();
+                                      return ContainerMenuWidget(
+                                        name: e.typeMenu.getTitleLichHop(),
+                                        icon: e.typeMenu.getIconMobile(),
+                                        type: e.type,
+                                        index: e.typeMenu.getIndexMenuLichHop(
+                                          dataDashBoard,
+                                        ),
+                                        childExpand: Column(
+                                          children: e.listWidget
+                                                  ?.map(
+                                                    (e) => ContainerMenuWidget(
+                                                      icon: e.typeMenu
+                                                          .getIconMobile(),
+                                                      name: e.typeMenu ==
+                                                              TypeCalendarMenu
+                                                                  .LichTheoLanhDao
+                                                          ? e.menuModel
+                                                                  ?.tenDonVi ??
+                                                              ''
+                                                          : e.typeMenu
+                                                              .getTitleLichHop(),
+                                                      index: e.typeMenu ==
+                                                              TypeCalendarMenu
+                                                                  .LichTheoLanhDao
+                                                          ? e.menuModel
+                                                                  ?.count ??
+                                                              0
+                                                          : e.typeMenu
+                                                              .getIndexMenuLichHop(
+                                                              dataDashBoard,
+                                                            ),
+                                                      isIcon: false,
+                                                      onTap: () {
+                                                        if (e.typeMenu ==
                                                             TypeCalendarMenu
-                                                                .LichTheoLanhDao
-                                                        ? e.menuModel
-                                                                ?.tenDonVi ??
-                                                            ''
-                                                        : e.typeMenu
-                                                            .getTitleLichHop(),
-                                                    index: e.typeMenu ==
-                                                            TypeCalendarMenu
-                                                                .LichTheoLanhDao
-                                                        ? e.menuModel?.count ??
-                                                            0
-                                                        : e.typeMenu
-                                                            .getIndexMenuLichHop(
-                                                            dataDashBoard,
-                                                          ),
-                                                    isIcon: false,
-                                                    onTap: () {
-                                                      if (e.typeMenu ==
-                                                          TypeCalendarMenu
-                                                              .LichTheoLanhDao) {
-                                                        widget.onTapLanhDao(
-                                                          e.menuModel ??
-                                                              MenuModel.empty(),
+                                                                .LichTheoLanhDao) {
+                                                          widget.onTapLanhDao(
+                                                            e.menuModel ??
+                                                                MenuModel
+                                                                    .empty(),
+                                                          );
+                                                        }
+                                                        Navigator.pop(
+                                                          context,
+                                                          e.typeMenu,
                                                         );
-                                                      }
-                                                      Navigator.pop(
-                                                        context,
-                                                        e.typeMenu,
-                                                      );
-                                                    },
-                                                  ),
-                                                )
-                                                .toList() ??
-                                            [],
-                                      ),
-                                      onTap: () {
-                                        if (e.typeMenu ==
-                                            TypeCalendarMenu.LichCuaToi) {
-                                          Navigator.pop(
-                                            context,
-                                            e.typeMenu,
-                                          );
-                                        }
-                                      },
-                                    );
-                                  }),
-                            )
-                            .toList(),
+                                                      },
+                                                    ),
+                                                  )
+                                                  .toList() ??
+                                              [],
+                                        ),
+                                        onTap: () {
+                                          if (e.typeMenu ==
+                                              TypeCalendarMenu.LichCuaToi) {
+                                            Navigator.pop(
+                                              context,
+                                              e.typeMenu,
+                                            );
+                                          }
+                                        },
+                                      );
+                                    }),
+                              )
+                              .toList(),
+                        ),
                       ),
-                    ),
-                  )
+                    )
                 ],
               ),
             ),
@@ -293,86 +300,91 @@ class _MenuWidgetState extends State<MenuWidget> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: widget.listItem
-                            .map(
-                              (e) => StreamBuilder<DashBoardLichHopModel>(
-                                  stream: widget.streamDashBoard,
-                                  builder: (context, snapshot) {
-                                    final dataDashBoard = snapshot.data ??
-                                        DashBoardLichHopModel.empty();
-                                    return ContainerMenuWidgetTablet(
-                                      name: e.typeMenu.getTitleLichHop(),
-                                      icon: e.typeMenu.getIconTablet(),
-                                      type: e.type,
-                                      index: e.typeMenu.getIndexMenuLichHop(
-                                        dataDashBoard,
-                                      ),
-                                      childExpand: Column(
-                                        children: e.listWidget
-                                                ?.map(
-                                                  (e) =>
-                                                      ContainerMenuWidgetTablet(
-                                                    icon: e.typeMenu
-                                                        .getIconMobile(),
-                                                    name: e.typeMenu ==
+                if (widget.visible)
+                  Container()
+                else
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: widget.listItem
+                              .map(
+                                (e) => StreamBuilder<DashBoardLichHopModel>(
+                                    stream: widget.streamDashBoard,
+                                    builder: (context, snapshot) {
+                                      final dataDashBoard = snapshot.data ??
+                                          DashBoardLichHopModel.empty();
+                                      return ContainerMenuWidgetTablet(
+                                        name: e.typeMenu.getTitleLichHop(),
+                                        icon: e.typeMenu.getIconTablet(),
+                                        type: e.type,
+                                        index: e.typeMenu.getIndexMenuLichHop(
+                                          dataDashBoard,
+                                        ),
+                                        childExpand: Column(
+                                          children: e.listWidget
+                                                  ?.map(
+                                                    (e) =>
+                                                        ContainerMenuWidgetTablet(
+                                                      icon: e.typeMenu
+                                                          .getIconMobile(),
+                                                      name: e.typeMenu ==
+                                                              TypeCalendarMenu
+                                                                  .LichTheoLanhDao
+                                                          ? e.menuModel
+                                                                  ?.tenDonVi ??
+                                                              ''
+                                                          : e.typeMenu
+                                                              .getTitleLichHop(),
+                                                      index: e.typeMenu ==
+                                                              TypeCalendarMenu
+                                                                  .LichTheoLanhDao
+                                                          ? e.menuModel
+                                                                  ?.count ??
+                                                              0
+                                                          : e.typeMenu
+                                                              .getIndexMenuLichHop(
+                                                              dataDashBoard,
+                                                            ),
+                                                      isIcon: false,
+                                                      onTap: () {
+                                                        if (e.typeMenu ==
                                                             TypeCalendarMenu
-                                                                .LichTheoLanhDao
-                                                        ? e.menuModel
-                                                                ?.tenDonVi ??
-                                                            ''
-                                                        : e.typeMenu
-                                                            .getTitleLichHop(),
-                                                    index: e.typeMenu ==
-                                                            TypeCalendarMenu
-                                                                .LichTheoLanhDao
-                                                        ? e.menuModel?.count ??
-                                                            0
-                                                        : e.typeMenu
-                                                            .getIndexMenuLichHop(
-                                                            dataDashBoard,
-                                                          ),
-                                                    isIcon: false,
-                                                    onTap: () {
-                                                      if (e.typeMenu ==
-                                                          TypeCalendarMenu
-                                                              .LichTheoLanhDao) {
-                                                        widget.onTapLanhDao(
-                                                          e.menuModel ??
-                                                              MenuModel.empty(),
+                                                                .LichTheoLanhDao) {
+                                                          widget.onTapLanhDao(
+                                                            e.menuModel ??
+                                                                MenuModel
+                                                                    .empty(),
+                                                          );
+                                                        }
+                                                        Navigator.pop(
+                                                          context,
+                                                          e.typeMenu,
                                                         );
-                                                      }
-                                                      Navigator.pop(
-                                                        context,
-                                                        e.typeMenu,
-                                                      );
-                                                    },
-                                                  ),
-                                                )
-                                                .toList() ??
-                                            [],
-                                      ),
-                                      onTap: () {
-                                        if (e.typeMenu ==
-                                            TypeCalendarMenu.LichCuaToi) {
-                                          Navigator.pop(
-                                            context,
-                                            e.typeMenu,
-                                          );
-                                        }
-                                      },
-                                    );
-                                  }),
-                            )
-                            .toList(),
+                                                      },
+                                                    ),
+                                                  )
+                                                  .toList() ??
+                                              [],
+                                        ),
+                                        onTap: () {
+                                          if (e.typeMenu ==
+                                              TypeCalendarMenu.LichCuaToi) {
+                                            Navigator.pop(
+                                              context,
+                                              e.typeMenu,
+                                            );
+                                          }
+                                        },
+                                      );
+                                    }),
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
-                  ),
-                )
+                  )
               ],
             );
           },

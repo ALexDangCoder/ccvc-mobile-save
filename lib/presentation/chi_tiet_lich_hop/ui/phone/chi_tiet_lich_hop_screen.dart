@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/utils/provider_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
@@ -22,6 +21,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_wid
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
@@ -135,7 +135,9 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   showBottomSheetCustom(
                     context,
                     title: S.current.phan_cong_thu_ky,
-                    child: const PhanCongThuKyWidget(),
+                    child: PhanCongThuKyWidget(
+                      cubit: cubit,
+                    ),
                   );
                 },
               ),
@@ -172,7 +174,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
             child: ExpandGroup(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await cubit.initData(id: widget.id, danhSachYKien: true);
+                  await cubit.initData(id: widget.id);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -255,8 +257,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                         id: widget.id,
                       ),
                       BieuQuyetWidget(id: widget.id),
-                      KetLuanHopWidget(cubit: cubit, id: widget.id),
-                      YKienCuocHopWidget(id: widget.id)
+                      KetLuanHopWidget(
+                        cubit: cubit,
+                        id: widget.id,
+                      ),
+                      YKienCuocHopWidget(
+                        id: widget.id,
+                        cubit: cubit,
+                      )
                     ],
                   ),
                 ),

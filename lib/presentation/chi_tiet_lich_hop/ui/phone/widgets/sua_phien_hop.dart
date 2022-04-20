@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
@@ -43,9 +44,11 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
   void initState() {
     super.initState();
     tenPhienHop.text = widget.phienHopModel.tieuDe ?? '';
-    tenPhienHop.text = widget.phienHopModel.tieuDe ?? '';
-    nguoiChuTri.text = widget.phienHopModel.hoTen ?? '';
+    ngay.text = widget.phienHopModel.thoiGianBatDau ?? '';
     noiDung.text = widget.phienHopModel.noiDung ?? '';
+    print(
+        "<<<<<<<<<<<<<<<<${DateTime.parse(ngay.text).formatApiDDMMYYYYSlash}");
+    print("<<<<<<<<<<<<<<<<${DateTime.now().toString()}");
   }
 
   @override
@@ -97,6 +100,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   isObligatory: true,
                   child: CustomSelectDate(
                     value: DateTime.now().toString(),
+                    // value: DateTime.parse(ngay.text).formatApiDDMMYYYYSlash,
                     onSelectDate: (value) {
                       widget.cubit.taoPhienHopRepuest.thoiGian_BatDau =
                           value.toString();
@@ -132,6 +136,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   title: S.current.noi_dung_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
+                    controller: noiDung,
                     maxLine: 5,
                     onChange: (value) {
                       widget.cubit.taoPhienHopRepuest.noiDung = value;

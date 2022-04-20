@@ -121,7 +121,7 @@ class _MoiNguoiThamGiaWidgetTabletState
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       StreamBuilder<bool>(
-                        stream: widget.cubit.checkBoxCheckBool,
+                        stream: widget.cubit.checkBoxCheck,
                         builder: (context, snapshot) {
                           return CustomCheckBox(
                             title: '',

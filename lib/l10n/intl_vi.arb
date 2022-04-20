@@ -848,6 +848,8 @@
   "bieu_do_theo_nguon": "Biểu đồ thống kê theo nguồn",
   "thong_ke_sac_thai": "thống kê theo sắc thái",
   "cap_nhat_mk_thanh_cong": "Cập nhật mật khẩu thành công",
+  "cho_y_kien_thanh_cong": "Cho ý kiến thành công",
+  "cho_y_kien_that_bai": "Cho ý kiến thất bại",
   "thoi_gian_theo_tac": "Thời gian thao tác",
   "chuyen_vien_xu_ly": "Chuyên viên xử lý",
   "so_hieu_van_ban": "Số hiệu văn bản",
@@ -856,7 +858,8 @@
   "chuyen_vien": "chuyên viên",
   "hien_tai_ban_chua_co_thong_bao": "Hiện tại bạn chưa có thông báo!",
   "thong_bao_quan_trong": "Thông báo quan trọng",
-  "sua_phien_hop": "Sửa phiên họp"
+  "sua_phien_hop": "Sửa phiên họp",
+  "lap_den_ngay": "Lặp đến ngày"
 }
 
 

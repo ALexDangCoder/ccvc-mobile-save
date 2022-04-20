@@ -12,16 +12,20 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y__kien_nguoi_dan_item.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/table_calendar/table_calendar_widget.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ThongTinChungYKNDScreen extends StatefulWidget {
-  const ThongTinChungYKNDScreen({Key? key}) : super(key: key);
+  final  YKienNguoiDanCubitt cubit;
+  const ThongTinChungYKNDScreen({Key? key,required this.cubit}) : super(key: key);
 
   @override
   _ThongTinChungYKNDScreenState createState() =>
@@ -29,23 +33,46 @@ class ThongTinChungYKNDScreen extends StatefulWidget {
 }
 
 class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
-  YKienNguoiDanCubitt cubit = YKienNguoiDanCubitt();
 
   @override
   void initState() {
     super.initState();
-    cubit.initTimeRange();
-    cubit.callApi();
+    widget.cubit.initTimeRange();
+    widget.cubit.callApi();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppBar(
+        title: S.current.thong_tin_chung,
+        leadingIcon: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(
+            ImageAssets.icBack,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              DrawerSlide.navigatorSlide(
+                context: context,
+                screen: YKienNguoiDanMenu(
+                  cubit: widget.cubit,
+                ),
+              );
+            },
+            icon: SvgPicture.asset(ImageAssets.icMenuCalender),
+          )
+        ],
+      ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
         error: AppException('1', S.current.something_went_wrong),
-        stream: cubit.stateStream,
+        stream: widget.cubit.stateStream,
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -76,7 +103,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         ),
                         height: 88,
                         child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
-                          stream: cubit.listItemDashboard,
+                          stream: widget.cubit.listItemDashboard,
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? [];
                             return ListView.builder(
@@ -110,7 +137,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         StreamBuilder<List<ChartData>>(
-                          stream: cubit.chartTinhHinhXuLy,
+                          stream: widget.cubit.chartTinhHinhXuLy,
                           builder: (context, snapshot) {
                             final listDataChart = snapshot.data ?? [];
                             return PieChart(
@@ -122,7 +149,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         ),
                         Container(height: 20),
                         StreamBuilder<DocumentDashboardModel>(
-                          stream: cubit.statusTinhHinhXuLyData,
+                          stream: widget.cubit.statusTinhHinhXuLyData,
                           builder: (context, snapshot) {
                             final data =
                                 snapshot.data ?? DocumentDashboardModel();
@@ -177,7 +204,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     child: Column(
                       children: [
                         StreamBuilder<List<ChartData>>(
-                          stream: cubit.chartPhanLoai,
+                          stream: widget.cubit.chartPhanLoai,
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? [];
                             return PieChart(
@@ -192,7 +219,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                           height: 20,
                         ),
                         Column(
-                          children: cubit.listIndicator.map((e) {
+                          children: widget.cubit.listIndicator.map((e) {
                             return IndicatorChart(itemIndicator: e);
                           }).toList(),
                         ),
@@ -226,8 +253,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                   context,
                                   PageRouteBuilder(
                                     pageBuilder: (_, __, ___) => DanhSachYKND(
-                                      startDate: cubit.startDate,
-                                      endDate: cubit.endDate,
+                                      startDate: widget.cubit.startDate,
+                                      endDate: widget.cubit.endDate,
                                     ),
                                   ),
                                 );
@@ -238,7 +265,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         ),
                         const SizedBox(height: 16.0),
                         StreamBuilder<List<YKienNguoiDanModel>>(
-                          stream: cubit.danhSachYKienNguoiDan,
+                          stream: widget.cubit.danhSachYKienNguoiDan,
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? [];
                             return ListView.builder(
@@ -279,17 +306,17 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             TableCalendarWidget(
               onChangeRange:
                   (DateTime? start, DateTime? end, DateTime? focusedDay) {
-                cubit.startDate = start?.toStringWithListFormat ??
+                widget.cubit.startDate = start?.toStringWithListFormat ??
                     DateTime.now().toStringWithListFormat;
-                cubit.endDate = end?.toStringWithListFormat ??
+                widget.cubit.endDate = end?.toStringWithListFormat ??
                     DateTime.now().toStringWithListFormat;
-                cubit.callApi();
+                widget.cubit.callApi();
               },
               onChange:
                   (DateTime startDate, DateTime endDate, DateTime selectDay) {
-                cubit.startDate = startDate.toStringWithListFormat;
-                cubit.endDate = endDate.toStringWithListFormat;
-                cubit.callApi();
+                widget.cubit.startDate = startDate.toStringWithListFormat;
+                widget.cubit.endDate = endDate.toStringWithListFormat;
+                widget.cubit.callApi();
               },
             ),
           ],

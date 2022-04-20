@@ -23,15 +23,6 @@ class ThemYKienWidget extends StatefulWidget {
 
 class _ThemYKienWidgetState extends State<ThemYKienWidget> {
   final TextEditingController yKien = TextEditingController();
-  late String getPhienHopId;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getPhienHopId = '';
-    widget.cubit.initData(danhSachPhienHopYkien: true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +39,13 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
             widget.cubit.themYKien(
               yKien: yKien.text,
               idLichHop: widget.id,
-              phienHopId: getPhienHopId,
+              phienHopId: widget.cubit.getPhienHopId,
               scheduleOpinionId: '',
             );
-            widget.cubit.getDanhSachYKien(widget.id, getPhienHopId);
+            widget.cubit.getDanhSachYKien(
+              widget.id,
+              widget.cubit.getPhienHopId,
+            );
             Navigator.pop(context);
           },
         ),
@@ -83,9 +77,11 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
                     if (value == 0) {
                       widget.cubit.getDanhSachYKien(widget.id, '');
                     } else {
-                      widget.cubit
-                          .getDanhSachYKien(widget.id, data[value - 1].key);
-                      getPhienHopId = data[value - 1].key ?? '';
+                      widget.cubit.getDanhSachYKien(
+                        widget.id,
+                        data[value - 1].key ?? '',
+                      );
+                      widget.cubit.getPhienHopId = data[value - 1].key ?? '';
                     }
                   },
                 );

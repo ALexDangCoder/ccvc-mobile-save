@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -38,7 +39,7 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
                 style: textNormalCustom(color: infoColor),
               ),
             Sb(8),
-            SelectThuKyWidget(detailMeetCalenderCubit: widget.cubit),
+            SelectThuKyWidget(cubit: widget.cubit),
             Sb(36),
             Padding(
               padding: APP_DEVICE == DeviceType.MOBILE
@@ -68,11 +69,11 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
 }
 
 class SelectThuKyWidget extends StatefulWidget {
-  final DetailMeetCalenderCubit detailMeetCalenderCubit;
+  final DetailMeetCalenderCubit cubit;
 
   const SelectThuKyWidget({
     Key? key,
-    required this.detailMeetCalenderCubit,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -85,19 +86,16 @@ class _SelectThuKyWidgetState extends State<SelectThuKyWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<String>(
-      stream: widget.detailMeetCalenderCubit.chonThuKy,
+      stream: widget.cubit.chonThuKy,
       builder: (context, snapshot) {
         return SelectThuKyCell(
           controller: controller,
-          listSelect: widget.detailMeetCalenderCubit.thuKy,
-          onSubmitted: (value) {
-            widget.detailMeetCalenderCubit.addValueToList(value);
-            controller.text = '';
-          },
+          listSelect: widget.cubit.thuKy,
           onDelete: (value) {
-            widget.detailMeetCalenderCubit.removeTag(value);
+            widget.cubit.removeThuKy(value);
             setState(() {});
           },
+          cubit: widget.cubit,
         );
       },
     );
@@ -105,17 +103,17 @@ class _SelectThuKyWidgetState extends State<SelectThuKyWidget> {
 }
 
 class SelectThuKyCell extends StatelessWidget {
+  final DetailMeetCalenderCubit cubit;
   final List<String> listSelect;
   final Function(String) onDelete;
   final TextEditingController controller;
-  final Function(String) onSubmitted;
 
   const SelectThuKyCell({
     Key? key,
     required this.listSelect,
     required this.onDelete,
     required this.controller,
-    required this.onSubmitted,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -146,20 +144,11 @@ class SelectThuKyCell extends StatelessWidget {
         runSpacing: 10,
         children: List.generate(listSelect.length + 1, (index) {
           if (index == listSelect.length) {
-            return Container(
-              width: 200,
-              color: Colors.transparent,
-              child: TextField(
-                onSubmitted: onSubmitted,
-                controller: controller,
-                style: textNormal(textTitle, 14.0.textScale()),
-                decoration: const InputDecoration(
-                  isDense: true,
-                  contentPadding: EdgeInsets.symmetric(vertical: 5),
-                  isCollapsed: true,
-                  border: InputBorder.none,
-                ),
-              ),
+            return CustomDropDown(
+              items: cubit.dataDropdown,
+              onSelectItem: (value) {
+                cubit.addThuKyToList(cubit.dataDropdown[index]);
+              },
             );
           }
           final data = listSelect[index];

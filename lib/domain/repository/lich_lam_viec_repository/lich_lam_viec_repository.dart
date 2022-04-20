@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_r
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/cancel_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -16,6 +17,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_vie
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/danh_sach_lich_lam_viec.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
@@ -131,4 +133,12 @@ mixin LichLamViecRepository {
   );
 
   Future<Result<ThemYKienModel>> themYKien(ThemYKienRequest themYKienRequest);
+
+  Future<Result<DaTaTinhSelectModel>> tinhSelect(
+      TinhSelectRequest tinhSelectRequest);
+
+  Future<Result<DaTaHuyenSelectModel>> huyenSelect(
+      HuyenSelectRequest huyenSelectRequest);
+
+  Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest);
 }

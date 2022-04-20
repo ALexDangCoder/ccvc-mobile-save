@@ -204,8 +204,6 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                       userName:
                                           listData[index].nguoiSoanThao ?? '',
                                       status: listData[index].doKhan ?? '',
-                                      userImage:
-                                          'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                                     ),
                                   );
                                 },
@@ -291,8 +289,6 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                       userName:
                                           listData[index].nguoiSoanThao ?? '',
                                       status: listData[index].doKhan ?? '',
-                                      userImage:
-                                          'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                                     ),
                                   );
                                 },

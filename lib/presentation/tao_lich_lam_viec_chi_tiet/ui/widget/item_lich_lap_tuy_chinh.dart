@@ -28,7 +28,7 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0,right: 14.0,top: 14.0),
+      padding: const EdgeInsets.only(left: 30.0,right: 14.0,top: 14.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: widget.taoLichLamViecCubit.listDayOffWeek
@@ -56,7 +56,7 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
 
 Widget itemLichLapTuyChinh(bool isCheck, String title) {
   return Container(
-      margin: EdgeInsets.only(left: 14.0),
+     // margin: EdgeInsets.only(left: 14.0),
       height: 32.0,
       width: 32.0,
       decoration: BoxDecoration(

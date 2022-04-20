@@ -62,8 +62,6 @@ class _ListVBDenState extends State<ListVBDen> {
                       dateTime: widget.list[index].ngayDen ?? '',
                       userName: widget.list[index].nguoiSoanThao ?? '',
                       status: widget.list[index].doKhan ?? '',
-                      userImage:
-                          'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                       index: index,
                     ),
                   );

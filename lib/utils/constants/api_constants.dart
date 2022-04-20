@@ -207,6 +207,9 @@ class ApiConstants {
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
   static const DELETE_NOTIFY = '/api/Notification/delete';
+  static const TINH_SELECT = '/vpdt/api/Country/province-list';
+  static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
+  static const XA_SELECT = '/vpdt/api/Country/wards-list';
 }
 
 class ImageConstants {

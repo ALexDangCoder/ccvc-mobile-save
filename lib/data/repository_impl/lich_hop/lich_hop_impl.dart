@@ -183,8 +183,9 @@ class HopRepositoryImpl implements HopRepository {
   @override
   Future<Result<ChiTietLichHopModel>> getChiTietLichHop(String id) {
     return runCatchingAsync<ChiTietLichHopResponse, ChiTietLichHopModel>(
-        () => _hopServices.getChiTietLichHop(id),
-        (res) => res.data?.toDomain() ?? ChiTietLichHopModel(),);
+      () => _hopServices.getChiTietLichHop(id),
+      (res) => res.data?.toDomain() ?? ChiTietLichHopModel(),
+    );
   }
 
   @override
@@ -227,7 +228,8 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ThongTinPhongHopModel?>> getListThongTinPhongHop(
-      String idLichHop,) {
+    String idLichHop,
+  ) {
     return runCatchingAsync<ThongTinPhongHopResponse, ThongTinPhongHopModel?>(
       () => _hopServices.getDanhSachPhongHop(idLichHop),
       (res) => res.data?.toDomain(),
@@ -546,7 +548,6 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
-
   @override
   Future<Result<List<DanhSachLoaiNhiemVuLichHopModel>>>
       getDanhSachLoaiNhiemVu() {
@@ -575,26 +576,5 @@ class HopRepositoryImpl implements HopRepository {
       () => _hopServices.postDataThongKe(body),
       (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),
     );
-  }
-
-
-  @override
-  Future<Result<List<CalendarMeetingModel>>> getNhiemVuCHiTietHop(
-      NhiemVuChiTietHopRequest nhiemVuChiTietHopRequest,
-      ) {
-    return runCatchingAsync<ListNhiemVuChiTietLichHopResponse,
-        List<CalendarMeetingModel>>(
-          () => _hopServices.getNhiemVuCHiTietHop(nhiemVuChiTietHopRequest),
-          (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? [],
-    );
-  }
-
-  @override
-  Future<Result<DanhSachLichHopModel>> postDanhSachThongKe(
-      DanhSachThongKeRequest body,
-      ) {
-    return runCatchingAsync<DanhSachLichHopResponse, DanhSachLichHopModel>(
-      () => _hopServices.postDataThongKe(body),
-      (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),);
   }
 }

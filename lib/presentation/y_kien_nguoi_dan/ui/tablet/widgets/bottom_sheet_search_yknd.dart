@@ -4,10 +4,12 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widgets/tree_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,14 +21,15 @@ class BottomSheetSearchYKND extends StatefulWidget {
 }
 
 class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
-  final ThanhPhanThamGiaCubit _cubit = ThanhPhanThamGiaCubit();
-   @override
+  final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
+  final ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
+  @override
   void initState() {
     super.initState();
-    _cubit.getTree();
-    // _cubit.listPeopleThamGia.listen((event) {
-    //   widget.onChange(event);
-    // });
+    cubit.getTree();
+    cubit.getTreeDonVi.listen((event) {
+      _themDonViCubit.getTreeDonVi(event);
+    });
   }
 
   @override
@@ -37,7 +40,7 @@ class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            S.current.don_vi,
+            S.current.danh_sach_don_vi_tham_gia,
             style: textNormalCustom(
               fontSize: 14,
               color: titleItemEdit,
@@ -47,36 +50,31 @@ class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
           const SizedBox(
             height: 8,
           ),
-          StreamBuilder<List<DonViModel>>(
-            stream: _cubit.listPeopleThamGia,
+          StreamBuilder<List<Node<DonViModel>>>(
+            stream: _themDonViCubit.getTree,
             builder: (context, snapshot) {
-              return ThemDonViWidget(
-                cubit: _cubit,
-                listSelectNode: snapshot.data ?? [],
-                onChange: (value) {
-                  _cubit.addPeopleThamGia(
-                    value.map((e) => e.value).toList(),
-                  );
-                },
+              final data = snapshot.data ?? <Node<DonViModel>>[];
+              if (data.isNotEmpty) {
+                return ListView.builder(
+                  keyboardDismissBehavior: isMobile()
+                      ? ScrollViewKeyboardDismissBehavior.onDrag
+                      : ScrollViewKeyboardDismissBehavior.manual,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return TreeViewWidget(
+                      themDonViCubit: _themDonViCubit,
+                      node: data[index],
+                    );
+                  },
+                );
+              }
+              return Column(
+                children: const [
+                  NodataWidget(),
+                ],
               );
             },
           ),
-          // CustomDropDown(
-          //   paddingLeft: 16,
-          //   hint: Text(
-          //     S.current.nhap_ten_don_vi,
-          //     style: textNormalCustom(
-          //       fontSize: 14,
-          //       color: borderCaneder,
-          //       fontWeight: FontWeight.w400,
-          //     ),
-          //   ),
-          //   items: [
-          //     S.current.trung_binh,
-          //     S.current.dat,
-          //     S.current.khong_dat,
-          //   ],
-          // ),
           const SizedBox(
             height: 20,
           ),

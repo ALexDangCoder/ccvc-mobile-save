@@ -68,7 +68,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<ThongTinYKienModel>> thongTingNguoiDan(
-      String donViId, String fromDate, String toDate) {
+      String donViId, String fromDate, String toDate,) {
     return runCatchingAsync<ThongTinYKienNguoiDanResponse, ThongTinYKienModel>(
       () => _yKienNguoIDanService.getThongTinYKienNguoiDan(
         donViId,
@@ -86,7 +86,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       int pageSize,
       int pageNumber,
       String userId,
-      String donViId) {
+      String donViId,) {
     return runCatchingAsync<DanhSachYKienNguoiDanResponse,
         DanhSachYKienNguoiDan>(
       () => _yKienNguoIDanService.getDanhSachYKienNguoiDan(
@@ -103,7 +103,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<ChiTietYKNDDataModel>> chiTietYKienNguoiDan(
-      String kienNghiId, String taskId) {
+      String kienNghiId, String taskId,) {
     return runCatchingAsync<ChiTietKienNghiResponse, ChiTietYKNDDataModel>(
       () => _yKienNguoIDanService.chiTietYKienNguoiDan(
         ChiTietKienNghiRequest(
@@ -123,7 +123,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       int pageNumber,
       String tuKhoa,
       String userId,
-      String donViId) {
+      String donViId,) {
     return runCatchingAsync<SearchYKienNguoiDanResponse,
         List<YKienNguoiDanModel>>(
       () => _yKienNguoIDanService.searchDanhSachYKienNguoiDan(
@@ -141,28 +141,30 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<DanhSachKetQuaYKXLModel>> getDanhSachYKienPAKN(
-      String KienNghiId, int type) {
+      String kienNghiId, int type,) {
     return runCatchingAsync<DanhSachKetQuaYKXLModelResponse,
             DanhSachKetQuaYKXLModel>(
         () => _yKienNguoIDanService.getDanhSachYKienPAKN(
               DanhSachYKienPAKNRequest(
-                kienNghiId: KienNghiId,
+                kienNghiId: kienNghiId,
                 type: type,
               ),
             ),
-        (res) => res.toModel());
+        (res) => res.toModel(),);
   }
 
   @override
   Future<Result<ThongKeYKNDModel>> baoCaoYKienNguoiDan(
     String startDate,
-    String endDate,
-  ) {
+    String endDate, {
+    List<String>? listDonVi,
+  }) {
     return runCatchingAsync<BaoCaoYKNDResponse, ThongKeYKNDModel>(
       () => _yKienNguoIDanService.getBaoCaoYKND(
         BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
+          donViXuLy: listDonVi,
         ),
       ),
       (res) => res.toDomain(),
@@ -171,13 +173,17 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<DashBoardBaoCaoYKNDModel>> dashBoardBaoCaoYKND(
-      String startDate, String endDate) {
+    String startDate,
+    String endDate, {
+    List<String>? listDonVi,
+  }) {
     return runCatchingAsync<DashBoardBaoCaoYKNDResponse,
         DashBoardBaoCaoYKNDModel>(
       () => _yKienNguoIDanService.getDashBoardBaoCaoYKND(
-        DashBoardBaoCaoYKNDRequest(
+        BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
+          donViXuLy: listDonVi,
         ),
       ),
       (res) => res.toDomain(),
@@ -187,13 +193,15 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   @override
   Future<Result<ChartLinhVucKhacModel>> chartLinhVucKhac(
     String startDate,
-    String endDate,
-  ) {
+    String endDate, {
+    List<String>? listDonVi,
+  }) {
     return runCatchingAsync<LinhVucKhacResponse, ChartLinhVucKhacModel>(
       () => _yKienNguoIDanService.getDashBoardLinhVucKhac(
-        LinhVucKhacRequest(
+        BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
+          donViXuLy: listDonVi,
         ),
       ),
       (res) => res.toDomain(),
@@ -201,12 +209,17 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   }
 
   @override
-  Future<Result<ChartDonViModel>> chartDonVi(String startDate, String endDate) {
+  Future<Result<ChartDonViModel>> chartDonVi(
+    String startDate,
+    String endDate, {
+    List<String>? listDonVi,
+  }) {
     return runCatchingAsync<DonViXuLyResponse, ChartDonViModel>(
       () => _yKienNguoIDanService.getDashBoardDonViXuLy(
-        DonViXuLyRequest(
+        BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
+          donViXuLy: listDonVi,
         ),
       ),
       (res) => res.toDomain(),
@@ -215,12 +228,16 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<ChartYKNDByMonthModel>> chartSoLuongByMonth(
-      String startDate, String endDate) {
+    String startDate,
+    String endDate, {
+    List<String>? listDonVi,
+  }) {
     return runCatchingAsync<SoLuongYKNDBtMonthResponse, ChartYKNDByMonthModel>(
       () => _yKienNguoIDanService.getDashBoardSoLuongYKND(
-        SoLuongByMonthRequest(
+        BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
+          donViXuLy: listDonVi,
         ),
       ),
       (res) => res.toDomain(),
@@ -239,7 +256,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<List<KetQuaXuLyModel>>> ketQuaXuLy(
-      String kienNghiId, String taskId) {
+      String kienNghiId, String taskId,) {
     return runCatchingAsync<KetQuaXuLyResponse, List<KetQuaXuLyModel>>(
       () => _yKienNguoIDanService.getKetQuaXuLyYKND(
         kienNghiId,

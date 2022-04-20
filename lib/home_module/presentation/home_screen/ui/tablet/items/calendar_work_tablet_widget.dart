@@ -1,3 +1,6 @@
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:flutter/material.dart';
 
@@ -81,14 +84,27 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChiTietLamViecTablet(
-                                id: result.id,
+                          if(result.screenTypeMetting == ScreenTypeMetting.LICH_LAM_VIEC) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ChiTietLamViecTablet(
+                                      id: result.id,
+                                    ),
                               ),
-                            ),
-                          );
+                            );
+                          }else{
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailMeetCalenderTablet(
+                                      id: result.id,
+                                    ),
+                              ),
+                            );
+                          }
                         },
                         child: ContainerInfoWidget(
                           status: result.codeStatus.getText(),

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -10,7 +11,7 @@ class PieChart extends StatelessWidget {
   final List<ChartData> chartData;
   final String title;
   final double paddingTop;
-  final Function(int)? onTap;
+  final Function(int,SelectKey?)? onTap;
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
   final bool isThongKeLichHop;
@@ -66,7 +67,9 @@ class PieChart extends StatelessWidget {
                             percent(data.value),
                         onPointTap: (value) {
                           if (onTap != null) {
-                            onTap!(value.pointIndex ?? 0);
+                            final key = chartData[value.pointIndex ?? 0];
+
+                            onTap!(value.pointIndex ?? 0,key.key);
                           } else {}
                         },
                         dataLabelSettings: isThongKeLichHop
@@ -101,7 +104,7 @@ class PieChart extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       if (onTap != null) {
-                        onTap!(index);
+                        onTap!(index,chartData[index].key);
                       } else {}
                     },
                     child: Row(
@@ -152,9 +155,8 @@ class PieChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData({this.id ,required this.title, required this.value, required this.color});
-
-  final String? id;
+  ChartData(this.title, this.value, this.color, [this.key]);
+  final SelectKey? key;
   final String title;
   final double value;
   final Color color;

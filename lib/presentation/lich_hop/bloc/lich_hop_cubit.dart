@@ -20,7 +20,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/meeting_schedule.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
-import 'package:ccvc_mobile/home_module/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/menu/item_state_lich_duoc_moi.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/container_menu_widget.dart';
@@ -30,6 +29,7 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.d
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -52,6 +52,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   List<ItemThongBaoModelMyCalender> listLanhDaoLichHop = [];
   String idDonViLanhDao = '';
   String titleAppbar = '';
+  int indexThongKe = 0;
   String idThongKe = '';
   BehaviorSubject<List<bool>> selectTypeCalendarSubject =
       BehaviorSubject.seeded([true, false, false]);
@@ -201,13 +202,13 @@ class LichHopCubit extends BaseCubit<LichHopState> {
         for (var i in value) {
           dataCoCauLichHop.add(
             ChartData(
-              id: i.id,
-              title: i.name ?? '',
-              value: i.quantities?.toDouble() ?? 0,
-              color: i.color ?? Colors.white,
+              i.name ?? '',
+              i.quantities?.toDouble() ?? 0,
+              i.color ?? Colors.white,
             ),
           );
         }
+        idThongKe = value[indexThongKe].id ?? '';
         coCauLichHopSubject.add(dataCoCauLichHop);
       },
       error: (error) {},
@@ -433,7 +434,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     page = 1;
 
     if (isListThongKeSubject.value) {
-      postDanhSachThongKe(idThongKe);
+      postDanhSachThongKe();
       getDashboard();
       postEventsCalendar();
     } else {
@@ -457,7 +458,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     listDSLH.clear();
     page = 1;
     if (isListThongKeSubject.value) {
-      postDanhSachThongKe(idThongKe);
+      postDanhSachThongKe();
       getDashboard();
       postEventsCalendar();
     } else {
@@ -479,7 +480,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     listDSLH.clear();
     page = 1;
     if (isListThongKeSubject.value) {
-      postDanhSachThongKe(idThongKe);
+      postDanhSachThongKe();
       getDashboard();
       postEventsCalendar();
     } else {
@@ -494,7 +495,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     stateCalendarSubject.add(CalendarController());
   }
 
-  Future<void> postDanhSachThongKe(String id) async {
+  Future<void> postDanhSachThongKe() async {
     showLoading();
     final result = await hopRepo.postDanhSachThongKe(
       DanhSachThongKeRequest(
@@ -502,7 +503,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
         dateTo: endDate.formatApiDDMMYYYYSlash,
         pageIndex: page,
         pageSize: 10,
-        typeCalendarId: id,
+        typeCalendarId: idThongKe,
       ),
     );
     result.when(
@@ -589,7 +590,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   BehaviorSubject<List<TaoPhienHopModel>> themPhienSubject = BehaviorSubject();
   List<TaoPhienHopModel> listThemPhien = [];
 
-  Future<void> themPhemHop({
+  Future<void> themPhienHop({
     required String canBoId,
     required String donViId,
     required String lichHopId,
@@ -602,17 +603,19 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     required List<FilesRepuest> file,
   }) async {
     showLoading();
-    final TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest(
-        canBoId: canBoId,
-        donViId: donViId,
-        thoiGian_BatDau: thoiGian_BatDau,
-        thoiGian_KetThuc: thoiGian_KetThuc,
-        noiDung: noiDung,
-        tieuDe: tieuDe,
-        hoTen: hoTen,
-        IsMultipe: IsMultipe,
-        file: file);
-    final result = await hopRepo.getThemPhienHop(lichHopId, taoPhienHopRepuest);
+
+    final result = await hopRepo.getThemPhienHop(
+      lichHopId,
+      canBoId,
+      donViId,
+      thoiGian_BatDau,
+      thoiGian_KetThuc,
+      noiDung,
+      tieuDe,
+      hoTen,
+      IsMultipe,
+      file,
+    );
 
     result.when(
       success: (value) {

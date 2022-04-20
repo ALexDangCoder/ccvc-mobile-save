@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -45,11 +44,13 @@ class _ThemDonViPhoiHopKhacWidgetState
         title: S.current.thong_tin_khach_moi,
       );
     } else {
-      showDiaLogTablet(context,
-          title: S.current.thong_tin_khach_moi,
-          isBottomShow: false,
-          child: const ThemThongTinKhachMoiScreen(),
-          funcBtnOk: () {});
+      showDiaLogTablet(
+        context,
+        title: S.current.thong_tin_khach_moi,
+        isBottomShow: false,
+        child: const ThemThongTinKhachMoiScreen(),
+        funcBtnOk: () {},
+      );
     }
   }
 }
@@ -84,6 +85,7 @@ class _ThemDonViPhoiHopKhacScreenState
             },
             onPressed2: () {
               if (_keyFormGroup.currentState!.validator()) {
+
                 Navigator.pop(context);
               }
             },
@@ -131,7 +133,8 @@ class _ThemDonViPhoiHopKhacScreenState
                             width: 20,
                             height: 20,
                             child: Center(
-                                child: SvgPicture.asset(ImageAssets.ic_email)),
+                              child: SvgPicture.asset(ImageAssets.ic_email),
+                            ),
                           ),
                           validator: (value) {
                             return (value ?? '').checkEmail();
@@ -146,7 +149,8 @@ class _ThemDonViPhoiHopKhacScreenState
                             width: 20,
                             height: 20,
                             child: Center(
-                                child: SvgPicture.asset(ImageAssets.icPhone)),
+                              child: SvgPicture.asset(ImageAssets.icPhone),
+                            ),
                           ),
                           validator: (value) {
                             return (value ?? '').checkSdt();

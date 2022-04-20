@@ -1,6 +1,6 @@
-import 'package:ccvc_mobile/home_module/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
+import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -31,8 +31,8 @@ class CoCauLichHopWidget extends StatelessWidget {
               cubit.chooseTypeList(
                 Type_Choose_Option_List.DANG_LIST,
               );
-              cubit.idThongKe = data[value].id ?? '';
-              cubit.postDanhSachThongKe(data[value].id ?? '');
+              cubit.indexThongKe = value;
+              cubit.postDanhSachThongKe();
               cubit.isListThongKeSubject.add(true);
             },
             isThongKeLichHop: false,

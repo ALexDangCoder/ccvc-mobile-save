@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/document_model.dart';
 
 class ListYKienNguoiDanResponse {
@@ -125,10 +123,11 @@ class DanhSachKetQua {
   }
 
   DocumentModel toDomain() => DocumentModel(
-        kyHieu: soPAKN ?? '',
-        status: 'Quá Hạn',
-        title: tieuDe?.trim() ?? '',
-        code: '',
-        noiGui: diaChi ?? '',
-      );
+      kyHieu: soPAKN ?? '',
+      status: 'Quá Hạn',
+      title: tieuDe?.trim() ?? '',
+      code: '',
+      noiGui: diaChi ?? '',
+      taskId: taskId ?? '',
+      id: id ?? '');
 }

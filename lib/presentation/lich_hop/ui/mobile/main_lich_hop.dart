@@ -387,9 +387,10 @@ class _MainLichHopState extends State<MainLichHop> {
                                                             itemCount:
                                                                 listItemSchedule
                                                                     .length,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    index) {
+                                                            itemBuilder: (
+                                                              context,
+                                                              index,
+                                                            ) {
                                                               return CustomItemCalenderWork(
                                                                 image: cubit
                                                                         .listImageLichHopCuaToi[
@@ -416,17 +417,18 @@ class _MainLichHopState extends State<MainLichHop> {
                               },
                             ),
                             StreamBuilder<bool>(
-                              stream: cubit.isListThongKeSubject.stream,
-                              builder: (context, snapshot) {
-                                return SizedBox(
-                                  height: (snapshot.data ?? true &&
-                                          cubit.typeLH !=
-                                              Type_Choose_Option_List.DANG_THONG_KE)
-                                      ? 160
-                                      : 16,
-                                );
-                              }
-                            ),
+                                stream: cubit.isListThongKeSubject.stream,
+                                builder: (context, snapshot) {
+                                  return SizedBox(
+                                    height: (snapshot.data ??
+                                            true &&
+                                                cubit.typeLH !=
+                                                    Type_Choose_Option_List
+                                                        .DANG_THONG_KE)
+                                        ? 160
+                                        : 16,
+                                  );
+                                }),
                             Expanded(
                               child: BlocBuilder<LichHopCubit, LichHopState>(
                                 bloc: cubit,

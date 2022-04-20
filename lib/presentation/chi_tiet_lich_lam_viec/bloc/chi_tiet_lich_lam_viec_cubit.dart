@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/config/base/base_state.dart';
+import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/share_key.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
@@ -13,11 +15,12 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
+class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   BehaviorSubject<ChiTietLichLamViecModel> chiTietLichLamViecSubject =
       BehaviorSubject();
 
@@ -28,6 +31,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
 
   Stream<ChiTietLichLamViecModel> get chiTietLichLamViecStream =>
       chiTietLichLamViecSubject.stream;
+  ChiTietLichLamViecModel chiTietLichLamViecModel = ChiTietLichLamViecModel();
   final BehaviorSubject<List<BaoCaoModel>> _listBaoCaoKetQua =
       BehaviorSubject<List<BaoCaoModel>>();
   final BehaviorSubject<List<YKienModel>> _listYKien =
@@ -43,10 +47,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<void> data(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
     rs.when(
-        success: (data) {
-          chiTietLichLamViecSubject.add(data);
-        },
-        error: (error) {});
+      success: (data) {
+        chiTietLichLamViecModel = data;
+        chiTietLichLamViecSubject.sink.add(chiTietLichLamViecModel);
+      },
+      error: (error) {},
+    );
   }
 
   BehaviorSubject<List<TrangThaiLvModel>> listTrangThaiSubject =
@@ -73,19 +79,6 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
       },
       error: (error) {},
     );
-  }
-
-  void initData() {
-    ChiTietLichLamViecModel fakeData = ChiTietLichLamViecModel(
-        id: '123',
-        time: '11:30 AM - 12:00 AM',
-        date: '8 tháng 12,2021',
-        loaiLich: 'Lịch công tác trong nước',
-        nhacLai: '10 phút sau',
-        chuTri: 'Lê Sĩ Lâm - Văn thư',
-        linhVuc: 'Xúc tiến thương mại',
-        diaDiem: 'UBND huyện',
-        noiDung: 'Kế hoạch năm 2022 phát triển công ty');
   }
 
   // xoa lich lam viec
@@ -143,10 +136,11 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
   Future<void> getDanhSachYKien(String id) async {
     final result = await detailLichLamViec.getDanhSachYKien(id);
     result.when(
-        success: (res) {
-          _listYKien.sink.add(res);
-        },
-        error: (err) {});
+      success: (res) {
+        _listYKien.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> xoaBaoCaoKetQua(String id) async {
@@ -164,6 +158,12 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
           }
         },
         error: (err) {});
+  }
+
+  String parseDate(String ngay) {
+    final dateTime = DateFormat('yyyy-MM-ddTHH:mm:ss').parse(ngay);
+
+    return '${dateTime.day} ${S.current.thang} ${dateTime.month},${dateTime.year}';
   }
 
   Future<void> updateBaoCaoKetQua({
@@ -193,6 +193,26 @@ class ChiTietLichLamViecCubit extends BaseCubit<ChiTietLichLamViecState> {
         error: (err) {},
       );
     });
+  }
+
+  Future<void> themYKien({
+    required String content,
+    required String? phienHopId,
+    required String scheduleId,
+    required String? scheduleOpinionId,
+  }) async {
+    showLoading();
+    final ThemYKienRequest themYKienRequest = ThemYKienRequest(
+      content: content,
+      phienHopId: phienHopId,
+      scheduleId: scheduleId,
+      scheduleOpinionId: scheduleOpinionId,
+    );
+    final result = await detailLichLamViec.themYKien(themYKienRequest);
+    result.when(
+      success: (res) {},
+      error: (err) {},
+    );
   }
 
   void dispose() {

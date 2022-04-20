@@ -68,7 +68,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
             child: CustomScrollView(
               controller: scrollController,
               physics: const ClampingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+                  parent: AlwaysScrollableScrollPhysics(),),
               slivers: [
                 SliverAppBar(
                   floating: true,

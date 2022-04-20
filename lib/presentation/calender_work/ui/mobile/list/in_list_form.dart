@@ -68,7 +68,6 @@ class _InListFormState extends State<InListForm> {
                   itemCount:
                       _cubit.dataLichLvModel.listLichLVModel?.length ?? 0,
                   itemBuilder: (context, index) {
-                    print("==============${_cubit.dataLichLvModel.listLichLVModel?.length}");
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
                       child: CustomItemCalenderMobile(

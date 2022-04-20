@@ -30,7 +30,7 @@ class YKienXuLyPAKNWidgetExpand extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return YKienSuLyPAKNWidget(
+                    return YKienXuLyPAKNWidget(
                       object: data[index],
                     );
                   },

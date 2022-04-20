@@ -88,6 +88,7 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                                     );
                                     cubit.typeLH =
                                         Type_Choose_Option_List.DANG_LICH;
+                                    cubit.isListThongKeSubject.add(true);
                                   }
 
                                   if (value == S.current.theo_dang_danh_sach) {
@@ -96,6 +97,7 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                                     );
                                     cubit.typeLH =
                                         Type_Choose_Option_List.DANG_LIST;
+                                    cubit.isListThongKeSubject.add(true);
                                   }
 
                                   if (value == S.current.bao_cao_thong_ke) {
@@ -103,7 +105,8 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                                       Type_Choose_Option_List.DANG_THONG_KE,
                                     );
                                     cubit.typeLH =
-                                        Type_Choose_Option_List.DANG_LIST;
+                                        Type_Choose_Option_List.DANG_THONG_KE;
+                                    cubit.isListThongKeSubject.add(false);
                                   }
 
                                   cubit.index.sink.add(0);
@@ -219,69 +222,84 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                           );
                         },
                       ),
-                      BlocBuilder<LichHopCubit, LichHopState>(
-                        bloc: cubit,
-                        builder: (context, state) {
-                          if (state is LichHopStateDangDanhSach) {
-                            return const SizedBox();
-                          } else {
-                            if (state is LichHopStateDangThongKe) {
-                              return StreamBuilder<List<DashBoardThongKeModel>>(
-                                stream: cubit.listDashBoardThongKe.stream,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? [];
+                      StreamBuilder<bool>(
+                        stream: cubit.isListThongKeSubject.stream,
+                        builder: (context, snapshot) {
+                          final isVisible = snapshot.data ?? true;
+                          return BlocBuilder<LichHopCubit, LichHopState>(
+                            bloc: cubit,
+                            builder: (context, state) {
+                              if (state is LichHopStateDangDanhSach) {
+                                return const SizedBox();
+                              } else {
+                                if (state is LichHopStateDangThongKe) {
+                                  return StreamBuilder<
+                                      List<DashBoardThongKeModel>>(
+                                    stream: cubit.listDashBoardThongKe.stream,
+                                    builder: (context, snapshot) {
+                                      final data = snapshot.data ?? [];
 
-                                  return Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 30.0,
-                                      top: 15,
-                                    ),
-                                    height: 116,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: data.length,
-                                      itemBuilder: (context, index) {
-                                        return CustomItemCalenderWorkTablet(
-                                          image: cubit
-                                              .listImageLichHopThongKe[index],
-                                          typeName: data[index].name ?? '',
-                                          numberOfCalendars:
-                                              data[index].quantities ?? 0,
-                                        );
-                                      },
-                                    ),
+                                      return Container(
+                                        margin: const EdgeInsets.only(
+                                          left: 30.0,
+                                          top: 15,
+                                        ),
+                                        height: 116,
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: data.length,
+                                          itemBuilder: (context, index) {
+                                            return CustomItemCalenderWorkTablet(
+                                              image:
+                                                  cubit.listImageLichHopThongKe[
+                                                      index],
+                                              typeName: data[index].name ?? '',
+                                              numberOfCalendars:
+                                                  data[index].quantities ?? 0,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            } else {
-                              return StreamBuilder<DashBoardLichHopModel>(
-                                stream: cubit.dashBoardStream,
-                                builder: (context, snapshot) {
-                                  return Container(
-                                    margin: const EdgeInsets.only(left: 30.0),
-                                    height: 116,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: listItemSchedule.length,
-                                      itemBuilder: (context, index) {
-                                        return CustomItemCalenderWorkTablet(
-                                          image: cubit
-                                              .listImageLichHopCuaToi[index],
-                                          typeName:
-                                              listItemSchedule[index].typeName,
-                                          numberOfCalendars:
-                                              listItemSchedule[index]
-                                                  .numberOfSchedule,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                          }
+                                } else {
+                                  return isVisible
+                                      ? StreamBuilder<DashBoardLichHopModel>(
+                                          stream: cubit.dashBoardStream,
+                                          builder: (context, snapshot) {
+                                            return Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 30.0),
+                                              height: 116,
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount:
+                                                    listItemSchedule.length,
+                                                itemBuilder: (context, index) {
+                                                  return CustomItemCalenderWorkTablet(
+                                                    image: cubit
+                                                            .listImageLichHopCuaToi[
+                                                        index],
+                                                    typeName:
+                                                        listItemSchedule[index]
+                                                            .typeName,
+                                                    numberOfCalendars:
+                                                        listItemSchedule[index]
+                                                            .numberOfSchedule,
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : Container();
+                                }
+                              }
+                            },
+                          );
                         },
                       ),
                       BlocBuilder<LichHopCubit, LichHopState>(

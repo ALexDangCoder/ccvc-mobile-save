@@ -11,8 +11,10 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_k
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -101,5 +103,16 @@ abstract class YKienNguoiDanService {
   @POST(ApiConstants.SO_LUONG_BY_MONTH)
   Future<SoLuongYKNDBtMonthResponse> getDashBoardSoLuongYKND(
       @Body() SoLuongByMonthRequest soLuongByMonthRequest,
+      );
+
+  @GET(ApiConstants.TIEN_TRINH_XU_LY)
+  Future<TienTrinhXuLyResponse> getTienTrinhXuLyYKND(
+      @Query('paknId') String paknId,
+      );
+
+  @GET(ApiConstants.KET_QUA_XU_LY)
+  Future<KetQuaXuLyResponse> getKetQuaXuLyYKND(
+      @Query('KienNghiId') String kienNghiId,
+      @Query('TaskId') String taskId,
       );
 }

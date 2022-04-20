@@ -1,29 +1,107 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
+import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
+import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_state.dart';
-import 'package:ccvc_mobile/presentation/thong_bao/fake_data.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ThongBaoCubit extends BaseCubit<ThongBaoState> {
   ThongBaoCubit() : super(ThongBaoStateInitial());
 
+  ThongBaoRepository get _service => Get.find();
   bool isSwitch = false;
+  String appCode = 'COMMON';
+  int page = 1;
+  int totalPage = 1;
+  List<String> listMenu = [
+    ImageAssets.icDeleteRed,
+  ];
+  List<Item> listThongBao = [];
 
-  BehaviorSubject<List<ThongBaoModel>> thongBaoSubject =
-      BehaviorSubject<List<ThongBaoModel>>();
+  BehaviorSubject<ThongBaoQuanTrongModel> getListNotiSubject =
+      BehaviorSubject();
 
-  BehaviorSubject<List<ThongBaoModel>> canhBaoSubject =
-      BehaviorSubject<List<ThongBaoModel>>();
+  Stream<ThongBaoQuanTrongModel> get getListNotiStream =>
+      getListNotiSubject.stream;
+
+  BehaviorSubject<ThongBaoQuanTrongModel> thongBaoQuanTrongSubject =
+      BehaviorSubject();
+
+  Stream<ThongBaoQuanTrongModel> get thongBaoQuanTrongStream =>
+      thongBaoQuanTrongSubject.stream;
+
+  BehaviorSubject<List<ThongBaoModel>> thongBaoSubject = BehaviorSubject();
 
   Stream<List<ThongBaoModel>> get thongBaoStream => thongBaoSubject.stream;
 
-  Stream<List<ThongBaoModel>> get canhBaoStream => canhBaoSubject.stream;
+  Future<void> initData() async {
+    await getNotifyAppCodes();
+    await getThongBaoQuanTrong();
+  }
 
-  void getThongBao() {
-    thongBaoSubject.sink.add(fakeDataThongBao);
-    canhBaoSubject.sink.add(fakeDataCanhBao);
+  Future<void> getNotifyAppCodes() async {
+    showLoading();
+    final result = await _service.getNotifyAppcodes();
+
+    result.when(
+      success: (value) {
+        thongBaoSubject.add(value);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  Future<void> getThongBaoQuanTrong() async {
+    showLoading();
+    final result = await _service.getThongBaoQuanTrong(
+      appCode: appCode,
+      active: true,
+      seen: -1,
+      currentPage: page,
+      pageSize: 10,
+    );
+
+    result.when(
+      success: (value) {
+        thongBaoQuanTrongSubject.add(value);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  Future<void> deleteNoti(String id) async {
+    final result = await _service.deleteNotify(id);
+    result.when(success: (success) {
+      getThongBaoQuanTrong();
+    }, error: (error) {},);
+  }
+
+  Future<void> getListThongBao() async {
+    showLoading();
+    final result = await _service.getThongBaoQuanTrong(
+      appCode: appCode,
+      active: true,
+      seen: -1,
+      currentPage: page,
+      pageSize: 10,
+    );
+
+    result.when(
+      success: (value) {
+        totalPage = value.paging?.pagesCount ?? 1;
+        listThongBao.addAll(value.items ?? []);
+        value.items = listThongBao;
+        getListNotiSubject.add(value);
+      },
+      error: (error) {},
+    );
+    showContent();
   }
 
   ThongBaoType typeContent(String typeNotify) {

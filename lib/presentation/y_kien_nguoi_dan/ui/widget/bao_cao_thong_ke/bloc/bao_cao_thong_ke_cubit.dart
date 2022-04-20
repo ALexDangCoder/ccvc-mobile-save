@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
@@ -6,9 +8,12 @@ import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/bloc/bao_cao_thong_ke_state.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum StatusType { CHUA_THUC_HIEN, DA_HOAN_THANH, DANG_THUC_HIEN }
@@ -70,6 +75,51 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     S.current.dang_xu_ly,
     S.current.so_luong_y_kien,
   ];
+
+  Future<void> callApi(ThanhPhanThamGiaCubit thamGiaCubit) async {
+    thamGiaCubit.getTree();
+    final queue = Queue(parallel: 5);
+    unawaited(
+      queue.add(
+        () => baoCaoYKND(
+          DateTime.now().toStringWithListFormat,
+          DateTime.now().toStringWithListFormat,
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+        () => dashBoardBaoCaoYKND(
+          DateTime.now().toStringWithListFormat,
+          DateTime.now().toStringWithListFormat,
+        ),
+      ),
+    );
+    unawaited(
+       queue.add(
+        () => dashBoardLinhKhacXuLy(DateTime.now().toStringWithListFormat,
+            DateTime.now().toStringWithListFormat),
+      ),
+    );
+    unawaited(
+       queue.add(
+        () => dashBoardDonViXuLy(
+          DateTime.now().toStringWithListFormat,
+          DateTime.now().toStringWithListFormat,
+        ),
+      ),
+    );
+    unawaited( queue.add(
+          () => dashBoardSoLuongByMonth(
+        DateTime.now().toStringWithListFormat,
+        DateTime.now().toStringWithListFormat,
+      ),
+    ),);
+
+    await queue.onComplete;
+    showContent();
+    queue.dispose();
+  }
 
   final YKienNguoiDanRepository _YKNDRepo = Get.find();
 
@@ -235,6 +285,7 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     result.when(
       success: (res) {
         _chartDonViXuLy.sink.add(res.listChartData);
+        print(res.listChartData.length);
       },
       error: (err) {
         return;

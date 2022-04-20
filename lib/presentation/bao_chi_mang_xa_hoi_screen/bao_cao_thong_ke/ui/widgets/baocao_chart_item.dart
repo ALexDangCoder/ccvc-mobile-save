@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class GroupChartItemWidget extends StatefulWidget {
   final String title;
   final Widget child;
+  final bool isTablet;
   final Function(String startDate, String endDate) onChoiceDate;
 
   const GroupChartItemWidget({
@@ -19,6 +20,7 @@ class GroupChartItemWidget extends StatefulWidget {
     required this.onChoiceDate,
     required this.title,
     required this.child,
+    this.isTablet= false,
   }) : super(key: key);
 
   @override
@@ -38,16 +40,16 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding:  EdgeInsets.symmetric(vertical:widget.isTablet?24: 20),
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
+            margin:  EdgeInsets.symmetric(horizontal: widget.isTablet?24:16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: widget.isTablet?24:16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -55,7 +57,7 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                         widget.title,
                         style: textNormalCustom(
                           color: titleCalenderWork,
-                          fontSize: 16.0,
+                          fontSize: widget.isTablet? 20.0: 16.0,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -82,22 +84,22 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 6,
+                 SizedBox(
+                  height: widget.isTablet?24:6,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16),
+                  padding:  EdgeInsets.only(left: widget.isTablet?24:16),
                   child: Text(
                     '${DateTime.parse(startTime).formatApiDDMMYYYYSlash}~${DateTime.parse(endTime).formatApiDDMMYYYYSlash}',
                     style: textNormalCustom(
                       color: textBodyTime,
-                      fontSize: 12,
+                      fontSize: widget.isTablet?16:12,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: widget.isTablet?16:20,
                 ),
                 Container(
                   child: widget.child,

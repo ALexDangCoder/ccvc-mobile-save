@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
@@ -63,7 +64,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/moi_hop.dart';
@@ -80,6 +80,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_g
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
@@ -508,7 +509,9 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<List<TiLeThamGiaModel>>> postTiLeThamGia(
-      String dateFrom, String dateTo) {
+    String dateFrom,
+    String dateTo,
+  ) {
     return runCatchingAsync<TiLeThamGiaResponse, List<TiLeThamGiaModel>>(
       () => _hopServices.postTiLeThamGia(dateFrom, dateTo),
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
@@ -554,6 +557,15 @@ class HopRepositoryImpl implements HopRepository {
         List<CalendarMeetingModel>>(
       () => _hopServices.postThemNhiemVu(themNhiemVuRequest),
       (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<DanhSachLichHopModel>> postDanhSachThongKe(
+      DanhSachThongKeRequest body) {
+    return runCatchingAsync<DanhSachLichHopResponse, DanhSachLichHopModel>(
+      () => _hopServices.postDataThongKe(body),
+      (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),
     );
   }
 }

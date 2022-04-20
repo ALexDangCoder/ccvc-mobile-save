@@ -1,5 +1,10 @@
 import 'dart:developer';
 
+import 'package:ccvc_mobile/domain/model/document/incoming_document.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen_dashboard.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -73,7 +78,6 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
               listSelectKey: <DialogData>[
                 DialogData(
                   onSelect: (value, startDate, endDate) {
-                    log('${startDate}  ${endDate}');
                     _xuLyCubit.selectDate(
                         selectKey: value,
                         startDate: startDate,
@@ -101,27 +105,42 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                       paddingTop: 0,
                       chartData: [
                         ChartData(
-                          S.current.cho_xu_ly,
-                          data.soLuongChoXuLy?.toDouble() ?? 0,
-                          choXuLyColor,
-                        ),
+                            S.current.cho_xu_ly,
+                            data.soLuongChoXuLy?.toDouble() ?? 0,
+                            choXuLyColor,
+                            SelectKey.CHO_XU_LY),
                         ChartData(
-                          S.current.dang_xu_ly,
-                          data.soLuongDangXuLy?.toDouble() ?? 0,
-                          dangXyLyColor,
-                        ),
+                            S.current.dang_xu_ly,
+                            data.soLuongDangXuLy?.toDouble() ?? 0,
+                            dangXyLyColor,
+                            SelectKey.DANG_XU_LY),
                         ChartData(
-                          S.current.da_xu_ly,
-                          data.soLuongDaXuLy?.toDouble() ?? 0,
-                          daXuLyColor,
-                        ),
+                            S.current.da_xu_ly,
+                            data.soLuongDaXuLy?.toDouble() ?? 0,
+                            daXuLyColor,
+                            SelectKey.DA_XU_LY),
                         ChartData(
-                          S.current.cho_vao_so,
-                          data.soLuongChoVaoSo?.toDouble() ?? 0,
-                          choVaoSoColor,
-                        ),
+                            S.current.cho_vao_so,
+                            data.soLuongChoVaoSo?.toDouble() ?? 0,
+                            choVaoSoColor,
+                            SelectKey.CHO_VAO_SO),
                       ],
-                      onTap: (value) {
+                      onTap: (value, key) {
+                        if (key != null) {
+                          _xuLyCubit.selectTrangThaiVBDen(key);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => IncomingDocumentScreen(
+                                startDate: _xuLyCubit.startDate.toString(),
+                                title: S.current.danh_sach_van_ban_den,
+                                endDate: _xuLyCubit.endDate.toString(),
+                                type: TypeScreen.VAN_BAN_DEN,
+                                maTrangThai: _xuLyCubit.maTrangThaiVBDen,
+                              ),
+                            ),
+                          );
+                        }
                       },
                     );
                   }
@@ -148,31 +167,49 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                     return PieChart(
                       chartData: [
                         ChartData(
-                          S.current.cho_trinh_ky,
-                          data.soLuongChoTrinhKy?.toDouble() ?? 0,
-                          choTrinhKyColor,
-                        ),
+                            S.current.cho_trinh_ky,
+                            data.soLuongChoTrinhKy?.toDouble() ?? 0,
+                            choTrinhKyColor,
+                            SelectKey.CHO_TRINH_KY),
                         ChartData(
-                          S.current.cho_xu_ly,
-                          data.soLuongChoXuLy?.toDouble() ?? 0,
-                          choXuLyColor,
-                        ),
+                            S.current.cho_xu_ly,
+                            data.soLuongChoXuLy?.toDouble() ?? 0,
+                            choXuLyColor,
+                            SelectKey.CHO_XU_LY),
                         ChartData(
-                          S.current.da_xu_ly,
-                          data.soLuongDaXuLy?.toDouble() ?? 0,
-                          daXuLyColor,
-                        ),
+                            S.current.da_xu_ly,
+                            data.soLuongDaXuLy?.toDouble() ?? 0,
+                            daXuLyColor,
+                            SelectKey.DA_XU_LY),
                         ChartData(
-                          S.current.cho_cap_so,
-                          data.soLuongChoCapSo?.toDouble() ?? 0,
-                          choCapSoColor,
-                        ),
+                            S.current.cho_cap_so,
+                            data.soLuongChoCapSo?.toDouble() ?? 0,
+                            choCapSoColor,
+                            SelectKey.CHO_CAP_SO),
                         ChartData(
-                          S.current.cho_ban_hanh,
-                          data.soLuongChoBanHanh?.toDouble() ?? 0,
-                          choBanHanhColor,
-                        )
+                            S.current.cho_ban_hanh,
+                            data.soLuongChoBanHanh?.toDouble() ?? 0,
+                            choBanHanhColor,
+                            SelectKey.CHO_BAN_HANH)
                       ],
+                      onTap: (value, key) {
+                        if (key != null) {
+                          _xuLyCubit.selectTrangThaiVBDi(key);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => IncomingDocumentScreenDashBoard(
+                                startDate: _xuLyCubit.startDate.toString(),
+                                endDate: _xuLyCubit.endDate.toString(),
+                                title: S.current.danh_sach_van_ban_di,
+                                trangThaiFilter: _xuLyCubit.trangThaiFilter,
+                              isDanhSachChoTrinhKy: _xuLyCubit.isDanhSachChoTrinhKy,
+                              isDanhSachChoXuLy: _xuLyCubit.isDanhSachChoXuLy,
+                              isDanhSachDaXuLy: _xuLyCubit.isDanhSachDaXuLy,),
+                            ),
+                          );
+                        }
+                      },
                     );
                   }
                   return const Padding(

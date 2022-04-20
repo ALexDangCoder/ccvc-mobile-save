@@ -1,3 +1,6 @@
+import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/imcoming_document_screen_dashboard_tablet.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/incoming_document_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -59,23 +62,24 @@ class _WordProcessingStateWidgetState
       },
       selectKeyDialog: _xuLyCubit,
       dialogSelect: StreamBuilder(
-        stream: _xuLyCubit.selectKeyDialog,
-        builder: (context, snapshot) {
-          return DialogSettingWidget(
-            type: widget.homeItemType,
-            listSelectKey: <DialogData>[
-              DialogData(
-                onSelect: (value, startDate, endDate) {
-                  _xuLyCubit.selectDate(
-                      selectKey: value, startDate: startDate, endDate: endDate);
-                },
-                title: S.current.time,
-                initValue: _xuLyCubit.selectKeyTime,
-              )
-            ],
-          );
-        }
-      ),
+          stream: _xuLyCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: <DialogData>[
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _xuLyCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate);
+                  },
+                  title: S.current.time,
+                  initValue: _xuLyCubit.selectKeyTime,
+                )
+              ],
+            );
+          }),
       child: Container(
         color: Colors.transparent,
         margin: const EdgeInsets.only(bottom: 20),
@@ -119,7 +123,24 @@ class _WordProcessingStateWidgetState
                               choVaoSoColor,
                             ),
                           ],
-                          onTap: (value) {},
+                          onTap: (value, key) {
+                            if (key != null) {
+                              _xuLyCubit.selectTrangThaiVBDen(key);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      IncomingDocumentScreenTablet(
+                                    startDate: _xuLyCubit.startDate.toString(),
+                                    title: S.current.danh_sach_van_ban_den,
+                                    endDate: _xuLyCubit.endDate.toString(),
+                                    type: TypeScreen.VAN_BAN_DEN,
+                                    maTrangThai: _xuLyCubit.maTrangThaiVBDen,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                         );
                       }
                       return const Padding(
@@ -170,6 +191,30 @@ class _WordProcessingStateWidgetState
                               choBanHanhColor,
                             )
                           ],
+                          onTap: (value, key) {
+                            if (key != null) {
+                              _xuLyCubit.selectTrangThaiVBDi(key);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      IncomingDocumentScreenDashBoardTablet(
+                                    startDate: _xuLyCubit.startDate.toString(),
+                                    endDate: _xuLyCubit.endDate.toString(),
+                                    title: S.current.danh_sach_van_ban_di,
+                                    trangThaiFilter: _xuLyCubit.trangThaiFilter,
+                                    isDanhSachChoTrinhKy:
+                                        _xuLyCubit.isDanhSachChoTrinhKy,
+                                    isDanhSachChoXuLy:
+                                        _xuLyCubit.isDanhSachChoXuLy,
+                                    isDanhSachDaXuLy:
+                                        _xuLyCubit.isDanhSachDaXuLy,
+                                    type: TypeScreen.VAN_BAN_DI,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                         );
                       }
                       return const Padding(

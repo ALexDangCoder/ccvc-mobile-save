@@ -12,7 +12,7 @@ class HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230,
+      height: 186,
       width: double.infinity,
       color: backgroundColorApp,
       child: Stack(
@@ -61,17 +61,17 @@ class HeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: Container(
-              height: 65,
-              color: Colors.transparent,
-              margin: const EdgeInsets.only(left: 16),
-              child: const MarqueeWidget(),
-            ),
-          )
+          // Positioned(
+          //   bottom: 0,
+          //   right: 0,
+          //   left: 0,
+          //   child: Container(
+          //     height: 65,
+          //     color: Colors.transparent,
+          //     margin: const EdgeInsets.only(left: 16),
+          //     child: const MarqueeWidget(),
+          //   ),
+          // )
         ],
       ),
     );

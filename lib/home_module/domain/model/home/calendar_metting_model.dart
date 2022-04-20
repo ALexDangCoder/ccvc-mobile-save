@@ -1,5 +1,3 @@
-
-
 import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/extensions/date_time_extension.dart';
 
@@ -7,6 +5,8 @@ const _CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
 const _DANG_THUC_HIEN = 'DANG_THUC_HIEN';
 const _CHO_XAC_NHAN = 0;
 const _THAM_GIA = 1;
+enum ScreenTypeMetting { LICH_LAM_VIEC, LICH_HOP }
+
 class CalendarMeetingModel {
   final String title;
   final String time;
@@ -24,6 +24,8 @@ class CalendarMeetingModel {
   final String timeTo;
   final bool isHopTrucTuyen;
   final int trangThaiTheoUser;
+  final String typeSchedule;
+  ScreenTypeMetting screenTypeMetting = ScreenTypeMetting.LICH_LAM_VIEC;
   CalendarMeetingModel({
     this.title = '',
     this.time = '',
@@ -41,8 +43,10 @@ class CalendarMeetingModel {
     this.isHopTrucTuyen = false,
     this.trangThaiTheoUser = 0,
     this.nguoiChuTriId = '',
+    this.typeSchedule = '',
   }) {
     codeStatus = fromEnum();
+    screenTypeMetting = enumScreen();
   }
 
   String convertTime() {
@@ -61,6 +65,16 @@ class CalendarMeetingModel {
     return time;
   }
 
+  ScreenTypeMetting enumScreen() {
+    switch (typeSchedule) {
+      case 'Schedule':
+        return ScreenTypeMetting.LICH_LAM_VIEC;
+      case 'MeetingSchedule':
+        return ScreenTypeMetting.LICH_HOP;
+    }
+    return ScreenTypeMetting.LICH_LAM_VIEC;
+  }
+
   DocumentStatus fromEnum() {
     switch (maTrangThai) {
       case _CHUA_THUC_HIEN:
@@ -70,11 +84,12 @@ class CalendarMeetingModel {
     }
     return DocumentStatus.CHO_PHAN_XU_LY;
   }
-  DocumentStatus? trangThaiTheoUserEnum(String userId){
-    if(userId == nguoiChuTriId){
+
+  DocumentStatus? trangThaiTheoUserEnum(String userId) {
+    if (userId == nguoiChuTriId) {
       return null;
     }
-    switch(trangThaiTheoUser){
+    switch (trangThaiTheoUser) {
       case _CHO_XAC_NHAN:
         return DocumentStatus.CHO_XAC_NHAN;
       case _THAM_GIA:

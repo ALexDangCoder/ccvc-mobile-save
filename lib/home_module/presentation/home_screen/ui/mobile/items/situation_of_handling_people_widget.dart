@@ -91,6 +91,9 @@ class _SituationOfHandlingPeopleWidgetState
                     );
                   },
                 ),
+                onTap: (value,key){
+
+                },
               );
             }),
       ),

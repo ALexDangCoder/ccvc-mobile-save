@@ -74,23 +74,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                   floating: true,
                   snap: true,
                   elevation: 0,
-                  leading: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => const SearchScreen(),
-                          ),
-                        );
-                      },
-                      child: SvgPicture.asset(
-                        ImageAssets.icSearchWhite,
-                        height: 18,
-                        width: 18,
-                      ),
-                    ),
-                  ),
                   title: GestureDetector(
                     onTap: () {
                       scrollController.animateTo(

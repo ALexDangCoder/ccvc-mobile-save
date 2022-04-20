@@ -1,19 +1,17 @@
 class ThongBaoModel {
-  String image = '';
-  String title = '';
-  String content = '';
-  bool status = false;
-  String time = '';
-  String typeNotify = '';
-
-  ThongBaoModel.empty();
+  String? id;
+  String? name;
+  String? code;
+  String? description;
+  int? unreadCount;
+  int? total;
 
   ThongBaoModel({
-    required this.image,
-    required this.title,
-    required this.content,
-    required this.status,
-    required this.time,
-    required this.typeNotify,
+    required this.id,
+    required this.name,
+    required this.code,
+    required this.description,
+    required this.unreadCount,
+    required this.total,
   });
 }

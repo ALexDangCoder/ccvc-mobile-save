@@ -34,6 +34,7 @@ class _WordProcessingStateWidgetState
     extends State<WordProcessingStateTabletWidget> {
   late HomeCubit cubit;
   final TinhHinhXuLyCubit _xuLyCubit = TinhHinhXuLyCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -103,24 +104,24 @@ class _WordProcessingStateWidgetState
                           paddingTop: 0,
                           chartData: [
                             ChartData(
-                              S.current.cho_xu_ly,
-                              data.soLuongChoXuLy?.toDouble() ?? 0,
-                              choXuLyColor,
+                             S.current.cho_xu_ly,
+                             data.soLuongChoXuLy?.toDouble() ?? 0,
+                            choXuLyColor,
                             ),
                             ChartData(
-                              S.current.dang_xu_ly,
-                              data.soLuongDangXuLy?.toDouble() ?? 0,
+                               S.current.dang_xu_ly,
+                            data.soLuongDangXuLy?.toDouble() ?? 0,
                               dangXyLyColor,
                             ),
                             ChartData(
                               S.current.da_xu_ly,
-                              data.soLuongDaXuLy?.toDouble() ?? 0,
+                            data.soLuongDaXuLy?.toDouble() ?? 0,
                               daXuLyColor,
                             ),
                             ChartData(
-                              S.current.cho_vao_so,
-                              data.soLuongChoVaoSo?.toDouble() ?? 0,
-                              choVaoSoColor,
+                            S.current.cho_vao_so,
+                             data.soLuongChoVaoSo?.toDouble() ?? 0,
+                               choVaoSoColor,
                             ),
                           ],
                           onTap: (value, key) {
@@ -166,29 +167,29 @@ class _WordProcessingStateWidgetState
                           paddingTop: 0,
                           chartData: [
                             ChartData(
-                              S.current.cho_trinh_ky,
+                             S.current.cho_trinh_ky,
                               data.soLuongChoTrinhKy?.toDouble() ?? 0,
-                              choTrinhKyColor,
+                             choTrinhKyColor,
                             ),
                             ChartData(
-                              S.current.cho_xu_ly,
+                             S.current.cho_xu_ly,
                               data.soLuongChoXuLy?.toDouble() ?? 0,
                               choXuLyColor,
                             ),
                             ChartData(
                               S.current.da_xu_ly,
-                              data.soLuongDaXuLy?.toDouble() ?? 0,
-                              daXuLyColor,
+                          data.soLuongDaXuLy?.toDouble() ?? 0,
+                             daXuLyColor,
                             ),
                             ChartData(
                               S.current.cho_cap_so,
-                              data.soLuongChoCapSo?.toDouble() ?? 0,
+                             data.soLuongChoCapSo?.toDouble() ?? 0,
                               choCapSoColor,
                             ),
                             ChartData(
                               S.current.cho_ban_hanh,
                               data.soLuongChoBanHanh?.toDouble() ?? 0,
-                              choBanHanhColor,
+                             choBanHanhColor,
                             )
                           ],
                           onTap: (value, key) {

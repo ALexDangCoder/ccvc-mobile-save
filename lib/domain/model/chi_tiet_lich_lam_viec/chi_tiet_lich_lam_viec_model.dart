@@ -1,64 +1,6 @@
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-
-class ChiTietLichLamViecModel {
-  String id = '';
-  String time = '';
-  String date = '';
-  String loaiLich = '';
-
-  String nhacLai = '';
-
-  String chuTri = '';
-  String linhVuc = '';
-  String diaDiem = '';
-  String noiDung = '';
-
-  ChiTietLichLamViecModel.Empty();
-
-  ChiTietLichLamViecModel({
-    required this.id,
-    required this.time,
-    required this.date,
-    required this.loaiLich,
-    required this.nhacLai,
-    required this.chuTri,
-    required this.linhVuc,
-    required this.diaDiem,
-    required this.noiDung,
-  });
-
-  List<TypeData> dataRow() {
-    final List<TypeData> list = [
-      TypeData(icon: ImageAssets.icNhacLai, value: time, type: typeData.text),
-      TypeData(
-        icon: ImageAssets.icCalendarUnFocus,
-        value: date,
-        type: typeData.text,
-      ),
-      TypeData(
-        icon: ImageAssets.icCalendarUnFocus,
-        value: loaiLich,
-        type: typeData.text,
-      ),
-      TypeData(
-        icon: ImageAssets.icNotify,
-        value: nhacLai,
-        type: typeData.text,
-      ),
-      TypeData(icon: ImageAssets.icPerson, value: chuTri, type: typeData.text),
-      TypeData(icon: ImageAssets.icWork, value: linhVuc, type: typeData.text),
-      TypeData(icon: ImageAssets.icViTri, value: diaDiem, type: typeData.text),
-      TypeData(
-        icon: ImageAssets.icDocument,
-        value: noiDung,
-        type: typeData.text,
-      ),
-    ];
-
-    return list;
-  }
-}
 
 class ListPerSon {
   int tongSoNguoi = 0;
@@ -100,13 +42,172 @@ class TypeData {
   TypeData({required this.icon, required this.value, required this.type});
 }
 
-ListPerSon fakeDataListPerson() {
-  ListPerSon fakeDataListPersona = ListPerSon(
-      tongSoNguoi: 0,
-      soNguoiDongY: 0,
-      soNguoiChoXacNhan: 0,
-      listPerson: listFake);
-  return fakeDataListPersona;
+class ChiTietLichLamViecModel {
+  String? id;
+  String? title;
+  String? content;
+  String? location;
+  String? results;
+  String? expectedResults;
+  int? status;
+  String? statusName;
+  bool? publishSchedule;
+  String? tags;
+  String? rejectReason;
+  String? cancelReason;
+  String? typeScheduleId;
+  String? dateFrom;
+  String? dateTo;
+  String? timeFrom;
+  String? timeTo;
+  String? dateTimeFrom;
+  String? dateTimeTo;
+  String? createdAt;
+  String? updatedAt;
+  String? typeScheduleName;
+  bool? isLichDonVi;
+  bool? isLichLanhDao;
+  String? scheduleReferenceId;
+  int? typeRepeat;
+  String? dateRepeat;
+  bool? isLichLap;
+  bool? isAllDay;
+  String? days;
+  int? dayOfWeek;
+  bool? isSendMail;
+  CreateBy? createBy;
+  UpdateBy? updateBy;
+  CreateBy? canBoChuTri;
+  List<String>? scheduleCoperatives;
+  List<Files>? files;
+  String? scheduleReminder;
+  String? tinhId;
+  String? tenTinh;
+  String? huyenId;
+  String? tenHuyen;
+  String? xaId;
+  String? tenXa;
+  String? linhVucId;
+  String? countryId;
+  String? country;
+  String? linhVuc;
+
+  ChiTietLichLamViecModel({
+    this.id,
+    this.title,
+    this.content,
+    this.location,
+    this.results,
+    this.expectedResults,
+    this.status,
+    this.statusName,
+    this.publishSchedule,
+    this.tags,
+    this.rejectReason,
+    this.cancelReason,
+    this.typeScheduleId,
+    this.dateFrom,
+    this.dateTo,
+    this.timeFrom,
+    this.timeTo,
+    this.dateTimeFrom,
+    this.dateTimeTo,
+    this.createdAt,
+    this.updatedAt,
+    this.typeScheduleName,
+    this.isLichDonVi,
+    this.isLichLanhDao,
+    this.scheduleReferenceId,
+    this.typeRepeat,
+    this.dateRepeat,
+    this.isLichLap,
+    this.isAllDay,
+    this.days,
+    this.dayOfWeek,
+    this.isSendMail,
+    this.createBy,
+    this.updateBy,
+    this.canBoChuTri,
+    this.scheduleCoperatives,
+    this.files,
+    this.scheduleReminder,
+    this.tinhId,
+    this.tenTinh,
+    this.huyenId,
+    this.tenHuyen,
+    this.xaId,
+    this.tenXa,
+    this.linhVucId,
+    this.countryId,
+    this.country,
+    this.linhVuc,
+  });
 }
 
-List<Person> listFake = [];
+class CreateBy {
+  String? id;
+  String? chucVu;
+  String? chucVuId;
+  String? hoTen;
+  String? sdtDiDong;
+  String? donViId;
+  String? tenDonVi;
+  String? donViGocId;
+  String? tenDonViGoc;
+
+  CreateBy({
+    this.id,
+    this.chucVu,
+    this.chucVuId,
+    this.hoTen,
+    this.sdtDiDong,
+    this.donViId,
+    this.tenDonVi,
+    this.donViGocId,
+    this.tenDonViGoc,
+  });
+}
+
+class UpdateBy {
+  String? id;
+  String? chucVu;
+  String? chucVuId;
+  String? hoTen;
+  String? sdtDiDong;
+  String? donViId;
+  String? tenDonVi;
+  String? donViGocId;
+  String? tenDonViGoc;
+
+  UpdateBy({
+    this.id,
+    this.chucVu,
+    this.chucVuId,
+    this.hoTen,
+    this.sdtDiDong,
+    this.donViId,
+    this.tenDonVi,
+    this.donViGocId,
+    this.tenDonViGoc,
+  });
+}
+
+class Files {
+  String? id;
+  String? name;
+  String? extension;
+  String? size;
+  String? path;
+  String? entityId;
+  String? entityName;
+
+  Files({
+    required this.id,
+    required this.name,
+    required this.extension,
+    required this.size,
+    required this.path,
+    required this.entityId,
+    required this.entityName,
+  });
+}

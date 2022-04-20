@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/huy_lich_lam_viec_response.dart';
@@ -26,6 +27,7 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_trang_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
+import 'package:ccvc_mobile/data/response/them_y_kien_response/them_y_kien_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -138,5 +140,10 @@ abstract class LichLamViecService {
   Future<MenuResponse> getMenuLichLV(
     @Query('DateStart') String DateStart,
     @Query('DateTo') String DateTo,
+  );
+
+  @POST(ApiConstants.THEM_Y_KIEN)
+  Future<ThemYKienResponse> themYKien(
+    @Body() ThemYKienRequest themYKienRequest,
   );
 }

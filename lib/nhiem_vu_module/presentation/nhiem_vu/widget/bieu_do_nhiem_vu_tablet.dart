@@ -49,10 +49,13 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
                     title: widget.title ?? '',
                     chartData: widget.chartData,
                     onTap: (int value) {
-                      widget.onTap(widget.chartData[value].title.split(' ')
-                          .join('_')
-                          .toUpperCase()
-                          .vietNameseParse());
+                      widget.onTap(
+                        widget.chartData[value].title
+                            .split(' ')
+                            .join('_')
+                            .toUpperCase()
+                            .vietNameseParse(),
+                      );
                     },
                   ),
                 )
@@ -63,10 +66,13 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
                     title: widget.title ?? '',
                     chartData: widget.chartData,
                     onTap: (int value) {
-                      widget.onTap(widget.chartData[value].title.split(' ')
-                          .join('_')
-                          .toUpperCase()
-                          .vietNameseParse());
+                      widget.onTap(
+                        widget.chartData[value].title
+                            .split(' ')
+                            .join('_')
+                            .toUpperCase()
+                            .vietNameseParse(),
+                      );
                     },
                   ),
                 ),
@@ -89,7 +95,10 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
                             .map(
                               (e) => Expanded(
                                 child: Container(
-                                  padding: const EdgeInsets.only(right: 20),
+                                  padding: EdgeInsets.only(
+                                    right: 20,
+                                    top: data.isNotEmpty ? 30 : 0,
+                                  ),
                                   child: BoxStatusVanBan(
                                     value: e.value ?? 0,
                                     onTap: () {},

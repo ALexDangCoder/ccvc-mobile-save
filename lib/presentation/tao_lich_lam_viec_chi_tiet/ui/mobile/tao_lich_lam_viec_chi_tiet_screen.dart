@@ -1,10 +1,13 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap_tuy_chinh.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/linh_vuc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/loai_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/mau_mac_dinh_widget.dart';
@@ -13,6 +16,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nh
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/text_form_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -20,6 +24,7 @@ import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_date_picker.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -159,6 +164,22 @@ class _TaoLichLamViecChiTietScreenState
                           ),
                           LichLapWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
+                          StreamBuilder<bool>(
+                            stream: taoLichLamViecCubit.lichLapTuyChinhSubject.stream,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? false;
+                              return data ?  LichLapTuyChinh(
+                                taoLichLamViecCubit:taoLichLamViecCubit,
+                              ) : Container();
+                            }
+                          ),
+                          StreamBuilder<bool>(
+                              stream: taoLichLamViecCubit.lichLapKhongLapLaiSubject.stream,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? false;
+                                return data ?  ItemLapDenNgayWidget(taoLichLamViecCubit:taoLichLamViecCubit ,) : Container();
+                              }
                           ),
                           TextFormWidget(
                             controller: noiDungController,

@@ -19,82 +19,81 @@ class LichHopTheoNgay extends StatefulWidget {
 }
 
 class _LichHopTheoNgayState extends State<LichHopTheoNgay> {
-
   @override
   Widget build(BuildContext context) {
-   return StreamBuilder<CalendarController>(
-     stream: widget.cubit.stateCalendarSubject.stream,
-     builder: (context, snapshot) {
-       final data = snapshot.data ?? CalendarController();
-       return Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-          ),
-          child: StreamBuilder<DanhSachLichHopModel>(
-              stream: widget.cubit.danhSachLichHopStream,
-              builder: (context, snapshot) {
-                return SfCalendar(
-                  allowAppointmentResize: true,
-                  controller: data,
-                  viewHeaderHeight: 0.0,
-                  headerHeight: 0.0,
-                  appointmentTextStyle: textNormalCustom(color: backgroundColorApp),
-                  todayHighlightColor: statusCalenderRed,
-                  appointmentTimeTextFormat: 'hh:mm:ss a',
-                  dataSource: widget.cubit.getCalenderDataSource(
-                    snapshot.data ?? DanhSachLichHopModel.empty(),
-                  ),
-                  timeSlotViewSettings: const TimeSlotViewSettings(
-                    timeIntervalHeight: 54,
-                  ),
-                  selectionDecoration:
-                      const BoxDecoration(color: Colors.transparent),
-                  appointmentBuilder: (
-                    BuildContext context,
-                    CalendarAppointmentDetails calendarAppointmentDetails,
-                  ) {
-                    final Appointment appointment =
-                        calendarAppointmentDetails.appointments.first;
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                        color: textColorMangXaHoi,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0,
-                          vertical: 4.0,
+    return StreamBuilder<CalendarController>(
+        stream: widget.cubit.stateCalendarSubject.stream,
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? CalendarController();
+          return Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+            ),
+            child: StreamBuilder<DanhSachLichHopModel>(
+                stream: widget.cubit.danhSachLichHopStream,
+                builder: (context, snapshot) {
+                  return SfCalendar(
+                    allowAppointmentResize: true,
+                    controller: data,
+                    viewHeaderHeight: 0.0,
+                    headerHeight: 0.0,
+                    appointmentTextStyle:
+                        textNormalCustom(color: backgroundColorApp),
+                    todayHighlightColor: statusCalenderRed,
+                    appointmentTimeTextFormat: 'hh:mm:ss a',
+                    dataSource: widget.cubit.getCalenderDataSource(
+                      snapshot.data ?? DanhSachLichHopModel.empty(),
+                    ),
+                    timeSlotViewSettings: const TimeSlotViewSettings(
+                      timeIntervalHeight: 54,
+                    ),
+                    selectionDecoration:
+                        const BoxDecoration(color: Colors.transparent),
+                    appointmentBuilder: (
+                      BuildContext context,
+                      CalendarAppointmentDetails calendarAppointmentDetails,
+                    ) {
+                      final Appointment appointment =
+                          calendarAppointmentDetails.appointments.first;
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.0),
+                          color: textColorMangXaHoi,
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                appointment.subject,
-                                style: textNormalCustom(),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
-                            const SizedBox(height: 4.0),
-                            Flexible(
-                              child: Text(
-                                '${appointment.startTime.toStringWithAMPM} - ${appointment.endTime.toStringWithAMPM}',
-                                style: textNormalCustom(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w400,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 4.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  appointment.subject,
+                                  style: textNormalCustom(),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                               ),
-                            )
-                          ],
+                              const SizedBox(height: 4.0),
+                              Flexible(
+                                child: Text(
+                                  '${appointment.startTime.toStringWithAMPM} - ${appointment.endTime.toStringWithAMPM}',
+                                  style: textNormalCustom(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }),
-        );
-     }
-   );
+                      );
+                    },
+                  );
+                }),
+          );
+        });
   }
 }

@@ -1,4 +1,5 @@
-
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/danh_sach/danh_sach_nhiem_vu_mobile.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -29,7 +30,6 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;
-
   }
 
   @override
@@ -43,6 +43,7 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
@@ -86,8 +87,7 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                 )
               ],
             );
-          }
-      ),
+          }),
       padding: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -97,7 +97,14 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
             stream: _nhiemVuCubit.getTonghopNhiemVu,
             builder: (context, snapshot) {
               final data = snapshot.data ?? <TongHopNhiemVuModel>[];
+              if(data.isEmpty){
+                return const Padding(
+                  padding:  EdgeInsets.symmetric(vertical: 100),
+                  child: NodataWidget(),
+                );
+              }
               return GridView.count(
+                padding: EdgeInsets.zero,
                 crossAxisCount: 2,
                 mainAxisSpacing: 17,
                 crossAxisSpacing: 17,
@@ -108,7 +115,23 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                   (index) {
                     final result = data[index];
                     return GestureDetector(
-                      onTap: (){
+                      onTap: () {
+                        _nhiemVuCubit.clickScreen(result.tongHopNhiemVuModel);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DanhSachNhiemVuMobile(
+                              ngayBatDau: _nhiemVuCubit.startDate.toString(),
+                              ngayKetThuc: _nhiemVuCubit.endDate.toString(),
+                              isCheck: _nhiemVuCubit.selectKeyDonVi ==
+                                      SelectKey.DON_VI
+                                  ? false
+                                  : true,
+                              mangTrangThai: _nhiemVuCubit.mangTrangThai,
+                              trangThaiHanXuLy: _nhiemVuCubit.trangThaiHanXuLy,
+                            ),
+                          ),
+                        );
                       },
                       child: NhiemVuWidget(
                         title: result.tongHopNhiemVuModel.getText(),

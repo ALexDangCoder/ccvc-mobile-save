@@ -71,12 +71,11 @@ class PageData {
   }
 
   CalendarMeetingModel toDomain() => CalendarMeetingModel(
-        title: noiDungTheoDoi?.parseHtml() ?? '',
         loaiNhiemVu: loaiNhiemVu ?? '',
         hanXuLy: hanXuLy ?? '',
         maTrangThai: maTrangThai ?? '',
         id: id ?? '',
-        noiDungTheoDoi: noiDungTheoDoi ?? '',
+        noiDungTheoDoi: noiDungTheoDoi?.parseHtml() ?? '',
         soNhiemVu: soNhiemVu ?? '',
         tinhHinhThucHienNoiBo: tinhHinhThucHienNoiBo ?? '',
       );

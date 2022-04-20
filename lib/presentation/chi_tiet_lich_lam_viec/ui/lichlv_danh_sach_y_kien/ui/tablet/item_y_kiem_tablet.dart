@@ -6,11 +6,9 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class ItemYKienTablet extends StatelessWidget {
- final YKienModel yKienModel;
-  const ItemYKienTablet({
-    Key? key,
-   required this.yKienModel
-  }) : super(key: key);
+  final YKienModel yKienModel;
+
+  const ItemYKienTablet({Key? key, required this.yKienModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +17,8 @@ class ItemYKienTablet extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: bgTabletItem,
-        border: Border.all(color: cellColorborder),
+        color: colorNumberCellQLVB,
+        border: Border.all(color: borderColor.withOpacity(0.5)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -56,7 +54,7 @@ class ItemYKienTablet extends StatelessWidget {
                   child: Text(
                     DateTime.parse(yKienModel.time).toStringWithListFormat,
                     style: textNormalCustom(
-                      color: infoColor,
+                      color: dateColor,
                       fontWeight: FontWeight.w400,
                       fontSize: 12.0.textScale(),
                     ),

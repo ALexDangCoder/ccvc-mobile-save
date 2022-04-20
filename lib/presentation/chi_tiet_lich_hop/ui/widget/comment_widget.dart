@@ -99,9 +99,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                     widget.cubit.themYKien(
                       idLichHop: widget.id,
                       yKien: vl,
-                      scheduleOpinionId: widget.object.id ?? '', phienHopId: '',
+                      scheduleOpinionId: widget.object.id ?? '',
+                      phienHopId: '',
                     );
-                    widget.cubit.initData(id: widget.id, danhSachYKien: true);
+                    widget.cubit.getDanhSachYKien(
+                      widget.id,
+                      widget.cubit.getPhienHopId,
+                    );
                   },
                 ),
               )

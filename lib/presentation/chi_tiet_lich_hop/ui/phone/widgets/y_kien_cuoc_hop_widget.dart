@@ -11,9 +11,10 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class YKienCuocHopWidget extends StatefulWidget {
+  final DetailMeetCalenderCubit cubit;
   final String id;
 
-  const YKienCuocHopWidget({Key? key, required this.id}) : super(key: key);
+  const YKienCuocHopWidget({Key? key, required this.id, required this.cubit}) : super(key: key);
 
   @override
   _YKienCuocHopWidgetState createState() => _YKienCuocHopWidgetState();
@@ -21,13 +22,6 @@ class YKienCuocHopWidget extends StatefulWidget {
 
 class _YKienCuocHopWidgetState extends State<YKienCuocHopWidget> {
   DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    cubit.initData(id: widget.id, danhSachYKien: true);
-  }
 
   @override
   Widget build(BuildContext context) {

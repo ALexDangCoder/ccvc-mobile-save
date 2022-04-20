@@ -1,4 +1,7 @@
 
+import 'dart:developer';
+
+import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -90,22 +93,36 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                 final result = data[index];
                 return Padding(
                   padding: const EdgeInsets.only(top: 16),
-                  child: ContainerInfoWidget(
-                    title: result.title,
-                    status: result.documentStatus.getText(),
-                    colorStatus: result.documentStatus.getColor(),
-                    listData: [
-                      InfoData(
-                        urlIcon: ImageAssets.icSoKyHieu,
-                        key: S.current.so_ky_hieu,
-                        value: result.kyHieu,
-                      ),
-                      InfoData(
-                        urlIcon: ImageAssets.icAddress,
-                        key: S.current.noi_gui,
-                        value: result.noiGui,
-                      ),
-                    ],
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChiTietYKNDScreen(
+                            iD:result.id,
+                            taskID:result.taskId ,
+                            ),
+                        ),
+                      );
+
+                    },
+                    child: ContainerInfoWidget(
+                      title: result.title,
+                      status: result.documentStatus.getText(),
+                      colorStatus: result.documentStatus.getColor(),
+                      listData: [
+                        InfoData(
+                          urlIcon: ImageAssets.icSoKyHieu,
+                          key: S.current.so_ky_hieu,
+                          value: result.kyHieu,
+                        ),
+                        InfoData(
+                          urlIcon: ImageAssets.icAddress,
+                          key: S.current.noi_gui,
+                          value: result.noiGui,
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }),

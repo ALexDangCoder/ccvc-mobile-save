@@ -6,9 +6,11 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/cancel_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/them_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
@@ -119,6 +121,7 @@ mixin LichLamViecRepository {
     String dateRepeat,
     String dateRepeat1,
     bool only,
+    List<int> days,
   );
 
   Future<Result<MessageModel>> taoBaoCaoKetQua(
@@ -126,4 +129,6 @@ mixin LichLamViecRepository {
     String scheduleId,
     List<File> files,
   );
+
+  Future<Result<ThemYKienModel>> themYKien(ThemYKienRequest themYKienRequest);
 }

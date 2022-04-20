@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -51,6 +52,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   List<ItemThongBaoModelMyCalender> listLanhDaoLichHop = [];
   String idDonViLanhDao = '';
   String titleAppbar = '';
+  String idThongKe = '';
   BehaviorSubject<List<bool>> selectTypeCalendarSubject =
       BehaviorSubject.seeded([true, false, false]);
   Type_Choose_Option_List typeLH = Type_Choose_Option_List.DANG_LICH;
@@ -64,6 +66,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   int totalPage = 2;
   bool isCheckNgay = false;
 
+  BehaviorSubject<bool> isListThongKeSubject = BehaviorSubject.seeded(false);
   late BuildContext context;
   BehaviorSubject<int> index = BehaviorSubject.seeded(0);
 
@@ -198,9 +201,10 @@ class LichHopCubit extends BaseCubit<LichHopState> {
         for (var i in value) {
           dataCoCauLichHop.add(
             ChartData(
-              i.name ?? '',
-              i.quantities?.toDouble() ?? 0,
-              i.color ?? Colors.white,
+              id: i.id,
+              title: i.name ?? '',
+              value: i.quantities?.toDouble() ?? 0,
+              color: i.color ?? Colors.white,
             ),
           );
         }
@@ -428,10 +432,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     listDSLH.clear();
     page = 1;
 
-    postDanhSachLichHop();
-    getDashboard();
+    if (isListThongKeSubject.value) {
+      postDanhSachThongKe(idThongKe);
+      getDashboard();
+      postEventsCalendar();
+    } else {
+      postDanhSachLichHop();
+    }
     menuCalendar();
-    postEventsCalendar();
     postStatisticByMonth();
 
     getDashBoardThongKe();
@@ -448,10 +456,14 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 
     listDSLH.clear();
     page = 1;
-    postDanhSachLichHop();
-    getDashboard();
+    if (isListThongKeSubject.value) {
+      postDanhSachThongKe(idThongKe);
+      getDashboard();
+      postEventsCalendar();
+    } else {
+      postDanhSachLichHop();
+    }
     menuCalendar();
-    postEventsCalendar();
     postStatisticByMonth();
 
     getDashBoardThongKe();
@@ -466,16 +478,42 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     endDate = selectDay;
     listDSLH.clear();
     page = 1;
-    postDanhSachLichHop();
-    getDashboard();
+    if (isListThongKeSubject.value) {
+      postDanhSachThongKe(idThongKe);
+      getDashboard();
+      postEventsCalendar();
+    } else {
+      postDanhSachLichHop();
+    }
     menuCalendar();
-    postEventsCalendar();
     postStatisticByMonth();
     getDashBoardThongKe();
     postCoCauLichHop();
     postToChucBoiDonVi();
     postTiLeThamDu();
     stateCalendarSubject.add(CalendarController());
+  }
+
+  Future<void> postDanhSachThongKe(String id) async {
+    showLoading();
+    final result = await hopRepo.postDanhSachThongKe(
+      DanhSachThongKeRequest(
+        dateFrom: startDate.formatApiDDMMYYYYSlash,
+        dateTo: endDate.formatApiDDMMYYYYSlash,
+        pageIndex: page,
+        pageSize: 10,
+        typeCalendarId: id,
+      ),
+    );
+    result.when(
+      success: (value) {
+        totalPage = value.totalPage ?? 1;
+
+        danhSachLichHopSubject.add(value);
+      },
+      error: (error) {},
+    );
+    showContent();
   }
 
   Future<void> postDanhSachLichHop() async {

@@ -16,11 +16,15 @@ class AppConstants {
   @JsonKey(name: 'base_url_CCVC')
   String baseUrlCCVC;
 
+  @JsonKey(name: 'base_url_NOTI')
+  String baseUrlNOTI;
+
   AppConstants(
     this.type,
     this.baseUrlGateWay,
     this.baseUrlCommon,
     this.baseUrlCCVC,
+    this.baseUrlNOTI,
   );
 
   factory AppConstants.fromJson(Map<String, dynamic> json) =>

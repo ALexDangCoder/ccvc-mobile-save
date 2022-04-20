@@ -149,7 +149,7 @@ class _ThemDonViPhoiHopKhacScreenState
                             width: 20,
                             height: 20,
                             child: Center(
-                                child: SvgPicture.asset(ImageAssets.icPhone)),
+                                child: SvgPicture.asset(ImageAssets.icPhone),),
                           ),
                           validator: (value) {
                             return (value ?? '').checkSdt();

@@ -276,6 +276,14 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
     }
     return 0;
   }
+
+  void addThuKyToList(String value) {
+    thuKy.add(value);
+  }
+
+  void removeThuKy(String value) {
+    thuKy.remove(value);
+  }
 }
 
 ///Công tác chuẩn bị

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -18,7 +17,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
@@ -28,8 +26,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
-import 'package:ccvc_mobile/domain/model/message_model.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
@@ -139,27 +136,19 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     final queue = Queue(parallel: 1);
     // unawaited(queue.add(() => getThongTinPhongHopApi()));
     // unawaited(queue.add(() => getDanhSachThietBi()));
-    // unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
-    if (xemKetLuanHop == true) {
-      unawaited(queue.add(() => getXemKetLuanHop(id ?? '')));
-    }
-    if (danhSachNhiemVu == true) {
-      unawaited(queue.add(() => getDanhSachNhiemVu(id ?? '')));
-    }
+    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id ?? '')));
+    unawaited(queue.add(() => getXemKetLuanHop(id ?? '')));
+    unawaited(queue.add(() => getDanhSachNhiemVu(id ?? '')));
     // await queue.onComplete.catchError((er) {});
     // await getDanhSachPhatBieuLichHop(typeStatus.value, id);
     // await getDanhSachBieuQuyetLichHop(id);
     // await soLuongPhatBieuData(id: id);
-    if (danhSachPhienHopYkien == true) {
-      await getDanhSachPhienHop(id ?? '');
-    }
-    if (danhSachYKien == true) {
-      await getDanhSachYKien(id ?? '', '');
-    }
+    await getDanhSachPhienHop(id ?? '');
+    await getDanhSachYKien(id ?? '', '');
     // await postChonMauHop();
     // await ListStatusKetLuanHop();
     // await danhSachCanBoTPTG(id: id);
-    // await getListPhienHop(id);
+    await getListPhienHop(id ?? '');
     showContent();
     queue.dispose();
   }

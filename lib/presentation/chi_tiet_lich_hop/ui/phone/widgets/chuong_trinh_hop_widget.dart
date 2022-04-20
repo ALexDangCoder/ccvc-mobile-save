@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_phien_hop.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -86,6 +87,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return CellDetailMeet(
                       listPhienHopModel: data[index],
+                      context: context,
                     );
                   },
                 );
@@ -130,6 +132,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return CellDetailMeet(
                       listPhienHopModel: data[index],
+                      context: context,
                     );
                   },
                 );
@@ -141,7 +144,9 @@ class ChuongTrinhHopWidget extends StatelessWidget {
     );
   }
 
-  Widget CellDetailMeet({required ListPhienHopModel listPhienHopModel}) {
+  Widget CellDetailMeet(
+      {required ListPhienHopModel listPhienHopModel,
+      required BuildContext context}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -160,7 +165,20 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                 ),
               ),
               const Expanded(child: SizedBox()),
-              SvgPicture.asset(ImageAssets.icEditBlue),
+              GestureDetector(
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    child: SuaPhienHopScreen(
+                      id: id,
+                      cubit: cubit,
+                      phienHopModel: listPhienHopModel,
+                    ),
+                    title: S.current.sua_phien_hop,
+                  );
+                },
+                child: SvgPicture.asset(ImageAssets.icEditBlue),
+              ),
               const SizedBox(
                 width: 20,
               ),

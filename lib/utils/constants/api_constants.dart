@@ -78,7 +78,7 @@ class ApiConstants {
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
 
-
+  static const EDIT_CHUONG_TRINH_HOP = '  /vpdt/api/MeetingSection/edit';
 
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';

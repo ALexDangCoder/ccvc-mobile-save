@@ -32,10 +32,12 @@ import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_state.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/edit_ket_luan_hop_screen.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:intl/intl.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -128,6 +130,66 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   String id = '';
   List<LoaiSelectModel> listLoaiHop = [];
+  String ngaySinhs = '';
+  List<File>? listFile = [];
+
+  TimerData subStringTime(String time) {
+    final DateFormat dateFormat = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    final dateTime = dateFormat.parse(time);
+    return TimerData(hour: dateTime.hour, minutes: dateTime.minute);
+  }
+
+  Future<void> selectBirthdayEvent(String birthday) async {
+    ngaySinhs = birthday;
+  }
+
+  TimerData start = TimerData(hour: 0, minutes: 0);
+  TimerData end = TimerData(hour: 0, minutes: 0);
+
+  String plus(String date, TimerData time) {
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd 00:00:00');
+    final dateTime = dateFormat.parse(date).formatApi;
+    final times = time.hour;
+    if (time.hour < 10) {
+      return '$dateTime' + '0$times:${time.minutes}';
+    }
+    return '$dateTime' + '$times:${time.minutes}';
+  }
+
+  Future<void> suaChuongTrinhHop({
+    required String id,
+    required String lichHopId,
+    required String tieuDe,
+    required String thoiGianBatDau,
+    required String thoiGianKetThuc,
+    required String canBoId,
+    required String donViId,
+    required String noiDung,
+    required bool isMultipe,
+    required List<File>? file,
+  }) async {
+    showLoading();
+
+    final result = await hopRp.suaChuongTrinhHop(
+      id,
+      lichHopId,
+      tieuDe,
+      thoiGianBatDau,
+      thoiGianKetThuc,
+      canBoId,
+      donViId,
+      noiDung,
+      isMultipe,
+      file ?? [],
+    );
+
+    result.when(
+      success: (value) {},
+      error: (error) {},
+    );
+
+    showContent();
+  }
 
   Future<void> initData({
     required String id,
@@ -137,13 +199,15 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     final queue = Queue(parallel: 5);
     // unawaited(queue.add(() => getThongTinPhongHopApi()));
     // unawaited(queue.add(() => getDanhSachThietBi()));
-    // unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
+
     // await queue.onComplete.catchError((er) {});
     // await getDanhSachPhatBieuLichHop(typeStatus.value, id);
     // await getDanhSachBieuQuyetLichHop(id);
     // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
     // await danhSachCanBoTPTG(id: id);
-    await getListPhienHop(id);
+    ///chuong trinh hop
+    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
+    unawaited(queue.add(() => getListPhienHop(id)));
 
     ///kết luận họp
     unawaited(queue.add(() => getDanhSachNhiemVu(id)));

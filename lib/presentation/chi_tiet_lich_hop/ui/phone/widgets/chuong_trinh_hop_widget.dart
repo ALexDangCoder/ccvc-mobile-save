@@ -170,9 +170,10 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                   showBottomSheetCustom(
                     context,
                     child: SuaPhienHopScreen(
-                      id: id,
+                      id: listPhienHopModel.id ?? '',
                       cubit: cubit,
                       phienHopModel: listPhienHopModel,
+                      lichHopId: id,
                     ),
                     title: S.current.sua_phien_hop,
                   );
@@ -338,7 +339,6 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 widget.cubit.ThemPhienHop(widget.id);
                 Navigator.pop(context);
               }
-
             },
             onPressed1: () {
               Navigator.pop(context);

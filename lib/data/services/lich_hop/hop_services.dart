@@ -41,6 +41,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/moi_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
@@ -297,5 +298,19 @@ abstract class HopServices {
   @POST(ApiConstants.THEM_PHIEN_NhIEM_VU)
   Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(
     @Part() ThemNhiemVuRequest themNhiemVuRequest,
+  );
+
+  @PUT(ApiConstants.EDIT_CHUONG_TRINH_HOP)
+  Future<SuaChuongTrinhHopResponse> suaChuongTrinhHop(
+    @Part(name: 'Id') String id,
+    @Part(name: 'LichHopId') String lichHopId,
+    @Part(name: 'TieuDe') String tieuDe,
+    @Part(name: 'ThoiGian_BatDau') String thoiGianBatDau,
+    @Part(name: 'ThoiGian_KetThuc') String thoiGianKetThuc,
+    @Part(name: 'CanBoId') String canBoId,
+    @Part(name: 'DonViId') String donViId,
+    @Part(name: 'NoiDung') String noiDung,
+    @Part(name: 'IsMultipe') bool isMultipe,
+    @Part(name: 'Files') List<File> file,
   );
 }

@@ -1,23 +1,26 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
-import 'package:ccvc_mobile/widgets/selectdate/custom_selectdate.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SuaPhienHopScreen extends StatefulWidget {
   final String id;
+  final String lichHopId;
   final DetailMeetCalenderCubit cubit;
   final ListPhienHopModel phienHopModel;
 
@@ -25,6 +28,7 @@ class SuaPhienHopScreen extends StatefulWidget {
     Key? key,
     required this.cubit,
     required this.id,
+    required this.lichHopId,
     required this.phienHopModel,
   }) : super(key: key);
 
@@ -37,6 +41,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   TextEditingController tenPhienHop = TextEditingController();
   TextEditingController ngay = TextEditingController();
+  TextEditingController ngayKetThuc = TextEditingController();
   TextEditingController nguoiChuTri = TextEditingController();
   TextEditingController noiDung = TextEditingController();
 
@@ -45,10 +50,9 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
     super.initState();
     tenPhienHop.text = widget.phienHopModel.tieuDe ?? '';
     ngay.text = widget.phienHopModel.thoiGianBatDau ?? '';
+    ngayKetThuc.text = widget.phienHopModel.thoiGianKetThuc ?? '';
     noiDung.text = widget.phienHopModel.noiDung ?? '';
-    print(
-        "<<<<<<<<<<<<<<<<${DateTime.parse(ngay.text).formatApiDDMMYYYYSlash}");
-    print("<<<<<<<<<<<<<<<<${DateTime.now().toString()}");
+    print("<<<<<<<${HiveLocal.getDataUser()?.userInformation?.id ?? ''}");
   }
 
   @override
@@ -64,6 +68,24 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
             onPressed2: () {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
+                widget.cubit.suaChuongTrinhHop(
+                  id: widget.id,
+                  lichHopId: widget.lichHopId,
+                  tieuDe: tenPhienHop.text,
+                  thoiGianBatDau: widget.cubit
+                      .plus(widget.cubit.ngaySinhs, widget.cubit.start),
+                  thoiGianKetThuc: widget.cubit
+                      .plus(widget.cubit.ngaySinhs, widget.cubit.end),
+                  canBoId: HiveLocal.getDataUser()?.userId ?? '',
+                  donViId: HiveLocal.getDataUser()
+                          ?.userInformation
+                          ?.donViTrucThuoc
+                          ?.id ??
+                      '',
+                  noiDung: noiDung.text,
+                  isMultipe: true,
+                  file: widget.cubit.listFile ?? [],
+                );
                 Navigator.pop(context);
               }
             },
@@ -98,21 +120,27 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 InputInfoUserWidget(
                   title: S.current.thoi_gian_hop,
                   isObligatory: true,
-                  child: CustomSelectDate(
-                    value: DateTime.now().toString(),
-                    // value: DateTime.parse(ngay.text).formatApiDDMMYYYYSlash,
-                    onSelectDate: (value) {
-                      widget.cubit.taoPhienHopRepuest.thoiGian_BatDau =
-                          value.toString();
-                      widget.cubit.taoPhienHopRepuest.thoiGian_KetThuc =
-                          value.toString();
+                  child: SelectDate(
+                    key: UniqueKey(),
+                    paddings: 10,
+                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
+                    value: ngay.text,
+                    onSelectDate: (dateTime) {
+                      widget.cubit.selectBirthdayEvent(dateTime);
+                      widget.cubit.ngaySinhs = dateTime;
                     },
                   ),
                 ),
                 spaceH20,
                 BaseChooseTimerWidget(
+                  timeBatDau: widget.cubit.subStringTime(ngay.text),
                   key: _keyBaseTime,
+                  timeKetThuc: widget.cubit.subStringTime(ngayKetThuc.text),
                   validator: () {},
+                  onChange: (start, end) {
+                    widget.cubit.start = start;
+                    widget.cubit.end = end;
+                  },
                 ),
                 StreamBuilder<List<NguoiChutriModel>>(
                   stream: widget.cubit.listNguoiCHuTriModel.stream,
@@ -149,7 +177,9 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 spaceH20,
                 ButtonSelectFile(
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (value) {},
+                  onChange: (value) {
+                    widget.cubit.listFile = value;
+                  },
                 )
               ],
             ),

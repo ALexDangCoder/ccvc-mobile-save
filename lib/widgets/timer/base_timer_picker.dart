@@ -7,9 +7,16 @@ import 'package:flutter/material.dart';
 class BaseChooseTimerWidget extends StatefulWidget {
   final String? Function()? validator;
   final Function(TimerData, TimerData)? onChange;
+  final TimerData? timeBatDau;
+  final TimerData? timeKetThuc;
 
-  const BaseChooseTimerWidget({Key? key, this.validator, this.onChange})
-      : super(key: key);
+  const BaseChooseTimerWidget({
+    Key? key,
+    this.validator,
+    this.onChange,
+    this.timeBatDau,
+    this.timeKetThuc,
+  }) : super(key: key);
 
   @override
   State<BaseChooseTimerWidget> createState() => BaseChooseTimerWidgetState();
@@ -41,6 +48,7 @@ class BaseChooseTimerWidgetState extends State<BaseChooseTimerWidget> {
           children: [
             Expanded(
               child: TimeDateInputWidget(
+                initTimerData: widget.timeBatDau,
                 onChange: (value) {
                   startDate = value;
                   if (widget.onChange != null) {
@@ -58,6 +66,7 @@ class BaseChooseTimerWidgetState extends State<BaseChooseTimerWidget> {
             ),
             Expanded(
               child: TimeDateInputWidget(
+                initTimerData: widget.timeKetThuc,
                 onChange: (value) {
                   endDate = value;
                   if (widget.onChange != null) {

@@ -48,12 +48,20 @@ extension DateFormatString on DateTime {
     return DateFormat('HH:ss').format(this);
   }
 
+  String get formatApiFixMeet {
+    return DateFormat('HH:mm').format(this);
+  }
+
   String get formatApiHH {
     return DateFormat('HH:mm:ss').format(this);
   }
 
   String get formatApiStartDay {
     return DateFormat('yyyy/MM/dd 00:00:00').format(this);
+  }
+
+  String get formatApiFix {
+    return DateFormat('yyyy-MM-dd 00:00:00').format(this);
   }
 
   String get formatApiEndDay {

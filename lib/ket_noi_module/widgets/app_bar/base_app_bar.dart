@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/app_config.dart';
@@ -15,6 +16,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Color? backGroundColor;
   final List<Widget>? actions;
+  final double elevation;
 
   BaseAppBar({
     Key? key,
@@ -22,6 +24,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
     this.leadingIcon,
     this.actions,
     this.backGroundColor,
+    this.elevation = 0,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -34,7 +37,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor:
           APP_DEVICE == DeviceType.MOBILE ? backgroundColorApp : bgQLVBTablet,
       bottomOpacity: 0.0,
-      elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
+      elevation: APP_DEVICE == DeviceType.MOBILE ? elevation : 0.7,
       shadowColor: bgDropDown,
       automaticallyImplyLeading: false,
       title: Text(

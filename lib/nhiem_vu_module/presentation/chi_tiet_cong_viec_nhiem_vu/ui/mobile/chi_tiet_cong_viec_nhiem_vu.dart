@@ -40,7 +40,7 @@ class _ChitietCongViecNhiemVuMobileState
         },
         child: ProviderWidget<ChiTietCongViecNhiemVuCubit>(
           cubit: cubit,
-          child:  StateStreamLayout(
+          child: StateStreamLayout(
             textEmpty: S.current.khong_co_du_lieu,
             retry: () {},
             error: AppException(
@@ -54,14 +54,15 @@ class _ChitietCongViecNhiemVuMobileState
                 child: Column(
                   children: [
                     StreamBuilder<ChiTietCongViecNhiemVuModel>(
-                        stream: cubit.chiTietCongViecSubject,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data;
-                          return WidgetThongTinCongViecNhiemVu(
-                            cubit: cubit,
-                            data: data ?? ChiTietCongViecNhiemVuModel(),
-                          );
-                        },),
+                      stream: cubit.chiTietCongViecSubject,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data;
+                        return WidgetThongTinCongViecNhiemVu(
+                          cubit: cubit,
+                          data: data ?? ChiTietCongViecNhiemVuModel(),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

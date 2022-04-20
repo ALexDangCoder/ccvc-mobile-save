@@ -14,6 +14,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class SituationOfHandlingPeopleTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const SituationOfHandlingPeopleTabletWidget({
     Key? key,
     required this.homeItemType,
@@ -27,6 +28,7 @@ class SituationOfHandlingPeopleTabletWidget extends StatefulWidget {
 class _SituationOfHandlingPeopleWidgetState
     extends State<SituationOfHandlingPeopleTabletWidget> {
   final TinhHinhXuLyYKienCubit _yKienCubit = TinhHinhXuLyYKienCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -38,25 +40,26 @@ class _SituationOfHandlingPeopleWidgetState
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
-        spacingTitle: 0,
-        minHeight: 415,
-        maxHeight: 415,
-        title: S.current.situation_of_handling_people,
-        onTapIcon: () {
-          HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
-        },
-        selectKeyDialog: _yKienCubit,
-        dialogSelect: StreamBuilder(
+      spacingTitle: 0,
+      minHeight: 415,
+      maxHeight: 415,
+      title: S.current.situation_of_handling_people,
+      onTapIcon: () {
+        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+      },
+      selectKeyDialog: _yKienCubit,
+      dialogSelect: StreamBuilder(
           stream: _yKienCubit.selectKeyDialog,
           builder: (context, snapshot) {
             return DialogSettingWidget(
               type: widget.homeItemType,
               listSelectKey: <DialogData>[
                 DialogData(
-                  onSelect: (value,startDate,endDate) {
+                  onSelect: (value, startDate, endDate) {
                     _yKienCubit.selectDate(
                         selectKey: value,
                         startDate: startDate,
@@ -67,8 +70,7 @@ class _SituationOfHandlingPeopleWidgetState
                 )
               ],
             );
-          }
-        ),
+          }),
       child: Flexible(
         child: LoadingOnly(
           stream: _yKienCubit.stateStream,
@@ -83,13 +85,13 @@ class _SituationOfHandlingPeopleWidgetState
                   paddingLeftSubTitle: 15.w,
                   chartData: List.generate(
                     data.length,
-                        (index) {
+                    (index) {
                       final result = data[index];
                       final color = TinhHinhYKienModel.listColor[index];
                       return ChartData(
-                        result.status,
-                        result.soLuong.toDouble(),
-                        color,
+                        title: result.status,
+                        value: result.soLuong.toDouble(),
+                        color: color,
                       );
                     },
                   ),

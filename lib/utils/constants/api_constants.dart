@@ -6,6 +6,8 @@ class ApiConstants {
   static const int TIME_OUT = 30;
   static const String POST_DANH_SACH_LICH_HOP =
       '/vpdt/api/MeetingSchedule/calendar-list';
+  static const String POST_DANH_SACH_THONG_KE =
+      '/vpdt/api/Statistic/calendar-list-by-statistic';
   static const String GET_DASH_BOARD_LH =
       '/vpdt/api/MeetingSchedule/count-in-dashboard';
   static const String GET_LIST_TOKEN = '/market/coin-list';
@@ -91,14 +93,18 @@ class ApiConstants {
 
   static const CANCEL_DETAIL_CELENDER_MEET =
       '/vpdt/api/MeetingSchedule/cancel?';
-  static const MENU_LICH_HOP = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
+  static const MENU_LICH_HOP =
+      '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
   static const STATISTIC_BY_MONTH = '/vpdt/api/Statistic/statistic-by-month';
   static const DASHBOARD_THONG_KE = '/vpdt/api/Statistic/statistics';
-  static const CO_CAU_LICH_HOP = '/vpdt/api/Statistic/statistic-by-type-of-calendar';
+  static const CO_CAU_LICH_HOP =
+      '/vpdt/api/Statistic/statistic-by-type-of-calendar';
   static const STATUS_LIST_KET_LUAN_HOP = '/vpdt/api/ReportStatus/list?';
   static const MENU_LICH_LV = '/vpdt/api/MeetingSchedule/count-lich-hop-don-vi';
-  static const TO_CHUC_BOI_DON_VI = '/vpdt/api/Statistic/statistic-by-processing-unit';
-  static const TI_LE_THAM_GIA = '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
+  static const TO_CHUC_BOI_DON_VI =
+      '/vpdt/api/Statistic/statistic-by-processing-unit';
+  static const TI_LE_THAM_GIA =
+      '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
   static const SUA_LICH_HOP = '/api/MeetingSchedule/edit-meeting';
 
   static const String POST_FILE_TAO_LICH_HOP =
@@ -148,38 +154,59 @@ class ApiConstants {
   static const MENU_BCMXH = '/api/NewsNetViews/menu-items?';
   static const Tin_TUC_THOI_SU = '/api/NewsNetViews/tin_tuc_thoi_su?';
   static const BAI_VIET_THEO_DOI = '/api/NewsNetViews/get_bai_viet_theo_doi?';
-  static const LICH_SU_THU_HOI_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-lich-su-thu-hoi';
-  static const LICH_SU_TRA_LAI_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-lich-su-tra-lai';
-  static const LICH_SU_KY_DUYET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-lich-su-luong-xu-ly';
-  static const LICH_SU_HUY_DUYET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-lich-su-huy-duyet';
-  static const LICH_SU_CAP_NHAT_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-lich-su-cap-nhat';
+  static const LICH_SU_THU_HOI_VAN_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-lich-su-thu-hoi';
+  static const LICH_SU_TRA_LAI_VAN_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-lich-su-tra-lai';
+  static const LICH_SU_KY_DUYET_VAN_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-lich-su-luong-xu-ly';
+  static const LICH_SU_HUY_DUYET_VAN_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-lich-su-huy-duyet';
+  static const LICH_SU_CAP_NHAT_VAN_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-lich-su-cap-nhat';
   static const SEARCH_TIN_TUC = '/api/NewsNetViews/search_news?';
-  static const DASH_BOARD_TINH_HINH_XU_LY = '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-pakn';
-  static const DASH_BOARD_PHAN_LOAI = '/pakn/api/IocApi/thong-ke-tinh-hinh-theo-nguon';
-  static const THONG_TIN_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/thong-ke-pakn-theo-trang-thai';
+  static const DASH_BOARD_TINH_HINH_XU_LY =
+      '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-pakn';
+  static const DASH_BOARD_PHAN_LOAI =
+      '/pakn/api/IocApi/thong-ke-tinh-hinh-theo-nguon';
+  static const THONG_TIN_Y_KIEN_NGUOI_DAN =
+      '/pakn/api/IocApi/thong-ke-pakn-theo-trang-thai';
   static const DANH_SACH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const CHI_TIET_Y_KIEN_NGUOI_DAN = '/pakn/api/Tasks/chi-tiet-kien-nghi';
   static const SEARCH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const GET_LIST_WIDGET = '/api/Widget/get-list-widget?';
-  static const GET_DANH_SACH_Y_KIEN_PAKN = '/pakn/api/TaskYKien/danh-sach-ykien';
+  static const GET_DANH_SACH_Y_KIEN_PAKN =
+      '/pakn/api/TaskYKien/danh-sach-ykien';
   static const BAO_CAO_YKND = '/pakn/api/Dashboard/statistics-by-top';
-  static const DASH_BOARD_BAO_CAO_YKND = '/pakn/api/Dashboard/statistics-by-status';
+  static const DASH_BOARD_BAO_CAO_YKND =
+      '/pakn/api/Dashboard/statistics-by-status';
   static const RESET_LIST_WIDGET = '/api/Widget/reset-dashboard-widget';
-  static const UPDATE_LIST_WIDGET = '/api/Widget/update-dashboard-widget-config';
-  static const BAO_CAO_LINH_VUC_KHAC = '/pakn/api/Dashboard/statistics-by-field';
+  static const UPDATE_LIST_WIDGET =
+      '/api/Widget/update-dashboard-widget-config';
+  static const BAO_CAO_LINH_VUC_KHAC =
+      '/pakn/api/Dashboard/statistics-by-field';
   static const DON_VI_XU_LY = '/pakn/api/Dashboard/statistics-by-unit';
-  static const SO_LUONG_BY_MONTH= '/pakn/api/Dashboard/statistics-by-month';
-  static const TONG_QUAN_BAO_CAO_BCMXH= '/api/NewsNetViews/tong_quan';
-  static const TIN_TONG_HOP_BAO_CAO_BCMXH= '/api/NewsNetViews/dashboard_statistical';
-  static const BAO_CAO_THEO_NGUON_BCMXH= '/api/NewsNetViews/thong_ke_theo_ty_le_nguon';
-  static const BAO_CAO_THEO_SAC_THAI= '/api/NewsNetViews/thong_ke_theo_ty_le_sac_thai';
-  static const BAO_CAO_THEO_THOI_GIAN= '/api/NewsNetViews/thong_ke_theo_thoi_gian';
-  static const BAO_CAO_THEO_NGUON_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_nguon';
-  static const BAO_CAO_THEO_SAC_THAI_LINE_CHART= '/api/NewsNetViews/thong_ke_theo_sac_thai';
-  static const CHANGE_PASS= '/api/auth/change-pass';
-  static const TIEN_TRINH_XU_LY= '/pakn/api/KienNghi/TienTrinhXulyPAKN';
-  static const KET_QUA_XU_LY= '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
-
+  static const SO_LUONG_BY_MONTH = '/api/NewsNetViews/tong_quan';
+  static const TONG_QUAN_BAO_CAO_BCMXH = '/api/NewsNetViews/tong_quan';
+  static const TIN_TONG_HOP_BAO_CAO_BCMXH =
+      '/api/NewsNetViews/dashboard_statistical';
+  static const BAO_CAO_THEO_NGUON_BCMXH =
+      '/api/NewsNetViews/thong_ke_theo_ty_le_nguon';
+  static const BAO_CAO_THEO_SAC_THAI =
+      '/api/NewsNetViews/thong_ke_theo_ty_le_sac_thai';
+  static const BAO_CAO_THEO_THOI_GIAN =
+      '/api/NewsNetViews/thong_ke_theo_thoi_gian';
+  static const BAO_CAO_THEO_NGUON_LINE_CHART =
+      '/api/NewsNetViews/thong_ke_theo_nguon';
+  static const BAO_CAO_THEO_SAC_THAI_LINE_CHART =
+      '/api/NewsNetViews/thong_ke_theo_sac_thai';
+  static const CHANGE_PASS = '/api/auth/change-pass';
+  static const THEM_Y_KIEN = '/vpdt/api/ScheduleOpinion/create';
+  static const TIEN_TRINH_XU_LY = '/pakn/api/KienNghi/TienTrinhXulyPAKN';
+  static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
+  static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
+  static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
+  static const DELETE_NOTIFY = '/api/Notification/delete';
 }
 
 class ImageConstants {

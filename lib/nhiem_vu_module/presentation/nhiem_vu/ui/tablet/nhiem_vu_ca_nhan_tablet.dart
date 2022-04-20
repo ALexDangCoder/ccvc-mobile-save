@@ -99,15 +99,18 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                   chartData: data,
                                   isCheck: true,
                                   cubit: danhSachCubit,
-                                  onTap: (value ) {
+                                  onTap: (value) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DanhSachNhiemVuTablet(
+                                        builder: (context) =>
+                                            DanhSachNhiemVuTablet(
                                           isCheck: widget.isCheck,
                                           ngayBatDau: danhSachCubit.ngayDauTien,
-                                          ngayKetThuc: danhSachCubit.ngayKetThuc,
-                                          mangTrangThai: value.trangThaiBieuDoNhiemVu(),
+                                          ngayKetThuc:
+                                              danhSachCubit.ngayKetThuc,
+                                          mangTrangThai:
+                                              value.trangThaiBieuDoNhiemVu(),
                                         ),
                                       ),
                                     );
@@ -129,15 +132,17 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                   isCheck: false,
                                   cubit: danhSachCubit,
                                   chartData: data,
-                                  onTap: (value ) {
+                                  onTap: (value) {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => DanhSachCongViecTablet(
+                                        builder: (context) =>
+                                            DanhSachCongViecTablet(
                                           isCheck: widget.isCheck,
                                           ngayBatDau: danhSachCubit.ngayDauTien,
-                                          ngayKetThuc: danhSachCubit.ngayKetThuc,
-                                          mangTrangThai:[ value],
+                                          ngayKetThuc:
+                                              danhSachCubit.ngayKetThuc,
+                                          mangTrangThai: [value],
                                         ),
                                       ),
                                     );

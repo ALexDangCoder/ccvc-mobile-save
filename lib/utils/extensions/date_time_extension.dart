@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:intl/intl.dart';
 
-
 enum TimeRange { HOM_NAY, TUAN_NAY, THANG_NAY, NAM_NAY }
 
 extension DateFormatString on DateTime {
@@ -9,6 +8,7 @@ extension DateFormatString on DateTime {
     final dateString = DateFormat.jm('en').format(this);
     return dateString;
   }
+
   String get toStringWithAMPMJMS {
     final dateString = DateFormat.jms('en').format(this);
     return dateString;
@@ -31,14 +31,21 @@ extension DateFormatString on DateTime {
 
     return dateString;
   }
-  String get formatApi{
+
+  String get formatApi {
     return DateFormat('yyyy-MM-dd').format(this);
   }
+
   String get formatApiSS {
     return DateFormat('yyyy/MM/dd HH:mm:ss').format(this);
   }
+
   String get formatApiSSAM {
-    return DateFormat('yyyy/MM/dd ').format(this)+toStringWithAMPMJMS;
+    return DateFormat('yyyy/MM/dd ').format(this) + toStringWithAMPMJMS;
+  }
+
+  String get formatApiDetailSSAM {
+    return DateFormat('HH:ss').format(this);
   }
 
   String get formatApiHH {
@@ -48,13 +55,16 @@ extension DateFormatString on DateTime {
   String get formatApiStartDay {
     return DateFormat('yyyy/MM/dd 00:00:00').format(this);
   }
+
   String get formatApiEndDay {
     return DateFormat('yyyy/MM/dd 23:59:59').format(this);
   }
-  String get formatApiDDMMYYYY{
+
+  String get formatApiDDMMYYYY {
     return DateFormat('dd-MM-yyyy').format(this);
   }
-  String get formatApiDDMMYYYYSlash{
+
+  String get formatApiDDMMYYYYSlash {
     return DateFormat('dd/MM/yyyy').format(this);
   }
 
@@ -126,7 +136,10 @@ extension DateFormatString on DateTime {
   }
 
   List<DateTime> _thangNay() {
-    final startDate = DateTime(year,month,);
+    final startDate = DateTime(
+      year,
+      month,
+    );
     final endDate = DateTime.fromMillisecondsSinceEpoch(
       DateTime.utc(
         year,
@@ -137,7 +150,6 @@ extension DateFormatString on DateTime {
   }
 
   List<DateTime> _namNay() {
-
     final startDate = DateTime(year, 1, 1);
 
     return [startDate, DateTime(year, 12, 31)];

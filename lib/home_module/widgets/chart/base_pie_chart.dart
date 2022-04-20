@@ -152,8 +152,9 @@ class PieChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData(this.title, this.value, this.color);
+  ChartData({this.id ,required this.title, required this.value, required this.color});
 
+  final String? id;
   final String title;
   final double value;
   final Color color;

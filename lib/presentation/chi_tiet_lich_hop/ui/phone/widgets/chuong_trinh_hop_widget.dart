@@ -317,9 +317,10 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
             onPressed2: () {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
+                widget.cubit.ThemPhienHop(widget.id);
                 Navigator.pop(context);
               }
-              widget.cubit.getThemPhienHop(widget.id);
+
             },
             onPressed1: () {
               Navigator.pop(context);

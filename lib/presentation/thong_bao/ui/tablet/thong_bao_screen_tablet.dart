@@ -40,7 +40,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          titleAppbar,
+          S.current.thong_bao,
           style: textNormalCustom(
             color: buttonColor,
             fontSize: 24,

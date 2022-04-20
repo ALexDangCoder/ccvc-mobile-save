@@ -55,7 +55,6 @@ import 'package:ccvc_mobile/domain/model/add_file_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
-import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
@@ -171,6 +170,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<List<ListPhienHopModel>>> getDanhSachPhienHop(
     String id,
   ) {
@@ -374,8 +374,7 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<List<ThietBiPhongHopModel>>> getListThietBiPhongHop(
-    String lichHopId,
-  ) {
+      String lichHopId) {
     return runCatchingAsync<ThietBiPhongHopResponse,
         List<ThietBiPhongHopModel>>(
       () => _hopServices.getListThietBiPhongHop(lichHopId),
@@ -547,6 +546,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+
   @override
   Future<Result<List<DanhSachLoaiNhiemVuLichHopModel>>>
       getDanhSachLoaiNhiemVu() {
@@ -594,8 +594,7 @@ class HopRepositoryImpl implements HopRepository {
       DanhSachThongKeRequest body,
       ) {
     return runCatchingAsync<DanhSachLichHopResponse, DanhSachLichHopModel>(
-          () => _hopServices.postDataThongKe(body),
-          (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),
-    );
+      () => _hopServices.postDataThongKe(body),
+      (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),);
   }
 }

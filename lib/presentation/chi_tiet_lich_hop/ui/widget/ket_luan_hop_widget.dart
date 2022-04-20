@@ -35,17 +35,6 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
   bool isShow = false;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    widget.cubit.initData(
-      id: widget.id,
-      xemKetLuanHop: false,
-      danhSachNhiemVu: true,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: SelectOnlyWidget(
@@ -92,7 +81,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           return ItemDanhSachNhiemVu(
-                            hanXuLy: DateTime.parse(data[index].hanXuLy),
+                            hanXuLy: data[index].hanXuLy,
                             loaiNV: data[index].loaiNhiemVu,
                             ndTheoDoi: data[index].noiDungTheoDoi,
                             soNhiemVu: data[index].soNhiemVu,
@@ -150,7 +139,6 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                     },
                   ),
                   StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
-                    initialData: widget.cubit.danhSachNhiemVu,
                     stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -160,7 +148,7 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
                           itemCount: data.length,
                           itemBuilder: (context, index) {
                             return ItemDanhSachNhiemVu(
-                              hanXuLy: DateTime.parse(data[index].hanXuLy),
+                              hanXuLy: data[index].hanXuLy,
                               loaiNV: data[index].loaiNhiemVu,
                               ndTheoDoi: data[index].noiDungTheoDoi,
                               soNhiemVu: data[index].soNhiemVu,
@@ -274,8 +262,8 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                             textContent:
                                 S.current.ban_co_chac_chan_muon_gui_mai_nay,
                             btnLeftTxt: S.current.khong,
-                            funcBtnRight: () {
-                              cubit.sendMailKetLuatHop(id);
+                            funcBtnRight: () async {
+                              await cubit.sendMailKetLuatHop(id);
                             },
                             title: S.current.gui_email,
                             btnRightTxt: S.current.dong_y,
@@ -311,8 +299,11 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                             textContent:
                                 S.current.ban_co_chac_chan_muon_xoa_klh_nay,
                             btnLeftTxt: S.current.khong,
-                            funcBtnRight: () {
-                              cubit.deleteKetLuanHop(
+                            funcBtnRight: () async {
+                              await cubit.deleteKetLuanHop(
+                                cubit.xemKetLuanHopModel.id ?? '',
+                              );
+                              await cubit.getXemKetLuanHop(
                                   cubit.xemKetLuanHopModel.id ?? '');
                             },
                             title: S.current.xoa_ket_luan_hop,
@@ -374,7 +365,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
   final String soNhiemVu;
   final String ndTheoDoi;
   final String tinhHinhThucHien;
-  final DateTime hanXuLy;
+  final String hanXuLy;
   final String loaiNV;
   final TrangThaiNhiemVu trangThaiNhiemVu;
 
@@ -475,7 +466,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
               widgetRow(
                 name: S.current.han_xu_ly,
                 child: Text(
-                  hanXuLy.toStringWithListFormat,
+                  hanXuLy,
                   style: textNormalCustom(
                     color: textTitle,
                     fontSize: 14.0.textScale(),

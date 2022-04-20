@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_bieu_response.dart';
@@ -17,6 +18,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
@@ -113,7 +115,15 @@ abstract class HopServices {
   @POST(ApiConstants.THEM_PHIEN_HOP_CHI_TIET)
   Future<TaoPhienHopResponse> getThemPhienHop(
     @Query('lichHopId') String lichHopId,
-    @Part(name: '[0].') TaoPhienHopRepuest taoPhienHopRepuest,
+    @Part(name: '[0].canBoId') String canBoId,
+    @Part(name: '[0].donViId') String donViId,
+    @Part(name: '[0].thoiGian_BatDau') String thoiGian_BatDau,
+    @Part(name: '[0].thoiGian_KetThuc') String thoiGian_KetThuc,
+    @Part(name: '[0].noiDung') String noiDung,
+    @Part(name: '[0].tieuDe') String tieuDe,
+    @Part(name: '[0].hoTen') String hoTen,
+    @Part(name: '[0].IsMultipe') bool IsMultipe,
+    @Part(name: '[0].file') List<FilesRepuest> file,
   );
 
   @GET(ApiConstants.CHUONG_TRINH_HOP)
@@ -273,5 +283,13 @@ abstract class HopServices {
   @FormUrlEncoded()
   Future<ListNhiemVuChiTietLichHopResponse> getNhiemVuCHiTietHop(
     @Body() NhiemVuChiTietHopRequest nhiemVuChiTietHopRequest,
+  );
+
+  @GET(ApiConstants.DANH_SACH_LOAI_NHIEM_VU)
+  Future<DanhSachNhiemVulichHopResponse> getDanhSachLoaiNhiemVu();
+
+  @POST(ApiConstants.THEM_PHIEN_NhIEM_VU)
+  Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(
+    @Part() ThemNhiemVuRequest themNhiemVuRequest,
   );
 }

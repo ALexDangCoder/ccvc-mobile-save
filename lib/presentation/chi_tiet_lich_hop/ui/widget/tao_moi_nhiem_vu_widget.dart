@@ -1,10 +1,14 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/text_field_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -12,9 +16,12 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:html_editor_enhanced/utils/utils.dart';
 
 import 'chon_ngay_widget.dart';
 import 'dropdown_widget.dart';
+import 'ket_luan_hop_widget.dart';
+import 'package:flutter_svg/svg.dart';
 
 class TaoMoiNhiemVuWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -35,6 +42,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
 
   @override
   Widget build(BuildContext context) {
+    ThemNhiemVuRequest themNhiemVuRequest;
     return Container(
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
@@ -45,126 +53,196 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              child: FollowKeyBoardWidget(
+                bottomWidget: Row(
                   children: [
-                    sb20(),
-                    DropDownWidget(
-                      isNote: true,
-                      title: S.current.loai_nhiem_vu,
-                      hint: S.current.loai_nhiem_vu,
-                      listData: [
-                        S.current.nhiem_vu_ubnd,
-                        S.current.nhiem_vu_cpvpcp,
-                        S.current.nhiem_vu_dv,
-                      ],
-                      onChange: (value) {},
+                    Expanded(
+                      child: btnSuaLich(
+                        name: S.current.dong,
+                        bgr: buttonColor.withOpacity(0.1),
+                        colorName: textDefault,
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                    sb20(),
-                    ItemTextFieldWidget(
-                      hint: S.current.don_vi_theo_doi,
-                      title: S.current.don_vi_theo_doi,
-                      controller: dvTheoDoiController,
-                      validator: (String? value) {},
-                      onChange: (String value) {},
+                    SizedBox(
+                      width: 16.0.textScale(),
                     ),
-                    sb20(),
-                    ItemTextFieldWidget(
-                      hint: S.current.nguoi_theo_doi,
-                      title: S.current.nguoi_theo_doi,
-                      controller: ngTheoDoiController,
-                      validator: (String? value) {},
-                      onChange: (String value) {},
-                    ),
-                    sb20(),
-                    ItemTextFieldWidget(
-                      hint: '',
-                      title: S.current.noi_dung_theo_doi,
-                      controller: ndTheoDoiController,
-                      isRequired: true,
-                      maxLine: 8,
-                      validator: (String? value) {
-                        return value?.checkNull();
-                      },
-                      onChange: (String value) {},
-                    ),
-                    sb20(),
-                    PickDateWidget(
-                      title: S.current.han_xu_ly,
-                      minimumDate: DateTime.now(),
-                      onChange: (DateTime value) {},
-                    ),
-                    sb20(),
-                    DropDownWidget(
-                      title: S.current.nguoi_giao_nhiem_vu,
-                      hint: S.current.nguoi_giao_nhiem_vu,
-                      listData: [''],
-                      onChange: (value) {},
-                    ),
-                    sb20(),
-                    btnWidget(
-                      name: S.current.van_ban_giao_nhiem_vu,
-                      onTap: () {
-                        showBottomSheetCustom(
-                          context,
-                          title: S.current.van_ban_giao_nhiem_vu,
-                          child: VBGiaoNhiemVu(
-                            soKyHieuController: soKyHieuController,
-                            onChangeSoKyHieu: (String value) {},
-                            onChangeDateTime: (DateTime value) {},
-                            trichYeuController: trichYeuController,
-                            onChangeTrichYeu: (String value) {},
-                          ),
-                        );
-                      },
-                    ),
-                    sb20(),
-                    btnWidget(
-                      name: S.current.van_ban_khac,
-                      onTap: () {
-                        showBottomSheetCustom(
-                          context,
-                          title: S.current.van_ban_khac,
-                          child: VBGiaoNhiemVu(
-                            soKyHieuController: soKyHieuController,
-                            onChangeSoKyHieu: (String value) {},
-                            onChangeDateTime: (DateTime value) {},
-                            trichYeuController: trichYeuController,
-                            onChangeTrichYeu: (String value) {},
-                          ),
-                        );
-                      },
-                    ),
+                    Expanded(
+                      child: btnSuaLich(
+                        name: S.current.xac_nhan,
+                        bgr: labelColor,
+                        colorName: Colors.white,
+                        onTap: () {
+                          keyGroup.currentState!.validator();
+                        },
+                      ),
+                    )
                   ],
                 ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      sb20(),
+                      StreamBuilder<List<DanhSachLoaiNhiemVuLichHopModel>>(
+                          stream: widget
+                              .cubit.danhSachLoaiNhiemVuLichHopModel.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? [];
+                            return DropDownWidget(
+                              isNote: true,
+                              title: S.current.loai_nhiem_vu,
+                              hint: S.current.loai_nhiem_vu,
+                              listData: data.map((e) => e.ten ?? '').toList(),
+                              onChange: (value) {},
+                            );
+                          }),
+                      sb20(),
+                      ItemTextFieldWidget(
+                        hint: S.current.don_vi_theo_doi,
+                        title: S.current.don_vi_theo_doi,
+                        controller: dvTheoDoiController,
+                        validator: (String? value) {},
+                        onChange: (String value) {},
+                      ),
+                      sb20(),
+                      ItemTextFieldWidget(
+                        hint: S.current.nguoi_theo_doi,
+                        title: S.current.nguoi_theo_doi,
+                        controller: ngTheoDoiController,
+                        validator: (String? value) {},
+                        onChange: (String value) {},
+                      ),
+                      sb20(),
+                      ItemTextFieldWidget(
+                        hint: '',
+                        title: S.current.noi_dung_theo_doi,
+                        controller: ndTheoDoiController,
+                        isRequired: true,
+                        maxLine: 8,
+                        validator: (String? value) {
+                          return value?.checkNull();
+                        },
+                        onChange: (String value) {},
+                      ),
+                      sb20(),
+                      PickDateWidget(
+                        title: S.current.han_xu_ly,
+                        minimumDate: DateTime.now(),
+                        onChange: (DateTime value) {},
+                      ),
+                      sb20(),
+                      DropDownWidget(
+                        title: S.current.nguoi_giao_nhiem_vu,
+                        hint: S.current.nguoi_giao_nhiem_vu,
+                        listData: [''],
+                        onChange: (value) {},
+                      ),
+                      sb20(),
+                      btnWidget(
+                        name: S.current.van_ban_giao_nhiem_vu,
+                        onTap: () {
+                          showBottomSheetCustom(
+                            context,
+                            title: S.current.van_ban_giao_nhiem_vu,
+                            child: VBGiaoNhiemVu(
+                              cubit: widget.cubit,
+                              typeVB: 'lienquan',
+                            ),
+                          ).then((value) {
+                            if (value == true) {
+                              setState(mounted, (p0) {}, () {});
+                            } else if (value == null) {
+                              return;
+                            }
+                          });
+                        },
+                      ),
+                      StreamBuilder<List<VBGiaoNhiemVuModel>>(
+                          stream: widget.cubit.listVBGiaoNhiemVu.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data
+                                    ?.where((element) =>
+                                        element.hinhThucVanBan == 'lienquan')
+                                    .toList() ??
+                                [];
+                            return ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return ItemVbGIaoNhiemVuWidget(
+                                  cubit: widget.cubit,
+                                  soKyHieu: data[index].soVanBan ?? '',
+                                  ngayVB: DateTime.parse(
+                                          data[index].ngayVanBan ??
+                                              DateTime.now().toString())
+                                      .toStringWithListFormat,
+                                  trichYeu: data[index].trichYeu ?? '',
+                                  listFile: [],
+                                  onTap: () {
+                                    widget.cubit.vBGiaoNhiemVuModel
+                                        .remove(data[index]);
+                                    widget.cubit.listVBGiaoNhiemVu.sink
+                                        .add(widget.cubit.vBGiaoNhiemVuModel);
+                                  },
+                                );
+                              },
+                            );
+                          }),
+                      sb20(),
+                      btnWidget(
+                        name: S.current.van_ban_khac,
+                        onTap: () {
+                          showBottomSheetCustom(
+                            context,
+                            title: S.current.van_ban_khac,
+                            child: VBGiaoNhiemVu(
+                              cubit: widget.cubit,
+                              typeVB: 'khac',
+                            ),
+                          );
+                        },
+                      ),
+                      StreamBuilder<List<VBGiaoNhiemVuModel>>(
+                          stream: widget.cubit.listVBGiaoNhiemVu.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data
+                                    ?.where((element) =>
+                                        element.hinhThucVanBan == 'khac')
+                                    .toList() ??
+                                [];
+                            return ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return ItemVbGIaoNhiemVuWidget(
+                                  cubit: widget.cubit,
+                                  soKyHieu: data[index].soVanBan ?? '',
+                                  ngayVB: DateTime.parse(
+                                          data[index].ngayVanBan ??
+                                              DateTime.now().toString())
+                                      .toStringWithListFormat,
+                                  trichYeu: data[index].trichYeu ?? '',
+                                  listFile: [],
+                                  onTap: () {
+                                    widget.cubit.vBGiaoNhiemVuModel
+                                        .remove(data[index]);
+                                    widget.cubit.listVBGiaoNhiemVu.sink
+                                        .add(widget.cubit.vBGiaoNhiemVuModel);
+                                  },
+                                );
+                              },
+                            );
+                          }),
+                      sb20(),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            sb20(),
-            Row(
-              children: [
-                Expanded(
-                  child: btnSuaLich(
-                    name: S.current.dong,
-                    bgr: buttonColor.withOpacity(0.1),
-                    colorName: textDefault,
-                    onTap: () {},
-                  ),
-                ),
-                SizedBox(
-                  width: 16.0.textScale(),
-                ),
-                Expanded(
-                  child: btnSuaLich(
-                    name: S.current.xac_nhan,
-                    bgr: labelColor,
-                    colorName: Colors.white,
-                    onTap: () {
-                      keyGroup.currentState!.validator();
-                    },
-                  ),
-                )
-              ],
             ),
             sb20(),
           ],
@@ -242,4 +320,104 @@ Widget btnSuaLich({
       ),
     ),
   );
+}
+
+class ItemVbGIaoNhiemVuWidget extends StatelessWidget {
+  final String soKyHieu;
+  final String ngayVB;
+  final String trichYeu;
+  final Function onTap;
+  final DetailMeetCalenderCubit cubit;
+  final List<String> listFile;
+
+  const ItemVbGIaoNhiemVuWidget({
+    Key? key,
+    required this.soKyHieu,
+    required this.ngayVB,
+    required this.trichYeu,
+    required this.onTap,
+    required this.cubit,
+    required this.listFile,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 16.0.textScale()),
+      padding: EdgeInsets.all(16.0.textScale()),
+      decoration: BoxDecoration(
+        color: bgDropDown.withOpacity(0.1),
+        border: Border.all(color: bgDropDown),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          widgetRow(
+            name: S.current.so_ky_hieu,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    soKyHieu,
+                    style: textNormalCustom(
+                      color: textTitle,
+                      fontSize: 14.0.textScale(),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    onTap();
+                  },
+                  child: SvgPicture.asset(ImageAssets.ic_delete_do),
+                )
+              ],
+            ),
+          ),
+          widgetRow(
+            name: S.current.ngay_van_ban,
+            child: Text(
+              ngayVB,
+              style: textNormalCustom(
+                color: textTitle,
+                fontSize: 14.0.textScale(),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          widgetRow(
+            name: S.current.trich_yeu,
+            child: Text(
+              trichYeu,
+              style: textNormalCustom(
+                color: textTitle,
+                fontSize: 14.0.textScale(),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          widgetRow(
+            name: S.current.file,
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: listFile.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final data = listFile;
+                return Text(
+                  data[index],
+                  style: textDetailHDSD(
+                    fontSize: 14.0.textScale(),
+                    color: choXuLyColor,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

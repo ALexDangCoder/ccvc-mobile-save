@@ -74,6 +74,10 @@ class ApiConstants {
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
   static const TRANG_THAI = '/vpdt/api/ReportStatus/list';
 
+  static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
+
+
+
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
 
@@ -100,6 +104,8 @@ class ApiConstants {
   static const TO_CHUC_BOI_DON_VI = '/vpdt/api/Statistic/statistic-by-processing-unit';
   static const TI_LE_THAM_GIA = '/vpdt/api/Statistic/statistic-for-processing-unit-by-rate';
   static const SUA_LICH_HOP = '/api/MeetingSchedule/edit-meeting';
+
+  static const DANH_SACH_LOAI_NHIEM_VU = '/qlvb/api/qlnv/loai-nhiem-vu/getall?';
 
   static const String POST_FILE_TAO_LICH_HOP =
       '/vpdt/api/Files/add-file-with-meeting';

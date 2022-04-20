@@ -141,7 +141,9 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       context,
                       maxHeight: 280,
                       title: S.current.phan_cong_thu_ky,
-                      child: const PhanCongThuKyWidget(),
+                      child: PhanCongThuKyWidget(
+                        cubit: cubit,
+                      ),
                       isBottomShow: false,
                       funcBtnOk: () {
                         Navigator.pop(context);
@@ -309,7 +311,10 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     PhatBieuWidgetTablet(id: widget.id, cubit: cubit),
                     BieuQuyetWidgetTablet(id: widget.id),
                     KetLuanHopWidget(id: widget.id, cubit: cubit),
-                    YKienCuocHopWidget(id: widget.id),
+                    YKienCuocHopWidget(
+                      id: widget.id,
+                      cubit: cubit,
+                    ),
                   ],
                 ),
               ),

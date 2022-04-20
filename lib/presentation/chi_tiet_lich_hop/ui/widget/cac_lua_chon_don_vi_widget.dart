@@ -32,11 +32,14 @@ class _CacLuaChonDonViWidgetState extends State<CacLuaChonDonViWidget> {
           controller: controller,
           listSelect: widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet,
           onSubmitted: (value) {
-            widget.detailMeetCalenderCubit.addValueToList(value);
-            controller.text = '';
+            if (value != '') {
+              widget.detailMeetCalenderCubit.addValueToList(value);
+              controller.text = '';
+            }
           },
           onDelete: (value) {
             widget.detailMeetCalenderCubit.removeTag(value);
+            setState(() {});
           },
         );
       },
@@ -67,12 +70,12 @@ class SelectDonViCell extends StatelessWidget {
         boxShadow: APP_DEVICE == DeviceType.MOBILE
             ? []
             : [
-          BoxShadow(
-            color: shadowContainerColor.withOpacity(0.05),
-            offset: const Offset(0, 4),
-            blurRadius: 10,
-          )
-        ],
+                BoxShadow(
+                  color: shadowContainerColor.withOpacity(0.05),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10,
+                )
+              ],
         border: Border.all(
           color: APP_DEVICE == DeviceType.MOBILE
               ? borderButtomColor

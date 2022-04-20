@@ -50,7 +50,7 @@ class _SendCommentWidgetLichHopState extends State<SendCommentWidgetLichHop> {
                   maxLines: 3,
                   style: tokenDetailAmount(
                     fontSize: 14.0.textScale(),
-                    color: sideTextInactiveColor,
+                    color: textTitle,
                   ),
                   decoration: InputDecoration(
                     fillColor: backgroundColorApp,

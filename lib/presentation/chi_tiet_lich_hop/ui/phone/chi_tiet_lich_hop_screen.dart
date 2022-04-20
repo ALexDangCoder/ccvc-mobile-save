@@ -135,7 +135,9 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   showBottomSheetCustom(
                     context,
                     title: S.current.phan_cong_thu_ky,
-                    child: const PhanCongThuKyWidget(),
+                    child: PhanCongThuKyWidget(
+                      cubit: cubit,
+                    ),
                   );
                 },
               ),
@@ -172,7 +174,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
             child: ExpandGroup(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await cubit.initData(id: widget.id, danhSachYKien: true);
+                  await cubit.initData(id: widget.id);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -255,8 +257,14 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                         id: widget.id,
                       ),
                       BieuQuyetWidget(id: widget.id),
-                      KetLuanHopWidget(cubit: cubit, id: widget.id),
-                      YKienCuocHopWidget(id: widget.id)
+                      KetLuanHopWidget(
+                        cubit: cubit,
+                        id: widget.id,
+                      ),
+                      YKienCuocHopWidget(
+                        id: widget.id,
+                        cubit: cubit,
+                      )
                     ],
                   ),
                 ),

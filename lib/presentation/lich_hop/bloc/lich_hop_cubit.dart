@@ -551,7 +551,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   BehaviorSubject<List<TaoPhienHopModel>> themPhienSubject = BehaviorSubject();
   List<TaoPhienHopModel> listThemPhien = [];
 
-  Future<void> themPhemHop({
+  Future<void> themPhienHop({
     required String canBoId,
     required String donViId,
     required String lichHopId,
@@ -564,17 +564,19 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     required List<FilesRepuest> file,
   }) async {
     showLoading();
-    final TaoPhienHopRepuest taoPhienHopRepuest = TaoPhienHopRepuest(
-        canBoId: canBoId,
-        donViId: donViId,
-        thoiGian_BatDau: thoiGian_BatDau,
-        thoiGian_KetThuc: thoiGian_KetThuc,
-        noiDung: noiDung,
-        tieuDe: tieuDe,
-        hoTen: hoTen,
-        IsMultipe: IsMultipe,
-        file: file);
-    final result = await hopRepo.getThemPhienHop(lichHopId, taoPhienHopRepuest);
+
+    final result = await hopRepo.getThemPhienHop(
+      lichHopId,
+      canBoId,
+      donViId,
+      thoiGian_BatDau,
+      thoiGian_KetThuc,
+      noiDung,
+      tieuDe,
+      hoTen,
+      IsMultipe,
+      file,
+    );
 
     result.when(
       success: (value) {

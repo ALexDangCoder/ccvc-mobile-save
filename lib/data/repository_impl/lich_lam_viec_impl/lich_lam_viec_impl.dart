@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/huy_lich_lam_viec_response.dart';
@@ -26,10 +27,12 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_trang_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
+import 'package:ccvc_mobile/data/response/them_y_kien_response/them_y_kien_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_service.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/cancel_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/them_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/trang_thai_lv.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
@@ -57,7 +60,8 @@ class LichLamViecImlp implements LichLamViecRepository {
     String startTime,
     String endTime,
   ) {
-    return runCatchingAsync<LichLamViecDashBroadResponse, DashBoardLichHopModel>(
+    return runCatchingAsync<LichLamViecDashBroadResponse,
+        DashBoardLichHopModel>(
       () => lichLamViecService.getLichLamViec(startTime, endTime),
       (response) => response.data.toDomain(),
     );
@@ -98,9 +102,10 @@ class LichLamViecImlp implements LichLamViecRepository {
   @override
   Future<Result<ChiTietLichLamViecModel>> detailCalenderWork(String id) {
     return runCatchingAsync<DetailCalenderWorkResponse,
-            ChiTietLichLamViecModel>(
-        () => lichLamViecService.detailCalenderWork(id),
-        (response) => response.data.toModel());
+        ChiTietLichLamViecModel>(
+      () => lichLamViecService.detailCalenderWork(id),
+      (response) => response.data.toDomain(),
+    );
   }
 
   @override
@@ -352,6 +357,14 @@ class LichLamViecImlp implements LichLamViecRepository {
     return runCatchingAsync<MenuResponse, List<MenuModel>>(
       () => lichLamViecService.getMenuLichLV(startTime, endTime),
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<ThemYKienModel>> themYKien(ThemYKienRequest themYKienRequest) {
+    return runCatchingAsync<ThemYKienResponse, ThemYKienModel>(
+      () => lichLamViecService.themYKien(themYKienRequest),
+      (response) => response.toDomain(),
     );
   }
 }

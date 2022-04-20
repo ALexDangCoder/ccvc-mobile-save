@@ -1,5 +1,5 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -26,14 +27,20 @@ class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
 
 class _ThemDonViPhoiHopKhacWidgetState
     extends State<ThemDonViPhoiHopKhacWidget> {
+  ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
+
   @override
   Widget build(BuildContext context) {
-    return SolidButton(
-      onTap: () {
-        showDialog(context);
-      },
-      text: S.current.them_thanh_phan_tham_gia,
-      urlIcon: ImageAssets.icAddButtonCalenderTablet,
+    return Column(
+      children: [
+        SolidButton(
+          onTap: () {
+            showDialog(context);
+          },
+          text: S.current.them_thanh_phan_tham_gia,
+          urlIcon: ImageAssets.icAddButtonCalenderTablet,
+        ),
+      ],
     );
   }
 
@@ -41,21 +48,32 @@ class _ThemDonViPhoiHopKhacWidgetState
     if (isMobile()) {
       showBottomSheetCustom(
         context,
-        child: const ThemDonViPhoiHopKhacScreen(),
+        child: ThemDonViPhoiHopKhacScreen(
+          cubit: cubit,
+        ),
         title: S.current.don_vi_phoi_hop_khac,
       );
     } else {
-      showDiaLogTablet(context,
-          title: S.current.don_vi_phoi_hop_khac,
-          isBottomShow: false,
-          child: const ThemDonViPhoiHopKhacScreen(),
-          funcBtnOk: () {});
+      showDiaLogTablet(
+        context,
+        title: S.current.don_vi_phoi_hop_khac,
+        isBottomShow: false,
+        child: ThemDonViPhoiHopKhacScreen(
+          cubit: cubit,
+        ),
+        funcBtnOk: () {},
+      );
     }
   }
 }
 
 class ThemDonViPhoiHopKhacScreen extends StatefulWidget {
-  const ThemDonViPhoiHopKhacScreen({Key? key}) : super(key: key);
+  final ThanhPhanThamGiaCubit cubit;
+
+  const ThemDonViPhoiHopKhacScreen({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   State<ThemDonViPhoiHopKhacScreen> createState() =>
@@ -66,6 +84,7 @@ class _ThemDonViPhoiHopKhacScreenState
     extends State<ThemDonViPhoiHopKhacScreen> {
   final _key = GlobalKey<FormState>();
   final _keyFormGroup = GlobalKey<FormGroupState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -88,7 +107,8 @@ class _ThemDonViPhoiHopKhacScreenState
               Navigator.pop(context);
             },
             onPressed2: () {
-              if (_keyFormGroup.currentState!.validator()) {}
+              if (_keyFormGroup.currentState!.validator()) {
+              }
             },
           ),
         ),
@@ -149,7 +169,8 @@ class _ThemDonViPhoiHopKhacScreenState
                             width: 20,
                             height: 20,
                             child: Center(
-                                child: SvgPicture.asset(ImageAssets.icPhone),),
+                              child: SvgPicture.asset(ImageAssets.icPhone),
+                            ),
                           ),
                           validator: (value) {
                             return (value ?? '').checkSdt();

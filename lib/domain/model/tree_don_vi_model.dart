@@ -1,5 +1,24 @@
 class DonViModel {
+  // DauMoiLienHe: ""
+  // Email: "1@1.com"
+  // GhiChu: "1"
+  // SoDienThoai: "13456446313"
+  // TenCoQuan: "1"
+  // VaiTroThamGia: 5
+  // dauMoi: ""
+  // email: "1@1.com"
+  // id: null
+  // noiDungLamViec: "1"
+  // soDienThoai: "13456446313"
+  // tenCanBo: "1"
+  // tenDonVi: "1"
+
   String id = '';
+  String dauMoiLienHe = '';
+  String email = '';
+  String sdt = '';
+  int VaiTroThamGia = 0;
+  String tenDonVi = '';
   String name = '';
   String tenCanBo = '';
   String chucVu = '';
@@ -9,9 +28,15 @@ class DonViModel {
   DonViModel({
     required this.id,
     required this.name,
+    this.dauMoiLienHe = '',
+    this.email = '',
+    this.sdt = '',
+    this.VaiTroThamGia = 0,
+    this.tenDonVi = '',
     this.tenCanBo = '',
     this.chucVu = '',
     this.canBoId = '',
+    this.noidung = '',
   });
 }
 

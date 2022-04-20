@@ -58,6 +58,9 @@ class ImageAssets {
       '$baseImg/background_le_giang_sinh.png';
 
   static const String icBack = '$baseImg/ic_back.svg';
+  static const String icNotifyHome = '$baseImg/ic_notify_home.svg';
+  static const String icDontData = '$baseImg/ic_dont_data.svg';
+  static const String icSettingNotify = '$baseImg/ic_setting_notify.svg';
   static const String icUpFile = '$baseImg/ic_up_file.svg';
 
   static const String icTongSoNhiemVu = '$baseImg/ic_tong_so_nhiem_vu.svg';
@@ -71,6 +74,7 @@ class ImageAssets {
   static const String icDangThucHienQuaHan =
       '$baseImg/ic_dang_thuc_hien_qua_han.svg';
   static const String icHomeFocus = '$baseImg/ic_home.svg';
+  static const String icPickAll = '$baseImg/ic_pick_all.svg';
   static const String icChinhPhu = '$baseImg/ic_chinh_phu.svg';
   static const String icFax = '$baseImg/ic_fax.svg';
   static const String icHomeUnFocus = '$baseImg/ic_home_unfocus.svg';

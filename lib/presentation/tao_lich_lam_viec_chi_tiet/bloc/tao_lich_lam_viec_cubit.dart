@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.d
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/nhac_lai_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
@@ -20,6 +22,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
+
 import 'package:rxdart/rxdart.dart';
 
 class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
@@ -33,6 +36,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     scheduleId: '7765603d-4493-4f7c-8a06-2d2b7511eedb',
     scheduleOpinionId: null,
   );
+  BehaviorSubject<bool> lichLapTuyChinhSubject = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> lichLapKhongLapLaiSubject =
+      BehaviorSubject.seeded(false);
 
   BehaviorSubject<DateTime> startDateSubject = BehaviorSubject.seeded(
     DateTime.now(),
@@ -71,10 +77,27 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   final BehaviorSubject<List<NhacLaiModel>> _nhacLai =
       BehaviorSubject.seeded(listNhacLai);
+  final BehaviorSubject<List<LichLapModel>> lichLapModelSubject =
+      BehaviorSubject.seeded(listLichLap);
+  Set<int> lichLapItem = {};
+  List<int> lichLapItem1 = <int>[];
+  List<DayOffWeek> listDayOffWeek = [
+    DayOffWeek(index: 0, name: 'CN', isChoose: false),
+    DayOffWeek(index: 1, name: 'T2', isChoose: false),
+    DayOffWeek(index: 2, name: 'T3', isChoose: false),
+    DayOffWeek(index: 3, name: 'T4', isChoose: false),
+    DayOffWeek(index: 4, name: 'T5', isChoose: false),
+    DayOffWeek(index: 5, name: 'T6', isChoose: false),
+    DayOffWeek(index: 6, name: 'T7', isChoose: false),
+  ];
+  DateTime dateTimeLapDenNgay = DateTime.now();
+  BehaviorSubject<DateTime> changeDateTimeSubject = BehaviorSubject();
 
   Stream<List<LoaiSelectModel>> get linhVuc => _linhVuc.stream;
 
   Stream<List<NhacLaiModel>> get nhacLai => _nhacLai.stream;
+
+  Stream<List<LichLapModel>> get lichLap => lichLapModelSubject.stream;
 
   Stream<List<NguoiChutriModel>> get nguoiChuTri => _nguoiChuTri.stream;
 
@@ -83,6 +106,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   LoaiSelectModel? selectLinhVuc;
   NguoiChutriModel? selectNguoiChuTri;
   NhacLaiModel selectNhacLai = NhacLaiModel.seeded();
+  LichLapModel selectLichLap = LichLapModel.seeded();
   List<DonViModel>? donviModel;
 
   String? dateFrom;
@@ -225,40 +249,40 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String location,
   }) async {
     final result = await _lichLamViec.taoLichLamViec(
-      title,
-      selectLoaiLich?.id ?? '',
-      selectLinhVuc?.id ?? '',
-      '',
-      '',
-      '',
-      dateFrom ?? DateTime.now().formatApi,
-      timeFrom ??
-          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-      dateEnd ?? DateTime.now().formatApi,
-      timeEnd ??
-          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
-      content,
-      location,
-      '',
-      '',
-      '',
-      2,
-      '',
-      false,
-      '',
-      false,
-      selectNguoiChuTri?.userId ?? '',
-      selectNguoiChuTri?.donViId ?? '',
-      '',
-      isCheckAllDaySubject.value,
-      true,
-      donviModel ?? [],
-      selectNhacLai.value ?? 1,
-      1,
-      dateFrom ?? DateTime.now().formatApi,
-      dateEnd ?? DateTime.now().formatApi,
-      true,
-    );
+        title,
+        selectLoaiLich?.id ?? '',
+        selectLinhVuc?.id ?? '',
+        '',
+        '',
+        '',
+        dateFrom ?? DateTime.now().formatApi,
+        timeFrom ??
+            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+        dateEnd ?? DateTime.now().formatApi,
+        timeEnd ??
+            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+        content,
+        location,
+        '',
+        '',
+        '',
+        2,
+        '',
+        false,
+        '',
+        false,
+        selectNguoiChuTri?.userId ?? '',
+        selectNguoiChuTri?.donViId ?? '',
+        '',
+        isCheckAllDaySubject.value,
+        true,
+        donviModel ?? [],
+        selectNhacLai.value ?? 1,
+        selectLichLap.id ?? 0,
+        dateFrom ?? DateTime.now().formatApi,
+        dateTimeLapDenNgay.formatApi,
+        true,
+        lichLapItem1);
     result.when(success: (res) {
       emit(CreateSuccess());
       showContent();

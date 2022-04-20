@@ -31,6 +31,7 @@ class _WordProcessingStateWidgetState
     extends State<WordProcessingStateTabletWidget> {
   late HomeCubit cubit;
   final TinhHinhXuLyCubit _xuLyCubit = TinhHinhXuLyCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -59,23 +60,24 @@ class _WordProcessingStateWidgetState
       },
       selectKeyDialog: _xuLyCubit,
       dialogSelect: StreamBuilder(
-        stream: _xuLyCubit.selectKeyDialog,
-        builder: (context, snapshot) {
-          return DialogSettingWidget(
-            type: widget.homeItemType,
-            listSelectKey: <DialogData>[
-              DialogData(
-                onSelect: (value, startDate, endDate) {
-                  _xuLyCubit.selectDate(
-                      selectKey: value, startDate: startDate, endDate: endDate);
-                },
-                title: S.current.time,
-                initValue: _xuLyCubit.selectKeyTime,
-              )
-            ],
-          );
-        }
-      ),
+          stream: _xuLyCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: <DialogData>[
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _xuLyCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate);
+                  },
+                  title: S.current.time,
+                  initValue: _xuLyCubit.selectKeyTime,
+                )
+              ],
+            );
+          }),
       child: Container(
         color: Colors.transparent,
         margin: const EdgeInsets.only(bottom: 20),
@@ -99,24 +101,24 @@ class _WordProcessingStateWidgetState
                           paddingTop: 0,
                           chartData: [
                             ChartData(
-                              S.current.cho_xu_ly,
-                              data.soLuongChoXuLy?.toDouble() ?? 0,
-                              choXuLyColor,
+                              title: S.current.cho_xu_ly,
+                              value: data.soLuongChoXuLy?.toDouble() ?? 0,
+                              color: choXuLyColor,
                             ),
                             ChartData(
-                              S.current.dang_xu_ly,
-                              data.soLuongDangXuLy?.toDouble() ?? 0,
-                              dangXyLyColor,
+                              title: S.current.dang_xu_ly,
+                              value: data.soLuongDangXuLy?.toDouble() ?? 0,
+                              color: dangXyLyColor,
                             ),
                             ChartData(
-                              S.current.da_xu_ly,
-                              data.soLuongDaXuLy?.toDouble() ?? 0,
-                              daXuLyColor,
+                              title: S.current.da_xu_ly,
+                              value: data.soLuongDaXuLy?.toDouble() ?? 0,
+                              color: daXuLyColor,
                             ),
                             ChartData(
-                              S.current.cho_vao_so,
-                              data.soLuongChoVaoSo?.toDouble() ?? 0,
-                              choVaoSoColor,
+                              title: S.current.cho_vao_so,
+                              value: data.soLuongChoVaoSo?.toDouble() ?? 0,
+                              color: choVaoSoColor,
                             ),
                           ],
                           onTap: (value) {},
@@ -145,29 +147,29 @@ class _WordProcessingStateWidgetState
                           paddingTop: 0,
                           chartData: [
                             ChartData(
-                              S.current.cho_trinh_ky,
-                              data.soLuongChoTrinhKy?.toDouble() ?? 0,
-                              choTrinhKyColor,
+                              title: S.current.cho_trinh_ky,
+                              value: data.soLuongChoTrinhKy?.toDouble() ?? 0,
+                              color: choTrinhKyColor,
                             ),
                             ChartData(
-                              S.current.cho_xu_ly,
-                              data.soLuongChoXuLy?.toDouble() ?? 0,
-                              choXuLyColor,
+                              title: S.current.cho_xu_ly,
+                              value: data.soLuongChoXuLy?.toDouble() ?? 0,
+                              color: choXuLyColor,
                             ),
                             ChartData(
-                              S.current.da_xu_ly,
-                              data.soLuongDaXuLy?.toDouble() ?? 0,
-                              daXuLyColor,
+                              title: S.current.da_xu_ly,
+                              value: data.soLuongDaXuLy?.toDouble() ?? 0,
+                              color: daXuLyColor,
                             ),
                             ChartData(
-                              S.current.cho_cap_so,
-                              data.soLuongChoCapSo?.toDouble() ?? 0,
-                              choCapSoColor,
+                              title: S.current.cho_cap_so,
+                              value: data.soLuongChoCapSo?.toDouble() ?? 0,
+                              color: choCapSoColor,
                             ),
                             ChartData(
-                              S.current.cho_ban_hanh,
-                              data.soLuongChoBanHanh?.toDouble() ?? 0,
-                              choBanHanhColor,
+                              title: S.current.cho_ban_hanh,
+                              value: data.soLuongChoBanHanh?.toDouble() ?? 0,
+                              color: choBanHanhColor,
                             )
                           ],
                         );

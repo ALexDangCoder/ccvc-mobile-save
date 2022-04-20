@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -14,6 +13,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class SituationOfHandlingPeopleWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const SituationOfHandlingPeopleWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -25,6 +25,7 @@ class SituationOfHandlingPeopleWidget extends StatefulWidget {
 class _SituationOfHandlingPeopleWidgetState
     extends State<SituationOfHandlingPeopleWidget> {
   final TinhHinhXuLyYKienCubit _yKienCubit = TinhHinhXuLyYKienCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -53,7 +54,7 @@ class _SituationOfHandlingPeopleWidgetState
               type: widget.homeItemType,
               listSelectKey: <DialogData>[
                 DialogData(
-                  onSelect: (value,startDate,endDate) {
+                  onSelect: (value, startDate, endDate) {
                     _yKienCubit.selectDate(
                         selectKey: value,
                         startDate: startDate,
@@ -64,8 +65,7 @@ class _SituationOfHandlingPeopleWidgetState
                 )
               ],
             );
-          }
-      ),
+          }),
       child: LoadingOnly(
         stream: _yKienCubit.stateStream,
         child: StreamBuilder<List<TinhHinhYKienModel>>(
@@ -85,9 +85,9 @@ class _SituationOfHandlingPeopleWidgetState
                     final result = data[index];
                     final color = TinhHinhYKienModel.listColor[index];
                     return ChartData(
-                      result.status,
-                      result.soLuong.toDouble(),
-                      color,
+                      title: result.status,
+                      value: result.soLuong.toDouble(),
+                      color: color,
                     );
                   },
                 ),

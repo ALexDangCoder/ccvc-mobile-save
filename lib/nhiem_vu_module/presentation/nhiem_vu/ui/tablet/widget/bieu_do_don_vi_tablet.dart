@@ -135,7 +135,10 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                                   ),
                                   child: BoxStatusVanBan(
                                     value: e.value ?? 0,
-                                    onTap: () {},
+                                    onTap: () {
+                                      widget
+                                          .onTapStatusBox((e.giaTri ?? '').statusBox());
+                                    },
                                     color: (e.giaTri ?? '').status(),
                                     statusName: e.text ?? '',
                                   ),

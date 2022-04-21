@@ -103,7 +103,11 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
                                   ),
                                   child: BoxStatusVanBan(
                                     value: e.value ?? 0,
-                                    onTap: () {},
+                                    onTap: () {
+                                      print('box status nhiem vu');
+                                      widget.onTapStatusBox(
+                                          (e.giaTri ?? '').statusBox());
+                                    },
                                     color: (e.giaTri ?? '').status(),
                                     statusName: e.text ?? '',
                                   ),
@@ -134,8 +138,9 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
                                   child: BoxStatusVanBan(
                                     value: e.value ?? 0,
                                     onTap: () {
-                                      widget
-                                          .onTapStatusBox((e.giaTri ?? '').statusBox());
+                                      print('box status cong viec');
+                                      widget.onTapStatusBox(
+                                          (e.giaTri ?? '').statusBox());
                                     },
                                     color: (e.giaTri ?? '').status(),
                                     statusName: e.text ?? '',

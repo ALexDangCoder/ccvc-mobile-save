@@ -74,7 +74,7 @@ class _DanhSachCongViecTabletState extends State<DanhSachCongViecTablet> {
           keySearch: danhSachCubit.keySearch,
           mangTrangThai: widget.mangTrangThai,
           size: danhSachCubit.pageSize,
-          trangThaiHanXuLy: widget.trangThaiHanXuLy??2,
+          trangThaiHanXuLy: widget.trangThaiHanXuLy,
         )
       },
       viewItem: (value, index) {

@@ -63,29 +63,29 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
                       style: textNormalCustom(
                         color: textTitle,
                         fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                        fontSize: 16.0.textScale(),
                       ),
                     ),
-                    const SizedBox(
-                      height: 6,
+                    SizedBox(
+                      height: 6.0.textScale(),
                     ),
                     Text(
                       widget.message,
                       style: textNormalCustom(
                         color: infoColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14,
+                        fontSize: 14.0.textScale(),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.0.textScale(),
                     ),
                     Text(
                       widget.date,
                       style: textNormalCustom(
                         color: AqiColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 12,
+                        fontSize: 12.0.textScale(),
                       ),
                     ),
                   ],
@@ -93,8 +93,8 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
               ],
             ),
           ),
-          const SizedBox(
-            width: 12,
+          SizedBox(
+            width: 12.0.textScale(),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

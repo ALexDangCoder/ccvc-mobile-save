@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
@@ -52,7 +53,7 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                         MoiHopRequest(
                           CanBoId: a.canBoId,
                           DonViId: '',
-                          VaiTroThamGia: 0,
+                          VaiTroThamGia: a.vaiTroThamGia,
                           chucVu: a.chucVu,
                           hoTen: a.tenCanBo,
                           id: a.id,
@@ -72,13 +73,17 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                 TitleChildWidget(
                   title: S.current.don_vi_phoi_hop_khac,
                   sizeTitle: 14,
-                  child: const ThemDonViPhoiHopKhacWidget(),
+                  child: ThemDonViPhoiHopKhacWidget(
+                    onChange: (List<DonViModel> value) {},
+                  ),
                 ),
                 spaceH24,
                 TitleChildWidget(
                   title: S.current.khach_moi,
                   sizeTitle: 14,
-                  child: const ThemThongTinKhachMoiWidget(),
+                  child: ThemThongTinKhachMoiWidget(
+                    onChange: (List<DonViModel> value) {},
+                  ),
                 ),
                 spaceH20,
                 const TongSoLuongKhachWidget()

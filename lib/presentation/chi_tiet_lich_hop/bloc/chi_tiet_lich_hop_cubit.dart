@@ -473,10 +473,12 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
 
 ///thành phần tham gia
 extension ThanhPhanThamGia on DetailMeetCalenderCubit {
-  Future<void> ThemThanhPhanThamGia(String id) async {
+  Future<void> themThanhPhanThamGia() async {
+    log('${moiHopRequest}');
     final result =
-        await hopRp.postMoiHop('', false, phuongThucNhan, moiHopRequest);
+        await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
     result.when(success: (res) {}, error: (error) {});
+    moiHopRequest.clear();
   }
 
   Future<void> danhSachCanBoTPTG({required String id}) async {

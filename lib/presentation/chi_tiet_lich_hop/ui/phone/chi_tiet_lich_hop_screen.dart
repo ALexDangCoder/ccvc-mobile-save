@@ -48,6 +48,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
   void initState() {
     super.initState();
     cubit = DetailMeetCalenderCubit();
+    cubit.id = widget.id;
     cubit.initData(id: widget.id);
   }
 

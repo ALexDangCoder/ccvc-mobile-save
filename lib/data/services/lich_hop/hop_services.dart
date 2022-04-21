@@ -38,6 +38,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.d
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/gui_mail_ket_luat-response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/moi_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/moi_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
@@ -186,7 +187,7 @@ abstract class HopServices {
       @Body() BieuQuyetRequest bieuQuyetRequest);
 
   @POST(ApiConstants.MOI_HOP)
-  Future<MoiHopResponse> postMoiHop(
+  Future<MoiNguoiThamGiaResponse> postMoiHop(
     @Query('lichHopId') String lichHopId,
     @Query('IsMultipe') bool IsMultipe,
     @Query('isSendMail') bool isSendMail,

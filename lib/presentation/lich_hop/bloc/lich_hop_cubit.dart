@@ -435,9 +435,9 @@ class LichHopCubit extends BaseCubit<LichHopState> {
 
     if (isListThongKeSubject.value) {
       postDanhSachThongKe();
+    } else {
       getDashboard();
       postEventsCalendar();
-    } else {
       postDanhSachLichHop();
     }
     menuCalendar();
@@ -459,9 +459,9 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     page = 1;
     if (isListThongKeSubject.value) {
       postDanhSachThongKe();
+    } else {
       getDashboard();
       postEventsCalendar();
-    } else {
       postDanhSachLichHop();
     }
     menuCalendar();
@@ -481,9 +481,9 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     page = 1;
     if (isListThongKeSubject.value) {
       postDanhSachThongKe();
+    } else {
       getDashboard();
       postEventsCalendar();
-    } else {
       postDanhSachLichHop();
     }
     menuCalendar();
@@ -552,9 +552,15 @@ class LichHopCubit extends BaseCubit<LichHopState> {
             .getListLichHop(TypeCalendarMenu.LichYeuCauChuanBi),
         isDuyetThietBi: changeItemMenuSubject.value
             .getListLichHop(TypeCalendarMenu.LichDuyetThietBi),
-        isChoXacNhan: getStateLDM.value.getListState(stateLDM.ChoXacNhan),
-        isLichThamGia: getStateLDM.value.getListState(stateLDM.ThamGia),
-        isLichTuChoi: getStateLDM.value.getListState(stateLDM.TuChoi),
+        isChoXacNhan: checkState(changeItemMenuSubject.value)
+            ? getStateLDM.value.getListState(stateLDM.ChoXacNhan)
+            : null,
+        isLichThamGia: checkState(changeItemMenuSubject.value)
+            ? getStateLDM.value.getListState(stateLDM.ThamGia)
+            : null,
+        isLichTuChoi: checkState(changeItemMenuSubject.value)
+            ? getStateLDM.value.getListState(stateLDM.TuChoi)
+            : null,
         PageIndex: page,
         PageSize: typeLH == Type_Choose_Option_List.DANG_LICH ? 1000 : 10,
         UserId: userId,
@@ -572,6 +578,20 @@ class LichHopCubit extends BaseCubit<LichHopState> {
       error: (error) {},
     );
     showContent();
+  }
+
+  bool checkState(TypeCalendarMenu type) {
+    if (type == TypeCalendarMenu.LichDuocMoi ||
+        type == TypeCalendarMenu.ChoDuyet ||
+        type == TypeCalendarMenu.LichDuyetPhong ||
+        type == TypeCalendarMenu.LichDuyetThietBi ||
+        type == TypeCalendarMenu.LichDaCoBaoCao ||
+        type == TypeCalendarMenu.LichDuyetKyThuat ||
+        type == TypeCalendarMenu.LichYeuCauChuanBi) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   List<String> listImageLichHopCuaToi = [

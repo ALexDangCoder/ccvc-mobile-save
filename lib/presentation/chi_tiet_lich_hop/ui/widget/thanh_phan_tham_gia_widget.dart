@@ -49,20 +49,33 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   isPhuongThucNhan: true,
                   onChange: (value) {
                     for (final a in value) {
-                      widget.cubit.moiHopRequest.add(
-                        MoiHopRequest(
-                          CanBoId: a.canBoId,
-                          DonViId: '',
-                          VaiTroThamGia: a.vaiTroThamGia,
-                          chucVu: a.chucVu,
-                          hoTen: a.tenCanBo,
-                          id: a.id,
-                          status: 0,
-                          tenDonVi: a.name,
-                          type: 0,
-                          userId: '',
-                        ),
-                      );
+                      if (a.userId.isNotEmpty) {
+                        widget.cubit.moiHopRequest.add(
+                          MoiHopRequest(
+                            VaiTroThamGia: a.vaiTroThamGia,
+                            tenDonVi: a.tenDonVi,
+                            hoTen: a.name,
+                            status: a.status,
+                            type: a.type,
+                            userId: a.userId,
+                            CanBoId: a.canBoId,
+                            donViId: a.donViId,
+                            DonViId: a.donViId,
+                            chucVu: a.chucVu,
+                          ),
+                        );
+                      } else {
+                        widget.cubit.moiHopRequest.add(
+                          MoiHopRequest(
+                            VaiTroThamGia: a.vaiTroThamGia,
+                            tenDonVi: a.tenDonVi,
+                            status: a.status,
+                            type: a.type,
+                            donViId: a.donViId,
+                            DonViId: a.donViId,
+                          ),
+                        );
+                      }
                     }
                   },
                   phuongThucNhan: (value) {
@@ -74,7 +87,26 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   title: S.current.don_vi_phoi_hop_khac,
                   sizeTitle: 14,
                   child: ThemDonViPhoiHopKhacWidget(
-                    onChange: (List<DonViModel> value) {},
+                    onChange: (List<DonViModel> value) {
+                      for (final a in value) {
+                        widget.cubit.moiHopRequest.add(
+                          MoiHopRequest(
+                            DauMoiLienHe: a.dauMoiLienHe,
+                            Email: a.email,
+                            GhiChu: a.noidung,
+                            SoDienThoai: a.sdt,
+                            TenCoQuan: a.tenCoQuan,
+                            VaiTroThamGia: a.vaiTroThamGia,
+                            dauMoi: a.dauMoiLienHe,
+                            email: a.email,
+                            noiDungLamViec: a.noidung,
+                            soDienThoai: a.sdt,
+                            tenCanBo: '',
+                            tenDonVi: a.tenDonVi,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ),
                 spaceH24,
@@ -82,7 +114,26 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                   title: S.current.khach_moi,
                   sizeTitle: 14,
                   child: ThemThongTinKhachMoiWidget(
-                    onChange: (List<DonViModel> value) {},
+                    onChange: (List<DonViModel> value) {
+                      for (final a in value) {
+                        widget.cubit.moiHopRequest.add(
+                          MoiHopRequest(
+                            DauMoiLienHe: a.dauMoiLienHe,
+                            Email: a.email,
+                            GhiChu: a.noidung,
+                            SoDienThoai: a.sdt,
+                            TenCoQuan: '',
+                            VaiTroThamGia: a.vaiTroThamGia,
+                            dauMoi: a.dauMoiLienHe,
+                            email: a.email,
+                            noiDungLamViec: a.noidung,
+                            soDienThoai: a.sdt,
+                            tenCanBo: a.tenCanBo,
+                            tenDonVi: a.tenDonVi,
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ),
                 spaceH20,
@@ -99,8 +150,9 @@ class _TextFormFieldWidgetState extends State<ThemThanhPhanThamGiaWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () {
-                widget.cubit.moiHopRequest.clear();
                 widget.cubit.phuongThucNhan = false;
+                widget.cubit.themThanhPhanThamGia();
+                Navigator.pop(context);
               },
             ),
             const SizedBox(

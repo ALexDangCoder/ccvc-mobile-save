@@ -36,6 +36,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.d
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/gui_mail_ket_luat-response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/moi_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/moi_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
@@ -66,6 +67,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.da
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/moi_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/moi_nguoi_tham_gia.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/select_phien_hop_model.dart';
@@ -342,13 +344,14 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<List<MoiHopModel>>> postMoiHop(
+  Future<Result<List<MoiNguoiThamGiaModel>>> postMoiHop(
     String lichHopId,
     bool IsMultipe,
     bool isSendMail,
     List<MoiHopRequest> body,
   ) {
-    return runCatchingAsync<MoiHopResponse, List<MoiHopModel>>(
+
+    return runCatchingAsync<MoiNguoiThamGiaResponse, List<MoiNguoiThamGiaModel>>(
       () => _hopServices.postMoiHop(lichHopId, IsMultipe, isSendMail, body),
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
     );

@@ -55,6 +55,9 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               cubit: _cubit,
               listSelectNode: snapshot.data ?? [],
               onChange: (value) {
+                value.forEach((element) {
+                  element.value.vaiTroThamGia = 1;
+                });
                 _cubit.addPeopleThamGia(
                   value.map((e) => e.value).toList(),
                 );
@@ -68,6 +71,9 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
         ThemCanBoWidget(
           cubit: _cubit,
           onChange: (value) {
+            value.forEach((element) {
+              element.vaiTroThamGia = 2;
+            });
             _cubit.addPeopleThamGia(value);
           },
         ),
@@ -113,7 +119,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               children: List.generate(
                 data.length,
                 (index) => Padding(
-                  padding:  EdgeInsets.only(top: 20.0.textScale(space: -2)),
+                  padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: PeopleThamGiaWidget(
                     donVi: data[index],
                     cubit: _cubit,

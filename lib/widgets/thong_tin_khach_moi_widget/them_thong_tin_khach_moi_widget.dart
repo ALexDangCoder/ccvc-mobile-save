@@ -1,7 +1,9 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
@@ -12,11 +14,18 @@ import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/them_don_vi_phoi_hop_khac/them_don_vi_phoi_hop_khac_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemThongTinKhachMoiWidget extends StatefulWidget {
-  const ThemThongTinKhachMoiWidget({Key? key}) : super(key: key);
+  final Function(List<DonViModel> value) onChange;
+
+  const ThemThongTinKhachMoiWidget({
+    Key? key,
+    required this.onChange,
+  }) : super(key: key);
 
   @override
   _ThemDonViPhoiHopKhacWidgetState createState() =>
@@ -25,14 +34,46 @@ class ThemThongTinKhachMoiWidget extends StatefulWidget {
 
 class _ThemDonViPhoiHopKhacWidgetState
     extends State<ThemThongTinKhachMoiWidget> {
+  ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
+
+  @override
+  void initState() {
+    super.initState();
+    cubit.listPeopleThamGia.listen((event) {
+      widget.onChange(event);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SolidButton(
-      onTap: () {
-        showDialog(context);
-      },
-      text: S.current.them_thong_tin_khach_moi,
-      urlIcon: ImageAssets.icAddButtonCalenderTablet,
+    return Column(
+      children: [
+        SolidButton(
+          onTap: () {
+            showDialog(context);
+          },
+          text: S.current.them_thong_tin_khach_moi,
+          urlIcon: ImageAssets.icAddButtonCalenderTablet,
+        ),
+        StreamBuilder<List<DonViModel>>(
+          stream: cubit.listPeopleThamGia,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? <DonViModel>[];
+            return Column(
+              children: List.generate(
+                data.length,
+                (index) => Padding(
+                  padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
+                  child: ItemThanhPhanWidget(
+                    data: data[index],
+                    cubit: cubit,
+                  ),
+                ),
+              ),
+            );
+          },
+        )
+      ],
     );
   }
 
@@ -40,7 +81,9 @@ class _ThemDonViPhoiHopKhacWidgetState
     if (isMobile()) {
       showBottomSheetCustom(
         context,
-        child: const ThemThongTinKhachMoiScreen(),
+        child: ThemThongTinKhachMoiScreen(
+          cubit: cubit,
+        ),
         title: S.current.thong_tin_khach_moi,
       );
     } else {
@@ -48,7 +91,9 @@ class _ThemDonViPhoiHopKhacWidgetState
         context,
         title: S.current.thong_tin_khach_moi,
         isBottomShow: false,
-        child: const ThemThongTinKhachMoiScreen(),
+        child: ThemThongTinKhachMoiScreen(
+          cubit: cubit,
+        ),
         funcBtnOk: () {},
       );
     }
@@ -56,7 +101,12 @@ class _ThemDonViPhoiHopKhacWidgetState
 }
 
 class ThemThongTinKhachMoiScreen extends StatefulWidget {
-  const ThemThongTinKhachMoiScreen({Key? key}) : super(key: key);
+  final ThanhPhanThamGiaCubit cubit;
+
+  const ThemThongTinKhachMoiScreen({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   State<ThemThongTinKhachMoiScreen> createState() =>
@@ -67,6 +117,13 @@ class _ThemDonViPhoiHopKhacScreenState
     extends State<ThemThongTinKhachMoiScreen> {
   final _key = GlobalKey<FormState>();
   final _keyFormGroup = GlobalKey<FormGroupState>();
+
+  final TextEditingController _hoTenController = TextEditingController();
+  final TextEditingController _tenDonViController = TextEditingController();
+  final TextEditingController _noiDungLamViecController =
+      TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _sdtController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +142,16 @@ class _ThemDonViPhoiHopKhacScreenState
             },
             onPressed2: () {
               if (_keyFormGroup.currentState!.validator()) {
-
+                widget.cubit.addDonViPhoiHopKhac(
+                  DonViModel(
+                    id: '',
+                    name: _hoTenController.text,
+                    tenDonVi: _tenDonViController.text,
+                    noidung: _noiDungLamViecController.text,
+                    email: _emailController.text,
+                    sdt: _sdtController.text,
+                  ),
+                );
                 Navigator.pop(context);
               }
             },
@@ -106,6 +172,7 @@ class _ThemDonViPhoiHopKhacScreenState
                       InputInfoUserWidget(
                         title: S.current.ho_va_ten,
                         child: TextFieldValidator(
+                          controller: _hoTenController,
                           hintText: S.current.ten_don_vi,
                           validator: (value) {
                             return (value ?? '').checkNull();
@@ -115,6 +182,7 @@ class _ThemDonViPhoiHopKhacScreenState
                       InputInfoUserWidget(
                         title: S.current.ten_don_vi,
                         child: TextFieldValidator(
+                          controller: _tenDonViController,
                           hintText: S.current.dau_moi_lam_viec,
                         ),
                       ),
@@ -123,11 +191,12 @@ class _ThemDonViPhoiHopKhacScreenState
                         formKey: _key,
                         title: S.current.noi_dung_lam_viec,
                         isRequired: false,
-                        contentController: TextEditingController(),
+                        contentController: _noiDungLamViecController,
                       ),
                       InputInfoUserWidget(
                         title: S.current.email,
                         child: TextFieldValidator(
+                          controller: _emailController,
                           hintText: S.current.email,
                           suffixIcon: SizedBox(
                             width: 20,
@@ -144,6 +213,7 @@ class _ThemDonViPhoiHopKhacScreenState
                       InputInfoUserWidget(
                         title: S.current.so_dien_thoai,
                         child: TextFieldValidator(
+                          controller: _sdtController,
                           hintText: S.current.so_dien_thoai,
                           suffixIcon: SizedBox(
                             width: 20,

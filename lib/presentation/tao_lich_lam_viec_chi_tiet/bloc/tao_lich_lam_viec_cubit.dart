@@ -6,9 +6,11 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/nhac_lai_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
@@ -79,6 +81,20 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       BehaviorSubject.seeded(listNhacLai);
   final BehaviorSubject<List<LichLapModel>> lichLapModelSubject =
       BehaviorSubject.seeded(listLichLap);
+
+  final BehaviorSubject<List<TinhSelectModel>> tinhSelectSubject =
+      BehaviorSubject();
+  final BehaviorSubject<List<HuyenSelectModel>> huyenSelectSubject =
+      BehaviorSubject();
+  final BehaviorSubject<List<XaSelectModel>> xaSelectSubject =
+      BehaviorSubject();
+
+  Stream<List<TinhSelectModel>> get tinhSelect => tinhSelectSubject.stream;
+
+  Stream<List<HuyenSelectModel>> get huyenSelect => huyenSelectSubject.stream;
+
+  Stream<List<XaSelectModel>> get xaSelect => xaSelectSubject.stream;
+
   Set<int> lichLapItem = {};
   List<int> lichLapItem1 = <int>[];
   List<DayOffWeek> listDayOffWeek = [
@@ -109,6 +125,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   LichLapModel selectLichLap = LichLapModel.seeded();
   List<DonViModel>? donviModel;
 
+  TinhSelectModel? tinhSelectModel = TinhSelectModel();
+  HuyenSelectModel? huyenSelectModel = HuyenSelectModel();
+  XaSelectModel? xaSelectModel = XaSelectModel();
   String? dateFrom;
   String? timeFrom;
   String? dateEnd;
@@ -163,10 +182,11 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
   Future<void> loadData() async {
-    final queue = Queue(parallel: 3);
+    final queue = Queue(parallel: 4);
     unawaited(queue.add(() => _getLinhVuc()));
     unawaited(queue.add(() => _dataLoaiLich()));
     unawaited(queue.add(() => _getNguoiChuTri()));
+    unawaited(queue.add(() => getDatatinh()));
     await queue.onComplete;
     showContent();
     queue.dispose();
@@ -252,9 +272,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         title,
         selectLoaiLich?.id ?? '',
         selectLinhVuc?.id ?? '',
-        '',
-        '',
-        '',
+        tinhSelectModel?.tenTinhThanh ?? '',
+        huyenSelectModel?.tenQuanHuyen??'',
+        xaSelectModel?.tenXaPhuong??'',
         dateFrom ?? DateTime.now().formatApi,
         timeFrom ??
             '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
@@ -308,6 +328,41 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         error: (err) {},
       );
     });
+  }
+
+  Future<void> getDatatinh() async {
+    final result = await _lichLamViec.tinhSelect(
+      TinhSelectRequest(pageIndex: 1, pageSize: 100),
+    );
+    result.when(
+        success: (res) {
+          tinhSelectSubject.sink.add(res.items ?? []);
+        },
+        error: (error) {});
+  }
+
+  Future<void> getDataHuyen(String provinceId) async {
+    final result = await _lichLamViec.huyenSelect(
+      HuyenSelectRequest(pageIndex: 1, pageSize: 100, provinceId: provinceId),
+    );
+    result.when(
+        success: (res) {
+          huyenSelectSubject.sink.add(res.items ?? []);
+          xaSelectSubject.sink.add([]);
+          xaSelectModel=XaSelectModel();
+        },
+        error: (error) {});
+  }
+
+  Future<void> getDataXa(String disytrictId) async {
+    final result = await _lichLamViec.xaSelect(
+      XaSelectRequest(pageIndex: 1, pageSize: 100, disytrictId: disytrictId),
+    );
+    result.when(
+        success: (res) {
+          xaSelectSubject.sink.add(res.items ?? []);
+        },
+        error: (error) {});
   }
 
   void dispose() {

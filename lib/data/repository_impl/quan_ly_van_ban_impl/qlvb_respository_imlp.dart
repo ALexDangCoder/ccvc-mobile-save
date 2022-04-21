@@ -14,6 +14,8 @@ import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_v
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_vbdi_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_den_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_di_response.dart';
+import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_den_response.dart';
+import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_di_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/quan_ly_van_ban/qlvb_service.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
@@ -26,7 +28,10 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ba
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_tra_lai_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
+import 'package:ccvc_mobile/domain/model/document/luong_xu_ly_vb_di.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
+import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 
@@ -103,33 +108,34 @@ class QLVBImlp implements QLVBRepository {
       return response.danhSachVB.toDomain();
     });
   }
+
   @override
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDiDashBoard(
-      String startDate,
-      String endDate,
-      bool isDanhSachChoXuLy,
-      bool isDanhSachDaXuLy,
-      bool isDanhSachChoTrinhKy,
-      List<int> trangThaiFilter,
-      int index,
-      int size, [
-        String keySearch = '',
-      ]) {
+    String startDate,
+    String endDate,
+    bool isDanhSachChoXuLy,
+    bool isDanhSachDaXuLy,
+    bool isDanhSachChoTrinhKy,
+    List<int> trangThaiFilter,
+    int index,
+    int size, [
+    String keySearch = '',
+  ]) {
     return runCatchingAsync<DanhSachVBDiResponse, DanhSachVanBanModel>(
-            () => _quanLyVanBanClient.getDanhSachVanBanDiDashBoard(
-          DanhSachVBDiRequest(
-            thoiGianStartFilter: startDate,
-            thoiGianEndFilter: endDate,
-            doKhan: null,
-            size: size,
-            index: index,
-            keySearch: keySearch,
-            trangThaiFilter: trangThaiFilter,
-            isDanhSachChoXuLy: isDanhSachChoXuLy,
-            isDanhSachDaXuLy: isDanhSachDaXuLy,
-            isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
-          ),
-        ), (response) {
+        () => _quanLyVanBanClient.getDanhSachVanBanDiDashBoard(
+              DanhSachVBDiRequest(
+                thoiGianStartFilter: startDate,
+                thoiGianEndFilter: endDate,
+                doKhan: null,
+                size: size,
+                index: index,
+                keySearch: keySearch,
+                trangThaiFilter: trangThaiFilter,
+                isDanhSachChoXuLy: isDanhSachChoXuLy,
+                isDanhSachDaXuLy: isDanhSachDaXuLy,
+                isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
+              ),
+            ), (response) {
       return response.danhSachVB.toDomain();
     });
   }
@@ -218,5 +224,21 @@ class QLVBImlp implements QLVBRepository {
             DataLichSuCapNhatVanBanDi>(
         () => _quanLyVanBanClient.getLichSuCapNhatVanBanDi(id, vanBanId),
         (response) => response.toModel());
+  }
+
+  @override
+  Future<Result<List<LuongXuLyVBDiModel>>> getLuongXuLyVanBanDi(String id) {
+    return runCatchingAsync<LuongXuLyVBDiResponse, List<LuongXuLyVBDiModel>>(
+        () => _quanLyVanBanClient.getLuongXuLyVanBanDi(id),
+        (res) => res.data?.map((e) => e.toDomain()).toList() ?? []);
+  }
+
+  @override
+  Future<Result<NodePhanXuLy<DonViLuongModel>?>> getLuongXuLyVanBanDen(
+      String id) {
+    return runCatchingAsync<LuongXuLyVanBanDenResponse,
+            NodePhanXuLy<DonViLuongModel>?>(
+        () => _quanLyVanBanClient.getLuongXuLyVanBanDen(id),
+        (res) => res.toDomain());
   }
 }

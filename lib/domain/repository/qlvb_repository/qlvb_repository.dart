@@ -11,7 +11,10 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ba
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_tra_lai_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
+import 'package:ccvc_mobile/domain/model/document/luong_xu_ly_vb_di.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
+import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 
 mixin QLVBRepository {
@@ -77,4 +80,6 @@ mixin QLVBRepository {
 
   Future<Result<DataLichSuCapNhatVanBanDi>> getLichSuCapNhatVanBanDi(
       String id, String vanBanId);
+  Future<Result<List<LuongXuLyVBDiModel>>> getLuongXuLyVanBanDi(String id);
+  Future<Result<NodePhanXuLy<DonViLuongModel>?>> getLuongXuLyVanBanDen(String id);
 }

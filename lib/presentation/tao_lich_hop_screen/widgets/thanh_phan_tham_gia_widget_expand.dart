@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tong_so_luong_khach_widget.dart';
@@ -24,7 +25,8 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
               color: Colors.transparent,
               child: Text(
                 S.current.thanh_phan_tham_gia,
-                style: textNormalCustom(color: titleColumn, fontSize: 16.0.textScale()),
+                style: textNormalCustom(
+                    color: titleColumn, fontSize: 16.0.textScale()),
               ),
             ),
           ),
@@ -45,13 +47,17 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
           TitleChildWidget(
             title: S.current.don_vi_phoi_hop_khac,
             sizeTitle: 14,
-            child: const ThemDonViPhoiHopKhacWidget(),
+            child: ThemDonViPhoiHopKhacWidget(
+              onChange: (List<DonViModel> value) {},
+            ),
           ),
           spaceH24,
           TitleChildWidget(
             title: S.current.khach_moi,
             sizeTitle: 14,
-            child: const ThemThongTinKhachMoiWidget(),
+            child: ThemThongTinKhachMoiWidget(
+              onChange: (List<DonViModel> value) {},
+            ),
           ),
           spaceH20,
           const TongSoLuongKhachWidget()

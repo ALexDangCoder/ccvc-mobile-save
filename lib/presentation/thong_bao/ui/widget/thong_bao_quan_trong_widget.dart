@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,11 +33,13 @@ class ThongBaoQuanTrongWidget extends StatelessWidget {
                 style: textNormalCustom(
                   color: textTitle,
                   fontWeight: FontWeight.w500,
-                  fontSize: 16,
+                  fontSize: 16.0.textScale(space: 9),
                 ),
               ),
               GestureDetector(
-                  onTap: () {}, child: SvgPicture.asset(ImageAssets.icPickAll)),
+                onTap: () {},
+                child: SvgPicture.asset(ImageAssets.icPickAll),
+              ),
             ],
           ),
         ),

@@ -170,6 +170,8 @@ class ApiConstants {
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-huy-duyet';
   static const LICH_SU_CAP_NHAT_VAN_BAN_DI =
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-cap-nhat';
+  static const LUONG_XU_LY_VAB_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-luong-xu-ly';
+  static const LUONG_XU_LY_VAN_BAN_DEN = '/qlvb/api/vanban/getluongxuly';
   static const SEARCH_TIN_TUC = '/api/NewsNetViews/search_news?';
   static const DASH_BOARD_TINH_HINH_XU_LY =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-pakn';
@@ -192,7 +194,7 @@ class ApiConstants {
   static const BAO_CAO_LINH_VUC_KHAC =
       '/pakn/api/Dashboard/statistics-by-field';
   static const DON_VI_XU_LY = '/pakn/api/Dashboard/statistics-by-unit';
-  static const SO_LUONG_BY_MONTH = '/api/NewsNetViews/tong_quan';
+  static const SO_LUONG_BY_MONTH = '/pakn/api/Dashboard/statistics-by-month';
   static const TONG_QUAN_BAO_CAO_BCMXH = '/api/NewsNetViews/tong_quan';
   static const TIN_TONG_HOP_BAO_CAO_BCMXH =
       '/api/NewsNetViews/dashboard_statistical';
@@ -213,6 +215,9 @@ class ApiConstants {
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
   static const DELETE_NOTIFY = '/api/Notification/delete';
+  static const TINH_SELECT = '/vpdt/api/Country/province-list';
+  static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
+  static const XA_SELECT = '/vpdt/api/Country/wards-list';
 }
 
 class ImageConstants {

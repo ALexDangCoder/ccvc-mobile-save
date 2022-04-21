@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 class IncomingDocumentCell extends StatelessWidget {
   final String title;
   final String dateTime;
-  final String userImage;
   final String userName;
   final String status;
   final Function onTap;
@@ -14,7 +13,6 @@ class IncomingDocumentCell extends StatelessWidget {
     Key? key,
     required this.title,
     required this.dateTime,
-    required this.userImage,
     required this.userName,
     required this.status,
     required this.onTap,
@@ -84,20 +82,6 @@ class IncomingDocumentCell extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Container(
-                                width: 24,
-                                height: 24,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(userImage),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 12.0,
-                              ),
                               Expanded(
                                 child: Text(
                                   userName,

@@ -87,22 +87,22 @@ abstract class YKienNguoiDanService {
 
   @POST(ApiConstants.DASH_BOARD_BAO_CAO_YKND)
   Future<DashBoardBaoCaoYKNDResponse> getDashBoardBaoCaoYKND(
-    @Body() DashBoardBaoCaoYKNDRequest boardBaoCaoYKNDRequest,
+    @Body() BaoCaoYKNDRequest baoCaoYKNDRequest,
   );
 
   @POST(ApiConstants.BAO_CAO_LINH_VUC_KHAC)
   Future<LinhVucKhacResponse> getDashBoardLinhVucKhac(
-    @Body() LinhVucKhacRequest linhVucKhacRequest,
+    @Body() BaoCaoYKNDRequest baoCaoYKNDRequest,
   );
 
   @POST(ApiConstants.DON_VI_XU_LY)
   Future<DonViXuLyResponse> getDashBoardDonViXuLy(
-    @Body() DonViXuLyRequest donViXuLyRequest,
+    @Body() BaoCaoYKNDRequest baoCaoYKNDRequest,
   );
 
   @POST(ApiConstants.SO_LUONG_BY_MONTH)
   Future<SoLuongYKNDBtMonthResponse> getDashBoardSoLuongYKND(
-      @Body() SoLuongByMonthRequest soLuongByMonthRequest,
+      @Body() BaoCaoYKNDRequest baoCaoYKNDRequest,
       );
 
   @GET(ApiConstants.TIEN_TRINH_XU_LY)

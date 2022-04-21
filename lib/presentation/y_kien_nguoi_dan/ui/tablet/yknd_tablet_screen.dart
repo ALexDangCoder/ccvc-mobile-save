@@ -1,14 +1,9 @@
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_state.dart';
-import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/y_kien_nguoi_dan_menu_tablet.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/ui/tablet/bao_cao_thong_ke_tablet.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/ui/tablet/thong_tin_chung_tablet.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 class YKienNguoiDanTablet extends StatefulWidget {
   const YKienNguoiDanTablet({Key? key}) : super(key: key);
@@ -19,13 +14,11 @@ class YKienNguoiDanTablet extends StatefulWidget {
 
 class _YKienNguoiDanTabletState extends State<YKienNguoiDanTablet> {
   YKienNguoiDanCubitt cubit = YKienNguoiDanCubitt();
-  late String title;
-  late Widget actionWidget;
+
 
   @override
   void initState() {
     super.initState();
-    title = S.current.thong_tin_chung;
     cubit.initTimeRange();
     cubit.callApi();
     cubit.emit(ThongTinChung());
@@ -37,78 +30,15 @@ class _YKienNguoiDanTabletState extends State<YKienNguoiDanTablet> {
       bloc: cubit,
       builder: (context, state) {
         if (state is ThongTinChung) {
-          title = S.current.thong_tin_chung;
-          actionWidget = GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MenuYKienNguoiDanTablet(
-                    cubit: cubit,
-                    onChange: () {},
-                  ),
-                ),
-              );
-            },
-            child: SvgPicture.asset(ImageAssets.icMenuLichHopTablet),
+          return ThongTinChungYKNDTablet(
+            cubit: cubit,
           );
         } else {
-          actionWidget = actionAppbarBaoCao();
-          title = S.current.bao_cao_thong_ke;
+          return BaoCaoThongKeTablet(
+            cubit: cubit,
+          );
         }
-        return Scaffold(
-          appBar: BaseAppBar(
-            title: title,
-            leadingIcon: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: SvgPicture.asset(
-                ImageAssets.icBack,
-              ),
-            ),
-            actions: [actionWidget],
-          ),
-          body: BlocBuilder<YKienNguoiDanCubitt, YKienNguoiDanState>(
-            bloc: cubit,
-            builder: (context, state) {
-              if (state is ThongTinChung) {
-                return const ThongTinChungYKNDTablet();
-              } else {
-                return const BaoCaoThongKeTablet();
-              }
-            },
-          ),
-        );
       },
-    );
-  }
-
-  Widget actionAppbarBaoCao() {
-    return Row(
-      children: [
-        IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset(ImageAssets.ic_search_calendar),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MenuYKienNguoiDanTablet(
-                  cubit: cubit,
-                  onChange: () {},
-                ),
-              ),
-            );
-          },
-          child: SvgPicture.asset(ImageAssets.icMenuLichHopTablet),
-        ),
-        const SizedBox(
-          width: 16,
-        ),
-      ],
     );
   }
 }

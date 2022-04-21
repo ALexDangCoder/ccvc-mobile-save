@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import '/home_module//utils/extensions/string_extension.dart';
 import '/home_module/domain/model/home/document_model.dart';
@@ -168,5 +169,6 @@ class PageDataDSSearch {
         status: doKhan ?? '',
         code: codeDoKhan ?? '',
         title: trichYeu?.parseHtml() ?? '',
+        id: id ?? '',
       );
 }

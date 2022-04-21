@@ -13,14 +13,22 @@ import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/tablet/danh_sach
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_vb.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y__kien_nguoi_dan_item.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/menu_y_kien_nguoi_dan_tablet.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/row_indicator_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ThongTinChungYKNDTablet extends StatefulWidget {
-  const ThongTinChungYKNDTablet({Key? key}) : super(key: key);
+  final YKienNguoiDanCubitt cubit;
+
+  const ThongTinChungYKNDTablet({Key? key, required this.cubit})
+      : super(key: key);
 
   @override
   _ThongTinChungYKNDTabletState createState() =>
@@ -41,12 +49,36 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
 
   @override
   Widget build(BuildContext context) {
-    return  StateStreamLayout(
+    return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {},
       error: AppException('1', S.current.something_went_wrong),
       stream: cubit.stateStream,
       child: Scaffold(
+        appBar: BaseAppBar(
+          title: S.current.thong_tin_chung,
+          leadingIcon: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset(
+              ImageAssets.icBack,
+            ),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                DrawerSlide.navigatorSlide(
+                  context: context,
+                  screen: MenuYKIenNguoiDanTablet(
+                    cubit: widget.cubit,
+                  ),
+                );
+              },
+              icon: SvgPicture.asset(ImageAssets.icMenuCalender),
+            )
+          ],
+        ),
         body: Container(
           color: bgQLVBTablet,
           child: SingleChildScrollView(
@@ -82,7 +114,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                 image: data[index].img ?? '',
                                 typeName: data[index].typeName ?? '',
                                 numberOfCalendars:
-                                data[index].numberOfCalendars ?? 0,
+                                    data[index].numberOfCalendars ?? 0,
                               );
                             },
                           );
@@ -121,7 +153,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                   final listDataChart = snapshot.data ?? [];
                                   return Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       PieChart(
                                         isSubjectInfo: false,
@@ -148,7 +180,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                   final chartData = snapshot.data ?? [];
                                   return Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       PieChart(
                                         isSubjectInfo: false,
@@ -180,7 +212,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                       Expanded(
                                         child: BoxStatusVanBan(
                                           value: cubit.dashboardModel
-                                              .soLuongTrongHan ??
+                                                  .soLuongTrongHan ??
                                               0,
                                           onTap: () {},
                                           color: numberOfCalenders,
@@ -193,7 +225,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                       Expanded(
                                         child: BoxStatusVanBan(
                                           value: cubit.dashboardModel
-                                              .soLuongDenHan ??
+                                                  .soLuongDenHan ??
                                               0,
                                           onTap: () {},
                                           color: labelColor,
@@ -206,7 +238,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                       Expanded(
                                         child: BoxStatusVanBan(
                                           value: cubit.dashboardModel
-                                              .soLuongQuaHan ??
+                                                  .soLuongQuaHan ??
                                               0,
                                           onTap: () {},
                                           color: statusCalenderRed,
@@ -235,7 +267,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                         Expanded(
                                           child: BoxStatusVanBan(
                                             value: cubit.dashboardModel
-                                                .soLuongTrongHan ??
+                                                    .soLuongTrongHan ??
                                                 0,
                                             onTap: () {},
                                             color: numberOfCalenders,
@@ -248,7 +280,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                         Expanded(
                                           child: BoxStatusVanBan(
                                             value: cubit.dashboardModel
-                                                .soLuongDenHan ??
+                                                    .soLuongDenHan ??
                                                 0,
                                             onTap: () {},
                                             color: labelColor,
@@ -261,7 +293,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                         Expanded(
                                           child: BoxStatusVanBan(
                                             value: cubit.dashboardModel
-                                                .soLuongQuaHan ??
+                                                    .soLuongQuaHan ??
                                                 0,
                                             onTap: () {},
                                             color: statusCalenderRed,
@@ -334,19 +366,18 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           ChiTietVanBanTabletScreen(
-                                            iD: data[index].id??'',
-                                            taskID: data[index].taskID??'',
-                                          ),
+                                        iD: data[index].id ?? '',
+                                        taskID: data[index].taskID ?? '',
+                                      ),
                                     ),
                                   );
                                 },
-                                title: data[index].tieuDe??'',
-                                dateTime: data[index].ngayNhan??'',
-                                userName:
-                                data[index].tenNguoiPhanAnh??'',
-                                status: data[index].soNgayToiHan??0,
+                                title: data[index].tieuDe ?? '',
+                                dateTime: data[index].ngayNhan ?? '',
+                                userName: data[index].tenNguoiPhanAnh ?? '',
+                                status: data[index].soNgayToiHan ?? 0,
                                 userImage:
-                                'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+                                    'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                               );
                             },
                           );

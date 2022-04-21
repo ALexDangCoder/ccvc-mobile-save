@@ -61,25 +61,31 @@ mixin YKienNguoiDanRepository {
   Future<Result<ThongKeYKNDModel>> baoCaoYKienNguoiDan(
     String startDate,
     String endDate,
+    {List<String>? listDonVi,}
   );
   Future<Result<DashBoardBaoCaoYKNDModel>> dashBoardBaoCaoYKND(
       String startDate,
       String endDate,
+      {List<String>? listDonVi,}
       );
 
   Future<Result<ChartLinhVucKhacModel>> chartLinhVucKhac(
       String startDate,
       String endDate,
+      {List<String>? listDonVi,}
+
       );
 
   Future<Result<ChartDonViModel>> chartDonVi(
       String startDate,
       String endDate,
+      {List<String>? listDonVi,}
       );
 
   Future<Result<ChartYKNDByMonthModel>> chartSoLuongByMonth(
       String startDate,
       String endDate,
+      {List<String>? listDonVi,}
       );
 
   Future<Result<List<TienTrinhXuLyModel>>> tienTrinhXuLy(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -69,8 +71,10 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect = widget.listSelect[index];
-        selectBloc.sink.add(index);
+      }else{
+        valueSelect = '';
       }
+      selectBloc.sink.add(index);
     }
     setState(() {});
   }

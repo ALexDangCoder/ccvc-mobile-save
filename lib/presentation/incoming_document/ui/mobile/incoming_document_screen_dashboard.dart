@@ -128,8 +128,6 @@ class _IncomingDocumentScreenDashBoardState
         dateTime: DateTime.parse(data.ngayDen ?? '').toStringWithListFormat,
         userName: data.nguoiSoanThao ?? '',
         status: data.doKhan ?? '',
-        userImage:
-            'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
       ),
     );
   }

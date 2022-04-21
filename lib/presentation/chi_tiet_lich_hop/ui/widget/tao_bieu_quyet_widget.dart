@@ -1,17 +1,19 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chon_ngay_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/radio_button.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
+import 'package:ccvc_mobile/widgets/radio/custom_radio_button.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'cac_lua_chon_don_vi_widget.dart';
 
@@ -33,6 +35,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
   TextEditingController noiDungController = TextEditingController();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
   final keyGroup = GlobalKey<FormGroupState>();
+  bool isShow = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +55,17 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () {
-                cubit.themBieuQuyetHop(
-                  id: widget.id,
-                  tenBieuQuyet: noiDungController.text,
-                );
+                if (cubit.cacLuaChonBieuQuyet.isEmpty) {
+                  isShow = true;
+                  setState(() {});
+                } else {
+                  isShow = false;
+                  setState(() {});
+                  cubit.themBieuQuyetHop(
+                    id: widget.id,
+                    tenBieuQuyet: noiDungController.text,
+                  );
+                }
               },
             ),
           ),
@@ -64,58 +74,24 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 24),
-                  child: Text(
-                    S.current.loai_bieu_quyet,
-                    style: tokenDetailAmount(
-                      color: dateColor,
-                      fontSize: 14.0,
-                    ),
-                  ),
+                spaceH20,
+                CustomRadioButtons(
+                  title: S.current.loai_bieu_quyet,
+                  onchange: (_) {},
                 ),
-                StreamBuilder<int>(
-                  stream: cubit.checkRadioStream,
-                  builder: (context, snapshot) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RadioButtonCheck(
-                          isCheck: snapshot.data == 1 ? true : false,
-                          allowUnSelect: true,
-                          title: S.current.bo_khieu_kin,
-                          onSelectItem: (item) {
-                            cubit.checkRadioButton(1);
-                          },
-                          canSelect: true,
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        RadioButtonCheck(
-                          isCheck: snapshot.data == 2 ? true : false,
-                          allowUnSelect: true,
-                          title: S.current.bo_phieu_cong_khai,
-                          onSelectItem: (item) {
-                            cubit.checkRadioButton(2);
-                          },
-                          canSelect: true,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 20),
-                  child: PickDateWidget(
-                    title: S.current.ngay_bieu_quyet,
-                    minimumDate: DateTime.now(),
-                    onChange: (DateTime value) {
-                      cubit.getDate(value.toString());
+                InputInfoUserWidget(
+                  title: S.current.ngay_bieu_quyet,
+                  isObligatory: true,
+                  child: SelectDate(
+                    paddings: 10,
+                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
+                    value: DateTime.now().toString(),
+                    onSelectDate: (dateTime) {
+                      if (mounted) setState(() {});
                     },
                   ),
                 ),
+                spaceH20,
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: SizedBox(
@@ -140,11 +116,22 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
-                  child: InputInfoUserWidget(
-                    isObligatory: true,
-                    title: S.current.cac_lua_chon_bieu_quyet,
-                    child:
-                        CacLuaChonDonViWidget(detailMeetCalenderCubit: cubit),
+                  child: ShowRequied(
+                    isShow: isShow,
+                    child: InputInfoUserWidget(
+                      isObligatory: true,
+                      title: S.current.cac_lua_chon_bieu_quyet,
+                      child: CacLuaChonDonViWidget(
+                        detailMeetCalenderCubit: cubit,
+                        onchange: (vl) {
+                          if (vl.isEmpty) {
+                            isShow = true;
+                          } else {
+                            isShow = false;
+                          }
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ],

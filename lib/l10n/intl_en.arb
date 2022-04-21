@@ -862,5 +862,10 @@
   "hien_tai_ban_chua_co_thong_bao": "Hiện tại bạn chưa có thông báo!",
   "thong_bao_quan_trong": "Thông báo quan trọng",
   "sua_phien_hop": "Sửa phiên họp",
-  "lap_den_ngay": "Lặp đến ngày"
+  "lap_den_ngay": "Lặp đến ngày",
+  "tinh": "Tỉnh",
+  "xa": "Xã",
+  "xoa_chuong_trinh_hop": "Xóa chương trình họp",
+  "xoa_that_bai": "Xóa thất bại",
+  "conten_xoa_chuong_trinh": "Bạn có muốn xóa chương trình họp này?"
 }

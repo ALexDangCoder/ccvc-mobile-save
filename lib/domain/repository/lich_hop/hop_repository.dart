@@ -24,6 +24,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
@@ -239,7 +240,16 @@ mixin HopRepository {
     String canBoId,
     String donViId,
     String noiDung,
+    String hoTen,
     bool isMultipe,
     List<File> file,
+  );
+
+  Future<Result<ThemYKienModel>> xoaChuongTrinhHop(
+    String id,
+  );
+
+  Future<Result<List<DanhSachNguoiThamGiaModel>>> getDanhSachNTGChuongTrinhHop(
+    String id,
   );
 }

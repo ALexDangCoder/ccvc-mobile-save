@@ -30,6 +30,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phat_bieu_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dash_board_lh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.dart';
@@ -47,6 +48,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/them_y_kien_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/ti_le_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/to_chuc_boi_don_vi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tong_phien_hop_respone.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/xoa_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/list_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
@@ -62,6 +64,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
@@ -172,6 +175,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<List<ListPhienHopModel>>> getDanhSachPhienHop(
     String id,
   ) {
@@ -181,12 +185,15 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<ChiTietLichHopModel>> getChiTietLichHop(String id) {
     return runCatchingAsync<ChiTietLichHopResponse, ChiTietLichHopModel>(
-        () => _hopServices.getChiTietLichHop(id),
-        (res) => res.data?.toDomain() ?? ChiTietLichHopModel());
+      () => _hopServices.getChiTietLichHop(id),
+      (res) => res.data?.toDomain() ?? ChiTietLichHopModel(),
+    );
   }
 
+  @override
   Future<Result<List<TaoPhienHopModel>>> getThemPhienHop(
     String lichHopId,
     String canBoId,
@@ -226,7 +233,8 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ThongTinPhongHopModel?>> getListThongTinPhongHop(
-      String idLichHop) {
+    String idLichHop,
+  ) {
     return runCatchingAsync<ThongTinPhongHopResponse, ThongTinPhongHopModel?>(
       () => _hopServices.getDanhSachPhongHop(idLichHop),
       (res) => res.data?.toDomain(),
@@ -256,6 +264,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<List<PhatBieuModel>>> getDanhSachBieuQuyetLichHop(
     String id,
   ) {
@@ -300,7 +309,8 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<BieuQuyetModel>> themBieuQuyet(
-      BieuQuyetRequest bieuQuyetRequest) {
+    BieuQuyetRequest bieuQuyetRequest,
+  ) {
     return runCatchingAsync<ThemMoiBieuQuyetResponse, BieuQuyetModel>(
       () => _hopServices.themBieuQuyet(bieuQuyetRequest),
       (response) => response.data.todoMain(),
@@ -381,10 +391,12 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ChiTietLichHopModel>> taoLichHop(
-      TaoLichHopRequest taoLichHopRequest) {
+    TaoLichHopRequest taoLichHopRequest,
+  ) {
     return runCatchingAsync<ChiTietLichHopResponse, ChiTietLichHopModel>(
-        () => _hopServices.createMetting(taoLichHopRequest),
-        (res) => res.data?.toDomain() ?? ChiTietLichHopModel());
+      () => _hopServices.createMetting(taoLichHopRequest),
+      (res) => res.data?.toDomain() ?? ChiTietLichHopModel(),
+    );
   }
 
   @override
@@ -500,7 +512,9 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<List<ToChucBoiDonViModel>>> postToChucBoiDonVi(
-      String dateFrom, String dateTo) {
+    String dateFrom,
+    String dateTo,
+  ) {
     return runCatchingAsync<ToChucBoiDonViResponse, List<ToChucBoiDonViModel>>(
       () => _hopServices.postToChucBoiDonVi(dateFrom, dateTo),
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
@@ -579,6 +593,7 @@ class HopRepositoryImpl implements HopRepository {
     String canBoId,
     String donViId,
     String noiDung,
+    String hoTen,
     bool isMultipe,
     List<File> file,
   ) {
@@ -592,9 +607,29 @@ class HopRepositoryImpl implements HopRepository {
         canBoId,
         donViId,
         noiDung,
+        hoTen,
         isMultipe,
         file,
       ),
+      (response) => response.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<ThemYKienModel>> xoaChuongTrinhHop(String id) {
+    return runCatchingAsync<XoaChuongTrinhHopResponse, ThemYKienModel>(
+      () => _hopServices.xoaChuongTrinhHop(id),
+      (response) => response.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<List<DanhSachNguoiThamGiaModel>>> getDanhSachNTGChuongTrinhHop(
+    String id,
+  ) {
+    return runCatchingAsync<DanhSachNguoiThamGiaResponse,
+        List<DanhSachNguoiThamGiaModel>>(
+      () => _hopServices.getDanhSachNTGChuongTrinhHop(id),
       (response) => response.toDomain(),
     );
   }

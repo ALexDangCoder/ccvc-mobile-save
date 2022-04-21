@@ -26,7 +26,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BaoCaoThongKeScreen extends StatefulWidget {
-  final  YKienNguoiDanCubitt cubit;
+  final YKienNguoiDanCubitt cubit;
+
   const BaoCaoThongKeScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -37,11 +38,14 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
   BaoCaoThongKeYKNDCubit baoCaoCubit = BaoCaoThongKeYKNDCubit();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
 
-
   @override
   void initState() {
     super.initState();
-    baoCaoCubit.callApi(thamGiaCubit);
+    thamGiaCubit.getTree();
+    baoCaoCubit.callApi(
+      DateTime.now().toStringWithListFormat,
+      DateTime.now().toStringWithListFormat,
+    );
   }
 
   @override
@@ -79,9 +83,16 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                                 value.map((e) => e.value).toList(),
                               );
                             },
-                            onSearch:
-                                (String startDate, String endDate, String donViID) {
-                              print(donViID);
+                            onSearch: (
+                              String startDate,
+                              String endDate,
+                              List<String> donViID,
+                            ) {
+                              baoCaoCubit.callApi(
+                                startDate,
+                                endDate,
+                                listDonVi: donViID,
+                              );
                             },
                           ),
                         );

@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 class ThanhPhanThamGiaCubit {
   final List<DonViModel> listPeople = [];
+
   ThanhPhanThamGiaReponsitory get hopRp => GET_IT.Get.find();
   bool phuongThucNhan = false;
   final BehaviorSubject<List<DonViModel>> _listPeopleThamGia =
@@ -12,6 +13,7 @@ class ThanhPhanThamGiaCubit {
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
   final BehaviorSubject<bool> _phuongThucNhan = BehaviorSubject.seeded(false);
+
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
@@ -28,6 +30,16 @@ class ThanhPhanThamGiaCubit {
       }
     }
     _listPeopleThamGia.sink.add(listPeople);
+  }
+
+  void addDonViPhoiHopKhac(DonViModel model) {
+    listPeople.add(model);
+    _listPeopleThamGia.add(listPeople);
+  }
+
+  void removeDonViPhoiHop(DonViModel model) {
+    listPeople.remove(model);
+    _listPeopleThamGia.add(listPeople);
   }
 
   void getTree() {

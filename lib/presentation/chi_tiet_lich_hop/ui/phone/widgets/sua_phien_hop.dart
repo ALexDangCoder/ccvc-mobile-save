@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -52,7 +53,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
     ngay.text = widget.phienHopModel.thoiGianBatDau ?? '';
     ngayKetThuc.text = widget.phienHopModel.thoiGianKetThuc ?? '';
     noiDung.text = widget.phienHopModel.noiDung ?? '';
-    print("<<<<<<<${HiveLocal.getDataUser()?.userInformation?.id ?? ''}");
+    widget.cubit.chonNgay = widget.phienHopModel.thoiGianBatDau ?? '';
   }
 
   @override
@@ -65,17 +66,22 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
         bottomWidget: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
           child: DoubleButtonBottom(
-            onPressed2: () {
+            onPressed2: () async {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
-                widget.cubit.suaChuongTrinhHop(
+                await widget.cubit
+                    .suaChuongTrinhHop(
                   id: widget.id,
                   lichHopId: widget.lichHopId,
                   tieuDe: tenPhienHop.text,
-                  thoiGianBatDau: widget.cubit
-                      .plus(widget.cubit.ngaySinhs, widget.cubit.start),
-                  thoiGianKetThuc: widget.cubit
-                      .plus(widget.cubit.ngaySinhs, widget.cubit.end),
+                  thoiGianBatDau: widget.cubit.plus(
+                    widget.cubit.ngaySinhs,
+                    widget.cubit.start,
+                  ),
+                  thoiGianKetThuc: widget.cubit.plus(
+                    widget.cubit.ngaySinhs,
+                    widget.cubit.end,
+                  ),
                   canBoId: HiveLocal.getDataUser()?.userId ?? '',
                   donViId: HiveLocal.getDataUser()
                           ?.userInformation
@@ -83,10 +89,24 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                           ?.id ??
                       '',
                   noiDung: noiDung.text,
-                  isMultipe: true,
+                  hoTen: '',
+                  isMultipe: false,
                   file: widget.cubit.listFile ?? [],
+                )
+                    .then((value) {
+                  MessageConfig.show(
+                    title: S.current.sua_thanh_cong,
+                  );
+                  Navigator.pop(context, true);
+                }).onError((error, stackTrace) {
+                  MessageConfig.show(
+                    title: S.current.sua_that_bai,
+                  );
+                });
+              } else {
+                MessageConfig.show(
+                  title: S.current.sua_that_bai,
                 );
-                Navigator.pop(context);
               }
             },
             onPressed1: () {
@@ -121,12 +141,12 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   title: S.current.thoi_gian_hop,
                   isObligatory: true,
                   child: SelectDate(
-                    key: UniqueKey(),
+                    //key: UniqueKey(),
                     paddings: 10,
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                     value: ngay.text,
                     onSelectDate: (dateTime) {
-                      widget.cubit.selectBirthdayEvent(dateTime);
+                      if (mounted) setState(() {});
                       widget.cubit.ngaySinhs = dateTime;
                     },
                   ),

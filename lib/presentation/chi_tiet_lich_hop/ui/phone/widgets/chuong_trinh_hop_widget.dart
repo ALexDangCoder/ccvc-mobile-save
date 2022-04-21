@@ -12,7 +12,9 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_select_file.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dropdown/drop_down_search_widget.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
@@ -25,7 +27,7 @@ import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ChuongTrinhHopWidget extends StatelessWidget {
+class ChuongTrinhHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
   final String id;
 
@@ -34,6 +36,17 @@ class ChuongTrinhHopWidget extends StatelessWidget {
     required this.cubit,
     required this.id,
   }) : super(key: key);
+
+  @override
+  State<ChuongTrinhHopWidget> createState() => _ChuongTrinhHopWidgetState();
+}
+
+class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
+  @override
+  void initState() {
+    widget.cubit.getDanhSachNTGChuongTrinhHop(id: widget.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +74,8 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                 showBottomSheetCustom(
                   context,
                   child: ThemPhienHopScreen(
-                    id: id,
-                    cubit: cubit,
+                    id: widget.id,
+                    cubit: widget.cubit,
                   ),
                   title: S.current.them_phien_hop,
                 );
@@ -74,7 +87,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
               height: 24,
             ),
             StreamBuilder<List<ListPhienHopModel>>(
-              stream: cubit.danhSachChuongTrinhHop.stream,
+              stream: widget.cubit.danhSachChuongTrinhHop.stream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
                 if (!snapshot.hasData) {
@@ -88,6 +101,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                     return CellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
+                      id: widget.id,
                     );
                   },
                 );
@@ -107,8 +121,8 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                   context,
                   title: S.current.them_phien_hop,
                   child: ThemPhienHopScreen(
-                    cubit: cubit,
-                    id: id,
+                    cubit: widget.cubit,
+                    id: widget.id,
                   ),
                   isBottomShow: false,
                   funcBtnOk: () {
@@ -120,7 +134,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
               urlIcon: ImageAssets.icAddButtonCalenderTablet,
             ),
             StreamBuilder<List<ListPhienHopModel>>(
-              stream: cubit.danhSachChuongTrinhHop.stream,
+              stream: widget.cubit.danhSachChuongTrinhHop.stream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? [];
                 if (snapshot.hasData) {
@@ -133,6 +147,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                     return CellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
+                      id: widget.id,
                     );
                   },
                 );
@@ -146,7 +161,8 @@ class ChuongTrinhHopWidget extends StatelessWidget {
 
   Widget CellDetailMeet(
       {required ListPhienHopModel listPhienHopModel,
-      required BuildContext context}) {
+      required BuildContext context,
+      required String id}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -171,19 +187,57 @@ class ChuongTrinhHopWidget extends StatelessWidget {
                     context,
                     child: SuaPhienHopScreen(
                       id: listPhienHopModel.id ?? '',
-                      cubit: cubit,
+                      cubit: widget.cubit,
                       phienHopModel: listPhienHopModel,
                       lichHopId: id,
                     ),
                     title: S.current.sua_phien_hop,
-                  );
+                  ).then((value) {
+                    if (value == true) {
+                      widget.cubit.initData(id: id);
+                    } else if (value == null) {
+                      return;
+                    }
+                  });
                 },
                 child: SvgPicture.asset(ImageAssets.icEditBlue),
               ),
               const SizedBox(
                 width: 20,
               ),
-              SvgPicture.asset(ImageAssets.ic_delete_do)
+              GestureDetector(
+                onTap: () {
+                  showDiaLog(
+                    context,
+                    title: S.current.xoa_chuong_trinh_hop,
+                    icon: SvgPicture.asset(ImageAssets.deleteChuongTrinhHop),
+                    btnLeftTxt: S.current.khong,
+                    btnRightTxt: S.current.dong_y,
+                    funcBtnRight: () {
+                      widget.cubit
+                          .xoaChuongTrinhHop(id: listPhienHopModel.id ?? '')
+                          .then((value) {
+                        MessageConfig.show(
+                          title: S.current.xoa_thanh_cong,
+                        );
+                      }).onError((error, stackTrace) {
+                        MessageConfig.show(
+                          title: S.current.xoa_that_bai,
+                        );
+                      });
+                    },
+                    showTablet: false,
+                    textContent: S.current.conten_xoa_chuong_trinh,
+                  ).then((value) {
+                    if (value == true) {
+                      widget.cubit.initData(id: id);
+                    } else if (value == null) {
+                      return;
+                    }
+                  });
+                },
+                child: SvgPicture.asset(ImageAssets.ic_delete_do),
+              )
             ],
           ),
           const SizedBox(

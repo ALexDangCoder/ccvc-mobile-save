@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
@@ -28,6 +29,7 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_trang_bao_cao_respo
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
 import 'package:ccvc_mobile/data/response/them_y_kien_response/them_y_kien_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_service.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/cancel_lich_lam_viec_model.dart';
@@ -38,6 +40,7 @@ import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/xoa_lich_lam_vie
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/bao_cao_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/danh_sach_lich_lam_viec.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
@@ -369,6 +372,35 @@ class LichLamViecImlp implements LichLamViecRepository {
     return runCatchingAsync<ThemYKienResponse, ThemYKienModel>(
       () => lichLamViecService.themYKien(themYKienRequest),
       (response) => response.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<DaTaTinhSelectModel>> tinhSelect(
+      TinhSelectRequest tinhSelectRequest) {
+    return runCatchingAsync<PageDaTaTinhSelectModelResponse,
+        DaTaTinhSelectModel>(
+      () => lichLamViecService.tinhSelect(tinhSelectRequest),
+      (response) => response.data?.toModel() ?? DaTaTinhSelectModel(),
+    );
+  }
+
+  @override
+  Future<Result<DaTaHuyenSelectModel>> huyenSelect(
+      HuyenSelectRequest huyenSelectRequest) {
+    return runCatchingAsync<PageDaTaHuyenSelectModelResponse,
+        DaTaHuyenSelectModel>(
+          () => lichLamViecService.huyenSelect(huyenSelectRequest),
+          (response) => response.data?.toModel() ?? DaTaHuyenSelectModel(),
+    );
+  }
+
+  @override
+  Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest) {
+    return runCatchingAsync<PageDaTaXaSelectModelResponse,
+        DaTaXaSelectModel>(
+          () => lichLamViecService.xaSelect(xaSelectRequest),
+          (response) => response.data?.toModel() ?? DaTaXaSelectModel(),
     );
   }
 }

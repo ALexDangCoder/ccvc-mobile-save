@@ -158,7 +158,8 @@ void configureDependencies() {
 int _connectTimeOut = 60000;
 
 Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
-  final appConstants = Get.find<AppConstants>();
+  final appConstants =
+  Get.find<AppConstants>();
   String baseUrl = appConstants.baseUrlCCVC;
   switch (baseOption) {
     case BaseURLOption.GATE_WAY:

@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.da
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
@@ -130,7 +131,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   String id = '';
   List<LoaiSelectModel> listLoaiHop = [];
-  String ngaySinhs = '';
+  String? ngaySinhs;
+  String chonNgay = '';
   List<File>? listFile = [];
 
   TimerData subStringTime(String time) {
@@ -139,21 +141,27 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     return TimerData(hour: dateTime.hour, minutes: dateTime.minute);
   }
 
-  Future<void> selectBirthdayEvent(String birthday) async {
-    ngaySinhs = birthday;
-  }
+  // Future<void> selectBirthdayEvent(String birthday) async {
+  //   ngaySinhs = birthday;
+  // }
 
   TimerData start = TimerData(hour: 0, minutes: 0);
   TimerData end = TimerData(hour: 0, minutes: 0);
 
-  String plus(String date, TimerData time) {
+  String chonNgayStr(String date) {
+    final DateFormat paserDate = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    final paserDates = paserDate.parse(date).formatApiFix;
+    return paserDates;
+  }
+
+  String plus(String? date, TimerData time) {
     final DateFormat dateFormat = DateFormat('yyyy-MM-dd 00:00:00');
-    final dateTime = dateFormat.parse(date).formatApi;
+    final dateTime = dateFormat.parse(date ?? chonNgayStr(chonNgay)).formatApi;
     final times = time.hour;
     if (time.hour < 10) {
-      return '$dateTime' + '0$times:${time.minutes}';
+      return '$dateTime' + ' 0$times:${time.minutes}';
     }
-    return '$dateTime' + '$times:${time.minutes}';
+    return '$dateTime' + ' $times:${time.minutes}';
   }
 
   Future<void> suaChuongTrinhHop({
@@ -165,6 +173,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     required String canBoId,
     required String donViId,
     required String noiDung,
+    required String? hoTen,
     required bool isMultipe,
     required List<File>? file,
   }) async {
@@ -179,6 +188,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
       canBoId,
       donViId,
       noiDung,
+      hoTen ?? '',
       isMultipe,
       file ?? [],
     );
@@ -191,11 +201,48 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     showContent();
   }
 
+  Future<void> xoaChuongTrinhHop({
+    required String id,
+  }) async {
+    showLoading();
+
+    final result = await hopRp.xoaChuongTrinhHop(id);
+
+    result.when(
+      success: (value) {},
+      error: (error) {},
+    );
+
+    showContent();
+  }
+
+  BehaviorSubject<List<DanhSachNguoiThamGiaModel>> nguoiThamGiaSubject =
+      BehaviorSubject();
+  List<DanhSachNguoiThamGiaModel> listData = [];
+
+  Future<void> getDanhSachNTGChuongTrinhHop({
+    required String id,
+  }) async {
+    showLoading();
+
+    final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
+
+    result.when(
+      success: (res) {
+        listData = res;
+        nguoiThamGiaSubject.sink.add(listData);
+      },
+      error: (error) {},
+    );
+
+    showContent();
+  }
+
   Future<void> initData({
     required String id,
   }) async {
     showLoading();
-    // await getChiTietLichHop(id);
+    await getChiTietLichHop(id);
     final queue = Queue(parallel: 5);
     // unawaited(queue.add(() => getThongTinPhongHopApi()));
     // unawaited(queue.add(() => getDanhSachThietBi()));
@@ -204,7 +251,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     // await getDanhSachPhatBieuLichHop(typeStatus.value, id);
     // await getDanhSachBieuQuyetLichHop(id);
     // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
-    // await danhSachCanBoTPTG(id: id);
+    await danhSachCanBoTPTG(id: id);
+
     ///chuong trinh hop
     unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
     unawaited(queue.add(() => getListPhienHop(id)));

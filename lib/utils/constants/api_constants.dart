@@ -78,8 +78,10 @@ class ApiConstants {
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
 
-  static const EDIT_CHUONG_TRINH_HOP = '  /vpdt/api/MeetingSection/edit';
-
+  static const EDIT_CHUONG_TRINH_HOP = '/vpdt/api/MeetingSection/edit';
+  static const XOA_CHUONG_TRINH_HOP = '/vpdt/api/MeetingSection/xoa-phien-hop';
+  static const GET_DANH_SACH_NTG_CHUONG_TRINH_HOP =
+      '/vpdt/api/MeetingSchedule/danh-sach-can-bo-bieu-quyet';
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
 
@@ -192,7 +194,7 @@ class ApiConstants {
   static const BAO_CAO_LINH_VUC_KHAC =
       '/pakn/api/Dashboard/statistics-by-field';
   static const DON_VI_XU_LY = '/pakn/api/Dashboard/statistics-by-unit';
-  static const SO_LUONG_BY_MONTH = '/api/NewsNetViews/tong_quan';
+  static const SO_LUONG_BY_MONTH = '/pakn/api/Dashboard/statistics-by-month';
   static const TONG_QUAN_BAO_CAO_BCMXH = '/api/NewsNetViews/tong_quan';
   static const TIN_TONG_HOP_BAO_CAO_BCMXH =
       '/api/NewsNetViews/dashboard_statistical';
@@ -213,6 +215,9 @@ class ApiConstants {
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
   static const DELETE_NOTIFY = '/api/Notification/delete';
+  static const TINH_SELECT = '/vpdt/api/Country/province-list';
+  static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
+  static const XA_SELECT = '/vpdt/api/Country/wards-list';
 }
 
 class ImageConstants {

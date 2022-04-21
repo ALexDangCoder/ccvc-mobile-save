@@ -31,6 +31,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phat_bieu_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dash_board_lh_response.dart';
@@ -49,6 +50,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/them_y_kien_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/ti_le_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/to_chuc_boi_don_vi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tong_phien_hop_respone.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/xoa_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/list_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
@@ -310,7 +312,16 @@ abstract class HopServices {
     @Part(name: 'CanBoId') String canBoId,
     @Part(name: 'DonViId') String donViId,
     @Part(name: 'NoiDung') String noiDung,
+    @Part(name: 'hoTen') String hoTen,
     @Part(name: 'IsMultipe') bool isMultipe,
     @Part(name: 'Files') List<File> file,
+  );
+
+  @DELETE(ApiConstants.XOA_CHUONG_TRINH_HOP)
+  Future<XoaChuongTrinhHopResponse> xoaChuongTrinhHop(@Query('id') String id);
+
+  @GET(ApiConstants.GET_DANH_SACH_NTG_CHUONG_TRINH_HOP)
+  Future<DanhSachNguoiThamGiaResponse> getDanhSachNTGChuongTrinhHop(
+    @Query('id') String id,
   );
 }

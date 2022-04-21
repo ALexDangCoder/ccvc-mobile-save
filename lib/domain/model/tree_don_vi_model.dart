@@ -5,6 +5,11 @@ class DonViModel {
   String chucVu = '';
   String canBoId = '';
   String noidung = '';
+  String dauMoiLienHe = '';
+  String email = '';
+  String sdt = '';
+  int vaiTroThamGia = 0;
+  String tenDonVi = '';
 
   DonViModel({
     required this.id,
@@ -12,6 +17,12 @@ class DonViModel {
     this.tenCanBo = '',
     this.chucVu = '',
     this.canBoId = '',
+    this.dauMoiLienHe = '',
+    this.noidung = '',
+    this.email = '',
+    this.sdt = '',
+    this.vaiTroThamGia = 0,
+    this.tenDonVi = '',
   });
 }
 

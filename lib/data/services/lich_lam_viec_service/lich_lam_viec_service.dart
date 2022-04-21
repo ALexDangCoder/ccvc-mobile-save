@@ -7,10 +7,12 @@ import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_r
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
 import 'package:ccvc_mobile/data/request/them_y_kien_repuest/them_y_kien_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/delete_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/huy_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/trang_thai/trang_thai_lv_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
@@ -145,5 +147,20 @@ abstract class LichLamViecService {
   @POST(ApiConstants.THEM_Y_KIEN)
   Future<ThemYKienResponse> themYKien(
     @Body() ThemYKienRequest themYKienRequest,
+  );
+
+  @POST(ApiConstants.TINH_SELECT)
+  Future<PageDaTaTinhSelectModelResponse> tinhSelect(
+    @Body() TinhSelectRequest tinhSelectRequest,
+  );
+
+  @POST(ApiConstants.HUYEN_SELECT)
+  Future<PageDaTaHuyenSelectModelResponse> huyenSelect(
+    @Body() HuyenSelectRequest huyenSelectRequest,
+  );
+
+  @POST(ApiConstants.XA_SELECT)
+  Future<PageDaTaXaSelectModelResponse> xaSelect(
+    @Body() XaSelectRequest xaSelectRequest,
   );
 }

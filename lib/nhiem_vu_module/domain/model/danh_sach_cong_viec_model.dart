@@ -135,4 +135,16 @@ extension CheckColor on String {
         return Colors.red;
     }
   }
+  int statusBox() {
+    switch (this) {
+      case 'qua-han':
+        return 2;
+      case 'den-han':
+        return 1;
+      case 'trong-han':
+        return 3;
+      default:
+        return 2;
+    }
+  }
 }

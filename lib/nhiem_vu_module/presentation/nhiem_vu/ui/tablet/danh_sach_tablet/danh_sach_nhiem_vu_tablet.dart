@@ -70,6 +70,7 @@ class _DanhSachNhiemVuTabletState extends State<DanhSachNhiemVuTablet> {
           },
           size: danhSachCubit.pageSize,
           keySearch: danhSachCubit.keySearch,
+          trangThaiHanXuLy: widget.trangThaiHanXuLy,
         )
       },
       viewItem: (value, index) {

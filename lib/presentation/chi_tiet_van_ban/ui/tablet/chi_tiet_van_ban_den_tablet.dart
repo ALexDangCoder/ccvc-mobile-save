@@ -46,7 +46,7 @@ class _ChiTietVanBanDenTabletState extends State<ChiTietVanBanDenTablet> {
     return Scaffold(
       backgroundColor: bgQLVBTablet,
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban),
+      appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban_den),
       body: RefreshIndicator(
         onRefresh: () async {
           await cubit.loadDataVanBanDen(

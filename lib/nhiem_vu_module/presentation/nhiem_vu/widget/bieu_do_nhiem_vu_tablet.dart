@@ -12,6 +12,7 @@ class BieuDoNhiemVuTablet extends StatefulWidget {
   final List<ChartData> chartData;
   final bool isCheck;
   final Function(String) onTap;
+  final Function(int) onTapStatusBox;
 
   const BieuDoNhiemVuTablet({
     Key? key,
@@ -20,6 +21,7 @@ class BieuDoNhiemVuTablet extends StatefulWidget {
     required this.chartData,
     required this.isCheck,
     required this.onTap,
+    required this.onTapStatusBox,
   }) : super(key: key);
 
   @override
@@ -131,7 +133,10 @@ class _BieuDoNhiemVuTabletState extends State<BieuDoNhiemVuTablet> {
                                   ),
                                   child: BoxStatusVanBan(
                                     value: e.value ?? 0,
-                                    onTap: () {},
+                                    onTap: () {
+                                      widget
+                                          .onTapStatusBox((e.giaTri ?? '').statusBox());
+                                    },
                                     color: (e.giaTri ?? '').status(),
                                     statusName: e.text ?? '',
                                   ),

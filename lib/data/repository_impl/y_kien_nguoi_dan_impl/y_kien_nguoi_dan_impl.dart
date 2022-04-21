@@ -83,6 +83,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   Future<Result<DanhSachYKienNguoiDan>> danhSachYKienNguoiDan(
       String tuNgay,
       String denNgay,
+      String trangThai,
       int pageSize,
       int pageNumber,
       String userId,
@@ -92,6 +93,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       () => _yKienNguoIDanService.getDanhSachYKienNguoiDan(
         tuNgay,
         denNgay,
+        trangThai,
         pageSize,
         pageNumber,
         userId,

@@ -31,11 +31,12 @@ class DanhSachYKienNguoiDanCubit extends BaseCubit<BaseState> {
     _selectSreach.sink.add(!_selectSreach.value);
   }
 
-  void callApi( String startDate, String endDate) {
+  void callApi( String startDate, String endDate, {String? trangThai}) {
     getUserData();
     getDanhSachYKienNguoiDan(
       startDate,
       endDate,
+      trangThai??'',
       10,
       1,
     );
@@ -46,6 +47,7 @@ class DanhSachYKienNguoiDanCubit extends BaseCubit<BaseState> {
   Future<void> getDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,
+    String trangThai,
     int pageSize,
     int pageNumber,
   ) async {
@@ -53,6 +55,7 @@ class DanhSachYKienNguoiDanCubit extends BaseCubit<BaseState> {
     final result = await _YKNDRepo.danhSachYKienNguoiDan(
       tuNgay,
       denNgay,
+      trangThai,
       pageSize,
       pageNumber,
       userId,

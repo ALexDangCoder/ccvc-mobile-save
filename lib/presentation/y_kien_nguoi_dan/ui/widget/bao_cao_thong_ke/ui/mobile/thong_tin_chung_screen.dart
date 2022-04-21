@@ -24,8 +24,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ThongTinChungYKNDScreen extends StatefulWidget {
-  final  YKienNguoiDanCubitt cubit;
-  const ThongTinChungYKNDScreen({Key? key,required this.cubit}) : super(key: key);
+  final YKienNguoiDanCubitt cubit;
+
+  const ThongTinChungYKNDScreen({Key? key, required this.cubit})
+      : super(key: key);
 
   @override
   _ThongTinChungYKNDScreenState createState() =>
@@ -33,7 +35,6 @@ class ThongTinChungYKNDScreen extends StatefulWidget {
 }
 
 class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -143,7 +144,23 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                             return PieChart(
                               title: S.current.tinh_hinh_y_kien_nguoi_dan,
                               chartData: listDataChart,
-                              onTap: (int value) {},
+                              onTap: (int value) {
+                                final status = widget.cubit.getTrangThai(
+                                  listDataChart[value].title,
+                                );
+                                widget.cubit.trangThai=status;
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) => DanhSachYKND(
+                                      startDate: widget.cubit.startDate,
+                                      endDate: widget.cubit.endDate,
+                                      trangThai: widget.cubit.trangThai,
+                                    ),
+                                  ),
+                                );
+
+                              },
                             );
                           },
                         ),
@@ -158,7 +175,24 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                 Expanded(
                                   child: BoxStatusVanBan(
                                     value: data.soLuongTrongHan ?? 0,
-                                    onTap: () {},
+                                    onTap: () {
+                                      final status = widget.cubit.getTrangThai(
+                                        S.current.trong_han,
+                                      );
+                                      widget.cubit.trangThai=status;
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (_, __, ___) => DanhSachYKND(
+                                            startDate: widget.cubit.startDate,
+                                            endDate: widget.cubit.endDate,
+                                            trangThai: widget.cubit.trangThai,
+                                          ),
+                                        ),
+                                      );
+                                      print('-----------------------status----------------');
+                                      print(status);
+                                    },
                                     color: numberOfCalenders,
                                     statusName: S.current.trong_han,
                                   ),
@@ -169,7 +203,24 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                 Expanded(
                                   child: BoxStatusVanBan(
                                     value: data.soLuongDenHan ?? 0,
-                                    onTap: () {},
+                                    onTap: () {
+                                      final status = widget.cubit.getTrangThai(
+                                        S.current.den_han,
+                                      );
+                                      widget.cubit.trangThai=status;
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (_, __, ___) => DanhSachYKND(
+                                            startDate: widget.cubit.startDate,
+                                            endDate: widget.cubit.endDate,
+                                            trangThai: widget.cubit.trangThai,
+                                          ),
+                                        ),
+                                      );
+                                      print('-----------------------status----------------');
+                                      print(status);
+                                    },
                                     color: labelColor,
                                     statusName: S.current.den_han,
                                   ),
@@ -180,7 +231,24 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                 Expanded(
                                   child: BoxStatusVanBan(
                                     value: data.soLuongQuaHan ?? 0,
-                                    onTap: () {},
+                                    onTap: () {
+                                      final status = widget.cubit.getTrangThai(
+                                        S.current.qua_han,
+                                      );
+                                      widget.cubit.trangThai=status;
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (_, __, ___) => DanhSachYKND(
+                                            startDate: widget.cubit.startDate,
+                                            endDate: widget.cubit.endDate,
+                                            trangThai: widget.cubit.trangThai,
+                                          ),
+                                        ),
+                                      );
+                                      print('-----------------------status----------------');
+                                      print(status);
+                                    },
                                     color: statusCalenderRed,
                                     statusName: S.current.qua_han,
                                   ),
@@ -279,17 +347,16 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ChiTietYKNDScreen(
-                                          iD: data[index].id??'',
-                                          taskID: data[index].taskID??'',
+                                          iD: data[index].id ?? '',
+                                          taskID: data[index].taskID ?? '',
                                         ),
                                       ),
                                     );
                                   },
-                                  title: data[index].tieuDe??'',
-                                  dateTime: data[index].ngayNhan??'',
-                                  userName:
-                                  data[index].tenNguoiPhanAnh??'',
-                                  status: data[index].soNgayToiHan??0,
+                                  title: data[index].tieuDe ?? '',
+                                  dateTime: data[index].ngayNhan ?? '',
+                                  userName: data[index].tenNguoiPhanAnh ?? '',
+                                  status: data[index].soNgayToiHan ?? 0,
                                   userImage:
                                       'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                                 );

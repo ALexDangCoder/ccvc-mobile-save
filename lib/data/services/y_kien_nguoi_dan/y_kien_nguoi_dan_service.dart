@@ -53,6 +53,7 @@ abstract class YKienNguoiDanService {
   Future<DanhSachYKienNguoiDanResponse> getDanhSachYKienNguoiDan(
     @Query('TuNgay') String tuNgay,
     @Query('DenNgay') String denNgay,
+    @Query('trangThai') String trangThai,
     @Query('PageSize') int pageSize,
     @Query('PageNumber') int pageNumber,
     @Query('userId') String userId,

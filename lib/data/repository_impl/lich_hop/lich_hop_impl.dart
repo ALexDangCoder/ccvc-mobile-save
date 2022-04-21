@@ -48,7 +48,6 @@ import 'package:ccvc_mobile/data/response/lich_hop/them_y_kien_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/ti_le_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/to_chuc_boi_don_vi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tong_phien_hop_respone.dart';
-import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_y_kien_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/list_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
@@ -86,7 +85,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 
 class HopRepositoryImpl implements HopRepository {
@@ -175,6 +173,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<List<ListPhienHopModel>>> getDanhSachPhienHop(
     String id,
   ) {
@@ -184,12 +183,15 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<ChiTietLichHopModel>> getChiTietLichHop(String id) {
     return runCatchingAsync<ChiTietLichHopResponse, ChiTietLichHopModel>(
-        () => _hopServices.getChiTietLichHop(id),
-        (res) => res.data?.toDomain() ?? ChiTietLichHopModel());
+      () => _hopServices.getChiTietLichHop(id),
+      (res) => res.data?.toDomain() ?? ChiTietLichHopModel(),
+    );
   }
 
+  @override
   Future<Result<List<TaoPhienHopModel>>> getThemPhienHop(
     String lichHopId,
     String canBoId,
@@ -229,7 +231,8 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ThongTinPhongHopModel?>> getListThongTinPhongHop(
-      String idLichHop) {
+    String idLichHop,
+  ) {
     return runCatchingAsync<ThongTinPhongHopResponse, ThongTinPhongHopModel?>(
       () => _hopServices.getDanhSachPhongHop(idLichHop),
       (res) => res.data?.toDomain(),
@@ -259,6 +262,7 @@ class HopRepositoryImpl implements HopRepository {
     );
   }
 
+  @override
   Future<Result<List<PhatBieuModel>>> getDanhSachBieuQuyetLichHop(
     String id,
   ) {
@@ -303,7 +307,8 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<BieuQuyetModel>> themBieuQuyet(
-      BieuQuyetRequest bieuQuyetRequest) {
+    BieuQuyetRequest bieuQuyetRequest,
+  ) {
     return runCatchingAsync<ThemMoiBieuQuyetResponse, BieuQuyetModel>(
       () => _hopServices.themBieuQuyet(bieuQuyetRequest),
       (response) => response.data.todoMain(),
@@ -384,10 +389,12 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ChiTietLichHopModel>> taoLichHop(
-      TaoLichHopRequest taoLichHopRequest) {
+    TaoLichHopRequest taoLichHopRequest,
+  ) {
     return runCatchingAsync<ChiTietLichHopResponse, ChiTietLichHopModel>(
-        () => _hopServices.createMetting(taoLichHopRequest),
-        (res) => res.data?.toDomain() ?? ChiTietLichHopModel());
+      () => _hopServices.createMetting(taoLichHopRequest),
+      (res) => res.data?.toDomain() ?? ChiTietLichHopModel(),
+    );
   }
 
   @override
@@ -503,7 +510,9 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<List<ToChucBoiDonViModel>>> postToChucBoiDonVi(
-      String dateFrom, String dateTo) {
+    String dateFrom,
+    String dateTo,
+  ) {
     return runCatchingAsync<ToChucBoiDonViResponse, List<ToChucBoiDonViModel>>(
       () => _hopServices.postToChucBoiDonVi(dateFrom, dateTo),
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],

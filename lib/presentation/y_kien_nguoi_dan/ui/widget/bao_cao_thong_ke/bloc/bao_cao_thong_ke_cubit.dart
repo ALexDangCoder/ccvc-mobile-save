@@ -8,9 +8,7 @@ import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/bloc/bao_cao_thong_ke_state.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
-import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -76,45 +74,58 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     S.current.so_luong_y_kien,
   ];
 
-  Future<void> callApi(ThanhPhanThamGiaCubit thamGiaCubit) async {
-    thamGiaCubit.getTree();
+  Future<void> callApi(
+    String startDate,
+    String endDate,
+      {List<String>? listDonVi,}
+  ) async {
     final queue = Queue(parallel: 5);
+
     unawaited(
       queue.add(
         () => baoCaoYKND(
-          DateTime.now().toStringWithListFormat,
-          DateTime.now().toStringWithListFormat,
+          startDate,
+          endDate,
+          listDonVi: listDonVi,
         ),
       ),
     );
     unawaited(
       queue.add(
         () => dashBoardBaoCaoYKND(
-          DateTime.now().toStringWithListFormat,
-          DateTime.now().toStringWithListFormat,
+          startDate,
+          endDate,
+          listDonVi: listDonVi,
         ),
       ),
     );
     unawaited(
-       queue.add(
-        () => dashBoardLinhKhacXuLy(DateTime.now().toStringWithListFormat,
-            DateTime.now().toStringWithListFormat),
+      queue.add(
+        () => dashBoardLinhKhacXuLy(
+          startDate,
+          endDate,
+          listDonVi: listDonVi,
+        ),
       ),
     );
     unawaited(
-       queue.add(
+      queue.add(
         () => dashBoardDonViXuLy(
-          DateTime.now().toStringWithListFormat,
-          DateTime.now().toStringWithListFormat,
+          startDate,
+          endDate,
+          listDonVi: listDonVi,
         ),
       ),
     );
-    unawaited( queue.add(
-          () => dashBoardSoLuongByMonth(
-        DateTime.now().toStringWithListFormat,
-        DateTime.now().toStringWithListFormat,
+    unawaited(
+      queue.add(
+        () => dashBoardSoLuongByMonth(
+          startDate,
+          endDate,
+          listDonVi: listDonVi,
+        ),
       ),
-    ),);
+    );
 
     await queue.onComplete;
     showContent();
@@ -125,12 +136,14 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
   Future<void> baoCaoYKND(
     String tuNgay,
-    String denNgay,
-  ) async {
+    String denNgay, {
+    List<String>? listDonVi,
+  }) async {
     showLoading();
     final result = await _YKNDRepo.baoCaoYKienNguoiDan(
       tuNgay,
       denNgay,
+      listDonVi: listDonVi ?? [],
     );
     showContent();
     result.when(
@@ -193,16 +206,19 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
   Future<void> dashBoardBaoCaoYKND(
     String tuNgay,
-    String denNgay,
-  ) async {
+    String denNgay, {
+    List<String>? listDonVi,
+  }) async {
     showLoading();
     final result = await _YKNDRepo.dashBoardBaoCaoYKND(
       tuNgay,
       denNgay,
+      listDonVi: listDonVi,
     );
     showContent();
     result.when(
       success: (res) {
+        listDataChart.clear();
         final dataResponse = res.listDataDashBoard;
         for (final element in dataResponse) {
           getDataDashBoardBaoCaoThongKe(element, dashBroadItemYKNDModel);
@@ -254,12 +270,14 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
   Future<void> dashBoardLinhKhacXuLy(
     String tuNgay,
-    String denNgay,
-  ) async {
+    String denNgay, {
+    List<String>? listDonVi,
+  }) async {
     showLoading();
     final result = await _YKNDRepo.chartLinhVucKhac(
       tuNgay,
       denNgay,
+      listDonVi: listDonVi,
     );
     showContent();
     result.when(
@@ -274,18 +292,19 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
   Future<void> dashBoardDonViXuLy(
     String tuNgay,
-    String denNgay,
-  ) async {
+    String denNgay, {
+    List<String>? listDonVi,
+  }) async {
     showLoading();
     final result = await _YKNDRepo.chartDonVi(
       tuNgay,
       denNgay,
+      listDonVi: listDonVi,
     );
     showContent();
     result.when(
       success: (res) {
         _chartDonViXuLy.sink.add(res.listChartData);
-        print(res.listChartData.length);
       },
       error: (err) {
         return;
@@ -295,12 +314,14 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
   Future<void> dashBoardSoLuongByMonth(
     String tuNgay,
-    String denNgay,
-  ) async {
+    String denNgay, {
+    List<String>? listDonVi,
+  }) async {
     showLoading();
     final result = await _YKNDRepo.chartSoLuongByMonth(
       tuNgay,
       denNgay,
+      listDonVi: listDonVi,
     );
     showContent();
     result.when(

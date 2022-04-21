@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class IncomingDocumentCellTablet extends StatelessWidget {
   final String title;
   final String dateTime;
-  final String userImage;
   final String userName;
   final String status;
   final int index;
@@ -16,7 +15,6 @@ class IncomingDocumentCellTablet extends StatelessWidget {
     Key? key,
     required this.title,
     required this.dateTime,
-    required this.userImage,
     required this.userName,
     required this.status,
     required this.index,
@@ -97,20 +95,6 @@ class IncomingDocumentCellTablet extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Container(
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(userImage),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 12.0,
-                              ),
                               Expanded(
                                 child: Text(
                                   userName,

@@ -153,8 +153,7 @@ class HomeCubit extends BaseCubit<HomeState> {
 
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
-  List<WidgetModel>  get getListWidget => _getConfigWidget.value;
-
+  List<WidgetModel> get getListWidget => _getConfigWidget.value;
 }
 
 /// Get Config Widget
@@ -472,7 +471,8 @@ class DanhSachCongViecCubit extends HomeCubit {
 class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<TongHopNhiemVuModel>> _getTongHopNhiemVu =
       BehaviorSubject<List<TongHopNhiemVuModel>>();
-
+  List<String> mangTrangThai = [];
+  int? trangThaiHanXuLy;
   TongHopNhiemVuCubit() {}
 
   Future<void> getDataTongHopNhiemVu() async {
@@ -495,6 +495,35 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
       },
       error: (err) {},
     );
+  }
+  void clickScreen(TongHopNhiemVuType type){
+    switch(type){
+
+      case TongHopNhiemVuType.tongSoNV:
+        mangTrangThai = [];
+        trangThaiHanXuLy = null;
+        break;
+      case TongHopNhiemVuType.hoanThanhNhiemVu:
+       mangTrangThai = ["DA_HOAN_THANH"];
+       trangThaiHanXuLy = null;
+        break;
+      case TongHopNhiemVuType.nhiemVuDangThucHien:
+       mangTrangThai = ["DANG_THUC_HIEN"];
+       trangThaiHanXuLy = null;
+        break;
+      case TongHopNhiemVuType.hoanThanhQuaHan:
+     mangTrangThai = ["DA_HOAN_THANH"];
+     trangThaiHanXuLy = 2;
+        break;
+      case TongHopNhiemVuType.dangThucHienTrongHan:
+        mangTrangThai = ["DANG_THUC_HIEN"];
+        trangThaiHanXuLy = 3;
+        break;
+      case TongHopNhiemVuType.dangThucHienQuaHan:
+        mangTrangThai = ["DANG_THUC_HIEN"];
+     trangThaiHanXuLy = 2;
+        break;
+    }
   }
 
   @override
@@ -538,9 +567,73 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<DocumentDashboardModel>();
 
   TinhHinhXuLyCubit() {}
-
+  bool isDanhSachDaXuLy = false;
+  bool isDanhSachChoTrinhKy = true;
+  bool isDanhSachChoXuLy = true;
+  List<String> maTrangThaiVBDen = [];
+  List<int> trangThaiFilter = [];
   void getDocument() {
     callApi(startDate.toString(), endDate.toString());
+  }
+
+  void selectTrangThaiVBDen(SelectKey selectKey) {
+    switch (selectKey) {
+      case SelectKey.CHO_XU_LY:
+        maTrangThaiVBDen = ["CHO_XU_LY", "CHO_PHAN_XU_LY"];
+        isDanhSachDaXuLy = true;
+        break;
+      case SelectKey.DANG_XU_LY:
+        isDanhSachDaXuLy = false;
+        maTrangThaiVBDen = ["DANG_XU_LY"];
+        break;
+      case SelectKey.DA_XU_LY:
+        isDanhSachDaXuLy = false;
+        maTrangThaiVBDen = ["DA_XU_LY"];
+        break;
+      case SelectKey.CHO_VAO_SO:
+        isDanhSachDaXuLy = false;
+        maTrangThaiVBDen = ["CHO_VAO_SO"];
+        break;
+      default:
+        {}
+    }
+  }
+
+  void selectTrangThaiVBDi(SelectKey selectKey) {
+    switch (selectKey) {
+      case SelectKey.CHO_TRINH_KY:
+        trangThaiFilter = [1];
+        isDanhSachChoTrinhKy = true;
+        isDanhSachChoXuLy = false;
+        isDanhSachDaXuLy = false;
+        break;
+      case SelectKey.CHO_XU_LY:
+        trangThaiFilter = [2];
+        isDanhSachChoTrinhKy = false;
+        isDanhSachChoXuLy = true;
+        isDanhSachDaXuLy = false;
+        break;
+      case SelectKey.DA_XU_LY:
+        trangThaiFilter = [];
+        isDanhSachChoTrinhKy = false;
+        isDanhSachChoXuLy = false;
+        isDanhSachDaXuLy = true;
+        break;
+      case SelectKey.CHO_CAP_SO:
+        trangThaiFilter = [5];
+        isDanhSachChoTrinhKy = false;
+        isDanhSachChoXuLy = false;
+        isDanhSachDaXuLy = false;
+        break;
+      case SelectKey.CHO_BAN_HANH:
+        trangThaiFilter = [6];
+        isDanhSachChoTrinhKy = false;
+        isDanhSachChoXuLy = false;
+        isDanhSachDaXuLy = false;
+        break;
+      default:
+        {}
+    }
   }
 
   @override
@@ -781,7 +874,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
       showContent();
       return;
     }
-    // showLoading();
+    showLoading();
     final result = await homeRep.getYKienNguoidan(
       100000,
       1,
@@ -824,6 +917,22 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
         loaiMenu = 'TiepNhan';
         callApi();
         break;
+      case SelectKey.CHO_PHAN_CONG_XU_LY:
+        trangThai = '4,12';
+        loaiMenu = 'XuLy';
+        callApi();
+        break;
+      case SelectKey.CHO_XU_LY:
+        trangThai = '12';
+        loaiMenu = 'XuLy';
+        callApi();
+        break;
+      case SelectKey.DANG_XU_LY:
+        trangThai = '3,4,5,12';
+        loaiMenu = 'TiepNhan';
+        callApi();
+        break;
+
       default:
         {}
     }
@@ -859,8 +968,16 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
       listSelect.add(SelectKey.CHO_DUYET_XU_LY);
     }
     if (HiveLocal.checkPermissionApp(
-        permissionTxt: 'XuLyPAKNChoTiepNhanXuLyXem')) {
+        permissionTxt: 'XuLyPAKNChoTiepNhanXuLyCapNhat')) {
       listSelect.add(SelectKey.CHO_DUYET_TIEP_NHAN);
+    }
+    if (HiveLocal.checkPermissionApp(
+        permissionTxt: 'XuLyPAKNChoPhanCongXuLyCapNhat')) {
+      listSelect.add(SelectKey.CHO_PHAN_CONG_XU_LY);
+    }
+    if (HiveLocal.checkPermissionApp(permissionTxt: 'XuLyPAKNCanXuLyXem')) {
+      listSelect.add(SelectKey.CHO_XU_LY);
+      listSelect.add(SelectKey.DANG_XU_LY);
     }
     if (listSelect.isNotEmpty) {
       selectKeyTrangThai = listSelect.first;

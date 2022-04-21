@@ -1,18 +1,13 @@
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
-import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/button/solid_button.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/bloc/them_don_vi_cubit.dart';
@@ -21,12 +16,17 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/widge
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class SearchBaoCaoThongKeWidget extends StatefulWidget {
   final Function(List<Node<DonViModel>>) onChange;
   final List<DonViModel> listSelectNode;
   final ThanhPhanThamGiaCubit cubit;
-  final Function  (String startDate, String endDate,String donViID,) onSearch;
+  final Function(
+    String startDate,
+    String endDate,
+    List<String> donViID,
+  ) onSearch;
 
   const SearchBaoCaoThongKeWidget({
     Key? key,
@@ -62,25 +62,42 @@ class _SearchBaoCaoThongKeWidgetState extends State<SearchBaoCaoThongKeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TreeDonVi(themDonViCubit: _themDonViCubit, onSearch: widget.onSearch,);
+    return TreeDonVi(
+      themDonViCubit: _themDonViCubit,
+      onSearch: widget.onSearch,
+    );
   }
 }
 
 class TreeDonVi extends StatefulWidget {
   final ThemDonViCubit themDonViCubit;
-  final Function  (String startDate, String endDate,String donViID,) onSearch;
-  const TreeDonVi({Key? key, required this.themDonViCubit,
-    required this.onSearch
-  }) : super(key: key);
+  final Function(
+    String startDate,
+    String endDate,
+    List<String> donViID,
+  ) onSearch;
+
+  const TreeDonVi(
+      {Key? key, required this.themDonViCubit, required this.onSearch})
+      : super(key: key);
 
   @override
   State<TreeDonVi> createState() => _TreeDonViState();
 }
 
 class _TreeDonViState extends State<TreeDonVi> {
-  String startDate='';
-  String endDate='';
-  String donViID='';
+  String startDate = DateTime.now().toStringWithListFormat;
+  String endDate = DateTime.now().toStringWithListFormat;
+  List<String> donViID = [];
+
+  @override
+  void initState() {
+    super.initState();
+    widget.themDonViCubit.selectDonVi.listen((event) {
+      donViID = event.map((e) => e.value.id).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -118,7 +135,6 @@ class _TreeDonViState extends State<TreeDonVi> {
                         : ScrollViewKeyboardDismissBehavior.manual,
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      donViID=data[index].value.id;
                       return TreeViewWidget(
                         themDonViCubit: widget.themDonViCubit,
                         node: data[index],
@@ -176,7 +192,9 @@ class _TreeDonViState extends State<TreeDonVi> {
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                   value: DateTime.now().toString(),
                   onSelectDate: (dateTime) {
-                    startDate=dateTime;
+                    startDate = DateFormat('yyyy-MM-dd')
+                        .parse(dateTime)
+                        .toStringWithListFormat;
                   },
                 ),
               ),
@@ -191,9 +209,11 @@ class _TreeDonViState extends State<TreeDonVi> {
                   key: UniqueKey(),
                   paddings: 10,
                   leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                  value: '2022-01-01',
+                  value: DateTime.now().toString(),
                   onSelectDate: (dateTime) {
-                    endDate=dateTime;
+                    endDate = DateFormat('yyyy-MM-dd')
+                        .parse(dateTime)
+                        .toStringWithListFormat;
                   },
                 ),
               )
@@ -222,8 +242,8 @@ class _TreeDonViState extends State<TreeDonVi> {
                   title: S.current.tim_kiem,
                   isColorBlue: true,
                   onPressed: () {
-                    widget.onSearch(startDate, endDate,donViID);
-                    Navigator.pop(context,false);
+                    widget.onSearch(startDate, endDate, donViID);
+                    Navigator.pop(context, false);
                   },
                 ),
               ),

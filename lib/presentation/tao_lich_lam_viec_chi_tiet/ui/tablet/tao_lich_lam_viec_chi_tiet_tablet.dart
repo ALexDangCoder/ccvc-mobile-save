@@ -5,7 +5,12 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap_tuy_chinh.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_quan_huyen_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_tinh_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_xa_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/linh_vuc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/loai_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/mau_mac_dinh_widget.dart';
@@ -188,6 +193,16 @@ class _TaoLichLamViecChiTietTabletState
                                     LinhVucWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                     ),
+                                    //tinh
+                                    ItemTinhWidget(
+                                      taoLichLamViecCubit: taoLichLamViecCubit,
+                                    ),
+                                    ItemHuyenWidget(
+                                      taoLichLamViecCubit: taoLichLamViecCubit,
+                                    ),
+                                    ItemXaWidget(
+                                      taoLichLamViecCubit: taoLichLamViecCubit,
+                                    ),
                                     TextFormWidget(
                                       controller: diaDiemController,
                                       image: ImageAssets.icViTri,
@@ -195,6 +210,22 @@ class _TaoLichLamViecChiTietTabletState
                                     ),
                                     LichLapWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
+                                    ),
+                                    StreamBuilder<bool>(
+                                        stream: taoLichLamViecCubit.lichLapTuyChinhSubject.stream,
+                                        builder: (context, snapshot) {
+                                          final data = snapshot.data ?? false;
+                                          return data ?  LichLapTuyChinh(
+                                            taoLichLamViecCubit:taoLichLamViecCubit,
+                                          ) : Container();
+                                        }
+                                    ),
+                                    StreamBuilder<bool>(
+                                        stream: taoLichLamViecCubit.lichLapKhongLapLaiSubject.stream,
+                                        builder: (context, snapshot) {
+                                          final data = snapshot.data ?? false;
+                                          return data ?  ItemLapDenNgayWidget(taoLichLamViecCubit:taoLichLamViecCubit ,) : Container();
+                                        }
                                     ),
                                     TextFormWidget(
                                       controller: noiDungController,

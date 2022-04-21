@@ -1,8 +1,9 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:flutter/material.dart';
-
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 class DonViLuongModel  {
   String? Id;
   String? parentId;
@@ -71,7 +72,9 @@ class DonViLuongModel  {
     return Colors.white;
   }
   Color vaiTroColor(){
-    switch(vaiTro){
+    final vaiTroParseVn = vaiTro?.vietNameseParse().toLowerCase();
+    log('${vaiTroParseVn}');
+    switch(vaiTroParseVn){
       case 'Chủ trì':
         return nguoiChuTriColor;
       case 'Phối hợp':

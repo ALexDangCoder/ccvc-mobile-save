@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyVBDi/widgets/dot_animation.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -181,7 +182,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
               ),
             ),
             Flexible(
-              flex: 5,
+              flex: 5.textScale(space: -5),
               child: SafeArea(
                 child: Container(
                   padding: const EdgeInsets.all(16),
@@ -208,7 +209,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                         GridView.count(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
+                          crossAxisCount: 2.textScale(),
                           mainAxisSpacing: 5,
                           childAspectRatio: 6.7,
                           children:
@@ -237,6 +238,9 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                                 )
                               ],
                             ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Row(
                               children: [
                                 Expanded(
@@ -252,6 +256,9 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                                   ),
                                 )
                               ],
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                             Row(
                               children: [

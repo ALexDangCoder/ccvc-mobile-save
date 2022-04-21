@@ -12,7 +12,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dar
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/bloc/xem_luong_xu_ly_cubit.dart';
 import 'package:flutter/material.dart';
-
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 class XemLuongXuLyScreen extends StatefulWidget {
   final String id;
   const XemLuongXuLyScreen({Key? key, required this.id}) : super(key: key);
@@ -260,83 +260,85 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                     color: borderColor.withOpacity(0.1),
                     border: Border.all(color: borderColor.withOpacity(0.5))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${S.current.chu_thich}:',
-                      style: textNormalCustom(
-                        color: titleItemEdit,
-                        fontSize: 16,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${S.current.chu_thich}:',
+                        style: textNormalCustom(
+                          color: titleItemEdit,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 5,
-                      childAspectRatio: 6.7,
-                      children: [
-                        rowChuThich(
-                          color: choVaoSoLuongColor,
-                          title: S.current.cho_vao_so,
-                        ),
-                        rowChuThich(
-                          color: choPhanXuLyColor,
-                          title: S.current.cho_phan_xu_ly,
-                        ),
-                        rowChuThich(
-                          color: choXuLyLuongColor,
-                          title: S.current.cho_xu_ly,
-                        ),
-                        rowChuThich(
-                          color: dangXuLyLuongColor,
-                          title: S.current.dang_xu_ly,
-                        ),
-                        rowChuThich(
-                          color: daXuLyLuongColor,
-                          title: S.current.da_xu_ly,
-                        ),
-                        rowChuThich(
-                          color: thuHoiLuongColor,
-                          title: S.current.thu_hoi,
-                        ),
-                        rowChuThich(
-                          color: traLaiLuongColor,
-                          title: S.current.tra_lai,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 5,
-                      childAspectRatio: 6.7,
-                      children: [
-                        rowChuThich(
-                          boxShape: BoxShape.rectangle,
-                          color: nguoiChuTriColor,
-                          title: S.current.chu_tri,
-                        ),
-                        rowChuThich(
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2.textScale(),
+                        mainAxisSpacing: 5,
+                        childAspectRatio: 6.7,
+                        children: [
+                          rowChuThich(
+                            color: choVaoSoLuongColor,
+                            title: S.current.cho_vao_so,
+                          ),
+                          rowChuThich(
+                            color: choPhanXuLyColor,
+                            title: S.current.cho_phan_xu_ly,
+                          ),
+                          rowChuThich(
+                            color: choXuLyLuongColor,
+                            title: S.current.cho_xu_ly,
+                          ),
+                          rowChuThich(
+                            color: dangXuLyLuongColor,
+                            title: S.current.dang_xu_ly,
+                          ),
+                          rowChuThich(
+                            color: daXuLyLuongColor,
+                            title: S.current.da_xu_ly,
+                          ),
+                          rowChuThich(
+                            color: thuHoiLuongColor,
+                            title: S.current.thu_hoi,
+                          ),
+                          rowChuThich(
+                            color: traLaiLuongColor,
+                            title: S.current.tra_lai,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2.textScale(space: 1),
+                        mainAxisSpacing: 5,
+                        childAspectRatio: 6.7,
+                        children: [
+                          rowChuThich(
                             boxShape: BoxShape.rectangle,
-                            color: phoiHopColor,
-                            title: S.current.phoi_hop),
-                        rowChuThich(
-                          boxShape: BoxShape.rectangle,
-                          color: nhanDeBietColor,
-                          title: S.current.nhan_de_biet,
-                        ),
-                      ],
-                    )
-                  ],
+                            color: nguoiChuTriColor,
+                            title: S.current.chu_tri,
+                          ),
+                          rowChuThich(
+                              boxShape: BoxShape.rectangle,
+                              color: phoiHopColor,
+                              title: S.current.phoi_hop),
+                          rowChuThich(
+                            boxShape: BoxShape.rectangle,
+                            color: nhanDeBietColor,
+                            title: S.current.nhan_de_biet,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             )
@@ -351,6 +353,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
     required String title,
     BoxShape boxShape = BoxShape.circle,
   }) {
+
     return Row(
       children: [
         Container(

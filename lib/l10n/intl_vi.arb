@@ -862,7 +862,16 @@
   "hien_tai_ban_chua_co_thong_bao": "Hiện tại bạn chưa có thông báo!",
   "thong_bao_quan_trong": "Thông báo quan trọng",
   "tinh": "Tỉnh",
-  "xa": "Xã"
+  "xa": "Xã",
+  "da_ban_hanh" : "Đã ban hành",
+  "da_trinh_ky" : "Đã trình ký",
+  "nguoi_ky_duyet" : "Người ký duyệt",
+  "nguoi_ky_van_ban" : "Người ký văn bản",
+  "nguoi_kiem_tra_thuc_the" : "Người kiểm tra thực thể",
+  "nguoi_cap_so_ban_hanh" : "Người cấp số ban hành",
+  "luong_xu_ly" : "Luồng xử lý",
+  "chu_thich" : "Chú thích",
+  "phoi_hop" : "Phối hợp"
 }
 
 

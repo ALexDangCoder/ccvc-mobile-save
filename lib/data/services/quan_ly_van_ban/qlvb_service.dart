@@ -14,6 +14,8 @@ import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_v
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_vbdi_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_den_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_di_response.dart';
+import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_den_response.dart';
+import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_di_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -60,8 +62,8 @@ abstract class QuanLyVanBanClient {
   );
   @POST(ApiConstants.DANH_SACH_VB_DI)
   Future<DanhSachVBDiResponse> getDanhSachVanBanDiDashBoard(
-      @Body() DanhSachVBDiRequest danhSachVBDiRequest,
-      );
+    @Body() DanhSachVBDiRequest danhSachVBDiRequest,
+  );
 
   @GET(ApiConstants.CHI_TIET_VAN_BAN_DI)
   Future<ChiTietVanBanDiDataResponse> getDataChiTietVanBanDi(
@@ -69,19 +71,19 @@ abstract class QuanLyVanBanClient {
 
   @GET(ApiConstants.CHI_TIET_VAN_BAN_DEN)
   Future<ChiTietVanBanDenDataResponse> getDataChiTietVanBanDen(
-      @Query('processId') String processId,
-      @Query('taskId') String taskId,
-      @Query('IsYKien') bool isYKien,
-      );
+    @Query('processId') String processId,
+    @Query('taskId') String taskId,
+    @Query('IsYKien') bool isYKien,
+  );
   @GET(ApiConstants.THONG_TIN_GUI_NHAN)
   Future<ThongTinGuiNhanDataResponse> getDataThongTinGuiNhan(
       @Path('id') String id);
 
   @GET(ApiConstants.LICH_SU_VAN_BAN_DEN)
   Future<DataLichSuVanBanResponse> getDataLichSuVanBanDen(
-      @Query('processId') String processId,
-      @Query('type') String type,
-      );
+    @Query('processId') String processId,
+    @Query('type') String type,
+  );
 
   @GET(ApiConstants.GET_DANH_SACH_Y_KIEN)
   Future<DataDanhSachYKienXuLyResponse> getDataDanhSachYKien(
@@ -107,4 +109,10 @@ abstract class QuanLyVanBanClient {
   @GET(ApiConstants.LICH_SU_CAP_NHAT_VAN_BAN_DI)
   Future<DataLichSuCapNhatVanBanDiResponse> getLichSuCapNhatVanBanDi(
       @Path('id') String id, @Query('id') String vanBanId);
+
+  @GET(ApiConstants.LUONG_XU_LY_VAB_BAN_DI)
+  Future<LuongXuLyVBDiResponse> getLuongXuLyVanBanDi(@Path('id') String id);
+  @GET(ApiConstants.LUONG_XU_LY_VAN_BAN_DEN)
+  Future<LuongXuLyVanBanDenResponse> getLuongXuLyVanBanDen(
+      @Query('processId') String id);
 }

@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_ky_duyet_van_b
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_tra_lai_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/XemLuongXuLyVBDi/xem_luong_xu_ly_vb_di_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/tep_dinh_kem_widget/tep_dinh_kem_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_cap_nhat_widget_expand.dart';
@@ -245,8 +246,13 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                               child: ButtonCustomBottom(
                                 title: S.current.xem_luong,
                                 onPressed: () {
-                                  MaterialPageRoute(
-                                    builder: (context) => StreamProcessScreen(),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => XemLuongXuLyVbDi(
+                                        id: widget.id,
+                                      ),
+                                    ),
                                   );
                                 },
                                 isColorBlue: true,

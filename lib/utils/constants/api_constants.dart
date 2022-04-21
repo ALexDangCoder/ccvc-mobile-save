@@ -170,6 +170,8 @@ class ApiConstants {
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-huy-duyet';
   static const LICH_SU_CAP_NHAT_VAN_BAN_DI =
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-cap-nhat';
+  static const LUONG_XU_LY_VAB_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-luong-xu-ly';
+  static const LUONG_XU_LY_VAN_BAN_DEN = '/qlvb/api/vanban/getluongxuly';
   static const SEARCH_TIN_TUC = '/api/NewsNetViews/search_news?';
   static const DASH_BOARD_TINH_HINH_XU_LY =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-pakn';

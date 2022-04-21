@@ -48,6 +48,8 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 
 mixin HopRepository {
+  Future<Result<ChuongTrinhHopModel>> getDanhSachCuocHopTPTH(String id);
+
   Future<Result<List<DashBoardThongKeModel>>> getDashBoardThongKe(
     String dateFrom,
     String dateTo,
@@ -181,7 +183,7 @@ mixin HopRepository {
 
   Future<Result<GuiMailKetLuatHopModel>> sendMailKetLuanHop(String id);
 
-  Future<Result<List<MoiNguoiThamGiaModel>>> postMoiHop(
+  Future<Result<List<CanBoModel>>> postMoiHop(
     String lichHopId,
     bool IsMultipe,
     bool isSendMail,

@@ -36,11 +36,11 @@ class CanBoModel {
   String? createAt;
 
   CanBoModel({
-    required this.tenChucVu,
-    required this.diemDanh,
-    required this.disable,
-    required this.trangThai,
-    required this.isVangMat,
+    this.tenChucVu,
+    this.diemDanh,
+    this.disable,
+    this.trangThai,
+    this.isVangMat,
     required this.id,
     required this.lichHopId,
     required this.donViId,
@@ -52,7 +52,7 @@ class CanBoModel {
     required this.vaiTroThamGia,
     required this.email,
     required this.soDienThoai,
-    required this.dauMoiLienHe,
+    this.dauMoiLienHe,
     required this.tenCoQuan,
     required this.isThuKy,
     required this.isThamGiaBocBang,

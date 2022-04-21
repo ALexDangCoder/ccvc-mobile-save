@@ -155,7 +155,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     // await postChonMauHop();
     ///ý kiến
     // unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
+
+    ///thanh phan tham gia
     unawaited(queue.add(() => getDanhSachPhienHop(id)));
+
+    unawaited(queue.add(() => themThanhPhanThamGia()));
     showContent();
     queue.dispose();
   }
@@ -473,11 +477,24 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
 
 ///thành phần tham gia
 extension ThanhPhanThamGia on DetailMeetCalenderCubit {
+  Future<void> getDanhSachCuocHopTPTH() async {
+    final result = await hopRp.getDanhSachCuocHopTPTH(id);
+
+    result.when(success: (success) {
+      thanhPhanThamGia.add(success.listCanBo ?? []);
+    }, error: (error) {},);
+  }
+
   Future<void> themThanhPhanThamGia() async {
-    log('${moiHopRequest}');
     final result =
         await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
-    result.when(success: (res) {}, error: (error) {});
+    result.when(
+      success: (res) {
+      },
+      error: (error) {
+      },
+    );
+    await getDanhSachCuocHopTPTH();
     moiHopRequest.clear();
   }
 

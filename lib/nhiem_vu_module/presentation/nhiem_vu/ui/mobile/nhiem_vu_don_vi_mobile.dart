@@ -78,7 +78,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         title: S.current.nhiem_vu,
                         chartData: data,
                         cubit: danhSachCubit,
-                        ontap: (value){
+                        ontap: (value) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -115,7 +115,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         title: S.current.cong_viec,
                         chartData: data,
                         cubit: danhSachCubit,
-                        ontap: (value ) {
+                        ontap: (value) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -123,9 +123,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                 isCheck: widget.isCheck,
                                 ngayKetThuc: danhSachCubit.ngayKetThuc,
                                 ngayBatDau: danhSachCubit.ngayDauTien,
-                                mangTrangThai: [
-                                  value
-                                ],
+                                mangTrangThai: [value],
                               ),
                             ),
                           );
@@ -245,7 +243,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     // cubit: danhSachCubit,
                                     isCheck: widget.isCheck,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
-                                    ngayBatDau: danhSachCubit.ngayDauTien, mangTrangThai: [],
+                                    ngayBatDau: danhSachCubit.ngayDauTien,
+                                    mangTrangThai: [],
                                   ),
                                 ),
                               );
@@ -313,6 +312,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
               print("end-- ${end}");
               danhSachCubit.callApiDashBroashDonVi(false);
             },
+            onChangeText: (String? value) {},
           ),
         ],
       ),

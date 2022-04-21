@@ -22,6 +22,8 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'lich_lap_tuy_chinh_widget_hop_chi_tiet.dart';
+
 class SuaLichHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
@@ -150,6 +152,12 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                             widget.cubit.taoLichHopRequest.typeRepeat = vl + 1;
                           },
                         ),
+                        if (dataDetail.typeRepeat == 7)
+                          LichLapTuyChinhChiTietHopWidget(
+                            cubit: widget.cubit,
+                            onChange: (vl) {},
+                            initData: [],
+                          ),
                         spaceH5,
                         SelectOnlyExpand(
                           urlIcon: ImageAssets.icMucDoHop,

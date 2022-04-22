@@ -7,7 +7,7 @@ enum LoadingType { REFRESH, LOAD_MORE }
 
 enum CompleteType { SUCCESS, ERROR }
 
-enum MenuType { FEED, NOTIFICATIONS, POLICY, LOGOUT }
+
 
 enum AuthMode { LOGIN, REGISTER }
 

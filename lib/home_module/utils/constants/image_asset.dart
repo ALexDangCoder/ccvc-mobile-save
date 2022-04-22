@@ -92,6 +92,7 @@ class ImageAssets {
       '$baseImg/header_background_thu.png';
   static const String headerBackgroungDong =
       '$baseImg/header_background_dong.png';
+  static const String icEditInfor = '$baseImg/ic_edit_infor.svg';
 
   static const String headerBackgroudTetNguyenDan =
       '$baseImg/header_background_tet_nguyen_dan.png';

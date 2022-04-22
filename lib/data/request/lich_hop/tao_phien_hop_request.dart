@@ -13,6 +13,8 @@ class TaoPhienHopRepuest {
   String? hoTen;
   bool IsMultipe;
   List<FilesRepuest>? file;
+  String? gioBatDau;
+  String? gioKetThuc;
 
   TaoPhienHopRepuest(
       {this.canBoId,
@@ -23,7 +25,9 @@ class TaoPhienHopRepuest {
       this.tieuDe,
       this.hoTen,
       this.IsMultipe = false,
-      this.file});
+      this.file,
+      this.gioBatDau,
+      this.gioKetThuc,});
 
   factory TaoPhienHopRepuest.fromJson(Map<String, dynamic> json) =>
       _$TaoPhienHopRepuestFromJson(json);

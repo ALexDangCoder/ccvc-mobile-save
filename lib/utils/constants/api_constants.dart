@@ -78,6 +78,8 @@ class ApiConstants {
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
 
+  static const PHAN_CONG_THU_KY = '/vpdt/api/MeetingSchedule/assign-secretary';
+
 
 
   static const XOA_LICH_LAM_VIEC =

@@ -12,7 +12,6 @@ import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/lich_hop_item.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_phien_hop_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/co_cau_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/dashboard_thong_ke_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/statistic_by_month_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_gia.dart';
@@ -187,6 +186,12 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     final double range = value % 10;
 
     return (value + (10.0 - range)) / 5.0;
+  }
+
+  Future<void> searchLichHop(String? query) async {
+    const Duration(milliseconds: 2);
+    listDSLH.clear();
+    await postDanhSachLichHop(query);
   }
 
   Future<void> postCoCauLichHop() async {
@@ -517,10 +522,11 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     showContent();
   }
 
-  Future<void> postDanhSachLichHop() async {
+  Future<void> postDanhSachLichHop([String? search]) async {
     showLoading();
     final result = await hopRepo.postDanhSachLichHop(
       DanhSachLichHopRequest(
+        Title: search,
         DateFrom: startDate.formatApi,
         DateTo: endDate.formatApi,
         DonViId: changeItemMenuSubject.value == TypeCalendarMenu.LichTheoLanhDao

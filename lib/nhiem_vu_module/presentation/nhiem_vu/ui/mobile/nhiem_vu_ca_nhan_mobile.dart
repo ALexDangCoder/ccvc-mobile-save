@@ -331,7 +331,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
               danhSachCubit.ngayDauTien = (start ?? DateTime.now()).formatApi;
               danhSachCubit.ngayKetThuc = (end ?? DateTime.now()).formatApi;
               danhSachCubit.callApiDashBroash(true);
-            },
+            }, onChangeText: (String? value) {  },
           ),
         ],
       ),

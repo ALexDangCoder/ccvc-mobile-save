@@ -139,7 +139,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                 ngayKetThuc: danhSachCubit.ngayKetThuc,
                                 ngayBatDau: danhSachCubit.ngayDauTien,
                                 mangTrangThai: [value],
-                                trangThaiHanXuLy: null,
+                                trangThaiHanXuLy: [value],
                               ),
                             ),
                           );
@@ -274,7 +274,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     isCheck: widget.isCheck,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
                                     ngayBatDau: danhSachCubit.ngayDauTien,
-                                    mangTrangThai: [], trangThaiHanXuLy: null,
+                                    mangTrangThai: [],
                                   ),
                                 ),
                               );
@@ -342,6 +342,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
               print("end-- ${end}");
               danhSachCubit.callApiDashBroashDonVi(false);
             },
+            onChangeText: (String? value) {},
           ),
         ],
       ),

@@ -44,6 +44,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dar
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_y_kien_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/ti_le_tham_gia_response.dart';
@@ -347,14 +348,14 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<List<MoiNguoiThamGiaModel>>> postMoiHop(
+  Future<Result<List<CanBoModel>>> postMoiHop(
     String lichHopId,
     bool IsMultipe,
     bool isSendMail,
     List<MoiHopRequest> body,
   ) {
 
-    return runCatchingAsync<MoiNguoiThamGiaResponse, List<MoiNguoiThamGiaModel>>(
+    return runCatchingAsync<ThanhPhanThamGiaResponse, List<CanBoModel>>(
       () => _hopServices.postMoiHop(lichHopId, IsMultipe, isSendMail, body),
       (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
     );
@@ -581,6 +582,14 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<DanhSachLichHopResponse, DanhSachLichHopModel>(
       () => _hopServices.postDataThongKe(body),
       (response) => response.data?.toModel() ?? DanhSachLichHopModel.empty(),
+    );
+  }
+
+  @override
+  Future<Result<ChuongTrinhHopModel>> getDanhSachCuocHopTPTH(String id) {
+    return runCatchingAsync<ChuongTrinhHopResponse, ChuongTrinhHopModel>(
+          () => _hopServices.getDanhSachCuocHopTPTH(id),
+          (response) => response.data?.toModel() ?? ChuongTrinhHopModel.empty(),
     );
   }
 

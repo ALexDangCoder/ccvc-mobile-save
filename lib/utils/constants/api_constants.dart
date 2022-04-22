@@ -4,6 +4,7 @@ class ApiConstants {
   static const int PAGE_BEGIN = 1;
   static const int NOT_SAVED_ID = -1;
   static const int TIME_OUT = 30;
+  static const GET_FUNCTION_OF_CURRENT = '/api/Function/get-tree-function-of-currentuser';
   static const String POST_DANH_SACH_LICH_HOP =
       '/vpdt/api/MeetingSchedule/calendar-list';
   static const String POST_DANH_SACH_THONG_KE =

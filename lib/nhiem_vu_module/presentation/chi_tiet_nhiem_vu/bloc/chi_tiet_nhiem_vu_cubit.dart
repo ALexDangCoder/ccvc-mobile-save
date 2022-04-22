@@ -25,7 +25,7 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
 
   BehaviorSubject<ChiTietNhiemVuModel> chiTietHeaderSubject = BehaviorSubject();
 
-  BehaviorSubject<VanBanLienQuanModel> vanBanLienQuanSubject =
+  BehaviorSubject<VanBanLienQuanNhiemVuModel> vanBanLienQuanSubject =
       BehaviorSubject();
 
   BehaviorSubject<List<DanhSachCongViecChiTietNhiemVuModel>>
@@ -47,8 +47,12 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
       BehaviorSubject();
   BehaviorSubject<List<YKienSuLyNhiemVuModel>> yKienXuLyNhiemVuSubject =
       BehaviorSubject();
+  BehaviorSubject<List<VanBanLienQuanNhiemVuModel>> vanBanGiaoNhiemVuSubject =
+      BehaviorSubject();
+  BehaviorSubject<List<VanBanLienQuanNhiemVuModel>> vanBanKhacNhiemVuSubject =
+      BehaviorSubject();
 
-  Stream<VanBanLienQuanModel> get vanBanLienQuanStream =>
+  Stream<VanBanLienQuanNhiemVuModel> get vanBanLienQuanStream =>
       vanBanLienQuanSubject.stream;
 
   Stream<List<LichSuThuHoiNhiemVuModel>> get lichSuThuHoiStream =>
@@ -75,9 +79,15 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
   Stream<ChiTietNhiemVuModel> get chiTietHeaderStream =>
       chiTietHeaderSubject.stream;
 
+  Stream<List<VanBanLienQuanNhiemVuModel>> get vanBanGiaoNhiemvuStream =>
+      vanBanGiaoNhiemVuSubject.stream;
+
+  Stream<List<VanBanLienQuanNhiemVuModel>> get vanBanKhacNhiemvuStream =>
+      vanBanKhacNhiemVuSubject.stream;
+
   Future<void> loadDataNhiemVuCaNhan(
       {required String nhiemVuId, required bool isCheck}) async {
-    final queue = Queue(parallel: 8);
+    final queue = Queue(parallel: 9);
     unawaited(queue.add(() => getChiTietNhiemVuCaNhan(nhiemVuId, isCheck)));
     unawaited(queue.add(() => getLichSuPhanXuLy(nhiemVuId)));
     unawaited(queue.add(() => getYKienXuLyNhiemVu(nhiemVuId)));
@@ -87,6 +97,7 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
     unawaited(queue.add(() => getLichSuCapNhatThth(nhiemVuId)));
     unawaited(queue.add(() => getLichSuThuHoiNhiemVu(nhiemVuId)));
     unawaited(queue.add(() => getLichSuDonDocNhiemVu(nhiemVuId)));
+    unawaited(queue.add(() => getVanBanLienQuanNhiemVu(nhiemVuId)));
     await queue.onComplete;
     showContent();
     queue.dispose();
@@ -170,29 +181,22 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
     );
   }
 
-  VanBanLienQuanModel fakeVBLQ = VanBanLienQuanModel(
-    id: '',
-    vanBanGiaoNV: [
-      // ItemVanBanLienQuanModel(
-      //     id: '',
-      //     ngayVB: '25/08/2021',
-      //     fileDinhKem: File('Mô tả dự án.docx'),
-      //     soKyHieu: '1',
-      //     trichYeu: 'Thi hành khảo sát tình hình hộ nghèo năm 2021'),
-      // ItemVanBanLienQuanModel(
-      //     id: '',
-      //     ngayVB: '25/08/2021',
-      //     fileDinhKem: ['Mô tả dự án.docx'],
-      //     soKyHieu: '1',
-      //     trichYeu: 'Thi hành khảo sát tình hình hộ nghèo năm 2021'),
-      // ItemVanBanLienQuanModel(
-      //     id: '',
-      //     ngayVB: '25/08/2021',
-      //     fileDinhKem: File('Mô tả dự án.docx'),
-      //     soKyHieu: '1',
-      //     trichYeu: 'Thi hành khảo sát tình hình hộ nghèo năm 2021'),
-    ],
-    vanBanKhac: [],
-  );
+  Future<void> getVanBanLienQuanNhiemVu(String id) async {
+    final result = await nhiemVuRepo.getVanBanLienQuanNhiemVu(id);
+    result.when(
+        success: (res) {
+          getListVanBanLienQuanNhiemVu(res);
+        },
+        error: (error) {});
+  }
 
+  void getListVanBanLienQuanNhiemVu(List<VanBanLienQuanNhiemVuModel> list) {
+    for (final data in list) {
+      if (data.daGanVanBan == true) {
+        vanBanGiaoNhiemVuSubject.sink.add([data]);
+      } else {
+        vanBanKhacNhiemVuSubject.sink.add([data]);
+      }
+    }
+  }
 }

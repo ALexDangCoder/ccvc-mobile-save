@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -318,9 +319,10 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
                 widget.cubit.ThemPhienHop(widget.id);
+                widget.cubit.startTime = '00:00';
+                widget.cubit.endTime = '00:00';
                 Navigator.pop(context);
               }
-
             },
             onPressed1: () {
               Navigator.pop(context);
@@ -356,9 +358,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                     value: DateTime.now().toString(),
                     onSelectDate: (value) {
                       widget.cubit.taoPhienHopRepuest.thoiGian_BatDau =
-                          value.toString();
+                          DateTime.parse(value.toString()).formatApi;
                       widget.cubit.taoPhienHopRepuest.thoiGian_KetThuc =
-                          value.toString();
+                          DateTime.parse(value.toString()).formatApi;
                     },
                   ),
                 ),
@@ -366,6 +368,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 BaseChooseTimerWidget(
                   key: _keyBaseTime,
                   validator: () {},
+                  onChange: (timeSt, timeEnd) {
+                    widget.cubit.getTimeHour(startT: timeSt, endT: timeEnd);
+                  },
                 ),
                 StreamBuilder<List<NguoiChutriModel>>(
                   stream: widget.cubit.listNguoiCHuTriModel.stream,

@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
@@ -26,6 +27,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/moi_nguoi_tham_gia.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
@@ -228,5 +230,9 @@ mixin HopRepository {
 
   Future<Result<List<CalendarMeetingModel>>> postThemNhiemVu(
     ThemNhiemVuRequest themNhiemVuRequest,
+  );
+
+  Future<Result<ResponseModel>> postPhanCongThuKy(
+    PhanCongThuKyRequest phanCongThuKyRequest,
   );
 }

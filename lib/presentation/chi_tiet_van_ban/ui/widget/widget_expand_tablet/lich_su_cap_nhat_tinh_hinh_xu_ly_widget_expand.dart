@@ -27,7 +27,7 @@ class _LichSuCapNhatTinhHinhWidgetExpandTabletState
   @override
   Widget build(BuildContext context) {
     return ExpandOnlyNhiemVu(
-      name: S.current.lich_su_cap_nhat_tinh_hinh_xu_ly,
+      name: S.current.lich_su_cap_nhat,
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 16.0.textScale(space: 4),

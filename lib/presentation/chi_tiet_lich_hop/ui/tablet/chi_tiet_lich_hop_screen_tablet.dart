@@ -144,6 +144,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       title: S.current.phan_cong_thu_ky,
                       child: PhanCongThuKyWidget(
                         cubit: cubit,
+                        id: widget.id,
                       ),
                       isBottomShow: false,
                       funcBtnOk: () {

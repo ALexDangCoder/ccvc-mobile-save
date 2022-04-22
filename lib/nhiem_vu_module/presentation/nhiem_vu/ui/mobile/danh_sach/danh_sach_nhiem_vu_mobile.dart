@@ -33,11 +33,6 @@ class _DanhSachNhiemVuMobileState extends State<DanhSachNhiemVuMobile> {
   @override
   void initState() {
     super.initState();
-    cubit.apiDanhSachNhiemVuCaNhan(
-      widget.ngayBatDau,
-      widget.ngayKetThuc,
-      widget.isCheck,
-    );
   }
 
   @override
@@ -87,6 +82,7 @@ class _DanhSachNhiemVuMobileState extends State<DanhSachNhiemVuMobile> {
           },
           size: cubit.pageSize,
           keySearch: cubit.keySearch,
+          trangThaiHanXuLy: widget.trangThaiHanXuLy,
         )
       },
       viewItem: (value, index) {

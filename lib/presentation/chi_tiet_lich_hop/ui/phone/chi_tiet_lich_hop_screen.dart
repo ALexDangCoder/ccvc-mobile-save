@@ -138,6 +138,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     title: S.current.phan_cong_thu_ky,
                     child: PhanCongThuKyWidget(
                       cubit: cubit,
+                      id: widget.id,
                     ),
                   );
                 },

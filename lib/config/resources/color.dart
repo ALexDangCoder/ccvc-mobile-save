@@ -48,7 +48,29 @@ const textTitle = Color(0xff3D5586);
 const titleItemEdit = Color(0xff586B8B);
 const bgColor = Color(0xffE5E5E5);
 const bgWidgets = Color(0xffF9FAFF);
+const duyetColor = Color(0xffbe5504);
+const capSoColor = Color(0xffb6fcd5);
+const banHanhColor = Color(0xff1350f3);
+const daTrinhColor = Color(0xff8eb8ad);
+const daDuyetColor = Color(0xfff69df6);
+const choBanHanhLuongColor = Color(0xffffc307);
+const traLaiColor = Color(0xff3cdb84);
+const soanThaoColor = Color(0xffdeddcf);
+const kyDuyetColor = Color(0xffFFFF00);
+const kiemTraThucTheColor = Color(0xffFF7F50);
+const nguoiCapSoColor = Color(0xffc6d7f9);
+const nguoiChuTriColor =  Color(0xff2467d2);
+const phoiHopColor = Color(0xff2ed47a);
+const nhanDeBietColor = Color(0xffEFECEC);
+const choVaoSoLuongColor = Color(0xff0034ff);
+const choPhanXuLyColor = Color(0xff5252d4);
+const choXuLyLuongColor = Color(0xff8b4db4);
+const dangXuLyLuongColor = Color(0xff59c6fa);
+const daXuLyLuongColor =  Color(0xff42b432);
+const thuHoiLuongColor = Color(0xff9b7938);
+const traLaiLuongColor = Color(0xffe5f52f);
 
+const nguoiKyVanBanColor = Color(0xff00FF00);
 const textDropDownColor = Color(0xff3D5586);
 const bgDropDown = Color(0xFFE2E8F0);
 const bgButtonDropDown = Color(0xff7966FF);
@@ -92,6 +114,7 @@ const lavenderColor = Color(0xff7A85CD);
 const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
+const xamColor = Color(0xffBAA59F);
 
 const bgTag = Color(0xffF2F0FF);
 

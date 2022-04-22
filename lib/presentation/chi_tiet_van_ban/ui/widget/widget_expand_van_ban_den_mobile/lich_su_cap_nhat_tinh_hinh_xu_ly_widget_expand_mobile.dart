@@ -19,7 +19,7 @@ class LichSuCapNhatTinhHinhXuLyExpandWidgetMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpandOnlyNhiemVu(
-      name: S.current.lich_su_cap_nhat_tinh_hinh_xu_ly,
+      name: S.current.lich_su_cap_nhat,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(

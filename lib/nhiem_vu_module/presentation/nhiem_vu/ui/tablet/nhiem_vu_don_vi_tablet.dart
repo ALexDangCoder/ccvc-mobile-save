@@ -110,7 +110,20 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                         ),
                                       ),
                                     );
-                                  },
+                                  }, onTapStatusBox: (value ) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DanhSachNhiemVuTablet(
+                                        isCheck: widget.isCheck,
+                                        ngayBatDau: danhSachCubit.ngayDauTien,
+                                        ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                        mangTrangThai: [],
+                                        trangThaiHanXuLy: value,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 );
                               },
                             ),
@@ -139,7 +152,20 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                         ),
                                       ),
                                     );
-                                  },
+                                  }, onTapStatusBox: (value ) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DanhSachCongViecTablet(
+                                        isCheck: widget.isCheck,
+                                        ngayBatDau: danhSachCubit.ngayDauTien,
+                                        ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                        mangTrangThai: [],
+                                        trangThaiHanXuLy: value,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 );
                               },
                             ),

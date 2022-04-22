@@ -62,8 +62,6 @@ class _ListDanhSachCongViecState extends State<ListDanhSachCongViec> {
                         (widget.list[index].noiDungCongViec ?? '').parseHtml(),
                     userName: widget.list[index].doiTuongThucHien ?? '',
                     status: widget.list[index].trangThai ?? '',
-                    userImage:
-                        'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                     index: index + 1,
                     hanXuLy: widget.list[index].hanXuLy ??
                         DateTime.now().formatDdMMYYYY,

@@ -115,6 +115,22 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                       ),
                                     );
                                   },
+                                  onTapStatusBox: (value) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DanhSachNhiemVuTablet(
+                                          isCheck: widget.isCheck,
+                                          ngayBatDau: danhSachCubit.ngayDauTien,
+                                          ngayKetThuc:
+                                              danhSachCubit.ngayKetThuc,
+                                          mangTrangThai: [],
+                                          trangThaiHanXuLy: value,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -143,6 +159,22 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                           ngayKetThuc:
                                               danhSachCubit.ngayKetThuc,
                                           mangTrangThai: [value],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  onTapStatusBox: (value) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DanhSachCongViecTablet(
+                                          isCheck: widget.isCheck,
+                                          ngayBatDau: danhSachCubit.ngayDauTien,
+                                          ngayKetThuc:
+                                              danhSachCubit.ngayKetThuc,
+                                          mangTrangThai: [],
+                                          trangThaiHanXuLy: value,
                                         ),
                                       ),
                                     );

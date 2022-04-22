@@ -67,8 +67,6 @@ class _ListDanhSachNhiemVuState extends State<ListDanhSachNhiemVu> {
                         DateTime.now().formatDdMMYYYY,
                     userName: widget.list[index].tinhHinhThucHienNoiBo ?? '',
                     status: widget.list[index].trangThai ?? '',
-                    userImage:
-                        'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
                     index: index + 1,
                     maTrangThai: widget.list[index].maTrangThai ?? '',
                   );

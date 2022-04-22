@@ -87,6 +87,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                 ngayBatDau: danhSachCubit.ngayDauTien,
                                 ngayKetThuc: danhSachCubit.ngayKetThuc,
                                 mangTrangThai: [value],
+                                trangThaiHanXuLy: null,
                               ),
                             ),
                           );
@@ -186,7 +187,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                     isCheck: widget.isCheck,
                                     ngayBatDau: danhSachCubit.ngayDauTien,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
-                                    mangTrangThai: [],
+                                    mangTrangThai: [], trangThaiHanXuLy: null,
                                   ),
                                 ),
                               );

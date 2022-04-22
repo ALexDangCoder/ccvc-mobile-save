@@ -139,7 +139,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                 ngayKetThuc: danhSachCubit.ngayKetThuc,
                                 ngayBatDau: danhSachCubit.ngayDauTien,
                                 mangTrangThai: [value],
-                                trangThaiHanXuLy: [value],
+                                trangThaiHanXuLy: null,
                               ),
                             ),
                           );
@@ -221,9 +221,9 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ChiTietNhiemVuPhoneScreen(
-                                            id: data[index].id ?? '',
-                                            isCheck: widget.isCheck,
-                                          ),
+                                                id: data[index].id ?? '',
+                                                isCheck: widget.isCheck,
+                                              ),
                                         ),
                                       );
                                     },
@@ -274,7 +274,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     isCheck: widget.isCheck,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
                                     ngayBatDau: danhSachCubit.ngayDauTien,
-                                    mangTrangThai: [],
+                                    mangTrangThai: [], trangThaiHanXuLy: null,
                                   ),
                                 ),
                               );
@@ -303,8 +303,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ChitietCongViecNhiemVuMobile(
-                                            id: data[index].id ?? '',
-                                          ),
+                                                id: data[index].id ?? '',
+                                              ),
                                         ),
                                       );
                                     },
@@ -341,8 +341,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
               print("start ${start}");
               print("end-- ${end}");
               danhSachCubit.callApiDashBroashDonVi(false);
-            },
-            onChangeText: (String? value) {},
+            }, onChangeText: (String? value) {  },
           ),
         ],
       ),

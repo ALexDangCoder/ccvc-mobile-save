@@ -163,7 +163,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }) async {
     showLoading();
     await getChiTietLichHop(id);
-    // final queue = Queue(parallel: 15);
+    final queue = Queue(parallel: 15);
 
     ///Công tác chuẩn bị
     // unawaited(queue.add(() => getThongTinPhongHopApi()));

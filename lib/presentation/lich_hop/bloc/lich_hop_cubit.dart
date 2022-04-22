@@ -191,7 +191,11 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   Future<void> searchLichHop(String? query) async {
     const Duration(milliseconds: 2);
     listDSLH.clear();
-    await postDanhSachLichHop(query);
+    if(query == null || query.isEmpty) {
+      await postDanhSachLichHop();
+    } else {
+      await postDanhSachLichHop(query);
+    }
   }
 
   Future<void> postCoCauLichHop() async {

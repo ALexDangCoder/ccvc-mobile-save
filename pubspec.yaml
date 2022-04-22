@@ -104,5 +104,6 @@ flutter:
     - assets/style/
     - lib/ket_noi_module/assets/images/
     - lib/nhiem_vu_module/assets/images/
+    - lib/y_kien_nguoi_dan_module/assets/images/
 flutter_intl:
   enabled: true

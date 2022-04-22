@@ -121,6 +121,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   Future<Result<List<YKienNguoiDanModel>>> searchYKienNguoiDan(
       String tuNgay,
       String denNgay,
+      String trangThai,
       int pageSize,
       int pageNumber,
       String tuKhoa,
@@ -131,6 +132,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       () => _yKienNguoIDanService.searchDanhSachYKienNguoiDan(
         tuNgay,
         denNgay,
+        trangThai,
         pageSize,
         pageNumber,
         tuKhoa,

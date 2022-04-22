@@ -35,7 +35,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   late String endDate;
   String donViId = '';
   String userId = '';
-  String trangThai='';
+  String trangThai = '';
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
       BehaviorSubject<DashboardTinhHinhXuLuModel>();
@@ -375,7 +375,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     final result = await _YKNDRepo.danhSachYKienNguoiDan(
       tuNgay,
       denNgay,
-      trangThai??'',
+      trangThai ?? '',
       pageSize,
       pageNumber,
       userId,
@@ -395,6 +395,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   Future<void> searchDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,
+    String? trangThai,
     int pageSize,
     int pageNumber,
     String tuKhoa,
@@ -405,6 +406,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     final result = await _YKNDRepo.searchYKienNguoiDan(
       tuNgay,
       denNgay,
+      trangThai ?? '',
       pageSize,
       pageNumber,
       tuKhoa,

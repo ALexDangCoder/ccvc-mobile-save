@@ -12,91 +12,66 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_mode
 
 mixin YKienNguoiDanRepository {
   Future<Result<DashboardTinhHinhXuLuModel>> dasdBoardTinhHinhXuLy(
-    String donViId,
-    String fromDate,
-    String toDate,
-  );
+      String donViId,
+      String fromDate,
+      String toDate,);
 
-  Future<Result<PhanLoaiModel>> dasdBoardPhanLoai(
-    String donViId,
-    String fromDate,
-    String toDate,
-  );
+  Future<Result<PhanLoaiModel>> dasdBoardPhanLoai(String donViId,
+      String fromDate,
+      String toDate,);
 
-  Future<Result<ThongTinYKienModel>> thongTingNguoiDan(
-    String donViId,
-    String fromDate,
-    String toDate,
-  );
+  Future<Result<ThongTinYKienModel>> thongTingNguoiDan(String donViId,
+      String fromDate,
+      String toDate,);
 
-  Future<Result<DanhSachYKienNguoiDan>> danhSachYKienNguoiDan(
-    String tuNgay,
-    String denNgay,
-    String trangThai,
-    int pageSize,
-    int pageNumber,
-    String userId,
-    String donViId,
-  );
+  Future<Result<DanhSachYKienNguoiDan>> danhSachYKienNguoiDan(String tuNgay,
+      String denNgay,
+      String trangThai,
+      int pageSize,
+      int pageNumber,
+      String userId,
+      String donViId,);
 
-  Future<Result<ChiTietYKNDDataModel>> chiTietYKienNguoiDan(
-    String KienNghiId,
-    String TaskId,
-  );
+  Future<Result<ChiTietYKNDDataModel>> chiTietYKienNguoiDan(String KienNghiId,
+      String TaskId,);
 
-  Future<Result<List<YKienNguoiDanModel>>> searchYKienNguoiDan(
-    String tuNgay,
-    String denNgay,
-    int pageSize,
-    int pageNumber,
-    String tuKhoa,
-    String userId,
-    String donViId,
-  );
+  Future<Result<List<YKienNguoiDanModel>>> searchYKienNguoiDan(String tuNgay,
+      String denNgay,
+      String trangThai,
+      int pageSize,
+      int pageNumber,
+      String tuKhoa,
+      String userId,
+      String donViId,);
 
   Future<Result<DanhSachKetQuaYKXLModel>> getDanhSachYKienPAKN(
-    String KienNghiId,
-    int type,
-  );
+      String KienNghiId,
+      int type,);
 
-  Future<Result<ThongKeYKNDModel>> baoCaoYKienNguoiDan(
-    String startDate,
-    String endDate,
-    {List<String>? listDonVi,}
-  );
-  Future<Result<DashBoardBaoCaoYKNDModel>> dashBoardBaoCaoYKND(
-      String startDate,
+  Future<Result<ThongKeYKNDModel>> baoCaoYKienNguoiDan(String startDate,
       String endDate,
-      {List<String>? listDonVi,}
-      );
+      {List<String>? listDonVi,});
 
-  Future<Result<ChartLinhVucKhacModel>> chartLinhVucKhac(
-      String startDate,
+  Future<Result<DashBoardBaoCaoYKNDModel>> dashBoardBaoCaoYKND(String startDate,
       String endDate,
-      {List<String>? listDonVi,}
+      {List<String>? listDonVi,});
 
-      );
-
-  Future<Result<ChartDonViModel>> chartDonVi(
-      String startDate,
+  Future<Result<ChartLinhVucKhacModel>> chartLinhVucKhac(String startDate,
       String endDate,
-      {List<String>? listDonVi,}
-      );
+      {List<String>? listDonVi,});
 
-  Future<Result<ChartYKNDByMonthModel>> chartSoLuongByMonth(
-      String startDate,
+  Future<Result<ChartDonViModel>> chartDonVi(String startDate,
       String endDate,
-      {List<String>? listDonVi,}
-      );
+      {List<String>? listDonVi,});
 
-  Future<Result<List<TienTrinhXuLyModel>>> tienTrinhXuLy(
-      String paknId,
-      );
+  Future<Result<ChartYKNDByMonthModel>> chartSoLuongByMonth(String startDate,
+      String endDate,
+      {List<String>? listDonVi,});
 
-  Future<Result<List<KetQuaXuLyModel>>> ketQuaXuLy(
-      String kienNghiId,
-      String taskId,
-      );
+  Future<Result<List<TienTrinhXuLyModel>>> tienTrinhXuLy(String paknId,);
+
+  Future<Result<List<KetQuaXuLyModel>>> ketQuaXuLy(String kienNghiId,
+      String taskId,);
 }
 
 

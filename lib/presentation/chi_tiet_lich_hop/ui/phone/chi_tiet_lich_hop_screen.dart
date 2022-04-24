@@ -182,7 +182,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   child: ListView(
                     children: [
                       StreamBuilder<ChiTietLichHopModel>(
-                        stream: cubit.chiTietLichLamViecStream,
+                        stream: cubit.chiTietLichLamViecSubject,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return Container();

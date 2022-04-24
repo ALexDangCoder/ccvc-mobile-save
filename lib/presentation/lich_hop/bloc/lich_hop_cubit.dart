@@ -587,47 +587,6 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     ImageAssets.icLichHopTrucTiep,
   ];
 
-  BehaviorSubject<List<TaoPhienHopModel>> themPhienSubject = BehaviorSubject();
-  List<TaoPhienHopModel> listThemPhien = [];
-
-  Future<void> themPhienHop({
-    required String canBoId,
-    required String donViId,
-    required String lichHopId,
-    required String thoiGian_BatDau,
-    required String thoiGian_KetThuc,
-    required String noiDung,
-    required String tieuDe,
-    required String hoTen,
-    required bool IsMultipe,
-    required List<FilesRepuest> file,
-  }) async {
-    showLoading();
-
-    final result = await hopRepo.getThemPhienHop(
-      lichHopId,
-      canBoId,
-      donViId,
-      thoiGian_BatDau,
-      thoiGian_KetThuc,
-      noiDung,
-      tieuDe,
-      hoTen,
-      IsMultipe,
-      file,
-    );
-
-    result.when(
-      success: (value) {
-        listThemPhien = value;
-        themPhienSubject.sink.add(listThemPhien);
-      },
-      error: (error) {},
-    );
-
-    showContent();
-  }
-
   // them tai lieu tao lich hop
   Future<void> postFileTaoLichHop({
     required int entityType,

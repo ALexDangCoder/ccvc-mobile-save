@@ -31,29 +31,34 @@ class ChiTietLichHopModel {
   bool isAllDay;
   int? typeReminder;
   int? typeRepeat;
+  String? dateRepeat;
+  String? days;
 
-  ChiTietLichHopModel(
-      {this.id = '',
-      this.loaiLich = '',
-      this.linhVuc = '',
-      this.noiDung = '',
-      this.title = '',
-      this.ngayBatDau = '',
-      this.ngayKetThuc = '',
-      this.timeStart = '',
-      this.timeTo = '',
-      this.tenLinhVuc = '',
-      this.loaiHop = '',
-      this.mucDoHop,
-      this.chuTriModel = const ChuTriModel(),
-      this.phongHopMode = const PhongHopMode(),
-      this.typeScheduleId = '',
-      this.bit_HopTrucTuyen = false,
-      this.bit_TrongDonVi = false,
-      this.isAllDay = false,
-      this.typeReminder,
-      this.typeRepeat,
-      this.fileData});
+  ChiTietLichHopModel({
+    this.id = '',
+    this.loaiLich = '',
+    this.linhVuc = '',
+    this.noiDung = '',
+    this.title = '',
+    this.ngayBatDau = '',
+    this.ngayKetThuc = '',
+    this.timeStart = '',
+    this.timeTo = '',
+    this.tenLinhVuc = '',
+    this.loaiHop = '',
+    this.mucDoHop,
+    this.chuTriModel = const ChuTriModel(),
+    this.phongHopMode = const PhongHopMode(),
+    this.typeScheduleId = '',
+    this.bit_HopTrucTuyen = false,
+    this.bit_TrongDonVi = false,
+    this.isAllDay = false,
+    this.typeReminder,
+    this.typeRepeat,
+    this.fileData,
+    this.dateRepeat,
+    this.days,
+  });
 
   String mucDoHopWithInt() {
     switch (mucDoHop) {

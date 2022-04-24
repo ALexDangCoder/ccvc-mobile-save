@@ -384,6 +384,8 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                         onChange: (value) {
                           widget.cubit.taoPhienHopRepuest.hoTen =
                               data[value].hoTen;
+                          widget.cubit.taoPhienHopRepuest.vaiTroThamGia =
+                              data[value].vaiTroThamGia;
                         },
                         listSelect: data.map((e) => e.hoTen ?? '').toList(),
                       ),

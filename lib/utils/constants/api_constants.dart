@@ -80,7 +80,13 @@ class ApiConstants {
 
   static const PHAN_CONG_THU_KY = '/vpdt/api/MeetingSchedule/assign-secretary';
 
+  static const TAO_BIEU_QUYET = '/vpdt/api/MeetingSection/create-phat-bieu';
 
+  static const DUYET_PHAT_BIEU = '/vpdt/api/MeetingSection/duyet-phat-bieu';
+
+  static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
+
+  static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
@@ -172,7 +178,8 @@ class ApiConstants {
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-huy-duyet';
   static const LICH_SU_CAP_NHAT_VAN_BAN_DI =
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-cap-nhat';
-  static const LUONG_XU_LY_VAB_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-luong-xu-ly';
+  static const LUONG_XU_LY_VAB_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-luong-xu-ly';
   static const LUONG_XU_LY_VAN_BAN_DEN = '/qlvb/api/vanban/getluongxuly';
   static const SEARCH_TIN_TUC = '/api/NewsNetViews/search_news?';
   static const DASH_BOARD_TINH_HINH_XU_LY =

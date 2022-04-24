@@ -158,7 +158,7 @@ class ChiTietVanBanDenModel {
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-        S.current.so_ky_hieu,
+        S.current.so_ky_hieu_,
         soKyHieu ?? '',
         TypeDocumentDetailRow.text,
       ),

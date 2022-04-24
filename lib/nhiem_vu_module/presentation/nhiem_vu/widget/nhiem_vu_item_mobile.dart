@@ -79,22 +79,6 @@ class NhiemVuItemMobile extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Container(
-                                width: 24,
-                                height: 24,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 12.0,
-                              ),
                               Expanded(
                                 child: Text(
                                   data.tinhHinhThucHienNoiBo ?? '',

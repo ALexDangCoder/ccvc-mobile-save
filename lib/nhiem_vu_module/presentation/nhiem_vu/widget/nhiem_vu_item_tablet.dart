@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class NhiemVuCellTablet extends StatelessWidget {
   final String title;
   final String hanXuLy;
-  final String userImage;
   final String userName;
   final String noiDung;
   final String maTrangThai;
@@ -18,7 +17,6 @@ class NhiemVuCellTablet extends StatelessWidget {
     Key? key,
     required this.title,
     required this.hanXuLy,
-    required this.userImage,
     required this.userName,
     required this.noiDung,
     required this.maTrangThai,
@@ -113,20 +111,6 @@ class NhiemVuCellTablet extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Container(
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(userImage),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 12.0,
-                              ),
                               Expanded(
                                 child: Text(
                                   userName,

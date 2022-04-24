@@ -78,7 +78,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         title: S.current.nhiem_vu,
                         chartData: data,
                         cubit: danhSachCubit,
-                        ontap: (value){
+                        ontap: (value) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -87,6 +87,21 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                 ngayBatDau: danhSachCubit.ngayDauTien,
                                 ngayKetThuc: danhSachCubit.ngayKetThuc,
                                 mangTrangThai: value.trangThaiBieuDoNhiemVu(),
+                              ),
+                            ),
+                          );
+                        },
+                        onTapStatusBox: (value) {
+                          print('************${value}');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachNhiemVuMobile(
+                                isCheck: widget.isCheck,
+                                ngayBatDau: danhSachCubit.ngayDauTien,
+                                ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                mangTrangThai: [],
+                                trangThaiHanXuLy: value,
                               ),
                             ),
                           );
@@ -115,7 +130,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         title: S.current.cong_viec,
                         chartData: data,
                         cubit: danhSachCubit,
-                        ontap: (value ) {
+                        ontap: (value) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -123,9 +138,22 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                 isCheck: widget.isCheck,
                                 ngayKetThuc: danhSachCubit.ngayKetThuc,
                                 ngayBatDau: danhSachCubit.ngayDauTien,
-                                mangTrangThai: [
-                                  value
-                                ],
+                                mangTrangThai: [value],
+                                trangThaiHanXuLy: null,
+                              ),
+                            ),
+                          );
+                        },
+                        onTapStatusBox: (value) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachCongViecMobile(
+                                isCheck: widget.isCheck,
+                                ngayKetThuc: danhSachCubit.ngayKetThuc,
+                                ngayBatDau: danhSachCubit.ngayDauTien,
+                                mangTrangThai: [],
+                                trangThaiHanXuLy: value,
                               ),
                             ),
                           );
@@ -245,7 +273,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     // cubit: danhSachCubit,
                                     isCheck: widget.isCheck,
                                     ngayKetThuc: danhSachCubit.ngayKetThuc,
-                                    ngayBatDau: danhSachCubit.ngayDauTien, mangTrangThai: [],
+                                    ngayBatDau: danhSachCubit.ngayDauTien,
+                                    mangTrangThai: [], trangThaiHanXuLy: null,
                                   ),
                                 ),
                               );

@@ -18,6 +18,8 @@ class DanhSachNhiemVuRequest {
   Map<String, String>? ngayTaoNhiemVu;
   @JsonKey(name: 'Size')
   int? size;
+  @JsonKey(name: 'TrangThaiHanXuLy')
+  int? trangThaiHanXuLy;
 
   DanhSachNhiemVuRequest({
     this.index,
@@ -27,6 +29,7 @@ class DanhSachNhiemVuRequest {
     this.mangTrangThai,
     this.ngayTaoNhiemVu,
     this.size,
+    this.trangThaiHanXuLy,
   });
 
   factory DanhSachNhiemVuRequest.fromJson(

@@ -19,7 +19,7 @@ class DanhSachCongViecRequest {
   @JsonKey(name: 'Size')
   int? size;
   @JsonKey(name: 'TrangThaiHanXuLy')
-  String? trangThaiHanXuLy;
+  int? trangThaiHanXuLy;
 
   DanhSachCongViecRequest({
     required this.hanXuLy,

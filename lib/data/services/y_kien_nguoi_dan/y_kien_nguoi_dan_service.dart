@@ -53,6 +53,7 @@ abstract class YKienNguoiDanService {
   Future<DanhSachYKienNguoiDanResponse> getDanhSachYKienNguoiDan(
     @Query('TuNgay') String tuNgay,
     @Query('DenNgay') String denNgay,
+    @Query('trangThai') String trangThai,
     @Query('PageSize') int pageSize,
     @Query('PageNumber') int pageNumber,
     @Query('userId') String userId,
@@ -68,6 +69,7 @@ abstract class YKienNguoiDanService {
   Future<SearchYKienNguoiDanResponse> searchDanhSachYKienNguoiDan(
     @Query('TuNgay') String tuNgay,
     @Query('DenNgay') String denNgay,
+    @Query('trangThai') String trangThai,
     @Query('PageSize') int pageSize,
     @Query('PageNumber') int pageNumber,
     @Query('TuKhoa') String tuKhoa,
@@ -102,17 +104,17 @@ abstract class YKienNguoiDanService {
 
   @POST(ApiConstants.SO_LUONG_BY_MONTH)
   Future<SoLuongYKNDBtMonthResponse> getDashBoardSoLuongYKND(
-      @Body() BaoCaoYKNDRequest baoCaoYKNDRequest,
-      );
+    @Body() BaoCaoYKNDRequest baoCaoYKNDRequest,
+  );
 
   @GET(ApiConstants.TIEN_TRINH_XU_LY)
   Future<TienTrinhXuLyResponse> getTienTrinhXuLyYKND(
-      @Query('paknId') String paknId,
-      );
+    @Query('paknId') String paknId,
+  );
 
   @GET(ApiConstants.KET_QUA_XU_LY)
   Future<KetQuaXuLyResponse> getKetQuaXuLyYKND(
-      @Query('KienNghiId') String kienNghiId,
-      @Query('TaskId') String taskId,
-      );
+    @Query('KienNghiId') String kienNghiId,
+    @Query('TaskId') String taskId,
+  );
 }

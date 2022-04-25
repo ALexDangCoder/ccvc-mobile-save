@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_state.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -34,6 +35,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   late String endDate;
   String donViId = '';
   String userId = '';
+  String trangThai = '';
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
       BehaviorSubject<DashboardTinhHinhXuLuModel>();
@@ -51,8 +53,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       BehaviorSubject<List<YKienNguoiDanModel>>();
 
   final BehaviorSubject<DocumentDashboardModel> _statusTinhHinhXuLyData =
-  BehaviorSubject<DocumentDashboardModel>();
-
+      BehaviorSubject<DocumentDashboardModel>();
 
   Stream<DocumentDashboardModel> get statusTinhHinhXuLyData =>
       _statusTinhHinhXuLyData.stream;
@@ -145,6 +146,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       statusData: StatusYKien.DANG_XU_LY,
     ),
   ];
+
   void callApi() {
     getUserData();
     getDashBoardTinhHinhXuLy(
@@ -165,6 +167,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     getDanhSachYKienNguoiDan(
       startDate,
       endDate,
+      trangThai,
       10,
       1,
       userId,
@@ -315,7 +318,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     showContent();
     result.when(
       success: (res) {
-
         listChartPhanLoai.clear();
         listChartPhanLoai.add(
           ChartData(
@@ -363,6 +365,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   Future<void> getDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,
+    String? trangThai,
     int pageSize,
     int pageNumber,
     String userId,
@@ -372,6 +375,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     final result = await _YKNDRepo.danhSachYKienNguoiDan(
       tuNgay,
       denNgay,
+      trangThai ?? '',
       pageSize,
       pageNumber,
       userId,
@@ -391,6 +395,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   Future<void> searchDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,
+    String? trangThai,
     int pageSize,
     int pageNumber,
     String tuKhoa,
@@ -401,6 +406,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     final result = await _YKNDRepo.searchYKienNguoiDan(
       tuNgay,
       denNgay,
+      trangThai ?? '',
       pageSize,
       pageNumber,
       tuKhoa,
@@ -409,9 +415,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
     showContent();
     result.when(
-      success: (res) {
-
-      },
+      success: (res) {},
       error: (err) {
         return;
       },
@@ -451,6 +455,33 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         break;
     }
     return colorResult;
+  }
+
+  String getTrangThai(String status) {
+    final String statusCode =
+        status.split(' ').join('_').toUpperCase().vietNameseParse();
+    String trangThai = '';
+    switch (statusCode) {
+      case 'CHUA_THUC_HIEN':
+        trangThai = StatusYKND.CHUA_THUC_HIEN_YKND;
+        break;
+      case 'DA_HOAN_THANH':
+        trangThai = StatusYKND.DA_HOAN_THANH_YKND;
+        break;
+      case 'DANG_THUC_HIEN':
+        trangThai = StatusYKND.DANG_THUC_HIEN_YKND;
+        break;
+      case 'QUA_HAN':
+        trangThai = StatusYKND.QUA_HAN_YKND;
+        break;
+      case 'DEN_HAN':
+        trangThai = StatusYKND.DEN_HAN_YKND;
+        break;
+      case 'TRONG_HAN':
+        trangThai = StatusYKND.TRONG_HAN_YKND;
+        break;
+    }
+    return trangThai;
   }
 
   void initTimeRange() {

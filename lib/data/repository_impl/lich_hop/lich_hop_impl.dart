@@ -10,10 +10,12 @@ import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_bieu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
@@ -199,6 +201,7 @@ class HopRepositoryImpl implements HopRepository {
     String lichHopId,
     String canBoId,
     String donViId,
+    int vaiTroThamGia,
     String thoiGian_BatDau,
     String thoiGian_KetThuc,
     String noiDung,
@@ -212,6 +215,7 @@ class HopRepositoryImpl implements HopRepository {
         lichHopId,
         canBoId,
         donViId,
+        vaiTroThamGia,
         thoiGian_BatDau,
         thoiGian_KetThuc,
         noiDung,
@@ -595,9 +599,56 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ResponseModel>> postPhanCongThuKy(
-      PhanCongThuKyRequest phanCongThuKyRequest) {
+    PhanCongThuKyRequest phanCongThuKyRequest,
+  ) {
     return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
       () => _hopServices.postPhanCongThuKy(phanCongThuKyRequest),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> postTaoPhatBieu(
+    TaoBieuQuyetRequest taoBieuQuyetRequest,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.postTaoPhatBieu(taoBieuQuyetRequest),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> postDuyetOrHuyDuyetPhatBieu(
+    List<String> ids,
+    String lichHopId,
+    int type,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.postDuyetOrHuyDuyetPhatBieu(
+        ids,
+        lichHopId,
+        type,
+      ),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> postDiemDanh(
+    List<String> data,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.postDiemDanh(data),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> postThuHoiHop(
+    List<ThuHoiHopRequest> thuHoiHopRequest,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.postThuHoiHop(thuHoiHopRequest),
       (response) => response.toModel(),
     );
   }

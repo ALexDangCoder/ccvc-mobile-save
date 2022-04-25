@@ -2,17 +2,15 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/selectdate/custom_selectdate.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/sua_danh_ba_ca_nhan/widget/input_infor_user_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LichLapTuyChinhChiTietHopWidget extends StatefulWidget {
+  final DateTime initDate;
   final List<int> initData;
   final Function(List<int> vl) onChange;
   final DetailMeetCalenderCubit cubit;
@@ -22,6 +20,7 @@ class LichLapTuyChinhChiTietHopWidget extends StatefulWidget {
     required this.cubit,
     required this.onChange,
     required this.initData,
+    required this.initDate,
   }) : super(key: key);
 
   @override
@@ -38,6 +37,7 @@ class _LichLapTuyChinhChiTietHopWidgetState
   void initState() {
     // TODO: implement initState
     super.initState();
+    listSelect = widget.initData;
     listDayOffWeek = [
       DayOffWeek(index: 0, name: 'CN', isChoose: false),
       DayOffWeek(index: 1, name: 'T2', isChoose: false),
@@ -70,16 +70,21 @@ class _LichLapTuyChinhChiTietHopWidgetState
                   .map(
                     (e) => GestureDetector(
                       onTap: () {
-                        e.isChoose = !(e.isChoose ?? false);
-                        if (e.isChoose == true) {
+                        if (e.isChoose == false) {
+                          e.isChoose = true;
                           listSelect.add(e.index ?? 0);
+                          listSelect.sort();
                           widget.onChange(listSelect);
                           setState(() {});
                         } else {
+                          e.isChoose = false;
+                          setState(() {});
                           listSelect.remove(e.index ?? 0);
+                          listSelect.sort();
+                          widget.onChange(listSelect);
                         }
                       },
-                      child: itemLichLapTuyChinh(
+                      child: itemLichLapTuyChinhHop(
                         title: e.name ?? '',
                         isCheck: e.isChoose ?? false,
                       ),
@@ -88,11 +93,11 @@ class _LichLapTuyChinhChiTietHopWidgetState
                   .toList(),
             ),
           ),
-          InputInfoUserWidget(
-            title: S.current.lap_den_ngay,
-            child: CustomSelectDate(
-              value: DateTime.now().toString(),
-              onSelectDate: (value) {},
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: ItemLapDenNgayHopWidget(
+              cubit: widget.cubit,
+              initDate: widget.initDate,
             ),
           ),
         ],
@@ -101,9 +106,9 @@ class _LichLapTuyChinhChiTietHopWidgetState
   }
 }
 
-Widget itemLichLapTuyChinh({required bool isCheck, required String title}) {
+Widget itemLichLapTuyChinhHop({required bool isCheck, required String title}) {
   return Container(
-      margin: EdgeInsets.only(left: 14.0),
+      margin: const EdgeInsets.only(left: 14.0),
       height: 32.0,
       width: 32.0,
       decoration: BoxDecoration(
@@ -115,4 +120,75 @@ Widget itemLichLapTuyChinh({required bool isCheck, required String title}) {
           style: textNormal(isCheck ? backgroundColorApp : textDefault, 14),
         ),
       ));
+}
+
+class ItemLapDenNgayHopWidget extends StatefulWidget {
+  final DateTime initDate;
+  final DetailMeetCalenderCubit cubit;
+
+  const ItemLapDenNgayHopWidget(
+      {Key? key, required this.cubit, required this.initDate})
+      : super(key: key);
+
+  @override
+  _ItemLapDenNgayHopWidgetState createState() =>
+      _ItemLapDenNgayHopWidgetState();
+}
+
+class _ItemLapDenNgayHopWidgetState extends State<ItemLapDenNgayHopWidget> {
+  BehaviorSubject<DateTime> changeDateTimeSubject = BehaviorSubject();
+  DateTime dateTimeLapDenNgay = DateTime.now();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dateTimeLapDenNgay = widget.initDate;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, left: 30),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                S.current.lap_den_ngay,
+                style: textNormal(titleColor, 16.0),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    CupertinoRoundedDatePickerWidget.show(
+                      context,
+                      minimumYear: 2022,
+                      maximumYear: 2060,
+                      initialDate: widget.initDate,
+                      onTap: (dateTime) async {
+                        dateTimeLapDenNgay = dateTime;
+                        changeDateTimeSubject.add(dateTime);
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                  child: StreamBuilder<DateTime>(
+                      stream: changeDateTimeSubject.stream,
+                      builder: (context, snapshot) {
+                        return Text(
+                          dateTimeLapDenNgay.toStringWithListFormat,
+                          style: textNormal(titleColor, 16.0),
+                        );
+                      })),
+            ],
+          ),
+          const Divider(
+            thickness: 1,
+            color: lineColor,
+          ),
+        ],
+      ),
+    );
+  }
 }

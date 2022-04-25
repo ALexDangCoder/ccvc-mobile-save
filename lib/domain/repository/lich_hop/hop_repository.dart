@@ -10,10 +10,12 @@ import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/add_file_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
@@ -145,6 +147,7 @@ mixin HopRepository {
     String lichHopId,
     String canBoId,
     String donViId,
+    int vaiTroThamGia,
     String thoiGian_BatDau,
     String thoiGian_KetThuc,
     String noiDung,
@@ -236,5 +239,23 @@ mixin HopRepository {
 
   Future<Result<ResponseModel>> postPhanCongThuKy(
     PhanCongThuKyRequest phanCongThuKyRequest,
+  );
+
+  Future<Result<ResponseModel>> postTaoPhatBieu(
+    TaoBieuQuyetRequest taoBieuQuyetRequest,
+  );
+
+  Future<Result<ResponseModel>> postDuyetOrHuyDuyetPhatBieu(
+    List<String> ids,
+    String lichHopId,
+    int type,
+  );
+
+  Future<Result<ResponseModel>> postDiemDanh(
+    List<String> data,
+  );
+
+  Future<Result<ResponseModel>> postThuHoiHop(
+    List<ThuHoiHopRequest> thuHoiHopRequest,
   );
 }

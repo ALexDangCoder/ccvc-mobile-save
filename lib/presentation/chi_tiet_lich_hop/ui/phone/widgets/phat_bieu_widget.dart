@@ -91,7 +91,10 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                               showBottomSheetCustom(
                                 context,
                                 title: S.current.dang_ky_phat_bieu,
-                                child: const DangKyPhatBieuWidget(),
+                                child: DangKyPhatBieuWidget(
+                                  cubit: widget.cubit,
+                                  id: widget.id,
+                                ),
                               );
                             },
                           );

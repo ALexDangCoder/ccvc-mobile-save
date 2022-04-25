@@ -87,6 +87,8 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
                   },
                   initValue: _nhiemVuCubit.selectKeyTime,
                   title: S.current.time,
+                    startDate: _nhiemVuCubit.startDate,
+                    endDate: _nhiemVuCubit.endDate
                 )
               ],
             );

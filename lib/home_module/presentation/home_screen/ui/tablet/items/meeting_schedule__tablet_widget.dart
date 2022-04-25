@@ -72,6 +72,8 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
                 },
                 initValue: _lichHopCubit.selectKeyTime,
                 title: S.current.time,
+                  startDate: _lichHopCubit.startDate,
+                  endDate: _lichHopCubit.endDate
               )
             ],
           );

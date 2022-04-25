@@ -68,6 +68,8 @@ class _SituationOfHandlingPeopleWidgetState
                   },
                   initValue: _yKienCubit.selectKeyTime,
                   title: S.current.time,
+                  startDate: _yKienCubit.startDate,
+                  endDate: _yKienCubit.endDate,
                 )
               ],
             );

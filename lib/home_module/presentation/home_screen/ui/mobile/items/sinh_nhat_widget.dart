@@ -56,6 +56,8 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
                   },
                   initValue: sinhNhatCubit.selectKeyTime,
                   title: S.current.time,
+                  startDate: sinhNhatCubit.startDate,
+                  endDate: sinhNhatCubit.endDate,
                 )
               ],
             );

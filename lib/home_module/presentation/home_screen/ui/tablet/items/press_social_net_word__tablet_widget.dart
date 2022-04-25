@@ -109,6 +109,8 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                         endDate: endDate,
                       );
                     },
+                    startDate: _xaHoiCubit.startDate,
+                    endDate: _xaHoiCubit.endDate,
                     title: S.current.time,
                     initValue: _xaHoiCubit.selectKeyTime)
               ],

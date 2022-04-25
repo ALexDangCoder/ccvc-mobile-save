@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'icon.dart';
+import 'widgets/button_quan_ly_widget.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -77,7 +78,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           menuCubit: menuCubit,
                         ),
                       ),
-                     const  TextQuanLyWidget(),
+                     const  ButtonQuanLyMobileWidget(),
                       StreamBuilder<List<MenuType>>(
                         stream: menuCubit.getMenu,
                         builder: (context, snapshot) {

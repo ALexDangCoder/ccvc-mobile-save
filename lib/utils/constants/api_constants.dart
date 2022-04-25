@@ -4,7 +4,8 @@ class ApiConstants {
   static const int PAGE_BEGIN = 1;
   static const int NOT_SAVED_ID = -1;
   static const int TIME_OUT = 30;
-  static const GET_FUNCTION_OF_CURRENT = '/api/Function/get-tree-function-of-currentuser';
+  static const GET_FUNCTION_OF_CURRENT =
+      '/api/Function/get-tree-function-of-currentuser';
   static const String POST_DANH_SACH_LICH_HOP =
       '/vpdt/api/MeetingSchedule/calendar-list';
   static const String POST_DANH_SACH_THONG_KE =
@@ -64,6 +65,8 @@ class ApiConstants {
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
+  static const NGUOI_DANG_THEO_DOI =
+      '/vpdt/api/UserFollow/danh-sach-nguoi-theo-doi';
   static const DANH_SACH_PHIEN_HOP =
       '/vpdt/api/meetingsection/get-list-phien-hop';
   static const EVENT_CALENDAR_LICH_HOP =
@@ -80,8 +83,6 @@ class ApiConstants {
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
 
   static const PHAN_CONG_THU_KY = '/vpdt/api/MeetingSchedule/assign-secretary';
-
-
 
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
@@ -173,7 +174,8 @@ class ApiConstants {
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-huy-duyet';
   static const LICH_SU_CAP_NHAT_VAN_BAN_DI =
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-cap-nhat';
-  static const LUONG_XU_LY_VAB_BAN_DI = '/qlvb/api/van-ban-di/{id}/xem-luong-xu-ly';
+  static const LUONG_XU_LY_VAB_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-luong-xu-ly';
   static const LUONG_XU_LY_VAN_BAN_DEN = '/qlvb/api/vanban/getluongxuly';
   static const SEARCH_TIN_TUC = '/api/NewsNetViews/search_news?';
   static const DASH_BOARD_TINH_HINH_XU_LY =

@@ -7,12 +7,15 @@ import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
@@ -189,6 +192,10 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     unawaited(queue.add(() => getDanhSachPhienHop(id)));
 
     unawaited(queue.add(() => themThanhPhanThamGia()));
+
+    ///nguoi theo doi
+    unawaited(queue.add(() => getNguoiChuTri(id)));
+
     showContent();
     // queue.dispose();
   }
@@ -516,19 +523,20 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   Future<void> getDanhSachCuocHopTPTH() async {
     final result = await hopRp.getDanhSachCuocHopTPTH(id);
 
-    result.when(success: (success) {
-      thanhPhanThamGia.add(success.listCanBo ?? []);
-    }, error: (error) {},);
+    result.when(
+      success: (success) {
+        thanhPhanThamGia.add(success.listCanBo ?? []);
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> themThanhPhanThamGia() async {
     final result =
         await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
     result.when(
-      success: (res) {
-      },
-      error: (error) {
-      },
+      success: (res) {},
+      error: (error) {},
     );
     await getDanhSachCuocHopTPTH();
     moiHopRequest.clear();
@@ -858,5 +866,19 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
         return TrangThaiNhiemVu.DaThucHien;
     }
     return TrangThaiNhiemVu.ChoPhanXuLy;
+  }
+}
+
+///Nguoi theo doi
+extension NguoiTheoDoi on DetailMeetCalenderCubit {
+  Future<void> getNguoiChuTri(String id) async {
+    final dataUser = HiveLocal.getDataUser();
+
+    final result = await hopRp.getNguoiTheoDoi(NguoiTheoDoiRequest(
+        isTheoDoi: true,
+        pageIndex: 1,
+        pageSize: 1000,
+        userId: id,),);
+    result.when(success: (res) {}, error: (err) {});
   }
 }

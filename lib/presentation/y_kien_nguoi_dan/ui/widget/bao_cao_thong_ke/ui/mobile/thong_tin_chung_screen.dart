@@ -384,7 +384,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 widget.cubit.startDate = startDate.toStringWithListFormat;
                 widget.cubit.endDate = endDate.toStringWithListFormat;
                 widget.cubit.callApi();
-              },
+              }, onChangeText: (String? value) {  },
             ),
           ],
         ),

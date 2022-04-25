@@ -13,6 +13,7 @@ class WidgetChooseDayWeekMonth extends StatefulWidget {
   final Function onTapWeek;
   final Function onTapMonth;
   final LichHopCubit cubit;
+  final Function(String? value) onChangeText;
 
   const WidgetChooseDayWeekMonth({
     Key? key,
@@ -21,6 +22,7 @@ class WidgetChooseDayWeekMonth extends StatefulWidget {
     required this.onTapWeek,
     required this.onTapMonth,
     required this.cubit,
+    required this.onChangeText,
   }) : super(key: key);
 
   @override
@@ -29,7 +31,6 @@ class WidgetChooseDayWeekMonth extends StatefulWidget {
 }
 
 class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,7 +77,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                 width: 120,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  color:  widget.cubit.index.value == 0
+                                  color: widget.cubit.index.value == 0
                                       ? buttonColor
                                       : backgroundRowColor,
                                 ),
@@ -85,7 +86,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                     S.current.ngay,
                                     style: textNormalCustom(
                                       fontSize: 16.0,
-                                      color:  widget.cubit.index.value == 0
+                                      color: widget.cubit.index.value == 0
                                           ? backgroundColorApp
                                           : titleColor,
                                     ),
@@ -95,7 +96,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                             ),
                           ),
                           Container(
-                            color:  widget.cubit.index.value == 2
+                            color: widget.cubit.index.value == 2
                                 ? borderItemCalender
                                 : backgroundRowColor,
                             width: 1.0,
@@ -112,7 +113,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                 width: 120,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  color:  widget.cubit.index.value == 1
+                                  color: widget.cubit.index.value == 1
                                       ? buttonColor
                                       : backgroundRowColor,
                                 ),
@@ -121,7 +122,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                     S.current.tuan,
                                     style: textNormalCustom(
                                       fontSize: 16.0,
-                                      color:  widget.cubit.index.value == 1
+                                      color: widget.cubit.index.value == 1
                                           ? backgroundColorApp
                                           : titleColor,
                                     ),
@@ -131,7 +132,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                             ),
                           ),
                           Container(
-                            color:  widget.cubit.index.value == 0
+                            color: widget.cubit.index.value == 0
                                 ? borderItemCalender
                                 : backgroundRowColor,
                             width: 1.0,
@@ -148,7 +149,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                 width: 120,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  color:  widget.cubit.index.value == 2
+                                  color: widget.cubit.index.value == 2
                                       ? buttonColor
                                       : backgroundRowColor,
                                 ),
@@ -157,7 +158,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                     S.current.thang,
                                     style: textNormalCustom(
                                       fontSize: 16.0,
-                                      color:  widget.cubit.index.value == 2
+                                      color: widget.cubit.index.value == 2
                                           ? backgroundColorApp
                                           : titleColor,
                                     ),
@@ -193,6 +194,9 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                   ],
                 ),
                 child: TextField(
+                  onChanged: (value) {
+                    widget.onChangeText(value);
+                  },
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       onPressed: () {},

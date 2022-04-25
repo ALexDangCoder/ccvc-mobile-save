@@ -58,11 +58,14 @@ void configureDependencies() {
     QLVBImlp(Get.find()),
   );
   //login
+  Get.put<AccountServiceCCVC>(
+    AccountServiceCCVC(provideDio()),
+  );
   Get.put(AccountService(provideDio(baseOption: BaseURLOption.COMMON)));
   Get.put(
       AccountServiceGateWay(provideDio(baseOption: BaseURLOption.GATE_WAY)));
   Get.put<AccountRepository>(
-    AccountImpl(Get.find(), Get.find()),
+    AccountImpl(Get.find(), Get.find(), Get.find()),
   );
 
   // lich lam viec
@@ -158,8 +161,7 @@ void configureDependencies() {
 int _connectTimeOut = 60000;
 
 Dio provideDio({BaseURLOption baseOption = BaseURLOption.CCVC}) {
-  final appConstants =
-  Get.find<AppConstants>();
+  final appConstants = Get.find<AppConstants>();
   String baseUrl = appConstants.baseUrlCCVC;
   switch (baseOption) {
     case BaseURLOption.GATE_WAY:

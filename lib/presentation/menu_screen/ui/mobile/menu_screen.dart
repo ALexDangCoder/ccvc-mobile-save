@@ -77,24 +77,30 @@ class _MenuScreenState extends State<MenuScreen> {
                           urlBackGround: headerMenu(),
                         ),
                       ),
-                      Column(
-                        children: List.generate(listFeature.length, (index) {
-                          final type = listFeature[index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => type.getScreen(),
+                      StreamBuilder<List<MenuType>>(
+                        stream: menuCubit.getMenu,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <MenuType>[];
+                          return Column(
+                            children: List.generate(data.length, (index) {
+                              final type = listFeature[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (_, __, ___) => type.getScreen(),
+                                    ),
+                                  );
+                                },
+                                child: MenuCellWidget(
+                                  title: type.getItem().title,
+                                  urlIcon: type.getItem().url,
                                 ),
                               );
-                            },
-                            child: MenuCellWidget(
-                              title: type.getItem().title,
-                              urlIcon: type.getItem().url,
-                            ),
+                            }),
                           );
-                        }),
+                        }
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 16, bottom: 24),

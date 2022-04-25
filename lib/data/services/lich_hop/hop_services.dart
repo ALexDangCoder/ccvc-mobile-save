@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
@@ -21,6 +22,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/chi_tiet_li
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_Chi_tiet_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_nhiem_vu_kl_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/danh_sach_y_kien_lich_hop.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/status_ket_luan_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thiet_bi_phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/thong_tin_phong_hop_response.dart';
@@ -38,11 +40,13 @@ import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.d
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/gui_mail_ket_luat-response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/moi_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/moi_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_y_kien_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/ti_le_tham_gia_response.dart';
@@ -51,6 +55,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/tong_phien_hop_respone.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/list_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -186,7 +191,7 @@ abstract class HopServices {
       @Body() BieuQuyetRequest bieuQuyetRequest);
 
   @POST(ApiConstants.MOI_HOP)
-  Future<MoiHopResponse> postMoiHop(
+  Future<ThanhPhanThamGiaResponse> postMoiHop(
     @Query('lichHopId') String lichHopId,
     @Query('IsMultipe') bool IsMultipe,
     @Query('isSendMail') bool isSendMail,
@@ -298,4 +303,11 @@ abstract class HopServices {
   Future<ListNhiemVuChiTietLichHopResponse> postThemNhiemVu(
     @Part() ThemNhiemVuRequest themNhiemVuRequest,
   );
+
+  @POST(ApiConstants.PHAN_CONG_THU_KY)
+  Future<PhanCongThuKyResponse> postPhanCongThuKy(
+    @Body() PhanCongThuKyRequest phanCongThuKyRequest,
+  );
+
+
 }

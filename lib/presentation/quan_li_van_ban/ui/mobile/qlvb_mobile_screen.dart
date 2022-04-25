@@ -352,7 +352,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                   endDate: qlvbCubit.endDate,
                   keySearch: value,
                 );
-              },
+              }, onChangeText: (String? value) {  },
             ),
           ],
         ),

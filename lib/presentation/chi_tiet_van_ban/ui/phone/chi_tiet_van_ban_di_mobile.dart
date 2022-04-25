@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_ky_duyet_van_b
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_tra_lai_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/XemLuongXuLyVBDi/xem_luong_xu_ly_vb_di_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/tep_dinh_kem_widget/tep_dinh_kem_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_cap_nhat_widget_expand.dart';
@@ -45,7 +46,7 @@ class _ChiTietVanBanDiMobileState extends State<ChiTietVanBanDiMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban),
+      appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban_di),
       body: RefreshIndicator(
         onRefresh: () async {
           await cubit.loadDataVanBanDi(processId: widget.id, taskId: widget.id);
@@ -61,81 +62,92 @@ class _ChiTietVanBanDiMobileState extends State<ChiTietVanBanDiMobile> {
             ),
             stream: cubit.stateStream,
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  WidgetHeadChiTietVanBanDi(cubit: cubit),
-                  StreamBuilder<List<NguoiKyDuyetModel>>(
-                      stream: cubit.nguoiKyDuyetVanBanDiSubject.stream,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return VBDiThongTinKyDuyetExpandWidgetMobile(
-                          cubit: cubit,
-                          nguoiKyDuyetModel: data,
-                        );
-                      }),
-                  TepDinhKemMobile(cubit: cubit),
-                  VBDiYKienXuLyExpandWidget(
-                    cubit: cubit,
-                  ),
-                  StreamBuilder<List<LichSuCapNhatVanBanDi>>(
-                      stream: cubit.lichSuCapNhatVanBanDiSubject.stream,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return VBDiLichSuCapNhatExpandWidget(
-                          cubit: cubit,
-                          lichSuCapNhatModel: data,
-                        );
-                      }),
-                  StreamBuilder<List<LichSuTraLaiVanBanDi>>(
-                      stream: cubit.lichSuTraLaiVanBanDiSubject.stream,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return VBDiLichSuTraLaiExpandWidget(
-                          cubit: cubit,
-                          lichSuTraLaiModel: data,
-                        );
-                      }),
-                  StreamBuilder<List<LichSuThuHoiVanBanDi>>(
-                      stream: cubit.lichSuThuHoiVanBanDiSubject.stream,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return VBDiLichSuThuHoiExpandWidget(
-                          cubit: cubit,
-                          lichSuThuHoiModel: data,
-                        );
-                      }),
-                  StreamBuilder<List<LichSuHuyDuyetVanBanDi>>(
-                      stream: cubit.lichSuHuyDuyetVanBanDiSubject,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return VBDiLichSuHuyDuyetExpandWidget(
-                          cubit: cubit,
-                          lichSuHuyDuyetModel: data,
-                        );
-                      }),
-                  StreamBuilder<List<LichSuKyDuyetVanBanDi>>(
-                      stream: cubit.lichSuKyDuyetVanBanDiSubject,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        return VBDiLichSuKyDuyetExpandWidget(
-                          cubit: cubit,
-                          lichSuKyDuyetModel: data,
-                        );
-                      }),
-                  VBDiTheoDoiVanBanBanHanhExpandWidget(
-                    cubit: cubit,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 16.0, bottom: 24.0, left: 16.0, right: 16.0),
-                    child: ButtonCustomBottom(
-                      isColorBlue: false,
-                      title: S.current.xem_luong,
-                      onPressed: () {},
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    WidgetHeadChiTietVanBanDi(cubit: cubit),
+                    StreamBuilder<List<NguoiKyDuyetModel>>(
+                        stream: cubit.nguoiKyDuyetVanBanDiSubject.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return VBDiThongTinKyDuyetExpandWidgetMobile(
+                            cubit: cubit,
+                            nguoiKyDuyetModel: data,
+                          );
+                        }),
+                    TepDinhKemMobile(cubit: cubit),
+                    VBDiYKienXuLyExpandWidget(
+                      cubit: cubit,
                     ),
-                  ),
-                ],
+                    StreamBuilder<List<LichSuCapNhatVanBanDi>>(
+                        stream: cubit.lichSuCapNhatVanBanDiSubject.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return VBDiLichSuCapNhatExpandWidget(
+                            cubit: cubit,
+                            lichSuCapNhatModel: data,
+                          );
+                        }),
+                    StreamBuilder<List<LichSuTraLaiVanBanDi>>(
+                        stream: cubit.lichSuTraLaiVanBanDiSubject.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return VBDiLichSuTraLaiExpandWidget(
+                            cubit: cubit,
+                            lichSuTraLaiModel: data,
+                          );
+                        }),
+                    StreamBuilder<List<LichSuThuHoiVanBanDi>>(
+                        stream: cubit.lichSuThuHoiVanBanDiSubject.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return VBDiLichSuThuHoiExpandWidget(
+                            cubit: cubit,
+                            lichSuThuHoiModel: data,
+                          );
+                        }),
+                    StreamBuilder<List<LichSuHuyDuyetVanBanDi>>(
+                        stream: cubit.lichSuHuyDuyetVanBanDiSubject,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return VBDiLichSuHuyDuyetExpandWidget(
+                            cubit: cubit,
+                            lichSuHuyDuyetModel: data,
+                          );
+                        }),
+                    StreamBuilder<List<LichSuKyDuyetVanBanDi>>(
+                        stream: cubit.lichSuKyDuyetVanBanDiSubject,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return VBDiLichSuKyDuyetExpandWidget(
+                            cubit: cubit,
+                            lichSuKyDuyetModel: data,
+                          );
+                        }),
+                    VBDiTheoDoiVanBanBanHanhExpandWidget(
+                      cubit: cubit,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 16.0, bottom: 24.0, left: 16.0, right: 16.0),
+                      child: ButtonCustomBottom(
+                        isColorBlue: false,
+                        title: S.current.xem_luong,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => XemLuongXuLyVbDi(
+                                id: widget.id,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

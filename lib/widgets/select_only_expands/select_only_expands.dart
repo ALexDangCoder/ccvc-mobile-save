@@ -75,6 +75,8 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
         valueSelect = '';
       }
       selectBloc.sink.add(index);
+    }else{
+      valueSelect = '';
     }
     setState(() {});
   }

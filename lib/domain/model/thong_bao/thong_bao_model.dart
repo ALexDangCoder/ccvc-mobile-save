@@ -5,6 +5,7 @@ class ThongBaoModel {
   String? description;
   int? unreadCount;
   int? total;
+  bool? statusSwitch;
 
   ThongBaoModel({
     required this.id,
@@ -13,5 +14,6 @@ class ThongBaoModel {
     required this.description,
     required this.unreadCount,
     required this.total,
+    this.statusSwitch = false,
   });
 }

@@ -7,7 +7,6 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_thu_hoi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_tra_lai.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_ban_lien_quan.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/bloc/chi_tiet_nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/widget/danh_sach_cong_viec.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/widget/header_chi_tiet.dart';
@@ -54,7 +53,8 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen> {
       appBar: AppBarDefaultBack(S.current.chi_tiet_nhiem_vu),
       body: RefreshIndicator(
         onRefresh: () async {
-          await cubit.loadDataNhiemVuCaNhan(nhiemVuId: widget.id, isCheck: widget.isCheck);
+          await cubit.loadDataNhiemVuCaNhan(
+              nhiemVuId: widget.id, isCheck: widget.isCheck);
         },
         child: ProviderWidget<ChiTietNVCubit>(
           cubit: cubit,
@@ -79,15 +79,8 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen> {
                       );
                     },
                   ),
-                  StreamBuilder<VanBanLienQuanModel>(
-                    stream: cubit.vanBanLienQuanStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? VanBanLienQuanModel.empty();
-                      return VanBanLienQuanWidget(
-                        dataModel: data,
-                        cubit: cubit,
-                      );
-                    },
+                  VanBanLienQuanWidget(
+                    cubit: cubit,
                   ),
                   StreamBuilder<List<DanhSachCongViecChiTietNhiemVuModel>>(
                     stream: cubit.danhSachCongViecStream,

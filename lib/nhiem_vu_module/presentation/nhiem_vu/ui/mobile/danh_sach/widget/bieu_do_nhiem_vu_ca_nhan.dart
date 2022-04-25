@@ -11,6 +11,7 @@ class BieuDoNhiemVuCaNhan extends StatefulWidget {
   final DanhSachCubit cubit;
   final List<ChartData> chartData;
   final Function(String) ontap;
+  final Function(int) onTapStatusBox;
 
   const BieuDoNhiemVuCaNhan({
     Key? key,
@@ -18,6 +19,7 @@ class BieuDoNhiemVuCaNhan extends StatefulWidget {
     required this.chartData,
     this.title,
     required this.ontap,
+    required this.onTapStatusBox,
   }) : super(key: key);
 
   @override
@@ -68,7 +70,10 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
                           padding: const EdgeInsets.only(right: 16),
                           child: BoxStatusVanBan(
                             value: e.value ?? 0,
-                            onTap: () {},
+                            onTap: () {
+                              widget
+                                  .onTapStatusBox((e.giaTri ?? '').statusBox());
+                            },
                             color: (e.giaTri ?? '').status(),
                             statusName: e.text ?? '',
                           ),

@@ -1,7 +1,9 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/xem_luong_xu_ly_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_den_mobile/lich_su_cap_nhat_tinh_hinh_xu_ly_widget_expand_mobile.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_den_mobile/lich_su_thu_hoi_widget_expand_mobile.dart';
@@ -43,7 +45,7 @@ class _ChiTietVanBanDenMobileState extends State<ChiTietVanBanDenMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban),
+      appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban_den),
       body: RefreshIndicator(
         onRefresh: () async {
           await cubit.loadDataVanBanDen(
@@ -62,80 +64,97 @@ class _ChiTietVanBanDenMobileState extends State<ChiTietVanBanDenMobile> {
             ),
             stream: cubit.stateStream,
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 16.0,
-                      left: 16.0,
-                      right: 16.0,
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                      child: WidgetHeadChiTietVanBanDenMobile(cubit: cubit),
                     ),
-                    child: WidgetHeadChiTietVanBanDenMobile(cubit: cubit),
-                  ),
-                  StreamBuilder<List<ThongTinGuiNhanModel>>(
-                    stream: cubit.thongTinGuiNhanStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return ThongTinGuiNhanExpandWidgetMobile(
-                        cubit: cubit,
-                        thongTinGuiNhanModel: data,
-                      );
-                    },
-                  ),
-                  YKienXuLyExpandWidgetMobile(
-                    cubit: cubit,
-                  ),
-                  StreamBuilder<List<LichSuVanBanModel>>(
-                    stream: cubit.lichSuCapNhatXuLyStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuCapNhatTinhHinhXuLyExpandWidgetMobile(
-                        cubit: cubit,
-                        lichSuVanBanCapNhatModel: data,
-                      );
-                    },
-                  ),
-                  StreamBuilder<List<LichSuVanBanModel>>(
-                    stream: cubit.lichSuTraLaiStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuTraLaiExpandWidgetMobile(
-                        cubit: cubit,
-                        lichSuVanBanTraLaiModel: data,
-                      );
-                    },
-                  ),
-                  StreamBuilder<List<LichSuVanBanModel>>(
-                    stream: cubit.lichSuThuHoiStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuThuHoiExpandWidgetMobile(
-                        cubit: cubit,
-                        lichSuVanBanThuHoiModel: data,
-                      );
-                    },
-                  ),
-                  StreamBuilder<List<LichSuVanBanModel>>(
-                    stream: cubit.lichSuVanBanLienThongStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuVanBanLienThongExpandWidgetMobile(
-                        cubit: cubit,
-                        listLichSuVanBanLienThongModel: data,
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 16.0, bottom: 24.0, left: 16.0, right: 16.0),
-                    child: ButtonCustomBottom(
-                      isColorBlue: false,
-                      title: S.current.xem_luong,
-                      onPressed: () {},
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: Divider(
+                        thickness: 4,
+                        color: bgDropDown,
+                      ),
                     ),
-                  ),
-                ],
+                    StreamBuilder<List<ThongTinGuiNhanModel>>(
+                      stream: cubit.thongTinGuiNhanStream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return ThongTinGuiNhanExpandWidgetMobile(
+                          cubit: cubit,
+                          thongTinGuiNhanModel: data,
+                        );
+                      },
+                    ),
+                    YKienXuLyExpandWidgetMobile(
+                      cubit: cubit,
+                    ),
+                    StreamBuilder<List<LichSuVanBanModel>>(
+                      stream: cubit.lichSuCapNhatXuLyStream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return LichSuCapNhatTinhHinhXuLyExpandWidgetMobile(
+                          cubit: cubit,
+                          lichSuVanBanCapNhatModel: data,
+                        );
+                      },
+                    ),
+                    StreamBuilder<List<LichSuVanBanModel>>(
+                      stream: cubit.lichSuTraLaiStream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return LichSuTraLaiExpandWidgetMobile(
+                          cubit: cubit,
+                          lichSuVanBanTraLaiModel: data,
+                        );
+                      },
+                    ),
+                    StreamBuilder<List<LichSuVanBanModel>>(
+                      stream: cubit.lichSuThuHoiStream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return LichSuThuHoiExpandWidgetMobile(
+                          cubit: cubit,
+                          lichSuVanBanThuHoiModel: data,
+                        );
+                      },
+                    ),
+                    StreamBuilder<List<LichSuVanBanModel>>(
+                      stream: cubit.lichSuVanBanLienThongStream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return LichSuVanBanLienThongExpandWidgetMobile(
+                          cubit: cubit,
+                          listLichSuVanBanLienThongModel: data,
+                        );
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 16.0, bottom: 24.0, left: 16.0, right: 16.0),
+                      child: ButtonCustomBottom(
+                        isColorBlue: false,
+                        title: S.current.xem_luong,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => XemLuongXuLyScreen(
+                                id: widget.processId,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

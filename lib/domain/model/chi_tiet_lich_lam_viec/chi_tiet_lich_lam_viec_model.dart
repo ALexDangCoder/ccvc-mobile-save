@@ -80,7 +80,7 @@ class ChiTietLichLamViecModel {
   CreateBy? canBoChuTri;
   List<String>? scheduleCoperatives;
   List<Files>? files;
-  String? scheduleReminder;
+  ScheduleReminder? scheduleReminder;
   String? tinhId;
   String? tenTinh;
   String? huyenId;
@@ -141,6 +141,28 @@ class ChiTietLichLamViecModel {
     this.countryId,
     this.country,
     this.linhVuc,
+  });
+}
+
+class ScheduleReminder {
+  String? id;
+  String? reminderTypeId;
+  String? reminderTypeName;
+  String? reminderTypeValue;
+  String? reminderDate;
+  String? reminderEnd;
+  int? jobId;
+  int? typeReminder;
+
+  ScheduleReminder({
+    this.id,
+    this.reminderTypeId,
+    this.reminderTypeName,
+    this.reminderTypeValue,
+    this.reminderDate,
+    this.reminderEnd,
+    this.jobId,
+    this.typeReminder,
   });
 }
 

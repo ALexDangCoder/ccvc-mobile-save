@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_don_doc_nhiem_
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_phan_xu_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_thu_hoi_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_tra_lai_nhiem_vu_response.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/van_ban_lien_quan_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/y_kien_su_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
@@ -106,9 +107,14 @@ abstract class NhiemVuService {
   @GET(ApiConstants.GET_LICH_SU_DON_DOC_NHIEM_VU)
   Future<DataLichSuDonDocNhiemVuModelResponse> getLichSuDonDocNhiemVu(
     @Query('nhiemVuId') String nhiemVuId,
+  );
 
-  );  @GET(ApiConstants.GET_CHI_TIET_CONG_VIEC)
+  @GET(ApiConstants.GET_CHI_TIET_CONG_VIEC)
   Future<DataChiTietCongViecNhiemVuModelResponse> getChiTietCongViec(
     @Query('congViecId') String congViecId,
   );
+  @GET(ApiConstants.GET_VAN_BAN_LIEN_QUAN_NHIEM_VU)
+  Future<DataVanBanLienQuanNhiemVuResponse> getVanBanLienQuanNhiemVu(
+      @Path('id') String id,
+      );
 }

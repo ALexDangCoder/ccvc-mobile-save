@@ -163,27 +163,18 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }) async {
     showLoading();
     await getChiTietLichHop(id);
-    // final queue = Queue(parallel: 15);
+    final queue = Queue(parallel: 15);
 
     ///Công tác chuẩn bị
     // unawaited(queue.add(() => getThongTinPhongHopApi()));
     // unawaited(queue.add(() => getDanhSachThietBi()));
-
-    ///Chương trình họp
     // unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
-    // unawaited(queue.add(() => getListPhienHop(id)));
-
-    ///Phát biểu
-    // unawaited(
-    //     queue.add(() => getDanhSachPhatBieuLichHop(typeStatus.value, id)));
+    // await queue.onComplete.catchError((er) {});
+    // await getDanhSachPhatBieuLichHop(typeStatus.value, id);
+    // await getDanhSachBieuQuyetLichHop(id);
     // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
-
-    ///Biểu quyết
-    // unawaited(queue.add(() => getDanhSachBieuQuyetLichHop(id)));
-
-    ///Thành phần tham gia
-    // unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));
-
+    // await danhSachCanBoTPTG(id: id);
+    // await getListPhienHop(id);
     ///kết luận họp
     // unawaited(queue.add(() => getDanhSachNhiemVu(id)));
     // unawaited(queue.add(() => getXemKetLuanHop(id)));
@@ -193,8 +184,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
     ///ý kiến
     // unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
-    // unawaited(queue.add(() => getDanhSachPhienHop(id)));
-    // await queue.onComplete.catchError((er) {});
+
+    ///thanh phan tham gia
+    unawaited(queue.add(() => getDanhSachPhienHop(id)));
+
+    unawaited(queue.add(() => themThanhPhanThamGia()));
     showContent();
     // queue.dispose();
   }
@@ -519,10 +513,25 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
 
 ///thành phần tham gia
 extension ThanhPhanThamGia on DetailMeetCalenderCubit {
-  Future<void> ThemThanhPhanThamGia(String id) async {
+  Future<void> getDanhSachCuocHopTPTH() async {
+    final result = await hopRp.getDanhSachCuocHopTPTH(id);
+
+    result.when(success: (success) {
+      thanhPhanThamGia.add(success.listCanBo ?? []);
+    }, error: (error) {},);
+  }
+
+  Future<void> themThanhPhanThamGia() async {
     final result =
-        await hopRp.postMoiHop('', false, phuongThucNhan, moiHopRequest);
-    result.when(success: (res) {}, error: (error) {});
+        await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
+    result.when(
+      success: (res) {
+      },
+      error: (error) {
+      },
+    );
+    await getDanhSachCuocHopTPTH();
+    moiHopRequest.clear();
   }
 
   Future<void> danhSachCanBoTPTG({required String id}) async {

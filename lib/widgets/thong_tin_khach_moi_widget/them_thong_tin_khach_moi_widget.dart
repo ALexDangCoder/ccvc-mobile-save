@@ -150,6 +150,10 @@ class _ThemDonViPhoiHopKhacScreenState
                     noidung: _noiDungLamViecController.text,
                     email: _emailController.text,
                     sdt: _sdtController.text,
+                    tenCoQuan: _tenDonViController.text,
+                    vaiTroThamGia:5,
+                    dauMoiLienHe: '',
+                    tenCanBo: _hoTenController.text,
                   ),
                 );
                 Navigator.pop(context);

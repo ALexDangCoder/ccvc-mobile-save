@@ -58,6 +58,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
     result.when(success: (value) {
       chuongTrinhHopSubject.add(value);
+
     }, error: (error) {},);
   }
 

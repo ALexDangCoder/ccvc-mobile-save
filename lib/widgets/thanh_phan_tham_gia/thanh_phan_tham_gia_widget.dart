@@ -57,6 +57,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
               onChange: (value) {
                 value.forEach((element) {
                   element.value.vaiTroThamGia = 1;
+                  element.value.type = 2;
                 });
                 _cubit.addPeopleThamGia(
                   value.map((e) => e.value).toList(),
@@ -73,6 +74,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           onChange: (value) {
             value.forEach((element) {
               element.vaiTroThamGia = 2;
+              element.type = 1;
             });
             _cubit.addPeopleThamGia(value);
           },

@@ -17,7 +17,7 @@ import 'icon_with_title_widget.dart';
 class ThanhPhanThamGiaWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
-  const ThanhPhanThamGiaWidget({Key? key, required this.cubit})
+  const  ThanhPhanThamGiaWidget({Key? key, required this.cubit})
       : super(key: key);
 
   @override

@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket%20_qua_xu_ly.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ket_qua_xu_ly_response.g.dart';

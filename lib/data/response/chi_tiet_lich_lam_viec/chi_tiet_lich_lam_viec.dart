@@ -95,7 +95,7 @@ class DetailCalenderWorkResponseData {
   @JsonKey(name: 'files')
   List<FilesResponse>? files;
   @JsonKey(name: 'scheduleReminder')
-  String? scheduleReminder;
+  ScheduleReminderResponse? scheduleReminder;
   @JsonKey(name: 'tinhId')
   String? tinhId;
   @JsonKey(name: 'tenTinh')
@@ -163,7 +163,7 @@ class DetailCalenderWorkResponseData {
         canBoChuTri: canBoChuTri?.toDomain() ?? CreateBy(),
         scheduleCoperatives: scheduleCoperatives,
         files: files?.map((e) => e.toDomain()).toList() ?? [],
-        scheduleReminder: scheduleReminder,
+        scheduleReminder: scheduleReminder?.toModel(),
         tinhId: tinhId,
         tenTinh: tenTinh,
         huyenId: huyenId,
@@ -174,6 +174,52 @@ class DetailCalenderWorkResponseData {
         countryId: countryId,
         country: country,
         linhVuc: linhVuc,
+      );
+}
+
+@JsonSerializable()
+class ScheduleReminderResponse {
+  @JsonKey(name: 'id')
+  String? id;
+  @JsonKey(name: 'reminderTypeId')
+  String? reminderTypeId;
+  @JsonKey(name: 'reminderTypeName')
+  String? reminderTypeName;
+  @JsonKey(name: 'reminderTypeValue')
+  String? reminderTypeValue;
+  @JsonKey(name: 'reminderDate')
+  String? reminderDate;
+  @JsonKey(name: 'reminderEnd')
+  String? reminderEnd;
+  @JsonKey(name: 'jobId')
+  int? jobId;
+  @JsonKey(name: 'typeReminder')
+  int? typeReminder;
+
+  ScheduleReminderResponse({
+    this.id,
+    this.reminderTypeId,
+    this.reminderTypeName,
+    this.reminderTypeValue,
+    this.reminderDate,
+    this.reminderEnd,
+    this.jobId,
+    this.typeReminder,
+  });
+
+  factory ScheduleReminderResponse.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleReminderResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ScheduleReminderResponseToJson(this);
+
+  ScheduleReminder toModel() => ScheduleReminder(
+        reminderTypeId: reminderTypeId,
+        reminderTypeName: reminderTypeName,
+        reminderTypeValue: reminderTypeValue,
+        reminderDate: reminderDate,
+        reminderEnd: reminderEnd,
+        jobId: jobId,
+        typeReminder: typeReminder,
       );
 }
 

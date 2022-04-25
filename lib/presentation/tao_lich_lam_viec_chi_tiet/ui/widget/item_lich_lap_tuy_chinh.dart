@@ -29,26 +29,28 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 30.0,right: 14.0,top: 14.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: widget.taoLichLamViecCubit.listDayOffWeek
-            .map((e) => GestureDetector(
-                  onTap: () {
-                    e.isChoose = !(e.isChoose ?? false);
-                    setState(() {});
-                    final a = widget.taoLichLamViecCubit.lichLapItem
-                        .add(e.index ?? 0);
-                    if (!a) {
-                      widget.taoLichLamViecCubit.lichLapItem
-                          .remove(e.index ?? 0);
-                    }
-                    final b = widget.taoLichLamViecCubit.lichLapItem.toList();
-                    b.sort();
-                    widget.taoLichLamViecCubit.lichLapItem1 = b;
-                  },
-                  child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
-                ))
-            .toList(),
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: widget.taoLichLamViecCubit.listDayOffWeek
+              .map((e) => GestureDetector(
+                    onTap: () {
+                      e.isChoose = !(e.isChoose ?? false);
+                      setState(() {});
+                      final a = widget.taoLichLamViecCubit.lichLapItem
+                          .add(e.index ?? 0);
+                      if (!a) {
+                        widget.taoLichLamViecCubit.lichLapItem
+                            .remove(e.index ?? 0);
+                      }
+                      final b = widget.taoLichLamViecCubit.lichLapItem.toList();
+                      b.sort();
+                      widget.taoLichLamViecCubit.lichLapItem1 = b;
+                    },
+                    child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+                  ))
+              .toList(),
+        ),
       ),
     );
   }

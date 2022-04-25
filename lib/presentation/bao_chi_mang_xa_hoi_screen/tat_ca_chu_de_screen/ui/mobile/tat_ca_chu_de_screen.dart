@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/bao_cao_thong_ke.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/dashboard_item.dart';
@@ -31,10 +32,11 @@ class TatCaChuDeScreen extends StatefulWidget {
   State<TatCaChuDeScreen> createState() => _TatCaChuDeScreenState();
 }
 
-class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>with AutomaticKeepAliveClientMixin {
+class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   ChuDeCubit chuDeCubit = ChuDeCubit();
-  String defaultTime=ChuDeCubit.HOM_NAY;
+  String defaultTime = ChuDeCubit.HOM_NAY;
 
   @override
   void initState() {
@@ -43,7 +45,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>with AutomaticKeepAl
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        if (chuDeCubit.pageIndex <=chuDeCubit.totalPage) {
+        if (chuDeCubit.pageIndex <= chuDeCubit.totalPage) {
           chuDeCubit.pageIndex = chuDeCubit.pageIndex + 1;
           chuDeCubit.getListTatCaCuDe(chuDeCubit.startDate, chuDeCubit.endDate);
         }
@@ -63,11 +65,11 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>with AutomaticKeepAl
           error: AppException('1', ''),
           stream: chuDeCubit.stateStream,
           child: RefreshIndicator(
-            onRefresh: () async{
-              chuDeCubit.pageIndex=1;
-              chuDeCubit.totalPage=1;
+            onRefresh: () async {
+              chuDeCubit.pageIndex = 1;
+              chuDeCubit.totalPage = 1;
               setState(() {
-                defaultTime=ChuDeCubit.HOM_NAY;
+                defaultTime = ChuDeCubit.HOM_NAY;
               });
               await chuDeCubit.callApi();
             },
@@ -212,8 +214,8 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>with AutomaticKeepAl
                               HotNews(
                                 chuDeCubit.hotNewData.avartar ?? '',
                                 chuDeCubit.hotNewData.title ?? '',
-                                 DateTime.parse(
-                                 chuDeCubit.hotNewData.publishedTime ?? '',
+                                DateTime.parse(
+                                  chuDeCubit.hotNewData.publishedTime ?? '',
                                 ).formatApiSSAM,
                                 chuDeCubit.hotNewData.contents ?? '',
                                 chuDeCubit.hotNewData.url ?? '',
@@ -230,6 +232,15 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>with AutomaticKeepAl
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
+                                  if (index ==
+                                      chuDeCubit.listChuDeLoadMore.length-1) {
+                                    return  Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppTheme.getInstance()
+                                            .primaryColor(),
+                                      ),
+                                    );
+                                  }
                                   return Column(
                                     children: [
                                       ItemListNews(

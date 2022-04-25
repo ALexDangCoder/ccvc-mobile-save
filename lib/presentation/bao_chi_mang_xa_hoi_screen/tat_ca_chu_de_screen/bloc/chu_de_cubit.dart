@@ -101,7 +101,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
 
   final BaoChiMangXaHoiRepository _BCMXHRepo = Get.find();
   Future<void> getListTatCaCuDe(String startDate, String enDate) async {
-    showLoading();
+    // showLoading();
     final result = await _BCMXHRepo.getDashListChuDe(
       pageIndex,
       papeSize,

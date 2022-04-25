@@ -108,16 +108,6 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
                                 ),
                               ),
                               ExpandOnlyNhiemVu(
-                                name: S.current.thong_tin_xu_ly_phan_anh,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 16),
-                                  child: ThongTinXuLyTablet(
-                                    listRow: data?.thomgTinXuLyRow ?? [],
-                                  ),
-                                ),
-                              ),
-                              ExpandOnlyNhiemVu(
                                 name: S.current.ket_qua_xu_ly,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -130,9 +120,6 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
                                       ),
                                       const SizedBox(
                                         height: 20,
-                                      ),
-                                      KetQuaXuLyScreenTablet(
-                                        listRow: data?.ketQuaXuLyRow ?? [],
                                       ),
                                     ],
                                   ),
@@ -152,9 +139,7 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
                                       const SizedBox(
                                         height: 20,
                                       ),
-                                      TienTrinhXuLyScreenTablet(
-                                        listRow: data?.tienTrinhXuLy ?? [],
-                                      ),
+
                                     ],
                                   ),
                                 ),

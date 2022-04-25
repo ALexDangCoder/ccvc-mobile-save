@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
+
 class KetQuaXuLyModel {
   String iD;
   int depth;
@@ -11,7 +13,7 @@ class KetQuaXuLyModel {
   String trichYeu;
   String tenDonVi;
   String tenCanBo;
-  String dSFile;
+  List<TaiLieuDinhKemModel> dSFile;
   String taskContent;
   int trangThai;
   bool isChuTri;
@@ -34,3 +36,28 @@ class KetQuaXuLyModel {
       required this.trangThai,
       required this.isChuTri,});
 }
+class TaiLieuDinhKemModel {
+  String id;
+  String ten;
+  String duongDan;
+  int dungLuong;
+  bool daKySo;
+  bool daGanQR;
+  String ngayTao;
+  String nguoiTaoId;
+  bool suDung;
+  int  loaiFileDinhKem;
+
+  TaiLieuDinhKemModel(
+      {required this.id,
+        required this.ten,
+        required this.duongDan,
+        required this.dungLuong,
+        required this.daKySo,
+        required this.daGanQR,
+        required this.ngayTao,
+        required this.nguoiTaoId,
+        required this.suDung,
+        required this.loaiFileDinhKem,});
+}
+

@@ -51,7 +51,7 @@ class KetQuaXuLyData {
   @JsonKey(name: 'IsChuTri')
   bool? isChuTri;
   @JsonKey(name: 'DSFile')
-  String? dSFile;
+  List<FileDinhKemKQXL>? dSFile;
 
   KetQuaXuLyData(
     this.id,
@@ -90,10 +90,64 @@ class KetQuaXuLyData {
         trichYeu: trichYeu ?? '',
         tenDonVi: tenDonVi ?? '',
         tenCanBo: tenCanBo ?? '',
-        dSFile: dSFile ?? '',
+        dSFile: dSFile?.map((e) => e.toDomain()).toList() ?? [],
         taskContent: taskContent ?? '',
         trangThai: trangThai ?? 0,
         isChuTri: isChuTri ?? false,
       );
 }
 
+@JsonSerializable()
+class FileDinhKemKQXL {
+  @JsonKey(name: 'Id')
+  String? id;
+  @JsonKey(name: 'Ten')
+  String? ten;
+  @JsonKey(name: 'DuongDan')
+  String? duongDan;
+  @JsonKey(name: 'DungLuong')
+  int? dungLuong;
+  @JsonKey(name: 'DaKySo')
+  bool? daKySo;
+  @JsonKey(name: 'DaGanQR')
+  bool? daGanQR;
+  @JsonKey(name: 'NgayTao')
+  String? ngayTao;
+  @JsonKey(name: 'NguoiTaoId')
+  String? nguoiTaoId;
+  @JsonKey(name: 'SuDung')
+  bool? suDung;
+  @JsonKey(name: 'LoaiFileDinhKem')
+  int? loaiFileDinhKem;
+
+  FileDinhKemKQXL(
+    this.id,
+    this.ten,
+    this.duongDan,
+    this.dungLuong,
+    this.daKySo,
+    this.daGanQR,
+    this.ngayTao,
+    this.nguoiTaoId,
+    this.suDung,
+    this.loaiFileDinhKem,
+  );
+
+  factory FileDinhKemKQXL.fromJson(Map<String, dynamic> json) =>
+      _$FileDinhKemKQXLFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FileDinhKemKQXLToJson(this);
+
+  TaiLieuDinhKemModel toDomain() => TaiLieuDinhKemModel(
+        id: id ?? '',
+        ten: ten ?? '',
+        duongDan: duongDan ?? '',
+        dungLuong: dungLuong ?? 0,
+        daKySo: daKySo ?? false,
+        daGanQR: daGanQR ?? false,
+        ngayTao: ngayTao ?? '',
+        nguoiTaoId: nguoiTaoId ?? '',
+        suDung: suDung ?? false,
+        loaiFileDinhKem: loaiFileDinhKem ?? 0,
+      );
+}

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class CustomRadioButtons extends StatefulWidget {
   final String title;
-  final Function(String) onchange;
+  final Function(bool) onchange;
 
   const CustomRadioButtons({
     Key? key,
@@ -41,7 +41,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               onChanged: (String? value) {
                 setState(() {});
                 groupValue = value ?? S.current.bo_khieu_kin;
-                widget.onchange(groupValue);
+                widget.onchange(false);
               },
               groupValue: groupValue,
             ),
@@ -63,7 +63,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               onChanged: (String? value) {
                 setState(() {});
                 groupValue = value ?? S.current.bo_phieu_cong_khai;
-                widget.onchange(groupValue);
+                widget.onchange(true);
               },
               groupValue: groupValue,
             ),

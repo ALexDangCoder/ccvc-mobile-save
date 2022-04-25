@@ -40,6 +40,14 @@ extension DateFormatString on DateTime {
     return DateFormat('yyyy/MM/dd HH:mm:ss').format(this);
   }
 
+  String get formatApiTaoBieuQuyet {
+    return DateFormat('yyyy-MM-ddTHH:mm').format(this);
+  }
+
+  String get formatApiSuaPhienHop {
+    return DateFormat('yyyy-MM-dd HH:mm').format(this);
+  }
+
   String get formatApiSSAM {
     return DateFormat('yyyy/MM/dd ').format(this) + toStringWithAMPMJMS;
   }
@@ -71,9 +79,11 @@ extension DateFormatString on DateTime {
   String get formatApiDDMMYYYY {
     return DateFormat('dd-MM-yyyy').format(this);
   }
+
   String get formatApiPut {
     return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
   }
+
   String get formatApiDDMMYYYYSlash {
     return DateFormat('dd/MM/yyyy').format(this);
   }

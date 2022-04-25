@@ -864,7 +864,18 @@
   "xa": "Xã",
   "xoa_chuong_trinh_hop": "Xóa chương trình họp",
   "xoa_that_bai": "Xóa thất bại",
-  "conten_xoa_chuong_trinh": "Bạn có muốn xóa chương trình họp này?"
+  "conten_xoa_chuong_trinh": "Bạn có muốn xóa chương trình họp này?",
+  "da_ban_hanh": "Đã ban hành",
+  "da_trinh_ky": "Đã trình ký",
+  "nguoi_ky_duyet": "Người ký duyệt",
+  "nguoi_ky_van_ban": "Người ký văn bản",
+  "nguoi_kiem_tra_thuc_the": "Người kiểm tra thực thể",
+  "nguoi_cap_so_ban_hanh": "Người cấp số ban hành",
+  "luong_xu_ly": "Luồng xử lý",
+  "chu_thich": "Chú thích",
+  "phoi_hop": "Phối hợp",
+  "thoi_gian_bq": "Thời gian biểu quyết",
+  "danh_sach_lua_chon": "Danh sách lựa chọn"
 }
 
 

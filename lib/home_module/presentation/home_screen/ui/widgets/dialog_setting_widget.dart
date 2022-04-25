@@ -146,21 +146,31 @@ class DialogSelectWidget extends StatefulWidget {
   State<DialogSelectWidget> createState() => _DialogSelectWidgetState();
 }
 
-class _DialogSelectWidgetState extends State<DialogSelectWidget> {
+class _DialogSelectWidgetState extends State<DialogSelectWidget>
+    with SingleTickerProviderStateMixin {
   final _key = GlobalKey();
   double insertBottom = 0;
+  bool isShowTp = true;
+  late AnimationController animationController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 100,
+      ),
+    )..forward();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       final offsetDialog = _key.currentContext?.size?.height ?? 0;
       final double insertBottomDialog = insertBottom - offsetDialog - 120;
       if (insertBottomDialog < 0) {
-
-        widget.controller.jumpTo(
-          widget.controller.offset + (-insertBottomDialog),
-        );
+        isShowTp = false;
+        setState(() {});
+        // widget.controller.jumpTo(
+        //   widget.controller.offset + (-insertBottomDialog),
+        // );
       }
     });
   }
@@ -180,7 +190,9 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget> {
         children: [
           GestureDetector(
             onTap: () {
-              widget.onDismis();
+              animationController.reverse().whenComplete(() {
+                widget.onDismis();
+              });
             },
             child: SizedBox.expand(
               child: Container(
@@ -193,57 +205,66 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget> {
             child: CompositedTransformFollower(
               link: widget.layerLink,
               showWhenUnlinked: false,
-              followerAnchor: Alignment.topRight,
-              offset: Offset(10.0.textScale(space: -7), 20),
-              child: Container(
-                key: _key,
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: backgroundColorApp,
-                    boxShadow: [
-                      BoxShadow(
-                        color: shadowContainerColor.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                    border: Border.all(color: borderColor.withOpacity(0.5)),
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: widget.customDialog ??
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              if (widget.onLabel != null) {
-                                widget.onDismis();
-                                widget.onLabel!();
-                              }
-                            },
-                            child: widget.labelWidget ?? const SizedBox(),
+              followerAnchor:
+                  isShowTp ? Alignment.topRight : Alignment.bottomRight,
+              targetAnchor: isShowTp ? Alignment.bottomLeft : Alignment.topLeft,
+              // offset: Offset(10.0.textScale(space: -7), 20),
+              child: AnimatedBuilder(
+                animation: animationController,
+                builder: (context, _) => Opacity(
+                  opacity: animationController.value,
+                  child: Container(
+                    key: _key,
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: backgroundColorApp,
+                        boxShadow: [
+                          BoxShadow(
+                            color: shadowContainerColor.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
                           ),
+                        ],
+                        border: Border.all(color: borderColor.withOpacity(0.5)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                      ),
+                      child: widget.customDialog ??
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(
-                                widget.listSelectKey?.length ?? 0, (index) {
-                              final data = widget.listSelectKey![index];
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  top: index == 0 ? 0 : 20,
-                                ),
-                                child: SelectCell(
-                                  data: data,
-                                  onSelect: (value) {
-                                    selectCell(context, value, data);
-                                  },
-                                ),
-                              );
-                            }),
-                          )
-                        ],
-                      ),
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (widget.onLabel != null) {
+                                    widget.onDismis();
+                                    widget.onLabel!();
+                                  }
+                                },
+                                child: widget.labelWidget ?? const SizedBox(),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                    widget.listSelectKey?.length ?? 0, (index) {
+                                  final data = widget.listSelectKey![index];
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      top: index == 0 ? 0 : 20,
+                                    ),
+                                    child: SelectCell(
+                                      data: data,
+                                      onSelect: (value) {
+                                        selectCell(context, value, data);
+                                      },
+                                    ),
+                                  );
+                                }),
+                              )
+                            ],
+                          ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -354,7 +375,7 @@ class _SelectCellState extends State<SelectCell> {
           widget.data.title,
           style: textNormalCustom(
             fontSize: 16,
-            color:textTitle,
+            color: textTitle,
           ),
         ),
         Column(

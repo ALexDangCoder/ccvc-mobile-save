@@ -256,7 +256,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                         cubit: cubit,
                         id: widget.id,
                       ),
-                      BieuQuyetWidget(id: widget.id),
+                      BieuQuyetWidget(
+                        id: widget.id,
+                        cubit: cubit,
+                      ),
                       KetLuanHopWidget(
                         cubit: cubit,
                         id: widget.id,

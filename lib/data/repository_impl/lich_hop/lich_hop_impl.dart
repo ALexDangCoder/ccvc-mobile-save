@@ -63,6 +63,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
@@ -260,17 +261,6 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<DanhSachPhatBieuLichHopDataResponse,
         List<PhatBieuModel>>(
       () => _hopServices.getDanhSachPhatBieuLichHopNoStatus(lichHopId),
-      (res) => res.toModel(),
-    );
-  }
-
-  @override
-  Future<Result<List<PhatBieuModel>>> getDanhSachBieuQuyetLichHop(
-    String id,
-  ) {
-    return runCatchingAsync<DanhSachBieuQuyetLichHopDataResponse,
-        List<PhatBieuModel>>(
-      () => _hopServices.getDanhSachBieuQuyetLichHop(id),
       (res) => res.toModel(),
     );
   }
@@ -631,6 +621,23 @@ class HopRepositoryImpl implements HopRepository {
         List<DanhSachNguoiThamGiaModel>>(
       () => _hopServices.getDanhSachNTGChuongTrinhHop(id),
       (response) => response.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<List<DanhSachBietQuyetModel>>> getDanhSachBieuQuyetLichHop(
+    String idLichHop,
+    String canBoId,
+    String idPhienHop,
+  ) {
+    return runCatchingAsync<DanhSachBieuQuyetLichHopDataResponse,
+        List<DanhSachBietQuyetModel>>(
+      () => _hopServices.getDanhSachBieuQuyetLichHop(
+        idLichHop,
+        canBoId,
+        idPhienHop,
+      ),
+      (res) => res.toModel(),
     );
   }
 }

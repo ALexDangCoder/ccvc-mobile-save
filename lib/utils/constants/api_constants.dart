@@ -140,7 +140,7 @@ class ApiConstants {
   static const DANH_SACH_PHAT_BIEU_LICH_HOP =
       '/vpdt/api/MeetingSection/danh-sach-phat-bieu';
   static const DANH_SACH_BIEU_QUYET_LICH_HOP =
-      '/vpdt/api/MeetingSchedule/danh-sach-can-bo-bieu-quyet';
+      '/vpdt/api/BieuQuyet/get-thongtin-bieuquyet';
   static const DANH_SACH_LICH_HOP_TPTG =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
   static const ADD_FILE_TAI_LIEU_TAO_LICH_HOP =
@@ -172,6 +172,9 @@ class ApiConstants {
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-huy-duyet';
   static const LICH_SU_CAP_NHAT_VAN_BAN_DI =
       '/qlvb/api/van-ban-di/{id}/xem-lich-su-cap-nhat';
+  static const LUONG_XU_LY_VAB_BAN_DI =
+      '/qlvb/api/van-ban-di/{id}/xem-luong-xu-ly';
+  static const LUONG_XU_LY_VAN_BAN_DEN = '/qlvb/api/vanban/getluongxuly';
   static const SEARCH_TIN_TUC = '/api/NewsNetViews/search_news?';
   static const DASH_BOARD_TINH_HINH_XU_LY =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-pakn';

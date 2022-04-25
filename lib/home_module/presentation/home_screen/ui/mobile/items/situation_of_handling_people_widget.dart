@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/mobile/danh_sach_yknd_screen.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -85,15 +86,22 @@ class _SituationOfHandlingPeopleWidgetState
                     final result = data[index];
                     final color = TinhHinhYKienModel.listColor[index];
                     return ChartData(
-                   result.status,
-                   result.soLuong.toDouble(),
+                      result.status,
+                      result.soLuong.toDouble(),
                       color,
-
                     );
                   },
                 ),
-                onTap: (value,key){
-
+                onTap: (value, key) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DanhSachYKND(
+                        endDate: _yKienCubit.endDate.toString(),
+                        startDate: _yKienCubit.startDate.toString(),
+                      ),
+                    ),
+                  );
                 },
               );
             }),

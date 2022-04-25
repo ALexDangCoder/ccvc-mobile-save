@@ -89,7 +89,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                           ?.id ??
                       '',
                   noiDung: noiDung.text,
-                  hoTen: '',
+                  hoTen: widget.cubit.idPerson,
                   isMultipe: false,
                   file: widget.cubit.listFile ?? [],
                 )
@@ -101,11 +101,13 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                 }).onError((error, stackTrace) {
                   MessageConfig.show(
                     title: S.current.sua_that_bai,
+                    messState: MessState.error
                   );
                 });
               } else {
                 MessageConfig.show(
                   title: S.current.sua_that_bai,
+                    messState: MessState.error
                 );
               }
             },
@@ -172,8 +174,7 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                         title: S.current.nguoi_chu_tri,
                         hintText: S.current.chon_nguoi_chu_tri,
                         onChange: (value) {
-                          widget.cubit.taoPhienHopRepuest.hoTen =
-                              data[value].hoTen;
+                          widget.cubit.idPerson = data[value].hoTen ?? '';
                         },
                         listSelect: data.map((e) => e.hoTen ?? '').toList(),
                       ),

@@ -160,7 +160,9 @@ abstract class HopServices {
 
   @GET(ApiConstants.DANH_SACH_BIEU_QUYET_LICH_HOP)
   Future<DanhSachBieuQuyetLichHopDataResponse> getDanhSachBieuQuyetLichHop(
-    @Query('id') String id,
+    @Query('idLichHop') String idLichHop,
+    @Query('canBoId') String canBoId,
+    @Query('idPhienHop') String idPhienHop,
   );
 
   @GET(ApiConstants.SO_LUONG_PHAT_BIEU)
@@ -186,7 +188,8 @@ abstract class HopServices {
 
   @POST(ApiConstants.THEM_BIEU_QUYET_HOP)
   Future<ThemMoiBieuQuyetResponse> themBieuQuyet(
-      @Body() BieuQuyetRequest bieuQuyetRequest);
+    @Body() BieuQuyetRequest bieuQuyetRequest,
+  );
 
   @POST(ApiConstants.MOI_HOP)
   Future<MoiHopResponse> postMoiHop(

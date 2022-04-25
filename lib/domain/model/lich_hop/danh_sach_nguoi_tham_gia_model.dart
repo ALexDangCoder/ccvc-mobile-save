@@ -45,3 +45,18 @@ class DanhSachNguoiThamGiaModel {
     this.createAt,
   });
 }
+
+String plusString(String? tenCanBo, String? tenCoQuan, String? tenChucVu) {
+  final List<String> listChart = [];
+  if (tenCanBo?.isNotEmpty ?? false) {
+    listChart.add(tenCanBo!);
+  }
+  if (tenChucVu?.isNotEmpty ?? false) {
+    listChart.add(tenChucVu!);
+  }
+  if (tenCoQuan?.isNotEmpty ?? false) {
+    listChart.add(tenCoQuan!);
+  }
+
+  return listChart.join(' - ');
+}

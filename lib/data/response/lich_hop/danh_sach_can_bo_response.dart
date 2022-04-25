@@ -95,10 +95,12 @@ class ListCanBo {
     isThamGiaBocBang = json['isThamGiaBocBang'];
     createAt = json['createAt'];
   }
+
   NguoiChutriModel toDomain() => NguoiChutriModel(
         id: id ?? '',
         tenDonVi: tenChucVu ?? '',
         hoTen: tenCanBo ?? '',
+        isThuKy: isThuKy,
       );
 }
 

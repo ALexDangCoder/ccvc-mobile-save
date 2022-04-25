@@ -4,7 +4,9 @@ import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/cai_dat_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_quan_ly_vb_screen.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/cai_dat_thong_bao_tablet.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_quan_trong.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/thong_bao_quan_trong_widget.dart';
@@ -24,8 +26,7 @@ class ThongBaoScreenTablet extends StatefulWidget {
 }
 
 class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
-  String titleAppbar =
-      '${S.current.thong_bao} ';
+  String titleAppbar = '${S.current.thong_bao} ';
 
   ThongBaoCubit thongBaoCubit = ThongBaoCubit();
 
@@ -60,7 +61,16 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CaiDatThongBaoTablet(
+                    cubit: thongBaoCubit,
+                  ),
+                ),
+              );
+            },
             child: SvgPicture.asset(ImageAssets.icSetting),
           ),
           const SizedBox(
@@ -68,7 +78,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
           ),
         ],
       ),
-      body:  Container(
+      body: Container(
         color: Colors.white,
         child: StreamBuilder<List<ThongBaoModel>>(
           stream: thongBaoCubit.thongBaoStream,
@@ -102,11 +112,12 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
                               MaterialPageRoute(
                                 builder: (context) =>
                                     ThongBaoQuanLyVanBanScreen(
-                                      cubit: thongBaoCubit,
-                                    ),
+                                  cubit: thongBaoCubit,
+                                ),
                               ),
                             );
                           },
+                          onChange: (bool status) {},
                         );
                       },
                     ),
@@ -142,7 +153,9 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
         ),
       ),
     );
-  }  Widget dontData() {
+  }
+
+  Widget dontData() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -165,5 +178,4 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
       ),
     );
   }
-
 }

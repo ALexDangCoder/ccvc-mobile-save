@@ -55,6 +55,13 @@ class PieChart extends StatelessWidget {
                 ? const NodataWidget()
                 : SfCircularChart(
                     margin: EdgeInsets.zero,
+                    onDataLabelTapped: (value){
+                      if (onTap != null) {
+                        final key = chartData[value.pointIndex];
+
+                        onTap!(value.pointIndex ,key.key);
+                      } else {}
+                    },
                     series: [
                       // Renders doughnut chart
                       DoughnutSeries<ChartData, String>(
@@ -72,8 +79,9 @@ class PieChart extends StatelessWidget {
                             onTap!(value.pointIndex ?? 0,key.key);
                           } else {}
                         },
-                        dataLabelSettings: isThongKeLichHop
-                            ? DataLabelSettings(
+                        dataLabelSettings:
+                             DataLabelSettings(
+                               useSeriesColor: true,
                                 isVisible: true,
                                 showZeroValue: false,
                                 textStyle: textNormalCustom(
@@ -81,9 +89,7 @@ class PieChart extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                               )
-                            : const DataLabelSettings(
-                                isVisible: true,
-                              ),
+
                       )
                     ],
                   ),

@@ -4,55 +4,59 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/type_data_row.dart';
 
-class VanBanLienQuanModel {
-  String id = '';
-  List<ItemVanBanLienQuanModel> vanBanGiaoNV = [];
-  List<ItemVanBanLienQuanModel> vanBanKhac = [];
+class VanBanLienQuanNhiemVuModel {
+  String? id;
+  String? vanBanId;
+  String? nhiemVuId;
+  String? soVanBan;
+  String? ngayVanBan;
+  String? ngayBanHanh;
+  String? trichYeu;
+  bool? daGanVanBan;
+  String? donViChuTriXuLyId;
+  String? donViChuTriXuLy;
+  String? hinhThucVanBan;
+  List<FileDinhKems>? file;
+  int? nguonDuLieuVanBanNhiemVu;
 
-  VanBanLienQuanModel.empty();
+  VanBanLienQuanNhiemVuModel.empty();
 
-  VanBanLienQuanModel(
-      {required this.id, required this.vanBanGiaoNV, required this.vanBanKhac});
-}
-
-class ItemVanBanLienQuanModel {
-  String id = '';
-  String soKyHieu = '';
-  String ngayVB = '';
-  String trichYeu = '';
-
-  List<FileDinhKems>? fileDinhKem;
-
-  ItemVanBanLienQuanModel.empty();
-
-  ItemVanBanLienQuanModel({
-    required this.id,
-    required this.soKyHieu,
-    required this.trichYeu,
-    required this.ngayVB,
-    required this.fileDinhKem,
+  VanBanLienQuanNhiemVuModel({
+    this.id,
+    this.vanBanId,
+    this.nhiemVuId,
+    this.soVanBan,
+    this.ngayVanBan,
+    this.ngayBanHanh,
+    this.trichYeu,
+    this.daGanVanBan,
+    this.donViChuTriXuLyId,
+    this.donViChuTriXuLy,
+    this.hinhThucVanBan,
+    this.file,
+    this.nguonDuLieuVanBanNhiemVu,
   });
 
   List<RowDataExpandModel> dataRowVBLQ() {
     final List<RowDataExpandModel> list = [
       RowDataExpandModel(
         key: S.current.so_ky_hieu,
-        value: soKyHieu,
+        value: soVanBan??'',
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
         key: S.current.ngay_vb,
-        value: ngayVB,
+        value: ngayVanBan??'',
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
         key: S.current.trich_yeu,
-        value: trichYeu,
+        value: trichYeu??'',
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
         key: S.current.file_dinh_kem,
-        value: fileDinhKem,
+        value: file??[],
         type: TypeDataNV.file,
       ),
     ];

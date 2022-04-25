@@ -4,6 +4,8 @@ class ApiConstants {
   static const int PAGE_BEGIN = 1;
   static const int NOT_SAVED_ID = -1;
   static const int TIME_OUT = 30;
+  static const GET_FUNCTION_OF_CURRENT =
+      '/api/Function/get-tree-function-of-currentuser';
   static const String POST_DANH_SACH_LICH_HOP =
       '/vpdt/api/MeetingSchedule/calendar-list';
   static const String POST_DANH_SACH_THONG_KE =
@@ -82,6 +84,7 @@ class ApiConstants {
   static const XOA_CHUONG_TRINH_HOP = '/vpdt/api/MeetingSection/xoa-phien-hop';
   static const GET_DANH_SACH_NTG_CHUONG_TRINH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-bieu-quyet';
+  static const PHAN_CONG_THU_KY = '/vpdt/api/MeetingSchedule/assign-secretary';
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
 

@@ -47,6 +47,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
   @override
   void initState() {
     cubit = DetailMeetCalenderCubit();
+    cubit.id = widget.id;
     cubit.initData(id: widget.id);
     super.initState();
   }
@@ -146,6 +147,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       title: S.current.phan_cong_thu_ky,
                       child: PhanCongThuKyWidget(
                         cubit: cubit,
+                        id: widget.id,
                       ),
                       isBottomShow: false,
                       funcBtnOk: () {

@@ -84,7 +84,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       keySearch: keySearch,
       mangTrangThai: [],
       size: pageSize,
-      trangThaiHanXuLy: '',
     );
     postDanhSachNhiemVu(
       index: pageIndex,
@@ -106,21 +105,10 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       keySearch: keySearch,
       mangTrangThai: [],
       size: pageSize,
-      trangThaiHanXuLy: '',
     );
   }
 
-  void apiDanhSachNhiemVuCaNhan(String start, String end, bool isCheckCaNhan) {
-    postDanhSachNhiemVu(
-      index: pageIndex,
-      isNhiemVuCaNhan: isCheckCaNhan,
-      isSortByHanXuLy: true,
-      mangTrangThai: [],
-      ngayTaoNhiemVu: {'FromDate': start, 'ToDate': end},
-      size: pageSize,
-      keySearch: keySearch,
-    );
-  }
+
 
   Debouncer debouncer = Debouncer();
 
@@ -132,6 +120,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required List<String> mangTrangThai,
     required Map<String, String> ngayTaoNhiemVu,
     required int size,
+     int? trangThaiHanXuLy,
   }) async {
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
@@ -142,6 +131,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       mangTrangThai: mangTrangThai,
       ngayTaoNhiemVu: ngayTaoNhiemVu,
       size: size,
+          trangThaiHanXuLy: trangThaiHanXuLy,
     );
     loadMorePage = index ?? 1;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
@@ -174,7 +164,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required String? keySearch,
     required List<String>? mangTrangThai,
     required int? size,
-    required String? trangThaiHanXuLy,
+    int? trangThaiHanXuLy,
   }) async {
     final DanhSachCongViecRequest danhSachCongViecRequest =
         DanhSachCongViecRequest(
@@ -234,6 +224,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
               ),
             )
             .toList();
+        chartData.removeLast();
+        chartData.removeAt(0);
         statusSuject.sink.add(chartData);
         showContent();
       },
@@ -302,6 +294,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
               ),
             )
             .toList();
+        chartDataNhiemVuCaNhan.removeLast();
+        chartDataNhiemVuCaNhan.removeAt(0);
         statusNhiemVuCaNhanSuject.sink.add(chartDataNhiemVuCaNhan);
         showContent();
       },
@@ -351,14 +345,19 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       choXuLyColor,
     ),
     ChartData(
-      S.current.da_thuc_hien,
+      S.current.chua_thuc_hien,
       0,
-      daXuLyColor,
+      statusCalenderRed,
     ),
     ChartData(
       S.current.dang_thuc_hien,
       0,
       yellowColor,
+    ),
+    ChartData(
+      S.current.da_hoan_thanh,
+      0,
+      daXuLyColor,
     ),
   ];
 

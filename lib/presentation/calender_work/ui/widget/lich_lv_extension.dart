@@ -158,25 +158,27 @@ extension LichLv on CalenderState {
     Type_Choose_Option_Day type = Type_Choose_Option_Day.DAY,
   }) {
     return StreamBuilder<List<DateTime>>(
-        stream: cubit.eventsStream,
-        builder: (context, snapshot) {
-          return TableCalendarWidget(
-            eventsLoader: snapshot.data,
-            type: type,
-            onChange: (DateTime start, DateTime end, selectDay) {
-              cubit.selectDay = selectDay;
-              if (type == Type_Choose_Option_Day.DAY) {
-                cubit.callApi();
-              } else if (type == Type_Choose_Option_Day.WEEK) {
-                cubit.callApiTuan();
-              } else {
-                cubit.callApiMonth();
-              }
-            },
-            onChangeRange:
-                (DateTime? start, DateTime? end, DateTime? focusedDay) {},
-          );
-        },);
+      stream: cubit.eventsStream,
+      builder: (context, snapshot) {
+        return TableCalendarWidget(
+          eventsLoader: snapshot.data,
+          type: type,
+          onChange: (DateTime start, DateTime end, selectDay) {
+            cubit.selectDay = selectDay;
+            if (type == Type_Choose_Option_Day.DAY) {
+              cubit.callApi();
+            } else if (type == Type_Choose_Option_Day.WEEK) {
+              cubit.callApiTuan();
+            } else {
+              cubit.callApiMonth();
+            }
+          },
+          onChangeRange:
+              (DateTime? start, DateTime? end, DateTime? focusedDay) {},
+          onChangeText: (String? value) {},
+        );
+      },
+    );
   }
 
   Widget itemCalendarWork(CalenderCubit cubit) {

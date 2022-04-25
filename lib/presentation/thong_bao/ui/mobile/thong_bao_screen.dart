@@ -7,7 +7,9 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/cai_dat_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_quan_ly_vb_screen.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_quan_trong.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/thong_bao_quan_trong_widget.dart';
@@ -15,7 +17,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
 
 class ThongBaoScreen extends StatefulWidget {
   const ThongBaoScreen({
@@ -55,7 +56,16 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
             elevation: 0.5,
             actions: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CaiDatThongBaoMobile(
+                        cubit: thongBaoCubit,
+                      ),
+                    ),
+                  );
+                },
                 child: SvgPicture.asset(ImageAssets.icSettingNotify),
               ),
               const SizedBox(
@@ -114,7 +124,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                     ),
                                   ),
                                 );
-                              },
+                              }, onChange: (bool status) {  },
                             );
                           },
                         ),

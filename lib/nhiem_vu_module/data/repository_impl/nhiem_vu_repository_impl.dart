@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_don_doc_nhiem_
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_phan_xu_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_thu_hoi_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_tra_lai_nhiem_vu_response.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/van_ban_lien_quan_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/y_kien_su_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/service/nhiem_vu_service.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
@@ -23,6 +24,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_thu_hoi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_tra_lai.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_ban_lien_quan.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kien_su_ly_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
@@ -196,5 +198,14 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
       () => nhiemVuService.getChiTietCongViec(congViecId),
       (response) => response.data?.toModel() ?? ChiTietCongViecNhiemVuModel(),
     );
+  }
+
+  @override
+  Future<Result<List<VanBanLienQuanNhiemVuModel>>> getVanBanLienQuanNhiemVu(
+      String id) {
+    return runCatchingAsync<DataVanBanLienQuanNhiemVuResponse,
+            List<VanBanLienQuanNhiemVuModel>>(
+        () => nhiemVuService.getVanBanLienQuanNhiemVu(id),
+        (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
   }
 }

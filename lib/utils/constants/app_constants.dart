@@ -8,7 +8,7 @@ enum LoadingType { REFRESH, LOAD_MORE }
 
 enum CompleteType { SUCCESS, ERROR }
 
-enum MenuType { FEED, NOTIFICATIONS, POLICY, LOGOUT }
+
 
 enum AuthMode { LOGIN, REGISTER }
 
@@ -193,4 +193,15 @@ class DateFormatApp {
   static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+}
+class MenuItemConst{
+  static const HOP = 'hop';
+  static const QUAN_LY_NHIEM_VU = 'quanlynhiemvu';
+  static const HANH_CHINH_CONG  = 'hanh-chinh-cong';
+  static const Y_KIEN_NGUOI_DAN = 'y-kien-nguoi-dan';
+  static const QUAN_LY_VA_BAN = 'quan-ly-van-ban';
+  static const BAO_CHI_MANG_XA_HOI = 'bao-chi-mang-xa-hoi';
+  static const KET_NOI = 'ket-noi';
+  static const TIEN_ICH = 'tien-ich';
+
 }

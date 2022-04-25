@@ -13,6 +13,7 @@ class DanhSachCongViecMobile extends StatefulWidget {
   final String ngayBatDau;
   final String ngayKetThuc;
   final List<String> mangTrangThai;
+  final int? trangThaiHanXuLy;
 
   const DanhSachCongViecMobile({
     Key? key,
@@ -20,6 +21,7 @@ class DanhSachCongViecMobile extends StatefulWidget {
     required this.ngayBatDau,
     required this.ngayKetThuc,
     required this.mangTrangThai,
+    required this.trangThaiHanXuLy,
   }) : super(key: key);
 
   @override
@@ -77,7 +79,7 @@ class _DanhSachCongViecMobileState extends State<DanhSachCongViecMobile> {
           keySearch: cubit.keySearch,
           mangTrangThai: widget.mangTrangThai,
           size: cubit.pageSize,
-          trangThaiHanXuLy: '',
+          trangThaiHanXuLy: widget.trangThaiHanXuLy,
         )
       },
       viewItem: (value, index) {

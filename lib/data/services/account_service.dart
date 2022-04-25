@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_inf
 import 'package:ccvc_mobile/data/response/account/change_pass_response.dart';
 import 'package:ccvc_mobile/data/response/account/list_permission_response.dart';
 import 'package:ccvc_mobile/data/response/account/login_response.dart';
+import 'package:ccvc_mobile/data/response/account/permission_menu_response.dart';
 import 'package:ccvc_mobile/data/response/account/tinh_huyen_xa/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/response/edit_person_information/edit_person_information_response.dart';
 import 'package:ccvc_mobile/data/response/home/pham_vi_response.dart';
@@ -38,17 +39,29 @@ abstract class AccountService {
   Future<TinhHuyenXaResponse> getDataChild(@Query('parentId') String parentId);
 
   @POST(ApiConstants.LIST_PERMISSION)
-  Future<PermissionResponse> getPermission(@Body() Map<String,dynamic> request);
+  Future<PermissionResponse> getPermission(
+      @Body() Map<String, dynamic> request);
   @PUT(ApiConstants.CHANGE_PASS)
-  Future<ChangePassResponse> changePass(@Body() ChangePassRequest changePassRequest);
-
+  Future<ChangePassResponse> changePass(
+      @Body() ChangePassRequest changePassRequest);
 }
+
 @RestApi()
 abstract class AccountServiceGateWay {
   @factoryMethod
-  factory AccountServiceGateWay(Dio dio, {String baseUrl}) = _AccountServiceGateWay;
+  factory AccountServiceGateWay(Dio dio, {String baseUrl}) =
+      _AccountServiceGateWay;
 
   @POST(ApiConstants.GET_PHAM_VI)
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
+}
+
+@RestApi()
+abstract class AccountServiceCCVC {
+  @factoryMethod
+  factory AccountServiceCCVC(Dio dio, {String baseUrl}) = _AccountServiceCCVC;
+
+  @GET(ApiConstants.GET_FUNCTION_OF_CURRENT)
+  Future<PermissionMenuResponse> getPermissionMenu();
 }

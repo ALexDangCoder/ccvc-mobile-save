@@ -15,9 +15,14 @@ import 'package:flutter_svg/svg.dart';
 class DanhSachYKND extends StatefulWidget {
   final String startDate;
   final String endDate;
+  final String trangThai;
 
-  const DanhSachYKND({required this.startDate, required this.endDate, Key? key})
-      : super(key: key);
+  const DanhSachYKND({
+    required this.startDate,
+    required this.endDate,
+    this.trangThai = '',
+    Key? key,
+  }) : super(key: key);
 
   @override
   _DanhSachYKNDState createState() => _DanhSachYKNDState();
@@ -30,7 +35,11 @@ class _DanhSachYKNDState extends State<DanhSachYKND> {
   @override
   void initState() {
     super.initState();
-    cubit.callApi(widget.startDate, widget.endDate);
+    cubit.callApi(
+      widget.startDate,
+      widget.endDate,
+      trangThai: widget.trangThai,
+    );
   }
 
   @override
@@ -86,6 +95,7 @@ class _DanhSachYKNDState extends State<DanhSachYKND> {
   }
 
   Widget _content() {
+    print('--------------------------------------- call data-------------------------');
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,
@@ -102,6 +112,7 @@ class _DanhSachYKNDState extends State<DanhSachYKND> {
     cubit.searchDanhSachYKienNguoiDan(
       tuNgay: widget.startDate,
       denNgay: widget.endDate,
+      trangThai: widget.trangThai,
       pageSize: ApiConstants.DEFAULT_PAGE_SIZE,
       pageNumber: page,
     );

@@ -42,7 +42,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                 height: 16,
               ),
               StreamBuilder<ChiTietLichHopModel>(
-                stream: widget.cubit.chiTietLichLamViecStream,
+                stream: widget.cubit.chiTietLichLamViecSubject,
                 builder: (context, snapshot) {
                   final data =
                       snapshot.data?.fileData?.map((e) => e.name).toList() ??
@@ -81,7 +81,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               height: 16,
             ),
             StreamBuilder<ChiTietLichHopModel>(
-              stream: widget.cubit.chiTietLichLamViecStream,
+              stream: widget.cubit.chiTietLichLamViecSubject,
               builder: (context, snapshot) {
                 final data =
                     snapshot.data!.fileData!.map((e) => e.name).toList();

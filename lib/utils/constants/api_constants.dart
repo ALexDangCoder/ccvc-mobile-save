@@ -85,6 +85,15 @@ class ApiConstants {
   static const GET_DANH_SACH_NTG_CHUONG_TRINH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-bieu-quyet';
   static const PHAN_CONG_THU_KY = '/vpdt/api/MeetingSchedule/assign-secretary';
+
+  static const TAO_BIEU_QUYET = '/vpdt/api/MeetingSection/create-phat-bieu';
+
+  static const DUYET_PHAT_BIEU = '/vpdt/api/MeetingSection/duyet-phat-bieu';
+
+  static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
+
+  static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
+
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
 

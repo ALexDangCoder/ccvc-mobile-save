@@ -11,10 +11,12 @@ import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_bieu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/add_file_tao_lich_hop.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
@@ -40,7 +42,6 @@ import 'package:ccvc_mobile/data/response/lich_hop/dash_board_lh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/gui_mail_ket_luat-response.dart';
-import 'package:ccvc_mobile/data/response/lich_hop/moi_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
@@ -129,6 +130,7 @@ abstract class HopServices {
     @Query('lichHopId') String lichHopId,
     @Part(name: '[0].canBoId') String canBoId,
     @Part(name: '[0].donViId') String donViId,
+    @Part(name: '[0].vaiTroThamGia') int vaiTroThamGia,
     @Part(name: '[0].thoiGian_BatDau') String thoiGian_BatDau,
     @Part(name: '[0].thoiGian_KetThuc') String thoiGian_KetThuc,
     @Part(name: '[0].noiDung') String noiDung,
@@ -334,5 +336,27 @@ abstract class HopServices {
   @POST(ApiConstants.PHAN_CONG_THU_KY)
   Future<PhanCongThuKyResponse> postPhanCongThuKy(
     @Body() PhanCongThuKyRequest phanCongThuKyRequest,
+  );
+
+  @POST(ApiConstants.TAO_BIEU_QUYET)
+  Future<PhanCongThuKyResponse> postTaoPhatBieu(
+    @Body() TaoBieuQuyetRequest taoBieuQuyetRequest,
+  );
+
+  @POST(ApiConstants.DUYET_PHAT_BIEU)
+  Future<PhanCongThuKyResponse> postDuyetOrHuyDuyetPhatBieu(
+    @Body() List<String> ids,
+    @Body() String lichHopId,
+    @Body() int type,
+  );
+
+  @POST(ApiConstants.DIEM_DANH)
+  Future<PhanCongThuKyResponse> postDiemDanh(
+    @Body() List<String> data,
+  );
+
+  @POST(ApiConstants.THU_HOI_HOP)
+  Future<PhanCongThuKyResponse> postThuHoiHop(
+    @Body() List<ThuHoiHopRequest> thuHoiHopRequest,
   );
 }

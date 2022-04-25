@@ -36,7 +36,7 @@ class CupertinoRoundedDatePickerWidget {
     DateTime dateSelect = initialDate;
     final BehaviorSubject<DateTime> dateTimeBloc = BehaviorSubject<DateTime>()
       ..sink.add(initialDate);
-    return showModalBottomSheet(
+    return showModalBottomSheet<DateTime>(
       backgroundColor: Colors.transparent,
       context: context,
       isScrollControlled: true,

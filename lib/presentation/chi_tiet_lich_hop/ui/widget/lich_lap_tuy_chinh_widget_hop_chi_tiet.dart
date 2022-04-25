@@ -91,7 +91,7 @@ class _LichLapTuyChinhChiTietHopWidgetState
           InputInfoUserWidget(
             title: S.current.lap_den_ngay,
             child: CustomSelectDate(
-              value: DateTime.now().toString(),
+              value: DateTime.now(),
               onSelectDate: (value) {},
             ),
           ),

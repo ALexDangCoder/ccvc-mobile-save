@@ -27,6 +27,8 @@ class ImageAssets {
   static const headerMenuHa = '$baseImg/background_menu_ha.png';
   static const headerMenuThu = '$baseImg/background_menu_thu.png';
   static const headerMenuDong = '$baseImg/background_menu_dong.png';
+  static const icHappyBirthday = '$baseImg/ic_happy_birthday.png';
+  static const icNewButton = '$baseImg/ic_new_button.svg';
 
  static const icLichHopTrucTiep = '$baseImg/ic_lich_hop_truc_tiep.svg';
   static const icLichHopTrucTuyen = '$baseImg/ic_lich_hop_truc_tuyen.svg';

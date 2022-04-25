@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/manager_personal_information.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
+import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/widgets/header_menu_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
@@ -72,11 +73,11 @@ class _MenuScreenState extends State<MenuScreen> {
                             ),
                           );
                         },
-                        child: HeaderMenuWidget(
+                        child: HeaderMenuMobileWidget(
                           menuCubit: menuCubit,
-                          urlBackGround: headerMenu(),
                         ),
                       ),
+                     const  TextQuanLyWidget(),
                       StreamBuilder<List<MenuType>>(
                         stream: menuCubit.getMenu,
                         builder: (context, snapshot) {
@@ -102,10 +103,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           );
                         }
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16, bottom: 24),
-                        child: TextQuanLyWidget(),
-                      )
+                    const SizedBox(
+                      height: 24,
+                    )
                     ],
                   ),
                 ),

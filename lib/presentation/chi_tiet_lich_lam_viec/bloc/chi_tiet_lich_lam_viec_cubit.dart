@@ -44,7 +44,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
   LichLamViecRepository get detailLichLamViec => Get.find();
   String idLichLamViec = '';
 
-  Future<void> data(String id) async {
+  Future<void> dataChiTietLichLamViec(String id) async {
     final rs = await detailLichLamViec.detailCalenderWork(id);
     rs.when(
       success: (data) {
@@ -115,7 +115,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     final queue = Queue(parallel: 4);
     showLoading();
     idLichLamViec = id;
-    unawaited(queue.add(() => data(id)));
+    unawaited(queue.add(() => dataChiTietLichLamViec(id)));
     unawaited(queue.add(() => getDanhSachBaoCaoKetQua(id)));
     unawaited(queue.add(() => getDanhSachYKien(id)));
     unawaited(queue.add(() => getListTinhTrang()));

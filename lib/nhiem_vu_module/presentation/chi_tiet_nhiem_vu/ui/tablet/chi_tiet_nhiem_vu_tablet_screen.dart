@@ -95,16 +95,8 @@ class _ChiTietNhiemVuTabletScreenState
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                StreamBuilder<VanBanLienQuanModel>(
-                                  stream: cubit.vanBanLienQuanStream,
-                                  builder: (context, snapshot) {
-                                    final data = snapshot.data ??
-                                        VanBanLienQuanModel.empty();
-                                    return VanBanLienQuanWidget(
-                                      dataModel: data,
-                                      cubit: cubit,
-                                    );
-                                  },
+                                VanBanLienQuanWidget(
+                                  cubit: cubit,
                                 ),
                                 StreamBuilder<
                                     List<DanhSachCongViecChiTietNhiemVuModel>>(

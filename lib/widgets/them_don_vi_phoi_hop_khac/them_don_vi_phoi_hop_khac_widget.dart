@@ -36,7 +36,6 @@ class _ThemDonViPhoiHopKhacWidgetState
     extends State<ThemDonViPhoiHopKhacWidget> {
   ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
 
-
   @override
   void initState() {
     super.initState();
@@ -254,6 +253,8 @@ class _ThemDonViPhoiHopKhacScreenState
                     email: _emailController.text,
                     sdt: _sdtController.text,
                     vaiTroThamGia: 4,
+                    tenDonVi: _tenDonViController.text,
+                    tenCoQuan: _tenDonViController.text,
                   ),
                 );
                 Navigator.pop(context);

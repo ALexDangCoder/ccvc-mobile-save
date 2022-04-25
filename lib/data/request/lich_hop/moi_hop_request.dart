@@ -4,28 +4,71 @@ part 'moi_hop_request.g.dart';
 
 @JsonSerializable()
 class MoiHopRequest {
-  String? CanBoId;
-  String? DonViId;
+  @JsonKey(name: 'DauMoiLienHe')
+  String? DauMoiLienHe;
+  @JsonKey(name: 'Email')
+  String? Email;
+  @JsonKey(name: 'GhiChu')
+  String? GhiChu;
+  @JsonKey(name: 'SoDienThoai')
+  String? SoDienThoai;
+  @JsonKey(name: 'TenCoQuan')
+  String? TenCoQuan;
+  @JsonKey(name: 'VaiTroThamGia')
   int? VaiTroThamGia;
-  String? chucVu;
-  String? hoTen;
+  @JsonKey(name: 'dauMoi')
+  String? dauMoi;
+  @JsonKey(name: 'email')
+  String? email;
+  @JsonKey(name: 'id')
   String? id;
-  int? status;
+  @JsonKey(name: 'noiDungLamViec')
+  String? noiDungLamViec;
+  @JsonKey(name: 'soDienThoai')
+  String? soDienThoai;
+  @JsonKey(name: 'tenCanBo')
+  String? tenCanBo;
+  @JsonKey(name: 'tenDonVi')
   String? tenDonVi;
+  @JsonKey(name: 'hoTen')
+  String? hoTen;
+  @JsonKey(name: 'status')
+  int? status;
+  @JsonKey(name: 'type')
   int? type;
+  @JsonKey(name: 'userId')
   String? userId;
+  @JsonKey(name: 'CanBoId')
+  String? CanBoId;
+  @JsonKey(name: 'donViId')
+  String? donViId;
+  @JsonKey(name: 'DonViId')
+  String? DonViId;
+  @JsonKey(name: 'chucVu')
+  String? chucVu;
 
   MoiHopRequest({
-    required this.CanBoId,
-    required this.DonViId,
-    required this.VaiTroThamGia,
-    required this.chucVu,
-    required this.hoTen,
-    required this.id,
-    required this.status,
-    required this.tenDonVi,
-    required this.type,
-    required this.userId,
+    this.DauMoiLienHe,
+    this.Email,
+    this.GhiChu,
+    this.SoDienThoai,
+    this.TenCoQuan,
+    this.VaiTroThamGia,
+    this.dauMoi,
+    this.email,
+    this.id,
+    this.noiDungLamViec,
+    this.soDienThoai,
+    this.tenCanBo,
+    this.tenDonVi,
+    this.hoTen,
+    this.status,
+    this.type,
+    this.userId,
+    this.donViId,
+    this.CanBoId,
+    this.DonViId,
+    this.chucVu,
   });
 
   factory MoiHopRequest.fromJson(

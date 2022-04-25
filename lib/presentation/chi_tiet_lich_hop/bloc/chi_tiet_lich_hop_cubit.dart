@@ -168,6 +168,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     final queue = Queue(parallel: 15);
 
     ///Công tác chuẩn bị
+
     unawaited(queue.add(() => getThongTinPhongHopApi()));
     unawaited(queue.add(() => getDanhSachThietBi()));
 
@@ -197,8 +198,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
     unawaited(queue.add(() => getDanhSachPhienHop(id)));
     await queue.onComplete.catchError((er) {});
+
+    ///thanh phan tham gia
+    unawaited(queue.add(() => getDanhSachPhienHop(id)));
+
+    unawaited(queue.add(() => themThanhPhanThamGia()));
     showContent();
-    // queue.dispose();
+    queue.dispose();
   }
 
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
@@ -571,10 +577,26 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
 
 ///thành phần tham gia
 extension ThanhPhanThamGia on DetailMeetCalenderCubit {
-  Future<void> ThemThanhPhanThamGia(String id) async {
+  Future<void> getDanhSachCuocHopTPTH() async {
+    final result = await hopRp.getDanhSachCuocHopTPTH(id);
+
+    result.when(
+      success: (success) {
+        thanhPhanThamGia.add(success.listCanBo ?? []);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> themThanhPhanThamGia() async {
     final result =
-        await hopRp.postMoiHop('', false, phuongThucNhan, moiHopRequest);
-    result.when(success: (res) {}, error: (error) {});
+        await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
+    result.when(
+      success: (res) {},
+      error: (error) {},
+    );
+    await getDanhSachCuocHopTPTH();
+    moiHopRequest.clear();
   }
 
   Future<void> danhSachCanBoTPTG({required String id}) async {

@@ -10,7 +10,11 @@ class DonViModel {
   String sdt = '';
   int vaiTroThamGia = 0;
   String tenDonVi = '';
-
+  int status = 0;
+  int type = 0;
+  String donViId = '';
+  String userId = '';
+  String tenCoQuan = '';
   DonViModel({
     required this.id,
     required this.name,
@@ -23,6 +27,11 @@ class DonViModel {
     this.sdt = '',
     this.vaiTroThamGia = 0,
     this.tenDonVi = '',
+    this.status = 0,
+    this.type = 0,
+    this.donViId = '',
+    this.userId = '',
+    this.tenCoQuan = '',
   });
 }
 

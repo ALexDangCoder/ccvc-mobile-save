@@ -18,6 +18,7 @@ class TableCalendarWidget extends StatefulWidget {
   final bool isCalendar;
   final Function(DateTime? start, DateTime? end, DateTime? focusedDay)
       onChangeRange;
+  final Function(String? value) onChangeText;
   final Function(DateTime startDate, DateTime end, DateTime selectDay) onChange;
   final Function(String value)? onSearch;
   final Type_Choose_Option_Day type;
@@ -31,6 +32,7 @@ class TableCalendarWidget extends StatefulWidget {
     required this.onChange,
     this.type = Type_Choose_Option_Day.DAY,
     this.eventsLoader,
+    required this.onChangeText,
   }) : super(key: key);
 
   @override
@@ -160,6 +162,9 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     if (isSearch)
                       Expanded(
                         child: TextField(
+                          onChanged: (value) {
+                            widget.onChangeText(value);
+                          },
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: S.current.tim_kiem,

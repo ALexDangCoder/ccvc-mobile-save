@@ -30,6 +30,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/moi_nguoi_tham_gia.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
@@ -51,6 +52,8 @@ import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 
 mixin HopRepository {
+  Future<Result<ChuongTrinhHopModel>> getDanhSachCuocHopTPTH(String id);
+
   Future<Result<List<DashBoardThongKeModel>>> getDashBoardThongKe(
     String dateFrom,
     String dateTo,
@@ -185,7 +188,7 @@ mixin HopRepository {
 
   Future<Result<GuiMailKetLuatHopModel>> sendMailKetLuanHop(String id);
 
-  Future<Result<List<MoiHopModel>>> postMoiHop(
+  Future<Result<List<CanBoModel>>> postMoiHop(
     String lichHopId,
     bool IsMultipe,
     bool isSendMail,

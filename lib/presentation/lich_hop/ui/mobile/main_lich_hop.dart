@@ -515,6 +515,9 @@ class _MainLichHopState extends State<MainLichHop> {
                                           DateTime? end,
                                           DateTime? focusedDay,
                                         ) {},
+                                        onChangeText: (String? value) {
+                                          cubit.searchLichHop(value);
+                                        },
                                       );
                                     },
                                   );

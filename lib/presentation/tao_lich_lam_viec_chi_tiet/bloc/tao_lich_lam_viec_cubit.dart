@@ -132,6 +132,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   String? timeFrom;
   String? dateEnd;
   String? timeEnd;
+  String? title='';
+  String? content='';
+  String? location='';
   bool allDay = true;
 
   void listeningStartDataTime(DateTime dateAndTime) {
@@ -310,6 +313,49 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       showContent();
     });
   }
+  Future<void> suaLichLamViec() async {
+    final result = await _lichLamViec.suaLichLamViec(
+        title??'',
+        selectLoaiLich?.id ?? '',
+        selectLinhVuc?.id ?? '',
+        tinhSelectModel?.tenTinhThanh ?? '',
+        huyenSelectModel?.tenQuanHuyen??'',
+        xaSelectModel?.tenXaPhuong??'',
+        dateFrom ?? DateTime.now().formatApi,
+        timeFrom ??
+            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+        dateEnd ?? DateTime.now().formatApi,
+        timeEnd ??
+            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+        content??'',
+        location??'',
+        '',
+        '',
+        '',
+        2,
+        '',
+        false,
+        '',
+        false,
+        selectNguoiChuTri?.userId ?? '',
+        selectNguoiChuTri?.donViId ?? '',
+        '',
+        isCheckAllDaySubject.value,
+        true,
+        donviModel ?? [],
+        selectNhacLai.value ?? 1,
+        selectLichLap.id ?? 0,
+        dateFrom ?? DateTime.now().formatApi,
+        dateTimeLapDenNgay.formatApi,
+        true,
+        lichLapItem1);
+    result.when(success: (res) {
+      emit(CreateSuccess());
+      showContent();
+    }, error: (error) {
+      showContent();
+    });
+  }
 
   Future<void> taoBaoCaoKetQua({
     required String reportStatusId,
@@ -349,7 +395,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         success: (res) {
           huyenSelectSubject.sink.add(res.items ?? []);
           xaSelectSubject.sink.add([]);
-          xaSelectModel=XaSelectModel();
+          xaSelectModel = XaSelectModel();
         },
         error: (error) {});
   }

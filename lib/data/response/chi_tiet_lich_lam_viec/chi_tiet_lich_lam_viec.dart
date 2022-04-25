@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'chi_tiet_lich_lam_viec.g.dart';
@@ -91,7 +92,7 @@ class DetailCalenderWorkResponseData {
   @JsonKey(name: 'canBoChuTri')
   CreateByResponse? canBoChuTri;
   @JsonKey(name: 'scheduleCoperatives')
-  List<String>? scheduleCoperatives;
+  List<ScheduleCoperativesResponse>? scheduleCoperatives;
   @JsonKey(name: 'files')
   List<FilesResponse>? files;
   @JsonKey(name: 'scheduleReminder')
@@ -161,7 +162,7 @@ class DetailCalenderWorkResponseData {
         createBy: createBy?.toDomain() ?? CreateBy(),
         updateBy: updateBy?.toDomain() ?? UpdateBy(),
         canBoChuTri: canBoChuTri?.toDomain() ?? CreateBy(),
-        scheduleCoperatives: scheduleCoperatives,
+        scheduleCoperatives: scheduleCoperatives?.map((e) => e.toModel()).toList()??[],
         files: files?.map((e) => e.toDomain()).toList() ?? [],
         scheduleReminder: scheduleReminder?.toModel(),
         tinhId: tinhId,
@@ -366,4 +367,81 @@ class FilesResponse {
         entityId: entityId,
         entityName: entityName,
       );
+}
+
+@JsonSerializable()
+class ScheduleCoperativesResponse {
+  @JsonKey(name: 'id')
+  String? id;
+  @JsonKey(name: 'donViId')
+  String? donViId;
+  @JsonKey(name: 'tenDonVi')
+  String? tenDonVi;
+  @JsonKey(name: 'canBoId')
+  String? canBoId;
+  @JsonKey(name: 'hoTen')
+  String? hoTen;
+  @JsonKey(name: 'userName')
+  String? userName;
+  @JsonKey(name: 'userId')
+  String? userId;
+  @JsonKey(name: 'scheduleId')
+  String? scheduleId;
+  @JsonKey(name: 'isConfirm')
+  bool? isConfirm;
+  @JsonKey(name: 'status')
+  int? status;
+  @JsonKey(name: 'confirmDate')
+  String? confirmDate;
+  @JsonKey(name: 'taskContent')
+  String? taskContent;
+  @JsonKey(name: 'parentId')
+  String? parentId;
+
+
+  ScheduleCoperativesResponse({
+      this.id,
+      this.donViId,
+      this.tenDonVi,
+      this.canBoId,
+      this.hoTen,
+      this.userName,
+      this.userId,
+      this.scheduleId,
+      this.isConfirm,
+      this.status,
+      this.confirmDate,
+      this.taskContent,
+      this.parentId,
+  });
+
+  factory ScheduleCoperativesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleCoperativesResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ScheduleCoperativesResponseToJson(this);
+  DonViModel toModel()=>DonViModel(
+    id: id??'',
+    donViId: donViId??'',
+    tenDonVi: tenDonVi??'',
+    canBoId: canBoId??'',
+    name: hoTen??'',
+    userId: userId??'',
+    noidung: taskContent??'',
+  );
+
+  // ScheduleCoperatives toModel()=>ScheduleCoperatives(
+  //   id:id,
+  //   donViId:donViId,
+  //   tenDonVi:tenDonVi,
+  //   canBoId:canBoId,
+  //   hoTen:hoTen,
+  //   userName:userName,
+  //   userId:userId,
+  //   scheduleId:scheduleId,
+  //   isConfirm:isConfirm,
+  //   status:status,
+  //   confirmDate:confirmDate,
+  //   taskContent:taskContent,
+  //   parentId:parentId,
+  // );
 }

@@ -126,7 +126,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     showBottomSheetCustom(
                       context,
                       title: S.current.sua_lich_cong_tac_trong_nuoc,
-                      child: const SuaLichCongTacTrongNuocPhone(),
+                      child:  SuaLichCongTacTrongNuocPhone(cubit: chiTietLichLamViecCubit,),
                     );
                   },
                 ),

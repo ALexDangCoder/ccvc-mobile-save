@@ -232,7 +232,6 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               onPressed: () async {
                                 if (keyGroup.currentState!.validator()) {
                                   await loginCubit.loginAndSaveinfo(
-                                    context: context,
                                     passWord: textPasswordController.text,
                                     userName: textTaiKhoanController.text,
                                     appCode: APP_CODE,
@@ -246,46 +245,66 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                             const SizedBox(
                               height: 48,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    height: 64,
-                                    width: 64,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      color: buttonColor.withOpacity(0.1),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        ImageAssets.icFingerprint,
+                            if (PrefsService.getLoginUserName() != '')
+                              Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            loginCubit.checkBiometrics();
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 64,
+                                          width: 64,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            color: buttonColor.withOpacity(0.1),
+                                          ),
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              ImageAssets.icFingerprint,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 64,
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    height: 64,
-                                    width: 64,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      color: buttonColor.withOpacity(0.1),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        ImageAssets.icFaceId,
+                                      const SizedBox(
+                                        width: 64,
                                       ),
-                                    ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            loginCubit.checkBiometrics();
+                                          });
+                                        },
+                                        child: Container(
+                                          height: 64,
+                                          width: 64,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            color: buttonColor.withOpacity(0.1),
+                                          ),
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              ImageAssets.icFaceId,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            )
+                                  const SizedBox(
+                                    height: 32.0,
+                                  ),
+                                ],
+                              )
+                            else
+                              const SizedBox()
                           ],
                         ),
                       ),

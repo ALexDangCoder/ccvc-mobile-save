@@ -60,15 +60,16 @@ class CaiDatMauTabletWidget extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 213,
+              // height: 213,
               width: 60.w,
               decoration: BoxDecoration(
                 border: Border.all(color: borderColor.withOpacity(0.5)),
-                image: DecorationImage(
-                  image: AssetImage(icon),
-                  fit: BoxFit.fill,
-                ),
+                // image: DecorationImage(
+                //   image: AssetImage(icon),
+                //   fit: BoxFit.fitWidth,
+                // ),
               ),
+              child: Image.asset(icon,fit:  BoxFit.fitWidth,),
             ),
             const SizedBox(
               height: 12,

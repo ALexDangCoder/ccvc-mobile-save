@@ -183,7 +183,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   child: ListView(
                     children: [
                       StreamBuilder<ChiTietLichHopModel>(
-                        stream: cubit.chiTietLichLamViecStream,
+                        stream: cubit.chiTietLichLamViecSubject,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return Container();
@@ -258,7 +258,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                         cubit: cubit,
                         id: widget.id,
                       ),
-                      BieuQuyetWidget(id: widget.id),
+                      BieuQuyetWidget(
+                        id: widget.id,
+                        cubit: cubit,
+                      ),
                       KetLuanHopWidget(
                         cubit: cubit,
                         id: widget.id,

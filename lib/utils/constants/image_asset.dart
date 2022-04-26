@@ -30,7 +30,7 @@ class ImageAssets {
   static const icHappyBirthday = '$baseImg/ic_happy_birthday.png';
   static const icNewButton = '$baseImg/ic_new_button.svg';
 
- static const icLichHopTrucTiep = '$baseImg/ic_lich_hop_truc_tiep.svg';
+  static const icLichHopTrucTiep = '$baseImg/ic_lich_hop_truc_tiep.svg';
   static const icLichHopTrucTuyen = '$baseImg/ic_lich_hop_truc_tuyen.svg';
   static const icTongSoLichHop = '$baseImg/ic_tong_so_lich_hop.svg';
 
@@ -363,18 +363,21 @@ class ImageAssets {
   static const String icMessage = '$baseImg/icMessage.svg';
   static const String Group2 = '$baseImg/Group2.svg';
   static const String Comment_ic = '$baseImg/Comment_ic.svg';
-  static const String ic_cho_cho_bo_sung_y_kien = '$baseImg/ic_cho_bo_sung_y_kien.svg';
+  static const String ic_cho_cho_bo_sung_y_kien =
+      '$baseImg/ic_cho_bo_sung_y_kien.svg';
   static const String ic_cho_cho_y_kien = '$baseImg/ic_cho_cho_y_kien.svg';
-  static const String ic_cho_phan_cong_xu_ly = '$baseImg/ic_cho_phan_cong_xu_ly.svg';
+  static const String ic_cho_phan_cong_xu_ly =
+      '$baseImg/ic_cho_phan_cong_xu_ly.svg';
   static const String ic_cho_tiep_nhan = '$baseImg/ic_cho_tiep_nhan.svg';
-  static const String ic_cho_tiep_nhan_xu_ly= '$baseImg/ic_cho_tiep_nhan_xu_ly.svg';
-  static const String ic_cho_xu_ly= '$baseImg/ic_cho_xu_ly.svg';
-  static const String ic_cho_xu_ly_yknd= '$baseImg/ic_cho_xu_ly_yknd.svg';
-  static const String ic_tong_so_yknd= '$baseImg/ic_tong_hop_yknd_da_nhan.svg';
-  static const String ic_da_xu_ly_yknd= '$baseImg/ic_da_xu_ly_yknd.svg';
-  static const String ic_dang_xu_ly_yknd= '$baseImg/ic_dang_xu_ly_yknd.svg';
-  static const String ic_dang_tai_cong_khai_yknd= '$baseImg/ic_dang_tai_cong_khai.svg';
-
+  static const String ic_cho_tiep_nhan_xu_ly =
+      '$baseImg/ic_cho_tiep_nhan_xu_ly.svg';
+  static const String ic_cho_xu_ly = '$baseImg/ic_cho_xu_ly.svg';
+  static const String ic_cho_xu_ly_yknd = '$baseImg/ic_cho_xu_ly_yknd.svg';
+  static const String ic_tong_so_yknd = '$baseImg/ic_tong_hop_yknd_da_nhan.svg';
+  static const String ic_da_xu_ly_yknd = '$baseImg/ic_da_xu_ly_yknd.svg';
+  static const String ic_dang_xu_ly_yknd = '$baseImg/ic_dang_xu_ly_yknd.svg';
+  static const String ic_dang_tai_cong_khai_yknd =
+      '$baseImg/ic_dang_tai_cong_khai.svg';
 
   static const String IcEmail = '$baseImg/IcEmail.svg';
   static const String XoaKLHop = '$baseImg/XoaKLHop.svg';
@@ -392,7 +395,8 @@ class ImageAssets {
   static const String ic_big_play = '$baseImg/ic_big _play.png';
   static const String ic_dongnai_title = '$baseImg/ic_dongnai_title.png';
   static const String ic_xem_them = '$baseImg/ic_xem_them.svg';
-  static const String ic_preson_menu_yknd = '$baseImg/icon_person_menu_yknd.svg';
+  static const String ic_preson_menu_yknd =
+      '$baseImg/icon_person_menu_yknd.svg';
   static const String ic_baocao_menu_yknd = '$baseImg/ic_baocao_menu_yknd.svg';
   static const String ic_kinh_to = '$baseImg/kinh_to.svg';
 
@@ -460,6 +464,8 @@ class ImageAssets {
   static const String icHeaderMenuLeGiangSinhTablet =
       '$baseImg/background_le_giang_sinh_tablet.png';
   static const String icDropDown = '$baseImg/ic_drop_down.svg';
+  static const String deleteChuongTrinhHop =
+      '$baseImg/delete_chuong_trinh_hop.svg';
 
   static SvgPicture svgAssets(
     String name, {

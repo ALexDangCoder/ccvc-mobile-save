@@ -19,21 +19,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class TaoBieuQuyetWidget extends StatefulWidget {
+class TaoBieuQuyetTabletWidget extends StatefulWidget {
   final String id;
   final DetailMeetCalenderCubit cubit;
 
-  const TaoBieuQuyetWidget({
+  const TaoBieuQuyetTabletWidget({
     Key? key,
     required this.id,
     required this.cubit,
   }) : super(key: key);
 
   @override
-  State<TaoBieuQuyetWidget> createState() => _TextFormFieldWidgetState();
+  State<TaoBieuQuyetTabletWidget> createState() => _TextFormFieldWidgetState();
 }
 
-class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
+class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
   GlobalKey<FormState> formKeyNoiDung = GlobalKey<FormState>();
   TextEditingController noiDungController = TextEditingController();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
@@ -61,6 +61,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
           bottomWidget: Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: DoubleButtonBottom(
+              isTablet: true,
               title1: S.current.dong,
               title2: S.current.luu,
               onPressed1: () {
@@ -70,10 +71,9 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                 if (noiDungController.text.isEmpty ||
                     widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
                     widget.cubit.listDanhSach.isEmpty) {
-                  setState(() {
-                    isShow = true;
-                    isShowValidate = true;
-                  });
+                  isShow = true;
+                  isShowValidate = true;
+                  setState(() {});
                   MessageConfig.show(
                     title: S.current.tao_that_bai,
                     messState: MessState.error,
@@ -162,8 +162,10 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                         onchange: (vl) {
                           if (vl.isEmpty) {
                             isShow = true;
+                            setState(() {});
                           } else {
                             isShow = false;
+                            setState(() {});
                           }
                           widget.cubit.listLuaChon = vl;
                         },
@@ -189,11 +191,12 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                                   urlIcon: ImageAssets.icDocument,
                                   title: S.current.loai_bai_viet,
                                   onChange: (value) {
-                                    setState(() {});
                                     if (widget.cubit.listDanhSach.isEmpty) {
                                       isShowValidate = false;
+                                      setState(() {});
                                     } else {
                                       isShowValidate = true;
+                                      setState(() {});
                                     }
                                     widget.cubit.listDanhSach = value;
                                   },

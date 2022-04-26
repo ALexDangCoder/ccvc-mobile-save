@@ -21,7 +21,11 @@ class FakeDataTaoLichHop {
     'Trước 10 phút',
     'Trước 15 phút',
     'Trước 30 phút',
-    'Trước 1 giờ'
+    'Trước 1 giờ',
+    'Trước 2 giờ',
+    'Trước 12 giờ',
+    'Trước 1 ngày',
+    'Trước 1 tuần',
   ];
   static final lichLap = [
     'Không lặp lại',
@@ -30,12 +34,9 @@ class FakeDataTaoLichHop {
     'Lặp lại hằng tuần',
     'Lặp lại hàng tháng',
     'Lặp lại hàng năm',
-    'Tuỳ chỉnh',
+    'Tùy chỉnh',
   ];
-  static final mucDoHop=[
-    "Bình thường",
-    "Đột xuất"
-  ];
+  static final mucDoHop = ["Bình thường", "Đột xuất"];
   static final nguoiChuTri = [
     'Cao Tiến Dũng - UBND Tỉnh Đồng Nai',
     'Nguyễn Thị Hoàng - UBND Tỉnh Đồng Nai',

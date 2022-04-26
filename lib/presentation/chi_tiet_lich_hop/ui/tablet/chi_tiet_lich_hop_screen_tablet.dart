@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
@@ -18,10 +19,12 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_ban
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
@@ -186,35 +189,32 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                   child: DetailMeetCalendarInherited(
                     cubit: cubit,
                     child: ExpandGroup(
-                      child: Container(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: backgroundColorApp,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              border: Border.all(
-                                  color: borderColor.withOpacity(0.5)),
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 10,
-                                    color:
-                                        shadowContainerColor.withOpacity(0.05))
-                              ],
+                      child: SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: backgroundColorApp,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ThongTinCuocHopWidget(
-                                    cubit: cubit,
-                                  ),
-                                )
-                              ],
-                            ),
+                            border:
+                                Border.all(color: borderColor.withOpacity(0.5)),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 10,
+                                  color: shadowContainerColor.withOpacity(0.05))
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ThongTinCuocHopWidget(
+                                  cubit: cubit,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -223,101 +223,116 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                 )
               ];
             },
-            body: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: backgroundColorApp,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
+            body: ProviderWidget<DetailMeetCalenderCubit>(
+              cubit: cubit,
+              child: StateStreamLayout(
+                textEmpty: S.current.khong_co_du_lieu,
+                retry: () {},
+                error: AppException(
+                  S.current.error,
+                  S.current.error,
                 ),
-                border: Border.all(color: borderColor.withOpacity(0.5)),
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(0, 4),
-                      blurRadius: 10,
-                      color: shadowContainerColor.withOpacity(0.05))
-                ],
-              ),
-              child: StickyHeader(
-                overlapHeaders: true,
-                header: TabBar(
-                  controller: _controller,
-                  unselectedLabelStyle: textNormalCustom(
-                      fontSize: 16, fontWeight: FontWeight.w700),
-                  indicatorColor: indicatorColor,
-                  unselectedLabelColor: unselectLabelColor,
-                  labelColor: indicatorColor,
-                  labelStyle: textNormalCustom(
-                      fontSize: 16, fontWeight: FontWeight.w400),
-                  isScrollable: true,
-                  tabs: [
-                    Tab(
-                      child: Text(
-                        S.current.cong_tac_chuan_bi,
-                      ),
+                stream: cubit.stateStream,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: backgroundColorApp,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
                     ),
-                    Tab(
-                      child: Text(
-                        S.current.chuong_trinh_hop,
-                      ),
+                    border: Border.all(color: borderColor.withOpacity(0.5)),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: const Offset(0, 4),
+                          blurRadius: 10,
+                          color: shadowContainerColor.withOpacity(0.05))
+                    ],
+                  ),
+                  child: StickyHeader(
+                    overlapHeaders: true,
+                    header: TabBar(
+                      controller: _controller,
+                      unselectedLabelStyle: textNormalCustom(
+                          fontSize: 16, fontWeight: FontWeight.w700),
+                      indicatorColor: indicatorColor,
+                      unselectedLabelColor: unselectLabelColor,
+                      labelColor: indicatorColor,
+                      labelStyle: textNormalCustom(
+                          fontSize: 16, fontWeight: FontWeight.w400),
+                      isScrollable: true,
+                      tabs: [
+                        Tab(
+                          child: Text(
+                            S.current.cong_tac_chuan_bi,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            S.current.chuong_trinh_hop,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            S.current.thanh_phan_tham_gia,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            S.current.tai_lieu,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            S.current.phat_bieu,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            S.current.bieu_quyet,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            S.current.ket_luan_hop,
+                          ),
+                        ),
+                        Tab(
+                          child: Text(
+                            S.current.y_kien_cuop_hop,
+                          ),
+                        ),
+                      ],
                     ),
-                    Tab(
-                      child: Text(
-                        S.current.thanh_phan_tham_gia,
-                      ),
+                    content: TabBarView(
+                      controller: _controller,
+                      children: [
+                        CongTacChuanBiWidgetTablet(
+                          cubit: cubit,
+                        ),
+                        ChuongTrinhHopWidget(
+                          id: widget.id,
+                          cubit: cubit,
+                        ),
+                        MoiNguoiThamGiaWidgetTablet(
+                          cubit: cubit,
+                        ),
+                        TaiLieuWidget(
+                          cubit: cubit,
+                        ),
+                        PhatBieuWidgetTablet(id: widget.id, cubit: cubit),
+                        BieuQuyetWidgetTablet(
+                          id: widget.id,
+                          cubit: cubit,
+                        ),
+                        KetLuanHopWidget(id: widget.id, cubit: cubit),
+                        YKienCuocHopWidget(
+                          id: widget.id,
+                          cubit: cubit,
+                        ),
+                      ],
                     ),
-                    Tab(
-                      child: Text(
-                        S.current.tai_lieu,
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        S.current.phat_bieu,
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        S.current.bieu_quyet,
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        S.current.ket_luan_hop,
-                      ),
-                    ),
-                    Tab(
-                      child: Text(
-                        S.current.y_kien_cuop_hop,
-                      ),
-                    ),
-                  ],
-                ),
-                content: TabBarView(
-                  controller: _controller,
-                  children: [
-                    CongTacChuanBiWidgetTablet(
-                      cubit: cubit,
-                    ),
-                    ChuongTrinhHopWidget(
-                      id: widget.id,
-                      cubit: cubit,
-                    ),
-                    MoiNguoiThamGiaWidgetTablet(
-                      cubit: cubit,
-                    ),
-                    TaiLieuWidget(
-                      cubit: cubit,
-                    ),
-                    PhatBieuWidgetTablet(id: widget.id, cubit: cubit),
-                    BieuQuyetWidgetTablet(id: widget.id),
-                    KetLuanHopWidget(id: widget.id, cubit: cubit),
-                    YKienCuocHopWidget(
-                      id: widget.id,
-                      cubit: cubit,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -1,12 +1,10 @@
-import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:equatable/equatable.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'danh_sach_bieu_quyet_lich_hop_response.g.dart';
 
 @JsonSerializable()
-class DanhSachBieuQuyetLichHopDataResponse extends Equatable {
+class DanhSachBieuQuyetLichHopDataResponse {
   @JsonKey(name: 'data')
   List<DanhSachBieuQuyetLichHopResponse>? data;
   @JsonKey(name: 'statusCode')
@@ -34,81 +32,39 @@ class DanhSachBieuQuyetLichHopDataResponse extends Equatable {
   Map<String, dynamic> toJson() =>
       _$DanhSachBieuQuyetLichHopDataResponseToJson(this);
 
-  List<PhatBieuModel> toModel() => data?.map((e) => e.toModel()).toList() ?? [];
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
+  List<DanhSachBietQuyetModel> toModel() =>
+      data?.map((e) => e.toModel()).toList() ?? [];
 }
 
 @JsonSerializable()
-class DanhSachBieuQuyetLichHopResponse extends Equatable {
-  @JsonKey(name: 'tenChucVu')
-  String? tenChucVu;
-  @JsonKey(name: 'diemDanh')
-  bool? diemDanh;
-  @JsonKey(name: 'disable')
-  bool? disable;
-  @JsonKey(name: 'trangThai')
-  int? trangThai;
-  @JsonKey(name: 'isVangMat')
-  bool? isVangMat;
+class DanhSachBieuQuyetLichHopResponse {
   @JsonKey(name: 'id')
   String? id;
-  @JsonKey(name: 'lichHopId')
-  String? lichHopId;
-  @JsonKey(name: 'donViId')
-  String? donViId;
-  @JsonKey(name: 'canBoId')
-  String? canBoId;
-  @JsonKey(name: 'vaiTro')
-  String? vaiTro;
-  @JsonKey(name: 'ghiChu')
-  String? ghiChu;
-  @JsonKey(name: 'parentId')
-  String? parentId;
-  @JsonKey(name: 'vaiTroThamGia')
-  int? vaiTroThamGia;
-  @JsonKey(name: 'email')
-  String? email;
-  @JsonKey(name: 'soDienThoai')
-  String? soDienThoai;
-  @JsonKey(name: 'dauMoiLienHe')
-  String? dauMoiLienHe;
-  @JsonKey(name: 'tenCanBo')
-  String? tenCanBo;
-  @JsonKey(name: 'tenCoQuan')
-  String? tenCoQuan;
-  @JsonKey(name: 'isThuKy')
-  bool? isThuKy;
-  @JsonKey(name: 'isThamGiaBocBang')
-  bool? isThamGiaBocBang;
-  @JsonKey(name: 'createAt')
-  String? createAt;
+  @JsonKey(name: 'idLichHop')
+  String? idLichHop;
+  @JsonKey(name: 'idPhienHopCanBo')
+  String? idPhienHopCanBo;
+  @JsonKey(name: 'noiDung')
+  String? noiDung;
+  @JsonKey(name: 'thoiGianBatDau')
+  String? thoiGianBatDau;
+  @JsonKey(name: 'thoiGianKetThuc')
+  String? thoiGianKetThuc;
+  @JsonKey(name: 'loaiBieuQuyet')
+  bool? loaiBieuQuyet;
+  @JsonKey(name: 'danhSachKetQuaBieuQuyet')
+  List<DanhSachKetQuaBieuQuyetResponse>? danhSachKetQuaBieuQuyet;
 
-  DanhSachBieuQuyetLichHopResponse({
-    this.tenChucVu,
-    this.diemDanh,
-    this.disable,
-    this.trangThai,
-    this.isVangMat,
+  DanhSachBieuQuyetLichHopResponse(
     this.id,
-    this.lichHopId,
-    this.donViId,
-    this.canBoId,
-    this.vaiTro,
-    this.ghiChu,
-    this.parentId,
-    this.vaiTroThamGia,
-    this.email,
-    this.soDienThoai,
-    this.dauMoiLienHe,
-    this.tenCanBo,
-    this.tenCoQuan,
-    this.isThuKy,
-    this.isThamGiaBocBang,
-    this.createAt,
-  });
+    this.idLichHop,
+    this.idPhienHopCanBo,
+    this.noiDung,
+    this.thoiGianBatDau,
+    this.thoiGianKetThuc,
+    this.loaiBieuQuyet,
+    this.danhSachKetQuaBieuQuyet,
+  );
 
   factory DanhSachBieuQuyetLichHopResponse.fromJson(
     Map<String, dynamic> json,
@@ -118,14 +74,57 @@ class DanhSachBieuQuyetLichHopResponse extends Equatable {
   Map<String, dynamic> toJson() =>
       _$DanhSachBieuQuyetLichHopResponseToJson(this);
 
-  PhatBieuModel toModel() => PhatBieuModel(
-        tthoiGian: DateTime.parse(createAt ?? '').formatApiSS,
-        nguoiPhatBieu: tenCanBo ?? '',
-        phienHop: tenCoQuan ?? '',
-        ndPhatBieu: ghiChu ?? '',
+  DanhSachBietQuyetModel toModel() => DanhSachBietQuyetModel(
+        id: id,
+        idLichHop: idLichHop,
+        idPhienHopCanBo: idPhienHopCanBo,
+        noiDung: noiDung,
+        thoiGianBatDau: thoiGianBatDau,
+        thoiGianKetThuc: thoiGianKetThuc,
+        loaiBieuQuyet: loaiBieuQuyet,
+        danhSachKetQuaBieuQuyet: danhSachKetQuaBieuQuyet
+                ?.map(
+                  (e) => e.toModel(),
+                )
+                .toList() ??
+            [],
       );
+}
 
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
+@JsonSerializable()
+class DanhSachKetQuaBieuQuyetResponse {
+  @JsonKey(name: 'luaChonId')
+  String? luaChonId;
+  @JsonKey(name: 'tenLuaChon')
+  String? tenLuaChon;
+  @JsonKey(name: 'mauLuaChon')
+  String? mauLuaChon;
+  @JsonKey(name: 'soLuongLuaChon')
+  int? soLuongLuaChon;
+  @JsonKey(name: 'isVote')
+  bool? isVote;
+
+  DanhSachKetQuaBieuQuyetResponse({
+    this.luaChonId,
+    this.tenLuaChon,
+    this.mauLuaChon,
+    this.soLuongLuaChon,
+    this.isVote,
+  });
+
+  factory DanhSachKetQuaBieuQuyetResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$DanhSachKetQuaBieuQuyetResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$DanhSachKetQuaBieuQuyetResponseToJson(this);
+
+  DanhSachKetQuaBieuQuyet toModel() => DanhSachKetQuaBieuQuyet(
+        luaChonId: luaChonId,
+        tenLuaChon: tenLuaChon,
+        mauLuaChon: mauLuaChon,
+        soLuongLuaChon: soLuongLuaChon,
+        isVote: isVote,
+      );
 }

@@ -89,7 +89,7 @@ class _DragItemListState extends State<DragItemList> {
                           index,
                         );
                   widget.widgetManageCubit
-                      .setParaUpdateWidget(widget.widgetManageCubit.listUsing);
+                      .setParaUpdateWidget();
                   widget.widgetManageCubit.updateListWidget(
                       widget.widgetManageCubit.listResponse.toString(),);
                 },

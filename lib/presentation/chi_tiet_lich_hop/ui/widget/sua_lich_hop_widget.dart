@@ -49,7 +49,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: StreamBuilder<ChiTietLichHopModel>(
-            stream: widget.cubit.chiTietLichLamViecStream,
+            stream: widget.cubit.chiTietLichLamViecSubject,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const SizedBox();
@@ -120,7 +120,6 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                           },
                         ),
                         StartEndDateWidget(
-                          icMargin: dataDetail.isAllDay,
                           onEndDateTimeChanged: (DateTime value) {
                             widget.cubit.taoLichHopRequest.ngayBatDau =
                                 value.toString();
@@ -149,15 +148,37 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
                           value: dataDetail.lichLap(),
                           listSelect: FakeDataTaoLichHop.lichLap,
                           onChange: (vl) {
+                            if (vl + 1 == FakeDataTaoLichHop.lichLap.length) {
+                              widget.cubit.checkTuyChinh.sink.add(true);
+                            } else {
+                              widget.cubit.checkTuyChinh.sink.add(false);
+                            }
                             widget.cubit.taoLichHopRequest.typeRepeat = vl + 1;
                           },
                         ),
-                        if (dataDetail.typeRepeat == 7)
-                          LichLapTuyChinhChiTietHopWidget(
-                            cubit: widget.cubit,
-                            onChange: (vl) {},
-                            initData: [],
-                          ),
+                        StreamBuilder<bool>(
+                          stream: widget.cubit.checkTuyChinh,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            if (data && dataDetail.typeRepeat == 7) {
+                              return LichLapTuyChinhChiTietHopWidget(
+                                cubit: widget.cubit,
+                                onChange: (vl) {
+                                  final String vlChange = vl.join(',');
+                                  widget.cubit.taoLichHopRequest.days =
+                                      vlChange;
+                                },
+                                initData: widget.cubit
+                                    .listNgayChonTuan(dataDetail.days ?? ''),
+                                initDate: DateTime.parse(
+                                  dataDetail.dateRepeat ??
+                                      DateTime.now().toString(),
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                        ),
                         spaceH5,
                         SelectOnlyExpand(
                           urlIcon: ImageAssets.icMucDoHop,

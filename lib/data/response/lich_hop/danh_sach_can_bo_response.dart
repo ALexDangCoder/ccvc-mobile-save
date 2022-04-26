@@ -101,6 +101,7 @@ class ListCanBo {
         tenDonVi: tenChucVu ?? '',
         hoTen: tenCanBo ?? '',
         isThuKy: isThuKy,
+        vaiTroThamGia: vaiTroThamGia,
       );
 }
 

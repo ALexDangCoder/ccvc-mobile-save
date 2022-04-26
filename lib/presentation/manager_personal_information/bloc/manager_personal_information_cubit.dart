@@ -19,7 +19,7 @@ class ManagerPersonalInformationCubit
   ManagerPersonalInformationCubit() : super(BaseChooseTimeInitial());
 
   EditPersonInformationRequest editPersonInformationRequest =
-      EditPersonInformationRequest();
+  EditPersonInformationRequest();
 
   final BehaviorSubject<String> avatarPathSubject = BehaviorSubject();
   final BehaviorSubject<String> chuKyPathSubject = BehaviorSubject();
@@ -27,22 +27,22 @@ class ManagerPersonalInformationCubit
   final BehaviorSubject<bool> isCheckTinhSubject = BehaviorSubject();
   final BehaviorSubject<File> saveFile = BehaviorSubject();
   final BehaviorSubject<ManagerPersonalInformationModel> managerPersonSubject =
-      BehaviorSubject();
+  BehaviorSubject();
   final BehaviorSubject<bool> isCheckHuyenSubject = BehaviorSubject();
   final BehaviorSubject<DataEditPersonInformation> dataEditSubject =
-      BehaviorSubject();
+  BehaviorSubject();
 
   final BehaviorSubject<List<TinhHuyenXaModel>> tinhSubject =
-      BehaviorSubject.seeded(
+  BehaviorSubject.seeded(
     [],
   );
   final BehaviorSubject<List<TinhHuyenXaModel>> huyenSubject =
-      BehaviorSubject.seeded([]);
+  BehaviorSubject.seeded([]);
   final BehaviorSubject<String> isCheckRadioButton = BehaviorSubject();
   final BehaviorSubject<bool> isCheckButtonReset = BehaviorSubject.seeded(true);
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
   final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
-      BehaviorSubject.seeded([]);
+  BehaviorSubject.seeded([]);
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;
@@ -70,12 +70,12 @@ class ManagerPersonalInformationCubit
   String xa = '';
   bool gioiTinh = false;
   DataEditPersonInformation dataEditPersonInformation =
-      DataEditPersonInformation();
+  DataEditPersonInformation();
   List<TinhHuyenXaModel> huyenModel = [];
   List<TinhHuyenXaModel> tinhModel = [];
   List<TinhHuyenXaModel> xaModel = [];
   ManagerPersonalInformationModel managerPersonalInformationModel =
-      ManagerPersonalInformationModel();
+  ManagerPersonalInformationModel();
 
   AccountRepository get _managerRepo => Get.find();
 
@@ -155,7 +155,7 @@ class ManagerPersonalInformationCubit
     String idXa = '',
   }) async {
     final EditPersonInformationRequest editPerson =
-        EditPersonInformationRequest(
+    EditPersonInformationRequest(
       id: id,
       maCanBo: maCanBo,
       hoTen: name,
@@ -164,7 +164,9 @@ class ManagerPersonalInformationCubit
       phoneNhaRieng: sdt,
       email: email,
       gioiTinh: gioitinh,
-      ngaySinh: DateTime.parse(ngaySinh).formatApiSS,
+      ngaySinh: DateTime
+          .parse(ngaySinh)
+          .formatApiSS,
       userName: '',
       userId: '',
       iDDonViHoatDong: '',
@@ -213,8 +215,7 @@ class ManagerPersonalInformationCubit
   }
 
   Future<void> getCurrentUnit(
-    ManagerPersonalInformationModel managerPersonalInformationModel,
-  ) async {
+      ManagerPersonalInformationModel managerPersonalInformationModel,) async {
     this.managerPersonalInformationModel = managerPersonalInformationModel;
     ngaySinh = managerPersonalInformationModel.ngaySinh ?? '';
     gioiTinh = managerPersonalInformationModel.gioiTinh ?? false;

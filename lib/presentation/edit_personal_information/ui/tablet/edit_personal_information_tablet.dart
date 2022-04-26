@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -125,11 +126,24 @@ class _EditPersonalInformationTabletScreen
                             ),
                             TextButton(
                               onPressed: () {
-                                cubit.getInfo(id: widget.id);
-                                cubit.huyenSubject.sink.add([]);
-                                cubit.xaSubject.sink.add([]);
-                                if (keyGroup.currentState!.validator()) {
-                                } else {}
+                                showDiaLog(
+                                  context,
+                                  funcBtnRight: () {
+                                    cubit.getInfo(id: widget.id);
+                                    cubit.huyenSubject.sink.add([]);
+                                    cubit.xaSubject.sink.add([]);
+                                    if (keyGroup.currentState!.validator()) {
+                                    } else {}
+                                  },
+                                  showTablet: true,
+                                  icon: SvgPicture.asset(
+                                    ImageAssets.icDeleteLichHop,
+                                  ),
+                                  title: S.current.xoa_cong_viec,
+                                  textContent: S.current.ban_chac_chan_muon_xoa,
+                                  btnLeftTxt: S.current.huy,
+                                  btnRightTxt: S.current.xoa,
+                                );
                               },
                               child: Text(
                                 S.current.reset,
@@ -156,7 +170,10 @@ class _EditPersonalInformationTabletScreen
                                       controller: nameController,
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return S.current.khong_duoc_de_trong;
+                                          return S.current.nhap_sai_dinh_dang;
+                                        } else if (value.length <= 5 ||
+                                            value.length >= 32) {
+                                          return S.current.nhap_sai_dinh_dang;
                                         }
                                         return null;
                                       },
@@ -166,18 +183,26 @@ class _EditPersonalInformationTabletScreen
                                     isObligatory: true,
                                     title: user.keys.elementAt(2),
                                     child: TextFieldValidator(
+                                      isEnabled: false,
                                       hintText: S.current.ma_can_bo,
                                       controller: maCanBoController,
                                       validator: (value) {
-                                        return value?.checkNull();
+                                        return value?.checkNulls();
                                       },
                                     ),
                                   ),
                                   InputInfoUserWidget(
                                     title: user.keys.elementAt(3),
                                     child: TextFieldValidator(
+                                      textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
                                       controller: thuTuController,
+                                      validator: (value) {
+                                        if ((value?.length ?? 0) > 2) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -204,6 +229,12 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
+                                      validator: (value) {
+                                        if ((value?.length ?? 0) > 255) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -253,7 +284,10 @@ class _EditPersonalInformationTabletScreen
                                       controller: sdtCoquanController,
                                       textInputType: TextInputType.number,
                                       validator: (value) {
-                                        return (value ?? '').checkSdt();
+                                        if ((value?.length ?? 0) > 255) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -264,7 +298,10 @@ class _EditPersonalInformationTabletScreen
                                       controller: sdtController,
                                       textInputType: TextInputType.number,
                                       validator: (value) {
-                                        return value!.checkSdt();
+                                        if ((value?.length ?? 0) > 255) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
                                       },
                                     ),
                                   ),

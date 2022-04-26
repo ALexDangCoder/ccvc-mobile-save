@@ -65,6 +65,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String? dateBieuQuyet;
   String getPhienHopId = '';
 
+  List<PermissionType> listButton = [];
+
   BehaviorSubject<List<StatusKetLuanHopModel>> dataTinhTrangKetLuanHop =
       BehaviorSubject.seeded([]);
   BehaviorSubject<ChonBienBanCuocHopModel> dataMauBienBan = BehaviorSubject();
@@ -881,4 +883,9 @@ extension NguoiTheoDoi on DetailMeetCalenderCubit {
         userId: id,),);
     result.when(success: (res) {}, error: (err) {});
   }
+}
+
+///permission
+extension PermissionLichHop on DetailMeetCalenderCubit {
+
 }

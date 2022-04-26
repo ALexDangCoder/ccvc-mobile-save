@@ -872,7 +872,14 @@
   "luong_xu_ly" : "Luồng xử lý",
   "chu_thich" : "Chú thích",
   "phoi_hop" : "Phối hợp",
-  "che_do_im_lang" : "Chế độ im lặng"
+  "che_do_im_lang" : "Chế độ im lặng",
+  "cu_can_bo" : "Cử cán bộ",
+  "tu_choi_tham_gia": "Từ chối tham gia",
+  "duyet_lich" : "Duyệt lịch",
+  "cu_can_bo_di_thay" : "Cử cán bộ đi thay",
+  "xac_nhan_tham_gia" : "Xác nhận tham gia",
+  "huy_xac_nhan" : "Huỷ xác nhận",
+  "xac_nhan_lai" : "Xác nhận lại"
 }
 
 

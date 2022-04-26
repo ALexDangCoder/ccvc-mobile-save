@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyVBDi/bloc/xem_luong_xu_ly_state.dart';
 import 'package:get/get.dart';
-
 import 'package:rxdart/rxdart.dart';
 
 class XemLuongXuLyVBDICubit extends BaseCubit<XemLuongXuLyState> {
@@ -16,6 +15,7 @@ class XemLuongXuLyVBDICubit extends BaseCubit<XemLuongXuLyState> {
   final BehaviorSubject<NodePhanXuLy<LuongXuLyVBDiModel>> _luongXuLy =
       BehaviorSubject();
   List<LuongXuLyVBDiModel> dataList = [];
+
   Stream<NodePhanXuLy<LuongXuLyVBDiModel>> get luongXuLy => _luongXuLy.stream;
 
   Future<void> getLuongXuLyVanBanDen(String id) async {
@@ -25,7 +25,6 @@ class XemLuongXuLyVBDICubit extends BaseCubit<XemLuongXuLyState> {
     result.when(
       success: (res) {
         dataList = res;
-        // log('>>>>>>>>><<<<<<<<${dataList}');
         final listParent = dataList.where((element) => element.idCha == null);
         if (listParent.isNotEmpty) {
           final parent = listParent.last;

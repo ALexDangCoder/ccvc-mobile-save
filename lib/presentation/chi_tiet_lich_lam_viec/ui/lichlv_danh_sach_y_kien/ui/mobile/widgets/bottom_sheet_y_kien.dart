@@ -77,6 +77,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<YKienBottomSheet> {
                           }).onError((error, stackTrace) {
                             MessageConfig.show(
                               title: S.current.cho_y_kien_that_bai,
+                              messState: MessState.error,
                             );
                           });
                           Navigator.pop(context, true);
@@ -106,6 +107,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<YKienBottomSheet> {
                     }).onError((error, stackTrace) {
                       MessageConfig.show(
                         title: S.current.cho_y_kien_that_bai,
+                        messState: MessState.error,
                       );
                     });
                     Navigator.pop(context, true);

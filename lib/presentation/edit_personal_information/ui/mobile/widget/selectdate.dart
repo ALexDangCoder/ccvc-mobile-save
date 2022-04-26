@@ -63,7 +63,7 @@ class _CustomDropDownState extends State<SelectDate> {
                     widget.onSelectDate(dateSelect);
                   },
                   textStyleDate: titleAppbar(),
-                  initialDateTime:widget.initDateTime?? DateTime.now(),
+                  initialDateTime: widget.initDateTime ?? DateTime.now(),
                 ),
               ),
               Container(

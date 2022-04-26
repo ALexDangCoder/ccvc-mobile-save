@@ -4,45 +4,61 @@ part 'kien_nghi_request.g.dart';
 
 @JsonSerializable()
 class BieuQuyetRequest {
-  @JsonKey(name: 'DanhSachThanhPhanThamGia')
-  List<DanhSachThanhPhanThamGia> danhSachThanhPhanThamGia;
-  List<DanhSachLuaChon> danhSachLuaChon;
+  @JsonKey(name: 'dateStart')
   String? dateStart;
-  String? lichHopId;
-  bool? loaiBieuQuyet;
-  String? noiDung;
-  bool? quyenBieuQuyet;
+  @JsonKey(name: 'thoiGianBatDau')
   String? thoiGianBatDau;
+  @JsonKey(name: 'thoiGianKetThuc')
   String? thoiGianKetThuc;
+  @JsonKey(name: 'loaiBieuQuyet')
+  bool? loaiBieuQuyet;
+  @JsonKey(name: 'danhSachLuaChon')
+  List<DanhSachLuaChon>? danhSachLuaChon;
+  @JsonKey(name: 'noiDung')
+  String? noiDung;
+  @JsonKey(name: 'lichHopId')
+  String? lichHopId;
+  @JsonKey(name: 'trangThai')
   int? trangThai;
+  @JsonKey(name: 'quyenBieuQuyet')
+  bool? quyenBieuQuyet;
+  @JsonKey(name: 'DanhSachThanhPhanThamGia')
+  List<DanhSachThanhPhanThamGia>? danhSachThanhPhanThamGia;
+
   BieuQuyetRequest({
-    required this.danhSachThanhPhanThamGia,
+    required this.dateStart,
+    required this.thoiGianBatDau,
+    required this.thoiGianKetThuc,
+    required this.loaiBieuQuyet,
     required this.danhSachLuaChon,
-    this.dateStart,
-    this.lichHopId,
-    this.loaiBieuQuyet,
-    this.noiDung,
-    this.quyenBieuQuyet,
-    this.thoiGianBatDau,
-    this.thoiGianKetThuc,
-    this.trangThai,
+    required this.noiDung,
+    required this.lichHopId,
+    required this.trangThai,
+    required this.quyenBieuQuyet,
+    required this.danhSachThanhPhanThamGia,
   });
+
   factory BieuQuyetRequest.fromJson(Map<String, dynamic> json) =>
       _$BieuQuyetRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$BieuQuyetRequestToJson(this);
 }
+
 @JsonSerializable()
 class DanhSachLuaChon {
+  @JsonKey(name: 'tenLuaChon')
   String? tenLuaChon;
+  @JsonKey(name: 'mauBieuQuyet')
   String? mauBieuQuyet;
 
-  DanhSachLuaChon({this.tenLuaChon, this.mauBieuQuyet});
+  DanhSachLuaChon({required this.tenLuaChon, required this.mauBieuQuyet});
+
   factory DanhSachLuaChon.fromJson(Map<String, dynamic> json) =>
       _$DanhSachLuaChonFromJson(json);
 
   Map<String, dynamic> toJson() => _$DanhSachLuaChonToJson(this);
 }
+
 @JsonSerializable()
 class DanhSachThanhPhanThamGia {
   @JsonKey(name: 'CanBoId')
@@ -51,7 +67,13 @@ class DanhSachThanhPhanThamGia {
   String? donViId;
   @JsonKey(name: 'IdPhienhopCanbo')
   String? idPhienhopCanbo;
-  DanhSachThanhPhanThamGia({this.canBoId, this.donViId, this.idPhienhopCanbo});
+
+  DanhSachThanhPhanThamGia({
+    required this.canBoId,
+    required this.donViId,
+    required this.idPhienhopCanbo,
+  });
+
   factory DanhSachThanhPhanThamGia.fromJson(Map<String, dynamic> json) =>
       _$DanhSachThanhPhanThamGiaFromJson(json);
 

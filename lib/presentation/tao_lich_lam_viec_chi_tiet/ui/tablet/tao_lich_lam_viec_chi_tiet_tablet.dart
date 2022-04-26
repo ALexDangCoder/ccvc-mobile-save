@@ -224,7 +224,7 @@ class _TaoLichLamViecChiTietTabletState
                                         stream: taoLichLamViecCubit.lichLapKhongLapLaiSubject.stream,
                                         builder: (context, snapshot) {
                                           final data = snapshot.data ?? false;
-                                          return data ?  ItemLapDenNgayWidget(taoLichLamViecCubit:taoLichLamViecCubit ,) : Container();
+                                          return data ?  ItemLapDenNgayWidget(taoLichLamViecCubit:taoLichLamViecCubit, isThem: true ,) : Container();
                                         }
                                     ),
                                     TextFormWidget(

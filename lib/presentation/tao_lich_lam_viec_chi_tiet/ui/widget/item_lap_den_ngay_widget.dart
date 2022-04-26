@@ -8,8 +8,15 @@ import 'package:flutter/material.dart';
 
 class ItemLapDenNgayWidget extends StatefulWidget {
   final TaoLichLamViecCubit taoLichLamViecCubit;
+  final bool isThem;
+  final DateTime? initDate;
 
-  const ItemLapDenNgayWidget({Key? key, required this.taoLichLamViecCubit}) : super(key: key);
+  const ItemLapDenNgayWidget(
+      {Key? key,
+      required this.taoLichLamViecCubit,
+      required this.isThem,
+      this.initDate})
+      : super(key: key);
 
   @override
   _ItemLapDenNgayWidgetState createState() => _ItemLapDenNgayWidgetState();
@@ -17,46 +24,113 @@ class ItemLapDenNgayWidget extends StatefulWidget {
 
 class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
   @override
+  void initState() {
+    super.initState();
+    widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+        widget.initDate ?? DateTime.now();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0,left: 30),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(S.current.lap_den_ngay,style: textNormal(titleColor,16.0),),
-              GestureDetector(
-                  onTap: () {
-                    CupertinoRoundedDatePickerWidget.show(
-                      context,
-                      minimumYear: 2022,
-                      maximumYear: 2060,
-                      initialDate: DateTime.now(),
-                      onTap: (dateTime) async {
-                        widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-                            dateTime;
-                        widget.taoLichLamViecCubit.changeDateTimeSubject
-                            .add(dateTime);
-                        Navigator.pop(context);
+    return widget.isThem
+        ? Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 30),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.current.lap_den_ngay,
+                      style: textNormal(titleColor, 16.0),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        CupertinoRoundedDatePickerWidget.show(
+                          context,
+                          minimumYear: 2022,
+                          maximumYear: 2060,
+                          initialDate: DateTime.now(),
+                          onTap: (dateTime) async {
+                            widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+                                dateTime;
+                            widget.taoLichLamViecCubit.changeDateTimeSubject
+                                .add(dateTime);
+                            Navigator.pop(context);
+                          },
+                        );
                       },
-                    );
-                  },
-                  child: StreamBuilder<DateTime>(
-                      stream: widget.taoLichLamViecCubit.changeDateTimeSubject.stream,
-                      builder: (context, snapshot) {
-                        return Text(widget.taoLichLamViecCubit.dateTimeLapDenNgay
-                            .toStringWithListFormat,style: textNormal(titleColor,16.0),);
-                      }
-                  )),
-            ],
-          ),
-          const Divider(
-            thickness: 1,
-            color: lineColor,
-          ),
-        ],
-      ),
-    );
+                      child: StreamBuilder<DateTime>(
+                        stream: widget
+                            .taoLichLamViecCubit.changeDateTimeSubject.stream,
+                        builder: (context, snapshot) {
+                          return Text(
+                            widget.taoLichLamViecCubit.dateTimeLapDenNgay
+                                .toStringWithListFormat,
+                            style: textNormal(titleColor, 16.0),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(
+                  thickness: 1,
+                  color: lineColor,
+                ),
+              ],
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 30),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.current.lap_den_ngay,
+                      style: textNormal(titleColor, 16.0),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        CupertinoRoundedDatePickerWidget.show(
+                          context,
+                          minimumYear: 2022,
+                          maximumYear: 2060,
+                          initialDate: widget.initDate,
+                          onTap: (dateTime) async {
+                            widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+                                dateTime;
+                            widget.taoLichLamViecCubit.changeDateTimeSubject
+                                .add(dateTime);
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                      child: StreamBuilder<DateTime>(
+                        stream: widget
+                            .taoLichLamViecCubit.changeDateTimeSubject.stream,
+                        builder: (context, snapshot) {
+                          return Text(
+                            widget.taoLichLamViecCubit.dateTimeLapDenNgay
+                                .toStringWithListFormat,
+                            style: textNormal(
+                              titleColor,
+                              16.0,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(
+                  thickness: 1,
+                  color: lineColor,
+                ),
+              ],
+            ),
+          );
   }
 }

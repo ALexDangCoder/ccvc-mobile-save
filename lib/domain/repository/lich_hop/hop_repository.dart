@@ -11,20 +11,25 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/add_file_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/them_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/home/calendar_metting_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/DanhSachNhiemVuLichHopModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.dart';
@@ -154,6 +159,7 @@ mixin HopRepository {
     String lichHopId,
     String canBoId,
     String donViId,
+    int vaiTroThamGia,
     String thoiGian_BatDau,
     String thoiGian_KetThuc,
     String noiDung,
@@ -180,7 +186,11 @@ mixin HopRepository {
     String lichHopId,
   );
 
-  Future<Result<List<PhatBieuModel>>> getDanhSachBieuQuyetLichHop(String id);
+  Future<Result<List<DanhSachBietQuyetModel>>> getDanhSachBieuQuyetLichHop(
+    String idLichHop,
+    String canBoId,
+    String idPhienHop,
+  );
 
   Future<Result<ChuongTrinhHopModel>> getDanhSachCanBoTPTG(String id);
 
@@ -243,7 +253,47 @@ mixin HopRepository {
     ThemNhiemVuRequest themNhiemVuRequest,
   );
 
+  Future<Result<ThemYKienModel>> suaChuongTrinhHop(
+    String id,
+    String lichHopId,
+    String tieuDe,
+    String thoiGianBatDau,
+    String thoiGianKetThuc,
+    String canBoId,
+    String donViId,
+    String noiDung,
+    String hoTen,
+    bool isMultipe,
+    List<File> file,
+  );
+
+  Future<Result<ThemYKienModel>> xoaChuongTrinhHop(
+    String id,
+  );
+
+  Future<Result<List<DanhSachNguoiThamGiaModel>>> getDanhSachNTGChuongTrinhHop(
+    String id,
+  );
+
   Future<Result<ResponseModel>> postPhanCongThuKy(
     PhanCongThuKyRequest phanCongThuKyRequest,
+  );
+
+  Future<Result<ResponseModel>> postTaoPhatBieu(
+    TaoBieuQuyetRequest taoBieuQuyetRequest,
+  );
+
+  Future<Result<ResponseModel>> postDuyetOrHuyDuyetPhatBieu(
+    List<String> ids,
+    String lichHopId,
+    int type,
+  );
+
+  Future<Result<ResponseModel>> postDiemDanh(
+    List<String> data,
+  );
+
+  Future<Result<ResponseModel>> postThuHoiHop(
+    List<ThuHoiHopRequest> thuHoiHopRequest,
   );
 }

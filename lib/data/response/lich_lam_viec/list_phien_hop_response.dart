@@ -26,9 +26,9 @@ class DataListPhienHopRespone {
   String? lichHopId;
   @JsonKey(name: 'tieuDe')
   String? tieuDe;
-  @JsonKey(name: 'thoiGianBatDau')
+  @JsonKey(name: 'thoiGian_BatDau')
   String? thoiGianBatDau;
-  @JsonKey(name: 'thoiGianKetThuc')
+  @JsonKey(name: 'thoiGian_KetThuc')
   String? thoiGianKetThuc;
   @JsonKey(name: 'canBoId')
   String? canBoId;

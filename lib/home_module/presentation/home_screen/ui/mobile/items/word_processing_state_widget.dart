@@ -85,6 +85,8 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                   },
                   title: S.current.time,
                   initValue: _xuLyCubit.selectKeyTime,
+                  startDate: _xuLyCubit.startDate,
+                  endDate: _xuLyCubit.endDate,
                 )
               ],
             );

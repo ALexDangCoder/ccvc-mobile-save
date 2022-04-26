@@ -1,6 +1,7 @@
-import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_phat_bieu_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cell_bieu_quyet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_bieu_quyet_widget.dart';
@@ -9,12 +10,12 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../chi_tiet_lich_hop_screen.dart';
-
 class BieuQuyetWidget extends StatefulWidget {
   final String id;
+  final DetailMeetCalenderCubit cubit;
 
-  const BieuQuyetWidget({Key? key, required this.id}) : super(key: key);
+  const BieuQuyetWidget({Key? key, required this.id, required this.cubit})
+      : super(key: key);
 
   @override
   _BieuQuyetWidgetState createState() => _BieuQuyetWidgetState();
@@ -22,8 +23,13 @@ class BieuQuyetWidget extends StatefulWidget {
 
 class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
   @override
+  void initState() {
+    // TODO: implement initState
+    widget.cubit.getDanhSachNTGChuongTrinhHop(id: widget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final cubit = DetailMeetCalendarInherited.of(context).cubit;
     return SelectOnlyWidget(
       title: S.current.bieu_quyet,
       child: Column(
@@ -40,13 +46,20 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                   title: S.current.tao_bieu_quyet,
                   child: TaoBieuQuyetWidget(
                     id: widget.id,
+                    cubit: widget.cubit,
                   ),
-                );
+                ).then((value) {
+                  if (value == true) {
+                    widget.cubit.initData(id: widget.id);
+                  } else if (value == null) {
+                    return;
+                  }
+                });
               },
             ),
           ),
-          StreamBuilder<List<PhatBieuModel>>(
-            stream: cubit.streamBieuQuyet,
+          StreamBuilder<List<DanhSachBietQuyetModel>>(
+            stream: widget.cubit.streamBieuQuyet,
             builder: (context, snapshot) {
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {
@@ -55,11 +68,8 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                   shrinkWrap: true,
                   itemCount: _list.length,
                   itemBuilder: (context, index) {
-                    return CellPhatBieu(
+                    return CellBieuQuyet(
                       infoModel: _list[index],
-                      cubit: cubit,
-                      index: index,
-                      isthePhatBieu: false,
                     );
                   },
                 );

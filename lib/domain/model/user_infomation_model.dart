@@ -30,6 +30,19 @@ class UserInformationModel {
     this.ngaySinh,
     this.soDienThoai,
   });
+  bool isSinhNhat(){
+    if(ngaySinh == null){
+      return false;
+    }else{
+      final DateTime dateNgaySinh = DateTime.parse(ngaySinh!);
+      final now = DateTime.now();
+      if(dateNgaySinh.day == now.day && dateNgaySinh.month == now.month) {
+        return true;
+      }
+
+    }
+    return false;
+  }
 }
 
 class DonViGoc {

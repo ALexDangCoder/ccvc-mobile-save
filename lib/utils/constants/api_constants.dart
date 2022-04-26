@@ -65,8 +65,6 @@ class ApiConstants {
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
   static const DANH_SACH_CAN_BO_LICH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
-  static const NGUOI_DANG_THEO_DOI =
-      '/vpdt/api/UserFollow/danh-sach-nguoi-theo-doi';
   static const DANH_SACH_PHIEN_HOP =
       '/vpdt/api/meetingsection/get-list-phien-hop';
   static const EVENT_CALENDAR_LICH_HOP =
@@ -82,7 +80,19 @@ class ApiConstants {
 
   static const THEM_PHIEN_NhIEM_VU = '/qlvb/api/qlnv/nhiem-vu/them-by-lich-hop';
 
+  static const EDIT_CHUONG_TRINH_HOP = '/vpdt/api/MeetingSection/edit';
+  static const XOA_CHUONG_TRINH_HOP = '/vpdt/api/MeetingSection/xoa-phien-hop';
+  static const GET_DANH_SACH_NTG_CHUONG_TRINH_HOP =
+      '/vpdt/api/MeetingSchedule/danh-sach-can-bo-bieu-quyet';
   static const PHAN_CONG_THU_KY = '/vpdt/api/MeetingSchedule/assign-secretary';
+
+  static const TAO_BIEU_QUYET = '/vpdt/api/MeetingSection/create-phat-bieu';
+
+  static const DUYET_PHAT_BIEU = '/vpdt/api/MeetingSection/duyet-phat-bieu';
+
+  static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
+
+  static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
   static const XOA_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
@@ -142,7 +152,7 @@ class ApiConstants {
   static const DANH_SACH_PHAT_BIEU_LICH_HOP =
       '/vpdt/api/MeetingSection/danh-sach-phat-bieu';
   static const DANH_SACH_BIEU_QUYET_LICH_HOP =
-      '/vpdt/api/MeetingSchedule/danh-sach-can-bo-bieu-quyet';
+      '/vpdt/api/BieuQuyet/get-thongtin-bieuquyet';
   static const DANH_SACH_LICH_HOP_TPTG =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
   static const ADD_FILE_TAI_LIEU_TAO_LICH_HOP =

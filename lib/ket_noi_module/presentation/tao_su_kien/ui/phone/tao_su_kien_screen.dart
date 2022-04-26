@@ -126,7 +126,8 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                           onEndDateTimeChanged: (DateTime value) {},
                           onStartDateTimeChanged: (DateTime value) {
                             widget.cubit.thoiGian = value.formatApiSS;
-                          }, isCheck: (bool value) {  },
+                          },
+                          isCheck: (bool value) {},
                         ),
                         spaceH5,
                         TextFieldStyle(
@@ -210,8 +211,8 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                               );
                             } else {
                               MessageConfig.show(
-                                title: S.current.tao_that_bai,
-                              );
+                                  title: S.current.tao_that_bai,
+                                  messState: MessState.error);
                             }
                           },
                         )
@@ -359,7 +360,8 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                                 onEndDateTimeChanged: (DateTime value) {},
                                 onStartDateTimeChanged: (DateTime value) {
                                   widget.cubit.thoiGian = value.formatApiSS;
-                                }, isCheck: (bool value) {  },
+                                },
+                                isCheck: (bool value) {},
                               ),
                               spaceH5,
                               TextFieldStyle(
@@ -399,6 +401,7 @@ class _TaoSuKienKetNoiState extends State<TaoSuKienKetNoi> {
                       } else {
                         MessageConfig.show(
                           title: S.current.tao_that_bai,
+                          messState: MessState.error,
                         );
                       }
                     },

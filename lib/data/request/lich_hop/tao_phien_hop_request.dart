@@ -6,6 +6,7 @@ part 'tao_phien_hop_request.g.dart';
 class TaoPhienHopRepuest {
   String? canBoId;
   String? donViId;
+  int? vaiTroThamGia;
   String? thoiGian_BatDau;
   String? thoiGian_KetThuc;
   String? noiDung;
@@ -16,18 +17,20 @@ class TaoPhienHopRepuest {
   String? gioBatDau;
   String? gioKetThuc;
 
-  TaoPhienHopRepuest(
-      {this.canBoId,
-      this.donViId,
-      this.thoiGian_BatDau,
-      this.thoiGian_KetThuc,
-      this.noiDung,
-      this.tieuDe,
-      this.hoTen,
-      this.IsMultipe = false,
-      this.file,
-      this.gioBatDau,
-      this.gioKetThuc,});
+  TaoPhienHopRepuest({
+    this.canBoId,
+    this.donViId,
+    this.vaiTroThamGia,
+    this.thoiGian_BatDau,
+    this.thoiGian_KetThuc,
+    this.noiDung,
+    this.tieuDe,
+    this.hoTen,
+    this.IsMultipe = false,
+    this.file,
+    this.gioBatDau,
+    this.gioKetThuc,
+  });
 
   factory TaoPhienHopRepuest.fromJson(Map<String, dynamic> json) =>
       _$TaoPhienHopRepuestFromJson(json);

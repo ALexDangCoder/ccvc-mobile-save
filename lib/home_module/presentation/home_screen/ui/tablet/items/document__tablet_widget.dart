@@ -81,6 +81,8 @@ class _DocumentWidgetState extends State<DocumentTabletWidget> {
                         endDate: endDate);
                   },
                   title: S.current.time,
+                    startDate: _vanBanCubit.startDate,
+                    endDate: _vanBanCubit.endDate
                 )
               ],
             );

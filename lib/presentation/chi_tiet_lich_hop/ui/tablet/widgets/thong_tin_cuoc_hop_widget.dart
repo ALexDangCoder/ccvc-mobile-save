@@ -14,7 +14,7 @@ class ThongTinCuocHopWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ChiTietLichHopModel>(
-      stream: cubit.chiTietLichLamViecStream,
+      stream: cubit.chiTietLichLamViecSubject,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Container();

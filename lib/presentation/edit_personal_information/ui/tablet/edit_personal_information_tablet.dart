@@ -544,6 +544,7 @@ class _EditPersonalInformationTabletScreen
                             } else {
                               MessageConfig.show(
                                 title: S.current.sua_that_bai,
+                                messState: MessState.error,
                               );
                             }
                           },

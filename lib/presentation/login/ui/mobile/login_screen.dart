@@ -218,7 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () async {
                               if (keyGroup.currentState!.validator()) {
                                 await loginCubit.loginAndSaveinfo(
-                                  context: context,
                                   passWord: textPasswordController.text,
                                   userName: textTaiKhoanController.text,
                                   appCode: APP_CODE,
@@ -235,45 +234,60 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 32,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      if(PrefsService.getLoginUserName()!='')
+                      Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              height: 48,
-                              width: 48,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                color: buttonColor.withOpacity(0.1),
-                              ),
-                              child: Center(
-                                child:
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    loginCubit.checkBiometrics();
+                                  });
+                                },
+                                child: Container(
+                                  height: 48,
+                                  width: 48,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    color: buttonColor.withOpacity(0.1),
+                                  ),
+                                  child: Center(
+                                    child:
                                     SvgPicture.asset(ImageAssets.icFingerprint),
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    loginCubit.checkBiometrics();
+                                  });
+                                },
+                                child: Container(
+                                  height: 48,
+                                  width: 48,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    color: buttonColor.withOpacity(0.1),
+                                  ),
+                                  child: Center(
+                                    child: SvgPicture.asset(ImageAssets.icFaceId),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
-                            width: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {});
-                            },
-                            child: Container(
-                              height: 48,
-                              width: 48,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.0),
-                                color: buttonColor.withOpacity(0.1),
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(ImageAssets.icFaceId),
-                              ),
-                            ),
+                            height: 16.0,
                           ),
                         ],
                       )
+                      else const SizedBox()
                     ],
                   ),
                 ),

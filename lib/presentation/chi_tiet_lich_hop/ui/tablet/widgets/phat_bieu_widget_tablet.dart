@@ -40,7 +40,10 @@ class _PhatBieuWidgetTabletState extends State<PhatBieuWidgetTablet> {
                 showDiaLogTablet(
                   context,
                   title: S.current.dang_ky_phat_bieu,
-                  child: const DangKyPhatBieuWidget(),
+                  child: DangKyPhatBieuWidget(
+                    cubit: widget.cubit,
+                    id: widget.id,
+                  ),
                   isBottomShow: false,
                   funcBtnOk: () {
                     Navigator.pop(context);

@@ -199,7 +199,7 @@ class _CustomSelectDateWidgetState extends State<CustomSelectDateWidget> {
           height: 8,
         ),
         CustomSelectDate(
-          value: value.toString(),
+          value: value,
           onSelectDate: onSelect,
           leadingIcon: SvgPicture.asset(
             ImageAssets.icCalendar,

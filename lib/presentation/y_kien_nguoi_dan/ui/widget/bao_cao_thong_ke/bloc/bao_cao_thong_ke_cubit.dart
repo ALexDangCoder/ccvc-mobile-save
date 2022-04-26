@@ -65,6 +65,23 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     S.current.dang_xu_ly,
     S.current.so_luong_y_kien,
   ];
+  final List<YKienNguoiDanDashBroadItem> listInitDataBaoCao=[
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_tong_so_yknd,
+      numberOfCalendars:0,
+      typeName: S.current.so_y_kien_tiep_nha,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_da_xu_ly_yknd,
+      numberOfCalendars: 0,
+      typeName: S.current.da_xu_ly,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_dang_xu_ly_yknd,
+      numberOfCalendars: 0,
+      typeName: S.current.dang_xu_ly,
+    ),
+  ];
 
   final List<String> imgBaoCaoYKND = [
     S.current.cho_tiep_nhan,

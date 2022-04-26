@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.da
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/bloc/chi_tiet_y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_row_data.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/widget/chi_tiet_header.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
 class TienTrinhXuLyScreen extends StatefulWidget {
@@ -23,11 +24,12 @@ class _TienTrinhXuLyScreenState extends State<TienTrinhXuLyScreen> {
       stream: widget.cubit.tienTrinhXuLyRowData,
       builder: (context, snapshot){
         final data= snapshot.data??[];
-        return ListView.builder(
+        if(data.isNotEmpty){
+          return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: data.length,
-             itemBuilder: (context, indexItem){
+            itemBuilder: (context, indexItem){
               return  Container(
                 padding: const EdgeInsets.only(left: 16, top: 16),
                 margin: const EdgeInsets.only(top: 16),
@@ -48,8 +50,15 @@ class _TienTrinhXuLyScreenState extends State<TienTrinhXuLyScreen> {
                   },
                 ),
               );
-             } ,
-        );
+            } ,
+          );
+        }
+        else{
+          return const Padding(
+            padding: EdgeInsets.only(top: 16.0),
+            child: NodataWidget(),
+          );
+        }
       },
 
     );

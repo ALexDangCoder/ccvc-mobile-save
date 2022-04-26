@@ -62,7 +62,15 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
   List<DataRowChiTietKienNghi> dataRowHeader = [];
   String yKienXuLy = '';
 
-  List<DataRowChiTietKienNghi> initDataHeadler = [];
+  final List<ListRowYKND>listInitDataHeader=[
+    ListRowYKND(title: S.current.tieu_de, content: []),
+    ListRowYKND(title: S.current.noi_dung, content: []),
+    ListRowYKND(title: S.current.nguon_pakn, content: []),
+    ListRowYKND(title: S.current.phan_loai_pakn, content: []),
+    ListRowYKND(title: S.current.ngay_phan_anh, content: []),
+    ListRowYKND(title: S.current.lien_quan_quy_dinh, content: []),
+    ListRowYKND(title: S.current.tai_lieu_dinh_kem_cong_dan, content: []),
+  ];
 
   List<DataRowChiTietKienNghi> getMapDataKetQuaXuLy(KetQuaXuLy ketQuaXuLy) {
     final List<DataRowChiTietKienNghi> listData = [];
@@ -302,12 +310,12 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
                 content: [element.noiDungXuLy],
               ),
             );
-            rowData.add(
-              ListRowYKND(
-                title: S.current.file_dinh_kem,
-                content: element.taiLieus.map((e) => e.ten).toList(),
-              ),
-            );
+            // rowData.add(
+            //   ListRowYKND(
+            //     title: S.current.file_dinh_kem,
+            //     content: element.taiLieus.map((e) => e.ten).toList(),
+            //   ),
+            // );
             listData.add(rowData);
             _tienTrinhXuLyRowData.sink.add(listData);
           }

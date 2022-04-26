@@ -233,13 +233,19 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   if (index ==
-                                      chuDeCubit.listChuDeLoadMore.length-1) {
-                                    return  Center(
-                                      child: CircularProgressIndicator(
-                                        color: AppTheme.getInstance()
-                                            .primaryColor(),
-                                      ),
-                                    );
+                                      chuDeCubit.listChuDeLoadMore.length - 1) {
+                                    if (chuDeCubit.listChuDeLoadMore.length +
+                                            1 ==
+                                        chuDeCubit.totalItem) {
+                                      return const SizedBox();
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppTheme.getInstance()
+                                              .primaryColor(),
+                                        ),
+                                      );
+                                    }
                                   }
                                   return Column(
                                     children: [

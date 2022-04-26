@@ -40,7 +40,7 @@ class TaiLieuDinhKemModel {
   String id;
   String ten;
   String duongDan;
-  int dungLuong;
+  String dungLuong;
   bool daKySo;
   bool daGanQR;
   String ngayTao;

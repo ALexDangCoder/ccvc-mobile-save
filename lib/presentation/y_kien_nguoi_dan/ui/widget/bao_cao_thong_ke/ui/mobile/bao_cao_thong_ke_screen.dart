@@ -191,11 +191,10 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? DashBroadItemYKNDModel();
                         return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            Expanded(
+                            SizedBox(
+                              width:102,
                               child: BoxStatusVanBan(
                                 value: data.trongHan ?? 0,
                                 onTap: () {},
@@ -206,7 +205,8 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                             const SizedBox(
                               width: 16,
                             ),
-                            Expanded(
+                            SizedBox(
+                              width:102,
                               child: BoxStatusVanBan(
                                 value: data.quaHan ?? 0,
                                 onTap: () {},
@@ -214,9 +214,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                                 statusName: S.current.den_han,
                               ),
                             ),
-                            const SizedBox(
-                              width: 50,
-                            ),
+
                           ],
                         );
                       },

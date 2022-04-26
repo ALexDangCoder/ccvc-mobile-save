@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,9 +10,7 @@ class KetQuaXuLyResponse {
   @JsonKey(name: 'PageData')
   List<KetQuaXuLyData> listKetQuaXuLy;
 
-  KetQuaXuLyResponse(
-    this.listKetQuaXuLy,
-  );
+  KetQuaXuLyResponse(this.listKetQuaXuLy,);
 
   factory KetQuaXuLyResponse.fromJson(Map<String, dynamic> json) =>
       _$KetQuaXuLyResponseFromJson(json);
@@ -51,50 +51,55 @@ class KetQuaXuLyData {
   @JsonKey(name: 'IsChuTri')
   bool? isChuTri;
   @JsonKey(name: 'DSFile')
-  List<FileDinhKemKQXL>? dSFile;
+  String? dSFile;
 
-  KetQuaXuLyData(
-    this.id,
-    this.depth,
-    this.location,
-    this.donViId,
-    this.canBoId,
-    this.soVanBanDi,
-    this.ngayKyVanBanDi,
-    this.coQuanBanHanh,
-    this.nguoiKyDuyet,
-    this.trichYeu,
-    this.tenDonVi,
-    this.tenCanBo,
-    this.taskContent,
-    this.trangThai,
-    this.isChuTri,
-    this.dSFile,
-  );
+  KetQuaXuLyData(this.id,
+      this.depth,
+      this.location,
+      this.donViId,
+      this.canBoId,
+      this.soVanBanDi,
+      this.ngayKyVanBanDi,
+      this.coQuanBanHanh,
+      this.nguoiKyDuyet,
+      this.trichYeu,
+      this.tenDonVi,
+      this.tenCanBo,
+      this.taskContent,
+      this.trangThai,
+      this.isChuTri,
+      this.dSFile,);
 
   factory KetQuaXuLyData.fromJson(Map<String, dynamic> json) =>
       _$KetQuaXuLyDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$KetQuaXuLyDataToJson(this);
 
-  KetQuaXuLyModel toDomain() => KetQuaXuLyModel(
-        iD: id ?? '',
-        depth: depth ?? 0,
-        location: location ?? '',
-        donViId: donViId ?? '',
-        canBoId: canBoId ?? '',
-        soVanBanDi: soVanBanDi ?? '',
-        ngayKyVanBanDi: ngayKyVanBanDi ?? '',
-        coQuanBanHanh: coQuanBanHanh ?? '',
-        nguoiKyDuyet: nguoiKyDuyet ?? '',
-        trichYeu: trichYeu ?? '',
-        tenDonVi: tenDonVi ?? '',
-        tenCanBo: tenCanBo ?? '',
-        dSFile: dSFile?.map((e) => e.toDomain()).toList() ?? [],
-        taskContent: taskContent ?? '',
-        trangThai: trangThai ?? 0,
-        isChuTri: isChuTri ?? false,
-      );
+  KetQuaXuLyModel toDomain() {
+    final data = json.decode(dSFile ?? '') as List<dynamic>;
+    final List<TaiLieuDinhKemModel> listFileDinhKem = [];
+    for (final element in data) {
+      listFileDinhKem.add(FileDinhKemKQXL.fromJson(element).toDomain());
+    }
+    return KetQuaXuLyModel(
+      iD: id ?? '',
+      depth: depth ?? 0,
+      location: location ?? '',
+      donViId: donViId ?? '',
+      canBoId: canBoId ?? '',
+      soVanBanDi: soVanBanDi ?? '',
+      ngayKyVanBanDi: ngayKyVanBanDi ?? '',
+      coQuanBanHanh: coQuanBanHanh ?? '',
+      nguoiKyDuyet: nguoiKyDuyet ?? '',
+      trichYeu: trichYeu ?? '',
+      tenDonVi: tenDonVi ?? '',
+      tenCanBo: tenCanBo ?? '',
+      dSFile: listFileDinhKem,
+      taskContent: taskContent ?? '',
+      trangThai: trangThai ?? 0,
+      isChuTri: isChuTri ?? false,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -106,7 +111,7 @@ class FileDinhKemKQXL {
   @JsonKey(name: 'DuongDan')
   String? duongDan;
   @JsonKey(name: 'DungLuong')
-  int? dungLuong;
+  String? dungLuong;
   @JsonKey(name: 'DaKySo')
   bool? daKySo;
   @JsonKey(name: 'DaGanQR')
@@ -120,29 +125,28 @@ class FileDinhKemKQXL {
   @JsonKey(name: 'LoaiFileDinhKem')
   int? loaiFileDinhKem;
 
-  FileDinhKemKQXL(
-    this.id,
-    this.ten,
-    this.duongDan,
-    this.dungLuong,
-    this.daKySo,
-    this.daGanQR,
-    this.ngayTao,
-    this.nguoiTaoId,
-    this.suDung,
-    this.loaiFileDinhKem,
-  );
+  FileDinhKemKQXL(this.id,
+      this.ten,
+      this.duongDan,
+      this.dungLuong,
+      this.daKySo,
+      this.daGanQR,
+      this.ngayTao,
+      this.nguoiTaoId,
+      this.suDung,
+      this.loaiFileDinhKem,);
 
   factory FileDinhKemKQXL.fromJson(Map<String, dynamic> json) =>
       _$FileDinhKemKQXLFromJson(json);
 
   Map<String, dynamic> toJson() => _$FileDinhKemKQXLToJson(this);
 
-  TaiLieuDinhKemModel toDomain() => TaiLieuDinhKemModel(
+  TaiLieuDinhKemModel toDomain() =>
+      TaiLieuDinhKemModel(
         id: id ?? '',
         ten: ten ?? '',
         duongDan: duongDan ?? '',
-        dungLuong: dungLuong ?? 0,
+        dungLuong: dungLuong ?? '',
         daKySo: daKySo ?? false,
         daGanQR: daGanQR ?? false,
         ngayTao: ngayTao ?? '',

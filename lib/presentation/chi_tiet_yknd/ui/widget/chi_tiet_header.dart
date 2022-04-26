@@ -20,6 +20,7 @@ class _ChiTietYKNDHeaderState extends State<ChiTietYKNDHeader> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<ListRowYKND>>(
       stream: widget.cubit.headerRowData,
+      initialData:widget.cubit.listInitDataHeader,
       builder: (context, snapshot) {
         final data= snapshot.data??[];
         return ListView.builder(

@@ -125,6 +125,10 @@ abstract class LichLamViecService {
   Future<TaoLichLamViecResponse> taoLichLamviec(
     @Body() FormData data,
   );
+  @PUT(ApiConstants.TAO_LICH_LAM_VIEC)
+  Future<TaoLichLamViecResponse> suaLichLamviec(
+      @Body() FormData data,
+      );
 
   @POST(ApiConstants.TAO_BAO_KET_QUA)
   Future<TaoBaoCaoKetQuaResponse> taoBaoCaoKetQua(

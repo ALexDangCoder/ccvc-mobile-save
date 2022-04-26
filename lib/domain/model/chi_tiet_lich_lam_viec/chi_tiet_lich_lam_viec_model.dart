@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:flutter/material.dart';
 
 class ListPerSon {
@@ -78,7 +79,7 @@ class ChiTietLichLamViecModel {
   CreateBy? createBy;
   UpdateBy? updateBy;
   CreateBy? canBoChuTri;
-  List<String>? scheduleCoperatives;
+  List<DonViModel>? scheduleCoperatives;
   List<Files>? files;
   ScheduleReminder? scheduleReminder;
   String? tinhId;
@@ -232,4 +233,34 @@ class Files {
     required this.entityId,
     required this.entityName,
   });
+}
+
+class ScheduleCoperatives {
+  String? id;
+  String? donViId;
+  String? tenDonVi;
+  String? canBoId;
+  String? hoTen;
+  String? userName;
+  String? userId;
+  String? scheduleId;
+  bool? isConfirm;
+  int? status;
+  String? confirmDate;
+  String? taskContent;
+  String? parentId;
+
+  ScheduleCoperatives({this.id,
+    this.donViId,
+    this.tenDonVi,
+    this.canBoId,
+    this.hoTen,
+    this.userName,
+    this.userId,
+    this.scheduleId,
+    this.isConfirm,
+    this.status,
+    this.confirmDate,
+    this.taskContent,
+    this.parentId,});
 }

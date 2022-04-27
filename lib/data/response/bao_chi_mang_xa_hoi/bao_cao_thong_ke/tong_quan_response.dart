@@ -11,7 +11,7 @@ class TongQuanDeResponse {
   int? tichCuc = 0;
   @JsonKey(name: 'TieuCuc')
   int? tieuCuc = 0;
-  @JsonKey(name: 'trungLap')
+  @JsonKey(name: 'TrungLap')
   int? trungLap = 0;
   @JsonKey(name: 'BaoChi')
   int? baoChi = 0;

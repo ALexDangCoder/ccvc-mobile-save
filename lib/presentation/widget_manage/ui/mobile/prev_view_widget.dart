@@ -49,10 +49,9 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
           child: Column(
             children: [
               Container(
-                height: 65,
-                color: Colors.transparent,
-                margin: const EdgeInsets.only(left: 16),
-                child: const MarqueeWidget(),
+                margin: const EdgeInsets.only(bottom: 20,top: 16),
+                color: homeColor,
+                height: 6,
               ),
               Container(
                 color: homeColor,

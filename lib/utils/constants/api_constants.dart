@@ -43,7 +43,8 @@ class ApiConstants {
   static const TINH_HINH_XU_LY_TRANG_CHU =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-trang-chu?';
   static const DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn?';
-
+  static const NGUOI_DANG_THEO_DOI =
+      '/vpdt/api/UserFollow/danh-sach-nguoi-theo-doi';
   static const TODO_LIST_CURRENT_USER = '/api/TodoList/get-current-user';
   static const TODO_LIST_UPDATE = '/api/TodoList/update';
   static const TODO_LIST_CREATE = '/api/TodoList/create';

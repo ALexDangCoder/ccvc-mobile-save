@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/manager_personal_information.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
+import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/widgets/header_menu_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
@@ -17,6 +18,7 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
 import 'icon.dart';
+import 'widgets/button_quan_ly_widget.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -72,11 +74,11 @@ class _MenuScreenState extends State<MenuScreen> {
                             ),
                           );
                         },
-                        child: HeaderMenuWidget(
+                        child: HeaderMenuMobileWidget(
                           menuCubit: menuCubit,
-                          urlBackGround: headerMenu(),
                         ),
                       ),
+                     const  ButtonQuanLyMobileWidget(),
                       StreamBuilder<List<MenuType>>(
                         stream: menuCubit.getMenu,
                         builder: (context, snapshot) {
@@ -102,10 +104,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           );
                         }
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16, bottom: 24),
-                        child: TextQuanLyWidget(),
-                      )
+                    const SizedBox(
+                      height: 24,
+                    )
                     ],
                   ),
                 ),

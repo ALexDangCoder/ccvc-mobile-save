@@ -62,6 +62,8 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
                     selectKey: value, startDate: startDate, endDate: endDate);
               },
               title: S.current.time,
+              startDate: _lamViecCubit.startDate,
+              endDate: _lamViecCubit.endDate
             )
           ],
           type: widget.homeItemType,

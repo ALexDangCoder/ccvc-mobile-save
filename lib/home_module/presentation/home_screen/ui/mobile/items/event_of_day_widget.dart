@@ -55,6 +55,8 @@ class _EventOfDayWidgetState extends State<EventOfDayWidget> {
                   },
                   initValue: _suKienTrongNgayCubit.selectKeyTime,
                   title: S.current.time,
+                    startDate: _suKienTrongNgayCubit.startDate,
+                    endDate: _suKienTrongNgayCubit.endDate
                 )
               ],
             );

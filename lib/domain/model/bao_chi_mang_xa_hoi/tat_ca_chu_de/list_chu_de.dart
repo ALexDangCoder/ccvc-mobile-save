@@ -24,5 +24,6 @@ class ChuDeModel {
 class ListChuDeModel{
   List<ChuDeModel>? getlistChuDe;
   int? totalPages;
-  ListChuDeModel({this.getlistChuDe,this.totalPages});
+  int? totalItems;
+  ListChuDeModel({this.getlistChuDe,this.totalPages, this.totalItems});
 }

@@ -882,5 +882,14 @@
   "thoi_gian_bq": "Thời gian biểu quyết",
   "danh_sach_lua_chon": "Danh sách lựa chọn",
   "che_do_im_lang": "Chế độ im lặng",
-  "nhap_sai_dinh_dang": "Nhập sai đinh dạng!"
+  "nhap_sai_dinh_dang": "Nhập sai đinh dạng!",
+  "cu_can_bo": "Cử cán bộ",
+  "tu_choi_tham_gia": "Từ chối tham gia",
+  "duyet_lich": "Duyệt lịch",
+  "cu_can_bo_di_thay": "Cử cán bộ đi thay",
+  "xac_nhan_tham_gia": "Xác nhận tham gia",
+  "huy_xac_nhan": "Huỷ xác nhận",
+  "xac_nhan_lai": "Xác nhận lại",
+  "ban_co_chac_muon": "Bạn có chắc muốn",
+  "khong_edit": "không?"
 }

@@ -13,6 +13,7 @@ enum WidgetType {
   listWork,
   eventOfDay,
   sinhNhat,
+  vanBanDonVi,
 }
 
 class WidgetModel {

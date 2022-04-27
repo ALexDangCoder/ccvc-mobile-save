@@ -94,6 +94,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
           stream: widgetManageCubit.stateStream,
           child: RefreshIndicator(
             onRefresh: () async {
+               await widgetManageCubit.onRefreshData();
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -110,9 +111,15 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                         color: backgroundWidget,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(
-                        S.current.keep_drop,
-                        style: const TextStyle(color: textTitle),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(ImageAssets.ic_hoiChamTron),
+                          const SizedBox(width: 14,),
+                          Text(
+                            S.current.keep_drop,
+                            style: const TextStyle(color: textTitle),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(

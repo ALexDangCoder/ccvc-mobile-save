@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/repository/quan_ly_widget/quan_li_widget_respository.dart';
+import 'package:ccvc_mobile/home_module/domain/repository/home_repository/home_repository.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage__state.dart';
@@ -179,5 +180,21 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     for (final element in listMap) {
       listResponse.add(json.encode(element));
     }
+  }
+
+  HomeRepository get homeRep => Get.find();
+ Future <void> onRefreshData() async{
+   final result = await homeRep.getDashBoardConfig();
+   result.when(
+     success: (res) {
+       final data =
+       res.where((element) => element.widgetType != null).toList();
+       listTitleWidgetUse = data.map((e) => e.name).toList();
+       _listWidgetUsing.sink.add(data);
+       _getListWidgetNotUse();
+     },
+     error: (err) {},
+   );
+
   }
 }

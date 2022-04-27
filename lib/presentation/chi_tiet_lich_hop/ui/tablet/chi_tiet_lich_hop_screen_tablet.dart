@@ -68,7 +68,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
             padding: const EdgeInsets.only(right: 16),
             child: MenuSelectWidget(
               listSelect: [
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icHuy,
                   text: S.current.huy_lich_hop,
                   onTap: () {
@@ -87,7 +87,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.ic_delete_do,
                   text: S.current.xoa_lich,
                   onTap: () {
@@ -106,7 +106,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icEditBlue,
                   text: S.current.sua_lich,
                   onTap: () {
@@ -118,7 +118,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icThuHoi,
                   text: S.current.thu_hoi,
                   onTap: () {
@@ -126,7 +126,10 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       context,
                       maxHeight: 280,
                       title: S.current.thu_hoi_lich,
-                      child: const ThuHoiLichWidget(),
+                      child: ThuHoiLichWidget(
+                        cubit: cubit,
+                        id: widget.id,
+                      ),
                       isBottomShow: false,
                       funcBtnOk: () {
                         Navigator.pop(context);
@@ -134,7 +137,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icPhanCongThuKy,
                   text: S.current.phan_cong_thu_ky,
                   onTap: () {
@@ -153,7 +156,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icTaoBocBang,
                   text: S.current.tao_boc_bang_cuoc_hop,
                   onTap: () {
@@ -186,35 +189,33 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                   child: DetailMeetCalendarInherited(
                     cubit: cubit,
                     child: ExpandGroup(
-                      child: Container(
-                        child: SingleChildScrollView(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: backgroundColorApp,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              border: Border.all(
-                                  color: borderColor.withOpacity(0.5)),
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 10,
-                                    color:
-                                        shadowContainerColor.withOpacity(0.05))
-                              ],
+                      child: SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: backgroundColorApp,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
                             ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ThongTinCuocHopWidget(
-                                    cubit: cubit,
-                                  ),
-                                )
-                              ],
-                            ),
+                            border: Border.all(
+                                color: borderColor.withOpacity(0.5)),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 10,
+                                  color:
+                                      shadowContainerColor.withOpacity(0.05))
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ThongTinCuocHopWidget(
+                                  cubit: cubit,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -304,7 +305,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       id: widget.id,
                       cubit: cubit,
                     ),
-                    MoiNguoiThamGiaWidgetTablet(
+                    ThanhPhanThamGiaWidgetTablet(
                       cubit: cubit,
                     ),
                     TaiLieuWidget(

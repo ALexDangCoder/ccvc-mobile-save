@@ -53,7 +53,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
           actions: [
             MenuSelectWidget(
               listSelect: [
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icHuy,
                   text: S.current.huy,
                   onTap: () {
@@ -71,7 +71,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icChartFocus,
                   text: S.current.bao_cao_ket_qua,
                   onTap: () {
@@ -82,7 +82,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icChoYKien,
                   text: S.current.cho_y_kien,
                   onTap: () {
@@ -101,7 +101,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     });
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icDelete,
                   text: S.current.xoa_lich,
                   onTap: () {
@@ -119,7 +119,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icEditBlue,
                   text: S.current.sua_lich,
                   onTap: () {

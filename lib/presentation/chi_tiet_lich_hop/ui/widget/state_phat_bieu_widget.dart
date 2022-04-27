@@ -1,6 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -69,94 +72,21 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          GestureDetector(
-            onTap: () {
-              expand = !expand;
-              _runExpandCheck();
+          StreamBuilder<ButtonStatePhatBieu>(
+            initialData: widget.cubit.buttonStatePhatBieu.first,
+            stream: widget.cubit.buttonStatePhatBieuSubject,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? ButtonStatePhatBieu();
+              return buttonPhone(
+                key: data.key ?? '',
+                value: data.value.toString(),
+                color: data.color ?? Colors.white,
+                ontap: () {
+                  expand = !expand;
+                  _runExpandCheck();
+                },
+              );
             },
-            child: (widget.cubit.typeStatus.value == DANHSACHPHATBIEU)
-                ? Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: const BorderRadius.all(Radius.circular(30)),
-                      border: Border.all(color: choXuLyColor),
-                    ),
-                    child: Text(
-                      '${S.current.danh_sach_phat_bieu} (${widget.cubit.dataSoLuongPhatBieu.danhSachPhatBieu})',
-                      style: textNormalCustom(
-                        color: choXuLyColor,
-                      ),
-                    ),
-                  )
-                : (widget.cubit.typeStatus.value == CHODUYET
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: backgroundColorApp,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          border: Border.all(color: itemWidgetNotUse),
-                        ),
-                        child: Text(
-                          '${S.current.cho_duyet} (${widget.cubit.dataSoLuongPhatBieu.choDuyet})',
-                          style: textNormalCustom(
-                            color: itemWidgetNotUse,
-                          ),
-                        ),
-                      )
-                    : (widget.cubit.typeStatus.value == DADUYET
-                        ? Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: backgroundColorApp,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(30)),
-                              border: Border.all(color: itemWidgetUsing),
-                            ),
-                            child: Text(
-                              '${S.current.da_duyet} (${widget.cubit.dataSoLuongPhatBieu.daDuyet})',
-                              style: textNormalCustom(
-                                color: itemWidgetUsing,
-                              ),
-                            ),
-                          )
-                        : (widget.cubit.typeStatus.value == HUYDUYET
-                            ? Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: backgroundColorApp,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(30)),
-                                  border: Border.all(color: statusCalenderRed),
-                                ),
-                                child: Text(
-                                  '${S.current.huy_duyet} (${widget.cubit.dataSoLuongPhatBieu.huyDuyet})',
-                                  style: textNormalCustom(
-                                    color: statusCalenderRed,
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: backgroundColorApp,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(30)),
-                                  border: Border.all(color: choXuLyColor),
-                                ),
-                                child: Text(
-                                  '${S.current.danh_sach_phat_bieu} (${widget.cubit.dataSoLuongPhatBieu.danhSachPhatBieu})',
-                                  style: textNormalCustom(
-                                    color: choXuLyColor,
-                                  ),
-                                ),
-                              )))),
           ),
           SizeTransition(
             axisAlignment: 1.0,
@@ -170,97 +100,31 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   border: Border.all(color: toDayColor),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        widget.cubit.getValueStatus(0);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: backgroundColorApp,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          border: Border.all(color: choXuLyColor),
-                        ),
-                        child: Text(
-                          '${S.current.danh_sach_phat_bieu} (${widget.cubit.dataSoLuongPhatBieu.danhSachPhatBieu})',
-                          style: textNormalCustom(
-                            color: choXuLyColor,
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: widget.cubit.buttonStatePhatBieu.length,
+                  itemBuilder: (context, index) {
+                    final data = widget.cubit.buttonStatePhatBieu;
+                    return buttonPhone(
+                      key: data[index].key ?? '',
+                      value: data[index].value.toString(),
+                      color: data[index].color ?? Colors.white,
+                      ontap: () {
+                        widget.cubit.getValueStatus(index);
+                        expand = !expand;
+                        _runExpandCheck();
+                        widget.cubit.buttonStatePhatBieuSubject.sink.add(
+                          ButtonStatePhatBieu(
+                            key: data[index].key ?? '',
+                            value: data[index].value ?? 0,
+                            color: data[index].color ?? Colors.white,
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    GestureDetector(
-                      onTap: () {
-                        widget.cubit.getValueStatus(1);
+                        );
+                        widget.cubit.selectPhatBieu.clear();
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: backgroundColorApp,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          border: Border.all(color: itemWidgetNotUse),
-                        ),
-                        child: Text(
-                          '${S.current.cho_duyet} (${widget.cubit.dataSoLuongPhatBieu.choDuyet})',
-                          style: textNormalCustom(
-                            color: itemWidgetNotUse,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    GestureDetector(
-                      onTap: () {
-                        widget.cubit.getValueStatus(2);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: backgroundColorApp,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          border: Border.all(color: itemWidgetUsing),
-                        ),
-                        child: Text(
-                          '${S.current.da_duyet} (${widget.cubit.dataSoLuongPhatBieu.daDuyet})',
-                          style: textNormalCustom(
-                            color: itemWidgetUsing,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    GestureDetector(
-                      onTap: () {
-                        widget.cubit.getValueStatus(3);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: backgroundColorApp,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30)),
-                          border: Border.all(color: statusCalenderRed),
-                        ),
-                        child: Text(
-                          '${S.current.huy_duyet} (${widget.cubit.dataSoLuongPhatBieu.huyDuyet})',
-                          style: textNormalCustom(
-                            color: statusCalenderRed,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),
@@ -269,4 +133,44 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
       ),
     );
   }
+}
+
+Widget buttonPhone({
+  required String key,
+  required String value,
+  required Color color,
+  required Function() ontap,
+  Color backgroup = backgroundColorApp,
+}) {
+  return GestureDetector(
+    onTap: ontap,
+    child: Row(
+      children: [
+        Container(
+          margin:
+              isMobile() ? const EdgeInsets.only(bottom: 16) : EdgeInsets.zero,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          decoration: BoxDecoration(
+            color: backgroup == color ? backgroup : backgroundColorApp,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(30),
+            ),
+            border: Border.all(
+              color: color,
+            ),
+          ),
+          child: Text(
+            '$key ($value)',
+            style: textNormalCustom(
+              color: color == backgroup ? backgroundColorApp : color,
+            ),
+          ),
+        ),
+        if (isMobile()) const Expanded(child: SizedBox()),
+      ],
+    ),
+  );
 }

@@ -109,15 +109,15 @@ abstract class HopServices {
     @Body() NguoiTheoDoiRequest nguoiTheoDoiRequest,
   );
 
-  @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)
-  Future<DanhSachCanBoHopResponse> getDanhSachChuTri(@Query('id') String id);
-
   @GET(ApiConstants.NGUOI_DANG_THEO_DOI)
   Future<NguoiDangTheoDoiResponse> getNguoiDangTheoDoi(
     @Query('type') String type,
     @Query('DateFrom') String DateFrom,
     @Query('DateTo') String DateTo,
   );
+
+  @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)
+  Future<DanhSachCanBoHopResponse> getDanhSachChuTri(@Query('id') String id);
 
   @POST(ApiConstants.ADD_FILE_TAI_LIEU_TAO_LICH_HOP)
   @MultiPart()
@@ -145,6 +145,7 @@ abstract class HopServices {
     @Query('lichHopId') String lichHopId,
     @Part(name: '[0].canBoId') String canBoId,
     @Part(name: '[0].donViId') String donViId,
+    @Part(name: '[0].vaiTroThamGia') int vaiTroThamGia,
     @Part(name: '[0].thoiGian_BatDau') String thoiGian_BatDau,
     @Part(name: '[0].thoiGian_KetThuc') String thoiGian_KetThuc,
     @Part(name: '[0].noiDung') String noiDung,

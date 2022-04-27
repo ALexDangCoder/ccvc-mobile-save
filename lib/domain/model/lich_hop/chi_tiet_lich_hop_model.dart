@@ -26,6 +26,7 @@ class ChiTietLichHopModel {
   String typeScheduleId;
   List<file>? fileData;
 
+  String canBoThamGiaStr;
   bool bit_HopTrucTuyen;
   bool bit_TrongDonVi;
   bool isAllDay;
@@ -46,6 +47,7 @@ class ChiTietLichHopModel {
     this.timeTo = '',
     this.tenLinhVuc = '',
     this.loaiHop = '',
+    this.canBoThamGiaStr = '',
     this.mucDoHop,
     this.chuTriModel = const ChuTriModel(),
     this.phongHopMode = const PhongHopMode(),
@@ -249,18 +251,25 @@ class ChiTietLichHopModel {
 }
 
 class ChuTriModel {
+  final String canBoId;
+  final String dauMoiLienHe;
+  final String donViId;
+  final String email;
   final String id;
   final String tenCoQuan;
   final String tenCanBo;
-  final String dauMoiLienHe;
   final String soDienThoai;
 
-  const ChuTriModel(
-      {this.id = '',
-      this.tenCoQuan = '',
-      this.tenCanBo = '',
-      this.dauMoiLienHe = '',
-      this.soDienThoai = ''});
+  const ChuTriModel({
+    this.id = '',
+    this.tenCoQuan = '',
+    this.tenCanBo = '',
+    this.dauMoiLienHe = '',
+    this.soDienThoai = '',
+    this.canBoId = '',
+    this.donViId = '',
+    this.email = '',
+  });
 
   String data() {
     return '$tenCanBo - $tenCoQuan';

@@ -69,6 +69,8 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
                 },
                 initValue: _danCubit.selectKeyTime,
                 title: S.current.time,
+                  startDate: _danCubit.startDate,
+                  endDate: _danCubit.endDate
               )
             ],
           );

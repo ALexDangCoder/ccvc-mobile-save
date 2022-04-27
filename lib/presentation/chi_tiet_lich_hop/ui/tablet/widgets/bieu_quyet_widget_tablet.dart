@@ -1,19 +1,20 @@
-import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/tao_bieu_quyet_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cell_bieu_quyet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'cell_phat_bieu_widget.dart';
-
 class BieuQuyetWidgetTablet extends StatefulWidget {
   final String id;
+  final DetailMeetCalenderCubit cubit;
 
-  const BieuQuyetWidgetTablet({Key? key, required this.id}) : super(key: key);
+  const BieuQuyetWidgetTablet({Key? key, required this.id, required this.cubit})
+      : super(key: key);
 
   @override
   _BieuQuyetWidgetTabletState createState() => _BieuQuyetWidgetTabletState();
@@ -21,8 +22,13 @@ class BieuQuyetWidgetTablet extends StatefulWidget {
 
 class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
   @override
+  void initState() {
+    super.initState();
+    widget.cubit.getDanhSachNTGChuongTrinhHop(id: widget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final DetailMeetCalenderCubit cubit = DetailMeetCalenderCubit();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(top: 60),
@@ -36,8 +42,9 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                 showDiaLogTablet(
                   context,
                   title: S.current.tao_bieu_quyet,
-                  child: TaoBieuQuyetWidget(
+                  child: TaoBieuQuyetTabletWidget(
                     id: widget.id,
+                    cubit: widget.cubit,
                   ),
                   isBottomShow: false,
                   funcBtnOk: () {
@@ -46,8 +53,8 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                 );
               },
             ),
-            StreamBuilder<List<PhatBieuModel>>(
-              stream: cubit.streamBieuQuyet,
+            StreamBuilder<List<DanhSachBietQuyetModel>>(
+              stream: widget.cubit.streamBieuQuyet,
               builder: (context, snapshot) {
                 final _list = snapshot.data ?? [];
                 if (_list.isNotEmpty) {
@@ -58,11 +65,8 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
-                          CellPhatBieu(
+                          CellBieuQuyet(
                             infoModel: _list[index],
-                            cubit: cubit,
-                            index: index,
-                            isthePhatBieu: false,
                           ),
                         ],
                       );

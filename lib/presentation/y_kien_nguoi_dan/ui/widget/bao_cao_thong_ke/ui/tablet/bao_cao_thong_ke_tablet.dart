@@ -42,11 +42,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
   void initState() {
     super.initState();
     thamGiaCubit.getTree();
-    baoCaoCubit
-        .callApi(DateTime
-        .now()
-        .toStringWithListFormat,DateTime.now()
-        .toStringWithListFormat,);
+    baoCaoCubit.callApi(
+      DateTime.now().toStringWithListFormat,
+      DateTime.now().toStringWithListFormat,
+    );
   }
 
   @override
@@ -74,10 +73,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       builder: (context, snapshot) {
                         return ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.8,
+                            maxHeight: MediaQuery.of(context).size.height * 0.8,
                           ),
                           child: SearchBaoCaoThongKeWidget(
                             cubit: thamGiaCubit,
@@ -87,9 +83,11 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                 value.map((e) => e.value).toList(),
                               );
                             },
-                            onSearch: (String startDate,
-                                String endDate,
-                                List<String> donViID,) {
+                            onSearch: (
+                              String startDate,
+                              String endDate,
+                              List<String> donViID,
+                            ) {
                               baoCaoCubit.callApi(
                                 startDate,
                                 endDate,
@@ -103,7 +101,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                     title: S.current.tim_kiem,
                   );
                 },
-                icon: SvgPicture.asset(ImageAssets.ic_search_calendar),
+                icon: SvgPicture.asset(ImageAssets.ic_kinh_to),
               ),
               GestureDetector(
                 onTap: () {
@@ -134,8 +132,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
           error: AppException('1', S.current.something_went_wrong),
           stream: baoCaoCubit.stateStream,
           child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -148,6 +146,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       ),
                       height: 88,
                       child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
+                        initialData: baoCaoCubit.listInitDataBaoCao,
                         stream: baoCaoCubit.listBaoCaoYKND,
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? [];
@@ -160,7 +159,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                 image: data[index].img ?? '',
                                 typeName: data[index].typeName ?? '',
                                 numberOfCalendars:
-                                data[index].numberOfCalendars ?? 0,
+                                    data[index].numberOfCalendars ?? 0,
                               );
                             },
                           );
@@ -200,7 +199,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                 builder: (context, snapshot) {
                                   final listDataChart = snapshot.data ?? [];
                                   return PieChart(
-                                    title: S.current.tinh_trang_thuc_hien_yknd,
+                                    title:
+                                        S.current.tinh_trang_thuc_hien_yknd,
                                     chartData: listDataChart,
                                     onTap: (int value) {},
                                   );
@@ -210,8 +210,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                               StreamBuilder<DashBroadItemYKNDModel>(
                                 stream: baoCaoCubit.listChartDashBoard,
                                 builder: (context, snapshot) {
-                                  final data =
-                                      snapshot.data ?? DashBroadItemYKNDModel();
+                                  final data = snapshot.data ??
+                                      DashBroadItemYKNDModel();
                                   return Row(
                                     children: [
                                       const SizedBox(
@@ -282,63 +282,66 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: cellColorborder),
-                          boxShadow: [
-                            BoxShadow(
-                              color: shadowContainerColor.withOpacity(0.05),
-                              offset: const Offset(0, 4),
-                              blurRadius: 10,
-                            ),
-                          ],
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            textviewTitle(S.current.so_luong_yknd),
-                            ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 24,
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: cellColorborder),
-                          boxShadow: [
-                            BoxShadow(
-                              color: shadowContainerColor.withOpacity(0.05),
-                              offset: const Offset(0, 4),
-                              blurRadius: 10,
-                            ),
-                          ],
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            textviewTitle(S.current.don_vi_xu_ly),
-                            ChartDonViXuLyWidget(
-                              cubit: baoCaoCubit,
-                            ),
-                          ],
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 450,
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: cellColorborder),
+                            boxShadow: [
+                              BoxShadow(
+                                color: shadowContainerColor.withOpacity(0.05),
+                                offset: const Offset(0, 4),
+                                blurRadius: 10,
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              textviewTitle(S.current.so_luong_yknd),
+                              ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        width: 24,
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(24),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: cellColorborder),
+                            boxShadow: [
+                              BoxShadow(
+                                color: shadowContainerColor.withOpacity(0.05),
+                                offset: const Offset(0, 4),
+                                blurRadius: 10,
+                              ),
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              textviewTitle(S.current.don_vi_xu_ly),
+                              ChartDonViXuLyWidget(
+                                cubit: baoCaoCubit,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

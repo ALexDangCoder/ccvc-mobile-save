@@ -19,10 +19,20 @@ class LichLapTuyChinh extends StatefulWidget {
 }
 
 class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
+  late List<DayOffWeek> listDayOffWeek;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    listDayOffWeek = [
+      DayOffWeek(index: 0, name: 'CN', isChoose: false),
+      DayOffWeek(index: 1, name: 'T2', isChoose: false),
+      DayOffWeek(index: 2, name: 'T3', isChoose: false),
+      DayOffWeek(index: 3, name: 'T4', isChoose: false),
+      DayOffWeek(index: 4, name: 'T5', isChoose: false),
+      DayOffWeek(index: 5, name: 'T6', isChoose: false),
+      DayOffWeek(index: 6, name: 'T7', isChoose: false),
+    ];
   }
 
   @override
@@ -32,7 +42,7 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: widget.taoLichLamViecCubit.listDayOffWeek
+          children: listDayOffWeek
               .map((e) => GestureDetector(
                     onTap: () {
                       e.isChoose = !(e.isChoose ?? false);
@@ -49,6 +59,72 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
                     },
                     child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
                   ))
+              .toList(),
+        ),
+      ),
+    );
+  }
+}
+class SuaLichLapTuyChinh extends StatefulWidget {
+  final TaoLichLamViecCubit taoLichLamViecCubit;
+  final List<int> initDataTuyChinh;
+
+   SuaLichLapTuyChinh({Key? key, required this.taoLichLamViecCubit,  required this.initDataTuyChinh})
+      : super(key: key);
+
+  @override
+  _SuaLichLapTuyChinhState createState() => _SuaLichLapTuyChinhState();
+}
+
+class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
+  late List<DayOffWeek> listDayOffWeek;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    listDayOffWeek = [
+      DayOffWeek(index: 0, name: 'CN', isChoose: false),
+      DayOffWeek(index: 1, name: 'T2', isChoose: false),
+      DayOffWeek(index: 2, name: 'T3', isChoose: false),
+      DayOffWeek(index: 3, name: 'T4', isChoose: false),
+      DayOffWeek(index: 4, name: 'T5', isChoose: false),
+      DayOffWeek(index: 5, name: 'T6', isChoose: false),
+      DayOffWeek(index: 6, name: 'T7', isChoose: false),
+    ];
+    for (final e in widget.initDataTuyChinh) {
+      for (final d in listDayOffWeek) {
+        if (e == d.index) {
+          d.isChoose = true;
+        }
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30.0,right: 14.0,top: 14.0),
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: listDayOffWeek
+              .map((e) => GestureDetector(
+            onTap: () {
+              e.isChoose = !(e.isChoose ?? false);
+              setState(() {});
+              final a = widget.taoLichLamViecCubit.lichLapItem
+                  .add(e.index ?? 0);
+              if (!a) {
+                widget.taoLichLamViecCubit.lichLapItem
+                    .remove(e.index ?? 0);
+              }
+              final b = widget.taoLichLamViecCubit.lichLapItem.toList();
+              b.sort();
+              widget.taoLichLamViecCubit.lichLapItem1 = b;
+            },
+            child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+          ))
               .toList(),
         ),
       ),

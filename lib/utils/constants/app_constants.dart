@@ -194,6 +194,14 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
+class StatusYKND {
+  static const String CHUA_THUC_HIEN_YKND = '1';
+  static const String DA_HOAN_THANH_YKND = '8';
+  static const String DANG_THUC_HIEN_YKND = '2,3,4,5,6,7,9,12,13,14,15,16,18,20,21,22';
+  static const String QUA_HAN_YKND = '3';
+  static const String DEN_HAN_YKND = '2';
+  static const String TRONG_HAN_YKND = '1';
+}
 class MenuItemConst{
   static const HOP = 'hop';
   static const QUAN_LY_NHIEM_VU = 'quanlynhiemvu';

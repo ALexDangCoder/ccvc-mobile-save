@@ -11,6 +11,8 @@ class ListChuDeResponse {
   List<ChuDeData>? listChuDe;
   @JsonKey(name: 'totalPages')
   int? totalPages;
+  @JsonKey(name: 'totalItems')
+  int? totalItems;
 
   ListChuDeResponse(this.listChuDe);
 
@@ -20,9 +22,10 @@ class ListChuDeResponse {
   Map<String, dynamic> toJson() => _$ListChuDeResponseToJson(this);
 
   ListChuDeModel toDomain() => ListChuDeModel(
-        getlistChuDe: listChuDe?.map((e) => e.toDomain()).toList() ?? [],
-        totalPages: totalPages,
-      );
+      getlistChuDe: listChuDe?.map((e) => e.toDomain()).toList() ?? [],
+      totalPages: totalPages,
+      totalItems: totalItems,
+  );
 }
 
 @JsonSerializable()
@@ -61,13 +64,13 @@ class ChuDeData {
   Map<String, dynamic> toJson() => _$ChuDeDataToJson(this);
 
   ChuDeModel toDomain() => ChuDeModel(
-        id: id??'',
-        title: title??'',
-        link: link??'',
-        avartar: avartar??'',
-        url: url??'',
-        addressId: addressId??'',
+        id: id ?? '',
+        title: title ?? '',
+        link: link ?? '',
+        avartar: avartar ?? '',
+        url: url ?? '',
+        addressId: addressId ?? '',
         publishedTime: publishedTime ?? '',
-        contents: contents??'',
+        contents: contents ?? '',
       );
 }

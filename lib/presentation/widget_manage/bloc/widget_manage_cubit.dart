@@ -159,7 +159,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void> updateListWidget(String request) async {
-    showLoading();
     final result = await _qlWidgetRepo.updateListWidget(request);
     result.when(
       success: (res) {
@@ -171,11 +170,12 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     );
   }
 
-  void setParaUpdateWidget(List<WidgetModel> listWidget) {
+  void setParaUpdateWidget() {
     final listMap = [];
-    for (final element in listWidget) {
+    for (final element in listUsing) {
       listMap.add(widgetModelToJson(element));
     }
+    listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));
     }

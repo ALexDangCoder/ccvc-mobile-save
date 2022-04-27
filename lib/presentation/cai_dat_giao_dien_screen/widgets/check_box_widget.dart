@@ -10,10 +10,10 @@ class CheckBoxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Transform.scale(
-      scale: 1.5,
+      scale: 1.1,
       child: Container(
-        width: 20,
-        height: 20,
+        width: 19,
+        height: 19,
         decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,

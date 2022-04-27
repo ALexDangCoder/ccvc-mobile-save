@@ -40,12 +40,32 @@ extension DateFormatString on DateTime {
     return DateFormat('yyyy/MM/dd HH:mm:ss').format(this);
   }
 
+  String get formatApiTaoBieuQuyet {
+    return DateFormat('yyyy-MM-ddTHH:mm').format(this);
+  }
+
+  String get formatApiSuaPhienHop {
+    return DateFormat('yyyy-MM-dd HH:mm').format(this);
+  }
+
+  String get formatApiListBieuQuyet {
+    return DateFormat('yyyy/MM/dd HH:mm').format(this);
+  }
+
+  String get formatApiListBieuQuyetMobile {
+    return DateFormat('dd/MM/yyyy HH:mm').format(this);
+  }
+
   String get formatApiSSAM {
     return DateFormat('yyyy/MM/dd ').format(this) + toStringWithAMPMJMS;
   }
 
   String get formatApiDetailSSAM {
     return DateFormat('HH:ss').format(this);
+  }
+
+  String get formatApiFixMeet {
+    return DateFormat('HH:mm').format(this);
   }
 
   String get formatApiHH {
@@ -56,12 +76,20 @@ extension DateFormatString on DateTime {
     return DateFormat('yyyy/MM/dd 00:00:00').format(this);
   }
 
+  String get formatApiFix {
+    return DateFormat('yyyy-MM-dd 00:00:00').format(this);
+  }
+
   String get formatApiEndDay {
     return DateFormat('yyyy/MM/dd 23:59:59').format(this);
   }
 
   String get formatApiDDMMYYYY {
     return DateFormat('dd-MM-yyyy').format(this);
+  }
+
+  String get formatApiPut {
+    return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
   }
 
   String get formatApiDDMMYYYYSlash {

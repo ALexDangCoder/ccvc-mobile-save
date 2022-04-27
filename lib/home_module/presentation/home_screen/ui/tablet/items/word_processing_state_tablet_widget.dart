@@ -77,6 +77,8 @@ class _WordProcessingStateWidgetState
                   },
                   title: S.current.time,
                   initValue: _xuLyCubit.selectKeyTime,
+                  startDate: _xuLyCubit.startDate,
+                  endDate: _xuLyCubit.endDate,
                 )
               ],
             );

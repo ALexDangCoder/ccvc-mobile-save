@@ -110,6 +110,8 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                       );
                     },
                     title: S.current.time,
+                    startDate: _xaHoiCubit.startDate,
+                    endDate: _xaHoiCubit.endDate,
                     initValue: _xaHoiCubit.selectKeyTime)
               ],
             );

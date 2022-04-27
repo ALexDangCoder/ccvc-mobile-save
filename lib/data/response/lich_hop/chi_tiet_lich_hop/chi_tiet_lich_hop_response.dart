@@ -60,6 +60,7 @@ class Data {
   PhongHop? phongHop;
   List<FileData>? fileData;
   String? dateRepeat;
+  String? canBoThamGiaStr;
 
   Data({
     this.nguoiTaoStr,
@@ -70,6 +71,7 @@ class Data {
     this.updatedAt,
     this.updatedBy,
     this.isTaoBocBang,
+    this.canBoThamGiaStr,
     this.id,
     this.title,
     this.bitHopTrucTuyen,
@@ -114,6 +116,7 @@ class Data {
     updatedBy = json['updatedBy'];
     isTaoBocBang = json['isTaoBocBang'];
     id = json['id'];
+    canBoThamGiaStr = json['canBoThamGiaStr'];
     title = json['title'];
     bitHopTrucTuyen = json['bit_HopTrucTuyen'];
     linkTrucTuyen = json['linkTrucTuyen'];
@@ -163,6 +166,7 @@ class Data {
         linhVuc: tenLinhVuc ?? '',
         noiDung: noiDung ?? '',
         title: title ?? '',
+        canBoThamGiaStr: canBoThamGiaStr ?? '',
         phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
         tenLinhVuc: tenLinhVuc ?? '',
         timeTo: timeTo ?? '',
@@ -224,6 +228,8 @@ class ChuTri {
         tenCoQuan: tenCoQuan ?? '',
         dauMoiLienHe: dauMoiLienHe ?? '',
         soDienThoai: soDienThoai ?? '',
+        canBoId: canBoId ?? '',
+        donViId: donViId ?? '',
       );
 }
 

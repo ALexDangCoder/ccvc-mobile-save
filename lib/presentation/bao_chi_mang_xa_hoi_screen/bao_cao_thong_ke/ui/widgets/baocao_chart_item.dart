@@ -3,7 +3,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
-import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/bao_cao_thong_ke/ui/widgets/buttom_sheet_choice%20_time.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/bao_cao_thong_ke/ui/widgets/buttom_sheet_choice_time.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                             context,
                             child: PopupChoiceTimeWidget(
                               initEndDate: endTime,
-                              initStartDate: startTime,
+                              initStartDate:startTime,
                               onChoiceTime: (startDate, endDate) {
                                 widget.onChoiceDate(startDate, endDate);
                                 setState(() {

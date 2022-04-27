@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/cai_dat_giao_dien_screen/widgets/title_
 import 'package:ccvc_mobile/utils/app_back_ground_extension.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class SelectMuaTabletWidget extends StatelessWidget {
@@ -29,7 +30,7 @@ class SelectMuaTabletWidget extends StatelessWidget {
           color: Colors.transparent,
           child: StaggeredGridView.countBuilder(
             crossAxisCount: 4,
-            crossAxisSpacing: 76,
+            crossAxisSpacing: 20.w,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: list.length,

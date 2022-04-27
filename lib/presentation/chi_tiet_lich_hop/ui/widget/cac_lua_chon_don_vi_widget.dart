@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CacLuaChonDonViWidget extends StatefulWidget {
+  final Function(List<String>) onchange;
   final DetailMeetCalenderCubit detailMeetCalenderCubit;
 
   const CacLuaChonDonViWidget({
     Key? key,
     required this.detailMeetCalenderCubit,
+    required this.onchange,
   }) : super(key: key);
 
   @override
@@ -35,10 +37,14 @@ class _CacLuaChonDonViWidgetState extends State<CacLuaChonDonViWidget> {
             if (value != '') {
               widget.detailMeetCalenderCubit.addValueToList(value);
               controller.text = '';
+              widget
+                  .onchange(widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet);
             }
           },
           onDelete: (value) {
             widget.detailMeetCalenderCubit.removeTag(value);
+            widget.onchange(widget.detailMeetCalenderCubit.cacLuaChonBieuQuyet);
+
             setState(() {});
           },
         );

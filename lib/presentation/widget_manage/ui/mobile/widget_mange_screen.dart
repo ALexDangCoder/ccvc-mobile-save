@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/prev_view_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/drag_item_list.dart';
@@ -93,7 +94,6 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
           stream: widgetManageCubit.stateStream,
           child: RefreshIndicator(
             onRefresh: () async {
-              await widgetManageCubit.resetListWidget();
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -214,7 +214,7 @@ class WidgetManageProvider extends InheritedWidget {
 
   static WidgetManageProvider of(BuildContext context) {
     final WidgetManageProvider? result =
-        context.dependOnInheritedWidgetOfExactType<WidgetManageProvider>();
+    context.dependOnInheritedWidgetOfExactType<WidgetManageProvider>();
     assert(result != null, 'No elenment');
     return result!;
   }

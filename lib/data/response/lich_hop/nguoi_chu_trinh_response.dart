@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_theo_doi.dart';
 
 class NguoiChuTriResponse {
   Data? data;

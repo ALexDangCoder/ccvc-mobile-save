@@ -27,7 +27,7 @@ class AvatarAndSignature extends StatelessWidget {
         pickAnhDaiDien(
           context,
           S.current.anh_dai_dien,
-          () async {
+              () async {
             await upLoadImg(context, 1);
           },
           cubit.managerPersonalInformationModel.anhDaiDienFilePath ?? '',
@@ -36,7 +36,7 @@ class AvatarAndSignature extends StatelessWidget {
         pickChuKy(
           context,
           S.current.anh_chu_ky,
-          () async {
+              () async {
             await upLoadChuKy(context, 2);
           },
           cubit.managerPersonalInformationModel.anhChuKyFilePath ?? '',
@@ -45,7 +45,7 @@ class AvatarAndSignature extends StatelessWidget {
         pickAnhKyNhay(
           context,
           S.current.anh_ky_nhay,
-          () async {
+              () async {
             await upLoadKyNhay(context, 3);
           },
           cubit.managerPersonalInformationModel.anhChuKyNhayFilePath ?? '',
@@ -56,24 +56,27 @@ class AvatarAndSignature extends StatelessWidget {
   }
 
   Future<void> upLoadImg(BuildContext context, int loai) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.isNotEmpty) {
-      cubit.avatarPathSubject.sink.add(_path);
-    } else {}
+    final _anh = await cubit.pickAvatar();
+    // if (_anh) {
+    //   cubit.avatarPathSubject.sink.add(_path);
+    // } else {}
+    cubit.avatarPathSubject.sink.add(_anh);
   }
 
   Future<void> upLoadChuKy(BuildContext context, int loai) async {
     final _path = await cubit.pickAvatar();
-    if (_path.isNotEmpty) {
-      cubit.chuKyPathSubject.sink.add(_path);
-    } else {}
+    // if (_path.isNotEmpty) {
+    //   cubit.chuKyPathSubject.sink.add(_path);
+    // } else {}
+    cubit.avatarPathSubject.sink.add(_path);
   }
 
   Future<void> upLoadKyNhay(BuildContext context, int loai) async {
     final _path = await cubit.pickAvatar();
-    if (_path.isNotEmpty) {
-      cubit.kyNhayPathSubject.sink.add(_path);
-    } else {}
+    // if (_path.isNotEmpty) {
+    //   cubit.kyNhayPathSubject.sink.add(_path);
+    // } else {}
+    cubit.avatarPathSubject.sink.add(_path);
   }
 
   Widget pickAnhDaiDien(BuildContext context, String text, Function() onTap,
@@ -96,41 +99,41 @@ class AvatarAndSignature extends StatelessWidget {
                 ),
               ],
             ),
-            child: StreamBuilder<String>(
+            child: StreamBuilder<ModelAnh>(
               stream: cubit.avatarPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? '';
-                if (_data.isEmpty) {
+                final _data = snapshot.data ?? ModelAnh();
+                if (_data == null) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
                         ? Padding(
-                            padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(ImageAssets.icImage),
-                          )
+                      padding: const EdgeInsets.all(34.0),
+                      child: SvgPicture.asset(ImageAssets.icImage),
+                    )
                         : CachedNetworkImage(
-                            imageUrl:
-                                'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2.0),
-                                  ),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: imageProvider,
-                                  ),
-                                ),
-                              );
-                            },
+                      imageUrl:
+                      'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
+                      imageBuilder: (context, imageProvider) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: imageProvider,
+                            ),
                           ),
+                        );
+                      },
+                    ),
                   );
                 } else {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data),
+                      File(_data.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );
@@ -174,41 +177,41 @@ class AvatarAndSignature extends StatelessWidget {
                 ),
               ],
             ),
-            child: StreamBuilder<String>(
+            child: StreamBuilder<ModelAnh>(
               stream: cubit.chuKyPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? '';
-                if (_data.isEmpty) {
+                final _data = snapshot.data ?? ModelAnh();
+                if (_data == null) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
                         ? Padding(
-                            padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(ImageAssets.icImage),
-                          )
+                      padding: const EdgeInsets.all(34.0),
+                      child: SvgPicture.asset(ImageAssets.icImage),
+                    )
                         : CachedNetworkImage(
-                            imageUrl:
-                                'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2.0),
-                                  ),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: imageProvider,
-                                  ),
-                                ),
-                              );
-                            },
+                      imageUrl:
+                      'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
+                      imageBuilder: (context, imageProvider) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: imageProvider,
+                            ),
                           ),
+                        );
+                      },
+                    ),
                   );
                 } else {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data),
+                      File(_data.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );
@@ -252,41 +255,41 @@ class AvatarAndSignature extends StatelessWidget {
                 ),
               ],
             ),
-            child: StreamBuilder<String>(
+            child: StreamBuilder<ModelAnh>(
               stream: cubit.kyNhayPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? '';
-                if (_data.isEmpty) {
+                final _data = snapshot.data ?? ModelAnh();
+                if (_data == null) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
                         ? Padding(
-                            padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(ImageAssets.icImage),
-                          )
+                      padding: const EdgeInsets.all(34.0),
+                      child: SvgPicture.asset(ImageAssets.icImage),
+                    )
                         : CachedNetworkImage(
-                            imageUrl:
-                                'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2.0),
-                                  ),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: imageProvider,
-                                  ),
-                                ),
-                              );
-                            },
+                      imageUrl:
+                      'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
+                      imageBuilder: (context, imageProvider) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(2.0),
+                            ),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: imageProvider,
+                            ),
                           ),
+                        );
+                      },
+                    ),
                   );
                 } else {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data),
+                      File(_data.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );

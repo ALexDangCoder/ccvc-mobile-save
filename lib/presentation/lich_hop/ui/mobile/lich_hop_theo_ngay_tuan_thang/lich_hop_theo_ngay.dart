@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
@@ -55,38 +56,50 @@ class _LichHopTheoNgayState extends State<LichHopTheoNgay> {
                     ) {
                       final Appointment appointment =
                           calendarAppointmentDetails.appointments.first;
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6.0),
-                          color: textColorMangXaHoi,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 4.0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  appointment.subject,
-                                  style: textNormalCustom(),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetailMeetCalenderScreen(
+                                id: appointment.id.toString(),
                               ),
-                              const SizedBox(height: 4.0),
-                              Flexible(
-                                child: Text(
-                                  '${appointment.startTime.toStringWithAMPM} - ${appointment.endTime.toStringWithAMPM}',
-                                  style: textNormalCustom(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w400,
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6.0),
+                            color: textColorMangXaHoi,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 4.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    appointment.subject,
+                                    style: textNormalCustom(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
                                 ),
-                              )
-                            ],
+                                const SizedBox(height: 4.0),
+                                Flexible(
+                                  child: Text(
+                                    '${appointment.startTime.toStringWithAMPM} - ${appointment.endTime.toStringWithAMPM}',
+                                    style: textNormalCustom(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );

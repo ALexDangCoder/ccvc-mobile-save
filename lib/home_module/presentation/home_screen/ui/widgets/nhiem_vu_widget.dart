@@ -61,7 +61,7 @@ class NhiemVuWidget extends StatelessWidget {
           Text(
             value,
             style: titleText(
-                color: type == TongHopNhiemVuType.dangThucHienQuaHan
+                color: type == TongHopNhiemVuType.chuaThucHien
                     ? statusCalenderRed
                     : numberOfCalenders,
                 fontSize: 22),

@@ -157,6 +157,10 @@ class NhiemVuStatus {
   static const HOAN_THANH_QUA_HAN = 'HOAN_THANH_QUA_HAN';
   static const DANG_THUC_HIEN_TRONG_HAN = 'DANG_THUC_HIEN_TRONG_HAN';
   static const DANG_THUC_HIEN_QUA_HAN = 'DANG_THUC_HIEN_QUA_HAN';
+  static const CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+  static const CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
+  static const DANG_THUC_HIEN = 'DANG_THUC_HIEN';
+
 }
 
 class DateFormatApp {

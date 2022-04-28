@@ -16,13 +16,13 @@ class HeaderTabletWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 192,
+      height: 150,
       width: double.infinity,
       color: Colors.transparent,
       child: Stack(
         children: [
           Transform.translate(
-            offset: const Offset(0, -105),
+            offset: const Offset(0, -63),
             child: Container(
               decoration:  BoxDecoration(
                 image: DecorationImage(
@@ -76,13 +76,15 @@ class HeaderTabletWidget extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     if (data.dateMore.isNotEmpty)
-                                      FittedBox(
-                                        child: Text(
-                                          data.dateMore,
-                                          style: textNormalCustom(
-                                            color: textTitle,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
+                                      Expanded(
+                                        child: FittedBox(
+                                          child: Text(
+                                            data.dateMore,
+                                            style: textNormalCustom(
+                                              color: textTitle,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ),
                                       )
@@ -139,16 +141,6 @@ class HeaderTabletWidget extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            bottom: 5,
-            left: 30,
-            right: 0,
-            child: Container(
-              width: double.infinity,
-              color: Colors.transparent,
-              child: const MarqueeWidget(),
-            ),
-          )
         ],
       ),
     );

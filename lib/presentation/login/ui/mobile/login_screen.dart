@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -10,7 +9,6 @@ import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/login_provider.dart';
 import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/send_mail_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -38,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     loginCubit.closeDialog();
+    loginCubit.toast.init(context);
   }
 
   @override
@@ -140,9 +139,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {});
                           return loginCubit.isHideClearData = true;
                         },
-                        validator: (value) {
-                          return (value ?? '').checkNull();
-                        },
                       ),
                       const SizedBox(
                         height: 16,
@@ -186,9 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {});
                           return loginCubit.isHideEye1 = true;
                         },
-                        validator: (value) {
-                          return (value ?? '').checkNull();
-                        },
                       ),
                       const SizedBox(
                         height: 16,
@@ -216,17 +209,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             title: S.current.login,
                             isColorBlue: true,
                             onPressed: () async {
-                              if (keyGroup.currentState!.validator()) {
-                                await loginCubit.loginAndSaveinfo(
-                                  passWord: textPasswordController.text,
-                                  userName: textTaiKhoanController.text,
-                                  appCode: APP_CODE,
-                                );
-                              } else {}
-
-                              if (loginCubit.passIsError == true) {
-                                _showToast(context);
-                              }
+                              final String username = textTaiKhoanController.text;
+                              final String pass = textPasswordController.text;
+                              await loginCubit.validateLogin(username, pass);
                             },
                           );
                         },
@@ -234,60 +219,62 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 32,
                       ),
-                      if(PrefsService.getLoginUserName()!='')
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    loginCubit.checkBiometrics();
-                                  });
-                                },
-                                child: Container(
-                                  height: 48,
-                                  width: 48,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: buttonColor.withOpacity(0.1),
-                                  ),
-                                  child: Center(
-                                    child:
-                                    SvgPicture.asset(ImageAssets.icFingerprint),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    loginCubit.checkBiometrics();
-                                  });
-                                },
-                                child: Container(
-                                  height: 48,
-                                  width: 48,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: buttonColor.withOpacity(0.1),
-                                  ),
-                                  child: Center(
-                                    child: SvgPicture.asset(ImageAssets.icFaceId),
+                      if (PrefsService.getLoginUserName() != '')
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      loginCubit.checkBiometrics();
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 48,
+                                    width: 48,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: buttonColor.withOpacity(0.1),
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          ImageAssets.icFingerprint),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                        ],
-                      )
-                      else const SizedBox()
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      loginCubit.checkBiometrics();
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 48,
+                                    width: 48,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: buttonColor.withOpacity(0.1),
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          ImageAssets.icFaceId),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16.0,
+                            ),
+                          ],
+                        )
+                      else
+                        const SizedBox()
                     ],
                   ),
                 ),
@@ -295,15 +282,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(S.current.dang_nhap_that_bai),
       ),
     );
   }

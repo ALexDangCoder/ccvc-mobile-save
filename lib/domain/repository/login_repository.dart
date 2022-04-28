@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/domain/model/home/pham_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 
 mixin AccountRepository {
-  Future<Result<DataUser>> login(
+  Future<Result<DataLogin>> login(
     String userName,
     String passWord,
     String appCode,

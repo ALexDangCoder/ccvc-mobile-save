@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 
 import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/widget_mange_screen.dart';
@@ -37,9 +38,9 @@ class ButtonQuanLyMobileWidget extends StatelessWidget {
         child: Container(
             height: 32,
             width: 144,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(4.5)),
-              color: buttonColor,
+            decoration:  BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(4.5)),
+              color: AppTheme.getInstance().colorField(),
             ),
             child: Stack(
               children: [

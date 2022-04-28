@@ -3,6 +3,18 @@ import 'package:hive/hive.dart';
 
 part 'data_user.g.dart';
 
+class DataLogin {
+  DataUser? dataUser;
+  bool? succeeded;
+  int? statusCode;
+
+  DataLogin({
+   required this.dataUser,
+    required  this.succeeded,
+    required  this.statusCode,
+  });
+}
+
 @HiveType(typeId: 0)
 class DataUser {
   @HiveField(0)

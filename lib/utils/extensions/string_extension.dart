@@ -99,6 +99,26 @@ extension CheckValidate on String {
       return S.current.dinh_dang_email;
     }
   }
+  bool? checkEmailBoolean() {
+    final isCheck = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
+        .hasMatch(this);
+    if (isCheck) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  String? checkPassWordChangePass(String title) {
+    final isCheck = RegExp(
+        r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+        .hasMatch(this);
+    if (isCheck) {
+      return null;
+    } else {
+      return S.current.sai_dinh_dang_truong+title;
+    }
+  }
 
   String? checkEmailBoolean() {
     final isCheck = RegExp(

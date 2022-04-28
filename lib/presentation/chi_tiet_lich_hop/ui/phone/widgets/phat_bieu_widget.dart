@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_phat_bieu_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/phat_bieu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/dang_ky_phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
@@ -43,82 +46,35 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
               padding: const EdgeInsets.only(top: 50),
               child: Column(
                 children: [
-                  SizedBox(
-                    child: StreamBuilder<int>(
-                      stream: widget.cubit.typeStatus,
-                      builder: (context, snapshot) {
-                        if (widget.cubit.typeStatus.value == CHODUYET) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 150),
-                            child: DoubleButtonBottom(
-                              title1: S.current.huy_duyet,
-                              title2: S.current.duyet,
-                              onPressed1: () {
-                                Navigator.pop(context);
-                              },
-                              onPressed2: () {},
-                            ),
-                          );
-                        } else if (widget.cubit.typeStatus.value == DADUYET) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 250),
-                            child: ButtonCustomBottom(
-                              title: S.current.huy_duyet,
-                              onPressed: () {
-                                widget.cubit.getDanhSachPhatBieuLichHop(
-                                  DADUYET,
-                                  widget.id,
-                                );
-                                setState(() {});
-                              },
-                              isColorBlue: false,
-                            ),
-                          );
-                        } else if (widget.cubit.typeStatus.value == HUYDUYET) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 250),
-                            child: ButtonCustomBottom(
-                              title: S.current.duyet,
-                              onPressed: () {},
-                              isColorBlue: true,
-                            ),
-                          );
-                        } else {
-                          return IconWithTiltleWidget(
-                            icon: ImageAssets.icMic,
-                            title: S.current.dang_ky_phat_bieu,
-                            onPress: () {
-                              showBottomSheetCustom(
-                                context,
-                                title: S.current.dang_ky_phat_bieu,
-                                child: DangKyPhatBieuWidget(
-                                  cubit: widget.cubit,
-                                  id: widget.id,
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      },
-                    ),
+                  buttonPhatBieu(
+                    id: widget.id,
+                    cubit: widget.cubit,
                   ),
                   StreamBuilder<List<PhatBieuModel>>(
-                    initialData: widget.cubit.listPhatBieu,
                     stream: widget.cubit.streamPhatBieu,
                     builder: (context, snapshot) {
-                      final _list = snapshot.data ?? [];
-                      if (_list.isNotEmpty) {
+                      final list = snapshot.data ?? [];
+                      if (list.isNotEmpty) {
                         return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: _list.length,
+                          itemCount: list.length,
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
                                 CellPhatBieu(
-                                  infoModel: _list[index],
+                                  infoModel: list[index],
                                   cubit: widget.cubit,
                                   index: index,
+                                  onChangeCheckBox: (vl) {
+                                    if (vl != true) {
+                                      widget.cubit.selectPhatBieu
+                                          .add(list[index].id ?? '');
+                                    } else {
+                                      widget.cubit.selectPhatBieu
+                                          .remove(list[index].id);
+                                    }
+                                  },
                                 ),
                               ],
                             );

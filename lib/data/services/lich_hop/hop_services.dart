@@ -117,7 +117,15 @@ abstract class HopServices {
   );
 
   @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)
-  Future<DanhSachCanBoHopResponse> getDanhSachChuTri(@Query('id') String id);
+  Future<DanhSachCanBoHopResponse> getDanhSachChuTri(
+    @Query('id') String id,
+  );
+
+  @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)
+  Future<DanhSachCanBoHopResponse> getDanhSachThuHoi(
+    @Query('id') String id,
+    @Query('except') bool except,
+  );
 
   @POST(ApiConstants.ADD_FILE_TAI_LIEU_TAO_LICH_HOP)
   @MultiPart()
@@ -186,7 +194,8 @@ abstract class HopServices {
   );
 
   @GET(ApiConstants.SO_LUONG_PHAT_BIEU)
-  Future<SoLuongPhatBieuResponse> getSoLuongPhatBieu(@Query('Id') String id);
+  Future<SoLuongPhatBieuResponse> getSoLuongPhatBieu(
+      @Query('LichHopId') String id);
 
   @GET(ApiConstants.TONG_PHIEN_HOP)
   Future<TongPhienHopResponse> getTongPhienHop(@Query('LichHopId') String id);
@@ -372,6 +381,12 @@ abstract class HopServices {
 
   @POST(ApiConstants.THU_HOI_HOP)
   Future<PhanCongThuKyResponse> postThuHoiHop(
+    @Query('isMulti') bool isMulti,
     @Body() List<ThuHoiHopRequest> thuHoiHopRequest,
+  );
+
+  @POST(ApiConstants.HUY_DIEM_DANH)
+  Future<PhanCongThuKyResponse> postHuyDiemDanh(
+    @Body() String data,
   );
 }

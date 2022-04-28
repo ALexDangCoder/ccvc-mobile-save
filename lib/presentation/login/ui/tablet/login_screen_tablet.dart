@@ -38,6 +38,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
   void initState() {
     super.initState();
     loginCubit.closeDialog();
+    loginCubit.toast.init(context);
   }
 
   @override
@@ -152,9 +153,6 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 setState(() {});
                                 return loginCubit.isHideClearData = true;
                               },
-                              validator: (value) {
-                                return (value ?? '').checkNull();
-                              },
                             ),
                             const SizedBox(
                               height: 24,
@@ -202,9 +200,6 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 setState(() {});
                                 return loginCubit.isHideEye1 = true;
                               },
-                              validator: (value) {
-                                return (value ?? '').checkNull();
-                              },
                             ),
                             const SizedBox(
                               height: 24,
@@ -230,16 +225,9 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               title: S.current.login,
                               isColorBlue: true,
                               onPressed: () async {
-                                if (keyGroup.currentState!.validator()) {
-                                  await loginCubit.loginAndSaveinfo(
-                                    passWord: textPasswordController.text,
-                                    userName: textTaiKhoanController.text,
-                                    appCode: APP_CODE,
-                                  );
-                                } else {}
-                                if (loginCubit.passIsError == true) {
-                                  _showToast(context);
-                                }
+                                final String username = textTaiKhoanController.text;
+                                final String pass = textPasswordController.text;
+                                await loginCubit.validateLogin(username, pass);
                               },
                             ),
                             const SizedBox(
@@ -315,15 +303,6 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(S.current.dang_nhap_that_bai),
       ),
     );
   }

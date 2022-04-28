@@ -226,7 +226,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                 children: [
                   MenuSelectWidget(
                     listSelect: [
-                      QData(
+                      CellPopPupMenu(
                         urlImage: ImageAssets.icPlus2,
                         text: S.current.tao_moi_nhiem_vu,
                         onTap: () {
@@ -239,7 +239,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           );
                         },
                       ),
-                      QData(
+                      CellPopPupMenu(
                         urlImage: ImageAssets.icDocument2,
                         text: S.current.ket_luan_cuoc_hop,
                         onTap: () {
@@ -253,7 +253,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           );
                         },
                       ),
-                      QData(
+                      CellPopPupMenu(
                         urlImage: ImageAssets.icMessage,
                         text: S.current.gui_mail_ket_luan,
                         onTap: () {
@@ -271,7 +271,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           );
                         },
                       ),
-                      QData(
+                      CellPopPupMenu(
                         urlImage: ImageAssets.Group2,
                         text:
                             '${S.current.thu_hoi} (Không có thu hồi trên web)',
@@ -290,7 +290,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                           );
                         },
                       ),
-                      QData(
+                      CellPopPupMenu(
                         urlImage: ImageAssets.icDeleteRed,
                         text: S.current.xoa,
                         onTap: () {

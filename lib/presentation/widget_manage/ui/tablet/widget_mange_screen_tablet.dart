@@ -193,7 +193,6 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                   ),
                 ),
                 const SizedBox(height: 28,),
-
               ],
             ),
           ),

@@ -196,7 +196,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     }
   }
 
-  HomeRepository get homeRep => Get.find();
  Future <void> onRefreshData() async{
    final result = await homeRep.getDashBoardConfig();
    result.when(

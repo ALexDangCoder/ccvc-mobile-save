@@ -84,7 +84,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               stream: widget.cubit.chiTietLichLamViecSubject,
               builder: (context, snapshot) {
                 final data =
-                    snapshot.data!.fileData!.map((e) => e.name).toList();
+                    snapshot.data?.fileData!.map((e) => e.name).toList() ?? [];
                 return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

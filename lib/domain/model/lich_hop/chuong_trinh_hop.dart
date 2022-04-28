@@ -34,6 +34,7 @@ class CanBoModel {
   bool? isThuKy;
   bool? isThamGiaBocBang;
   String? createAt;
+  bool isDiemDanhInView;
 
   CanBoModel({
     this.tenChucVu,
@@ -57,6 +58,7 @@ class CanBoModel {
     required this.isThuKy,
     required this.isThamGiaBocBang,
     required this.createAt,
+    this.isDiemDanhInView = false,
   });
 
   String trangThaiTPTG() {
@@ -94,6 +96,18 @@ class CanBoModel {
       return S.current.chua_diem_danh;
     } else {
       return '';
+    }
+  }
+
+  bool showCheckBox() {
+    if (isVangMat == true) {
+      return false;
+    } else if (isVangMat == false && diemDanh == true) {
+      return false;
+    } else if (isVangMat == false && diemDanh == false) {
+      return true;
+    } else {
+      return false;
     }
   }
 

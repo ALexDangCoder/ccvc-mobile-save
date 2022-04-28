@@ -68,8 +68,8 @@ class WidgetData {
   int? x;
   @JsonKey(name: 'y')
   int? y;
-  // @JsonKey(name: 'i')
-  // String? i;
+  @JsonKey(name: 'i')
+  int? i;
   @JsonKey(name: 'enable')
   bool? enable;
   @JsonKey(name: 'moved')
@@ -116,7 +116,7 @@ class WidgetData {
     isShowing: isShowing ?? false,
     x: x ?? 0,
     y: y ?? 0,
-    // i: i ?? '',
+    i: i ?? 0,
     enable: enable ?? false,
     moved: moved ?? false,
     w: w ?? 0,

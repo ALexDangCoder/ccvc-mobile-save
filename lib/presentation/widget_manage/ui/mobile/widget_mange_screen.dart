@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/prev_view_widget.dart';
@@ -113,7 +114,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                       ),
                       child: Row(
                         children: [
-                          SvgPicture.asset(ImageAssets.ic_hoiChamTron),
+                          SvgPicture.asset(ImageAssets.icHoiChamTron),
                           const SizedBox(width: 14,),
                           Text(
                             S.current.keep_drop,

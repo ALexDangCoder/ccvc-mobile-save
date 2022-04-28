@@ -102,6 +102,7 @@ class ListCanBo {
         hoTen: tenCanBo ?? '',
         isThuKy: isThuKy,
         vaiTroThamGia: vaiTroThamGia,
+        trangThai: trangThai,
       );
 }
 

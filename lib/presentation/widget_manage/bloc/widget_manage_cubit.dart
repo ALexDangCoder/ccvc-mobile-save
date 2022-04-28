@@ -171,14 +171,28 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     );
   }
 
+  HomeRepository get homeRep => Get.find();
+  Future<void> configWidget() async {
+    final result = await homeRep.getDashBoardConfig();
+    result.when(
+      success: (res) {
+
+        _listWidgetUsing.sink.add(res);
+      },
+      error: (err) {},
+    );
+  }
+
   void setParaUpdateWidget() {
     final listMap = [];
     for (final element in listUsing) {
       listMap.add(widgetModelToJson(element));
     }
+    json.encode(listMap);
     listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));
+
     }
   }
 

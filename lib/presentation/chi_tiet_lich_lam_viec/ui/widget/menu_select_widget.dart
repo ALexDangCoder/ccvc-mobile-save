@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MenuSelectWidget extends StatefulWidget {
-  final List<QData> listSelect;
+  final List<CellPopPupMenu> listSelect;
   const MenuSelectWidget({Key? key, required this.listSelect})
       : super(key: key);
 
@@ -60,7 +60,7 @@ class _MenuSelectWidgetState extends State<MenuSelectWidget>
 class DialogSelectWidget extends StatefulWidget {
   final Offset offset;
   final Function() onDismis;
-  final List<QData> listSelect;
+  final List<CellPopPupMenu> listSelect;
   const DialogSelectWidget({
     Key? key,
     required this.offset,
@@ -164,7 +164,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
     );
   }
 
-  Widget selectCell(QData qData, {bool isShowBorder = true}) {
+  Widget selectCell(CellPopPupMenu qData, {bool isShowBorder = true}) {
     return Row(
       children: [
         SvgPicture.asset(qData.urlImage),
@@ -193,9 +193,9 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
   }
 }
 
-class QData {
+class CellPopPupMenu {
   final String urlImage;
   final String text;
   final Function() onTap;
-  QData({required this.urlImage, required this.text, required this.onTap});
+  CellPopPupMenu({required this.urlImage, required this.text, required this.onTap});
 }

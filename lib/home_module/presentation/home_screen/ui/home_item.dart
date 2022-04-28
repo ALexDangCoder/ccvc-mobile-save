@@ -1,8 +1,7 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/van_ban_don_vi_widget.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/van_ban_don_vi_tablet.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
 import 'package:flutter/cupertino.dart';
-
 import '/home_module/presentation/home_screen/ui/mobile/items/calendar_work_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/document_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/event_of_day_widget.dart';

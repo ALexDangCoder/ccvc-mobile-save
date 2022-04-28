@@ -17,7 +17,7 @@ import 'icon_with_title_widget.dart';
 class ThanhPhanThamGiaWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
-  const  ThanhPhanThamGiaWidget({Key? key, required this.cubit})
+  const ThanhPhanThamGiaWidget({Key? key, required this.cubit})
       : super(key: key);
 
   @override
@@ -25,6 +25,14 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 }
 
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.cubit.thanhPhanThamGia.sink.add(widget.cubit.dataThaGiaDefault);
+    widget.cubit.dataThanhPhanThamGia = widget.cubit.dataThaGiaDefault;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SelectOnlyWidget(
@@ -60,24 +68,34 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                 btnLeftTxt: S.current.khong,
                 btnRightTxt: S.current.dong_y,
-                funcBtnRight: () {},
+                funcBtnRight: () {
+                  if (widget.cubit.selectedIds.isNotEmpty) {
+                    widget.cubit.postDiemDanh();
+                  }
+                },
                 textContent: S.current.conten_diem_danh,
               );
             },
           ),
+          const SizedBox(
+            height: 16,
+          ),
           StreamBuilder<List<CanBoModel>>(
-            stream: widget.cubit.streamthanhPhanThamGia,
+            stream: widget.cubit.thanhPhanThamGia,
             builder: (context, snapshot) {
-              final _list = snapshot.data ?? [];
-              if (_list.isNotEmpty) {
+              final list = snapshot.data ?? [];
+              if (list.isNotEmpty) {
                 return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: _list.length,
+                  itemCount: list.length,
                   itemBuilder: (context, index) {
                     return CellThanhPhanThamGia(
                       cubit: widget.cubit,
-                      infoModel: _list[index],
+                      infoModel: list[index],
+                      ontap: () {
+                        widget.cubit.postHuyDiemDanh(list[index].id ?? '');
+                      },
                     );
                   },
                 );

@@ -40,7 +40,7 @@ class _DanhSachCongViecTienIchTabletState
     cubit.getToDoList();
     cubit.listNguoiThucHien();
     cubit.getNHomCVMoi();
-    cubit.getToDoListDSCV();
+    cubit.getToDoListDSCVTung();
     cubit.getDSCVGanCHoToi();
   }
 
@@ -427,7 +427,7 @@ class _DanhSachCongViecTienIchTabletState
                   border: Border.all(color: toDayColor.withOpacity(0.5)),
                 ),
                 child: StreamBuilder<List<TodoDSCVModel>>(
-                  stream: cubit.listImportanntWork.stream,
+                  stream: cubit.listDSCV.stream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? [];
                     if (data.isNotEmpty) {

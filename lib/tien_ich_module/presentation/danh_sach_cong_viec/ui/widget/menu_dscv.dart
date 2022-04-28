@@ -52,29 +52,32 @@ class _MenuDSCVState extends State<MenuDSCV> {
               child: Column(
                 children: [
                   StreamBuilder<int>(
-                      initialData: 0,
-                      stream: widget.cubit.statusDSCV.stream,
-                      builder: (context, snapshot) {
-                        return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: widget.cubit.vlMenuDf.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final vl = widget.cubit.vlMenuDf[index];
-                              return TheoDangLichWidgetDSCV(
-                                icon: vl.icon ?? '',
-                                name: vl.title ?? '',
-                                onTap: () {
-                                  widget.cubit.titleAppBar.add(vl.title ?? '');
-                                  widget.cubit.statusDSCV.sink.add(index);
-                                  Navigator.pop(context);
-                                },
-                                isSelect: index == snapshot.data,
-                                number: vl.number ?? 0,
-                              );
-                            });
-                      }),
+                    initialData: 0,
+                    stream: widget.cubit.statusDSCV.stream,
+                    builder: (context, snapshot) {
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: widget.cubit.vlMenuDf.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final vl = widget.cubit.vlMenuDf[index];
+                          return TheoDangLichWidgetDSCV(
+                            icon: vl.icon ?? '',
+                            name: vl.title ?? '',
+                            onTap: () {
+                              widget.cubit.titleAppBar.add(vl.title ?? '');
+                              widget.cubit.statusDSCV.sink.add(index);
+                              widget.cubit.addValueToTypeDSCV(index);
+                              Navigator.pop(context);
+                            },
+                            isSelect: index == snapshot.data,
+                            number: vl.number ?? 0,
+                          );
+                        },
+                      );
+                    },
+                  ),
                   SingleChildScrollView(
                     child: ContainerMenuDSCVWidget(
                       name: S.current.nhom_cong_viec_moi,

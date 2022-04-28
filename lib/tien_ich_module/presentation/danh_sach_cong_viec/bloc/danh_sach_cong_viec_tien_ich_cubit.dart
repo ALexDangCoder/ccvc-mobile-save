@@ -29,15 +29,16 @@ const int NCXM = 5;
 
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
-
   Map<String, ItemMissionMenu> mapData = {};
   List<String> listKey = [];
   List<TodoDSCVModel> importance = [];
+  List<TodoDSCVModel> toDoModelDefault = [];
+  List<TodoDSCVModel> toDoModelGanChoToiDefault = [];
 
   String groupIdGet = '';
   final BehaviorSubject<TodoListModelTwo> todoListGroup =
       BehaviorSubject<TodoListModelTwo>();
-  BehaviorSubject<List<TodoDSCVModel>> listImportanntWork = BehaviorSubject();
+  BehaviorSubject<List<TodoDSCVModel>> listDSCV = BehaviorSubject();
   BehaviorSubject<List<TodoDSCVModel>> listGanChoToi = BehaviorSubject();
   BehaviorSubject<List<TodoDSCVModel>> listDaXoa = BehaviorSubject();
   BehaviorSubject<List<TodoDSCVModel>> listGanChoToiDaXoa = BehaviorSubject();
@@ -55,10 +56,16 @@ class DanhSachCongViecTienIchCubit
   Future<void> initialData() async {
     showLoading();
     await getToDoList();
-    await listNguoiThucHien();
+    // await listNguoiThucHien();
     await getNHomCVMoi();
-    await getToDoListDSCV();
+    await getToDoListDSCVTung();
     await getDSCVGanCHoToi();
+    final List<TodoDSCVModel> listGop = [
+      ...toDoModelGanChoToiDefault,
+      ...toDoModelDefault,
+    ];
+    listDSCV.sink
+        .add(listGop.where((element) => element.inUsed == true).toList());
   }
 
   List<MenuDscvModel> vlMenuDf = [
@@ -298,18 +305,69 @@ class DanhSachCongViecTienIchCubit
     showContent();
     result.when(
       success: (res) {
-        listImportanntWork.sink.add(res.listTodoImportant
+        listDSCV.sink.add(res.listTodoImportant
             .where((element) => element.important == true)
             .toList());
         _getTodoList.sink.add(res);
         dataListDefault = res;
         vlMenuDf[CVCB].number = res.listTodoImportant.length;
-
         vlMenuDf[DHT].number = res.listTodoDone.length;
-        vlMenuDf[CVQT].number = listImportanntWork.value.length;
+        vlMenuDf[CVQT].number = listDSCV.value.length;
       },
       error: (err) {},
     );
+  }
+
+  void addValueToTypeDSCV(int type) {
+    final List<TodoDSCVModel> listGop = [
+      ...toDoModelGanChoToiDefault,
+      ...toDoModelDefault
+    ];
+    switch (type) {
+      case CVCB:
+        return listDSCV.sink.add(
+          listGop
+              .where(
+                (element) => element.inUsed == true,
+              )
+              .toList(),
+        );
+      case CVQT:
+        return listDSCV.sink.add(
+          listGop
+              .where(
+                (e) =>
+                    e.inUsed == true &&
+                    e.isTicked == false &&
+                    e.important == true,
+              )
+              .toList(),
+        );
+      case DHT:
+        return listDSCV.sink.add(
+          listGop
+              .where(
+                (e) => e.inUsed == true && e.isTicked == true,
+              )
+              .toList(),
+        );
+      case GCT:
+        return listDSCV.sink.add(
+          toDoModelGanChoToiDefault
+              .where(
+                (e) => e.inUsed == true && e.isTicked == false,
+              )
+              .toList(),
+        );
+      case DBX:
+        return listDSCV.sink.add(
+          listGop
+              .where(
+                (e) => e.inUsed == false,
+              )
+              .toList(),
+        );
+    }
   }
 
   Future<void> getListNhomCVMoi(String idGr) async {
@@ -317,19 +375,22 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.getListTodo();
     result.when(
       success: (res) {
-        todoListGroup.sink.add(TodoListModelTwo(
+        todoListGroup.sink.add(
+          TodoListModelTwo(
             listTodoDone: res.listTodoDone
                 .where((element) => isList(element, idGr))
                 .toList(),
             listTodoImportant: res.listTodoImportant
                 .where((element) => isList(element, idGr))
-                .toList()));
+                .toList(),
+          ),
+        );
       },
       error: (err) {},
     );
   }
 
-  Future<void> getToDoListDSCV() async {
+  Future<void> getToDoListDSCVTung() async {
     showLoading();
     final result = await tienIchRep.getListTodoDSCV();
     showContent();
@@ -338,6 +399,7 @@ class DanhSachCongViecTienIchCubit
         createData(res);
         listDaXoa.sink
             .add(res.where((element) => element.inUsed == false).toList());
+        toDoModelDefault = res;
       },
       error: (err) {},
     );
@@ -356,6 +418,7 @@ class DanhSachCongViecTienIchCubit
           vlMenuDf[DBX].number =
               listDaXoa.value.length + listGanChoToiDaXoa.value.length;
           vlMenuDf[GCT].number = listGanChoToi.value.length;
+          toDoModelGanChoToiDefault = res;
         }
       },
       error: (err) {},
@@ -437,7 +500,6 @@ class DanhSachCongViecTienIchCubit
       final vl = data.listTodoImportant
           .where((element) => isListCanBo(element))
           .toList();
-      print(vl);
       final TodoListModelTwo todoListModel = TodoListModelTwo(
           listTodoImportant: vl, listTodoDone: data.listTodoDone);
       _getTodoList.sink.add(todoListModel);

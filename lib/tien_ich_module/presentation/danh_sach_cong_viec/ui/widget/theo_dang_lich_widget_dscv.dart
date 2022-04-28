@@ -45,15 +45,18 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
             SizedBox(
               width: 12.0.textScale(space: 6),
             ),
-            Text(
-              name,
-              style: textNormalCustom(
-                color: isSelect ? Colors.white : titleColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 16.0.textScale(space: 4),
+            Expanded(
+              child: Text(
+                name,
+                style: textNormalCustom(
+                  color: isSelect ? Colors.white : titleColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16.0.textScale(space: 4),
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            const Expanded(child: SizedBox()),
             Container(
               padding: const EdgeInsets.symmetric(
                 vertical: 4,

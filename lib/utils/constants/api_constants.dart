@@ -93,6 +93,8 @@ class ApiConstants {
 
   static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
 
+  static const HUY_DIEM_DANH = '/vpdt/MeetingSchedule/check-out-meeting';
+
   static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
   static const XOA_LICH_LAM_VIEC =
@@ -149,7 +151,7 @@ class ApiConstants {
   static const CHON_MAU_BIEN_BAN = '/vpdt/api/ReportTemplate/list';
 
   static const SO_LUONG_PHAT_BIEU =
-      '/vpdt/api/MeetingSection/so-luong-phat-bieu?LichHop';
+      '/vpdt/api/MeetingSection/so-luong-phat-bieu';
   static const DANH_SACH_PHAT_BIEU_LICH_HOP =
       '/vpdt/api/MeetingSection/danh-sach-phat-bieu';
   static const DANH_SACH_BIEU_QUYET_LICH_HOP =

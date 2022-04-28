@@ -56,24 +56,27 @@ class AvatarAndSignatureTablet extends StatelessWidget {
   }
 
   Future<void> upLoadImg(BuildContext context, int loai) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.isNotEmpty) {
-      cubit.avatarPathSubject.sink.add(_path);
-    } else {}
+    final _anh = await cubit.pickAvatar();
+    // if (_anh) {
+    //   cubit.avatarPathSubject.sink.add(_path);
+    // } else {}
+    cubit.avatarPathSubject.sink.add(_anh);
   }
 
   Future<void> upLoadChuKy(BuildContext context, int loai) async {
     final _path = await cubit.pickAvatar();
-    if (_path.isNotEmpty) {
-      cubit.chuKyPathSubject.sink.add(_path);
-    } else {}
+    // if (_path.isNotEmpty) {
+    //   cubit.chuKyPathSubject.sink.add(_path);
+    // } else {}
+    cubit.avatarPathSubject.sink.add(_path);
   }
 
   Future<void> upLoadKyNhay(BuildContext context, int loai) async {
     final _path = await cubit.pickAvatar();
-    if (_path.isNotEmpty) {
-      cubit.kyNhayPathSubject.sink.add(_path);
-    } else {}
+    // if (_path.isNotEmpty) {
+    //   cubit.kyNhayPathSubject.sink.add(_path);
+    // } else {}
+    cubit.avatarPathSubject.sink.add(_path);
   }
 
   Widget pickAnhDaiDien(BuildContext context, String text, Function() onTap,
@@ -96,11 +99,11 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                 ),
               ],
             ),
-            child: StreamBuilder<String>(
+            child: StreamBuilder<ModelAnh>(
               stream: cubit.avatarPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? '';
-                if (_data.isEmpty) {
+                final _data = snapshot.data ?? ModelAnh();
+                if (_data == null) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
@@ -130,7 +133,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data),
+                      File(_data.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );
@@ -174,11 +177,11 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                 ),
               ],
             ),
-            child: StreamBuilder<String>(
+            child: StreamBuilder<ModelAnh>(
               stream: cubit.chuKyPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? '';
-                if (_data.isEmpty) {
+                final _data = snapshot.data ?? ModelAnh();
+                if (_data == null) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
@@ -208,7 +211,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data),
+                      File(_data.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );
@@ -252,11 +255,11 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                 ),
               ],
             ),
-            child: StreamBuilder<String>(
+            child: StreamBuilder<ModelAnh>(
               stream: cubit.kyNhayPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? '';
-                if (_data.isEmpty) {
+                final _data = snapshot.data ?? ModelAnh();
+                if (_data == null) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
@@ -286,7 +289,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data),
+                      File(_data.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );

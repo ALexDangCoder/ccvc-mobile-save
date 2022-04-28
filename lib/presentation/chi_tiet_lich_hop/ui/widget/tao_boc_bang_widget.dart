@@ -34,7 +34,7 @@ class _TaoBocBangWidgetState extends State<TaoBocBangWidget> {
           height: 8,
         ),
         CustomDropDown(
-          items: cubit.dataBocBang,
+          items: cubit.selectPhatBieu,
           onSelectItem: (value) {},
         ),
         const SizedBox(

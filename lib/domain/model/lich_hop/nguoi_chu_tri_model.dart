@@ -10,6 +10,7 @@ class NguoiChutriModel {
   String? donViId;
   bool? isThuKy;
   int? vaiTroThamGia;
+  int? trangThai;
 
   NguoiChutriModel({
     this.tenDonVi = '',
@@ -20,6 +21,7 @@ class NguoiChutriModel {
     this.id = '',
     this.isThuKy,
     this.vaiTroThamGia,
+    this.trangThai,
   });
 
   String title() {

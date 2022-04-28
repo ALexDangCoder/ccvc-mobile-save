@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -62,21 +63,33 @@ class _LichHopTheoTuanTabletState extends State<LichHopTheoTuanTablet> {
                     ) {
                       final Appointment appointment =
                           calendarAppointmentDetails.appointments.first;
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 4, bottom: 2),
-                        child: Container(
-                          height: 18,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(2.0),
-                            color: choTrinhKyColor,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 4.0, vertical: 2.0),
-                            child: Expanded(
-                              child: Text(
-                                appointment.subject,
-                                style: textNormalCustom(fontSize: 12),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetailMeetCalenderTablet(
+                                id: appointment.id.toString(),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 4, bottom: 2),
+                          child: Container(
+                            height: 18,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2.0),
+                              color: choTrinhKyColor,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 4.0, vertical: 2.0),
+                              child: Expanded(
+                                child: Text(
+                                  appointment.subject,
+                                  style: textNormalCustom(fontSize: 12),
+                                ),
                               ),
                             ),
                           ),

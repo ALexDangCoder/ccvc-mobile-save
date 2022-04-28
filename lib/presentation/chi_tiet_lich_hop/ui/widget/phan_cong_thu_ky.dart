@@ -156,12 +156,12 @@ class SelectThuKyCell extends StatelessWidget {
                   title: S.current.chon_thu_ky_cuoc_hop,
                   listSelect: data,
                   onChange: (vl) {
-                    if (cubit.dataThuKyDeFault[vl].isThuKy == true) {
-                      cubit.dataThuKyDeFault[vl].isThuKy = false;
+                    if (cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy == true) {
+                      cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = false;
                     } else {
-                      cubit.dataThuKyDeFault[vl].isThuKy = true;
+                      cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = true;
                     }
-                    cubit.listNguoiCHuTriModel.sink.add(cubit.dataThuKyDeFault);
+                    cubit.listNguoiCHuTriModel.sink.add(cubit.dataThuKyOrThuHoiDeFault);
                     log(cubit.listNguoiCHuTriModel.value.toString());
                   },
                 ),
@@ -173,9 +173,9 @@ class SelectThuKyCell extends StatelessWidget {
                     return tag(
                       title: dataSnb,
                       onDelete: () {
-                        cubit.dataThuKyDeFault[index].isThuKy = false;
+                        cubit.dataThuKyOrThuHoiDeFault[index].isThuKy = false;
                         cubit.listNguoiCHuTriModel.sink
-                            .add(cubit.dataThuKyDeFault);
+                            .add(cubit.dataThuKyOrThuHoiDeFault);
                       },
                     );
                   }),

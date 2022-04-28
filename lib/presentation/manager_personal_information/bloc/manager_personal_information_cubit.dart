@@ -7,7 +7,9 @@ import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_mod
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -20,10 +22,10 @@ class ManagerPersonalInformationCubit
 
   EditPersonInformationRequest editPersonInformationRequest =
       EditPersonInformationRequest();
-
-  final BehaviorSubject<String> avatarPathSubject = BehaviorSubject();
-  final BehaviorSubject<String> chuKyPathSubject = BehaviorSubject();
-  final BehaviorSubject<String> kyNhayPathSubject = BehaviorSubject();
+  Debouncer debouncer = Debouncer();
+  final BehaviorSubject<ModelAnh> avatarPathSubject = BehaviorSubject();
+  final BehaviorSubject<ModelAnh> chuKyPathSubject = BehaviorSubject();
+  final BehaviorSubject<ModelAnh> kyNhayPathSubject = BehaviorSubject();
   final BehaviorSubject<bool> isCheckTinhSubject = BehaviorSubject();
   final BehaviorSubject<File> saveFile = BehaviorSubject();
   final BehaviorSubject<ManagerPersonalInformationModel> managerPersonSubject =
@@ -78,6 +80,25 @@ class ManagerPersonalInformationCubit
       ManagerPersonalInformationModel();
 
   AccountRepository get _managerRepo => Get.find();
+  bool isChechValidate = false;
+
+  bool checkValidate({
+    required String hoTen,
+    String? thuTu,
+    required String? cccd,
+    String? email,
+    String? phoneCQ,
+    String? phoneRieng,
+    String? diaChi,
+  }) {
+    if ((hoTen.isEmpty ||
+            hoTen.trim().length <= 5 ||
+            hoTen.trim().length >= 32) ||
+        ((cccd?.length ?? 0) > 2)) {
+      return isChechValidate = false;
+    }
+    return isChechValidate = true;
+  }
 
   Future<void> getInfo({
     String id = '',

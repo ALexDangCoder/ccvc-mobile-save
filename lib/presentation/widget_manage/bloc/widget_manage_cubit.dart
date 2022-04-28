@@ -38,16 +38,26 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetTypeConstant.LICH_LAM_VIEC_LICH_HOP,
     WidgetTypeConstant.TONG_HOP_HCC,
   ];
-
-  void _getListWidgetUsing() {
-    if (APP_DEVICE == DeviceType.TABLET) {
-      listUsing = keyHomeTablet.currentState?.homeCubit.getListWidget ?? [];
-    } else {
-      listUsing = keyHomeMobile.currentState?.homeCubit.getListWidget ?? [];
-    }
-    listTitleWidgetUse = listUsing.map((e) => e.name).toList();
-    _listWidgetUsing.sink.add(listUsing);
+  void _getListWidgetUsing(){
+     listUsing.addAll( keyHomeMobile.currentState?.homeCubit.getListWidget ?? []);
+     listTitleWidgetUse = listUsing.map((e) => e.name).toList();
+     _listWidgetUsing.sink.add(listUsing);
   }
+
+  // void _getListWidgetUsing() {
+  //   if (APP_DEVICE == DeviceType.TABLET) {
+  //     listUsing = keyHomeTablet.currentState?.homeCubit.getListWidget ?? [];
+  //   } else {
+  //     listUsing = keyHomeMobile.currentState?.homeCubit.getListWidget ?? [];
+  //   }
+  //   listTitleWidgetUse = listUsing.map((e) => e.name).toList();
+  //   print(
+  //       '----------------------------------------data  size-------------------------------');
+  //   listUsing.forEach((element) {
+  //     print('maxH ${element.maxH}');
+  //   });
+  //
+  // }
 
   void loadApi() {
     _getListWidgetUsing();
@@ -58,26 +68,28 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetModel widgetItem,
     int index,
   ) {
-    final List<WidgetModel> listItemWidgetUsing = _listWidgetUsing.value;
-    final List<WidgetModel> listItemWidgetNotUse = _listWidgetNotUse.value;
-    listItemWidgetUsing.insert(listItemWidgetUsing.length, widgetItem);
-    listItemWidgetNotUse.removeAt(index);
-    orderWidgetHome(listItemWidgetUsing);
-    _listWidgetUsing.sink.add(listItemWidgetUsing);
-    _listWidgetNotUse.sink.add(listItemWidgetNotUse);
+    listUsing.insert(listUsing.length, widgetItem);
+    listNotUse.removeAt(index);
+    _listWidgetUsing.sink.add(listUsing);
+    orderWidgetHome(listUsing);
+    _listWidgetNotUse.sink.add(listNotUse);
   }
 
   void insertItemNotUse(
     WidgetModel widgetItem,
     int index,
   ) {
-    final List<WidgetModel> listItemWidgetUsing = _listWidgetUsing.value;
-    final List<WidgetModel> listItemWidgetNotUse = _listWidgetNotUse.value;
-    listItemWidgetNotUse.insert(0, widgetItem);
-    listItemWidgetUsing.removeAt(index);
-    _listWidgetUsing.sink.add(listItemWidgetUsing);
-    orderWidgetHome(listItemWidgetUsing);
-    _listWidgetNotUse.sink.add(listItemWidgetNotUse);
+    listNotUse.insert(0, widgetItem);
+    listUsing.removeAt(index);
+    _listWidgetUsing.sink.add(listUsing);
+    orderWidgetHome(listUsing);
+    _listWidgetNotUse.sink.add(listNotUse);
+
+    print('------------------------------- list not use--------------------');
+    print('------------------------------- list not use lengt ${listNotUse.length}--------------------');
+    listNotUse.forEach((element) {
+      print('------------------------------- Hmax ${element.maxH} ');
+    });
   }
 
   void dispose() {
@@ -172,11 +184,11 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   HomeRepository get homeRep => Get.find();
+
   Future<void> configWidget() async {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
-
         _listWidgetUsing.sink.add(res);
       },
       error: (err) {},
@@ -185,29 +197,33 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   void setParaUpdateWidget() {
     final listMap = [];
+    print(
+        '------------------------------------------- list widget using________________________');
+    print(
+        '------------------------------------------- list widget using lengt ${listUsing.length}________________________');
     for (final element in listUsing) {
       listMap.add(widgetModelToJson(element));
+      print(
+          '______________________________  ${element.maxH}-------------------------------');
     }
     json.encode(listMap);
     listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));
-
     }
   }
 
- Future <void> onRefreshData() async{
-   final result = await homeRep.getDashBoardConfig();
-   result.when(
-     success: (res) {
-       final data =
-       res.where((element) => element.widgetType != null).toList();
-       listTitleWidgetUse = data.map((e) => e.name).toList();
-       _listWidgetUsing.sink.add(data);
-       _getListWidgetNotUse();
-     },
-     error: (err) {},
-   );
-
+  Future<void> onRefreshData() async {
+    final result = await homeRep.getDashBoardConfig();
+    result.when(
+      success: (res) {
+        final data =
+            res.where((element) => element.widgetType != null).toList();
+        listTitleWidgetUse = data.map((e) => e.name).toList();
+        _listWidgetUsing.sink.add(data);
+        _getListWidgetNotUse();
+      },
+      error: (err) {},
+    );
   }
 }

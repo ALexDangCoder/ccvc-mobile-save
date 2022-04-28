@@ -90,8 +90,8 @@ class WidgetData {
   int? x;
   @JsonKey(name: 'y')
   int? y;
-  // @JsonKey(name: 'i')
-  // String? i;
+  @JsonKey(name: 'i')
+  int? i;
   @JsonKey(name: 'enable')
   bool? enable;
   @JsonKey(name: 'moved')
@@ -109,9 +109,39 @@ class WidgetData {
   @JsonKey(name: 'minW')
   int? minW;
   @JsonKey(name: 'props')
-  Map<String, dynamic>? props;
+  Map<String,dynamic>? props;
 
-  WidgetData(this.id, this.name, this.component);
+  WidgetData(
+      this.id,
+      this.name,
+      this.component,
+      this.widgetTypeId,
+      this.description,
+      this.code,
+      this.width,
+      this.height,
+      this.minWidth,
+      this.minHeight,
+      this.maxHeight,
+      this.maxWidth,
+      this.props,
+      this.static,
+      this.isResizable,
+      this.thumbnail,
+      this.appId,
+      this.order,
+      this.isShowing,
+      this.x,
+      this.y,
+      this.i,
+      this.enable,
+      this.moved,
+      this.w,
+      this.h,
+      this.maxH,
+      this.maxW,
+      this.minH,
+      this.minW,);
 
   factory WidgetData.fromJson(Map<String, dynamic> json) =>
       _$WidgetDataFromJson(json);
@@ -122,7 +152,7 @@ class WidgetData {
       WidgetModel(
         id: id ?? '',
         name: name ?? '',
-        component: component ?? '',
+        component: component??'',
         widgetTypeId: widgetTypeId,
         description: description,
         code: code,
@@ -140,7 +170,7 @@ class WidgetData {
         isShowing: isShowing ?? false,
         x: x ?? 0,
         y: y ?? 0,
-        // i: i ?? '',
+        i: i ?? 0,
         enable: enable ?? false,
         moved: moved ?? false,
         w: w ?? 0,

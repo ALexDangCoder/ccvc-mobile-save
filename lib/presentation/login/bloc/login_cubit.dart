@@ -14,7 +14,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class LoginCubit extends BaseCubit<LoginState> {
   LoginCubit() : super(LoginStateIntial());
@@ -44,74 +43,6 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   void closeDialog() {
     showContent();
-  }
-
-  validateLogin(String username, String pass) {
-    if (pass.isEmpty && username.isEmpty) {
-      toast.showToast(
-        child: ShowToast(
-          text: S.current.ban_phai_nhap_truong_tk_mk,
-        ),
-        gravity: ToastGravity.BOTTOM,
-      );
-      print('Bạn phải nhập trường tài khoản,mật khẩu');
-    } else if (username.isEmpty) {
-      toast.showToast(
-        child: ShowToast(
-          text: S.current.ban_phai_nhap_truong_tk,
-        ),
-        gravity: ToastGravity.BOTTOM,
-      );
-      print('Bạn phải nhập trường tài khoản');
-    } else if (pass.isEmpty) {
-      toast.showToast(
-        child: ShowToast(
-          text: S.current.ban_phai_nhap_truong_mk,
-        ),
-        gravity: ToastGravity.BOTTOM,
-      );
-      print('Bạn phải nhập trường mật khẩu');
-    } else {
-      if (username.length > 255 || pass.length > 255) {
-        toast.showToast(
-          child: ShowToast(
-            text: S.current.nhap_sai_dinh_dang,
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
-        print('Nhập sai định dạng!');
-      } else {
-        bool check = false;
-        if (username.contains('@')) {
-          if (getEmail(username) == true) {
-            // validate email
-            bool checkEmailBoolean = username.checkEmailBoolean() ?? false;
-            if (checkEmailBoolean) {
-              check = true;
-            } else {
-              toast.showToast(
-                child: ShowToast(
-                  text: S.current.nhap_sai_dinh_dang,
-                ),
-                gravity: ToastGravity.BOTTOM,
-              );
-            }
-          }
-          print('email');
-        } else {
-          // validate user
-          check = true;
-          print('user');
-        }
-        if (check) {
-          loginAndSaveinfo(
-            passWord: pass,
-            userName: username,
-            appCode: APP_CODE,
-          );
-        }
-      }
-    }
   }
 
   Future<void> loginAndSaveinfo({

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -9,6 +10,7 @@ import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/login_provider.dart';
 import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/send_mail_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -139,6 +141,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {});
                           return loginCubit.isHideClearData = true;
                         },
+                        validator: (value) {
+                          if ((value?.length ?? 0) > 255) {
+                            return S.current.nhap_sai_dinh_dang;
+                          } else if ((value ?? '').contains('@')) {
+                            return (value ?? '').checkEmailBoolean();
+                          } else {
+                            return (value ?? '').checkTruongNull('Tài khoản!');
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 16,
@@ -182,6 +193,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {});
                           return loginCubit.isHideEye1 = true;
                         },
+                        validator: (value) {
+                          return (value ?? '').checkTruongNull('Mật khẩu!');
+                        },
                       ),
                       const SizedBox(
                         height: 16,
@@ -209,9 +223,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             title: S.current.login,
                             isColorBlue: true,
                             onPressed: () async {
-                              final String username = textTaiKhoanController.text;
-                              final String pass = textPasswordController.text;
-                              await loginCubit.validateLogin(username, pass);
+                              if (keyGroup.currentState!.validator()) {
+                                await loginCubit.loginAndSaveinfo(
+                                  passWord: textPasswordController.text,
+                                  userName: textTaiKhoanController.text,
+                                  appCode: APP_CODE,
+                                );
+                              }
                             },
                           );
                         },

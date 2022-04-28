@@ -37,6 +37,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
   void initState() {
     super.initState();
     cubit.closeDialog();
+    cubit.toast.init(context);
   }
 
   @override
@@ -68,49 +69,52 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                         height: 20.0,
                       ),
                       Center(
-                        child: SvgPicture.asset(ImageAssets.icImageChangePassword),
+                        child:
+                            SvgPicture.asset(ImageAssets.icImageChangePassword),
                       ),
                       const SizedBox(height: 10.0),
                       TextFieldValidator(
-                        controller: matKhauHienTaiController,
-                        obscureText: cubit.isCheckEye,
-                        suffixIcon: cubit.isHideEye
-                            ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {});
-                                      cubit.isCheckEye = !cubit.isCheckEye;
-                                    },
-                                    child: cubit.isCheckEye
-                                        ? SvgPicture.asset(ImageAssets.imgView)
-                                        : SvgPicture.asset(ImageAssets.imgViewHide),
+                          controller: matKhauHienTaiController,
+                          obscureText: cubit.isCheckEye,
+                          suffixIcon: cubit.isHideEye
+                              ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Center(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {});
+                                        cubit.isCheckEye = !cubit.isCheckEye;
+                                      },
+                                      child: cubit.isCheckEye
+                                          ? SvgPicture.asset(
+                                              ImageAssets.imgView)
+                                          : SvgPicture.asset(
+                                              ImageAssets.imgViewHide),
+                                    ),
                                   ),
-                                ),
-                              )
-                            : const SizedBox(),
-                        hintText: S.current.mat_khau_hien_tai,
-                        prefixIcon: SizedBox(
-                          width: 20.0,
-                          height: 20.0,
-                          child: Center(
-                            child: SvgPicture.asset(ImageAssets.icShieldDone),
+                                )
+                              : const SizedBox(),
+                          hintText: S.current.mat_khau_hien_tai,
+                          prefixIcon: SizedBox(
+                            width: 20.0,
+                            height: 20.0,
+                            child: Center(
+                              child: SvgPicture.asset(ImageAssets.icShieldDone),
+                            ),
                           ),
-                        ),
-                        onChange: (text) {
-                          if (text.isEmpty) {
+                          onChange: (text) {
+                            if (text.isEmpty) {
+                              setState(() {});
+                              return cubit.isHideEye = false;
+                            }
                             setState(() {});
-                            return cubit.isHideEye = false;
-                          }
-                          setState(() {});
-                          return cubit.isHideEye = true;
-                        },
-                        validator: (value) {
-                          return (value ?? '').checkNull();
-                        },
-                      ),
+                            return cubit.isHideEye = true;
+                          },
+                          validator: (value) {
+                            return (value ?? '')
+                                .checkTruongNull('Mật khẩu hiện tại!');
+                          }),
                       const SizedBox(height: 16.0),
                       TextFieldValidator(
                         controller: matKhauMoiController,
@@ -127,7 +131,8 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                                     },
                                     child: cubit.isCheckEye1
                                         ? SvgPicture.asset(ImageAssets.imgView)
-                                        : SvgPicture.asset(ImageAssets.imgViewHide),
+                                        : SvgPicture.asset(
+                                            ImageAssets.imgViewHide),
                                   ),
                                 ),
                               )
@@ -149,7 +154,16 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                           return cubit.isHideEye1 = true;
                         },
                         validator: (value) {
-                          return (value ?? '').checkNull();
+                          if ((value ?? '').isEmpty) {
+                            return (value ?? '')
+                                .checkTruongNull('Mật khẩu mới!');
+                          } else if (value ==
+                                  matKhauHienTaiController.value.text &&
+                              value!.isNotEmpty) {
+                            return S.current.khong_trung_mat_khau_moi;
+                          } else {
+                            return (value ?? '').checkPassWordChangePass();
+                          }
                         },
                       ),
                       const SizedBox(height: 16.0),
@@ -168,7 +182,8 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                                     },
                                     child: cubit.isCheckEye2
                                         ? SvgPicture.asset(ImageAssets.imgView)
-                                        : SvgPicture.asset(ImageAssets.imgViewHide),
+                                        : SvgPicture.asset(
+                                            ImageAssets.imgViewHide),
                                   ),
                                 ),
                               )
@@ -192,9 +207,10 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                         validator: (value) {
                           if (value != matKhauMoiController.value.text &&
                               value!.isNotEmpty) {
-                            return S.current.khong_trung_mat_khau_moi;
+                            return S.current.mat_khau_chua_khop;
                           } else {
-                            return (value ?? '').checkNull();
+                            return (value ?? '')
+                                .checkTruongNull('Nhập lại mật khẩu!');
                           }
                         },
                       ),
@@ -225,7 +241,8 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                                 .changePassWord(
                                     password: matKhauMoiController.text,
                                     passwordOld: matKhauHienTaiController.text,
-                                    repeatPassword: nhapLaiMatKhauController.text)
+                                    repeatPassword:
+                                        nhapLaiMatKhauController.text)
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(
@@ -236,11 +253,6 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                                 Navigator.pop(context);
                                 AppStateCt.of(context).appState.setToken('');
                                 HiveLocal.clearData();
-                              } else {
-                                _showToast(
-                                  context,
-                                  cubit.message,
-                                );
                               }
                             });
                           }
@@ -253,15 +265,6 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showToast(BuildContext context, String text) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(text),
       ),
     );
   }

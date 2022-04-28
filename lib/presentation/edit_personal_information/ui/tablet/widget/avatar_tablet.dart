@@ -8,15 +8,19 @@ import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manag
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AvatarAndSignatureTablet extends StatelessWidget {
   final ManagerPersonalInformationCubit cubit;
+  final FToast toast;
 
   const AvatarAndSignatureTablet({
     Key? key,
     required this.cubit,
+    required this.toast,
   }) : super(key: key);
 
   @override
@@ -28,7 +32,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           context,
           S.current.anh_dai_dien,
           () async {
-            await upLoadImg(context, 1);
+            await upLoadImg(context, 1, toast);
           },
           cubit.managerPersonalInformationModel.anhDaiDienFilePath ?? '',
           true,
@@ -37,7 +41,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           context,
           S.current.anh_chu_ky,
           () async {
-            await upLoadChuKy(context, 2);
+            await upLoadChuKy(context, 2, toast);
           },
           cubit.managerPersonalInformationModel.anhChuKyFilePath ?? '',
           true,
@@ -46,7 +50,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           context,
           S.current.anh_ky_nhay,
           () async {
-            await upLoadKyNhay(context, 3);
+            await upLoadKyNhay(context, 3, toast);
           },
           cubit.managerPersonalInformationModel.anhChuKyNhayFilePath ?? '',
           true,
@@ -55,28 +59,64 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     );
   }
 
-  Future<void> upLoadImg(BuildContext context, int loai) async {
-    final _anh = await cubit.pickAvatar();
-    // if (_anh) {
-    //   cubit.avatarPathSubject.sink.add(_path);
-    // } else {}
-    cubit.avatarPathSubject.sink.add(_anh);
+  Future<void> upLoadImg(
+    BuildContext context,
+    int loai,
+    FToast toast,
+  ) async {
+    final _path = await cubit.pickAvatar();
+    if (_path.path.isNotEmpty) {
+      if (_path.size > 15000000) {
+        toast.showToast(
+          child: ShowToast(
+            text: S.current.dung_luong_toi_da,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
+      } else {
+        cubit.avatarPathSubject.sink.add(_path);
+      }
+    } else {}
   }
 
-  Future<void> upLoadChuKy(BuildContext context, int loai) async {
+  Future<void> upLoadChuKy(
+    BuildContext context,
+    int loai,
+    FToast toast,
+  ) async {
     final _path = await cubit.pickAvatar();
-    // if (_path.isNotEmpty) {
-    //   cubit.chuKyPathSubject.sink.add(_path);
-    // } else {}
-    cubit.avatarPathSubject.sink.add(_path);
+    if (_path.path.isNotEmpty) {
+      if (_path.size > 15000000) {
+        toast.showToast(
+          child: ShowToast(
+            text: S.current.dung_luong_toi_da,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
+      } else {
+        cubit.chuKyPathSubject.sink.add(_path);
+      }
+    } else {}
   }
 
-  Future<void> upLoadKyNhay(BuildContext context, int loai) async {
+  Future<void> upLoadKyNhay(
+    BuildContext context,
+    int loai,
+    FToast toast,
+  ) async {
     final _path = await cubit.pickAvatar();
-    // if (_path.isNotEmpty) {
-    //   cubit.kyNhayPathSubject.sink.add(_path);
-    // } else {}
-    cubit.avatarPathSubject.sink.add(_path);
+    if (_path.path.isNotEmpty) {
+      if (_path.size > 15000000) {
+        toast.showToast(
+          child: ShowToast(
+            text: S.current.dung_luong_toi_da,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
+      } else {
+        cubit.kyNhayPathSubject.sink.add(_path);
+      }
+    } else {}
   }
 
   Widget pickAnhDaiDien(BuildContext context, String text, Function() onTap,
@@ -102,8 +142,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             child: StreamBuilder<ModelAnh>(
               stream: cubit.avatarPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? ModelAnh();
-                if (_data == null) {
+                if (!snapshot.hasData) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
@@ -133,7 +172,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data.path ?? ''),
+                      File(snapshot.data?.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );
@@ -180,8 +219,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             child: StreamBuilder<ModelAnh>(
               stream: cubit.chuKyPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? ModelAnh();
-                if (_data == null) {
+                if (!snapshot.hasData) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
@@ -211,7 +249,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data.path ?? ''),
+                      File(snapshot.data?.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );
@@ -258,8 +296,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             child: StreamBuilder<ModelAnh>(
               stream: cubit.kyNhayPathSubject,
               builder: (context, snapshot) {
-                final _data = snapshot.data ?? ModelAnh();
-                if (_data == null) {
+                if (!snapshot.hasData) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: isAvatarUser
@@ -289,7 +326,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(
-                      File(_data.path ?? ''),
+                      File(snapshot.data?.path ?? ''),
                       fit: BoxFit.cover,
                     ),
                   );

@@ -891,5 +891,8 @@
   "huy_xac_nhan": "Huỷ xác nhận",
   "xac_nhan_lai": "Xác nhận lại",
   "ban_co_chac_muon": "Bạn có chắc muốn",
-  "khong_edit": "không?"
+  "khong_edit": "không?",
+  "dung_luong_toi_da": "Dung lượng tối đa 15MB",
+  "ban_phai_nhap_truong": "Bạn phải nhập trường",
+  "tin_buon": "Tin Buồn"
 }

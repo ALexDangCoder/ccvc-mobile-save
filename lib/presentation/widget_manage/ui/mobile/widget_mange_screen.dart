@@ -91,7 +91,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
         stream: widgetManageCubit.stateStream,
         child: RefreshIndicator(
           onRefresh: () async {
-            await widgetManageCubit.onRefreshData();
+            // await widgetManageCubit.onRefreshData();
           },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),

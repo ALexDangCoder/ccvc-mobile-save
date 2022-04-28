@@ -30,7 +30,7 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
       children: [
         Container(
           padding:
-          const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 18),
+              const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 18),
           decoration: BoxDecoration(
             color: widget.type2
                 ? statusCalenderRed.withOpacity(0.1)
@@ -61,7 +61,12 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
             ),
           ),
         ),
-        widget.type2 ? const SizedBox() : const Expanded(child: SizedBox())
+        if (widget.type2)
+          const SizedBox()
+        else
+          const Expanded(
+            child: SizedBox(),
+          )
       ],
     );
   }

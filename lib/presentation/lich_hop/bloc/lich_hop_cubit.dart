@@ -5,13 +5,11 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_lich_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/lich_hop_item.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/tao_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/dashboard_thong_ke_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/statistic_by_month_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/ti_le_tham_gia.dart';
@@ -191,7 +189,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
   Future<void> searchLichHop(String? query) async {
     const Duration(milliseconds: 2);
     listDSLH.clear();
-    if(query == null || query.isEmpty) {
+    if (query == null || query.isEmpty) {
       await postDanhSachLichHop();
     } else {
       await postDanhSachLichHop(query);
@@ -649,10 +647,12 @@ class LichHopCubit extends BaseCubit<LichHopState> {
     for (int i = 0; i < (model.items?.length ?? 0); i++) {
       appointments.add(
         Appointment(
-            startTime: DateTime.parse(model.items?[i].dateTimeFrom ?? ''),
-            endTime: DateTime.parse(model.items?[i].dateTimeTo ?? ''),
-            subject: model.items?[i].title ?? '',
-            color: textColorMangXaHoi),
+          startTime: DateTime.parse(model.items?[i].dateTimeFrom ?? ''),
+          endTime: DateTime.parse(model.items?[i].dateTimeTo ?? ''),
+          subject: model.items?[i].title ?? '',
+          color: textColorMangXaHoi,
+          id: model.items?[i].id ?? '',
+        ),
       );
     }
     return DataSource(appointments);

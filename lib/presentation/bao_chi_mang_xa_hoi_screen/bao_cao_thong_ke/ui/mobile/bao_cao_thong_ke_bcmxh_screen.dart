@@ -43,6 +43,9 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
+            setState(() {
+
+            });
             await baoCaoThongKeBCMXHCubit.callApi(widget.topic);
           },
           child: StateStreamLayout(
@@ -55,6 +58,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
             stream: baoCaoThongKeBCMXHCubit.stateStream,
             child: SingleChildScrollView(
               child: Column(
+                key: UniqueKey(),
                 children: [
                   StreamBuilder<Map<String, List<BarChartModel>>>(
                     stream: baoCaoThongKeBCMXHCubit.mapTongQuan,
@@ -121,7 +125,12 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                               color: homeColor,
                             ),
                             GroupChartItemWidget(
-                              onChoiceDate: (startDate, endDate) {},
+                              onChoiceDate: (startDate, endDate) {
+                                baoCaoThongKeBCMXHCubit.getTinTongHop(
+                                  startDate,
+                                  endDate,
+                                );
+                              },
                               title: S.current.cac_dia_phuong,
                               child: BarCharWidget(
                                 color: greenChart,
@@ -134,7 +143,12 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                               color: homeColor,
                             ),
                             GroupChartItemWidget(
-                              onChoiceDate: (startDate, endDate) {},
+                              onChoiceDate: (startDate, endDate) {
+                                baoCaoThongKeBCMXHCubit.getTinTongHop(
+                                  startDate,
+                                  endDate,
+                                );
+                              },
                               title: S.current.uy_ban_nhan_dan_tinh,
                               child: BarCharWidget(
                                 color: blueNhatChart,
@@ -147,7 +161,12 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                               color: homeColor,
                             ),
                             GroupChartItemWidget(
-                              onChoiceDate: (startDate, endDate) {},
+                              onChoiceDate: (startDate, endDate) {
+                                baoCaoThongKeBCMXHCubit.getTinTongHop(
+                                  startDate,
+                                  endDate,
+                                );
+                              },
                               title: S.current.lanh_dao_tinh,
                               child: BarCharWidget(
                                 color: redChart,

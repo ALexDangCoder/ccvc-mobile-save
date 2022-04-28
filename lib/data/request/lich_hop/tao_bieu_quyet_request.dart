@@ -3,7 +3,7 @@ class TaoBieuQuyetRequest {
   String? lichHopId;
   String? personName;
   String? phienHopId;
-  String? time;
+  int? time;
   String? unitName;
 
   TaoBieuQuyetRequest({

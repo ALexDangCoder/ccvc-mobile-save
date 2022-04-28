@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +26,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
     return screenDevice(
       mobileScreen: Container(
         margin: const EdgeInsets.only(top: 16),
-        padding: const EdgeInsets.only(top: 16, bottom: 16, left: 16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           border: Border.all(color: borderItemCalender),
           color: borderItemCalender.withOpacity(0.1),
@@ -36,96 +37,139 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${S.current.phien_hop}:',
+            Expanded(
+              flex: 4,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    S.current.ten_bieu_quyet,
                     style: textNormalCustom(
                       fontSize: 14,
                       color: unselectedLabelColor,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${S.current.ten_can_bo}:',
+                  spaceH16,
+                  Text(
+                    S.current.thoi_gian,
                     style: textNormalCustom(
                       fontSize: 14,
                       color: unselectedLabelColor,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${S.current.noi_dung}:',
+                  spaceH16,
+                  Text(
+                    S.current.thoi_gian_bq,
                     style: textNormalCustom(
                       fontSize: 14,
                       color: unselectedLabelColor,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${S.current.thoi_gian}:',
+                  spaceH16,
+                  Text(
+                    S.current.loai_bieu_quyet,
                     style: textNormalCustom(
                       fontSize: 14,
                       color: unselectedLabelColor,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
-              ],
+                  spaceH16,
+                  Text(
+                    S.current.danh_sach_lua_chon,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      color: unselectedLabelColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${widget.infoModel.id}',
+            spaceW8,
+            Expanded(
+              flex: 6,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ' ${widget.infoModel.noiDung}',
                     style: textNormalCustom(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: infoColor,
+                      fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${widget.infoModel.id}',
+                  spaceH12,
+                  Text(
+                    '${DateTime.parse(widget.infoModel.thoiGianBatDau ?? '').formatApiListBieuQuyetMobile} - '
+                    '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiFixMeet}',
                     style: textNormalCustom(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: infoColor,
+                      fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${widget.infoModel.id}',
+                  spaceH12,
+                  Text(
+                    '00:00:00',
                     style: textNormalCustom(
-                      fontSize: 14,
-                      color: infoColor,
+                      fontSize: 16,
+                      color: statusCalenderRed,
+                      fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${widget.infoModel.thoiGianKetThuc}',
+                  spaceH12,
+                  Text(
+                    loaiBieuQuyetFunc(
+                      widget.infoModel.loaiBieuQuyet ?? true,
+                    ),
                     style: textNormalCustom(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: infoColor,
+                      fontWeight: FontWeight.w400,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                  spaceH12,
+                  SizedBox(
+                    height: 50,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                          widget.infoModel.danhSachKetQuaBieuQuyet?.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: ContainerState(
+                            name: widget
+                                    .infoModel
+                                    .danhSachKetQuaBieuQuyet?[index]
+                                    .tenLuaChon ??
+                                '',
+                            number: widget
+                                    .infoModel
+                                    .danhSachKetQuaBieuQuyet?[index]
+                                    .soLuongLuaChon ??
+                                0,
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -210,24 +254,24 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${widget.infoModel.thoiGianBatDau}-'
-                                '${widget.infoModel.thoiGianKetThuc}',
+                                '${DateTime.parse(widget.infoModel.thoiGianBatDau ?? '').formatApiListBieuQuyet} - '
+                                '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiListBieuQuyet}',
                                 style: textNormalCustom(
                                   fontSize: 16,
                                   color: infoColor,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              spaceH16,
+                              spaceH14,
                               Text(
-                                '${widget.infoModel.id}',
+                                '00:00:00',
                                 style: textNormalCustom(
                                   fontSize: 16,
-                                  color: infoColor,
+                                  color: statusCalenderRed,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              spaceH16,
+                              spaceH14,
                               Text(
                                 loaiBieuQuyetFunc(
                                   widget.infoModel.loaiBieuQuyet ?? true,
@@ -238,7 +282,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              spaceH16,
+                              spaceH14,
                               SizedBox(
                                 height: 70,
                                 child: ListView.builder(
@@ -250,11 +294,11 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                     return Padding(
                                       padding: const EdgeInsets.only(right: 16),
                                       child: ContainerState(
-                                        index: widget
+                                        name: widget
                                                 .infoModel
                                                 .danhSachKetQuaBieuQuyet?[index]
-                                                .soLuongLuaChon ??
-                                            0,
+                                                .tenLuaChon ??
+                                            '',
                                         number: widget
                                                 .infoModel
                                                 .danhSachKetQuaBieuQuyet?[index]
@@ -283,12 +327,12 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
 
 class ContainerState extends StatelessWidget {
   final int number;
-  final int index;
+  final String name;
 
   const ContainerState({
     Key? key,
     required this.number,
-    required this.index,
+    required this.name,
   }) : super(key: key);
 
   @override
@@ -309,7 +353,7 @@ class ContainerState extends StatelessWidget {
             ),
           ),
           child: Text(
-            '$index',
+            name,
             style: textNormalCustom(
               color: backgroundColorApp,
               fontSize: 14.0.textScale(),

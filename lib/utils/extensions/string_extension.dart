@@ -136,6 +136,13 @@ extension CheckValidate on String {
     return null;
   }
 
+  String? checkNulls() {
+    if (trim().isEmpty) {
+      return S.current.nhap_sai_dinh_dang;
+    }
+    return null;
+  }
+
   String? checkInt() {
     final result = checkNull();
     if (result != null) {

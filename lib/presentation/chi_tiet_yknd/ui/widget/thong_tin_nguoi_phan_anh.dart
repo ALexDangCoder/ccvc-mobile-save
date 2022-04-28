@@ -13,7 +13,7 @@ class ThongTinNguoiPhanAnh extends StatefulWidget {
   final int indexCheck;
 
   const ThongTinNguoiPhanAnh(
-      {Key? key, required this.listRow, required this.indexCheck})
+      {Key? key, required this.listRow, required this.indexCheck,})
       : super(key: key);
 
   @override
@@ -51,13 +51,13 @@ class _ThongTinNguoiPhanAnhState extends State<ThongTinNguoiPhanAnh> {
                       children: [
                         RadioImage(
                           type: S.current.ca_nhan,
-                          isSelect: widget.indexCheck==0?true:false,
+                          isSelect: widget.indexCheck==1?true:false,
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         RadioImage(
-                            isSelect: widget.indexCheck==2?true:false,
+                            isSelect: widget.indexCheck==3?true:false,
                             type: S.current.to_chuc),
                       ],
                     ),
@@ -67,13 +67,13 @@ class _ThongTinNguoiPhanAnhState extends State<ThongTinNguoiPhanAnh> {
                     child: Column(
                       children: [
                         RadioImage(
-                        isSelect: widget.indexCheck==1?true:false,
+                        isSelect: widget.indexCheck==2?true:false,
                             type: S.current.doanh_nghiep),
                         const SizedBox(
                           height: 10,
                         ),
                         RadioImage(
-                          isSelect: widget.indexCheck==3?true:false,
+                          isSelect: widget.indexCheck==4?true:false,
                           type: S.current.co_quan_nha_muoc,),
                       ],
                     ),

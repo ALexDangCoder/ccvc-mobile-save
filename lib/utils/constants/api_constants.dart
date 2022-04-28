@@ -43,7 +43,8 @@ class ApiConstants {
   static const TINH_HINH_XU_LY_TRANG_CHU =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-trang-chu?';
   static const DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn?';
-
+  static const NGUOI_DANG_THEO_DOI =
+      '/vpdt/api/UserFollow/danh-sach-nguoi-theo-doi';
   static const TODO_LIST_CURRENT_USER = '/api/TodoList/get-current-user';
   static const TODO_LIST_UPDATE = '/api/TodoList/update';
   static const TODO_LIST_CREATE = '/api/TodoList/create';
@@ -91,6 +92,8 @@ class ApiConstants {
   static const DUYET_PHAT_BIEU = '/vpdt/api/MeetingSection/duyet-phat-bieu';
 
   static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
+
+  static const HUY_DIEM_DANH = '/vpdt/MeetingSchedule/check-out-meeting';
 
   static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
@@ -148,7 +151,7 @@ class ApiConstants {
   static const CHON_MAU_BIEN_BAN = '/vpdt/api/ReportTemplate/list';
 
   static const SO_LUONG_PHAT_BIEU =
-      '/vpdt/api/MeetingSection/so-luong-phat-bieu?LichHop';
+      '/vpdt/api/MeetingSection/so-luong-phat-bieu';
   static const DANH_SACH_PHAT_BIEU_LICH_HOP =
       '/vpdt/api/MeetingSection/danh-sach-phat-bieu';
   static const DANH_SACH_BIEU_QUYET_LICH_HOP =

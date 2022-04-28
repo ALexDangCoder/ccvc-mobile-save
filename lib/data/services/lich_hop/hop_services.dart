@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
@@ -43,6 +44,8 @@ import 'package:ccvc_mobile/data/response/lich_hop/dashborad_thong_ke_response.d
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/gui_mail_ket_luat-response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/nguoi_dang_theo_doi_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/nguoi_theo_doi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
@@ -101,8 +104,28 @@ abstract class HopServices {
     @Body() NguoiChuTriRequest nguoiChuTriRequest,
   );
 
+  @POST(ApiConstants.SEARCH_CAN_BO)
+  Future<NguoiTheoDoiLHResponse> getNguoiTheoDoi(
+    @Body() NguoiTheoDoiRequest nguoiTheoDoiRequest,
+  );
+
+  @GET(ApiConstants.NGUOI_DANG_THEO_DOI)
+  Future<NguoiDangTheoDoiResponse> getNguoiDangTheoDoi(
+    @Query('type') String type,
+    @Query('DateFrom') String DateFrom,
+    @Query('DateTo') String DateTo,
+  );
+
   @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)
-  Future<DanhSachCanBoHopResponse> getDanhSachChuTri(@Query('id') String id);
+  Future<DanhSachCanBoHopResponse> getDanhSachChuTri(
+    @Query('id') String id,
+  );
+
+  @GET(ApiConstants.DANH_SACH_CAN_BO_LICH_HOP)
+  Future<DanhSachCanBoHopResponse> getDanhSachThuHoi(
+    @Query('id') String id,
+    @Query('except') bool except,
+  );
 
   @POST(ApiConstants.ADD_FILE_TAI_LIEU_TAO_LICH_HOP)
   @MultiPart()
@@ -171,7 +194,8 @@ abstract class HopServices {
   );
 
   @GET(ApiConstants.SO_LUONG_PHAT_BIEU)
-  Future<SoLuongPhatBieuResponse> getSoLuongPhatBieu(@Query('Id') String id);
+  Future<SoLuongPhatBieuResponse> getSoLuongPhatBieu(
+      @Query('LichHopId') String id);
 
   @GET(ApiConstants.TONG_PHIEN_HOP)
   Future<TongPhienHopResponse> getTongPhienHop(@Query('LichHopId') String id);
@@ -357,6 +381,12 @@ abstract class HopServices {
 
   @POST(ApiConstants.THU_HOI_HOP)
   Future<PhanCongThuKyResponse> postThuHoiHop(
+    @Query('isMulti') bool isMulti,
     @Body() List<ThuHoiHopRequest> thuHoiHopRequest,
+  );
+
+  @POST(ApiConstants.HUY_DIEM_DANH)
+  Future<PhanCongThuKyResponse> postHuyDiemDanh(
+    @Body() String data,
   );
 }

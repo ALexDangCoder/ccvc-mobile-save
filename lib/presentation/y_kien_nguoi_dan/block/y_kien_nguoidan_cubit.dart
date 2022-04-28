@@ -129,6 +129,48 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       title: S.current.he_thong_quan_ly_van_ban,
     ),
   ];
+  final List<YKienNguoiDanDashBroadItem> listInitDashBoard= [
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_cho_cho_bo_sung_y_kien,
+      numberOfCalendars: 0,
+      typeName: S.current.cho_bo_sung_thong_tin,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_cho_cho_y_kien,
+      numberOfCalendars:0,
+      typeName: S.current.cho_cho_y_kien,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img:ImageAssets.icChoDuyetYKND,
+      numberOfCalendars: 0,
+      typeName: S.current.cho_duyet,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_cho_phan_cong_xu_ly,
+      numberOfCalendars: 0,
+      typeName: S.current.cho_phan_cong_xu_ly,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_cho_tiep_nhan,
+      numberOfCalendars:0,
+      typeName: S.current.cho_tiep_nhan,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_cho_tiep_nhan_xu_ly,
+      numberOfCalendars: 0,
+      typeName: S.current.cho_tiep_nhan_xu_ly,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_cho_xu_ly,
+      numberOfCalendars: 0,
+      typeName: S.current.cho_xu_ly,
+    ),
+    YKienNguoiDanDashBroadItem(
+      img: ImageAssets.ic_tong_so_yknd,
+      numberOfCalendars: 0,
+      typeName: S.current.tong_hop_yknd_da_nhan,
+    ),
+  ];
   List<NguoiDanModel> listYKienNguoiDan = [
     NguoiDanModel(
         ngheNghiep: 'Nhan vien van phong that nghiep',
@@ -192,6 +234,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     showContent();
     result.when(
       success: (res) {
+
         final List<YKienNguoiDanDashBroadItem> listItem = [];
         listItem.add(
           YKienNguoiDanDashBroadItem(

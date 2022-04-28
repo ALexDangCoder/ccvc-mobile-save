@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
@@ -35,6 +36,8 @@ import 'package:ccvc_mobile/domain/model/lich_hop/gui_mail_ket_luat_hop_model.da
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_dang_theo_doi.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_theo_doi.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/select_phien_hop_model.dart';
@@ -54,6 +57,14 @@ import 'package:ccvc_mobile/domain/model/message_model.dart';
 
 mixin HopRepository {
   Future<Result<ChuongTrinhHopModel>> getDanhSachCuocHopTPTH(String id);
+
+  Future<Result<List<NguoiDangTheoDoiModel>>> getNguoiDangTheoDoi(
+    String type,
+    String DateFrom,
+    String DateTo,
+  );
+
+  Future<Result<NguoiTheoDoiModel>> getNguoiTheoDoi(NguoiTheoDoiRequest body);
 
   Future<Result<List<DashBoardThongKeModel>>> getDashBoardThongKe(
     String dateFrom,
@@ -108,7 +119,13 @@ mixin HopRepository {
   );
 
   Future<Result<List<NguoiChutriModel>>> getDanhSachNguoiChuTriPhienHop(
-      String id);
+    String id,
+  );
+
+  Future<Result<List<NguoiChutriModel>>> getDanhSachThuHoi(
+    String id,
+    bool except,
+  );
 
   Future<Result<List<String>>> postEventCalendar(EventCalendarRequest request);
 
@@ -283,6 +300,11 @@ mixin HopRepository {
   );
 
   Future<Result<ResponseModel>> postThuHoiHop(
+    bool isMulti,
     List<ThuHoiHopRequest> thuHoiHopRequest,
+  );
+
+  Future<Result<ResponseModel>> postHuyDiemDanh(
+    String data,
   );
 }

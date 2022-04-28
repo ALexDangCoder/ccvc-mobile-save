@@ -17,19 +17,26 @@ import 'package:flutter_svg/svg.dart';
 
 import 'cell_thanh_phan_tham_gia_widget.dart';
 
-class MoiNguoiThamGiaWidgetTablet extends StatefulWidget {
+class ThanhPhanThamGiaWidgetTablet extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
-  const MoiNguoiThamGiaWidgetTablet({Key? key, required this.cubit})
+  const ThanhPhanThamGiaWidgetTablet({Key? key, required this.cubit})
       : super(key: key);
 
   @override
-  _MoiNguoiThamGiaWidgetTabletState createState() =>
-      _MoiNguoiThamGiaWidgetTabletState();
+  _ThanhPhanThamGiaWidgetTabletState createState() =>
+      _ThanhPhanThamGiaWidgetTabletState();
 }
 
-class _MoiNguoiThamGiaWidgetTabletState
-    extends State<MoiNguoiThamGiaWidgetTablet> {
+class _ThanhPhanThamGiaWidgetTabletState
+    extends State<ThanhPhanThamGiaWidgetTablet> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.cubit.dataThanhPhanThamGia = widget.cubit.dataThaGiaDefault;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -72,7 +79,11 @@ class _MoiNguoiThamGiaWidgetTabletState
                       icon: SvgPicture.asset(ImageAssets.icDiemDanh),
                       btnLeftTxt: S.current.khong,
                       btnRightTxt: S.current.dong_y,
-                      funcBtnRight: () {},
+                      funcBtnRight: () {
+                        if (widget.cubit.selectedIds.isNotEmpty) {
+                          widget.cubit.postDiemDanh();
+                        }
+                      },
                       showTablet: true,
                       textContent: S.current.conten_diem_danh,
                     );
@@ -101,9 +112,7 @@ class _MoiNguoiThamGiaWidgetTabletState
               ),
             ],
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           BaseSearchBar(
             hintText: S.current.tim_kiem_can_bo,
             onChange: (value) {
@@ -111,7 +120,7 @@ class _MoiNguoiThamGiaWidgetTabletState
             },
           ),
           StreamBuilder<List<CanBoModel>>(
-            stream: widget.cubit.streamthanhPhanThamGia,
+            stream: widget.cubit.thanhPhanThamGia.stream,
             builder: (context, snapshot) {
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {
@@ -121,7 +130,7 @@ class _MoiNguoiThamGiaWidgetTabletState
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       StreamBuilder<bool>(
-                        stream: widget.cubit.checkBoxCheck,
+                        stream: widget.cubit.checkBoxCheckAllTPTG.stream,
                         builder: (context, snapshot) {
                           return CustomCheckBox(
                             title: '',
@@ -153,7 +162,7 @@ class _MoiNguoiThamGiaWidgetTabletState
           ),
           spaceH16,
           StreamBuilder<List<CanBoModel>>(
-            stream: widget.cubit.streamthanhPhanThamGia,
+            stream: widget.cubit.thanhPhanThamGia,
             builder: (context, snapshot) {
               final _list = snapshot.data ?? [];
               if (_list.isNotEmpty) {
@@ -165,6 +174,9 @@ class _MoiNguoiThamGiaWidgetTabletState
                     return CellThanhPhanThamGia(
                       cubit: widget.cubit,
                       infoModel: _list[index],
+                      ontap: () {
+                        widget.cubit.postHuyDiemDanh(_list[index].id ?? '');
+                      },
                     );
                   },
                 );

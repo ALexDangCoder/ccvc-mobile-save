@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:json_annotation/json_annotation.dart';
+
 import '/home_module/domain/model/home/WidgetType.dart';
 
-
+part 'config_widget_dash_board_response.g.dart';
 
 class DashBoardResponse {
-  List<Data>? data;
+  List<WidgetData>? data;
   int? statusCode;
   bool? succeeded;
   String? code;
@@ -21,10 +23,10 @@ class DashBoardResponse {
 
   DashBoardResponse.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <WidgetData>[];
       final List<dynamic> result = const JsonDecoder().convert(json['data']);
       for (final v in result) {
-        data!.add(Data.fromJson(v));
+        data!.add(WidgetData.fromJson(v));
       }
     }
     statusCode = json['statusCode'];
@@ -32,6 +34,7 @@ class DashBoardResponse {
     code = json['code'];
     message = json['message'];
   }
+
   List<WidgetModel> toDomain() {
     final Set<String> listComponent = {};
     final List<WidgetModel> listWidget = [];
@@ -45,49 +48,107 @@ class DashBoardResponse {
   }
 }
 
-class Data {
-  String? id;
-  String? name;
+@JsonSerializable()
+class WidgetData {
+  @JsonKey(name: 'id')
+  String? id = '';
+  @JsonKey(name: 'name')
+  String? name = '';
+  @JsonKey(name: 'widgetTypeId')
   String? widgetTypeId;
+  @JsonKey(name: 'description')
   String? description;
+  @JsonKey(name: 'code')
   String? code;
-
-  String? component;
+  @JsonKey(name: 'width')
+  int? width;
+  @JsonKey(name: 'height')
+  int? height;
+  @JsonKey(name: 'minWidth')
+  int? minWidth;
+  @JsonKey(name: 'minHeight')
+  int? minHeight;
+  @JsonKey(name: 'maxHeight')
+  int? maxHeight;
+  @JsonKey(name: 'maxWidth')
+  int? maxWidth;
+  @JsonKey(name: 'component')
+  String? component = '';
+  @JsonKey(name: 'static')
   bool? static;
+  @JsonKey(name: 'isResizable')
   bool? isResizable;
+  @JsonKey(name: 'thumbnail')
   String? thumbnail;
+  @JsonKey(name: 'appId')
   String? appId;
+  @JsonKey(name: 'order')
   int? order;
+  @JsonKey(name: 'isShowing')
   bool? isShowing;
-  Data({
-    this.id,
-    this.name,
-    this.widgetTypeId,
-    this.description,
-    this.code,
-    this.component,
-    this.static,
-    this.isResizable,
-    this.thumbnail,
-    this.appId,
-    this.order,
-    this.isShowing,
-  });
+  @JsonKey(name: 'x')
+  int? x;
+  @JsonKey(name: 'y')
+  int? y;
+  // @JsonKey(name: 'i')
+  // String? i;
+  @JsonKey(name: 'enable')
+  bool? enable;
+  @JsonKey(name: 'moved')
+  bool? moved;
+  @JsonKey(name: 'w')
+  int? w;
+  @JsonKey(name: 'h')
+  int? h;
+  @JsonKey(name: 'maxH')
+  int? maxH;
+  @JsonKey(name: 'maxW')
+  int? maxW;
+  @JsonKey(name: 'minH')
+  int? minH;
+  @JsonKey(name: 'minW')
+  int? minW;
+  @JsonKey(name: 'props')
+  Map<String, dynamic>? props;
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    widgetTypeId = json['widgetTypeId'];
-    description = json['description'];
-    code = json['code'];
-    component = json['component'];
-    static = json['static'];
-    isResizable = json['isResizable'];
-    thumbnail = json['thumbnail'];
-    appId = json['appId'];
-    order = json['order'];
-    isShowing = json['isShowing'];
-  }
+  WidgetData(this.id, this.name, this.component);
+
+  factory WidgetData.fromJson(Map<String, dynamic> json) =>
+      _$WidgetDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WidgetDataToJson(this);
+
   WidgetModel toDomain() =>
-      WidgetModel(id: id ?? '', name: name ?? '', component: component ?? '');
+      WidgetModel(
+        id: id ?? '',
+        name: name ?? '',
+        component: component ?? '',
+        widgetTypeId: widgetTypeId,
+        description: description,
+        code: code,
+        width: width ?? 0,
+        height: height ?? 0,
+        minWidth: minWidth ?? 0,
+        minHeight: minHeight ?? 0,
+        maxHeight: maxHeight ?? 0,
+        maxWidth: maxWidth ?? 0,
+        static: static ?? false,
+        isResizable: isResizable ?? false,
+        thumbnail: thumbnail ?? '',
+        appId: appId ?? '',
+        order: order ?? 0,
+        isShowing: isShowing ?? false,
+        x: x ?? 0,
+        y: y ?? 0,
+        // i: i ?? '',
+        enable: enable ?? false,
+        moved: moved ?? false,
+        w: w ?? 0,
+        h: h ?? 0,
+        maxH: maxH ?? 0,
+        maxW: maxW ?? 0,
+        minH: minH ?? 0,
+        minW: minW ?? 0,
+        props: props,
+      );
 }

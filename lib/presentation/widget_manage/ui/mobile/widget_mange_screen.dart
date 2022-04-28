@@ -3,6 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/prev_view_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/drag_item_list.dart';
@@ -93,7 +95,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
           stream: widgetManageCubit.stateStream,
           child: RefreshIndicator(
             onRefresh: () async {
-              await widgetManageCubit.resetListWidget();
+               await widgetManageCubit.onRefreshData();
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -110,9 +112,15 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                         color: backgroundWidget,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(
-                        S.current.keep_drop,
-                        style: const TextStyle(color: textTitle),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(ImageAssets.icHoiChamTron),
+                          const SizedBox(width: 14,),
+                          Text(
+                            S.current.keep_drop,
+                            style: const TextStyle(color: textTitle),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(
@@ -214,7 +222,7 @@ class WidgetManageProvider extends InheritedWidget {
 
   static WidgetManageProvider of(BuildContext context) {
     final WidgetManageProvider? result =
-        context.dependOnInheritedWidgetOfExactType<WidgetManageProvider>();
+    context.dependOnInheritedWidgetOfExactType<WidgetManageProvider>();
     assert(result != null, 'No elenment');
     return result!;
   }

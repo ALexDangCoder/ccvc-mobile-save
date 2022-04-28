@@ -711,4 +711,3 @@ class YellowApp extends AppColor {
   }
 }
 
-///============ End setup app theme ======================================

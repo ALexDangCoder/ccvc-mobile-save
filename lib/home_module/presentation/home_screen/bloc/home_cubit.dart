@@ -162,6 +162,7 @@ extension GetConfigWidget on HomeCubit {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
+        print('----------------------------- lenght list  update ${res.length}');
         final data =
             res.where((element) => element.widgetType != null).toList();
         _getConfigWidget.sink.add(data);
@@ -697,6 +698,147 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
     _getDocumentVBDi.close();
   }
 }
+
+/// Văn bản đơn vị
+class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
+  // final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
+  // BehaviorSubject<DocumentDashboardModel>();
+  // final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
+  // BehaviorSubject<DocumentDashboardModel>();
+  //
+  // VanBanDonViCubit() {}
+  // bool isDanhSachDaXuLy = false;
+  // bool isDanhSachChoTrinhKy = true;
+  // bool isDanhSachChoXuLy = true;
+  // List<String> maTrangThaiVBDen = [];
+  // List<int> trangThaiFilter = [];
+  // void getDocument() {
+  //   callApi(startDate.toString(), endDate.toString());
+  // }
+  //
+  // void selectTrangThaiVBDen(SelectKey selectKey) {
+  //   switch (selectKey) {
+  //     case SelectKey.CHO_XU_LY:
+  //       maTrangThaiVBDen = ["CHO_XU_LY", "CHO_PHAN_XU_LY"];
+  //       isDanhSachDaXuLy = true;
+  //       break;
+  //     case SelectKey.DANG_XU_LY:
+  //       isDanhSachDaXuLy = false;
+  //       maTrangThaiVBDen = ["DANG_XU_LY"];
+  //       break;
+  //     case SelectKey.DA_XU_LY:
+  //       isDanhSachDaXuLy = false;
+  //       maTrangThaiVBDen = ["DA_XU_LY"];
+  //       break;
+  //     case SelectKey.CHO_VAO_SO:
+  //       isDanhSachDaXuLy = false;
+  //       maTrangThaiVBDen = ["CHO_VAO_SO"];
+  //       break;
+  //     default:
+  //       {}
+  //   }
+  // }
+  //
+  // void selectTrangThaiVBDi(SelectKey selectKey) {
+  //   switch (selectKey) {
+  //     case SelectKey.CHO_TRINH_KY:
+  //       trangThaiFilter = [1];
+  //       isDanhSachChoTrinhKy = true;
+  //       isDanhSachChoXuLy = false;
+  //       isDanhSachDaXuLy = false;
+  //       break;
+  //     case SelectKey.CHO_XU_LY:
+  //       trangThaiFilter = [2];
+  //       isDanhSachChoTrinhKy = false;
+  //       isDanhSachChoXuLy = true;
+  //       isDanhSachDaXuLy = false;
+  //       break;
+  //     case SelectKey.DA_XU_LY:
+  //       trangThaiFilter = [];
+  //       isDanhSachChoTrinhKy = false;
+  //       isDanhSachChoXuLy = false;
+  //       isDanhSachDaXuLy = true;
+  //       break;
+  //     case SelectKey.CHO_CAP_SO:
+  //       trangThaiFilter = [5];
+  //       isDanhSachChoTrinhKy = false;
+  //       isDanhSachChoXuLy = false;
+  //       isDanhSachDaXuLy = false;
+  //       break;
+  //     case SelectKey.CHO_BAN_HANH:
+  //       trangThaiFilter = [6];
+  //       isDanhSachChoTrinhKy = false;
+  //       isDanhSachChoXuLy = false;
+  //       isDanhSachDaXuLy = false;
+  //       break;
+  //     default:
+  //       {}
+  //   }
+  // }
+
+  @override
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    if (selectKey != selectKeyTime || selectKey == SelectKey.TUY_CHON) {
+      selectKeyTime = selectKey;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      // callApi(startDate.toString(), endDate.toString());
+    }
+    selectKeyDialog.sink.add(true);
+  }
+
+  // Future<void> callApi(String startDate, String endDate) async {
+  //   showLoading();
+  //   final queue = Queue(parallel: 2);
+  //   unawaited(
+  //     queue.add(
+  //           () => homeRep.getVBden(startDate, endDate).then(
+  //             (value) {
+  //           value.when(
+  //             success: (res) {
+  //               _getDocumentVBDen.sink.add(res);
+  //             },
+  //             error: (err) {},
+  //           );
+  //         },
+  //       ),
+  //     ),
+  //   );
+  //   unawaited(
+  //     queue.add(
+  //           () => homeRep.getVBdi(startDate, endDate).then(
+  //             (value) {
+  //           value.when(
+  //             success: (res) {
+  //               _getDocumentVBDi.sink.add(res);
+  //             },
+  //             error: (err) {},
+  //           );
+  //         },
+  //       ),
+  //     ),
+  //   );
+  //   await queue.onComplete;
+  //   showContent();
+  // }
+  //
+  // Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
+  //
+  // Stream<DocumentDashboardModel> get getDocumentVBDen =>
+  //     _getDocumentVBDen.stream;
+  //
+  // @override
+  // void dispose() {
+  //   _getDocumentVBDen.close();
+  //   _getDocumentVBDi.close();
+  // }
+}
+
+
 
 ///Văn bản
 class VanBanCubit extends HomeCubit with SelectKeyDialog {

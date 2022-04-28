@@ -13,6 +13,7 @@ enum WidgetType {
   listWork,
   eventOfDay,
   sinhNhat,
+  vanBanDonVi
 }
 
 class WidgetModel {
@@ -37,7 +38,7 @@ class WidgetModel {
   bool? isShowing;
   int? x;
   int? y;
-  String? i;
+  int? i;
   bool? enable;
   bool? moved;
   int? w;

@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
 import 'package:flutter/cupertino.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/calendar_work_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/document_widget.dart';
@@ -88,6 +89,11 @@ extension ItemPreview on WidgetType {
           key: KeyKeepAlivePreview._keyNhiemVu,
           homeItemType: WidgetType.nhiemVu,
         );
+      case WidgetType.vanBanDonVi:
+        return VanBanDonViWidget(
+          key: KeyKeepAlivePreview._keyVanBanDonVi,
+          homeItemType: WidgetType.vanBanDonVi,
+        );
     }
   }
 
@@ -154,6 +160,11 @@ extension ItemPreview on WidgetType {
           key: KeyKeepAlivePreview._keyNhiemVu,
           homeItemType: WidgetType.nhiemVu,
         );
+      case WidgetType.vanBanDonVi:
+        return VanBanDonViWidget(
+          key: KeyKeepAlivePreview._keyVanBanDonVi,
+          homeItemType: WidgetType.vanBanDonVi,
+        );
     }
   }
 }
@@ -171,4 +182,5 @@ class KeyKeepAlivePreview {
   static final _keyListWork = GlobalKey();
   static final _keyEventOfDay = GlobalKey();
   static final _keySinhNhat = GlobalKey();
+  static final _keyVanBanDonVi = GlobalKey();
 }

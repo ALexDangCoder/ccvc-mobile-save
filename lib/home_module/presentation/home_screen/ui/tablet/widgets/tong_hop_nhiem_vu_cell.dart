@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TongHopNhiemVuCell extends StatefulWidget {
+  final int count;
   final Widget Function(BuildContext, int) builder;
-  const TongHopNhiemVuCell({Key? key, required this.builder}) : super(key: key);
+  const TongHopNhiemVuCell(
+      {Key? key, required this.builder, required this.count})
+      : super(key: key);
 
   @override
   State<TongHopNhiemVuCell> createState() => _TongHopNhiemVuCellState();
@@ -11,60 +14,12 @@ class TongHopNhiemVuCell extends StatefulWidget {
 class _TongHopNhiemVuCellState extends State<TongHopNhiemVuCell> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: widget.builder(context, 0),
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              Expanded(
-                child: widget.builder(context, 1),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: widget.builder(context, 2),
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              Expanded(
-                child: widget.builder(context, 3),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: widget.builder(context, 4),
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              Expanded(
-                child: widget.builder(context, 5),
-              )
-            ],
-          ),
-        )
-      ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+          widget.count,
+          (index) =>
+              SizedBox(width: 163, height: 200,child: widget.builder(context, index))),
     );
   }
 }

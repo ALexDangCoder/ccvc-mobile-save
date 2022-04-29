@@ -1,4 +1,5 @@
 
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -54,20 +55,23 @@ class DoubleButtonBottom extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     onPressed1();
+                    // AppTheme.getInstance().colorSelect()
+
                   },
+
                   child: Container(
                     height: 40.0.textScale(space: 16.0),
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: buttonColor2,
+                      color: AppTheme.getInstance().colorSelect().withOpacity(0.1),
                     ),
                     child: Center(
                       child: Text(
                         title1,
                         style: textNormalCustom(
                           fontSize: 14.0.textScale(space: 4.0),
-                          color: textDefault,
+                          color: AppTheme.getInstance().colorSelect(),
                         ),
                       ),
                     ),
@@ -85,7 +89,7 @@ class DoubleButtonBottom extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: textDefault,
+                      color: AppTheme.getInstance().colorSelect(),
                     ),
                     child: Center(
                       child: Text(

@@ -138,6 +138,9 @@ class DocumentState {
   static const String DANG_XU_LY = 'DANG_XU_LY';
   static const String DA_XU_LY = 'DA_XU_LY';
   static const String CHO_VAO_SO = 'CHO_VAO_SO';
+  static const String QUA_HAN = 'QUA_HAN';
+  static const String DEN_HAN = 'DEN_HAN';
+  static const String TRONG_HAN = 'TRONG_HAN';
 }
 
 class SelectKeyPath {

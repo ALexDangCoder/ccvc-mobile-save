@@ -110,25 +110,25 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                           paddingTop: 0,
                           chartData: [
                             ChartData(
-                                S.current.cho_xu_ly,
-                                data.soLuongChoXuLy?.toDouble() ?? 0,
-                                choXuLyColor,
-                                SelectKey.CHO_XU_LY),
+                                S.current.cho_vao_so,
+                                data.soLuongChoVaoSo?.toDouble() ?? 0,
+                                choVaoSoColor,
+                                SelectKey.CHO_VAO_SO),
                             ChartData(
                                 S.current.dang_xu_ly,
                                 data.soLuongDangXuLy?.toDouble() ?? 0,
                                 dangXyLyColor,
                                 SelectKey.DANG_XU_LY),
                             ChartData(
+                                S.current.cho_xu_ly,
+                                data.soLuongChoXuLy?.toDouble() ?? 0,
+                                choXuLyColor,
+                                SelectKey.CHO_XU_LY),
+                            ChartData(
                                 S.current.da_xu_ly,
                                 data.soLuongDaXuLy?.toDouble() ?? 0,
                                 daXuLyColor,
                                 SelectKey.DA_XU_LY),
-                            ChartData(
-                                S.current.cho_vao_so,
-                                data.soLuongChoVaoSo?.toDouble() ?? 0,
-                                choVaoSoColor,
-                                SelectKey.CHO_VAO_SO),
                           ],
                           onTap: (value, key) {
                             if (key != null) {
@@ -153,9 +153,18 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                         ),
                         HanXuLyWidget(
                           data: [
-                            ChartData(S.current.qua_han, 20, statusCalenderRed),
-                            ChartData(S.current.den_han, 30, yellowColor),
-                            ChartData(S.current.trong_han, 10, choTrinhKyColor)
+                            ChartData(
+                                S.current.qua_han,
+                                data.soLuongQuaHan?.toDouble() ?? 0,
+                                statusCalenderRed),
+                            ChartData(
+                                S.current.den_han,
+                                data.soLuongDenHan?.toDouble() ?? 0,
+                                yellowColor),
+                            ChartData(
+                                S.current.trong_han,
+                                data.soLuongTrongHan?.toDouble() ?? 0,
+                                choTrinhKyColor)
                           ],
                         )
                       ],

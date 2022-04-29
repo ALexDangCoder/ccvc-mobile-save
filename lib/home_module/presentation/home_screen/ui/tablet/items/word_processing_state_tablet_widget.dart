@@ -154,9 +154,18 @@ class _WordProcessingStateWidgetState
                             ),
                             HanXuLyWidget(
                               data: [
-                                ChartData(S.current.qua_han, 10, statusCalenderRed),
-                                ChartData(S.current.den_han, 2, yellowColor),
-                                ChartData(S.current.trong_han, 2, choTrinhKyColor)
+                                ChartData(
+                                    S.current.qua_han,
+                                    data.soLuongQuaHan?.toDouble() ?? 0,
+                                    statusCalenderRed),
+                                ChartData(
+                                    S.current.den_han,
+                                    data.soLuongDenHan?.toDouble() ?? 0,
+                                    yellowColor),
+                                ChartData(
+                                    S.current.trong_han,
+                                    data.soLuongTrongHan?.toDouble() ?? 0,
+                                    choTrinhKyColor)
                               ],
                             )
                           ],

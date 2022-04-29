@@ -16,11 +16,11 @@ import '/home_module/domain/model/home/WidgetType.dart';
 
 class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   final BehaviorSubject<List<WidgetModel>> _listWidgetUsing =
-      BehaviorSubject<List<WidgetModel>>();
+  BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<List<WidgetModel>> _listWidgetNotUse =
-      BehaviorSubject<List<WidgetModel>>();
+  BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<List<WidgetModel>> _listUpdate =
-      BehaviorSubject<List<WidgetModel>>();
+  BehaviorSubject<List<WidgetModel>>();
 
   WidgetManageCubit() : super(WidgetManagerStateInitial());
 
@@ -31,6 +31,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   Stream<List<WidgetModel>> get listUpdate => _listUpdate.stream;
   List<WidgetModel> listUsing = [];
   List<WidgetModel> listNotUse = [];
+  List<WidgetModel> listTempFullPara = [];
   List<String> listTitleWidgetUse = [];
   final List<String> listResponse = [];
   final List<String> removeWidget = [
@@ -51,33 +52,26 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   void loadApi() {
     _getListWidgetUsing();
+    setFullParaNotUse();
     _getListWidgetNotUse();
   }
 
-  void insertItemUsing(
-    WidgetModel widgetItem,
-    int index,
-  ) {
-    final List<WidgetModel> listItemWidgetUsing = _listWidgetUsing.value;
-    final List<WidgetModel> listItemWidgetNotUse = _listWidgetNotUse.value;
-    listItemWidgetUsing.insert(listItemWidgetUsing.length, widgetItem);
-    listItemWidgetNotUse.removeAt(index);
-    orderWidgetHome(listItemWidgetUsing);
-    _listWidgetUsing.sink.add(listItemWidgetUsing);
-    _listWidgetNotUse.sink.add(listItemWidgetNotUse);
+  void insertItemUsing(WidgetModel widgetItem,
+      int index,) {
+    listUsing.insert(listUsing.length, widgetItem);
+    listNotUse.removeAt(index);
+    _listWidgetUsing.sink.add(listUsing);
+    orderWidgetHome(listUsing);
+    _listWidgetNotUse.sink.add(listNotUse);
   }
 
-  void insertItemNotUse(
-    WidgetModel widgetItem,
-    int index,
-  ) {
-    final List<WidgetModel> listItemWidgetUsing = _listWidgetUsing.value;
-    final List<WidgetModel> listItemWidgetNotUse = _listWidgetNotUse.value;
-    listItemWidgetNotUse.insert(0, widgetItem);
-    listItemWidgetUsing.removeAt(index);
-    _listWidgetUsing.sink.add(listItemWidgetUsing);
-    orderWidgetHome(listItemWidgetUsing);
-    _listWidgetNotUse.sink.add(listItemWidgetNotUse);
+  void insertItemNotUse(WidgetModel widgetItem,
+      int index,) {
+    listNotUse.insert(0, widgetItem);
+    listUsing.removeAt(index);
+    _listWidgetUsing.sink.add(listUsing);
+    orderWidgetHome(listUsing);
+    _listWidgetNotUse.sink.add(listNotUse);
   }
 
   void dispose() {
@@ -85,10 +79,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     _listWidgetNotUse.close();
   }
 
-  void sortListWidget(
-    int oldIndex,
-    int newIndex,
-  ) {
+  void sortListWidget(int oldIndex,
+      int newIndex,) {
     final List<WidgetModel> listUpdate = _listWidgetUsing.value;
     final element = listUpdate.removeAt(oldIndex);
     listUpdate.insert(newIndex, element);
@@ -120,11 +112,27 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
           // ignore: iterable_contains_unrelated_type
           if (!listTitleWidgetUse.contains(element.name) &&
               !removeWidget.contains(element.component)) {
-            listNotUse.add(element);
+            for (final fullPara in listTempFullPara) {
+              if (fullPara.name == element.name) {
+                listNotUse.add(fullPara);
+              }
+            }
           }
         }
         _listWidgetNotUse.sink.add(listNotUse);
         showContent();
+      },
+      error: (err) {
+        return;
+      },
+    );
+  }
+
+  Future<void> setFullParaNotUse() async {
+    final result = await _qlWidgetRepo.resetListWidget();
+    result.when(
+      success: (res) {
+        listTempFullPara = res;
       },
       error: (err) {
         return;
@@ -172,11 +180,11 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   HomeRepository get homeRep => Get.find();
+
   Future<void> configWidget() async {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
-
         _listWidgetUsing.sink.add(res);
       },
       error: (err) {},
@@ -192,22 +200,20 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));
-
     }
   }
 
- Future <void> onRefreshData() async{
-   final result = await homeRep.getDashBoardConfig();
-   result.when(
-     success: (res) {
-       final data =
-       res.where((element) => element.widgetType != null).toList();
-       listTitleWidgetUse = data.map((e) => e.name).toList();
-       _listWidgetUsing.sink.add(data);
-       _getListWidgetNotUse();
-     },
-     error: (err) {},
-   );
-
+  Future<void> onRefreshData() async {
+    final result = await homeRep.getDashBoardConfig();
+    result.when(
+      success: (res) {
+        final data =
+        res.where((element) => element.widgetType != null).toList();
+        listTitleWidgetUse = data.map((e) => e.name).toList();
+        _listWidgetUsing.sink.add(data);
+        _getListWidgetNotUse();
+      },
+      error: (err) {},
+    );
   }
 }

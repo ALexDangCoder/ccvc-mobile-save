@@ -65,7 +65,13 @@ class _ManagerPersonalInformationState
                     id: widget.id,
                   ),
                 ),
-              );
+              ).then((value) {
+                if (value == true) {
+                  _cubit.loadApi(id: widget.id);
+                } else if (value == null) {
+                  return;
+                }
+              });
             },
             child: SvgPicture.asset(
               ImageAssets.icManager,

@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:io';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/chon_bien_ban_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/phan_cong_thu_ky_request.dart';
@@ -16,7 +16,6 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
@@ -291,7 +290,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }
 
   String plusTaoBieuQuyet(String date, TimerData time) {
-    final DateFormat dateFormat = DateFormat('yyyy-MM-dd 00:00:00');
+    final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     final dateTime = dateFormat.parse(date);
 
     final times = DateTime(
@@ -379,12 +378,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }
 
   bool? loaiBieuQ = false;
-  String date = '';
+  String date = DateTime.now().toStringWithListFormat;
 
-  String timer(String time) {
-    final dateTime = DateTime.parse(time).toStringWithListFormat;
-    return dateTime;
-  }
+  // String timer(String time) {
+  //   final dateTime = DateTime.parse(time).toStringWithListFormat;
+  //   return dateTime;
+  // }
 
   List<DanhSachNguoiThamGiaModel> listDanhSach = [];
   List<String> listLuaChon = [];
@@ -399,7 +398,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Future<void> postThemBieuQuyetHop(String id, String noidung) async {
     await themBieuQuyetHop(
-      dateStart: timer(date),
+      dateStart: date,
       thoiGianBatDau: plusTaoBieuQuyet(
         date,
         start,

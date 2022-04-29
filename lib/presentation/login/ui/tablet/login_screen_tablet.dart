@@ -153,6 +153,15 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 setState(() {});
                                 return loginCubit.isHideClearData = true;
                               },
+                              validator: (value) {
+                                if ((value?.length ?? 0) > 255) {
+                                  return S.current.nhap_sai_dinh_dang;
+                                } else if ((value ?? '').contains('@')) {
+                                  return (value ?? '').checkEmailBoolean();
+                                } else {
+                                  return (value ?? '').checkTruongNull('Tài khoản!');
+                                }
+                              },
                             ),
                             const SizedBox(
                               height: 24,
@@ -200,6 +209,9 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 setState(() {});
                                 return loginCubit.isHideEye1 = true;
                               },
+                              validator: (value) {
+                                return (value ?? '').checkTruongNull('Mật khẩu!');
+                              },
                             ),
                             const SizedBox(
                               height: 24,
@@ -225,9 +237,13 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               title: S.current.login,
                               isColorBlue: true,
                               onPressed: () async {
-                                final String username = textTaiKhoanController.text;
-                                final String pass = textPasswordController.text;
-                                await loginCubit.validateLogin(username, pass);
+                                if (keyGroup.currentState!.validator()) {
+                                  await loginCubit.loginAndSaveinfo(
+                                    passWord: textPasswordController.text,
+                                    userName: textTaiKhoanController.text,
+                                    appCode: APP_CODE,
+                                  );
+                                }
                               },
                             ),
                             const SizedBox(

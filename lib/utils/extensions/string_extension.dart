@@ -99,24 +99,30 @@ extension CheckValidate on String {
       return S.current.dinh_dang_email;
     }
   }
-  bool? checkEmailBoolean() {
+
+  String? checkEmailBoolean() {
     final isCheck = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
         .hasMatch(this);
     if (isCheck) {
-      return true;
+      if (this.indexOf('@') >= 64) {
+        return S.current.nhap_sai_dinh_dang;
+      } else {
+        return null;
+      }
     } else {
-      return false;
+      return S.current.nhap_sai_dinh_dang;
     }
   }
-  String? checkPassWordChangePass(String title) {
-    final isCheck = RegExp(
-        r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
-        .hasMatch(this);
+
+  String? checkPassWordChangePass() {
+    final isCheck =
+        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+            .hasMatch(this);
     if (isCheck) {
       return null;
     } else {
-      return S.current.sai_dinh_dang_truong+title;
+      return S.current.nhap_sai_dinh_dang;
     }
   }
 
@@ -132,6 +138,13 @@ extension CheckValidate on String {
   String? checkNull() {
     if (trim().isEmpty) {
       return S.current.khong_duoc_de_trong;
+    }
+    return null;
+  }
+
+  String? checkTruongNull(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.ban_phai_nhap_truong + name}';
     }
     return null;
   }

@@ -126,6 +126,21 @@ extension CheckValidate on String {
     }
   }
 
+  String? checkEmailBoolean() {
+    final isCheck = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
+        .hasMatch(this);
+    if (isCheck) {
+      if (indexOf('@') >= 64) {
+        return S.current.nhap_sai_dinh_dang;
+      } else {
+        return null;
+      }
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
   String? checkSdt() {
     final isCheckSdt = RegExp(r'^(?:[+0]9)?[0-9]{10}$').hasMatch(this);
     if (isCheckSdt) {

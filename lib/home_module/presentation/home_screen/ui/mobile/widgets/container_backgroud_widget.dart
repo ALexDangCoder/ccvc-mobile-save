@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -133,7 +134,7 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                               horizontal: 24),
                           color: Colors.transparent,
                           alignment: Alignment.centerRight,
-                          child: SvgPicture.asset(widget.urlIcon),
+                          child: SvgPicture.asset(widget.urlIcon,color: AppTheme.getInstance().colorSelect(),),
                         ),
                       ) else widget.dialogSelect ?? const SizedBox()
                     ],

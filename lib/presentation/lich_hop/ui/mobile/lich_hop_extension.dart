@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
@@ -97,7 +98,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
               return Text(
                 data.formatDayCalendar,
                 style: textNormalCustom(
-                  color: textColor,
+                  color: AppTheme.getInstance().colorField(),
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w500,
                 ),
@@ -112,7 +113,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
             return Text(
               data.startEndWeek,
               style: textNormalCustom(
-                color: textColor,
+                color:  AppTheme.getInstance().colorField(),
                 fontSize: 14.0.textScale(),
                 fontWeight: FontWeight.w500,
               ),
@@ -133,7 +134,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
               return Text(
                 dataString,
                 style: textNormalCustom(
-                  color: textColor,
+                  color:  AppTheme.getInstance().colorField(),
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w500,
                 ),

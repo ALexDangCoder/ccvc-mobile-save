@@ -1,9 +1,11 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/shared/utils.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_cubit.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/utils.dart';
 import 'package:flutter/material.dart';
+import 'customization/calendar_style.dart';
 
 class TableCandarTablet extends StatefulWidget {
   final Type_Choose_Option_Day type;
@@ -146,6 +148,19 @@ class _TableCandarTabletState extends State<TableCandarTablet> {
           onPageChanged: (focusedDay) {
             cubitCalendar.focusedDay = focusedDay;
           },
+          calendarStyle: CalendarStyle(
+              todayDecoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.getInstance().colorField().withOpacity(0.1),
+              ),
+              todayTextStyle: TextStyle(
+                color: AppTheme.getInstance().colorField(),
+                fontSize: 16.0,
+              ),
+              selectedDecoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.getInstance().colorField(),
+              )),
         );
       },
     );

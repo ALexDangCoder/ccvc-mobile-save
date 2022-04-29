@@ -74,44 +74,45 @@ class _SituationOfHandlingPeopleWidgetState
               ],
             );
           }),
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _yKienCubit.stateStream,
-          child: StreamBuilder<List<TinhHinhYKienModel>>(
-              stream: _yKienCubit.getTinhHinhXuLy,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? <TinhHinhYKienModel>[];
-                if (data.isEmpty) {
-                  return const NodataWidget();
-                }
-                return PieChart(
-                  paddingLeftSubTitle: 15.w,
-                  chartData: List.generate(
-                    data.length,
-                    (index) {
-                      final result = data[index];
-                      final color = TinhHinhYKienModel.listColor[index];
-                      return ChartData(
-                        result.status,
-                        result.soLuong.toDouble(),
-                        color,
-                      );
-                    },
-                  ),
-                  onTap: (value, key) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DanhSachYKNDTablet(
-                          endDate: _yKienCubit.endDate.toString(),
-                          startDate: _yKienCubit.startDate.toString(),
-                        ),
-                      ),
+      child: LoadingOnly(
+        stream: _yKienCubit.stateStream,
+        child: StreamBuilder<List<TinhHinhYKienModel>>(
+            stream: _yKienCubit.getTinhHinhXuLy,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <TinhHinhYKienModel>[];
+              if (data.isEmpty) {
+                return const Padding(
+                  padding:  EdgeInsets.symmetric(vertical: 100),
+                  child:  NodataWidget(),
+                );
+              }
+              return PieChart(
+                paddingLeftSubTitle: 15.w,
+                chartData: List.generate(
+                  data.length,
+                  (index) {
+                    final result = data[index];
+                    final color = TinhHinhYKienModel.listColor[index];
+                    return ChartData(
+                      result.status,
+                      result.soLuong.toDouble(),
+                      color,
                     );
                   },
-                );
-              }),
-        ),
+                ),
+                onTap: (value, key) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DanhSachYKNDTablet(
+                        endDate: _yKienCubit.endDate.toString(),
+                        startDate: _yKienCubit.startDate.toString(),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }),
       ),
     );
   }

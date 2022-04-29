@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -500,29 +501,41 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
   void clickScreen(TongHopNhiemVuType type){
     switch(type){
 
-      case TongHopNhiemVuType.tongSoNV:
-        mangTrangThai = [];
-        trangThaiHanXuLy = null;
+     //  case TongHopNhiemVuType.tongSoNV:
+     //    mangTrangThai = [];
+     //    trangThaiHanXuLy = null;
+     //    break;
+     //  case TongHopNhiemVuType.hoanThanhNhiemVu:
+     //   mangTrangThai = ["DA_HOAN_THANH"];
+     //   trangThaiHanXuLy = null;
+     //    break;
+     //  case TongHopNhiemVuType.nhiemVuDangThucHien:
+     //   mangTrangThai = ["DANG_THUC_HIEN"];
+     //   trangThaiHanXuLy = null;
+     //    break;
+     //  case TongHopNhiemVuType.hoanThanhQuaHan:
+     // mangTrangThai = ["DA_HOAN_THANH"];
+     // trangThaiHanXuLy = 2;
+     //    break;
+     //  case TongHopNhiemVuType.dangThucHienTrongHan:
+     //    mangTrangThai = ["DANG_THUC_HIEN"];
+     //    trangThaiHanXuLy = 3;
+     //    break;
+     //  case TongHopNhiemVuType.dangThucHienQuaHan:
+     //    mangTrangThai = ["DANG_THUC_HIEN"];
+     // trangThaiHanXuLy = 2;
+     //    break;
+      case TongHopNhiemVuType.choPhanXuLy:
+        // TODO: Handle this case.
+        break;
+      case TongHopNhiemVuType.chuaThucHien:
+        // TODO: Handle this case.
+        break;
+      case TongHopNhiemVuType.dangThucHien:
+        // TODO: Handle this case.
         break;
       case TongHopNhiemVuType.hoanThanhNhiemVu:
-       mangTrangThai = ["DA_HOAN_THANH"];
-       trangThaiHanXuLy = null;
-        break;
-      case TongHopNhiemVuType.nhiemVuDangThucHien:
-       mangTrangThai = ["DANG_THUC_HIEN"];
-       trangThaiHanXuLy = null;
-        break;
-      case TongHopNhiemVuType.hoanThanhQuaHan:
-     mangTrangThai = ["DA_HOAN_THANH"];
-     trangThaiHanXuLy = 2;
-        break;
-      case TongHopNhiemVuType.dangThucHienTrongHan:
-        mangTrangThai = ["DANG_THUC_HIEN"];
-        trangThaiHanXuLy = 3;
-        break;
-      case TongHopNhiemVuType.dangThucHienQuaHan:
-        mangTrangThai = ["DANG_THUC_HIEN"];
-     trangThaiHanXuLy = 2;
+        // TODO: Handle this case.
         break;
     }
   }

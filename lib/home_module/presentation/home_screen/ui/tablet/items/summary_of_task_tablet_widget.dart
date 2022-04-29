@@ -32,6 +32,7 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -47,7 +48,6 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
-      maxHeight: 858,
       title: S.current.summary_of_tasks,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
@@ -55,93 +55,95 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
       isUnit: true,
       selectKeyDialog: _nhiemVuCubit,
       dialogSelect: StreamBuilder(
-        stream: _nhiemVuCubit.selectKeyDialog,
-        builder: (context, snapshot) {
-          return DialogSettingWidget(
-            type: widget.homeItemType,
-            listSelectKey: [
-              DialogData(
-                onSelect: (value, _, __) {
-                  _nhiemVuCubit.selectDonVi(
-                    selectKey: value,
-                  );
-                },
-                title: S.current.nhiem_vu,
-                initValue: _nhiemVuCubit.selectKeyDonVi,
-                key: [
-                  SelectKey.CA_NHAN,
-                  SelectKey.DON_VI,
-                ],
-              ),
-              DialogData(
-                onSelect: (value, startDate, endDate) {
-                  _nhiemVuCubit.selectDate(
-                    selectKey: value,
-                    startDate: startDate,
-                    endDate: endDate,
-                  );
-                },
-                startDate: _nhiemVuCubit.startDate,
-                endDate: _nhiemVuCubit.endDate,
-                title: S.current.time,
-                initValue: _nhiemVuCubit.selectKeyTime,
-              )
-            ],
-          );
-        }
-      ),
+          stream: _nhiemVuCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                  onSelect: (value, _, __) {
+                    _nhiemVuCubit.selectDonVi(
+                      selectKey: value,
+                    );
+                  },
+                  title: S.current.nhiem_vu,
+                  initValue: _nhiemVuCubit.selectKeyDonVi,
+                  key: [
+                    SelectKey.CA_NHAN,
+                    SelectKey.DON_VI,
+                  ],
+                ),
+                DialogData(
+                  onSelect: (value, startDate, endDate) {
+                    _nhiemVuCubit.selectDate(
+                      selectKey: value,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                  },
+                  startDate: _nhiemVuCubit.startDate,
+                  endDate: _nhiemVuCubit.endDate,
+                  title: S.current.time,
+                  initValue: _nhiemVuCubit.selectKeyTime,
+                )
+              ],
+            );
+          }),
       padding: EdgeInsets.zero,
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _nhiemVuCubit.stateStream,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 22),
-            child: StreamBuilder<List<TongHopNhiemVuModel>>(
-              stream: _nhiemVuCubit.getTonghopNhiemVu,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? <TongHopNhiemVuModel>[];
-                if (data.isNotEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: TongHopNhiemVuCell(
-                      builder: (context, index) {
-                        final result = data[index];
-                        return GestureDetector(
-                          onTap: (){
-                            _nhiemVuCubit.clickScreen(result.tongHopNhiemVuModel);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DanhSachNhiemVuTablet(
-                                  ngayBatDau: _nhiemVuCubit.startDate.toString(),
-                                  ngayKetThuc: _nhiemVuCubit.endDate.toString(),
-                                  isCheck: _nhiemVuCubit.selectKeyDonVi ==
-                                      SelectKey.DON_VI
-                                      ? false
-                                      : true,
-                                  mangTrangThai: _nhiemVuCubit.mangTrangThai,
-                                  trangThaiHanXuLy: _nhiemVuCubit.trangThaiHanXuLy,
-                                ),
+      child: LoadingOnly(
+        stream: _nhiemVuCubit.stateStream,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 22),
+          child: StreamBuilder<List<TongHopNhiemVuModel>>(
+            stream: _nhiemVuCubit.getTonghopNhiemVu,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <TongHopNhiemVuModel>[];
+              if (data.isNotEmpty) {
+                return TongHopNhiemVuCell(
+                  count: data.length,
+                  builder: (context, index) {
+                    final result = data[index];
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          right: index == data.length - 1 ? 0 : 17),
+                      child: GestureDetector(
+                        onTap: () {
+                          _nhiemVuCubit
+                              .clickScreen(result.tongHopNhiemVuModel);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachNhiemVuTablet(
+                                ngayBatDau:
+                                    _nhiemVuCubit.startDate.toString(),
+                                ngayKetThuc: _nhiemVuCubit.endDate.toString(),
+                                isCheck: _nhiemVuCubit.selectKeyDonVi ==
+                                        SelectKey.DON_VI
+                                    ? false
+                                    : true,
+                                mangTrangThai: _nhiemVuCubit.mangTrangThai,
+                                trangThaiHanXuLy:
+                                    _nhiemVuCubit.trangThaiHanXuLy,
                               ),
-                            );
-                          },
-                          child: NhiemVuWidget(
-                            value: result.value.toString(),
-                            urlIcon:result.tongHopNhiemVuModel.urlImg(),
-                            title: result.tongHopNhiemVuModel.getText(),
-                            type: result.tongHopNhiemVuModel,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 100),
-                  child: NodataWidget(),
+                            ),
+                          );
+                        },
+                        child: NhiemVuWidget(
+                          value: result.value.toString(),
+                          urlIcon: result.tongHopNhiemVuModel.urlImg(),
+                          title: result.tongHopNhiemVuModel.getText(),
+                          type: result.tongHopNhiemVuModel,
+                        ),
+                      ),
+                    );
+                  },
                 );
-              },
-            ),
+              }
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 100),
+                child: NodataWidget(),
+              );
+            },
           ),
         ),
       ),

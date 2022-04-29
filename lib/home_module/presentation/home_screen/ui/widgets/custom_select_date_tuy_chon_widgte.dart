@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -241,7 +242,9 @@ class _CustomSelectDateWidgetState extends State<CustomSelectDateWidget> {
         width: 108,
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: isClose ? unFocusColor : labelColor,
+          color: isClose
+              ? AppTheme.getInstance().colorSelect().withOpacity(0.1)
+              : AppTheme.getInstance().colorSelect(),
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         alignment: Alignment.center,
@@ -249,7 +252,7 @@ class _CustomSelectDateWidgetState extends State<CustomSelectDateWidget> {
           title,
           style: textNormalCustom(
             fontSize: 16,
-            color: isClose ? indicatorColor : backgroundColorApp,
+            color: isClose ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
           ),
         ),
       ),

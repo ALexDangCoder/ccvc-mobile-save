@@ -105,7 +105,7 @@ extension CheckValidate on String {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
         .hasMatch(this);
     if (isCheck) {
-      if (this.indexOf('@') >= 64) {
+      if (indexOf('@') >= 64) {
         return S.current.nhap_sai_dinh_dang;
       } else {
         return null;
@@ -121,21 +121,6 @@ extension CheckValidate on String {
             .hasMatch(this);
     if (isCheck) {
       return null;
-    } else {
-      return S.current.nhap_sai_dinh_dang;
-    }
-  }
-
-  String? checkEmailBoolean() {
-    final isCheck = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
-        .hasMatch(this);
-    if (isCheck) {
-      if (indexOf('@') >= 64) {
-        return S.current.nhap_sai_dinh_dang;
-      } else {
-        return null;
-      }
     } else {
       return S.current.nhap_sai_dinh_dang;
     }

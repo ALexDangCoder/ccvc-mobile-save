@@ -76,56 +76,57 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
           );
         }
       ),
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _danCubit.stateStream,
-          child: StreamBuilder<List<DocumentModel>>(
-            stream: _danCubit.getYKien,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <DocumentModel>[];
-              if (data.isEmpty) {
-                return const NodataWidget();
-              }
-              return ScrollBarWidget(
-                children: List.generate(data.length, (index) {
-                  final result = data[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChiTietVanBanTabletScreen(
-                              iD:result.id,
-                              taskID:result.taskId ,
-                            ),
-                          ),
-                        );
-                      },
-                      child: ContainerInfoWidget(
-                        title: result.title,
-                        status: result.documentStatus.getText(),
-                        colorStatus: result.documentStatus.getColor(),
-                        listData: [
-                          InfoData(
-                            urlIcon: ImageAssets.icSoKyHieu,
-                            key: S.current.so_ky_hieu,
-                            value: result.kyHieu,
-                          ),
-                          InfoData(
-                            urlIcon: ImageAssets.icAddress,
-                            key: S.current.noi_gui,
-                            value: result.noiGui,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+      child: LoadingOnly(
+        stream: _danCubit.stateStream,
+        child: StreamBuilder<List<DocumentModel>>(
+          stream: _danCubit.getYKien,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? <DocumentModel>[];
+            if (data.isEmpty) {
+              return const Padding(
+                padding:  EdgeInsets.symmetric(vertical: 100),
+                child:  NodataWidget(),
               );
             }
-          ),
+            return ScrollBarWidget(
+              children: List.generate(data.length, (index) {
+                final result = data[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChiTietVanBanTabletScreen(
+                            iD:result.id,
+                            taskID:result.taskId ,
+                          ),
+                        ),
+                      );
+                    },
+                    child: ContainerInfoWidget(
+                      title: result.title,
+                      status: result.documentStatus.getText(),
+                      colorStatus: result.documentStatus.getColor(),
+                      listData: [
+                        InfoData(
+                          urlIcon: ImageAssets.icSoKyHieu,
+                          key: S.current.so_ky_hieu,
+                          value: result.kyHieu,
+                        ),
+                        InfoData(
+                          urlIcon: ImageAssets.icAddress,
+                          key: S.current.noi_gui,
+                          value: result.noiGui,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            );
+          }
         ),
       ),
     );

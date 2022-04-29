@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
@@ -244,7 +245,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                   }
                 });
               },
-              backgroundColor: labelColor,
+              backgroundColor: AppTheme.getInstance().colorField(),
               child: SvgPicture.asset(ImageAssets.icVectorCalender),
             ),
           ),

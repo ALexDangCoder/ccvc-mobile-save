@@ -1,4 +1,5 @@
 
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,7 @@ class RadioButton<T> extends StatelessWidget {
                   if (states.isEmpty) {
                     return radioUnfocusColor;
                   }
-                  return radioFocusColor;
+                  return AppTheme.getInstance().colorSelect();
                 }),
                 value: value,
                 groupValue: groupValue,

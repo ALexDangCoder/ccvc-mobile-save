@@ -117,54 +117,53 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
             );
           }),
       padding: EdgeInsets.zero,
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _xaHoiCubit.stateStream,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 16,
-              ),
-              tagWidget(cubit),
-              const SizedBox(
-                height: 16,
-              ),
-              Flexible(
-                child: StreamBuilder<List<PressNetWorkModel>>(
-                  stream: _xaHoiCubit.getPressNetWork,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <PressNetWorkModel>[];
-                    if (data.isEmpty) {
-                      return const NodataWidget();
-                    }
-                    return ScrollBarWidget(
-                      children: List.generate(data.length, (index) {
-                        final result = data[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => WebViewScreen(
-                                    title: '',
-                                    url: result.url,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: baoChiWidget(result),
-                          ),
-                        );
-                      }),
+      child: LoadingOnly(
+        stream: _xaHoiCubit.stateStream,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 16,
+            ),
+            tagWidget(cubit),
+            const SizedBox(
+              height: 16,
+            ),
+            StreamBuilder<List<PressNetWorkModel>>(
+              stream: _xaHoiCubit.getPressNetWork,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? <PressNetWorkModel>[];
+                if (data.isEmpty) {
+                  return const Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 100),
+                    child:  NodataWidget(),
+                  );
+                }
+                return ScrollBarWidget(
+                  children: List.generate(data.length, (index) {
+                    final result = data[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => WebViewScreen(
+                                title: '',
+                                url: result.url,
+                              ),
+                            ),
+                          );
+                        },
+                        child: baoChiWidget(result),
+                      ),
                     );
-                  },
-                ),
-              )
-            ],
-          ),
+                  }),
+                );
+              },
+            )
+          ],
         ),
       ),
     );

@@ -130,7 +130,7 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<List<NhomCVMoiModel>>> NhomCVMoi() {
+  Future<Result<List<NhomCVMoiModel>>> nhomCVMoi() {
     return runCatchingAsync<NhomCVMoiDSCVResponse, List<NhomCVMoiModel>>(
       () => _tienIchService.NhomCVMoi(),
       (response) => response.toModel(),

@@ -118,7 +118,8 @@ class _EditWidgetState extends State<EditWidget> {
                                 snapshot.data == true
                                     ? (widget.cubit.person.isEmpty
                                         ? widget.cubit.convertIdToPerson(
-                                            widget.todo.performer ?? '')
+                                            widget.todo.performer ?? '',
+                                          )
                                         : widget.cubit.person)
                                     : (widget.cubit.person.isEmpty)
                                         ? S.current.tim_theo_nguoi
@@ -177,7 +178,7 @@ class _EditWidgetState extends State<EditWidget> {
                 ),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE
-                      ? const EdgeInsets.all(0)
+                      ? EdgeInsets.zero
                       : const EdgeInsets.symmetric(horizontal: 100),
                   child: DoubleButtonBottom(
                     title1: S.current.dong,
@@ -188,7 +189,7 @@ class _EditWidgetState extends State<EditWidget> {
                     },
                     onPressed2: () {
                       Navigator.pop(context);
-                      widget.cubit.editWork(widget.todo);
+                      widget.cubit.editWork(todo: widget.todo);
                     },
                   ),
                 ),

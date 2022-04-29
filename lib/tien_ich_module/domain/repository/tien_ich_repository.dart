@@ -14,9 +14,9 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobi
 mixin TienIchRepository {
   Future<Result<List<TopicHDSD>>> getTopicHDSD();
 
-  Future<Result<TodoListModelTwo>> getListTodo();
-
-  Future<Result<TodoDSCVModel>> upDateTodo(ToDoListRequest toDoListRequest);
+  Future<Result<TodoDSCVModel>> upDateTodo(
+    ToDoListRequest toDoListRequest,
+  );
 
   Future<Result<TodoDSCVModel>> createTodo(CreateToDoRequest createToDoRequest);
 
@@ -52,7 +52,7 @@ mixin TienIchRepository {
     int pageSize,
   );
 
-  Future<Result<List<NhomCVMoiModel>>> NhomCVMoi();
+  Future<Result<List<NhomCVMoiModel>>> nhomCVMoi();
 
   Future<Result<List<TodoDSCVModel>>> getListTodoDSCV();
 

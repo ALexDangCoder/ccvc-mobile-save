@@ -37,11 +37,7 @@ class _DanhSachCongViecTienIchTabletState
   void initState() {
     // TODO: implement initState
     super.initState();
-    cubit.getToDoList();
-    cubit.listNguoiThucHien();
-    cubit.getNHomCVMoi();
-    cubit.getToDoListDSCVTung();
-    cubit.getDSCVGanCHoToi();
+    cubit.initialData();
   }
 
   @override
@@ -114,7 +110,6 @@ class _DanhSachCongViecTienIchTabletState
               Column(
                 children: [
                   StreamBuilder<TodoListModelTwo>(
-                    stream: cubit.getTodoList,
                     builder: (context, snapshot) {
                       final data =
                           snapshot.data?.listTodoImportant ?? <TodoDSCVModel>[];
@@ -225,27 +220,12 @@ class _DanhSachCongViecTienIchTabletState
                                         isTheEdit: true,
                                         text: todo.label ?? '',
                                         todoModel: todo,
-                                        onCheckBox: (value) {
-                                          cubit.tickerListWord(
-                                            todo: todo,
-                                            removeDone: false,
-                                          );
-                                        },
-                                        onStar: () {
-                                          cubit.tickerQuanTrongTodo(
-                                            todo,
-                                            removeDone: false,
-                                          );
-                                        },
+                                        onCheckBox: (value) {},
+                                        onStar: () {},
                                         onClose: () {
                                           showDiaLog(
                                             context,
-                                            funcBtnRight: () {
-                                              cubit.deleteCongViec(
-                                                todo,
-                                                removeDone: false,
-                                              );
-                                            },
+                                            funcBtnRight: () {},
                                             icon: SvgPicture.asset(
                                               ImageAssets.icDeleteLichHop,
                                             ),
@@ -256,12 +236,7 @@ class _DanhSachCongViecTienIchTabletState
                                             btnRightTxt: S.current.xoa,
                                           );
                                         },
-                                        onChange: (controller) {
-                                          cubit.changeLabelTodo(
-                                            controller.text.trim(),
-                                            todo,
-                                          );
-                                        },
+                                        onChange: (controller) {},
                                         onEdit: () {
                                           showBottomSheetCustom(
                                             context,
@@ -298,7 +273,6 @@ class _DanhSachCongViecTienIchTabletState
                     height: 28,
                   ),
                   StreamBuilder<TodoListModelTwo>(
-                    stream: cubit.getTodoList,
                     builder: (context, snapshot) {
                       final data =
                           snapshot.data?.listTodoDone ?? <TodoDSCVModel>[];
@@ -370,15 +344,11 @@ class _DanhSachCongViecTienIchTabletState
                                       return CongViecCellTienIch(
                                         enabled: false,
                                         todoModel: todo,
-                                        onCheckBox: (value) {
-                                          cubit.tickerListWord(todo: todo);
-                                        },
+                                        onCheckBox: (value) {},
                                         onClose: () {
                                           showDiaLog(
                                             context,
-                                            funcBtnRight: () {
-                                              cubit.deleteCongViec(todo);
-                                            },
+                                            funcBtnRight: () {},
                                             icon: SvgPicture.asset(
                                               ImageAssets.icDeleteLichHop,
                                             ),
@@ -389,9 +359,7 @@ class _DanhSachCongViecTienIchTabletState
                                             btnRightTxt: S.current.xoa,
                                           );
                                         },
-                                        onStar: () {
-                                          cubit.tickerQuanTrongTodo(todo);
-                                        },
+                                        onStar: () {},
                                         text: todo.label ?? '',
                                         onEdit: () {},
                                       );
@@ -442,27 +410,12 @@ class _DanhSachCongViecTienIchTabletState
                             isTheEdit: true,
                             text: todo.label ?? '',
                             todoModel: todo,
-                            onCheckBox: (value) {
-                              cubit.tickerListWord(
-                                todo: todo,
-                                removeDone: false,
-                              );
-                            },
-                            onStar: () {
-                              cubit.tickerQuanTrongTodo(
-                                todo,
-                                removeDone: false,
-                              );
-                            },
+                            onCheckBox: (value) {},
+                            onStar: () {},
                             onClose: () {
                               showDiaLog(
                                 context,
-                                funcBtnRight: () {
-                                  cubit.deleteCongViec(
-                                    todo,
-                                    removeDone: false,
-                                  );
-                                },
+                                funcBtnRight: () {},
                                 icon: SvgPicture.asset(
                                   ImageAssets.icDeleteLichHop,
                                 ),
@@ -472,12 +425,7 @@ class _DanhSachCongViecTienIchTabletState
                                 btnRightTxt: S.current.xoa,
                               );
                             },
-                            onChange: (controller) {
-                              cubit.changeLabelTodo(
-                                controller.text.trim(),
-                                todo,
-                              );
-                            },
+                            onChange: (controller) {},
                             onEdit: () {
                               showBottomSheetCustom(
                                 context,
@@ -501,7 +449,6 @@ class _DanhSachCongViecTienIchTabletState
               ),
             if (snapshotbool.data?[2] ?? true)
               StreamBuilder<TodoListModelTwo>(
-                stream: cubit.getTodoList,
                 builder: (context, snapshot) {
                   final data = snapshot.data?.listTodoDone ?? <TodoDSCVModel>[];
                   if (data.isNotEmpty) {
@@ -569,15 +516,11 @@ class _DanhSachCongViecTienIchTabletState
                                   return CongViecCellTienIch(
                                     enabled: false,
                                     todoModel: todo,
-                                    onCheckBox: (value) {
-                                      cubit.tickerListWord(todo: todo);
-                                    },
+                                    onCheckBox: (value) {},
                                     onClose: () {
                                       showDiaLog(
                                         context,
-                                        funcBtnRight: () {
-                                          cubit.deleteCongViec(todo);
-                                        },
+                                        funcBtnRight: () {},
                                         icon: SvgPicture.asset(
                                           ImageAssets.icDeleteLichHop,
                                         ),
@@ -588,9 +531,7 @@ class _DanhSachCongViecTienIchTabletState
                                         btnRightTxt: S.current.xoa,
                                       );
                                     },
-                                    onStar: () {
-                                      cubit.tickerQuanTrongTodo(todo);
-                                    },
+                                    onStar: () {},
                                     text: todo.label ?? '',
                                     onEdit: () {},
                                   );

@@ -2,10 +2,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/widget/container_menu_bao_chi.dart';
-import 'package:ccvc_mobile/tien_ich_module/domain/model/menu_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_menu_custom.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/container_menu_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/theo_dang_lich_widget_dscv.dart';
@@ -52,7 +50,6 @@ class _MenuDSCVState extends State<MenuDSCV> {
               child: Column(
                 children: [
                   StreamBuilder<int>(
-                    initialData: 0,
                     stream: widget.cubit.statusDSCV.stream,
                     builder: (context, snapshot) {
                       return ListView.builder(
@@ -68,7 +65,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                             onTap: () {
                               widget.cubit.titleAppBar.add(vl.title ?? '');
                               widget.cubit.statusDSCV.sink.add(index);
-                              widget.cubit.addValueToTypeDSCV(index);
+                              widget.cubit.addValueWithTypeToDSCV();
                               Navigator.pop(context);
                             },
                             isSelect: index == snapshot.data,
@@ -78,39 +75,41 @@ class _MenuDSCVState extends State<MenuDSCV> {
                       );
                     },
                   ),
-                  SingleChildScrollView(
-                    child: ContainerMenuDSCVWidget(
-                      name: S.current.nhom_cong_viec_moi,
-                      icon: ImageAssets.ic_nhomCVMoi,
-                      type: TypeContainer.expand,
-                      childExpand: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: widget.cubit.listKey.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final vl =
-                              widget.cubit.mapData[widget.cubit.listKey[index]];
-                          return TheoDangLichWidgetDSCV(
-                            icon: '',
-                            name: vl?.label ?? '',
-                            onTap: () {
-                              widget.cubit.titleAppBar.add(vl?.label ?? '');
-                              // NamLV
-                              widget.cubit.createView(vl?.items ?? []);
-                              // widget.cubit.getListNhomCVMoi(vl?.items.first.groupId ?? '',);
-
-                              widget.cubit.statusDSCV.sink.add(5);
-                              Navigator.pop(context);
-                            },
-                            isSelect: false,
-                            number: vl?.items.length ?? 0,
-                          );
-                        },
-                      ),
-                      onTap: () {},
+                  ContainerMenuDSCVWidget(
+                    name: S.current.nhom_cong_viec_moi,
+                    icon: ImageAssets.ic_nhomCVMoi,
+                    type: TypeContainer.expand,
+                    childExpand: StreamBuilder<List<NhomCVMoiModel>>(
+                      stream: widget.cubit.nhomCVMoiSubject.stream,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final dataIndex = data[index];
+                            return TheoDangLichWidgetDSCV(
+                              icon: '',
+                              name: dataIndex.label,
+                              onTap: () {
+                                widget.cubit.titleAppBar.add(dataIndex.label);
+                                widget.cubit.statusDSCV.sink.add(NCVM);
+                                widget.cubit.addValueWithTypeToDSCV();
+                                widget.cubit.groupId = dataIndex.id;
+                                print(widget.cubit.groupId);
+                                Navigator.pop(context);
+                              },
+                              isSelect: false,
+                              number: widget.cubit
+                                  .soLuongNhomCvMoi(groupId: dataIndex.id),
+                            );
+                          },
+                        );
+                      },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -214,7 +213,6 @@ class _MenuDSCVState extends State<MenuDSCV> {
                           return const SizedBox();
                         },
                       ),
-                      onTap: () {},
                     ),
                   ),
                 )

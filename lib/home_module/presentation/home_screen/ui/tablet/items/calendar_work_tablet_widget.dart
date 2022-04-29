@@ -69,74 +69,75 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
           type: widget.homeItemType,
         ),
       ),
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _lamViecCubit.stateStream,
-          child: StreamBuilder<List<CalendarMeetingModel>>(
-              stream: _lamViecCubit.getListLichLamViec,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? <CalendarMeetingModel>[];
-                if (data.isEmpty) {
-                  return const NodataWidget();
-                }
-                return ScrollBarWidget(
-                  children: List.generate(data.length, (index) {
-                    final result = data[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: GestureDetector(
-                        onTap: () {
-                          if(result.screenTypeMetting == ScreenTypeMetting.LICH_LAM_VIEC) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ChiTietLamViecTablet(
-                                      id: result.id,
-                                    ),
-                              ),
-                            );
-                          }else{
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailMeetCalenderTablet(
-                                      id: result.id,
-                                    ),
-                              ),
-                            );
-                          }
-                        },
-                        child: ContainerInfoWidget(
-                          status: result.codeStatus.getText(),
-                          colorStatus: result.codeStatus.getColor(),
-                          backGroundStatus: true,
-                          title: result.title,
-                          listData: [
-                            InfoData(
-                              urlIcon: ImageAssets.icTime,
-                              key: S.current.time,
-                              value: result.convertTime(),
-                            ),
-                            InfoData(
-                              urlIcon: ImageAssets.icAddress,
-                              key: S.current.dia_diem,
-                              value: result.address,
-                            ),
-                            InfoData(
-                              urlIcon: ImageAssets.icPeople,
-                              key: S.current.nguoi_chu_tri,
-                              value: result.nguoiChuTri,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+      child: LoadingOnly(
+        stream: _lamViecCubit.stateStream,
+        child: StreamBuilder<List<CalendarMeetingModel>>(
+            stream: _lamViecCubit.getListLichLamViec,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <CalendarMeetingModel>[];
+              if (data.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 100),
+                  child: const NodataWidget(),
                 );
-              }),
-        ),
+              }
+              return ScrollBarWidget(
+                children: List.generate(data.length, (index) {
+                  final result = data[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        if(result.screenTypeMetting == ScreenTypeMetting.LICH_LAM_VIEC) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ChiTietLamViecTablet(
+                                    id: result.id,
+                                  ),
+                            ),
+                          );
+                        }else{
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailMeetCalenderTablet(
+                                    id: result.id,
+                                  ),
+                            ),
+                          );
+                        }
+                      },
+                      child: ContainerInfoWidget(
+                        status: result.codeStatus.getText(),
+                        colorStatus: result.codeStatus.getColor(),
+                        backGroundStatus: true,
+                        title: result.title,
+                        listData: [
+                          InfoData(
+                            urlIcon: ImageAssets.icTime,
+                            key: S.current.time,
+                            value: result.convertTime(),
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icAddress,
+                            key: S.current.dia_diem,
+                            value: result.address,
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icPeople,
+                            key: S.current.nguoi_chu_tri,
+                            value: result.nguoiChuTri,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              );
+            }),
       ),
     );
   }

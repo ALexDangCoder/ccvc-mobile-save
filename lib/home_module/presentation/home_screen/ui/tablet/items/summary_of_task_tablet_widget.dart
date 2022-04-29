@@ -90,62 +90,60 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
             );
           }),
       padding: EdgeInsets.zero,
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _nhiemVuCubit.stateStream,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 22),
-            child: StreamBuilder<List<TongHopNhiemVuModel>>(
-              stream: _nhiemVuCubit.getTonghopNhiemVu,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? <TongHopNhiemVuModel>[];
-                if (data.isNotEmpty) {
-                  return TongHopNhiemVuCell(
-                    count: data.length,
-                    builder: (context, index) {
-                      final result = data[index];
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            right: index == data.length - 1 ? 0 : 17),
-                        child: GestureDetector(
-                          onTap: () {
-                            _nhiemVuCubit
-                                .clickScreen(result.tongHopNhiemVuModel);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DanhSachNhiemVuTablet(
-                                  ngayBatDau:
-                                      _nhiemVuCubit.startDate.toString(),
-                                  ngayKetThuc: _nhiemVuCubit.endDate.toString(),
-                                  isCheck: _nhiemVuCubit.selectKeyDonVi ==
-                                          SelectKey.DON_VI
-                                      ? false
-                                      : true,
-                                  mangTrangThai: _nhiemVuCubit.mangTrangThai,
-                                  trangThaiHanXuLy:
-                                      _nhiemVuCubit.trangThaiHanXuLy,
-                                ),
+      child: LoadingOnly(
+        stream: _nhiemVuCubit.stateStream,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 22),
+          child: StreamBuilder<List<TongHopNhiemVuModel>>(
+            stream: _nhiemVuCubit.getTonghopNhiemVu,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <TongHopNhiemVuModel>[];
+              if (data.isNotEmpty) {
+                return TongHopNhiemVuCell(
+                  count: data.length,
+                  builder: (context, index) {
+                    final result = data[index];
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          right: index == data.length - 1 ? 0 : 17),
+                      child: GestureDetector(
+                        onTap: () {
+                          _nhiemVuCubit
+                              .clickScreen(result.tongHopNhiemVuModel);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DanhSachNhiemVuTablet(
+                                ngayBatDau:
+                                    _nhiemVuCubit.startDate.toString(),
+                                ngayKetThuc: _nhiemVuCubit.endDate.toString(),
+                                isCheck: _nhiemVuCubit.selectKeyDonVi ==
+                                        SelectKey.DON_VI
+                                    ? false
+                                    : true,
+                                mangTrangThai: _nhiemVuCubit.mangTrangThai,
+                                trangThaiHanXuLy:
+                                    _nhiemVuCubit.trangThaiHanXuLy,
                               ),
-                            );
-                          },
-                          child: NhiemVuWidget(
-                            value: result.value.toString(),
-                            urlIcon: result.tongHopNhiemVuModel.urlImg(),
-                            title: result.tongHopNhiemVuModel.getText(),
-                            type: result.tongHopNhiemVuModel,
-                          ),
+                            ),
+                          );
+                        },
+                        child: NhiemVuWidget(
+                          value: result.value.toString(),
+                          urlIcon: result.tongHopNhiemVuModel.urlImg(),
+                          title: result.tongHopNhiemVuModel.getText(),
+                          type: result.tongHopNhiemVuModel,
                         ),
-                      );
-                    },
-                  );
-                }
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 100),
-                  child: NodataWidget(),
+                      ),
+                    );
+                  },
                 );
-              },
-            ),
+              }
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 100),
+                child: NodataWidget(),
+              );
+            },
           ),
         ),
       ),

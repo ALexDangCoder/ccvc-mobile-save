@@ -1,22 +1,23 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 Future<T?> showDiaLogTablet<T>(
   BuildContext context, {
   required String title,
+  required String title1,
+  required String title2,
   required Widget child,
   String? btnRightTxt,
   String? btnLeftTxt,
   bool isBottomShow = true,
   required Function funcBtnOk,
-  double maxHeight = 878,
-  double width = 592,
+  bool isBottomShowText = true,
+  double maxHeight = 165,
+  double width = 342,
   double? setHeight,
+  bool isPhone = false,
 }) {
   return showDialog(
     context: context,
@@ -35,6 +36,10 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: setHeight ?? maxHeight,
           width: width,
+          title1: title1,
+          title2: title2,
+          isBottomShowText: isBottomShowText,
+          isPhone: isPhone,
           child: child,
         ),
       );
@@ -44,6 +49,8 @@ Future<T?> showDiaLogTablet<T>(
 
 class _DiaLogFeatureWidget extends StatelessWidget {
   final String title;
+  final String title1;
+  final String title2;
   final Widget child;
   final String btnRightTxt;
   final String btnLeftTxt;
@@ -51,10 +58,14 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final bool isBottomShow;
   final double maxHeight;
   final double width;
+  final bool isBottomShowText;
+  final bool isPhone;
 
   const _DiaLogFeatureWidget({
     Key? key,
     required this.title,
+    required this.title1,
+    required this.title2,
     required this.child,
     required this.btnLeftTxt,
     required this.btnRightTxt,
@@ -62,6 +73,8 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
+    required this.isBottomShowText,
+    required this.isPhone,
   }) : super(key: key);
 
   @override
@@ -74,23 +87,49 @@ class _DiaLogFeatureWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 24),
+              margin: EdgeInsets.only(top: isPhone ? 40 : 30),
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: textNormalCustom(fontSize: 20, color: textTitle),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: SvgPicture.asset(ImageAssets.icClose),
-                  )
-                ],
-              ),
+              child: isBottomShowText
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          title,
+                          style: textNormalCustom(
+                            fontSize: isPhone ? 14 : 18,
+                            color: textTitle,
+                          ),
+                        ),
+                        Container(
+                          width: 2,
+                        ),
+                        Text(
+                          title1,
+                          style: textNormalCustom(
+                            fontSize: isPhone ? 14 : 18,
+                            color: bgButtonDropDown,
+                          ),
+                        ),
+                        Container(
+                          width: 2,
+                        ),
+                        Text(
+                          title2,
+                          style: textNormalCustom(
+                            fontSize: isPhone ? 14 : 18,
+                            color: textTitle,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      title,
+                      style: textNormalCustom(
+                        fontSize: isPhone ? 14 : 18,
+                        color: textTitle,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
             ),
             Flexible(
               child: Padding(
@@ -113,7 +152,8 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                     spaceW20,
                     button(
                       onTap: () {
-                        funcBtnOk(context);
+                        funcBtnOk();
+                        Navigator.pop(context, true);
                       },
                       title: btnRightTxt,
                       isLeft: false,
@@ -139,18 +179,18 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         onTap();
       },
       child: Container(
-        height: 44,
-        width: 142,
+        height: isPhone ? 30 : 44,
+        width: isPhone ? 110 : 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? AppTheme.getInstance().colorSelect().withOpacity(0.1) : AppTheme.getInstance().colorSelect(),
+          color: isLeft ? buttonColor2 : textDefault,
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
-              fontSize: 16,
-              color: isLeft ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
+              fontSize: isPhone ? 14 : 16,
+              color: isLeft ? textDefault : backgroundColorApp,
             ),
           ),
         ),

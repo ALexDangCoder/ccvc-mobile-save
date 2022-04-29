@@ -100,6 +100,32 @@ extension CheckValidate on String {
     }
   }
 
+  String? checkEmailBoolean() {
+    final isCheck = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
+        .hasMatch(this);
+    if (isCheck) {
+      if (indexOf('@') >= 64) {
+        return S.current.nhap_sai_dinh_dang;
+      } else {
+        return null;
+      }
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
+  String? checkPassWordChangePass() {
+    final isCheck =
+        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+            .hasMatch(this);
+    if (isCheck) {
+      return null;
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
   String? checkSdt() {
     final isCheckSdt = RegExp(r'^(?:[+0]9)?[0-9]{10}$').hasMatch(this);
     if (isCheckSdt) {
@@ -112,6 +138,20 @@ extension CheckValidate on String {
   String? checkNull() {
     if (trim().isEmpty) {
       return S.current.khong_duoc_de_trong;
+    }
+    return null;
+  }
+
+  String? checkTruongNull(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.ban_phai_nhap_truong + name}';
+    }
+    return null;
+  }
+
+  String? checkNulls() {
+    if (trim().isEmpty) {
+      return S.current.nhap_sai_dinh_dang;
     }
     return null;
   }

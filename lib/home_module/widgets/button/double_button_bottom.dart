@@ -128,7 +128,7 @@ class DoubleButtonBottom extends StatelessWidget {
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
             ),
           ),
         ),

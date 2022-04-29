@@ -1,4 +1,5 @@
-
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
 import 'package:ccvc_mobile/presentation/search_screen/ui/tablet/search_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/thong_bao_screen_tablet.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
@@ -102,6 +103,7 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
             },
             child: SizedBox.expand(
               child: SingleChildScrollView(
+
                 controller: scrollController,
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
@@ -119,14 +121,13 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                           final data = snapshot.data ?? <WidgetModel>[];
                           if (data.isNotEmpty) {
                             return Column(
-
-                              children: List.generate(data.length, (index){
-                                    final type = data[index];
-                               return Padding(
-                                 padding: const EdgeInsets.only(bottom: 6),
-                                 child: type.widgetType?.getItemsTablet() ??
+                              children: List.generate(data.length, (index) {
+                                final type = data[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: type.widgetType?.getItemsTablet() ??
                                       const SizedBox(),
-                               );
+                                );
                               }),
                             );
                             // return StaggeredGridView.countBuilder(
@@ -187,7 +188,7 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
                           return const SizedBox();
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

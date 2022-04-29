@@ -33,8 +33,7 @@ class DanhSachPhatBieuLichHopDataResponse extends Equatable {
   Map<String, dynamic> toJson() =>
       _$DanhSachPhatBieuLichHopDataResponseToJson(this);
 
-  List<PhatBieuModel> toModel() =>
-      data?.map((e) => e.toModel()).toList() ?? [];
+  List<PhatBieuModel> toModel() => data?.map((e) => e.toModel()).toList() ?? [];
 
   //todo convert to Model to use
   @override
@@ -60,7 +59,7 @@ class DanhSachPhatBieuLichHopResponse extends Equatable {
   @JsonKey(name: 'unitName')
   String? unitName;
   @JsonKey(name: 'time')
-  String? time;
+  int? time;
   @JsonKey(name: 'meetingSection')
   int? meetingSection;
   @JsonKey(name: 'status')
@@ -101,8 +100,9 @@ class DanhSachPhatBieuLichHopResponse extends Equatable {
   PhatBieuModel toModel() => PhatBieuModel(
         nguoiPhatBieu: personName ?? '',
         phienHop: tenPhienHop ?? '',
-        tthoiGian: time ?? '',
+        tthoiGian: time.toString(),
         ndPhatBieu: content ?? '',
+        id: id ?? '',
       );
 
   //todo convert to Model to use

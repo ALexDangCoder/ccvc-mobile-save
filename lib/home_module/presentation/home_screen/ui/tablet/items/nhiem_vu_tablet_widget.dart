@@ -99,58 +99,59 @@ class _NhiemVuTabletWidgetState extends State<NhiemVuTabletWidget> {
           );
         }
       ),
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _nhiemVuCubit.stateStream,
-          child: StreamBuilder<List<CalendarMeetingModel>>(
-            stream: _nhiemVuCubit.getNhiemVu,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <CalendarMeetingModel>[];
-              if (data.isEmpty) {
-                return const NodataWidget();
-              }
-              return ScrollBarWidget(
-                children: List.generate(data.length, (index) {
-                  final result = data[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChiTietNhiemVuTabletScreen(
-                              id: result.id,
-                              isCheck: _nhiemVuCubit.selectKeyDonVi == SelectKey.CA_NHAN ? true: false,
-                            ),
-                          ),
-                        );
-                      },
-                      child: ContainerInfoWidget(
-                        title: result.title,
-                        status: result.codeStatus.getText(),
-                        colorStatus: result.codeStatus.getColor(),
-                        listData: [
-                          InfoData(
-                            urlIcon: ImageAssets.icWork,
-                            key: _nhiemVuCubit.isCongViec
-                                ? S.current.nguoi_giao_viec
-                                : S.current.loai_nhiem_vu,
-                            value: result.loaiNhiemVu,
-                          ),
-                          InfoData(
-                            urlIcon: ImageAssets.icCalendar,
-                            key: S.current.han_xu_ly,
-                            value: result.hanXuLy,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+      child: LoadingOnly(
+        stream: _nhiemVuCubit.stateStream,
+        child: StreamBuilder<List<CalendarMeetingModel>>(
+          stream: _nhiemVuCubit.getNhiemVu,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? <CalendarMeetingModel>[];
+            if (data.isEmpty) {
+              return const Padding(
+                padding:  EdgeInsets.symmetric(vertical: 100),
+                child:  NodataWidget(),
               );
-            },
-          ),
+            }
+            return ScrollBarWidget(
+              children: List.generate(data.length, (index) {
+                final result = data[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChiTietNhiemVuTabletScreen(
+                            id: result.id,
+                            isCheck: _nhiemVuCubit.selectKeyDonVi == SelectKey.CA_NHAN ? true: false,
+                          ),
+                        ),
+                      );
+                    },
+                    child: ContainerInfoWidget(
+                      title: result.title,
+                      status: result.codeStatus.getText(),
+                      colorStatus: result.codeStatus.getColor(),
+                      listData: [
+                        InfoData(
+                          urlIcon: ImageAssets.icWork,
+                          key: _nhiemVuCubit.isCongViec
+                              ? S.current.nguoi_giao_viec
+                              : S.current.loai_nhiem_vu,
+                          value: result.loaiNhiemVu,
+                        ),
+                        InfoData(
+                          urlIcon: ImageAssets.icCalendar,
+                          key: S.current.han_xu_ly,
+                          value: result.hanXuLy,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            );
+          },
         ),
       ),
     );

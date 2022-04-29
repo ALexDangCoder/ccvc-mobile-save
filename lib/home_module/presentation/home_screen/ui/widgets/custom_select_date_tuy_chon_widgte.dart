@@ -252,7 +252,7 @@ class _CustomSelectDateWidgetState extends State<CustomSelectDateWidget> {
           title,
           style: textNormalCustom(
             fontSize: 16,
-            color: isClose ? indicatorColor : backgroundColorApp,
+            color: isClose ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
           ),
         ),
       ),

@@ -48,6 +48,14 @@ extension DateFormatString on DateTime {
     return DateFormat('yyyy-MM-dd HH:mm').format(this);
   }
 
+  String get formatApiListBieuQuyet {
+    return DateFormat('yyyy/MM/dd HH:mm').format(this);
+  }
+
+  String get formatApiListBieuQuyetMobile {
+    return DateFormat('dd/MM/yyyy HH:mm').format(this);
+  }
+
   String get formatApiSSAM {
     return DateFormat('yyyy/MM/dd ').format(this) + toStringWithAMPMJMS;
   }

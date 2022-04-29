@@ -167,4 +167,8 @@ abstract class LichLamViecService {
   Future<PageDaTaXaSelectModelResponse> xaSelect(
     @Body() XaSelectRequest xaSelectRequest,
   );
+  @POST(ApiConstants.DAT_NUOC_SELECT)
+  Future<PageDataDatNuocSelectModelResponse> datNuocSelect(
+      @Body() DatNuocSelectRequest datNuocSelectRequest,
+      );
 }

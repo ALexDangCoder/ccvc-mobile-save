@@ -559,7 +559,7 @@ class _EditPersonalInformationTabletScreen
                             Navigator.pop(context);
                           },
                           onPressed2: () async {
-                            if (keyGroup.currentState!.validator()) {
+                            if (keyGroup.currentState?.validator() ?? true) {
                               await cubit
                                   .getEditPerson(
                                 id: widget.id,
@@ -594,7 +594,7 @@ class _EditPersonalInformationTabletScreen
                                   messState: MessState.error,
                                 ),
                               );
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
                             } else {
                               toast.showToast(
                                 child: ShowToast(

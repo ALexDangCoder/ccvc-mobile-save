@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/account/user_infomation.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
@@ -27,6 +28,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chon_bien_ban_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nguoi_tham_gia_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_nhiem_vu_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_phat_bieu_lich_hop.dart';
@@ -1441,7 +1443,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
             (dataUser?.userId ?? '') &&
         (chiTietLichLamViecSubject.value.status == 1 ||
             chiTietLichLamViecSubject.value.status == 2)) {
-
       if (chiTietLichLamViecSubject.value.status == 1) {
         listButton.add(PERMISSION_DETAIL.TU_CHOI);
       } else {
@@ -1530,5 +1531,219 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
     }
 
     listButtonSubject.add(listButton);
+  }
+
+  int trangThaiPhong() {
+    return _getThongTinPhongHop.value?.trangThai ?? 0;
+  }
+
+  ///======================= check quyen tab cong tac chuan bi =======================
+  ///1. check phong hop
+
+  ///check button duyet phong
+  bool checkDuyetPhong() {
+    return trangThaiPhong() == 0 || trangThaiPhong() == 2;
+  }
+
+  bool checkPermission() {
+    if (HiveLocal.checkPermissionApp(
+          permissionType: PermissionType.VPDT,
+          permissionTxt: 'quyen-duyet-phong',
+        ) &&
+        chiTietLichLamViecSubject.value.isDuyetPhong) {
+      return true;
+    }
+    return false;
+  }
+
+  bool checkHuyDuyet() {
+    return trangThaiPhong() == 0 || trangThaiPhong() == 1;
+  }
+
+  ///check button tu choi va huy duyet
+  PERMISSION_TAB isHuyDuyet() {
+    return trangThaiPhong() == 0
+        ? PERMISSION_TAB.TU_CHOI
+        : PERMISSION_TAB.HUY_DUYET;
+  }
+
+  ///2.check quyen yeu cau thiet bi (btn duyet va btn tu choi)
+  bool isButtonYeuCauThietBi() {
+    return HiveLocal.checkPermissionApp(
+          permissionType: PermissionType.VPDT,
+          permissionTxt: 'quyen-duyet-thiet-bi',
+        ) &&
+        (chiTietLichLamViecSubject.value.isDuyetThietBi ?? false);
+  }
+
+  ///3.check quyen duyet ky thuat
+  bool checkPermissionDKT() {
+    if (trangThaiPhong() != 1) return false;
+    if (chiTietLichLamViecSubject.value.bit_PhongTrungTamDieuHanh ?? false) {
+      return HiveLocal.checkPermissionApp(
+        permissionType: PermissionType.VPDT,
+        permissionTxt: 'duyet-ky-thuat-ttdh',
+      );
+    }
+    return HiveLocal.checkPermissionApp(
+          permissionType: PermissionType.VPDT,
+          permissionTxt: 'duyet-ky-thuat',
+        ) ||
+        HiveLocal.checkPermissionApp(
+          permissionType: PermissionType.VPDT,
+          permissionTxt: 'duyet-ky-thuat-ttdh',
+        );
+  }
+
+  ///check quyen btn tu choi dkt va huy dkt
+  bool checkDuyetKyThuat() {
+    return HiveLocal.checkPermissionApp(
+          permissionType: PermissionType.VPDT,
+          permissionTxt: 'duyet-ky-thuat',
+        ) ||
+        HiveLocal.checkPermissionApp(
+              permissionType: PermissionType.VPDT,
+              permissionTxt: 'duyet-ky-thuat-ttdh',
+            ) &&
+            ([
+              TRANG_THAI_DUYET_KY_THUAT.CHO_DUYET,
+              TRANG_THAI_DUYET_KY_THUAT.KHONG_DUYET
+            ].contains(
+              chiTietLichLamViecSubject.value.trangThaiDuyetKyThuat,
+            ));
+  }
+
+  ///======================= check tab chuong trinh hop ==============================
+
+  ///btn them phien hop
+  bool isBtnThemPhienHop() {
+    if (chiTietLichLamViecSubject.value.chuTriModel.canBoId ==
+            (dataUser?.userId ?? '') ||
+        isThuKy()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  ///======================= check tab thanh phan tham gia =======================
+
+  bool isTaoLich() {
+    return chiTietLichLamViecSubject.value.createdBy ==
+        (dataUser?.userId ?? '');
+  }
+
+  ///btn moi nguoi tham gia
+  bool isBtnMoiNguoiThamGia() {
+    if (chiTietLichLamViecSubject.value.chuTriModel.canBoId ==
+            (dataUser?.userId ?? '') ||
+        isThuKy() ||
+        isTaoLich()) {
+      return true;
+    }
+    return false;
+  }
+
+  ///======================= phat bieu =======================
+
+  List<NguoiTaoStr> converStringToNguoiTao(String jsonString) {
+    if (jsonString.isEmpty) {
+      return [];
+    }
+
+    final data = jsonDecode(jsonString);
+
+    return data.map((e) => NguoiTaoStr.fromJson(e)).toList();
+  }
+
+  List<PhienHopModel> converStringToPhienHop(String jsonString) {
+    if (jsonString.isEmpty) {
+      return [];
+    }
+
+    final data = jsonDecode(jsonString);
+
+    return data.map((e) => PhienHopModel.fromJson(e)).toList();
+  }
+
+  List<PhienHopModel> phienHop() {
+    return converStringToPhienHop(
+        chiTietLichLamViecSubject.value.lichHop_PhienHopStr ?? '');
+  }
+
+  List<NguoiTaoStr> nguoiTao() {
+    return converStringToNguoiTao(
+        chiTietLichLamViecSubject.value.nguoiTao_str ?? '');
+  }
+
+  bool isNguoiTaoPhatBieu() {
+    return (nguoiTao()[0].UserId ?? '').toLowerCase() ==
+        (dataUser?.userId ?? '');
+  }
+
+  bool isChuTri() {
+    return chiTietLichLamViecSubject.value.chuTriModel.canBoId.toLowerCase() ==
+        (dataUser?.userId ?? '');
+  }
+
+  List<CanBoThamGiaStr> donViThamGiaPhatBieu() {
+    if (HiveLocal.checkPermissionApp(
+      permissionType: PermissionType.VPDT,
+      permissionTxt: 'quyen-cu-can-bo',
+    )) {
+      return canBoThamGia()
+          .where(
+            (e) =>
+                (e.CanBoId ?? '').isEmpty &&
+                (e.DonViId ?? '').toLowerCase() ==
+                    dataUser?.userInformation?.donViTrucThuoc?.id,
+          )
+          .toList();
+    }
+    return [];
+  }
+
+  bool isThanhPhanThamGia() {
+    if (isChuTri() ||
+        isNguoiTaoPhatBieu() ||
+        canBoThamGia().isNotEmpty ||
+        donViThamGiaPhatBieu().isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  ///check btn dang ky phat bieu
+  bool isDangKyPhatBieu() {
+    if (isThanhPhanThamGia()) {
+      return true;
+    }
+    return false;
+  }
+
+  // ///check btn duyet, tu choi hoac huy duyet
+  // bool checkPermissionAction() {
+  //   return isChuTri() || isNguoiTaoPhatBieu() || isThuKy() || isChuTriPhien();
+  // }
+
+  ///======================= phat bieu =======================
+
+  ///btn them duyet bieu quyet
+  bool isThemDuyetBieuQuyet() {
+    if (isChuTri() || isThuKy()) {
+      return true;
+    }
+    return false;
+  }
+
+  ///======================= ket luan hop =======================
+
+  ///btn soan ket luan hop
+  bool isSoanKetLuanHop() {
+    if (xemKetLuanHopModel == KetLuanHopModel.empty() &&
+        chiTietLichLamViecSubject.value.status == 2) {
+      return true;
+    }
+    return false;
   }
 }

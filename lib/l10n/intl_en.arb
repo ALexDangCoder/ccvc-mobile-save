@@ -887,5 +887,8 @@
   "cu_can_bo_di_thay" : "Cử cán bộ đi thay",
   "xac_nhan_tham_gia" : "Xác nhận tham gia",
   "huy_xac_nhan" : "Huỷ xác nhận",
-  "xac_nhan_lai" : "Xác nhận lại"
+  "xac_nhan_lai" : "Xác nhận lại",
+  "duyet_ky_thuat": "Duyệt kỹ thuật",
+  "tu_choi_duyet_ky_thuat": "Từ chối duyệt kỹ thuật",
+  "huy_duyet_ky_thuat": "Hủy duyệt kỹ thuật"
 }

@@ -67,3 +67,34 @@ class CanBoThamGiaStr {
     );
   }
 }
+
+class NguoiTaoStr {
+  String? chucVuId;
+  String? DonViId;
+  String? HoTen;
+  String? TenChucVu;
+  String? TenDonVi;
+  String? UserId;
+
+  NguoiTaoStr({
+    this.chucVuId,
+    this.DonViId,
+    this.HoTen,
+    this.TenChucVu,
+    this.TenDonVi,
+    this.UserId,
+  });
+
+  NguoiTaoStr.empty();
+
+  factory NguoiTaoStr.fromJson(Map<String, dynamic> json) {
+    return NguoiTaoStr(
+      chucVuId: json['chucVuId'],
+      DonViId: json['DonViId'],
+      HoTen: json['HoTen'],
+      TenChucVu: json['TenChucVu'],
+      TenDonVi: json['TenDonVi'],
+      UserId: json['UserId'],
+    );
+  }
+}

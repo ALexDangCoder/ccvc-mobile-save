@@ -29,6 +29,34 @@ enum PERMISSION_DETAIL {
   HUY_DUYET
 }
 
+enum PERMISSION_TAB {
+  HUY_DUYET,
+  TU_CHOI,
+  DUYET,
+  DUYET_KY_THUAT,
+  TU_CHOI_DUYET_KY_THUAT,
+  HUY_DUYET_KY_THUAT,
+}
+
+extension GetDataPermissionTab on PERMISSION_TAB {
+  String getString() {
+    switch (this) {
+      case PERMISSION_TAB.DUYET:
+        return S.current.duyet;
+      case PERMISSION_TAB.TU_CHOI:
+        return S.current.tu_choi;
+      case PERMISSION_TAB.HUY_DUYET:
+        return S.current.huy_duyet;
+      case PERMISSION_TAB.DUYET_KY_THUAT:
+        return S.current.duyet_ky_thuat;
+      case PERMISSION_TAB.TU_CHOI_DUYET_KY_THUAT:
+        return S.current.tu_choi_duyet_ky_thuat;
+      case PERMISSION_TAB.HUY_DUYET_KY_THUAT:
+        return S.current.huy_duyet_ky_thuat;
+    }
+  }
+}
+
 extension GetDataPermission on PERMISSION_DETAIL {
   String getString() {
     switch (this) {
@@ -62,7 +90,6 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return S.current.tu_choi;
       case PERMISSION_DETAIL.HUY_DUYET:
         return S.current.huy_duyet;
-
     }
   }
 
@@ -133,7 +160,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           iconMobile: ImageAssets.icDuyetLich,
           iconTablet: ImageAssets.icDuyetLich,
         );
-        case PERMISSION_DETAIL.TU_CHOI:
+      case PERMISSION_DETAIL.TU_CHOI:
         return checkDevice(
           iconMobile: ImageAssets.icHuy,
           iconTablet: ImageAssets.icHuy,
@@ -279,7 +306,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           text: PERMISSION_DETAIL.XAC_NHAN_LAI.getString(),
           onTap: () {},
         );
-        case PERMISSION_DETAIL.TU_CHOI:
+      case PERMISSION_DETAIL.TU_CHOI:
         return QData(
           urlImage: PERMISSION_DETAIL.TU_CHOI.getIcon(),
           text: PERMISSION_DETAIL.TU_CHOI.getString(),
@@ -311,4 +338,17 @@ class STATUS_SCHEDULE {
   static const int XOA = 6;
   static const int THANH_CONG = 7;
   static const int HUY = 8;
+}
+
+class TRANG_THAI_DUYET_KY_THUAT {
+  static const int CHO_DUYET = 0;
+  static const DA_DUYET = 1;
+  static const KHONG_DUYET = 2;
+}
+
+class ACTIVE_PHAT_BIEU {
+  static const int DANH_SACH_PHAT_BIEU = 0;
+  static const int CHO_DUYET = 1;
+  static const int DA_DUYET = 2;
+  static const int HUY_DUYET = 3;
 }

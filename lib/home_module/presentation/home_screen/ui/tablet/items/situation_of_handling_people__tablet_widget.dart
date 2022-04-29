@@ -1,3 +1,9 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/mobile/danh_sach_yknd_screen.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/tablet/danh_sach_yknd_tablet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,74 +50,37 @@ class _SituationOfHandlingPeopleWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return ContainerBackgroundTabletWidget(
-      spacingTitle: 0,
-      minHeight: 415,
-      maxHeight: 415,
-      title: S.current.situation_of_handling_people,
-      onTapIcon: () {
-        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
-      },
-      selectKeyDialog: _yKienCubit,
-      dialogSelect: StreamBuilder(
-          stream: _yKienCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              type: widget.homeItemType,
-              listSelectKey: <DialogData>[
-                DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _yKienCubit.selectDate(
-                        selectKey: value,
-                        startDate: startDate,
-                        endDate: endDate);
-                  },
-                  initValue: _yKienCubit.selectKeyTime,
-                  title: S.current.time,
-                  startDate: _yKienCubit.startDate,
-                  endDate: _yKienCubit.endDate,
-                )
-              ],
-            );
-          }),
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _yKienCubit.stateStream,
-          child: StreamBuilder<List<TinhHinhYKienModel>>(
-              stream: _yKienCubit.getTinhHinhXuLy,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? <TinhHinhYKienModel>[];
-                if (data.isEmpty) {
-                  return const NodataWidget();
-                }
-                return PieChart(
-                  paddingLeftSubTitle: 15.w,
-                  chartData: List.generate(
-                    data.length,
-                    (index) {
-                      final result = data[index];
-                      final color = TinhHinhYKienModel.listColor[index];
-                      return ChartData(
-                        result.status,
-                        result.soLuong.toDouble(),
-                        color,
-                      );
+    return SingleChildScrollView(
+      child: ContainerBackgroundTabletWidget(
+        spacingTitle: 0,
+        minHeight: 415,
+        title: S.current.situation_of_handling_people,
+        onTapIcon: () {
+          HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        },
+        selectKeyDialog: _yKienCubit,
+        dialogSelect: StreamBuilder(
+            stream: _yKienCubit.selectKeyDialog,
+            builder: (context, snapshot) {
+              return DialogSettingWidget(
+                type: widget.homeItemType,
+                listSelectKey: <DialogData>[
+                  DialogData(
+                    onSelect: (value, startDate, endDate) {
+                      _yKienCubit.selectDate(
+                          selectKey: value,
+                          startDate: startDate,
+                          endDate: endDate);
                     },
-                  ),
-                  onTap: (value, key) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DanhSachYKNDTablet(
-                          endDate: _yKienCubit.endDate.toString(),
-                          startDate: _yKienCubit.startDate.toString(),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }),
-        ),
+                    initValue: _yKienCubit.selectKeyTime,
+                    title: S.current.time,
+                    startDate: _yKienCubit.startDate,
+                    endDate: _yKienCubit.endDate,
+                  )
+                ],
+              );
+            }),
+        child: Container(),
       ),
     );
   }

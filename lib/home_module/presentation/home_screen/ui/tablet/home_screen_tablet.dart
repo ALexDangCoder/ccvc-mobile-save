@@ -1,5 +1,6 @@
 
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/situation_of_handling_people__tablet_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
 import 'package:ccvc_mobile/presentation/search_screen/ui/tablet/search_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/thong_bao_screen_tablet.dart';
@@ -102,84 +103,85 @@ class _HomeScreenTabletState extends State<HomeScreenTablet>
             onRefresh: () async {
               await homeCubit.refreshData();
             },
-            child: SizedBox.expand(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const ClampingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                child: Column(
-                  children: [
-                    const HeaderTabletWidget(),
-                    StreamBuilder<List<WidgetModel>>(
-                      stream: homeCubit.getConfigWidget,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? <WidgetModel>[];
-                        if (data.isNotEmpty) {
-                          return StaggeredGridView.countBuilder(
-                            crossAxisCount: 2,
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count = data.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                CurvedAnimation(
-                                  parent: animationController,
-                                  curve: Interval(
-                                    (1 / count) * index,
-                                    1.0,
-                                    curve: Curves.fastOutSlowIn,
-                                  ),
-                                ),
-                              );
-                              if (animationController.status ==
-                                  AnimationStatus.dismissed) {
-                                animationController.forward();
-                              }
-                              final type = data[index];
-                              return AnimatedBuilder(
-                                animation: animationController,
-                                builder: (context, _) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: Transform(
-                                      transform: Matrix4.translationValues(
-                                        0.0,
-                                        100 * (1.0 - animation.value),
-                                        0.0,
-                                      ),
-                                      child:
-                                          type.widgetType?.getItemsTablet() ??
-                                              const SizedBox(),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            staggeredTileBuilder: (int index) {
-                              final type = data[index];
-                              if (type.widgetType ==
-                                  WidgetType.wordProcessState) {
-                                return const StaggeredTile.fit(2);
-                              }
-                              return const StaggeredTile.fit(1);
-                            },
-                            mainAxisSpacing: 28,
-                            crossAxisSpacing: 28,
-                          );
-                        }
-                        return const SizedBox();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            child:const SituationOfHandlingPeopleTabletWidget(homeItemType: WidgetType.situationHandlingPeople,),
+            // child: SizedBox.expand(
+            //   child: SingleChildScrollView(
+            //     controller: scrollController,
+            //     keyboardDismissBehavior:
+            //         ScrollViewKeyboardDismissBehavior.onDrag,
+            //     physics: const ClampingScrollPhysics(
+            //       parent: AlwaysScrollableScrollPhysics(),
+            //     ),
+            //     child: Column(
+            //       children: [
+            //         const HeaderTabletWidget(),
+            //         StreamBuilder<List<WidgetModel>>(
+            //           stream: homeCubit.getConfigWidget,
+            //           builder: (context, snapshot) {
+            //             final data = snapshot.data ?? <WidgetModel>[];
+            //             if (data.isNotEmpty) {
+            //               return StaggeredGridView.countBuilder(
+            //                 crossAxisCount: 2,
+            //                 shrinkWrap: true,
+            //                 padding: const EdgeInsets.symmetric(horizontal: 30),
+            //                 physics: const NeverScrollableScrollPhysics(),
+            //                 itemCount: data.length,
+            //                 itemBuilder: (BuildContext context, int index) {
+            //                   final int count = data.length;
+            //                   final Animation<double> animation =
+            //                       Tween<double>(begin: 0.0, end: 1.0).animate(
+            //                     CurvedAnimation(
+            //                       parent: animationController,
+            //                       curve: Interval(
+            //                         (1 / count) * index,
+            //                         1.0,
+            //                         curve: Curves.fastOutSlowIn,
+            //                       ),
+            //                     ),
+            //                   );
+            //                   if (animationController.status ==
+            //                       AnimationStatus.dismissed) {
+            //                     animationController.forward();
+            //                   }
+            //                   final type = data[index];
+            //                   return AnimatedBuilder(
+            //                     animation: animationController,
+            //                     builder: (context, _) {
+            //                       return FadeTransition(
+            //                         opacity: animation,
+            //                         child: Transform(
+            //                           transform: Matrix4.translationValues(
+            //                             0.0,
+            //                             100 * (1.0 - animation.value),
+            //                             0.0,
+            //                           ),
+            //                           child:
+            //                               type.widgetType?.getItemsTablet() ??
+            //                                   const SizedBox(),
+            //                         ),
+            //                       );
+            //                     },
+            //                   );
+            //                 },
+            //                 staggeredTileBuilder: (int index) {
+            //                   final type = data[index];
+            //                   if (type.widgetType ==
+            //                       WidgetType.wordProcessState) {
+            //                     return const StaggeredTile.fit(2);
+            //                   }
+            //                   return const StaggeredTile.fit(1);
+            //                 },
+            //                 mainAxisSpacing: 28,
+            //                 crossAxisSpacing: 28,
+            //               );
+            //             }
+            //             return const SizedBox();
+            //           },
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ),
         ),
       ),

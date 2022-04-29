@@ -14,6 +14,7 @@ enum WidgetType {
   eventOfDay,
   sinhNhat,
   vanBanDonVi,
+  phanAnhKienNghiDonVi,
 }
 
 class WidgetModel {

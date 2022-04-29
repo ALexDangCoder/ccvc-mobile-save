@@ -1,4 +1,5 @@
 
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/phan_anh_kien_nghi_don_vi_widget.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_screen.dart';
 import 'package:flutter/material.dart';
 import '/data/exception/app_exception.dart';
@@ -61,92 +62,92 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
             onRefresh: () async {
               await homeCubit.refreshData();
             },
-
-            child: CustomScrollView(
-              controller: scrollController,
-              physics: const ClampingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),),
-              slivers: [
-                SliverAppBar(
-                  floating: true,
-                  snap: true,
-                  elevation: 0,
-                  title: GestureDetector(
-                    onTap: () {
-                      scrollController.animateTo(
-                        0,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.linear,
-                      );
-                    },
-                    child: Text(
-                      S.current.home,
-                      style: textNormalCustom(
-                        fontSize: 18,
-                        color: backgroundColorApp,
-                      ),
-                    ),
-                  ),
-                  centerTitle: true,
-                  flexibleSpace: Container(
-                    decoration:  BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(appBarUrlIcon()),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                  actions: [
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) =>
-                                  const ThongBaoScreen(),
-                            ),
-                          );
-                        },
-                        child: const SizedBox(
-                          width: 24,
-                          height: 25,
-                          child: ThongBaoWidget(
-                            sum: 10,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    )
-                  ],
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      const HeaderWidget(),
-                      StreamBuilder<List<WidgetModel>>(
-                        stream: homeCubit.getConfigWidget,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <WidgetModel>[];
-                          if (data.isNotEmpty) {
-                            return Column(
-                              children: List.generate(data.length, (index) {
-                                final type = data[index];
-                                return type.widgetType?.getItemsMobile() ??
-                                    const SizedBox();
-                              }),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+             child: PhanAnhKienNghiDonViWidget(homeItemType: WidgetType.phanAnhKienNghiDonVi,),
+            // child: CustomScrollView(
+            //   controller: scrollController,
+            //   physics: const ClampingScrollPhysics(
+            //       parent: AlwaysScrollableScrollPhysics(),),
+            //   slivers: [
+            //     SliverAppBar(
+            //       floating: true,
+            //       snap: true,
+            //       elevation: 0,
+            //       title: GestureDetector(
+            //         onTap: () {
+            //           scrollController.animateTo(
+            //             0,
+            //             duration: const Duration(milliseconds: 500),
+            //             curve: Curves.linear,
+            //           );
+            //         },
+            //         child: Text(
+            //           S.current.home,
+            //           style: textNormalCustom(
+            //             fontSize: 18,
+            //             color: backgroundColorApp,
+            //           ),
+            //         ),
+            //       ),
+            //       centerTitle: true,
+            //       flexibleSpace: Container(
+            //         decoration:  BoxDecoration(
+            //           image: DecorationImage(
+            //             image: AssetImage(appBarUrlIcon()),
+            //             fit: BoxFit.fill,
+            //           ),
+            //         ),
+            //       ),
+            //       actions: [
+            //         Center(
+            //           child: GestureDetector(
+            //             onTap: () {
+            //               Navigator.push(
+            //                 context,
+            //                 PageRouteBuilder(
+            //                   pageBuilder: (_, __, ___) =>
+            //                       const ThongBaoScreen(),
+            //                 ),
+            //               );
+            //             },
+            //             child: const SizedBox(
+            //               width: 24,
+            //               height: 25,
+            //               child: ThongBaoWidget(
+            //                 sum: 10,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         const SizedBox(
+            //           width: 16,
+            //         )
+            //       ],
+            //     ),
+            //     SliverToBoxAdapter(
+            //       child: Column(
+            //         children: [
+            //           const HeaderWidget(),
+            //           StreamBuilder<List<WidgetModel>>(
+            //             stream: homeCubit.getConfigWidget,
+            //             builder: (context, snapshot) {
+            //               final data = snapshot.data ?? <WidgetModel>[];
+            //               if (data.isNotEmpty) {
+            //                 return Column(
+            //                   children: List.generate(data.length, (index) {
+            //                     final type = data[index];
+            //                     return type.widgetType?.getItemsMobile() ??
+            //                         const SizedBox();
+            //                   }),
+            //                 );
+            //               }
+            //               return const SizedBox();
+            //             },
+            //           ),
+            //         ],
+            //       ),
+            //     )
+            //   ],
+            // ),
           ),
         ),
       ),

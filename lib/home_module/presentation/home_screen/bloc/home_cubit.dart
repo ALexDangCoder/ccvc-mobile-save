@@ -638,6 +638,82 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
   }
 }
 
+/// Phản ánh kiến nghị đơn vị
+class PhanAnhKienNghiCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
+  BehaviorSubject<DocumentDashboardModel>();
+  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
+  BehaviorSubject<DocumentDashboardModel>();
+
+  PhanAnhKienNghiCubit() {}
+  bool isDanhSachDaXuLy = false;
+  bool isDanhSachChoTrinhKy = true;
+  bool isDanhSachChoXuLy = true;
+  List<String> maTrangThaiVBDen = [];
+  List<int> trangThaiFilter = [];
+
+  @override
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    if (selectKey != selectKeyTime || selectKey == SelectKey.TUY_CHON) {
+      selectKeyTime = selectKey;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      callApi(startDate.toString(), endDate.toString());
+    }
+    selectKeyDialog.sink.add(true);
+  }
+
+  Future<void> callApi(String startDate, String endDate) async {
+    showLoading();
+    final queue = Queue(parallel: 2);
+    unawaited(
+      queue.add(
+            () => homeRep.getVBden(startDate, endDate).then(
+              (value) {
+            value.when(
+              success: (res) {
+                _getDocumentVBDen.sink.add(res);
+              },
+              error: (err) {},
+            );
+          },
+        ),
+      ),
+    );
+    unawaited(
+      queue.add(
+            () => homeRep.getVBdi(startDate, endDate).then(
+              (value) {
+            value.when(
+              success: (res) {
+                _getDocumentVBDi.sink.add(res);
+              },
+              error: (err) {},
+            );
+          },
+        ),
+      ),
+    );
+    await queue.onComplete;
+    showContent();
+  }
+
+  Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
+
+  Stream<DocumentDashboardModel> get getDocumentVBDen =>
+      _getDocumentVBDen.stream;
+
+  @override
+  void dispose() {
+    _getDocumentVBDen.close();
+    _getDocumentVBDi.close();
+  }
+}
+
 
 
 /// Tình hình xử lý văn bản

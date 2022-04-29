@@ -20,6 +20,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final Function()? onTapIcon;
   final double spacingTitle;
+  final bool isShowSubTitle;
   final EdgeInsetsGeometry paddingChild;
   final SelectKeyDialog? selectKeyDialog;
   final bool isUnit;
@@ -36,6 +37,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.dialogSelect,
     this.padding,
     this.onTapIcon,
+    this.isShowSubTitle=true,
     this.spacingTitle = 20,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
     this.selectKeyDialog,
@@ -108,10 +110,10 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                                       stream: widget.selectKeyDialog!
                                           .selectKeyDialog.stream,
                                       builder: (context, snapshot) {
-                                        return Text(
+                                        return widget.isShowSubTitle? Text(
                                           subTitle(),
                                           style: textNormal(textBodyTime, 12),
-                                        );
+                                        ):const SizedBox();
                                       },
                                     )
                                   else

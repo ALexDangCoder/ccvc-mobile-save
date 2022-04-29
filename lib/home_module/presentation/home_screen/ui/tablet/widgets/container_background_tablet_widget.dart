@@ -26,6 +26,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
   final double? minHeight;
   final SelectKeyDialog? selectKeyDialog;
   final bool isUnit;
+  final bool isShowSubtitle;
   final List<SelectKey>? listSelect;
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
@@ -39,6 +40,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.padding,
     this.onTapIcon,
     this.spacingTitle = 20,
+    this.isShowSubtitle=true,
     this.maxHeight,
     this.minHeight,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
@@ -127,10 +129,10 @@ class _ContainerBackgroudWidgetState
                                         stream: widget.selectKeyDialog!
                                             .selectKeyDialog.stream,
                                         builder: (context, snapshot) {
-                                          return Text(
+                                          return widget.isShowSubtitle?Text(
                                             subTitle(),
                                             style: textNormal(titleColumn, 16),
-                                          );
+                                          ): const SizedBox();
                                         },
                                       )
                                     ] else

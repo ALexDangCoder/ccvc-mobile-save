@@ -7,9 +7,9 @@ class EditPersonInformationRequest {
   String? id;
   String? maCanBo;
   String? hoTen;
-  String? phoneDiDong;
-  String? phoneCoQuan;
-  String? phoneNhaRieng;
+  String? phone_DiDong;
+  String? phone_CoQuan;
+  String? phone_NhaRieng;
   String? email;
   bool? gioiTinh;
   String? ngaySinh;
@@ -51,9 +51,9 @@ class EditPersonInformationRequest {
     this.id,
     this.maCanBo,
     this.hoTen,
-    this.phoneDiDong,
-    this.phoneCoQuan,
-    this.phoneNhaRieng,
+    this.phone_DiDong,
+    this.phone_CoQuan,
+    this.phone_NhaRieng,
     this.email,
     this.gioiTinh,
     this.ngaySinh,

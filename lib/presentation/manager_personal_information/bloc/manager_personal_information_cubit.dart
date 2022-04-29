@@ -180,9 +180,9 @@ class ManagerPersonalInformationCubit
       id: id,
       maCanBo: maCanBo,
       hoTen: name,
-      phoneDiDong: '',
-      phoneCoQuan: sdtCoQuan,
-      phoneNhaRieng: sdt,
+      phone_DiDong: sdt,
+      phone_CoQuan: sdtCoQuan,
+      phone_NhaRieng: '',
       email: email,
       gioiTinh: gioitinh,
       ngaySinh: DateTime.parse(ngaySinh).formatApiSS,
@@ -242,6 +242,9 @@ class ManagerPersonalInformationCubit
     tinh = managerPersonalInformationModel.tinh ?? '';
     huyen = managerPersonalInformationModel.huyen ?? '';
     xa = managerPersonalInformationModel.xa ?? '';
+    idTinh = managerPersonalInformationModel.tinhId ?? '';
+    idHuyen = managerPersonalInformationModel.huyenId ?? '';
+    idXa = managerPersonalInformationModel.xaId ?? '';
   }
 
   Future<void> loadApi({String id = ''}) async {

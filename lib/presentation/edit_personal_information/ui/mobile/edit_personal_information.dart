@@ -151,9 +151,9 @@ class _EditPersonalInformationScreen
                           validator: (value) {
                             if ((value ?? '').isEmpty) {
                               return '${S.current.ban_phai_nhap_truong} '
-                                  '${S.current.ho_va_ten} ';
-                            } else if ((value ?? '').trim().length <= 5 ||
-                                (value ?? '').trim().length >= 32) {
+                                  '${S.current.ho_va_ten}!';
+                            } else if ((value ?? '').trim().length < 6 ||
+                                (value ?? '').trim().length > 32) {
                               return S.current.nhap_sai_dinh_dang;
                             }
                             return null;
@@ -443,12 +443,12 @@ class _EditPersonalInformationScreen
                                 .then(
                               (value) {
                                 return MessageConfig.show(
-                                  title: S.current.sua_thanh_cong,
+                                  title: S.current.thay_doi_thanh_cong,
                                 );
                               },
                             ).onError(
                               (error, stackTrace) => MessageConfig.show(
-                                title: S.current.sua_that_bai,
+                                title: S.current.thay_doi_that_bai,
                                 messState: MessState.error,
                               ),
                             );

@@ -61,6 +61,7 @@ class Data {
   List<FileData>? fileData;
   String? dateRepeat;
   String? canBoThamGiaStr;
+  String? thoiGianKetThuc;
 
   Data({
     this.nguoiTaoStr,
@@ -75,6 +76,7 @@ class Data {
     this.id,
     this.title,
     this.bitHopTrucTuyen,
+    this.thoiGianKetThuc,
     this.linkTrucTuyen,
     this.bitPhongTrungTamDieuHanh,
     this.ngayBatDau,
@@ -130,13 +132,12 @@ class Data {
     diaDiemHop = json['diaDiemHop'];
     congKhai = json['congKhai'];
     lichDonVi = json['lichDonVi'];
-
     chuTri = json['chuTri'] != null ? ChuTri.fromJson(json['chuTri']) : null;
     phongHop =
         json['phongHop'] != null ? PhongHop.fromJson(json['phongHop']) : null;
     mucDo = json['mucDo'];
     typeRepeat = json['typeRepeat'];
-
+    thoiGianKetThuc = json['thoiGianKetThuc'];
     isLichLap = json['isLichLap'];
     isAllDay = json['isAllDay'];
     donViNguoiTaoId = json['donViNguoiTaoId'];
@@ -165,11 +166,13 @@ class Data {
         chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
         linhVuc: tenLinhVuc ?? '',
         noiDung: noiDung ?? '',
+        thoiGianKetThuc: thoiGianKetThuc ?? '',
         title: title ?? '',
         canBoThamGiaStr: canBoThamGiaStr ?? '',
         phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
         tenLinhVuc: tenLinhVuc ?? '',
         timeTo: timeTo ?? '',
+        status: status ?? 0,
         timeStart: timeStart ?? '',
         ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
         ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
@@ -178,10 +181,13 @@ class Data {
         bit_TrongDonVi: bitTrongDonVi ?? false,
         isAllDay: isAllDay ?? false,
         typeReminder: typeReminder,
+        bit_YeuCauDuyet: bitYeuCauDuyet ?? false,
         typeRepeat: typeRepeat,
+        createdBy: createdBy ?? '',
         fileData: fileData?.map((e) => e.toDomain()).toList() ?? [],
         dateRepeat: dateRepeat,
         days: days,
+        isTaoTaoBocBang: isTaoBocBang ?? false,
       );
 }
 

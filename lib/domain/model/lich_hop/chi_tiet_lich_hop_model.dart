@@ -9,7 +9,9 @@ const _BINH_THUONG = 1;
 const _DOT_XUAT = 2;
 
 class ChiTietLichHopModel {
+  bool bit_YeuCauDuyet = false;
   String id = '';
+  String thoiGianKetThuc = '';
   String loaiLich = '';
   String linhVuc = '';
   String noiDung = '';
@@ -19,13 +21,15 @@ class ChiTietLichHopModel {
   String ngayKetThuc;
   String timeStart;
   String timeTo;
+  String createdBy;
+  int status;
   String loaiHop;
   int? mucDoHop;
   ChuTriModel chuTriModel;
   PhongHopMode phongHopMode;
   String typeScheduleId;
   List<file>? fileData;
-
+  bool isTaoTaoBocBang;
   String canBoThamGiaStr;
   bool bit_HopTrucTuyen;
   bool bit_TrongDonVi;
@@ -48,7 +52,9 @@ class ChiTietLichHopModel {
     this.tenLinhVuc = '',
     this.loaiHop = '',
     this.canBoThamGiaStr = '',
+    this.thoiGianKetThuc = '',
     this.mucDoHop,
+    this.status = 0,
     this.chuTriModel = const ChuTriModel(),
     this.phongHopMode = const PhongHopMode(),
     this.typeScheduleId = '',
@@ -59,7 +65,10 @@ class ChiTietLichHopModel {
     this.typeRepeat,
     this.fileData,
     this.dateRepeat,
+    this.bit_YeuCauDuyet = false,
     this.days,
+    this.isTaoTaoBocBang = false,
+    this.createdBy = '',
   });
 
   String mucDoHopWithInt() {

@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
@@ -12,20 +13,14 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/y_kien_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/moi_nguoi_tham_gia_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/row_value_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/sua_lich_hop_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thong_tin_lien_he_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/thu_hoi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -64,98 +59,22 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
         ),
         title: S.current.chi_tiet_lich_hop,
         actions: [
-          MenuSelectWidget(
-            listSelect: [
-              QData(
-                urlImage: ImageAssets.icHuy,
-                text: S.current.huy_lich_hop,
-                onTap: () {
-                  showDiaLog(
-                    context,
-                    textContent: S.current.ban_chan_chan_huy_lich_nay,
-                    btnLeftTxt: S.current.khong,
-                    funcBtnRight: () {
-                      cubit.huyChiTietLichHop(widget.id);
-                      Navigator.pop(context);
-                    },
-                    title: S.current.huy_lich,
-                    btnRightTxt: S.current.dong_y,
-                    icon: SvgPicture.asset(ImageAssets.icHuyLich),
-                  );
-                },
-              ),
-              QData(
-                urlImage: ImageAssets.ic_delete_do,
-                text: S.current.xoa_lich,
-                onTap: () {
-                  showDiaLog(
-                    context,
-                    textContent: S.current.xoa_chi_tiet_lich_hop,
-                    btnLeftTxt: S.current.khong,
-                    funcBtnRight: () {
-                      cubit.deleteChiTietLichHop(widget.id);
-                      Navigator.pop(context);
-                    },
-                    title: S.current.khong,
-                    btnRightTxt: S.current.dong_y,
-                    icon: SvgPicture.asset(ImageAssets.icHuyLich),
-                  );
-                },
-              ),
-              QData(
-                urlImage: ImageAssets.icEditBlue,
-                text: S.current.sua_lich,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.sua_lich_hop,
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: SuaLichHopWidget(
-                        cubit: cubit,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              QData(
-                urlImage: ImageAssets.icThuHoi,
-                text: S.current.thu_hoi,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.thu_hoi_lich,
-                    child: const ThuHoiLichWidget(),
-                  );
-                },
-              ),
-              QData(
-                urlImage: ImageAssets.icPhanCongThuKy,
-                text: S.current.phan_cong_thu_ky,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.phan_cong_thu_ky,
-                    child: PhanCongThuKyWidget(
-                      cubit: cubit,
-                      id: widget.id,
-                    ),
-                  );
-                },
-              ),
-              QData(
-                urlImage: ImageAssets.icTaoBocBang,
-                text: S.current.tao_boc_bang_cuoc_hop,
-                onTap: () {
-                  showBottomSheetCustom(
-                    context,
-                    title: S.current.tao_boc_bang_cuoc_hop,
-                    child: const TaoBocBangWidget(),
-                  );
-                },
-              ),
-            ],
-          ),
+          StreamBuilder<List<PERMISSION_DETAIL>>(
+              stream: cubit.listButtonSubject.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                return MenuSelectWidget(
+                  listSelect: data
+                      .map(
+                        (e) => e.getMenuLichHop(
+                          context,
+                          cubit,
+                          widget.id,
+                        ),
+                      )
+                      .toList(),
+                );
+              }),
           const SizedBox(
             width: 16,
           )

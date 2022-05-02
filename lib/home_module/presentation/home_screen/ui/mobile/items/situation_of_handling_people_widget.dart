@@ -271,11 +271,13 @@ Widget statusWidget(List<ChartData> listData) {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text(
-                                  e.value.toInt().toString(),
-                                  style: textNormal(
-                                    textTitleColumn,
-                                    14.0.textScale(),
+                                FittedBox(
+                                  child: Text(
+                                    e.value.toInt().toString(),
+                                    style: textNormal(
+                                      textTitleColumn,
+                                      14.0.textScale(),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(

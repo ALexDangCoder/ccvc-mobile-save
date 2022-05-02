@@ -37,6 +37,7 @@ class StatusWidget extends StatelessWidget {
                 .toList(),
           ),
         ),
+        const SizedBox(height: 26,),
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

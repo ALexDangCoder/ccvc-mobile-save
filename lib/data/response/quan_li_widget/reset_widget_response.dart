@@ -113,7 +113,7 @@ class WidgetData {
     static: static ?? false,
     isResizable: isResizable ?? false,
     thumbnail: thumbnail ?? '',
-    appId: appId ?? '',
+    appId: appId??'',
     order: order ?? 0,
     isShowing: isShowing ?? false,
     x: x ?? 0,

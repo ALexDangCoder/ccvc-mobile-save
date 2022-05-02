@@ -165,7 +165,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 24),
                     child: SizedBox(
-                        width: 100,
+                        width: 130,
                         child: ButtonBottom(
                           text: S.current.dang_xuat,
                           onPressed: () {

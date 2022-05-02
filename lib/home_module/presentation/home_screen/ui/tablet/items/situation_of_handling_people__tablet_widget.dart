@@ -94,7 +94,7 @@ class _SituationOfHandlingPeopleWidgetState
                   );
                 }
                 return Padding(
-                  padding: const EdgeInsets.only(left: 24),
+                  padding: const EdgeInsets.only(left: 24, bottom:10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -193,6 +193,7 @@ class _SituationOfHandlingPeopleWidgetState
                       ),
                       const SizedBox(width: 168,),
                       Expanded(child:  PieChart(
+                        paddingTop: 0,
                         title: S.current.xu_ly,
                         chartData: [
                           ChartData(
@@ -255,7 +256,7 @@ class _SituationOfHandlingPeopleWidgetState
                 //     );
                 //   },
                 // );
-              }),
+              },),
         ),
       ),
     );

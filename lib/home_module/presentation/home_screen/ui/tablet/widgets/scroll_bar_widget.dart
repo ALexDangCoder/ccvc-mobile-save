@@ -20,17 +20,24 @@ class _ScrollBarWidgetState extends State<ScrollBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      isAlwaysShown: false,
-      thickness: 6,
-      radius: const Radius.circular(12),
-      child: SingleChildScrollView(
-        controller: scrollController,
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: widget.children,
-        ),
+    return  Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+
+        children: widget.children,
       ),
     );
+    // return Scrollbar(
+    //   isAlwaysShown: false,
+    //   thickness: 6,
+    //   radius: const Radius.circular(12),
+    //   child: SingleChildScrollView(
+    //     controller: scrollController,
+    //     padding: const EdgeInsets.symmetric(horizontal: 24),
+    //     child: Column(
+    //       children: widget.children,
+    //     ),
+    //   ),
+    // );
   }
 }

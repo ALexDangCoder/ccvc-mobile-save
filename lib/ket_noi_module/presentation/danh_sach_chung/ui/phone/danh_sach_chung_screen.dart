@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/config/resources/color.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/model/danh_sach_chung_model.dart';
@@ -73,7 +74,7 @@ class _DanhSachChungScreenState extends State<DanhSachChungScreen> {
         child: _content(),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: labelColor,
+        backgroundColor: AppTheme.getInstance().colorField(),
         onPressed: () {
           Navigator.push(
             context,

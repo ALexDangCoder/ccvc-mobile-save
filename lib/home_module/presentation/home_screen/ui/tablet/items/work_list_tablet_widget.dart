@@ -69,124 +69,122 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
           },
         ),
       ),
-      child: Flexible(
-        child: LoadingOnly(
-          stream: danhSachCVCubit.stateStream,
-          child: ScrollBarWidget(
-            children: [
-              StreamBuilder<TodoListModel>(
-                stream: danhSachCVCubit.getTodoList,
-                builder: (context, snapshot) {
-                  final data =
-                      snapshot.data?.listTodoImportant ?? <TodoModel>[];
-                  if (data.isNotEmpty) {
-                    return Column(
-                      key: UniqueKey(),
-                      children: List.generate(data.length, (index) {
-                        final todo = data[index];
-                        return CongViecCell(
-                          text: todo.label ?? '',
-                          todoModel: todo,
-                          onCheckBox: (value) {
-                            danhSachCVCubit.tickerListWord(
-                                todo: todo, removeDone: false);
-                          },
-                          onStar: () {
-                            danhSachCVCubit.tickerQuanTrongTodo(todo,
-                                removeDone: false);
-                          },
-                          onClose: () {
-                            showDiaLog(
-                              context,
-                              funcBtnRight: () {
-                                danhSachCVCubit.deleteCongViec(todo,
-                                    removeDone: false);
-                              },
-                              showTablet: true,
-                              icon: SvgPicture.asset(
-                                ImageAssets.icDeleteLichHop,
-                              ),
-                              title: S.current.xoa_cong_viec,
-                              textContent: S.current.ban_chac_chan_muon_xoa,
-                              btnLeftTxt: S.current.huy,
-                              btnRightTxt: S.current.xoa,
-                            );
-                          },
-                          onChange: (controller) {
-                            danhSachCVCubit.changeLabelTodo(
-                              controller.text.trim(),
-                              todo,
-                            );
-                          },
-                        );
-                      }),
-                    );
-                  }
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30),
-                    child: NodataWidget(),
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    S.current.da_hoan_thanh,
-                    style: textNormalCustom(fontSize: 14, color: infoColor),
-                  ),
-                  StreamBuilder<TodoListModel>(
-                    stream: danhSachCVCubit.getTodoList,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data?.listTodoDone ?? <TodoModel>[];
-                      if (data.isNotEmpty) {
-                        return Column(
-                          key: UniqueKey(),
-                          children: List.generate(data.length, (index) {
-                            final todo = data[index];
-                            return CongViecCell(
-                              enabled: false,
-                              todoModel: todo,
-                              onCheckBox: (value) {
-                                danhSachCVCubit.tickerListWord(todo: todo);
-                              },
-                              onClose: () {
-                                showDiaLog(
-                                  context,
-                                  funcBtnRight: () {
-                                    danhSachCVCubit.deleteCongViec(todo);
-                                  },
-                                  showTablet: true,
-                                  icon: SvgPicture.asset(
-                                    ImageAssets.icDeleteLichHop,
-                                  ),
-                                  title: S.current.xoa_cong_viec,
-                                  textContent: S.current.ban_chac_chan_muon_xoa,
-                                  btnLeftTxt: S.current.huy,
-                                  btnRightTxt: S.current.xoa,
-                                );
-                              },
-                              onStar: () {
-                                danhSachCVCubit.tickerQuanTrongTodo(todo);
-                              },
-                              text: todo.label ?? '',
-                            );
-                          }),
-                        );
-                      }
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 30),
-                        child: NodataWidget(),
+      child: LoadingOnly(
+        stream: danhSachCVCubit.stateStream,
+        child: ScrollBarWidget(
+          children: [
+            StreamBuilder<TodoListModel>(
+              stream: danhSachCVCubit.getTodoList,
+              builder: (context, snapshot) {
+                final data =
+                    snapshot.data?.listTodoImportant ?? <TodoModel>[];
+                if (data.isNotEmpty) {
+                  return Column(
+                    key: UniqueKey(),
+                    children: List.generate(data.length, (index) {
+                      final todo = data[index];
+                      return CongViecCell(
+                        text: todo.label ?? '',
+                        todoModel: todo,
+                        onCheckBox: (value) {
+                          danhSachCVCubit.tickerListWord(
+                              todo: todo, removeDone: false);
+                        },
+                        onStar: () {
+                          danhSachCVCubit.tickerQuanTrongTodo(todo,
+                              removeDone: false);
+                        },
+                        onClose: () {
+                          showDiaLog(
+                            context,
+                            funcBtnRight: () {
+                              danhSachCVCubit.deleteCongViec(todo,
+                                  removeDone: false);
+                            },
+                            showTablet: true,
+                            icon: SvgPicture.asset(
+                              ImageAssets.icDeleteLichHop,
+                            ),
+                            title: S.current.xoa_cong_viec,
+                            textContent: S.current.ban_chac_chan_muon_xoa,
+                            btnLeftTxt: S.current.huy,
+                            btnRightTxt: S.current.xoa,
+                          );
+                        },
+                        onChange: (controller) {
+                          danhSachCVCubit.changeLabelTodo(
+                            controller.text.trim(),
+                            todo,
+                          );
+                        },
                       );
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
+                    }),
+                  );
+                }
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  child: NodataWidget(),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  S.current.da_hoan_thanh,
+                  style: textNormalCustom(fontSize: 14, color: infoColor),
+                ),
+                StreamBuilder<TodoListModel>(
+                  stream: danhSachCVCubit.getTodoList,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data?.listTodoDone ?? <TodoModel>[];
+                    if (data.isNotEmpty) {
+                      return Column(
+                        key: UniqueKey(),
+                        children: List.generate(data.length, (index) {
+                          final todo = data[index];
+                          return CongViecCell(
+                            enabled: false,
+                            todoModel: todo,
+                            onCheckBox: (value) {
+                              danhSachCVCubit.tickerListWord(todo: todo);
+                            },
+                            onClose: () {
+                              showDiaLog(
+                                context,
+                                funcBtnRight: () {
+                                  danhSachCVCubit.deleteCongViec(todo);
+                                },
+                                showTablet: true,
+                                icon: SvgPicture.asset(
+                                  ImageAssets.icDeleteLichHop,
+                                ),
+                                title: S.current.xoa_cong_viec,
+                                textContent: S.current.ban_chac_chan_muon_xoa,
+                                btnLeftTxt: S.current.huy,
+                                btnRightTxt: S.current.xoa,
+                              );
+                            },
+                            onStar: () {
+                              danhSachCVCubit.tickerQuanTrongTodo(todo);
+                            },
+                            text: todo.label ?? '',
+                          );
+                        }),
+                      );
+                    }
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 30),
+                      child: NodataWidget(),
+                    );
+                  },
+                )
+              ],
+            )
+          ],
         ),
       ),
     );

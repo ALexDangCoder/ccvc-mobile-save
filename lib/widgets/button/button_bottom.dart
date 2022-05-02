@@ -19,7 +19,7 @@ class ButtonBottom extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: Material(
-        color: buttonColor,
+        color: AppTheme.getInstance().colorField().withOpacity(0.1),
         child: InkWell(
           onTap: () {
             onPressed();
@@ -28,7 +28,7 @@ class ButtonBottom extends StatelessWidget {
             child: Text(
               text,
               style: textNormalCustom(
-                color: AppTheme.getInstance().dfBtnTxtColor(),
+                color: AppTheme.getInstance().colorField(),
                 fontSize: 14,
               ),
             ),

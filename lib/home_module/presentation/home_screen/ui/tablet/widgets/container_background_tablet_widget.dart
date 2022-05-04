@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,6 +27,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
   final double? minHeight;
   final SelectKeyDialog? selectKeyDialog;
   final bool isUnit;
+  final bool isShowSubtitle;
   final List<SelectKey>? listSelect;
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
@@ -39,6 +41,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.padding,
     this.onTapIcon,
     this.spacingTitle = 20,
+    this.isShowSubtitle=true,
     this.maxHeight,
     this.minHeight,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
@@ -60,9 +63,10 @@ class _ContainerBackgroudWidgetState
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        minHeight: widget.minHeight ?? 0,
-        maxHeight: widget.maxHeight ?? double.infinity,
-      ),
+          // minHeight: widget.minHeight ?? 0,
+
+          // maxHeight: widget.maxHeight ?? double.infinity,
+          ),
       padding: const EdgeInsets.only(top: 24),
       decoration: BoxDecoration(
         color: backgroundColorApp,
@@ -114,8 +118,7 @@ class _ContainerBackgroudWidgetState
                                       widget.title,
                                       style: textNormalCustom(
                                         fontSize: 16.0.textScale(space: 4),
-                                        color:
-                                           textTitle,
+                                        color: textTitle,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -127,10 +130,10 @@ class _ContainerBackgroudWidgetState
                                         stream: widget.selectKeyDialog!
                                             .selectKeyDialog.stream,
                                         builder: (context, snapshot) {
-                                          return Text(
+                                          return widget.isShowSubtitle?Text(
                                             subTitle(),
                                             style: textNormal(titleColumn, 16),
-                                          );
+                                          ): const SizedBox();
                                         },
                                       )
                                     ] else
@@ -141,20 +144,26 @@ class _ContainerBackgroudWidgetState
                             ],
                           ),
                         ),
-                        if (widget.isCustomDialog) GestureDetector(
-                                onTap: () {
-                                  if (widget.onTapIcon != null) {
-                                    widget.onTapIcon!();
-                                  } else {}
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 24),
-                                  color: Colors.transparent,
-                                  alignment: Alignment.centerRight,
-                                  child: SvgPicture.asset(widget.urlIcon),
-                                ),
-                              ) else widget.dialogSelect ?? const SizedBox()
+                        if (widget.isCustomDialog)
+                          GestureDetector(
+                            onTap: () {
+                              if (widget.onTapIcon != null) {
+                                widget.onTapIcon!();
+                              } else {}
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                              color: Colors.transparent,
+                              alignment: Alignment.centerRight,
+                              child: SvgPicture.asset(
+                                widget.urlIcon,
+                                color: AppTheme.getInstance().colorField(),
+                              ),
+                            ),
+                          )
+                        else
+                          widget.dialogSelect ?? const SizedBox()
                       ],
                     ),
                   ),
@@ -181,11 +190,14 @@ class _ContainerBackgroudWidgetState
               ),
             ),
           ),
-        if (widget.isCustomDialog) Positioned(
-            top: 30,
-            right: 16,
-            child: widget.dialogSelect ?? const SizedBox(),
-          ) else const SizedBox()
+          if (widget.isCustomDialog)
+            Positioned(
+              top: 30,
+              right: 16,
+              child: widget.dialogSelect ?? const SizedBox(),
+            )
+          else
+            const SizedBox()
         ],
       ),
     );

@@ -71,7 +71,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
             padding: const EdgeInsets.only(right: 16),
             child: MenuSelectWidget(
               listSelect: [
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icHuy,
                   text: S.current.huy_lich_hop,
                   onTap: () {
@@ -90,7 +90,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.ic_delete_do,
                   text: S.current.xoa_lich,
                   onTap: () {
@@ -109,7 +109,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icEditBlue,
                   text: S.current.sua_lich,
                   onTap: () {
@@ -121,7 +121,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icThuHoi,
                   text: S.current.thu_hoi,
                   onTap: () {
@@ -129,7 +129,10 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       context,
                       maxHeight: 280,
                       title: S.current.thu_hoi_lich,
-                      child: const ThuHoiLichWidget(),
+                      child: ThuHoiLichWidget(
+                        cubit: cubit,
+                        id: widget.id,
+                      ),
                       isBottomShow: false,
                       funcBtnOk: () {
                         Navigator.pop(context);
@@ -137,7 +140,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icPhanCongThuKy,
                   text: S.current.phan_cong_thu_ky,
                   onTap: () {
@@ -156,7 +159,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                     );
                   },
                 ),
-                QData(
+                CellPopPupMenu(
                   urlImage: ImageAssets.icTaoBocBang,
                   text: S.current.tao_boc_bang_cuoc_hop,
                   onTap: () {
@@ -314,7 +317,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                           id: widget.id,
                           cubit: cubit,
                         ),
-                        MoiNguoiThamGiaWidgetTablet(
+                        ThanhPhanThamGiaWidgetTablet(
                           cubit: cubit,
                         ),
                         TaiLieuWidget(

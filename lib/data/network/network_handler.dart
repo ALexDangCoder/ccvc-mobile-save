@@ -44,8 +44,8 @@ class NetworkHandler {
 
   static AppException _parseError(DioError error) {
     if (error.response?.data is! Map<String, dynamic>) {
-      return AppException(S.current.error, S.current.something_went_wrong);
+      return AppException(S.current.error, S.current.something_went_wrong,error.response?.statusCode);
     }
-    return AppException(S.current.error, S.current.something_went_wrong);
+    return AppException(S.current.error, S.current.something_went_wrong,error.response?.statusCode);
   }
 }

@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     loginCubit.closeDialog();
+    loginCubit.toast.init(context);
   }
 
   @override
@@ -141,7 +142,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           return loginCubit.isHideClearData = true;
                         },
                         validator: (value) {
-                          return (value ?? '').checkNull();
+                          if ((value?.length ?? 0) > 255) {
+                            return S.current.nhap_sai_dinh_dang;
+                          } else if ((value ?? '').contains('@')) {
+                            return (value ?? '').checkEmailBoolean();
+                          } else {
+                            return (value ?? '').checkTruongNull('Tài khoản!');
+                          }
                         },
                       ),
                       const SizedBox(
@@ -187,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return loginCubit.isHideEye1 = true;
                         },
                         validator: (value) {
-                          return (value ?? '').checkNull();
+                          return (value ?? '').checkTruongNull('Mật khẩu!');
                         },
                       ),
                       const SizedBox(
@@ -222,10 +229,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   userName: textTaiKhoanController.text,
                                   appCode: APP_CODE,
                                 );
-                              } else {}
-
-                              if (loginCubit.passIsError == true) {
-                                _showToast(context);
                               }
                             },
                           );
@@ -234,60 +237,62 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 32,
                       ),
-                      if(PrefsService.getLoginUserName()!='')
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    loginCubit.checkBiometrics();
-                                  });
-                                },
-                                child: Container(
-                                  height: 48,
-                                  width: 48,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: buttonColor.withOpacity(0.1),
-                                  ),
-                                  child: Center(
-                                    child:
-                                    SvgPicture.asset(ImageAssets.icFingerprint),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    loginCubit.checkBiometrics();
-                                  });
-                                },
-                                child: Container(
-                                  height: 48,
-                                  width: 48,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: buttonColor.withOpacity(0.1),
-                                  ),
-                                  child: Center(
-                                    child: SvgPicture.asset(ImageAssets.icFaceId),
+                      if (PrefsService.getLoginUserName() != '')
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      loginCubit.checkBiometrics();
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 48,
+                                    width: 48,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: buttonColor.withOpacity(0.1),
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          ImageAssets.icFingerprint),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                        ],
-                      )
-                      else const SizedBox()
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      loginCubit.checkBiometrics();
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 48,
+                                    width: 48,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: buttonColor.withOpacity(0.1),
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                          ImageAssets.icFaceId),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16.0,
+                            ),
+                          ],
+                        )
+                      else
+                        const SizedBox()
                     ],
                   ),
                 ),
@@ -295,15 +300,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(S.current.dang_nhap_that_bai),
       ),
     );
   }

@@ -97,15 +97,11 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   Set<int> lichLapItem = {};
   List<int> lichLapItem1 = <int>[];
-  List<DayOffWeek> listDayOffWeek = [
-    DayOffWeek(index: 0, name: 'CN', isChoose: false),
-    DayOffWeek(index: 1, name: 'T2', isChoose: false),
-    DayOffWeek(index: 2, name: 'T3', isChoose: false),
-    DayOffWeek(index: 3, name: 'T4', isChoose: false),
-    DayOffWeek(index: 4, name: 'T5', isChoose: false),
-    DayOffWeek(index: 5, name: 'T6', isChoose: false),
-    DayOffWeek(index: 6, name: 'T7', isChoose: false),
-  ];
+  List<int> listNgayChonTuan(String vl) {
+    final List<String> lSt = vl.replaceAll(',', '').split('');
+    final List<int> numbers = lSt.map(int.parse).toList();
+    return numbers;
+  }
   DateTime dateTimeLapDenNgay = DateTime.now();
   BehaviorSubject<DateTime> changeDateTimeSubject = BehaviorSubject();
 

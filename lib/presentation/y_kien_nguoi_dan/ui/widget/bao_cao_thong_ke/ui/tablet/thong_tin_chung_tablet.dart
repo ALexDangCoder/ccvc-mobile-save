@@ -49,165 +49,220 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
 
   @override
   Widget build(BuildContext context) {
-    return StateStreamLayout(
-      textEmpty: S.current.khong_co_du_lieu,
-      retry: () {},
-      error: AppException('1', S.current.something_went_wrong),
-      stream: cubit.stateStream,
-      child: Scaffold(
-        appBar: BaseAppBar(
-          title: S.current.thong_tin_chung,
-          leadingIcon: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: SvgPicture.asset(
-              ImageAssets.icBack,
-            ),
+    return Scaffold(
+      appBar: BaseAppBar(
+        title: S.current.thong_tin_chung,
+        leadingIcon: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset(
+            ImageAssets.icBack,
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                DrawerSlide.navigatorSlide(
-                  context: context,
-                  screen: MenuYKIenNguoiDanTablet(
-                    cubit: widget.cubit,
-                  ),
-                );
-              },
-              icon: SvgPicture.asset(ImageAssets.icMenuCalender),
-            )
-          ],
         ),
-        body: Container(
-          color: bgQLVBTablet,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ChooseTimeScreen(
-                  baseChooseTimeCubit: chooseTimeScreen,
-                  today: DateTime.now(),
-                  onChangTime: () {
-                    cubit.startDate = DateTime.parse(chooseTimeScreen.startDate)
-                        .formatApiDDMMYYYYSlash;
-                    cubit.endDate = DateTime.parse(chooseTimeScreen.endDate)
-                        .formatApiDDMMYYYYSlash;
-                    cubit.callApi();
-                  },
+        actions: [
+          IconButton(
+            onPressed: () {
+              DrawerSlide.navigatorSlide(
+                context: context,
+                screen: MenuYKIenNguoiDanTablet(
+                  cubit: widget.cubit,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: SizedBox(
-                      height: 88,
-                      child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
-                        stream: cubit.listItemDashboard,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              return CustomItemCalenderWork(
-                                image: data[index].img ?? '',
-                                typeName: data[index].typeName ?? '',
-                                numberOfCalendars:
-                                    data[index].numberOfCalendars ?? 0,
-                              );
-                            },
-                          );
-                        },
-                      ),
+              );
+            },
+            icon: SvgPicture.asset(ImageAssets.icMenuCalender),
+          )
+        ],
+      ),
+      body: Container(
+         color: bgQLVBTablet,
+        child: StateStreamLayout(
+          textEmpty: S.current.khong_co_du_lieu,
+          retry: () {},
+          error: AppException('1', S.current.something_went_wrong),
+          stream: cubit.stateStream,
+          child: Column(
+            children: [
+              ChooseTimeScreen(
+                baseChooseTimeCubit: chooseTimeScreen,
+                today: DateTime.now(),
+                onChangTime: () {
+                  cubit.startDate = DateTime.parse(chooseTimeScreen.startDate)
+                      .formatApiDDMMYYYYSlash;
+                  cubit.endDate = DateTime.parse(chooseTimeScreen.endDate)
+                      .formatApiDDMMYYYYSlash;
+                  cubit.callApi();
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16, left: 16),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    height: 88,
+                    child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
+                      initialData: cubit.listInitDashBoard,
+                      stream: cubit.listItemDashboard,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? [];
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return CustomItemCalenderWork(
+                              image: data[index].img ?? '',
+                              typeName: data[index].typeName ?? '',
+                              numberOfCalendars:
+                                  data[index].numberOfCalendars ?? 0,
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  color: bgQLVBTablet,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 20,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                color: bgQLVBTablet,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 20,
+                  ),
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: borderColor.withOpacity(0.5),
                     ),
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: borderColor.withOpacity(0.5),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: StreamBuilder<List<ChartData>>(
+                              stream: cubit.chartTinhHinhXuLy,
+                              builder: (context, snapshot) {
+                                final listDataChart = snapshot.data ?? [];
+                                return Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    PieChart(
+                                      isSubjectInfo: false,
+                                      title: S
+                                          .current.tinh_hinh_y_kien_nguoi_dan,
+                                      chartData: listDataChart,
+                                      onTap: (int value) {},
+                                    ),
+                                    RowIndicatorSmallTablet(
+                                      chartData: listDataChart,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 100,
+                          ),
+                          Flexible(
+                            child: StreamBuilder<List<ChartData>>(
+                              stream: cubit.chartPhanLoai,
+                              builder: (context, snapshot) {
+                                final chartData = snapshot.data ?? [];
+                                return Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    PieChart(
+                                      isSubjectInfo: false,
+                                      title: S.current.phan_loai_yknd,
+                                      chartData: chartData,
+                                      onTap: (int value) {},
+                                    ),
+                                    RowIndicatorTablet(
+                                      paddingleft: 0,
+                                      chartData: chartData,
+                                    ),
+                                    Container(height: 20),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: StreamBuilder<List<ChartData>>(
-                                stream: cubit.chartTinhHinhXuLy,
-                                builder: (context, snapshot) {
-                                  final listDataChart = snapshot.data ?? [];
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      PieChart(
-                                        isSubjectInfo: false,
-                                        title: S
-                                            .current.tinh_hinh_y_kien_nguoi_dan,
-                                        chartData: listDataChart,
-                                        onTap: (int value) {},
+                      Row(
+                        children: [
+                          Flexible(
+                            flex: 5,
+                            child: StreamBuilder(
+                              stream: cubit.statusTinhHinhXuLyData,
+                              builder: (context, snapshot) {
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      child: BoxStatusVanBan(
+                                        value: cubit.dashboardModel
+                                                .soLuongTrongHan ??
+                                            0,
+                                        onTap: () {},
+                                        color: numberOfCalenders,
+                                        statusName: S.current.trong_han,
                                       ),
-                                      RowIndicatorSmallTablet(
-                                        chartData: listDataChart,
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    Expanded(
+                                      child: BoxStatusVanBan(
+                                        value: cubit.dashboardModel
+                                                .soLuongDenHan ??
+                                            0,
+                                        onTap: () {},
+                                        color: labelColor,
+                                        statusName: S.current.den_han,
                                       ),
-                                    ],
-                                  );
-                                },
-                              ),
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    Expanded(
+                                      child: BoxStatusVanBan(
+                                        value: cubit.dashboardModel
+                                                .soLuongQuaHan ??
+                                            0,
+                                        onTap: () {},
+                                        color: statusCalenderRed,
+                                        statusName: S.current.qua_han,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
-                            const SizedBox(
-                              width: 100,
-                            ),
-                            Flexible(
-                              child: StreamBuilder<List<ChartData>>(
-                                stream: cubit.chartPhanLoai,
-                                builder: (context, snapshot) {
-                                  final chartData = snapshot.data ?? [];
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      PieChart(
-                                        isSubjectInfo: false,
-                                        title: S.current.phan_loai_yknd,
-                                        chartData: chartData,
-                                        onTap: (int value) {},
-                                      ),
-                                      RowIndicatorTablet(
-                                        paddingleft: 0,
-                                        chartData: chartData,
-                                      ),
-                                      Container(height: 20),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Flexible(
-                              flex: 5,
-                              child: StreamBuilder(
-                                stream: cubit.statusTinhHinhXuLyData,
-                                builder: (context, snapshot) {
-                                  return Row(
+                          ),
+                          const SizedBox(
+                            width: 100,
+                          ),
+                          Flexible(
+                            flex: 6,
+                            child: Row(
+                              children: [
+                                const Expanded(
+                                  child: SizedBox(),
+                                ),
+                                Expanded(
+                                  flex: 10,
+                                  child: Row(
                                     children: [
                                       Expanded(
                                         child: BoxStatusVanBan(
@@ -246,79 +301,25 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                         ),
                                       ),
                                     ],
-                                  );
-                                },
-                              ),
+                                  ),
+                                ),
+                                const Expanded(
+                                  child: SizedBox(),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 100,
-                            ),
-                            Flexible(
-                              flex: 6,
-                              child: Row(
-                                children: [
-                                  const Expanded(
-                                    child: SizedBox(),
-                                  ),
-                                  Expanded(
-                                    flex: 10,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: BoxStatusVanBan(
-                                            value: cubit.dashboardModel
-                                                    .soLuongTrongHan ??
-                                                0,
-                                            onTap: () {},
-                                            color: numberOfCalenders,
-                                            statusName: S.current.trong_han,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
-                                        Expanded(
-                                          child: BoxStatusVanBan(
-                                            value: cubit.dashboardModel
-                                                    .soLuongDenHan ??
-                                                0,
-                                            onTap: () {},
-                                            color: labelColor,
-                                            statusName: S.current.den_han,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
-                                        Expanded(
-                                          child: BoxStatusVanBan(
-                                            value: cubit.dashboardModel
-                                                    .soLuongQuaHan ??
-                                                0,
-                                            onTap: () {},
-                                            color: statusCalenderRed,
-                                            statusName: S.current.qua_han,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const Expanded(
-                                    child: SizedBox(),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 28,
-                ),
-                Container(
+              ),
+              const SizedBox(
+                height: 28,
+              ),
+              Expanded(
+                child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 30),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -386,8 +387,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/custom_select_tinh.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/avatar_tablet.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/select_date_tablet.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/tablet/widget/show_dialog_edit.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/double_button_edit_seen.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_don_vi.dart';
@@ -16,6 +17,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -23,6 +25,7 @@ import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EditPersonInformationTabletScreen extends StatefulWidget {
   final String id;
@@ -48,6 +51,7 @@ class _EditPersonalInformationTabletScreen
   TextEditingController sdtController = TextEditingController();
   TextEditingController diaChiLienHeController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
+  final toast = FToast();
 
   @override
   void initState() {
@@ -65,6 +69,7 @@ class _EditPersonalInformationTabletScreen
       diaChiLienHeController.text = event.diaChi ?? '';
     });
     super.initState();
+    toast.init(context);
   }
 
   @override
@@ -107,7 +112,7 @@ class _EditPersonalInformationTabletScreen
                 key: keyGroup,
                 child: StreamBuilder<ManagerPersonalInformationModel>(
                   stream: cubit.managerStream,
-                  builder: (context, snap) {
+                  builder: (contexts, snap) {
                     if (!snap.hasData) {
                       return const SizedBox();
                     }
@@ -125,11 +130,21 @@ class _EditPersonalInformationTabletScreen
                             ),
                             TextButton(
                               onPressed: () {
-                                cubit.getInfo(id: widget.id);
-                                cubit.huyenSubject.sink.add([]);
-                                cubit.xaSubject.sink.add([]);
-                                if (keyGroup.currentState!.validator()) {
-                                } else {}
+                                showDiaLogTablet(
+                                  context,
+                                  title: S.current.ban_co_chac_muon,
+                                  child: Container(),
+                                  funcBtnOk: () {
+                                    cubit.getInfo(id: widget.id);
+                                    cubit.huyenSubject.sink.add([]);
+                                    cubit.xaSubject.sink.add([]);
+                                  },
+                                  btnRightTxt: S.current.dong_y,
+                                  btnLeftTxt: S.current.khong,
+                                  title2: S.current.khong_edit,
+                                  title1: S.current.reset,
+                                  //  isBottomShowText: false,
+                                );
                               },
                               child: Text(
                                 S.current.reset,
@@ -152,13 +167,24 @@ class _EditPersonalInformationTabletScreen
                                     isObligatory: true,
                                     title: user.keys.elementAt(1),
                                     child: TextFieldValidator(
+                                      key: UniqueKey(),
                                       hintText: S.current.ho_va_ten,
                                       controller: nameController,
                                       validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return S.current.khong_duoc_de_trong;
+                                        if ((value ?? '').isEmpty) {
+                                          return '${S.current.ban_phai_nhap_truong} '
+                                              '${S.current.ho_va_ten} ';
+                                        } else if ((value ?? '')
+                                                    .trim()
+                                                    .length <=
+                                                5 ||
+                                            (value ?? '').trim().length >= 32) {
+                                          return S.current.nhap_sai_dinh_dang;
                                         }
                                         return null;
+                                      },
+                                      onChange: (value) {
+                                        cubit.debouncer.run(() {});
                                       },
                                     ),
                                   ),
@@ -166,18 +192,26 @@ class _EditPersonalInformationTabletScreen
                                     isObligatory: true,
                                     title: user.keys.elementAt(2),
                                     child: TextFieldValidator(
+                                      isEnabled: false,
                                       hintText: S.current.ma_can_bo,
                                       controller: maCanBoController,
                                       validator: (value) {
-                                        return value?.checkNull();
+                                        return value?.checkNulls();
                                       },
                                     ),
                                   ),
                                   InputInfoUserWidget(
                                     title: user.keys.elementAt(3),
                                     child: TextFieldValidator(
+                                      textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
                                       controller: thuTuController,
+                                      validator: (value) {
+                                        if ((value?.length ?? 0) > 2) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -204,6 +238,12 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
+                                      validator: (value) {
+                                        if ((value?.length ?? 0) > 255) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -234,7 +274,8 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.email,
                                       controller: emailController,
                                       validator: (value) {
-                                        return (value ?? '').checkEmail();
+                                        return (value ?? '')
+                                            .checkEmailBoolean();
                                       },
                                     ),
                                   ),
@@ -253,7 +294,10 @@ class _EditPersonalInformationTabletScreen
                                       controller: sdtCoquanController,
                                       textInputType: TextInputType.number,
                                       validator: (value) {
-                                        return (value ?? '').checkSdt();
+                                        if ((value?.length ?? 0) > 255) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -264,7 +308,10 @@ class _EditPersonalInformationTabletScreen
                                       controller: sdtController,
                                       textInputType: TextInputType.number,
                                       validator: (value) {
-                                        return value!.checkSdt();
+                                        if ((value?.length ?? 0) > 255) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -409,6 +456,12 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.dia_chi_lien_he,
                                       controller: diaChiLienHeController,
+                                      validator: (value) {
+                                        if ((value?.length ?? 0) > 255) {
+                                          return S.current.nhap_sai_dinh_dang;
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
                                 ],
@@ -498,6 +551,7 @@ class _EditPersonalInformationTabletScreen
                         spaceH28,
                         AvatarAndSignatureTablet(
                           cubit: cubit,
+                          toast: toast,
                         ),
                         spaceH48,
                         DoubleButtonEditScreen(
@@ -505,7 +559,7 @@ class _EditPersonalInformationTabletScreen
                             Navigator.pop(context);
                           },
                           onPressed2: () async {
-                            if (keyGroup.currentState!.validator()) {
+                            if (keyGroup.currentState?.validator() ?? true) {
                               await cubit
                                   .getEditPerson(
                                 id: widget.id,
@@ -540,11 +594,13 @@ class _EditPersonalInformationTabletScreen
                                   messState: MessState.error,
                                 ),
                               );
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
                             } else {
-                              MessageConfig.show(
-                                title: S.current.sua_that_bai,
-                                messState: MessState.error,
+                              toast.showToast(
+                                child: ShowToast(
+                                  text: S.current.nhap_sai_dinh_dang,
+                                ),
+                                gravity: ToastGravity.BOTTOM,
                               );
                             }
                           },

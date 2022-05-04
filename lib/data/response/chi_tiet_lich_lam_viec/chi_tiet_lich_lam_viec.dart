@@ -164,7 +164,7 @@ class DetailCalenderWorkResponseData {
         canBoChuTri: canBoChuTri?.toDomain() ?? CreateBy(),
         scheduleCoperatives: scheduleCoperatives?.map((e) => e.toModel()).toList()??[],
         files: files?.map((e) => e.toDomain()).toList() ?? [],
-        scheduleReminder: scheduleReminder?.toModel(),
+        scheduleReminder: scheduleReminder?.toModel()??ScheduleReminder(),
         tinhId: tinhId,
         tenTinh: tenTinh,
         huyenId: huyenId,

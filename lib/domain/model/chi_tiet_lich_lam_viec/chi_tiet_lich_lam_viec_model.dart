@@ -143,6 +143,25 @@ class ChiTietLichLamViecModel {
     this.country,
     this.linhVuc,
   });
+  String lichLap() {
+    switch (typeRepeat) {
+      case 1:
+        return 'Không lặp lại';
+      case 2:
+        return 'Lặp lại hàng ngày';
+      case 3:
+        return 'Thứ 2 đến thứ 6 hàng tuần';
+      case 4:
+        return 'Lặp lại hàng tuần';
+      case 5:
+        return 'Lặp lại hàng tháng';
+      case 6:
+        return 'Lặp lại hàng năm';
+      case 7:
+        return 'Tùy chỉnh';
+    }
+    return '';
+  }
 }
 
 class ScheduleReminder {
@@ -165,6 +184,33 @@ class ScheduleReminder {
     this.jobId,
     this.typeReminder,
   });
+  String nhacLai() {
+    switch (typeReminder) {
+      case 1:
+        return 'Không bao giờ';
+      case 0:
+        return 'Sau khi tạo lịch';
+      case 5:
+        return 'Trước 5 phút';
+      case 10:
+        return 'Trước 10 phút';
+      case 15:
+        return 'Trước 15 phút';
+      case 30:
+        return 'Trước 30 phút';
+      case 60:
+        return 'Trước 1 giờ';
+      case 120:
+        return 'Trước 2 giờ';
+      case 720:
+        return 'Trước 12 giờ';
+      case 1140:
+        return 'Trước 1 ngày';
+      case 10080:
+        return 'Trước 1 tuần';
+    }
+    return '';
+  }
 }
 
 class CreateBy {
@@ -189,6 +235,9 @@ class CreateBy {
     this.donViGocId,
     this.tenDonViGoc,
   });
+  String title() {
+    return '$hoTen - $tenDonVi';
+  }
 }
 
 class UpdateBy {

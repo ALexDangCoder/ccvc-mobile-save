@@ -1,5 +1,10 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/phan_anh_kien_nghi_don_vi_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/phan_anh_kien_nghi_don_vi_tablet.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
 import 'package:flutter/cupertino.dart';
+
 import '/home_module/presentation/home_screen/ui/mobile/items/calendar_work_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/document_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/event_of_day_widget.dart';
@@ -88,6 +93,16 @@ extension ItemExtension on WidgetType {
           key: KeyKeepAlive._keyNhiemVu,
           homeItemType: WidgetType.nhiemVu,
         );
+      case WidgetType.vanBanDonVi:
+        return VanBanDonViWidget(
+          key: KeyKeepAlive._keyVanBanDonVi,
+          homeItemType: WidgetType.vanBanDonVi,
+        );
+      case WidgetType.phanAnhKienNghiDonVi:
+        return PhanAnhKienNghiDonViWidget(
+          key: KeyKeepAlive._keyPhanAnhKienNghiDonVi,
+          homeItemType: WidgetType.phanAnhKienNghiDonVi,
+        );
     }
   }
 
@@ -154,6 +169,16 @@ extension ItemExtension on WidgetType {
           key: KeyKeepAlive._keyNhiemVu,
           homeItemType: WidgetType.nhiemVu,
         );
+      case WidgetType.vanBanDonVi:
+        return VanBanDonViTablet(
+          key: KeyKeepAlive._keyVanBanDonVi,
+          homeItemType: WidgetType.vanBanDonVi,
+        );
+      case WidgetType.phanAnhKienNghiDonVi:
+        return PhanAnhKienNghiDonViTablet(
+          key: KeyKeepAlive._keyPhanAnhKienNghiDonVi,
+          homeItemType: WidgetType.phanAnhKienNghiDonVi,
+        );
     }
   }
 }
@@ -171,4 +196,6 @@ class KeyKeepAlive {
   static final _keyListWork = GlobalKey();
   static final _keyEventOfDay = GlobalKey();
   static final _keySinhNhat = GlobalKey();
+  static final _keyVanBanDonVi = GlobalKey();
+  static final _keyPhanAnhKienNghiDonVi = GlobalKey();
 }

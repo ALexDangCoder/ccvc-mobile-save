@@ -160,7 +160,20 @@ class HopRepositoryImpl implements HopRepository {
     String id,
   ) {
     return runCatchingAsync<DanhSachCanBoHopResponse, List<NguoiChutriModel>>(
-      () => _hopServices.getDanhSachChuTri(id),
+      () => _hopServices.getDanhSachChuTri(
+        id,
+      ),
+      (res) => res.data?.listCanBo?.map((e) => e.toDomain()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<NguoiChutriModel>>> getDanhSachThuHoi(
+    String id,
+    bool except,
+  ) {
+    return runCatchingAsync<DanhSachCanBoHopResponse, List<NguoiChutriModel>>(
+      () => _hopServices.getDanhSachThuHoi(id, except),
       (res) => res.data?.listCanBo?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -727,10 +740,21 @@ class HopRepositoryImpl implements HopRepository {
 
   @override
   Future<Result<ResponseModel>> postThuHoiHop(
+    bool isMulti,
     List<ThuHoiHopRequest> thuHoiHopRequest,
   ) {
     return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
-      () => _hopServices.postThuHoiHop(thuHoiHopRequest),
+      () => _hopServices.postThuHoiHop(isMulti, thuHoiHopRequest),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> postHuyDiemDanh(
+    String data,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.postHuyDiemDanh(data),
       (response) => response.toModel(),
     );
   }

@@ -1,4 +1,5 @@
-
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -14,6 +15,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class SinhNhatWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const SinhNhatWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -23,6 +25,7 @@ class SinhNhatWidget extends StatefulWidget {
 
 class _EventOfDayWidgetState extends State<SinhNhatWidget> {
   final SinhNhatCubit sinhNhatCubit = SinhNhatCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,6 +37,7 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundWidget(
@@ -42,6 +46,7 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
+      padding: EdgeInsets.zero,
       selectKeyDialog: sinhNhatCubit,
       dialogSelect: StreamBuilder(
           stream: sinhNhatCubit.selectKeyDialog,
@@ -52,7 +57,9 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
                 DialogData(
                   onSelect: (value, startDate, endDate) {
                     sinhNhatCubit.selectDate(
-                        selectKey: value, startDate: startDate, endDate: endDate);
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate);
                   },
                   initValue: sinhNhatCubit.selectKeyTime,
                   title: S.current.time,
@@ -61,39 +68,89 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
                 )
               ],
             );
-          }
-      ),
+          }),
       child: LoadingOnly(
         stream: sinhNhatCubit.stateStream,
-        child: StreamBuilder<List<SinhNhatUserModel>>(
-          stream: sinhNhatCubit.getSinhNhat,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? <SinhNhatUserModel>[];
-            if (data.isEmpty) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 100),
-                child: NodataWidget(),
-              );
-            }
-            return Column(
-              children: List.generate(
-               data.length,
-                (index) {
-                  final result = data[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: EventWidget(
-                      onTap: () {},
-                      title:result.title(),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: StreamBuilder<List<SinhNhatUserModel>>(
+                stream: sinhNhatCubit.getSinhNhat,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? <SinhNhatUserModel>[];
+                  if (data.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 100),
+                      child: NodataWidget(),
+                    );
+                  }
+                  return Column(
+                    children: List.generate(
+                      data.length,
+                      (index) {
+                        final result = data[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: EventWidget(
+                            onTap: () {},
+                            title: result.title(),
+                          ),
+                        );
+                      },
                     ),
                   );
                 },
               ),
-            );
-          }
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Text(
+                      S.current.tin_buon,
+                      style: textNormalCustom(color: specialPriceColor),
+                    ),
+                    spaceW16,
+                    SizedBox(
+                      height: 30,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 6,
+                        itemBuilder: (index, context) {
+                          return Row(
+                            children: [
+                              spaceH20,
+                              Container(
+                                height: 6,
+                                width: 6,
+                                decoration: const BoxDecoration(
+                                  color: titleColor,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              spaceW8,
+                              Text(
+                                S.current.tin_buon,
+                                style: textNormalCustom(color: titleColor),
+                              ),
+                              spaceW16,
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
   }
-
 }

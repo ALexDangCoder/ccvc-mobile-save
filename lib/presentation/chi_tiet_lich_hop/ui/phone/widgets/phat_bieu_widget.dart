@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_phat_bieu_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/phat_bieu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/dang_ky_phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/icon_with_title_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
@@ -43,6 +46,10 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
               padding: const EdgeInsets.only(top: 50),
               child: Column(
                 children: [
+                  buttonPhatBieu(
+                    id: widget.id,
+                    cubit: widget.cubit,
+                  ),
                   SizedBox(
                     child: StreamBuilder<int>(
                       stream: widget.cubit.typeStatus,
@@ -103,22 +110,30 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                     ),
                   ),
                   StreamBuilder<List<PhatBieuModel>>(
-                    initialData: widget.cubit.listPhatBieu,
                     stream: widget.cubit.streamPhatBieu,
                     builder: (context, snapshot) {
-                      final _list = snapshot.data ?? [];
-                      if (_list.isNotEmpty) {
+                      final list = snapshot.data ?? [];
+                      if (list.isNotEmpty) {
                         return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: _list.length,
+                          itemCount: list.length,
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
                                 CellPhatBieu(
-                                  infoModel: _list[index],
+                                  infoModel: list[index],
                                   cubit: widget.cubit,
                                   index: index,
+                                  onChangeCheckBox: (vl) {
+                                    if (vl != true) {
+                                      widget.cubit.selectPhatBieu
+                                          .add(list[index].id ?? '');
+                                    } else {
+                                      widget.cubit.selectPhatBieu
+                                          .remove(list[index].id);
+                                    }
+                                  },
                                 ),
                               ],
                             );

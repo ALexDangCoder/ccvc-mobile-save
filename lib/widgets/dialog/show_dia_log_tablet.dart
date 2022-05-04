@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -142,14 +143,14 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft ? AppTheme.getInstance().colorSelect().withOpacity(0.1) : AppTheme.getInstance().colorSelect(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
             ),
           ),
         ),

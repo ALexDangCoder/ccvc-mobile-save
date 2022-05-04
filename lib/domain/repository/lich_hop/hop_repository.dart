@@ -119,7 +119,13 @@ mixin HopRepository {
   );
 
   Future<Result<List<NguoiChutriModel>>> getDanhSachNguoiChuTriPhienHop(
-      String id);
+    String id,
+  );
+
+  Future<Result<List<NguoiChutriModel>>> getDanhSachThuHoi(
+    String id,
+    bool except,
+  );
 
   Future<Result<List<String>>> postEventCalendar(EventCalendarRequest request);
 
@@ -295,6 +301,11 @@ mixin HopRepository {
   );
 
   Future<Result<ResponseModel>> postThuHoiHop(
+    bool isMulti,
     List<ThuHoiHopRequest> thuHoiHopRequest,
+  );
+
+  Future<Result<ResponseModel>> postHuyDiemDanh(
+    String data,
   );
 }

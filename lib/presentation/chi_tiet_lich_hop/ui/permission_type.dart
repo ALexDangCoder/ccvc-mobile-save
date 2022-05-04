@@ -173,26 +173,29 @@ extension GetDataPermission on PERMISSION_DETAIL {
     }
   }
 
-  QData getMenuLichHop(
+  CellPopPupMenu getMenuLichHop(
     BuildContext context,
     DetailMeetCalenderCubit cubit,
     String id,
   ) {
     switch (this) {
       case PERMISSION_DETAIL.THU_HOI:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.THU_HOI.getIcon(),
           text: PERMISSION_DETAIL.THU_HOI.getString(),
           onTap: () {
             showBottomSheetCustom(
               context,
               title: S.current.thu_hoi_lich,
-              child: const ThuHoiLichWidget(),
+              child: ThuHoiLichWidget(
+                cubit: cubit,
+                id: id,
+              ),
             );
           },
         );
       case PERMISSION_DETAIL.XOA:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.XOA.getIcon(),
           text: PERMISSION_DETAIL.XOA.getString(),
           onTap: () {
@@ -211,7 +214,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           },
         );
       case PERMISSION_DETAIL.SUA:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.SUA.getIcon(),
           text: PERMISSION_DETAIL.SUA.getString(),
           onTap: () {
@@ -228,37 +231,37 @@ extension GetDataPermission on PERMISSION_DETAIL {
           },
         );
       case PERMISSION_DETAIL.CU_CAN_BO:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.CU_CAN_BO.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.TU_CHOI_THAM_GIA:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.TU_CHOI_THAM_GIA.getIcon(),
           text: PERMISSION_DETAIL.TU_CHOI_THAM_GIA.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.DUYET_LICH:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.DUYET_LICH.getIcon(),
           text: PERMISSION_DETAIL.DUYET_LICH.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.PHAN_CONG_THU_KY:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.PHAN_CONG_THU_KY.getIcon(),
           text: PERMISSION_DETAIL.PHAN_CONG_THU_KY.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.CU_CAN_BO_DI_THAY:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getIcon(),
           text: PERMISSION_DETAIL.CU_CAN_BO_DI_THAY.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP.getIcon(),
           text: PERMISSION_DETAIL.TAO_BOC_BANG_CUOC_HOP.getString(),
           onTap: () {
@@ -270,7 +273,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
           },
         );
       case PERMISSION_DETAIL.HUY_LICH:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.HUY_LICH.getIcon(),
           text: PERMISSION_DETAIL.HUY_LICH.getString(),
           onTap: () {
@@ -289,19 +292,19 @@ extension GetDataPermission on PERMISSION_DETAIL {
           },
         );
       case PERMISSION_DETAIL.XAC_NHAN_THAM_GIA:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.XAC_NHAN_THAM_GIA.getIcon(),
           text: PERMISSION_DETAIL.XAC_NHAN_THAM_GIA.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.HUY_XAC_NHAN:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.HUY_XAC_NHAN.getIcon(),
           text: PERMISSION_DETAIL.HUY_XAC_NHAN.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.XAC_NHAN_LAI:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.XAC_NHAN_LAI.getIcon(),
           text: PERMISSION_DETAIL.XAC_NHAN_LAI.getString(),
           onTap: () {},

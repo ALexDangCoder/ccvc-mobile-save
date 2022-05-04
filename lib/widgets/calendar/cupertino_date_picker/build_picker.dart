@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,7 @@ class CupertinoPickerDefaultSelectionOverlayWidget extends StatelessWidget {
               canBorderRight ? const Radius.circular(_border) : Radius.zero,
         ),
         color: CupertinoDynamicColor.resolve(
-          CupertinoColors.systemBlue.withOpacity(0.1),
+          AppTheme.getInstance().colorField().withOpacity(0.1),
           context,
         ),
       ),

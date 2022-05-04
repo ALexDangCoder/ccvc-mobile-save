@@ -126,6 +126,7 @@ class _ChangePassWordScreenTabletState
                       ),
                       const SizedBox(height: 24.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         fillColor: backgroundColorApp,
                         controller: matKhauMoiController,
                         obscureText: cubit.isCheckEye1,
@@ -178,6 +179,7 @@ class _ChangePassWordScreenTabletState
                       ),
                       const SizedBox(height: 24.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         fillColor: backgroundColorApp,
                         controller: nhapLaiMatKhauController,
                         obscureText: cubit.isCheckEye2,

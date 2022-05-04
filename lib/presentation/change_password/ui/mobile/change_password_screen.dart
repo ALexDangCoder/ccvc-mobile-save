@@ -74,6 +74,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       TextFieldValidator(
+                          maxLength: 32,
                           controller: matKhauHienTaiController,
                           obscureText: cubit.isCheckEye,
                           suffixIcon: cubit.isHideEye
@@ -117,6 +118,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                           }),
                       const SizedBox(height: 16.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         controller: matKhauMoiController,
                         obscureText: cubit.isCheckEye1,
                         suffixIcon: cubit.isHideEye1
@@ -168,6 +170,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                       ),
                       const SizedBox(height: 16.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         controller: nhapLaiMatKhauController,
                         obscureText: cubit.isCheckEye2,
                         suffixIcon: cubit.isHideEye2

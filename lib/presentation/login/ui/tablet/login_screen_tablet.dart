@@ -169,6 +169,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               height: 24,
                             ),
                             TextFieldValidator(
+                              maxLength: 32,
                               fillColor: backgroundColorApp,
                               controller: textPasswordController,
                               obscureText: loginCubit.isCheckEye1,

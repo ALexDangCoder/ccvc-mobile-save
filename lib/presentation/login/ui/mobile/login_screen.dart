@@ -157,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 16,
                       ),
                       TextFieldValidator(
+                        maxLength: 32,
                         controller: textPasswordController,
                         obscureText: loginCubit.isCheckEye1,
                         suffixIcon: loginCubit.isHideEye1

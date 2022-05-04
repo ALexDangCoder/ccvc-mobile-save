@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -66,7 +67,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
             child: Checkbox(
               checkColor: Colors.white,
               // color of tick Mark
-              activeColor: indicatorColor,
+              activeColor: AppTheme.getInstance().colorField(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3),
               ),
@@ -118,7 +119,10 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   onTap: () {
                     widget.onEdit();
                   },
-                  child: SvgPicture.asset(ImageAssets.icEditBlue),
+                  child: SvgPicture.asset(
+                    ImageAssets.icEditBlue,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
                 )
               else
                 const SizedBox(),
@@ -129,14 +133,23 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                 onTap: () {
                   widget.onStar();
                 },
-                child: SvgPicture.asset(
-                  widget.todoModel.important ?? false
-                      ? ImageAssets.icStarFocus
-                      : ImageAssets.icStarUnfocus,
+                child:
+                (widget.todoModel.important ?? false)
+                    ? Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: SvgPicture.asset(
+                    ImageAssets.icStarFocus,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
+                )
+                    : Icon(
+                  Icons.star_outline_rounded,
+                  color: AppTheme.getInstance().colorField(),
+                  size: 24,
                 ),
               ),
               const SizedBox(
-                width: 20,
+                width: 15,
               ),
               GestureDetector(
                 onTap: () {

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
@@ -111,7 +112,7 @@ class _EditPersonalInformationScreen
               },
               child: Text(
                 S.current.reset,
-                style: textNormalCustom(fontSize: 14, color: labelColor),
+                style: textNormalCustom(fontSize: 14, color: AppTheme.getInstance().colorField()),
               ),
             ),
           )

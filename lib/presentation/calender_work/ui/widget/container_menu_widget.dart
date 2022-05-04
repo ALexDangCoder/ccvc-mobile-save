@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_animation_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -105,13 +106,13 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: numberColorTabletbg,
+                        color: AppTheme.getInstance().colorField().withOpacity(0.1),
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         widget.index.toString(),
                         style: textNormalCustom(
-                          color: textDefault,
+                          color: AppTheme.getInstance().colorField(),
                           fontWeight: FontWeight.w500,
                           fontSize: 12.0.textScale(),
                         ),

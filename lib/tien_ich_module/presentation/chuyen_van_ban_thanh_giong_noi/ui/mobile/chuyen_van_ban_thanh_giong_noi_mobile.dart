@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/cupertino.dart';
@@ -211,7 +212,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
           vertical: 12,
         ),
         decoration: BoxDecoration(
-          color: textDefault,
+          color: AppTheme.getInstance().colorField(),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(

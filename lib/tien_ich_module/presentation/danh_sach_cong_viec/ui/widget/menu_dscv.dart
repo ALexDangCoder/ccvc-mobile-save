@@ -98,7 +98,6 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                 widget.cubit.statusDSCV.sink.add(NCVM);
                                 widget.cubit.addValueWithTypeToDSCV();
                                 widget.cubit.groupId = dataIndex.id;
-                                print(widget.cubit.groupId);
                                 Navigator.pop(context);
                               },
                               isSelect: false,

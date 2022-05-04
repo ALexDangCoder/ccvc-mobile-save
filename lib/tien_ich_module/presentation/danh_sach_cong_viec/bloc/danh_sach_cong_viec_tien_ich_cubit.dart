@@ -62,8 +62,6 @@ class DanhSachCongViecTienIchCubit
 
   BehaviorSubject<bool> enabled = BehaviorSubject.seeded(true);
 
-  Stream<bool> get getEnabled => enabled.stream;
-
   final BehaviorSubject<List<NguoiThucHienModel>> nguoiThucHien =
       BehaviorSubject<List<NguoiThucHienModel>>();
 
@@ -100,10 +98,16 @@ class DanhSachCongViecTienIchCubit
         )
         .toList();
     listDaBiXoa = listGop
-        .where(
-          (e) => e.inUsed == false,
-        )
+        .where((e) => e.inUsed == false && e.isDeleted == false)
         .toList();
+    vlMenuDf[CVCB].number = listCongViecCuaBan
+        .where((element) => element.isTicked == false)
+        .toList()
+        .length;
+    vlMenuDf[CVQT].number = listQuanTrong.length;
+    vlMenuDf[DHT].number = listDaHoanThanh.length;
+    vlMenuDf[GCT].number = listGanChoToi.length;
+    vlMenuDf[DBX].number = listDaBiXoa.length;
   }
 
   /// khoi tao data
@@ -114,8 +118,7 @@ class DanhSachCongViecTienIchCubit
     unawaited(listNguoiThucHien());
     unawaited(getNHomCVMoi());
     doDataTheoFilter();
-    listDSCV.sink
-        .add(listGop.where((element) => element.inUsed == true).toList());
+    addValueWithTypeToDSCV();
     showContent();
   }
 
@@ -238,7 +241,7 @@ class DanhSachCongViecTienIchCubit
       final vl = dataSearch.where((element) => isListCanBo(element)).toList();
       listDSCV.sink.add(vl);
     } else {
-      listDSCV.sink.add(listDSCV.value);
+      addValueWithTypeToDSCV();
     }
   }
 
@@ -250,7 +253,7 @@ class DanhSachCongViecTienIchCubit
     showLoading();
     final result = await tienIchRep.createTodo(
       CreateToDoRequest(
-        groupId: statusDSCV.value == NCVM ? groupId : '',
+        groupId: statusDSCV.value == NCVM ? groupId : null,
         label: label,
         isTicked: false,
         important: false,
@@ -266,7 +269,32 @@ class DanhSachCongViecTienIchCubit
           res,
         );
         listDSCV.sink.add(data);
+
         closeDialog();
+      },
+      error: (err) {},
+    );
+  }
+
+  ///call and fill api autu
+  void callAndFillApiAutu() async {
+    await getToDoListDSCV();
+    await getDSCVGanCHoToi();
+    doDataTheoFilter();
+    addValueWithTypeToDSCV();
+  }
+
+  /// xoa cong viec
+  Future<void> xoaCongViec(String id) async {
+    if (id.isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await tienIchRep.xoaCongViec(id);
+    showContent();
+    await result.when(
+      success: (res) async {
+        callAndFillApiAutu();
       },
       error: (err) {},
     );
@@ -282,62 +310,50 @@ class DanhSachCongViecTienIchCubit
 
   String dateChange = '';
 
-  String getDate(String date) {
-    dateChange = date;
-    return date;
-  }
-
   String noteChange = '';
-
-  String getnote(String note) {
-    noteChange = note;
-    return note;
-  }
 
   String titleChange = '';
 
-  String getTitle(String title) {
-    titleChange = title;
-    return title;
-  }
-
   String person = '';
-  String idPerson = '';
 
-  void getPersontodo({required String person, required String idPerson}) {
+  void getPersontodo({required String person}) {
     this.person = person;
-    this.idPerson = idPerson;
   }
 
-  ///chỉnh sưa và update công việc
+  ///chinh sưa và update công việc
+
   Future<void> editWork({
+    bool? isTicked,
+    bool? important,
+    bool? inUsed,
+    bool? isDeleted,
     required TodoDSCVModel todo,
   }) async {
+    showLoading();
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,
-        inUsed: todo.inUsed,
-        important: todo.important,
-        isDeleted: todo.isDeleted,
+        inUsed: inUsed ?? todo.inUsed,
+        important: important ?? todo.important,
+        isDeleted: isDeleted ?? todo.isDeleted,
         createdOn: todo.createdOn,
         createdBy: todo.createdBy,
-        isTicked: todo.isTicked,
-        label: titleChange.isEmpty ? todo.label : titleChange,
+        isTicked: isTicked ?? todo.isTicked,
+        label: titleChange.isEmpty ? todo.label ?? null : titleChange,
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
-        note: noteChange.isNotEmpty ? todo.note : noteChange,
+        note: noteChange.isNotEmpty ? todo.note ?? null : noteChange,
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatDayCalendar,
-        performer: idPerson,
+        performer: toDoListRequest.performer == ''
+            ? todo.performer ?? null
+            : toDoListRequest.performer,
       ),
     );
-    result.when(
-      success: (res) {
-        getToDoListDSCV();
-        getDSCVGanCHoToi();
-        doDataTheoFilter();
-        addValueWithTypeToDSCV();
+    await result.when(
+      success: (res) async {
+        callAndFillApiAutu();
       },
       error: (err) {},
     );

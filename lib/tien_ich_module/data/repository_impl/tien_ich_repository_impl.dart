@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/todo_current_user_response.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
@@ -149,6 +151,14 @@ class TienIchRepositoryImpl implements TienIchRepository {
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoToi() {
     return runCatchingAsync<ToDoListDSCVResponse, List<TodoDSCVModel>>(
       () => _tienIchService.getListDSCVGanChoToi(),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> xoaCongViec(String id) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _tienIchService.xoaCongViec(id),
       (response) => response.toModel(),
     );
   }

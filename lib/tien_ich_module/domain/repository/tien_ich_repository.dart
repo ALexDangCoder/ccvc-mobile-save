@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_sach_title_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/detail_huong_dan_su_dung.dart';
@@ -57,4 +57,6 @@ mixin TienIchRepository {
   Future<Result<List<TodoDSCVModel>>> getListTodoDSCV();
 
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoToi();
+
+  Future<Result<ResponseModel>> xoaCongViec(String id);
 }

@@ -150,7 +150,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                 ),
               if (widget.isDaBiXoa)
                 GestureDetector(
-                  onTap: widget.onClose,
+                  onTap: widget.onXoaVinhVien,
                   child: SvgPicture.asset(
                     ImageAssets.ic_delete_dscv,
                   ),

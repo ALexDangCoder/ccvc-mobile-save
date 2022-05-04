@@ -1,10 +1,8 @@
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
-import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
@@ -15,7 +13,6 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/blo
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_dscv_tien_tich.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chinh_sua_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/menu_dscv.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -103,12 +100,27 @@ class _DanhSachCongViecTienIchMobileState
                                   isTheEdit: dataType != DBX,
                                   text: todo.label ?? '',
                                   todoModel: todo,
-                                  onCheckBox: (value) {},
-                                  onStar: () {},
+                                  onCheckBox: (value) {
+                                    cubit.editWork(
+                                      todo: todo,
+                                      isTicked: !todo.isTicked!,
+                                    );
+                                  },
+                                  onStar: () {
+                                    cubit.editWork(
+                                      todo: todo,
+                                      important: !todo.important!,
+                                    );
+                                  },
                                   onClose: () {
                                     showDiaLog(
                                       context,
-                                      funcBtnRight: () {},
+                                      funcBtnRight: () {
+                                        cubit.editWork(
+                                          todo: todo,
+                                          inUsed: !todo.inUsed!,
+                                        );
+                                      },
                                       icon: SvgPicture.asset(
                                         ImageAssets.icDeleteLichHop,
                                       ),
@@ -119,7 +131,12 @@ class _DanhSachCongViecTienIchMobileState
                                       btnRightTxt: S.current.xoa,
                                     );
                                   },
-                                  onChange: (controller) {},
+                                  onChange: (controller) {
+                                    cubit.editWork(
+                                      todo: todo,
+                                    );
+                                    cubit.titleChange = controller.text;
+                                  },
                                   onEdit: () {
                                     showBottomSheetCustom(
                                       context,
@@ -130,7 +147,29 @@ class _DanhSachCongViecTienIchMobileState
                                       ),
                                     );
                                   },
-                                  enabled: todo.isTicked == true ? false : true,
+                                  onThuHoi: () {
+                                    cubit.editWork(
+                                      todo: todo,
+                                      inUsed: !todo.inUsed!,
+                                    );
+                                  },
+                                  onXoaVinhVien: () {
+                                    showDiaLog(
+                                      context,
+                                      funcBtnRight: () {
+                                        cubit.xoaCongViec(todo.id ?? '');
+                                      },
+                                      icon: SvgPicture.asset(
+                                        ImageAssets.icDeleteLichHop,
+                                      ),
+                                      title: S.current.xoa_cong_viec,
+                                      textContent:
+                                          'Bạn có chắc chắn muốn móa vĩnh viễn công việc này',
+                                      btnLeftTxt: S.current.huy,
+                                      btnRightTxt: S.current.xoa,
+                                    );
+                                  },
+                                  enabled: !todo.isTicked!,
                                   isDaBiXoa: dataType == DBX,
                                 );
                               },
@@ -173,11 +212,21 @@ class _DanhSachCongViecTienIchMobileState
                                     return CongViecCellTienIch(
                                       enabled: false,
                                       todoModel: todo,
-                                      onCheckBox: (value) {},
+                                      onCheckBox: (value) {
+                                        cubit.editWork(
+                                          todo: todo,
+                                          isTicked: !todo.isTicked!,
+                                        );
+                                      },
                                       onClose: () {
                                         showDiaLog(
                                           context,
-                                          funcBtnRight: () {},
+                                          funcBtnRight: () {
+                                            cubit.editWork(
+                                              todo: todo,
+                                              inUsed: !todo.inUsed!,
+                                            );
+                                          },
                                           icon: SvgPicture.asset(
                                             ImageAssets.icDeleteLichHop,
                                           ),
@@ -188,7 +237,12 @@ class _DanhSachCongViecTienIchMobileState
                                           btnRightTxt: S.current.xoa,
                                         );
                                       },
-                                      onStar: () {},
+                                      onStar: () {
+                                        cubit.editWork(
+                                          todo: todo,
+                                          important: !todo.important!,
+                                        );
+                                      },
                                       text: todo.label ?? '',
                                     );
                                   }),

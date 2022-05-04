@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -61,7 +62,7 @@ class NhiemVuWidget extends StatelessWidget {
           Text(
             value,
             style: titleText(
-                color: type == TongHopNhiemVuType.dangThucHienQuaHan
+                color: type == TongHopNhiemVuType.chuaThucHien
                     ? statusCalenderRed
                     : numberOfCalenders,
                 fontSize: 22),

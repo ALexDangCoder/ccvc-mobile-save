@@ -1,3 +1,5 @@
+
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -443,7 +445,9 @@ class MenuSelectCell<T> extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
-          color: value == groupValue ? buttonColor : Colors.transparent,
+          color: value == groupValue
+              ? AppTheme.getInstance().colorSelect()
+              : Colors.transparent,
           borderRadius: const BorderRadius.all(Radius.circular(30)),
         ),
         child: Text(

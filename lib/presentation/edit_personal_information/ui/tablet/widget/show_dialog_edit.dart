@@ -17,6 +17,7 @@ Future<T?> showDiaLogTablet<T>(
   double maxHeight = 165,
   double width = 342,
   double? setHeight,
+  bool isPhone = false,
 }) {
   return showDialog(
     context: context,
@@ -38,6 +39,7 @@ Future<T?> showDiaLogTablet<T>(
           title1: title1,
           title2: title2,
           isBottomShowText: isBottomShowText,
+          isPhone: isPhone,
           child: child,
         ),
       );
@@ -57,6 +59,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final double maxHeight;
   final double width;
   final bool isBottomShowText;
+  final bool isPhone;
 
   const _DiaLogFeatureWidget({
     Key? key,
@@ -71,6 +74,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.maxHeight,
     required this.width,
     required this.isBottomShowText,
+    required this.isPhone,
   }) : super(key: key);
 
   @override
@@ -83,15 +87,18 @@ class _DiaLogFeatureWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(top: isPhone ? 40 : 30),
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: isBottomShowText
                   ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           title,
-                          style:
-                              textNormalCustom(fontSize: 18, color: textTitle),
+                          style: textNormalCustom(
+                            fontSize: isPhone ? 14 : 18,
+                            color: textTitle,
+                          ),
                         ),
                         Container(
                           width: 2,
@@ -99,21 +106,28 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                         Text(
                           title1,
                           style: textNormalCustom(
-                              fontSize: 18, color: bgButtonDropDown),
+                            fontSize: isPhone ? 14 : 18,
+                            color: bgButtonDropDown,
+                          ),
                         ),
                         Container(
                           width: 2,
                         ),
                         Text(
                           title2,
-                          style:
-                              textNormalCustom(fontSize: 18, color: textTitle),
+                          style: textNormalCustom(
+                            fontSize: isPhone ? 14 : 18,
+                            color: textTitle,
+                          ),
                         ),
                       ],
                     )
                   : Text(
                       title,
-                      style: textNormalCustom(fontSize: 18, color: textTitle),
+                      style: textNormalCustom(
+                        fontSize: isPhone ? 14 : 18,
+                        color: textTitle,
+                      ),
                       textAlign: TextAlign.center,
                     ),
             ),
@@ -165,8 +179,8 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         onTap();
       },
       child: Container(
-        height: 44,
-        width: 142,
+        height: isPhone ? 30 : 44,
+        width: isPhone ? 110 : 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: isLeft ? buttonColor2 : textDefault,
@@ -175,7 +189,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
           child: Text(
             title,
             style: textNormalCustom(
-              fontSize: 16,
+              fontSize: isPhone ? 14 : 16,
               color: isLeft ? textDefault : backgroundColorApp,
             ),
           ),

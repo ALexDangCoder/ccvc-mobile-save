@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
@@ -68,6 +69,7 @@ class _EditPersonalInformationTabletScreen
       sdtController.text = event.phoneDiDong ?? '';
       diaChiLienHeController.text = event.diaChi ?? '';
     });
+    cubit.getDeviceDetails();
     super.initState();
     toast.init(context);
   }
@@ -150,7 +152,7 @@ class _EditPersonalInformationTabletScreen
                                 S.current.reset,
                                 style: titleText(
                                   fontSize: 16,
-                                  color: numberColorTablet,
+                                  color:  AppTheme.getInstance().colorField(),
                                 ),
                               ),
                             )
@@ -167,16 +169,16 @@ class _EditPersonalInformationTabletScreen
                                     isObligatory: true,
                                     title: user.keys.elementAt(1),
                                     child: TextFieldValidator(
+                                      key: UniqueKey(),
                                       hintText: S.current.ho_va_ten,
                                       controller: nameController,
                                       validator: (value) {
                                         if ((value ?? '').isEmpty) {
-                                          return S.current.nhap_sai_dinh_dang;
-                                        } else if ((value ?? '')
-                                                    .trim()
-                                                    .length <=
-                                                5 ||
-                                            (value ?? '').trim().length >= 32) {
+                                          return '${S.current.ban_phai_nhap_truong} '
+                                              '${S.current.ho_va_ten}!';
+                                        } else if ((value ?? '').trim().length <
+                                                6 ||
+                                            (value ?? '').trim().length > 32) {
                                           return S.current.nhap_sai_dinh_dang;
                                         }
                                         return null;
@@ -272,7 +274,8 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.email,
                                       controller: emailController,
                                       validator: (value) {
-                                        return (value ?? '').checkEmail();
+                                        return (value ?? '')
+                                            .checkEmailBoolean();
                                       },
                                     ),
                                   ),
@@ -548,6 +551,7 @@ class _EditPersonalInformationTabletScreen
                         spaceH28,
                         AvatarAndSignatureTablet(
                           cubit: cubit,
+                          toast: toast,
                         ),
                         spaceH48,
                         DoubleButtonEditScreen(
@@ -555,7 +559,7 @@ class _EditPersonalInformationTabletScreen
                             Navigator.pop(context);
                           },
                           onPressed2: () async {
-                            if (keyGroup.currentState!.validator()) {
+                            if (keyGroup.currentState?.validator() ?? true) {
                               await cubit
                                   .getEditPerson(
                                 id: widget.id,
@@ -570,7 +574,7 @@ class _EditPersonalInformationTabletScreen
                                 diaChiLienHe: diaChiLienHeController.value.text,
                                 donViDetail: cubit
                                     .editPersonInformationRequest.donViDetail,
-                                thuTu: int.parse(thuTuController.text),
+                                thuTu: thuTuController.text,
                                 tinh: cubit.tinh,
                                 huyen: cubit.huyen,
                                 xa: cubit.xa,
@@ -581,16 +585,16 @@ class _EditPersonalInformationTabletScreen
                                   .then(
                                 (value) {
                                   return MessageConfig.show(
-                                    title: S.current.sua_thanh_cong,
+                                    title: S.current.thay_doi_thanh_cong,
                                   );
                                 },
                               ).onError(
                                 (error, stackTrace) => MessageConfig.show(
-                                  title: S.current.sua_that_bai,
+                                  title: S.current.thay_doi_that_bai,
                                   messState: MessState.error,
                                 ),
                               );
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
                             } else {
                               toast.showToast(
                                 child: ShowToast(

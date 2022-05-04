@@ -85,7 +85,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           final data = snapshot.data ?? <MenuType>[];
                           return Column(
                             children: List.generate(data.length, (index) {
-                              final type = listFeature[index];
+                              final type = data[index];
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.push(

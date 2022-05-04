@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/widgets/show_drop_down_button.dart';
@@ -30,8 +31,6 @@ class ChooseTimeScreen extends StatefulWidget {
 }
 
 class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
-
-
   @override
   void initState() {
     widget.baseChooseTimeCubit.getState(widget.today);
@@ -58,7 +57,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                   height: 32,
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: bgButtonDropDown.withOpacity(0.1),
+                    color: AppTheme.getInstance().colorField().withOpacity(0.1),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: GestureDetector(
@@ -70,7 +69,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                       S.current.today,
                       textAlign: TextAlign.center,
                       style: textNormalCustom(
-                        color: bgButtonDropDown,
+                        color: AppTheme.getInstance().colorField(),
                         fontSize: 14.0.textScale(),
                       ),
                     ),
@@ -101,7 +100,8 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                           spaceW12,
                           Expanded(
                             child: StreamBuilder<Object>(
-                              stream: widget.baseChooseTimeCubit.textDateTimeStream,
+                              stream:
+                                  widget.baseChooseTimeCubit.textDateTimeStream,
                               builder: (context, snapshot) {
                                 return SizedBox(
                                   height: 22,
@@ -174,7 +174,10 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: SvgPicture.asset(ImageAssets.ic_KinhRong),
+                      child: SvgPicture.asset(
+                        ImageAssets.ic_KinhRong,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     ),
                   ),
                 ),

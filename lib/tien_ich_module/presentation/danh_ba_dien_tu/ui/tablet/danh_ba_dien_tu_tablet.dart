@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/tab_danh_ba_ca_nhan_fix/tab/tab_danh_ba_ca_nhan_tablet.dart';
@@ -45,9 +46,9 @@ class _DanhBaDienTuTabletState extends State<DanhBaDienTuTablet> {
         ),
         bottom: TabBar(
           controller: _controller,
-          indicatorColor: indicatorColor,
+          indicatorColor: AppTheme.getInstance().colorField(),
           unselectedLabelColor: unselectLabelColor,
-          labelColor: numberColorTablet,
+          labelColor: AppTheme.getInstance().colorField(),
           tabs: [
             Tab(
               child: Text(

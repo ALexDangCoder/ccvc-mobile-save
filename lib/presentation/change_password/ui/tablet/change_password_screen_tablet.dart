@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -39,6 +40,7 @@ class _ChangePassWordScreenTabletState
   void initState() {
     super.initState();
     cubit.closeDialog();
+    cubit.toast.init(context);
   }
 
   @override
@@ -49,7 +51,7 @@ class _ChangePassWordScreenTabletState
       appBar: AppBarDefaultBack(S.current.doi_mat_khau),
       body: ProviderWidget<ChangePasswordCubit>(
         cubit: cubit,
-        child:StateStreamLayout(
+        child: StateStreamLayout(
           textEmpty: S.current.khong_co_du_lieu,
           retry: () {},
           error: AppException(
@@ -95,7 +97,8 @@ class _ChangePassWordScreenTabletState
                                     },
                                     child: cubit.isCheckEye
                                         ? SvgPicture.asset(ImageAssets.imgView)
-                                        : SvgPicture.asset(ImageAssets.imgViewHide),
+                                        : SvgPicture.asset(
+                                            ImageAssets.imgViewHide),
                                   ),
                                 ),
                               )
@@ -117,7 +120,8 @@ class _ChangePassWordScreenTabletState
                           return cubit.isHideEye = true;
                         },
                         validator: (value) {
-                          return (value ?? '').checkNull();
+                          return (value ?? '')
+                              .checkTruongNull('Mật khẩu hiện tại!');
                         },
                       ),
                       const SizedBox(height: 24.0),
@@ -137,7 +141,8 @@ class _ChangePassWordScreenTabletState
                                     },
                                     child: cubit.isCheckEye1
                                         ? SvgPicture.asset(ImageAssets.imgView)
-                                        : SvgPicture.asset(ImageAssets.imgViewHide),
+                                        : SvgPicture.asset(
+                                            ImageAssets.imgViewHide),
                                   ),
                                 ),
                               )
@@ -159,7 +164,16 @@ class _ChangePassWordScreenTabletState
                           return cubit.isHideEye1 = true;
                         },
                         validator: (value) {
-                          return (value ?? '').checkNull();
+                          if ((value ?? '').isEmpty) {
+                            return (value ?? '')
+                                .checkTruongNull('Mật khẩu mới!');
+                          } else if (value ==
+                                  matKhauHienTaiController.value.text &&
+                              value!.isNotEmpty) {
+                            return S.current.khong_trung_mat_khau_moi;
+                          } else {
+                            return (value ?? '').checkPassWordChangePass();
+                          }
                         },
                       ),
                       const SizedBox(height: 24.0),
@@ -179,7 +193,8 @@ class _ChangePassWordScreenTabletState
                                     },
                                     child: cubit.isCheckEye2
                                         ? SvgPicture.asset(ImageAssets.imgView)
-                                        : SvgPicture.asset(ImageAssets.imgViewHide),
+                                        : SvgPicture.asset(
+                                            ImageAssets.imgViewHide),
                                   ),
                                 ),
                               )
@@ -203,9 +218,10 @@ class _ChangePassWordScreenTabletState
                         validator: (value) {
                           if (value != matKhauMoiController.value.text &&
                               value!.isNotEmpty) {
-                            return S.current.khong_trung_mat_khau_moi;
+                            return S.current.mat_khau_chua_khop;
                           } else {
-                            return (value ?? '').checkNull();
+                            return (value ?? '')
+                                .checkTruongNull('Nhập lại mật khẩu!');
                           }
                         },
                       ),
@@ -214,14 +230,15 @@ class _ChangePassWordScreenTabletState
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const SendMailScreenTablet(),
+                              builder: (context) =>
+                                  const SendMailScreenTablet(),
                             ),
                           );
                         },
                         child: Text(
                           '${S.current.quen_mat_khau}?',
                           style: textNormalCustom(
-                            color: textDefault,
+                            color: AppTheme.getInstance().colorField(),
                             fontSize: 16.0,
                           ),
                         ),
@@ -233,13 +250,14 @@ class _ChangePassWordScreenTabletState
                         onPressed1: () {
                           Navigator.of(context).pop();
                         },
-                        onPressed2: ()async{
+                        onPressed2: () async {
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                password: matKhauMoiController.text,
-                                passwordOld: matKhauHienTaiController.text,
-                                repeatPassword: nhapLaiMatKhauController.text)
+                                    password: matKhauMoiController.text,
+                                    passwordOld: matKhauHienTaiController.text,
+                                    repeatPassword:
+                                        nhapLaiMatKhauController.text)
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(
@@ -250,11 +268,6 @@ class _ChangePassWordScreenTabletState
                                 Navigator.pop(context);
                                 AppStateCt.of(context).appState.setToken('');
                                 HiveLocal.clearData();
-                              } else {
-                                _showToast(
-                                  context,
-                                  cubit.message,
-                                );
                               }
                             });
                           }
@@ -267,14 +280,6 @@ class _ChangePassWordScreenTabletState
             ),
           ),
         ),
-      ),
-    );
-  }
-  void _showToast(BuildContext context, String text) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(text),
       ),
     );
   }

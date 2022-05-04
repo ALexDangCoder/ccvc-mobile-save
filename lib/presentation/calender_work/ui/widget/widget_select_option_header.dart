@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -43,7 +44,10 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                 onTap: () {
                   widget.createMeeting();
                 },
-                child: SvgPicture.asset(ImageAssets.icAddCaledarScheduleMeet),
+                child: SvgPicture.asset(
+                  ImageAssets.icAddCaledarScheduleMeet,
+                  color: AppTheme.getInstance().colorField(),
+                ),
               ),
             ),
           ),
@@ -76,7 +80,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: widget.cubit.index.value == 0
-                                      ? buttonColor
+                                      ? AppTheme.getInstance().colorField()
                                       : backgroundRowColor,
                                 ),
                                 child: Center(
@@ -112,7 +116,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: widget.cubit.index.value == 1
-                                      ? buttonColor
+                                      ? AppTheme.getInstance().colorField()
                                       : backgroundRowColor,
                                 ),
                                 child: Center(
@@ -148,7 +152,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: widget.cubit.index.value == 2
-                                      ? buttonColor
+                                      ? AppTheme.getInstance().colorField()
                                       : backgroundRowColor,
                                 ),
                                 child: Center(
@@ -195,7 +199,10 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       onPressed: () {},
-                      icon: SvgPicture.asset(ImageAssets.icSeachTablet),
+                      icon: SvgPicture.asset(
+                        ImageAssets.icSeachTablet,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     ),
                     border: InputBorder.none,
                     hintText: S.current.tim_kiem,

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -92,8 +93,8 @@ class ItemTinRadioTrongNuocTablet extends StatelessWidget {
                             Container(
                               width: 12,
                               height: 12,
-                              decoration: const BoxDecoration(
-                                color: textDefault,
+                              decoration:  BoxDecoration(
+                                color: AppTheme.getInstance().colorField(),
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -116,7 +117,7 @@ class ItemTinRadioTrongNuocTablet extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        child: SvgPicture.asset(ImageAssets.icPlay),
+                        child: SvgPicture.asset(ImageAssets.icPlay,color: AppTheme.getInstance().colorField(),),
                         onTap: () {
                           clickItem();
                         },

@@ -12,8 +12,10 @@ import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -133,7 +135,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                         child: Text(
                           S.current.cai_dat,
                           style: textNormalCustom(
-                            color: labelColor,
+                            color:  AppTheme.getInstance().colorField(),
                             fontSize: 18,
                           ),
                         ),
@@ -165,12 +167,24 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 24),
                     child: SizedBox(
-                        width: 100,
+                        width: 130,
                         child: ButtonBottom(
                           text: S.current.dang_xuat,
                           onPressed: () {
-                            AppStateCt.of(context).appState.setToken('');
-                            HiveLocal.clearData();
+                            showDiaLog(
+                              context,
+                              funcBtnRight: () {
+                                AppStateCt.of(context).appState.setToken('');
+                                HiveLocal.clearData();
+                              },
+                              showTablet: true,
+                              icon: Image.asset(ImageAssets.icDangXuat),
+                              title: S.current.dang_xuat,
+                              textContent: S.current.ban_co_muon_dang_xuat,
+                              btnLeftTxt: S.current.khong,
+                              btnRightTxt: S.current.dong_y,
+                            );
+
                           },
                         )),
                   ),

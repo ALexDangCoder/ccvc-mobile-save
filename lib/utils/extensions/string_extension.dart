@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
@@ -100,6 +102,32 @@ extension CheckValidate on String {
     }
   }
 
+  String? checkEmailBoolean() {
+    final isCheck = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
+        .hasMatch(this);
+    if (isCheck) {
+      if (indexOf('@') >= 64) {
+        return S.current.nhap_sai_dinh_dang;
+      } else {
+        return null;
+      }
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
+  String? checkPassWordChangePass() {
+    final isCheck =
+        RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
+            .hasMatch(this);
+    if (isCheck) {
+      return null;
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
   String? checkSdt() {
     final isCheckSdt = RegExp(r'^(?:[+0]9)?[0-9]{10}$').hasMatch(this);
     if (isCheckSdt) {
@@ -112,6 +140,13 @@ extension CheckValidate on String {
   String? checkNull() {
     if (trim().isEmpty) {
       return S.current.khong_duoc_de_trong;
+    }
+    return null;
+  }
+
+  String? checkTruongNull(String name) {
+    if (trim().isEmpty) {
+      return '${S.current.ban_phai_nhap_truong + name}';
     }
     return null;
   }
@@ -132,6 +167,20 @@ extension CheckValidate on String {
       int.parse(this);
     } catch (e) {
       return S.current.check_so_luong;
+    }
+  }
+  String svgToTheme(){
+    final url = split('.').first;
+    switch(APP_THEME){
+
+      case AppMode.MAC_DINH:
+       return this;
+      case AppMode.XANH:
+        return '${url}_xanh.svg';
+      case AppMode.HONG:
+        return '${url}_hong.svg';
+      case AppMode.VANG:
+        return '${url}_vang.svg';
     }
   }
 }

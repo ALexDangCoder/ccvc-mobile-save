@@ -157,7 +157,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                                             .value = data[value].value;
                                       },
                                     );
-                                  }),
+                                  },),
                               const SizedBox(
                                 height: 10,
                               ),

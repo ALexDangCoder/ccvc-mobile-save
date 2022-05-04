@@ -7,8 +7,10 @@ import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/account/login_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:local_auth/local_auth.dart';
@@ -22,6 +24,22 @@ class LoginCubit extends BaseCubit<LoginState> {
   bool isCheckEye1 = true;
   bool isHideEye1 = false;
   bool passIsError = false;
+  final toast = FToast();
+
+  bool? getEmail(String text) {
+    int result = text.indexOf('@');
+    if ((result >= 64)) {
+      toast.showToast(
+        child: ShowToast(
+          text: S.current.nhap_sai_dinh_dang,
+        ),
+        gravity: ToastGravity.BOTTOM,
+      );
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   void closeDialog() {
     showContent();
@@ -36,27 +54,40 @@ class LoginCubit extends BaseCubit<LoginState> {
     final result = await _loginRepo.login(userName, passWord, appCode);
     result.when(
       success: (res) {
-        passIsError = false;
         final LoginModel token = LoginModel(
-          refreshToken: res.refreshToken,
-          accessToken: res.accessToken,
+          refreshToken: res.dataUser?.refreshToken,
+          accessToken: res.dataUser?.accessToken,
         );
         emit(LoginSuccess(token: token.accessToken ?? ''));
         PrefsService.saveRefreshToken(token.refreshToken ?? '');
         PrefsService.saveLoginUserName(userName);
         PrefsService.saveLoginPassWord(passWord);
         final DataUser dataUser = DataUser(
-          userId: res.userId,
-          username: res.username,
-          userInformation: res.userInformation,
+          userId: res.dataUser?.userId,
+          username: res.dataUser?.username,
+          userInformation: res.dataUser?.userInformation,
         );
 
         HiveLocal.saveDataUser(dataUser);
       },
       error: (err) {
+        if (err.code == 401) {
+          toast.showToast(
+            child: ShowToast(
+              text: S.current.sai_tai_khoan_hoac_mat_khau,
+            ),
+            gravity: ToastGravity.BOTTOM,
+          );
+        } else {
+          toast.showToast(
+            child: ShowToast(
+              text: S.current.dang_nhap_khong_thanh_cong,
+            ),
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
         emit(LoginError(err.message));
         showContent();
-        passIsError = true;
       },
     );
   }
@@ -94,8 +125,7 @@ class LoginCubit extends BaseCubit<LoginState> {
             passWord: PrefsService.getLoginPassWord(),
             appCode: APP_CODE,
           );
-        } else {
-        }
+        } else {}
       }
     }
   }

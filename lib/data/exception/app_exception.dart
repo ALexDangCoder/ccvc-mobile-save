@@ -3,8 +3,8 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 class AppException implements Exception {
   String title;
   String message;
-
-  AppException(this.title, this.message);
+  int? code;
+  AppException(this.title, this.message,[this.code]);
 
   @override
   String toString() => '$title $message';

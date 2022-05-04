@@ -33,6 +33,17 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
       PicKDateCupertinoCubit();
 
   @override
+  void initState() {
+    super.initState();
+    picKDateCupertinoCubit.listeningStartDataTime(
+      widget.initStartData ?? DateTime.now(),
+    );
+    picKDateCupertinoCubit.listeningEndDataTime(
+      widget.initEndData ?? DateTime.now(),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StartEndDateInherited(
       picKDateCupertinoCubit: picKDateCupertinoCubit,
@@ -55,7 +66,11 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
                 key: UniqueKey(),
                 isUnderLine: true,
                 initData: widget.initStartData,
-                minimumDate: DateTime.now(),
+                minimumDate: DateTime(
+                  DateTime.now().year,
+                  1,
+                  1,
+                ),
                 mode: dataBool
                     ? CupertinoDatePickerMode.date
                     : CupertinoDatePickerMode.dateAndTime,

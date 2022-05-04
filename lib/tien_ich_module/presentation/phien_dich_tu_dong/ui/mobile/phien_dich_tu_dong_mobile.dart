@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/bloc/phien_dich_tu_dong_cubit.dart';
@@ -129,7 +130,9 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                               ? viToEn()
                               : enToVi();
                         },
-                        child: SvgPicture.asset(ImageAssets.icReplace),
+                        child: SvgPicture.asset(
+                          ImageAssets.icReplace,
+                        ),
                       ),
                       Expanded(
                         child: Row(
@@ -198,6 +201,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                       ),
                       child: SvgPicture.asset(
                         ImageAssets.icVoiceMini,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                     ),
                   ),
@@ -299,20 +303,23 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
           vertical: 10,
         ),
         decoration: BoxDecoration(
-          color: textDefault.withOpacity(0.1),
+          color: AppTheme.getInstance().colorField().withOpacity(0.1),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(ImageAssets.icDocumentBlue),
+            SvgPicture.asset(
+              ImageAssets.icDocumentBlue,
+              color: AppTheme.getInstance().colorField(),
+            ),
             const SizedBox(
               width: 9,
             ),
             Text(
               S.current.tim_tep_tren_dien_thoai_cua_ban,
               style: textNormalCustom(
-                color: buttonColor,
+                color: AppTheme.getInstance().colorField(),
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

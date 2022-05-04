@@ -9,6 +9,7 @@ class PlayRadio extends StatefulWidget {
   final AudioPlayer player;
   final List<String> listLinkRadio;
   final int initPlay;
+
   const PlayRadio({
     Key? key,
     required this.player,
@@ -87,12 +88,17 @@ class _PlayRadioState extends State<PlayRadio> with WidgetsBindingObserver {
       builder: (context, snapshot) {
         final positionData = snapshot.data;
         return SeekBar(
-            duration: positionData?.duration ?? Duration.zero,
-            position: positionData?.position ?? Duration.zero,
-            bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
-            onChangeEnd: () {
-               widget.player.seekToNext();
-            },);
+          duration: positionData?.duration ?? Duration.zero,
+          position: positionData?.position ?? Duration.zero,
+          bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
+          onChangeEnd: () {
+            widget.player.seekToNext();
+          },
+          onChange: () {
+            // print('set change values seekbar');
+            //  widget.player.seek(const Duration(seconds: 100));
+          },
+        );
       },
     );
   }
@@ -115,11 +121,13 @@ class SeekBar extends StatefulWidget {
   final Duration bufferedPosition;
   final Duration duration;
   final Function() onChangeEnd;
+  final Function() onChange;
 
   const SeekBar({
     Key? key,
     required this.onChangeEnd,
     required this.position,
+    required this.onChange,
     required this.bufferedPosition,
     required this.duration,
   }) : super(key: key);
@@ -141,7 +149,7 @@ class _SeekBarState extends State<SeekBar> {
           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         ),
         child: SizedBox(
-          width:double.maxFinite,
+          width: double.maxFinite,
           height: 6,
           child: Slider(
             value: widget.position.inSeconds.toDouble(),
@@ -151,11 +159,12 @@ class _SeekBarState extends State<SeekBar> {
             onChangeEnd: (value) {
               widget.onChangeEnd();
             },
-            onChanged: (double value) {},
+            onChanged: (double value) {
+              widget.onChange();
+            },
           ),
         ),
       ),
-
     );
   }
 }

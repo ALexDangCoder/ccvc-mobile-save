@@ -75,6 +75,8 @@ const unFocusColor = Color(0xffF2F0FF);
 
 const pinkColor  = Color(0xffFB7897);
 
+const textTitleColumn  = Color(0xff667793);
+
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
   Color colorSelect();

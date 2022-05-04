@@ -14,6 +14,7 @@ enum WidgetType {
   eventOfDay,
   sinhNhat,
   vanBanDonVi,
+  phanAnhKienNghiDonVi,
 }
 
 class WidgetModel {
@@ -125,36 +126,45 @@ class Props {
     return data;
   }
 }
-  Map<String, dynamic> widgetModelToJson(WidgetModel instance) =>
-    <String, dynamic>{
+  Map<String, dynamic> widgetModelToJson(WidgetModel instance){
+    String? setAppId;
+    if(instance.appId==''){
+      setAppId=null;
+    }
+    else{
+      setAppId=instance.appId;
+    }
+    return  <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
-      'widgetTypeId': instance.widgetTypeId,
-      'description': instance.description,
-      'code': instance.code,
-      'width': instance.width,
-      'height': instance.height,
-      'minWidth': instance.minWidth,
-      'minHeight': instance.minHeight,
-      'maxHeight': instance.maxHeight,
-      'maxWidth': instance.maxWidth,
-      'component': instance.component,
-      'static': instance.static,
-      'isResizable': instance.isResizable,
-      'thumbnail': instance.thumbnail,
-      'appId': instance.appId,
-      'order': instance.order,
-      'isShowing': instance.isShowing,
-      'x': instance.x,
-      'y': instance.y,
-      'i': instance.i,
-      'enable': instance.enable,
-      'moved': instance.moved,
-      'w': instance.w,
-      'h': instance.h,
-      'maxH': instance.maxH,
-      'maxW': instance.maxW,
-      'minH': instance.minH,
-      'minW': instance.minW,
-      'props':instance.props
-    };
+    'name': instance.name,
+    'widgetTypeId': instance.widgetTypeId,
+    'description': instance.description,
+    'code': instance.code,
+    'width': instance.width,
+    'height': instance.height,
+    'minWidth': instance.minWidth,
+    'minHeight': instance.minHeight,
+    'maxHeight': instance.maxHeight,
+    'maxWidth': instance.maxWidth,
+    'component': instance.component,
+    'static': instance.static,
+    'isResizable': instance.isResizable,
+    'thumbnail': instance.thumbnail,
+    'appId': setAppId,
+    'order': instance.order,
+    'isShowing': instance.isShowing,
+    'x': instance.x,
+    'y': instance.y,
+    'i': instance.i,
+    'enable': instance.enable,
+    'moved': instance.moved,
+    'w': instance.w,
+    'h': instance.h,
+    'maxH': instance.maxH,
+    'maxW': instance.maxW,
+    'minH': instance.minH,
+    'minW': instance.minW,
+    'props':instance.props
+  };
+  }
+

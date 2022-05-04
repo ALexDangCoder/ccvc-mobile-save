@@ -24,7 +24,37 @@ enum PERMISSION_DETAIL {
   HUY_LICH,
   XAC_NHAN_THAM_GIA,
   HUY_XAC_NHAN,
-  XAC_NHAN_LAI
+  XAC_NHAN_LAI,
+  TU_CHOI,
+  HUY_DUYET
+}
+
+enum PERMISSION_TAB {
+  HUY_DUYET,
+  TU_CHOI,
+  DUYET,
+  DUYET_KY_THUAT,
+  TU_CHOI_DUYET_KY_THUAT,
+  HUY_DUYET_KY_THUAT,
+}
+
+extension GetDataPermissionTab on PERMISSION_TAB {
+  String getString() {
+    switch (this) {
+      case PERMISSION_TAB.DUYET:
+        return S.current.duyet;
+      case PERMISSION_TAB.TU_CHOI:
+        return S.current.tu_choi;
+      case PERMISSION_TAB.HUY_DUYET:
+        return S.current.huy_duyet;
+      case PERMISSION_TAB.DUYET_KY_THUAT:
+        return S.current.duyet_ky_thuat;
+      case PERMISSION_TAB.TU_CHOI_DUYET_KY_THUAT:
+        return S.current.tu_choi_duyet_ky_thuat;
+      case PERMISSION_TAB.HUY_DUYET_KY_THUAT:
+        return S.current.huy_duyet_ky_thuat;
+    }
+  }
 }
 
 extension GetDataPermission on PERMISSION_DETAIL {
@@ -41,7 +71,7 @@ extension GetDataPermission on PERMISSION_DETAIL {
       case PERMISSION_DETAIL.TU_CHOI_THAM_GIA:
         return S.current.tu_choi_tham_gia;
       case PERMISSION_DETAIL.DUYET_LICH:
-        return S.current.duyet;
+        return S.current.duyet_lich;
       case PERMISSION_DETAIL.PHAN_CONG_THU_KY:
         return S.current.phan_cong_thu_ky;
       case PERMISSION_DETAIL.CU_CAN_BO_DI_THAY:
@@ -56,6 +86,10 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return S.current.huy_xac_nhan;
       case PERMISSION_DETAIL.XAC_NHAN_LAI:
         return S.current.xac_nhan_lai;
+      case PERMISSION_DETAIL.TU_CHOI:
+        return S.current.tu_choi;
+      case PERMISSION_DETAIL.HUY_DUYET:
+        return S.current.huy_duyet;
     }
   }
 
@@ -93,8 +127,8 @@ extension GetDataPermission on PERMISSION_DETAIL {
         );
       case PERMISSION_DETAIL.HUY_LICH:
         return checkDevice(
-          iconMobile: ImageAssets.icHuyLich,
-          iconTablet: ImageAssets.icHuyLich,
+          iconMobile: ImageAssets.icHuy,
+          iconTablet: ImageAssets.icHuy,
         );
       case PERMISSION_DETAIL.XAC_NHAN_THAM_GIA:
         return checkDevice(
@@ -125,6 +159,16 @@ extension GetDataPermission on PERMISSION_DETAIL {
         return checkDevice(
           iconMobile: ImageAssets.icDuyetLich,
           iconTablet: ImageAssets.icDuyetLich,
+        );
+      case PERMISSION_DETAIL.TU_CHOI:
+        return checkDevice(
+          iconMobile: ImageAssets.icHuy,
+          iconTablet: ImageAssets.icHuy,
+        );
+      case PERMISSION_DETAIL.HUY_DUYET:
+        return checkDevice(
+          iconMobile: ImageAssets.icHuy,
+          iconTablet: ImageAssets.icHuy,
         );
     }
   }
@@ -265,6 +309,18 @@ extension GetDataPermission on PERMISSION_DETAIL {
           text: PERMISSION_DETAIL.XAC_NHAN_LAI.getString(),
           onTap: () {},
         );
+      case PERMISSION_DETAIL.TU_CHOI:
+        return CellPopPupMenu(
+          urlImage: PERMISSION_DETAIL.TU_CHOI.getIcon(),
+          text: PERMISSION_DETAIL.TU_CHOI.getString(),
+          onTap: () {},
+        );
+      case PERMISSION_DETAIL.HUY_DUYET:
+        return CellPopPupMenu(
+          urlImage: PERMISSION_DETAIL.HUY_DUYET.getIcon(),
+          text: PERMISSION_DETAIL.HUY_DUYET.getString(),
+          onTap: () {},
+        );
     }
   }
 
@@ -274,4 +330,28 @@ extension GetDataPermission on PERMISSION_DETAIL {
   }) {
     return isMobile() ? iconMobile : iconTablet;
   }
+}
+
+class STATUS_SCHEDULE {
+  static const int NHAP = 1;
+  static const int CHO_DUYET = 2;
+  static const int DA_DUYET = 3;
+  static const int TU_CHOI_DUYET = 4;
+  static const int THU_HOI = 5;
+  static const int XOA = 6;
+  static const int THANH_CONG = 7;
+  static const int HUY = 8;
+}
+
+class TRANG_THAI_DUYET_KY_THUAT {
+  static const int CHO_DUYET = 0;
+  static const DA_DUYET = 1;
+  static const KHONG_DUYET = 2;
+}
+
+class ACTIVE_PHAT_BIEU {
+  static const int DANH_SACH_PHAT_BIEU = 0;
+  static const int CHO_DUYET = 1;
+  static const int DA_DUYET = 2;
+  static const int HUY_DUYET = 3;
 }

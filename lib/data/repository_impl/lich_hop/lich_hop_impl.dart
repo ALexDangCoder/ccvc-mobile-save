@@ -270,10 +270,12 @@ class HopRepositoryImpl implements HopRepository {
   Future<Result<List<PhatBieuModel>>> getDanhSachPhatBieuLichHop(
     int status,
     String lichHopId,
+    String phienHop,
   ) {
     return runCatchingAsync<DanhSachPhatBieuLichHopDataResponse,
         List<PhatBieuModel>>(
-      () => _hopServices.getDanhSachPhatBieuLichHop(status, lichHopId),
+      () =>
+          _hopServices.getDanhSachPhatBieuLichHop(status, lichHopId, phienHop),
       (res) => res.toModel(),
     );
   }

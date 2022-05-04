@@ -881,7 +881,6 @@
   "thoi_gian_bq": "Thời gian biểu quyết",
   "danh_sach_lua_chon": "Danh sách lựa chọn",
   "che_do_im_lang": "Chế độ im lặng",
-  "ban_phai_nhap_truong": "Bạn phải nhập trường ",
   "nhap_sai_dinh_dang": "Nhập sai định dạng!",
   "dang_nhap_khong_thanh_cong": "Đăng nhập không thành công",
   "sai_dinh_dang_truong": "Sai định dạng trường",
@@ -889,11 +888,6 @@
   "cu_can_bo": "Cử cán bộ",
   "tu_choi_tham_gia": "Từ chối tham gia",
   "van_ban_don_vi": "Tình hình xử lý văn bản của đơn vị",
-  "duyet_lich": "Duyệt lịch",
-  "cu_can_bo_di_thay": "Cử cán bộ đi thay",
-  "xac_nhan_tham_gia": "Xác nhận tham gia",
-  "huy_xac_nhan": "Huỷ xác nhận",
-  "xac_nhan_lai": "Xác nhận lại",
   "ban_co_chac_muon": "Bạn có chắc muốn",
   "khong_edit": "không?",
   "dung_luong_toi_da": "Dung lượng tối đa 15MB",
@@ -904,7 +898,16 @@
   "da_phan_cong": "Đã phâm công",
   "tiep_nhan": "Tiếp nhận",
   "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị",
-  "ban_co_muon_dang_xuat" : "Bạn có chắc muốn đăng xuất không?"
+
+  "ban_co_muon_dang_xuat" : "Bạn có chắc muốn đăng xuất không?",
+  "duyet_lich" : "Duyệt lịch",
+  "cu_can_bo_di_thay" : "Cử cán bộ đi thay",
+  "xac_nhan_tham_gia" : "Xác nhận tham gia",
+  "huy_xac_nhan" : "Huỷ xác nhận",
+  "xac_nhan_lai" : "Xác nhận lại",
+  "duyet_ky_thuat": "Duyệt kỹ thuật",
+  "tu_choi_duyet_ky_thuat": "Từ chối duyệt kỹ thuật",
+  "huy_duyet_ky_thuat": "Hủy duyệt kỹ thuật"
 
 }
 

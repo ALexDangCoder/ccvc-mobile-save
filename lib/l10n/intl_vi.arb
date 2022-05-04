@@ -898,6 +898,8 @@
   "da_phan_cong": "Đã phâm công",
   "tiep_nhan": "Tiếp nhận",
   "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị",
+
+  "ban_co_muon_dang_xuat" : "Bạn có chắc muốn đăng xuất không?",
   "duyet_lich" : "Duyệt lịch",
   "cu_can_bo_di_thay" : "Cử cán bộ đi thay",
   "xac_nhan_tham_gia" : "Xác nhận tham gia",
@@ -906,6 +908,7 @@
   "duyet_ky_thuat": "Duyệt kỹ thuật",
   "tu_choi_duyet_ky_thuat": "Từ chối duyệt kỹ thuật",
   "huy_duyet_ky_thuat": "Hủy duyệt kỹ thuật"
+
 }
 
 

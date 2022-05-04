@@ -1,5 +1,6 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
@@ -137,7 +138,7 @@ class _SeekBarState extends State<SeekBar> {
         data: SliderTheme.of(context).copyWith(
           trackShape: CustomTrackShape(),
           trackHeight: 6,
-          thumbColor: labelColor,
+          thumbColor: AppTheme.getInstance().colorField(),
           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         ),
         child: SizedBox(
@@ -146,7 +147,7 @@ class _SeekBarState extends State<SeekBar> {
           child: Slider(
             value: widget.position.inSeconds.toDouble(),
             max: widget.duration.inSeconds.toDouble(),
-            activeColor: labelColor,
+            activeColor: AppTheme.getInstance().colorField(),
             inactiveColor: borderButtomColor,
             onChangeEnd: (value) {
               widget.onChangeEnd();

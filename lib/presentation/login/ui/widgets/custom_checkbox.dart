@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
           child: Checkbox(
             checkColor: Colors.white,
             // color of tick Mark
-            activeColor: indicatorColor,
+            activeColor: AppTheme.getInstance().colorField(),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(3),
             ),

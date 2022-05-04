@@ -1,7 +1,7 @@
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -125,7 +125,9 @@ class SelectDonViCell extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        color: APP_DEVICE == DeviceType.MOBILE
+            ? bgTag
+            : AppTheme.getInstance().colorField(),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(

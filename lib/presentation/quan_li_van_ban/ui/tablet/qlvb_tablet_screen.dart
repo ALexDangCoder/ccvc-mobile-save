@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
@@ -214,9 +215,9 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                 child: TabBar(
                   unselectedLabelStyle: titleAppbar(fontSize: 16),
                   unselectedLabelColor: AqiColor,
-                  labelColor: textDefault,
+                  labelColor: AppTheme.getInstance().colorField(),
                   labelStyle: titleText(fontSize: 16),
-                  indicatorColor: textDefault,
+                  indicatorColor: AppTheme.getInstance().colorField(),
                   tabs: [
                     Container(
                       padding: const EdgeInsets.only(bottom: 8),

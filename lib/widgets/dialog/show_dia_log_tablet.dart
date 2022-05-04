@@ -13,7 +13,7 @@ Future<T?> showDiaLogTablet<T>(
   String? btnRightTxt,
   String? btnLeftTxt,
   bool isBottomShow = true,
-  required Function funcBtnOk,
+  required Function() funcBtnOk,
   double maxHeight = 878,
   double width = 592,
   double? setHeight,
@@ -47,7 +47,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final Widget child;
   final String btnRightTxt;
   final String btnLeftTxt;
-  final Function funcBtnOk;
+  final Function() funcBtnOk;
   final bool isBottomShow;
   final double maxHeight;
   final double width;
@@ -113,7 +113,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                     spaceW20,
                     button(
                       onTap: () {
-                        funcBtnOk(context);
+                        funcBtnOk();
                       },
                       title: btnRightTxt,
                       isLeft: false,
@@ -143,14 +143,18 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? AppTheme.getInstance().colorSelect().withOpacity(0.1) : AppTheme.getInstance().colorSelect(),
+          color: isLeft
+              ? AppTheme.getInstance().colorSelect().withOpacity(0.1)
+              : AppTheme.getInstance().colorSelect(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorSelect()
+                  : backgroundColorApp,
             ),
           ),
         ),

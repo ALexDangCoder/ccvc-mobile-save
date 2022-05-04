@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
@@ -137,6 +138,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                                             const EdgeInsets.only(right: 4),
                                         child: SvgPicture.asset(
                                           ImageAssets.icCheck,
+                                          color: AppTheme.getInstance().colorField(),
                                         ),
                                       )
                                     : const SizedBox();

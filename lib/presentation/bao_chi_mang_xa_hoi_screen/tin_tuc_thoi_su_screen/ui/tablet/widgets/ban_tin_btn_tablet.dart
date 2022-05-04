@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/ui/mobile/phat_radio.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/tablet/widgets/item_list_bang_tin_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -84,12 +85,14 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                             ? SizedBox(
                                 height: 30.0,
                                 width: 30.0,
-                                child: SvgPicture.asset(ImageAssets.ic_pasue),
+                                child: SvgPicture.asset(
+                                    ImageAssets.ic_pasue.svgToTheme()),
                               )
                             : SizedBox(
-                            height: 30.0,
-                            width: 30.0,
-                                child: SvgPicture.asset(ImageAssets.icPlay)),
+                                height: 30.0,
+                                width: 30.0,
+                                child: SvgPicture.asset(
+                                    ImageAssets.icPlay.svgToTheme())),
                       );
                     },
                   ),

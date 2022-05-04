@@ -1,5 +1,4 @@
-
-
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -42,7 +41,6 @@ class _CongViecCellState extends State<CongViecCell> {
     super.initState();
     textEditingController.text = widget.text.trim();
     focusNode.addListener(() {
-
       if (!focusNode.hasFocus && widget.onChange != null) {
         widget.onChange?.call(textEditingController);
       }
@@ -62,7 +60,7 @@ class _CongViecCellState extends State<CongViecCell> {
             height: 18,
             child: Checkbox(
               checkColor: Colors.white, // color of tick Mark
-              activeColor: indicatorColor,
+              activeColor: AppTheme.getInstance().colorSelect(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3),
               ),
@@ -81,6 +79,7 @@ class _CongViecCellState extends State<CongViecCell> {
             child: !widget.enabled
                 ? Container(
                     padding: const EdgeInsets.symmetric(vertical: 20),
+
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -92,16 +91,20 @@ class _CongViecCellState extends State<CongViecCell> {
                       ),
                     ),
                   )
-                : TextFormField(
-                    focusNode: focusNode,
-                    controller: textEditingController,
-                    enabled: widget.enabled,
-                    style: textNormal(infoColor, 14),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 20),
+                : Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: TextFormField(
+                      focusNode: focusNode,
+                      controller: textEditingController,
+                      enabled: widget.enabled,
+                      style: textNormal(infoColor, 14),
+
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 20),
+                      ),
                     ),
-                  ),
+                ),
           ),
           Row(
             children: [
@@ -109,14 +112,22 @@ class _CongViecCellState extends State<CongViecCell> {
                 onTap: () {
                   widget.onStar();
                 },
-                child: SvgPicture.asset(
-                  widget.todoModel.important ?? false
-                      ? ImageAssets.icStarFocus
-                      : ImageAssets.icStarUnfocus,
-                ),
+                child: (widget.todoModel.important ?? false)
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: SvgPicture.asset(
+                          ImageAssets.icStarFocus,
+                          color: AppTheme.getInstance().colorSelect(),
+                        ),
+                      )
+                    : Icon(
+                        Icons.star_outline_rounded,
+                        color: AppTheme.getInstance().colorSelect(),
+                        size: 24,
+                      ),
               ),
               const SizedBox(
-                width: 20,
+                width: 15,
               ),
               GestureDetector(
                 onTap: () {

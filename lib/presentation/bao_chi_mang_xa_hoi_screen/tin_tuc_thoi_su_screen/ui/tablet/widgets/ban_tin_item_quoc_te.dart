@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -45,7 +46,7 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
         Text(
           widget.title,
           style: textNormalCustom(
-            color: indicatorColor,
+            color: AppTheme.getInstance().colorField(),
             fontSize: 14.0.textScale(space: 6),
             fontWeight: FontWeight.w500,
           ),
@@ -93,7 +94,7 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
                       child: SizedBox(
                         height: 55,
                         width: 55,
-                        child: SvgPicture.asset(ImageAssets.icPlay),
+                        child: SvgPicture.asset(ImageAssets.icPlay,color: AppTheme.getInstance().colorField(),),
                       ),
                     ),
                     Image.asset(
@@ -142,7 +143,7 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
                           ],
                         ),
                         GestureDetector(
-                          child: SvgPicture.asset(ImageAssets.ic_xem_them),
+                          child: SvgPicture.asset(ImageAssets.ic_xem_them,color: AppTheme.getInstance().colorField(),),
                           onTap: () {
                             widget.clickXemThem();
                           },

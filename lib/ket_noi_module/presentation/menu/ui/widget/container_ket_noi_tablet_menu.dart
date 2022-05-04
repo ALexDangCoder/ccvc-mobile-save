@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/ket_noi_module/domain/model/loai_bai_viet_model.dart
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_animation_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,8 @@ class _ContainerKetNoiTabletState extends State<ContainerKetNoiTablet> {
                             height: 15.0.textScale(space: 8),
                             width: 15.0.textScale(space: 8),
                             child: SvgPicture.asset(
-                              ImageAssets.icSide,
+                              ImageAssets.icSide.svgToTheme(),
+
                             ),
                           )
                         else

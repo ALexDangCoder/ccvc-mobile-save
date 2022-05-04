@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/edit_hdsd/ui/tablet/edit_hdsd_tablet.dart';
 import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/base_popup.dart';
@@ -49,7 +50,7 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
                   funcBtnOk: () {},
                 );
               },
-              icon: SvgPicture.asset(ImageAssets.icAddButtonCalenderTablet),
+              icon: SvgPicture.asset(ImageAssets.icAddButtonCalenderTablet,color: AppTheme.getInstance().colorField(),),
             ),
           )
         ],

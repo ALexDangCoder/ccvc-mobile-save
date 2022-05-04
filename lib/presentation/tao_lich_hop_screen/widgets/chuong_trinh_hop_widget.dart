@@ -153,7 +153,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.thoi_gian_hop,
                   isObligatory: true,
                   child: CustomSelectDate(
-                    value: DateTime.now().toString(),
+                    value: DateTime.now(),
                     onSelectDate: (value) {},
                     paddings: 12,
                     leadingIcon: SvgPicture.asset(

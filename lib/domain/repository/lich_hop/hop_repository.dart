@@ -186,6 +186,7 @@ mixin HopRepository {
   Future<Result<List<PhatBieuModel>>> getDanhSachPhatBieuLichHop(
     int status,
     String lichHopId,
+    String phienHop,
   );
 
   Future<Result<List<PhatBieuModel>>> getDanhSachPhatBieuLichHopNoStatus(

@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/widget/container_menu_
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/widget/state_select_lich_hop_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -100,11 +101,11 @@ extension GetDataMenu on TypeCalendarMenu {
   String getIconTablet() {
     switch (this) {
       case TypeCalendarMenu.LichCuaToi:
-        return ImageAssets.icPersonWork;
+        return ImageAssets.icPersonWork.svgToTheme();
       case TypeCalendarMenu.LichTheoTrangThai:
-        return ImageAssets.icTheoDangLichCir;
+        return ImageAssets.icTheoDangLichCir.svgToTheme();
       case TypeCalendarMenu.LichTheoLanhDao:
-        return ImageAssets.icLichLanhDaoCir;
+        return ImageAssets.icLichLanhDaoCir.svgToTheme();
       default:
         return '';
     }

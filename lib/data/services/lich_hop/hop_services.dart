@@ -178,6 +178,7 @@ abstract class HopServices {
   Future<DanhSachPhatBieuLichHopDataResponse> getDanhSachPhatBieuLichHop(
     @Query('status') int stutus,
     @Query('lichHopId') String lichHopId,
+    @Query('phienHop') String phienHop,
   );
 
   @GET(ApiConstants.DANH_SACH_PHAT_BIEU_LICH_HOP)

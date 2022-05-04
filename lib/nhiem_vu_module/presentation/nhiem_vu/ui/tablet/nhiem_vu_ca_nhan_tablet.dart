@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
@@ -204,9 +205,9 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
             child: TabBar(
               unselectedLabelStyle: titleAppbar(fontSize: 16),
               unselectedLabelColor: AqiColor,
-              labelColor: textDefault,
+              labelColor: AppTheme.getInstance().colorField(),
               labelStyle: titleText(fontSize: 16),
-              indicatorColor: textDefault,
+              indicatorColor: AppTheme.getInstance().colorField(),
               tabs: [
                 Container(
                   padding: const EdgeInsets.only(bottom: 8),

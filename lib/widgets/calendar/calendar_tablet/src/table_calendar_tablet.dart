@@ -14,6 +14,7 @@ class TableCandarTablet extends StatefulWidget {
   final Function(DateTime startDate, DateTime endDate, DateTime selectDay)
       onChange;
   final List<DateTime>? eventsLoader;
+  final DateTime? initTime;
 
   const TableCandarTablet({
     Key? key,
@@ -21,6 +22,7 @@ class TableCandarTablet extends StatefulWidget {
     required this.onChangeRange,
     required this.onChange,
     this.eventsLoader,
+    this.initTime,
   }) : super(key: key);
 
   @override
@@ -117,7 +119,7 @@ class _TableCandarTabletState extends State<TableCandarTablet> {
   @override
   void initState() {
     super.initState();
-    cubitCalendar.selectedDay = cubitCalendar.focusedDay;
+    cubitCalendar.selectedDay = widget.initTime ?? cubitCalendar.focusedDay;
     _selectedEvents =
         ValueNotifier(_getEventsForDay(cubitCalendar.selectedDay));
   }

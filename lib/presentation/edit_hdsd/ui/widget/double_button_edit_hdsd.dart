@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -43,14 +44,14 @@ class _DoubleButtonEditHDSDScreenState
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0.textScale(space: 4.0)),
-              color: buttonColor2,
+              color: AppTheme.getInstance().colorField().withOpacity(0.1),
             ),
             child: Center(
               child: Text(
                 widget.title1,
                 style: textNormalCustom(
                   fontSize: 14.0.textScale(space: 4.0),
-                  color: textDefault,
+                  color: AppTheme.getInstance().colorField(),
                 ),
               ),
             ),
@@ -66,7 +67,7 @@ class _DoubleButtonEditHDSDScreenState
                 const EdgeInsets.only(left: 33, right: 33, top: 13, bottom: 13),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0.textScale(space: 4.0)),
-              color: textDefault,
+              color: AppTheme.getInstance().colorField(),
             ),
             child: Center(
               child: Text(

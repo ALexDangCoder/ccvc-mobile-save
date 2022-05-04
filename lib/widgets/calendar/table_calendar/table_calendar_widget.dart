@@ -24,6 +24,7 @@ class TableCalendarWidget extends StatefulWidget {
   final Function(String value)? onSearch;
   final Type_Choose_Option_Day type;
   final List<DateTime>? eventsLoader;
+  final DateTime? initTime;
 
   const TableCalendarWidget({
     Key? key,
@@ -34,6 +35,7 @@ class TableCalendarWidget extends StatefulWidget {
     this.type = Type_Choose_Option_Day.DAY,
     this.eventsLoader,
     required this.onChangeText,
+    this.initTime,
   }) : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   @override
   void initState() {
     selectedEvents = {};
+    _selectedDay = widget.initTime ?? DateTime.now();
     super.initState();
   }
 
@@ -86,6 +89,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
     }
+
     cubit.selectedDay = date;
     cubit.moveTimeSubject.add(cubit.selectedDay);
 
@@ -257,11 +261,13 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         ),
                         selectedDecoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color:  AppTheme.getInstance().colorField(),
+                          color: AppTheme.getInstance().colorField(),
                         ),
-                        todayDecoration:  BoxDecoration(
+                        todayDecoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color:  AppTheme.getInstance().colorField().withOpacity(0.2),
+                          color: AppTheme.getInstance()
+                              .colorField()
+                              .withOpacity(0.2),
                         ),
                         todayTextStyle: textNormalCustom(
                           fontSize: 14.0.textScale(),

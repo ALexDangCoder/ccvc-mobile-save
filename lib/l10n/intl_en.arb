@@ -900,13 +900,13 @@
   "ban_co_chac_muon": "Bạn có chắc muốn",
   "khong_edit": "không?",
   "dung_luong_toi_da": "Dung lượng tối đa 15MB",
-  "ban_phai_nhap_truong": "Bạn phải nhập trường",
   "tin_buon": "Tin Buồn",
   "tinh_hinh_pakn_ca_nhan": "Tình hình xử lý PAKN của cá nhân",
   "xu_ly": "Xử lý",
   "da_phan_cong": "Đã phâm công",
   "tiep_nhan": "Tiếp nhận",
-  "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị"
-
-
+  "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị",
+  "duyet_ky_thuat": "Duyệt kỹ thuật",
+  "tu_choi_duyet_ky_thuat": "Từ chối duyệt kỹ thuật",
+  "huy_duyet_ky_thuat": "Hủy duyệt kỹ thuật"
 }

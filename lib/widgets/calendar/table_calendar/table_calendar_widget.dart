@@ -76,7 +76,8 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
     });
   }
 
-  void _onDaySelect(DateTime date, DateTime events) {
+  void
+  _onDaySelect(DateTime date, DateTime events) {
     if (!isSameDay(_selectedDay, date)) {
       setState(() {
         _selectedDay = date;

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -27,9 +28,9 @@ class ItemListBangTin extends StatelessWidget {
         child: Row(
           children: [
             if (isCheck)
-              const Icon(
+               Icon(
                 Icons.double_arrow,
-                color: dangXyLyColor,
+                color: AppTheme.getInstance().colorField(),
                 size: 14,
               )
             else
@@ -41,7 +42,7 @@ class ItemListBangTin extends StatelessWidget {
             ),
             Icon(
               Icons.brightness_1,
-              color: isCheck ? dangXyLyColor : sideTextInactiveColor,
+              color: isCheck ? AppTheme.getInstance().colorField() : sideTextInactiveColor,
               size: 8,
             ),
             const SizedBox(
@@ -53,7 +54,7 @@ class ItemListBangTin extends StatelessWidget {
                 style: textNormalCustom(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  color: isCheck ? bgButtonDropDown : infoColor,
+                  color: isCheck ? AppTheme.getInstance().colorField() : infoColor,
                 ),
               ),
             )

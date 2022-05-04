@@ -199,14 +199,20 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         fontSize: 14.0,
                         color: Colors.white,
                       ),
-                      todayDecoration: const BoxDecoration(
+                      todayDecoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: toDayColor,
+                        color: AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
+                      ),
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                       todayTextStyle: textNormalCustom(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
-                        color: buttonColor,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                     ),
                     headerVisible: false,
@@ -266,9 +272,11 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         fontSize: 16.0,
                         color: Colors.white,
                       ),
-                      todayDecoration:  BoxDecoration(
+                      todayDecoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppTheme.getInstance().colorField().withOpacity(0.1),
+                        color: AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
                       ),
                       selectedDecoration: BoxDecoration(
                         shape: BoxShape.circle,

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/drawer_slide/drawer_slide.dart';
@@ -14,6 +15,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/
 import 'package:ccvc_mobile/tien_ich_module/widget/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -62,7 +64,7 @@ class _DanhSachCongViecTienIchMobileState
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
-                  icon: SvgPicture.asset(ImageAssets.ic_Group),
+                  icon: SvgPicture.asset(ImageAssets.ic_Group.svgToTheme()),
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       child: AddToDoWidgetTienIch(
@@ -167,7 +169,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                 child: Checkbox(
                   checkColor: Colors.white,
                   // color of tick Mark
-                  activeColor: !isAdd ? sideTextInactiveColor : indicatorColor,
+                  activeColor: !isAdd ? sideTextInactiveColor : AppTheme.getInstance().colorField(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(3),
                   ),

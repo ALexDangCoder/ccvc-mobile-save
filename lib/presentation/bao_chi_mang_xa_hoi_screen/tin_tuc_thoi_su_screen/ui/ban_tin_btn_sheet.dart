@@ -1,11 +1,13 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/item_list_bang_tin.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/bloc/phat_ban_tin_bloc.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/ui/mobile/phat_radio.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -112,7 +114,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                         onTap: () {
                           phatBanTinBloc.changePlay();
                         },
-                        child: SvgPicture.asset(ImageAssets.icPlay),
+                        child: SvgPicture.asset(ImageAssets.icPlay.svgToTheme()),
                       );
                     },
                   ),
@@ -166,7 +168,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                                       height: 4,
                                       child: Slider(
                                         value: data,
-                                        activeColor: labelColor,
+                                        activeColor:  AppTheme.getInstance().colorField(),
                                         inactiveColor: borderButtomColor,
                                         onChanged: (double value) {
                                           player.setVolume(value);

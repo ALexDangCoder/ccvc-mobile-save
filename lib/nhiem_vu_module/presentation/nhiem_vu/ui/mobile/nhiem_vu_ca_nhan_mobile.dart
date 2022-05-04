@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
@@ -192,7 +193,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                 ),
                               );
                             },
-                            icon: SvgPicture.asset(ImageAssets.ic_next_color),
+                            icon: SvgPicture.asset(ImageAssets.ic_next_color,color: AppTheme.getInstance().colorField(),),
                           )
                         ],
                       ),
@@ -271,7 +272,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                 ),
                               );
                             },
-                            icon: SvgPicture.asset(ImageAssets.ic_next_color),
+                            icon: SvgPicture.asset(ImageAssets.ic_next_color,color: AppTheme.getInstance().colorField(),),
                           )
                         ],
                       ),

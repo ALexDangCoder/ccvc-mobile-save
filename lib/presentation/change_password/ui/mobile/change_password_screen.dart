@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -228,7 +229,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                         },
                         child: Text(
                           '${S.current.quen_mat_khau}?',
-                          style: textNormalCustom(color: textDefault),
+                          style: textNormalCustom(color: AppTheme.getInstance().colorField()),
                         ),
                       ),
                       const SizedBox(height: 20.0),

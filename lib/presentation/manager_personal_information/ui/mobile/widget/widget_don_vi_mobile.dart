@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
@@ -207,7 +208,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
       inactiveColor: borderColor,
-      activeColor: labelColor,
+      activeColor: AppTheme.getInstance().colorField(),
       value: value,
       onToggle: onToggle,
     );

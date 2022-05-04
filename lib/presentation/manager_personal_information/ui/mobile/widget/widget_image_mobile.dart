@@ -42,11 +42,9 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Padding(
-                    padding: const EdgeInsets.all(54.0),
+                    padding: const EdgeInsets.all(34.0),
                     child: SvgPicture.asset(
-                      widget.cubit.managerPersonalInformationModel
-                              .anhDaiDienFilePath ??
-                          ImageAssets.icImage,
+                      ImageAssets.icImage,
                     ),
                   ),
                 ),
@@ -83,7 +81,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Padding(
-                    padding: const EdgeInsets.all(54.0),
+                    padding: const EdgeInsets.all(34.0),
                     child: SvgPicture.asset(
                       widget.cubit.managerPersonalInformationModel
                               .anhChuKyFilePath ??
@@ -124,7 +122,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Padding(
-                    padding: const EdgeInsets.all(54.0),
+                    padding: const EdgeInsets.all(34.0),
                     child: SvgPicture.asset(
                       widget.cubit.managerPersonalInformationModel
                               .anhChuKyNhayFilePath ??

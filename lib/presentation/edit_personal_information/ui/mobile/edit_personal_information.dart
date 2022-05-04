@@ -55,7 +55,7 @@ class _EditPersonalInformationScreen
   @override
   void initState() {
     cubit.loadApi(id: widget.id);
-    cubit.getDeviceDetails();
+    // cubit.getDeviceDetails();
     cubit.managerStream.listen((event) {
       cubit.getCurrentUnit(event);
       nameController.text = event.hoTen ?? '';
@@ -408,6 +408,7 @@ class _EditPersonalInformationScreen
                             title1: '',
                             isPhone: true,
                             isBottomShowText: false,
+                            isCallApi: false,
                           );
                         },
                         onPressed2: () async {
@@ -433,7 +434,6 @@ class _EditPersonalInformationScreen
                               idTinh: cubit.idTinh,
                               idHuyen: cubit.idHuyen,
                               idXa: cubit.idXa,
-                              iDDonViHoatDong: null,
                             )
                                 .then(
                               (value) {

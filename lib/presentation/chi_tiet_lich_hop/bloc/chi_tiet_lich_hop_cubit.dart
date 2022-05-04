@@ -403,7 +403,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
     ///Phát biểu
     unawaited(
-      queue.add(() => getDanhSachPhatBieuLichHop(typeStatus.value, id)),
+      queue.add(() => getDanhSachPhatBieuLichHop(status: 0, lichHopId: id)),
     );
     unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
 
@@ -702,8 +702,13 @@ extension BieuQuyet on DetailMeetCalenderCubit {
 
 ///phat Bieu
 extension PhatBieu on DetailMeetCalenderCubit {
-  Future<void> getDanhSachPhatBieuLichHop(int status, String lichHopId) async {
-    final result = await hopRp.getDanhSachPhatBieuLichHop(status, lichHopId);
+  Future<void> getDanhSachPhatBieuLichHop(
+      {int? status, String? lichHopId, String? phienHop}) async {
+    final result = await hopRp.getDanhSachPhatBieuLichHop(
+      status ?? 0,
+      lichHopId ?? '',
+      phienHop ?? '',
+    );
     result.when(
       success: (res) {
         final List<PhatBieuModel> phatBieu = res.toList();
@@ -719,7 +724,7 @@ extension PhatBieu on DetailMeetCalenderCubit {
       getDanhSachPhatBieuLichHopNoStatus(id);
     } else {
       typeStatus.sink.add(value);
-      getDanhSachPhatBieuLichHop(value, id);
+      getDanhSachPhatBieuLichHop(status: value, lichHopId: id);
     }
   }
 
@@ -754,7 +759,10 @@ extension PhatBieu on DetailMeetCalenderCubit {
     result.when(
       success: (value) {
         if (value.succeeded == true) {
-          getDanhSachPhatBieuLichHop(1, taoBieuQuyetRequest.lichHopId ?? '');
+          getDanhSachPhatBieuLichHop(
+            status: 1,
+            lichHopId: taoBieuQuyetRequest.lichHopId ?? '',
+          );
         }
       },
       error: (error) {},
@@ -1726,7 +1734,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   //   return isChuTri() || isNguoiTaoPhatBieu() || isThuKy() || isChuTriPhien();
   // }
 
-  ///======================= phat bieu =======================
+  ///======================= bieu quyet =======================
 
   ///btn them duyet bieu quyet
   bool isThemDuyetBieuQuyet() {

@@ -66,8 +66,8 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                               title: S.current.huy_duyet,
                               onPressed: () {
                                 widget.cubit.getDanhSachPhatBieuLichHop(
-                                  DADUYET,
-                                  widget.id,
+                                  status: DADUYET,
+                                  lichHopId: widget.id,
                                 );
                                 setState(() {});
                               },

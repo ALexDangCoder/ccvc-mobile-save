@@ -69,6 +69,7 @@ class _EditPersonalInformationTabletScreen
       sdtController.text = event.phoneDiDong ?? '';
       diaChiLienHeController.text = event.diaChi ?? '';
     });
+    cubit.getDeviceDetails();
     super.initState();
     toast.init(context);
   }
@@ -174,12 +175,10 @@ class _EditPersonalInformationTabletScreen
                                       validator: (value) {
                                         if ((value ?? '').isEmpty) {
                                           return '${S.current.ban_phai_nhap_truong} '
-                                              '${S.current.ho_va_ten} ';
-                                        } else if ((value ?? '')
-                                                    .trim()
-                                                    .length <=
-                                                5 ||
-                                            (value ?? '').trim().length >= 32) {
+                                              '${S.current.ho_va_ten}!';
+                                        } else if ((value ?? '').trim().length <
+                                                6 ||
+                                            (value ?? '').trim().length > 32) {
                                           return S.current.nhap_sai_dinh_dang;
                                         }
                                         return null;
@@ -575,7 +574,7 @@ class _EditPersonalInformationTabletScreen
                                 diaChiLienHe: diaChiLienHeController.value.text,
                                 donViDetail: cubit
                                     .editPersonInformationRequest.donViDetail,
-                                thuTu: int.parse(thuTuController.text),
+                                thuTu: thuTuController.text,
                                 tinh: cubit.tinh,
                                 huyen: cubit.huyen,
                                 xa: cubit.xa,
@@ -586,12 +585,12 @@ class _EditPersonalInformationTabletScreen
                                   .then(
                                 (value) {
                                   return MessageConfig.show(
-                                    title: S.current.sua_thanh_cong,
+                                    title: S.current.thay_doi_thanh_cong,
                                   );
                                 },
                               ).onError(
                                 (error, stackTrace) => MessageConfig.show(
-                                  title: S.current.sua_that_bai,
+                                  title: S.current.thay_doi_that_bai,
                                   messState: MessState.error,
                                 ),
                               );

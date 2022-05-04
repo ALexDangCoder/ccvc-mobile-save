@@ -68,6 +68,7 @@ class _EditPersonalInformationTabletScreen
       sdtController.text = event.phoneDiDong ?? '';
       diaChiLienHeController.text = event.diaChi ?? '';
     });
+    cubit.getDeviceDetails();
     super.initState();
     toast.init(context);
   }
@@ -572,7 +573,7 @@ class _EditPersonalInformationTabletScreen
                                 diaChiLienHe: diaChiLienHeController.value.text,
                                 donViDetail: cubit
                                     .editPersonInformationRequest.donViDetail,
-                                thuTu: int.parse(thuTuController.text),
+                                thuTu: thuTuController.text,
                                 tinh: cubit.tinh,
                                 huyen: cubit.huyen,
                                 xa: cubit.xa,

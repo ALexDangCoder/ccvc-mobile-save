@@ -902,5 +902,11 @@
   "dung_luong_toi_da": "Dung lượng tối đa 15MB",
   "tin_buon": "Tin Buồn",
   "thay_doi_thanh_cong": "Thay đổi thành công",
-  "thay_doi_that_bai": "Thay đổi thất bại"
+  "thay_doi_that_bai": "Thay đổi thất bại",
+  "tinh_hinh_pakn_ca_nhan": "Tình hình xử lý PAKN của cá nhân",
+  "xu_ly": "Xử lý",
+  "da_phan_cong": "Đã phâm công",
+  "tiep_nhan": "Tiếp nhận",
+  "phan_anh_kien_nghi_don_vi": "Tình hình xử lý PAKN của đơn vị",
+  "ban_muon_thoat": "Bạn có chắc muốn thoát ra không?"
 }

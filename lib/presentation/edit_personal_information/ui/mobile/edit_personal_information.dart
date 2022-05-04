@@ -16,13 +16,13 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -55,11 +55,12 @@ class _EditPersonalInformationScreen
   @override
   void initState() {
     cubit.loadApi(id: widget.id);
+    cubit.getDeviceDetails();
     cubit.managerStream.listen((event) {
       cubit.getCurrentUnit(event);
       nameController.text = event.hoTen ?? '';
       maCanBoController.text = event.maCanBo ?? '';
-      thuTuController.text = event.thuTu.toString();
+      thuTuController.text = cubit.checkThuTu((event.thuTu ?? '').toString());
       cmndController.text = event.cmtnd ?? '';
       emailController.text = event.email ?? '';
       sdtCoquanController.text = event.phoneCoQuan ?? '';
@@ -148,12 +149,12 @@ class _EditPersonalInformationScreen
                           key: UniqueKey(),
                           hintText: S.current.ho_va_ten,
                           controller: nameController,
+                          maxLength: 32,
                           validator: (value) {
                             if ((value ?? '').isEmpty) {
                               return '${S.current.ban_phai_nhap_truong} '
                                   '${S.current.ho_va_ten}!';
-                            } else if ((value ?? '').trim().length < 6 ||
-                                (value ?? '').trim().length > 32) {
+                            } else if ((value ?? '').trim().length < 6) {
                               return S.current.nhap_sai_dinh_dang;
                             }
                             return null;
@@ -175,15 +176,11 @@ class _EditPersonalInformationScreen
                       InputInfoUserWidget(
                         title: user.keys.elementAt(3),
                         child: TextFieldValidator(
+                          maxLength: 2,
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
                           textInputType: TextInputType.number,
-                          validator: (value) {
-                            if ((value?.length ?? 0) > 2) {
-                              return S.current.nhap_sai_dinh_dang;
-                            }
-                            return null;
-                          },
                         ),
                       ),
                       InputInfoUserWidget(
@@ -208,12 +205,8 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.cmnd,
                           controller: cmndController,
-                          validator: (value) {
-                            if ((value?.length ?? 0) > 255) {
-                              return S.current.nhap_sai_dinh_dang;
-                            }
-                            return null;
-                          },
+                          maxLength: 255,
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       InputInfoUserWidget(
@@ -240,6 +233,7 @@ class _EditPersonalInformationScreen
                       InputInfoUserWidget(
                         title: user.keys.elementAt(7),
                         child: TextFieldValidator(
+                          key: UniqueKey(),
                           hintText: S.current.email,
                           controller: emailController,
                           validator: (value) {
@@ -253,12 +247,8 @@ class _EditPersonalInformationScreen
                           hintText: S.current.sdt_co_quan,
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
-                          validator: (value) {
-                            if ((value?.length ?? 0) > 255) {
-                              return S.current.nhap_sai_dinh_dang;
-                            }
-                            return null;
-                          },
+                          maxLength: 255,
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       //
@@ -268,12 +258,8 @@ class _EditPersonalInformationScreen
                           hintText: S.current.so_dien_thoai,
                           controller: sdtController,
                           textInputType: TextInputType.number,
-                          validator: (value) {
-                            if ((value?.length ?? 0) > 255) {
-                              return S.current.nhap_sai_dinh_dang;
-                            }
-                            return null;
-                          },
+                          maxLength: 255,
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       StreamBuilder<List<TinhHuyenXaModel>>(
@@ -390,12 +376,7 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.dia_chi_lien_he,
                           controller: diaChiLienHeController,
-                          validator: (value) {
-                            if ((value?.length ?? 0) > 255) {
-                              return S.current.nhap_sai_dinh_dang;
-                            }
-                            return null;
-                          },
+                          maxLength: 255,
                         ),
                       ),
                       spaceH20,
@@ -414,7 +395,20 @@ class _EditPersonalInformationScreen
                       spaceH20,
                       DoubleButtonBottom(
                         onPressed1: () {
-                          Navigator.pop(context);
+                          showDiaLogTablet(
+                            context,
+                            title: S.current.ban_muon_thoat,
+                            child: Container(),
+                            funcBtnOk: () {
+                              Navigator.pop(context, false);
+                            },
+                            btnRightTxt: S.current.dong_y,
+                            btnLeftTxt: S.current.khong,
+                            title2: '',
+                            title1: '',
+                            isPhone: true,
+                            isBottomShowText: false,
+                          );
                         },
                         onPressed2: () async {
                           if (keyGroup.currentState?.validator() ?? true) {
@@ -432,13 +426,14 @@ class _EditPersonalInformationScreen
                               diaChiLienHe: diaChiLienHeController.value.text,
                               donViDetail: cubit
                                   .editPersonInformationRequest.donViDetail,
-                              thuTu: int.parse(thuTuController.text),
+                              thuTu: thuTuController.value.text,
                               tinh: cubit.tinh,
                               huyen: cubit.huyen,
                               xa: cubit.xa,
                               idTinh: cubit.idTinh,
                               idHuyen: cubit.idHuyen,
                               idXa: cubit.idXa,
+                              iDDonViHoatDong: null,
                             )
                                 .then(
                               (value) {
@@ -454,12 +449,7 @@ class _EditPersonalInformationScreen
                             );
                             Navigator.pop(context, true);
                           } else {
-                            toast.showToast(
-                              child: ShowToast(
-                                text: S.current.nhap_sai_dinh_dang,
-                              ),
-                              gravity: ToastGravity.BOTTOM,
-                            );
+                            return;
                           }
                         },
                         title1: S.current.dong,

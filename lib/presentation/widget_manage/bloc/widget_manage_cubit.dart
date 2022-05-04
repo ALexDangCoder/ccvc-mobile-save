@@ -132,7 +132,11 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     final result = await _qlWidgetRepo.resetListWidget();
     result.when(
       success: (res) {
+        print("------------------------------------ app id----------------------");
         listTempFullPara = res;
+        listTempFullPara.forEach((element) {
+          print(element.appId);
+        });
       },
       error: (err) {
         return;
@@ -196,7 +200,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     for (final element in listUsing) {
       listMap.add(widgetModelToJson(element));
     }
-    json.encode(listMap);
+    // json.encode(listMap);
     listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));
@@ -204,9 +208,11 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void> onRefreshData() async {
+    // updateListWidget("[{\"id\":\"80e865a9-9739-4432-840d-8ac3c52fdaf1\",\"name\":\"Báo chí - Mạng xã hội\",\"widgetTypeId\":\"8fe7339c-728f-4a44-824e-5a57c9c4c54d\",\"description\":\"\",\"code\":\"CODE\",\"width\":4,\"height\":9,\"minWidth\":3,\"minHeight\":6,\"maxHeight\":99,\"maxWidth\":12,\"props\":{},\"component\":\"BaoChi\",\"static\":false,\"isResizable\":true,\"thumbnail\":\"bao-chi-mxh.png\",\"appId\":null,\"order\":9,\"isShowing\":true,\"x\":0,\"y\":0,\"i\":2,\"enable\":true,\"moved\":false,\"w\":4,\"h\":9,\"maxH\":99,\"maxW\":12,\"minH\":6,\"minW\":3}]");
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
+        listUsing=res;
         final data =
         res.where((element) => element.widgetType != null).toList();
         listTitleWidgetUse = data.map((e) => e.name).toList();

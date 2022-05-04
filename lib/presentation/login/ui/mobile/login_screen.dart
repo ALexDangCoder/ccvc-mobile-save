@@ -142,9 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return loginCubit.isHideClearData = true;
                         },
                         validator: (value) {
-                          if ((value?.length ?? 0) > 255) {
-                            return S.current.nhap_sai_dinh_dang;
-                          } else if ((value ?? '').contains('@')) {
+                          if ((value ?? '').contains('@')) {
                             return (value ?? '').checkEmailBoolean();
                           } else {
                             return (value ?? '').checkTruongNull('Tài khoản!');
@@ -225,8 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () async {
                               if (keyGroup.currentState!.validator()) {
                                 await loginCubit.loginAndSaveinfo(
-                                  passWord: textPasswordController.text,
-                                  userName: textTaiKhoanController.text,
+                                  passWord: textPasswordController.text.trim(),
+                                  userName: textTaiKhoanController.text.trim(),
                                   appCode: APP_CODE,
                                 );
                               }

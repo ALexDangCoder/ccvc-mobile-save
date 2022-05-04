@@ -105,7 +105,8 @@ extension CheckValidate on String {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
         .hasMatch(this);
     if (isCheck) {
-      if (indexOf('@') >= 64) {
+      if ((indexOf('@') >= 64 || ((length - indexOf('.'))) >= 254) ||
+          (indexOf('@') >= 64 && ((length - indexOf('.'))) >= 254)) {
         return S.current.nhap_sai_dinh_dang;
       } else {
         return null;
@@ -144,7 +145,7 @@ extension CheckValidate on String {
 
   String? checkTruongNull(String name) {
     if (trim().isEmpty) {
-      return '${S.current.ban_phai_nhap_truong + name}';
+      return '${S.current.ban_phai_nhap_truong} $name';
     }
     return null;
   }

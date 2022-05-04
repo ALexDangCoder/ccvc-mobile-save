@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/bloc/chuyen_giong_noi_thanh_van_ban_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/widget/voice_widget.dart';
@@ -91,6 +92,7 @@ class _ChuyenGiongNoiThanhVanBanMobileState
                             )
                           : SvgPicture.asset(
                               ImageAssets.icAnimationVoice,
+                        color: AppTheme.getInstance().colorField(),
                             ),
                     );
                   },
@@ -102,7 +104,7 @@ class _ChuyenGiongNoiThanhVanBanMobileState
                   onTap: _speechToText.isNotListening
                       ? _startListening
                       : _stopListening,
-                  child: SvgPicture.asset(ImageAssets.icVoice),
+                  child: SvgPicture.asset(ImageAssets.icVoice,color: AppTheme.getInstance().colorField(),),
                 ),
                 const SizedBox(
                   width: 30,
@@ -118,6 +120,7 @@ class _ChuyenGiongNoiThanhVanBanMobileState
                             )
                           : SvgPicture.asset(
                               ImageAssets.icAnimationVoice,
+                        color: AppTheme.getInstance().colorField(),
                             ),
                     );
                   },

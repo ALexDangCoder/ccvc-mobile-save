@@ -126,7 +126,7 @@ class SelectDonViCell extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
         color: APP_DEVICE == DeviceType.MOBILE
-            ? bgTag
+            ? AppTheme.getInstance().colorField().withOpacity(0.1)
             : AppTheme.getInstance().colorField(),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
@@ -136,7 +136,7 @@ class SelectDonViCell extends StatelessWidget {
           Text(
             title,
             style: textNormal(
-              APP_DEVICE == DeviceType.MOBILE ? linkColor : backgroundColorApp,
+              APP_DEVICE == DeviceType.MOBILE ? AppTheme.getInstance().colorField() : backgroundColorApp,
               12.0.textScale(),
             ),
           ),
@@ -151,7 +151,7 @@ class SelectDonViCell extends StatelessWidget {
                 width: 7.5,
                 height: 7.5,
                 color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
+                    ? AppTheme.getInstance().colorField()
                     : backgroundColorApp,
               ),
             ),

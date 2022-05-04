@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/lich_hop_item.dart';
@@ -545,9 +546,10 @@ class _MainLichHopState extends State<MainLichHop> {
                                 ),
                               );
                             },
-                            backgroundColor: labelColor,
+                            backgroundColor: AppTheme.getInstance().colorField(),
                             child: SvgPicture.asset(
                               ImageAssets.icAddCalenderWhite,
+
                             ),
                           ),
                         ),

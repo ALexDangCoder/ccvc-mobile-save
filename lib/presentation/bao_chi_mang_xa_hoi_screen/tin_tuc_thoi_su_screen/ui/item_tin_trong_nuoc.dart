@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -106,7 +107,7 @@ class ItemTinTrongNuoc extends StatelessWidget {
                             width: 30,
                           ),
                           GestureDetector(
-                            child: SvgPicture.asset(ImageAssets.icPlay),
+                            child: SvgPicture.asset(ImageAssets.icPlay.svgToTheme()),
                             onTap: () {
                               clickItem();
                             },

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,7 +32,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
           horizontal: 17.0.textScale(space: 13),
           vertical: 10.0.textScale(space: 4),
         ),
-        color: isSelect ? textDefault : Colors.white,
+        color: isSelect ? AppTheme.getInstance().colorField() : Colors.white,
         child: Row(
           children: [
             SizedBox(
@@ -39,7 +40,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               width: 15.0.textScale(space: 8),
               child: SvgPicture.asset(
                 icon,
-                color: isSelect ? Colors.white : textDefault,
+                color: isSelect ? Colors.white : AppTheme.getInstance().colorField(),
               ),
             ),
             SizedBox(
@@ -67,7 +68,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               child: Text(
                 number.toString(),
                 style: textNormalCustom(
-                  color: textDefault,
+                  color: AppTheme.getInstance().colorField(),
                   fontWeight: FontWeight.w500,
                   fontSize: 12.0.textScale(),
                 ),

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/yknd_dash_board_item.dart';
@@ -327,7 +328,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                                   ),
                                 );
                               },
-                              icon: SvgPicture.asset(ImageAssets.ic_next_color),
+                              icon: SvgPicture.asset(ImageAssets.ic_next_color,color: AppTheme.getInstance().colorField(),),
                             )
                           ],
                         ),

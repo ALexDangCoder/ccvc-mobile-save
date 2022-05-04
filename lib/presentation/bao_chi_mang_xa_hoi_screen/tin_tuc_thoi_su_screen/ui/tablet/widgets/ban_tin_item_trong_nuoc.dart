@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -19,7 +20,7 @@ class BanTinItemTrongNuocTablet extends StatefulWidget {
   final String description;
   final Function() clickPLay;
   final Function() clickXemThem;
-  final List<TinTucRadioModel>listTinTuc;
+  final List<TinTucRadioModel> listTinTuc;
   final TinTucThoiSuBloc tinTucThoiSuBloc;
 
   const BanTinItemTrongNuocTablet({
@@ -33,7 +34,8 @@ class BanTinItemTrongNuocTablet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BanTinItemTrongNuocTabletState createState() => _BanTinItemTrongNuocTabletState();
+  _BanTinItemTrongNuocTabletState createState() =>
+      _BanTinItemTrongNuocTabletState();
 }
 
 class _BanTinItemTrongNuocTabletState extends State<BanTinItemTrongNuocTablet> {
@@ -45,7 +47,7 @@ class _BanTinItemTrongNuocTabletState extends State<BanTinItemTrongNuocTablet> {
         Text(
           widget.title,
           style: textNormalCustom(
-            color: indicatorColor,
+            color: AppTheme.getInstance().colorField(),
             fontSize: 14.0.textScale(space: 6),
             fontWeight: FontWeight.w500,
           ),
@@ -93,7 +95,10 @@ class _BanTinItemTrongNuocTabletState extends State<BanTinItemTrongNuocTablet> {
                       child: SizedBox(
                         height: 55,
                         width: 55,
-                        child: SvgPicture.asset(ImageAssets.icPlay),
+                        child: SvgPicture.asset(
+                          ImageAssets.icPlay,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                       ),
                     ),
                     Image.asset(
@@ -142,52 +147,57 @@ class _BanTinItemTrongNuocTabletState extends State<BanTinItemTrongNuocTablet> {
                           ],
                         ),
                         GestureDetector(
-                          child: SvgPicture.asset(ImageAssets.ic_xem_them),
+                          child: SvgPicture.asset(
+                            ImageAssets.ic_xem_them,
+                            color: AppTheme.getInstance().colorField(),
+                          ),
                           onTap: () {
                             widget.clickXemThem();
                           },
                         )
                       ],
                     ),
-                    const SizedBox(height: 24,),
-
-                    if( widget.listTinTuc.isNotEmpty)
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    if (widget.listTinTuc.isNotEmpty)
                       Expanded(
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: widget.listTinTuc.length>2?2 : widget.listTinTuc.length,
+                          itemCount: widget.listTinTuc.length > 2
+                              ? 2
+                              : widget.listTinTuc.length,
                           itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 20),
-                                child: ItemTinRadioTrongNuocTablet(
-                                  widget.listTinTuc[index].urlImage?[0] ?? '',
-                                  widget.listTinTuc[index].title,
-                                  DateTime
-                                      .parse(
-                                      widget.listTinTuc[index].publishedTime
-                                          .replaceAll('/', '-').replaceAll(
-                                          ' ', 'T'))
-                                      .formatApiSSAM,
-                                  url: widget.listTinTuc[index].url,
-                                  clickItem: () {
-                                    showBottomSheetCustom(
-                                      context,
-                                      title: S.current.ban_tin_trua_ngay,
-                                      child: BanTinBtnSheetTablet(
-                                        listTinTuc: widget.tinTucThoiSuBloc
-                                            .listTinTucTrongNuoc,
-                                        index:index,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 20),
+                              child: ItemTinRadioTrongNuocTablet(
+                                widget.listTinTuc[index].urlImage?[0] ?? '',
+                                widget.listTinTuc[index].title,
+                                DateTime.parse(widget
+                                        .listTinTuc[index].publishedTime
+                                        .replaceAll('/', '-')
+                                        .replaceAll(' ', 'T'))
+                                    .formatApiSSAM,
+                                url: widget.listTinTuc[index].url,
+                                clickItem: () {
+                                  showBottomSheetCustom(
+                                    context,
+                                    title: S.current.ban_tin_trua_ngay,
+                                    child: BanTinBtnSheetTablet(
+                                      listTinTuc: widget
+                                          .tinTucThoiSuBloc.listTinTucTrongNuoc,
+                                      index: index,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
                           },
                         ),
                       )
-                    else  const Expanded(child: Center(child: NodataWidget())),
+                    else
+                      const Expanded(child: Center(child: NodataWidget())),
                   ],
                 ),
               ),

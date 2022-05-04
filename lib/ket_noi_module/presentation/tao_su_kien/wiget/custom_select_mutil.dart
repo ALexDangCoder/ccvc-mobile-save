@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/model/loai_bai_viet_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -136,6 +137,33 @@ class _ExpandedSectionState extends State<CustomSelectMutil>
                                 stream: selectBloc.stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data ?? [0];
+                                return  CustomCheckBox(
+                                    title: '',
+                                    onChange: (isCheck) {
+                                      setState(() {});
+                                      if (valueSelect
+                                          .contains(widget.dataLoaiBaiViet[index])) {
+                                        valueSelect.remove(widget.dataLoaiBaiViet[index]);
+                                      } else {
+                                        valueSelect.add(widget.dataLoaiBaiViet[index]);
+                                      }
+                                      if (addIndex.contains(index)) {
+                                        addIndex.remove(index);
+                                        selectBloc.sink.add(addIndex);
+                                      } else {
+                                        addIndex.add(index);
+                                        selectBloc.sink.add(addIndex);
+                                      }
+                                      widget.onChange(valueSelect);
+                                      // widget.node.isCheck.isCheck = !isCheck;
+                                      // setState(() {});
+                                      // widget.themDonViCubit.addSelectNode(
+                                      //   widget.node,
+                                      //   isCheck: widget.node.isCheck.isCheck,
+                                      // );
+                                    },
+                                    isCheck: data.contains(index),
+                                  );
                                   return data.contains(index)
                                       ? Padding(
                                           padding:

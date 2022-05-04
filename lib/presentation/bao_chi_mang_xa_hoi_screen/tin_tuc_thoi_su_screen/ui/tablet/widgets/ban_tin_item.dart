@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -19,7 +20,7 @@ class BanTinItemTablet extends StatefulWidget {
   final String description;
   final Function() clickPLay;
   final Function() clickXemThem;
-  final List<TinTucRadioModel>listTinTuc;
+  final List<TinTucRadioModel> listTinTuc;
   final TinTucThoiSuBloc tinTucThoiSuBloc;
 
   const BanTinItemTablet({
@@ -45,7 +46,7 @@ class _BanTinItemTabletState extends State<BanTinItemTablet> {
         Text(
           widget.title,
           style: textNormalCustom(
-            color: indicatorColor,
+            color: AppTheme.getInstance().colorField(),
             fontSize: 14.0.textScale(space: 6),
             fontWeight: FontWeight.w500,
           ),
@@ -93,7 +94,10 @@ class _BanTinItemTabletState extends State<BanTinItemTablet> {
                       child: SizedBox(
                         height: 55,
                         width: 55,
-                        child: SvgPicture.asset(ImageAssets.icPlay),
+                        child: SvgPicture.asset(
+                          ImageAssets.icPlay,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                       ),
                     ),
                     Image.asset(
@@ -142,46 +146,52 @@ class _BanTinItemTabletState extends State<BanTinItemTablet> {
                           ],
                         ),
                         GestureDetector(
-                          child: SvgPicture.asset(ImageAssets.ic_xem_them),
+                          child: SvgPicture.asset(
+                            ImageAssets.ic_xem_them,
+                            color: AppTheme.getInstance().colorField(),
+                          ),
                           onTap: () {
                             widget.clickXemThem();
                           },
                         )
                       ],
                     ),
-                    const SizedBox(height: 24,),
+                    const SizedBox(
+                      height: 24,
+                    ),
                     Expanded(
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: widget.listTinTuc.length>2?2 : widget.listTinTuc.length,
+                        itemCount: widget.listTinTuc.length > 2
+                            ? 2
+                            : widget.listTinTuc.length,
                         itemBuilder: (context, index) {
-                          if(widget.listTinTuc.isNotEmpty) {
+                          if (widget.listTinTuc.isNotEmpty) {
                             return Container(
                               margin: const EdgeInsets.only(bottom: 20),
                               child: ItemTinRadioTablet(
                                 'https://www.elleman.vn/wp-content/uploads/2019/05/20/4-buc-anh-dep-hinh-gau-truc.jpg',
                                 widget.listTinTuc[index].title,
-                                DateTime
-                                    .parse(
-                                    widget.listTinTuc[index].publishedTime
-                                        .replaceAll('/', '-').replaceAll(
-                                        ' ', 'T'))
+                                DateTime.parse(widget
+                                        .listTinTuc[index].publishedTime
+                                        .replaceAll('/', '-')
+                                        .replaceAll(' ', 'T'))
                                     .formatApiSSAM,
                                 clickItem: () {
                                   showBottomSheetCustom(
                                     context,
                                     title: S.current.ban_tin_trua_ngay,
                                     child: BanTinBtnSheetTablet(
-                                      listTinTuc: widget.tinTucThoiSuBloc
-                                          .listTinTuc,
-                                      index:index,
+                                      listTinTuc:
+                                          widget.tinTucThoiSuBloc.listTinTuc,
+                                      index: index,
                                     ),
                                   );
                                 },
                               ),
                             );
-                          }else{
+                          } else {
                             return const Center(
                               child: NodataWidget(),
                             );

@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
@@ -166,6 +168,20 @@ extension CheckValidate on String {
       int.parse(this);
     } catch (e) {
       return S.current.check_so_luong;
+    }
+  }
+  String svgToTheme(){
+    final url = split('.').first;
+    switch(APP_THEME){
+
+      case AppMode.MAC_DINH:
+       return this;
+      case AppMode.XANH:
+        return '${url}_xanh.svg';
+      case AppMode.HONG:
+        return '${url}_hong.svg';
+      case AppMode.VANG:
+        return '${url}_vang.svg';
     }
   }
 }

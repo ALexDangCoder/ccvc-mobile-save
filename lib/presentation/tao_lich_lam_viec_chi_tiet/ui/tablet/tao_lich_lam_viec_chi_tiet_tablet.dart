@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
@@ -259,8 +260,8 @@ class _TaoLichLamViecChiTietTabletState
                           children: [
                             buttomWidget(
                               title: S.current.dong,
-                              background: bgTag,
-                              textColor: labelColor,
+                              background: AppTheme.getInstance().colorField().withOpacity(0.1),
+                              textColor: AppTheme.getInstance().colorField(),
                               onTap: () {
                                 Navigator.pop(context);
                               },
@@ -270,7 +271,7 @@ class _TaoLichLamViecChiTietTabletState
                             ),
                             buttomWidget(
                               title: S.current.luu,
-                              background: textDefault,
+                              background: AppTheme.getInstance().colorField(),
                               textColor: Colors.white,
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {

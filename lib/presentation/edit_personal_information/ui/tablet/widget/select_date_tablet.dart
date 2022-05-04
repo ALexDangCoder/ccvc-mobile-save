@@ -70,7 +70,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
           isBottomShow: true,
           btnLeftTxt: S.current.dong,
           btnRightTxt: S.current.chon,
-          funcBtnOk: (context) {
+          funcBtnOk: () {
             if (mounted) {
               setState(() {
                 widget.onSelectDate(dateSelect);

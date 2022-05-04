@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/bloc/chuyen_giong_noi_thanh_van_ban_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class VoiceWidget extends StatelessWidget {
         15,
         (index) => Musicvisualizer(
           duration: duration[index],
-          color: textDefault,
+          color: AppTheme.getInstance().colorField(),
           cubit: cubit,
         ),
       ),

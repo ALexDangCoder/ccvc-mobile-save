@@ -9,9 +9,12 @@ const _BINH_THUONG = 1;
 const _DOT_XUAT = 2;
 
 class ChiTietLichHopModel {
+  bool bit_YeuCauDuyet = false;
   String id = '';
+  String thoiGianKetThuc = '';
   String loaiLich = '';
   String linhVuc = '';
+  bool isDuyetPhong = false;
   String noiDung = '';
   String title = '';
   String tenLinhVuc;
@@ -19,13 +22,16 @@ class ChiTietLichHopModel {
   String ngayKetThuc;
   String timeStart;
   String timeTo;
+  String createdBy;
+  int status;
   String loaiHop;
+  String? nguoiTao_str;
   int? mucDoHop;
   ChuTriModel chuTriModel;
   PhongHopMode phongHopMode;
   String typeScheduleId;
   List<file>? fileData;
-
+  bool isTaoTaoBocBang;
   String canBoThamGiaStr;
   bool bit_HopTrucTuyen;
   bool bit_TrongDonVi;
@@ -34,6 +40,10 @@ class ChiTietLichHopModel {
   int? typeRepeat;
   String? dateRepeat;
   String? days;
+  bool? isDuyetThietBi = false;
+  bool? bit_PhongTrungTamDieuHanh;
+  int? trangThaiDuyetKyThuat = -1;
+  String? lichHop_PhienHopStr = '';
 
   ChiTietLichHopModel({
     this.id = '',
@@ -48,7 +58,9 @@ class ChiTietLichHopModel {
     this.tenLinhVuc = '',
     this.loaiHop = '',
     this.canBoThamGiaStr = '',
+    this.thoiGianKetThuc = '',
     this.mucDoHop,
+    this.status = 0,
     this.chuTriModel = const ChuTriModel(),
     this.phongHopMode = const PhongHopMode(),
     this.typeScheduleId = '',
@@ -58,8 +70,17 @@ class ChiTietLichHopModel {
     this.typeReminder,
     this.typeRepeat,
     this.fileData,
+    this.isDuyetPhong = false,
     this.dateRepeat,
+    this.bit_YeuCauDuyet = false,
     this.days,
+    this.isTaoTaoBocBang = false,
+    this.createdBy = '',
+    this.isDuyetThietBi = false,
+    this.bit_PhongTrungTamDieuHanh = false,
+    this.trangThaiDuyetKyThuat = -1,
+    this.nguoiTao_str = '',
+    this.lichHop_PhienHopStr,
   });
 
   String mucDoHopWithInt() {

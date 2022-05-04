@@ -888,11 +888,6 @@
   "cu_can_bo": "Cử cán bộ",
   "tu_choi_tham_gia": "Từ chối tham gia",
   "van_ban_don_vi": "Tình hình xử lý văn bản của đơn vị",
-  "duyet_lich": "Duyệt lịch",
-  "cu_can_bo_di_thay": "Cử cán bộ đi thay",
-  "xac_nhan_tham_gia": "Xác nhận tham gia",
-  "huy_xac_nhan": "Huỷ xác nhận",
-  "xac_nhan_lai": "Xác nhận lại",
   "ban_co_chac_muon": "Bạn có chắc muốn",
   "khong_edit": "không?",
   "dung_luong_toi_da": "Dung lượng tối đa 15MB",
@@ -902,7 +897,17 @@
   "xu_ly": "Xử lý",
   "da_phan_cong": "Đã phâm công",
   "tiep_nhan": "Tiếp nhận",
-  "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị"
+  "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị",
+
+  "ban_co_muon_dang_xuat" : "Bạn có chắc muốn đăng xuất không?",
+  "duyet_lich" : "Duyệt lịch",
+  "cu_can_bo_di_thay" : "Cử cán bộ đi thay",
+  "xac_nhan_tham_gia" : "Xác nhận tham gia",
+  "huy_xac_nhan" : "Huỷ xác nhận",
+  "xac_nhan_lai" : "Xác nhận lại",
+  "duyet_ky_thuat": "Duyệt kỹ thuật",
+  "tu_choi_duyet_ky_thuat": "Từ chối duyệt kỹ thuật",
+  "huy_duyet_ky_thuat": "Hủy duyệt kỹ thuật"
 
 }
 

@@ -44,7 +44,10 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                 onTap: () {
                   widget.createMeeting();
                 },
-                child: SvgPicture.asset(ImageAssets.icAddCaledarScheduleMeet,color: AppTheme.getInstance().colorField(),),
+                child: SvgPicture.asset(
+                  ImageAssets.icAddCaledarScheduleMeet,
+                  color: AppTheme.getInstance().colorField(),
+                ),
               ),
             ),
           ),
@@ -196,7 +199,10 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       onPressed: () {},
-                      icon: SvgPicture.asset(ImageAssets.icSeachTablet),
+                      icon: SvgPicture.asset(
+                        ImageAssets.icSeachTablet,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     ),
                     border: InputBorder.none,
                     hintText: S.current.tim_kiem,

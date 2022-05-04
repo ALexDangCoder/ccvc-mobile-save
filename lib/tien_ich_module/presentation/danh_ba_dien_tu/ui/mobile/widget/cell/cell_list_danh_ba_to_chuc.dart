@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_to_chuc_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
@@ -84,7 +85,10 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                     spaceH12,
                     Row(
                       children: [
-                        SvgPicture.asset(ImageAssets.icPhone),
+                        SvgPicture.asset(
+                          ImageAssets.icPhone,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                         spaceW16,
                         Flexible(
                           child: Text(
@@ -103,7 +107,8 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                     spaceH12,
                     Row(
                       children: [
-                        SvgPicture.asset(ImageAssets.icMail),
+                        SvgPicture.asset(ImageAssets.icMail,
+                            color: AppTheme.getInstance().colorField()),
                         spaceW16,
                         Flexible(
                           child: Text(

@@ -29,7 +29,9 @@ class ButtonQuanLyMobileWidget extends StatelessWidget {
         );
       },
       child: Container(
+   width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
+        alignment: Alignment.centerLeft,
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(color: lineColor),

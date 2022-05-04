@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -304,7 +305,7 @@ class _DanhSachCongViecTienIchMobileState
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
-          icon: SvgPicture.asset(ImageAssets.ic_Group),
+          icon: SvgPicture.asset(ImageAssets.ic_Group.svgToTheme()),
           itemBuilder: (context) => [
             PopupMenuItem(
               child: AddToDoWidgetTienIch(

@@ -85,7 +85,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   children: [
-                    SvgPicture.asset(ImageAssets.icTag),
+                    SvgPicture.asset(ImageAssets.icTag,color: AppTheme.getInstance().colorSelect(),),
                     const SizedBox(
                       width: 9,
                     ),
@@ -93,7 +93,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                       S.current.chinh_sua_tag,
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: textDefault,
+                        color: AppTheme.getInstance().colorSelect(),
                       ),
                     )
                   ],

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/tra_cuu_van_ban_phap_luat_model.dart';
@@ -156,7 +157,7 @@ Widget itemTraCuuVanBan(TraCuuVanBanPhapLuatModel data, int index,BuildContext c
                       style: textNormalCustom(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
-                          color: linkColor),
+                          color: AppTheme.getInstance().colorField()),
                     ),
                   ),
                 )

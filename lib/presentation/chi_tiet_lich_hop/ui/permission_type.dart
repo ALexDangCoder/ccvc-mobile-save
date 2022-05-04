@@ -310,13 +310,13 @@ extension GetDataPermission on PERMISSION_DETAIL {
           onTap: () {},
         );
       case PERMISSION_DETAIL.TU_CHOI:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.TU_CHOI.getIcon(),
           text: PERMISSION_DETAIL.TU_CHOI.getString(),
           onTap: () {},
         );
       case PERMISSION_DETAIL.HUY_DUYET:
-        return QData(
+        return CellPopPupMenu(
           urlImage: PERMISSION_DETAIL.HUY_DUYET.getIcon(),
           text: PERMISSION_DETAIL.HUY_DUYET.getString(),
           onTap: () {},

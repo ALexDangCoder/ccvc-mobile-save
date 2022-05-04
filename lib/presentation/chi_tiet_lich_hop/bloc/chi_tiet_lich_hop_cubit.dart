@@ -367,7 +367,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   }
 
   BehaviorSubject<List<DanhSachNguoiThamGiaModel>> nguoiThamGiaSubject =
-  BehaviorSubject();
+      BehaviorSubject();
   List<DanhSachNguoiThamGiaModel> listData = [];
 
   Future<void> getDanhSachNTGChuongTrinhHop({
@@ -515,7 +515,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     // unawaited(queue.add(() => getListPhienHop(id)));
 
     ///Phát biểu
-    unawaited(queue.add(() => getDanhSachPhatBieuLichHop(0, id)));
+    unawaited(
+        queue.add(() => getDanhSachPhatBieuLichHop(status: 0, lichHopId: id)));
     unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
 
     ///Biểu quyết
@@ -861,7 +862,7 @@ extension PhatBieu on DetailMeetCalenderCubit {
 
   void getValueStatus(int value) {
     typeStatus.sink.add(value);
-    getDanhSachPhatBieuLichHop(value, id);
+    getDanhSachPhatBieuLichHop(status: value, lichHopId: id);
   }
 
   Future<void> soLuongPhatBieuData({required String id}) async {
@@ -883,7 +884,9 @@ extension PhatBieu on DetailMeetCalenderCubit {
     result.when(
       success: (value) {
         if (value.succeeded == true) {
-          getDanhSachPhatBieuLichHop(1, taoBieuQuyetRequest.lichHopId ?? '');
+          getDanhSachPhatBieuLichHop(
+              status: 1, lichHopId: taoBieuQuyetRequest.lichHopId ?? '');
+
           soLuongPhatBieuData(id: taoBieuQuyetRequest.lichHopId ?? '');
         }
       },

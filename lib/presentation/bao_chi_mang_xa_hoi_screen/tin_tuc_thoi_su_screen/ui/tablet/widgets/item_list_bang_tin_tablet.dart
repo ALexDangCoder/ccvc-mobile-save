@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -19,7 +20,7 @@ class ItemListBangTinTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:isCheck? linkColor.withOpacity(0.05):backgroundColorApp,
+      color:isCheck? AppTheme.getInstance().colorField().withOpacity(0.1):backgroundColorApp,
       // margin: const EdgeInsets.symmetric(vertical: 6),
       child: GestureDetector(
         onTap: (){
@@ -28,9 +29,9 @@ class ItemListBangTinTablet extends StatelessWidget {
         child: Row(
           children: [
             if (isCheck)
-              const Icon(
+               Icon(
                 Icons.double_arrow,
-                color: dangXyLyColor,
+                color: AppTheme.getInstance().colorField(),
                 size: 16,
               )
             else
@@ -42,7 +43,7 @@ class ItemListBangTinTablet extends StatelessWidget {
             ),
             Icon(
               Icons.brightness_1,
-              color: isCheck ? dangXyLyColor : sideTextInactiveColor,
+              color: isCheck ? AppTheme.getInstance().colorField() : sideTextInactiveColor,
               size: 12,
             ),
             const SizedBox(
@@ -57,7 +58,7 @@ class ItemListBangTinTablet extends StatelessWidget {
                   style: textNormalCustom(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
-                    color: isCheck ? bgButtonDropDown : infoColor,
+                    color: isCheck ? AppTheme.getInstance().colorField() : infoColor,
                   ),
                   softWrap: true,
                   maxLines: 3,

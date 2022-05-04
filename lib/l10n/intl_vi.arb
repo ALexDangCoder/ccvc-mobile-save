@@ -903,7 +903,8 @@
   "xu_ly": "Xử lý",
   "da_phan_cong": "Đã phâm công",
   "tiep_nhan": "Tiếp nhận",
-  "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị"
+  "phan_anh_kien_nghi_don_vi":"Tình hình xử lý PAKN của đơn vị",
+  "ban_co_muon_dang_xuat" : "Bạn có chắc muốn đăng xuất không?"
 
 }
 

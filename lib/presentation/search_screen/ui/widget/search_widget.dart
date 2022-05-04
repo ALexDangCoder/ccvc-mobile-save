@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +38,9 @@ class _SearchWidgetState extends State<SearchWidget> {
                   color: Colors.indigoAccent,),
               borderRadius: BorderRadius.circular(6.0),
             ),
-            prefixIcon: const Icon(
+            prefixIcon:  Icon(
               Icons.search,
-              color: indicatorColor,
+              color: AppTheme.getInstance().colorField(),
             ),),
       ),
     );

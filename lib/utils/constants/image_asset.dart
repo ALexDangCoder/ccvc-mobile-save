@@ -226,6 +226,7 @@ class ImageAssets {
   static const String icTheoDangDanhSachGrey =
       '$baseImg/ic_theo_dang_danh_sach_grey.svg';
   static const String icDeleteLichHop = '$baseImg/ic_delete_lich_hop.svg';
+  static const String icDangXuat = '$baseImg/ic_dang_xuat.png';
   static const String icImageChangePassword =
       '$baseImg/image_change_password.svg';
   static const String icImageChangePasswordTablet =

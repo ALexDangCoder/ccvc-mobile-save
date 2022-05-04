@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _TimeDateInputWidgetState extends State<TimeDateInputWidget> {
         decoration: BoxDecoration(
           border: Border.all(
             color: minuteFocus.hasFocus || timeFocus.hasFocus
-                ? labelColor
+                ? AppTheme.getInstance().colorField()
                 : borderColor,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(6)),
@@ -68,7 +69,7 @@ class _TimeDateInputWidgetState extends State<TimeDateInputWidget> {
             SvgPicture.asset(
               ImageAssets.icClock,
               color: minuteFocus.hasFocus || timeFocus.hasFocus
-                  ? labelColor
+                  ? AppTheme.getInstance().colorField()
                   : textBodyTime,
             )
           ],
@@ -317,7 +318,7 @@ class _BuildPickerState extends State<BuildPicker> {
             child: Text(
               index < 10 ? '0$index' : '$index',
               style: textNormal(
-                widget.focusNode.hasFocus ? labelColor : titleColor,
+                widget.focusNode.hasFocus ? AppTheme.getInstance().colorField() : titleColor,
                 15,
               ),
             ),
@@ -374,8 +375,11 @@ class _TimeTextFieldWidgetState extends State<TimeTextFieldWidget> {
       cursorHeight: 0,
       cursorWidth: 0,
       textAlign: widget.textAlign,
-      style:
-          textNormal(widget.focusNode.hasFocus ? labelColor : titleColor, 15),
+      style: textNormal(
+          widget.focusNode.hasFocus
+              ? AppTheme.getInstance().colorField()
+              : titleColor,
+          15),
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       decoration: const InputDecoration(

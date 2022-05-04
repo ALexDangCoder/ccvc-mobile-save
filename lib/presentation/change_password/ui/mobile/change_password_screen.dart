@@ -162,7 +162,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                               value!.isNotEmpty) {
                             return S.current.khong_trung_mat_khau_moi;
                           } else {
-                            return (value ?? '').checkPassWordChangePass();
+                            return (value ?? '').checkPassWordChangePass('Mật khẩu mới!');
                           }
                         },
                       ),
@@ -239,10 +239,10 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text,
-                                    passwordOld: matKhauHienTaiController.text,
+                                    password: matKhauMoiController.text.trim(),
+                                    passwordOld: matKhauHienTaiController.text.trim(),
                                     repeatPassword:
-                                        nhapLaiMatKhauController.text)
+                                        nhapLaiMatKhauController.text.trim())
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

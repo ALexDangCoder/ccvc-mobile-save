@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController textTaiKhoanController = TextEditingController();
   TextEditingController textPasswordController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
+  bool? isAndroid;
+  bool? isIOS;
 
   @override
   void initState() {
@@ -44,6 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    isAndroid = Theme.of(context).platform == TargetPlatform.android;
     return LoginProvider(
       loginCubit: loginCubit,
       child: StateStreamLayout(
@@ -241,44 +245,47 @@ class _LoginScreenState extends State<LoginScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      loginCubit.checkBiometrics();
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 48,
-                                    width: 48,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      color: buttonColor.withOpacity(0.1),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          ImageAssets.icFingerprint),
+                                Visibility(
+                                  visible:isAndroid??true,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        loginCubit.checkBiometrics();
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 48,
+                                      width: 48,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12.0),
+                                        color: buttonColor.withOpacity(0.1),
+                                      ),
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                            ImageAssets.icFingerprint),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      loginCubit.checkBiometrics();
-                                    });
-                                  },
-                                  child: Container(
-                                    height: 48,
-                                    width: 48,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      color: buttonColor.withOpacity(0.1),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          ImageAssets.icFaceId),
+                                Visibility(
+                                  visible: isIOS??true,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        loginCubit.checkBiometrics();
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 48,
+                                      width: 48,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12.0),
+                                        color: buttonColor.withOpacity(0.1),
+                                      ),
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                            ImageAssets.icFaceId),
+                                      ),
                                     ),
                                   ),
                                 ),

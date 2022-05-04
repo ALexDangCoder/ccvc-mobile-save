@@ -118,14 +118,14 @@ extension CheckValidate on String {
     }
   }
 
-  String? checkPassWordChangePass() {
+  String? checkPassWordChangePass(String name) {
     final isCheck =
         RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
             .hasMatch(this);
     if (isCheck) {
       return null;
     } else {
-      return S.current.nhap_sai_dinh_dang;
+      return '${S.current.sai_dinh_dang_truong} $name';
     }
   }
 

@@ -29,35 +29,27 @@ class ButtonQuanLyMobileWidget extends StatelessWidget {
         );
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: lineColor),
+          height: 32,
+          width: 144,
+          decoration:  BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(4.5)),
+            color: AppTheme.getInstance().colorField(),
           ),
-        ),
-        child: Container(
-            height: 32,
-            width: 144,
-            decoration:  BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(4.5)),
-              color: AppTheme.getInstance().colorField(),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: -1,
-                  right: 0,
-                  child: SvgPicture.asset(ImageAssets.icNewButton),
+          child: Stack(
+            children: [
+              Positioned(
+                top: -1,
+                right: 0,
+                child: SvgPicture.asset(ImageAssets.icNewButton),
+              ),
+              Center(
+                child: Text(
+                  S.current.quan_ly_widget,
+                  style: textNormalCustom(color: Colors.white, fontSize: 14),
                 ),
-                Center(
-                  child: Text(
-                    S.current.quan_ly_widget,
-                    style: textNormalCustom(color: Colors.white, fontSize: 14),
-                  ),
-                )
-              ],
-            )),
-      ),
+              )
+            ],
+          )),
     );
   }
 }

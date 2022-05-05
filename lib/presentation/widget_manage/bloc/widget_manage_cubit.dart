@@ -16,11 +16,11 @@ import '/home_module/domain/model/home/WidgetType.dart';
 
 class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   final BehaviorSubject<List<WidgetModel>> _listWidgetUsing =
-  BehaviorSubject<List<WidgetModel>>();
+      BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<List<WidgetModel>> _listWidgetNotUse =
-  BehaviorSubject<List<WidgetModel>>();
+      BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<List<WidgetModel>> _listUpdate =
-  BehaviorSubject<List<WidgetModel>>();
+      BehaviorSubject<List<WidgetModel>>();
 
   WidgetManageCubit() : super(WidgetManagerStateInitial());
 
@@ -52,12 +52,14 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   void loadApi() {
     _getListWidgetUsing();
-    setFullParaNotUse();
     _getListWidgetNotUse();
+     setFullParaNotUse();
   }
 
-  void insertItemUsing(WidgetModel widgetItem,
-      int index,) {
+  void insertItemUsing(
+    WidgetModel widgetItem,
+    int index,
+  ) {
     listUsing.insert(listUsing.length, widgetItem);
     listNotUse.removeAt(index);
     _listWidgetUsing.sink.add(listUsing);
@@ -65,8 +67,10 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     _listWidgetNotUse.sink.add(listNotUse);
   }
 
-  void insertItemNotUse(WidgetModel widgetItem,
-      int index,) {
+  void insertItemNotUse(
+    WidgetModel widgetItem,
+    int index,
+  ) {
     listNotUse.insert(0, widgetItem);
     listUsing.removeAt(index);
     _listWidgetUsing.sink.add(listUsing);
@@ -79,8 +83,10 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     _listWidgetNotUse.close();
   }
 
-  void sortListWidget(int oldIndex,
-      int newIndex,) {
+  void sortListWidget(
+    int oldIndex,
+    int newIndex,
+  ) {
     final List<WidgetModel> listUpdate = _listWidgetUsing.value;
     final element = listUpdate.removeAt(oldIndex);
     listUpdate.insert(newIndex, element);
@@ -133,6 +139,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     result.when(
       success: (res) {
         listTempFullPara = res;
+        setParaUpdateWidget();
+        updateListWidget(listResponse.toString());
       },
       error: (err) {
         return;
@@ -196,7 +204,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     for (final element in listUsing) {
       listMap.add(widgetModelToJson(element));
     }
-    json.encode(listMap);
+    // json.encode(listMap);
     listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));
@@ -207,8 +215,9 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
+        listUsing = res;
         final data =
-        res.where((element) => element.widgetType != null).toList();
+            res.where((element) => element.widgetType != null).toList();
         listTitleWidgetUse = data.map((e) => e.name).toList();
         _listWidgetUsing.sink.add(data);
         _getListWidgetNotUse();

@@ -114,7 +114,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
-                              color: unFocusColor,
+                              color:  AppTheme.getInstance().colorField().withOpacity(0.1),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Center(
@@ -124,6 +124,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                 child: SvgPicture.asset(
                                   ImageAssets.ic_box_serach,
                                   fit: BoxFit.cover,
+                                  color:  AppTheme.getInstance().colorField(),
                                 ),
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
@@ -17,13 +18,13 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -61,7 +62,7 @@ class _EditPersonalInformationTabletScreen
       cubit.getCurrentUnit(event);
       nameController.text = event.hoTen ?? '';
       maCanBoController.text = event.maCanBo ?? '';
-      thuTuController.text = event.thuTu.toString();
+      thuTuController.text = cubit.checkThuTu((event.thuTu ?? '').toString());
       cmndController.text = event.cmtnd ?? '';
       emailController.text = event.email ?? '';
       sdtCoquanController.text = event.phoneCoQuan ?? '';
@@ -150,7 +151,7 @@ class _EditPersonalInformationTabletScreen
                                 S.current.reset,
                                 style: titleText(
                                   fontSize: 16,
-                                  color: numberColorTablet,
+                                  color: AppTheme.getInstance().colorField(),
                                 ),
                               ),
                             )
@@ -170,21 +171,16 @@ class _EditPersonalInformationTabletScreen
                                       key: UniqueKey(),
                                       hintText: S.current.ho_va_ten,
                                       controller: nameController,
+                                      maxLength: 32,
                                       validator: (value) {
                                         if ((value ?? '').isEmpty) {
                                           return '${S.current.ban_phai_nhap_truong} '
-                                              '${S.current.ho_va_ten} ';
-                                        } else if ((value ?? '')
-                                                    .trim()
-                                                    .length <=
-                                                5 ||
-                                            (value ?? '').trim().length >= 32) {
+                                              '${S.current.ho_va_ten}!';
+                                        } else if ((value ?? '').trim().length <
+                                            6) {
                                           return S.current.nhap_sai_dinh_dang;
                                         }
                                         return null;
-                                      },
-                                      onChange: (value) {
-                                        cubit.debouncer.run(() {});
                                       },
                                     ),
                                   ),
@@ -203,15 +199,13 @@ class _EditPersonalInformationTabletScreen
                                   InputInfoUserWidget(
                                     title: user.keys.elementAt(3),
                                     child: TextFieldValidator(
+                                      maxLength: 2,
+                                      checkNumber: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                       textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
                                       controller: thuTuController,
-                                      validator: (value) {
-                                        if ((value?.length ?? 0) > 2) {
-                                          return S.current.nhap_sai_dinh_dang;
-                                        }
-                                        return null;
-                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -238,12 +232,10 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
-                                      validator: (value) {
-                                        if ((value?.length ?? 0) > 255) {
-                                          return S.current.nhap_sai_dinh_dang;
-                                        }
-                                        return null;
-                                      },
+                                      maxLength: 255,
+                                      checkNumber: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -271,11 +263,21 @@ class _EditPersonalInformationTabletScreen
                                   InputInfoUserWidget(
                                     title: user.keys.elementAt(7),
                                     child: TextFieldValidator(
+                                      key: UniqueKey(),
                                       hintText: S.current.email,
                                       controller: emailController,
                                       validator: (value) {
-                                        return (value ?? '')
-                                            .checkEmailBoolean();
+                                        if (value == null || value.isEmpty) {
+                                          return null;
+                                        } else if (value.contains('@')) {
+                                          if (value.contains(
+                                            '@',
+                                            value.indexOf('@') + 1,
+                                          )) {
+                                            return S.current.nhap_sai_dinh_dang;
+                                          }
+                                        }
+                                        return value.checkEmailBoolean();
                                       },
                                     ),
                                   ),
@@ -293,12 +295,10 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.sdt_co_quan,
                                       controller: sdtCoquanController,
                                       textInputType: TextInputType.number,
-                                      validator: (value) {
-                                        if ((value?.length ?? 0) > 255) {
-                                          return S.current.nhap_sai_dinh_dang;
-                                        }
-                                        return null;
-                                      },
+                                      maxLength: 255,
+                                      checkNumber: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -307,12 +307,10 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.so_dien_thoai,
                                       controller: sdtController,
                                       textInputType: TextInputType.number,
-                                      validator: (value) {
-                                        if ((value?.length ?? 0) > 255) {
-                                          return S.current.nhap_sai_dinh_dang;
-                                        }
-                                        return null;
-                                      },
+                                      maxLength: 255,
+                                      checkNumber: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                     ),
                                   ),
                                   StreamBuilder<List<TinhHuyenXaModel>>(
@@ -456,12 +454,7 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.dia_chi_lien_he,
                                       controller: diaChiLienHeController,
-                                      validator: (value) {
-                                        if ((value?.length ?? 0) > 255) {
-                                          return S.current.nhap_sai_dinh_dang;
-                                        }
-                                        return null;
-                                      },
+                                      maxLength: 255,
                                     ),
                                   ),
                                 ],
@@ -556,10 +549,24 @@ class _EditPersonalInformationTabletScreen
                         spaceH48,
                         DoubleButtonEditScreen(
                           onPressed1: () {
-                            Navigator.pop(context);
+                            showDiaLogTablet(
+                              context,
+                              title: S.current.ban_muon_thoat,
+                              child: Container(),
+                              funcBtnOk: () {
+                                Navigator.pop(context, false);
+                              },
+                              btnRightTxt: S.current.dong_y,
+                              btnLeftTxt: S.current.khong,
+                              title2: '',
+                              title1: '',
+                              isPhone: false,
+                              isBottomShowText: false,
+                              isCallApi: false,
+                            );
                           },
                           onPressed2: () async {
-                            if (keyGroup.currentState!.validator()) {
+                            if (keyGroup.currentState?.validator() ?? true) {
                               await cubit
                                   .getEditPerson(
                                 id: widget.id,
@@ -574,7 +581,7 @@ class _EditPersonalInformationTabletScreen
                                 diaChiLienHe: diaChiLienHeController.value.text,
                                 donViDetail: cubit
                                     .editPersonInformationRequest.donViDetail,
-                                thuTu: int.parse(thuTuController.text),
+                                thuTu: thuTuController.text,
                                 tinh: cubit.tinh,
                                 huyen: cubit.huyen,
                                 xa: cubit.xa,
@@ -585,23 +592,18 @@ class _EditPersonalInformationTabletScreen
                                   .then(
                                 (value) {
                                   return MessageConfig.show(
-                                    title: S.current.sua_thanh_cong,
+                                    title: S.current.thay_doi_thanh_cong,
                                   );
                                 },
                               ).onError(
                                 (error, stackTrace) => MessageConfig.show(
-                                  title: S.current.sua_that_bai,
+                                  title: S.current.thay_doi_that_bai,
                                   messState: MessState.error,
                                 ),
                               );
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
                             } else {
-                              toast.showToast(
-                                child: ShowToast(
-                                  text: S.current.nhap_sai_dinh_dang,
-                                ),
-                                gravity: ToastGravity.BOTTOM,
-                              );
+                              return;
                             }
                           },
                           title1: S.current.dong,

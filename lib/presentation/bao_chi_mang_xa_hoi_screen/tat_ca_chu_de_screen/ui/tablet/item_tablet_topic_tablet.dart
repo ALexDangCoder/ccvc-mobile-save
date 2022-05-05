@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/bao_cao_thong_ke.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -101,7 +102,7 @@ class ItemTableTopicTablet extends StatelessWidget {
                       style: textNormalCustom(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: buttonColor,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                     ),
                   ),

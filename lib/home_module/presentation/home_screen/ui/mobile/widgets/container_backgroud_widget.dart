@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -20,6 +21,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final Function()? onTapIcon;
   final double spacingTitle;
+  final bool isShowSubTitle;
   final EdgeInsetsGeometry paddingChild;
   final SelectKeyDialog? selectKeyDialog;
   final bool isUnit;
@@ -36,6 +38,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.dialogSelect,
     this.padding,
     this.onTapIcon,
+    this.isShowSubTitle=true,
     this.spacingTitle = 20,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
     this.selectKeyDialog,
@@ -108,10 +111,10 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                                       stream: widget.selectKeyDialog!
                                           .selectKeyDialog.stream,
                                       builder: (context, snapshot) {
-                                        return Text(
+                                        return widget.isShowSubTitle? Text(
                                           subTitle(),
                                           style: textNormal(textBodyTime, 12),
-                                        );
+                                        ):const SizedBox();
                                       },
                                     )
                                   else
@@ -133,7 +136,7 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                               horizontal: 24),
                           color: Colors.transparent,
                           alignment: Alignment.centerRight,
-                          child: SvgPicture.asset(widget.urlIcon),
+                          child: SvgPicture.asset(widget.urlIcon,color: AppTheme.getInstance().colorSelect(),),
                         ),
                       ) else widget.dialogSelect ?? const SizedBox()
                     ],

@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldValidator extends StatefulWidget {
   final TextEditingController? controller;
@@ -19,6 +20,8 @@ class TextFieldValidator extends StatefulWidget {
   final Widget? prefixIcon;
   final bool? obscureText;
   final Color? fillColor;
+  final int? maxLength;
+  final List<TextInputFormatter>? checkNumber;
 
   const TextFieldValidator({
     Key? key,
@@ -35,6 +38,8 @@ class TextFieldValidator extends StatefulWidget {
     this.onTap,
     this.obscureText,
     this.fillColor,
+    this.maxLength,
+    this.checkNumber,
   }) : super(key: key);
 
   @override
@@ -46,11 +51,12 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   FormProvider? formProvider;
 
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    formProvider = FormProvider.of(context);
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      formProvider = FormProvider.of(context);
       if (formProvider != null) {
         if (widget.validator != null) {
           final validator =
@@ -67,10 +73,19 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    formProvider?.validator.remove(key);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: key,
       child: TextFormField(
+        inputFormatters: widget.checkNumber,
+        maxLength: widget.maxLength,
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
         onChanged: (value) {
@@ -95,6 +110,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         ),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
+          counterText: '',
           hintText: widget.hintText,
           hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
           contentPadding: widget.maxLine == 1

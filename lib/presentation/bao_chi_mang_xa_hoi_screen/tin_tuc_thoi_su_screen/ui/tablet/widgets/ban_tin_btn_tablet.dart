@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/ui/mobile/phat_radio.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/tablet/widgets/item_list_bang_tin_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -19,6 +20,7 @@ class BanTinBtnSheetTablet extends StatefulWidget {
     Key? key,
     required this.listTinTuc,
     this.index = 0,
+
   }) : super(key: key);
 
   @override
@@ -49,16 +51,29 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
             children: [
               Row(
                 children: [
-                  IconButton(
-                    color: unselectLabelColor,
-                    onPressed: () {
-                      phatBanTinBloc.setIndexRadio(
-                        phatBanTinBloc.getIndexRadio() - 1,
-                        widget.listTinTuc.length - 1,
+                  StreamBuilder<bool>(
+                    stream: phatBanTinBloc.isRePlay,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? false;
+                      return IconButton(
+                        color: unselectLabelColor,
+                        onPressed: () {
+                          phatBanTinBloc.setRePlayMode();
+                          player.play();
+                          // print(
+                          //     '------------------------------------- reLoad---------------');
+                          // phatBanTinBloc.setIndexRadio(
+                          //   phatBanTinBloc.getIndexRadio() - 1,
+                          //   widget.listTinTuc.length - 1,
+                          // );
+                          // player.seekToPrevious();
+                        },
+                        icon: SvgPicture.asset(
+                          ImageAssets.ic_replay,
+                          color: data ? buttonColor : unselectLabelColor,
+                        ),
                       );
-                      player.seekToPrevious();
                     },
-                    icon: SvgPicture.asset(ImageAssets.ic_replay),
                   ),
                   IconButton(
                     color: unselectLabelColor,
@@ -84,12 +99,14 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                             ? SizedBox(
                                 height: 30.0,
                                 width: 30.0,
-                                child: SvgPicture.asset(ImageAssets.ic_pasue),
+                                child: SvgPicture.asset(
+                                    ImageAssets.ic_pasue.svgToTheme()),
                               )
                             : SizedBox(
-                            height: 30.0,
-                            width: 30.0,
-                                child: SvgPicture.asset(ImageAssets.icPlay)),
+                                height: 30.0,
+                                width: 30.0,
+                                child: SvgPicture.asset(
+                                    ImageAssets.icPlay.svgToTheme())),
                       );
                     },
                   ),
@@ -149,6 +166,9 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                     ),
                     Expanded(
                       child: PlayRadio(
+                        setRadio: (value){
+
+                        },
                         player: player,
                         listLinkRadio:
                             widget.listTinTuc.map((e) => e.audioUrl).toList(),

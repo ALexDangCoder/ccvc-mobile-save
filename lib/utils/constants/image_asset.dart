@@ -226,6 +226,7 @@ class ImageAssets {
   static const String icTheoDangDanhSachGrey =
       '$baseImg/ic_theo_dang_danh_sach_grey.svg';
   static const String icDeleteLichHop = '$baseImg/ic_delete_lich_hop.svg';
+  static const String icDangXuat = '$baseImg/ic_dang_xuat.png';
   static const String icImageChangePassword =
       '$baseImg/image_change_password.svg';
   static const String icImageChangePasswordTablet =
@@ -276,8 +277,9 @@ class ImageAssets {
       '$baseImg/ic_quan_ly_nhiem_vu_tablet.svg';
   static const String icHanhChinhCongTablet =
       '$baseImg/ic_hanh_chinh_cong_tablet.svg';
-  static const String icYKienNguoiDanTablet =
-      '$baseImg/ic_y_kien_nguoi_dan_tablet.svg';
+  static const String icTuongTacNoiBoTablet =
+      '$baseImg/ic_tuong_tac_noi_bo_tablet.svg';
+  static const String icYKienNguoiDanTablet = '$baseImg/ic_y_kien_nguoi_dan_tablet.svg';
   static const String icQuanLyVanBanTablet =
       '$baseImg/ic_quan_ly_van_ban_tablet.svg';
   static const String icBaoChiTablet = '$baseImg/ic_bao_chi_tablet.svg';

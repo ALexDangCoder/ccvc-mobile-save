@@ -1,5 +1,6 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
@@ -9,10 +10,13 @@ class PlayRadio extends StatefulWidget {
   final AudioPlayer player;
   final List<String> listLinkRadio;
   final int initPlay;
+  final Function(int value) setRadio;
+
   const PlayRadio({
     Key? key,
     required this.player,
     required this.listLinkRadio,
+    required this.setRadio,
     this.initPlay = 0,
   }) : super(key: key);
 
@@ -87,12 +91,18 @@ class _PlayRadioState extends State<PlayRadio> with WidgetsBindingObserver {
       builder: (context, snapshot) {
         final positionData = snapshot.data;
         return SeekBar(
-            duration: positionData?.duration ?? Duration.zero,
-            position: positionData?.position ?? Duration.zero,
-            bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
-            onChangeEnd: () {
-               widget.player.seekToNext();
-            },);
+          duration: positionData?.duration ?? Duration.zero,
+          position: positionData?.position ?? Duration.zero,
+          bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
+          onChangeEnd: () {
+            widget.player.seekToNext();
+          },
+          onChange: (value) {
+            // print('set change values seekbar');
+              widget.player.seek(Duration(seconds: 500));
+            // widget.setRadio(value);
+          },
+        );
       },
     );
   }
@@ -115,11 +125,13 @@ class SeekBar extends StatefulWidget {
   final Duration bufferedPosition;
   final Duration duration;
   final Function() onChangeEnd;
+  final Function(int value) onChange;
 
   const SeekBar({
     Key? key,
     required this.onChangeEnd,
     required this.position,
+    required this.onChange,
     required this.bufferedPosition,
     required this.duration,
   }) : super(key: key);
@@ -129,33 +141,56 @@ class SeekBar extends StatefulWidget {
 }
 
 class _SeekBarState extends State<SeekBar> {
+  late double max;
+
+  @override
+  void initState() {
+    super.initState();
+    print('------------------value max init -------------------- ${widget.duration.inSeconds.toDouble()}');
+    max=widget.position.inSeconds.toDouble();
+  }
   @override
   Widget build(BuildContext context) {
+    print('-----------------------------value ${widget.position.inSeconds.toDouble()}---------');
+    print('-----------------------------max ${widget.duration.inSeconds.toDouble()}---------');
+    double valueSeekbar=widget.position.inSeconds.toDouble();
     return Container(
       color: borderButtomColor,
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
           trackShape: CustomTrackShape(),
           trackHeight: 6,
-          thumbColor: labelColor,
+          thumbColor: AppTheme.getInstance().colorField(),
           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         ),
-        child: SizedBox(
-          width:double.maxFinite,
-          height: 6,
-          child: Slider(
-            value: widget.position.inSeconds.toDouble(),
-            max: widget.duration.inSeconds.toDouble(),
-            activeColor: labelColor,
-            inactiveColor: borderButtomColor,
-            onChangeEnd: (value) {
-              widget.onChangeEnd();
-            },
-            onChanged: (double value) {},
-          ),
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.maxFinite,
+              height: 6,
+              child: Slider(
+                value: widget.position.inSeconds.toDouble(),
+                max: widget.duration.inSeconds.toDouble(),
+                activeColor: AppTheme.getInstance().colorField(),
+                inactiveColor: borderButtomColor,
+                onChangeEnd: (value) {
+                  widget.onChangeEnd();
+                },
+                onChanged: (double value) {
+                  // print('------------value on change------------------ ${value}');
+                  // widget.onChange(value.round());
+                },
+              ),
+            ),
+            GestureDetector(
+              child: Icon(Icons.add),
+              onTap: (){
+                widget.onChange(500);
+              },
+            )
+          ],
         ),
       ),
-
     );
   }
 }

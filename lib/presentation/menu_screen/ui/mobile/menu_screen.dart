@@ -1,9 +1,10 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/manager_personal_information.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/widgets/header_me
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -78,35 +80,44 @@ class _MenuScreenState extends State<MenuScreen> {
                           menuCubit: menuCubit,
                         ),
                       ),
-                     const  ButtonQuanLyMobileWidget(),
+                      Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          alignment: Alignment.centerLeft,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: lineColor),
+                            ),
+                          ),
+                          child: const ButtonQuanLyMobileWidget()),
                       StreamBuilder<List<MenuType>>(
-                        stream: menuCubit.getMenu,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <MenuType>[];
-                          return Column(
-                            children: List.generate(data.length, (index) {
-                              final type = listFeature[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) => type.getScreen(),
-                                    ),
-                                  );
-                                },
-                                child: MenuCellWidget(
-                                  title: type.getItem().title,
-                                  urlIcon: type.getItem().url,
-                                ),
-                              );
-                            }),
-                          );
-                        }
-                      ),
-                    const SizedBox(
-                      height: 24,
-                    )
+                          stream: menuCubit.getMenu,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? <MenuType>[];
+                            return Column(
+                              children: List.generate(data.length, (index) {
+                                final type = data[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (_, __, ___) =>
+                                            type.getScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: MenuCellWidget(
+                                    title: type.getItem().title,
+                                    urlIcon: type.getItem().url,
+                                  ),
+                                );
+                              }),
+                            );
+                          }),
+                      const SizedBox(
+                        height: 24,
+                      )
                     ],
                   ),
                 ),
@@ -145,8 +156,19 @@ class _MenuScreenState extends State<MenuScreen> {
                       ButtonCustomBottom(
                         title: S.current.dang_xuat,
                         onPressed: () {
-                          AppStateCt.of(context).appState.setToken('');
-                          HiveLocal.clearData();
+                          showDiaLog(
+                            context,
+                            funcBtnRight: () {
+                              AppStateCt.of(context).appState.setToken('');
+                              HiveLocal.clearData();
+                            },
+                            showTablet: false,
+                            icon: Image.asset(ImageAssets.icDangXuat),
+                            title: S.current.dang_xuat,
+                            textContent: S.current.ban_co_muon_dang_xuat,
+                            btnLeftTxt: S.current.khong,
+                            btnRightTxt: S.current.dong_y,
+                          );
                         },
                         isColorBlue: false,
                       ),

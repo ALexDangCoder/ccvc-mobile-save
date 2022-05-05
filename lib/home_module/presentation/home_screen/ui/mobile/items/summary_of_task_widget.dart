@@ -123,6 +123,7 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                             builder: (context) => DanhSachNhiemVuMobile(
                               ngayBatDau: _nhiemVuCubit.startDate.toString(),
                               ngayKetThuc: _nhiemVuCubit.endDate.toString(),
+                              // ignore: avoid_bool_literals_in_conditional_expressions
                               isCheck: _nhiemVuCubit.selectKeyDonVi ==
                                       SelectKey.DON_VI
                                   ? false

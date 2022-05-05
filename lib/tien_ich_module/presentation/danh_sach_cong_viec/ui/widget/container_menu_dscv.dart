@@ -15,7 +15,7 @@ class ContainerMenuDSCVWidget extends StatefulWidget {
   final bool isTypeContainer;
   final TypeContainer type;
   final Widget? childExpand;
-  final Function onTap;
+  final Function()? onTap;
 
   const ContainerMenuDSCVWidget({
     Key? key,
@@ -25,7 +25,7 @@ class ContainerMenuDSCVWidget extends StatefulWidget {
     this.type = TypeContainer.number,
     this.isTypeContainer = true,
     this.childExpand,
-    required this.onTap,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
             onTap: () {
               isExpand = !isExpand;
               setState(() {});
-              widget.onTap();
+              widget.onTap;
             },
             child: Container(
               padding: EdgeInsets.symmetric(
@@ -130,7 +130,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
               onTap: () {
                 isExpand = !isExpand;
                 setState(() {});
-                widget.onTap();
+                widget.onTap;
               },
               child: Container(
                 padding: EdgeInsets.symmetric(

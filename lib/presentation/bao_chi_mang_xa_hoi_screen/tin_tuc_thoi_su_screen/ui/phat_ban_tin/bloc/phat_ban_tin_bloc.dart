@@ -9,9 +9,11 @@ class PhatBanTinBloc extends BaseCubit<PhatBanTinState> {
   final BehaviorSubject<int> _indexRadio = BehaviorSubject.seeded(0);
 
   final BehaviorSubject<bool> _isLoopMode = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _isRePlay = BehaviorSubject.seeded(false);
 
 
   Stream<bool> get isLoopMode => _isLoopMode.stream;
+  Stream<bool> get isRePlay => _isRePlay.stream;
 
   Stream<bool> get streamPlay => _isPlay.stream;
 
@@ -23,6 +25,9 @@ class PhatBanTinBloc extends BaseCubit<PhatBanTinState> {
 
   void setLoopMode() {
     _isLoopMode.sink.add(!_isLoopMode.value);
+  }
+  void setRePlayMode() {
+    _isRePlay.sink.add(!_isRePlay.value);
   }
 
   void setIndexRadio(int index, int maxSize) {

@@ -11,6 +11,8 @@ import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:device_info/device_info.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -68,9 +70,10 @@ class ManagerPersonalInformationCubit
   String idTinh = '';
   String idHuyen = '';
   String idXa = '';
-
+  String thuTu = '';
   String xa = '';
   bool gioiTinh = false;
+  String identifier = '';
   DataEditPersonInformation dataEditPersonInformation =
       DataEditPersonInformation();
   List<TinhHuyenXaModel> huyenModel = [];
@@ -82,22 +85,11 @@ class ManagerPersonalInformationCubit
   AccountRepository get _managerRepo => Get.find();
   bool isChechValidate = false;
 
-  bool checkValidate({
-    required String hoTen,
-    String? thuTu,
-    required String? cccd,
-    String? email,
-    String? phoneCQ,
-    String? phoneRieng,
-    String? diaChi,
-  }) {
-    if ((hoTen.isEmpty ||
-            hoTen.trim().length <= 5 ||
-            hoTen.trim().length >= 32) ||
-        ((cccd?.length ?? 0) > 2)) {
-      return isChechValidate = false;
+  String checkThuTu(String? thuTu) {
+    if (thuTu == null || thuTu == '') {
+      return '';
     }
-    return isChechValidate = true;
+    return thuTu;
   }
 
   Future<void> getInfo({
@@ -123,6 +115,19 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+  }
+
+  Future<void> getDeviceDetails() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        final build = await deviceInfoPlugin.androidInfo;
+        identifier = build.androidId; //UUID for Android
+      } else if (Platform.isIOS) {
+        final data = await deviceInfoPlugin.iosInfo;
+        identifier = data.identifierForVendor; //UUID for iOS
+      }
+    } on PlatformException {}
   }
 
   Future<void> getDataTinh() async {
@@ -167,28 +172,29 @@ class ManagerPersonalInformationCubit
     String cmnt = '',
     String diaChiLienHe = '',
     DonViDetail? donViDetail,
-    int thuTu = 0,
+    String? thuTu = '',
     String tinh = '',
     String huyen = '',
     String xa = '',
     String idTinh = '',
     String idHuyen = '',
     String idXa = '',
+    String? iDDonViHoatDong,
   }) async {
     final EditPersonInformationRequest editPerson =
         EditPersonInformationRequest(
       id: id,
       maCanBo: maCanBo,
       hoTen: name,
-      phoneDiDong: '',
+      phoneDiDong: sdt,
       phoneCoQuan: sdtCoQuan,
-      phoneNhaRieng: sdt,
+      phoneNhaRieng: '',
       email: email,
       gioiTinh: gioitinh,
       ngaySinh: DateTime.parse(ngaySinh).formatApiSS,
       userName: '',
       userId: '',
-      iDDonViHoatDong: '',
+      iDDonViHoatDong: '00000000-0000-0000-0000-000000000000',
       cmtnd: cmnt,
       anhDaiDienFilePath: '',
       anhChuKyFilePath: '',
@@ -242,6 +248,9 @@ class ManagerPersonalInformationCubit
     tinh = managerPersonalInformationModel.tinh ?? '';
     huyen = managerPersonalInformationModel.huyen ?? '';
     xa = managerPersonalInformationModel.xa ?? '';
+    idTinh = managerPersonalInformationModel.tinhId ?? '';
+    idHuyen = managerPersonalInformationModel.huyenId ?? '';
+    idXa = managerPersonalInformationModel.xaId ?? '';
   }
 
   Future<void> loadApi({String id = ''}) async {

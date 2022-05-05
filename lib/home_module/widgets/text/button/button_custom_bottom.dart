@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
               height: 40.0.textScale(space: 16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
-                color: widget.isColorBlue ? textDefault : buttonColor2,
+                color: widget.isColorBlue ? AppTheme.getInstance().colorField() : AppTheme.getInstance().colorField().withOpacity(0.1),
               ),
               child: Center(
                 child: Text(
@@ -44,7 +45,7 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
                   style: textNormalCustom(
                     fontSize: widget.size ?? 14.0.textScale(space: 4.0),
                     color:
-                        widget.isColorBlue ? backgroundColorApp : textDefault,
+                        widget.isColorBlue ? backgroundColorApp : AppTheme.getInstance().colorField(),
                   ),
                 ),
               ),

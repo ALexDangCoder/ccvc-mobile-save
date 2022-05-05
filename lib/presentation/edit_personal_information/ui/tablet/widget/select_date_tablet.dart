@@ -1,10 +1,10 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/dialog_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -70,13 +70,11 @@ class _CustomDropDownState extends State<SelectDateTablet> {
           isBottomShow: true,
           btnLeftTxt: S.current.dong,
           btnRightTxt: S.current.chon,
-          funcBtnOk: (context) {
-            if (mounted) {
-              setState(() {
-                widget.onSelectDate(dateSelect);
-              });
-            }
-            Navigator.pop(context);
+          funcBtnOk: () {
+            setState(() {
+              widget.onSelectDate(dateSelect);
+            });
+            // Navigator.pop(context);
           },
           setHeight: 400,
         );

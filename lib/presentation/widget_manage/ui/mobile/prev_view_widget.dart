@@ -3,21 +3,20 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/mequee_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/preview_widget_item.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
 
 class PrevViewWidget extends StatefulWidget {
-  const PrevViewWidget({Key? key}) : super(key: key);
+  final WidgetManageCubit cubit;
+  const PrevViewWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _PrevViewWidgetState createState() => _PrevViewWidgetState();
 }
 
 class _PrevViewWidgetState extends State<PrevViewWidget> {
-  WidgetManageCubit cubit = WidgetManageCubit();
   HomeCubit homeCubit = HomeCubit();
   ScrollController scrollController = ScrollController();
 
@@ -25,8 +24,7 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cubit.loadApi();
-    homeCubit.loadApi();
+     homeCubit.loadApi();
   }
 
   @override
@@ -56,7 +54,7 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
               Container(
                 color: homeColor,
                 child: StreamBuilder<List<WidgetModel>>(
-                  stream: cubit.listWidgetUsing,
+                  stream: widget.cubit.listWidgetUsing,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? <WidgetModel>[];
                     if (data.isNotEmpty) {

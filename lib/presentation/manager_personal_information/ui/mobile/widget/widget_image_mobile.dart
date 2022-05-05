@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -41,11 +42,16 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: Padding(
-                    padding: const EdgeInsets.all(34.0),
-                    child: SvgPicture.asset(
-                      ImageAssets.icImage,
-                    ),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.cubit.managerPersonalInformationModel
+                            .anhDaiDienFilePath ??
+                        '',
+                    errorWidget: (_, __, ___) {
+                      return Container(
+                        padding: const EdgeInsets.all(34.0),
+                        child: SvgPicture.asset(ImageAssets.icImage),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -80,13 +86,16 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: Padding(
-                    padding: const EdgeInsets.all(34.0),
-                    child: SvgPicture.asset(
-                      widget.cubit.managerPersonalInformationModel
-                              .anhChuKyFilePath ??
-                          ImageAssets.icImage,
-                    ),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.cubit.managerPersonalInformationModel
+                            .anhChuKyFilePath ??
+                        '',
+                    errorWidget: (_, __, ___) {
+                      return Container(
+                        padding: const EdgeInsets.all(34.0),
+                        child: SvgPicture.asset(ImageAssets.icImage),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -121,13 +130,16 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: Padding(
-                    padding: const EdgeInsets.all(34.0),
-                    child: SvgPicture.asset(
-                      widget.cubit.managerPersonalInformationModel
-                              .anhChuKyNhayFilePath ??
-                          ImageAssets.icImage,
-                    ),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.cubit.managerPersonalInformationModel
+                            .anhChuKyNhayFilePath ??
+                        '',
+                    errorWidget: (_, __, ___) {
+                      return Container(
+                        padding: const EdgeInsets.all(34.0),
+                        child: SvgPicture.asset(ImageAssets.icImage),
+                      );
+                    },
                   ),
                 ),
               ),

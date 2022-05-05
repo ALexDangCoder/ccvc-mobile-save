@@ -107,7 +107,8 @@ extension CheckValidate on String {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
         .hasMatch(this);
     if (isCheck) {
-      if (indexOf('@') >= 64) {
+      if ((indexOf('@') >= 64 || ((length - indexOf('.'))) >= 254) ||
+          (indexOf('@') >= 64 && ((length - indexOf('.'))) >= 254)) {
         return S.current.nhap_sai_dinh_dang;
       } else {
         return null;
@@ -117,14 +118,14 @@ extension CheckValidate on String {
     }
   }
 
-  String? checkPassWordChangePass() {
+  String? checkPassWordChangePass(String name) {
     final isCheck =
         RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
             .hasMatch(this);
     if (isCheck) {
       return null;
     } else {
-      return S.current.nhap_sai_dinh_dang;
+      return '${S.current.sai_dinh_dang_truong} $name';
     }
   }
 
@@ -146,7 +147,7 @@ extension CheckValidate on String {
 
   String? checkTruongNull(String name) {
     if (trim().isEmpty) {
-      return '${S.current.ban_phai_nhap_truong + name}';
+      return '${S.current.ban_phai_nhap_truong} $name';
     }
     return null;
   }

@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -81,35 +80,44 @@ class _MenuScreenState extends State<MenuScreen> {
                           menuCubit: menuCubit,
                         ),
                       ),
-                     const  ButtonQuanLyMobileWidget(),
+                      Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          alignment: Alignment.centerLeft,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: lineColor),
+                            ),
+                          ),
+                          child: const ButtonQuanLyMobileWidget()),
                       StreamBuilder<List<MenuType>>(
-                        stream: menuCubit.getMenu,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <MenuType>[];
-                          return Column(
-                            children: List.generate(data.length, (index) {
-                              final type = data[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) => type.getScreen(),
-                                    ),
-                                  );
-                                },
-                                child: MenuCellWidget(
-                                  title: type.getItem().title,
-                                  urlIcon: type.getItem().url,
-                                ),
-                              );
-                            }),
-                          );
-                        }
-                      ),
-                    const SizedBox(
-                      height: 24,
-                    )
+                          stream: menuCubit.getMenu,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? <MenuType>[];
+                            return Column(
+                              children: List.generate(data.length, (index) {
+                                final type = data[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (_, __, ___) =>
+                                            type.getScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: MenuCellWidget(
+                                    title: type.getItem().title,
+                                    urlIcon: type.getItem().url,
+                                  ),
+                                );
+                              }),
+                            );
+                          }),
+                      const SizedBox(
+                        height: 24,
+                      )
                     ],
                   ),
                 ),
@@ -161,7 +169,6 @@ class _MenuScreenState extends State<MenuScreen> {
                             btnLeftTxt: S.current.khong,
                             btnRightTxt: S.current.dong_y,
                           );
-
                         },
                         isColorBlue: false,
                       ),

@@ -29,46 +29,62 @@ class MenuCubit extends BaseCubit<MenuState> {
     String hoTen = '';
     String phamViTxt = '';
     String anhDaiDien = '';
+    String ngaySinh = '';
     showLoading();
     unawaited(permissionMenu());
     final result = await accountRp.getInfo(id);
     final phamVi = await accountRp.getPhamVi();
     result.when(
-        success: (res) {
-          hoTen = res.hoTen ?? '';
-          anhDaiDien = res.anhDaiDienFilePath ?? '';
-        },
-        error: (err) {});
+      success: (res) {
+        hoTen = res.hoTen ?? '';
+        anhDaiDien = res.anhDaiDienFilePath ?? '';
+        ngaySinh = res.ngaySinh ?? '';
+      },
+      error: (err) {},
+    );
     phamVi.when(
-        success: (res) {
-          phamViTxt = res.chucVu;
-        },
-        error: (err) {});
+      success: (res) {
+        phamViTxt = res.chucVu;
+      },
+      error: (err) {},
+    );
     showContent();
     _getInforUser.sink.add(UserInformationModel(
-        hoTen: hoTen, chucVu: phamViTxt, anhDaiDienFilePath: anhDaiDien));
+        hoTen: hoTen,
+        chucVu: phamViTxt,
+        anhDaiDienFilePath: anhDaiDien,
+        ngaySinh: ngaySinh));
   }
 
   Future<void> refeshUser() async {
     String hoTen = '';
     String phamViTxt = '';
     String anhDaiDien = '';
+    String ngaySinh = '';
     final result = await accountRp.getInfo(id);
     final phamVi = await accountRp.getPhamVi();
     result.when(
-        success: (res) {
-          hoTen = res.hoTen ?? '';
-          anhDaiDien = res.anhDaiDienFilePath ?? '';
-        },
-        error: (err) {});
+      success: (res) {
+        hoTen = res.hoTen ?? '';
+        anhDaiDien = res.anhDaiDienFilePath ?? '';
+        ngaySinh = res.ngaySinh ?? '';
+      },
+      error: (err) {},
+    );
     phamVi.when(
         success: (res) {
           phamViTxt = res.chucVu;
         },
         error: (err) {});
 
-    _getInforUser.sink.add(UserInformationModel(
-        hoTen: hoTen, chucVu: phamViTxt, anhDaiDienFilePath: anhDaiDien));
+    _getInforUser.sink.add(
+      UserInformationModel(
+        hoTen: hoTen,
+        chucVu: phamViTxt,
+        anhDaiDienFilePath: anhDaiDien,
+        ngaySinh: ngaySinh,
+      ),
+    );
   }
 
   Future<void> permissionMenu() async {
@@ -77,9 +93,9 @@ class MenuCubit extends BaseCubit<MenuState> {
         success: (res) {
           final item = <MenuType>[];
           for (final vl in listFeature) {
-             if(res.indexWhere((element) => element.menuType == vl) != -1){
-               item.add(vl);
-             }
+            if (res.indexWhere((element) => element.menuType == vl) != -1) {
+              item.add(vl);
+            }
           }
           _getMenu.sink.add(item);
         },

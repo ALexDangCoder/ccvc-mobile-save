@@ -34,7 +34,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
   @override
   void dispose() {
     super.dispose();
-    // widgetManageCubit.dispose();
+    widgetManageCubit.dispose();
   }
 
   @override
@@ -192,7 +192,9 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                       Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => const PrevViewWidget(),
+                          pageBuilder: (_, __, ___) =>  PrevViewWidget(
+                            cubit: widgetManageCubit,
+                          ),
                         ),
                       );
                     },

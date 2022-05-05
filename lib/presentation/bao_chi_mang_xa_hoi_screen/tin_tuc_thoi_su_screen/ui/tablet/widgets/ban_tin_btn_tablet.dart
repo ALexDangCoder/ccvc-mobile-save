@@ -20,6 +20,7 @@ class BanTinBtnSheetTablet extends StatefulWidget {
     Key? key,
     required this.listTinTuc,
     this.index = 0,
+
   }) : super(key: key);
 
   @override
@@ -50,16 +51,29 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
             children: [
               Row(
                 children: [
-                  IconButton(
-                    color: unselectLabelColor,
-                    onPressed: () {
-                      phatBanTinBloc.setIndexRadio(
-                        phatBanTinBloc.getIndexRadio() - 1,
-                        widget.listTinTuc.length - 1,
+                  StreamBuilder<bool>(
+                    stream: phatBanTinBloc.isRePlay,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? false;
+                      return IconButton(
+                        color: unselectLabelColor,
+                        onPressed: () {
+                          phatBanTinBloc.setRePlayMode();
+                          player.play();
+                          // print(
+                          //     '------------------------------------- reLoad---------------');
+                          // phatBanTinBloc.setIndexRadio(
+                          //   phatBanTinBloc.getIndexRadio() - 1,
+                          //   widget.listTinTuc.length - 1,
+                          // );
+                          // player.seekToPrevious();
+                        },
+                        icon: SvgPicture.asset(
+                          ImageAssets.ic_replay,
+                          color: data ? buttonColor : unselectLabelColor,
+                        ),
                       );
-                      player.seekToPrevious();
                     },
-                    icon: SvgPicture.asset(ImageAssets.ic_replay),
                   ),
                   IconButton(
                     color: unselectLabelColor,
@@ -152,6 +166,9 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                     ),
                     Expanded(
                       child: PlayRadio(
+                        setRadio: (value){
+
+                        },
                         player: player,
                         listLinkRadio:
                             widget.listTinTuc.map((e) => e.audioUrl).toList(),

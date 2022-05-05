@@ -48,6 +48,7 @@ class CellMenuCustom extends StatelessWidget {
                 width: 15.0.textScale(space: 8),
                 child: SvgPicture.asset(
                   icon,
+
                 ),
               ),
               SizedBox(

@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -56,7 +55,6 @@ class _EditPersonalInformationScreen
   @override
   void initState() {
     cubit.loadApi(id: widget.id);
-    cubit.getDeviceDetails();
     cubit.managerStream.listen((event) {
       cubit.getCurrentUnit(event);
       nameController.text = event.hoTen ?? '';
@@ -113,7 +111,10 @@ class _EditPersonalInformationScreen
               },
               child: Text(
                 S.current.reset,
-                style: textNormalCustom(fontSize: 14, color: AppTheme.getInstance().colorField()),
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: AppTheme.getInstance().colorField(),
+                ),
               ),
             ),
           )
@@ -238,7 +239,14 @@ class _EditPersonalInformationScreen
                           hintText: S.current.email,
                           controller: emailController,
                           validator: (value) {
-                            return (value ?? '').checkEmailBoolean();
+                            if (value == null || value.isEmpty) {
+                              return null;
+                            } else if (value.contains('@')) {
+                              if (value.contains('@', value.indexOf('@') + 1)) {
+                                return S.current.nhap_sai_dinh_dang;
+                              }
+                            }
+                            return value.checkEmailBoolean();
                           },
                         ),
                       ),
@@ -409,6 +417,7 @@ class _EditPersonalInformationScreen
                             title1: '',
                             isPhone: true,
                             isBottomShowText: false,
+                            isCallApi: false,
                           );
                         },
                         onPressed2: () async {
@@ -434,7 +443,6 @@ class _EditPersonalInformationScreen
                               idTinh: cubit.idTinh,
                               idHuyen: cubit.idHuyen,
                               idXa: cubit.idXa,
-                              iDDonViHoatDong: null,
                             )
                                 .then(
                               (value) {

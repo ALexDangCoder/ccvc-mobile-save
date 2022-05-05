@@ -75,6 +75,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       TextFieldValidator(
+                          maxLength: 32,
                           controller: matKhauHienTaiController,
                           obscureText: cubit.isCheckEye,
                           suffixIcon: cubit.isHideEye
@@ -118,6 +119,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                           }),
                       const SizedBox(height: 16.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         controller: matKhauMoiController,
                         obscureText: cubit.isCheckEye1,
                         suffixIcon: cubit.isHideEye1
@@ -163,12 +165,13 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                               value!.isNotEmpty) {
                             return S.current.khong_trung_mat_khau_moi;
                           } else {
-                            return (value ?? '').checkPassWordChangePass();
+                            return (value ?? '').checkPassWordChangePass('Mật khẩu mới!');
                           }
                         },
                       ),
                       const SizedBox(height: 16.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         controller: nhapLaiMatKhauController,
                         obscureText: cubit.isCheckEye2,
                         suffixIcon: cubit.isHideEye2
@@ -240,10 +243,10 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text,
-                                    passwordOld: matKhauHienTaiController.text,
+                                    password: matKhauMoiController.text.trim(),
+                                    passwordOld: matKhauHienTaiController.text.trim(),
                                     repeatPassword:
-                                        nhapLaiMatKhauController.text)
+                                        nhapLaiMatKhauController.text.trim())
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

@@ -126,6 +126,7 @@ class _ChangePassWordScreenTabletState
                       ),
                       const SizedBox(height: 24.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         fillColor: backgroundColorApp,
                         controller: matKhauMoiController,
                         obscureText: cubit.isCheckEye1,
@@ -172,12 +173,13 @@ class _ChangePassWordScreenTabletState
                               value!.isNotEmpty) {
                             return S.current.khong_trung_mat_khau_moi;
                           } else {
-                            return (value ?? '').checkPassWordChangePass();
+                            return (value ?? '').checkPassWordChangePass('Mật khẩu mới!');
                           }
                         },
                       ),
                       const SizedBox(height: 24.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         fillColor: backgroundColorApp,
                         controller: nhapLaiMatKhauController,
                         obscureText: cubit.isCheckEye2,
@@ -254,10 +256,10 @@ class _ChangePassWordScreenTabletState
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text,
-                                    passwordOld: matKhauHienTaiController.text,
+                                    password: matKhauMoiController.text.trim(),
+                                    passwordOld: matKhauHienTaiController.text.trim(),
                                     repeatPassword:
-                                        nhapLaiMatKhauController.text)
+                                        nhapLaiMatKhauController.text.trim())
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

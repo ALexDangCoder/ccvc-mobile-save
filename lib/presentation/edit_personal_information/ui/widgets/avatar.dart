@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
@@ -148,7 +149,10 @@ class AvatarAndSignature extends StatelessWidget {
                     child: isAvatarUser
                         ? Padding(
                             padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(ImageAssets.icImage),
+                            child: SvgPicture.asset(
+                              ImageAssets.icImage,
+                              color: AppTheme.getInstance().colorField(),
+                            ),
                           )
                         : CachedNetworkImage(
                             imageUrl:
@@ -225,7 +229,10 @@ class AvatarAndSignature extends StatelessWidget {
                     child: isAvatarUser
                         ? Padding(
                             padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(ImageAssets.icImage),
+                            child: SvgPicture.asset(
+                              ImageAssets.icImage,
+                              color: AppTheme.getInstance().colorField(),
+                            ),
                           )
                         : CachedNetworkImage(
                             imageUrl:
@@ -302,7 +309,10 @@ class AvatarAndSignature extends StatelessWidget {
                     child: isAvatarUser
                         ? Padding(
                             padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(ImageAssets.icImage),
+                            child: SvgPicture.asset(
+                              ImageAssets.icImage,
+                              color: AppTheme.getInstance().colorField(),
+                            ),
                           )
                         : CachedNetworkImage(
                             imageUrl:

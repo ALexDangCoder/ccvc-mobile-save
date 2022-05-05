@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
@@ -70,7 +71,7 @@ class CupertinoRoundedDatePickerWidget {
                   },
                   child: Text(
                     S.current.today,
-                    style: textNormalCustom(color: buttonColor, fontSize: 18),
+                    style: textNormalCustom(color: AppTheme.getInstance().colorField(), fontSize: 18),
                   ),
                 ),
               ),

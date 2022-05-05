@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
@@ -162,7 +163,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   ),
                                 );
                               },
-                              icon: SvgPicture.asset(ImageAssets.ic_next_color),
+                              icon: SvgPicture.asset(ImageAssets.ic_next_color,color: AppTheme.getInstance().colorField(),),
                             )
                           ],
                         ),
@@ -250,7 +251,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                   ),
                                 );
                               },
-                              icon: SvgPicture.asset(ImageAssets.ic_next_color),
+                              icon: SvgPicture.asset(ImageAssets.ic_next_color,color:  AppTheme.getInstance().colorField(),),
                             )
                           ],
                         ),

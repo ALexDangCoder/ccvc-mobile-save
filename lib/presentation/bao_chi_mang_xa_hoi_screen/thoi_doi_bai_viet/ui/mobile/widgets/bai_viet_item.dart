@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/theo_doi_bai_viet/theo_doi_bai_viet_model.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -65,7 +66,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
                         style: textNormalCustom(
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
-                          color: indicatorColor,
+                          color:  AppTheme.getInstance().colorField(),
                         ),
                       ),
                       const SizedBox(

@@ -81,7 +81,6 @@ class _DragItemListState extends State<DragItemList> {
                     : itemWidgetNotUse.withOpacity(0.3),
                 content: productName,
                 clickICon: () {
-                  print('---------------------------------------------------- click--------------');
                   widget.isUsing
                       ? widget.widgetManageCubit.insertItemNotUse(
                           widget.listWidget[index],

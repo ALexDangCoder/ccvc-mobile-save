@@ -34,6 +34,7 @@ class ThongTinPhongHopModel {
   String? thietBiSanCo;
   String? tenPhong;
   TrangThaiPhongHop trangThaiPhongHop = TrangThaiPhongHop.DA_DUYET;
+
   ThongTinPhongHopModel({
     this.id = '',
     this.sucChua = '0',
@@ -44,6 +45,7 @@ class ThongTinPhongHopModel {
   }) {
     trangThaiPhongHop = fromEnum();
   }
+
   TrangThaiPhongHop fromEnum() {
     switch (trangThai) {
       case _CHO_DUYET:
@@ -60,6 +62,7 @@ class ThietBiPhongHopModel {
   String? soLuong;
   int? trangThai;
   TrangThaiPhongHop trangThaiPhongHop = TrangThaiPhongHop.DA_DUYET;
+
   ThietBiPhongHopModel({
     this.loaiThietBi = '',
     this.soLuong = '0',
@@ -67,6 +70,7 @@ class ThietBiPhongHopModel {
   }) {
     trangThaiPhongHop = fromEnum();
   }
+
   TrangThaiPhongHop fromEnum() {
     switch (trangThai) {
       case _CHO_DUYET:
@@ -75,5 +79,51 @@ class ThietBiPhongHopModel {
         return TrangThaiPhongHop.DA_DUYET;
     }
     return TrangThaiPhongHop.CHO_DUYET;
+  }
+}
+
+class PhienHopModel {
+  String? CanBoId;
+  String? DonViId;
+  String? HoTen;
+  String? Id;
+  String? LichHopId;
+  String? NoiDung;
+  String? ThoiGian_BatDau;
+  String? ThoiGian_KetThuc;
+  int? ThuTu;
+  String? TieuDe;
+  int? TrangThai;
+
+  PhienHopModel({
+    this.CanBoId,
+    this.DonViId,
+    this.HoTen,
+    this.Id,
+    this.LichHopId,
+    this.NoiDung,
+    this.ThoiGian_BatDau,
+    this.ThoiGian_KetThuc,
+    this.ThuTu,
+    this.TieuDe,
+    this.TrangThai,
+  });
+
+  PhienHopModel.empty();
+
+  factory PhienHopModel.fromJson(Map<String, dynamic> json) {
+    return PhienHopModel(
+      CanBoId: json['CanBoId'],
+      DonViId: json['DonViId'],
+      HoTen: json['HoTen'],
+      Id: json['Id'],
+      LichHopId: json['LichHopId'],
+      NoiDung: json['NoiDung'],
+      ThoiGian_BatDau: json['ThoiGian_BatDau'],
+      ThoiGian_KetThuc: json['ThoiGian_KetThuc'],
+      ThuTu: json['ThuTu'],
+      TieuDe: json['TieuDe'],
+      TrangThai: json['TrangThai'],
+    );
   }
 }

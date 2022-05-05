@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/bloc/tin_tuc_thoi_su_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/drop_down_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -130,20 +132,20 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           height: 45,
                           decoration: BoxDecoration(
-                            color: indicatorColor.withOpacity(0.1),
+                            color:  AppTheme.getInstance().colorField().withOpacity(0.1),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(ImageAssets.icPlay),
+                              SvgPicture.asset(ImageAssets.icPlay.svgToTheme()),
                               const SizedBox(
                                 width: 10,
                               ),
                               Text(
                                 S.current.nghe_doc_tin,
                                 style: textNormalCustom(
-                                  color: indicatorColor,
+                                  color:  AppTheme.getInstance().colorField(),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),

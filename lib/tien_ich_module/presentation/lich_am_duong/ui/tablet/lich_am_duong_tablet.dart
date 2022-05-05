@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
@@ -55,7 +56,7 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                 initialDate: DateTime.now(),
                 onTap: (dateTime) async {
                   await cubit.getLichAmDuong(dateTime.formatApiDDMMYYYY);
-                  cubit.selectTime=dateTime;
+                  cubit.selectTime = dateTime;
                   cubit.changeDateTimeSubject.add(dateTime);
                   Navigator.pop(context);
                 },
@@ -142,7 +143,8 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                         onChangeRange: (DateTime? start,
                                             DateTime? end,
                                             DateTime? focusedDay) {},
-                                        selectDay: (DateTime day) => cubit.selectDay(day),
+                                        selectDay: (DateTime day) =>
+                                            cubit.selectDay(day),
                                         cubit: cubit,
                                       ),
                                     ),
@@ -253,7 +255,8 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                           children: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                  color: linkColor,
+                                                  color: AppTheme.getInstance()
+                                                      .colorField(),
                                                   border: Border.all(
                                                     width: 0.5,
                                                     color: borderColor

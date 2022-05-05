@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/button_switch/flutter_switch_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class CustomSwitch extends StatelessWidget {
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
       inactiveColor: borderColor,
-      activeColor: labelColor,
+      activeColor: AppTheme.getInstance().colorField(),
       value: value,
       onToggle: onToggle,
     );

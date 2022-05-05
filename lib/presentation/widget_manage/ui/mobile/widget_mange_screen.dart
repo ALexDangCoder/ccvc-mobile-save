@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
@@ -33,7 +34,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
   @override
   void dispose() {
     super.dispose();
-    // widgetManageCubit.dispose();
+    widgetManageCubit.dispose();
   }
 
   @override
@@ -59,7 +60,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                   child: Text(
                     S.current.default_word,
                     style: textNormalCustom(
-                      color: textDefault,
+                      color: AppTheme.getInstance().colorField(),
                       fontSize: 14,
                     ),
                   ),
@@ -191,7 +192,9 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                       Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => const PrevViewWidget(),
+                          pageBuilder: (_, __, ___) =>  PrevViewWidget(
+                            cubit: widgetManageCubit,
+                          ),
                         ),
                       );
                     },

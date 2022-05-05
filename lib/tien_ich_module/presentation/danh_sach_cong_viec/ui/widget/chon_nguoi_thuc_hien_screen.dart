@@ -62,8 +62,8 @@ class _DanhSachCongViecTienIchMobileState
                           onTap: () {
                             widget.cubit.getPersontodo(
                               person: todo.data(),
-                              idPerson: todo.id,
                             );
+                            widget.cubit.toDoListRequest.performer = todo.id;
                             widget.cubit.enabled.sink.add(true);
                             Navigator.pop(context);
                           },

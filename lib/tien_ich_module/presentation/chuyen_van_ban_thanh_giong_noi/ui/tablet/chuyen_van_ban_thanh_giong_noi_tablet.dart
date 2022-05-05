@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/bloc/chuyen_van_ban_thanh_giong_noi_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/ui/mobile/chuyen_van_ban_thanh_giong_noi_mobile.dart';
@@ -162,8 +163,9 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                 Container(),
                 btnListen(
                   title: S.current.tai_van_ban_len,
-                  background: labelColor.withOpacity(0.1),
-                  textColor: labelColor,
+                  background:
+                      AppTheme.getInstance().colorField().withOpacity(0.1),
+                  textColor: AppTheme.getInstance().colorField(),
                   isIcon: true,
                   onTap: () {
                     cubit.readFile(textEditingController);
@@ -215,7 +217,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
             ),
             btnListen(
               title: S.current.doc_ngay,
-              background: labelColor,
+              background: AppTheme.getInstance().colorField(),
               textColor: Colors.white,
               isIcon: false,
               onTap: () {
@@ -261,7 +263,10 @@ class _ChuyenVanBanThanhGiongNoiTabletState
             if (isIcon)
               Row(
                 children: [
-                  SvgPicture.asset(ImageAssets.icUpFile),
+                  SvgPicture.asset(
+                    ImageAssets.icUpFile,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
                   const SizedBox(
                     width: 8,
                   ),

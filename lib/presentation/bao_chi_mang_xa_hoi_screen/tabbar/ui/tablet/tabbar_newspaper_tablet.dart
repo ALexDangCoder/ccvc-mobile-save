@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/bao_cao_thong_ke/ui/tablet/bao_cao_thong_ke_bcmxh_tablet.dart';
@@ -75,9 +76,9 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> {
         ],
         bottom: TabBar(
           controller: _controller,
-          indicatorColor: indicatorColor,
+          indicatorColor: AppTheme.getInstance().colorField(),
           unselectedLabelColor: unselectLabelColor,
-          labelColor: indicatorColor,
+          labelColor: AppTheme.getInstance().colorField(),
           tabs: [
             Tab(
               child: Text(

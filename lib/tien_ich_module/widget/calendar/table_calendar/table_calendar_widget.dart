@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_null_aware_method_calls, unnecessary_statements
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/calendar/event.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
@@ -198,14 +199,20 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         fontSize: 14.0,
                         color: Colors.white,
                       ),
-                      todayDecoration: const BoxDecoration(
+                      todayDecoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: toDayColor,
+                        color: AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
+                      ),
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                       todayTextStyle: textNormalCustom(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
-                        color: buttonColor,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                     ),
                     headerVisible: false,
@@ -265,9 +272,15 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         fontSize: 16.0,
                         color: Colors.white,
                       ),
-                      todayDecoration: const BoxDecoration(
+                      todayDecoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: toDayColor,
+                        color: AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
+                      ),
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                       todayTextStyle: textNormalCustom(
                         fontSize: 16.0,

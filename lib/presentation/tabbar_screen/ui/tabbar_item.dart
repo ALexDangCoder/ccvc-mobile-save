@@ -17,14 +17,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum TabBarType { home, report, calendarWork, internalInteraction, menu }
+enum TabBarType { home, report, calendarWork, menu }
 
 List<TabBarType> getTabListItem() {
   return [
     TabBarType.home,
     TabBarType.report,
     TabBarType.calendarWork,
-    TabBarType.internalInteraction,
     TabBarType.menu,
   ];
 }
@@ -44,10 +43,8 @@ extension TabbarEnum on TabBarType {
         return 1;
       case TabBarType.calendarWork:
         return 2;
-      case TabBarType.internalInteraction:
-        return 3;
       case TabBarType.menu:
-        return 4;
+        return 3;
       default:
         return 1;
     }
@@ -74,18 +71,7 @@ extension TabbarEnum on TabBarType {
           mobileScreen: const CalenderWorkDayMobile(),
           tabletScreen: const CalenderWorkDayTablet(),
         );
-      case TabBarType.internalInteraction:
-        return Scaffold(
-          body: screenDevice(
-            mobileScreen: NotifyWidget(
-              content: 'Thanh Cong',
-              textButtom: 'dong',
-              image: ImageAssets.icVideo,
-            ),
-            tabletScreen: Container(),
-          ),
-          backgroundColor: Colors.cyanAccent,
-        );
+
       case TabBarType.menu:
         return screenDevice(
             mobileScreen: const MenuScreen(),
@@ -133,17 +119,6 @@ extension TabbarEnum on TabBarType {
                 : AppTheme.getInstance().buttonUnfocus(),
           ),
           text: S.current.calendar_work,
-        );
-      case TabBarType.internalInteraction:
-        return TabBarItem(
-          icon: SvgPicture.asset(
-            ImageAssets.icMessageFocus,
-            height: 16.0.textScale(),
-            color: isSelect
-                ? AppTheme.getInstance().colorField()
-                : AppTheme.getInstance().buttonUnfocus(),
-          ),
-          text: S.current.internal_interaction,
         );
       case TabBarType.menu:
         return TabBarItem(

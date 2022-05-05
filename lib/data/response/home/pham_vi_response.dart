@@ -23,7 +23,7 @@ class PhamViResponse {
       this.isCurrentActive});
 
   PhamViModel toDomain() =>
-      PhamViModel(chucVu: chucVu ?? '', chucVuId: chucVuId ?? '');
+      PhamViModel(chucVu: chucVu ?? '', chucVuId: chucVuId ?? '', ngaySinh: DateTime.now().toString());
 
   PhamViResponse.fromJson(Map<String, dynamic> json) {
     final data = json['data'];

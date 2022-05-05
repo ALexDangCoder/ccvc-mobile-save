@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
@@ -95,7 +96,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                                     style: textNormalCustom(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
-                                      color: labelColor,
+                                      color: AppTheme.getInstance().colorField(),
                                     ),
                                   ),
                                 ),

@@ -53,7 +53,7 @@ class _EditWidgetState extends State<EditWidget> {
                   controller: tieuDeController,
                   validator: (String? value) {},
                   onChange: (String value) {
-                    widget.cubit.getTitle(value);
+                    widget.cubit.titleChange = value;
                   },
                 ),
                 InputInfoUserWidget(
@@ -63,7 +63,7 @@ class _EditWidgetState extends State<EditWidget> {
                       widget.todo.createdOn ?? DateTime.now().toString(),
                     ).toStringWithListFormat,
                     onSelectDate: (value) {
-                      widget.cubit.getDate(value);
+                      widget.cubit.dateChange = value;
                     },
                   ),
                 ),
@@ -82,7 +82,7 @@ class _EditWidgetState extends State<EditWidget> {
                   height: 8,
                 ),
                 StreamBuilder<bool>(
-                  stream: widget.cubit.getEnabled,
+                  stream: widget.cubit.enabled,
                   builder: (context, snapshot) {
                     return GestureDetector(
                       onTap: () {
@@ -118,7 +118,8 @@ class _EditWidgetState extends State<EditWidget> {
                                 snapshot.data == true
                                     ? (widget.cubit.person.isEmpty
                                         ? widget.cubit.convertIdToPerson(
-                                            widget.todo.performer ?? '')
+                                            widget.todo.performer ?? '',
+                                          )
                                         : widget.cubit.person)
                                     : (widget.cubit.person.isEmpty)
                                         ? S.current.tim_theo_nguoi
@@ -138,8 +139,9 @@ class _EditWidgetState extends State<EditWidget> {
                             child: GestureDetector(
                               onTap: () {
                                 widget.cubit.enabled.sink.add(false);
-                                widget.cubit
-                                    .getPersontodo(person: '', idPerson: '');
+                                widget.cubit.getPersontodo(person: '');
+                                widget.cubit.toDoListRequest.performer =
+                                    widget.todo.id;
                                 setState(() {});
                               },
                               child: snapshot.data == true
@@ -167,7 +169,7 @@ class _EditWidgetState extends State<EditWidget> {
                   title: S.current.ghi_chu,
                   validator: (String? value) {},
                   onChange: (String value) {
-                    widget.cubit.getnote(value);
+                    widget.cubit.noteChange = value;
                   },
                   maxLine: 8,
                   controller: tieuDeController,
@@ -177,18 +179,19 @@ class _EditWidgetState extends State<EditWidget> {
                 ),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE
-                      ? const EdgeInsets.all(0)
+                      ? EdgeInsets.zero
                       : const EdgeInsets.symmetric(horizontal: 100),
                   child: DoubleButtonBottom(
                     title1: S.current.dong,
                     title2: S.current.luu,
                     onPressed1: () {
                       widget.cubit.person = '';
+                      widget.cubit.toDoListRequest.performer = widget.todo.id;
                       Navigator.pop(context);
                     },
                     onPressed2: () {
                       Navigator.pop(context);
-                      widget.cubit.editWork(widget.todo);
+                      widget.cubit.editWork(todo: widget.todo);
                     },
                   ),
                 ),

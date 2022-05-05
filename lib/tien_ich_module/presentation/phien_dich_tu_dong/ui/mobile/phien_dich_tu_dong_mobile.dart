@@ -309,10 +309,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(
-              ImageAssets.icDocumentBlue,
-              color: AppTheme.getInstance().colorField(),
-            ),
+            SvgPicture.asset(ImageAssets.icDocumentBlue,color: AppTheme.getInstance().colorField(),),
             const SizedBox(
               width: 9,
             ),

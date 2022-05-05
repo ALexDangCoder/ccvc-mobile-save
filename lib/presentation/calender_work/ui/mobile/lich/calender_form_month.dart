@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
@@ -46,7 +47,7 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                   appointmentTextStyle:
                       textNormalCustom(color: backgroundColorApp),
                   view: CalendarView.month,
-                  todayHighlightColor: labelColor,
+                  todayHighlightColor: AppTheme.getInstance().colorField(),
                   appointmentTimeTextFormat: 'hh:mm:ss a',
                   dataSource: widget.cubit.getCalenderDataSource(
                     snapshot.data ?? DataLichLvModel(),
@@ -88,7 +89,7 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                           // height: 500,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(2.0),
-                            color: textColorMangXaHoi,
+                            color: AppTheme.getInstance().colorField(),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(

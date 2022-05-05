@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -49,7 +50,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                         SvgPicture.asset(
                           ImageAssets.icCalenderDay,
                           color: widget.cubit.index.value == 0
-                              ? numberColorTablet
+                              ? AppTheme.getInstance().colorField()
                               : iconColorDown,
                         ),
                         const SizedBox(
@@ -59,7 +60,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           S.current.ngay,
                           style: textNormal(
                             widget.cubit.index.value == 0
-                                ? numberColorTablet
+                                ? AppTheme.getInstance().colorField()
                                 : iconColorDown,
                             14.0,
                           ),
@@ -83,7 +84,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                         SvgPicture.asset(
                           ImageAssets.icDayCalenderWeek,
                           color: widget.cubit.index.value == 1
-                              ? numberColorTablet
+                              ? AppTheme.getInstance().colorField()
                               : iconColorDown,
                         ),
                         const SizedBox(
@@ -93,7 +94,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           S.current.tuan,
                           style: textNormal(
                             widget.cubit.index.value == 1
-                                ? numberColorTablet
+                                ? AppTheme.getInstance().colorField()
                                 : iconColorDown,
                             14.0,
                           ),
@@ -117,7 +118,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                         SvgPicture.asset(
                           ImageAssets.icDayCalenderMonth,
                           color: widget.cubit.index.value == 2
-                              ? numberColorTablet
+                              ? AppTheme.getInstance().colorField()
                               : iconColorDown,
                         ),
                         const SizedBox(
@@ -127,7 +128,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           S.current.thang,
                           style: textNormal(
                             widget.cubit.index.value == 2
-                                ? numberColorTablet
+                                ? AppTheme.getInstance().colorField()
                                 : iconColorDown,
                             14.0,
                           ),

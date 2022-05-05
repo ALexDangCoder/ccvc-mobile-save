@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,26 +12,32 @@ class CongViecCellTienIch extends StatefulWidget {
   final bool enabled;
   final bool borderBottom;
   final Function(bool) onCheckBox;
-  final Function onStar;
-  final Function() onClose;
+  final Function()? onStar;
+  final Function()? onClose;
   final TodoDSCVModel todoModel;
   final Function(TextEditingController)? onChange;
   final bool isTheEdit;
-  final Function onEdit;
+  final Function()? onEdit;
+  final bool isDaBiXoa;
+  final Function()? onThuHoi;
+  final Function()? onXoaVinhVien;
 
-  const CongViecCellTienIch({
-    Key? key,
-    required this.text,
-    required this.onCheckBox,
-    required this.onStar,
-    required this.onClose,
-    required this.todoModel,
-    this.enabled = true,
-    this.borderBottom = true,
-    this.onChange,
-    this.isTheEdit = false,
-    required this.onEdit,
-  }) : super(key: key);
+  const CongViecCellTienIch(
+      {Key? key,
+      required this.text,
+      required this.onCheckBox,
+      this.onStar,
+      this.onClose,
+      required this.todoModel,
+      this.enabled = true,
+      this.borderBottom = true,
+      this.onChange,
+      this.isTheEdit = false,
+      this.onEdit,
+      this.isDaBiXoa = false,
+      this.onThuHoi,
+      this.onXoaVinhVien})
+      : super(key: key);
 
   @override
   State<CongViecCellTienIch> createState() => _CongViecCellTienIchState();
@@ -66,7 +73,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
             child: Checkbox(
               checkColor: Colors.white,
               // color of tick Mark
-              activeColor: indicatorColor,
+              activeColor: AppTheme.getInstance().colorField(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3),
               ),
@@ -115,40 +122,31 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
             children: [
               if (widget.isTheEdit)
                 GestureDetector(
-                  onTap: () {
-                    widget.onEdit();
-                  },
-                  child: SvgPicture.asset(ImageAssets.icEditBlue),
-                )
-              else
-                const SizedBox(),
-              const SizedBox(
-                width: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  widget.onStar();
-                },
-                child: SvgPicture.asset(
-                  widget.todoModel.important ?? false
-                      ? ImageAssets.icStarFocus
-                      : ImageAssets.icStarUnfocus,
-                ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  widget.onClose();
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  child: SvgPicture.asset(
-                    ImageAssets.icClose,
+                  onTap: widget.onThuHoi,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: SvgPicture.asset(
+                      ImageAssets.ic_hoan_tac,
+                    ),
                   ),
                 ),
-              )
+              if (widget.isDaBiXoa)
+                GestureDetector(
+                  onTap: widget.onXoaVinhVien,
+                  child: SvgPicture.asset(
+                    ImageAssets.ic_delete_dscv,
+                  ),
+                )
+              else
+                GestureDetector(
+                  onTap: widget.onClose,
+                  child: Container(
+                    color: Colors.transparent,
+                    child: SvgPicture.asset(
+                      ImageAssets.icClose,
+                    ),
+                  ),
+                )
             ],
           )
         ],

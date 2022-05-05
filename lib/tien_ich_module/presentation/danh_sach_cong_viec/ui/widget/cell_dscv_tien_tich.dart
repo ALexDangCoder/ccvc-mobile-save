@@ -12,26 +12,32 @@ class CongViecCellTienIch extends StatefulWidget {
   final bool enabled;
   final bool borderBottom;
   final Function(bool) onCheckBox;
-  final Function onStar;
-  final Function() onClose;
+  final Function()? onStar;
+  final Function()? onClose;
   final TodoDSCVModel todoModel;
   final Function(TextEditingController)? onChange;
   final bool isTheEdit;
-  final Function onEdit;
+  final Function()? onEdit;
+  final bool isDaBiXoa;
+  final Function()? onThuHoi;
+  final Function()? onXoaVinhVien;
 
-  const CongViecCellTienIch({
-    Key? key,
-    required this.text,
-    required this.onCheckBox,
-    required this.onStar,
-    required this.onClose,
-    required this.todoModel,
-    this.enabled = true,
-    this.borderBottom = true,
-    this.onChange,
-    this.isTheEdit = false,
-    required this.onEdit,
-  }) : super(key: key);
+  const CongViecCellTienIch(
+      {Key? key,
+      required this.text,
+      required this.onCheckBox,
+      this.onStar,
+      this.onClose,
+      required this.todoModel,
+      this.enabled = true,
+      this.borderBottom = true,
+      this.onChange,
+      this.isTheEdit = false,
+      this.onEdit,
+      this.isDaBiXoa = false,
+      this.onThuHoi,
+      this.onXoaVinhVien})
+      : super(key: key);
 
   @override
   State<CongViecCellTienIch> createState() => _CongViecCellTienIchState();
@@ -116,52 +122,31 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
             children: [
               if (widget.isTheEdit)
                 GestureDetector(
-                  onTap: () {
-                    widget.onEdit();
-                  },
+                  onTap: widget.onThuHoi,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: SvgPicture.asset(
+                      ImageAssets.ic_hoan_tac,
+                    ),
+                  ),
+                ),
+              if (widget.isDaBiXoa)
+                GestureDetector(
+                  onTap: widget.onXoaVinhVien,
                   child: SvgPicture.asset(
-                    ImageAssets.icEditBlue,
-                    color: AppTheme.getInstance().colorField(),
+                    ImageAssets.ic_delete_dscv,
                   ),
                 )
               else
-                const SizedBox(),
-              const SizedBox(
-                width: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  widget.onStar();
-                },
-                child:
-                (widget.todoModel.important ?? false)
-                    ? Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: SvgPicture.asset(
-                    ImageAssets.icStarFocus,
-                    color: AppTheme.getInstance().colorField(),
+                GestureDetector(
+                  onTap: widget.onClose,
+                  child: Container(
+                    color: Colors.transparent,
+                    child: SvgPicture.asset(
+                      ImageAssets.icClose,
+                    ),
                   ),
                 )
-                    : Icon(
-                  Icons.star_outline_rounded,
-                  color: AppTheme.getInstance().colorField(),
-                  size: 24,
-                ),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              GestureDetector(
-                onTap: () {
-                  widget.onClose();
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  child: SvgPicture.asset(
-                    ImageAssets.icClose,
-                  ),
-                ),
-              )
             ],
           )
         ],

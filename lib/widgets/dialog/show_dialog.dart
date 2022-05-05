@@ -21,7 +21,7 @@ Future<T?> showDiaLog<T>(
   return showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (_) {
+    builder: (context) {
       return Dialog(
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
@@ -107,8 +107,9 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          funcBtnRight();
                           Navigator.pop(context);
+                          funcBtnRight();
+
                         },
                       ),
                     ),
@@ -124,8 +125,9 @@ Future<T?> showDiaLog<T>(
                         isColorBlue: true,
                         title: btnRightTxt,
                         onPressed: () {
-                          funcBtnRight();
                           Navigator.pop(context, true);
+                          funcBtnRight();
+
                         },
                       ),
                     ),

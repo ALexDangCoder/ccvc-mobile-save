@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class UserInformationModel {
   String? id;
   String? canBoDepartmentId;
@@ -31,16 +33,24 @@ class UserInformationModel {
     this.soDienThoai,
   });
   bool isSinhNhat(){
-    if(ngaySinh == null){
+    if(ngaySinh == null && (ngaySinh?.isEmpty ?? true)){
       return false;
     }else{
+
+    try{
       final DateTime dateNgaySinh = DateTime.parse(ngaySinh!);
+
       final now = DateTime.now();
       if(dateNgaySinh.day == now.day && dateNgaySinh.month == now.month) {
         return true;
       }
+    }catch(e){
+      return false;
+    }
+
 
     }
+
     return false;
   }
 }

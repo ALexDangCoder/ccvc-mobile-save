@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/todo_current_user_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
@@ -73,6 +74,11 @@ abstract class TienIchService {
   @GET(ApiConstants.GAN_CONG_VIEC_CHO_TOI)
   @FormUrlEncoded()
   Future<ToDoListDSCVResponse> getListDSCVGanChoToi();
+
+  @DELETE(ApiConstants.XOA_CONG_VIEC)
+  Future<PhanCongThuKyResponse> xoaCongViec(
+    @Query('id') String id,
+  );
 }
 
 @RestApi()

@@ -86,7 +86,18 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
             player: player,
             listLinkRadio: widget.listTinTuc.map((e) => e.audioUrl).toList(),
             initPlay: widget.index,
+            setRadio: (value){
+              // player.seek(Duration( seconds: value));
+            },
           ),
+          // SizedBox(height: 30,),
+          // GestureDetector(
+          //   child:  const Icon(Icons.add),
+          //   onTap: (){
+          //     player.seek(const Duration( seconds: 180), index: 1);
+          //
+          //   },
+          // ),
           const SizedBox(
             height: 24,
           ),

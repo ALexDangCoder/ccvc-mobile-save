@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -224,7 +225,7 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
                 height: 18,
                 child: Checkbox(
                   checkColor: Colors.white, // color of tick Mark
-                  activeColor: !isAdd ? sideTextInactiveColor : indicatorColor,
+                  activeColor: !isAdd ? sideTextInactiveColor : AppTheme.getInstance().colorField(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(3),
                   ),

@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/dropdow_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc/danh_ba_cubit_tree.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc_tree/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/tree.dart';
@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DanhBaWidget extends StatefulWidget {
-  final Function(TreeDonViDanhBA obj) onChange;
-  final DanhBaCubitTree cubit;
+  final Function(TreeDonViDanhBA) onChange;
+  final DanhBaDienTuCubit cubit;
 
   const DanhBaWidget({
     Key? key,
@@ -56,7 +56,8 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                 builder: (context, snapshot) {
                   return Container(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.7),
+                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                    ),
                     child: Text(
                       snapshot.data.toString(),
                       style: textNormal(titleColor, 14),
@@ -79,7 +80,7 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                     BaseSearchBarNoBorder(
                       hintText: S.current.nhap_don_vi,
                       onChange: (vl) {
-                        widget.cubit.search(vl);
+                        // widget.cubit.searchTree(vl);
                       },
                     ),
                     Container(
@@ -139,9 +140,9 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
 }
 
 class NodeWidget extends StatefulWidget {
-  final Function(TreeDonViDanhBA obj) onChange;
+  final Function(TreeDonViDanhBA) onChange;
   NodeHSCV? node;
-  final DanhBaCubitTree cubit;
+  final DanhBaDienTuCubit cubit;
 
   NodeWidget({Key? key, this.node, required this.cubit, required this.onChange})
       : super(key: key);
@@ -189,7 +190,9 @@ class _NodeWidgetState extends State<NodeWidget> {
                       widget.node!.isHasChild == true
                           ? isExpand = !isExpand
                           : setState(() {});
-                      widget.onChange(widget.node!.value);
+                      widget.onChange(
+                        widget.node?.value ?? TreeDonViDanhBA.Emty(),
+                      );
                     },
                     child: Row(
                       children: [

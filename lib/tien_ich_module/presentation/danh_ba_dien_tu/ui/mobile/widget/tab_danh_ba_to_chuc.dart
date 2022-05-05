@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_to_chuc_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc/danh_ba_cubit_tree.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/tree_danh_ba.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/cell/cell_list_danh_ba_ca_nhan_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/cell/cell_list_danh_ba_to_chuc.dart';
@@ -26,8 +25,6 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
     // TODO: implement initState
     super.initState();
   }
-
-  final DanhBaCubitTree _cubit = DanhBaCubitTree();
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +57,10 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
                   child: Column(
                     children: [
                       DanhBaWidget(
-                        cubit: _cubit,
+                        cubit: cubit,
                         onChange: (value) {
-                          setState(() {});
                           cubit.id = value.id;
+                          cubit.callApiDanhBaToChuc();
                         },
                       ),
                       Expanded(child: _content()),
@@ -97,10 +94,10 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
               padding: const EdgeInsets.only(top: 10, left: 14, right: 14),
               width: 343,
               child: DanhBaWidget(
-                cubit: _cubit,
+                cubit: cubit,
                 onChange: (value) {
-                  setState(() {});
                   cubit.id = value.id;
+                  cubit.callApiDanhBaToChuc();
                 },
               ),
             ),
@@ -117,30 +114,40 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
   }
 
   Widget _content() {
-    return ListViewLoadMore(
-      cubit: cubit,
-      sinkWap: true,
-      isListView: true,
-      callApi: (page) => {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
-      viewItem: (value, index) => CellListDanhBaToChuc(
-        item: value as ItemsToChuc,
-        index: index ?? 0,
-        cubit: cubit,
-      ),
-    );
+    return StreamBuilder<DataDanhBaToChuc>(
+        stream: cubit.dataDanhBa.stream,
+        builder: (context, snapshot) {
+          return ListViewLoadMore(
+            cubit: cubit,
+            sinkWap: true,
+            isListView: true,
+            callApi: (page) =>
+                {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
+            viewItem: (value, index) => CellListDanhBaToChuc(
+              item: value as ItemsToChuc,
+              index: index ?? 0,
+              cubit: cubit,
+            ),
+          );
+        });
   }
 
   Widget _contentTabLet() {
-    return ListViewLoadMore(
-      checkRatio: 1.5,
-      cubit: cubit,
-      isListView: false,
-      callApi: (page) => {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
-      viewItem: (value, index) => CellListDanhBaToChucTablet(
-        item: value as ItemsToChuc,
-        index: index ?? 0,
-        cubit: cubit,
-      ),
-    );
+    return StreamBuilder<DataDanhBaToChuc>(
+        stream: cubit.dataDanhBa.stream,
+        builder: (context, snapshot) {
+          return ListViewLoadMore(
+            checkRatio: 1.5,
+            cubit: cubit,
+            isListView: false,
+            callApi: (page) =>
+                {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
+            viewItem: (value, index) => CellListDanhBaToChucTablet(
+              item: value as ItemsToChuc,
+              index: index ?? 0,
+              cubit: cubit,
+            ),
+          );
+        });
   }
 }

@@ -111,7 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 20,
                       ),
                       TextFieldValidator(
-                        maxLength: textTaiKhoanController.value.text.contains('@') ? 255: null,
                         controller: textTaiKhoanController,
                         suffixIcon: loginCubit.isHideClearData
                             ? SizedBox(

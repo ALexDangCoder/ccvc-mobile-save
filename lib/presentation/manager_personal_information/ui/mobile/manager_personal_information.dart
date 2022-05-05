@@ -71,6 +71,7 @@ class _ManagerPersonalInformationState
                 } else if (value == null) {
                   return;
                 }
+                return;
               });
             },
             child: SvgPicture.asset(

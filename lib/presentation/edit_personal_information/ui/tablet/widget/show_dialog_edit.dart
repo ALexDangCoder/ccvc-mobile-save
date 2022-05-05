@@ -19,6 +19,7 @@ Future<T?> showDiaLogTablet<T>(
   double width = 342,
   double? setHeight,
   bool isPhone = false,
+  bool? isCallApi,
 }) {
   return showDialog(
     context: context,
@@ -41,6 +42,7 @@ Future<T?> showDiaLogTablet<T>(
           title2: title2,
           isBottomShowText: isBottomShowText,
           isPhone: isPhone,
+          isCallApi: isCallApi,
           child: child,
         ),
       );
@@ -61,6 +63,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final double width;
   final bool isBottomShowText;
   final bool isPhone;
+  final bool? isCallApi;
 
   const _DiaLogFeatureWidget({
     Key? key,
@@ -76,6 +79,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.width,
     required this.isBottomShowText,
     required this.isPhone,
+    this.isCallApi,
   }) : super(key: key);
 
   @override
@@ -154,7 +158,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                     button(
                       onTap: () {
                         funcBtnOk();
-                        Navigator.pop(context, true);
+                        Navigator.pop(context, isCallApi ?? true);
                       },
                       title: btnRightTxt,
                       isLeft: false,

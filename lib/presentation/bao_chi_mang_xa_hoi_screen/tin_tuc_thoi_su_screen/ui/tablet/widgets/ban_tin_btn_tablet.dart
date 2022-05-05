@@ -100,13 +100,13 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                                 height: 30.0,
                                 width: 30.0,
                                 child: SvgPicture.asset(
-                                    ImageAssets.ic_pasue.svgToTheme()),
+                                    ImageAssets.ic_pasue.svgToTheme(),),
                               )
                             : SizedBox(
                                 height: 30.0,
                                 width: 30.0,
                                 child: SvgPicture.asset(
-                                    ImageAssets.icPlay.svgToTheme())),
+                                    ImageAssets.icPlay.svgToTheme(),),),
                       );
                     },
                   ),
@@ -152,7 +152,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                       builder: (context, snapshot) {
                         final timeData = snapshot.data?.inSeconds ?? 0;
                         return Text(
-                          '${phatBanTinBloc.intToDate(timeData)}',
+                          phatBanTinBloc.intToDate(timeData),
                           style: textNormalCustom(
                             color: AqiColor,
                             fontSize: 14,
@@ -166,13 +166,16 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                     ),
                     Expanded(
                       child: PlayRadio(
-                        setRadio: (value){
-
-                        },
                         player: player,
                         listLinkRadio:
                             widget.listTinTuc.map((e) => e.audioUrl).toList(),
                         initPlay: widget.index,
+                        onChangeEnd: (){
+                          phatBanTinBloc.setIndexRadio(
+                            phatBanTinBloc.getIndexRadio()+1,
+                            widget.listTinTuc.length - 1,
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(

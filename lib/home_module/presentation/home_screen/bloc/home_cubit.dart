@@ -160,7 +160,6 @@ class HomeCubit extends BaseCubit<HomeState> {
 /// Get Config Widget
 extension GetConfigWidget on HomeCubit {
   Future<void> configWidget() async {
-    print('call first one');
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {

@@ -69,6 +69,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            // if(widget.cubit.isBtnThemPhienHop())
             SolidButton(
               onTap: () {
                 showBottomSheetCustom(

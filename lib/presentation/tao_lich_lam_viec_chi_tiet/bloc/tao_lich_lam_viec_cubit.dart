@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
@@ -142,6 +143,19 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   String? title = '';
   String? content = '';
   String? location = '';
+  String? typeScheduleName = '';
+  String? typeScheduleId = '';
+  String? dateTimeFrom;
+  String? dateTimeTo;
+  String? linhVucString;
+  String? lichLapString;
+  String? nguoiChuTriString;
+  String? days;
+  int? typeRepeat;
+  String? dateRepeat;
+  ScheduleReminder?scheduleReminder;
+  ChiTietLichLamViecModel chiTietLichLamViecModel=ChiTietLichLamViecModel();
+
   bool allDay = true;
 
   void listeningStartDataTime(DateTime dateAndTime) {

@@ -30,7 +30,7 @@ class _ItemTinhWidgetState extends State<ItemTinhWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenTinhThanh ?? '').toList(),
-          value: '',
+          value: widget.taoLichLamViecCubit.tinhSelectModel?.tenTinhThanh??'',
           title: S.current.tinh,
         );
       },

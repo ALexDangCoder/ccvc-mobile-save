@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
 import 'package:ccvc_mobile/presentation/reset_password/ui/tablet/send_mail_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -125,6 +126,21 @@ class _ChangePassWordScreenTabletState
                         },
                       ),
                       const SizedBox(height: 24.0),
+                      StreamBuilder<String>(
+                          stream: cubit.thongBao,
+                          builder: (context, snapshot) {
+                            final data=snapshot.data??'';
+                            if(data.isNotEmpty){
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 24.0),
+                                child: WidgetTextError(text: data,),
+                              );
+                            }else{
+                              return const SizedBox();
+                            }
+
+                          }
+                      ),
                       TextFieldValidator(
                         maxLength: 32,
                         fillColor: backgroundColorApp,
@@ -223,7 +239,7 @@ class _ChangePassWordScreenTabletState
                             return S.current.mat_khau_chua_khop;
                           } else {
                             return (value ?? '')
-                                .checkTruongNull('Nhập lại mật khẩu!');
+                                .checkTruongNull('Nhập lại mật khẩu mới!');
                           }
                         },
                       ),

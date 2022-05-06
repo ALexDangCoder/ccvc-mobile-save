@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/login_provider.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
 import 'package:ccvc_mobile/presentation/reset_password/ui/tablet/send_mail_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -160,7 +161,10 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               },
                               validator: (value) {
                                  if ((value ?? '').contains('@')) {
-                                  return (value ?? '').checkEmailBoolean();
+                                   if((value ?? '').contains('@', value!.indexOf('@')+1)) {
+                                   }else{
+                                     return value.checkEmailBoolean();
+                                   }
                                 } else {
                                   return (value ?? '').checkTruongNull('Tài khoản!');
                                 }
@@ -219,6 +223,21 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                             ),
                             const SizedBox(
                               height: 24,
+                            ),
+                            StreamBuilder<String>(
+                                stream: loginCubit.thongBao,
+                                builder: (context, snapshot) {
+                                  final data=snapshot.data??'';
+                                  if(data.isNotEmpty){
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 24.0),
+                                      child: WidgetTextError(text: data,),
+                                    );
+                                  }else{
+                                    return const SizedBox();
+                                  }
+
+                                }
                             ),
                             GestureDetector(
                               onTap: () {

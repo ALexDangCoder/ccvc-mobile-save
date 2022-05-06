@@ -49,6 +49,7 @@ class ManagerPersonalInformationCubit
       BehaviorSubject.seeded([]);
   final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
   final isCheckCccd = RegExp(r'^[0-9]{0,255}$');
+  final isCheckValue = RegExp(r'^[a-z!@#$%^&*()-+=:;]$');
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;

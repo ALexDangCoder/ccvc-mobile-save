@@ -44,6 +44,8 @@ class CalenderCubit extends BaseCubit<CalenderState> {
   final BehaviorSubject<List<DateTime>> eventsSubject = BehaviorSubject();
 
   BehaviorSubject<List<MenuModel>> menuModelSubject = BehaviorSubject();
+  BehaviorSubject<DateTime> initTime = BehaviorSubject();
+  DateTime? initTimes;
 
   Stream<List<DateTime>> get eventsStream => eventsSubject.stream;
 

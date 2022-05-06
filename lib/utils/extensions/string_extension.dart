@@ -146,7 +146,7 @@ extension CheckValidate on String {
 
   String? checkTruongNull(String name) {
     if (trim().isEmpty) {
-      return '${S.current.ban_phai_nhap_truong} $name';
+      return '${S.current.ban_phai_nhap_truong } $name';
     }
     return null;
   }

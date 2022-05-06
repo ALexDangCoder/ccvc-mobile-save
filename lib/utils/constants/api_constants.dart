@@ -236,6 +236,7 @@ class ApiConstants {
   static const TINH_SELECT = '/vpdt/api/Country/province-list';
   static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
   static const XA_SELECT = '/vpdt/api/Country/wards-list';
+  static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
 }
 
 class ImageConstants {

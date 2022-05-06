@@ -29,7 +29,7 @@ class _ItemXaWidgetState extends State<ItemXaWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenXaPhuong ?? '').toList(),
-          value: '',
+          value: widget.taoLichLamViecCubit.xaSelectModel?.tenXaPhuong??'',
           title: S.current.xa,
         );
       },

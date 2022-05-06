@@ -437,6 +437,109 @@ class LichLamViecImlp implements LichLamViecRepository {
           (res) => res.toDomain(),
     );
   }
+  @override
+  Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
+      String title,
+      String typeScheduleId,
+      String linhVucId,
+      String TenTinh,
+      String TenHuyen,
+      String TenXa,
+      String countryId,
+      String dateFrom,
+      String timeFrom,
+      String dateTo,
+      String timeTo,
+      String content,
+      String location,
+      String vehicle,
+      String expectedResults,
+      String results,
+      int status,
+      String rejectReason,
+      bool publishSchedule,
+      String tags,
+      bool isLichDonVi,
+      String canBoChuTriId,
+      String donViId,
+      String note,
+      bool isAllDay,
+      bool isSendMail,
+      List<DonViModel> scheduleCoperativeRequest,
+      int typeRemider,
+      int typeRepeat,
+      String dateRepeat,
+      String dateRepeat1,
+      bool only,
+      List<int> days,
+      ) {
+    final _data = FormData();
+    _data.fields.add(MapEntry('title', title));
+    _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
+    _data.fields.add(MapEntry('linhVucId', linhVucId));
+    _data.fields.add(MapEntry('TenTinh', TenTinh));
+    _data.fields.add(MapEntry('TenHuyen', TenHuyen));
+    _data.fields.add(MapEntry('TenXa', TenXa));
+    _data.fields.add(MapEntry('countryId', countryId));
+    _data.fields.add(MapEntry('dateFrom', dateFrom));
+    _data.fields.add(MapEntry('timeFrom', timeFrom));
+    _data.fields.add(MapEntry('dateTo', dateTo));
+    _data.fields.add(MapEntry('timeTo', timeTo));
+    _data.fields.add(MapEntry('content', content));
+    _data.fields.add(MapEntry('vehicle', vehicle));
+    _data.fields.add(MapEntry('expectedResults', expectedResults));
+    _data.fields.add(MapEntry('results', results));
+    _data.fields.add(MapEntry('status', status.toString()));
+    _data.fields.add(MapEntry('rejectReason', rejectReason));
+    _data.fields.add(MapEntry('publishSchedule', publishSchedule.toString()));
+    _data.fields.add(MapEntry('tags', tags));
+    _data.fields.add(MapEntry('isLichDonVi', isLichDonVi.toString()));
+    _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
+    _data.fields.add(MapEntry('donViId', donViId));
+    _data.fields.add(MapEntry('note', note));
+    _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
+    _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
+
+    for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].donViId',
+          scheduleCoperativeRequest[i].id,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].canBoId',
+          scheduleCoperativeRequest[i].canBoId,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].taskContent',
+          scheduleCoperativeRequest[i].noidung,
+        ),
+      );
+    }
+
+    _data.fields
+        .add(MapEntry('repeatCalendar.typeRepeat', typeRepeat.toString()));
+    _data.fields.add(MapEntry(
+        'scheduleReminderRequest.typeRemider', typeRemider.toString()));
+    final dateRepeats = [dateRepeat, dateRepeat1];
+    for (int i = 0; i < dateRepeats.length; i++) {
+      _data.fields.add(
+          MapEntry('repeatCalendar.dateRepeat[$i]', dateRepeats[i].toString()));
+    }
+    _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
+    for (int i = 0; i < days.length; i++) {
+      _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
+    }
+
+    return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
+          () => lichLamViecService.taoLichLamviec(_data),
+          (res) => res.toDomain(),
+    );
+  }
 
   @override
   Future<Result<MessageModel>> taoBaoCaoKetQua(
@@ -502,6 +605,16 @@ class LichLamViecImlp implements LichLamViecRepository {
         DaTaXaSelectModel>(
           () => lichLamViecService.xaSelect(xaSelectRequest),
           (response) => response.data?.toModel() ?? DaTaXaSelectModel(),
+    );
+  }
+
+  @override
+  Future<Result<DataDatNuocSelectModel>> datNuocSelect(
+      DatNuocSelectRequest datNuocSelectRequest) {
+    return runCatchingAsync<PageDataDatNuocSelectModelResponse,
+        DataDatNuocSelectModel>(
+      () => lichLamViecService.datNuocSelect(datNuocSelectRequest),
+      (response) => response.data?.toModel() ?? DataDatNuocSelectModel(),
     );
   }
 }

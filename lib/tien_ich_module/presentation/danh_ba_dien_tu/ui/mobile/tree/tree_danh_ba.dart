@@ -80,7 +80,7 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                     BaseSearchBarNoBorder(
                       hintText: S.current.nhap_don_vi,
                       onChange: (vl) {
-                        // widget.cubit.searchTree(vl);
+                        widget.cubit.searchTree(vl);
                       },
                     ),
                     Container(

@@ -35,7 +35,6 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   BehaviorSubject<String> tenDonVi =
       BehaviorSubject.seeded(S.current.UBND_tinh_dong_nai);
   BehaviorSubject<String> idDonVi = BehaviorSubject();
-  BehaviorSubject<DataDanhBaToChuc> dataDanhBa = BehaviorSubject();
 
   ////////////////////////////////////////////////////////////////////////
   DanhBaDienTuRepository get tienIchRep => Get.find();
@@ -60,7 +59,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   bool isDeleted = false;
   int? thuTu = 0;
   List<String>? groupIds = [];
-  String id = '';
+
   String search = '';
   BehaviorSubject<File> saveFile = BehaviorSubject();
   final BehaviorSubject<String> anhDanhBaCaNhan = BehaviorSubject();
@@ -83,12 +82,12 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     getListDanhBaCaNhan(pageIndex: pageIndex, pageSize: pageSize);
   }
 
-  void callApiDanhBaToChuc() {
+  void callApiDanhBaToChuc({int? pageIndexTung, String? keyWork, String? id}) {
     getListDanhBaToChuc(
-      pageIndex: pageIndex,
+      pageIndex: pageIndexTung ?? pageIndex,
       pageSize: pageSize,
-      filterBy: search,
-      idDonVi: id,
+      filterBy: keyWork ?? '',
+      idDonVi: id ?? '',
     );
   }
 
@@ -192,7 +191,6 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     );
     result.when(
       success: (res) {
-        dataDanhBa.add(res);
         if (pageIndex == ApiConstants.PAGE_BEGIN) {
           if (res.items?.isEmpty ?? true) {
             showEmpty();
@@ -431,10 +429,10 @@ extension treeDanhBa on DanhBaDienTuCubit {
 
     List<TreeDonViDanhBA> result = [];
     void findDonViCha(List<TreeDonViDanhBA> listAll, TreeDonViDanhBA node) {
-      var parentsNode =
+      final parentsNode =
           listAll.where((x) => x.id == node.iD_DonVi_Cha).toList();
       if (parentsNode.isNotEmpty) {
-        var parentNode = parentsNode.first;
+        final parentNode = parentsNode.first;
         if (!result.contains(parentNode)) {
           result.add(parentNode);
           findDonViCha(listAll, parentNode);
@@ -460,7 +458,5 @@ extension treeDanhBa on DanhBaDienTuCubit {
     Tree ans = Tree();
     ans.initTree(listNode: result);
     listTreeDanhBaSubject.add(ans);
-
-    print('${result.where((element) => element.iD_DonVi_Cha == '').toList()}');
   }
 }

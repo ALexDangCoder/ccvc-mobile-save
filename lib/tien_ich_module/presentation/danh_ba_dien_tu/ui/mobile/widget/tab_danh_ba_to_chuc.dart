@@ -41,8 +41,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
                 child: BaseSearchBar(
                   hintText: S.current.tim_kiem_danh_ba,
                   onChange: (value) {
-                    setState(() {});
-                    cubit.search = value;
+                    cubit.callApiDanhBaToChuc(keyWork: value, pageIndexTung: 1);
                   },
                 ),
               ),
@@ -59,8 +58,10 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
                       DanhBaWidget(
                         cubit: cubit,
                         onChange: (value) {
-                          cubit.id = value.id;
-                          cubit.callApiDanhBaToChuc();
+                          cubit.callApiDanhBaToChuc(
+                            pageIndexTung: 1,
+                            id: value.id,
+                          );
                         },
                       ),
                       Expanded(child: _content()),
@@ -85,8 +86,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
               child: BaseSearchBar(
                 hintText: S.current.tim_kiem_danh_ba,
                 onChange: (value) {
-                  setState(() {});
-                  cubit.search = value;
+                  cubit.callApiDanhBaToChuc(keyWork: value, pageIndexTung: 1);
                 },
               ),
             ),
@@ -96,8 +96,10 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
               child: DanhBaWidget(
                 cubit: cubit,
                 onChange: (value) {
-                  cubit.id = value.id;
-                  cubit.callApiDanhBaToChuc();
+                  cubit.callApiDanhBaToChuc(
+                    pageIndexTung: 1,
+                    id: value.id,
+                  );
                 },
               ),
             ),
@@ -114,40 +116,30 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
   }
 
   Widget _content() {
-    return StreamBuilder<DataDanhBaToChuc>(
-        stream: cubit.dataDanhBa.stream,
-        builder: (context, snapshot) {
-          return ListViewLoadMore(
-            cubit: cubit,
-            sinkWap: true,
-            isListView: true,
-            callApi: (page) =>
-                {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
-            viewItem: (value, index) => CellListDanhBaToChuc(
-              item: value as ItemsToChuc,
-              index: index ?? 0,
-              cubit: cubit,
-            ),
-          );
-        });
+    return ListViewLoadMore(
+      cubit: cubit,
+      sinkWap: true,
+      isListView: true,
+      callApi: (page) => {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
+      viewItem: (value, index) => CellListDanhBaToChuc(
+        item: value as ItemsToChuc,
+        index: index ?? 0,
+        cubit: cubit,
+      ),
+    );
   }
 
   Widget _contentTabLet() {
-    return StreamBuilder<DataDanhBaToChuc>(
-        stream: cubit.dataDanhBa.stream,
-        builder: (context, snapshot) {
-          return ListViewLoadMore(
-            checkRatio: 1.5,
-            cubit: cubit,
-            isListView: false,
-            callApi: (page) =>
-                {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
-            viewItem: (value, index) => CellListDanhBaToChucTablet(
-              item: value as ItemsToChuc,
-              index: index ?? 0,
-              cubit: cubit,
-            ),
-          );
-        });
+    return ListViewLoadMore(
+      checkRatio: 1.5,
+      cubit: cubit,
+      isListView: false,
+      callApi: (page) => {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
+      viewItem: (value, index) => CellListDanhBaToChucTablet(
+        item: value as ItemsToChuc,
+        index: index ?? 0,
+        cubit: cubit,
+      ),
+    );
   }
 }

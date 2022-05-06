@@ -179,7 +179,11 @@ class _EditPersonalInformationScreen
                         title: user.keys.elementAt(3),
                         child: TextFieldValidator(
                           maxLength: 2,
-                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
+                          checkNumber: [
+                            FilteringTextInputFormatter.allow(
+                              cubit.isCheckRegex,
+                            )
+                          ],
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
                           textInputType: TextInputType.number,
@@ -208,7 +212,12 @@ class _EditPersonalInformationScreen
                           hintText: S.current.cmnd,
                           controller: cmndController,
                           maxLength: 255,
-                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
+                          textInputType: TextInputType.number,
+                          checkNumber: [
+                            FilteringTextInputFormatter.allow(
+                              cubit.isCheckCccd,
+                            )
+                          ],
                         ),
                       ),
                       InputInfoUserWidget(
@@ -238,15 +247,19 @@ class _EditPersonalInformationScreen
                           key: UniqueKey(),
                           hintText: S.current.email,
                           controller: emailController,
+                          onChange: (value) {},
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
+                            if (value == null || value.trim().isEmpty) {
                               return null;
-                            } else if (value.contains('@')) {
-                              if (value.contains('@', value.indexOf('@') + 1)) {
+                            } else if (value.trim().contains('@')) {
+                              if (value.trim().contains(
+                                    '@',
+                                    value.trim().indexOf('@') + 1,
+                                  )) {
                                 return S.current.nhap_sai_dinh_dang;
                               }
                             }
-                            return value.checkEmailBoolean();
+                            return value.trim().checkEmailBoolean();
                           },
                         ),
                       ),
@@ -257,7 +270,11 @@ class _EditPersonalInformationScreen
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
                           maxLength: 255,
-                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
+                          checkNumber: [
+                            FilteringTextInputFormatter.allow(
+                              cubit.isCheckCccd,
+                            )
+                          ],
                         ),
                       ),
                       //
@@ -268,7 +285,11 @@ class _EditPersonalInformationScreen
                           controller: sdtController,
                           textInputType: TextInputType.number,
                           maxLength: 255,
-                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
+                          checkNumber: [
+                            FilteringTextInputFormatter.allow(
+                              cubit.isCheckCccd,
+                            )
+                          ],
                         ),
                       ),
                       StreamBuilder<List<TinhHuyenXaModel>>(

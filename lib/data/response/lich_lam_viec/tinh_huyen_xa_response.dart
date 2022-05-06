@@ -1,7 +1,9 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'tinh_huyen_xa_response.g.dart';
+
 //////////tinh
 @JsonSerializable()
 class PageDaTaTinhSelectModelResponse extends Equatable {
@@ -278,13 +280,14 @@ class DaTaXaSelectModelResponse extends Equatable {
       _$DaTaXaSelectModelResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DaTaXaSelectModelResponseToJson(this);
-  DaTaXaSelectModel toModel()=>DaTaXaSelectModel(
-    items:items?.map((e) => e.toModel()).toList(),
-    pageIndex:pageIndex,
-    pageSize:pageSize,
-    totalCount:totalCount,
-    totalPage:totalPage,
-  );
+
+  DaTaXaSelectModel toModel() => DaTaXaSelectModel(
+        items: items?.map((e) => e.toModel()).toList(),
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        totalCount: totalCount,
+        totalPage: totalPage,
+      );
 
   //todo convert to Model to use
   @override
@@ -324,6 +327,109 @@ class XaSelectModelResponse extends Equatable {
         tenXaPhuong: tenXaPhuong,
         totalItems: totalItems,
       );
+
+  //todo convert to Model to use
+  @override
+  List<Object?> get props => [];
+}
+
+//datNuoc model
+@JsonSerializable()
+class PageDataDatNuocSelectModelResponse extends Equatable {
+  @JsonKey(name: 'data')
+  DataDatNuocSelectModelResponse? data;
+  @JsonKey(name: 'statusCode')
+  int? statusCode;
+  @JsonKey(name: 'succeeded')
+  bool? succeeded;
+  @JsonKey(name: 'code')
+  String? code;
+  @JsonKey(name: 'message')
+  String? message;
+
+  PageDataDatNuocSelectModelResponse({
+    this.data,
+    this.statusCode,
+    this.succeeded,
+    this.code,
+    this.message,
+  });
+
+  factory PageDataDatNuocSelectModelResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PageDataDatNuocSelectModelResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$PageDataDatNuocSelectModelResponseToJson(this);
+
+  //todo convert to Model to use
+  @override
+  List<Object?> get props => [];
+}
+
+@JsonSerializable()
+class DataDatNuocSelectModelResponse extends Equatable {
+  @JsonKey(name: 'items')
+  List<DatNuocSelectModelResponse>? items;
+  @JsonKey(name: 'pageIndex')
+  int? pageIndex;
+  @JsonKey(name: 'pageSize')
+  int? pageSize;
+  @JsonKey(name: 'totalCount')
+  int? totalCount;
+  @JsonKey(name: 'totalPage')
+  int? totalPage;
+
+  DataDatNuocSelectModelResponse({
+    this.items,
+    this.pageIndex,
+    this.pageSize,
+    this.totalCount,
+    this.totalPage,
+  });
+
+  factory DataDatNuocSelectModelResponse.fromJson(Map<String, dynamic> json) =>
+      _$DataDatNuocSelectModelResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DataDatNuocSelectModelResponseToJson(this);
+
+  DataDatNuocSelectModel toModel() => DataDatNuocSelectModel(
+    items:items?.map((e) => e.toModel()).toList(),
+    pageIndex:pageIndex,
+    pageSize:pageSize,
+    totalCount:totalCount,
+    totalPage:totalPage,
+  );
+
+  //todo convert to Model to use
+  @override
+  List<Object?> get props => [];
+}
+
+@JsonSerializable()
+class DatNuocSelectModelResponse extends Equatable {
+  @JsonKey(name: 'id')
+  String? id;
+  @JsonKey(name: 'name')
+  String? name;
+  @JsonKey(name: 'totalItems')
+  int? totalItems;
+
+  DatNuocSelectModelResponse({
+    this.id,
+    this.name,
+    this.totalItems,
+  });
+
+  factory DatNuocSelectModelResponse.fromJson(Map<String, dynamic> json) =>
+      _$DatNuocSelectModelResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DatNuocSelectModelResponseToJson(this);
+  DatNuocSelectModel toModel()=>DatNuocSelectModel(
+    id:id,
+    name:name,
+    totalItems:totalItems,
+  );
 
   //todo convert to Model to use
   @override

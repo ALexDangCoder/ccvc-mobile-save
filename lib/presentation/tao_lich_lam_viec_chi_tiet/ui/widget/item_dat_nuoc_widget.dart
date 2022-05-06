@@ -5,33 +5,32 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
 
-class ItemTinhWidget extends StatefulWidget {
+class ItemDatNuocWidget extends StatefulWidget {
   final TaoLichLamViecCubit taoLichLamViecCubit;
 
-  ItemTinhWidget({Key? key, required this.taoLichLamViecCubit})
+  ItemDatNuocWidget({Key? key, required this.taoLichLamViecCubit})
       : super(key: key);
 
   @override
-  _ItemTinhWidgetState createState() => _ItemTinhWidgetState();
+  _ItemDatNuocWidgetState createState() => _ItemDatNuocWidgetState();
 }
 
-class _ItemTinhWidgetState extends State<ItemTinhWidget> {
+class _ItemDatNuocWidgetState extends State<ItemDatNuocWidget> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<TinhSelectModel>>(
-      stream: widget.taoLichLamViecCubit.tinhSelect,
+    return StreamBuilder<List<DatNuocSelectModel>>(
+      stream: widget.taoLichLamViecCubit.datNuocSelect,
       builder: (context, snapshot) {
-        final data = snapshot.data ?? <TinhSelectModel>[];
+        final data = snapshot.data ?? <DatNuocSelectModel>[];
         return SelectOnlyExpand(
           onChange: (value) {
-            widget.taoLichLamViecCubit.tinhSelectModel?.tenTinhThanh =
-                data[value].tenTinhThanh;
-            widget.taoLichLamViecCubit.getDataHuyen(data[value].id ?? '');
+            widget.taoLichLamViecCubit.datNuocSelectModel?.name =
+                data[value].name;
           },
           urlIcon: ImageAssets.icViTri,
-          listSelect: data.map((e) => e.tenTinhThanh ?? '').toList(),
-          value: widget.taoLichLamViecCubit.tinhSelectModel?.tenTinhThanh??'',
-          title: S.current.tinh,
+          listSelect: data.map((e) => e.name ?? '').toList(),
+          value: '',
+          title: S.current.quoc_gia,
         );
       },
     );

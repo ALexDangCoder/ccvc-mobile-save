@@ -201,7 +201,9 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       maxLength: 2,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
+                                        FilteringTextInputFormatter.allow(
+                                          cubit.isCheckRegex,
+                                        )
                                       ],
                                       textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
@@ -233,8 +235,11 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
                                       maxLength: 255,
+                                      textInputType: TextInputType.number,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
+                                        FilteringTextInputFormatter.allow(
+                                          cubit.isCheckCccd,
+                                        )
                                       ],
                                     ),
                                   ),
@@ -266,18 +271,20 @@ class _EditPersonalInformationTabletScreen
                                       key: UniqueKey(),
                                       hintText: S.current.email,
                                       controller: emailController,
+                                      onChange: (value) {},
                                       validator: (value) {
-                                        if (value == null || value.isEmpty) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
                                           return null;
-                                        } else if (value.contains('@')) {
-                                          if (value.contains(
-                                            '@',
-                                            value.indexOf('@') + 1,
-                                          )) {
+                                        } else if (value.trim().contains('@')) {
+                                          if (value.trim().contains(
+                                                '@',
+                                                value.trim().indexOf('@') + 1,
+                                              )) {
                                             return S.current.nhap_sai_dinh_dang;
                                           }
                                         }
-                                        return value.checkEmailBoolean();
+                                        return value.trim().checkEmailBoolean();
                                       },
                                     ),
                                   ),
@@ -297,7 +304,9 @@ class _EditPersonalInformationTabletScreen
                                       textInputType: TextInputType.number,
                                       maxLength: 255,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
+                                        FilteringTextInputFormatter.allow(
+                                          cubit.isCheckCccd,
+                                        )
                                       ],
                                     ),
                                   ),
@@ -309,7 +318,9 @@ class _EditPersonalInformationTabletScreen
                                       textInputType: TextInputType.number,
                                       maxLength: 255,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
+                                        FilteringTextInputFormatter.allow(
+                                          cubit.isCheckCccd,
+                                        )
                                       ],
                                     ),
                                   ),

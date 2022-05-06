@@ -104,11 +104,10 @@ extension CheckValidate on String {
 
   String? checkEmailBoolean() {
     final isCheck = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}")
-        .hasMatch(this);
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}",
+    ).hasMatch(this);
     if (isCheck) {
-      if ((indexOf('@') >= 64 || ((length - indexOf('.'))) >= 254) ||
-          (indexOf('@') >= 64 && ((length - indexOf('.'))) >= 254)) {
+      if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {
         return S.current.nhap_sai_dinh_dang;
       } else {
         return null;
@@ -147,7 +146,7 @@ extension CheckValidate on String {
 
   String? checkTruongNull(String name) {
     if (trim().isEmpty) {
-      return '${S.current.ban_phai_nhap_truong} $name';
+      return '${S.current.ban_phai_nhap_truong } $name';
     }
     return null;
   }
@@ -170,12 +169,12 @@ extension CheckValidate on String {
       return S.current.check_so_luong;
     }
   }
-  String svgToTheme(){
-    final url = split('.').first;
-    switch(APP_THEME){
 
+  String svgToTheme() {
+    final url = split('.').first;
+    switch (APP_THEME) {
       case AppMode.MAC_DINH:
-       return this;
+        return this;
       case AppMode.XANH:
         return '${url}_xanh.svg';
       case AppMode.HONG:

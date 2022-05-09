@@ -63,36 +63,42 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                   StreamBuilder<Map<String, List<BarChartModel>>>(
                     stream: baoCaoThongKeBCMXHCubit.mapTongQuan,
                     builder: (context, snapshot) {
-                      final data = snapshot.data ?? {};
-                      final listData =
-                          data[BaoCaoThongKeBCMXHCubit.KEY_TONG_QUAN];
-                      final listStatusData =
-                          data[BaoCaoThongKeBCMXHCubit.KEY_STATUS_TONG_QUAN];
-                      return GroupChartItemWidget(
-                        onChoiceDate: (startDate, endDate) {
-                          baoCaoThongKeBCMXHCubit.getTongQuanBaoCao(
-                            startDate,
-                            endDate,
-                            widget.topic,
-                          );
-                        },
-                        title: S.current.tong_quan,
-                        child: Column(
-                          children: [
-                            BarCharWidget(
-                              color: purpleChart,
-                              listData: listData ?? [],
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            BarCharWidget(
-                              color: orangeDamChart,
-                              listData: listStatusData ?? [],
-                            ),
-                          ],
-                        ),
-                      );
+                      if(snapshot.hasData){
+                        final data = snapshot.data ?? {};
+                        final listData =
+                        data[BaoCaoThongKeBCMXHCubit.KEY_TONG_QUAN];
+                        final listStatusData =
+                        data[BaoCaoThongKeBCMXHCubit.KEY_STATUS_TONG_QUAN];
+                        return GroupChartItemWidget(
+                          onChoiceDate: (startDate, endDate) {
+                            baoCaoThongKeBCMXHCubit.getTongQuanBaoCao(
+                              startDate,
+                              endDate,
+                              widget.topic,
+                            );
+                          },
+                          title: S.current.tong_quan,
+                          child: Column(
+                            children: [
+                              BarCharWidget(
+                                color: purpleChart,
+                                listData: listData ?? [],
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              BarCharWidget(
+                                color: orangeDamChart,
+                                listData: listStatusData ?? [],
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      else{
+                        return const NodataWidget();
+                      }
+
                     },
                   ),
                   Container(

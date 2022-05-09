@@ -310,9 +310,9 @@ class DanhSachCongViecTienIchCubit
 
   String dateChange = '';
 
-  String noteChange = '';
+  String? noteChange;
 
-  String titleChange = '';
+  String? titleChange;
 
   String person = '';
 
@@ -329,7 +329,6 @@ class DanhSachCongViecTienIchCubit
     bool? isDeleted,
     required TodoDSCVModel todo,
   }) async {
-    showLoading();
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,
@@ -339,16 +338,14 @@ class DanhSachCongViecTienIchCubit
         createdOn: todo.createdOn,
         createdBy: todo.createdBy,
         isTicked: isTicked ?? todo.isTicked,
-        label: titleChange.isEmpty ? todo.label ?? null : titleChange,
+        label: titleChange ?? todo.label,
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
-        note: noteChange.isNotEmpty ? todo.note ?? null : noteChange,
+        note: noteChange ?? todo.note,
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatDayCalendar,
-        performer: toDoListRequest.performer == ''
-            ? todo.performer ?? null
-            : toDoListRequest.performer,
+        performer: toDoListRequest.performer ?? todo.performer,
       ),
     );
     await result.when(

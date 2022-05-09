@@ -43,7 +43,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
     return screenDevice(
       mobileScreen: Container(
         margin: const EdgeInsets.only(top: 16),
-        padding: const EdgeInsets.only(top: 16, bottom: 16, left: 16),
+        padding: const EdgeInsets.only(top: 10, bottom: 16, left: 16),
         decoration: BoxDecoration(
           border: Border.all(color: borderItemCalender),
           color: borderItemCalender.withOpacity(0.1),
@@ -91,14 +91,11 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
             ),
             widgetRow(
               name: S.current.nguoi_phat_bieu,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  '${widget.infoModel.nguoiPhatBieu}',
-                  style: textNormalCustom(
-                    fontSize: 14,
-                    color: infoColor,
-                  ),
+              child: Text(
+                '${widget.infoModel.nguoiPhatBieu}',
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: infoColor,
                 ),
               ),
             ),
@@ -114,14 +111,11 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
             ),
             widgetRow(
                 name: S.current.thoi_gian,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    '${widget.infoModel.tthoiGian}',
-                    style: textNormalCustom(
-                      fontSize: 14,
-                      color: infoColor,
-                    ),
+                child: Text(
+                  '${widget.infoModel.tthoiGian}',
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: infoColor,
                   ),
                 )),
           ],

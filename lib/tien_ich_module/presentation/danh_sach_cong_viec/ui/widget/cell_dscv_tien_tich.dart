@@ -121,6 +121,25 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
           Row(
             children: [
               if (widget.isTheEdit)
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: GestureDetector(
+                    onTap: widget.onEdit,
+                    child: SvgPicture.asset(ImageAssets.icEditBlue),
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: widget.onStar,
+                  child: SvgPicture.asset(
+                    widget.todoModel.important ?? false
+                        ? ImageAssets.icStarFocus
+                        : ImageAssets.icStarUnfocus,
+                  ),
+                ),
+              ),
+              if (widget.isDaBiXoa)
                 GestureDetector(
                   onTap: widget.onThuHoi,
                   child: Padding(

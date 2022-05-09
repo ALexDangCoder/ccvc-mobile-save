@@ -50,65 +50,6 @@ class _PhatBieuWidgetState extends State<PhatBieuWidget> {
                     id: widget.id,
                     cubit: widget.cubit,
                   ),
-                  SizedBox(
-                    child: StreamBuilder<int>(
-                      stream: widget.cubit.typeStatus,
-                      builder: (context, snapshot) {
-                        if (widget.cubit.typeStatus.value == CHODUYET) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 150),
-                            child: DoubleButtonBottom(
-                              title1: S.current.huy_duyet,
-                              title2: S.current.duyet,
-                              onPressed1: () {
-                                Navigator.pop(context);
-                              },
-                              onPressed2: () {},
-                            ),
-                          );
-                        } else if (widget.cubit.typeStatus.value == DADUYET) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 250),
-                            child: ButtonCustomBottom(
-                              title: S.current.huy_duyet,
-                              onPressed: () {
-                                widget.cubit.getDanhSachPhatBieuLichHop(
-                                  status: DADUYET,
-                                  lichHopId: widget.id,
-                                );
-                                setState(() {});
-                              },
-                              isColorBlue: false,
-                            ),
-                          );
-                        } else if (widget.cubit.typeStatus.value == HUYDUYET) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 250),
-                            child: ButtonCustomBottom(
-                              title: S.current.duyet,
-                              onPressed: () {},
-                              isColorBlue: true,
-                            ),
-                          );
-                        } else {
-                          return IconWithTiltleWidget(
-                            icon: ImageAssets.icMic,
-                            title: S.current.dang_ky_phat_bieu,
-                            onPress: () {
-                              showBottomSheetCustom(
-                                context,
-                                title: S.current.dang_ky_phat_bieu,
-                                child: DangKyPhatBieuWidget(
-                                  cubit: widget.cubit,
-                                  id: widget.id,
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      },
-                    ),
-                  ),
                   StreamBuilder<List<PhatBieuModel>>(
                     stream: widget.cubit.streamPhatBieu,
                     builder: (context, snapshot) {

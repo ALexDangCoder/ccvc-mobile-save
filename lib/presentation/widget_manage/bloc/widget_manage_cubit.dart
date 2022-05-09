@@ -46,14 +46,20 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     } else {
       listUsing = keyHomeMobile.currentState?.homeCubit.getListWidget ?? [];
     }
-    listTitleWidgetUse = listUsing.map((e) => e.name).toList();
-    _listWidgetUsing.sink.add(listUsing);
+    if (listUsing.isNotEmpty) {
+      listTitleWidgetUse = listUsing.map((e) => e.name).toList();
+      _listWidgetUsing.sink.add(listUsing);
+    }
+    else{
+      _listWidgetUsing.sink.add([]);
+    }
+
   }
 
   void loadApi() {
     _getListWidgetUsing();
     _getListWidgetNotUse();
-     setFullParaNotUse();
+    setFullParaNotUse();
   }
 
   void insertItemUsing(
@@ -151,6 +157,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   Future<void> resetListWidget() async {
     showLoading();
     final result = await _qlWidgetRepo.resetListWidget();
+    showContent();
     result.when(
       success: (res) {
         listUsing.clear();
@@ -169,9 +176,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
         orderWidgetHome(_listWidgetUsing.value);
         showContent();
       },
-      error: (err) {
-        return;
-      },
+      error: (err) {},
     );
   }
 

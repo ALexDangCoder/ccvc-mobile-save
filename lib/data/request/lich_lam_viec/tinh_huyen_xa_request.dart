@@ -63,3 +63,22 @@ class XaSelectRequest extends Equatable {
   @override
   List<Object?> get props => [];
 }
+@JsonSerializable()
+class DatNuocSelectRequest extends Equatable {
+  int? pageIndex;
+  int? pageSize;
+
+  DatNuocSelectRequest({
+    this.pageIndex,
+    this.pageSize,
+  });
+
+  factory DatNuocSelectRequest.fromJson(Map<String, dynamic> json) =>
+      _$DatNuocSelectRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DatNuocSelectRequestToJson(this);
+
+  //todo convert to Model to use
+  @override
+  List<Object?> get props => [];
+}

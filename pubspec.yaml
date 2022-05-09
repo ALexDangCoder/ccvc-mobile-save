@@ -84,6 +84,7 @@ dependencies:
   html_editor_enhanced: ^2.4.0+1
   translator: ^0.1.7
   flutter_contacts:
+  cool_dropdown: ^1.4.1
 
 dev_dependencies:
   flutter_test:
@@ -94,7 +95,6 @@ dev_dependencies:
   json_serializable: ^4.1.0
   injectable_generator: ^1.4.1
   flutter_lints: ^1.0.0
-
 
 flutter:
   uses-material-design: true

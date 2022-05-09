@@ -148,28 +148,6 @@ class _DanhSachCongViecTienIchMobileState
                                       ),
                                     );
                                   },
-                                  onThuHoi: () {
-                                    cubit.editWork(
-                                      todo: todo,
-                                      inUsed: !todo.inUsed!,
-                                    );
-                                  },
-                                  onXoaVinhVien: () {
-                                    showDiaLog(
-                                      context,
-                                      funcBtnRight: () {
-                                        cubit.xoaCongViec(todo.id ?? '');
-                                      },
-                                      icon: SvgPicture.asset(
-                                        ImageAssets.icDeleteLichHop,
-                                      ),
-                                      title: S.current.xoa_cong_viec,
-                                      textContent:
-                                          'Bạn có chắc chắn muốn móa vĩnh viễn công việc này',
-                                      btnLeftTxt: S.current.huy,
-                                      btnRightTxt: S.current.xoa,
-                                    );
-                                  },
                                   enabled: !todo.isTicked!,
                                   isDaBiXoa: dataType == DBX,
                                 );

@@ -210,7 +210,7 @@ Widget buttonPhatBieu({
             ),
           );
         } else {
-          return isMobile() == true
+          return isMobile()
               ? IconWithTiltleWidget(
                   icon: ImageAssets.icMic,
                   title: S.current.dang_ky_phat_bieu,

@@ -18,7 +18,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -233,6 +233,7 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
                                       maxLength: 255,
+                                      textInputType: TextInputType.number,
                                       checkNumber: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
@@ -241,15 +242,16 @@ class _EditPersonalInformationTabletScreen
                                   InputInfoUserWidget(
                                     isObligatory: true,
                                     title: user.keys.elementAt(6),
-                                    child: CustomDropDown(
-                                      value:
+                                    child: CoolDropDown(
+                                      setWidth: 300,
+                                      initData:
                                           cubit.managerPersonalInformationModel
                                                       .gioiTinh ??
                                                   false
                                               ? S.current.Nam
                                               : S.current.Nu,
-                                      items: cubit.fakeDataGioiTinh,
-                                      onSelectItem: (value) {
+                                      placeHoder: S.current.gioi_tinh,
+                                      onChange: (value) {
                                         if (value == 0) {
                                           cubit.selectGTEvent(true);
                                           cubit.gioiTinh = true;
@@ -258,6 +260,7 @@ class _EditPersonalInformationTabletScreen
                                           cubit.gioiTinh = false;
                                         }
                                       },
+                                      listData: cubit.fakeDataGioiTinh,
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -266,18 +269,20 @@ class _EditPersonalInformationTabletScreen
                                       key: UniqueKey(),
                                       hintText: S.current.email,
                                       controller: emailController,
+                                      onChange: (value) {},
                                       validator: (value) {
-                                        if (value == null || value.isEmpty) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
                                           return null;
-                                        } else if (value.contains('@')) {
-                                          if (value.contains(
-                                            '@',
-                                            value.indexOf('@') + 1,
-                                          )) {
+                                        } else if (value.trim().contains('@')) {
+                                          if (value.trim().contains(
+                                                '@',
+                                                value.trim().indexOf('@') + 1,
+                                              )) {
                                             return S.current.nhap_sai_dinh_dang;
                                           }
                                         }
-                                        return value.checkEmailBoolean();
+                                        return value.trim().checkEmailBoolean();
                                       },
                                     ),
                                   ),
@@ -320,6 +325,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(10),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .tinh,
@@ -375,6 +381,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(11),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .huyen,
@@ -422,6 +429,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(12),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .xa,

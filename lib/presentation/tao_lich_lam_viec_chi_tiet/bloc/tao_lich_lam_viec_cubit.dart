@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
@@ -38,6 +39,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     scheduleId: '7765603d-4493-4f7c-8a06-2d2b7511eedb',
     scheduleOpinionId: null,
   );
+  String selectedCountry = '';
+  String selectedCountryID = '';
   BehaviorSubject<bool> lichLapTuyChinhSubject = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> lichLapKhongLapLaiSubject =
       BehaviorSubject.seeded(false);
@@ -45,7 +48,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   BehaviorSubject<DateTime> startDateSubject = BehaviorSubject.seeded(
     DateTime.now(),
   );
-
+  BehaviorSubject<String> changeOption =
+      BehaviorSubject();
+  BehaviorSubject<bool> checkTrongNuoc =BehaviorSubject();
   BehaviorSubject<MessageModel> taoMoiBanGhiSubject = BehaviorSubject();
 
   BehaviorSubject<DateTime> endDateSubject = BehaviorSubject.seeded(
@@ -88,6 +93,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       BehaviorSubject();
   final BehaviorSubject<List<XaSelectModel>> xaSelectSubject =
       BehaviorSubject();
+  final BehaviorSubject<List<DatNuocSelectModel>> datNuocSelectSubject =
+      BehaviorSubject();
 
   Stream<List<TinhSelectModel>> get tinhSelect => tinhSelectSubject.stream;
 
@@ -95,13 +102,17 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   Stream<List<XaSelectModel>> get xaSelect => xaSelectSubject.stream;
 
+  Stream<List<DatNuocSelectModel>> get datNuocSelect => datNuocSelectSubject.stream;
+
   Set<int> lichLapItem = {};
   List<int> lichLapItem1 = <int>[];
+
   List<int> listNgayChonTuan(String vl) {
     final List<String> lSt = vl.replaceAll(',', '').split('');
     final List<int> numbers = lSt.map(int.parse).toList();
     return numbers;
   }
+
   DateTime dateTimeLapDenNgay = DateTime.now();
   BehaviorSubject<DateTime> changeDateTimeSubject = BehaviorSubject();
 
@@ -124,13 +135,27 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   TinhSelectModel? tinhSelectModel = TinhSelectModel();
   HuyenSelectModel? huyenSelectModel = HuyenSelectModel();
   XaSelectModel? xaSelectModel = XaSelectModel();
+  DatNuocSelectModel? datNuocSelectModel=DatNuocSelectModel();
   String? dateFrom;
   String? timeFrom;
   String? dateEnd;
   String? timeEnd;
-  String? title='';
-  String? content='';
-  String? location='';
+  String? title = '';
+  String? content = '';
+  String? location = '';
+  String? typeScheduleName = '';
+  String? typeScheduleId = '';
+  String? dateTimeFrom;
+  String? dateTimeTo;
+  String? linhVucString;
+  String? lichLapString;
+  String? nguoiChuTriString;
+  String? days;
+  int? typeRepeat;
+  String? dateRepeat;
+  ScheduleReminder?scheduleReminder;
+  ChiTietLichLamViecModel chiTietLichLamViecModel=ChiTietLichLamViecModel();
+
   bool allDay = true;
 
   void listeningStartDataTime(DateTime dateAndTime) {
@@ -186,6 +211,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     unawaited(queue.add(() => _dataLoaiLich()));
     unawaited(queue.add(() => _getNguoiChuTri()));
     unawaited(queue.add(() => getDatatinh()));
+    unawaited(queue.add(() => getDataDatNuoc()));
     await queue.onComplete;
     showContent();
     queue.dispose();
@@ -272,8 +298,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         selectLoaiLich?.id ?? '',
         selectLinhVuc?.id ?? '',
         tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.tenQuanHuyen??'',
-        xaSelectModel?.tenXaPhuong??'',
+        huyenSelectModel?.tenQuanHuyen ?? '',
+        xaSelectModel?.tenXaPhuong ?? '',
         dateFrom ?? DateTime.now().formatApi,
         timeFrom ??
             '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
@@ -309,22 +335,67 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       showContent();
     });
   }
+
   Future<void> suaLichLamViec() async {
     final result = await _lichLamViec.suaLichLamViec(
         title??'',
         selectLoaiLich?.id ?? '',
         selectLinhVuc?.id ?? '',
         tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.tenQuanHuyen??'',
-        xaSelectModel?.tenXaPhuong??'',
+        huyenSelectModel?.tenQuanHuyen ?? '',
+        xaSelectModel?.tenXaPhuong ?? '',
         dateFrom ?? DateTime.now().formatApi,
         timeFrom ??
             '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
         dateEnd ?? DateTime.now().formatApi,
         timeEnd ??
             '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
-        content??'',
-        location??'',
+        content ?? '',
+        location ?? '',
+        '',
+        '',
+        '',
+        2,
+        '',
+        false,
+        '',
+        false,
+        selectNguoiChuTri?.userId ?? '',
+        selectNguoiChuTri?.donViId ?? '',
+        '',
+        isCheckAllDaySubject.value,
+        true,
+        donviModel ?? [],
+        selectNhacLai.value ?? 1,
+        selectLichLap.id ?? 0,
+        dateFrom ?? DateTime.now().formatApi,
+        dateTimeLapDenNgay.formatApi,
+        true,
+        lichLapItem1);
+    result.when(success: (res) {
+      emit(CreateSuccess());
+      showContent();
+    }, error: (error) {
+      showContent();
+    });
+  }
+  Future<void> suaLichLamViecNuocNgoai() async {
+    final result = await _lichLamViec.suaLichLamViecNuocNgoai(
+        title??'',
+        selectLoaiLich?.id ?? '',
+        selectLinhVuc?.id ?? '',
+        tinhSelectModel?.tenTinhThanh ?? '',
+        huyenSelectModel?.tenQuanHuyen ?? '',
+        xaSelectModel?.tenXaPhuong ?? '',
+        selectedCountryID,
+        dateFrom ?? DateTime.now().formatApi,
+        timeFrom ??
+            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+        dateEnd ?? DateTime.now().formatApi,
+        timeEnd ??
+            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+        content ?? '',
+        location ?? '',
         '',
         '',
         '',
@@ -403,6 +474,17 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     result.when(
         success: (res) {
           xaSelectSubject.sink.add(res.items ?? []);
+        },
+        error: (error) {});
+  }
+
+  Future<void> getDataDatNuoc() async {
+    final result = await _lichLamViec.datNuocSelect(
+      DatNuocSelectRequest(pageIndex: 1, pageSize: 100),
+    );
+    result.when(
+        success: (res) {
+          datNuocSelectSubject.sink.add(res.items ?? []);
         },
         error: (error) {});
   }

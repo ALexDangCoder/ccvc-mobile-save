@@ -14,6 +14,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LoginCubit extends BaseCubit<LoginState> {
   LoginCubit() : super(LoginStateIntial());
@@ -25,6 +26,7 @@ class LoginCubit extends BaseCubit<LoginState> {
   bool isHideEye1 = false;
   bool passIsError = false;
   final toast = FToast();
+  BehaviorSubject<String> thongBao=BehaviorSubject();
 
   bool? getEmail(String text) {
     int result = text.indexOf('@');
@@ -72,19 +74,21 @@ class LoginCubit extends BaseCubit<LoginState> {
       },
       error: (err) {
         if (err.code == 401) {
-          toast.showToast(
-            child: ShowToast(
-              text: S.current.sai_tai_khoan_hoac_mat_khau,
-            ),
-            gravity: ToastGravity.BOTTOM,
-          );
+          thongBao.sink.add(S.current.sai_tai_khoan_hoac_mat_khau);
+          // toast.showToast(
+          //   child: ShowToast(
+          //     text: S.current.sai_tai_khoan_hoac_mat_khau,
+          //   ),
+          //   gravity: ToastGravity.BOTTOM,
+          // );
         } else {
-          toast.showToast(
-            child: ShowToast(
-              text: S.current.dang_nhap_khong_thanh_cong,
-            ),
-            gravity: ToastGravity.BOTTOM,
-          );
+          thongBao.sink.add(S.current.dang_nhap_khong_thanh_cong);
+          // toast.showToast(
+          //   child: ShowToast(
+          //     text: S.current.dang_nhap_khong_thanh_cong,
+          //   ),
+          //   gravity: ToastGravity.BOTTOM,
+          // );
         }
         emit(LoginError(err.message));
         showContent();

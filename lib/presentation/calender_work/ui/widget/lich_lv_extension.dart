@@ -163,6 +163,7 @@ extension LichLv on CalenderState {
         return TableCalendarWidget(
           eventsLoader: snapshot.data,
           type: type,
+
           onChange: (DateTime start, DateTime end, selectDay) {
             cubit.selectDay = selectDay;
             if (type == Type_Choose_Option_Day.DAY) {

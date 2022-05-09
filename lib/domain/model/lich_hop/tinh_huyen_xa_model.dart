@@ -64,6 +64,7 @@ class HuyenSelectModel {
     this.tenQuanHuyen,
     this.totalItems,
   });
+
   HuyenSelectModel.seeded({
     this.id = '',
     this.ma = '',
@@ -101,10 +102,38 @@ class XaSelectModel {
     this.tenXaPhuong,
     this.totalItems,
   });
+
   XaSelectModel.seeded({
     this.id = '',
     this.ma = '',
     this.tenXaPhuong = '',
   });
+}
 
+class DataDatNuocSelectModel {
+  List<DatNuocSelectModel>? items;
+  int? pageIndex;
+  int? pageSize;
+  int? totalCount;
+  int? totalPage;
+
+  DataDatNuocSelectModel({
+    this.items,
+    this.pageIndex,
+    this.pageSize,
+    this.totalCount,
+    this.totalPage,
+  });
+}
+
+class DatNuocSelectModel {
+  String? id;
+  String? name;
+  int? totalItems;
+
+  DatNuocSelectModel({
+    this.id,
+    this.name,
+    this.totalItems,
+  });
 }

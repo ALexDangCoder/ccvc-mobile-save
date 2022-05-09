@@ -30,7 +30,7 @@ class _ItemHuyenWidgetState extends State<ItemHuyenWidget> {
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenQuanHuyen ?? '').toList(),
-          value: '',
+          value:widget.taoLichLamViecCubit.huyenSelectModel?.tenQuanHuyen?? '',
           title: S.current.quan_huyen,
         );
       },

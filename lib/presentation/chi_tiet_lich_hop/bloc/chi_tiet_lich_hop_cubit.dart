@@ -195,7 +195,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     showLoading();
     await getChiTietLichHop(id);
 
-    final queue = Queue(parallel: 15);
+    final queue = Queue();
     unawaited(queue.add(() => getDanhSachThuHoiLichHop(id)));
 
     ///Công tác chuẩn bị
@@ -295,8 +295,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     required bool isMultipe,
     required List<File>? file,
   }) async {
-    showLoading();
-
     final result = await hopRp.suaChuongTrinhHop(
       id,
       lichHopId,
@@ -341,8 +339,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   Future<void> getDanhSachNTGChuongTrinhHop({
     required String id,
   }) async {
-    showLoading();
-
     final result = await hopRp.getDanhSachNTGChuongTrinhHop(id);
 
     result.when(
@@ -640,7 +636,6 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 ///Công tác chuẩn bị
 extension CongTacChuanBi on DetailMeetCalenderCubit {
   Future<void> getThongTinPhongHopApi() async {
-    showLoading();
     final result = await hopRp.getListThongTinPhongHop(id);
     result.when(
       success: (res) {
@@ -651,7 +646,6 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
   }
 
   Future<void> getDanhSachThietBi() async {
-    showLoading();
     final result = await hopRp.getListThietBiPhongHop(id);
     result.when(
       success: (res) {
@@ -1022,7 +1016,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   }
 
   Future<void> getDanhSachNhiemVu(String idCuocHop) async {
-    showLoading();
     final result = await hopRp.getNhiemVuCHiTietHop(
       NhiemVuChiTietHopRequest(
         idCuocHop: idCuocHop,
@@ -1121,7 +1114,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   }
 
   Future<void> ListStatusKetLuanHop() async {
-    showLoading();
     final result = await hopRp.getListStatusKetLuanHop();
 
     result.when(
@@ -1226,7 +1218,6 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
 
   // danh sách phiên họp - ý kiến cuộc họp
   Future<void> getDanhSachPhienHop(String id) async {
-    showLoading();
     final result = await hopRp.getTongPhienHop(id);
     result.when(
       success: (res) {

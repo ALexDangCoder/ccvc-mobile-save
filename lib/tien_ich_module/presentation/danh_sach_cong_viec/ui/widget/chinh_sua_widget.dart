@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
@@ -177,24 +178,25 @@ class _EditWidgetState extends State<EditWidget> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: APP_DEVICE == DeviceType.MOBILE
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.symmetric(horizontal: 100),
-                  child: DoubleButtonBottom(
-                    title1: S.current.dong,
-                    title2: S.current.luu,
-                    onPressed1: () {
-                      widget.cubit.person = '';
-                      widget.cubit.toDoListRequest.performer = widget.todo.id;
-                      Navigator.pop(context);
-                    },
-                    onPressed2: () {
-                      Navigator.pop(context);
-                      widget.cubit.editWork(todo: widget.todo);
-                    },
+                if (isMobile())
+                  Padding(
+                    padding: APP_DEVICE == DeviceType.MOBILE
+                        ? EdgeInsets.zero
+                        : const EdgeInsets.symmetric(horizontal: 100),
+                    child: DoubleButtonBottom(
+                      title1: S.current.dong,
+                      title2: S.current.luu,
+                      onPressed1: () {
+                        widget.cubit.person = '';
+                        widget.cubit.toDoListRequest.performer = widget.todo.id;
+                        Navigator.pop(context);
+                      },
+                      onPressed2: () {
+                        Navigator.pop(context);
+                        widget.cubit.editWork(todo: widget.todo);
+                      },
+                    ),
                   ),
-                ),
                 const SizedBox(
                   height: 16,
                 ),

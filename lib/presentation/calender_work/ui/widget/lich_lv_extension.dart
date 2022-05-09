@@ -161,6 +161,7 @@ extension LichLv on CalenderState {
       stream: cubit.eventsStream,
       builder: (context, snapshot) {
         return TableCalendarWidget(
+          initTime: DateTime(DateTime.now().year, DateTime.now().month, 10),
           eventsLoader: snapshot.data,
           type: type,
 

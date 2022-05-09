@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/trang_thai/tran
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/check_trung_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_lich_lam_viec_response.dart';
@@ -243,6 +245,8 @@ class LichLamViecImlp implements LichLamViecRepository {
     String TenTinh,
     String TenHuyen,
     String TenXa,
+    String country,
+    String countryId,
     String dateFrom,
     String timeFrom,
     String dateTo,
@@ -277,6 +281,8 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('TenTinh', TenTinh));
     _data.fields.add(MapEntry('TenHuyen', TenHuyen));
     _data.fields.add(MapEntry('TenXa', TenXa));
+    _data.fields.add(MapEntry('country', country));
+    _data.fields.add(MapEntry('countryId', countryId));
     _data.fields.add(MapEntry('dateFrom', dateFrom));
     _data.fields.add(MapEntry('timeFrom', timeFrom));
     _data.fields.add(MapEntry('dateTo', dateTo));
@@ -616,5 +622,13 @@ class LichLamViecImlp implements LichLamViecRepository {
       () => lichLamViecService.datNuocSelect(datNuocSelectRequest),
       (response) => response.data?.toModel() ?? DataDatNuocSelectModel(),
     );
+  }
+
+  @override
+  Future<Result<MessageModel>> checkTrungLichLamviec(
+      CheckTrungLichRequest body) {
+    return runCatchingAsync<CheckTrungLichLamViecResponse, MessageModel>(
+        () => lichLamViecService.checkTrungLichLamviec(body),
+        (response) => response.toDomain());
   }
 }

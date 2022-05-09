@@ -261,6 +261,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     bool publishSchedule,
     String tags,
     bool isLichDonVi,
+    bool isLichLanhDao,
     String canBoChuTriId,
     String donViId,
     String note,
@@ -296,6 +297,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('publishSchedule', publishSchedule.toString()));
     _data.fields.add(MapEntry('tags', tags));
     _data.fields.add(MapEntry('isLichDonVi', isLichDonVi.toString()));
+    _data.fields.add(MapEntry('isLichLanhDao', isLichLanhDao.toString()));
     _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
     _data.fields.add(MapEntry('donViId', donViId));
     _data.fields.add(MapEntry('note', note));

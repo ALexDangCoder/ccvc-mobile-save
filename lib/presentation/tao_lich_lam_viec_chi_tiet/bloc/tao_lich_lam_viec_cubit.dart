@@ -133,7 +133,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   Stream<List<LoaiSelectModel>> get loaiLich => _loaiLich1.stream;
   LoaiSelectModel? selectLoaiLich;
-  String? selectLoaiLichId = '';
+  String? selectLoaiLichId = 'a0602d4e-d4cb-4259-a7ea-0260360852f3';
   LoaiSelectModel? selectLinhVuc;
   NguoiChutriModel? selectNguoiChuTri;
   NhacLaiModel selectNhacLai = NhacLaiModel.seeded();
@@ -305,10 +305,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }) async {
     final result =
         await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
-      dateFrom: dateFrom,
-      dateTo: dateEnd,
-      timeFrom: timeFrom,
-      timeTo: timeEnd,
+      dateFrom: dateFrom?? DateTime.now().formatApi,
+      dateTo: dateEnd?? DateTime.now().formatApi,
+      timeFrom: timeFrom??'${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      timeTo: timeEnd??'${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
       donViId: selectNguoiChuTri?.donViId,
       userId: selectNguoiChuTri?.userId,
     ));
@@ -381,6 +381,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         false,
         '',
         false,
+        true,
         selectNguoiChuTri?.userId ?? '',
         selectNguoiChuTri?.donViId ?? '',
         '',

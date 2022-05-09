@@ -116,6 +116,7 @@ mixin LichLamViecRepository {
     bool publishSchedule,
     String tags,
     bool isLichDonVi,
+    bool isLichLanhDao,
     String canBoChuTriId,
     String donViId,
     String note,

@@ -42,6 +42,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           const SizedBox(
             height: 16,
           ),
+          if(widget.cubit.isBtnMoiNguoiThamGia())
           IconWithTiltleWidget(
             icon: ImageAssets.ic_addUser,
             title: S.current.moi_nguoi_tham_gia,

@@ -55,6 +55,10 @@ abstract class AccountServiceGateWay {
   @POST(ApiConstants.GET_PHAM_VI)
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
+
+  @POST(ApiConstants.GET_PHAM_VI)
+  @FormUrlEncoded()
+  Future<ListPhamViResponse> getListPhamVi();
 }
 
 @RestApi()

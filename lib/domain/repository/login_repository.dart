@@ -30,7 +30,7 @@ mixin AccountRepository {
     EditPersonInformationRequest editPersonInformationRequest,
   );
   Future<Result<PhamViModel>> getPhamVi();
-
+  Future<Result<List<PhamViModel>>> getListPhamVi();
   Future<Result<PermissionApp>> getListPermissionApp();
   Future<Result<ChangePassModel>> changePass(
       String passwordOld,

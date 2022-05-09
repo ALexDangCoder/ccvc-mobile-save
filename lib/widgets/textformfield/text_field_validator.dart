@@ -96,7 +96,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
             widget.onChange!(value);
           }
         },
-
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,
         maxLines: widget.maxLine,

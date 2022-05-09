@@ -112,4 +112,12 @@ class AccountImpl implements AccountRepository {
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
+
+  @override
+  Future<Result<List<PhamViModel>>> getListPhamVi() {
+    return runCatchingAsync<ListPhamViResponse, List<PhamViModel>>(
+      () => _accountServiceGateWay.getListPhamVi(),
+      (res) => res.toDomain(),
+    );
+  }
 }

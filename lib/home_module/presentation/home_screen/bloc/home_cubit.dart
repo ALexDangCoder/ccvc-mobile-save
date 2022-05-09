@@ -108,15 +108,8 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   Future<void> getUserInFor() async {
-    final result = await homeRep.getPhamVi();
-    result.when(
-      success: (res) {
-        final dataUser = HiveLocal.getDataUser();
-        dataUser?.userInformation?.chucVu = res.chucVu;
-        _getUserInformation.sink.add(dataUser ?? DataUser());
-      },
-      error: (err) {},
-    );
+    final dataUser = HiveLocal.getDataUser();
+    _getUserInformation.sink.add(dataUser ?? DataUser());
   }
 
   Future<void> getDate() async {
@@ -498,33 +491,34 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
       error: (err) {},
     );
   }
-  void clickScreen(TongHopNhiemVuType type){
-    switch(type){
 
-     //  case TongHopNhiemVuType.tongSoNV:
-     //    mangTrangThai = [];
-     //    trangThaiHanXuLy = null;
-     //    break;
-     //  case TongHopNhiemVuType.hoanThanhNhiemVu:
-     //   mangTrangThai = ["DA_HOAN_THANH"];
-     //   trangThaiHanXuLy = null;
-     //    break;
-     //  case TongHopNhiemVuType.nhiemVuDangThucHien:
-     //   mangTrangThai = ["DANG_THUC_HIEN"];
-     //   trangThaiHanXuLy = null;
-     //    break;
-     //  case TongHopNhiemVuType.hoanThanhQuaHan:
-     // mangTrangThai = ["DA_HOAN_THANH"];
-     // trangThaiHanXuLy = 2;
-     //    break;
-     //  case TongHopNhiemVuType.dangThucHienTrongHan:
-     //    mangTrangThai = ["DANG_THUC_HIEN"];
-     //    trangThaiHanXuLy = 3;
-     //    break;
-     //  case TongHopNhiemVuType.dangThucHienQuaHan:
-     //    mangTrangThai = ["DANG_THUC_HIEN"];
-     // trangThaiHanXuLy = 2;
-     //    break;
+  void clickScreen(TongHopNhiemVuType type) {
+    switch (type) {
+
+      //  case TongHopNhiemVuType.tongSoNV:
+      //    mangTrangThai = [];
+      //    trangThaiHanXuLy = null;
+      //    break;
+      //  case TongHopNhiemVuType.hoanThanhNhiemVu:
+      //   mangTrangThai = ["DA_HOAN_THANH"];
+      //   trangThaiHanXuLy = null;
+      //    break;
+      //  case TongHopNhiemVuType.nhiemVuDangThucHien:
+      //   mangTrangThai = ["DANG_THUC_HIEN"];
+      //   trangThaiHanXuLy = null;
+      //    break;
+      //  case TongHopNhiemVuType.hoanThanhQuaHan:
+      // mangTrangThai = ["DA_HOAN_THANH"];
+      // trangThaiHanXuLy = 2;
+      //    break;
+      //  case TongHopNhiemVuType.dangThucHienTrongHan:
+      //    mangTrangThai = ["DANG_THUC_HIEN"];
+      //    trangThaiHanXuLy = 3;
+      //    break;
+      //  case TongHopNhiemVuType.dangThucHienQuaHan:
+      //    mangTrangThai = ["DANG_THUC_HIEN"];
+      // trangThaiHanXuLy = 2;
+      //    break;
       case TongHopNhiemVuType.choPhanXuLy:
         // TODO: Handle this case.
         break;
@@ -572,12 +566,13 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
     _getTongHopNhiemVu.close();
   }
 }
+
 /// Văn bản đơn vị
 class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
-  BehaviorSubject<DocumentDashboardModel>();
+      BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
-  BehaviorSubject<DocumentDashboardModel>();
+      BehaviorSubject<DocumentDashboardModel>();
 
   VanBanDonViCubit() {}
   bool isDanhSachDaXuLy = false;
@@ -609,8 +604,8 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
     final queue = Queue(parallel: 2);
     unawaited(
       queue.add(
-            () => homeRep.getVBden(startDate, endDate).then(
-              (value) {
+        () => homeRep.getVBden(startDate, endDate).then(
+          (value) {
             value.when(
               success: (res) {
                 _getDocumentVBDen.sink.add(res);
@@ -623,8 +618,8 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
     );
     unawaited(
       queue.add(
-            () => homeRep.getVBdi(startDate, endDate).then(
-              (value) {
+        () => homeRep.getVBdi(startDate, endDate).then(
+          (value) {
             value.when(
               success: (res) {
                 _getDocumentVBDi.sink.add(res);
@@ -654,9 +649,9 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
 /// Phản ánh kiến nghị đơn vị
 class PhanAnhKienNghiCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
-  BehaviorSubject<DocumentDashboardModel>();
+      BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
-  BehaviorSubject<DocumentDashboardModel>();
+      BehaviorSubject<DocumentDashboardModel>();
 
   PhanAnhKienNghiCubit() {}
   bool isDanhSachDaXuLy = false;
@@ -685,8 +680,8 @@ class PhanAnhKienNghiCubit extends HomeCubit with SelectKeyDialog {
     final queue = Queue(parallel: 2);
     unawaited(
       queue.add(
-            () => homeRep.getVBden(startDate, endDate).then(
-              (value) {
+        () => homeRep.getVBden(startDate, endDate).then(
+          (value) {
             value.when(
               success: (res) {
                 _getDocumentVBDen.sink.add(res);
@@ -699,8 +694,8 @@ class PhanAnhKienNghiCubit extends HomeCubit with SelectKeyDialog {
     );
     unawaited(
       queue.add(
-            () => homeRep.getVBdi(startDate, endDate).then(
-              (value) {
+        () => homeRep.getVBdi(startDate, endDate).then(
+          (value) {
             value.when(
               success: (res) {
                 _getDocumentVBDi.sink.add(res);
@@ -726,8 +721,6 @@ class PhanAnhKienNghiCubit extends HomeCubit with SelectKeyDialog {
     _getDocumentVBDi.close();
   }
 }
-
-
 
 /// Tình hình xử lý văn bản
 class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {

@@ -20,6 +20,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -201,13 +202,26 @@ class _MenuScreenState extends State<MenuScreen> {
           children: [
             InputInfoUserWidget(
               title: S.current.pham_vi,
-              child: CustomDropDown(
-                items: ['12321321', '12312321', '12312'],
+              child: CoolDropDown(
+                listData: menuCubit.listPhamVi.map((e) => e.phamVi).toList(),
+                initData: menuCubit.selectPhamVi?.phamVi ?? '',
+                onChange: (value) {
+
+                },
               ),
             ),
-            ButtonCustomBottom(
-       
-              onPressed: () {}, title:  S.current.chuyen_pham_vi, isColorBlue: true,
+            const SizedBox(
+              height: 24,
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: ButtonCustomBottom(
+                  onPressed: () {},
+                  title: S.current.chuyen_pham_vi,
+                  isColorBlue: true,
+                ),
+              ),
             )
           ],
         ),

@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/people_tham_gia_
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaWidget extends StatefulWidget {
+  final List<DonViModel>? listPeopleInit;
   final Function(List<DonViModel>) onChange;
   final Function(bool) phuongThucNhan;
 
@@ -21,6 +22,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     required this.isPhuongThucNhan,
     required this.onChange,
     required this.phuongThucNhan,
+    this.listPeopleInit,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     _cubit.phuongThucNhanStream.listen((event) {
       widget.phuongThucNhan(event);
     });
+    _cubit.addPeopleThamGia(widget.listPeopleInit??[]);
   }
 
   @override

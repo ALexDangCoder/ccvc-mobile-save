@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/main.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/login_provider.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
 import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/send_mail_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -148,7 +149,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         validator: (value) {
                           if ((value ?? '').contains('@')) {
-                            return (value ?? '').checkEmailBoolean();
+                            if((value ?? '').contains('@', value!.indexOf('@')+1)) {
+                            }else{
+                              return value.checkEmailBoolean();
+                            }
                           } else {
                             return (value ?? '').checkTruongNull('Tài khoản!');
                           }
@@ -203,6 +207,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(
                         height: 16,
+                      ),
+                      StreamBuilder<String>(
+                          stream: loginCubit.thongBao,
+                          builder: (context, snapshot) {
+                            final data=snapshot.data??'';
+                            if(data.isNotEmpty){
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: WidgetTextError(text: data,),
+                              );
+                            }else{
+                              return const SizedBox();
+                            }
+                          }
                       ),
                       GestureDetector(
                         onTap: () {

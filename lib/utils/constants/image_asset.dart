@@ -477,6 +477,8 @@ class ImageAssets {
   static const String icDropDown = '$baseImg/ic_drop_down.svg';
   static const String deleteChuongTrinhHop =
       '$baseImg/delete_chuong_trinh_hop.svg';
+  static const String icWarningRed = '$baseImg/ic_warning_red.svg';
+  static const String icUserNotFound = '$baseImg/ic_user_not_found.svg';
 
   static SvgPicture svgAssets(
     String name, {

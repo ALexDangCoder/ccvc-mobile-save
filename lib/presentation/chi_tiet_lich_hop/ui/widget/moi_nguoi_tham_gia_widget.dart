@@ -29,8 +29,6 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.thanhPhanThamGia.sink.add(widget.cubit.dataThaGiaDefault);
-    widget.cubit.dataThanhPhanThamGia = widget.cubit.dataThaGiaDefault;
   }
 
   @override

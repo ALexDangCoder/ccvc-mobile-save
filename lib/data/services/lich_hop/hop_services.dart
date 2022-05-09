@@ -370,9 +370,9 @@ abstract class HopServices {
 
   @POST(ApiConstants.DUYET_PHAT_BIEU)
   Future<PhanCongThuKyResponse> postDuyetOrHuyDuyetPhatBieu(
-    @Body() List<String> ids,
-    @Body() String lichHopId,
-    @Body() int type,
+    @Field('ids') List<String> ids,
+    @Field('lichHopId') String lichHopId,
+    @Field('type') int type,
   );
 
   @POST(ApiConstants.DIEM_DANH)
@@ -388,6 +388,6 @@ abstract class HopServices {
 
   @POST(ApiConstants.HUY_DIEM_DANH)
   Future<PhanCongThuKyResponse> postHuyDiemDanh(
-    @Body() String data,
+    @Query('request') String request,
   );
 }

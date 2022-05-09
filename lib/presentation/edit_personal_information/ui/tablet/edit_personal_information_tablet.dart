@@ -18,7 +18,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -201,9 +201,7 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       maxLength: 2,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.allow(
-                                          cubit.isCheckRegex,
-                                        )
+                                        FilteringTextInputFormatter.digitsOnly
                                       ],
                                       textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
@@ -237,24 +235,23 @@ class _EditPersonalInformationTabletScreen
                                       maxLength: 255,
                                       textInputType: TextInputType.number,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.allow(
-                                          cubit.isCheckCccd,
-                                        )
+                                        FilteringTextInputFormatter.digitsOnly
                                       ],
                                     ),
                                   ),
                                   InputInfoUserWidget(
                                     isObligatory: true,
                                     title: user.keys.elementAt(6),
-                                    child: CustomDropDown(
-                                      value:
+                                    child: CoolDropDown(
+                                      setWidth: 300,
+                                      initData:
                                           cubit.managerPersonalInformationModel
                                                       .gioiTinh ??
                                                   false
                                               ? S.current.Nam
                                               : S.current.Nu,
-                                      items: cubit.fakeDataGioiTinh,
-                                      onSelectItem: (value) {
+                                      placeHoder: S.current.gioi_tinh,
+                                      onChange: (value) {
                                         if (value == 0) {
                                           cubit.selectGTEvent(true);
                                           cubit.gioiTinh = true;
@@ -263,6 +260,7 @@ class _EditPersonalInformationTabletScreen
                                           cubit.gioiTinh = false;
                                         }
                                       },
+                                      listData: cubit.fakeDataGioiTinh,
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -304,9 +302,7 @@ class _EditPersonalInformationTabletScreen
                                       textInputType: TextInputType.number,
                                       maxLength: 255,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.allow(
-                                          cubit.isCheckCccd,
-                                        )
+                                        FilteringTextInputFormatter.digitsOnly
                                       ],
                                     ),
                                   ),
@@ -318,9 +314,7 @@ class _EditPersonalInformationTabletScreen
                                       textInputType: TextInputType.number,
                                       maxLength: 255,
                                       checkNumber: [
-                                        FilteringTextInputFormatter.allow(
-                                          cubit.isCheckCccd,
-                                        )
+                                        FilteringTextInputFormatter.digitsOnly
                                       ],
                                     ),
                                   ),
@@ -331,6 +325,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(10),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .tinh,
@@ -386,6 +381,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(11),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .huyen,
@@ -433,6 +429,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(12),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .xa,

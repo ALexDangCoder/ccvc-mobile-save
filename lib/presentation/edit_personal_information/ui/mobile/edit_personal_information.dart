@@ -16,7 +16,7 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -51,6 +51,7 @@ class _EditPersonalInformationScreen
   TextEditingController diaChiLienHeController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
   final toast = FToast();
+  String thuTu = '';
 
   @override
   void initState() {
@@ -179,11 +180,7 @@ class _EditPersonalInformationScreen
                         title: user.keys.elementAt(3),
                         child: TextFieldValidator(
                           maxLength: 2,
-                          checkNumber: [
-                            FilteringTextInputFormatter.allow(
-                              cubit.isCheckRegex,
-                            )
-                          ],
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
                           textInputType: TextInputType.number,
@@ -213,24 +210,20 @@ class _EditPersonalInformationScreen
                           controller: cmndController,
                           maxLength: 255,
                           textInputType: TextInputType.number,
-                          checkNumber: [
-                            FilteringTextInputFormatter.allow(
-                              cubit.isCheckCccd,
-                            )
-                          ],
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       InputInfoUserWidget(
                         isObligatory: true,
                         title: user.keys.elementAt(6),
-                        child: CustomDropDown(
-                          value:
+                        child: CoolDropDown(
+                          initData:
                               cubit.managerPersonalInformationModel.gioiTinh ??
                                       false
                                   ? S.current.Nam
                                   : S.current.Nu,
-                          items: cubit.fakeDataGioiTinh,
-                          onSelectItem: (value) {
+                          placeHoder: S.current.gioi_tinh,
+                          onChange: (value) {
                             if (value == 0) {
                               cubit.selectGTEvent(true);
                               cubit.gioiTinh = true;
@@ -239,6 +232,7 @@ class _EditPersonalInformationScreen
                               cubit.gioiTinh = false;
                             }
                           },
+                          listData: cubit.fakeDataGioiTinh,
                         ),
                       ),
                       InputInfoUserWidget(
@@ -270,11 +264,7 @@ class _EditPersonalInformationScreen
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
                           maxLength: 255,
-                          checkNumber: [
-                            FilteringTextInputFormatter.allow(
-                              cubit.isCheckCccd,
-                            )
-                          ],
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       //
@@ -285,11 +275,7 @@ class _EditPersonalInformationScreen
                           controller: sdtController,
                           textInputType: TextInputType.number,
                           maxLength: 255,
-                          checkNumber: [
-                            FilteringTextInputFormatter.allow(
-                              cubit.isCheckCccd,
-                            )
-                          ],
+                          checkNumber: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       StreamBuilder<List<TinhHuyenXaModel>>(

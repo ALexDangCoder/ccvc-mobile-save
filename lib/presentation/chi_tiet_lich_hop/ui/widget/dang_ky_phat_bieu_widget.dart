@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
@@ -88,9 +89,18 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
               return CustomDropDown(
-                items: data.map((e) => e.tieuDe ?? '').toList(),
+                hint: Text(
+                  'Tất cả',
+                  style: tokenDetailAmount(
+                    fontSize: 14.0.textScale(),
+                    color: titleColor,
+                  ),
+                ),
+                items: [...data.map((e) => e.tieuDe ?? '').toList(), 'Tất cả'],
                 onSelectItem: (value) {
-                  taoBieuQuyetRequest.phienHopId = data[value].id;
+                  if (value < data.length) {
+                    taoBieuQuyetRequest.phienHopId = data[value].id;
+                  }
                 },
               );
             },

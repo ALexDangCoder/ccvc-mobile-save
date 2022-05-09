@@ -93,7 +93,7 @@ class ApiConstants {
 
   static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
 
-  static const HUY_DIEM_DANH = '/vpdt/MeetingSchedule/check-out-meeting';
+  static const HUY_DIEM_DANH = '/vpdt/api/MeetingSchedule/check-out-meeting';
 
   static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 

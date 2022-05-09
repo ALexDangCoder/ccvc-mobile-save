@@ -16,11 +16,11 @@ import '/home_module/domain/model/home/WidgetType.dart';
 
 class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   final BehaviorSubject<List<WidgetModel>> _listWidgetUsing =
-  BehaviorSubject<List<WidgetModel>>();
+      BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<List<WidgetModel>> _listWidgetNotUse =
-  BehaviorSubject<List<WidgetModel>>();
+      BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<List<WidgetModel>> _listUpdate =
-  BehaviorSubject<List<WidgetModel>>();
+      BehaviorSubject<List<WidgetModel>>();
 
   WidgetManageCubit() : super(WidgetManagerStateInitial());
 
@@ -46,18 +46,26 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     } else {
       listUsing = keyHomeMobile.currentState?.homeCubit.getListWidget ?? [];
     }
-    listTitleWidgetUse = listUsing.map((e) => e.name).toList();
-    _listWidgetUsing.sink.add(listUsing);
+    if (listUsing.isNotEmpty) {
+      listTitleWidgetUse = listUsing.map((e) => e.name).toList();
+      _listWidgetUsing.sink.add(listUsing);
+    }
+    else{
+      _listWidgetUsing.sink.add([]);
+    }
+
   }
 
   void loadApi() {
     _getListWidgetUsing();
-    setFullParaNotUse();
     _getListWidgetNotUse();
+    setFullParaNotUse();
   }
 
-  void insertItemUsing(WidgetModel widgetItem,
-      int index,) {
+  void insertItemUsing(
+    WidgetModel widgetItem,
+    int index,
+  ) {
     listUsing.insert(listUsing.length, widgetItem);
     listNotUse.removeAt(index);
     _listWidgetUsing.sink.add(listUsing);
@@ -65,8 +73,10 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     _listWidgetNotUse.sink.add(listNotUse);
   }
 
-  void insertItemNotUse(WidgetModel widgetItem,
-      int index,) {
+  void insertItemNotUse(
+    WidgetModel widgetItem,
+    int index,
+  ) {
     listNotUse.insert(0, widgetItem);
     listUsing.removeAt(index);
     _listWidgetUsing.sink.add(listUsing);
@@ -79,8 +89,10 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     _listWidgetNotUse.close();
   }
 
-  void sortListWidget(int oldIndex,
-      int newIndex,) {
+  void sortListWidget(
+    int oldIndex,
+    int newIndex,
+  ) {
     final List<WidgetModel> listUpdate = _listWidgetUsing.value;
     final element = listUpdate.removeAt(oldIndex);
     listUpdate.insert(newIndex, element);
@@ -132,11 +144,9 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     final result = await _qlWidgetRepo.resetListWidget();
     result.when(
       success: (res) {
-        print("------------------------------------ app id----------------------");
         listTempFullPara = res;
-        listTempFullPara.forEach((element) {
-          print(element.appId);
-        });
+        setParaUpdateWidget();
+        updateListWidget(listResponse.toString());
       },
       error: (err) {
         return;
@@ -147,6 +157,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   Future<void> resetListWidget() async {
     showLoading();
     final result = await _qlWidgetRepo.resetListWidget();
+    showContent();
     result.when(
       success: (res) {
         listUsing.clear();
@@ -165,9 +176,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
         orderWidgetHome(_listWidgetUsing.value);
         showContent();
       },
-      error: (err) {
-        return;
-      },
+      error: (err) {},
     );
   }
 
@@ -208,13 +217,12 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void> onRefreshData() async {
-    // updateListWidget("[{\"id\":\"80e865a9-9739-4432-840d-8ac3c52fdaf1\",\"name\":\"Báo chí - Mạng xã hội\",\"widgetTypeId\":\"8fe7339c-728f-4a44-824e-5a57c9c4c54d\",\"description\":\"\",\"code\":\"CODE\",\"width\":4,\"height\":9,\"minWidth\":3,\"minHeight\":6,\"maxHeight\":99,\"maxWidth\":12,\"props\":{},\"component\":\"BaoChi\",\"static\":false,\"isResizable\":true,\"thumbnail\":\"bao-chi-mxh.png\",\"appId\":null,\"order\":9,\"isShowing\":true,\"x\":0,\"y\":0,\"i\":2,\"enable\":true,\"moved\":false,\"w\":4,\"h\":9,\"maxH\":99,\"maxW\":12,\"minH\":6,\"minW\":3}]");
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
-        listUsing=res;
+        listUsing = res;
         final data =
-        res.where((element) => element.widgetType != null).toList();
+            res.where((element) => element.widgetType != null).toList();
         listTitleWidgetUse = data.map((e) => e.name).toList();
         _listWidgetUsing.sink.add(data);
         _getListWidgetNotUse();

@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -17,7 +16,7 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
-import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
@@ -52,11 +51,11 @@ class _EditPersonalInformationScreen
   TextEditingController diaChiLienHeController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
   final toast = FToast();
+  String thuTu = '';
 
   @override
   void initState() {
     cubit.loadApi(id: widget.id);
-    cubit.getDeviceDetails();
     cubit.managerStream.listen((event) {
       cubit.getCurrentUnit(event);
       nameController.text = event.hoTen ?? '';
@@ -113,7 +112,10 @@ class _EditPersonalInformationScreen
               },
               child: Text(
                 S.current.reset,
-                style: textNormalCustom(fontSize: 14, color: AppTheme.getInstance().colorField()),
+                style: textNormalCustom(
+                  fontSize: 14,
+                  color: AppTheme.getInstance().colorField(),
+                ),
               ),
             ),
           )
@@ -207,20 +209,21 @@ class _EditPersonalInformationScreen
                           hintText: S.current.cmnd,
                           controller: cmndController,
                           maxLength: 255,
+                          textInputType: TextInputType.number,
                           checkNumber: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       InputInfoUserWidget(
                         isObligatory: true,
                         title: user.keys.elementAt(6),
-                        child: CustomDropDown(
-                          value:
+                        child: CoolDropDown(
+                          initData:
                               cubit.managerPersonalInformationModel.gioiTinh ??
                                       false
                                   ? S.current.Nam
                                   : S.current.Nu,
-                          items: cubit.fakeDataGioiTinh,
-                          onSelectItem: (value) {
+                          placeHoder: S.current.gioi_tinh,
+                          onChange: (value) {
                             if (value == 0) {
                               cubit.selectGTEvent(true);
                               cubit.gioiTinh = true;
@@ -229,6 +232,7 @@ class _EditPersonalInformationScreen
                               cubit.gioiTinh = false;
                             }
                           },
+                          listData: cubit.fakeDataGioiTinh,
                         ),
                       ),
                       InputInfoUserWidget(
@@ -237,8 +241,19 @@ class _EditPersonalInformationScreen
                           key: UniqueKey(),
                           hintText: S.current.email,
                           controller: emailController,
+                          onChange: (value) {},
                           validator: (value) {
-                            return (value ?? '').checkEmailBoolean();
+                            if (value == null || value.trim().isEmpty) {
+                              return null;
+                            } else if (value.trim().contains('@')) {
+                              if (value.trim().contains(
+                                    '@',
+                                    value.trim().indexOf('@') + 1,
+                                  )) {
+                                return S.current.nhap_sai_dinh_dang;
+                              }
+                            }
+                            return value.trim().checkEmailBoolean();
                           },
                         ),
                       ),
@@ -409,6 +424,7 @@ class _EditPersonalInformationScreen
                             title1: '',
                             isPhone: true,
                             isBottomShowText: false,
+                            isCallApi: false,
                           );
                         },
                         onPressed2: () async {
@@ -434,7 +450,6 @@ class _EditPersonalInformationScreen
                               idTinh: cubit.idTinh,
                               idHuyen: cubit.idHuyen,
                               idXa: cubit.idXa,
-                              iDDonViHoatDong: null,
                             )
                                 .then(
                               (value) {

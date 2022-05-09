@@ -34,7 +34,6 @@ class _ThanhPhanThamGiaWidgetTabletState
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.dataThanhPhanThamGia = widget.cubit.dataThaGiaDefault;
   }
 
   @override

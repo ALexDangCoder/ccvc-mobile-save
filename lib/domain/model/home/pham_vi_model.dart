@@ -1,6 +1,6 @@
 class PhamViModel {
   final String chucVu;
   final String chucVuId;
-
-  PhamViModel({required this.chucVu, required this.chucVuId});
+ final String ngaySinh;
+  PhamViModel({required this.chucVu, required this.chucVuId,required this.ngaySinh});
 }

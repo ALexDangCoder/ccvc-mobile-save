@@ -47,6 +47,9 @@ class ManagerPersonalInformationCubit
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
   final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
       BehaviorSubject.seeded([]);
+  final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
+  final isCheckCccd = RegExp(r'^[0-9]{0,255}$');
+  final isCheckValue = RegExp(r'^[a-z!@#$%^&*()-+=:;]$');
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;
@@ -194,7 +197,7 @@ class ManagerPersonalInformationCubit
       ngaySinh: DateTime.parse(ngaySinh).formatApiSS,
       userName: '',
       userId: '',
-      iDDonViHoatDong: iDDonViHoatDong,
+      iDDonViHoatDong: '00000000-0000-0000-0000-000000000000',
       cmtnd: cmnt,
       anhDaiDienFilePath: '',
       anhChuKyFilePath: '',

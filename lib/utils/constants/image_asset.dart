@@ -277,8 +277,9 @@ class ImageAssets {
       '$baseImg/ic_quan_ly_nhiem_vu_tablet.svg';
   static const String icHanhChinhCongTablet =
       '$baseImg/ic_hanh_chinh_cong_tablet.svg';
-  static const String icYKienNguoiDanTablet =
-      '$baseImg/ic_y_kien_nguoi_dan_tablet.svg';
+  static const String icTuongTacNoiBoTablet =
+      '$baseImg/ic_tuong_tac_noi_bo_tablet.svg';
+  static const String icYKienNguoiDanTablet = '$baseImg/ic_y_kien_nguoi_dan_tablet.svg';
   static const String icQuanLyVanBanTablet =
       '$baseImg/ic_quan_ly_van_ban_tablet.svg';
   static const String icBaoChiTablet = '$baseImg/ic_bao_chi_tablet.svg';
@@ -476,6 +477,8 @@ class ImageAssets {
   static const String icDropDown = '$baseImg/ic_drop_down.svg';
   static const String deleteChuongTrinhHop =
       '$baseImg/delete_chuong_trinh_hop.svg';
+  static const String icWarningRed = '$baseImg/ic_warning_red.svg';
+  static const String icUserNotFound = '$baseImg/ic_user_not_found.svg';
 
   static SvgPicture svgAssets(
     String name, {

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/bloc/phat_ban_tin_bloc.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/ui/mobile/phat_radio.dart';
@@ -29,6 +30,7 @@ class BanTinBtnSheetTablet extends StatefulWidget {
 class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
   PhatBanTinBloc phatBanTinBloc = PhatBanTinBloc();
   AudioPlayer player = AudioPlayer();
+  bool isLoopMode = false;
 
   @override
   void initState() {
@@ -50,16 +52,27 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
             children: [
               Row(
                 children: [
-                  IconButton(
-                    color: unselectLabelColor,
-                    onPressed: () {
-                      phatBanTinBloc.setIndexRadio(
-                        phatBanTinBloc.getIndexRadio() - 1,
-                        widget.listTinTuc.length - 1,
+                  StreamBuilder<bool>(
+                    stream: phatBanTinBloc.isRePlay,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? false;
+                      return IconButton(
+                        color: unselectLabelColor,
+                        onPressed: () {
+                          phatBanTinBloc.setRePlayMode();
+                          player.seek(
+                            Duration.zero,
+                            index: phatBanTinBloc.getIndexRadio(),
+                          );
+                        },
+                        icon: SvgPicture.asset(
+                          ImageAssets.ic_replay,
+                          color: data
+                              ? AppTheme.getInstance().colorField()
+                              : unselectLabelColor,
+                        ),
                       );
-                      player.seekToPrevious();
                     },
-                    icon: SvgPicture.asset(ImageAssets.ic_replay),
                   ),
                   IconButton(
                     color: unselectLabelColor,
@@ -86,13 +99,16 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                                 height: 30.0,
                                 width: 30.0,
                                 child: SvgPicture.asset(
-                                    ImageAssets.ic_pasue.svgToTheme()),
+                                  ImageAssets.ic_pasue.svgToTheme(),
+                                ),
                               )
                             : SizedBox(
                                 height: 30.0,
                                 width: 30.0,
                                 child: SvgPicture.asset(
-                                    ImageAssets.icPlay.svgToTheme())),
+                                  ImageAssets.icPlay.svgToTheme(),
+                                ),
+                              ),
                       );
                     },
                   ),
@@ -110,16 +126,20 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                   StreamBuilder<bool>(
                     stream: phatBanTinBloc.isLoopMode,
                     builder: (context, snapshot) {
-                      final isLoop = snapshot.data ?? false;
-                      isLoop
+                      isLoopMode = snapshot.data ?? false;
+                      isLoopMode
                           ? player.setLoopMode(LoopMode.one)
                           : player.setLoopMode(LoopMode.off);
                       return IconButton(
-                        color: isLoop ? numberColorTablet : unselectLabelColor,
                         onPressed: () {
                           phatBanTinBloc.setLoopMode();
                         },
-                        icon: SvgPicture.asset(ImageAssets.ic_loop_mode),
+                        icon: SvgPicture.asset(
+                          ImageAssets.ic_loop_mode,
+                          color: isLoopMode
+                              ? AppTheme.getInstance().colorField()
+                              : unselectLabelColor,
+                        ),
                       );
                     },
                   ),
@@ -138,7 +158,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                       builder: (context, snapshot) {
                         final timeData = snapshot.data?.inSeconds ?? 0;
                         return Text(
-                          '${phatBanTinBloc.intToDate(timeData)}',
+                          phatBanTinBloc.intToDate(timeData),
                           style: textNormalCustom(
                             color: AqiColor,
                             fontSize: 14,
@@ -156,6 +176,21 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                         listLinkRadio:
                             widget.listTinTuc.map((e) => e.audioUrl).toList(),
                         initPlay: widget.index,
+                        onChangeEnd: () {
+                          print('-----------------------current index ${phatBanTinBloc.getIndexRadio()}');
+                          print('------------------------- isLoop ${isLoopMode}---------');
+                          if (isLoopMode) {
+                            phatBanTinBloc.setIndexRadio(
+                              phatBanTinBloc.getIndexRadio(),
+                              widget.listTinTuc.length - 1,
+                            );
+                          } else {
+                            phatBanTinBloc.setIndexRadio(
+                              phatBanTinBloc.getIndexRadio() + 1,
+                              widget.listTinTuc.length - 1,
+                            );
+                          }
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -205,7 +240,8 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                                     data: SliderTheme.of(context).copyWith(
                                       trackShape: CustomTrackShape(),
                                       trackHeight: 4,
-                                      thumbColor: labelColor,
+                                      thumbColor:
+                                          AppTheme.getInstance().colorField(),
                                       thumbShape: const RoundSliderThumbShape(
                                         enabledThumbRadius: 6,
                                       ),
@@ -215,8 +251,8 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                                       height: 4,
                                       child: Slider(
                                         value: data,
-                                        activeColor: unselectedLabelColor,
-                                        inactiveColor: borderButtomColor,
+                                        activeColor:  AppTheme.getInstance().colorField(),
+                                        inactiveColor:borderButtomColor,
                                         onChanged: (double value) {
                                           player.setVolume(value);
                                         },

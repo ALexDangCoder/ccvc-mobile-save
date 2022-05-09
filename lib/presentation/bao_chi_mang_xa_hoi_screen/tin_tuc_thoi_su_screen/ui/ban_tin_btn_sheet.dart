@@ -39,7 +39,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      height: MediaQuery.of(context).size.height * 0.93,
+      height: MediaQuery.of(context).size.height * 0.9,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         boxShadow: [
@@ -86,6 +86,12 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
             player: player,
             listLinkRadio: widget.listTinTuc.map((e) => e.audioUrl).toList(),
             initPlay: widget.index,
+            onChangeEnd: () {
+              phatBanTinBloc.setIndexRadio(
+                phatBanTinBloc.getIndexRadio() + 1,
+                widget.listTinTuc.length - 1,
+              );
+            },
           ),
           const SizedBox(
             height: 24,
@@ -114,7 +120,21 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                         onTap: () {
                           phatBanTinBloc.changePlay();
                         },
-                        child: SvgPicture.asset(ImageAssets.icPlay.svgToTheme()),
+                        child: data
+                            ? SizedBox(
+                                height: 30.0,
+                                width: 30.0,
+                                child: SvgPicture.asset(
+                                  ImageAssets.ic_pasue.svgToTheme(),
+                                ),
+                              )
+                            : SizedBox(
+                                height: 30.0,
+                                width: 30.0,
+                                child: SvgPicture.asset(
+                                  ImageAssets.icPlay.svgToTheme(),
+                                ),
+                              ),
                       );
                     },
                   ),
@@ -125,14 +145,13 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                         phatBanTinBloc.getIndexRadio() + 1,
                         widget.listTinTuc.length - 1,
                       );
-                       player.seekToNext();
+                      player.seekToNext();
                     },
                     icon: const Icon(Icons.skip_next),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-
                 ],
               ),
               Expanded(
@@ -161,14 +180,16 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                                       trackHeight: 4,
                                       thumbColor: labelColor,
                                       thumbShape: const RoundSliderThumbShape(
-                                        enabledThumbRadius: 6,),
+                                        enabledThumbRadius: 6,
+                                      ),
                                     ),
                                     child: SizedBox(
                                       width: 60,
                                       height: 4,
                                       child: Slider(
                                         value: data,
-                                        activeColor:  AppTheme.getInstance().colorField(),
+                                        activeColor:
+                                            AppTheme.getInstance().colorField(),
                                         inactiveColor: borderButtomColor,
                                         onChanged: (double value) {
                                           player.setVolume(value);

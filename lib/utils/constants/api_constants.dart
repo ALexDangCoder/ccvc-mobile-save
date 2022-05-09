@@ -93,7 +93,7 @@ class ApiConstants {
 
   static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
 
-  static const HUY_DIEM_DANH = '/vpdt/MeetingSchedule/check-out-meeting';
+  static const HUY_DIEM_DANH = '/vpdt/api/MeetingSchedule/check-out-meeting';
 
   static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
@@ -236,6 +236,7 @@ class ApiConstants {
   static const TINH_SELECT = '/vpdt/api/Country/province-list';
   static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
   static const XA_SELECT = '/vpdt/api/Country/wards-list';
+  static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
 }
 
 class ImageConstants {

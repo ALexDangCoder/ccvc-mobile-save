@@ -25,7 +25,6 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen> with Automa
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

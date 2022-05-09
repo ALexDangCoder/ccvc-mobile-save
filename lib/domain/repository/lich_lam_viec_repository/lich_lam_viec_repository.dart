@@ -159,6 +159,41 @@ mixin LichLamViecRepository {
       bool only,
       List<int> days,
       );
+  Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
+      String title,
+      String typeScheduleId,
+      String linhVucId,
+      String TenTinh,
+      String TenHuyen,
+      String TenXa,
+      String countryId,
+      String dateFrom,
+      String timeFrom,
+      String dateTo,
+      String timeTo,
+      String content,
+      String location,
+      String vehicle,
+      String expectedResults,
+      String results,
+      int status,
+      String rejectReason,
+      bool publishSchedule,
+      String tags,
+      bool isLichDonVi,
+      String canBoChuTriId,
+      String donViId,
+      String note,
+      bool isAllDay,
+      bool isSendMail,
+      List<DonViModel> scheduleCoperativeRequest,
+      int typeRemider,
+      int typeRepeat,
+      String dateRepeat,
+      String dateRepeat1,
+      bool only,
+      List<int> days,
+      );
 
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
@@ -175,4 +210,6 @@ mixin LichLamViecRepository {
       HuyenSelectRequest huyenSelectRequest);
 
   Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest);
+
+  Future<Result<DataDatNuocSelectModel>> datNuocSelect(DatNuocSelectRequest datNuocSelectRequest);
 }

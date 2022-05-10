@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/main.dart';
@@ -24,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
      AppStateCt.of(context).appState.refreshToken.listen((value) {
+       log('>>>>>>>>>>>>>>>>>>>>>');
        globalKey = GlobalKey();
        if(isMobile()){
           keyHomeMobile = GlobalKey<HomeScreenMobileState>();

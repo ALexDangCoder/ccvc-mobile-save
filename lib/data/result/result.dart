@@ -32,13 +32,14 @@ Future<Result<E>> runCatchingAsync<T, E>(
   Future<T> Function() block,
   E Function(T) map,
 ) async {
+  dynamic res;
   final connected = await CheckerNetwork.checkNetwork();
   if (!connected) {
     return Result.error(NoNetworkException());
   }
   try {
     final response = await block();
-
+    res = response;
     return Result.success(map(response));
   } catch (e) {
     logger.e(e);
@@ -48,7 +49,7 @@ Future<Result<E>> runCatchingAsync<T, E>(
       return Result.error(
         AppException(
           S.current.error,
-          S.current.something_went_wrong,
+        res,
         ),
       );
     }

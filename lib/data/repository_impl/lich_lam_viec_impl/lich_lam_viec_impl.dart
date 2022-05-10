@@ -242,8 +242,11 @@ class LichLamViecImlp implements LichLamViecRepository {
     String title,
     String typeScheduleId,
     String linhVucId,
+    String tinhId,
     String TenTinh,
+    String huyenId,
     String TenHuyen,
+    String xaId,
     String TenXa,
     String country,
     String countryId,
@@ -279,8 +282,11 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('title', title));
     _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
     _data.fields.add(MapEntry('linhVucId', linhVucId));
+    _data.fields.add(MapEntry('tinhId', tinhId));
     _data.fields.add(MapEntry('TenTinh', TenTinh));
+    _data.fields.add(MapEntry('huyenId', huyenId));
     _data.fields.add(MapEntry('TenHuyen', TenHuyen));
+    _data.fields.add(MapEntry('xaId', xaId));
     _data.fields.add(MapEntry('TenXa', TenXa));
     _data.fields.add(MapEntry('country', country));
     _data.fields.add(MapEntry('countryId', countryId));
@@ -289,6 +295,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('dateTo', dateTo));
     _data.fields.add(MapEntry('timeTo', timeTo));
     _data.fields.add(MapEntry('content', content));
+    _data.fields.add(MapEntry('location', location));
     _data.fields.add(MapEntry('vehicle', vehicle));
     _data.fields.add(MapEntry('expectedResults', expectedResults));
     _data.fields.add(MapEntry('results', results));

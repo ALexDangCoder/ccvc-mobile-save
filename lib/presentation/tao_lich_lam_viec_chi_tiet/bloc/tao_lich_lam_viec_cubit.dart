@@ -162,6 +162,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   int? typeRepeat;
   String? dateRepeat;
   ScheduleReminder?scheduleReminder;
+  bool? publishSchedule;
   ChiTietLichLamViecModel chiTietLichLamViecModel=ChiTietLichLamViecModel();
   final toast = FToast();
 
@@ -350,8 +351,11 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }) async {
     if(selectLoaiLichId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e'){
       tinhSelectModel?.tenTinhThanh = '';
+      tinhSelectModel?.id = '';
       huyenSelectModel?.tenQuanHuyen = '';
+      huyenSelectModel?.id = '';
     xaSelectModel?.tenXaPhuong = '';
+    xaSelectModel?.id = '';
     }else{
       datNuocSelectModel?.name='';
       datNuocSelectModel?.id='';
@@ -360,8 +364,11 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         title,
         selectLoaiLichId??'',
         selectLinhVuc?.id ?? '',
+        tinhSelectModel?.id??'',
         tinhSelectModel?.tenTinhThanh ?? '',
+        huyenSelectModel?.id??'',
         huyenSelectModel?.tenQuanHuyen ?? '',
+        xaSelectModel?.id??'',
         xaSelectModel?.tenXaPhuong ?? '',
         datNuocSelectModel?.name??'',
         datNuocSelectModel?.id??'',
@@ -370,7 +377,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
             '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
         dateEnd ?? DateTime.now().formatApi,
         timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+            '${DateTime.now().hour.toString()}:${(DateTime.now().minute ).toString()}',
         content,
         location,
         '',
@@ -378,7 +385,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         '',
         2,
         '',
-        false,
+        publishSchedule??false,//cong khai lich
         '',
         false,
         true,
@@ -395,17 +402,16 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         true,
         lichLapItem1);
     result.when(success: (res) {
-      if(res.data==null) {
-        toast.showToast(
-          child: ShowToast(
-            text: res.message??'',
-          ),
-          gravity: ToastGravity.BOTTOM,
-        );
-      }
       emit(CreateSuccess());
       showContent();
     }, error: (error) {
+        print(error.message);
+        toast.showToast(
+          child: ShowToast(
+            text: error.message,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
       showContent();
     });
   }

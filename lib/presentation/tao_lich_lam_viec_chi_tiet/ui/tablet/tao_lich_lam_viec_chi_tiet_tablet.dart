@@ -1,11 +1,15 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/custom_switch_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_dat_nuoc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap_tuy_chinh.dart';
@@ -31,6 +35,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -88,9 +93,28 @@ class _TaoLichLamViecChiTietTabletState
         taoLichLamViecCubit: taoLichLamViecCubit,
         child: Scaffold(
           backgroundColor: bgWidgets,
-          appBar: BaseAppBar(
-            title: S.current.tao_lich_cong_tac,
-            leadingIcon: IconButton(
+          appBar:  AppBar(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarBrightness: Brightness.light,
+            ),
+            backgroundColor: APP_DEVICE == DeviceType.MOBILE
+                ? backgroundColorApp
+                : bgQLVBTablet,
+            bottomOpacity: 0.0,
+            elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
+            shadowColor: bgDropDown,
+            automaticallyImplyLeading: false,
+            title: StreamBuilder<String>(
+                initialData: S.current.lich_cong_tac_trong_nuoc,
+                stream: taoLichLamViecCubit.changeOption,
+                builder: (context, snapshot) {
+                  return Text(
+                    '${S.current.tao} ${snapshot.data}',
+                    style: titleAppbar(fontSize: 24.0),
+                  );
+                },),
+            centerTitle: true,
+            leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios_rounded,
                 color: unselectLabelColor,
@@ -156,13 +180,19 @@ class _TaoLichLamViecChiTietTabletState
                                     ),
                                     Form(
                                       key: _formKey,
-                                      child: TextFormWidget(
-                                        controller: tieuDeController,
-                                        image: ImageAssets.icEdit,
-                                        hint: S.current.tieu_de,
-                                        validator: (value) {
-                                          return (value ?? '').checkNull();
-                                        },
+                                      child: StreamBuilder<String>(
+                                          initialData: S.current.lich_cong_tac_trong_nuoc,
+                                          stream: taoLichLamViecCubit.changeOption,
+                                        builder: (context, snapshot) {
+                                          return TextFormWidget(
+                                            controller: tieuDeController,
+                                            image: ImageAssets.icEdit,
+                                            hint:  '${S.current.tieu_de} ${snapshot.data}',
+                                            validator: (value) {
+                                              return (value ?? '').checkNull();
+                                            },
+                                          );
+                                        }
                                       ),
                                     ),
                                     LoaiLichWidget(
@@ -177,7 +207,10 @@ class _TaoLichLamViecChiTietTabletState
                                         taoLichLamViecCubit
                                             .listeningStartDataTime(value);
                                       },
-                                      isCheck: (bool value) {},
+                                      isCheck: (bool value) {
+                                        taoLichLamViecCubit.isCheckAllDaySubject
+                                            .add(value);
+                                      },
                                     ),
                                     NhacLaiWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
@@ -194,16 +227,52 @@ class _TaoLichLamViecChiTietTabletState
                                     LinhVucWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                     ),
+                                    Padding(
+                                      padding:
+                                      const EdgeInsets.only(top: 16.0, left: 30.0),
+                                      child: CustomSwitchWidget(
+                                        onToggle: (value) {
+                                          taoLichLamViecCubit.publishSchedule = value;
+                                        },
+                                        value: false,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 30.0),
+                                      height: 16,
+                                      child: const Divider(
+                                        color: dividerColor,
+                                        height: 1,
+                                      ),
+                                    ),
                                     //tinh
-                                    ItemTinhWidget(
-                                      taoLichLamViecCubit: taoLichLamViecCubit,
-                                    ),
-                                    ItemHuyenWidget(
-                                      taoLichLamViecCubit: taoLichLamViecCubit,
-                                    ),
-                                    ItemXaWidget(
-                                      taoLichLamViecCubit: taoLichLamViecCubit,
-                                    ),
+                                    StreamBuilder<bool>(
+                                        stream: taoLichLamViecCubit.checkTrongNuoc,
+                                        builder: (context, snapshot) {
+                                          final data = snapshot.data ?? false;
+                                          if (!data) {
+                                            return Column(
+                                              children: [
+                                                ItemTinhWidget(
+                                                  taoLichLamViecCubit:
+                                                  taoLichLamViecCubit,
+                                                ),
+                                                ItemHuyenWidget(
+                                                  taoLichLamViecCubit:
+                                                  taoLichLamViecCubit,
+                                                ),
+                                                ItemXaWidget(
+                                                  taoLichLamViecCubit:
+                                                  taoLichLamViecCubit,
+                                                ),
+                                              ],
+                                            );
+                                          } else {
+                                            return ItemDatNuocWidget(
+                                              taoLichLamViecCubit: taoLichLamViecCubit,
+                                            );
+                                          }
+                                        }),
                                     TextFormWidget(
                                       controller: diaDiemController,
                                       image: ImageAssets.icViTri,
@@ -275,7 +344,13 @@ class _TaoLichLamViecChiTietTabletState
                               textColor: Colors.white,
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  await taoLichLamViecCubit.taoLichLamViec(
+                                  // await taoLichLamViecCubit.taoLichLamViec(
+                                  //   title: tieuDeController.value.text,
+                                  //   content: noiDungController.value.text,
+                                  //   location: diaDiemController.value.text,
+                                  // );
+                                  await taoLichLamViecCubit.checkTrungLich(
+                                    context: context,
                                     title: tieuDeController.value.text,
                                     content: noiDungController.value.text,
                                     location: diaDiemController.value.text,

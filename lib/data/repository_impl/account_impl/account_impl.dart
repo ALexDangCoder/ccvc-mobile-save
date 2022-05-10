@@ -1,4 +1,6 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/data/request/account/change_pass_request.dart';
+import 'package:ccvc_mobile/data/request/account/chuyen_pham_vi_request.dart';
 import 'package:ccvc_mobile/data/request/account_request.dart';
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
 import 'package:ccvc_mobile/data/response/account/change_pass_response.dart';
@@ -119,5 +121,13 @@ class AccountImpl implements AccountRepository {
       () => _accountServiceGateWay.getListPhamVi(),
       (res) => res.toDomain(),
     );
+  }
+
+  @override
+  Future<Result<DataLogin>> chuyenPhamVi(
+      {required ChuyenPhamViRequest chuyenPhamViRequest}) {
+    return runCatchingAsync<LoginResponse, DataLogin>(
+        () => _accountServiceGateWay.chuyenPhamVi(chuyenPhamViRequest),
+        (res) => res.toModel());
   }
 }

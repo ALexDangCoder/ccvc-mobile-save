@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/account/chuyen_pham_vi_request.dart';
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
@@ -19,8 +20,8 @@ mixin AccountRepository {
   Future<Result<List<TinhHuyenXaModel>>> getData();
 
   Future<Result<List<TinhHuyenXaModel>>> getDataChild(
-      String parentId,
-      );
+    String parentId,
+  );
 
   Future<Result<ManagerPersonalInformationModel>> getInfo(
     String id,
@@ -33,9 +34,12 @@ mixin AccountRepository {
   Future<Result<List<PhamViModel>>> getListPhamVi();
   Future<Result<PermissionApp>> getListPermissionApp();
   Future<Result<ChangePassModel>> changePass(
-      String passwordOld,
-      String password,
-      String repeatPassword,
-      );
+    String passwordOld,
+    String password,
+    String repeatPassword,
+  );
   Future<Result<List<PermissionMenuModel>>> getPermissionMenu();
+
+  Future<Result<DataLogin>> chuyenPhamVi(
+      {required ChuyenPhamViRequest chuyenPhamViRequest});
 }

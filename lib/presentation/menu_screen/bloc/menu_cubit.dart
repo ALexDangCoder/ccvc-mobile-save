@@ -1,14 +1,22 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/account/chuyen_pham_vi_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/home/pham_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_state.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MenuCubit extends BaseCubit<MenuState> {
@@ -117,5 +125,39 @@ class MenuCubit extends BaseCubit<MenuState> {
 
   void onSelectPhamVi(PhamViModel phamViModel) {
     selectPhamVi = phamViModel;
+  }
+
+  Future<void> chuyenPhamVi() async {
+    if ((selectPhamVi?.userCanBoDepartmentId ?? '').isNotEmpty) {
+      final result = await accountRp.chuyenPhamVi(
+        chuyenPhamViRequest: ChuyenPhamViRequest(
+          userCanBoDepartmentId: selectPhamVi?.userCanBoDepartmentId ?? '',
+          appCode: APP_CODE,
+        ),
+      );
+      await result.when(
+          success: (res) async {
+            if (res.dataUser != null) {
+              final queue = Queue();
+              unawaited(
+                queue.add(
+                  () => PrefsService.saveRefreshToken(
+                      res.dataUser?.refreshToken ?? ''),
+                ),
+              );
+              unawaited(
+                queue.add(
+                  () => PrefsService.saveToken(res.dataUser?.accessToken ?? ''),
+                ),
+              );
+              unawaited(queue.add(() => HiveLocal.saveDataUser(res.dataUser!)));
+              await queue.onComplete;
+              MessageConfig.show(
+                  title: S.current.chuyen_pham_vi_thanh_cong,
+                  );
+            }
+          },
+          error: (err) {});
+    }
   }
 }

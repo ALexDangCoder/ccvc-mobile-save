@@ -52,6 +52,7 @@ class PhamViResponse {
         ngaySinh: DateTime.now().toString(),
         isCurrentActive: isCurrentActive ?? false,
         donVi: donVi ?? '',
+        userCanBoDepartmentId: userCanBoDepartmentId ?? '',
       );
 
   PhamViResponse.fromJson(Map<String, dynamic> json) {

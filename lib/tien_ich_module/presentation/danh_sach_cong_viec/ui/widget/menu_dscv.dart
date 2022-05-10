@@ -129,95 +129,79 @@ class _MenuDSCVState extends State<MenuDSCV> {
             ),
           ),
         ),
-        body: StreamBuilder<List<bool>>(
-          builder: (context, snapshot) {
-            return Column(
-              children: [
-                CellMenuCustom(
-                  icon: ImageAssets.ic01,
-                  name: S.current.cong_viec_cua_ban,
+        body: Column(
+          children: [
+            ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: widget.cubit.vlMenuDf.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final vl = widget.cubit.vlMenuDf[index];
+                return CellMenuCustom(
+                  icon: vl.icon ?? '',
+                  name: vl.title ?? '',
                   onTap: () {
+                    widget.cubit.titleAppBar.add(vl.title ?? '');
+                    widget.cubit.statusDSCV.sink.add(index);
+                    widget.cubit.addValueWithTypeToDSCV();
                     Navigator.pop(context);
                   },
-                  isSelect: snapshot.data?[0] ?? true,
-                  number: 0,
+                  isSelect: true,
+                  number: vl.number ?? 0,
+                );
+              },
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
                 ),
-                CellMenuCustom(
-                  icon: ImageAssets.ic02,
-                  name: S.current.cong_viec_quan_trong,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  isSelect: snapshot.data?[1] ?? true,
-                  number: 0,
-                ),
-                CellMenuCustom(
-                  icon: ImageAssets.ic03,
-                  name: S.current.da_hoan_thanh,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  isSelect: snapshot.data?[2] ?? true,
-                  number: 0,
-                ),
-                CellMenuCustom(
-                  icon: ImageAssets.ic04,
-                  name: S.current.gan_cho_toi,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  isSelect: snapshot.data?[3] ?? true,
-                  number: 0,
-                ),
-                CellMenuCustom(
-                  icon: ImageAssets.ic05,
-                  name: S.current.da_bi_xoa,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  isSelect: snapshot.data?[4] ?? true,
-                  number: 0,
-                ),
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: ContainerMenuDSCVWidget(
-                      name: S.current.nhom_cong_viec_moi,
-                      icon: ImageAssets.ic06,
-                      type: TypeContainer.expand,
-                      childExpand: StreamBuilder<List<NhomCVMoiModel>>(
-                        stream: widget.cubit.nhomCVMoiSubject.stream,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          if (data.isNotEmpty) {
-                            return ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: data.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                final vl = data[index];
-                                return ContainerMenuDSCVWidget(
-                                  icon: '',
-                                  name: vl.label,
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                );
-                              },
+                child: ContainerMenuDSCVWidget(
+                  name: S.current.nhom_cong_viec_moi,
+                  icon: ImageAssets.ic06,
+                  type: TypeContainer.expand,
+                  childExpand: StreamBuilder<List<NhomCVMoiModel>>(
+                    stream: widget.cubit.nhomCVMoiSubject.stream,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? [];
+                      if (data.isNotEmpty) {
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final dataIndex = data[index];
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: CellMenuCustom(
+                                margin: false,
+                                icon: '',
+                                name: dataIndex.label,
+                                onTap: () {
+                                  widget.cubit.titleAppBar.add(dataIndex.label);
+                                  widget.cubit.statusDSCV.sink.add(NCVM);
+                                  widget.cubit.addValueWithTypeToDSCV();
+                                  widget.cubit.groupId = dataIndex.id;
+                                  Navigator.pop(context);
+                                },
+                                isSelect: true,
+                                number: widget.cubit
+                                    .soLuongNhomCvMoi(groupId: dataIndex.id),
+                              ),
                             );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
-                    ),
+                          },
+                        );
+                      }
+                      return const SizedBox();
+                    },
                   ),
-                )
-              ],
-            );
-          },
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -108,8 +107,15 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   Future<void> getUserInFor() async {
-    final dataUser = HiveLocal.getDataUser();
-    _getUserInformation.sink.add(dataUser ?? DataUser());
+    final result = await homeRep.getPhamVi();
+    result.when(
+      success: (res) {
+        final dataUser = HiveLocal.getDataUser();
+        dataUser?.userInformation?.chucVu = res.chucVu;
+        _getUserInformation.sink.add(dataUser ?? DataUser());
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> getDate() async {
@@ -147,13 +153,18 @@ class HomeCubit extends BaseCubit<HomeState> {
 
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
-  List<WidgetModel> get getListWidget => _getConfigWidget.value;
+  List<WidgetModel> get getListWidget {
+    if (_getConfigWidget.hasValue) {
+      return _getConfigWidget.value;
+    } else {
+      return [];
+    }
+  }
 }
 
 /// Get Config Widget
 extension GetConfigWidget on HomeCubit {
   Future<void> configWidget() async {
-    print('call first one');
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
@@ -468,6 +479,7 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<List<TongHopNhiemVuModel>>();
   List<String> mangTrangThai = [];
   int? trangThaiHanXuLy;
+
   TongHopNhiemVuCubit() {}
 
   Future<void> getDataTongHopNhiemVu() async {
@@ -494,7 +506,6 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
 
   void clickScreen(TongHopNhiemVuType type) {
     switch (type) {
-
       //  case TongHopNhiemVuType.tongSoNV:
       //    mangTrangThai = [];
       //    trangThaiHanXuLy = null;
@@ -580,6 +591,7 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
   bool isDanhSachChoXuLy = true;
   List<String> maTrangThaiVBDen = [];
   List<int> trangThaiFilter = [];
+
   void getDocument() {
     callApi(startDate.toString(), endDate.toString());
   }
@@ -735,6 +747,7 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
   bool isDanhSachChoXuLy = true;
   List<String> maTrangThaiVBDen = [];
   List<int> trangThaiFilter = [];
+
   void getDocument() {
     callApi(startDate.toString(), endDate.toString());
   }

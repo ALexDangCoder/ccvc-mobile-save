@@ -130,7 +130,9 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                               ? viToEn()
                               : enToVi();
                         },
-                        child: SvgPicture.asset(ImageAssets.icReplace),
+                        child: SvgPicture.asset(
+                          ImageAssets.icReplace,
+                        ),
                       ),
                       Expanded(
                         child: Row(

@@ -9,12 +9,14 @@ class ButtonCustomBottom extends StatefulWidget {
   final String title;
   final Function onPressed;
   final double? size;
+  final double? border;
 
   const ButtonCustomBottom({
     Key? key,
     required this.isColorBlue,
     required this.title,
     this.size,
+    this.border,
     required this.onPressed,
   }) : super(key: key);
 
@@ -35,7 +37,9 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
             child: Container(
               height: 40.0.textScale(space: 16.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
+                borderRadius: BorderRadius.circular(
+                  widget.border ?? 8.0.textScale(space: 4.0),
+                ),
                 color: widget.isColorBlue
                     ? AppTheme.getInstance().colorField()
                     : AppTheme.getInstance().colorField().withOpacity(0.1),

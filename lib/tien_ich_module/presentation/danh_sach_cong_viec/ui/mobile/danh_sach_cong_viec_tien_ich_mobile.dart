@@ -19,7 +19,6 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,7 +56,7 @@ class _DanhSachCongViecTienIchMobileState
           onPressed: () {
             showBottomSheetCustom(
               context,
-              title: S.current.thu_hoi_lich,
+              title: S.current.them_cong_viec,
               child: AddToDoWidgetTienIch(
                 onTap: (value) {
                   cubit.addTodo(value);
@@ -306,21 +305,17 @@ class _DanhSachCongViecTienIchMobileState
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16),
-          child: Column(
-            children: [
-              MenuSelectWidget(
-                listSelect: [
-                  CellPopPupMenu(
-                    urlImage: ImageAssets.icEditBlue,
-                    text: 'Đổi lại tên',
-                    onTap: () {},
-                  ),
-                  CellPopPupMenu(
-                    urlImage: ImageAssets.ic_delete_do,
-                    text: S.current.xoa,
-                    onTap: () {},
-                  ),
-                ],
+          child: MenuSelectWidget(
+            listSelect: [
+              CellPopPupMenu(
+                urlImage: ImageAssets.icEditBlue,
+                text: 'Đổi lại tên',
+                onTap: () {},
+              ),
+              CellPopPupMenu(
+                urlImage: ImageAssets.ic_delete_do,
+                text: S.current.xoa,
+                onTap: () {},
               ),
             ],
           ),

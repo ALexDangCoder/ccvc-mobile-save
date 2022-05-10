@@ -37,8 +37,9 @@ class HiveLocal {
     que.cancel();
   }
 
-  static void saveDataUser(DataUser dataUser) {
-    _userBox.add(dataUser);
+  static Future<void> saveDataUser(DataUser dataUser) async {
+    await _userBox.clear();
+    await _userBox.add(dataUser);
   }
 
   static void clearData() {

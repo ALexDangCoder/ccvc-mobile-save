@@ -88,7 +88,9 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                         width: 56,
                         height: 56,
                       ),
-                      spaceH32,
+                      const SizedBox(
+                        height: 40,
+                      ),
                       Text(
                         widget.title,
                         style:

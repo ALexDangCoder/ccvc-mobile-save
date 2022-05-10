@@ -69,7 +69,7 @@ class _DanhSachCongViecTienIchTabletState
             icon: SvgPicture.asset(ImageAssets.ic_Group.svgToTheme()),
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: AddToDoWidgetTienIch(
+                child: DoiTenWidgetTienIch(
                   onTap: (value) {
                     cubit.addTodo(value);
                     Navigator.pop(context);
@@ -92,6 +92,17 @@ class _DanhSachCongViecTienIchTabletState
             icon: SvgPicture.asset(ImageAssets.icMenuCalender),
           )
         ],
+      ),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(bottom: 16.0),
+        child: FloatingActionButton(
+          elevation: 0.0,
+          onPressed: () {},
+          backgroundColor: AppTheme.getInstance().colorField(),
+          child: SvgPicture.asset(
+            ImageAssets.icAddCalenderWhite,
+          ),
+        ),
       ),
       body: StreamBuilder<List<bool>>(builder: (context, snapshotbool) {
         return ScrollBarWidget(
@@ -195,7 +206,8 @@ class _DanhSachCongViecTienIchTabletState
                                       child: Text(
                                         S.current.chon_ngay,
                                         style: textNormalCustom(
-                                          color: AppTheme.getInstance().colorField(),
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
                                           fontSize: 14,
                                         ),
                                       ),

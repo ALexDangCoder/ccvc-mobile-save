@@ -5,21 +5,24 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/main.dart';
+
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/manager_personal_information.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/widgets/header_menu_widget.dart';
-import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
+
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
-import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
+
+import 'package:ccvc_mobile/tien_ich_module/presentation/sua_danh_ba_ca_nhan/widget/input_infor_user_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
-import 'icon.dart';
 import 'widgets/button_quan_ly_widget.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -135,12 +138,17 @@ class _MenuScreenState extends State<MenuScreen> {
                           final type = listFeatureAccount[index];
                           return GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => type.getScreen(),
-                                ),
-                              );
+                              if (type == MenuType.chuyenPhamVi) {
+                                showChuyenPhamVi();
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (_, __, ___) =>
+                                        type.getScreen(),
+                                  ),
+                                );
+                              }
                             },
                             child: MenuCellWidget(
                               title: type.getItem().title,
@@ -184,5 +192,40 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
       ),
     );
+  }
+
+  void showChuyenPhamVi() {
+    showBottomSheetCustom(context,
+        child: Column(
+          children: [
+            InputInfoUserWidget(
+              title: S.current.pham_vi,
+              child: CoolDropDown(
+                placeHoder: S.current.vuiLongChon,
+                listData: menuCubit.listPhamVi.map((e) => e.phamVi).toList(),
+                initData: menuCubit.selectPhamVi?.phamVi ?? '',
+                onChange: (value) {
+                  menuCubit.selectPhamVi = menuCubit.listPhamVi[value];
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: ButtonCustomBottom(
+                  onPressed: () {
+                   menuCubit.chuyenPhamVi();
+                  },
+                  title: S.current.chuyen_pham_vi,
+                  isColorBlue: true,
+                ),
+              ),
+            )
+          ],
+        ),
+        title: S.current.chon_pham_vi);
   }
 }

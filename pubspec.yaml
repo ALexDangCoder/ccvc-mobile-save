@@ -84,7 +84,7 @@ dependencies:
   html_editor_enhanced: ^2.4.0+1
   translator: ^0.1.7
   flutter_contacts:
-  cool_dropdown: ^1.4.1
+
 
 dev_dependencies:
 

@@ -1,3 +1,7 @@
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import '/home_module/utils/constants/app_constants.dart';
 
 enum WidgetType {
@@ -49,6 +53,7 @@ class WidgetModel {
   int? minH;
   int? minW;
   WidgetType? widgetType;
+  String? imagePre;
 
   WidgetModel({
     required this.id,
@@ -84,6 +89,7 @@ class WidgetModel {
     this.widgetType,
   }) {
     widgetType = fromEnum();
+    imagePre=getStringImage();
   } //
 
   WidgetType? fromEnum() {
@@ -112,6 +118,35 @@ class WidgetModel {
         return WidgetType.situationHandlingPeople;
       case WidgetTypeConstant.NHIEM_VU:
         return WidgetType.nhiemVu;
+    }
+  }
+
+  String? getStringImage() {
+    switch (component) {
+      case WidgetTypeConstant.TINH_HINH_XU_LY_VAN_BAN:
+        return ImageAssets.preTinhHinhXuLyVaNBanMobile;
+      case WidgetTypeConstant.VAN_BAN:
+        return ImageAssets.preVanBanMobile;
+      case WidgetTypeConstant.TONG_HOP_NHIEM_VU:
+        return ImageAssets.preTongHopNhiemVu;
+      case WidgetTypeConstant.Y_KIEN_NGUOI_DAN:
+        return ImageAssets.preDanhSachPAKN;
+      case WidgetTypeConstant.LICH_LAM_VIEC:
+        return ImageAssets.preLichLamViec;
+      case WidgetTypeConstant.LICH_HOP:
+        return ImageAssets.preLichHop;
+      case WidgetTypeConstant.BAO_CHI:
+        return ImageAssets.preBXMXH;
+      case WidgetTypeConstant.DANH_SANH_CONG_VIEC:
+        return ImageAssets.preDanhSachCongViec;
+      case WidgetTypeConstant.SU_KIEN_TRONG_NGAY:
+        return ImageAssets.preSuKienTrongNgay;
+      case WidgetTypeConstant.SINH_NHAT:
+        return ImageAssets.preSinhNhat;
+      case WidgetTypeConstant.TINH_HINH_XU_LY_Y_KIEN:
+        return ImageAssets.preTinhHinhPAKNCaNhan;
+      case WidgetTypeConstant.NHIEM_VU:
+        return ImageAssets.preNhiemVu;
     }
   }
 }

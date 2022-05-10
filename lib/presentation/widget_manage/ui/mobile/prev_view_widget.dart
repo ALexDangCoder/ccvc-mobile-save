@@ -7,9 +7,11 @@ import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/preview_widget_item.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class PrevViewWidget extends StatefulWidget {
   final WidgetManageCubit cubit;
+
   const PrevViewWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -19,18 +21,29 @@ class PrevViewWidget extends StatefulWidget {
 class _PrevViewWidgetState extends State<PrevViewWidget> {
   HomeCubit homeCubit = HomeCubit();
   ScrollController scrollController = ScrollController();
+  GlobalKey globalKey = GlobalKey();
+  BehaviorSubject<double> subject = BehaviorSubject.seeded(0);
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-     homeCubit.loadApi();
+    homeCubit.loadApi();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      // ignore: cast_nullable_to_non_nullable
+      RenderBox box = globalKey.currentContext?.findRenderObject() as RenderBox;
+      print(
+          '------------------------------------- height after render----------- ${box.size.height}');
+      subject.sink.add(box.size.height);
+    });
   }
+
 
   @override
   void dispose() {
     super.dispose();
     homeCubit.dispose();
+    subject.close();
   }
 
   @override
@@ -44,33 +57,44 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
         controller: scrollController,
         child: SingleChildScrollView(
           controller: scrollController,
-          child: Column(
+          child: Stack(
             children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 20,top: 16),
-                color: homeColor,
-                height: 6,
+              Column(
+                key: globalKey,
+                children: [
+                  Container(
+                    color: homeColor,
+                    child: StreamBuilder<List<WidgetModel>>(
+                      stream: widget.cubit.listWidgetUsing,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? <WidgetModel>[];
+                        if (data.isNotEmpty) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(data.length, (index) {
+                              final type = data[index];
+                              return type.widgetType?.getItemsMobilePreview() ??
+                                  const SizedBox();
+                            }),
+                          );
+                        }
+                        return const SizedBox(height: 300,);
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                color: homeColor,
-                child: StreamBuilder<List<WidgetModel>>(
-                  stream: widget.cubit.listWidgetUsing,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <WidgetModel>[];
-                    if (data.isNotEmpty) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: List.generate(data.length, (index) {
-                          final type = data[index];
-                          return type.widgetType?.getItemsMobilePreview() ??
-                              const SizedBox();
-                        }),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-              ),
+              StreamBuilder<double>(
+                stream: subject.stream,
+                builder: (context, snapshot) {
+                  final height = snapshot.data ?? 0;
+                  return Container(
+                    width: double.maxFinite,
+                    height: height,
+                    color: Colors.red,
+                  );
+                },
+              )
             ],
           ),
         ),

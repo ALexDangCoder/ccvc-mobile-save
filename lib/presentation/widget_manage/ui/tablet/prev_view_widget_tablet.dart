@@ -108,13 +108,8 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                       //   staggeredTileBuilder: (int index) {
                       //     final type = data[index];
                       //     if (type.widgetType == WidgetType.wordProcessState) {
-                      //       return const StaggeredTile.fit(2);
-                      //     }
-                      //     return const StaggeredTile.fit(1);
-                      //   },
-                      //   mainAxisSpacing: 28,
-                      //   crossAxisSpacing: 28,
-                      // );
+
+
                     }
                     return const SizedBox();
                   },

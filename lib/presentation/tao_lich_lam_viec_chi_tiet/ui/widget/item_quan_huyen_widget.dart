@@ -26,6 +26,8 @@ class _ItemHuyenWidgetState extends State<ItemHuyenWidget> {
           onChange: (value) {
             widget.taoLichLamViecCubit.huyenSelectModel?.tenQuanHuyen =
                 data[value].tenQuanHuyen;
+            widget.taoLichLamViecCubit.huyenSelectModel?.id =
+                data[value].id;
             widget.taoLichLamViecCubit.getDataXa(data[value].id ?? '');
           },
           urlIcon: ImageAssets.icViTri,

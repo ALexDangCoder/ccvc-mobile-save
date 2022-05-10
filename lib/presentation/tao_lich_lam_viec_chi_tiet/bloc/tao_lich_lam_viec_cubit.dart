@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tinh_huyen_xa_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -19,9 +20,15 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -48,9 +55,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   BehaviorSubject<DateTime> startDateSubject = BehaviorSubject.seeded(
     DateTime.now(),
   );
-  BehaviorSubject<String> changeOption =
-      BehaviorSubject();
-  BehaviorSubject<bool> checkTrongNuoc =BehaviorSubject();
+  BehaviorSubject<String> changeOption = BehaviorSubject();
+  BehaviorSubject<bool> checkTrongNuoc = BehaviorSubject();
   BehaviorSubject<MessageModel> taoMoiBanGhiSubject = BehaviorSubject();
 
   BehaviorSubject<DateTime> endDateSubject = BehaviorSubject.seeded(
@@ -102,7 +108,8 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   Stream<List<XaSelectModel>> get xaSelect => xaSelectSubject.stream;
 
-  Stream<List<DatNuocSelectModel>> get datNuocSelect => datNuocSelectSubject.stream;
+  Stream<List<DatNuocSelectModel>> get datNuocSelect =>
+      datNuocSelectSubject.stream;
 
   Set<int> lichLapItem = {};
   List<int> lichLapItem1 = <int>[];
@@ -126,6 +133,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   Stream<List<LoaiSelectModel>> get loaiLich => _loaiLich1.stream;
   LoaiSelectModel? selectLoaiLich;
+  String? selectLoaiLichId = 'a0602d4e-d4cb-4259-a7ea-0260360852f3';
   LoaiSelectModel? selectLinhVuc;
   NguoiChutriModel? selectNguoiChuTri;
   NhacLaiModel selectNhacLai = NhacLaiModel.seeded();
@@ -154,7 +162,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   int? typeRepeat;
   String? dateRepeat;
   ScheduleReminder?scheduleReminder;
+  bool? publishSchedule;
   ChiTietLichLamViecModel chiTietLichLamViecModel=ChiTietLichLamViecModel();
+  final toast = FToast();
 
   bool allDay = true;
 
@@ -288,24 +298,86 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         error: (err) {});
   }
 
+  Future<void> checkTrungLich({
+    required BuildContext context,
+    required String title,
+    required String content,
+    required String location,
+  }) async {
+    final result =
+        await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
+      dateFrom: dateFrom?? DateTime.now().formatApi,
+      dateTo: dateEnd?? DateTime.now().formatApi,
+      timeFrom: timeFrom??'${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      timeTo: timeEnd??'${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      donViId: selectNguoiChuTri?.donViId,
+      userId: selectNguoiChuTri?.userId,
+    ));
+    result.when(
+        success: (res) {
+          if(res.data==true) {
+            showDiaLog(
+            context,
+            textContent: S.current.ban_co_muon_tiep_tuc_khong,
+            btnLeftTxt: S.current.khong,
+            funcBtnRight: () async {
+              await taoLichLamViec(
+                title: title ,
+                content:content ,
+                location: location,
+              );
+              Navigator.pop(context, true);
+            },
+            title: res.code??'',
+            btnRightTxt: S.current.dong_y,
+            icon: SvgPicture.asset(ImageAssets.icUserMeeting),
+          );
+          } else  {
+            taoLichLamViec(
+              title: title,
+              content:content ,
+              location: location,
+            );
+          }
+        },
+        error: (error) {});
+  }
+
+
   Future<void> taoLichLamViec({
     required String title,
     required String content,
     required String location,
   }) async {
+    if(selectLoaiLichId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e'){
+      tinhSelectModel?.tenTinhThanh = '';
+      tinhSelectModel?.id = '';
+      huyenSelectModel?.tenQuanHuyen = '';
+      huyenSelectModel?.id = '';
+    xaSelectModel?.tenXaPhuong = '';
+    xaSelectModel?.id = '';
+    }else{
+      datNuocSelectModel?.name='';
+      datNuocSelectModel?.id='';
+    }
     final result = await _lichLamViec.taoLichLamViec(
         title,
-        selectLoaiLich?.id ?? '',
+        selectLoaiLichId??'',
         selectLinhVuc?.id ?? '',
+        tinhSelectModel?.id??'',
         tinhSelectModel?.tenTinhThanh ?? '',
+        huyenSelectModel?.id??'',
         huyenSelectModel?.tenQuanHuyen ?? '',
+        xaSelectModel?.id??'',
         xaSelectModel?.tenXaPhuong ?? '',
+        datNuocSelectModel?.name??'',
+        datNuocSelectModel?.id??'',
         dateFrom ?? DateTime.now().formatApi,
         timeFrom ??
             '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
         dateEnd ?? DateTime.now().formatApi,
         timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+            '${DateTime.now().hour.toString()}:${(DateTime.now().minute ).toString()}',
         content,
         location,
         '',
@@ -313,9 +385,10 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         '',
         2,
         '',
-        false,
+        publishSchedule??false,//cong khai lich
         '',
         false,
+        true,
         selectNguoiChuTri?.userId ?? '',
         selectNguoiChuTri?.donViId ?? '',
         '',
@@ -332,6 +405,13 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       emit(CreateSuccess());
       showContent();
     }, error: (error) {
+        print(error.message);
+        toast.showToast(
+          child: ShowToast(
+            text: error.message,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
       showContent();
     });
   }
@@ -379,6 +459,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       showContent();
     });
   }
+
   Future<void> suaLichLamViecNuocNgoai() async {
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
         title??'',

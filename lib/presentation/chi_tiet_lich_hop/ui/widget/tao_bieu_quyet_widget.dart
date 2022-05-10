@@ -67,12 +67,6 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () async {
-                // print("<<<<<${widget.cubit.date}");
-                // print("<<<<<${widget.cubit.plusTaoBieuQuyet(
-                //   widget.cubit.date,
-                //   widget.cubit.start,
-                // )}");
-
                 if (noiDungController.text.isEmpty ||
                     widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
                     widget.cubit.listDanhSach.isEmpty) {

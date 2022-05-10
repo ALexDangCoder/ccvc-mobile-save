@@ -22,6 +22,7 @@ class TextFieldValidator extends StatefulWidget {
   final Color? fillColor;
   final int? maxLength;
   final List<TextInputFormatter>? checkNumber;
+  final Function(String)? onPaste;
 
   const TextFieldValidator({
     Key? key,
@@ -40,6 +41,7 @@ class TextFieldValidator extends StatefulWidget {
     this.fillColor,
     this.maxLength,
     this.checkNumber,
+    this.onPaste,
   }) : super(key: key);
 
   @override
@@ -49,12 +51,14 @@ class TextFieldValidator extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
   FormProvider? formProvider;
+  bool isPaste = false;
+  String valueText = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    valueText = widget.controller?.text ?? '';
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       formProvider = FormProvider.of(context);
       if (formProvider != null) {
@@ -95,8 +99,17 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           if (widget.onChange != null) {
             widget.onChange!(value);
           }
+          if (widget.onPaste != null) {
+            if (isPasteOnChange(value)) {
+              if (valueText.isNotEmpty) {
+                widget.onPaste!(value.replaceAll(valueText, ''));
+              } else {
+                widget.onPaste!(value);
+              }
+            }
+            valueText = value;
+          }
         },
-
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,
         maxLines: widget.maxLine,
@@ -151,5 +164,12 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
       ),
     );
+  }
+
+  bool isPasteOnChange(String value) {
+    if (value.length > valueText.length + 1) {
+      return true;
+    }
+    return false;
   }
 }

@@ -15,6 +15,7 @@ class ApiConstants {
   static const String GET_LIST_TOKEN = '/market/coin-list';
   static const String GET_PRICE_TOKEN_BY_SYMBOL = '/market/coin-price/';
   static const String GET_PHAM_VI = '/common/auth/list-pham-vi';
+  static const String CHUYEN_PHAM_VI = '/common/auth/chuyen-pham-vi';
   static const String GET_LUNAR_DATE = '/api/LunarDate/getLunarDate';
   static const String GET_TINH_HUONG_KHAN_CAP =
       '/api/DashBoardHome/tinh-huong-khan-cap?';

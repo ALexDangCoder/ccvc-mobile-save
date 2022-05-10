@@ -199,13 +199,26 @@ class _EditPersonalInformationTabletScreen
                                   InputInfoUserWidget(
                                     title: user.keys.elementAt(3),
                                     child: TextFieldValidator(
-                                      maxLength: 2,
-                                      checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
                                       textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
                                       controller: thuTuController,
+                                      onPaste: (value) {
+                                        cubit.checkCopyPaste(
+                                          value,
+                                          thuTuController,
+                                          2,
+                                        );
+                                      },
+                                      onChange: (value) {
+                                        if (value.length > 2) {
+                                          final input = value.substring(0, 2);
+                                          thuTuController.text = input;
+                                          thuTuController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 2),
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -232,11 +245,24 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
-                                      maxLength: 255,
                                       textInputType: TextInputType.number,
-                                      checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
+                                      onPaste: (value) {
+                                        cubit.checkCopyPaste(
+                                          value,
+                                          cmndController,
+                                          255,
+                                        );
+                                      },
+                                      onChange: (value) {
+                                        if (value.length > 255) {
+                                          final input = value.substring(0, 255);
+                                          cmndController.text = input;
+                                          cmndController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 255),
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -300,10 +326,23 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.sdt_co_quan,
                                       controller: sdtCoquanController,
                                       textInputType: TextInputType.number,
-                                      maxLength: 255,
-                                      checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
+                                      onPaste: (value) {
+                                        cubit.checkCopyPaste(
+                                          value,
+                                          sdtCoquanController,
+                                          255,
+                                        );
+                                      },
+                                      onChange: (value) {
+                                        if (value.length > 255) {
+                                          final input = value.substring(0, 255);
+                                          sdtCoquanController.text = input;
+                                          sdtCoquanController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 255),
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -312,10 +351,23 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.so_dien_thoai,
                                       controller: sdtController,
                                       textInputType: TextInputType.number,
-                                      maxLength: 255,
-                                      checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
+                                      onPaste: (value) {
+                                        cubit.checkCopyPaste(
+                                          value,
+                                          sdtController,
+                                          255,
+                                        );
+                                      },
+                                      onChange: (value) {
+                                        if (value.length > 255) {
+                                          final input = value.substring(0, 255);
+                                          sdtController.text = input;
+                                          sdtController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 255),
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                   StreamBuilder<List<TinhHuyenXaModel>>(

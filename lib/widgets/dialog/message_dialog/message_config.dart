@@ -18,6 +18,7 @@ class MessageConfig {
     String title = '',
     String urlIcon = '',
     MessState messState = MessState.success,
+    Function()? onDismiss,
   }) {
     final OverlayState? overlayState = Overlay.of(_context!);
     late OverlayEntry overlayEntry;
@@ -26,6 +27,9 @@ class MessageConfig {
         return MessageDialogPopup(
           onDismiss: () {
             overlayEntry.remove();
+            if(onDismiss!=null){
+              onDismiss();
+            }
           },
           urlIcon: _urlIcon(messState, urlIcon),
           title: title,

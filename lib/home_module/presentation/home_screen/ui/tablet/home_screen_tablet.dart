@@ -21,16 +21,16 @@ import '/home_module/presentation/home_screen/ui/widgets/thong_bao_message_widge
 import '/home_module/utils/constants/image_asset.dart';
 import '/widgets/views/state_stream_layout.dart';
 
-final keyHomeTablet = GlobalKey<_HomeScreenTabletState>();
+GlobalKey<HomeScreenTabletState> keyHomeTablet = GlobalKey<HomeScreenTabletState>();
 
 class HomeScreenTablet extends StatefulWidget {
   const HomeScreenTablet({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreenTablet> createState() => _HomeScreenTabletState();
+  State<HomeScreenTablet> createState() => HomeScreenTabletState();
 }
 
-class _HomeScreenTabletState extends State<HomeScreenTablet>
+class HomeScreenTabletState extends State<HomeScreenTablet>
     with TickerProviderStateMixin {
   ScrollController scrollController = ScrollController();
   HomeCubit homeCubit = HomeCubit();

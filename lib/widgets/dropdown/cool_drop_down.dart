@@ -48,7 +48,7 @@ class _CoolDropDownState extends State<CoolDropDown> {
       defaultValue: initIndex < 0 ? null : pokemonsMap[initIndex],
       resultWidth: MediaQuery.of(context).size.width,
       dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,
-      dropdownHeight: 120,
+      dropdownHeight: 200,
       resultAlign: Alignment.center,
       dropdownList: pokemonsMap,
       onChange: (value) {

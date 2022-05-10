@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/data/request/account/change_pass_request.dart';
+import 'package:ccvc_mobile/data/request/account/chuyen_pham_vi_request.dart';
 import 'package:ccvc_mobile/data/request/account_request.dart';
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
 import 'package:ccvc_mobile/data/response/account/change_pass_response.dart';
@@ -55,6 +56,12 @@ abstract class AccountServiceGateWay {
   @POST(ApiConstants.GET_PHAM_VI)
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
+
+  @POST(ApiConstants.GET_PHAM_VI)
+  @FormUrlEncoded()
+  Future<ListPhamViResponse> getListPhamVi();
+  @POST(ApiConstants.CHUYEN_PHAM_VI)
+  Future<LoginResponse> chuyenPhamVi(@Body() ChuyenPhamViRequest chuyenPhamViRequest);
 }
 
 @RestApi()

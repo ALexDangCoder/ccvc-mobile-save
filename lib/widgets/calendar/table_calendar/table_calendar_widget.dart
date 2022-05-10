@@ -121,6 +121,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
       );
     }
   }
+  @override
+  void didUpdateWidget(covariant TableCalendarWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    _selectedDay = widget.initTime ?? DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {

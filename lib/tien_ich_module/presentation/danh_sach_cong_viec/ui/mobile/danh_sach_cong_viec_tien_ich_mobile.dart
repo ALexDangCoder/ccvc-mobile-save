@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
@@ -8,8 +9,10 @@ import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sh
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/drawer_slide/drawer_slide.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/addToDoWidget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_dscv_tien_tich.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chinh_sua_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/menu_dscv.dart';
@@ -47,6 +50,28 @@ class _DanhSachCongViecTienIchMobileState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(bottom: 16.0),
+        child: FloatingActionButton(
+          elevation: 0.0,
+          onPressed: () {
+            showBottomSheetCustom(
+              context,
+              title: S.current.thu_hoi_lich,
+              child: AddToDoWidgetTienIch(
+                onTap: (value) {
+                  cubit.addTodo(value);
+                  Navigator.pop(context);
+                },
+              ),
+            );
+          },
+          backgroundColor: AppTheme.getInstance().colorField(),
+          child: SvgPicture.asset(
+            ImageAssets.icAddCalenderWhite,
+          ),
+        ),
+      ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
@@ -279,21 +304,26 @@ class _DanhSachCongViecTienIchMobileState
         ],
       ),
       actions: [
-        PopupMenuButton(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          icon: SvgPicture.asset(ImageAssets.ic_Group.svgToTheme()),
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              child: AddToDoWidgetTienIch(
-                onTap: (value) {
-                  cubit.addTodo(value);
-                  Navigator.pop(context);
-                },
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: Column(
+            children: [
+              MenuSelectWidget(
+                listSelect: [
+                  CellPopPupMenu(
+                    urlImage: ImageAssets.icEditBlue,
+                    text: 'Đổi lại tên',
+                    onTap: () {},
+                  ),
+                  CellPopPupMenu(
+                    urlImage: ImageAssets.ic_delete_do,
+                    text: S.current.xoa,
+                    onTap: () {},
+                  ),
+                ],
               ),
-            )
-          ],
+            ],
+          ),
         ),
         IconButton(
           onPressed: () {
@@ -312,16 +342,16 @@ class _DanhSachCongViecTienIchMobileState
   }
 }
 
-class AddToDoWidgetTienIch extends StatefulWidget {
+class DoiTenWidgetTienIch extends StatefulWidget {
   final Function(String) onTap;
 
-  const AddToDoWidgetTienIch({Key? key, required this.onTap}) : super(key: key);
+  const DoiTenWidgetTienIch({Key? key, required this.onTap}) : super(key: key);
 
   @override
-  _AddToDoWidgetTienIchState createState() => _AddToDoWidgetTienIchState();
+  _DoiTenWidgetTienIchState createState() => _DoiTenWidgetTienIchState();
 }
 
-class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
+class _DoiTenWidgetTienIchState extends State<DoiTenWidgetTienIch> {
   bool isAdd = false;
   TextEditingController controller = TextEditingController();
   FocusNode focusNode = FocusNode();

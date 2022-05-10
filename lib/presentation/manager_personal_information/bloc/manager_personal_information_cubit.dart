@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manag
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -48,8 +49,7 @@ class ManagerPersonalInformationCubit
   final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
       BehaviorSubject.seeded([]);
   final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
-  final isCheckCccd = RegExp(r'^[0-9]{0,255}$');
-  final isCheckValue = RegExp(r'^[a-z!@#$%^&*()-+=:;]$');
+  final isCheckValue = RegExp(r'^[a-zA-Z0-9\+]*$');
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;
@@ -87,6 +87,17 @@ class ManagerPersonalInformationCubit
 
   AccountRepository get _managerRepo => Get.find();
   bool isChechValidate = false;
+
+  void checkCopyPaste(String value, TextEditingController thuTu, int offset) {
+    try {
+      int.parse(value);
+      thuTu.selection = TextSelection.fromPosition(
+        TextPosition(offset: offset),
+      );
+    } catch (e) {
+      thuTu.text = '';
+    }
+  }
 
   String checkThuTu(String? thuTu) {
     if (thuTu == null || thuTu == '') {

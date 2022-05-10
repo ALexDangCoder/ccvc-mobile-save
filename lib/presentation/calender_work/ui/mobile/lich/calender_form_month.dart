@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
+import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -125,17 +126,15 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                     } else {
                       return GestureDetector(
                         onTap: () {
-                          // widget.cubit.chooseTypeCalender(
-                          //   Type_Choose_Option_Day.DAY,
-                          // );
-                          // widget.cubit.stateOptionDay =
-                          //     Type_Choose_Option_Day.DAY;
-                          // widget.cubit.index.sink.add(0);
-                          // widget.cubit.callApi();
-
-                          widget.cubit.initTimes =
-                              calendarAppointmentDetails.date;
-                          print("<<<<<${widget.cubit.initTimes}");
+                          widget.cubit.chooseTypeCalender(
+                            Type_Choose_Option_Day.DAY,
+                          );
+                          widget.cubit.stateOptionDay =
+                              Type_Choose_Option_Day.DAY;
+                          widget.cubit.index.sink.add(0);
+                          widget.cubit.initTimeSubject.sink
+                              .add(calendarAppointmentDetails.date);
+                          widget.cubit.callApi();
                         },
                         child: Column(
                           children: [

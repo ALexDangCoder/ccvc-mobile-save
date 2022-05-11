@@ -917,7 +917,10 @@
   "cong_khai_lich":"Công khai lịch",
   "chon_pham_vi" : "Chọn phạm vị",
   "pham_vi" : "Phạm vi",
-  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công"
+  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công",
+  "thong_tin_pakn" : "Thông tin PAKN",
+  "tinh_hinh_xu_ly_pakn": "Tình hình xử lý PAKN"
+
 }
 
 

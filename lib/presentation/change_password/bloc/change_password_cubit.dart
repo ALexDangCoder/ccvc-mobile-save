@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_state.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,7 +21,8 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
   bool isHideEye1 = false;
   bool isHideEye2 = false;
   String message = '';
-  bool isSuccess=false;
+  bool? isSuccess;
+  final toast = FToast();
 
   void closeDialog() {
     showContent();
@@ -44,6 +48,14 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
         changePassSubject.sink.add(model);
         isSuccess=model.isSuccess??false;
         message = model.messages?.first ?? '';
+        if(model.isSuccess==false){
+          toast.showToast(
+            child: ShowToast(
+              text: S.current.mat_khau_hien_tai_chua_dung,
+            ),
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
         showContent();
       },
       error: (err) {

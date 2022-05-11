@@ -167,11 +167,13 @@ class _EditPersonalInformationTabletScreen
                                     isObligatory: true,
                                     title: user.keys.elementAt(1),
                                     child: TextFieldValidator(
+                                      key: UniqueKey(),
                                       hintText: S.current.ho_va_ten,
                                       controller: nameController,
                                       validator: (value) {
                                         if ((value ?? '').isEmpty) {
-                                          return S.current.nhap_sai_dinh_dang;
+                                          return '${S.current.ban_phai_nhap_truong} '
+                                              '${S.current.ho_va_ten} ';
                                         } else if ((value ?? '')
                                                     .trim()
                                                     .length <=
@@ -272,7 +274,8 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.email,
                                       controller: emailController,
                                       validator: (value) {
-                                        return (value ?? '').checkEmail();
+                                        return (value ?? '')
+                                            .checkEmailBoolean();
                                       },
                                     ),
                                   ),
@@ -548,6 +551,7 @@ class _EditPersonalInformationTabletScreen
                         spaceH28,
                         AvatarAndSignatureTablet(
                           cubit: cubit,
+                          toast: toast,
                         ),
                         spaceH48,
                         DoubleButtonEditScreen(

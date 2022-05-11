@@ -38,6 +38,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
   void initState() {
     super.initState();
     loginCubit.closeDialog();
+    loginCubit.toast.init(context);
   }
 
   @override
@@ -153,7 +154,13 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 return loginCubit.isHideClearData = true;
                               },
                               validator: (value) {
-                                return (value ?? '').checkNull();
+                                if ((value?.length ?? 0) > 255) {
+                                  return S.current.nhap_sai_dinh_dang;
+                                } else if ((value ?? '').contains('@')) {
+                                  return (value ?? '').checkEmailBoolean();
+                                } else {
+                                  return (value ?? '').checkTruongNull('Tài khoản!');
+                                }
                               },
                             ),
                             const SizedBox(
@@ -203,7 +210,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 return loginCubit.isHideEye1 = true;
                               },
                               validator: (value) {
-                                return (value ?? '').checkNull();
+                                return (value ?? '').checkTruongNull('Mật khẩu!');
                               },
                             ),
                             const SizedBox(
@@ -236,9 +243,6 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                     userName: textTaiKhoanController.text,
                                     appCode: APP_CODE,
                                   );
-                                } else {}
-                                if (loginCubit.passIsError == true) {
-                                  _showToast(context);
                                 }
                               },
                             ),
@@ -315,15 +319,6 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(S.current.dang_nhap_that_bai),
       ),
     );
   }

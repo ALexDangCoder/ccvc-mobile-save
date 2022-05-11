@@ -29,12 +29,12 @@ class AccountImpl implements AccountRepository {
       this._accountServiceCCVC);
 
   @override
-  Future<Result<DataUser>> login(
+  Future<Result<DataLogin>> login(
       String userName, String passWord, String appCode) {
-    return runCatchingAsync<LoginResponse, DataUser>(
+    return runCatchingAsync<LoginResponse, DataLogin>(
         () => _accountServiceCommon.login(LoginRequest(
             username: userName, password: passWord, appCode: appCode)),
-        (response) => response.data.toDomainDataUser());
+        (response) => response.toModel());
   }
 
   @override

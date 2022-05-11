@@ -12,8 +12,8 @@ extension PickImageExtension on ManagerPersonalInformationCubit {
 }
 
 class ModelAnh {
-  String? path;
-  int? size;
+  String path;
+  int size;
 
-  ModelAnh({this.path, this.size});
+  ModelAnh({required this.path, required this.size});
 }

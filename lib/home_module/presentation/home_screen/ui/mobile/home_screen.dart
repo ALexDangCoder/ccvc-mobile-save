@@ -15,7 +15,7 @@ import '/home_module/presentation/home_screen/ui/widgets/thong_bao_message_widge
 import '/widgets/views/state_stream_layout.dart';
 import 'home_icon.dart';
 
-final keyHomeMobile = GlobalKey<_HomeScreenMobileState>();
+GlobalKey<HomeScreenMobileState> keyHomeMobile = GlobalKey<HomeScreenMobileState>();
 
 
 
@@ -25,10 +25,10 @@ class HomeScreenMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HomeScreenMobile> createState() => _HomeScreenMobileState();
+  State<HomeScreenMobile> createState() => HomeScreenMobileState();
 }
 
-class _HomeScreenMobileState extends State<HomeScreenMobile> {
+class HomeScreenMobileState extends State<HomeScreenMobile> {
   ScrollController scrollController = ScrollController();
   HomeCubit homeCubit = HomeCubit();
 

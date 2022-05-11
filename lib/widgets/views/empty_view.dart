@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class EmptyView extends StatelessWidget {
@@ -10,7 +12,7 @@ class EmptyView extends StatelessWidget {
     return Center(
       child: Text(
         _message ?? '',
-        style: const TextStyle(color: Colors.black, fontSize: 16),
+        style: textNormal(AppTheme.getInstance().dfTxtColor(), 16),
       ),
     );
   }

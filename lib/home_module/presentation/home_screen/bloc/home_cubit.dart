@@ -111,7 +111,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     result.when(
       success: (res) {
         final dataUser = HiveLocal.getDataUser();
-        dataUser?.userInformation?.chucVu = res.chucVu;
+        // dataUser?.userInformation?.chucVu = res.dat;
         _getUserInformation.sink.add(dataUser ?? DataUser());
       },
       error: (err) {},

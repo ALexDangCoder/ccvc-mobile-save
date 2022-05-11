@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/build_picker.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
@@ -10,14 +12,16 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     double offAxisFraction,
     TransitionBuilder itemPositioningBuilder,
   ) {
+
     final int daysInCurrentMonth =
         DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
+
     return BuildPicker(
       offAxisFraction: offAxisFraction,
       controller: dayController,
       backgroundColor: widget.background,
       canBorderLeft: true,
-      children: List<Widget>.generate(31, (int index) {
+      children: List<Widget>.generate(daysInCurrentMonth, (int index) {
         TextStyle textStyle = themeTextStyle(context);
         if (index >= daysInCurrentMonth) {
           textStyle = textStyle.copyWith(

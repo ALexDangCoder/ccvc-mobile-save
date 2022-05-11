@@ -128,6 +128,7 @@ class MenuCubit extends BaseCubit<MenuState> {
   }
 
   Future<void> chuyenPhamVi() async {
+    showLoading();
     if ((selectPhamVi?.userCanBoDepartmentId ?? '').isNotEmpty) {
       final result = await accountRp.chuyenPhamVi(
         chuyenPhamViRequest: ChuyenPhamViRequest(
@@ -137,6 +138,7 @@ class MenuCubit extends BaseCubit<MenuState> {
       );
       await result.when(
           success: (res) async {
+
             if (res.dataUser != null) {
               final queue = Queue();
               unawaited(
@@ -152,12 +154,17 @@ class MenuCubit extends BaseCubit<MenuState> {
               );
               unawaited(queue.add(() => HiveLocal.saveDataUser(res.dataUser!)));
               await queue.onComplete;
+              showContent();
               MessageConfig.show(
                   title: S.current.chuyen_pham_vi_thanh_cong,
-                  );
+                  onDismiss: () {
+                    emit(ChuyenPhamViSucsess(res.dataUser?.accessToken ?? ''));
+                  });
             }
           },
-          error: (err) {});
+          error: (err) {
+            showContent();
+          });
     }
   }
 }

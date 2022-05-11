@@ -58,8 +58,17 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
           Expanded(
             child: StateStreamLayout(
               textEmpty: S.current.khong_co_du_lieu,
-              retry: () {},
-              error: AppException('1', ''),
+              retry: () {
+                widget.cubit.search(
+                  widget.cubit.getDateMonth(),
+                  DateTime.now().formatApiEndDay,
+                  '',
+                );
+              },
+              error: AppException(
+                S.current.something_went_wrong,
+                S.current.something_went_wrong,
+              ),
               stream: widget.cubit.stateStream,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

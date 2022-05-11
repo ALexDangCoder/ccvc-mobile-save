@@ -46,7 +46,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            setState(() {});
+            // setState(() {});
             await baoCaoThongKeBCMXHCubit.callApi(widget.topic);
           },
           child: StateStreamLayout(
@@ -58,6 +58,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
             ),
             stream: baoCaoThongKeBCMXHCubit.stateStream,
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 key: UniqueKey(),
                 children: [

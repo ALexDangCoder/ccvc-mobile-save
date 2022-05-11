@@ -79,6 +79,25 @@ abstract class TienIchService {
   Future<PhanCongThuKyResponse> xoaCongViec(
     @Query('id') String id,
   );
+
+  @POST(ApiConstants.TAO_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> createNhomCongViecMoi(
+    @Field('label') String label,
+  );
+
+  @PUT(ApiConstants.SUA_TEN_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> updateLabelGroupTodoList(
+    @Field('id') String id,
+    @Field('label') String newLabel,
+  );
+
+  @DELETE(ApiConstants.XOA_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> deleteGroupTodoList(
+    @Query('id') String id,
+  );
 }
 
 @RestApi()

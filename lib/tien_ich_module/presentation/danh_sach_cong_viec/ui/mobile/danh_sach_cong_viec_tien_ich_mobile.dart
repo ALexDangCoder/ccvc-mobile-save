@@ -305,19 +305,55 @@ class _DanhSachCongViecTienIchMobileState
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16),
-          child: MenuSelectWidget(
-            listSelect: [
-              CellPopPupMenu(
-                urlImage: ImageAssets.icEditBlue,
-                text: 'Đổi lại tên',
-                onTap: () {},
-              ),
-              CellPopPupMenu(
-                urlImage: ImageAssets.ic_delete_do,
-                text: S.current.xoa,
-                onTap: () {},
-              ),
-            ],
+          child: StreamBuilder<int>(
+            stream: cubit.statusDSCV.stream,
+            builder: (context, snapshotbool) {
+              final dataType = snapshotbool.data ?? 0;
+              if (dataType == NCVM) {
+                return MenuSelectWidget(
+                  listSelect: [
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.icEditBlue,
+                      text: S.current.doi_lai_ten,
+                      onTap: () {
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.doi_lai_ten,
+                          child: AddToDoWidgetTienIch(
+                            initData: cubit.titleAppBar.value,
+                            onTap: (value) {
+                              cubit.updateLabelTodoList(value);
+                              Navigator.pop(context);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    CellPopPupMenu(
+                      urlImage: ImageAssets.ic_delete_do,
+                      text: S.current.xoa,
+                      onTap: () {
+                        showDiaLog(
+                          context,
+                          funcBtnRight: () {
+                            cubit.deleteGroupTodoList();
+                          },
+                          icon: SvgPicture.asset(
+                            ImageAssets.icDeleteLichHop,
+                          ),
+                          title: S.current.xoa_cong_viec,
+                          textContent:
+                              S.current.viec_nay_se_xoa_cac_task_ben_trong_no,
+                          btnLeftTxt: S.current.huy,
+                          btnRightTxt: S.current.xoa,
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox();
+            },
           ),
         ),
         IconButton(
@@ -331,107 +367,11 @@ class _DanhSachCongViecTienIchMobileState
             );
           },
           icon: SvgPicture.asset(ImageAssets.icMenuCalender),
-        )
+        ),
+        const SizedBox(
+          width: 10,
+        ),
       ],
-    );
-  }
-}
-
-class DoiTenWidgetTienIch extends StatefulWidget {
-  final Function(String) onTap;
-
-  const DoiTenWidgetTienIch({Key? key, required this.onTap}) : super(key: key);
-
-  @override
-  _DoiTenWidgetTienIchState createState() => _DoiTenWidgetTienIchState();
-}
-
-class _DoiTenWidgetTienIchState extends State<DoiTenWidgetTienIch> {
-  bool isAdd = false;
-  TextEditingController controller = TextEditingController();
-  FocusNode focusNode = FocusNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 240,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.current.them_cong_viec,
-                style: textNormalCustom(
-                  color: textTitle,
-                  fontSize: 16,
-                ),
-              ),
-              SizedBox(
-                width: 18,
-                height: 18,
-                child: Checkbox(
-                  checkColor: Colors.white,
-                  // color of tick Mark
-                  activeColor: !isAdd ? sideTextInactiveColor : indicatorColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                  side: const BorderSide(width: 1.5, color: lineColor),
-                  value: true,
-                  onChanged: (value) {
-                    if (isAdd) {
-                      widget.onTap(controller.text.trim());
-                      controller.text = '';
-                      focusNode.unfocus();
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: borderButtomColor)),
-            ),
-            child: TextFormField(
-              controller: controller,
-              focusNode: focusNode,
-              onChanged: (value) {
-                if (value.isEmpty) {
-                  isAdd = false;
-                } else {
-                  isAdd = true;
-                }
-                setState(() {});
-              },
-              style: textNormal(infoColor, 14),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                prefixIconConstraints:
-                    const BoxConstraints(maxWidth: 25, maxHeight: 14),
-                prefixIcon: Container(
-                  color: Colors.transparent,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: SvgPicture.asset(
-                      ImageAssets.icEdit,
-                      width: 14,
-                      height: 14,
-                    ),
-                  ),
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                isDense: true,
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

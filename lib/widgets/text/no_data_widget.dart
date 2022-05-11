@@ -5,11 +5,13 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class NodataWidget extends StatelessWidget {
-  const NodataWidget({Key? key}) : super(key: key);
+  const NodataWidget({Key? key, this.height}) : super(key: key);
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
       color: Colors.transparent,
       child: Center(
         child: Text(

@@ -150,7 +150,6 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
       ),
     );
     await queue.onComplete;
-    showContent();
     queue.dispose();
   }
 
@@ -169,6 +168,7 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
     );
     result.when(
       success: (res) {
+        showContent();
         chartDataTongQuan.clear();
         chartDataStatusTongQuan.clear();
         chartDataTongQuan.add(
@@ -217,10 +217,9 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
         dataTongQuan[KEY_STATUS_TONG_QUAN] =
             chartDataStatusTongQuan.reversed.toList();
         _mapTongQuan.sink.add(dataTongQuan);
-        showContent();
       },
       error: (err) {
-        return;
+        showEmpty();
       },
     );
   }
@@ -237,10 +236,11 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
       formatStartDate,
       formatEndDate,
     );
-    showContent();
+
     result.when(
       success: (res) {
-        final List<List<BarChartModel>> listbarChar = [];
+        showContent();
+        final List<List<BarChartModel>> listBarChar = [];
         for (final element in res) {
           final List<BarChartModel> barCharData = [];
           barCharData.add(
@@ -267,18 +267,21 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
               ten: S.current.comment,
             ),
           );
-          listbarChar.add(barCharData);
+          listBarChar.add(barCharData);
         }
-        _listTinTongHop.sink.add(listbarChar);
+        _listTinTongHop.sink.add(listBarChar);
       },
       error: (err) {
-        return;
+        showEmpty();
       },
     );
   }
 
   Future<void> getBaoCaoTheoNguon(
-      String startDate, String endDate, int topic,) async {
+    String startDate,
+    String endDate,
+    int topic,
+  ) async {
     final formatStartDate = DateTime.parse(startDate).formatApiSS;
     final formatEndDate = DateTime.parse(endDate).formatApiSS;
     showLoading();
@@ -290,12 +293,15 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
     showContent();
     result.when(
       success: (res) {
+        showContent();
         chartBaoCaoTheoNguonData.clear();
-        chartBaoCaoTheoNguonData.add(ChartData(
-          S.current.mang_xa_hoi,
-          double.parse(res.mangXaHoi),
-          blueNhatChart,
-        ),);
+        chartBaoCaoTheoNguonData.add(
+          ChartData(
+            S.current.mang_xa_hoi,
+            double.parse(res.mangXaHoi),
+            blueNhatChart,
+          ),
+        );
         chartBaoCaoTheoNguonData.add(
           ChartData(
             S.current.bao_chi,
@@ -307,19 +313,28 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
           ChartData(S.current.forum, double.parse(res.forum), grayChart),
         );
         chartBaoCaoTheoNguonData.add(
-            ChartData(S.current.blog, double.parse(res.blog), orangeNhatChart),);
-        chartBaoCaoTheoNguonData.add(ChartData(
-            S.current.khac, double.parse(res.nguonKhac), purpleChart,),);
+          ChartData(S.current.blog, double.parse(res.blog), orangeNhatChart),
+        );
+        chartBaoCaoTheoNguonData.add(
+          ChartData(
+            S.current.khac,
+            double.parse(res.nguonKhac),
+            purpleChart,
+          ),
+        );
         _chartBaoCaoTheoNguon.sink.add(chartBaoCaoTheoNguonData);
       },
       error: (err) {
-        return;
+        showEmpty();
       },
     );
   }
 
   Future<void> getBaoCaoTheoSacThai(
-      String startDate, String endDate, int topic,) async {
+    String startDate,
+    String endDate,
+    int topic,
+  ) async {
     final formatStartDate = DateTime.parse(startDate).formatApiSS;
     final formatEndDate = DateTime.parse(endDate).formatApiSS;
     showLoading();
@@ -328,26 +343,46 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
       formatEndDate,
       topic,
     );
-    showContent();
+
     result.when(
       success: (res) {
+        showContent();
         chartBaoCaoTheoSacThaiData.clear();
-        chartBaoCaoTheoSacThaiData.add(ChartData(
-            S.current.trung_lap, res.trungLap.toDouble(), Colors.blue,),);
-        chartBaoCaoTheoSacThaiData.add(ChartData(
-            S.current.tich_cuc, res.tichCuc.toDouble(), Colors.green,),);
-        chartBaoCaoTheoSacThaiData.add(ChartData(
-            S.current.tieu_cuc, res.tieuCuc.toDouble(), Colors.orange,),);
+        chartBaoCaoTheoSacThaiData.add(
+          ChartData(
+            S.current.trung_lap,
+            res.trungLap.toDouble(),
+            Colors.blue,
+          ),
+        );
+        chartBaoCaoTheoSacThaiData.add(
+          ChartData(
+            S.current.tich_cuc,
+            res.tichCuc.toDouble(),
+            Colors.green,
+          ),
+        );
+        chartBaoCaoTheoSacThaiData.add(
+          ChartData(
+            S.current.tieu_cuc,
+            res.tieuCuc.toDouble(),
+            Colors.orange,
+          ),
+        );
         _chartBaoCaoTheoSacThai.sink.add(chartBaoCaoTheoSacThaiData);
       },
       error: (err) {
+        showEmpty();
         return;
       },
     );
   }
 
   Future<void> getBaoCaoTheoThoiGian(
-      String startDate, String endDate, int topic,) async {
+    String startDate,
+    String endDate,
+    int topic,
+  ) async {
     final formatStartDate = DateTime.parse(startDate).formatApiSS;
     final formatEndDate = DateTime.parse(endDate).formatApiSS;
     final ThongKeTheoThoiGianRequest request = ThongKeTheoThoiGianRequest(
@@ -360,19 +395,24 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
     final result = await _BCMXHRepo.baoCaoTheoThoiGian(
       request,
     );
-    showContent();
+
     result.when(
       success: (res) {
+        showContent();
         _lineChartTheoThoiGian.sink.add(res);
       },
       error: (err) {
+        showEmpty();
         return;
       },
     );
   }
 
   Future<void> getBaoCaoTheoNguonLineChart(
-      String startDate, String endDate, int topic,) async {
+    String startDate,
+    String endDate,
+    int topic,
+  ) async {
     final formatStartDate = DateTime.parse(startDate).formatApiSS;
     final formatEndDate = DateTime.parse(endDate).formatApiSS;
     showLoading();
@@ -395,7 +435,10 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
   }
 
   Future<void> getSacThaiLineChart(
-      String startDate, String endDate, int topic,) async {
+    String startDate,
+    String endDate,
+    int topic,
+  ) async {
     final formatStartDate = DateTime.parse(startDate).formatApiSS;
     final formatEndDate = DateTime.parse(endDate).formatApiSS;
     showLoading();

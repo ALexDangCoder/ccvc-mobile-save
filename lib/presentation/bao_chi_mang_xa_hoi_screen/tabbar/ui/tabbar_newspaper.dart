@@ -24,7 +24,7 @@ class TabbarNewspaper extends StatefulWidget {
   State<TabbarNewspaper> createState() => _TabbarNewspaperState();
 }
 
-class _TabbarNewspaperState extends State<TabbarNewspaper> {
+class _TabbarNewspaperState extends State<TabbarNewspaper> with AutomaticKeepAliveClientMixin{
   TinTucThoiSuBloc blocTinTuc = TinTucThoiSuBloc();
 
   var _controller = TabController(vsync: AnimatedListState(), length: 4);
@@ -39,6 +39,7 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -103,44 +104,29 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
       ),
       body: ProviderWidget<BaoChiMangXaHoiBloc>(
         cubit: cubit,
-        child: StateStreamLayout(
-          stream: cubit.stateStream,
-          retry: () {},
-          textEmpty: S.current.khong_co_du_lieu,
-          error: AppException(
-            S.current.error,
-            S.current.error,
-          ),
-          child: TabBarView(
-            controller: _controller,
-            children: [
-              StreamBuilder(
-                stream: cubit.changeItemMenu,
-                builder: (context,snapshot){
-                  return BaoCaoThongKeBCMXHScreen(
-                    key: UniqueKey(),
-                    topic: cubit.topic,
-                  );
-                },
-              ),
-              const TatCaChuDeScreen(),
-              StreamBuilder(
-                stream: cubit.changeItemMenu,
-                builder: (context, snapshot) {
-                  return TheoDoiBaiVietScreen(
-                    key: UniqueKey(),
-                    topic: cubit.topic,
-                  );
-                },
-              ),
-              TinTucThoiSuScreen(
-                tinTucThoiSuBloc: blocTinTuc,
-                pContext: context,
-              ),
-            ],
-          ),
+        child: TabBarView(
+          controller: _controller,
+          children: [
+            BaoCaoThongKeBCMXHScreen(
+              key: UniqueKey(),
+              topic: cubit.topic,
+            ),
+            const TatCaChuDeScreen(),
+            TheoDoiBaiVietScreen(
+              key: UniqueKey(),
+              topic: cubit.topic,
+            ),
+            TinTucThoiSuScreen(
+              tinTucThoiSuBloc: blocTinTuc,
+              pContext: context,
+            ),
+          ],
         ),
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

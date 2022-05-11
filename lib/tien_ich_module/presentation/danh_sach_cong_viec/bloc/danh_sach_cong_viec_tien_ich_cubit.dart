@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -193,23 +194,23 @@ class DanhSachCongViecTienIchCubit
   /// valueViewMenu
   List<MenuDscvModel> vlMenuDf = [
     MenuDscvModel(
-      icon: ImageAssets.icCVCuaBan,
+      icon: isMobile() ? ImageAssets.icCVCuaBan : ImageAssets.ic01,
       title: S.current.cong_viec_cua_ban,
     ),
     MenuDscvModel(
-      icon: ImageAssets.icCVQT,
+      icon: isMobile() ? ImageAssets.icCVQT : ImageAssets.ic02,
       title: S.current.cong_viec_quan_trong,
     ),
     MenuDscvModel(
-      icon: ImageAssets.icHT,
+      icon: isMobile() ? ImageAssets.icHT : ImageAssets.ic03,
       title: S.current.da_hoan_thanh,
     ),
     MenuDscvModel(
-      icon: ImageAssets.icGanChoToi,
+      icon: isMobile() ? ImageAssets.icGanChoToi : ImageAssets.ic04,
       title: S.current.gan_cho_toi,
     ),
     MenuDscvModel(
-      icon: ImageAssets.icXoa,
+      icon: isMobile() ? ImageAssets.icXoa : ImageAssets.ic05,
       title: S.current.da_bi_xoa,
     ),
   ];

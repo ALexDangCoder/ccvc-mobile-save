@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class BaoCaoThongKeBCMXHScreen extends StatefulWidget {
@@ -27,7 +28,8 @@ class BaoCaoThongKeBCMXHScreen extends StatefulWidget {
       _BaoCaoThongKeBCMXHScreenState();
 }
 
-class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
+class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
+    with AutomaticKeepAliveClientMixin {
   BaoCaoThongKeBCMXHCubit baoCaoThongKeBCMXHCubit = BaoCaoThongKeBCMXHCubit();
 
   @override
@@ -38,14 +40,13 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            setState(() {
-
-            });
+            setState(() {});
             await baoCaoThongKeBCMXHCubit.callApi(widget.topic);
           },
           child: StateStreamLayout(
@@ -60,46 +61,46 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
               child: Column(
                 key: UniqueKey(),
                 children: [
-                  StreamBuilder<Map<String, List<BarChartModel>>>(
-                    stream: baoCaoThongKeBCMXHCubit.mapTongQuan,
-                    builder: (context, snapshot) {
-                      if(snapshot.hasData){
+                  GroupChartItemWidget(
+                    onChoiceDate: (startDate, endDate) {
+                      baoCaoThongKeBCMXHCubit.getTongQuanBaoCao(
+                        startDate,
+                        endDate,
+                        widget.topic,
+                      );
+                    },
+                    title: S.current.tong_quan,
+                    child: StreamBuilder<Map<String, List<BarChartModel>>>(
+                      stream: baoCaoThongKeBCMXHCubit.mapTongQuan,
+                      builder: (context, snapshot) {
                         final data = snapshot.data ?? {};
                         final listData =
-                        data[BaoCaoThongKeBCMXHCubit.KEY_TONG_QUAN];
+                            data[BaoCaoThongKeBCMXHCubit.KEY_TONG_QUAN];
                         final listStatusData =
-                        data[BaoCaoThongKeBCMXHCubit.KEY_STATUS_TONG_QUAN];
-                        return GroupChartItemWidget(
-                          onChoiceDate: (startDate, endDate) {
-                            baoCaoThongKeBCMXHCubit.getTongQuanBaoCao(
-                              startDate,
-                              endDate,
-                              widget.topic,
-                            );
-                          },
-                          title: S.current.tong_quan,
-                          child: Column(
-                            children: [
-                              BarCharWidget(
-                                color: purpleChart,
-                                listData: listData ?? [],
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              BarCharWidget(
-                                color: orangeDamChart,
-                                listData: listStatusData ?? [],
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      else{
-                        return const NodataWidget();
-                      }
-
-                    },
+                            data[BaoCaoThongKeBCMXHCubit.KEY_STATUS_TONG_QUAN];
+                        return snapshot.hasData
+                            ? data.isEmpty
+                                ? const NodataWidget(
+                                    height: 64,
+                                  )
+                                : Column(
+                                    children: [
+                                      BarCharWidget(
+                                        color: purpleChart,
+                                        listData: listData ?? [],
+                                      ),
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                      BarCharWidget(
+                                        color: orangeDamChart,
+                                        listData: listStatusData ?? [],
+                                      ),
+                                    ],
+                                  )
+                            : const SizedBox.shrink();
+                      },
+                    ),
                   ),
                   Container(
                     height: 6,
@@ -109,82 +110,84 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                     stream: baoCaoThongKeBCMXHCubit.listTinTongHop,
                     builder: (context, snapshot) {
                       final listData = snapshot.data ?? [];
-                      if (listData.isNotEmpty) {
-                        return Column(
-                          children: [
-                            GroupChartItemWidget(
-                              onChoiceDate: (startDate, endDate) {
-                                baoCaoThongKeBCMXHCubit.getTinTongHop(
-                                  startDate,
-                                  endDate,
-                                );
-                              },
-                              title: S.current.tin_tong_hop,
-                              child: BarCharWidget(
-                                color: orangeDamChart,
-                                listData: listData[0],
-                                direction: true,
-                              ),
-                            ),
-                            Container(
-                              height: 6,
-                              color: homeColor,
-                            ),
-                            GroupChartItemWidget(
-                              onChoiceDate: (startDate, endDate) {
-                                baoCaoThongKeBCMXHCubit.getTinTongHop(
-                                  startDate,
-                                  endDate,
-                                );
-                              },
-                              title: S.current.cac_dia_phuong,
-                              child: BarCharWidget(
-                                color: greenChart,
-                                listData: listData[1],
-                                direction: true,
-                              ),
-                            ),
-                            Container(
-                              height: 6,
-                              color: homeColor,
-                            ),
-                            GroupChartItemWidget(
-                              onChoiceDate: (startDate, endDate) {
-                                baoCaoThongKeBCMXHCubit.getTinTongHop(
-                                  startDate,
-                                  endDate,
-                                );
-                              },
-                              title: S.current.uy_ban_nhan_dan_tinh,
-                              child: BarCharWidget(
-                                color: blueNhatChart,
-                                listData: listData[2],
-                                direction: true,
-                              ),
-                            ),
-                            Container(
-                              height: 6,
-                              color: homeColor,
-                            ),
-                            GroupChartItemWidget(
-                              onChoiceDate: (startDate, endDate) {
-                                baoCaoThongKeBCMXHCubit.getTinTongHop(
-                                  startDate,
-                                  endDate,
-                                );
-                              },
-                              title: S.current.lanh_dao_tinh,
-                              child: BarCharWidget(
-                                color: redChart,
-                                listData: listData[3],
-                                direction: true,
-                              ),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const NodataWidget();
-                      }
+                      return snapshot.hasData
+                          ? listData.isNotEmpty
+                              ? Column(
+                                  children: [
+                                    GroupChartItemWidget(
+                                      onChoiceDate: (startDate, endDate) {
+                                        baoCaoThongKeBCMXHCubit.getTinTongHop(
+                                          startDate,
+                                          endDate,
+                                        );
+                                      },
+                                      title: S.current.tin_tong_hop,
+                                      child: BarCharWidget(
+                                        color: orangeDamChart,
+                                        listData: listData[0],
+                                        direction: true,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 6,
+                                      color: homeColor,
+                                    ),
+                                    GroupChartItemWidget(
+                                      onChoiceDate: (startDate, endDate) {
+                                        baoCaoThongKeBCMXHCubit.getTinTongHop(
+                                          startDate,
+                                          endDate,
+                                        );
+                                      },
+                                      title: S.current.cac_dia_phuong,
+                                      child: BarCharWidget(
+                                        color: greenChart,
+                                        listData: listData[1],
+                                        direction: true,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 6,
+                                      color: homeColor,
+                                    ),
+                                    GroupChartItemWidget(
+                                      onChoiceDate: (startDate, endDate) {
+                                        baoCaoThongKeBCMXHCubit.getTinTongHop(
+                                          startDate,
+                                          endDate,
+                                        );
+                                      },
+                                      title: S.current.uy_ban_nhan_dan_tinh,
+                                      child: BarCharWidget(
+                                        color: blueNhatChart,
+                                        listData: listData[2],
+                                        direction: true,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 6,
+                                      color: homeColor,
+                                    ),
+                                    GroupChartItemWidget(
+                                      onChoiceDate: (startDate, endDate) {
+                                        baoCaoThongKeBCMXHCubit.getTinTongHop(
+                                          startDate,
+                                          endDate,
+                                        );
+                                      },
+                                      title: S.current.lanh_dao_tinh,
+                                      child: BarCharWidget(
+                                        color: redChart,
+                                        listData: listData[3],
+                                        direction: true,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const NodataWidget(
+                                  height: 64,
+                                )
+                          : const SizedBox.shrink();
                     },
                   ),
                   Container(
@@ -204,13 +207,15 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                       stream: baoCaoThongKeBCMXHCubit.lineChartTheoThoiGian,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? [];
-                        if (data.isNotEmpty) {
-                          return LineChartWidget(
-                            listData: data,
-                          );
-                        } else {
-                          return const NodataWidget();
-                        }
+                        return snapshot.hasData
+                            ? data.isNotEmpty
+                                ? LineChartWidget(
+                                    listData: data,
+                                  )
+                                : const NodataWidget(
+                                    height: 64,
+                                  )
+                            : const SizedBox.shrink();
                       },
                     ),
                   ),
@@ -231,50 +236,53 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                       stream: baoCaoThongKeBCMXHCubit.chartBaoCaoTheoNguon,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? [];
-                        if (data.isNotEmpty) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: PieChart(
-                                  chartData: data,
-                                  isSubjectInfo: false,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Center(
-                                child: Wrap(
-                                  children: [
-                                    ChartIndicatorWidget(
-                                      title: S.current.mang_xa_hoi,
-                                      color: blueNhatChart,
-                                    ),
-                                    ChartIndicatorWidget(
-                                      title: S.current.bao_chi,
-                                      color: greenChart,
-                                    ),
-                                    ChartIndicatorWidget(
-                                      title: S.current.forum,
-                                      color: grayChart,
-                                    ),
-                                    ChartIndicatorWidget(
-                                      title: S.current.blog,
-                                      color: orangeNhatChart,
-                                    ),
-                                    ChartIndicatorWidget(
-                                      title: S.current.khac,
-                                      color: purpleChart,
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          );
-                        } else {
-                          return const NodataWidget();
-                        }
+                        return snapshot.hasData
+                            ? data.isNotEmpty
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                        child: PieChart(
+                                          chartData: data,
+                                          isSubjectInfo: false,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
+                                      Center(
+                                        child: Wrap(
+                                          children: [
+                                            ChartIndicatorWidget(
+                                              title: S.current.mang_xa_hoi,
+                                              color: blueNhatChart,
+                                            ),
+                                            ChartIndicatorWidget(
+                                              title: S.current.bao_chi,
+                                              color: greenChart,
+                                            ),
+                                            ChartIndicatorWidget(
+                                              title: S.current.forum,
+                                              color: grayChart,
+                                            ),
+                                            ChartIndicatorWidget(
+                                              title: S.current.blog,
+                                              color: orangeNhatChart,
+                                            ),
+                                            ChartIndicatorWidget(
+                                              title: S.current.khac,
+                                              color: purpleChart,
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : const NodataWidget(
+                                    height: 64,
+                                  )
+                            : const SizedBox.shrink();
                       },
                     ),
                   ),
@@ -295,38 +303,40 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
                       stream: baoCaoThongKeBCMXHCubit.chartBaoCaoTheoSacThai,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? [];
-                        if (data.isNotEmpty) {
-                          return Column(
-                            children: [
-                              Center(
-                                child: PieChart(
-                                  chartData: data,
-                                  isSubjectInfo: false,
-                                ),
-                              ),
-                              Center(
-                                child: Wrap(
-                                  children: [
-                                    ChartIndicatorWidget(
-                                      title: S.current.tich_cuc,
-                                      color: greenChart,
-                                    ),
-                                    ChartIndicatorWidget(
-                                      title: S.current.trung_lap,
-                                      color: blueNhatChart,
-                                    ),
-                                    ChartIndicatorWidget(
-                                      title: S.current.tich_cuc,
-                                      color: redChart,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          );
-                        } else {
-                          return const NodataWidget();
-                        }
+                        return snapshot.hasData
+                            ? data.isNotEmpty
+                                ? Column(
+                                    children: [
+                                      Center(
+                                        child: PieChart(
+                                          chartData: data,
+                                          isSubjectInfo: false,
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Wrap(
+                                          children: [
+                                            ChartIndicatorWidget(
+                                              title: S.current.tich_cuc,
+                                              color: greenChart,
+                                            ),
+                                            ChartIndicatorWidget(
+                                              title: S.current.trung_lap,
+                                              color: blueNhatChart,
+                                            ),
+                                            ChartIndicatorWidget(
+                                              title: S.current.tich_cuc,
+                                              color: redChart,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : const NodataWidget(
+                                    height: 64,
+                                  )
+                            : const SizedBox.shrink();
                       },
                     ),
                   ),
@@ -424,4 +434,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

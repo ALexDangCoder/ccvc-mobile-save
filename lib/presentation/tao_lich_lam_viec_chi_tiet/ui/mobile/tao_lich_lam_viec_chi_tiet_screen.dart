@@ -1,10 +1,12 @@
+import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/custom_switch_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_dat_nuoc_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap_tuy_chinh.dart';
@@ -19,18 +21,17 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nh
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/text_form_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
-import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_date_picker.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaoLichLamViecChiTietScreen extends StatefulWidget {
@@ -53,6 +54,7 @@ class _TaoLichLamViecChiTietScreenState
   void initState() {
     super.initState();
     taoLichLamViecCubit.loadData();
+    taoLichLamViecCubit.toast.init(context);
   }
 
   @override
@@ -85,9 +87,28 @@ class _TaoLichLamViecChiTietScreenState
       child: WidgetTaoLichLVInherited(
         taoLichLamViecCubit: taoLichLamViecCubit,
         child: Scaffold(
-          appBar: BaseAppBar(
-            title: S.current.tao_lich_cong_tac,
-            leadingIcon: IconButton(
+          appBar: AppBar(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarBrightness: Brightness.light,
+            ),
+            backgroundColor: APP_DEVICE == DeviceType.MOBILE
+                ? backgroundColorApp
+                : bgQLVBTablet,
+            bottomOpacity: 0.0,
+            elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
+            shadowColor: bgDropDown,
+            automaticallyImplyLeading: false,
+            title: StreamBuilder<String>(
+                initialData: S.current.lich_cong_tac_trong_nuoc,
+                stream: taoLichLamViecCubit.changeOption,
+                builder: (context, snapshot) {
+                  return Text(
+                    '${S.current.tao} ${snapshot.data}',
+                    style: titleAppbar(fontSize: 18.0),
+                  );
+                }),
+            centerTitle: true,
+            leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios_rounded,
                 color: unselectLabelColor,
@@ -114,21 +135,28 @@ class _TaoLichLamViecChiTietScreenState
                 stream: taoLichLamViecCubit.stateStream,
                 child: ExpandGroup(
                   child: Container(
-                    margin: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.only(
+                        bottom: 16.0, left: 16.0, right: 16.0),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Form(
                             key: _formKey,
-                            child: TextFormWidget(
-                              controller: tieuDeController,
-                              image: ImageAssets.icEdit,
-                              hint: S.current.tieu_de,
-                              validator: (value) {
-                                return (value ?? '').checkNull();
-                              },
-                            ),
+                            child: StreamBuilder<String>(
+                                initialData: S.current.lich_cong_tac_trong_nuoc,
+                                stream: taoLichLamViecCubit.changeOption,
+                                builder: (context, snapshot) {
+                                  return TextFormWidget(
+                                    controller: tieuDeController,
+                                    image: ImageAssets.icEdit,
+                                    hint:
+                                        '${S.current.tieu_de} ${snapshot.data}',
+                                    validator: (value) {
+                                      return (value ?? '').checkNull();
+                                    },
+                                  );
+                                }),
                           ),
                           LoaiLichWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
@@ -140,11 +168,15 @@ class _TaoLichLamViecChiTietScreenState
                             },
                             onStartDateTimeChanged: (DateTime value) {
                               taoLichLamViecCubit.listeningStartDataTime(value);
-                            }, isCheck: (bool value) {
-                              taoLichLamViecCubit.isCheckAllDaySubject.add(value);
+                            },
+                            isCheck: (bool value) {
+                              taoLichLamViecCubit.isCheckAllDaySubject
+                                  .add(value);
                             },
                           ),
-                           NhacLaiWidget(taoLichLamViecCubit: taoLichLamViecCubit,),
+                          NhacLaiWidget(
+                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -160,16 +192,52 @@ class _TaoLichLamViecChiTietScreenState
                           LinhVucWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
-                          //tinh
-                          ItemTinhWidget(
-                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          //cong khai lich
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 16.0, left: 30.0),
+                            child: CustomSwitchWidget(
+                              onToggle: (value) {
+                                taoLichLamViecCubit.publishSchedule = value;
+                              },
+                              value: false,
+                            ),
                           ),
-                          ItemHuyenWidget(
-                            taoLichLamViecCubit: taoLichLamViecCubit,
+                          Container(
+                            margin: const EdgeInsets.only(left: 30.0),
+                            height: 16,
+                            child: const Divider(
+                              color: dividerColor,
+                              height: 1,
+                            ),
                           ),
-                          ItemXaWidget(
-                            taoLichLamViecCubit: taoLichLamViecCubit,
-                          ),
+                          StreamBuilder<bool>(
+                              stream: taoLichLamViecCubit.checkTrongNuoc,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? false;
+                                if (!data) {
+                                  return Column(
+                                    children: [
+                                      ItemTinhWidget(
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
+                                      ),
+                                      ItemHuyenWidget(
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
+                                      ),
+                                      ItemXaWidget(
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return ItemDatNuocWidget(
+                                    taoLichLamViecCubit: taoLichLamViecCubit,
+                                  );
+                                }
+                              }),
                           TextFormWidget(
                             controller: diaDiemController,
                             image: ImageAssets.icViTri,
@@ -179,21 +247,30 @@ class _TaoLichLamViecChiTietScreenState
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
                           StreamBuilder<bool>(
-                            stream: taoLichLamViecCubit.lichLapTuyChinhSubject.stream,
+                            stream: taoLichLamViecCubit
+                                .lichLapTuyChinhSubject.stream,
                             builder: (context, snapshot) {
                               final data = snapshot.data ?? false;
-                              return data ?  LichLapTuyChinh(
-                                taoLichLamViecCubit:taoLichLamViecCubit,
-                              ) : Container();
-                            }
+                              return data
+                                  ? LichLapTuyChinh(
+                                      taoLichLamViecCubit: taoLichLamViecCubit,
+                                    )
+                                  : Container();
+                            },
                           ),
                           StreamBuilder<bool>(
-                              stream: taoLichLamViecCubit.lichLapKhongLapLaiSubject.stream,
+                              stream: taoLichLamViecCubit
+                                  .lichLapKhongLapLaiSubject.stream,
                               builder: (context, snapshot) {
                                 final data = snapshot.data ?? false;
-                                return data ?  ItemLapDenNgayWidget(taoLichLamViecCubit:taoLichLamViecCubit, isThem: true ,) : Container();
-                              }
-                          ),
+                                return data
+                                    ? ItemLapDenNgayWidget(
+                                        taoLichLamViecCubit:
+                                            taoLichLamViecCubit,
+                                        isThem: true,
+                                      )
+                                    : Container();
+                              }),
                           TextFormWidget(
                             controller: noiDungController,
                             image: ImageAssets.icDocument,
@@ -225,7 +302,13 @@ class _TaoLichLamViecChiTietScreenState
                                   title: S.current.luu,
                                   onTap: () async {
                                     if (_formKey.currentState!.validate()) {
-                                      await taoLichLamViecCubit.taoLichLamViec(
+                                      // await taoLichLamViecCubit.taoLichLamViec(
+                                      //   title: tieuDeController.value.text,
+                                      //   content: noiDungController.value.text,
+                                      //   location: diaDiemController.value.text,
+                                      // );
+                                      await taoLichLamViecCubit.checkTrungLich(
+                                        context: context,
                                         title: tieuDeController.value.text,
                                         content: noiDungController.value.text,
                                         location: diaDiemController.value.text,

@@ -83,25 +83,13 @@ class ChiTietVanBanDenMobile extends StatelessWidget {
                     cubit: cubit,
                     processId: processId,
                   ),
-                  StreamBuilder<List<LichSuVanBanModel>>(
-                    stream: cubit.lichSuThuHoiStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuThuHoiExpandWidgetMobile(
-                        cubit: cubit,
-                        processId: processId,
-                      );
-                    },
+                  LichSuThuHoiExpandWidgetMobile(
+                    cubit: cubit,
+                    processId: processId,
                   ),
-                  StreamBuilder<List<LichSuVanBanModel>>(
-                    stream: cubit.lichSuVanBanLienThongStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuVanBanLienThongExpandWidgetMobile(
-                        cubit: cubit,
-                        processId: processId,
-                      );
-                    },
+                  LichSuVanBanLienThongExpandWidgetMobile(
+                    cubit: cubit,
+                    processId: processId,
                   ),
                 ],
               ),

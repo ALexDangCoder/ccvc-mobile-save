@@ -2,16 +2,20 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_nguoi_phan_anh.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_pakn.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_xu_ly_pakn.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_tien_trinh_xy_ly.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChiTietPKAN extends StatefulWidget {
-  const ChiTietPKAN({Key? key}) : super(key: key);
-
+  const ChiTietPKAN({Key? key, required this.iD, required this.taskID,}) : super(key: key);
+  final String iD;
+  final String taskID;
   @override
   State<ChiTietPKAN> createState() => _ChiTietPKANState();
 }
@@ -19,12 +23,14 @@ class ChiTietPKAN extends StatefulWidget {
 class _ChiTietPKANState extends State<ChiTietPKAN>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late ChiTietPaknCubit cubit;
   int initIndexTab = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    cubit = ChiTietPaknCubit();
     _tabController =
         TabController(length: 6, vsync: this, initialIndex: initIndexTab);
     _tabController.index;
@@ -97,8 +103,8 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
                 TabThongTinPAKN(),
                 TabThongTinNguoiPhanAnh(),
                 TabThongTinXuLyPAKN(),
-                TabThongTinPAKN(),
-                TabThongTinPAKN(),
+                TabKetQuaXuLy(id: widget.iD, taskId: widget.taskID,cubit: cubit,),
+                TabTienTrinhXuLy(cubit: cubit, id: widget.iD,),
                 TabThongTinPAKN(),
               ],
             ),

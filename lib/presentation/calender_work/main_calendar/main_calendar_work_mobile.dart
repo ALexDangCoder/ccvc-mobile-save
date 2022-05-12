@@ -129,7 +129,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                         //     }
                         //   },
                         // );
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => ChiTietPKAN()));
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => ChiTietPKAN(taskID: "658a0ced-9375-4f82-9351-06f56be44b83", iD: '09d0b993-6831-4395-a89a-4a9325b17f66',)));
                       },
                       icon: SvgPicture.asset(ImageAssets.icMenuCalender),
                     );

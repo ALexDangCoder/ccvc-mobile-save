@@ -158,13 +158,17 @@ class DanhSachCongViecTienIchCubit
   }
 
   Future<void> listNguoiThucHien() async {
+    showLoading();
     final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
     result.when(
       success: (res) {
+        showContent();
         nguoiThucHien.sink.add(res.items);
         dataListNguoiThucHienModelDefault = res;
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 

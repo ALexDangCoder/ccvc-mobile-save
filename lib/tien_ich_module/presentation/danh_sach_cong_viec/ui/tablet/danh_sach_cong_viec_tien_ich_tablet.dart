@@ -148,14 +148,14 @@ class _DanhSachCongViecTienIchTabletState
                                               cubit.editWork(
                                                 todo: todo,
                                                 isTicked:
-                                                    !(todo.isTicked ?? true),
+                                                    !(todo.isTicked ?? false),
                                               );
                                             },
                                             onStar: () {
                                               cubit.editWork(
                                                 todo: todo,
                                                 important:
-                                                    !(todo.important ?? true),
+                                                    !(todo.important ?? false),
                                               );
                                             },
                                             onClose: () {
@@ -165,7 +165,7 @@ class _DanhSachCongViecTienIchTabletState
                                                   cubit.editWork(
                                                     todo: todo,
                                                     inUsed:
-                                                        !(todo.inUsed ?? true),
+                                                        !(todo.inUsed ?? false),
                                                   );
                                                 },
                                                 icon: SvgPicture.asset(

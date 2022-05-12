@@ -129,13 +129,13 @@ class _DanhSachCongViecTienIchMobileState
                                     onCheckBox: (value) {
                                       cubit.editWork(
                                         todo: todo,
-                                        isTicked: !(todo.isTicked ?? true),
+                                        isTicked: !(todo.isTicked ?? false),
                                       );
                                     },
                                     onStar: () {
                                       cubit.editWork(
                                         todo: todo,
-                                        important: !(todo.important ?? true),
+                                        important: !(todo.important ?? false),
                                       );
                                     },
                                     onClose: () {
@@ -144,7 +144,7 @@ class _DanhSachCongViecTienIchMobileState
                                         funcBtnRight: () {
                                           cubit.editWork(
                                             todo: todo,
-                                            inUsed: !(todo.inUsed ?? true),
+                                            inUsed: !(todo.inUsed ?? false),
                                           );
                                         },
                                         icon: SvgPicture.asset(
@@ -231,7 +231,7 @@ class _DanhSachCongViecTienIchMobileState
                                             funcBtnRight: () {
                                               cubit.editWork(
                                                 todo: todo,
-                                                inUsed: !(todo.inUsed ?? true),
+                                                inUsed: !(todo.inUsed ?? false),
                                               );
                                             },
                                             icon: SvgPicture.asset(
@@ -248,7 +248,7 @@ class _DanhSachCongViecTienIchMobileState
                                           cubit.editWork(
                                             todo: todo,
                                             important:
-                                                !(todo.important ?? true),
+                                                !(todo.important ?? false),
                                           );
                                         },
                                         text: todo.label ?? '',

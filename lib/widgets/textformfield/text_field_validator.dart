@@ -109,7 +109,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
                 widget.onPaste!(value);
               }
             }
-            valueText = value;
+            valueText = '';
           }
         },
         initialValue: widget.initialValue,
@@ -173,6 +173,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
     log('>>>>>>>><<<<<<<<<<<<<${valueText}');
 
     if (value.length > valueText.length + 1) {
+      print('${valueText}');
       return true;
     }
     return false;

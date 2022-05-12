@@ -277,6 +277,44 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
+  /// them nhóm công việc mới
+  Future<void> addGroupTodo(String label) async {
+    if (label.trim().isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await tienIchRep.createNhomCongViecMoi(label);
+    result.when(
+      success: (res) {
+        callAndFillApiAutu();
+      },
+      error: (err) {},
+    );
+  }
+
+  /// sửa tên nhóm công việc mới
+  Future<void> updateLabelTodoList(String label) async {
+    if (label.trim().isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await tienIchRep.updateLabelTodoList(groupId, label);
+    result.when(
+      success: (res) {},
+      error: (err) {},
+    );
+  }
+
+  /// xóa nhóm công việc mới
+  Future<void> deleteGroupTodoList() async {
+    showLoading();
+    final result = await tienIchRep.deleteGroupTodoList(groupId);
+    result.when(
+      success: (res) {},
+      error: (err) {},
+    );
+  }
+
   ///call and fill api autu
   void callAndFillApiAutu() async {
     await getToDoListDSCV();
@@ -294,9 +332,7 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.xoaCongViec(id);
     showContent();
     await result.when(
-      success: (res) async {
-        callAndFillApiAutu();
-      },
+      success: (res) async {},
       error: (err) {},
     );
   }

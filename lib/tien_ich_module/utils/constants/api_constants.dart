@@ -17,6 +17,11 @@ class ApiConstants {
   static const NHOM_CV_MOI = '/api/TodoListGroup/get-current-user';
   static const GAN_CONG_VIEC_CHO_TOI = '/api/TodoList/get-by-performer';
   static const XOA_CONG_VIEC = '/api/TodoList/delete';
+  static const TAO_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/create';
+  static const SUA_TEN_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/update';
+  static const XOA_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/delete';
+
+
 }
 
 class ImageConstants {

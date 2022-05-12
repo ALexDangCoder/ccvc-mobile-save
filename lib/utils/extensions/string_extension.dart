@@ -104,7 +104,7 @@ extension CheckValidate on String {
 
   String? checkEmailBoolean() {
     final isCheck = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9{|}~]+(\.[a-zA-Z{|}~]{2,})?(\.[a-zA-Z{|}~]{2,})$",
+      r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$',
     ).hasMatch(this);
     if (isCheck) {
       if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {

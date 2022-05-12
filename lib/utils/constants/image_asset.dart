@@ -480,6 +480,7 @@ class ImageAssets {
   static const String icWarningRed = '$baseImg/ic_warning_red.svg';
   static const String icUserNotFound = '$baseImg/ic_user_not_found.svg';
   static const String icUserMeeting= '$baseImg/ic_user_meeting.svg';
+  static const String icSearchPAKN= '$baseImg/ic_search_pakn.svg';
 
   static SvgPicture svgAssets(
     String name, {

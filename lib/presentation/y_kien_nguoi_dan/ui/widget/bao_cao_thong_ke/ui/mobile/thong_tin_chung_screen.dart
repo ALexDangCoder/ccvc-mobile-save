@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -51,8 +52,14 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
+          GestureDetector(
+            onTap: () {
+            },
+            child: SvgPicture.asset(ImageAssets.icSearchPAKN),
+          ),
+          const SizedBox(width: 16,),
+          GestureDetector(
+            onTap: () {
               DrawerSlide.navigatorSlide(
                 context: context,
                 screen: YKienNguoiDanMenu(
@@ -60,8 +67,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 ),
               );
             },
-            icon: SvgPicture.asset(ImageAssets.icMenuCalender),
-          )
+            child: SvgPicture.asset(ImageAssets.icMenuCalender),
+          ),
+          const SizedBox(width: 16,),
         ],
       ),
       body: SingleChildScrollView(
@@ -69,6 +77,18 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            FilterDateTimeWidget(
+              context: context,
+              isMobile: true,
+              onChooseDateFilter: (DateTime startDate, DateTime endDate) {
+
+              },
+            ),
+            const SizedBox(height: 20,),
+            Container(
+              color: homeColor,
+              height: 6,
+            ),
             // Container(
             //   padding: const EdgeInsets.only(left: 16),
             //   child: Column(
@@ -206,109 +226,109 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               color: homeColor,
               height: 6,
             ),
-            Container(
-              padding: const EdgeInsets.only(left: 16),
-              child: Column(
-                children: [
-                  StreamBuilder<List<ChartData>>(
-                    stream: widget.cubit.chartPhanLoai,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return PieChart(
-                        isSubjectInfo: false,
-                        title: S.current.phan_loai_nguon_yknd,
-                        chartData: data,
-                        onTap: (int value) {},
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Column(
-                    children: widget.cubit.listIndicator.map((e) {
-                      return IndicatorChart(itemIndicator: e);
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 14,
-            ),
-            Container(
-              color: homeColor,
-              height: 6,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        S.current.danh_sach_y_kien_nguoi_Dan,
-                        style: textNormalCustom(
-                          fontSize: 16,
-                          color: textDropDownColor,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => DanhSachYKND(
-                                startDate: widget.cubit.startDate,
-                                endDate: widget.cubit.endDate,
-                              ),
-                            ),
-                          );
-                        },
-                        icon: SvgPicture.asset(
-                          ImageAssets.ic_next_color,
-                          color: AppTheme.getInstance().colorField(),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  StreamBuilder<List<YKienNguoiDanModel>>(
-                    stream: widget.cubit.danhSachYKienNguoiDan,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: data.length < 3 ? data.length : 3,
-                        itemBuilder: (context, index) {
-                          return YKienNguoiDanCell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChiTietYKNDScreen(
-                                    iD: data[index].id ?? '',
-                                    taskID: data[index].taskID ?? '',
-                                  ),
-                                ),
-                              );
-                            },
-                            title: data[index].tieuDe ?? '',
-                            dateTime: data[index].ngayNhan ?? '',
-                            userName: data[index].tenNguoiPhanAnh ?? '',
-                            status: data[index].soNgayToiHan ?? 0,
-                            userImage:
-                                'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
-                          );
-                        },
-                      );
-                    },
-                  )
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.only(left: 16),
+            //   child: Column(
+            //     children: [
+            //       StreamBuilder<List<ChartData>>(
+            //         stream: widget.cubit.chartPhanLoai,
+            //         builder: (context, snapshot) {
+            //           final data = snapshot.data ?? [];
+            //           return PieChart(
+            //             isSubjectInfo: false,
+            //             title: S.current.phan_loai_nguon_yknd,
+            //             chartData: data,
+            //             onTap: (int value) {},
+            //           );
+            //         },
+            //       ),
+            //       const SizedBox(
+            //         height: 20,
+            //       ),
+            //       Column(
+            //         children: widget.cubit.listIndicator.map((e) {
+            //           return IndicatorChart(itemIndicator: e);
+            //         }).toList(),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 14,
+            // ),
+            // Container(
+            //   color: homeColor,
+            //   height: 6,
+            // ),
+            // Container(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20),
+            //   child: Column(
+            //     children: [
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           Text(
+            //             S.current.danh_sach_y_kien_nguoi_Dan,
+            //             style: textNormalCustom(
+            //               fontSize: 16,
+            //               color: textDropDownColor,
+            //             ),
+            //           ),
+            //           IconButton(
+            //             onPressed: () {
+            //               Navigator.push(
+            //                 context,
+            //                 PageRouteBuilder(
+            //                   pageBuilder: (_, __, ___) => DanhSachYKND(
+            //                     startDate: widget.cubit.startDate,
+            //                     endDate: widget.cubit.endDate,
+            //                   ),
+            //                 ),
+            //               );
+            //             },
+            //             icon: SvgPicture.asset(
+            //               ImageAssets.ic_next_color,
+            //               color: AppTheme.getInstance().colorField(),
+            //             ),
+            //           )
+            //         ],
+            //       ),
+            //       const SizedBox(height: 16.0),
+            //       StreamBuilder<List<YKienNguoiDanModel>>(
+            //         stream: widget.cubit.danhSachYKienNguoiDan,
+            //         builder: (context, snapshot) {
+            //           final data = snapshot.data ?? [];
+            //           return ListView.builder(
+            //             physics: const NeverScrollableScrollPhysics(),
+            //             shrinkWrap: true,
+            //             itemCount: data.length < 3 ? data.length : 3,
+            //             itemBuilder: (context, index) {
+            //               return YKienNguoiDanCell(
+            //                 onTap: () {
+            //                   Navigator.push(
+            //                     context,
+            //                     MaterialPageRoute(
+            //                       builder: (context) => ChiTietYKNDScreen(
+            //                         iD: data[index].id ?? '',
+            //                         taskID: data[index].taskID ?? '',
+            //                       ),
+            //                     ),
+            //                   );
+            //                 },
+            //                 title: data[index].tieuDe ?? '',
+            //                 dateTime: data[index].ngayNhan ?? '',
+            //                 userName: data[index].tenNguoiPhanAnh ?? '',
+            //                 status: data[index].soNgayToiHan ?? 0,
+            //                 userImage:
+            //                     'https://th.bing.com/th/id/OIP.A44wmRFjAmCV90PN3wbZNgHaEK?pid=ImgDet&rs=1',
+            //               );
+            //             },
+            //           );
+            //         },
+            //       )
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

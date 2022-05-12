@@ -192,6 +192,8 @@ const grayChart = Color(0xFF667793);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
+  Color unselectColor ();
+
   Color primaryColor();
 
   Color accentColor();
@@ -312,9 +314,20 @@ class LightApp extends AppColor {
   Color colorField() {
     return backgroundColorApp;
   }
+
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
 }
 
 class DarkApp extends AppColor {
+
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
   @override
   Color primaryColor() {
     return colorPrimary;
@@ -403,6 +416,12 @@ class DarkApp extends AppColor {
 
 class DefaultApp extends AppColor {
   @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
+
+  @override
   Color colorField() {
     return textDefault;
   }
@@ -489,6 +508,12 @@ class DefaultApp extends AppColor {
 }
 
 class BlueApp extends AppColor {
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
+
   @override
   Color primaryColor() {
     return colorPrimary;
@@ -577,6 +602,12 @@ class BlueApp extends AppColor {
 
 class PinkApp extends AppColor {
   @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
+
+  @override
   Color primaryColor() {
     return colorPrimary;
   }
@@ -663,6 +694,12 @@ class PinkApp extends AppColor {
 }
 
 class YellowApp extends AppColor {
+
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
   @override
   Color primaryColor() {
     return colorPrimary;

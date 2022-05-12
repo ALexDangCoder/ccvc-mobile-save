@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_tra_lai.dart';
@@ -18,36 +19,36 @@ class LichSuTraLaiWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (dataModel.isNotEmpty) {
-      return ExpandOnlyNhiemVu(
-        name: S.current.lich_su_tra_lai,
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.0.textScale(space: 4),
+      return Column(
+        children: [
+          Container(
+            height: 1,
+            color: radioUnfocusColor,
           ),
-          child: Column(
+          Column(
             children: dataModel
                 .map(
                   (e) => WidgetInExpand(
-                    row: e.toListRowLichSuTraLai(),
-                    cubit: cubit,
-                  ),
-                )
+                row: e.toListRowLichSuTraLai(),
+                cubit: cubit,
+              ),
+            )
                 .toList(),
           ),
-        ),
+        ],
       );
     } else {
-      return ExpandOnlyNhiemVu(
-        name: S.current.lich_su_tra_lai,
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.0.textScale(space: 4),
+      return Column(
+        children: [
+          Container(
+            height: 1,
+            color: radioUnfocusColor,
           ),
-          child: const Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 16.0),
             child: NodataWidget(),
           ),
-        ),
+        ],
       );
     }
   }

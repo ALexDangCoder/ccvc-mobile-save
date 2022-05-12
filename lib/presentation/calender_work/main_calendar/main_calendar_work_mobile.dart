@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_i
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/select_option_header.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/calender_provider.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/widget/lich_lv_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -80,54 +81,55 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                   builder: (context, state) {
                     return IconButton(
                       onPressed: () {
-                        DrawerSlide.navigatorSlide(
-                          context: context,
-                          screen: MenuWidget(
-                            isBaoCaoThongKe: false,
-                            onTap: (value) {
-                              if (value == S.current.theo_dang_lich) {
-                                cubit.chooseTypeListLv(
-                                  Type_Choose_Option_List.DANG_LICH,
-                                );
-                                cubit.modeLLV =
-                                    Type_Choose_Option_List.DANG_LICH;
-                              }
-
-                              if (value == S.current.theo_dang_danh_sach) {
-                                cubit.chooseTypeListLv(
-                                  Type_Choose_Option_List.DANG_LIST,
-                                );
-                                cubit.modeLLV =
-                                    Type_Choose_Option_List.DANG_LIST;
-                              }
-                            },
-                            listItem: listThongBao,
-                            onTapLanhDao: (value) {
-                              cubit.titleAppbar = value.tenDonVi ?? '';
-                              cubit.idDonViLanhDao = value.id ?? '';
-                            },
-                            cubit: cubitMenu,
-                            streamDashBoard:
-                                cubit.lichLamViecDashBroadSubject.stream,
-                            title: S.current.lich_lam_viec,
-                          ),
-                          thenValue: (value) {
-                            final data = value as TypeCalendarMenu;
-                            cubit.chooseTypeCalender(
-                              cubit.stateOptionDay,
-                            );
-                            cubit.changeScreenMenu(data);
-                            if (data == TypeCalendarMenu.LichTheoLanhDao) {}
-                            if (state.type == Type_Choose_Option_Day.DAY) {
-                              cubit.callApi();
-                            } else if (state.type ==
-                                Type_Choose_Option_Day.WEEK) {
-                              cubit.callApiTuan();
-                            } else {
-                              cubit.callApiMonth();
-                            }
-                          },
-                        );
+                        // DrawerSlide.navigatorSlide(
+                        //   context: context,
+                        //   screen: MenuWidget(
+                        //     isBaoCaoThongKe: false,
+                        //     onTap: (value) {
+                        //       if (value == S.current.theo_dang_lich) {
+                        //         cubit.chooseTypeListLv(
+                        //           Type_Choose_Option_List.DANG_LICH,
+                        //         );
+                        //         cubit.modeLLV =
+                        //             Type_Choose_Option_List.DANG_LICH;
+                        //       }
+                        //
+                        //       if (value == S.current.theo_dang_danh_sach) {
+                        //         cubit.chooseTypeListLv(
+                        //           Type_Choose_Option_List.DANG_LIST,
+                        //         );
+                        //         cubit.modeLLV =
+                        //             Type_Choose_Option_List.DANG_LIST;
+                        //       }
+                        //     },
+                        //     listItem: listThongBao,
+                        //     onTapLanhDao: (value) {
+                        //       cubit.titleAppbar = value.tenDonVi ?? '';
+                        //       cubit.idDonViLanhDao = value.id ?? '';
+                        //     },
+                        //     cubit: cubitMenu,
+                        //     streamDashBoard:
+                        //         cubit.lichLamViecDashBroadSubject.stream,
+                        //     title: S.current.lich_lam_viec,
+                        //   ),
+                        //   thenValue: (value) {
+                        //     final data = value as TypeCalendarMenu;
+                        //     cubit.chooseTypeCalender(
+                        //       cubit.stateOptionDay,
+                        //     );
+                        //     cubit.changeScreenMenu(data);
+                        //     if (data == TypeCalendarMenu.LichTheoLanhDao) {}
+                        //     if (state.type == Type_Choose_Option_Day.DAY) {
+                        //       cubit.callApi();
+                        //     } else if (state.type ==
+                        //         Type_Choose_Option_Day.WEEK) {
+                        //       cubit.callApiTuan();
+                        //     } else {
+                        //       cubit.callApiMonth();
+                        //     }
+                        //   },
+                        // );
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => ChiTietPKAN()));
                       },
                       icon: SvgPicture.asset(ImageAssets.icMenuCalender),
                     );

@@ -920,5 +920,15 @@
   "cong_khai_lich":"Công khai lịch",
   "chon_pham_vi" : "Chọn phạm vị",
   "pham_vi" : "Phạm vi",
-  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công"
+  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công",
+  "chi_tiet_pkan": "Chi tiết PAKN",
+  "thong_tin_PAKN": "Thông tin PAKN",
+  "thong_tin_xu_ly_pakn": "Thông tin xử lý PAKN",
+  "tien_trinh_xy_ly": "Tiến trình xử lý",
+  "phan_loai": "Phân loại",
+  "tai_lieu_dinh_kem_cua": "Tài liệu đính kèm của công dân/ DN",
+  "xa_cheo_phuong": "Xã/ Phường",
+  "quan_cheo_huyen": "Quận/ Huyện",
+  "tinh_cheo_thanh_pho": "Tỉnh/Thành phố",
+  "ten_don_vi_cheo_phong_ban": "Tên đơn vị/phòng ban"
 }

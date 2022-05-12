@@ -100,7 +100,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                             );
                           },
                           onTapStatusBox: (value) {
-                            print('************${value}');
                             Navigator.push(
                               context,
                               MaterialPageRoute(

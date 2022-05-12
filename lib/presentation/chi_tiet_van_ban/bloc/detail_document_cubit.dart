@@ -139,25 +139,6 @@ class DetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
-  // Future<void> loadDataVanBanDen({
-  //   required String processId,
-  //   required String taskId,
-  // }) async {
-  //   final queue = Queue(parallel: 7);
-  //   unawaited(queue.add(() => getChiTietVanBanDen(processId, taskId)));
-  //   unawaited(queue.add(() => getThongTinGuiNhan(processId)));
-  //   unawaited(queue.add(() =>
-  //       getLichSuVanBanLichSuCapNhat(processId, CAP_NHAT_TINH_HINH_THUC_HIEN)));
-  //   unawaited(queue.add(() => getLichSuVanBanLichSuTraLai(processId, TRA_LAI)));
-  //   unawaited(queue.add(() => getLichSuVanBanLichSuThuHoi(processId, THU_HOI)));
-  //   unawaited(
-  //       queue.add(() => getLichSuVanBanLichSuLienThong(processId, LIEN_THONG)));
-  //   unawaited(queue.add(() => getDanhSachYKienXuLy(processId)));
-  //
-  //   await queue.onComplete;
-  //   showContent();
-  //   queue.dispose();
-  // }
 
   Future<void> loadDataVanBanDi({
     required String processId,

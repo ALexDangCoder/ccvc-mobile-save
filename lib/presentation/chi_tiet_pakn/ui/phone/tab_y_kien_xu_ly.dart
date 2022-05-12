@@ -79,6 +79,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
     required double sizeImage,
     List<String>? list,
     bool isBorder = true,
+    bool isViewData = false,
   }) {
     return Container(
       margin: EdgeInsets.only(
@@ -157,15 +158,21 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
           spaceH6,
           Row(
             children: [
-              Text(
-                'data',
-                style: textNormalCustom(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: textColorMangXaHoi,
-                ), //infoColor
-              ),
-              spaceW16,
+              if (isViewData)
+                GestureDetector(
+                  onTap: () {
+                    //todo
+                  },
+                  child: Text(
+                    'data',
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: textColorMangXaHoi,
+                    ), //infoColor
+                  ),
+                ),
+              if (isViewData) spaceW16,
               GestureDetector(
                 onTap: () {
                   isInput = true;

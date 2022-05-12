@@ -134,6 +134,8 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                           widget.cubit.index.sink.add(0);
                           widget.cubit.initTimeSubject.sink
                               .add(calendarAppointmentDetails.date);
+                          widget.cubit.selectDay =
+                              calendarAppointmentDetails.date;
                           widget.cubit.callApi();
                         },
                         child: Column(

@@ -34,7 +34,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
   @override
   void dispose() {
     super.dispose();
-    widgetManageCubit.dispose();
+     widgetManageCubit.dispose();
   }
 
   @override

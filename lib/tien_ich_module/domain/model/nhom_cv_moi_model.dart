@@ -9,12 +9,12 @@ class NhomCVMoiModel {
   int? number;
 
   NhomCVMoiModel(
-      {required this.createdBy,
-      required this.createdOn,
-      required this.id,
-      required this.isDeleted,
-      required this.label,
-      required this.updatedBy,
-      required this.updatedOn,
+      {this.createdBy = '',
+      this.createdOn = '',
+      this.id = '',
+      this.isDeleted = false,
+      this.label = '',
+      this.updatedBy = '',
+      this.updatedOn = '',
       this.number});
 }

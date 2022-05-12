@@ -264,9 +264,9 @@ class DanhSachCongViecTienIchCubit
         inUsed: true,
       ),
     );
-    showContent();
     result.when(
       success: (res) {
+        showContent();
         final data = listDSCV.value;
         data.insert(
           0,
@@ -291,6 +291,7 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.createNhomCongViecMoi(label);
     result.when(
       success: (res) {
+        showContent();
         final List<NhomCVMoiModel> data = nhomCVMoiSubject.value;
         data.insert(0, res);
         nhomCVMoiSubject.sink.add(data);
@@ -306,7 +307,7 @@ class DanhSachCongViecTienIchCubit
     if (label.trim().isEmpty) {
       return;
     }
-    showContent();
+    showLoading();
     final result = await tienIchRep.updateLabelTodoList(groupId, label);
     result.when(
       success: (res) {

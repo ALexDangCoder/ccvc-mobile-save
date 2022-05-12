@@ -129,13 +129,13 @@ class _DanhSachCongViecTienIchMobileState
                                     onCheckBox: (value) {
                                       cubit.editWork(
                                         todo: todo,
-                                        isTicked: !todo.isTicked!,
+                                        isTicked: !(todo.isTicked ?? true),
                                       );
                                     },
                                     onStar: () {
                                       cubit.editWork(
                                         todo: todo,
-                                        important: !todo.important!,
+                                        important: !(todo.important ?? true),
                                       );
                                     },
                                     onClose: () {
@@ -144,7 +144,7 @@ class _DanhSachCongViecTienIchMobileState
                                         funcBtnRight: () {
                                           cubit.editWork(
                                             todo: todo,
-                                            inUsed: !todo.inUsed!,
+                                            inUsed: !(todo.inUsed ?? true),
                                           );
                                         },
                                         icon: SvgPicture.asset(
@@ -173,7 +173,7 @@ class _DanhSachCongViecTienIchMobileState
                                         ),
                                       );
                                     },
-                                    enabled: !todo.isTicked!,
+                                    enabled: !(todo.isTicked ?? true),
                                     isDaBiXoa: dataType == DBX,
                                   );
                                 },
@@ -222,7 +222,7 @@ class _DanhSachCongViecTienIchMobileState
                                         onCheckBox: (value) {
                                           cubit.editWork(
                                             todo: todo,
-                                            isTicked: !todo.isTicked!,
+                                            isTicked: !(todo.isTicked ?? true),
                                           );
                                         },
                                         onClose: () {
@@ -231,7 +231,7 @@ class _DanhSachCongViecTienIchMobileState
                                             funcBtnRight: () {
                                               cubit.editWork(
                                                 todo: todo,
-                                                inUsed: !todo.inUsed!,
+                                                inUsed: !(todo.inUsed ?? true),
                                               );
                                             },
                                             icon: SvgPicture.asset(
@@ -247,7 +247,8 @@ class _DanhSachCongViecTienIchMobileState
                                         onStar: () {
                                           cubit.editWork(
                                             todo: todo,
-                                            important: !todo.important!,
+                                            important:
+                                                !(todo.important ?? true),
                                           );
                                         },
                                         text: todo.label ?? '',

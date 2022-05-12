@@ -82,10 +82,12 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                         chuDeCubit.getDashboard(
                           chuDeCubit.startDate,
                           chuDeCubit.endDate,
+                          isShow: true,
                         );
                         chuDeCubit.getListTatCaCuDe(
                           chuDeCubit.startDate,
                           chuDeCubit.endDate,
+                          isShow: true,
                         );
                       },
                     ),

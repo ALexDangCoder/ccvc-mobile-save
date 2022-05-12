@@ -147,13 +147,15 @@ class _DanhSachCongViecTienIchTabletState
                                             onCheckBox: (value) {
                                               cubit.editWork(
                                                 todo: todo,
-                                                isTicked: !todo.isTicked!,
+                                                isTicked:
+                                                    !(todo.isTicked ?? true),
                                               );
                                             },
                                             onStar: () {
                                               cubit.editWork(
                                                 todo: todo,
-                                                important: !todo.important!,
+                                                important:
+                                                    !(todo.important ?? true),
                                               );
                                             },
                                             onClose: () {
@@ -162,7 +164,8 @@ class _DanhSachCongViecTienIchTabletState
                                                 funcBtnRight: () {
                                                   cubit.editWork(
                                                     todo: todo,
-                                                    inUsed: !todo.inUsed!,
+                                                    inUsed:
+                                                        !(todo.inUsed ?? true),
                                                   );
                                                 },
                                                 icon: SvgPicture.asset(
@@ -198,7 +201,7 @@ class _DanhSachCongViecTienIchTabletState
                                                 btnLeftTxt: S.current.khong,
                                               );
                                             },
-                                            enabled: !todo.isTicked!,
+                                            enabled: !(todo.isTicked ?? true),
                                             isDaBiXoa: dataType == DBX,
                                           );
                                         },
@@ -240,7 +243,8 @@ class _DanhSachCongViecTienIchTabletState
                                           onCheckBox: (value) {
                                             cubit.editWork(
                                               todo: todo,
-                                              isTicked: !todo.isTicked!,
+                                              isTicked:
+                                                  !(todo.isTicked ?? true),
                                             );
                                           },
                                           onClose: () {
@@ -249,7 +253,8 @@ class _DanhSachCongViecTienIchTabletState
                                               funcBtnRight: () {
                                                 cubit.editWork(
                                                   todo: todo,
-                                                  inUsed: !todo.inUsed!,
+                                                  inUsed:
+                                                      !(todo.inUsed ?? false),
                                                 );
                                               },
                                               icon: SvgPicture.asset(
@@ -265,7 +270,8 @@ class _DanhSachCongViecTienIchTabletState
                                           onStar: () {
                                             cubit.editWork(
                                               todo: todo,
-                                              important: !todo.important!,
+                                              important:
+                                                  !(todo.important ?? false),
                                             );
                                           },
                                           text: todo.label ?? '',

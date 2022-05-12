@@ -13,3 +13,13 @@ class Loading extends QLVBState {
   @override
   List<Object> get props => [];
 }
+
+class ThongTinVanBan extends QLVBState {
+  @override
+  List<Object?> get props => [];
+}
+
+class BaoCaoThongKe extends QLVBState {
+  @override
+  List<Object?> get props => [];
+}

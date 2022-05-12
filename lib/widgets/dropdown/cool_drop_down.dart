@@ -1,7 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:cool_dropdown/cool_dropdown.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart';
+
 import 'package:flutter/material.dart';
 
 class CoolDropDown extends StatefulWidget {
@@ -46,9 +47,9 @@ class _CoolDropDownState extends State<CoolDropDown> {
   Widget build(BuildContext context) {
     return CoolDropdown(
       defaultValue: initIndex < 0 ? null : pokemonsMap[initIndex],
-      resultWidth: MediaQuery.of(context).size.width,
-      dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,
-      dropdownHeight: 120,
+      // resultWidth: MediaQuery.of(context).size.width,
+      // dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,
+      dropdownHeight: 200,
       resultAlign: Alignment.center,
       dropdownList: pokemonsMap,
       onChange: (value) {

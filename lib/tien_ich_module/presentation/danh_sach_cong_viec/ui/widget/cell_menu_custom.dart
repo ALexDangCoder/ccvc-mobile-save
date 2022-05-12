@@ -11,6 +11,7 @@ class CellMenuCustom extends StatelessWidget {
   final bool isSelect;
   final Function onTap;
   final int number;
+  final bool margin;
 
   const CellMenuCustom({
     Key? key,
@@ -19,12 +20,17 @@ class CellMenuCustom extends StatelessWidget {
     required this.isSelect,
     required this.onTap,
     required this.number,
+    this.margin = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 24, left: 30, right: 30),
+      margin: EdgeInsets.only(
+        top: 24,
+        left: margin ? 30 : 0,
+        right: margin ? 30 : 0,
+      ),
       decoration: BoxDecoration(
         color: toDayColor.withOpacity(0.1),
         border: Border.all(
@@ -48,7 +54,6 @@ class CellMenuCustom extends StatelessWidget {
                 width: 15.0.textScale(space: 8),
                 child: SvgPicture.asset(
                   icon,
-
                 ),
               ),
               SizedBox(

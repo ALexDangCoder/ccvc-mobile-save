@@ -11,8 +11,11 @@ import 'package:flutter_svg/svg.dart';
 
 class AddToDoWidgetTienIch extends StatefulWidget {
   final Function(String) onTap;
+  final String initData;
 
-  const AddToDoWidgetTienIch({Key? key, required this.onTap}) : super(key: key);
+  const AddToDoWidgetTienIch(
+      {Key? key, required this.onTap, this.initData = ''})
+      : super(key: key);
 
   @override
   _AddToDoWidgetTienIchState createState() => _AddToDoWidgetTienIchState();
@@ -22,6 +25,13 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
   bool isAdd = false;
   TextEditingController controller = TextEditingController();
   FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.text = widget.initData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +46,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                 border: Border(bottom: BorderSide(color: borderButtomColor)),
               ),
               child: TextFormField(
+                // initialValue: widget.initData ?? '',
                 controller: controller,
                 focusNode: focusNode,
                 onChanged: (value) {
@@ -50,15 +61,16 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefixIconConstraints:
-                  const BoxConstraints(maxWidth: 25, maxHeight: 14),
+                      const BoxConstraints(maxWidth: 25, maxHeight: 14),
                   prefixIcon: Container(
                     color: Colors.transparent,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SvgPicture.asset(
-                        ImageAssets.icEdit,
+                        ImageAssets.icEditBlue,
                         width: 14,
                         height: 14,
+                        color: coloriCon,
                       ),
                     ),
                   ),

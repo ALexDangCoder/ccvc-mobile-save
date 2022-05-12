@@ -15,6 +15,7 @@ class ApiConstants {
   static const String GET_LIST_TOKEN = '/market/coin-list';
   static const String GET_PRICE_TOKEN_BY_SYMBOL = '/market/coin-price/';
   static const String GET_PHAM_VI = '/common/auth/list-pham-vi';
+  static const String CHUYEN_PHAM_VI = '/common/auth/chuyen-pham-vi';
   static const String GET_LUNAR_DATE = '/api/LunarDate/getLunarDate';
   static const String GET_TINH_HUONG_KHAN_CAP =
       '/api/DashBoardHome/tinh-huong-khan-cap?';
@@ -134,6 +135,7 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
+  static const CHECK_TRUNG_LICH_LICH_LAM_VIEC = '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
 
   static const DETAIL_MEETING_SCHEDULE = '/vpdt/api/MeetingSchedule/detail';

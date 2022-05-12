@@ -1,5 +1,4 @@
-
-
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -11,7 +10,8 @@ import '/home_module/utils/constants/image_asset.dart';
 Future<T?> showDiaLogTablet<T>(
   BuildContext context, {
   required String title,
-  required Widget child,
+  Widget? child,
+  Widget? Function(BuildContext)? builder,
   String? btnRightTxt,
   String? btnLeftTxt,
   bool isBottomShow = true,
@@ -21,7 +21,7 @@ Future<T?> showDiaLogTablet<T>(
 }) {
   return showDialog(
     context: context,
-    builder: (_) {
+    builder: (context) {
       return Dialog(
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
@@ -36,7 +36,9 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: maxHeight,
           width: width,
-          child: child,
+          child: builder != null
+              ? builder(context) ?? (child ?? const SizedBox())
+              : (child ?? const SizedBox()),
         ),
       );
     },
@@ -146,14 +148,18 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft
+              ? AppTheme.getInstance().colorField().withOpacity(0.1)
+              : AppTheme.getInstance().colorField(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorField()
+                  : backgroundColorApp,
             ),
           ),
         ),

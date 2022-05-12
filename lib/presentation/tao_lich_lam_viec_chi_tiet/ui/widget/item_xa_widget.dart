@@ -26,6 +26,8 @@ class _ItemXaWidgetState extends State<ItemXaWidget> {
           onChange: (value) {
             widget.taoLichLamViecCubit.xaSelectModel?.tenXaPhuong =
                 data[value].tenXaPhuong;
+            widget.taoLichLamViecCubit.xaSelectModel?.id =
+                data[value].id;
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenXaPhuong ?? '').toList(),

@@ -272,7 +272,9 @@ class DanhSachCongViecTienIchCubit
 
         closeDialog();
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -289,7 +291,9 @@ class DanhSachCongViecTienIchCubit
         data.insert(0, res);
         nhomCVMoiSubject.sink.add(data);
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -298,27 +302,35 @@ class DanhSachCongViecTienIchCubit
     if (label.trim().isEmpty) {
       return;
     }
+    showContent();
     final result = await tienIchRep.updateLabelTodoList(groupId, label);
     result.when(
       success: (res) {
+        showContent();
         titleAppBar.sink.add(res.label);
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
   /// xóa nhóm công việc
   Future<void> deleteGroupTodoList() async {
+    showLoading();
     final result = await tienIchRep.deleteGroupTodoList(groupId);
     result.when(
       success: (res) {
+        showContent();
         titleAppBar.sink.add(S.current.cong_viec_cua_ban);
         statusDSCV.sink.add(CVCB);
         doDataTheoFilter();
         addValueWithTypeToDSCV();
         getNHomCVMoi();
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -337,11 +349,11 @@ class DanhSachCongViecTienIchCubit
     }
     showLoading();
     final result = await tienIchRep.xoaCongViec(id);
-    showContent();
     await result.when(
       success: (res) async {},
       error: (err) {},
     );
+    showContent();
   }
 
   /// tìm kiếm cong việc theo nhóm cong việc

@@ -342,20 +342,6 @@ class DanhSachCongViecTienIchCubit
     addValueWithTypeToDSCV();
   }
 
-  /// xoa cong viec
-  Future<void> xoaCongViec(String id) async {
-    if (id.isEmpty) {
-      return;
-    }
-    showLoading();
-    final result = await tienIchRep.xoaCongViec(id);
-    await result.when(
-      success: (res) async {},
-      error: (err) {},
-    );
-    showContent();
-  }
-
   /// tìm kiếm cong việc theo nhóm cong việc
   bool isList(TodoDSCVModel toDo, String idGr) {
     if (toDo.groupId != null) {

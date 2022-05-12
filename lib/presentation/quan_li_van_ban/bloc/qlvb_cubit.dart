@@ -16,6 +16,7 @@ import 'package:rxdart/rxdart.dart';
 
 class QLVBCCubit extends BaseCubit<QLVBState> {
   QLVBCCubit() : super(QLVbStateInitial());
+  BehaviorSubject<List<bool>> selectTypeVanBanSubject = BehaviorSubject.seeded([true, false]);
   final BehaviorSubject<DocumentDashboardModel> _getVbDen =
       BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<DocumentDashboardModel> _getVbDi =

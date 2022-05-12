@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_ng
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_pakn.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_xu_ly_pakn.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_tien_trinh_xy_ly.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_y_kien_xu_ly.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -105,7 +106,7 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
                 TabThongTinXuLyPAKN(),
                 TabKetQuaXuLy(id: widget.iD, taskId: widget.taskID,cubit: cubit,),
                 TabTienTrinhXuLy(cubit: cubit, id: widget.iD,),
-                TabThongTinPAKN(),
+                TabYKienXuLy(),
               ],
             ),
           ),

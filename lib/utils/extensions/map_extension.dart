@@ -46,4 +46,13 @@ extension MapParse on Map {
     }
     return value.toString();
   }
+
+
+  String getStringValue(String key) {
+    String vl = '';
+    try {
+      vl = this[key];
+    } catch (_) {}
+    return vl;
+  }
 }

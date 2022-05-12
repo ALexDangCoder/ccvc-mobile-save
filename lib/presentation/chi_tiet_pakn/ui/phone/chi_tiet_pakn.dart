@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_nguoi_phan_anh.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_pakn.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_thong_tin_xu_ly_pakn.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/tab_y_kien_xu_ly.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,7 +20,7 @@ class ChiTietPKAN extends StatefulWidget {
 class _ChiTietPKANState extends State<ChiTietPKAN>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int initIndexTab = 0;
+  int initIndexTab = 5;
 
   @override
   void initState() {
@@ -99,7 +100,7 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
                 TabThongTinXuLyPAKN(),
                 TabThongTinPAKN(),
                 TabThongTinPAKN(),
-                TabThongTinPAKN(),
+                TabYKienXuLy(),
               ],
             ),
           ),

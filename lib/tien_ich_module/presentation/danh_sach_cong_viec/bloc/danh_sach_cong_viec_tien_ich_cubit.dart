@@ -158,7 +158,6 @@ class DanhSachCongViecTienIchCubit
   }
 
   Future<void> listNguoiThucHien() async {
-    showLoading();
     final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
     result.when(
       success: (res) {
@@ -277,7 +276,7 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
-  /// them nhóm công việc mới
+  /// them nhóm công việc
   Future<void> addGroupTodo(String label) async {
     if (label.trim().isEmpty) {
       return;
@@ -286,31 +285,39 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.createNhomCongViecMoi(label);
     result.when(
       success: (res) {
-        callAndFillApiAutu();
+        final List<NhomCVMoiModel> data = nhomCVMoiSubject.value;
+        data.insert(0, res);
+        nhomCVMoiSubject.sink.add(data);
       },
       error: (err) {},
     );
   }
 
-  /// sửa tên nhóm công việc mới
+  /// sửa tên nhóm công việc
   Future<void> updateLabelTodoList(String label) async {
     if (label.trim().isEmpty) {
       return;
     }
-    showLoading();
     final result = await tienIchRep.updateLabelTodoList(groupId, label);
     result.when(
-      success: (res) {},
+      success: (res) {
+        titleAppBar.sink.add(res.label);
+      },
       error: (err) {},
     );
   }
 
-  /// xóa nhóm công việc mới
+  /// xóa nhóm công việc
   Future<void> deleteGroupTodoList() async {
-    showLoading();
     final result = await tienIchRep.deleteGroupTodoList(groupId);
     result.when(
-      success: (res) {},
+      success: (res) {
+        titleAppBar.sink.add(S.current.cong_viec_cua_ban);
+        statusDSCV.sink.add(CVCB);
+        doDataTheoFilter();
+        addValueWithTypeToDSCV();
+        getNHomCVMoi();
+      },
       error: (err) {},
     );
   }

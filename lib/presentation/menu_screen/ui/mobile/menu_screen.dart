@@ -66,7 +66,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              await menuCubit.refeshUser();
+              await menuCubit.refeshMenu();
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -88,7 +88,11 @@ class _MenuScreenState extends State<MenuScreen> {
                                   id: menuCubit.id,
                                 ),
                               ),
-                            );
+                            ).then((value) {
+                              if(menuCubit.isRefresh){
+                                menuCubit.getUserRefresh();
+                              }
+                            });
                           },
                           child: HeaderMenuMobileWidget(
                             menuCubit: menuCubit,

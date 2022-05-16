@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cuper_date_picker_extension.dart';
@@ -281,8 +282,11 @@ class CupertinoDatePickerDateState
   }
 
   bool _keepInValidRange(ScrollEndNotification notification) {
+    final int daysInCurrentMonth =
+        DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
     final int desiredDay =
         DateTime(selectedYear, selectedMonth, selectedDay).day;
+
     if (desiredDay != selectedDay) {
       SchedulerBinding.instance!.addPostFrameCallback((Duration timestamp) {
         dayController.animateToItem(
@@ -291,7 +295,8 @@ class CupertinoDatePickerDateState
           curve: Curves.easeOut,
         );
       });
-    }
+    } else if (selectedDay > daysInCurrentMonth) {}
+
     setState(() {});
     return false;
   }

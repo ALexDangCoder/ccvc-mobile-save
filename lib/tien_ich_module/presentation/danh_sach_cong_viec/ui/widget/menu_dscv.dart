@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/widget/container_menu_bao_chi.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
@@ -123,12 +124,12 @@ class _MenuDSCVState extends State<MenuDSCV> {
                             top: 4,
                           ),
                           child: ButtonCustomBottom(
-                            title: 'Thêm nhóm công việc',
+                            title: S.current.them_nhom_cong_viec,
                             isColorBlue: false,
                             onPressed: () {
                               showBottomSheetCustom(
                                 context,
-                                title: 'Thêm nhóm công việc',
+                                title: S.current.them_nhom_cong_viec,
                                 child: AddToDoWidgetTienIch(
                                   onTap: (value) {
                                     widget.cubit.addGroupTodo(value);
@@ -194,42 +195,70 @@ class _MenuDSCVState extends State<MenuDSCV> {
                   name: S.current.nhom_cong_viec_moi,
                   icon: ImageAssets.ic06,
                   type: TypeContainer.expand,
-                  childExpand: StreamBuilder<List<NhomCVMoiModel>>(
-                    stream: widget.cubit.nhomCVMoiSubject.stream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      if (data.isNotEmpty) {
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: data.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final dataIndex = data[index];
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: CellMenuCustom(
-                                margin: false,
-                                icon: '',
-                                name: dataIndex.label,
-                                onTap: () {
-                                  widget.cubit.titleAppBar.add(dataIndex.label);
-                                  widget.cubit.statusDSCV.sink.add(NCVM);
-                                  widget.cubit.addValueWithTypeToDSCV();
-                                  widget.cubit.groupId = dataIndex.id;
+                  childExpand: Column(
+                    children: [
+                      StreamBuilder<List<NhomCVMoiModel>>(
+                        stream: widget.cubit.nhomCVMoiSubject.stream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          if (data.isNotEmpty) {
+                            return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: data.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final dataIndex = data[index];
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: CellMenuCustom(
+                                    margin: false,
+                                    icon: '',
+                                    name: dataIndex.label,
+                                    onTap: () {
+                                      widget.cubit.titleAppBar
+                                          .add(dataIndex.label);
+                                      widget.cubit.statusDSCV.sink.add(NCVM);
+                                      widget.cubit.addValueWithTypeToDSCV();
+                                      widget.cubit.groupId = dataIndex.id;
+                                      Navigator.pop(context);
+                                    },
+                                    isSelect: true,
+                                    number: widget.cubit.soLuongNhomCvMoi(
+                                        groupId: dataIndex.id),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 20),
+                        child: ButtonCustomBottom(
+                          title: S.current.them_nhom_cong_viec,
+                          isColorBlue: false,
+                          onPressed: () {
+                            showDiaLogTablet(
+                              context,
+                              title: S.current.them_nhom_cong_viec,
+                              child: AddToDoWidgetTienIch(
+                                onTap: (value) {
+                                  widget.cubit.addGroupTodo(value);
                                   Navigator.pop(context);
                                 },
-                                isSelect: true,
-                                number: widget.cubit
-                                    .soLuongNhomCvMoi(groupId: dataIndex.id),
                               ),
+                              isBottomShow: false,
+                              funcBtnOk: () {},
+                              maxHeight: 200,
                             );
                           },
-                        );
-                      }
-                      return const SizedBox();
-                    },
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_model.dart';
@@ -37,12 +38,15 @@ class ChiTietNhiemVuPhoneScreen extends StatefulWidget {
       _ChiTietNhiemVuPhoneScreenState();
 }
 
-class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen> {
+class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen>
+    with SingleTickerProviderStateMixin {
   ChiTietNVCubit cubit = ChiTietNVCubit();
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 9, vsync: this);
     cubit.loadDataNhiemVuCaNhan(nhiemVuId: widget.id, isCheck: widget.isCheck);
   }
 
@@ -66,87 +70,133 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen> {
               S.current.error,
             ),
             stream: cubit.stateStream,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  StreamBuilder<ChiTietNhiemVuModel>(
-                    stream: cubit.chiTietHeaderStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? ChiTietNhiemVuModel();
-                      return HeaderChiTiet(
-                        row: data.toListRow(),
-                      );
-                    },
+            child: Column(
+              children: [
+                TabBar(
+                  tabs: [
+                    Tab(
+                      text: S.current.thong_tin_chung,
+                    ),
+                    Tab(
+                      text: S.current.y_kien_xu_ly,
+                    ),
+                    Tab(
+                      text: S.current.van_ban_lien_quan,
+                    ),
+                    Tab(
+                      text: S.current.danh_sach_cong_viec,
+                    ),
+                    Tab(
+                      text: S.current.lich_su_phan_xu_ly,
+                    ),
+                    Tab(
+                      text: S.current.lich_su_cap_nhat_thth,
+                    ),
+                    Tab(
+                      text: S.current.lich_su_tra_lai,
+                    ),
+                    Tab(
+                      text: S.current.lich_su_thu_hoi,
+                    ),
+                    Tab(
+                      text: S.current.lich_su_don_doc,
+                    ),
+                  ],
+                  controller: _tabController,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  isScrollable: true,
+                  labelColor: textDefault,
+                  unselectedLabelColor: infoColor,
+                  indicatorColor: textDefault,
+                  labelStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
                   ),
-                  VanBanLienQuanWidget(
-                    cubit: cubit,
-                  ),
-                  StreamBuilder<List<DanhSachCongViecChiTietNhiemVuModel>>(
-                    stream: cubit.danhSachCongViecStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return DanhSachCongViecWidget(
-                        dataModel: data,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                ),
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      StreamBuilder<ChiTietNhiemVuModel>(
+                        stream: cubit.chiTietHeaderStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? ChiTietNhiemVuModel();
+                          return HeaderChiTiet(
+                            row: data.toListRow(),
+                          );
+                        },
+                      ),
+                      YKienNhiemVuWidget(
                         cubit: cubit,
-                      );
-                    },
-                  ),
-                  StreamBuilder<List<LichSuPhanXuLyNhiemVuModel>>(
-                    stream: cubit.lichSuPhanXuLySubject,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuPhanXuLyWidget(
-                        dataModel: data,
+                      ),
+                      VanBanLienQuanWidget(
                         cubit: cubit,
-                      );
-                    },
+                      ),
+                      StreamBuilder<List<DanhSachCongViecChiTietNhiemVuModel>>(
+                        stream: cubit.danhSachCongViecStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return DanhSachCongViecWidget(
+                            dataModel: data,
+                            cubit: cubit,
+                          );
+                        },
+                      ),
+                      StreamBuilder<List<LichSuPhanXuLyNhiemVuModel>>(
+                        stream: cubit.lichSuPhanXuLySubject,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return LichSuPhanXuLyWidget(
+                            dataModel: data,
+                            cubit: cubit,
+                          );
+                        },
+                      ),
+                      StreamBuilder<List<LichSuCapNhatTHTHModel>>(
+                        stream: cubit.lichSuCapNhatTHTHModelStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return LichSuCapNhatTHTHWidget(
+                            dataModel: data,
+                            cubit: cubit,
+                          );
+                        },
+                      ),
+                      StreamBuilder<List<LichSuTraLaiNhiemVuModel>>(
+                        stream: cubit.lichSuTraLaiStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return LichSuTraLaiWidget(
+                            dataModel: data,
+                            cubit: cubit,
+                          );
+                        },
+                      ),
+                      StreamBuilder<List<LichSuThuHoiNhiemVuModel>>(
+                        stream: cubit.lichSuThuHoiStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return LichSuThuHoiWidget(
+                            dataModel: data,
+                            cubit: cubit,
+                          );
+                        },
+                      ),
+                      StreamBuilder<List<LichSuDonDocNhiemVuModel>>(
+                        stream: cubit.lichSuDonDocStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return LichSuDonDocWidget(
+                            dataModel: data,
+                            cubit: cubit,
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  YKienNhiemVuWidget(
-                    cubit: cubit,
-                  ),
-                  StreamBuilder<List<LichSuCapNhatTHTHModel>>(
-                    stream: cubit.lichSuCapNhatTHTHModelStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuCapNhatTHTHWidget(
-                        dataModel: data,
-                        cubit: cubit,
-                      );
-                    },
-                  ),
-                  StreamBuilder<List<LichSuTraLaiNhiemVuModel>>(
-                    stream: cubit.lichSuTraLaiStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuTraLaiWidget(
-                        dataModel: data,
-                        cubit: cubit,
-                      );
-                    },
-                  ),
-                  StreamBuilder<List<LichSuThuHoiNhiemVuModel>>(
-                    stream: cubit.lichSuThuHoiStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuThuHoiWidget(
-                        dataModel: data,
-                        cubit: cubit,
-                      );
-                    },
-                  ),
-                  StreamBuilder<List<LichSuDonDocNhiemVuModel>>(
-                    stream: cubit.lichSuDonDocStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      return LichSuDonDocWidget(
-                        dataModel: data,
-                        cubit: cubit,
-                      );
-                    },
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

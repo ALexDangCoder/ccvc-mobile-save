@@ -1,5 +1,6 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -19,11 +20,11 @@ class InfoUserWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<DataUser>(
-        stream: HomeProvider.of(context).homeCubit.getUserInformation,
+    return StreamBuilder<UserInformationModel>(
+        stream: HomeProvider.of(context).homeCubit.getInforUser,
         builder: (context, snapshot) {
-          final data = snapshot.data ?? DataUser();
-          final result = data.userInformation;
+          final data = snapshot.data ?? UserInformationModel();
+
           return Row(
             mainAxisAlignment: mainAxisAlignment,
             children: [
@@ -40,7 +41,7 @@ class InfoUserWidget extends StatelessWidget {
                       ),
                       children: <TextSpan>[
                         TextSpan(
-                          text: result?.hoTen ?? '',
+                          text: data.hoTen,
                           style: titleText(
                             color: textTitle,
                             fontSize: 16.0.textScale(),
@@ -53,7 +54,7 @@ class InfoUserWidget extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    result?.chucVu ?? '',
+                    data.chucVu ?? '',
                     style: textNormal(
                       subTitle,
                       14.0.textScale(),
@@ -70,7 +71,7 @@ class InfoUserWidget extends StatelessWidget {
                   color: Colors.transparent,
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: result?.anhDaiDienFilePath ?? '',
+                  imageUrl: data.anhDaiDienFilePath ?? '',
                   errorWidget: (context, url, error) => Container(
                       color: Colors.black,
                       child: Image.asset(ImageAssets.anhDaiDienMacDinh)),

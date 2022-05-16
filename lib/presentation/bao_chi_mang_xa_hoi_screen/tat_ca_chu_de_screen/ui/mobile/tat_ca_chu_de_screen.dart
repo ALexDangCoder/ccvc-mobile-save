@@ -59,15 +59,15 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
                 children: [
                   Expanded(
                     child: CustomDropDown(
@@ -129,29 +129,32 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                   )
                 ],
               ),
-              Expanded(
-                child: StateStreamLayout(
-                  textEmpty: S.current.khong_co_du_lieu,
-                  retry: () {},
-                  error: AppException('1', ''),
-                  stream: chuDeCubit.stateStream,
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      chuDeCubit.pageIndex = 1;
-                      chuDeCubit.totalPage = 1;
-                      setState(() {
-                        defaultTime = ChuDeCubit.HOM_NAY;
-                      });
-                      await chuDeCubit.callApi();
-                    },
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          StreamBuilder<DashBoardModel>(
+            ),
+            Expanded(
+              child: StateStreamLayout(
+                textEmpty: S.current.khong_co_du_lieu,
+                retry: () {},
+                error: AppException('1', ''),
+                stream: chuDeCubit.stateStream,
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    chuDeCubit.pageIndex = 1;
+                    chuDeCubit.totalPage = 1;
+                    setState(() {
+                      defaultTime = ChuDeCubit.HOM_NAY;
+                    });
+                    await chuDeCubit.callApi();
+                  },
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: StreamBuilder<DashBoardModel>(
                             stream: chuDeCubit.streamDashBoard,
                             builder: (context, snapshot) {
                               final data =
@@ -171,38 +174,47 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                               );
                             },
                           ),
-                          StreamBuilder<TuongTacThongKeResponseModel>(
-                            stream: chuDeCubit.dataBaoCaoThongKe,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ??
-                                  TuongTacThongKeResponseModel(
-                                    danhSachTuongtacThongKe: [],
-                                  );
-                              return SizedBox(
-                                height: 240,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount:
-                                      data.danhSachTuongtacThongKe.length,
-                                  itemBuilder: (context, index) {
-                                    return ItemTableTopic(
+                        ),
+                        StreamBuilder<TuongTacThongKeResponseModel>(
+                          stream: chuDeCubit.dataBaoCaoThongKe,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ??
+                                TuongTacThongKeResponseModel(
+                                  danhSachTuongtacThongKe: [],
+                                );
+                            return SizedBox(
+                              height: 240,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: data.danhSachTuongtacThongKe.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: index == 0
+                                        ? const EdgeInsets.only(
+                                            left: 16,
+                                          )
+                                        : EdgeInsets.zero,
+                                    child: ItemTableTopic(
                                       chuDeCubit.listTitle[index],
                                       '',
                                       data
                                           .danhSachTuongtacThongKe[index]
                                           .dataTuongTacThongKeModel
                                           .interactionStatistic,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          StreamBuilder<List<ChuDeModel>>(
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: StreamBuilder<List<ChuDeModel>>(
                             stream: chuDeCubit.listYKienNguoiDan,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
@@ -225,8 +237,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                       chuDeCubit.hotNewData.avartar ?? '',
                                       chuDeCubit.hotNewData.title ?? '',
                                       DateTime.parse(
-                                        chuDeCubit.hotNewData.publishedTime ??
-                                            '',
+                                        chuDeCubit.hotNewData.publishedTime ?? '',
                                       ).formatApiSSAM,
                                       chuDeCubit.hotNewData.contents ?? '',
                                       chuDeCubit.hotNewData.url ?? '',
@@ -246,11 +257,10 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                           const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         if (index ==
-                                            chuDeCubit
-                                                    .listChuDeLoadMore.length -
+                                            chuDeCubit.listChuDeLoadMore.length -
                                                 1) {
-                                          if (chuDeCubit.listChuDeLoadMore
-                                                      .length +
+                                          if (chuDeCubit
+                                                      .listChuDeLoadMore.length +
                                                   1 ==
                                               chuDeCubit.totalItem) {
                                             return const SizedBox();
@@ -269,8 +279,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                               listChuDe[index].avartar ?? '',
                                               listChuDe[index].title ?? '',
                                               DateTime.parse(
-                                                listChuDe[index]
-                                                        .publishedTime ??
+                                                listChuDe[index].publishedTime ??
                                                     '',
                                               ).formatApiSSAM,
                                               listChuDe[index].url ?? '',
@@ -293,14 +302,14 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                               }
                             },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

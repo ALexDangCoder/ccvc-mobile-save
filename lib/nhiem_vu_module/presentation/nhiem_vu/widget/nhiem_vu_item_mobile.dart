@@ -70,24 +70,69 @@ class NhiemVuItemMobile extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                          Text(
-                            data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
-                            style: textNormalCustom(
-                              color: textBodyTime,
-                              fontWeight: FontWeight.w400,
-                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Text(
+                                  data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
+                                  style: textNormalCustom(
+                                    color: textBodyTime,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  data.tinhHinhThucHienNoiBo
+                                          ?.substring(
+                                            data.tinhHinhThucHienNoiBo
+                                                ?.indexOf('-', 1) ?? 0,
+                                            data.tinhHinhThucHienNoiBo
+                                                ?.indexOf('-', 2),
+                                          )
+                                          .trim() ??
+                                      '',
+                                  style: titleAppbar(fontSize: 16.0),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
                           ),
                           Row(
                             children: [
                               Expanded(
-                                child: Text(
-                                  data.tinhHinhThucHienNoiBo ?? '',
-                                  style: textNormalCustom(
-                                    color: unselectedLabelColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data.tinhHinhThucHienNoiBo
+                                              ?.substring(
+                                                1,
+                                                data.tinhHinhThucHienNoiBo
+                                                    ?.indexOf('-', 1),
+                                              )
+                                              .trim() ??
+                                          '',
+                                      style: textNormalCustom(
+                                        color: unselectedLabelColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      'Nhiệm vụ: ${data.loaiNhiemVu}',
+                                      style: textNormalCustom(
+                                        color: unselectedLabelColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
                               ),
                               Container(

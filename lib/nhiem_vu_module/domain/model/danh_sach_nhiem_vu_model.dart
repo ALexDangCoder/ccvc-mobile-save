@@ -141,9 +141,9 @@ extension CheckColor on String {
       case 'QUA_HAN':
         return statusCalenderRed;
       case 'CHUA_THUC_HIEN':
-        return AqiColor;
+        return choVaoSoColor;
       case 'DANG_THUC_HIEN':
-        return yellowColor;
+        return choTrinhKyColor;
       case 'THU_HOI':
         return yellowColor;
       case 'DA_HOAN_THANH':

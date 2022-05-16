@@ -4,7 +4,10 @@ class VanBanModel {
   String? loaiVanBan;
   String? ngayDen;
   String? nguoiSoanThao;
-  String ? taskId;
+  String? taskId;
+  String? number;
+  String? status;
+  String? sender;
 
   VanBanModel({
     this.iD,
@@ -13,7 +16,11 @@ class VanBanModel {
     this.ngayDen,
     this.nguoiSoanThao,
     this.taskId,
+    this.status,
+    this.number,
+    this.sender,
   });
+
   VanBanModel.empty();
 }
 

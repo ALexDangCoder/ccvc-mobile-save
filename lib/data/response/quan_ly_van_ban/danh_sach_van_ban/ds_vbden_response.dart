@@ -48,6 +48,9 @@ class DataResponseVBDen {
                 iD: e.iD,
                 nguoiSoanThao: e.nguoiSoanThao,
                 taskId: e.taskId,
+                sender: e.NoiGui,
+                status: e.MaTrangThai,
+                number: e.SoKyHieu,
               ),
             )
             .toList(),
@@ -72,14 +75,24 @@ class PageDataResponseVBDen {
   String? iD;
   @JsonKey(name: 'TaskId')
   String? taskId;
+  @JsonKey(name: 'NoiGui')
+  String? NoiGui;
+  @JsonKey(name: 'SoKyHieu')
+  String? SoKyHieu;
+  @JsonKey(name: 'MaTrangThai')
+  String? MaTrangThai;
 
-  PageDataResponseVBDen(
-      {this.iD,
-      this.doKhan,
-      this.loaiVanBan,
-      this.ngayDen,
-      this.nguoiSoanThao,
-      this.taskId});
+  PageDataResponseVBDen({
+    this.iD,
+    this.doKhan,
+    this.loaiVanBan,
+    this.ngayDen,
+    this.nguoiSoanThao,
+    this.taskId,
+    this.NoiGui,
+    this.SoKyHieu,
+    this.MaTrangThai,
+  });
 
   factory PageDataResponseVBDen.fromJson(Map<String, dynamic> json) =>
       _$PageDataResponseVBDenFromJson(json);
@@ -87,10 +100,14 @@ class PageDataResponseVBDen {
   Map<String, dynamic> toJson() => _$PageDataResponseVBDenToJson(this);
 
   VanBanModel toDomain() => VanBanModel(
-      iD: iD,
-      nguoiSoanThao: nguoiSoanThao,
-      loaiVanBan: loaiVanBan,
-      doKhan: doKhan,
-      ngayDen: ngayDen,
-      taskId: taskId,);
+        iD: iD,
+        nguoiSoanThao: nguoiSoanThao,
+        loaiVanBan: loaiVanBan,
+        doKhan: doKhan,
+        ngayDen: ngayDen,
+        taskId: taskId,
+        status: MaTrangThai,
+        number: SoKyHieu,
+        sender: NoiGui,
+      );
 }

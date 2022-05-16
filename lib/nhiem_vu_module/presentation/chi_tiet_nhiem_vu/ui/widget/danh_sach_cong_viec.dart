@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/danh_sach_cong_viec_chi_tiet_nhiem_vu.dart';
@@ -18,36 +19,36 @@ class DanhSachCongViecWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (dataModel.isNotEmpty) {
-      return ExpandOnlyNhiemVu(
-        name: S.current.danh_sach_cong_viec,
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.0.textScale(space: 4),
+      return Column(
+        children: [
+          Container(
+            height: 1,
+            color: radioUnfocusColor,
           ),
-          child: Column(
+          Column(
             children: dataModel
                 .map(
                   (e) => WidgetInExpand(
-                    row: e.listDSCV(),
-                    cubit: cubit,
-                  ),
-                )
+                row: e.listDSCV(),
+                cubit: cubit,
+              ),
+            )
                 .toList(),
           ),
-        ),
+        ],
       );
     } else {
-      return ExpandOnlyNhiemVu(
-        name: S.current.danh_sach_cong_viec,
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.0.textScale(space: 4),
+      return Column(
+        children: [
+          Container(
+            height: 1,
+            color: radioUnfocusColor,
           ),
-          child: const Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 16.0),
             child: NodataWidget(),
           ),
-        ),
+        ],
       );
     }
   }

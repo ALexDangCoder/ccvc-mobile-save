@@ -10,13 +10,17 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indi
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y__kien_nguoi_dan_item.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
-import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_pakn.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/status_pakn.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_widget.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ThongTinChungYKNDScreen extends StatefulWidget {
@@ -31,6 +35,7 @@ class ThongTinChungYKNDScreen extends StatefulWidget {
 }
 
 class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
+  TextEditingController controller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -41,12 +46,37 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(
-        title: S.current.thong_tin_pakn,
-        leadingIcon: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
+      appBar: AppBar(
+        elevation: 0.0,
+        title: StreamBuilder<bool>(
+          stream: widget.cubit.selectSreach,
+          builder: (context, snapshot) {
+            final selectData = snapshot.data ?? false;
+            return selectData
+                ? TextFormField(
+              controller: controller,
+              onChanged: (value) {
+                setState(() {});
+                widget.cubit.search = value;
+              },
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: S.current.tim_kiem,
+                hintStyle: textNormalCustom(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: unselectLabelColor,
+                ),
+              ),
+            )
+                : Text(
+              S.current.thong_tin_pakn,
+              style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+            );
           },
+        ),
+        leading: IconButton(
+          onPressed: () => {Navigator.pop(context)},
           icon: SvgPicture.asset(
             ImageAssets.icBack,
           ),
@@ -54,6 +84,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
         actions: [
           GestureDetector(
             onTap: () {
+              widget.cubit.setSelectSearch();
             },
             child: SvgPicture.asset(ImageAssets.icSearchPAKN),
           ),
@@ -71,7 +102,40 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
           ),
           const SizedBox(width: 16,),
         ],
+        centerTitle: true,
       ),
+
+      // appBar: BaseAppBar(
+      //   title: S.current.thong_tin_pakn,
+      //   leadingIcon: IconButton(
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //     icon: SvgPicture.asset(
+      //       ImageAssets.icBack,
+      //     ),
+      //   ),
+      //   actions: [
+      //     GestureDetector(
+      //       onTap: () {
+      //       },
+      //       child: SvgPicture.asset(ImageAssets.icSearchPAKN),
+      //     ),
+      //     const SizedBox(width: 16,),
+      //     GestureDetector(
+      //       onTap: () {
+      //         DrawerSlide.navigatorSlide(
+      //           context: context,
+      //           screen: YKienNguoiDanMenu(
+      //             cubit: widget.cubit,
+      //           ),
+      //         );
+      //       },
+      //       child: SvgPicture.asset(ImageAssets.icMenuCalender),
+      //     ),
+      //     const SizedBox(width: 16,),
+      //   ],
+      // ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
@@ -85,10 +149,10 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               },
             ),
             const SizedBox(height: 20,),
-            Container(
-              color: homeColor,
-              height: 6,
-            ),
+            // Container(
+            //   color: homeColor,
+            //   height: 6,
+            // ),
             // Container(
             //   padding: const EdgeInsets.only(left: 16),
             //   child: Column(
@@ -215,9 +279,18 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             //     ],
             //   ),
             // ),
-            ExpandPAKNWidget(
-              name: S.current.tinh_hinh_xu_ly_pakn,
-              child: const TiepCanPAKnScreen(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ExpandPAKNWidget(
+                name: S.current.tinh_hinh_xu_ly_pakn,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const[
+                    TiepCanWidget(),
+                    XuLyWidget(),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(
               height: 14,

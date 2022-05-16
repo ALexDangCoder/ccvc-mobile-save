@@ -95,7 +95,6 @@ class _DanhSachYKNDState extends State<DanhSachYKND> {
   }
 
   Widget _content() {
-    print('--------------------------------------- call data-------------------------');
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,

@@ -16,30 +16,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-class SpeechToTextMobile extends StatefulWidget {
-  const SpeechToTextMobile({Key? key}) : super(key: key);
+class SpeechToTextTablet extends StatefulWidget {
+  const SpeechToTextTablet({Key? key}) : super(key: key);
 
   @override
-  _SpeechToTextMobileState createState() => _SpeechToTextMobileState();
+  _SpeechToTextTabletState createState() => _SpeechToTextTabletState();
 }
 
-class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
+class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   bool _hasSpeech = false;
   double level = 0.0;
   double minSoundLevel = 50000;
   double maxSoundLevel = -50000;
   String lastWords = '';
-  String _currentLocaleId = '';
   final SpeechToText speech = SpeechToText();
   ChuyenGiongNoiThanhVanBanCubit cubit = ChuyenGiongNoiThanhVanBanCubit();
 
   Future<void> initSpeechState() async {
     try {
       final hasSpeech = await speech.initialize();
-      if (hasSpeech) {
-        final systemLocale = await speech.systemLocale();
-        _currentLocaleId = systemLocale?.localeId ?? '';
-      }
       if (!mounted) return;
       setState(() {
         _hasSpeech = hasSpeech;
@@ -54,11 +49,9 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
   void startListening() {
     speech.listen(
       onResult: resultListener,
-      listenFor: const Duration(seconds: 180),
+      listenFor: const Duration(seconds: 30),
       pauseFor: const Duration(seconds: 3),
       cancelOnError: true,
-      onSoundLevelChange: soundLevelListener,
-      localeId: _currentLocaleId,
     );
     setState(() {});
   }
@@ -117,12 +110,14 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 17),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 160),
                   child: speech.isListening
                       ? VoiceWidget(
-                          cubit: cubit,
-                        )
+                    cubit: cubit,
+                  )
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(
@@ -144,11 +139,12 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                 const SizedBox(
                   width: 30,
                 ),
-                Expanded(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 160),
                   child: speech.isListening
                       ? VoiceWidget(
-                          cubit: cubit,
-                        )
+                    cubit: cubit,
+                  )
                       : const SizedBox.shrink(),
                 ),
               ],
@@ -161,9 +157,9 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                   ? S.current.thay_doi_giong_noi
                   : S.current.speech_not_available,
               style: textNormalCustom(
-                color: infoColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 16.0.textScale(),
+                color: textTitle,
+                fontWeight: FontWeight.w500,
+                fontSize: 18.0.textScale(),
               ),
             ),
           ),
@@ -194,7 +190,17 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
           if (lastWords.isNotEmpty)
             GestureDetector(
               onTap: () {
-                FlutterClipboard.copy(lastWords);
+                FlutterClipboard.copy(lastWords).then(
+                      (value) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          S.current.copy_success,
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
               child: Container(
                 padding: const EdgeInsets.only(

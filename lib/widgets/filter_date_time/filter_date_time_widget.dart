@@ -47,10 +47,12 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
         );
       },
     );
-    setState(() {
-      widget.selectedStartDate = selectedDate ?? DateTime.now();
-    });
-    widget.onChooseDateFilter(selectedDate ?? DateTime.now(), DateTime.now());
+    if(selectedDate!=null){
+      widget.onChooseDateFilter(selectedDate , DateTime.now());
+      setState(() {
+        widget.selectedStartDate = selectedDate ;
+      });
+    }
   }
 
   @override

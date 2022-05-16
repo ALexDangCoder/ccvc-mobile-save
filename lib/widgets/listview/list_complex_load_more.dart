@@ -6,9 +6,10 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/config/resources/color.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -106,7 +107,6 @@ class ComplexLoadMore extends StatelessWidget {
           stream: cubit.stateStream,
           child: NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
-              log(scrollInfo.toString());
               if (cubit.canLoadMore &&
                   scrollInfo.metrics.pixels ==
                       scrollInfo.metrics.maxScrollExtent) {
@@ -125,19 +125,24 @@ class ComplexLoadMore extends StatelessWidget {
                       AsyncSnapshot<List<dynamic>> snapshot,
                     ) {
                       if (isListView == true) {
+                        print(snapshot.data?.length);
                         return SingleChildScrollView(
                           child: Column(
                             children: [
                               ...childrenView,
                               Row(
-                                crossAxisAlignment:(snapshot.data?.length ?? 0) > 0? CrossAxisAlignment.start:CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    (snapshot.data?.length ?? 0) > 0
+                                        ? MainAxisAlignment.start
+                                        : MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20.0, horizontal: 16.0),
                                     child: Text(
                                       S.current.danh_sach_nhiem_vu,
                                       style: textNormalCustom(
+                                        fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                         color: textDropDownColor,
                                       ),
@@ -145,29 +150,40 @@ class ComplexLoadMore extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              (snapshot.data?.length ?? 0) > 0 ? ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: snapshot.data?.length ?? 0,
-                                itemBuilder: (ctx, index) {
-                                  return viewItem(snapshot.data![index], index);
-                                },
-                              ) : Center(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 30.0,
-                                    ),
-                                    SvgPicture.asset(
-                                      ImageAssets.icThuHoi,
-                                    ),
-                                    SizedBox(
-                                      height: 30.0,
-                                    ),
-                                    Text('Không có thông tin nhiệm vụ'),
-                                  ],
+                              if ((snapshot.data?.length ?? 0) > 0)
+                                ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data?.length ?? 0,
+                                  itemBuilder: (ctx, index) {
+                                    return viewItem(
+                                        snapshot.data![index], index);
+                                  },
+                                )
+                              else
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 30.0,
+                                      ),
+                                      SvgPicture.asset(
+                                        ImageAssets.icNoDataNhiemVu,
+                                      ),
+                                      const SizedBox(
+                                        height: 30.0,
+                                      ),
+                                      Text(
+                                        S.current.khong_co_thong_tin_nhiem_vu,
+                                        style: textNormalCustom(
+                                            fontSize: 16.0, color: grayChart),
+                                      ),
+                                      const SizedBox(
+                                        height: 10.0,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         );

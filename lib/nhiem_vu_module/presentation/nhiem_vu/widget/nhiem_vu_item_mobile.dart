@@ -85,14 +85,14 @@ class NhiemVuItemMobile extends StatelessWidget {
                               Expanded(
                                 flex: 2,
                                 child: Text(
-                                  data.tinhHinhThucHienNoiBo
-                                          ?.substring(
-                                            data.tinhHinhThucHienNoiBo
-                                                ?.indexOf('-', 1) ?? 0,
-                                            data.tinhHinhThucHienNoiBo
-                                                ?.indexOf('-', 2),
-                                          )
-                                          .trim() ??
+                                  // data.tinhHinhThucHienNoiBo
+                                  //         ?.substring(
+                                  //           data.tinhHinhThucHienNoiBo
+                                  //               ?.indexOf('-', 1) ?? 0,
+                                  //           data.tinhHinhThucHienNoiBo
+                                  //               ?.indexOf('-', 2),
+                                  //         )
+                                  //         .trim() ??
                                       '',
                                   style: titleAppbar(fontSize: 16.0),
                                   overflow: TextOverflow.ellipsis,
@@ -108,13 +108,13 @@ class NhiemVuItemMobile extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      data.tinhHinhThucHienNoiBo
-                                              ?.substring(
-                                                1,
-                                                data.tinhHinhThucHienNoiBo
-                                                    ?.indexOf('-', 1),
-                                              )
-                                              .trim() ??
+                                      // data.tinhHinhThucHienNoiBo
+                                      //         ?.substring(
+                                      //           1,
+                                      //           data.tinhHinhThucHienNoiBo
+                                      //               ?.indexOf('-', 1),
+                                      //         )
+                                      //         .trim() ??
                                           '',
                                       style: textNormalCustom(
                                         color: unselectedLabelColor,

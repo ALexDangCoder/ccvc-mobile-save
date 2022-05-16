@@ -40,7 +40,7 @@ class _BieuDoNhiemVuMobileState extends State<BieuDoNhiemVuMobile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PieChart(
-            title: widget.title ?? '',
+            //title: widget.title ?? '',
             chartData: widget.chartData,
             onTap: (int value) {
               widget.ontap(widget.chartData[value].title
@@ -55,7 +55,7 @@ class _BieuDoNhiemVuMobileState extends State<BieuDoNhiemVuMobile> {
             stream: widget.cubit.loaiNhiemVuSuject,
             initialData: listFakeData,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
+              final data = snapshot.data?.reversed ?? [];
               return Row(
                 children: data
                     .map(

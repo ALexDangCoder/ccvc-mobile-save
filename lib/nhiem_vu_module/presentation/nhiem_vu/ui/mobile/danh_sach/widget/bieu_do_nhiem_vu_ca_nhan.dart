@@ -59,9 +59,9 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
           Container(height: 20),
           StreamBuilder<List<LoaiNhiemVuComomModel>>(
             stream: widget.cubit.loaiNhiemVuCaNhanSuject,
-            initialData: listFakeData,
+           initialData: listFakeData,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
+              final data = snapshot.data?.reversed ?? [];
               return Row(
                 children: data
                     .map(

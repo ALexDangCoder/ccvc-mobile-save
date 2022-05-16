@@ -50,19 +50,19 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   void callApiDonVi(bool isCheckCaNhan) {
     initTimeRange();
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
-    getDashBroashCongViec(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViec(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callApiDashBroashDonVi(bool isCheckCaNhan) {
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
-    getDashBroashCongViec(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViec(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
@@ -71,23 +71,23 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    getDashBroashCongViecCaNhan(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViecCaNhan(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callDataDanhSach(String start, String end, bool isCheckCaNhan) {
-    postDanhSachCongViec(
-      hanXuLy: {'FromDate': start, 'ToDate': end},
-      index: pageIndex,
-      isCaNhan: isCheckCaNhan,
-      isSortByHanXuLy: true,
-      keySearch: keySearch,
-      mangTrangThai: [],
-      size: pageSize,
-    );
+    // postDanhSachCongViec(
+    //   hanXuLy: {'FromDate': start, 'ToDate': end},
+    //   index: pageIndex,
+    //   isCaNhan: isCheckCaNhan,
+    //   isSortByHanXuLy: true,
+    //   keySearch: keySearch,
+    //   mangTrangThai: [],
+    //   size: pageSize,
+    // );
     postDanhSachNhiemVu(
       index: pageIndex,
       isNhiemVuCaNhan: isCheckCaNhan,
@@ -143,9 +143,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         dataSubject.sink.add(res.pageData ?? []);
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
-            checkDataNhiemVu=true;
-          //  emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
-
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
@@ -155,8 +152,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         }
       },
       error: (error) {
-        //emit(const CompletedLoadMore(CompleteType.ERROR));
-        //showError();
       },
     );
   }
@@ -190,7 +185,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
             //   showEmpty();
-            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+           // emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));

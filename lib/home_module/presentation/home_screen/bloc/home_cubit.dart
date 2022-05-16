@@ -4,6 +4,8 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
+import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
+import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
@@ -37,17 +39,23 @@ class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
 
   HomeRepository get homeRep => Get.find();
+  AccountRepository get accountRp => Get.find();
+  DataUser? dataUser = HiveLocal.getDataUser();
+  String id = '';
+  final BehaviorSubject<UserInformationModel> _getInforUser =
+      BehaviorSubject<UserInformationModel>();
+  Stream<UserInformationModel> get getInforUser => _getInforUser.stream;
   final BehaviorSubject<List<WidgetModel>> _getConfigWidget =
       BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<WidgetType?> _showDialogSetting =
       BehaviorSubject<WidgetType?>();
   final BehaviorSubject<List<TinhHuongKhanCapModel>> _tinhHuongKhanCap =
       BehaviorSubject<List<TinhHuongKhanCapModel>>();
-  final BehaviorSubject<DataUser> _userInformation =
-      BehaviorSubject<DataUser>();
+  // final BehaviorSubject<DataUser> _userInformation =
+  //     BehaviorSubject<DataUser>();
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
-  final BehaviorSubject<DataUser> _getUserInformation =
-      BehaviorSubject<DataUser>();
+  // final BehaviorSubject<DataUser> _getUserInformation =
+  //     BehaviorSubject<DataUser>();
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
   final PublishSubject<bool> refreshListen = PublishSubject<bool>();
 
@@ -78,6 +86,9 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   Future<void> loadApi() async {
+    if (dataUser != null) {
+      id = dataUser!.userInformation?.id ?? '';
+    }
     final queue = Queue(parallel: 4);
 
     showLoading();
@@ -107,15 +118,28 @@ class HomeCubit extends BaseCubit<HomeState> {
   }
 
   Future<void> getUserInFor() async {
-    final result = await homeRep.getPhamVi();
+    final result = await accountRp.getInfo(id);
     result.when(
       success: (res) {
         final dataUser = HiveLocal.getDataUser();
-        // dataUser?.userInformation?.chucVu = res.dat;
-        _getUserInformation.sink.add(dataUser ?? DataUser());
+
+        _getInforUser.sink.add(
+          UserInformationModel(
+            hoTen: res.hoTen,
+            chucVu: dataUser?.userInformation?.chucVu ?? '',
+            anhDaiDienFilePath: res.anhDaiDienFilePath,
+            ngaySinh: res.ngaySinh,
+          ),
+        );
       },
       error: (err) {},
     );
+  }
+
+  void setNameUser(String name) {
+    final value = _getInforUser.value;
+    value.hoTen = name;
+    _getInforUser.sink.add(value);
   }
 
   Future<void> getDate() async {
@@ -132,21 +156,21 @@ class HomeCubit extends BaseCubit<HomeState> {
   void dispose() {
     _showDialogSetting.close();
     _tinhHuongKhanCap.close();
-
-    _userInformation.close();
+    _getInforUser.close();
+    // _userInformation.close();
     _showAddTag.close();
-    _getUserInformation.close();
+    // _getUserInformation.close();
     _getDate.close();
     refreshListen.close();
   }
 
   Stream<DateModel> get getDateStream => _getDate.stream;
 
-  Stream<DataUser> get getUserInformation => _getUserInformation.stream;
+  // Stream<DataUser> get getUserInformation => _getUserInformation.stream;
 
   Stream<List<WidgetModel>> get getConfigWidget => _getConfigWidget.stream;
-
-  Stream<DataUser> get userInformation => _userInformation;
+  //
+  // Stream<DataUser> get userInformation => _userInformation;
 
   Stream<List<TinhHuongKhanCapModel>> get tinhHuongKhanCap =>
       _tinhHuongKhanCap.stream;

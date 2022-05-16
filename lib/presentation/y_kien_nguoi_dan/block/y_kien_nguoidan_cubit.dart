@@ -55,6 +55,10 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   final BehaviorSubject<DocumentDashboardModel> _statusTinhHinhXuLyData =
       BehaviorSubject<DocumentDashboardModel>();
+  final BehaviorSubject<bool> _selectSreach = BehaviorSubject.seeded(false);
+
+  Stream<bool> get selectSreach => _selectSreach.stream;
+
 
   Stream<DocumentDashboardModel> get statusTinhHinhXuLyData =>
       _statusTinhHinhXuLyData.stream;
@@ -71,6 +75,13 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Stream<DashboardTinhHinhXuLuModel> get dashBoardTinhHinhXuLy =>
       _dashBoardTinhHinhXuLy.stream;
+
+  String search = '';
+
+
+  void setSelectSearch() {
+    _selectSreach.sink.add(!_selectSreach.value);
+  }
 
   ImageThongTinYKienNguoiDan imageThongTinYKienNguoiDan =
       ImageThongTinYKienNguoiDan();
@@ -435,7 +446,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
     );
   }
-
   Future<void> searchDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,

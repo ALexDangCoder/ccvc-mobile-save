@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_dat
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_rounded_date_picker/src/era_mode.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 extension CupertinoDataPicker on CupertinoDatePickerDateState {
   Widget buildDayPicker(

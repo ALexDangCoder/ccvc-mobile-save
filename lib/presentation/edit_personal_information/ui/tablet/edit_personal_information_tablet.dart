@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -13,9 +15,11 @@ import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/do
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_don_vi.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_ung_dung.dart';
+import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
@@ -651,6 +655,7 @@ class _EditPersonalInformationTabletScreen
                               )
                                   .then(
                                 (value) {
+                                  ProviderWidget.of<MenuCubit>(context).cubit.isRefresh = true;
                                   return MessageConfig.show(
                                     title: S.current.thay_doi_thanh_cong,
                                   );

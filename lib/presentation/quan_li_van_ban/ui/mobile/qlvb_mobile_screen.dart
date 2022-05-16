@@ -121,7 +121,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                             qlvbcCubit: qlvbCubit,
                             documentDashboardModel: dataVBDen,
                             isVbDen: true,
-                            title: S.current.document_incoming,
+                            title: S.current.word_processing_state,
                             ontap: (value) {
                               Navigator.push(
                                 context,
@@ -156,7 +156,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                             qlvbcCubit: qlvbCubit,
                             documentDashboardModel: dataVBDi,
                             isVbDen: false,
-                            title: S.current.document_out_going,
+                            title: S.current.word_processing_state,
                             ontap: (value) {
                               Navigator.push(
                                 context,

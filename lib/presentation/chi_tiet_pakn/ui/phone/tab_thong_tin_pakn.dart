@@ -29,6 +29,7 @@ class _TabThongTinPAKNState extends State<TabThongTinPAKN> {
     // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
+
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/location_model.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -10,6 +11,12 @@ import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'chi_tiet_pakn_state.dart';
+
+enum DIACHI {
+  TINHTHANHPHO,
+  QUANHUYEN,
+  XAPHUONG,
+}
 
 class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   ChiTietPaknCubit() : super(ChiTietPaknInitial());
@@ -93,11 +100,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   }
 
   Future<void> getKetQuaXuLy(String kienNghiId, String taskID) async {
-    if(ketQuaXuLyRowData.hasValue) {
+    if (ketQuaXuLyRowData.hasValue) {
       ketQuaXuLyRowData.value.clear();
-    } else {
-
-    }
+    } else {}
     showLoading();
     final result = await YKNDRepo.ketQuaXuLy(
       kienNghiId,
@@ -189,44 +194,108 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         error: (error) {});
   }
 
-  Future<void> getThongTinNguoiPhanAnh(String kienNghiId,
-      String taskId,) async {
-
+  Future<void> getThongTinNguoiPhanAnh(
+    String kienNghiId,
+    String taskId,
+  ) async {
     showLoading();
     final result = await YKNDRepo.chiTietYKienNguoiDan(
       kienNghiId,
       taskId,
     );
-    showContent();
+    if (rowDataChiTietYKienNguoiDan.hasValue) {
+      rowDataChiTietYKienNguoiDan.value = ChiTietYKienNguoiDanRow([]);
+    } else {}
+    final NguoiPhanAnhModel nguoiPhanAnhModel = NguoiPhanAnhModel();
     result.when(
       success: (res) {
         final data = res.chiTietYKNDModel;
-        final NguoiPhanAnhModel nguoiPhanAnhModel = NguoiPhanAnhModel(
-          doiTuong: data.doiTuongId,
-          tenCaNhan: data.tenNguoiPhanAnh,
-          cmnd: data.cMTND,
-          diaChiChiTiet: data.diaChiChiTiet,
-          diaChiEmail: data.email,
-          soDienthoai: data.soDienThoai,
-        );
-        final List<DataRowChiTietKienNghi> dataRowThongTinNguoiXuLy =
-        getMapDataNguoiPhananh(nguoiPhanAnhModel);
-        rowDataChiTietYKienNguoiDan.sink.add(
-          ChiTietYKienNguoiDanRow(
-            dataRowThongTinNguoiXuLy,
-          ),
-        );
+        nguoiPhanAnhModel.doiTuong = data.doiTuongId;
+        nguoiPhanAnhModel.tenCaNhan = data.tenNguoiPhanAnh;
+        nguoiPhanAnhModel.cmnd = data.cMTND;
+        nguoiPhanAnhModel.diaChiChiTiet = data.diaChiChiTiet;
+        nguoiPhanAnhModel.diaChiEmail = data.email;
+        nguoiPhanAnhModel.soDienthoai = data.soDienThoai;
+        // nguoiPhanAnhModel = NguoiPhanAnhModel(
+        //   doiTuong: data.doiTuongId,
+        //   tenCaNhan: data.tenNguoiPhanAnh,
+        //   cmnd: data.cMTND,
+        //   diaChiChiTiet: data.diaChiChiTiet,
+        //   diaChiEmail: data.email,
+        //   soDienthoai: data.soDienThoai,
+        // );
       },
       error: (err) {
         return;
       },
     );
+
+    final tinhThanhPhoResponse = await YKNDRepo.getLocationAddress();
+    tinhThanhPhoResponse.when(success: (success) {
+      nguoiPhanAnhModel.tinhThanhPho = getTinhQuanXa(typeDiaChi: DIACHI.TINHTHANHPHO, listLocationModel: success);
+    }, error: (error) {
+      nguoiPhanAnhModel.tinhThanhPho = '';
+    });
+
+    final List<DataRowChiTietKienNghi> dataRowThongTinNguoiXuLy =
+    getMapDataNguoiPhananh(nguoiPhanAnhModel);
+    rowDataChiTietYKienNguoiDan.sink.add(
+      ChiTietYKienNguoiDanRow(
+        dataRowThongTinNguoiXuLy,
+      ),
+    );
+    showContent();
+  }
+
+  String getTinhQuanXa({required DIACHI typeDiaChi, int? id, required List<LocationModel> listLocationModel,}) {
+    String result = '';
+    switch (typeDiaChi) {
+      case DIACHI.TINHTHANHPHO: {
+        listLocationModel.forEach((element) {
+          if(element.id == id) {
+            result = element.name ?? '';
+          }
+        });
+      }
+      break;
+      case DIACHI.QUANHUYEN: {
+        listLocationModel.forEach((element) {
+          if(element.id == id) {
+            result = element.name ?? '';
+          }
+        });
+      }
+      break;
+      default: {
+        listLocationModel.forEach((element) {
+          if(element.id == id) {
+            result = element.name ?? '';
+          }
+        });
+      }
+      break;
+    }
+    return result;
+  }
+
+  Future<List<LocationModel>> getLocationThongTinNguoiPAKN({String? id}) async {
+    List<LocationModel> result = [];
+    final resultResponse = await YKNDRepo.getLocationAddress(id: id);
+    resultResponse.when(success: (success) {
+      result = success;
+    }, error: (error) {
+    });
+    return result;
   }
 
   Future<void> getThongTinPAKN(
     String kienNghiId,
     String taskId,
   ) async {
+    if (headerRowData.hasValue) {
+      headerRowData.value.clear();
+    } else {}
+
     showLoading();
     final result = await YKNDRepo.chiTietYKienNguoiDan(
       kienNghiId,
@@ -287,22 +356,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
               title: S.current.tai_lieu_dinh_kem_cong_dan,
               content: listFileName),
         );
-        final NguoiPhanAnhModel nguoiPhanAnhModel = NguoiPhanAnhModel(
-          doiTuong: data.doiTuongId,
-          tenCaNhan: data.tenNguoiPhanAnh,
-          cmnd: data.cMTND,
-          diaChiChiTiet: data.diaChiChiTiet,
-          diaChiEmail: data.email,
-          soDienthoai: data.soDienThoai,
-        );
-        final List<DataRowChiTietKienNghi> dataRowThongTinNguoiXuLy =
-            getMapDataNguoiPhananh(nguoiPhanAnhModel);
         headerRowData.sink.add(listRowHeaderData);
-        rowDataChiTietYKienNguoiDan.sink.add(
-          ChiTietYKienNguoiDanRow(
-            dataRowThongTinNguoiXuLy,
-          ),
-        );
       },
       error: (err) {
         return;
@@ -338,6 +392,12 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
       DataRowChiTietKienNghi(
         title: S.current.dia_chi_chi_tiet,
         content: nguoiPhanAnhModel.diaChiChiTiet ?? '',
+      ),
+    );
+    listData.add(
+      DataRowChiTietKienNghi(
+        title: S.current.tinh_cheo_thanh_pho,
+        content: nguoiPhanAnhModel.tinhThanhPho ?? '',
       ),
     );
     return listData;

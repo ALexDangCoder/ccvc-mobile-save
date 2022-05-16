@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguo
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/location_address_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
@@ -23,6 +24,7 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_board_phan_loai_mode.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/location_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
@@ -269,4 +271,16 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       (res) => res.listKetQuaXuLy.map((e) => e.toDomain()).toList(),
     );
   }
+
+  @override
+  Future<Result<List<LocationModel>>> getLocationAddress({String? id}) {
+    return runCatchingAsync<LocationAddressTotal, List<LocationModel>>(
+          () => _yKienNguoIDanService.getLocationAddress(
+        id: id
+      ),
+          (res) => res.listLocationAddress?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+
 }

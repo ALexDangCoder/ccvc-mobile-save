@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguo
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/location_address_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
@@ -117,4 +118,9 @@ abstract class YKienNguoiDanService {
     @Query('KienNghiId') String kienNghiId,
     @Query('TaskId') String taskId,
   );
+
+  @GET(ApiConstants.GET_LOCATION_ADDRESS)
+  Future<LocationAddressTotal> getLocationAddress({
+    @Query('id') String? id,
+  });
 }

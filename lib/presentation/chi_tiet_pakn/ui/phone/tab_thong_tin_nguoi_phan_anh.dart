@@ -9,6 +9,9 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
+
+
+
 class TabThongTinNguoiPhanAnh extends StatefulWidget {
   const TabThongTinNguoiPhanAnh({
     Key? key,
@@ -49,16 +52,19 @@ class _TabThongTinNguoiPhanAnhState extends State<TabThongTinNguoiPhanAnh> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data;
-            return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: (data?.thongTinPhanAnhRow ?? []).length,
-              itemBuilder: (context, index) {
-                return ItemRow(
-                  title: (data?.thongTinPhanAnhRow ?? [])[index].title,
-                  content: (data?.thongTinPhanAnhRow ?? [])[index].content,
-                );
-              },
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: (data?.thongTinPhanAnhRow ?? []).length,
+                itemBuilder: (context, index) {
+                  return ItemRow(
+                    title: (data?.thongTinPhanAnhRow ?? [])[index].title,
+                    content: (data?.thongTinPhanAnhRow ?? [])[index].content,
+                  );
+                },
+              ),
             );
           } else {
             return const NodataWidget();

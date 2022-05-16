@@ -239,6 +239,7 @@ class ApiConstants {
   static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
   static const XA_SELECT = '/vpdt/api/Country/wards-list';
   static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
+  static const GET_LOCATION_ADDRESS = '/pakn/api/location';
 }
 
 class ImageConstants {

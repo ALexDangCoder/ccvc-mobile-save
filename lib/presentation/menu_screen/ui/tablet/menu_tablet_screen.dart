@@ -97,11 +97,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                 id: menuCubit.id,
                               ),
                             ),
-                          ).then((value) {
-                            if(menuCubit.isRefresh){
-                              menuCubit.getUserRefresh();
-                            }
-                          });
+                          );
                         },
                         child: HeaderMenuWidget(
                           urlBackGround: headerMenu(),

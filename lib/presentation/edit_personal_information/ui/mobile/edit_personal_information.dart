@@ -507,7 +507,7 @@ class _EditPersonalInformationScreen
                             )
                                 .then(
                               (value) {
-                                ProviderWidget.of<MenuCubit>(context).cubit.isRefresh = true;
+                                ProviderWidget.of<MenuCubit>(context).cubit.getUserRefresh();
                                 return MessageConfig.show(
                                   title: S.current.thay_doi_thanh_cong,
                                 );

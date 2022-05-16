@@ -162,4 +162,28 @@ class TienIchRepositoryImpl implements TienIchRepository {
       (response) => response.toModel(),
     );
   }
+
+  @override
+  Future<Result<NhomCVMoiModel>> createNhomCongViecMoi(String label) {
+    return runCatchingAsync<ThemNhomCVMoiDSCVResponse, NhomCVMoiModel>(
+      () => _tienIchService.createNhomCongViecMoi(label),
+      (response) => response.data?.toModel() ?? NhomCVMoiModel(),
+    );
+  }
+
+  @override
+  Future<Result<NhomCVMoiModel>> updateLabelTodoList(String id, String label) {
+    return runCatchingAsync<ThemNhomCVMoiDSCVResponse, NhomCVMoiModel>(
+      () => _tienIchService.updateLabelGroupTodoList(id, label),
+      (response) => response.data?.toModel() ?? NhomCVMoiModel(),
+    );
+  }
+
+  @override
+  Future<Result<NhomCVMoiModel>> deleteGroupTodoList(String id) {
+    return runCatchingAsync<ThemNhomCVMoiDSCVResponse, NhomCVMoiModel>(
+      () => _tienIchService.deleteGroupTodoList(id),
+      (response) => response.data?.toModel() ?? NhomCVMoiModel(),
+    );
+  }
 }

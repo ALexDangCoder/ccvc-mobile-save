@@ -162,10 +162,13 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
     result.when(
       success: (res) {
+        showContent();
         nguoiThucHien.sink.add(res.items);
         dataListNguoiThucHienModelDefault = res;
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -261,9 +264,9 @@ class DanhSachCongViecTienIchCubit
         inUsed: true,
       ),
     );
-    showContent();
     result.when(
       success: (res) {
+        showContent();
         final data = listDSCV.value;
         data.insert(
           0,
@@ -273,7 +276,66 @@ class DanhSachCongViecTienIchCubit
 
         closeDialog();
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
+    );
+  }
+
+  /// them nhóm công việc
+  Future<void> addGroupTodo(String label) async {
+    if (label.trim().isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await tienIchRep.createNhomCongViecMoi(label);
+    result.when(
+      success: (res) {
+        showContent();
+        final List<NhomCVMoiModel> data = nhomCVMoiSubject.value;
+        data.insert(0, res);
+        nhomCVMoiSubject.sink.add(data);
+      },
+      error: (err) {
+        showError();
+      },
+    );
+  }
+
+  /// sửa tên nhóm công việc
+  Future<void> updateLabelTodoList(String label) async {
+    if (label.trim().isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await tienIchRep.updateLabelTodoList(groupId, label);
+    result.when(
+      success: (res) {
+        showContent();
+        titleAppBar.sink.add(res.label);
+      },
+      error: (err) {
+        showError();
+      },
+    );
+  }
+
+  /// xóa nhóm công việc
+  Future<void> deleteGroupTodoList() async {
+    showLoading();
+    final result = await tienIchRep.deleteGroupTodoList(groupId);
+    result.when(
+      success: (res) {
+        showContent();
+        titleAppBar.sink.add(S.current.cong_viec_cua_ban);
+        statusDSCV.sink.add(CVCB);
+        doDataTheoFilter();
+        addValueWithTypeToDSCV();
+        getNHomCVMoi();
+      },
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -283,22 +345,6 @@ class DanhSachCongViecTienIchCubit
     await getDSCVGanCHoToi();
     doDataTheoFilter();
     addValueWithTypeToDSCV();
-  }
-
-  /// xoa cong viec
-  Future<void> xoaCongViec(String id) async {
-    if (id.isEmpty) {
-      return;
-    }
-    showLoading();
-    final result = await tienIchRep.xoaCongViec(id);
-    showContent();
-    await result.when(
-      success: (res) async {
-        callAndFillApiAutu();
-      },
-      error: (err) {},
-    );
   }
 
   /// tìm kiếm cong việc theo nhóm cong việc

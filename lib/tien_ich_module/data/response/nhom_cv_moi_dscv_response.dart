@@ -40,6 +40,39 @@ class NhomCVMoiDSCVResponse extends Equatable {
 }
 
 @JsonSerializable()
+class ThemNhomCVMoiDSCVResponse extends Equatable {
+  @JsonKey(name: 'data')
+  DataNhomCVMoiDSCVResponse? data;
+  @JsonKey(name: 'statusCode')
+  int? statusCode;
+  @JsonKey(name: 'succeeded')
+  bool? succeeded;
+  @JsonKey(name: 'code')
+  String? code;
+  @JsonKey(name: 'message')
+  String? message;
+
+  ThemNhomCVMoiDSCVResponse({
+    this.data,
+    this.statusCode,
+    this.succeeded,
+    this.code,
+    this.message,
+  });
+
+  factory ThemNhomCVMoiDSCVResponse.fromJson(Map<String, dynamic> json) =>
+      _$ThemNhomCVMoiDSCVResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ThemNhomCVMoiDSCVResponseToJson(this);
+
+
+
+  //todo convert to Model to use
+  @override
+  List<Object?> get props => [];
+}
+
+@JsonSerializable()
 class DataNhomCVMoiDSCVResponse extends Equatable {
   @JsonKey(name: 'createdBy')
   String? createdBy;

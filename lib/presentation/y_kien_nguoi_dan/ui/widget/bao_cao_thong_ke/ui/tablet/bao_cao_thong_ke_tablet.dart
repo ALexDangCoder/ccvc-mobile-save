@@ -64,8 +64,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
         actions: [
           Row(
             children: [
-              IconButton(
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   showBottomSheetCustom(
                     context,
                     child: StreamBuilder<List<DonViModel>>(
@@ -101,7 +101,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                     title: S.current.tim_kiem,
                   );
                 },
-                icon: SvgPicture.asset(ImageAssets.ic_kinh_to),
+                child: SvgPicture.asset(ImageAssets.ic_kinh_to),
+              ),
+              const SizedBox(
+                width: 30,
               ),
               GestureDetector(
                 onTap: () {
@@ -115,7 +118,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                 child: SvgPicture.asset(ImageAssets.icMenuCalender),
               ),
               const SizedBox(
-                width: 16,
+                width: 30,
               ),
             ],
           ),
@@ -177,7 +180,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                     children: [
                       Expanded(
                         child: Container(
-                          height: 500,
+                          height: 550,
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),

@@ -128,6 +128,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                             if (data.isNotEmpty) {
                               final List<WidgetModel> listWidgetUsing = data;
                               return DragItemList(
+                                scrollCallBack: (posision){
+
+                                },
                                 listWidget: listWidgetUsing,
                                 widgetManageCubit: widgetManageCubit,
                                 isUsing: true,
@@ -162,6 +165,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                                 listWidget: listWidgetNotUse,
                                 widgetManageCubit: widgetManageCubit,
                                 isUsing: false,
+                                scrollCallBack: (double posision) {
+
+                                },
                               );
                             } else {
                               return Center(

@@ -24,6 +24,7 @@ class WidgetManageScreen extends StatefulWidget {
 
 class _WidgetManageScreenState extends State<WidgetManageScreen> {
   WidgetManageCubit widgetManageCubit = WidgetManageCubit();
+  ScrollController scrollController=ScrollController();
 
   @override
   void initState() {
@@ -35,6 +36,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
   void dispose() {
     super.dispose();
      widgetManageCubit.dispose();
+     scrollController.dispose();
   }
 
   @override
@@ -94,115 +96,141 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
           onRefresh: () async {
             await widgetManageCubit.onRefreshData();
           },
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 0, 12),
-                    height: 45,
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: backgroundWidget,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(ImageAssets.icHoiChamTron),
-                        const SizedBox(width: 14,),
-                        Text(
-                          S.current.keep_drop,
-                          style: const TextStyle(color: textTitle),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    S.current.using,
-                    style: textNormalCustom(
-                      color: itemWidgetUsing,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  StreamBuilder<List<WidgetModel>>(
-                    stream: widgetManageCubit.listWidgetUsing,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      if (data.isNotEmpty) {
-                        final List<WidgetModel> listWidgetUsing = data;
-                        return DragItemList(
-                          listWidget: listWidgetUsing,
-                          widgetManageCubit: widgetManageCubit,
-                          isUsing: true,
-                        );
-                      } else {
-                        return Center(
-                          child: Text(S.current.no_data),
-                        );
-                      }
+          child:SingleChildScrollView(
+             controller: scrollController,
+            physics: const ClampingScrollPhysics(),
+            child: StreamBuilder<List<WidgetModel>>(
+              stream: widgetManageCubit.listWidgetUsing,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                if (data.isNotEmpty) {
+                  final List<WidgetModel> listWidgetUsing = data;
+                  return DragItemList(
+                    listWidget: listWidgetUsing,
+                    widgetManageCubit: widgetManageCubit,
+                    isUsing: true,
+                    scrollCallBack: (posision ) {
+                      print('------------------------------ call back-------------------------');
+                      // scrollController.jumpTo(posision);
                     },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    S.current.not_use,
-                    style: textNormalCustom(
-                      color: itemWidgetNotUse,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  StreamBuilder<List<WidgetModel>>(
-                    stream: widgetManageCubit.listWidgetNotUse,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? [];
-                      if (data.isNotEmpty) {
-                        final List<WidgetModel> listWidgetNotUse = data;
-                        return DragItemList(
-                          listWidget: listWidgetNotUse,
-                          widgetManageCubit: widgetManageCubit,
-                          isUsing: false,
-                        );
-                      } else {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: Center(
-                            child: Text(S.current.no_data),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                  ButtonCustomBottom(
-                    title: S.current.xem_truoc,
-                    isColorBlue: true,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) =>  PrevViewWidget(
-                            cubit: widgetManageCubit,
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
+                  );
+                } else {
+                  return Center(
+                    child: Text(S.current.no_data),
+                  );
+                }
+              },
             ),
           ),
+          // child: SingleChildScrollView(
+          //   physics: const AlwaysScrollableScrollPhysics(),
+          //   child: Container(
+          //     padding: const EdgeInsets.all(16),
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Container(
+          //           padding: const EdgeInsets.fromLTRB(16, 12, 0, 12),
+          //           height: 45,
+          //           width: double.maxFinite,
+          //           decoration: BoxDecoration(
+          //             color: backgroundWidget,
+          //             borderRadius: BorderRadius.circular(8),
+          //           ),
+          //           child: Row(
+          //             children: [
+          //               SvgPicture.asset(ImageAssets.icHoiChamTron),
+          //               const SizedBox(width: 14,),
+          //               Text(
+          //                 S.current.keep_drop,
+          //                 style: const TextStyle(color: textTitle),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         const SizedBox(
+          //           height: 16,
+          //         ),
+          //         Text(
+          //           S.current.using,
+          //           style: textNormalCustom(
+          //             color: itemWidgetUsing,
+          //             fontSize: 16,
+          //           ),
+          //         ),
+          //         const SizedBox(
+          //           height: 16,
+          //         ),
+          //         StreamBuilder<List<WidgetModel>>(
+          //           stream: widgetManageCubit.listWidgetUsing,
+          //           builder: (context, snapshot) {
+          //             final data = snapshot.data ?? [];
+          //             if (data.isNotEmpty) {
+          //               final List<WidgetModel> listWidgetUsing = data;
+          //               return DragItemList(
+          //                 listWidget: listWidgetUsing,
+          //                 widgetManageCubit: widgetManageCubit,
+          //                 isUsing: true,
+          //               );
+          //             } else {
+          //               return Center(
+          //                 child: Text(S.current.no_data),
+          //               );
+          //             }
+          //           },
+          //         ),
+          //         const SizedBox(
+          //           height: 16,
+          //         ),
+          //         Text(
+          //           S.current.not_use,
+          //           style: textNormalCustom(
+          //             color: itemWidgetNotUse,
+          //             fontSize: 16,
+          //           ),
+          //         ),
+          //         const SizedBox(
+          //           height: 16,
+          //         ),
+          //         StreamBuilder<List<WidgetModel>>(
+          //           stream: widgetManageCubit.listWidgetNotUse,
+          //           builder: (context, snapshot) {
+          //             final data = snapshot.data ?? [];
+          //             if (data.isNotEmpty) {
+          //               final List<WidgetModel> listWidgetNotUse = data;
+          //               return DragItemList(
+          //                 listWidget: listWidgetNotUse,
+          //                 widgetManageCubit: widgetManageCubit,
+          //                 isUsing: false,
+          //               );
+          //             } else {
+          //               return Padding(
+          //                 padding: const EdgeInsets.only(bottom: 16),
+          //                 child: Center(
+          //                   child: Text(S.current.no_data),
+          //                 ),
+          //               );
+          //             }
+          //           },
+          //         ),
+          //         ButtonCustomBottom(
+          //           title: S.current.xem_truoc,
+          //           isColorBlue: true,
+          //           onPressed: () {
+          //             Navigator.push(
+          //               context,
+          //               PageRouteBuilder(
+          //                 pageBuilder: (_, __, ___) =>  PrevViewWidget(
+          //                   cubit: widgetManageCubit,
+          //                 ),
+          //               ),
+          //             );
+          //           },
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ),
       ),
     );

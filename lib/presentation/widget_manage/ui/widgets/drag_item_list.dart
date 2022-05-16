@@ -10,11 +10,12 @@ class DragItemList extends StatefulWidget {
   final List<WidgetModel> listWidget;
   final WidgetManageCubit widgetManageCubit;
   final bool isUsing;
-
+  final Function(double scrollPosision) scrollCallBack;
   const DragItemList({
     required this.listWidget,
     required this.widgetManageCubit,
     required this.isUsing,
+    required this.scrollCallBack,
     Key? key,
   }) : super(key: key);
 
@@ -23,12 +24,23 @@ class DragItemList extends StatefulWidget {
 }
 
 class _DragItemListState extends State<DragItemList> {
+  final ScrollController scrollController=ScrollController();
+  final GlobalKey globalKey=GlobalKey();
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: widget.widgetManageCubit.listUpdate,
       builder: (index, snapshot) {
-        return ReorderableListView.builder(
+        return _createListener( ReorderableListView.builder(
+          key: globalKey,
+          scrollController: scrollController,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           buildDefaultDragHandles: widget.isUsing,
@@ -45,9 +57,7 @@ class _DragItemListState extends State<DragItemList> {
                     ),
                   ),
                   child: WidgetItem(
-                    clickICon: () {
-
-                    },
+                    clickICon: () {},
                     widgetIcon: widget.isUsing
                         ? SvgPicture.asset(ImageAssets.icClose)
                         : SvgPicture.asset(ImageAssets.icAdd),
@@ -83,17 +93,17 @@ class _DragItemListState extends State<DragItemList> {
                 clickICon: () {
                   widget.isUsing
                       ? widget.widgetManageCubit.insertItemNotUse(
-                          widget.listWidget[index],
-                          index,
-                        )
+                    widget.listWidget[index],
+                    index,
+                  )
                       : widget.widgetManageCubit.insertItemUsing(
-                          widget.listWidget[index],
-                          index,
-                        );
-                  widget.widgetManageCubit
-                      .setParaUpdateWidget();
+                    widget.listWidget[index],
+                    index,
+                  );
+                  widget.widgetManageCubit.setParaUpdateWidget();
                   widget.widgetManageCubit.updateListWidget(
-                      widget.widgetManageCubit.listResponse.toString(),);
+                    widget.widgetManageCubit.listResponse.toString(),
+                  );
                 },
               ),
             );
@@ -109,7 +119,38 @@ class _DragItemListState extends State<DragItemList> {
               );
             });
           },
-        );
+        ),);
+      },
+    );
+  }
+
+  Widget _createListener(Widget child) {
+    return Listener(
+      child: child,
+      onPointerMove: (PointerMoveEvent event) {
+        double posision=0;
+        final RenderBox render =
+            globalKey.currentContext?.findRenderObject() as RenderBox;
+        final Offset position = render.localToGlobal(Offset.zero);
+        final double topY = position.dy; // top position of the widget
+        final double bottomY =
+            topY + render.size.height; // bottom position of the widget
+        const detectedRange = 100;
+        const moveDistance = 3;
+        if (event.position.dy < topY + detectedRange) {
+          print('------------------- call back posision-----------------');
+          var to = scrollController.offset - moveDistance;
+          to = (to < 0) ? 0 : to;
+          posision=to;
+          // scrollController.jumpTo(to);
+          widget.scrollCallBack(posision);
+        }
+        if (event.position.dy > bottomY - detectedRange) {
+          print('------------------- call back posision-----------------');
+          posision=scrollController.offset+ moveDistance;
+          // scrollController.jumpTo(scrollController.offset + moveDistance);
+          widget.scrollCallBack(posision);
+        }
       },
     );
   }

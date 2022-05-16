@@ -11,9 +11,11 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
   final int number;
   final bool isSelect;
   final Function onTap;
+  final bool isShowNumber;
 
   const ItemMenuNhiemVuWidgetTablet({
     Key? key,
+    this.isShowNumber=true,
     required this.icon,
     required this.name,
     required this.number,
@@ -79,7 +81,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              if (isShowNumber) Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 4,
                   horizontal: 5,
@@ -89,7 +91,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                   color: numberColorTabletbg,
                 ),
                 alignment: Alignment.center,
-                child: Text(
+                child:  Text(
                   number.toString(),
                   style: textNormalCustom(
                     color: AppTheme.getInstance().colorField(),
@@ -97,7 +99,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                     fontSize: 12.0.textScale(),
                   ),
                 ),
-              )
+              ) else const SizedBox(),
             ],
           ),
         ),

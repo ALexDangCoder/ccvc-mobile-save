@@ -9,9 +9,9 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -29,17 +29,12 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
   double minSoundLevel = 50000;
   double maxSoundLevel = -50000;
   String lastWords = '';
-  String _currentLocaleId = '';
   final SpeechToText speech = SpeechToText();
   ChuyenGiongNoiThanhVanBanCubit cubit = ChuyenGiongNoiThanhVanBanCubit();
 
   Future<void> initSpeechState() async {
     try {
       final hasSpeech = await speech.initialize();
-      if (hasSpeech) {
-        final systemLocale = await speech.systemLocale();
-        _currentLocaleId = systemLocale?.localeId ?? '';
-      }
       if (!mounted) return;
       setState(() {
         _hasSpeech = hasSpeech;
@@ -54,11 +49,6 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
   void startListening() {
     speech.listen(
       onResult: resultListener,
-      listenFor: const Duration(seconds: 180),
-      pauseFor: const Duration(seconds: 3),
-      cancelOnError: true,
-      onSoundLevelChange: soundLevelListener,
-      localeId: _currentLocaleId,
     );
     setState(() {});
   }
@@ -194,7 +184,13 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
           if (lastWords.isNotEmpty)
             GestureDetector(
               onTap: () {
-                FlutterClipboard.copy(lastWords);
+                Clipboard.setData(ClipboardData(text: lastWords)).then(
+                  (value) => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(S.current.copy_success),
+                    ),
+                  ),
+                );
               },
               child: Container(
                 padding: const EdgeInsets.only(

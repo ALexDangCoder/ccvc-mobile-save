@@ -9,9 +9,9 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -49,9 +49,6 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   void startListening() {
     speech.listen(
       onResult: resultListener,
-      listenFor: const Duration(seconds: 30),
-      pauseFor: const Duration(seconds: 3),
-      cancelOnError: true,
     );
     setState(() {});
   }
@@ -190,16 +187,12 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
           if (lastWords.isNotEmpty)
             GestureDetector(
               onTap: () {
-                FlutterClipboard.copy(lastWords).then(
-                      (value) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          S.current.copy_success,
-                        ),
-                      ),
-                    );
-                  },
+                Clipboard.setData(ClipboardData(text: lastWords)).then(
+                      (value) => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(S.current.copy_success),
+                    ),
+                  ),
                 );
               },
               child: Container(

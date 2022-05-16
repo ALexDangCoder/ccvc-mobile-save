@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_di_tablet.dart';
 import 'package:flutter/material.dart';
@@ -142,6 +143,7 @@ class _DocumentWidgetState extends State<DocumentTabletWidget> {
           builder: (context) => ChiTietVanBanDenTablet(
             taskId: taskId,
             processId: id,
+            cubit: DetailDocumentCubit(),
           ),
         ),
       );

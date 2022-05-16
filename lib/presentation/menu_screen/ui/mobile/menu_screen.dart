@@ -88,11 +88,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                   id: menuCubit.id,
                                 ),
                               ),
-                            ).then((value) {
-                              if(menuCubit.isRefresh){
-                                menuCubit.getUserRefresh();
-                              }
-                            });
+                            );
                           },
                           child: HeaderMenuMobileWidget(
                             menuCubit: menuCubit,

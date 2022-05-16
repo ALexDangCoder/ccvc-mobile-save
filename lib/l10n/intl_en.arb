@@ -925,5 +925,9 @@
   "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công",
   "doi_lai_ten" : "Đổi lại tên",
   "viec_nay_se_xoa_cac_task_ben_trong_no" : "Việc này sẽ xóa các task bên trong nó",
-  "thong_tin_van_ban" : "Thông tin văn bản"
+  "thong_tin_van_ban" : "Thông tin văn bản",
+  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công",
+  "speech_not_available": "Nhận diện lời nói không khả dụng",
+  "copy": "Copy",
+  "copy_success": "Copy thành công"
 }

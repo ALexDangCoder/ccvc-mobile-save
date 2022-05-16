@@ -85,7 +85,6 @@ dependencies:
   translator: ^0.1.7
   flutter_contacts:
 
-
 dev_dependencies:
 
   flutter_test:

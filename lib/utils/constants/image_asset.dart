@@ -482,6 +482,7 @@ class ImageAssets {
   static const String icUserMeeting= '$baseImg/ic_user_meeting.svg';
   static const String icCircleWarning= '$baseImg/ic_circle_warning.svg';
   static const String icThongKe= '$baseImg/ic_thong_ke.svg';
+  static const String ic_copy= '$baseImg/ic_copy.svg';
 
   static SvgPicture svgAssets(
     String name, {

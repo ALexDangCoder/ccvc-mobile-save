@@ -920,5 +920,9 @@
   "cong_khai_lich":"Công khai lịch",
   "chon_pham_vi" : "Chọn phạm vị",
   "pham_vi" : "Phạm vi",
-  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công"
+  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công",
+  "xoa_thong_bao": "Xóa thông báo",
+  "ban_co_muon_xoa_thong_bao" : "Bạn có muốn xóa thông báo?",
+  "doc_tat_ca" : "Đọc tất cả",
+  "danh_dau_tat_ca_da_doc" : "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ."
 }

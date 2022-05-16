@@ -8,7 +8,6 @@ import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/main.dart';
-import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/base_popup.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/tablet/manager_personal_information_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_state.dart';
@@ -16,7 +15,6 @@ import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/widgets/button_quan_ly_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
-import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/sua_danh_ba_ca_nhan/widget/input_infor_user_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -84,7 +82,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ManagerPersonalInformationTablet(
+                            builder: (context) =>
+                                ManagerPersonalInformationTablet(
                               id: menuCubit.id,
                             ),
                           ),
@@ -99,8 +98,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -170,14 +169,15 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                   color: colorBlack.withOpacity(0.05),
                                 )
                               ],
-                              border:
-                                  Border.all(color: borderColor.withOpacity(0.5)),
+                              border: Border.all(
+                                  color: borderColor.withOpacity(0.5)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
                                   decoration: const BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(color: lineColor),
@@ -186,14 +186,15 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                   child: Text(
                                     S.current.cai_dat,
                                     style: textNormalCustom(
-                                      color: AppTheme.getInstance().colorField(),
+                                      color:
+                                          AppTheme.getInstance().colorField(),
                                       fontSize: 18,
                                     ),
                                   ),
                                 ),
                                 Column(
-                                  children: List.generate(listFeatureAccount.length,
-                                      (index) {
+                                  children: List.generate(
+                                      listFeatureAccount.length, (index) {
                                     final type = listFeatureAccount[index];
                                     return GestureDetector(
                                       onTap: () {
@@ -212,8 +213,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                       child: MenuCellWidget(
                                         title: type.getItem().title,
                                         urlIcon: type.getItem().url,
-                                        isBorder:
-                                            index != listFeatureAccount.length - 1,
+                                        isBorder: index !=
+                                            listFeatureAccount.length - 1,
                                       ),
                                     );
                                   }),
@@ -235,7 +236,9 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                 showDiaLog(
                                   context,
                                   funcBtnRight: () {
-                                    AppStateCt.of(context).appState.setToken('');
+                                    AppStateCt.of(context)
+                                        .appState
+                                        .setToken('');
                                     HiveLocal.clearData();
                                     Navigator.pop(context);
                                   },

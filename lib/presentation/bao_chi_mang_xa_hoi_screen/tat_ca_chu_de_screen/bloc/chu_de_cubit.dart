@@ -32,14 +32,14 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
 
   final BehaviorSubject<List<TinTucData>> _listDataSearch =
       BehaviorSubject<List<TinTucData>>();
-  final List<ChuDeModel>listChuDeLoadMore=[];
-  bool isFirstCall=true;
-  ChuDeModel hotNewData=ChuDeModel();
+  final List<ChuDeModel> listChuDeLoadMore = [];
+  bool isFirstCall = true;
+  ChuDeModel hotNewData = ChuDeModel();
 
-  int pageIndex=1;
-  int papeSize=10;
+  int pageIndex = 1;
+  int papeSize = 10;
   int totalPage = 1;
-  int totalItem=1;
+  int totalItem = 1;
 
   List<String> listTitle = [
     S.current.tin_tong_hop,
@@ -74,6 +74,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
   String endDate = DateTime.now().formatApiEndDay;
 
   Future<void> callApi() async {
+    showLoading();
     final queue = Queue(parallel: 3);
     unawaited(
       queue.add(
@@ -95,14 +96,18 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
         endDate,
       ),
     );
-    await queue.onComplete;
-    showContent();
+    await queue.onComplete.then((_) => showContent());
     queue.dispose();
   }
 
   final BaoChiMangXaHoiRepository _BCMXHRepo = Get.find();
-  Future<void> getListTatCaCuDe(String startDate, String enDate) async {
-    // showLoading();
+
+  Future<void> getListTatCaCuDe(
+    String startDate,
+    String enDate, {
+    bool isShow = false,
+  }) async {
+    if (isShow) showLoading();
     final result = await _BCMXHRepo.getDashListChuDe(
       pageIndex,
       papeSize,
@@ -111,26 +116,31 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
       startDate,
       endDate,
     );
-    showContent();
     result.when(
       success: (res) {
-        totalPage=res.totalPages??1;
-        totalItem=res.totalItems??1;
+        if (isShow) showContent();
+        totalPage = res.totalPages ?? 1;
+        totalItem = res.totalItems ?? 1;
         final result = res.getlistChuDe ?? [];
-        if(isFirstCall){
-          hotNewData=result.removeAt(0);
-          isFirstCall=false;
+        if (isFirstCall) {
+          hotNewData = result.removeAt(0);
+          isFirstCall = false;
         }
         listChuDeLoadMore.addAll(result);
         _listYKienNguoiDan.sink.add(listChuDeLoadMore);
       },
       error: (err) {
-        return;
+        showEmpty();
       },
     );
   }
-  Future<void> getListBaoCaoThongKe(String startDate, String enDate) async {
-    showLoading();
+
+  Future<void> getListBaoCaoThongKe(
+    String startDate,
+    String enDate, {
+    bool isShow = false,
+  }) async {
+    if (isShow) showLoading();
     final result = await _BCMXHRepo.getTuongTacThongKe(
       1,
       30,
@@ -139,20 +149,24 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
       startDate,
       enDate,
     );
-    showContent();
     result.when(
       success: (res) {
+        if (isShow) showContent();
         final result = res;
         _dataBaoCaoThongKe.sink.add(result);
       },
       error: (err) {
-        return;
+        showEmpty();
       },
     );
   }
 
-  Future<void> getDashboard(String startDate, String enDate) async {
-    showLoading();
+  Future<void> getDashboard(
+    String startDate,
+    String enDate, {
+    bool isShow = false,
+  }) async {
+    if(isShow) showLoading();
     final result = await _BCMXHRepo.getDashBoardTatCaChuDe(
       1,
       30,
@@ -161,13 +175,13 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
       startDate,
       enDate,
     );
-    showContent();
     result.when(
       success: (res) {
+        if(isShow) showContent();
         _dataDashBoard.sink.add(res);
       },
       error: (err) {
-        return;
+        showEmpty();
       },
     );
   }
@@ -183,13 +197,13 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     );
     result.when(
       success: (res) {
+        showContent();
         _listDataSearch.sink.add(res.listData);
       },
       error: (err) {
-        return;
+        showEmpty();
       },
     );
-    showContent();
   }
 
   void getOptionDate(String option) {
@@ -199,7 +213,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
         endDate = DateTime.now().formatApiEndDay;
         break;
       case HOM_QUA:
-        getDateYesterDay();
+        getDateYesterday();
         break;
 
       case BAY_NGAY_TRUOC:
@@ -215,9 +229,9 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
   }
 
   String getDateMonth() {
-    const int millisecondOfMounth = 30 * 24 * 60 * 60 * 1000;
+    const int millisecondOfMonth = 30 * 24 * 60 * 60 * 1000;
     final int millisecondNow = DateTime.now().millisecondsSinceEpoch;
-    final int prevMonth = millisecondNow - millisecondOfMounth;
+    final int prevMonth = millisecondNow - millisecondOfMonth;
     endDate = DateTime.now().formatApiEndDay;
     startDate =
         DateTime.fromMillisecondsSinceEpoch(prevMonth).formatApiStartDay;
@@ -234,7 +248,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     startDate = DateTime.fromMillisecondsSinceEpoch(prevWeek).formatApiStartDay;
   }
 
-  void getDateYesterDay() {
+  void getDateYesterday() {
     const int millisecondOfDay = 24 * 60 * 60 * 1000;
     final int millisecondNow = DateTime.now().millisecondsSinceEpoch;
     final int prevDay = millisecondNow - millisecondOfDay;

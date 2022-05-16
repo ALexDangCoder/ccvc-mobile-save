@@ -50,6 +50,7 @@ class ManagerPersonalInformationCubit
       BehaviorSubject.seeded([]);
   final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
   final isCheckValue = RegExp(r'^[a-zA-Z0-9\+]*$');
+  bool? checkLoad;
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;
@@ -87,15 +88,22 @@ class ManagerPersonalInformationCubit
 
   AccountRepository get _managerRepo => Get.find();
   bool isChechValidate = false;
+  String valueText = '';
 
-  void checkCopyPaste(String value, TextEditingController thuTu, int offset) {
+  void checkCopyPaste(
+    String value,
+    TextEditingController thuTu,
+    int offset,
+  ) {
     try {
+      print("try1111");
       int.parse(value);
       thuTu.selection = TextSelection.fromPosition(
         TextPosition(offset: offset),
       );
     } catch (e) {
-      thuTu.text = '';
+      print("cathc1111");
+      thuTu.text = thuTu.text.substring(0,2);
     }
   }
 

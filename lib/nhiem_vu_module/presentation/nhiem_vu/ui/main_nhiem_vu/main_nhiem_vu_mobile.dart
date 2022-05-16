@@ -1,7 +1,9 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_state.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/menu/nhiem_vu_menu_mobile.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bao_cao_thong_ke_nhiem_vu_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/nhiem_vu_ca_nhan_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/nhiem_vu_don_vi_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
@@ -37,8 +39,10 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
       builder: (context, state) {
         if (state is NhiemVuCaNhan) {
           title = S.current.nhiem_vu_ca_nhan;
-        } else {
+        } else if(state is NhiemVuDonVi) {
           title = S.current.nhiem_vu_don_vi;
+        }else{
+          title = S.current.bao_cao_thong_ke;
         }
 
         return Scaffold(
@@ -53,6 +57,13 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
               ),
             ),
             actions: [
+              GestureDetector(
+                onTap: () {},
+                child: const Icon(
+                  Icons.search,
+                  color: textBodyTime,
+                ),
+              ),
               IconButton(
                 onPressed: () {
                   DrawerSlide.navigatorSlide(
@@ -73,10 +84,12 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
                 return const NhiemVuCaNhanMobile(
                   isCheck: true,
                 );
-              } else {
+              } else if(state is NhiemVuDonVi) {
                 return const NhiemVuDonViMobile(
                   isCheck: false,
                 );
+              }else{
+                return const BaoCaoThongKeNhiemVuMobile();
               }
             },
           ),

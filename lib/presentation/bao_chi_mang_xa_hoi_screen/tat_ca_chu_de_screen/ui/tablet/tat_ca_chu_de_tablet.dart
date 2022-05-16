@@ -52,8 +52,13 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
       body: SafeArea(
         child: StateStreamLayout(
           textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException('1', ''),
+          retry: () {
+            chuDeCubit.callApi();
+          },
+          error: AppException(
+            S.current.something_went_wrong,
+            S.current.something_went_wrong,
+          ),
           stream: chuDeCubit.stateStream,
           child: SingleChildScrollView(
             controller: _scrollController,

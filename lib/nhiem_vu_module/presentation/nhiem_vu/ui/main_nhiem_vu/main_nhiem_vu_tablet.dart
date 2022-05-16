@@ -43,8 +43,10 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
       builder: (context, state) {
         if (state is NhiemVuCaNhan) {
           title = S.current.nhiem_vu_ca_nhan;
-        } else {
+        } else if(state is NhiemVuDonVi) {
           title = S.current.nhiem_vu_don_vi;
+        }else{
+          title = S.current.bao_cao_thong_ke;
         }
         return Scaffold(
           appBar: BaseAppBar(

@@ -44,7 +44,7 @@ class _NhiemVuMenuMobileState extends State<NhiemVuMenuMobile> {
                       name: S.current.nhiem_vu_ca_nhan,
                       onTap: () {
                         widget.cubit.selectTypeNhiemVuSubject.add(
-                          [true, false],
+                          [true, false,false],
                         );
                         widget.cubit.emit(NhiemVuCaNhan());
                         Navigator.pop(context);
@@ -56,13 +56,25 @@ class _NhiemVuMenuMobileState extends State<NhiemVuMenuMobile> {
                       name: S.current.nhiem_vu_don_vi,
                       onTap: () {
                         widget.cubit.selectTypeNhiemVuSubject.add(
-                          [false, true],
+                          [false, true,false],
 
                         );
                         widget.cubit.emit(NhiemVuDonVi());
                         Navigator.pop(context);
                       },
                       isSelect: data[1],
+                    ),
+                    ItemMenuNhiemVuWidgetMobile(
+                      icon: ImageAssets.icThongKe,
+                      name: S.current.bao_cao_thong_ke,
+                      onTap: () {
+                        widget.cubit.selectTypeNhiemVuSubject.add(
+                          [false, false,true],
+                        );
+                        widget.cubit.emit(BaoCaoThongKe());
+                        Navigator.pop(context);
+                      },
+                      isSelect: data[2],
                     ),
                   ],
                 );

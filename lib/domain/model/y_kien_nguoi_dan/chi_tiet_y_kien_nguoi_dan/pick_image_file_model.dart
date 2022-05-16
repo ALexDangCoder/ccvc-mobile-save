@@ -2,7 +2,6 @@ class PickImageFileModel {
   String? path;
   int? size;
   String? name;
-  bool isInput;
   String? extension;
 
   PickImageFileModel({
@@ -10,6 +9,5 @@ class PickImageFileModel {
     this.size,
     this.name,
     this.extension,
-    this.isInput = false,
   });
 }

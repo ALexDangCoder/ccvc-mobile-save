@@ -135,7 +135,8 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
-  static const CHECK_TRUNG_LICH_LICH_LAM_VIEC = '/vpdt/api/Schedules/Check-trung-lich';
+  static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
+      '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
 
   static const DETAIL_MEETING_SCHEDULE = '/vpdt/api/MeetingSchedule/detail';
@@ -239,6 +240,7 @@ class ApiConstants {
   static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
   static const XA_SELECT = '/vpdt/api/Country/wards-list';
   static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
+  static const POST_Y_KIEN_XU_LY = '/pakn/api/TaskYKien/XinYKien';
 }
 
 class ImageConstants {

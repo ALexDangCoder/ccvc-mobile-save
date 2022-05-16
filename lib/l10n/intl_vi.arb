@@ -928,7 +928,8 @@
   "quan_cheo_huyen": "Quận/ Huyện",
   "tinh_cheo_thanh_pho": "Tỉnh/Thành phố",
   "ten_don_vi_cheo_phong_ban": "Tên đơn vị/phòng ban",
-  "phan_hoi": "Phản hồi"
+  "phan_hoi": "Phản hồi",
+  "file_dinh_kem_mb": "File đính kèm không được vượt quá 30mb"
 }
 
 

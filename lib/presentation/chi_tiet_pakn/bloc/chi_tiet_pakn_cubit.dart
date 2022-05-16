@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -13,6 +16,8 @@ part 'chi_tiet_pakn_state.dart';
 
 class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   ChiTietPaknCubit() : super(ChiTietPaknInitial());
+  final BehaviorSubject<List<YKienXuLyYKNDModel>> _yKienXuLyYkndSubject =
+      BehaviorSubject<List<YKienXuLyYKNDModel>>();
 
   ///declare variable
   final YKienNguoiDanRepository YKNDRepo = Get.find();
@@ -174,10 +179,51 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         error: (error) {});
   }
 
+  Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
+    showLoading();
+    final result = await YKNDRepo.getDanhSachYKienPAKN(
+      kienNghiId,
+      2,
+    );
+    showContent();
+    result.when(
+        success: (res) {
+          _yKienXuLyYkndSubject.sink.add(res.danhSachKetQua ?? []);
+        },
+        error: (error) {});
+  }
+
+  Future<String> postYKienXuLy({
+    required String nguoiChoYKien,
+    required String kienNghiId,
+    required String noiDung,
+    required List<File> file,
+  }) async {
+    String status = '';
+    showLoading();
+    final result = await YKNDRepo.postYKienXuLy(
+      nguoiChoYKien,
+      kienNghiId,
+      noiDung,
+      file,
+    );
+    result.when(
+      success: (res) {
+        status = 'success';
+        showContent();
+      },
+      error: (error) {
+        status = '';
+        showContent();
+      },
+    );
+    return status;
+  }
+
   Future<void> getchiTietYKienNguoiDan(
-      String kienNghiId,
-      String taskId,
-      ) async {
+    String kienNghiId,
+    String taskId,
+  ) async {
     showLoading();
     final result = await YKNDRepo.chiTietYKienNguoiDan(
       kienNghiId,
@@ -186,8 +232,8 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     showContent();
     result.when(
       success: (res) {
-        chiTietYKNDSubject.sink.add(res.chiTietYKNDModel);
-        checkIndex = res.chiTietYKNDModel.doiTuongId;
+        // chiTietYKNDSubject.sink.add(res.chiTietYKNDModel);
+        // checkIndex = res.chiTietYKNDModel.doiTuongId;
         final data = res.chiTietYKNDModel;
         final List<String> listFileName = [];
         if (data.fileDinhKem.isNotEmpty) {
@@ -199,20 +245,46 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         listRowHeaderData
             .add(ListRowYKND(title: S.current.tieu_de, content: [data.tieuDe]));
         listRowHeaderData.add(
-          ListRowYKND(title: S.current.noi_dung, content: [data.noiDung],),);
-        listRowHeaderData.add(ListRowYKND(
-          title: S.current.nguon_pakn, content: [data.tenNguonPAKN],),);
-        listRowHeaderData.add(ListRowYKND(
-          title: S.current.phan_loai_pakn, content: [data.phanLoaiPAKN],),);
-        listRowHeaderData.add(ListRowYKND(
-          title: S.current.ngay_phan_anh, content: [data.ngayPhanAnh],),);
+          ListRowYKND(
+            title: S.current.noi_dung,
+            content: [data.noiDung],
+          ),
+        );
         listRowHeaderData.add(
-          ListRowYKND(title: S.current.han_xu_ly, content: [data.hanXuLy],),);
-        listRowHeaderData.add(ListRowYKND(
-          title: S.current.lien_quan_quy_dinh, content: [data.tenLuat],),);
-        listRowHeaderData.add(ListRowYKND(
-            title: S.current.tai_lieu_dinh_kem_cong_dan,
-            content: listFileName),);
+          ListRowYKND(
+            title: S.current.nguon_pakn,
+            content: [data.tenNguonPAKN],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.phan_loai_pakn,
+            content: [data.phanLoaiPAKN],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.ngay_phan_anh,
+            content: [data.ngayPhanAnh],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.han_xu_ly,
+            content: [data.hanXuLy],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.lien_quan_quy_dinh,
+            content: [data.tenLuat],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+              title: S.current.tai_lieu_dinh_kem_cong_dan,
+              content: listFileName),
+        );
         final NguoiPhanAnhModel nguoiPhanAnhModel = NguoiPhanAnhModel(
           doiTuong: data.doiTuongId,
           tenCaNhan: data.tenNguoiPhanAnh,
@@ -221,14 +293,14 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
           diaChiEmail: data.email,
           soDienthoai: data.soDienThoai,
         );
-        final List<DataRowChiTietKienNghi> dataRowThongTinNguoiXuLy =
-        getMapDataNguoiPhananh(nguoiPhanAnhModel);
-        _headerRowData.sink.add(listRowHeaderData);
-        _rowDataChiTietYKienNguoiDan.sink.add(
-          ChiTietYKienNguoiDanRow(
-            dataRowThongTinNguoiXuLy,
-          ),
-        );
+        // final List<DataRowChiTietKienNghi> dataRowThongTinNguoiXuLy =
+        // getMapDataNguoiPhananh(nguoiPhanAnhModel);
+        // _headerRowData.sink.add(listRowHeaderData);
+        // _rowDataChiTietYKienNguoiDan.sink.add(
+        //   ChiTietYKienNguoiDanRow(
+        //     dataRowThongTinNguoiXuLy,
+        //   ),
+        // );
       },
       error: (err) {
         return;

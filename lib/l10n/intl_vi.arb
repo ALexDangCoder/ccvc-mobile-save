@@ -912,12 +912,15 @@
   "tu_choi_duyet_ky_thuat": "Từ chối duyệt kỹ thuật",
   "huy_duyet_ky_thuat": "Hủy duyệt kỹ thuật",
   "tai_khoan_hien_khong_ton_tai": "Tài khoản hiện không tồn tại",
-  "tao":"Tạo",
-  "ban_co_muon_tiep_tuc_khong":"Bạn có muốn tiếp tục không?",
-  "cong_khai_lich":"Công khai lịch",
-  "chon_pham_vi" : "Chọn phạm vị",
-  "pham_vi" : "Phạm vi",
-  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công"
+  "tao": "Tạo",
+  "ban_co_muon_tiep_tuc_khong": "Bạn có muốn tiếp tục không?",
+  "cong_khai_lich": "Công khai lịch",
+  "chon_pham_vi": "Chọn phạm vị",
+  "pham_vi": "Phạm vi",
+  "chuyen_pham_vi_thanh_cong": "Chuyển phạm vi thành công",
+  "speech_not_available": "Nhận diện lời nói không khả dụng",
+  "copy": "Copy",
+  "copy_success": "Copy thành công"
 }
 
 

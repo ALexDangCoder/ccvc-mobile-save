@@ -920,5 +920,8 @@
   "cong_khai_lich":"Công khai lịch",
   "chon_pham_vi" : "Chọn phạm vị",
   "pham_vi" : "Phạm vi",
-  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công"
+  "chuyen_pham_vi_thanh_cong" : "Chuyển phạm vi thành công",
+  "speech_not_available": "Nhận diện lời nói không khả dụng",
+  "copy": "Copy",
+  "copy_success": "Copy thành công"
 }

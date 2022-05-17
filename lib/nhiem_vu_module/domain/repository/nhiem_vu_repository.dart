@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
+import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
@@ -14,6 +16,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kie
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/luong_xu_ly_nhiem_vu_model.dart';
 
 mixin NhiemVuRepository {
   Future<Result<ChiTietNhiemVuModel>> getChiTietNhiemVu(
@@ -86,6 +89,9 @@ mixin NhiemVuRepository {
   Future<Result<List<VanBanLienQuanNhiemVuModel>>> getVanBanLienQuanNhiemVu(
     String id,
   );
+
+  Future<Result<NodePhanXuLy<DonViLuongNhiemVuModel>?>> getLuongXuLyVanBanDen(String id);
+
   Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>>
   getLichSuGiaoViec(
       String nhiemVuId,
@@ -94,4 +100,5 @@ mixin NhiemVuRepository {
   getLichSuThayDoiTrangThai(
       String nhiemVuId,
       );
+
 }

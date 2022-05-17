@@ -32,6 +32,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
 //tab y kien xu ly
   int byteToMb = 1048576;
   int size = 0;
+  String kienNghiId='';
   final List<PickImageFileModel> listPickFileMain = [];
   final List<YKienXuLyYKNDModel> listYKienXuLy = [];
 
@@ -48,6 +49,23 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
 
   bool get isRefresh => _isRefresh;
   String idYkien = '';
+  Future<void> refreshPosts() async {
+    if (!_isLoading) {
+      page = 0;
+      _isRefresh = true;
+      _isLoading = true;
+      await getDanhSachYKienXuLyPAKN(idYkien);
+    }
+  }
+
+  void loadMorePosts() {
+    if (!_isLoading) {
+      page += 1;
+      _isRefresh = false;
+      _isLoading = true;
+      getDanhSachYKienXuLyPAKN(idYkien);
+    }
+  }
 
   ///Function
   Future<void> getTienTrinhXyLy(String kienNghiId) async {

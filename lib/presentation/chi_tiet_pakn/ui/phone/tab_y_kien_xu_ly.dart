@@ -45,8 +45,8 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
   @override
   void initState() {
     super.initState();
-    widget.cubit
-        .getDanhSachYKienXuLyPAKN('e787f7fe-b2e9-40ea-8567-e6f07b5b9bef');
+    widget.cubit.idYkien = 'e787f7fe-b2e9-40ea-8567-e6f07b5b9bef';
+    widget.cubit.refreshPosts();
     //_nhapYkienController = TextEditingController();
     _nhapYMainController = TextEditingController();
   }
@@ -110,7 +110,9 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
         return Scaffold(
           body: StateStreamLayout(
             textEmpty: S.current.khong_co_du_lieu,
-            retry: () {},
+            retry: () {
+              widget.cubit.refreshPosts();
+            },
             error: AppException('', S.current.something_went_wrong),
             stream: widget.cubit.stateStream,
             child: Column(
@@ -118,33 +120,42 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                 _itemSend(true),
                 spaceH8,
                 Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      await widget.cubit.getDanhSachYKienXuLyPAKN(
-                          'e787f7fe-b2e9-40ea-8567-e6f07b5b9bef');
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (cubit.canLoadMore &&
+                          scrollInfo.metrics.pixels ==
+                              scrollInfo.metrics.maxScrollExtent) {
+                        cubit.loadMorePosts();
+                      }
+                      return true;
                     },
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: cubit.listYKienXuLy.length,
-                      itemBuilder: (context, index) {
-                        return _itemViewDetail(
-                          sizeImage: 32,
-                          list: [],
-                          //todo list
-                          index: index,
-                          avatar: '',
-                          //todo avatar
-                          time: cubit.listYKienXuLy[index].ngayTao ?? '',
-                          name:
-                              cubit.listYKienXuLy[index].tenNguoiChoYKien ?? '',
-                          indexMain: index,
-                          file: cubit.listYKienXuLy[index].dSFile ?? '',
-                          isViewData:
-                              cubit.listYKienXuLy[index].dSFile?.isNotEmpty ??
-                                  false,
-                          noiDung: cubit.listYKienXuLy[index].noiDung ?? '',
-                        );
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        await widget.cubit.refreshPosts();
                       },
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: cubit.listYKienXuLy.length,
+                        itemBuilder: (context, index) {
+                          return _itemViewDetail(
+                            sizeImage: 32,
+                            list: [],
+                            //todo list
+                            index: index,
+                            avatar: '',
+                            //todo avatar
+                            time: cubit.listYKienXuLy[index].ngayTao ?? '',
+                            name: cubit.listYKienXuLy[index].tenNguoiChoYKien ??
+                                '',
+                            indexMain: index,
+                            file: cubit.listYKienXuLy[index].dSFile ?? '',
+                            isViewData:
+                                cubit.listYKienXuLy[index].dSFile?.isNotEmpty ??
+                                    false,
+                            noiDung: cubit.listYKienXuLy[index].noiDung ?? '',
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

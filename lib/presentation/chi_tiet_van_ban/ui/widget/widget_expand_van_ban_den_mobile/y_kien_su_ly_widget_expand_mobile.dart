@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,56 +41,69 @@ class _YKienXuLyExpandWidgetMobileState
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: 6,
-                left: 16,
-                right: 16,
-                top: 3,
-              ),
-              child: const WidgetComments(),
-            ),
-            StreamBuilder<List<DanhSachYKienXuLy>>(
-              stream: widget.cubit.danhSachYKienXuLyStream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(
-                        top: 6,
-                        left: 13,
-                        right: 13,
-                        bottom: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: containerColorTab,
-                        ),
-                        color: containerColorTab.withOpacity(0.1),
-                      ),
-                      padding: const EdgeInsets.only(
-                        top: 16,
-                        left: 16,
-                        right: 16,
-                      ),
-                      child: _itemViewDetail(
-                        data: data[index],
-                        index: index,
-                      ),
+      body: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {
+          widget.cubit.getDanhSachYKienXuLy(widget.processId);
+        },
+        error: AppException('', S.current.something_went_wrong),
+        stream: widget.cubit.stateStream,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await widget.cubit.getDanhSachYKienXuLy(widget.processId);
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                    bottom: 6,
+                    left: 16,
+                    right: 16,
+                    top: 3,
+                  ),
+                  child: const WidgetComments(),
+                ),
+                StreamBuilder<List<DanhSachYKienXuLy>>(
+                  stream: widget.cubit.danhSachYKienXuLyStream,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? [];
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.only(
+                            top: 6,
+                            left: 13,
+                            right: 13,
+                            bottom: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(
+                              color: containerColorTab,
+                            ),
+                            color: containerColorTab.withOpacity(0.1),
+                          ),
+                          padding: const EdgeInsets.only(
+                            top: 16,
+                            left: 16,
+                            right: 16,
+                          ),
+                          child: _itemViewDetail(
+                            data: data[index],
+                            index: index,
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

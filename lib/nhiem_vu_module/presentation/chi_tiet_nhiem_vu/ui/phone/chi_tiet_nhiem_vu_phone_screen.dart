@@ -72,47 +72,56 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen>
             stream: cubit.stateStream,
             child: Column(
               children: [
-                TabBar(
-                  tabs: [
-                    Tab(
-                      text: S.current.thong_tin_chung,
+                Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: radioUnfocusColor,
+                      ),
                     ),
-                    Tab(
-                      text: S.current.y_kien_xu_ly,
-                    ),
-                    Tab(
-                      text: S.current.van_ban_lien_quan,
-                    ),
-                    Tab(
-                      text: S.current.danh_sach_cong_viec,
-                    ),
-                    Tab(
-                      text: S.current.lich_su_phan_xu_ly,
-                    ),
-                    Tab(
-                      text: S.current.lich_su_cap_nhat_thth,
-                    ),
-                    Tab(
-                      text: S.current.lich_su_tra_lai,
-                    ),
-                    Tab(
-                      text: S.current.lich_su_thu_hoi,
-                    ),
-                    Tab(
-                      text: S.current.lich_su_don_doc,
-                    ),
-                  ],
-                  controller: _tabController,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  isScrollable: true,
-                  labelColor: textDefault,
-                  unselectedLabelColor: infoColor,
-                  indicatorColor: textDefault,
-                  labelStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
                   ),
-                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: TabBar(
+                    tabs: [
+                      Tab(
+                        text: S.current.thong_tin_chung,
+                      ),
+                      Tab(
+                        text: S.current.y_kien_xu_ly,
+                      ),
+                      Tab(
+                        text: S.current.van_ban_lien_quan,
+                      ),
+                      Tab(
+                        text: S.current.danh_sach_cong_viec,
+                      ),
+                      Tab(
+                        text: S.current.lich_su_phan_xu_ly,
+                      ),
+                      Tab(
+                        text: S.current.lich_su_cap_nhat_thth,
+                      ),
+                      Tab(
+                        text: S.current.lich_su_tra_lai,
+                      ),
+                      Tab(
+                        text: S.current.lich_su_thu_hoi,
+                      ),
+                      Tab(
+                        text: S.current.lich_su_don_doc,
+                      ),
+                    ],
+                    controller: _tabController,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    isScrollable: true,
+                    labelColor: textDefault,
+                    unselectedLabelColor: infoColor,
+                    indicatorColor: textDefault,
+                    labelStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                  ),
                 ),
                 Expanded(
                   child: TabBarView(
@@ -150,6 +159,7 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen>
                           return LichSuPhanXuLyWidget(
                             dataModel: data,
                             cubit: cubit,
+                            idNhiemVu: widget.id,
                           );
                         },
                       ),

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
@@ -63,7 +64,19 @@ class _ThongBaoQuanLyVanBanScreenState
             elevation: 0.5,
             actions: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showDiaLog(
+                    context,
+                    title: S.current.doc_tat_ca,
+                    textContent: S.current.danh_dau_tat_ca_da_doc,
+                    icon: Container(),
+                    btnRightTxt: S.current.xac_nhan,
+                    btnLeftTxt: S.current.dong,
+                    funcBtnRight: () {
+                      widget.cubit.readAllNoti(false);
+                    },
+                  );
+                },
                 child: SvgPicture.asset(ImageAssets.icPickAll),
               ),
               const SizedBox(

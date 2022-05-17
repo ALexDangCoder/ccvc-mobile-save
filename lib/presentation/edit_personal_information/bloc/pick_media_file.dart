@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 
 const String TYPE_OF_FILE = 'type';
 const String PATH_OF_FILE = 'path';
+const String  NAME_OF_FILE = 'name';
 const String SIZE_OF_FILE = 'size';
 const String EXTENSION_OF_FILE = 'extension';
 const String VALID_FORMAT_OF_FILE = 'valid_format';
@@ -15,16 +16,18 @@ const String MEDIA_VIDEO_FILE = 'media_video_file';
 const String MEDIA_AUDIO_FILE = 'media_audio_file';
 const String MEDIA_IMAGE_FILE = 'media_image_file';
 
-
-Future<Map<String, dynamic>> pickMediaFile({required PickerType type}) async {
+Future<Map<String, dynamic>> pickMediaFile({
+  required PickerType type,
+}) async {
   final List<String> allowedExtensions = type.fileType;
   String _filePath = '';
   String _fileType = '';
+  String _fileName = '';
   String _fileExtension = '';
   bool _validFormat = true;
   int _fileSize = 0;
   final FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.custom,
+    type:  FileType.custom,
     allowedExtensions: allowedExtensions,
   );
   if (result != null) {
@@ -45,12 +48,14 @@ Future<Map<String, dynamic>> pickMediaFile({required PickerType type}) async {
     }
     _filePath = result.files.single.path ?? '';
     _fileSize = result.files.single.size;
+    _fileName = result.files.single.name;
   } else {
     // User canceled the picker
   }
   return {
     TYPE_OF_FILE: _fileType,
     PATH_OF_FILE: _filePath,
+    NAME_OF_FILE: _fileName,
     SIZE_OF_FILE: _fileSize,
     EXTENSION_OF_FILE: _fileExtension,
     VALID_FORMAT_OF_FILE: _validFormat,
@@ -59,15 +64,17 @@ Future<Map<String, dynamic>> pickMediaFile({required PickerType type}) async {
 
 Future<Map<String, dynamic>> pickImageFunc({
   required String tittle,
+  ImageSource source = ImageSource.gallery,
 }) async {
   final Map<String, dynamic> _resultMap = {
     PATH_OF_FILE: '',
     SIZE_OF_FILE: 0,
     EXTENSION_OF_FILE: '',
     VALID_FORMAT_OF_FILE: '',
+    NAME_OF_FILE: '',
   };
   try {
-    final newImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final newImage = await ImagePicker().pickImage(source: source);
     if (newImage == null) {
       return _resultMap;
     }
@@ -78,17 +85,14 @@ Future<Map<String, dynamic>> pickImageFunc({
     _resultMap[SIZE_OF_FILE] =
         File(newImage.path).readAsBytesSync().lengthInBytes;
     _resultMap[PATH_OF_FILE] = newImage.path;
+    _resultMap[NAME_OF_FILE] = newImage.name;
     return _resultMap;
   } on PlatformException catch (e) {
     throw 'Cant upload image $e';
   }
 }
 
-enum PickerType {
-  MEDIA_FILE,
-  IMAGE_FILE,
-  DOCUMENT,
-}
+enum PickerType { MEDIA_FILE, IMAGE_FILE, DOCUMENT, ALL }
 
 extension GetTypeByName on PickerType {
   List<String> get fileType {
@@ -109,6 +113,27 @@ extension GetTypeByName on PickerType {
         return ['JPG', 'PNG', 'GIF', 'JPEG'];
       case PickerType.DOCUMENT:
         return ['DOC', 'DOCX', 'PDF', 'XLS', 'XLSX'];
+      case PickerType.ALL:
+        return [
+          'MP4',
+          'WEBM',
+          'MP3',
+          'WAV',
+          'OGG',
+          'PNG',
+          'JPG',
+          'JPEG',
+          'GIF',
+          'JPG',
+          'PNG',
+          'GIF',
+          'JPEG',
+          'DOC',
+          'DOCX',
+          'PDF',
+          'XLS',
+          'XLSX'
+        ];
     }
   }
 }

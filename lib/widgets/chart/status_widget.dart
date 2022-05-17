@@ -1,7 +1,7 @@
-import 'package:ccvc_mobile/home_module/config/resources/color.dart';
-import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
-import 'package:ccvc_mobile/home_module/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 
 class StatusWidget extends StatelessWidget {
@@ -27,17 +27,17 @@ class StatusWidget extends StatelessWidget {
           child: Row(
             children: listData
                 .map(
-                  (e) => GestureDetector(
-                    onTap: () {
-                      if (onSelectItem != null) {
-                        // ignore: prefer_null_aware_method_calls
-                        onSelectItem!(e);
-                      }
-                    },
-                    child: (e.value.toInt() == 0 && showZeroValue == false)
-                        ? const SizedBox.shrink()
-                        : Expanded(
-                            flex: e.value.toInt(),
+                  (e) => (e.value.toInt() == 0 && showZeroValue == false)
+                      ? const SizedBox.shrink()
+                      : Expanded(
+                          flex: e.value.toInt(),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (onSelectItem != null) {
+                                // ignore: prefer_null_aware_method_calls
+                                onSelectItem!(e);
+                              }
+                            },
                             child: Container(
                               color: e.color,
                               child: Center(
@@ -51,7 +51,7 @@ class StatusWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                  ),
+                        ),
                 )
                 .toList(),
           ),

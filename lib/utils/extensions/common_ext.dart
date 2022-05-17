@@ -1,4 +1,6 @@
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/ket_noi_module/config/resources/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,4 +17,51 @@ void updateLocale() {
   Get.updateLocale(
     Locale.fromSubtags(languageCode: PrefsService.getLanguage()),
   );
+}
+
+String getNameFromStatus(int statusCode) {
+  switch (statusCode) {
+    case 0:
+      return 'Đã hoàn thành';
+    case 1:
+      return 'Đến hạn';
+    case 2:
+      return 'Quá hạn';
+    case 3:
+      return 'Trong hạn';
+    case 4:
+      return 'Không có hạn';
+    case 6:
+      return 'Trả lại';
+    default:
+      return '';
+  }
+}
+
+Color getColorFromStatus(int statusCode) {
+  switch (statusCode) {
+    case 1:
+      return daXuLyColor;
+    case 2:
+      return statusCalenderRed;
+    case 3:
+      return choXuLyColor;
+    default:
+      return titleColor;
+  }
+}
+
+Color getColorFromPriorityCode(String code){
+  switch (code) {
+    case "BinhThuong":
+      return daXuLyColor;
+    case "Khan":
+      return choVaoSoColor;
+    case "ThuongKhan":
+      return thuongKhanColor;
+    case "HoaToc":
+      return statusCalenderRed;
+    default:
+      return titleColor;
+  }
 }

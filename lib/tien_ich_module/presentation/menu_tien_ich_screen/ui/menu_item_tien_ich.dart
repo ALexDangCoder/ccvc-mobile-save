@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/mobile/chuyen_giong_noi_thanh_van_ban_mobile.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/tablet/chuyen_giong_noi_thanh_van_ban_tablet.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/mobile/speech_to_text_mobile.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/tablet/speech_to_text_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/ui/mobile/chuyen_van_ban_thanh_giong_noi_mobile.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/ui/tablet/chuyen_van_ban_thanh_giong_noi_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/danh_ba_dien_tu_mobile.dart';
@@ -136,8 +136,8 @@ extension GetScreen on MenuTypeTienIch {
     switch (this) {
       case MenuTypeTienIch.chuyenGiongNoiThanhVanBan:
         return screenDevice(
-          mobileScreen: const ChuyenGiongNoiThanhVanBanMobile(),
-          tabletScreen: const ChuyenGiongNoiThanhVanBanTablet(),
+          mobileScreen: const SpeechToTextMobile(),
+          tabletScreen: const SpeechToTextTablet(),
         );
       case MenuTypeTienIch.chuyenVanBanThanhGiongNoi:
         return screenDevice(

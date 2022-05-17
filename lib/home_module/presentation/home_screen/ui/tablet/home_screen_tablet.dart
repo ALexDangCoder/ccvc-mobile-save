@@ -104,7 +104,6 @@ class HomeScreenTabletState extends State<HomeScreenTablet>
             },
             child: SizedBox.expand(
               child: SingleChildScrollView(
-
                 controller: scrollController,
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,

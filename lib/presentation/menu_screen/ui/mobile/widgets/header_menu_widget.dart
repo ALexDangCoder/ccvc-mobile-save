@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class HeaderMenuMobileWidget extends StatelessWidget {
         ),
       ),
       child: StreamBuilder<UserInformationModel>(
-          stream: menuCubit.getInforUser,
+          stream: keyHomeMobile.currentState?.homeCubit.getInforUser,
           builder: (context, snapshot) {
             final data = snapshot.data;
             return Row(

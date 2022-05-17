@@ -347,16 +347,16 @@ class _EditPersonalInformationScreen
                                 cubit.managerPersonalInformationModel.huyen =
                                     null;
                                 cubit.managerPersonalInformationModel.xa = null;
-
+                                cubit.idXa = '';
+                                cubit.idHuyen = '';
                                 cubit.getDataHuyenXa(
                                   isXa: false,
-                                  parentId: cubit.tinhModel[indexes].id ?? '',
+                                  parentId: id,
                                 );
                                 if (indexes >= 0) {
                                   cubit.isCheckTinhSubject.sink.add(false);
                                 }
-                                cubit.tinh = data[indexes].name ?? '';
-                                cubit.idTinh = data[indexes].id ?? '';
+                                cubit.idTinh = id;
                               },
                               onRemove: () {
                                 cubit.huyenSubject.sink.add([]);
@@ -389,13 +389,12 @@ class _EditPersonalInformationScreen
                                 cubit.managerPersonalInformationModel.xa = null;
                                 cubit.getDataHuyenXa(
                                   isXa: true,
-                                  parentId: cubit.huyenModel[indexes].id ?? '',
+                                  parentId: id,
                                 );
                                 if (indexes >= 0) {
                                   cubit.isCheckTinhSubject.sink.add(false);
                                 }
-                                cubit.huyen = data[indexes].name ?? '';
-                                cubit.idHuyen = data[indexes].id ?? '';
+                                cubit.idHuyen = id;
                               },
                               onRemove: () {
                                 cubit.xaSubject.sink.add([]);
@@ -424,8 +423,7 @@ class _EditPersonalInformationScreen
                                 if (indexes >= 0) {
                                   cubit.isCheckTinhSubject.sink.add(false);
                                 }
-                                cubit.xa = data[indexes].name ?? '';
-                                cubit.idXa = data[indexes].id ?? '';
+                                cubit.idXa = id;
                               },
                               onRemove: () {
                                 cubit.isCheckTinhSubject.sink.add(true);

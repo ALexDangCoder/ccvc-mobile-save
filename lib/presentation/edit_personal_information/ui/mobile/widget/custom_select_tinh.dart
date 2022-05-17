@@ -135,8 +135,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                     : ListView.builder(
                                         itemCount: snapshot.data?.length ?? 0,
                                         itemBuilder: (context, index) {
-                                          final data = snapshot.data?[index] ??
-                                              TinhHuyenXaModel();
+                                          TinhHuyenXaModel();
                                           return Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -149,25 +148,25 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                                 ),
                                                 child: CustomRadioButtonCheck(
                                                   isCheckButton: itemSelected ==
-                                                      (widget.items[index].id ??
+                                                      (listData[index].id ??
                                                           ''),
                                                   onSelectItem: () {
-                                                    itemSelected = widget
-                                                            .items[index].id ??
-                                                        '';
+                                                    itemSelected =
+                                                        listData[index].id ??
+                                                            '';
                                                     selectedItemSubject.sink
                                                         .add(
-                                                      widget.items[index]
-                                                              .name ??
+                                                      listData[index].name ??
                                                           '',
                                                     );
                                                     widget.onChange(
                                                       index,
-                                                      data.id ?? '',
+                                                      listData[index].id ?? '',
                                                     );
                                                     Navigator.of(context).pop();
                                                   },
-                                                  name: data.name,
+                                                  name: listData[index].name ??
+                                                      '',
                                                 ),
                                               ),
                                               Container(
@@ -240,7 +239,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                   : ListView.builder(
                                       itemCount: listData.length,
                                       itemBuilder: (context, index) {
-                                        final data = listData[index];
+                                        // final data = listData[index];
                                         return Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -262,11 +261,12 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                                   );
                                                   widget.onChange(
                                                     index,
-                                                    data.id ?? '',
+                                                    listData[index].id ?? '',
                                                   );
                                                   Navigator.of(context).pop();
                                                 },
-                                                name: data.name,
+                                                name:
+                                                    listData[index].name ?? '',
                                               ),
                                             ),
                                             Container(

@@ -376,7 +376,6 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(10),
                                         child: CustomSelectTinh(
-                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .tinh,
@@ -392,21 +391,17 @@ class _EditPersonalInformationTabletScreen
                                             cubit
                                                 .managerPersonalInformationModel
                                                 .xa = null;
-
+                                            cubit.idXa = '';
+                                            cubit.idHuyen = '';
                                             cubit.getDataHuyenXa(
                                               isXa: false,
-                                              parentId:
-                                                  cubit.tinhModel[indexes].id ??
-                                                      '',
+                                              parentId: id,
                                             );
                                             if (indexes >= 0) {
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.tinh =
-                                                data[indexes].name ?? '';
-                                            cubit.idTinh =
-                                                data[indexes].id ?? '';
+                                            cubit.idTinh = id;
                                           },
                                           onRemove: () {
                                             cubit.huyenSubject.sink.add([]);
@@ -432,7 +427,6 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(11),
                                         child: CustomSelectTinh(
-                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .huyen,
@@ -446,18 +440,13 @@ class _EditPersonalInformationTabletScreen
                                                 .xa = null;
                                             cubit.getDataHuyenXa(
                                               isXa: true,
-                                              parentId: cubit
-                                                      .huyenModel[indexes].id ??
-                                                  '',
+                                              parentId: id,
                                             );
                                             if (indexes >= 0) {
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.huyen =
-                                                data[indexes].name ?? '';
-                                            cubit.idHuyen =
-                                                data[indexes].id ?? '';
+                                            cubit.idHuyen = id;
                                           },
                                           onRemove: () {
                                             cubit.xaSubject.sink.add([]);
@@ -480,7 +469,6 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(12),
                                         child: CustomSelectTinh(
-                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .xa,
@@ -492,8 +480,7 @@ class _EditPersonalInformationTabletScreen
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.xa = data[indexes].name ?? '';
-                                            cubit.idXa = data[indexes].id ?? '';
+                                            cubit.idXa = id;
                                           },
                                           onRemove: () {
                                             cubit.isCheckTinhSubject.sink

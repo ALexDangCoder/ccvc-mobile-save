@@ -379,6 +379,23 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       daXuLyColor,
     ),
   ];
+  final List<ChartData> chartDataTheoLoai = [
+    ChartData(
+    'Nhiệm vụ CP/VPVP',
+      12,
+      choXuLyColor,
+    ),
+    ChartData(
+      'Nhiệm vụ Bộ',
+      12,
+      nhiemVuBoColor,
+    ),
+    ChartData(
+      'Nhiệm vụ đơn vị',
+      14,
+      nhiemDonViColor,
+    ),
+  ];
 
   final List<ChartData> chartDataNhiemVu = [
     ChartData(

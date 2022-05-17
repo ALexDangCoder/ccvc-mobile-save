@@ -148,20 +148,6 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                         final data = snapshot.data ??[];
                         return Column(
                           children: data.map((e) => getState(e)).toList()
-                          // [
-                          //   getState(
-                          //     state: stateBieuDo.TheoTrangThai,
-                          //     isCheck: true,
-                          //   ),
-                          //   getState(
-                          //     state: stateBieuDo.TheoLoai,
-                          //     isCheck: false,
-                          //   ),
-                          //   getState(
-                          //     state: stateBieuDo.TheoDonVi,
-                          //     isCheck: false,
-                          //   ),
-                          // ],
                         );
                       }
                     ),

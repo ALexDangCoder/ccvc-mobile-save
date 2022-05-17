@@ -109,7 +109,7 @@ class ContainerState extends StatelessWidget {
         color: isCheck?linkColor:backgroundColorApp
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             name,

@@ -117,6 +117,8 @@ const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
 const xamColor = Color(0xffBAA59F);
+const nhiemVuBoColor = Color(0xff0A45B9);
+const nhiemDonViColor = Color(0xff1CE2BF);
 
 const bgTag = Color(0xffF2F0FF);
 

@@ -28,6 +28,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<List<PageData>> dataSubject = BehaviorSubject();
   BehaviorSubject<List<PageDatas>> dataSubjects = BehaviorSubject();
   BehaviorSubject<String> searchSubjects = BehaviorSubject();
+  BehaviorSubject<bool> checkClickSearch=BehaviorSubject();
   String ngayDauTien = '';
   String ngayKetThuc = '';
   String mangTrangThai='';
@@ -143,6 +144,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         dataSubject.sink.add(res.pageData ?? []);
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
+            emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));

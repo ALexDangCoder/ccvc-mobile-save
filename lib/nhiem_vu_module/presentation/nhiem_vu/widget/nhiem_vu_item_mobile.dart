@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class NhiemVuItemMobile extends StatelessWidget {
   final PageData data;
@@ -66,7 +68,11 @@ class NhiemVuItemMobile extends StatelessWidget {
                         children: [
                           Text(
                             (data.noiDungTheoDoi ?? '').parseHtml(),
-                            style: titleAppbar(fontSize: 16.0),
+                            style: titleAppbar(
+                                fontSize: 16.0,
+                                color:
+                                    data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
+                                        textTitle),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -85,15 +91,7 @@ class NhiemVuItemMobile extends StatelessWidget {
                               Expanded(
                                 flex: 2,
                                 child: Text(
-                                  // data.tinhHinhThucHienNoiBo
-                                  //         ?.substring(
-                                  //           data.tinhHinhThucHienNoiBo
-                                  //               ?.indexOf('-', 1) ?? 0,
-                                  //           data.tinhHinhThucHienNoiBo
-                                  //               ?.indexOf('-', 2),
-                                  //         )
-                                  //         .trim() ??
-                                      '',
+                                  'Chủ trì',
                                   style: titleAppbar(fontSize: 16.0),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -108,14 +106,7 @@ class NhiemVuItemMobile extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      // data.tinhHinhThucHienNoiBo
-                                      //         ?.substring(
-                                      //           1,
-                                      //           data.tinhHinhThucHienNoiBo
-                                      //               ?.indexOf('-', 1),
-                                      //         )
-                                      //         .trim() ??
-                                          '',
+                                      data.nguoiGiaoViec ?? '',
                                       style: textNormalCustom(
                                         color: unselectedLabelColor,
                                         fontWeight: FontWeight.w400,
@@ -124,7 +115,7 @@ class NhiemVuItemMobile extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text(
-                                      'Nhiệm vụ: ${data.loaiNhiemVu}',
+                                      '${S.current.nhiem_vu}: ${data.loaiNhiemVu}',
                                       style: textNormalCustom(
                                         color: unselectedLabelColor,
                                         fontWeight: FontWeight.w400,

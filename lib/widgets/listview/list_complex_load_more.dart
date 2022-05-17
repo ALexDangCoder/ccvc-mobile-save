@@ -77,7 +77,7 @@ class ComplexLoadMore extends StatelessWidget {
                 cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
               cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
-                cubit.showEmpty();
+
               } else {
                 cubit.showContent();
               }
@@ -125,16 +125,15 @@ class ComplexLoadMore extends StatelessWidget {
                       AsyncSnapshot<List<dynamic>> snapshot,
                     ) {
                       if (isListView == true) {
-                        print(snapshot.data?.length);
                         return SingleChildScrollView(
                           child: Column(
                             children: [
                               ...childrenView,
                               Row(
                                 mainAxisAlignment:
-                                    (snapshot.data?.length ?? 0) > 0
-                                        ? MainAxisAlignment.start
-                                        : MainAxisAlignment.center,
+                                (snapshot.data?.length ?? 0) > 0
+                                    ? MainAxisAlignment.start
+                                    : MainAxisAlignment.center,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(

@@ -134,7 +134,20 @@ class PageData {
     this.idCuocHop,
   });
 }
-
+extension checkColorTitle on int {
+  Color trangThaiHanXuLy() {
+    switch (this) {
+      case 1:
+        return denHanColor;
+      case 2:
+        return statusCalenderRed;
+      case 3:
+        return textTitle;
+      default:
+        return textTitle;
+    }
+  }
+}
 extension CheckColor on String {
   Color trangThaiColorNhiemVu() {
     switch (this) {

@@ -93,9 +93,8 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
     result.when(
       success: (res) {
         showContent();
-        final a = DanhSachYKienXuLy(ngayTao: '10' , tenNhanVien: 'nv 1', noiDung: 'nd 1');
-        listComment = [...res.data ?? [],a];
-        danhSachYKienXuLySubject.add([...res.data ?? [],a]);
+        listComment = res.data ?? [];
+        danhSachYKienXuLySubject.add(res.data ?? []);
       },
       error: (error) {
         showError();

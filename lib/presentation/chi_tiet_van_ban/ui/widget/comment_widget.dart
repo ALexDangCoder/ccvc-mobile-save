@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/bloc/pick_media_file.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
 import 'package:flutter/material.dart';
@@ -133,7 +133,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
                               }
                             },
                             child: SvgPicture.asset(
-                              ImageAssets.ic_hoan_tac,
+                              ImageAssets.ic_take_photo,
                               width: 20,
                               height: 20,
                               color: iconColorDown,
@@ -154,7 +154,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
                               }
                             },
                             child: SvgPicture.asset(
-                              ImageAssets.ic_delete_dscv,
+                              ImageAssets.ic_attach,
                               width: 20,
                               height: 20,
                               color: iconColorDown,
@@ -205,7 +205,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
             }
           },
           child: SvgPicture.asset(
-            ImageAssets.icClose,
+            ImageAssets.ic_send,
             width: 24,
             height: 24,
           ),

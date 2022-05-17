@@ -86,4 +86,12 @@ mixin NhiemVuRepository {
   Future<Result<List<VanBanLienQuanNhiemVuModel>>> getVanBanLienQuanNhiemVu(
     String id,
   );
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>>
+  getLichSuGiaoViec(
+      String nhiemVuId,
+      );
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>>
+  getLichSuThayDoiTrangThai(
+      String nhiemVuId,
+      );
 }

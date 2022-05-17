@@ -9,7 +9,7 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
 class LichSuTraLaiExpandWidgetMobile extends StatefulWidget {
-  final DetailDocumentCubit cubit;
+  final HistoryRecallDetailDocumentCubit cubit;
   final String processId;
 
   const LichSuTraLaiExpandWidgetMobile({
@@ -59,17 +59,18 @@ class _LichSuTraLaiExpandWidgetMobileState
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: data.isNotEmpty
-                        ? Column(
-                            children: data
-                                .map(
-                                  (e) => WidgetInExpandVanBan(
-                                    row: e.toListRowLichSuTraLai(),
-                                    cubit: widget.cubit,
-                                  ),
-                                )
-                                .toList(),
-                          )
-                        : const  Padding(
+                        ? SingleChildScrollView(
+                          child: Column(
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      row: e.toListRowLichSuTraLai(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                        )
+                        : const Padding(
                             padding: EdgeInsets.only(top: 16.0),
                             child: NodataWidget(),
                           ),

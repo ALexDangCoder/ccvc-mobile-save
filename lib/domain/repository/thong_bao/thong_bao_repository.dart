@@ -14,5 +14,7 @@ mixin ThongBaoRepository {
     required int pageSize,
   });
 
+  Future<Result<MessageModel>> readAllNoti(String appCode);
+
   Future<Result<MessageModel>> deleteNotify(String id);
 }

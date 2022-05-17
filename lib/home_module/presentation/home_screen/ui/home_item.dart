@@ -18,7 +18,7 @@ import '/home_module/presentation/home_screen/ui/mobile/items/summary_of_task_wi
 import '/home_module/presentation/home_screen/ui/mobile/items/word_processing_state_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/work_list_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/calendar_work_tablet_widget.dart';
-import '/home_module/presentation/home_screen/ui/tablet/items/document__tablet_widget.dart';
+import '/home_module/presentation/home_screen/ui/tablet/items/document_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/event_of_day_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/meeting_schedule__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/nhiem_vu_tablet_widget.dart';

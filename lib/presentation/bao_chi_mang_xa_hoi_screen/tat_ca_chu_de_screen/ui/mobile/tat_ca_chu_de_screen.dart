@@ -133,8 +133,10 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
             Expanded(
               child: StateStreamLayout(
                 textEmpty: S.current.khong_co_du_lieu,
-                retry: () {},
-                error: AppException('1', ''),
+                retry: () {
+                  chuDeCubit.callApi();
+                },
+                error: AppException(S.current.error, S.current.something_went_wrong),
                 stream: chuDeCubit.stateStream,
                 child: RefreshIndicator(
                   onRefresh: () async {

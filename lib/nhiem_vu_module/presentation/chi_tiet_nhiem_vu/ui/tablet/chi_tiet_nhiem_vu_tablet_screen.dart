@@ -150,6 +150,7 @@ class _ChiTietNhiemVuTabletScreenState extends State<ChiTietNhiemVuTabletScreen>
                         return LichSuPhanXuLyWidget(
                           dataModel: data,
                           cubit: cubit,
+                          idNhiemVu: widget.id,
                         );
                       },
                     ),

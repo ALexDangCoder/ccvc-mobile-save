@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
@@ -45,7 +44,6 @@ class DocumentDetailRow {
 extension TypeDataDocument on TypeDocumentDetailRow {
   Widget getWidgetVanBan({
     required DocumentDetailRow row,
-    required DetailDocumentCubit cubit,
   }) {
     switch (this) {
       case TypeDocumentDetailRow.text:

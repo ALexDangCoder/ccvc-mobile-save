@@ -324,6 +324,7 @@ class NguoiTheoDoi {
 class DanhSachChoYKien {
   String? id;
   String? chucVu;
+  bool isInput = false;
   String? user;
   String? tenCanBo;
   String? idCanBo;

@@ -159,6 +159,7 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen>
                           return LichSuPhanXuLyWidget(
                             dataModel: data,
                             cubit: cubit,
+                            idNhiemVu: widget.id,
                           );
                         },
                       ),

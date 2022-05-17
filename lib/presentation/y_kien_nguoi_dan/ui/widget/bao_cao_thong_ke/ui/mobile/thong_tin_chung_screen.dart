@@ -44,25 +44,25 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             final selectData = snapshot.data ?? false;
             return selectData
                 ? TextFormField(
-              controller: controller,
-              onChanged: (value) {
-                setState(() {});
-                widget.cubit.search = value;
-              },
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: S.current.tim_kiem,
-                hintStyle: textNormalCustom(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: unselectLabelColor,
-                ),
-              ),
-            )
+                    controller: controller,
+                    onChanged: (value) {
+                      setState(() {});
+                      widget.cubit.search = value;
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: S.current.tim_kiem,
+                      hintStyle: textNormalCustom(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: unselectLabelColor,
+                      ),
+                    ),
+                  )
                 : Text(
-              S.current.thong_tin_pakn,
-              style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
-            );
+                    S.current.thong_tin_pakn,
+                    style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+                  );
           },
         ),
         leading: IconButton(
@@ -78,7 +78,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             },
             child: SvgPicture.asset(ImageAssets.icSearchPAKN),
           ),
-          const SizedBox(width: 16,),
+          const SizedBox(
+            width: 16,
+          ),
           GestureDetector(
             onTap: () {
               DrawerSlide.navigatorSlide(
@@ -90,11 +92,12 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             },
             child: SvgPicture.asset(ImageAssets.icMenuCalender),
           ),
-          const SizedBox(width: 16,),
+          const SizedBox(
+            width: 16,
+          ),
         ],
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
@@ -103,149 +106,22 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             FilterDateTimeWidget(
               context: context,
               isMobile: true,
-              onChooseDateFilter: (DateTime startDate, DateTime endDate) {
-
-              },
+              onChooseDateFilter: (DateTime startDate, DateTime endDate) {},
             ),
-            const SizedBox(height: 20,),
-            // Container(
-            //   color: homeColor,
-            //   height: 6,
-            // ),
-            // Container(
-            //   padding: const EdgeInsets.only(left: 16),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       StreamBuilder<List<ChartData>>(
-            //         stream: widget.cubit.chartTinhHinhXuLy,
-            //         builder: (context, snapshot) {
-            //           final listDataChart = snapshot.data ?? [];
-            //           return PieChart(
-            //             title: S.current.tinh_hinh_y_kien_nguoi_dan,
-            //             chartData: listDataChart,
-            //             onTap: (int value) {
-            //               final status = widget.cubit.getTrangThai(
-            //                 listDataChart[value].title,
-            //               );
-            //               widget.cubit.trangThai=status;
-            //               Navigator.push(
-            //                 context,
-            //                 PageRouteBuilder(
-            //                   pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                     startDate: widget.cubit.startDate,
-            //                     endDate: widget.cubit.endDate,
-            //                     trangThai: widget.cubit.trangThai,
-            //                   ),
-            //                 ),
-            //               );
-            //
-            //             },
-            //           );
-            //         },
-            //       ),
-            //       Container(height: 20),
-            //       StreamBuilder<DocumentDashboardModel>(
-            //         stream: widget.cubit.statusTinhHinhXuLyData,
-            //         builder: (context, snapshot) {
-            //           final data =
-            //               snapshot.data ?? DocumentDashboardModel();
-            //           return Row(
-            //             children: [
-            //               Expanded(
-            //                 child: BoxStatusVanBan(
-            //                   value: data.soLuongTrongHan ?? 0,
-            //                   onTap: () {
-            //                     final status = widget.cubit.getTrangThai(
-            //                       S.current.trong_han,
-            //                     );
-            //                     widget.cubit.trangThai=status;
-            //                     Navigator.push(
-            //                       context,
-            //                       PageRouteBuilder(
-            //                         pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                           startDate: widget.cubit.startDate,
-            //                           endDate: widget.cubit.endDate,
-            //                           trangThai: widget.cubit.trangThai,
-            //                         ),
-            //                       ),
-            //                     );
-            //                   },
-            //                   color: numberOfCalenders,
-            //                   statusName: S.current.trong_han,
-            //                 ),
-            //               ),
-            //               const SizedBox(
-            //                 width: 16,
-            //               ),
-            //               Expanded(
-            //                 child: BoxStatusVanBan(
-            //                   value: data.soLuongDenHan ?? 0,
-            //                   onTap: () {
-            //                     final status = widget.cubit.getTrangThai(
-            //                       S.current.den_han,
-            //                     );
-            //                     widget.cubit.trangThai=status;
-            //                     Navigator.push(
-            //                       context,
-            //                       PageRouteBuilder(
-            //                         pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                           startDate: widget.cubit.startDate,
-            //                           endDate: widget.cubit.endDate,
-            //                           trangThai: widget.cubit.trangThai,
-            //                         ),
-            //                       ),
-            //                     );
-            //                     print('-----------------------status----------------');
-            //                     print(status);
-            //                   },
-            //                   color: labelColor,
-            //                   statusName: S.current.den_han,
-            //                 ),
-            //               ),
-            //               const SizedBox(
-            //                 width: 16,
-            //               ),
-            //               Expanded(
-            //                 child: BoxStatusVanBan(
-            //                   value: data.soLuongQuaHan ?? 0,
-            //                   onTap: () {
-            //                     final status = widget.cubit.getTrangThai(
-            //                       S.current.qua_han,
-            //                     );
-            //                     widget.cubit.trangThai=status;
-            //                     Navigator.push(
-            //                       context,
-            //                       PageRouteBuilder(
-            //                         pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                           startDate: widget.cubit.startDate,
-            //                           endDate: widget.cubit.endDate,
-            //                           trangThai: widget.cubit.trangThai,
-            //                         ),
-            //                       ),
-            //                     );
-            //                     print('-----------------------status----------------');
-            //                     print(status);
-            //                   },
-            //                   color: statusCalenderRed,
-            //                   statusName: S.current.qua_han,
-            //                 ),
-            //               ),
-            //             ],
-            //           );
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            const SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ExpandPAKNWidget(
                 name: S.current.tinh_hinh_xu_ly_pakn,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const[
+                  children: const [
                     TiepCanWidget(),
+                    SizedBox(
+                      height: 33,
+                    ),
                     XuLyWidget(),
                   ],
                 ),
@@ -258,8 +134,108 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               color: homeColor,
               height: 6,
             ),
+            
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return _itemDanhSachPAKN();
+              },
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _itemDanhSachPAKN() {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 18,
+      ),
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+          border: Border.all(color: cellColorborder)),
+      child: Column(
+        children: [
+          Text(
+            'Chậm trễ hỗ trợ tiền lương ngừng việc do COVID19',
+            style: textNormalCustom(
+              color: textTitle,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          spaceH8,
+          Row(
+            children: [
+              Expanded(
+                child: SvgPicture.asset(
+                  ImageAssets.icInformation,
+                  height: 16,
+                  width: 16,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
+                  style: textNormalCustom(
+                    color: infoColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),
+                ),
+              )
+            ],
+          ),
+          spaceH8,
+          Row(
+            children: [
+              Expanded(
+                child: SvgPicture.asset(
+                  ImageAssets.icLocation,
+                  height: 16,
+                  width: 16,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
+                  style: textNormalCustom(
+                    color: infoColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),
+                ),
+              )
+            ],
+          ),
+          spaceH8,
+          Row(
+            children: [
+              Expanded(
+                child: SvgPicture.asset(
+                  ImageAssets.icClock,
+                  height: 16,
+                  width: 16,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
+                  style: textNormalCustom(
+                    color: infoColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

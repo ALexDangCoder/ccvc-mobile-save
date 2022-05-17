@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/char
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/dash_board_bao_cao_yknd.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/chi_tiet_kien_nghi_respnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_kien_xu_ly_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
@@ -22,6 +23,7 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_c
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/tien_trinh_xu_ly_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_board_phan_loai_mode.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/location_model.dart';
@@ -70,7 +72,10 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<ThongTinYKienModel>> thongTingNguoiDan(
-      String donViId, String fromDate, String toDate,) {
+    String donViId,
+    String fromDate,
+    String toDate,
+  ) {
     return runCatchingAsync<ThongTinYKienNguoiDanResponse, ThongTinYKienModel>(
       () => _yKienNguoIDanService.getThongTinYKienNguoiDan(
         donViId,
@@ -83,13 +88,14 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<DanhSachYKienNguoiDan>> danhSachYKienNguoiDan(
-      String tuNgay,
-      String denNgay,
-      String trangThai,
-      int pageSize,
-      int pageNumber,
-      String userId,
-      String donViId,) {
+    String tuNgay,
+    String denNgay,
+    String trangThai,
+    int pageSize,
+    int pageNumber,
+    String userId,
+    String donViId,
+  ) {
     return runCatchingAsync<DanhSachYKienNguoiDanResponse,
         DanhSachYKienNguoiDan>(
       () => _yKienNguoIDanService.getDanhSachYKienNguoiDan(
@@ -107,7 +113,9 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<ChiTietYKNDDataModel>> chiTietYKienNguoiDan(
-      String kienNghiId, String taskId,) {
+    String kienNghiId,
+    String taskId,
+  ) {
     return runCatchingAsync<ChiTietKienNghiResponse, ChiTietYKNDDataModel>(
       () => _yKienNguoIDanService.chiTietYKienNguoiDan(
         ChiTietKienNghiRequest(
@@ -121,14 +129,15 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<List<YKienNguoiDanModel>>> searchYKienNguoiDan(
-      String tuNgay,
-      String denNgay,
-      String trangThai,
-      int pageSize,
-      int pageNumber,
-      String tuKhoa,
-      String userId,
-      String donViId,) {
+    String tuNgay,
+    String denNgay,
+    String trangThai,
+    int pageSize,
+    int pageNumber,
+    String tuKhoa,
+    String userId,
+    String donViId,
+  ) {
     return runCatchingAsync<SearchYKienNguoiDanResponse,
         List<YKienNguoiDanModel>>(
       () => _yKienNguoIDanService.searchDanhSachYKienNguoiDan(
@@ -147,16 +156,19 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<DanhSachKetQuaYKXLModel>> getDanhSachYKienPAKN(
-      String kienNghiId, int type,) {
+    String kienNghiId,
+    int type,
+  ) {
     return runCatchingAsync<DanhSachKetQuaYKXLModelResponse,
-            DanhSachKetQuaYKXLModel>(
-        () => _yKienNguoIDanService.getDanhSachYKienPAKN(
-              DanhSachYKienPAKNRequest(
-                kienNghiId: kienNghiId,
-                type: type,
-              ),
-            ),
-        (res) => res.toModel(),);
+        DanhSachKetQuaYKXLModel>(
+      () => _yKienNguoIDanService.getDanhSachYKienPAKN(
+        DanhSachYKienPAKNRequest(
+          kienNghiId: kienNghiId,
+          type: type,
+        ),
+      ),
+      (res) => res.toModel(),
+    );
   }
 
   @override
@@ -262,7 +274,9 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<List<KetQuaXuLyModel>>> ketQuaXuLy(
-      String kienNghiId, String taskId,) {
+    String kienNghiId,
+    String taskId,
+  ) {
     return runCatchingAsync<KetQuaXuLyResponse, List<KetQuaXuLyModel>>(
       () => _yKienNguoIDanService.getKetQuaXuLyYKND(
         kienNghiId,
@@ -275,10 +289,25 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   @override
   Future<Result<List<LocationModel>>> getLocationAddress({String? id}) {
     return runCatchingAsync<LocationAddressTotal, List<LocationModel>>(
-          () => _yKienNguoIDanService.getLocationAddress(
-        id: id
+      () => _yKienNguoIDanService.getLocationAddress(id: id),
+      (res) => res.listLocationAddress?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({String? tuNgay, String? denNgay, String? pageSize, String? pageNumber, String? userId, String? donViId}) {
+    return runCatchingAsync<DanhSachPAKNTotalResponse,
+        List<DanhSachKetQuaPAKNModel>>(
+          () => _yKienNguoIDanService.getDanhSachPAKN(
+        tuNgay: tuNgay,
+        denNgay: denNgay,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        donViId: donViId,
+        userId: userId,
       ),
-          (res) => res.listLocationAddress?.map((e) => e.toModel()).toList() ?? [],
+          (res) =>
+      res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 

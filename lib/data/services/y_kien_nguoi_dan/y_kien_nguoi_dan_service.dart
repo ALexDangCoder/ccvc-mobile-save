@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/char
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/dash_board_bao_cao_yknd.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/chi_tiet_kien_nghi_respnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_kien_xu_ly_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
@@ -122,5 +123,15 @@ abstract class YKienNguoiDanService {
   @GET(ApiConstants.GET_LOCATION_ADDRESS)
   Future<LocationAddressTotal> getLocationAddress({
     @Query('id') String? id,
+  });
+
+  @GET(ApiConstants.GET_DANH_SACH_PAKN)
+  Future<DanhSachPAKNTotalResponse> getDanhSachPAKN({
+    @Query('TuNgay') String? tuNgay,
+    @Query('DenNgay') String? denNgay,
+    @Query('PageSize') String? pageSize,
+    @Query('PageNumber') String? pageNumber,
+    @Query('userId') String? userId,
+    @Query('donViId') String? donViId,
   });
 }

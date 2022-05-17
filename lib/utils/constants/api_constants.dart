@@ -240,6 +240,7 @@ class ApiConstants {
   static const XA_SELECT = '/vpdt/api/Country/wards-list';
   static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
   static const GET_LOCATION_ADDRESS = '/pakn/api/location';
+  static const GET_DANH_SACH_PAKN = 'pakn/api/IocApi/danh-sach-pakn';
 }
 
 class ImageConstants {

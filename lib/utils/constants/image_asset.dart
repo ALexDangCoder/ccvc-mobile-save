@@ -34,6 +34,10 @@ class ImageAssets {
   static const icLichHopTrucTiep = '$baseImg/ic_lich_hop_truc_tiep.svg';
   static const icLichHopTrucTuyen = '$baseImg/ic_lich_hop_truc_tuyen.svg';
   static const icTongSoLichHop = '$baseImg/ic_tong_so_lich_hop.svg';
+  static const String icInformation = '$baseImg/ic_information.svg';
+  static const String icLocation = '$baseImg/ic_location.svg';
+
+
 
   static const String icHeaderMenuTetNguyenDan =
       '$baseImg/background_tet_nguyen_dan.png';

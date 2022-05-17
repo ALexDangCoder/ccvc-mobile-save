@@ -84,6 +84,7 @@ dependencies:
   html_editor_enhanced: ^2.4.0+1
   translator: ^0.1.7
   flutter_contacts:
+  audioplayers: ^0.20.1
 
 
 dev_dependencies:

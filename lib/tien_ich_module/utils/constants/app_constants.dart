@@ -1,4 +1,3 @@
-
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -164,3 +163,9 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
+
+const String north_female_lien = 'north_female_lien';
+const String north_male_hieu = 'north_male_hieu';
+const String north_female_hongha = 'north_female_hongha';
+const String south_female_aihoa = 'south_female_aihoa';
+const String south_female_minhnguyet = 'south_female_minhnguyet';

@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/mobile/chuyen_giong_noi_thanh_van_ban_mobile.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/tablet/chuyen_giong_noi_thanh_van_ban_tablet.dart';
@@ -18,7 +17,6 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/ui/m
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/ui/tablet/phien_dich_tu_dong_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/tra_cuu_van_ban_phap_luat/ui/mobile/tra_cuu_van_ban_phap_luat_mobile.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/tra_cuu_van_ban_phap_luat/ui/tablet/tra_cuu_van_ban_phap_luat_tablet.dart';
-import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -129,7 +127,7 @@ extension MenuTypeItem on MenuTypeTienIch {
     required String iconMobile,
     required String iconTablet,
   }) {
-    return APP_DEVICE == DeviceType.MOBILE ? iconMobile : iconTablet;
+    return isMobile() ? iconMobile : iconTablet;
   }
 }
 

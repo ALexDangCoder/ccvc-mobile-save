@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -226,8 +227,9 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                                     top: (index == 0) ? 16 : 0,
                                   ),
                                   child: ContainerInfoWidget(
-                                    title: listData[index].trichYeu?.parseHtml() ??
-                                        '',
+                                    title:
+                                        listData[index].trichYeu?.parseHtml() ??
+                                            '',
                                     listData: [
                                       InfoData(
                                         key: S.current.so_ky_hieu,
@@ -249,7 +251,10 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                               );
                             },
                           )
-                        : const SizedBox();
+                        : const Padding(
+                            padding: EdgeInsets.all(16),
+                            child: NodataWidget(),
+                          );
                   },
                 ),
               ],
@@ -368,7 +373,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                               );
                             },
                           )
-                        : const SizedBox();
+                        : const Padding(
+                            padding: EdgeInsets.all(16), child: NodataWidget());
                   },
                 ),
               ],

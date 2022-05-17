@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/danh
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/danh_sach/widget/cell_cong_viec.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/bieu_do_nhiem_vu_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/nhiem_vu_item_mobile.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/state_select_bieu_do_trang_thai.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -116,12 +117,14 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
               widget.danhSachCubit.callApiDashBroash(true);
             },
           ),
+
           ExpandOnlyWidget(
             isPadingIcon: true,
             initExpand: true,
             header: Container(
               color: Colors.transparent,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -131,7 +134,9 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                       style: textNormalCustom(color: titleColor, fontSize: 16),
                     ),
                   ),
-                  const Expanded(child: SizedBox())
+                  StateSelectBieuDoTrangThaiWidget(
+                    cubit: widget.danhSachCubit,
+                  ),
                 ],
               ),
             ),

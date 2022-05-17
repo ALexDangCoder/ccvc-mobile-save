@@ -20,12 +20,14 @@ import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:ccvc_mobile/widgets/listview/list_complex_load_more.dart';
 import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -97,7 +99,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
               DrawerSlide.navigatorSlide(
                 context: context,
                 screen: NhiemVuMenuMobile(
-                  cubit:  widget.nhiemVuCubit,
+                  cubit: widget.nhiemVuCubit,
                 ),
               );
             },
@@ -106,137 +108,141 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
         ],
       ),
       body: ComplexLoadMore(
-          childrenView: [
-            FilterDateTimeWidget(
-              context: context,
-              isMobile: true,
-              onChooseDateFilter: (startDate, endDate) {
-                widget.danhSachCubit.ngayDauTien = startDate.formatApi;
-                widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-                widget.danhSachCubit.callApiDashBroash(true);
-              },
-            ),
-            ExpandOnlyWidget(
-              isPadingIcon: true,
-              initExpand: true,
-              header: Container(
-                color: Colors.transparent,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 16.0),
-                      child: Text(
-                        S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
-                        style: textNormalCustom(color: titleColor, fontSize: 16),
-                      ),
-                    ),
-                    const Expanded(child: SizedBox())
-                  ],
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+        childrenView: [
+          FilterDateTimeWidget(
+            context: context,
+            isMobile: true,
+            onChooseDateFilter: (startDate, endDate) {
+              widget.danhSachCubit.ngayDauTien = startDate.formatApi;
+              widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
+              widget.danhSachCubit.callApiDashBroash(true);
+            },
+          ),
+          ExpandOnlyWidget(
+            isPadingIcon: true,
+            initExpand: true,
+            header: Container(
+              color: Colors.transparent,
+              child: Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                    child: StreamBuilder<List<ChartData>>(
-                      stream:  widget.danhSachCubit.statusNhiemVuCaNhanSuject,
-                      initialData:  widget.danhSachCubit.chartDataNhiemVuCaNhan,
-                      builder: (context, snapshot) {
-                        final data =
-                            snapshot.data ??  widget.danhSachCubit.chartDataNhiemVu;
-                        return BieuDoNhiemVuCaNhan(
-                          title: S.current.nhiem_vu,
-                          chartData: data,
-                          cubit:  widget.danhSachCubit,
-                          ontap: (value) {
-                            widget.danhSachCubit.mangTrangThai = value;
-                            widget.danhSachCubit.trangThaiHanXuLy = null;
-                            setState(() {
-                              callBack;
-                            });
-                          },
-                          onTapStatusBox: (value_status_box) {
-                            widget.danhSachCubit.mangTrangThai = '';
-                            widget.danhSachCubit.trangThaiHanXuLy = value_status_box;
-                            setState(() {
-                              callBack;
-                            });
-                          },
-                        );
-                      },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 16.0),
+                    child: Text(
+                      S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
+                      style: textNormalCustom(color: titleColor, fontSize: 16),
                     ),
                   ),
+                  const Expanded(child: SizedBox())
                 ],
               ),
             ),
-            Container(
-              height: 6,
-              color: homeColor,
-            ),
-          ],
-          callApi: (page) {
-            widget.danhSachCubit.postDanhSachNhiemVu(
-              index: page,
-              isNhiemVuCaNhan: widget.isCheck,
-              isSortByHanXuLy: true,
-              mangTrangThai: [ widget.danhSachCubit.mangTrangThai],
-              ngayTaoNhiemVu: {
-                'FromDate':  widget.danhSachCubit.ngayDauTien,
-                'ToDate':  widget.danhSachCubit.ngayKetThuc
-              },
-              size:  widget.danhSachCubit.pageSize,
-              keySearch:  widget.danhSachCubit.keySearch,
-              trangThaiHanXuLy:  widget.danhSachCubit.trangThaiHanXuLy,
-            );
-          },
-          isListView: true,
-          cubit:  widget.danhSachCubit,
-          viewItem: (value, index) {
-            try {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: NhiemVuItemMobile(
-                  data: value as PageData,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChiTietNhiemVuPhoneScreen(
-                          id: value.id ?? '',
-                          isCheck: widget.isCheck,
-                        ),
-                      ),
-                    );
-                  },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                  child: StreamBuilder<List<ChartData>>(
+                    stream: widget.danhSachCubit.statusNhiemVuCaNhanSuject,
+                    initialData: widget.danhSachCubit.chartDataNhiemVuCaNhan,
+                    builder: (context, snapshot) {
+                      final data =
+                          snapshot.data ??
+                              widget.danhSachCubit.chartDataNhiemVu;
+                      return BieuDoNhiemVuCaNhan(
+                        title: S.current.nhiem_vu,
+                        chartData: data,
+                        cubit: widget.danhSachCubit,
+                        ontap: (value) {
+                          widget.danhSachCubit.mangTrangThai = value;
+                          widget.danhSachCubit.trangThaiHanXuLy = null;
+                          setState(() {
+                            callBack;
+                          });
+                        },
+                        onTapStatusBox: (value_status_box) {
+                          widget.danhSachCubit.mangTrangThai = '';
+                          widget.danhSachCubit.trangThaiHanXuLy =
+                              value_status_box;
+                          setState(() {
+                            callBack;
+                          });
+                        },
+                      );
+                    },
+                  ),
                 ),
-              );
-            } catch (e) {
-              return const SizedBox();
-            }
-          },
+              ],
+            ),
+          ),
+          Container(
+            height: 6,
+            color: homeColor,
+          ),
+        ],
+        callApi: (page) {
+          widget.danhSachCubit.postDanhSachNhiemVu(
+            index: page,
+            isNhiemVuCaNhan: widget.isCheck,
+            isSortByHanXuLy: true,
+            mangTrangThai: [ widget.danhSachCubit.mangTrangThai],
+            ngayTaoNhiemVu: {
+              'FromDate': widget.danhSachCubit.ngayDauTien,
+              'ToDate': widget.danhSachCubit.ngayKetThuc
+            },
+            size: widget.danhSachCubit.pageSize,
+            keySearch: widget.danhSachCubit.keySearch,
+            trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+          );
+        },
+        isListView: true,
+        cubit: widget.danhSachCubit,
+        viewItem: (value, index) {
+          try {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: NhiemVuItemMobile(
+                data: value as PageData,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChiTietNhiemVuPhoneScreen(
+                            id: value.id ?? '',
+                            isCheck: widget.isCheck,
+                          ),
+                    ),
+                  );
+                },
+              ),
+            );
+          } catch (e) {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }
 
   Widget _content(List<String> mangTrangThai, int? trangThaiHanXuLy) {
     return ListViewLoadMore(
-      cubit:  widget.danhSachCubit,
+      cubit: widget.danhSachCubit,
       isListView: true,
-      callApi: (page) => {
+      callApi: (page) =>
+      {
         widget.danhSachCubit.postDanhSachNhiemVu(
           index: page,
           isNhiemVuCaNhan: widget.isCheck,
           isSortByHanXuLy: true,
           mangTrangThai: mangTrangThai,
           ngayTaoNhiemVu: {
-            'FromDate':  widget.danhSachCubit.ngayDauTien,
-            'ToDate':  widget.danhSachCubit.ngayKetThuc
+            'FromDate': widget.danhSachCubit.ngayDauTien,
+            'ToDate': widget.danhSachCubit.ngayKetThuc
           },
-          size:  widget.danhSachCubit.pageSize,
-          keySearch:  widget.danhSachCubit.keySearch,
+          size: widget.danhSachCubit.pageSize,
+          keySearch: widget.danhSachCubit.keySearch,
           trangThaiHanXuLy: trangThaiHanXuLy,
         )
       },
@@ -248,10 +254,11 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChiTietNhiemVuPhoneScreen(
-                    id: value.id ?? '',
-                    isCheck: widget.isCheck,
-                  ),
+                  builder: (context) =>
+                      ChiTietNhiemVuPhoneScreen(
+                        id: value.id ?? '',
+                        isCheck: widget.isCheck,
+                      ),
                 ),
               );
             },

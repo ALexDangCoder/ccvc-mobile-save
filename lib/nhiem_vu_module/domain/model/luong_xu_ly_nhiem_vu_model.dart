@@ -74,7 +74,7 @@ class DonViLuongNhiemVuModel  {
   }
   Color vaiTroColor(){
     final vaiTroParseVn = vaiTro?.vietNameseParse().toLowerCase();
-    log('>>>>>>$vaiTroParseVn');
+
     switch(vaiTroParseVn){
       case 'chu tri':
         return nguoiChuTriColor;
@@ -82,6 +82,12 @@ class DonViLuongNhiemVuModel  {
         return phoiHopColor;
     }
     return Colors.black;
+  }
+  String get textChucVuDonVi {
+    if( chucVu?.isNotEmpty ?? false){
+      return '$ten - $chucVu';
+    }
+    return '$ten';
   }
 
 }

@@ -73,6 +73,8 @@ const bgTabletColor = Color(0xffF9FAFF);
 
 const unFocusColor = Color(0xffF2F0FF);
 
+const thuongKhanColor = Color(0xffFB7897);
+
 
 ///=========== Using to make change app theme ================================
 

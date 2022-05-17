@@ -1,25 +1,19 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen_dashboard.dart';
-import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
@@ -181,19 +175,19 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                     documentDashboardModel: dataVBDen,
                     isVbDen: true,
                     ontap: (value) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => IncomingDocumentScreen(
-                            title: S.current.danh_sach_van_ban_den,
-                            type: TypeScreen.VAN_BAN_DEN,
-                            startDate: qlvbCubit.startDate,
-                            endDate: qlvbCubit.endDate,
-                            isDanhSachDaXuLy: value.isDanhSachDaXuLy(),
-                            maTrangThai: value.daHoanThanh(),
-                          ),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => IncomingDocumentScreen(
+                      //       title: S.current.danh_sach_van_ban_den,
+                      //       type: TypeScreen.VAN_BAN_DEN,
+                      //       startDate: qlvbCubit.startDate,
+                      //       endDate: qlvbCubit.endDate,
+                      //       isDanhSachDaXuLy: value.isDanhSachDaXuLy(),
+                      //       maTrangThai: value.daHoanThanh(),
+                      //     ),
+                      //   ),
+                      // );
                     },
                   );
                 },
@@ -220,58 +214,40 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                   stream: qlvbCubit.getDanhSachVbDen,
                   builder: (context, snapshot) {
                     final List<VanBanModel> listData = snapshot.data ?? [];
-                    if (listData.isNotEmpty) {
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: listData.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 16,
-                            ),
-                            // child: IncomingDocumentCell(
-                            //   onTap: () {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => ChiTietVanBanDenMobile(
-                            //           processId: listData[index].iD ?? '',
-                            //           taskId: listData[index].taskId ?? '',
-                            //           cubit: DetailDocumentCubit(),
-                            //         ),
-                            //       ),
-                            //     );
-                            //   },
-                            //   title: listData[index].loaiVanBan ?? '',
-                            //   dateTime: DateTime.parse(
-                            //     listData[index].ngayDen ?? '',
-                            //   ).toStringWithListFormat,
-                            //   userName: listData[index].nguoiSoanThao ?? '',
-                            //   status: listData[index].doKhan ?? '',
-                            // ),
-                            child: ContainerInfoWidget(
-                              title: listData[index].loaiVanBan ?? '',
-                              listData: [
-                                InfoData(
-                                  key: S.current.so_ky_hieu,
-                                  value: listData[index].number ?? '',
-                                  urlIcon: ImageAssets.icInfo,
+                    return listData.isNotEmpty
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: listData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 16,
+                                  top: (index == 0) ? 16 : 0,
                                 ),
-                                InfoData(
-                                  key: S.current.noi_gui,
-                                  value: listData[index].sender ?? '',
-                                  urlIcon: ImageAssets.icLocation,
+                                child: ContainerInfoWidget(
+                                  title: listData[index].loaiVanBan ?? '',
+                                  listData: [
+                                    InfoData(
+                                      key: S.current.so_ky_hieu,
+                                      value: listData[index].number ?? '',
+                                      urlIcon: ImageAssets.icInfo,
+                                    ),
+                                    InfoData(
+                                      key: S.current.noi_gui,
+                                      value: listData[index].sender ?? '',
+                                      urlIcon: ImageAssets.icLocation,
+                                    ),
+                                  ],
+                                  status: getNameFromStatus(
+                                      listData[index].statusCode ?? -1),
+                                  colorStatus: getColorFromStatus(
+                                      listData[index].statusCode ?? -1),
                                 ),
-                              ],
-                              status: listData[index].status ?? '',
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
+                              );
+                            },
+                          )
+                        : const SizedBox();
                   },
                 ),
               ],
@@ -313,23 +289,23 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                       documentDashboardModel: dataVBDi,
                       isVbDen: false,
                       ontap: (value) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                IncomingDocumentScreenDashBoard(
-                              title: S.current.danh_sach_van_ban_di,
-                              startDate: qlvbCubit.startDate,
-                              endDate: qlvbCubit.endDate,
-                              isDanhSachDaXuLy: value.getTrangThaiDaXuLy(value),
-                              isDanhSachChoTrinhKy:
-                                  value.getTrangThaiChoTrinhKy(value),
-                              isDanhSachChoXuLy:
-                                  value.getTrangThaiChoXuLy(value),
-                              trangThaiFilter: value.getTrangThaiNumber(),
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         IncomingDocumentScreenDashBoard(
+                        //       title: S.current.danh_sach_van_ban_di,
+                        //       startDate: qlvbCubit.startDate,
+                        //       endDate: qlvbCubit.endDate,
+                        //       isDanhSachDaXuLy: value.getTrangThaiDaXuLy(value),
+                        //       isDanhSachChoTrinhKy:
+                        //           value.getTrangThaiChoTrinhKy(value),
+                        //       isDanhSachChoXuLy:
+                        //           value.getTrangThaiChoXuLy(value),
+                        //       trangThaiFilter: value.getTrangThaiNumber(),
+                        //     ),
+                        //   ),
+                        // );
                       },
                     ),
                   );
@@ -337,246 +313,68 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
               ),
             ),
           ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.current.danh_sach_van_ban_di,
+                      style: textNormalCustom(
+                        fontSize: 16,
+                        color: textDropDownColor,
+                      ),
+                    ),
+                  ],
+                ),
+                StreamBuilder<List<VanBanModel>>(
+                  stream: qlvbCubit.getDanhSachVbDi,
+                  builder: (context, snapshot) {
+                    final List<VanBanModel> listData = snapshot.data ?? [];
+                    return listData.isNotEmpty
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: listData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 16,
+                                  top: (index == 0) ? 16 : 0,
+                                ),
+                                child: ContainerInfoWidget(
+                                  title: listData[index].loaiVanBan ?? '',
+                                  listData: [
+                                    InfoData(
+                                      key: S.current.dv_soan_thao,
+                                      value:
+                                          listData[index].donViSoanThao ?? '',
+                                      urlIcon: ImageAssets.icLocation,
+                                    ),
+                                    InfoData(
+                                      key: S.current.nguoi_soan_thao,
+                                      value:
+                                          listData[index].nguoiSoanThao ?? '',
+                                      urlIcon: ImageAssets.imgAcount,
+                                    ),
+                                  ],
+                                  status: listData[index].doKhan ?? '',
+                                  colorStatus: getColorFromPriorityCode(
+                                    listData[index].priorityCode ?? '',
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        : const SizedBox();
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget oldWidget() {
-    return Expanded(
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            StreamBuilder<DocumentDashboardModel>(
-              stream: qlvbCubit.getVbDen,
-              builder: (context, snapshot) {
-                final dataVBDen = snapshot.data ?? DocumentDashboardModel();
-                return Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CommonInformationMobile(
-                    qlvbcCubit: qlvbCubit,
-                    documentDashboardModel: dataVBDen,
-                    isVbDen: true,
-                    title: S.current.word_processing_state,
-                    ontap: (value) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => IncomingDocumentScreen(
-                            title: S.current.danh_sach_van_ban_den,
-                            type: TypeScreen.VAN_BAN_DEN,
-                            startDate: qlvbCubit.startDate,
-                            endDate: qlvbCubit.endDate,
-                            isDanhSachDaXuLy: value.isDanhSachDaXuLy(),
-                            maTrangThai: value.daHoanThanh(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            appDivider,
-            StreamBuilder<DocumentDashboardModel>(
-              stream: qlvbCubit.getVbDi,
-              builder: (context, snapshot) {
-                final dataVBDi = snapshot.data ?? DocumentDashboardModel();
-                return Container(
-                  padding: const EdgeInsets.all(16.0),
-                  child: CommonInformationMobile(
-                    qlvbcCubit: qlvbCubit,
-                    documentDashboardModel: dataVBDi,
-                    isVbDen: false,
-                    title: S.current.word_processing_state,
-                    ontap: (value) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => IncomingDocumentScreenDashBoard(
-                            title: S.current.danh_sach_van_ban_di,
-                            startDate: qlvbCubit.startDate,
-                            endDate: qlvbCubit.endDate,
-                            isDanhSachDaXuLy: value.getTrangThaiDaXuLy(value),
-                            isDanhSachChoTrinhKy:
-                                value.getTrangThaiChoTrinhKy(value),
-                            isDanhSachChoXuLy: value.getTrangThaiChoXuLy(value),
-                            trangThaiFilter: value.getTrangThaiNumber(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            appDivider,
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        S.current.danh_sach_van_ban_den,
-                        style: textNormalCustom(
-                          fontSize: 16,
-                          color: textDropDownColor,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => IncomingDocumentScreen(
-                                title: S.current.danh_sach_van_ban_den,
-                                type: TypeScreen.VAN_BAN_DEN,
-                                startDate: qlvbCubit.startDate,
-                                endDate: qlvbCubit.endDate,
-                                maTrangThai: [],
-                              ),
-                            ),
-                          );
-                        },
-                        icon: SvgPicture.asset(
-                          ImageAssets.ic_next_color,
-                          color: AppTheme.getInstance().colorField(),
-                        ),
-                      )
-                    ],
-                  ),
-                  StreamBuilder<List<VanBanModel>>(
-                    stream: qlvbCubit.getDanhSachVbDen,
-                    builder: (context, snapshot) {
-                      final List<VanBanModel> listData = snapshot.data ?? [];
-                      if (listData.isNotEmpty) {
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: listData.length < 3 ? listData.length : 3,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 16,
-                              ),
-                              child: IncomingDocumentCell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChiTietVanBanDenMobile(
-                                        processId: listData[index].iD ?? '',
-                                        taskId: listData[index].taskId ?? '',
-                                        cubit: DetailDocumentCubit(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                title: listData[index].loaiVanBan ?? '',
-                                dateTime: DateTime.parse(
-                                  listData[index].ngayDen ?? '',
-                                ).toStringWithListFormat,
-                                userName: listData[index].nguoiSoanThao ?? '',
-                                status: listData[index].doKhan ?? '',
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-            appDivider,
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        S.current.danh_sach_van_ban_di,
-                        style: textNormalCustom(
-                          fontSize: 16,
-                          color: textDropDownColor,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => IncomingDocumentScreen(
-                                title: S.current.danh_sach_van_ban_di,
-                                type: TypeScreen.VAN_BAN_DI,
-                                startDate: qlvbCubit.startDate,
-                                endDate: qlvbCubit.endDate,
-                                maTrangThai: [],
-                              ),
-                            ),
-                          );
-                        },
-                        icon: SvgPicture.asset(
-                          ImageAssets.ic_next_color,
-                          color: AppTheme.getInstance().colorField(),
-                        ),
-                      )
-                    ],
-                  ),
-                  StreamBuilder<List<VanBanModel>>(
-                    stream: qlvbCubit.getDanhSachVbDi,
-                    builder: (context, snapshot) {
-                      final List<VanBanModel> listData = snapshot.data ?? [];
-                      if (listData.isNotEmpty) {
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: listData.length < 3 ? listData.length : 3,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 16,
-                              ),
-                              child: IncomingDocumentCell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChiTietVanBanDiMobile(
-                                        id: listData[index].iD ?? '',
-                                      ),
-                                    ),
-                                  );
-                                },
-                                title: listData[index].loaiVanBan ?? '',
-                                dateTime: DateTime.parse(
-                                        listData[index].ngayDen ?? '')
-                                    .toStringWithListFormat,
-                                userName: listData[index].nguoiSoanThao ?? '',
-                                status: listData[index].doKhan ?? '',
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

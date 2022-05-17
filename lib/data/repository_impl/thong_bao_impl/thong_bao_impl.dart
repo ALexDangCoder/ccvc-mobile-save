@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_quan_trong_response.dart';
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_response.dart';
@@ -31,7 +32,12 @@ class ThongBaoImpl implements ThongBaoRepository {
   }) {
     return runCatchingAsync<ThongBaoQuanTrongResponse, ThongBaoQuanTrongModel>(
       () => service.getThongBaoQuanTrong(
-          appCode, active, seen, currentPage, pageSize,),
+        appCode,
+        active,
+        seen,
+        currentPage,
+        pageSize,
+      ),
       (res) => res.data.toModel(),
     );
   }
@@ -39,11 +45,18 @@ class ThongBaoImpl implements ThongBaoRepository {
   @override
   Future<Result<MessageModel>> deleteNotify(String id) {
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-          () => service.deleteNotify(
-        id,),
-          (res) => res.toDomain(),
+      () => service.deleteNotify(
+        id,
+      ),
+      (res) => res.toDomain(),
     );
   }
 
-
+  @override
+  Future<Result<MessageModel>> readAllNoti(String appCode) {
+    return runCatchingAsync<ChinhSuaBaoCaoKetQuaResponse, MessageModel>(
+      () => service.readAllNoti(appCode),
+      (res) => res.toDomain(),
+    );
+  }
 }

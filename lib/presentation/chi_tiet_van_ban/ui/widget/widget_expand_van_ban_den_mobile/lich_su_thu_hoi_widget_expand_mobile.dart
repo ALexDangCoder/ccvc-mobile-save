@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class LichSuThuHoiExpandWidgetMobile extends StatefulWidget {
   final String processId;
-  final DetailDocumentCubit cubit;
+  final HistoryGiveBackDetailDocumentCubit cubit;
 
   const LichSuThuHoiExpandWidgetMobile({
     Key? key,
@@ -57,16 +57,18 @@ class _LichSuThuHoiExpandWidgetMobileState
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: data.isNotEmpty
-                        ? Column(
-                            children: data
-                                .map(
-                                  (e) => WidgetInExpandVanBan(
-                                    cubit: widget.cubit,
-                                    row: e.toListRowLichSuThuHoi(),
-                                  ),
-                                )
-                                .toList(),
-                          )
+                        ? SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      row: e.toListRowLichSuThuHoi(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                        )
                         : const Padding(
                             padding: EdgeInsets.only(top: 16.0),
                             child: NodataWidget(),

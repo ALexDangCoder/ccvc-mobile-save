@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -10,6 +12,8 @@ import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_thong_tin_left.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_thong_tin_right.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_ung_dung.dart';
+import 'package:ccvc_mobile/presentation/tabbar_screen/bloc/main_cubit.dart';
+import 'package:ccvc_mobile/presentation/tabbar_screen/ui/tabbar_item.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -41,6 +45,16 @@ class _ManagerPersonalInformationTabletState
   void initState() {
     // TODO: implement initState
     _cubit.loadApi(id: widget.id);
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      ProviderWidget.of<MainCubit>(context)
+          .cubit
+          .selectDoubleTapTabBar
+          .listen((event) {
+        if (event == TabBarType.menu) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+        }
+      });
+    });
     super.initState();
   }
 

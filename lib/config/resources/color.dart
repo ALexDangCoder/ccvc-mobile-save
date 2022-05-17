@@ -85,6 +85,7 @@ const AqiColor = Color(0xffA2AEBD);
 const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
+const shadowColor = Color(0xff6262eb);
 const choXuLyColor = Color(0xff5A8DEE);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
@@ -192,7 +193,7 @@ const blueFilterDateWidget = Color(0xFFF1F4FF);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
-  Color unselectColor ();
+  Color unselectColor();
 
   Color primaryColor();
 
@@ -322,7 +323,6 @@ class LightApp extends AppColor {
 }
 
 class DarkApp extends AppColor {
-
   @override
   Color unselectColor() {
     return unselectLabelColor;
@@ -420,7 +420,6 @@ class DefaultApp extends AppColor {
     return unselectLabelColor;
   }
 
-
   @override
   Color colorField() {
     return textDefault;
@@ -512,7 +511,6 @@ class BlueApp extends AppColor {
   Color unselectColor() {
     return unselectLabelColor;
   }
-
 
   @override
   Color primaryColor() {
@@ -606,7 +604,6 @@ class PinkApp extends AppColor {
     return unselectLabelColor;
   }
 
-
   @override
   Color primaryColor() {
     return colorPrimary;
@@ -694,7 +691,6 @@ class PinkApp extends AppColor {
 }
 
 class YellowApp extends AppColor {
-
   @override
   Color unselectColor() {
     return unselectLabelColor;

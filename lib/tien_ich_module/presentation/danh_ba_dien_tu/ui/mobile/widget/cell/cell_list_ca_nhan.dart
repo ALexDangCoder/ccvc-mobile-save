@@ -178,7 +178,14 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
           border: Border.all(color: borderButtomColor),
-          color: bgDropDown.withOpacity(0.1),
+          color: backgroundColorApp,
+          boxShadow: [
+            BoxShadow(
+              color: bgColor.withOpacity(0.5),
+              blurRadius: 10,
+              offset: const Offset(0, 4), // changes position of shadow
+            ),
+          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -287,6 +294,7 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                             cubit: widget.cubit,
                           ),
                           funcBtnOk: () {},
+                          maxHeight: 844,
                         );
                       },
                       child: SvgPicture.asset(ImageAssets.icEdit),

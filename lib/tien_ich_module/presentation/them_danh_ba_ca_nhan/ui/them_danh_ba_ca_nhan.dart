@@ -84,7 +84,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },
@@ -160,12 +160,13 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                   ),
                   SelectDate(
-                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
+                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                     value: '',
                     onSelectDate: (dateTime) {
                       widget.cubit.ngaySinh = dateTime;
                     },
                   ),
+                  spaceH14,
                   CustomRadioButton(
                     title: S.current.gioi_tinh,
                     onchange: (value) {
@@ -194,7 +195,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },

@@ -157,72 +157,78 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
       children: [
         GestureDetector(
           onTap: onTap,
-          child: Container(
-            height: 152,
-            width: 200,
-            decoration: BoxDecoration(
-              border: Border.all(color: colorLineSearch.withOpacity(0.3)),
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.transparent,
-              boxShadow: [
-                BoxShadow(
-                  color: labelColor.withOpacity(0.1),
-                  blurRadius: 7,
-                ),
-              ],
-            ),
-            child: StreamBuilder<String>(
-              stream: cubit.anhDanhBaCaNhan,
-              builder: (context, snapshot) {
-                final _data = snapshot.data ?? '';
-                if (_data.isEmpty) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: isAvatarUser
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(ImageAssets.icImage),
-                              spaceH12,
-                              Text(
-                                S.current.them_anh,
-                                style: tokenDetailAmount(
-                                  fontSize: 16,
-                                  color: AqiColor,
-                                ),
-                              ),
-                            ],
-                          )
-                        : CachedNetworkImage(
-                            imageUrl:
-                                'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2.0),
-                                  ),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: imageProvider,
+          child: DottedBorder(
+            color: bgTag,
+            dashPattern: const [5, 5],
+            strokeWidth: 2,
+            radius: const Radius.circular(12),
+            borderType: BorderType.RRect,
+            child: Container(
+              height: 152,
+              width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: labelColor.withOpacity(0.05),
+                boxShadow: [
+                  BoxShadow(
+                    color: bgImage.withOpacity(0.1),
+                    blurRadius: 7,
+                  ),
+                ],
+              ),
+              child: StreamBuilder<String>(
+                stream: cubit.anhDanhBaCaNhan,
+                builder: (context, snapshot) {
+                  final _data = snapshot.data ?? '';
+                  if (_data.isEmpty) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: isAvatarUser
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(ImageAssets.icImage),
+                                spaceH12,
+                                Text(
+                                  S.current.them_anh,
+                                  style: tokenDetailAmount(
+                                    fontSize: 16,
+                                    color: AqiColor,
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                  );
-                } else {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.file(
-                      File(_data),
-                      fit: BoxFit.cover,
-                    ),
-                  );
+                              ],
+                            )
+                          : CachedNetworkImage(
+                              imageUrl:
+                                  'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
+                              imageBuilder: (context, imageProvider) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(2.0),
+                                    ),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: imageProvider,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                    );
+                  } else {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.file(
+                        File(_data),
+                        fit: BoxFit.cover,
+                      ),
+                    );
 
-                  //Image.file(File(_data));
-                }
-              },
+                    //Image.file(File(_data));
+                  }
+                },
+              ),
             ),
           ),
         ),

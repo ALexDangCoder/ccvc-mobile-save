@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/location_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -38,6 +44,44 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
 
   final BehaviorSubject<ChiTietYKNDModel> chiTietYKNDSubject =
       BehaviorSubject<ChiTietYKNDModel>();
+
+//tab y kien xu ly
+  int byteToMb = 1048576;
+  int size = 0;
+  String kienNghiId='';
+  final List<PickImageFileModel> listPickFileMain = [];
+  final List<YKienXuLyYKNDModel> listYKienXuLy = [];
+
+  //final Set<PickImageFileModel> listYkien = {};
+  List<File> listFileMain = [];
+  final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
+  String mess = '';
+  bool canLoadMoreMy = true;
+  bool _isRefresh = true;
+  bool _isLoading = false;
+  int page = 0;
+
+  bool get canLoadMore => canLoadMoreMy;
+
+  bool get isRefresh => _isRefresh;
+  String idYkien = '';
+  Future<void> refreshPosts() async {
+    if (!_isLoading) {
+      page = 0;
+      _isRefresh = true;
+      _isLoading = true;
+      await getDanhSachYKienXuLyPAKN(idYkien);
+    }
+  }
+
+  void loadMorePosts() {
+    if (!_isLoading) {
+      page += 1;
+      _isRefresh = false;
+      _isLoading = true;
+      getDanhSachYKienXuLyPAKN(idYkien);
+    }
+  }
 
   ///Function
   Future<void> getTienTrinhXyLy(String kienNghiId) async {
@@ -194,6 +238,35 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         error: (error) {});
   }
 
+  Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
+    showLoading();
+    final Result<DanhSachKetQuaYKXLModel> result =
+    await YKNDRepo.getDanhSachYKienPAKN(
+      kienNghiId,
+      2,
+    );
+    showContent();
+    result.when(
+      success: (res) {
+        emit(
+          ChiTietPaknSuccess(
+            CompleteType.SUCCESS,
+            list: res.danhSachKetQua,
+          ),
+        );
+        idYkien = res.danhSachKetQua?.first.kienNghiId ?? '';
+      },
+      error: (error) {
+        emit(
+          ChiTietPaknSuccess(
+            CompleteType.SUCCESS,
+            message: error.message,
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> getThongTinNguoiPhanAnh(
     String kienNghiId,
     String taskId,
@@ -296,6 +369,66 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
       headerRowData.value.clear();
     } else {}
 
+  Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
+    showLoading();
+    final Result<DanhSachKetQuaYKXLModel> result =
+        await YKNDRepo.getDanhSachYKienPAKN(
+      kienNghiId,
+      2,
+    );
+    showContent();
+    result.when(
+      success: (res) {
+        emit(
+          ChiTietPaknSuccess(
+            CompleteType.SUCCESS,
+            list: res.danhSachKetQua,
+          ),
+        );
+        idYkien = res.danhSachKetQua?.first.kienNghiId ?? '';
+      },
+      error: (error) {
+        emit(
+          ChiTietPaknSuccess(
+            CompleteType.SUCCESS,
+            message: error.message,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<String> postYKienXuLy({
+    required String nguoiChoYKien,
+    required String kienNghiId,
+    required String noiDung,
+    required List<File> file,
+  }) async {
+    String status = '';
+    showLoading();
+    final result = await YKNDRepo.postYKienXuLy(
+      nguoiChoYKien,
+      kienNghiId,
+      noiDung,
+      file,
+    );
+    result.when(
+      success: (res) {
+        status = 'success';
+        showContent();
+      },
+      error: (error) {
+        status = '';
+        showContent();
+      },
+    );
+    return status;
+  }
+
+  Future<void> getchiTietYKienNguoiDan(
+    String kienNghiId,
+    String taskId,
+  ) async {
     showLoading();
     final result = await YKNDRepo.chiTietYKienNguoiDan(
       kienNghiId,
@@ -305,6 +438,8 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     result.when(
       success: (res) {
         chiTietYKNDSubject.sink.add(res.chiTietYKNDModel);
+        // chiTietYKNDSubject.sink.add(res.chiTietYKNDModel);
+        // checkIndex = res.chiTietYKNDModel.doiTuongId;
         final data = res.chiTietYKNDModel;
         final List<String> listFileName = [];
         if (data.fileDinhKem.isNotEmpty) {

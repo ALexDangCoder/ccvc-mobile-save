@@ -1,93 +1,214 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/pick_file.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'pick_file.dart';
+
+enum PickImage {
+  PICK_MAIN,
+  PICK_Y_KIEN,
+}
+
 class TabYKienXuLy extends StatefulWidget {
-  const TabYKienXuLy({Key? key}) : super(key: key);
+  const TabYKienXuLy({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
+  final ChiTietPaknCubit cubit;
 
   @override
   State<TabYKienXuLy> createState() => _TabYKienXuLyState();
 }
 
 class _TabYKienXuLyState extends State<TabYKienXuLy> {
-  late TextEditingController _nhapYkienController;
+  // late TextEditingController _nhapYkienController;
   late TextEditingController _nhapYMainController;
-  int byteToMb = 1048576;
-  final Set<PickImageFileModel> _listMain = {};
-  final Set<PickImageFileModel> _listYkien = {};
-  int size = 0;
-  bool isInput = false;
+
+  // final FocusNode _nodeYMain = FocusNode();
+  // final FocusNode _nodeYkien = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _nhapYkienController = TextEditingController();
+    widget.cubit.idYkien = 'e787f7fe-b2e9-40ea-8567-e6f07b5b9bef';
+    widget.cubit.refreshPosts();
+    //_nhapYkienController = TextEditingController();
     _nhapYMainController = TextEditingController();
   }
 
-  void addDataListPick(Map<String, dynamic> mediaMap) {
+  void addDataListPick(Map<String, dynamic> mediaMap, PickImage pickImage) {
     if (mediaMap.getStringValue(NAME_OF_FILE).isNotEmpty) {
       final _path = mediaMap.getStringValue(PATH_OF_FILE);
       final _name = mediaMap.getStringValue(NAME_OF_FILE);
       final _size = mediaMap.intValue(SIZE_OF_FILE);
       final _extensionName = mediaMap.getStringValue(EXTENSION_OF_FILE);
-      _listMain.add(
-        PickImageFileModel(
-          path: _path,
-          name: _name,
-          extension: _extensionName,
-          size: _size,
-        ),
-      );
+      final fileMy = mediaMap.getFileValue(FILE_RESULT);
+      widget.cubit.listFileMain.addAll(fileMy);
+      if (pickImage == PickImage.PICK_MAIN) {
+        widget.cubit.listPickFileMain.add(
+          PickImageFileModel(
+            path: _path,
+            name: _name,
+            extension: _extensionName,
+            size: _size,
+          ),
+        );
+      } else {
+        // _listYkien.add(
+        //   PickImageFileModel(
+        //     path: _path,
+        //     name: _name,
+        //     extension: _extensionName,
+        //     size: _size,
+        //   ),
+        // );
+      }
+
       setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _itemSend(true),
-            spaceH16,
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return _itemViewDetail(
-                  sizeImage: 32,
-                  list: ['2134', '1234123'],
-                );
-              },
+    final cubit = widget.cubit;
+    return BlocConsumer<ChiTietPaknCubit, ChiTietPaknState>(
+      bloc: cubit,
+      listener: (context, state) {
+        if (state is ChiTietPaknSuccess) {
+          if (state.completeType == CompleteType.SUCCESS) {
+            if (cubit.loadMoreRefresh) {}
+            cubit.showContent();
+          } else {
+            cubit.mess = state.message ?? '';
+            cubit.showError();
+          }
+          cubit.loadMoreLoading = false;
+          if (cubit.isRefresh) {
+            cubit.listYKienXuLy.clear();
+          }
+          cubit.listYKienXuLy.addAll(state.list ?? []);
+          cubit.canLoadMoreMy =
+              cubit.listYKienXuLy.length >= ApiConstants.DEFAULT_PAGE_SIZE;
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: StateStreamLayout(
+            textEmpty: S.current.khong_co_du_lieu,
+            retry: () {
+              widget.cubit.refreshPosts();
+            },
+            error: AppException('', S.current.something_went_wrong),
+            stream: widget.cubit.stateStream,
+            child: Column(
+              children: [
+                _itemSend(true),
+                spaceH8,
+                Expanded(
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (cubit.canLoadMore &&
+                          scrollInfo.metrics.pixels ==
+                              scrollInfo.metrics.maxScrollExtent) {
+                        cubit.loadMorePosts();
+                      }
+                      return true;
+                    },
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        await widget.cubit.refreshPosts();
+                      },
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: cubit.listYKienXuLy.length,
+                        itemBuilder: (context, index) {
+                          return _itemViewDetail(
+                            sizeImage: 32,
+                            list: [],
+                            //todo list
+                            index: index,
+                            avatar: '',
+                            //todo avatar
+                            time: cubit.listYKienXuLy[index].ngayTao ?? '',
+                            name: cubit.listYKienXuLy[index].tenNguoiChoYKien ??
+                                '',
+                            indexMain: index,
+                            file: cubit.listYKienXuLy[index].dSFile ?? '',
+                            isViewData:
+                                cubit.listYKienXuLy[index].dSFile?.isNotEmpty ??
+                                    false,
+                            noiDung: cubit.listYKienXuLy[index].noiDung ?? '',
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
+  }
+
+  void clearData(int indexMain) {
+    // for (final YKienXuLyYKNDModel value in widget.cubit.listYKienXuLy) {
+    //   value.isInput = false;
+    // }
+    // _nhapYMainController.text = '';
+    // //_nhapYkienController.text = '';
+    // _listMain.clear();
+    // //_listYkien.clear();
+    // _list[indexMain].isInput = true;
+    // //FocusScope.of(context).requestFocus(_nodeYkien);//todo
+    //setState(() {});
   }
 
   Widget _itemViewDetail({
     required double sizeImage,
-    List<String>? list,
+    List<YKienModel>? list,
     bool isBorder = true,
     bool isViewData = false,
+    required int index,
+    required int indexMain,
+    required String name,
+    required String avatar,
+    required String noiDung,
+    required String file,
+    required String time,
   }) {
     return Container(
       margin: EdgeInsets.only(
-        left: 16,
-        right: 16,
+        left: isBorder ? 16 : 0,
+        right: isBorder ? 16 : 0,
         bottom: isBorder ? 16 : 0,
       ),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.only(
+        top: isBorder
+            ? 16
+            : index == 0
+                ? 16
+                : 8,
+        left: 16,
+        right: isBorder ? 16 : 0,
+        bottom: isBorder ? 16 : 8,
+      ),
       decoration: BoxDecoration(
         color: colorNumberCellQLVB,
         border: Border.all(
@@ -102,44 +223,59 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    clipBehavior: Clip.hardEdge,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      'https://img-cdn.2game.vn/pictures/2game/2019/10/26/2game-Naruto-Slugfest-logo-1.png',
+              Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: Image.network(
+                  avatar.isNotEmpty
+                      ? avatar
+                      : 'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  width: sizeImage,
+                  height: sizeImage,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) {
+                    return Container(
                       width: sizeImage,
                       height: sizeImage,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  spaceW13,
-                  Text(
-                    'Nguyễn Như Sơn',
+                      color: grayChart,
+                    );
+                  },
+                ),
+              ),
+              spaceW13,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    name,
                     style: textNormalCustom(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                       color: AppTheme.getInstance().titleColor(),
                     ), //infoColor
                   ),
-                ],
+                ),
               ),
-              Text(
-                '05/18/2021 00:00',
-                style: textNormalCustom(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: infoColor,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    time,
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: infoColor,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
           spaceH12,
           Text(
-            S.current.thong_tin_bo_sung,
+            noiDung,
             style: textNormalCustom(
               fontWeight: FontWeight.w400,
               fontSize: 14,
@@ -163,32 +299,32 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                   onTap: () {
                     //todo
                   },
-                  child: Text(
-                    'data',
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: textColorMangXaHoi,
-                    ), //infoColor
+                  child: SizedBox(
+                    width: 90,
+                    child: Text(
+                      file,
+                      style: textNormalCustom(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        color: textColorMangXaHoi,
+                      ), //infoColor
+                    ),
                   ),
                 ),
-              if (isViewData) spaceW16,
-              GestureDetector(
-                onTap: () {
-                  isInput = true;
-                  _nhapYMainController.text = '';
-                  _listMain.clear();
-                  setState(() {});
-                },
-                child: Text(
-                  S.current.phan_hoi,
-                  style: textNormalCustom(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    color: textColorMangXaHoi,
-                  ), //infoColor
-                ),
-              ),
+              // if (isViewData) spaceW16,
+              // GestureDetector(
+              //   onTap: () {
+              //     clearData(indexMain);
+              //   },
+              //   child: Text(
+              //     S.current.phan_hoi,
+              //     style: textNormalCustom(
+              //       fontWeight: FontWeight.w400,
+              //       fontSize: 12,
+              //       color: textColorMangXaHoi,
+              //     ), //infoColor
+              //   ),
+              // ),
             ],
           ),
           if (list?.isNotEmpty ?? false)
@@ -200,11 +336,19 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                 return _itemViewDetail(
                   sizeImage: 28,
                   isBorder: false,
+                  index: index,
+                  avatar: '',
+                  //todo
+                  time: list?[index].time ?? '',
+                  name: list?[index].name ?? '',
+                  indexMain: indexMain,
+                  file: '',
+                  noiDung: '',
                 );
               },
             ),
-          if (isBorder)
-            if (isInput) _itemSend(false),
+          // if (isBorder)
+          //   if (_list[indexMain].isInput) _itemSend(false),//todo
         ],
       ),
     );
@@ -213,175 +357,290 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
   Widget _itemSend(bool isMain) {
     final Set<PickImageFileModel> list = {};
     if (isMain) {
-      list.addAll(_listMain);
+      list.addAll(widget.cubit.listPickFileMain);
     } else {
-      list.addAll(_listYkien);
+      // list.addAll(_listYkien);
     }
-    return Padding(
-      padding: EdgeInsets.all(isMain ? 16.0 : 0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            flex: 303,
-            child: Container(
-              padding: const EdgeInsets.only(
-                right: 8,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: borderColor,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(6)),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (isMain) const SizedBox.shrink() else spaceH16,
+        Padding(
+          padding: EdgeInsets.only(
+            left: isMain ? 16.0 : 0,
+            right: isMain ? 16.0 : 0,
+            top: isMain ? 16.0 : 0,
+            bottom: isMain ? 4.0 : 0,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                flex: 303,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    right: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: borderColor,
                     ),
-                    child: TextFormField(
-                      controller:
-                          isMain ? _nhapYMainController : _nhapYkienController,
-                      maxLines: 999,
-                      minLines: 1,
-                      keyboardType: TextInputType.multiline,
-                      onTap: () {
-                        if (isMain) {
-                          isInput = false;
-                          _nhapYkienController.text = '';
-                          _listYkien.clear();
-                          setState(() {});
-                        }
-                      },
-                      decoration: InputDecoration(
-                        suffixIcon: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                final Map<String, dynamic> mediaMap =
-                                    await pickImage(fromCamera: true);
-                                addDataListPick(mediaMap);
-                              },
-                              child: SvgPicture.asset(
-                                ImageAssets.ic_cam,
-                                width: 20,
-                                height: 20,
-                                color: iconColorDown,
-                              ),
-                            ),
-                            spaceW4,
-                            GestureDetector(
-                              onTap: () async {
-                                final Map<String, dynamic> mediaMap =
-                                    await pickFile();
-                                addDataListPick(mediaMap);
-                              },
-                              child: SvgPicture.asset(
-                                ImageAssets.ic_file,
-                                width: 20,
-                                height: 20,
-                                color: iconColorDown,
-                              ),
-                            ),
-                          ],
+                    borderRadius: const BorderRadius.all(Radius.circular(6)),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8,
                         ),
-                        hintText: S.current.nhap_y_kien_cua_ban,
-                        hintStyle: textNormalCustom(color: Colors.grey),
-                        border: InputBorder.none,
+                        child: TextFormField(
+                          controller:
+                              //isMain
+                              //?
+                              _nhapYMainController,
+                          onChanged: (value) {
+                            if (value.trim().isNotEmpty) {
+                              widget.cubit.validateNhapYkien.add('');
+                            }
+                          }
+                          // : _nhapYkienController
+                          ,
+                          //focusNode:
+                          //isMain ?
+                          //_nodeYMain
+                          //: _nodeYkien
+                          //,
+                          maxLines: 999,
+                          minLines: 1,
+                          keyboardType: TextInputType.multiline,
+                          onTap: () {
+                            // if (isMain) {
+                            //   for (final ChiTietYKienXuLyModel value in _list) {
+                            //     value.isInput = false;
+                            //   }
+                            //_nhapYkienController.text = '';
+                            //_listYkien.clear();
+                            // setState(() {});
+                            //  }
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    final Map<String, dynamic> mediaMap =
+                                        await pickImage(fromCamera: true);
+                                    addDataListPick(
+                                      mediaMap,
+                                      isMain
+                                          ? PickImage.PICK_MAIN
+                                          : PickImage.PICK_Y_KIEN,
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    ImageAssets.ic_cam,
+                                    width: 20,
+                                    height: 20,
+                                    color: iconColorDown,
+                                  ),
+                                ),
+                                spaceW4,
+                                GestureDetector(
+                                  onTap: () async {
+                                    final Map<String, dynamic> mediaMap =
+                                        await pickFile();
+                                    addDataListPick(
+                                      mediaMap,
+                                      isMain
+                                          ? PickImage.PICK_MAIN
+                                          : PickImage.PICK_Y_KIEN,
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    ImageAssets.ic_file,
+                                    width: 20,
+                                    height: 20,
+                                    color: iconColorDown,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            hintText: S.current.nhap_y_kien_cua_ban,
+                            hintStyle: textNormalCustom(color: iconColorDown),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      if (list.isNotEmpty)
+                        Wrap(
+                          children: list
+                              .map(
+                                (i) => _itemPick(
+                                  i,
+                                  isMain
+                                      ? PickImage.PICK_MAIN
+                                      : PickImage.PICK_Y_KIEN,
+                                ),
+                              )
+                              .toList(),
+                        )
+                      else
+                        const SizedBox.shrink(),
+                    ],
+                  ),
+                ),
+              ),
+              spaceW16,
+              GestureDetector(
+                onTap: () async {
+                  final FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
+                  if (_nhapYMainController.text.trim().isNotEmpty) {
+                    for (final PickImageFileModel value
+                        in widget.cubit.listPickFileMain) {
+                      widget.cubit.size += value.size ?? 0;
+                    }
+                    if (widget.cubit.size / widget.cubit.byteToMb > 30) {
+                      MessageConfig.show(
+                        title: S.current.file_dinh_kem_mb,
+                        messState: MessState.error,
+                      );
+                    } else {
+                      final String result = await widget.cubit.postYKienXuLy(
+                        nguoiChoYKien: HiveLocal.getDataUser()?.userId ?? '',
+                        noiDung: _nhapYMainController.text,
+                        kienNghiId: widget.cubit.idYkien,
+                        file: widget.cubit.listFileMain,
+                      );
+
+                      if (result.isNotEmpty) {
+                        MessageConfig.show(
+                          title: S.current.tao_y_kien_xu_ly_thanh_cong,
+                        );
+                        _nhapYMainController.text = '';
+                        widget.cubit.listFileMain.clear();
+                        widget.cubit.listPickFileMain.clear();
+                        setState(() {});
+                      } else {
+                        MessageConfig.show(
+                          title: S.current.tao_y_kien_xu_ly_that_bai,
+                          messState: MessState.error,
+                        );
+                      }
+                    }
+                  } else {
+                    //todo
+                    widget.cubit.validateNhapYkien
+                        .add(S.current.ban_chua_nhap_y_kien);
+                  }
+                },
+                child: SvgPicture.asset(
+                  ImageAssets.ic_send,
+                  width: 24,
+                  height: 24,
+                ),
+              ),
+            ],
+          ),
+        ),
+        StreamBuilder<String>(
+          stream: widget.cubit.validateNhapYkien,
+          builder: (context, snapshot) {
+            return snapshot.data?.isNotEmpty ?? false
+                ? Padding(
+                    padding: EdgeInsets.only(
+                      left: isMain ? 16.0 : 0,
+                      bottom: isMain ? 12.0 : 0,
+                    ),
+                    child: Text(
+                      snapshot.data.toString(),
+                      style: textNormalCustom(
+                        color: Colors.red,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                  ),
-                  if (list.isNotEmpty)
-                    Wrap(
-                      children: list
-                          .map(
-                            (i) => _itemPick(
-                              i,
-                              list,
-                            ),
-                          )
-                          .toList(),
-                    )
-                  else
-                    const SizedBox.shrink(),
-                ],
-              ),
-            ),
-          ),
-          spaceW16,
-          GestureDetector(
-            onTap: () {
-              for (final PickImageFileModel value in _listMain) {
-                size += value.size ?? 0;
-              }
-              if (size / byteToMb > 30) {
-                print('fuck data');
-              } else {
-                //todo send
-              }
-            },
-            child: SvgPicture.asset(
-              ImageAssets.ic_send,
-              width: 24,
-              height: 24,
-            ),
-          ),
-        ],
-      ),
+                  )
+                : const SizedBox(
+                    height: 12,
+                  );
+          },
+        ),
+      ],
     );
   }
 
   Widget _itemPick(
     PickImageFileModel objPick,
-    Set<PickImageFileModel> list,
+    PickImage pickImage,
   ) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 8,
-        bottom: 6,
-      ),
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: grayChart,
-        border: Border.all(
-          color: blueberryColor,
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(
+            left: 8,
+            bottom: 6,
+          ),
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: grayChart,
+            border: Border.all(
+              color: blueberryColor,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(6)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                flex: 9,
+                child: Text(
+                  objPick.name.toString(),
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+              spaceW4,
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      if (pickImage == PickImage.PICK_MAIN) {
+                        for (int i = 0;
+                            i < widget.cubit.listPickFileMain.length;
+                            i++) {
+                          if (objPick == widget.cubit.listPickFileMain[i]) {
+                            widget.cubit.listFileMain.removeAt(i);
+                          }
+                        }
+                        widget.cubit.listPickFileMain.remove(objPick);
+                      } else {
+                        //_listYkien.remove(objPick);
+                      }
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset(
+                      ImageAssets.icClose,
+                      width: 12,
+                      height: 12,
+                      color: fontColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            flex: 9,
-            child: Text(
-              objPick.name.toString(),
-              style: textNormalCustom(
-                fontSize: 14,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-          ),
-          spaceW4,
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                list.remove(objPick);
-                setState(() {});
-              },
-              child: SvgPicture.asset(
-                ImageAssets.icClose,
-                width: 12,
-                height: 12,
-                color: fontColor,
-              ),
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

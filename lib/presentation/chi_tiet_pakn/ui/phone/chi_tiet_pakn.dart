@@ -14,9 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChiTietPKAN extends StatefulWidget {
-  const ChiTietPKAN({Key? key, required this.iD, required this.taskID,}) : super(key: key);
+  const ChiTietPKAN({
+    Key? key,
+    required this.iD,
+    required this.taskID,
+  }) : super(key: key);
   final String iD;
   final String taskID;
+
   @override
   State<ChiTietPKAN> createState() => _ChiTietPKANState();
 }
@@ -25,7 +30,7 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ChiTietPaknCubit cubit;
-  int initIndexTab = 0;
+  int initIndexTab = 5;
 
   @override
   void initState() {
@@ -104,9 +109,18 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
                 TabThongTinPAKN(cubit: cubit, id: widget.iD, taskId: widget.taskID,),
                 TabThongTinNguoiPhanAnh(cubit: cubit, id: widget.iD, taskId: widget.taskID,),
                 TabThongTinXuLyPAKN(),
-                TabKetQuaXuLy(id: widget.iD, taskId: widget.taskID,cubit: cubit,),
-                TabTienTrinhXuLy(cubit: cubit, id: widget.iD,),
-                TabYKienXuLy(),
+                TabKetQuaXuLy(
+                  id: widget.iD,
+                  taskId: widget.taskID,
+                  cubit: cubit,
+                ),
+                TabTienTrinhXuLy(
+                  cubit: cubit,
+                  id: widget.iD,
+                ),
+                TabYKienXuLy(
+                  cubit: cubit,
+                ),
               ],
             ),
           ),

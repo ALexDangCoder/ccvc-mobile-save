@@ -930,20 +930,12 @@
   "khong_co_thong_tin_nhiem_vu" : "Không có thông tin nhiệm vụ",
   "speech_not_available": "Nhận diện lời nói không khả dụng",
   "copy": "Copy",
-<<<<<<< HEAD
-  "copy_success": "Copy thành công"
-
-||||||| c6bce177
-  "copy_success": "Copy thành công"
-=======
   "copy_success": "Copy thành công",
   "xoa_thong_bao": "Xóa thông báo",
   "ban_co_muon_xoa_thong_bao" : "Bạn có muốn xóa thông báo?",
   "doc_tat_ca" : "Đọc tất cả",
   "danh_dau_tat_ca_da_doc" : "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
   "nguoi_tao" : "Người tạo"
-
->>>>>>> 9ee4fe5c1e3c67aba3af40c790747143eb3de352
 }
 
 

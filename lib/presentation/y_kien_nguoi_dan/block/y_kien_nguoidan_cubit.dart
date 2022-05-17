@@ -37,6 +37,10 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   String donViId = '';
   String userId = '';
   String trangThai = '';
+
+  int pageSizeDSPAKN = 10;
+  int pageNumberDSPAKN = 1;
+
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
       BehaviorSubject<DashboardTinhHinhXuLuModel>();
@@ -59,7 +63,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Stream<bool> get selectSreach => _selectSreach.stream;
 
-
   Stream<DocumentDashboardModel> get statusTinhHinhXuLyData =>
       _statusTinhHinhXuLyData.stream;
 
@@ -77,7 +80,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       _dashBoardTinhHinhXuLy.stream;
 
   String search = '';
-
 
   void setSelectSearch() {
     _selectSreach.sink.add(!_selectSreach.value);
@@ -140,7 +142,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       title: S.current.he_thong_quan_ly_van_ban,
     ),
   ];
-  final List<YKienNguoiDanDashBroadItem> listInitDashBoard= [
+  final List<YKienNguoiDanDashBroadItem> listInitDashBoard = [
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_bo_sung_y_kien,
       numberOfCalendars: 0,
@@ -148,11 +150,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_y_kien,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_cho_y_kien,
     ),
     YKienNguoiDanDashBroadItem(
-      img:ImageAssets.icChoDuyetYKND,
+      img: ImageAssets.icChoDuyetYKND,
       numberOfCalendars: 0,
       typeName: S.current.cho_duyet,
     ),
@@ -163,7 +165,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_tiep_nhan,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_tiep_nhan,
     ),
     YKienNguoiDanDashBroadItem(
@@ -200,6 +202,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       statusData: StatusYKien.DANG_XU_LY,
     ),
   ];
+
+
 
   void callApi() {
     getUserData();
@@ -245,7 +249,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     showContent();
     result.when(
       success: (res) {
-
         final List<YKienNguoiDanDashBroadItem> listItem = [];
         listItem.add(
           YKienNguoiDanDashBroadItem(
@@ -311,6 +314,26 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         return;
       },
     );
+  }
+
+  Future<void> getDanhSachPAKN({
+    String? tuNgay,
+    String? denNgay,
+    String? pageSize,
+    String? pageNumber,
+    String? userId,
+    String? donViId,
+  }) async {
+    showLoading();
+    final result = await _YKNDRepo.getDanhSachPAKN(
+      tuNgay: tuNgay,
+      donViId: donViId,
+      denNgay: denNgay,
+      pageSize: pageSize,
+      pageNumber: pageNumber,
+      userId: userId,
+    );
+    result.when(success: (success) {}, error: (error) {});
   }
 
   Future<void> getDashBoardTinhHinhXuLy(
@@ -446,6 +469,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
     );
   }
+
   Future<void> searchDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,

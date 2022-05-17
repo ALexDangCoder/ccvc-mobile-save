@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
+import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -31,6 +32,14 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     super.initState();
     widget.cubit.initTimeRange();
     widget.cubit.callApi();
+    widget.cubit.getDanhSachPAKN(
+      tuNgay: widget.cubit.startDate,
+      denNgay: widget.cubit.endDate,
+      userId: widget.cubit.userId,
+      donViId: widget.cubit.donViId,
+      pageNumber: widget.cubit.pageNumberDSPAKN.toString(),
+      pageSize: widget.cubit.pageSizeDSPAKN.toString(),
+    );
   }
 
   @override
@@ -106,7 +115,16 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             FilterDateTimeWidget(
               context: context,
               isMobile: true,
-              onChooseDateFilter: (DateTime startDate, DateTime endDate) {},
+              onChooseDateFilter: (DateTime startDate, DateTime endDate) {
+                widget.cubit.getDanhSachPAKN(
+                  tuNgay: widget.cubit.startDate,
+                  denNgay: widget.cubit.endDate,
+                  userId: widget.cubit.userId,
+                  donViId: widget.cubit.donViId,
+                  pageNumber: widget.cubit.pageNumberDSPAKN.toString(),
+                  pageSize: widget.cubit.pageSizeDSPAKN.toString(),
+                );
+              },
             ),
             const SizedBox(
               height: 20,
@@ -134,11 +152,21 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               color: homeColor,
               height: 6,
             ),
-            
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 3,
-              itemBuilder: (context, index) {
+            ListViewLoadMore(
+              cubit: widget.cubit,
+              isListView: true,
+              sinkWap: true,
+              callApi: (page) {
+                widget.cubit.getDanhSachPAKN(
+                  tuNgay: widget.cubit.startDate,
+                  denNgay: widget.cubit.endDate,
+                  userId: widget.cubit.userId,
+                  donViId: widget.cubit.donViId,
+                  pageNumber: widget.cubit.pageNumberDSPAKN.toString(),
+                  pageSize: widget.cubit.pageSizeDSPAKN.toString(),
+                );
+              },
+              viewItem: (value, index) {
                 return _itemDanhSachPAKN();
               },
             ),
@@ -150,15 +178,17 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
 
   Widget _itemDanhSachPAKN() {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       padding: const EdgeInsets.symmetric(
         horizontal: 18,
         vertical: 18,
       ),
       decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(12),
-          ),
-          border: Border.all(color: cellColorborder)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(12),
+        ),
+        border: Border.all(color: cellColorborder),
+      ),
       child: Column(
         children: [
           Text(
@@ -180,6 +210,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 ),
               ),
               Expanded(
+                flex: 8,
                 child: Text(
                   "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
                   style: textNormalCustom(
@@ -202,6 +233,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 ),
               ),
               Expanded(
+                flex: 8,
                 child: Text(
                   "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
                   style: textNormalCustom(
@@ -224,6 +256,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 ),
               ),
               Expanded(
+                flex: 8,
                 child: Text(
                   "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
                   style: textNormalCustom(

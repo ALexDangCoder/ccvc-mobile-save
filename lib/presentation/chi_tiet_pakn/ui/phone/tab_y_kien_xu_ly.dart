@@ -179,7 +179,6 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
     // //FocusScope.of(context).requestFocus(_nodeYkien);//todo
     //setState(() {});
   }
-
   Widget _itemViewDetail({
     required double sizeImage,
     List<YKienModel>? list,
@@ -403,6 +402,10 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                           onChanged: (value) {
                             if (value.trim().isNotEmpty) {
                               widget.cubit.validateNhapYkien.add('');
+                            } else {
+                              if (widget.cubit.listPickFileMain.isNotEmpty) {
+                                widget.cubit.validateNhapYkien.add('');
+                              }
                             }
                           }
                           // : _nhapYkienController
@@ -419,6 +422,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                             // if (isMain) {
                             //   for (final ChiTietYKienXuLyModel value in _list) {
                             //     value.isInput = false;
+
                             //   }
                             //_nhapYkienController.text = '';
                             //_listYkien.clear();
@@ -535,8 +539,42 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                     }
                   } else {
                     //todo
-                    widget.cubit.validateNhapYkien
-                        .add(S.current.ban_chua_nhap_y_kien);
+                    if (widget.cubit.listPickFileMain.isNotEmpty) {
+                      for (final PickImageFileModel value
+                          in widget.cubit.listPickFileMain) {
+                        widget.cubit.size += value.size ?? 0;
+                      }
+                      if (widget.cubit.size / widget.cubit.byteToMb > 30) {
+                        MessageConfig.show(
+                          title: S.current.file_dinh_kem_mb,
+                          messState: MessState.error,
+                        );
+                      } else {
+                        final String result = await widget.cubit.postYKienXuLy(
+                          nguoiChoYKien: HiveLocal.getDataUser()?.userId ?? '',
+                          noiDung: _nhapYMainController.text,
+                          kienNghiId: widget.cubit.idYkien,
+                          file: widget.cubit.listFileMain,
+                        );
+                        if (result.isNotEmpty) {
+                          MessageConfig.show(
+                            title: S.current.tao_y_kien_xu_ly_thanh_cong,
+                          );
+                          _nhapYMainController.text = '';
+                          widget.cubit.listFileMain.clear();
+                          widget.cubit.listPickFileMain.clear();
+                          setState(() {});
+                        } else {
+                          MessageConfig.show(
+                            title: S.current.tao_y_kien_xu_ly_that_bai,
+                            messState: MessState.error,
+                          );
+                        }
+                      }
+                    } else {
+                      widget.cubit.validateNhapYkien
+                          .add(S.current.ban_chua_nhap_y_kien);
+                    }
                   }
                 },
                 child: SvgPicture.asset(

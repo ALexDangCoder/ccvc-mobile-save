@@ -115,11 +115,12 @@ mixin YKienNguoiDanRepository {
     String? userId,
     String? donViId,
   });
-}
+
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(
-    String nguoiChoYKien,
-    String kienNghiId,
-    String noiDung,
-    List<File> file,
-  );
+      String nguoiChoYKien,
+      String kienNghiId,
+      String noiDung,
+      List<File> file,
+      );
 }
+

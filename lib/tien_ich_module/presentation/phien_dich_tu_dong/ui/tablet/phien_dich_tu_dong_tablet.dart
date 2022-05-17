@@ -9,9 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:translator/translator.dart';
 
 class PhienDichTuDongTablet extends StatefulWidget {
   const PhienDichTuDongTablet({Key? key}) : super(key: key);
@@ -23,48 +21,54 @@ class PhienDichTuDongTablet extends StatefulWidget {
 class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
   PhienDichTuDongCubit cubit = PhienDichTuDongCubit();
   TextEditingController textEditingController = TextEditingController();
-  final translator = GoogleTranslator();
 
-  final SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
+  final SpeechToText speech = SpeechToText();
+  bool _hasSpeech = false;
+  String lastWords = '';
 
   @override
   void initState() {
     super.initState();
-    _initSpeech();
+    initSpeechState();
   }
 
-  /// This has to happen only once per app
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
-    setState(() {});
+  Future<void> initSpeechState() async {
+    try {
+      final hasSpeech = await speech.initialize();
+      if (!mounted) return;
+      setState(() {
+        _hasSpeech = hasSpeech;
+      });
+    } catch (e) {
+      setState(() {
+        _hasSpeech = false;
+      });
+    }
   }
 
-  /// Each time to start a speech recognition session
-  void _startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
-    viToEn();
-    setState(() {});
-  }
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-  void _stopListening() async {
-    await _speechToText.stop();
-    concatenationString();
-    cubit.lengthTextSubject.add(textEditingController.text.length);
-    setState(() {});
-  }
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      _lastWords = result.recognizedWords;
-    });
+  void startListening() {
+    if (!_hasSpeech) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.current.speech_not_available),
+        ),
+      );
+      return;
+    }
+    if (speech.isListening) {
+      speech.stop();
+    } else {
+      speech.listen(
+        onResult: (result) {
+          setState(() {
+            lastWords = result.recognizedWords;
+            textEditingController.text =
+                '${textEditingController.value.text} $lastWords';
+          });
+        },
+        pauseFor: const Duration(seconds: 3),
+      );
+    }
   }
 
   final snackBar = SnackBar(
@@ -73,22 +77,6 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
       textAlign: TextAlign.center,
     ),
   );
-
-  void concatenationString() {
-    textEditingController.text = '${textEditingController.text} $_lastWords';
-  }
-
-  void viToEn() {
-    translator.translate(textEditingController.text, to: 'en').then((result) {
-      cubit.translateLanguage(result.text);
-    });
-  }
-
-  void enToVi() {
-    translator.translate(textEditingController.text, to: 'vi').then((result) {
-      cubit.translateLanguage(result.text);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,10 +115,9 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                       GestureDetector(
                         onTap: () {
                           cubit.swapLanguage();
-                          cubit.translateLanguage(textEditingController.text);
-                          cubit.languageSubject.value == LANGUAGE.vn
-                              ? viToEn()
-                              : enToVi();                        },
+                          cubit.textTranslateSubject
+                              .add(textEditingController.text);
+                        },
                         child: SvgPicture.asset(ImageAssets.icReplace),
                       ),
                       Expanded(
@@ -177,9 +164,6 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                             onChanged: (String value) {
                               cubit.lengthTextSubject
                                   .add(textEditingController.text.length);
-                              cubit.languageSubject.value == LANGUAGE.vn
-                                  ? viToEn()
-                                  : enToVi();
                             },
                             maxLength: 1000,
                             decoration: const InputDecoration(
@@ -206,9 +190,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
-                                onTap: _speechToText.isNotListening
-                                    ? _startListening
-                                    : _stopListening,
+                                onTap: startListening,
                                 child: Container(
                                   margin: const EdgeInsets.only(
                                     bottom: 20,
@@ -293,9 +275,10 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                         GestureDetector(
                           onTap: () {
                             Clipboard.setData(
-                              ClipboardData(text: cubit.textTranslate),
+                              ClipboardData(
+                                text: cubit.textTranslateSubject.value,
+                              ),
                             );
-
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           },
@@ -332,13 +315,11 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
             const SizedBox(
               height: 20,
             ),
-            btn(onTap: () {
-              cubit.readFile(
-                textEditingController,
-                viToEn,
-                enToVi,
-              );
-            },),
+            btn(
+              onTap: () {
+                cubit.readFile(textEditingController);
+              },
+            ),
           ],
         ),
       ),

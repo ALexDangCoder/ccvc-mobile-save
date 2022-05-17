@@ -20,6 +20,7 @@ class ApiConstants {
   static const TAO_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/create';
   static const SUA_TEN_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/update';
   static const XOA_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/delete';
+  static const TRANSLATE_DOCUMENT = '/appdieuhanh/api/Common/dich_van_ban';
 
 
 }

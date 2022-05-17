@@ -89,6 +89,9 @@ const EN_CODE = 'en';
 const VI_CODE = 'vi';
 const VI_LANG = 'vn';
 
+const EN_US_VOICE  = 'en_US';
+const VI_VN_VOICE  = 'vi_VN';
+
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';

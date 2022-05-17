@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/luong_xu_ly_nhiem_vu_model.dart';
@@ -19,6 +21,7 @@ class XemLuongXuLyNhiemVuResponse {
   NodePhanXuLy<DonViLuongNhiemVuModel>? toDomain() {
     if (data?.isNotEmpty ?? false) {
       final rootTree = data ?? {};
+
       NodePhanXuLy<DonViLuongNhiemVuModel> node = NodePhanXuLy<DonViLuongNhiemVuModel>(
           Data.fromJson(rootTree).toDomain());
       _makeBuildTree(node, rootTree['children'] ?? []);
@@ -50,14 +53,15 @@ class Data {
   String? trangThai;
   String? maTrangThai;
   String? tenDonVi;
-
+ String? vaiTro;
   Data({
     this.id,
     this.ten,
     this.trangThai,
     this.maTrangThai,
     this.tenDonVi,
-    this.tenNguoiTao
+    this.tenNguoiTao,
+    this.vaiTro
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -67,6 +71,8 @@ tenNguoiTao = json['tenNguoiTao'];
     trangThai = json['trangThai'];
     maTrangThai = json['maTrangThai'];
     tenDonVi = json['tenDonVi'];
+vaiTro = json['vaiTro'];
+
   }
   DonViLuongNhiemVuModel toDomain() => DonViLuongNhiemVuModel(
       taskId: id,
@@ -74,5 +80,6 @@ tenNguoiTao = json['tenNguoiTao'];
       trangThai: trangThai,
       maTrangThai: maTrangThai,
       tenDonVi: tenDonVi,
-  tenNguoiTao: tenNguoiTao);
+  tenNguoiTao: tenNguoiTao,
+  vaiTro: vaiTro);
 }

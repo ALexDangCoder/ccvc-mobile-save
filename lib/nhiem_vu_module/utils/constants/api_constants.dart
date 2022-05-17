@@ -33,6 +33,7 @@ class ApiConstants {
       '/qlvb/api/qlnv/cong-viec/chitiet';
   static const GET_VAN_BAN_LIEN_QUAN_NHIEM_VU =
       '/qlvb/api/qlnv/van-ban-lien-quan/{id}?';
+  static const GET_LUONG_XU_LY_NHIEM_VU = '/qlvb/api/qlnv/nhiem-vu/luong-xu-ly';
 }
 
 class ImageConstants {

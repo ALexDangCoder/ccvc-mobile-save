@@ -94,8 +94,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   ManagerPersonalInformationTablet(
-                                id: menuCubit.id,
-                              ),
+                                    id: menuCubit.id,
+                                  ),
                             ),
                           );
                         },
@@ -150,14 +150,14 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                     mainAxisSpacing: 28,
                                     childAspectRatio: 1.25,
                                     physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    const NeverScrollableScrollPhysics(),
                                     crossAxisCount: 4,
                                     children:
-                                        List.generate(data.length, (index) {
+                                    List.generate(data.length, (index) {
                                       final type = data[index];
                                       return containerType(type, () {
                                         Navigator.of(context,
-                                                rootNavigator: true)
+                                            rootNavigator: true)
                                             .push(
                                           PageRouteBuilder(
                                             pageBuilder: (_, __, ___) =>
@@ -173,11 +173,11 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                             ),
                             Container(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              const EdgeInsets.symmetric(horizontal: 20),
                               decoration: BoxDecoration(
                                 color: AppTheme.getInstance().backGroundColor(),
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
+                                const BorderRadius.all(Radius.circular(8)),
                                 boxShadow: [
                                   BoxShadow(
                                     blurRadius: 10,
@@ -202,7 +202,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                       S.current.cai_dat,
                                       style: textNormalCustom(
                                         color:
-                                            AppTheme.getInstance().colorField(),
+                                        AppTheme.getInstance().colorField(),
                                         fontSize: 18,
                                       ),
                                     ),
@@ -261,7 +261,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                     icon: Image.asset(ImageAssets.icDangXuat),
                                     title: S.current.dang_xuat,
                                     textContent:
-                                        S.current.ban_co_muon_dang_xuat,
+                                    S.current.ban_co_muon_dang_xuat,
                                     btnLeftTxt: S.current.khong,
                                     btnRightTxt: S.current.dong_y,
                                   );

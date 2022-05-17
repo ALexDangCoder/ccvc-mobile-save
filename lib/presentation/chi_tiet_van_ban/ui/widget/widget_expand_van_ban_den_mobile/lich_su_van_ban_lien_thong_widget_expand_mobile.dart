@@ -9,7 +9,7 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
 class LichSuVanBanLienThongExpandWidgetMobile extends StatefulWidget {
-  final DetailDocumentCubit cubit;
+  final RelatedDocumentsDetailDocumentCubit cubit;
   final String processId;
 
   const LichSuVanBanLienThongExpandWidgetMobile({
@@ -62,16 +62,17 @@ class _LichSuVanBanLienThongExpandWidgetMobileState
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? [];
                     return data.isNotEmpty
-                        ? Column(
-                            children: data
-                                .map(
-                                  (e) => WidgetInExpandVanBan(
-                                    cubit: widget.cubit,
-                                    row: e.toListRowLichSuVanBanLienThong(),
-                                  ),
-                                )
-                                .toList(),
-                          )
+                        ? SingleChildScrollView(
+                          child: Column(
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      row: e.toListRowLichSuVanBanLienThong(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                        )
                         : const Padding(
                             padding: EdgeInsets.only(top: 16.0),
                             child: NodataWidget(),

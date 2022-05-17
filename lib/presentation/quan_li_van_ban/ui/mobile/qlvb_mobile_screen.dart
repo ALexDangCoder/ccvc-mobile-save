@@ -250,7 +250,6 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen> {
                                                 taskId:
                                                     listData[index].taskId ??
                                                         '',
-                                                    cubit: DetailDocumentCubit(),
                                               ),
                                             ),
                                           );

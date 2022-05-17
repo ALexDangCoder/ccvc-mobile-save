@@ -25,7 +25,6 @@ class VBDiLichSuCapNhatExpandWidget extends StatelessWidget {
               .map(
                 (e) => WidgetInExpandVanBan(
               row: e.toListRowCapNhat(),
-              cubit: cubit,
             ),
           )
               .toList()

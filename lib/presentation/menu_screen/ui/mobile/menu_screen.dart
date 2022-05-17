@@ -118,7 +118,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                         context,
                                         PageRouteBuilder(
                                           pageBuilder: (_, __, ___) =>
-                                          XemLuongXuLyNhiemVu(id: '',),
+                                          type.getScreen(),
                                         ),
                                       );
                                     },

@@ -6,7 +6,6 @@ class HistoryWidget extends StatefulWidget {
 
   HistoryWidget(this.cubit);
 
-
   @override
   _ContentHistoryMissionState createState() => _ContentHistoryMissionState();
 }
@@ -19,7 +18,6 @@ class _ContentHistoryMissionState extends State<HistoryWidget>
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -55,61 +53,62 @@ class _ContentHistoryMissionState extends State<HistoryWidget>
                   padding:
                       const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
                   child: Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xffDBDFEF).withOpacity(0.1),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8.0)),
-                          border: Border.all(
-                              color: const Color(0xffDBDFEF).withOpacity(0.5))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 8),
-                            Column(
-                              children: [
-                                ...widget.cubit.listHistory[index]
-                                    .toListRow()
-                                    .map(
-                                  (data) {
-                                    return Column(
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              flex: 4,
-                                              child: Text(
-                                                data.title,
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black),
-                                              ),
+                    decoration: BoxDecoration(
+                        color: const Color(0xffDBDFEF).withOpacity(0.1),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8.0)),
+                        border: Border.all(
+                            color: const Color(0xffDBDFEF).withOpacity(0.5))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 8),
+                          Column(
+                            children: [
+                              ...widget.cubit.listHistory[index]
+                                  .toListRow()
+                                  .map(
+                                (data) {
+                                  return Column(
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            flex: 4,
+                                            child: Text(
+                                              data.title,
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.black),
                                             ),
-                                            const SizedBox(width: 1),
-                                            Expanded(
-                                              flex: 6,
-                                              child: Text(
-                                                data.value,
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.black),
-                                              ),
+                                          ),
+                                          const SizedBox(width: 1),
+                                          Expanded(
+                                            flex: 6,
+                                            child: Text(
+                                              data.value,
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.black),
                                             ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 8)
-                                      ],
-                                    );
-                                  },
-                                ).toList(),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8)
+                                    ],
+                                  );
+                                },
+                              ).toList(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
             ),

@@ -98,6 +98,23 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     showContent();
   }
 
+  Future<void> readAllNoti(bool isQuanTrong) async {
+    showLoading();
+    final result = await _service.readAllNoti(appCode);
+
+    result.when(
+      success: (value) {
+        if(isQuanTrong) {
+          getThongBaoQuanTrong();
+        } else {
+          getListThongBao();
+        }
+      },
+      error: (er) {},
+    );
+    showContent();
+  }
+
   Future<void> getThongBaoQuanTrong() async {
     showLoading();
     final result = await _service.getThongBaoQuanTrong(

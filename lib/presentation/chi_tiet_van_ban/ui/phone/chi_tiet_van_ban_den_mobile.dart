@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_den_mobile/lich_su_cap_nhat_tinh_hinh_xu_ly_widget_expand_mobile.dart';
@@ -16,13 +15,11 @@ import 'package:flutter/material.dart';
 class ChiTietVanBanDenMobile extends StatelessWidget {
   final String processId;
   final String taskId;
-  final DetailDocumentCubit cubit;
 
   const ChiTietVanBanDenMobile({
     Key? key,
     required this.processId,
     required this.taskId,
-    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -63,32 +60,32 @@ class ChiTietVanBanDenMobile extends StatelessWidget {
               child: TabBarView(
                 children: [
                   WidgetHeadChiTietVanBanDenMobile(
-                    cubit: cubit,
+                    cubit: CommonDetailDocumentCubit(),
                     processId: processId,
                     taskId: taskId,
                   ),
                   ThongTinGuiNhanExpandWidgetMobile(
-                    cubit: cubit,
+                    cubit: DeliveryNoticeDetailDocumentCubit(),
                     processId: processId,
                   ),
                   YKienXuLyExpandWidgetMobile(
-                    cubit: cubit,
+                    cubit: CommentsDetailDocumentCubit(),
                     processId: processId,
                   ),
                   LichSuCapNhatTinhHinhXuLyExpandWidgetMobile(
-                    cubit: cubit,
+                    cubit: HistoryUpdateDetailDocumentCubit(),
                     processId: processId,
                   ),
                   LichSuTraLaiExpandWidgetMobile(
-                    cubit: cubit,
+                    cubit: HistoryRecallDetailDocumentCubit(),
                     processId: processId,
                   ),
                   LichSuThuHoiExpandWidgetMobile(
-                    cubit: cubit,
+                    cubit: HistoryGiveBackDetailDocumentCubit(),
                     processId: processId,
                   ),
                   LichSuVanBanLienThongExpandWidgetMobile(
-                    cubit: cubit,
+                    cubit: RelatedDocumentsDetailDocumentCubit(),
                     processId: processId,
                   ),
                 ],

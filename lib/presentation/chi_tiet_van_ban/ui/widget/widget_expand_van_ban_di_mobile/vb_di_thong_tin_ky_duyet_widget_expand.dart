@@ -28,7 +28,6 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
               .map(
                 (e) => WidgetInExpandVanBan(
               row: e.toListRowKyDuyet(),
-              cubit: cubit,
             ),
           )
               .toList()

@@ -11,8 +11,10 @@ import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/av
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_don_vi_mobile.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_ung_dung_mobile.dart';
+import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -505,6 +507,7 @@ class _EditPersonalInformationScreen
                             )
                                 .then(
                               (value) {
+                                ProviderWidget.of<MenuCubit>(context).cubit.getUserRefresh();
                                 return MessageConfig.show(
                                   title: S.current.thay_doi_thanh_cong,
                                 );

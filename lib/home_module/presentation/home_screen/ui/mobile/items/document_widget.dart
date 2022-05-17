@@ -147,7 +147,6 @@ class _DocumentWidgetState extends State<DocumentWidget> {
           builder: (context) => ChiTietVanBanDenMobile(
             taskId: taskId,
             processId: id,
-            cubit: DetailDocumentCubit(),
           ),
         ),
       );

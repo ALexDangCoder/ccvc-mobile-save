@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/danh_sach_cong_viec_chi_tiet_nhiem_vu.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -20,7 +21,7 @@ class DataDanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   });
 
   factory DataDanhSachCongViecChiTietNhiemVuModelResponse.fromJson(
-          Map<String, dynamic> json) =>
+      Map<String, dynamic> json) =>
       _$DataDanhSachCongViecChiTietNhiemVuModelResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
@@ -65,10 +66,20 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   String? hanXuLy;
   @JsonKey(name: 'ThoiGianGiaoViec')
   String? thoiGianGiaoViec;
+  @JsonKey(name: 'ThoiGian')
+  String? thoiGian;
   @JsonKey(name: 'NguoiGiaoViec')
   String? nguoiGiaoViec;
+  @JsonKey(name: 'NguoiXuLy')
+  String? nguoiXuLy;
+  @JsonKey(name: 'DonVi')
+  String? donVi;
+  @JsonKey(name: 'NguoiCapNhat')
+  String? nguoiCapNhat;
   @JsonKey(name: 'DonViGiaoViec')
   String? donViGiaoViec;
+  @JsonKey(name: 'DonViXuLy')
+  String? donViXuLy;
   @JsonKey(name: 'DonViGiaoViecId')
   String? donViGiaoViecId;
   @JsonKey(name: 'TrangThai')
@@ -112,6 +123,14 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   @JsonKey(name: 'CoTheXoa')
   bool? coTheXoa;
 
+
+  @JsonKey(name: 'NoiDung')
+  String? noiDung;
+  @JsonKey(name: 'VanBanLienQuan')
+  String? vanBanLienQuan;
+  @JsonKey(name: 'FileDinhKems')
+  List<FileDinhKemsResponse>? file;
+
   DanhSachCongViecChiTietNhiemVuModelResponse({
     this.stt,
     this.id,
@@ -152,59 +171,96 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
     this.coTheHuy,
     this.coTheGan,
     this.coTheXoa,
+    this.nguoiXuLy,
+    this.donViXuLy,
+    this.thoiGian,
+    this.nguoiCapNhat,
+    this.donVi,
+    this.noiDung,
+    this.vanBanLienQuan,
+    this.file
   });
 
   factory DanhSachCongViecChiTietNhiemVuModelResponse.fromJson(
-          Map<String, dynamic> json) =>
+      Map<String, dynamic> json) =>
       _$DanhSachCongViecChiTietNhiemVuModelResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
       _$DanhSachCongViecChiTietNhiemVuModelResponseToJson(this);
 
-  DanhSachCongViecChiTietNhiemVuModel toModel() =>
+  DanhSachCongViecChiTietNhiemVuModel toLichSuGiaoViec() =>
       DanhSachCongViecChiTietNhiemVuModel(
-        stt: stt,
-        id: id,
-        tenCv: tenCv,
-        maCv: maCv,
-        trangThaiHanXuLy: trangThaiHanXuLy,
-        noiDungCongViec: noiDungCongViec,
-        doiTuongThucHien: doiTuongThucHien,
-        donViThucHien: donViThucHien,
-        donViThucHienId: donViThucHienId,
-        caNhanThucHien: caNhanThucHien,
-        nguoiThucHienId: nguoiThucHienId,
-        nguoiThucHien: nguoiThucHien,
-        hanXuLyFormatDate: hanXuLyFormatDate,
-        thoiGianGiaoFormatDate: thoiGianGiaoFormatDate,
-        hanXuLy: hanXuLy,
-        thoiGianGiaoViec: thoiGianGiaoViec,
+
         nguoiGiaoViec: nguoiGiaoViec,
         donViGiaoViec: donViGiaoViec,
-        donViGiaoViecId: donViGiaoViecId,
+        thoiGianGiaoViec: thoiGian,
+        nguoiThucHien: nguoiXuLy,
+        donViThucHien: donViXuLy,
+
+
+      );
+  DanhSachCongViecChiTietNhiemVuModel toLichSuTDTT() =>
+      DanhSachCongViecChiTietNhiemVuModel(
+        nguoiGiaoViec: nguoiCapNhat,
+        donViGiaoViec: donVi,
+        thoiGianGiaoViec: thoiGian,
+        noiDungCongViec:noiDung,
+        vanBanLienQuan: vanBanLienQuan,
         trangThai: trangThai,
-        maTrangThai: maTrangThai,
-        trangThaiId: trangThaiId,
-        maNhiemVu: maNhiemVu,
-        nhiemVuId: nhiemVuId,
-        mucDoCongViecId: mucDoCongViecId,
-        mucDoCongViec: mucDoCongViec,
-        noiDungNhiemVu: noiDungNhiemVu,
-        nguoiTaoId: nguoiTaoId,
-        nguoiTao: nguoiTao,
-        currentDonVi: currentDonVi,
-        actionDate: actionDate,
-        congViecLienQuan: congViecLienQuan,
-        isFromCaNhan: isFromCaNhan,
-        wTrangThai: wTrangThai,
-        coTheCapNhatTinhHinh: coTheCapNhatTinhHinh,
-        coTheSua: coTheSua,
-        coTheHuy: coTheHuy,
-        coTheGan: coTheGan,
-        coTheXoa: coTheXoa,
+        file: file?.map((e) => e.toModel()).toList(),
+
       );
 
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
-}
+    DanhSachCongViecChiTietNhiemVuModel toModel() =>
+    DanhSachCongViecChiTietNhiemVuModel(
+    stt: stt,
+    id: id,
+    tenCv: tenCv,
+    maCv: maCv,
+    trangThaiHanXuLy: trangThaiHanXuLy,
+    noiDungCongViec: noiDungCongViec,
+    doiTuongThucHien: doiTuongThucHien,
+    donViThucHien: donViThucHien,
+    donViThucHienId: donViThucHienId,
+    caNhanThucHien: caNhanThucHien,
+    nguoiThucHienId: nguoiThucHienId,
+    nguoiThucHien: nguoiThucHien,
+    hanXuLyFormatDate: hanXuLyFormatDate,
+    thoiGianGiaoFormatDate: thoiGianGiaoFormatDate,
+    hanXuLy: hanXuLy,
+    thoiGianGiaoViec: thoiGianGiaoViec,
+    nguoiGiaoViec: nguoiGiaoViec,
+    donViGiaoViec: donViGiaoViec,
+    donViGiaoViecId: donViGiaoViecId,
+    trangThai: trangThai,
+    maTrangThai: maTrangThai,
+    trangThaiId: trangThaiId,
+    maNhiemVu: maNhiemVu,
+    nhiemVuId: nhiemVuId,
+    mucDoCongViecId: mucDoCongViecId,
+    mucDoCongViec: mucDoCongViec,
+    noiDungNhiemVu: noiDungNhiemVu,
+    nguoiTaoId: nguoiTaoId,
+    nguoiTao: nguoiTao,
+    currentDonVi: currentDonVi,
+    actionDate: actionDate,
+    congViecLienQuan: congViecLienQuan,
+    isFromCaNhan: isFromCaNhan,
+    wTrangThai: wTrangThai,
+    coTheCapNhatTinhHinh: coTheCapNhatTinhHinh,
+    coTheSua: coTheSua,
+    coTheHuy: coTheHuy,
+    coTheGan: coTheGan,
+    coTheXoa: coTheXoa,
+    );
+
+    //todo convert to Model to use
+    @override
+    List<Object?
+    >
+    get
+    props
+    =>
+    [
+    ];
+  }

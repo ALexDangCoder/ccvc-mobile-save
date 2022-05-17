@@ -12,7 +12,7 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
 class WidgetHeadChiTietVanBanDenMobile extends StatefulWidget {
-  final DetailDocumentCubit cubit;
+  final CommonDetailDocumentCubit cubit;
   final String processId;
   final String taskId;
 
@@ -29,7 +29,8 @@ class WidgetHeadChiTietVanBanDenMobile extends StatefulWidget {
 }
 
 class _WidgetHeadChiTietVanBanDenMobileState
-    extends State<WidgetHeadChiTietVanBanDenMobile> with AutomaticKeepAliveClientMixin {
+    extends State<WidgetHeadChiTietVanBanDenMobile>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     widget.cubit.getChiTietVanBanDen(widget.processId, widget.taskId);
@@ -38,6 +39,7 @@ class _WidgetHeadChiTietVanBanDenMobileState
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {
@@ -47,62 +49,67 @@ class _WidgetHeadChiTietVanBanDenMobileState
       stream: widget.cubit.stateStream,
       child: RefreshIndicator(
         onRefresh: () async {
-          await widget.cubit.getChiTietVanBanDen(widget.processId, widget.taskId);
+          await widget.cubit
+              .getChiTietVanBanDen(widget.processId, widget.taskId);
         },
         child: SingleChildScrollView(
-          physics: const  AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: StreamBuilder<ChiTietVanBanDenModel>(
             initialData: widget.cubit.chiTietVanBanDenModel,
             stream: widget.cubit.chiTietVanBanDenSubject,
             builder: (context, snapshot) {
+              final data = snapshot.data ?? ChiTietVanBanDenModel();
               if (snapshot.hasData) {
-                return Column(
-                  children: [
-                    Column(
-                      children: snapshot.data!.toListRow().map(
-                        (row) {
-                          return DetailDocumentRow(
-                            row: row,
-                          );
-                        },
-                      ).toList(),
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      childAspectRatio: 5,
-                      children: snapshot.data!
-                          .toListCheckBox()
-                          .map(
-                            (row) => Row(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                  width: 41,
-                                  child: CustomCheckBox(
-                                    title: '',
-                                    isCheck: row.value,
-                                    onChange: (bool check) {},
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Column(
+                        children: data.toListRow().map(
+                          (row) {
+                            return DetailDocumentRow(
+                              row: row,
+                            );
+                          },
+                        ).toList(),
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      GridView.count(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        childAspectRatio: 5,
+                        children: snapshot.data!
+                            .toListCheckBox()
+                            .map(
+                              (row) => Row(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                    width: 41,
+                                    child: CustomCheckBox(
+                                      title: '',
+                                      isCheck: row.value,
+                                      onChange: (bool check) {},
+                                    ),
                                   ),
-                                ),
-                                AutoSizeText(
-                                  row.title,
-                                  style: textNormalCustom(
-                                    color: titleItemEdit,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w400,
+                                  AutoSizeText(
+                                    row.title,
+                                    style: textNormalCustom(
+                                      color: titleItemEdit,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    )
-                  ],
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      )
+                    ],
+                  ),
                 );
               } else {
                 return const NodataWidget();

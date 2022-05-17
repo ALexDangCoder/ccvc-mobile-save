@@ -45,6 +45,7 @@ const itemWidgetNotUse = Color(0xffFF9F43);
 const backgroundWidget = Color(0xffF0F6FF);
 const textDefault = Color(0xff7966FF);
 const textTitle = Color(0xff3D5586);
+const denHanColor = Color(0xff0046FF);
 const titleItemEdit = Color(0xff586B8B);
 const bgColor = Color(0xffE5E5E5);
 const bgWidgets = Color(0xffF9FAFF);

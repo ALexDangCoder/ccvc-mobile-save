@@ -111,9 +111,9 @@ extension CheckColor on String {
       case 'cho-phan-xu-ly':
         return choXuLyColor;
       case 'chua-thuc-hien':
-        return Colors.red;
+        return choVaoSoColor;
       case 'dang-thuc-hien':
-        return yellowColor;
+        return choTrinhKyColor;
       case 'da-hoan-thanh':
         return daXuLyColor;
       case 'tra-lai':
@@ -128,9 +128,9 @@ extension CheckColor on String {
       case 'qua-han':
         return statusCalenderRed;
       case 'den-han':
-        return dangXyLyColor;
+        return denHanColor;
       case 'trong-han':
-        return numberOfCalenders;
+        return textTitle;
       default:
         return Colors.red;
     }

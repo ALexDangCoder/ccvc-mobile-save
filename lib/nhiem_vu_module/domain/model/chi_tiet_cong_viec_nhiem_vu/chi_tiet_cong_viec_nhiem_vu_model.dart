@@ -12,6 +12,7 @@ class ChiTietCongViecNhiemVuModel {
   String? maTrangThai;
   String? trangThai;
   String? mucDoCongViec;
+  List<String>? danhSachCVLQ;
 
   ChiTietCongViecNhiemVuModel({
     this.hanXuLy,
@@ -23,6 +24,7 @@ class ChiTietCongViecNhiemVuModel {
     this.tenDonViGiaoViec,
     this.maTrangThai,
     this.trangThai,
+    this.danhSachCVLQ,
     this.mucDoCongViec,
   });
 
@@ -37,8 +39,12 @@ class ChiTietCongViecNhiemVuModel {
         tenNguoiGiao ?? '',
       ),
       ChiTietCongViecNhiemVuRow(
-        S.current.dv_ca_nhan_thuc_hien,
-        '${donViCaNhanThucHien ?? ''} ${tenDonViThucHien ?? ''}',
+        S.current.don_vi_thuc_hien,
+        tenDonViThucHien ?? '',
+      ),
+      ChiTietCongViecNhiemVuRow(
+        S.current.nguoi_thuc_hien,
+        tenNguoiThucHien ?? '',
       ),
       ChiTietCongViecNhiemVuRow(
         S.current.han_xu_ly,
@@ -47,6 +53,8 @@ class ChiTietCongViecNhiemVuModel {
       ChiTietCongViecNhiemVuRow(
           S.current.muc_do_cong_viec, mucDoCongViec ?? ''),
       ChiTietCongViecNhiemVuRow(S.current.noi_dung, noiDung?.parseHtml() ?? ''),
+      ChiTietCongViecNhiemVuRow(
+          S.current.cong_viec_lien_quan, danhSachCVLQ ?? ''),
     ];
     return list;
   }

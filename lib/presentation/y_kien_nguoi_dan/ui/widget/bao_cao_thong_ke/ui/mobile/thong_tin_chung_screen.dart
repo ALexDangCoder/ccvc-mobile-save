@@ -1,6 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
@@ -8,11 +13,13 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_wid
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/screen_controller.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
-import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
+import 'package:ccvc_mobile/widgets/tree_view/GraphView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 
 class ThongTinChungYKNDScreen extends StatefulWidget {
   final YKienNguoiDanCubitt cubit;
@@ -32,14 +39,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     super.initState();
     widget.cubit.initTimeRange();
     widget.cubit.callApi();
-    widget.cubit.getDanhSachPAKN(
-      tuNgay: widget.cubit.startDate,
-      denNgay: widget.cubit.endDate,
-      userId: widget.cubit.userId,
-      donViId: widget.cubit.donViId,
-      pageNumber: widget.cubit.pageNumberDSPAKN.toString(),
-      pageSize: widget.cubit.pageSizeDSPAKN.toString(),
-    );
+    widget.cubit.getDanhSachPAKN();
   }
 
   @override
@@ -107,76 +107,93 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
         ],
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FilterDateTimeWidget(
-              context: context,
-              isMobile: true,
-              onChooseDateFilter: (DateTime startDate, DateTime endDate) {
-                widget.cubit.getDanhSachPAKN(
-                  tuNgay: widget.cubit.startDate,
-                  denNgay: widget.cubit.endDate,
-                  userId: widget.cubit.userId,
-                  donViId: widget.cubit.donViId,
-                  pageNumber: widget.cubit.pageNumberDSPAKN.toString(),
-                  pageSize: widget.cubit.pageSizeDSPAKN.toString(),
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ExpandPAKNWidget(
-                name: S.current.tinh_hinh_xu_ly_pakn,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    TiepCanWidget(),
-                    SizedBox(
-                      height: 33,
-                    ),
-                    XuLyWidget(),
-                  ],
+      body: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        stream: widget.cubit.stateStream,
+        error: AppException('', S.current.something_went_wrong),
+        retry: () {},
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (widget.cubit.canLoadMoreList && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+              widget.cubit.loadMoreGetDSPAKN();
+            }
+            return true;
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FilterDateTimeWidget(
+                  context: context,
+                  isMobile: true,
+                  onChooseDateFilter: (DateTime startDate, DateTime endDate) {
+                    widget.cubit.getDanhSachPAKN();
+                  },
                 ),
-              ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ExpandPAKNWidget(
+                    name: S.current.tinh_hinh_xu_ly_pakn,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        TiepCanWidget(),
+                        SizedBox(
+                          height: 33,
+                        ),
+                        XuLyWidget(),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 14,
+                ),
+                Container(
+                  color: homeColor,
+                  height: 6,
+                ),
+                spaceH20,
+                InkWell(
+                  onTap: () {
+                    goTo(context, ChiTietPKAN(iD: 'fd393528-3b62-4766-8014-235cc30210cc', taskID: '2509abc0-97c5-494b-baf3-45422ec35ce1',));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('Danh sách PAKN', style: textNormalCustom(color: textTitle, fontSize: 16, fontWeight: FontWeight.w500,),),
+                  ),
+                ),
+                StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
+                  stream: widget.cubit.listDanhSachKetQuaPakn.stream,
+                  initialData: [],
+                  builder: (context, snapShot) {
+                    final data = snapShot.data ?? [];
+                    if (data.isEmpty) {
+                      return Container(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),child: const NodataWidget());
+                    } else {
+                      return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return _itemDanhSachPAKN(dsKetQuaPakn: data[index]);
+                          });
+                    }
+                  },
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 14,
-            ),
-            Container(
-              color: homeColor,
-              height: 6,
-            ),
-            ListViewLoadMore(
-              cubit: widget.cubit,
-              isListView: true,
-              sinkWap: true,
-              callApi: (page) {
-                widget.cubit.getDanhSachPAKN(
-                  tuNgay: widget.cubit.startDate,
-                  denNgay: widget.cubit.endDate,
-                  userId: widget.cubit.userId,
-                  donViId: widget.cubit.donViId,
-                  pageNumber: widget.cubit.pageNumberDSPAKN.toString(),
-                  pageSize: widget.cubit.pageSizeDSPAKN.toString(),
-                );
-              },
-              viewItem: (value, index) {
-                return _itemDanhSachPAKN();
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _itemDanhSachPAKN() {
+  Widget _itemDanhSachPAKN({required DanhSachKetQuaPAKNModel dsKetQuaPakn}) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       padding: const EdgeInsets.symmetric(
@@ -212,7 +229,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               Expanded(
                 flex: 8,
                 child: Text(
-                  "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
+                  'Số: ',
                   style: textNormalCustom(
                     color: infoColor,
                     fontWeight: FontWeight.w400,
@@ -235,7 +252,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               Expanded(
                 flex: 8,
                 child: Text(
-                  "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
+                  'Tên cá nhân/ tổ chức: ',
                   style: textNormalCustom(
                     color: infoColor,
                     fontWeight: FontWeight.w400,
@@ -258,7 +275,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               Expanded(
                 flex: 8,
                 child: Text(
-                  "Tên cá nhân/ tổ chức: 	Ban ATGT Tiền Giang -",
+                  'Hạn xử lý: ${dsKetQuaPakn.hanXuLy}',
                   style: textNormalCustom(
                     color: infoColor,
                     fontWeight: FontWeight.w400,
@@ -271,5 +288,19 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
         ],
       ),
     );
+  }
+
+
+  Color statusTrangThai(int trangThai) {
+    switch(trangThai) {
+      case YKienNguoiDanCubitt.TRONGHAN : {
+        return choTrinhKyColor;
+      }
+      case YKienNguoiDanCubitt.DENHAN : {
+        return choVaoSoColor;
+      }
+      default :
+        return statusCalenderRed;
+    }
   }
 }

@@ -32,7 +32,6 @@ class ImageAssets {
   static const headerMenuDong = '$baseImg/background_menu_dong.png';
   static const icHappyBirthday = '$baseImg/ic_happy_birthday.png';
   static const icNewButton = '$baseImg/ic_new_button.svg';
-  static const String ic_send = '$baseImg/ic_send.svg';
   static const String ic_cam = '$baseImg/ic_cam.svg';
   static const icLichHopTrucTiep = '$baseImg/ic_lich_hop_truc_tiep.svg';
   static const icLichHopTrucTuyen = '$baseImg/ic_lich_hop_truc_tuyen.svg';
@@ -493,7 +492,6 @@ class ImageAssets {
   static const String icThongKe= '$baseImg/ic_thong_ke.svg';
   static const String ic_copy= '$baseImg/ic_copy.svg';
   static const String icInfo= '$baseImg/ic_qlvb_info.svg';
-  static const String icLocation= '$baseImg/ic_qlvb_location.svg';
 
 
 

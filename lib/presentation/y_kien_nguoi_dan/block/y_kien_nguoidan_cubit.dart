@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
@@ -40,6 +41,14 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   int pageSizeDSPAKN = 10;
   int pageNumberDSPAKN = 1;
+  bool loadMore = false;
+  bool canLoadMoreList = true;
+  bool refresh = false;
+
+  static const int TRONGHAN = 1;
+  static const int DENHAN = 2;
+  static const int QUAHAN = 3;
+
 
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
@@ -315,25 +324,53 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
     );
   }
+  ///huy
 
-  Future<void> getDanhSachPAKN({
-    String? tuNgay,
-    String? denNgay,
-    String? pageSize,
-    String? pageNumber,
-    String? userId,
-    String? donViId,
-  }) async {
+  Future<void> loadMoreGetDSPAKN() async {
+    if(loadMore == false) {
+      pageNumberDSPAKN += 1;
+      canLoadMoreList = true;
+      loadMore = true;
+      await getDanhSachPAKN();
+    } else {
+      //nothing
+    }
+  }
+
+  Future<void> refreshGetDSPAKN() async {
+    canLoadMoreList = true;
+    if(refresh == false) {
+      pageNumberDSPAKN = 1;
+      refresh = true;
+      await getDanhSachPAKN();
+    }
+  }
+
+  BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn = BehaviorSubject();
+
+  Future<void> getDanhSachPAKN() async {
     showLoading();
     final result = await _YKNDRepo.getDanhSachPAKN(
-      tuNgay: tuNgay,
+      tuNgay: startDate,
       donViId: donViId,
-      denNgay: denNgay,
-      pageSize: pageSize,
-      pageNumber: pageNumber,
+      denNgay: endDate,
+      pageSize: pageSizeDSPAKN.toString(),
+      pageNumber: pageNumberDSPAKN.toString(),
       userId: userId,
     );
-    result.when(success: (success) {}, error: (error) {});
+    showContent();
+    result.when(success: (success) {
+      if(listDanhSachKetQuaPakn.hasValue) {
+        listDanhSachKetQuaPakn.sink.add(listDanhSachKetQuaPakn.value + success);
+        canLoadMoreList = listDanhSachKetQuaPakn.value.length >= pageSizeDSPAKN;
+        loadMore = false;
+        refresh = false;
+      } else {
+        listDanhSachKetQuaPakn.sink.add(success);
+      }
+    }, error: (error) {
+      listDanhSachKetQuaPakn.sink.add([]);
+    });
   }
 
   Future<void> getDashBoardTinhHinhXuLy(

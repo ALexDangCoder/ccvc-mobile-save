@@ -30,7 +30,7 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ChiTietPaknCubit cubit;
-  int initIndexTab = 5;
+  int initIndexTab = 0;
 
   @override
   void initState() {
@@ -119,7 +119,7 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
                   id: widget.iD,
                 ),
                 TabYKienXuLy(
-                  cubit: cubit,
+                  cubit: cubit, id: widget.iD,
                 ),
               ],
             ),

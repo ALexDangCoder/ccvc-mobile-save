@@ -28,8 +28,10 @@ class TabYKienXuLy extends StatefulWidget {
   const TabYKienXuLy({
     Key? key,
     required this.cubit,
+    required this.id,
   }) : super(key: key);
   final ChiTietPaknCubit cubit;
+  final String id;
 
   @override
   State<TabYKienXuLy> createState() => _TabYKienXuLyState();
@@ -45,7 +47,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.idYkien = 'e787f7fe-b2e9-40ea-8567-e6f07b5b9bef';
+    widget.cubit.idYkien = widget.id;
     widget.cubit.refreshPosts();
     //_nhapYkienController = TextEditingController();
     _nhapYMainController = TextEditingController();
@@ -281,7 +283,9 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
               color: AppTheme.getInstance().titleColor(),
             ), //infoColor
           ),
+          if (isViewData)
           spaceH10,
+          if (isViewData)
           Text(
             S.current.van_ban_dinh_kem,
             style: textNormalCustom(

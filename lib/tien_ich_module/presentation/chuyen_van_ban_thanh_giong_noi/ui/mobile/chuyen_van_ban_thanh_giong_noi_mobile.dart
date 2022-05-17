@@ -76,7 +76,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
             ),
             const SizedBox(height: 10),
             Text(
-              'Giọng nói',
+              S.current.giong_noi,
               style: tokenDetailAmount(
                 fontSize: 16.0.textScale(),
                 color: dateColor,
@@ -84,7 +84,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
             ),
             const SizedBox(height: 10),
             CoolDropDown(
-              initData: 'Nữ miền Bắc (Liên)',
+              initData: S.current.nu_mien_bac,
               listData: data.map((e) => e.text ?? '').toList(),
               onChange: (vl) {
                 final List<String> dataSelect =

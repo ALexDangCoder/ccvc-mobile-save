@@ -52,7 +52,8 @@ class ChiTietCongViecNhiemVuModelResponse extends Equatable {
   String? trangThai;
   @JsonKey(name: 'MucDoCongViec')
   String? mucDoCongViec;
-
+  @JsonKey(name: 'DanhSachCVLQ')
+  List<String>? danhSachCVLQ;
   ChiTietCongViecNhiemVuModelResponse({
     this.hanXuLy,
     this.tenDonViThucHien,
@@ -64,6 +65,7 @@ class ChiTietCongViecNhiemVuModelResponse extends Equatable {
     this.maTrangThai,
     this.trangThai,
     this.mucDoCongViec,
+    this.danhSachCVLQ,
   });
 
   factory ChiTietCongViecNhiemVuModelResponse.fromJson(
@@ -84,6 +86,7 @@ class ChiTietCongViecNhiemVuModelResponse extends Equatable {
     maTrangThai:maTrangThai,
     trangThai:trangThai,
     mucDoCongViec:mucDoCongViec,
+    danhSachCVLQ: danhSachCVLQ,
   );
 
   //todo convert to Model to use

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -169,9 +167,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   }
 
   bool isPasteOnChange(String value) {
-    log('>>>>>>>>${value}');
-    log('>>>>>>>><<<<<<<<<<<<<${valueText}');
-
     if (value.length > valueText.length + 1) {
       print('${valueText}');
       return true;

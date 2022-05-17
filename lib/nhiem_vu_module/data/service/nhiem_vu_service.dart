@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_phan_xu_ly_nhi
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_thu_hoi_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_tra_lai_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/van_ban_lien_quan_response.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/xem_luong_xu_ly_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/y_kien_su_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
@@ -88,6 +89,17 @@ abstract class NhiemVuService {
     @Query('nhiemVuId') String nhiemVuId,
     @Query('isCaNhan') bool isCaNhan,
   );
+  @GET(ApiConstants.GET_LICH_SU_GIAO_VIEC)
+  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse>
+  getLichSuGiaoViec(
+      @Query('congViecId') String congViecId,
+      );
+
+  @GET(ApiConstants.GET_LICH_SU_TDTT)
+  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse>
+  getLichSuTDTT(
+      @Query('congViecId') String congViecId,
+      );
 
   @GET(ApiConstants.GET_LICH_SU_TRA_LAI_NHIEM_VU)
   Future<DataLichSuTraLaiNhiemVuResponse> getLichSuTraLaiNhiemVu(
@@ -117,4 +129,7 @@ abstract class NhiemVuService {
   Future<DataVanBanLienQuanNhiemVuResponse> getVanBanLienQuanNhiemVu(
       @Path('id') String id,
       );
+  @GET(ApiConstants.GET_LUONG_XU_LY_NHIEM_VU)
+  Future<XemLuongXuLyNhiemVuResponse> getLuongXuLyNhiemVu(
+      @Query('nhiemVuId') String id);
 }

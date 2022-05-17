@@ -88,6 +88,17 @@ abstract class NhiemVuService {
     @Query('nhiemVuId') String nhiemVuId,
     @Query('isCaNhan') bool isCaNhan,
   );
+  @GET(ApiConstants.GET_LICH_SU_GIAO_VIEC)
+  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse>
+  getLichSuGiaoViec(
+      @Query('congViecId') String congViecId,
+      );
+
+  @GET(ApiConstants.GET_LICH_SU_TDTT)
+  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse>
+  getLichSuTDTT(
+      @Query('congViecId') String congViecId,
+      );
 
   @GET(ApiConstants.GET_LICH_SU_TRA_LAI_NHIEM_VU)
   Future<DataLichSuTraLaiNhiemVuResponse> getLichSuTraLaiNhiemVu(

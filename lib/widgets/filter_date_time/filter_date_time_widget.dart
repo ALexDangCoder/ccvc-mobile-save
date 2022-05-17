@@ -96,7 +96,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  widget
+                                  widget.currentStartDate?? widget
                                       .selectedStartDate.toStringWithListFormat,
                                   style: textNormal(textBodyTime, 14.0),
                                 ),

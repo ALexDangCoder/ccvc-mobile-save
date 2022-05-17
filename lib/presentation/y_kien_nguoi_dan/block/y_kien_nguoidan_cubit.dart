@@ -539,7 +539,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   void initTimeRange() {
-    startDate = DateTime.now().toStringWithListFormat;
+    final DateTime date=DateTime.now();
+    startDate = DateTime(date.year,date.month,date.day-30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;
   }
 

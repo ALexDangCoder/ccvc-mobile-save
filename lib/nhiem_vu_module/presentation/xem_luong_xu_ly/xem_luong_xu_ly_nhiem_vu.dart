@@ -7,15 +7,17 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/luong_xu_ly_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/bloc/xem_luong_xu_ly_cubit.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/widgets/container_status_luong_xu_ly_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/widgets/tree_view_widget.dart';
 
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+
 class XemLuongXuLyNhiemVu extends StatefulWidget {
   final String id;
-  const XemLuongXuLyNhiemVu({Key? key,required this.id}) : super(key: key);
+  const XemLuongXuLyNhiemVu({Key? key, required this.id}) : super(key: key);
 
   @override
   _XemLuongXuLyNhiemVuState createState() => _XemLuongXuLyNhiemVuState();
@@ -29,11 +31,12 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
     super.initState();
     viewModel.xemLuongXuLyVbDen(widget.id);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarDefaultBack(S.current.luong_xu_ly),
-      body:Column(
+      body: Column(
         children: [
           Expanded(
             flex: 7,
@@ -45,109 +48,50 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                     return TreeViewWidget<DonViLuongNhiemVuModel>(
                       tree: data,
                       builder: (donViLuongModel) {
-                        final value = donViLuongModel as DonViLuongNhiemVuModel;
+                        final data = donViLuongModel
+                            as NodePhanXuLy<DonViLuongNhiemVuModel>;
+                        final value = data.value;
 
-                        return value.tenNguoiTao ==null? Container(
-                          width: 200,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: borderColor,
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-
-                              Text(
-                                donViLuongModel.tenDonVi ?? '',
-                                maxLines: 2,
-                                style: textNormal(
-                                  fontColorTablet2,
-                                  14,
+                        return value.tenNguoiTao == null
+                            ? Container(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 200,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Container(
+                                padding:
+                                    const EdgeInsets.only(top: 13, bottom: 10),
+                                clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
-                                  color: donViLuongModel.getColor(),
-                                  borderRadius:
-                                  const BorderRadius.all(
-                                    Radius.circular(30),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: borderColor,
                                   ),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 5,
-                                  horizontal: 11,
-                                ),
-                                child: FittedBox(
-                                  child: Text(
-                                    '${donViLuongModel.trangThai}',
-                                    maxLines: 1,
-                                    style: textNormalCustom(
-                                      color: donViLuongModel
-                                          .textColor(),
-                                      fontSize: 12,
-                                    ),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                            ],
-                          ),
-                        ):  Container(
-                          width: 200,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: borderColor,
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 4,
-                                width: double.infinity,
-                                color: donViLuongModel.vaiTroColor(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
                                 ),
                                 child: Column(
                                   children: [
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
                                     Text(
-                                      '${donViLuongModel.tenDonVi ?? ''}',
+                                      value.tenDonVi ?? '',
                                       maxLines: 2,
                                       style: textNormal(
-                                        selectColorTabbar,
+                                        fontColorTablet2,
                                         14,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
+                                    Text(
+                                      '${S.current.nguoi_tao}:${value.ten}',
+                                      style: textNormal(infoColor, 12),
+                                      textAlign: TextAlign.center,
+                                    ),
                                     const SizedBox(
-                                      height: 10,
+                                      height: 12,
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: donViLuongModel.getColor(),
-                                        borderRadius:
-                                        const BorderRadius.all(
+                                        color: value.getColor(),
+                                        borderRadius: const BorderRadius.all(
                                           Radius.circular(30),
                                         ),
                                       ),
@@ -157,25 +101,88 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
                                       ),
                                       child: FittedBox(
                                         child: Text(
-                                          '${donViLuongModel.trangThai}',
+                                          '${value.trangThai}',
                                           maxLines: 1,
                                           style: textNormalCustom(
-                                            color: donViLuongModel
-                                                .textColor(),
+                                            color: value.textColor(),
                                             fontSize: 12,
                                           ),
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
                                   ],
                                 ),
                               )
-                            ],
-                          ),
-                        );
+                            : ContainerStatusLuongXuLyWidget(
+                                colorBorder: value.vaiTroColor(),
+                                child: Column(
+                                  children: [
+                                    if (data.children.isEmpty)
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 10),
+                                        width: 48,
+                                        height: 48,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.red),
+                                        child: CachedNetworkImage(
+                                          imageUrl: '',
+                                          fit: BoxFit.cover,
+                                          errorWidget: (context, url, error) =>
+                                              Container(
+                                            color: Colors.black,
+                                            child: Image.asset(
+                                              ImageAssets.anhDaiDienMacDinh,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      Text(
+                                        '${value.tenDonVi ?? ''}',
+                                        maxLines: 2,
+                                        style: textNormal(
+                                          selectColorTabbar,
+                                          14,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    Text(
+                                      '${value.ten ?? ''} - Trưởng phòng',
+                                      style: textNormal(
+                                        infoColor,
+                                        12,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: value.getColor(),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(30),
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 5,
+                                        horizontal: 11,
+                                      ),
+                                      child: FittedBox(
+                                        child: Text(
+                                          '${value.trangThai}',
+                                          maxLines: 1,
+                                          style: textNormalCustom(
+                                            color: value.textColor(),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ));
                       },
                     );
                   }
@@ -267,12 +274,12 @@ class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
       ),
     );
   }
+
   Widget rowChuThich({
     required Color color,
     required String title,
     BoxShape boxShape = BoxShape.circle,
   }) {
-
     return Row(
       children: [
         Container(

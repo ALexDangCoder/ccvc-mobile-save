@@ -934,7 +934,8 @@
   "xoa_thong_bao": "Xóa thông báo",
   "ban_co_muon_xoa_thong_bao" : "Bạn có muốn xóa thông báo?",
   "doc_tat_ca" : "Đọc tất cả",
-  "danh_dau_tat_ca_da_doc" : "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ."
+  "danh_dau_tat_ca_da_doc" : "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
+  "nguoi_tao" : "Người tạo"
 
 }
 

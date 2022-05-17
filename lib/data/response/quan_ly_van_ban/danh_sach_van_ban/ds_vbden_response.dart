@@ -51,6 +51,7 @@ class DataResponseVBDen {
                 sender: e.NoiGui,
                 statusCode: e.TrangThaiXuLy,
                 number: e.SoKyHieu,
+                trichYeu: e.trichYeu
               ),
             )
             .toList(),
@@ -81,6 +82,8 @@ class PageDataResponseVBDen {
   String? SoKyHieu;
   @JsonKey(name: 'TrangThaiXuLy')
   int? TrangThaiXuLy;
+  @JsonKey(name: 'TrichYeu')
+  String? trichYeu;
 
   PageDataResponseVBDen({
     this.iD,
@@ -92,6 +95,7 @@ class PageDataResponseVBDen {
     this.NoiGui,
     this.SoKyHieu,
     this.TrangThaiXuLy,
+    this.trichYeu,
   });
 
   factory PageDataResponseVBDen.fromJson(Map<String, dynamic> json) =>
@@ -109,5 +113,6 @@ class PageDataResponseVBDen {
         statusCode: TrangThaiXuLy,
         number: SoKyHieu,
         sender: NoiGui,
+        trichYeu: trichYeu,
       );
 }

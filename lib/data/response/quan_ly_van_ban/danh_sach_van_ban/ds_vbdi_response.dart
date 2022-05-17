@@ -41,6 +41,7 @@ class DataResponseVBDi {
                 nguoiSoanThao: e.nguoiSoanThao,
                 donViSoanThao: e.donViSoanThao,
                 priorityCode: e.codeDoKhan,
+                trichYeu: e.trichYeu,
               ),
             )
             .toList(),
@@ -63,9 +64,11 @@ class PageDataResponseVBDi {
   String? donViSoanThao;
   @JsonKey(name: 'CodeDoKhan')
   String? codeDoKhan;
+  @JsonKey(name: 'TrichYeu')
+  String? trichYeu;
 
   PageDataResponseVBDi(this.iD, this.doKhan, this.loaiVanBan, this.ngayDen,
-      this.nguoiSoanThao, this.donViSoanThao, this.codeDoKhan);
+      this.nguoiSoanThao, this.donViSoanThao, this.codeDoKhan, this.trichYeu);
 
   factory PageDataResponseVBDi.fromJson(Map<String, dynamic> json) =>
       _$PageDataResponseVBDiFromJson(json);
@@ -80,5 +83,6 @@ class PageDataResponseVBDi {
         iD: iD,
         donViSoanThao: donViSoanThao,
         priorityCode: codeDoKhan,
+        trichYeu: trichYeu,
       );
 }

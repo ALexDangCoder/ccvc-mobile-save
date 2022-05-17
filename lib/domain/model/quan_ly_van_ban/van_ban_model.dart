@@ -10,6 +10,7 @@ class VanBanModel {
   int? statusCode;
   String? sender;
   String? priorityCode;
+  String? trichYeu;
 
   VanBanModel({
     this.iD,
@@ -23,6 +24,7 @@ class VanBanModel {
     this.sender,
     this.donViSoanThao,
     this.priorityCode,
+    this.trichYeu
   });
 
   VanBanModel.empty();

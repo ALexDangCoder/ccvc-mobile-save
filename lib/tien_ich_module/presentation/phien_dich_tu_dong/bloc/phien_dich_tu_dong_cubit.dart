@@ -74,6 +74,7 @@ class PhienDichTuDongCubit {
   final Debouncer debouncer = Debouncer(milliseconds: 500);
   Future<void> translateDocument({required String document}) async {
     if(document.isEmpty){
+      textTranslateSubject.add('');
       return;
     }
     final rs = await repo.translateDocument(

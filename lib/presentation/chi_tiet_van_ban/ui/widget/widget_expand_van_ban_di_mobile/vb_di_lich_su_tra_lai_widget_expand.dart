@@ -25,7 +25,6 @@ class VBDiLichSuTraLaiExpandWidget extends StatelessWidget {
               .map(
                 (e) => WidgetInExpandVanBan(
               row: e.toListRowTraLai(),
-              cubit: cubit,
             ),
           )
               .toList()

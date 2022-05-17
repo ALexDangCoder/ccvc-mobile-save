@@ -11,12 +11,13 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
-class WidgetHeadChiTietVanBanDenMobile extends StatefulWidget {
+class WidgetHeadChiTietVanBanDenTablet extends StatefulWidget {
   final CommonDetailDocumentCubit cubit;
   final String processId;
+
   final String taskId;
 
-  const WidgetHeadChiTietVanBanDenMobile({
+  const WidgetHeadChiTietVanBanDenTablet({
     Key? key,
     required this.cubit,
     required this.processId,
@@ -24,12 +25,12 @@ class WidgetHeadChiTietVanBanDenMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<WidgetHeadChiTietVanBanDenMobile> createState() =>
-      _WidgetHeadChiTietVanBanDenMobileState();
+  State<WidgetHeadChiTietVanBanDenTablet> createState() =>
+      _WidgetHeadChiTietVanBanDenTabletState();
 }
 
-class _WidgetHeadChiTietVanBanDenMobileState
-    extends State<WidgetHeadChiTietVanBanDenMobile>
+class _WidgetHeadChiTietVanBanDenTabletState
+    extends State<WidgetHeadChiTietVanBanDenTablet>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
@@ -49,11 +50,10 @@ class _WidgetHeadChiTietVanBanDenMobileState
       stream: widget.cubit.stateStream,
       child: RefreshIndicator(
         onRefresh: () async {
-          await widget.cubit
-              .getChiTietVanBanDen(widget.processId, widget.taskId);
+          await widget.cubit.getChiTietVanBanDen(widget.processId, widget.taskId);
         },
         child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const  AlwaysScrollableScrollPhysics(),
           child: StreamBuilder<ChiTietVanBanDenModel>(
             initialData: widget.cubit.chiTietVanBanDenModel,
             stream: widget.cubit.chiTietVanBanDenSubject,
@@ -66,7 +66,7 @@ class _WidgetHeadChiTietVanBanDenMobileState
                     children: [
                       Column(
                         children: data.toListRow().map(
-                          (row) {
+                              (row) {
                             return DetailDocumentRow(
                               row: row,
                             );
@@ -85,27 +85,27 @@ class _WidgetHeadChiTietVanBanDenMobileState
                             .toListCheckBox()
                             .map(
                               (row) => Row(
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                    width: 41,
-                                    child: CustomCheckBox(
-                                      title: '',
-                                      isCheck: row.value,
-                                      onChange: (bool check) {},
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    row.title,
-                                    style: textNormalCustom(
-                                      color: titleItemEdit,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
+                            children: [
+                              SizedBox(
+                                height: 20,
+                                width: 41,
+                                child: CustomCheckBox(
+                                  title: '',
+                                  isCheck: row.value,
+                                  onChange: (bool check) {},
+                                ),
                               ),
-                            )
+                              AutoSizeText(
+                                row.title,
+                                style: textNormalCustom(
+                                  color: titleItemEdit,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                             .toList(),
                       )
                     ],

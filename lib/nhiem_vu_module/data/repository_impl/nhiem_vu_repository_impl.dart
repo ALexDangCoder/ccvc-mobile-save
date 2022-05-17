@@ -214,10 +214,31 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
   }
 
   @override
+
   Future<Result<NodePhanXuLy<DonViLuongNhiemVuModel>?>> getLuongXuLyVanBanDen(String id) {
     return runCatchingAsync<XemLuongXuLyNhiemVuResponse,
         NodePhanXuLy<DonViLuongNhiemVuModel>?>(
             () => nhiemVuService.getLuongXuLyNhiemVu(id),
             (res) => res.toDomain());
+  }
+
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuGiaoViec(String congViecID) {
+    return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
+        List<DanhSachCongViecChiTietNhiemVuModel>>(
+          () =>
+          nhiemVuService.getLichSuGiaoViec(congViecID),
+          (response) => response.data?.map((e) => e.toLichSuGiaoViec()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuThayDoiTrangThai(String congViecID) {
+    return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
+        List<DanhSachCongViecChiTietNhiemVuModel>>(
+          () =>
+          nhiemVuService.getLichSuTDTT(congViecID),
+          (response) => response.data?.map((e) => e.toLichSuTDTT()).toList() ?? [],
+    );
+
   }
 }

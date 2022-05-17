@@ -15,6 +15,7 @@ class ImageAssets {
   static const String ic_next_color = '$baseImg/ic_next_color.svg';
   static const String ic_chitet = '$baseImg/ic_chitiet.svg';
   static const String icThongKe= '$baseImg/ic_thong_ke.svg';
+  static const String icNoDataNhiemVu= '$baseImg/ic_no_data_nhiem_vu.svg';
 
    static SvgPicture svgAssets(
     String name, {

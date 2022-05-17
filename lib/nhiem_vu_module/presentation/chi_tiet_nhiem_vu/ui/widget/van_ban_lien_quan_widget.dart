@@ -8,8 +8,6 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'expand_only_nhiem_vu.dart';
-
 class VanBanLienQuanWidget extends StatefulWidget {
   final ChiTietNVCubit cubit;
 
@@ -28,10 +26,6 @@ class _VanBanLienQuanWidgetState extends State<VanBanLienQuanWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 1,
-          color: radioUnfocusColor,
-        ),
         Padding(
           padding: const EdgeInsets.only(left: 16, right: 16,top: 16,),
           child: Column(

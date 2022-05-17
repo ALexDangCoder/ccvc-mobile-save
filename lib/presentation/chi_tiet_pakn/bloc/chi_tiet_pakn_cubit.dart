@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -16,8 +19,6 @@ part 'chi_tiet_pakn_state.dart';
 
 class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   ChiTietPaknCubit() : super(ChiTietPaknInitial());
-  final BehaviorSubject<List<YKienXuLyYKNDModel>> _yKienXuLyYkndSubject =
-      BehaviorSubject<List<YKienXuLyYKNDModel>>();
 
   ///declare variable
   final YKienNguoiDanRepository YKNDRepo = Get.find();
@@ -27,6 +28,26 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
 
   final BehaviorSubject<List<List<ListRowYKND>>> ketQuaXuLyRowData =
       BehaviorSubject<List<List<ListRowYKND>>>();
+
+//tab y kien xu ly
+  int byteToMb = 1048576;
+  int size = 0;
+  final List<PickImageFileModel> listPickFileMain = [];
+  final List<YKienXuLyYKNDModel> listYKienXuLy = [];
+
+  //final Set<PickImageFileModel> listYkien = {};
+  List<File> listFileMain = [];
+  final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
+  String mess = '';
+  bool canLoadMoreMy = true;
+  bool _isRefresh = true;
+  bool _isLoading = false;
+  int page = 0;
+
+  bool get canLoadMore => canLoadMoreMy;
+
+  bool get isRefresh => _isRefresh;
+  String idYkien = '';
 
   ///Function
   Future<void> getTienTrinhXyLy(String kienNghiId) async {
@@ -181,16 +202,31 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
 
   Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
     showLoading();
-    final result = await YKNDRepo.getDanhSachYKienPAKN(
+    final Result<DanhSachKetQuaYKXLModel> result =
+        await YKNDRepo.getDanhSachYKienPAKN(
       kienNghiId,
       2,
     );
     showContent();
     result.when(
-        success: (res) {
-          _yKienXuLyYkndSubject.sink.add(res.danhSachKetQua ?? []);
-        },
-        error: (error) {});
+      success: (res) {
+        emit(
+          ChiTietPaknSuccess(
+            CompleteType.SUCCESS,
+            list: res.danhSachKetQua,
+          ),
+        );
+        idYkien = res.danhSachKetQua?.first.kienNghiId ?? '';
+      },
+      error: (error) {
+        emit(
+          ChiTietPaknSuccess(
+            CompleteType.SUCCESS,
+            message: error.message,
+          ),
+        );
+      },
+    );
   }
 
   Future<String> postYKienXuLy({

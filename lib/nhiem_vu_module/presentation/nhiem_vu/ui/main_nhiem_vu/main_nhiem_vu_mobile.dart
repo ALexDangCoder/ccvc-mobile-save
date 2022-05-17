@@ -67,7 +67,10 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
                       nhiemVuCubit: cubit,
                     );
                   }else{
-                    return const BaoCaoThongKeNhiemVuMobile();
+                    return  BaoCaoThongKeNhiemVuMobile(
+                      danhSachCubit: danhSachCubit,
+                      nhiemVuCubit: cubit,
+                    );
                   }
                 },
 

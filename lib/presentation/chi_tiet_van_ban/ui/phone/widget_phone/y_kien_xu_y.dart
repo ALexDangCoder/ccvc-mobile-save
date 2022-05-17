@@ -1,5 +1,5 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/send_comment_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:flutter/material.dart';
 
 class YKienXuLyExpand extends StatefulWidget {
@@ -39,14 +39,11 @@ class _YKienXuLyExpandState extends State<YKienXuLyExpand> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Visibility(
                         visible: true,
-                        child: SendCommentWidgetMission(
-                          isReComment: false,
-                          onSendComment: (text, listFile) =>
-                              widget.onSendComment(text, listFile),
-                          miss: widget.miss,
+                        child: WidgetComments(
+
                         ),
                       ),
                       // ListView.builder(

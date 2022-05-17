@@ -86,7 +86,6 @@ class _ContainerMenuBaoChiWidgetState extends State<ContainerMenuBaoChiWidget> {
                         child: Text(
                           widget.name,
                           style: tokenDetailAmount(
-                            color: textTitle,
                             fontSize: 14.0.textScale(),
                           ),
                         ),

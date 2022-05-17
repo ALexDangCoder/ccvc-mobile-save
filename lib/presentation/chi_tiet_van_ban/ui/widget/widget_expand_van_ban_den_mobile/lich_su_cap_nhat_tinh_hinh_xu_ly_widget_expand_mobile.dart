@@ -9,7 +9,7 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
 class LichSuCapNhatTinhHinhXuLyExpandWidgetMobile extends StatefulWidget {
-  final DetailDocumentCubit cubit;
+  final HistoryUpdateDetailDocumentCubit cubit;
   final String processId;
 
   const LichSuCapNhatTinhHinhXuLyExpandWidgetMobile({
@@ -24,7 +24,8 @@ class LichSuCapNhatTinhHinhXuLyExpandWidgetMobile extends StatefulWidget {
 }
 
 class _LichSuCapNhatTinhHinhXuLyExpandWidgetMobileState
-    extends State<LichSuCapNhatTinhHinhXuLyExpandWidgetMobile>  with AutomaticKeepAliveClientMixin {
+    extends State<LichSuCapNhatTinhHinhXuLyExpandWidgetMobile>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     widget.cubit.getLichSuVanBanLichSuCapNhat(
@@ -63,25 +64,23 @@ class _LichSuCapNhatTinhHinhXuLyExpandWidgetMobileState
                   final data = snapshot.data ?? [];
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      children: data.isNotEmpty
-                          ? data
-                              .map(
-                                (e) => WidgetInExpandVanBan(
-                                  row: e.toListRowLichSuCapNhat(),
-                                  cubit: widget.cubit,
-                                ),
-                              )
-                              .toList()
-                          : [
-                              const Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 16.0),
-                                  child: NodataWidget(),
-                                ),
-                              )
-                            ],
-                    ),
+                    child: data.isNotEmpty
+                        ? SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      row: e.toListRowLichSuCapNhat(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          )
+                        : const Padding(
+                            padding: EdgeInsets.only(top: 16.0),
+                            child: NodataWidget(),
+                          ),
                   );
                 },
               ),

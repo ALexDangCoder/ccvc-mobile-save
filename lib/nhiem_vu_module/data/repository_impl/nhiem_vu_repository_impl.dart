@@ -208,4 +208,24 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
         () => nhiemVuService.getVanBanLienQuanNhiemVu(id),
         (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
   }
+
+  @override
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuGiaoViec(String congViecID) {
+    return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
+        List<DanhSachCongViecChiTietNhiemVuModel>>(
+          () =>
+          nhiemVuService.getLichSuGiaoViec(congViecID),
+          (response) => response.data?.map((e) => e.toLichSuGiaoViec()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuThayDoiTrangThai(String congViecID) {
+    return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
+        List<DanhSachCongViecChiTietNhiemVuModel>>(
+          () =>
+          nhiemVuService.getLichSuTDTT(congViecID),
+          (response) => response.data?.map((e) => e.toLichSuTDTT()).toList() ?? [],
+    );
+  }
 }

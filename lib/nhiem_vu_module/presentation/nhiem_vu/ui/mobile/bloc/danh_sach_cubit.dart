@@ -50,7 +50,13 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   BehaviorSubject<stateBieuDo> getStateLDM =
   BehaviorSubject.seeded(stateBieuDo.TheoTrangThai);
-  BehaviorSubject<bool> checkClickSearch=BehaviorSubject();
+ final BehaviorSubject<bool> checkClickSearch=BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
+
+  void setSelectSearch(){
+    checkClickSearch.sink.add(!checkClickSearch.value);
+  }
+  bool isHideClearData = false;
   String ngayDauTien = '';
   String ngayKetThuc = '';
   String mangTrangThai='';
@@ -148,6 +154,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required int size,
      int? trangThaiHanXuLy,
   }) async {
+    mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
       index: index,

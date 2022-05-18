@@ -31,6 +31,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
+    print('----------------------------- startDate ${widget.cubit.startDate}------------');
     widget.cubit.callApi();
   }
 
@@ -41,121 +42,115 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
         preferredSize: const Size.fromHeight(56.0),
         child: StreamBuilder<bool>(
           initialData: false,
-          stream: widget.cubit.selectSreach,
+          stream: widget.cubit.selectSearch,
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
-                ? Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    padding: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: cellColorborder,
-                      ),
-                    ),
-                    child: TextField(
-                      controller: controller,
-                      // focusNode: focusNode,
-                      textAlignVertical: TextAlignVertical.center,
-                      cursorColor: Colors.black,
-                      style: tokenDetailAmount(
-                        color: Colors.black,
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        prefixIcon: GestureDetector(
-                          onTap: () {
-                            widget.cubit.setSelectSearch();
-                          },
-                          child: const Icon(
-                            Icons.search,
-                            color: coloriCon,
-                          ),
+                ? SafeArea(
+                  child: Container(
+                      padding: const EdgeInsets.only(right: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: cellColorborder,
                         ),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            widget.cubit.setSelectSearch();
-                          },
-                          child: StreamBuilder<bool>(
-                            stream: widget.cubit.removeTextSearch,
-                            builder: (context,snapshot){
-                              final data=snapshot.data??false;
-                              return Visibility(
-                                visible:data,
-                                child:  GestureDetector(
+                      ),
+                      child: TextField(
+                        controller: controller,
+                        // focusNode: focusNode,
+                        textAlignVertical: TextAlignVertical.center,
+                        cursorColor: Colors.black,
+                        style: tokenDetailAmount(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          prefixIcon: GestureDetector(
+                            onTap: () {
+                              widget.cubit.setSelectSearch();
+                            },
+                            child: const Icon(
+                              Icons.search,
+                              color: coloriCon,
+                            ),
+                          ),
+                          suffixIcon: widget.cubit.showCleanText
+                              ? GestureDetector(
+                                  onTap: () {
+                                    controller.clear();
+                                    widget.cubit.showCleanText = false;
+                                    setState(() {});
+                                  },
                                   child: const Icon(
                                     Icons.close,
                                     color: coloriCon,
                                   ),
-                                  onTap: (){
-
-                                  },
-                                ),
-                              );
-                            },
+                                )
+                              : const SizedBox(),
+                          border: InputBorder.none,
+                          hintText: S.current.tim_kiem,
+                          hintStyle: const TextStyle(
+                            color: coloriCon,
+                            fontSize: 14,
                           ),
                         ),
-                        border: InputBorder.none,
-                        hintText: S.current.tim_kiem,
-                        hintStyle: const TextStyle(
-                          color: coloriCon,
-                          fontSize: 14,
-                        ),
+                        onChanged: (searchText) {
+                          if (searchText.isEmpty) {
+                            setState(() {});
+                            widget.cubit.showCleanText = false;
+                          }
+                          setState(() {});
+                          widget.cubit.showCleanText = true;
+                        },
+                        onSubmitted: (searchText) {},
                       ),
-                      onChanged: (searchText) {
-                         if(searchText.isEmpty){
-                           widget.cubit.showIconRemove();
-                         }
-                      },
-                      onSubmitted: (searchText) {},
                     ),
-                  )
+                )
                 : AppBar(
-                    elevation: 0.0,
-                    title: Text(
-                      S.current.thong_tin_pakn,
-                      style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+                  elevation: 0.0,
+                  title: Text(
+                    S.current.thong_tin_pakn,
+                    style:
+                        titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+                  ),
+                  leading: IconButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    icon: SvgPicture.asset(
+                      ImageAssets.icBack,
                     ),
-                    leading: IconButton(
-                      onPressed: () => {Navigator.pop(context)},
-                      icon: SvgPicture.asset(
-                        ImageAssets.icBack,
-                      ),
+                  ),
+                  actions: [
+                    GestureDetector(
+                      onTap: () {
+                        // widget.cubit.setSelectSearch();
+                        widget.cubit.setSelectSearch();
+                      },
+                      child: SvgPicture.asset(ImageAssets.icSearchPAKN),
                     ),
-                    actions: [
-                      GestureDetector(
-                        onTap: () {
-                          // widget.cubit.setSelectSearch();
-                          widget.cubit.setSelectSearch();
-                        },
-                        child: SvgPicture.asset(ImageAssets.icSearchPAKN),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          DrawerSlide.navigatorSlide(
-                            context: context,
-                            screen: YKienNguoiDanMenu(
-                              cubit: widget.cubit,
-                            ),
-                          );
-                        },
-                        child: SvgPicture.asset(ImageAssets.icMenuCalender),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                    ],
-                    centerTitle: true,
-                  );
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        DrawerSlide.navigatorSlide(
+                          context: context,
+                          screen: YKienNguoiDanMenu(
+                            cubit: widget.cubit,
+                          ),
+                        );
+                      },
+                      child: SvgPicture.asset(ImageAssets.icMenuCalender),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                  ],
+                  centerTitle: true,
+                );
           },
         ),
       ),
-
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(

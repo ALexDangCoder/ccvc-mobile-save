@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_mod
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_state.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -37,6 +36,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   String donViId = '';
   String userId = '';
   String trangThai = '';
+  bool showCleanText = false;
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
       BehaviorSubject<DashboardTinhHinhXuLuModel>();
@@ -55,13 +55,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   final BehaviorSubject<DocumentDashboardModel> _statusTinhHinhXuLyData =
       BehaviorSubject<DocumentDashboardModel>();
-  final BehaviorSubject<bool> _selectSreach = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _selectSearch = BehaviorSubject.seeded(false);
   final BehaviorSubject<bool> _removeTextSearch = BehaviorSubject.seeded(false);
 
-  Stream<bool> get selectSreach => _selectSreach.stream;
+  Stream<bool> get selectSearch => _selectSearch.stream;
 
   Stream<bool> get removeTextSearch => _removeTextSearch.stream;
-
 
   Stream<DocumentDashboardModel> get statusTinhHinhXuLyData =>
       _statusTinhHinhXuLyData.stream;
@@ -81,9 +80,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   String search = '';
 
-
   void setSelectSearch() {
-    _selectSreach.sink.add(!_selectSreach.value);
+    _selectSearch.sink.add(!_selectSearch.value);
   }
 
   void showIconRemove() {
@@ -147,7 +145,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       title: S.current.he_thong_quan_ly_van_ban,
     ),
   ];
-  final List<YKienNguoiDanDashBroadItem> listInitDashBoard= [
+  final List<YKienNguoiDanDashBroadItem> listInitDashBoard = [
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_bo_sung_y_kien,
       numberOfCalendars: 0,
@@ -155,11 +153,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_y_kien,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_cho_y_kien,
     ),
     YKienNguoiDanDashBroadItem(
-      img:ImageAssets.icChoDuyetYKND,
+      img: ImageAssets.icChoDuyetYKND,
       numberOfCalendars: 0,
       typeName: S.current.cho_duyet,
     ),
@@ -170,7 +168,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_tiep_nhan,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_tiep_nhan,
     ),
     YKienNguoiDanDashBroadItem(
@@ -252,7 +250,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     showContent();
     result.when(
       success: (res) {
-
         final List<YKienNguoiDanDashBroadItem> listItem = [];
         listItem.add(
           YKienNguoiDanDashBroadItem(
@@ -453,6 +450,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
     );
   }
+
   Future<void> searchDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,
@@ -546,7 +544,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   void initTimeRange() {
-    startDate = DateTime.now().toStringWithListFormat;
+    final DateTime date = DateTime.now();
+    startDate =
+        DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;
   }
 

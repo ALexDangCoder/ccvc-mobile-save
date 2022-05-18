@@ -24,11 +24,20 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum StatusType { CHUA_THUC_HIEN, DA_HOAN_THANH, DANG_THUC_HIEN }
 
+class TextTrangThai {
+  String text;
+  Color color;
+
+  TextTrangThai(this.text, this.color);
+}
+
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
+
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
   BehaviorSubject<List<bool>> selectTypeYKNDSubject =
       BehaviorSubject.seeded([true, false]);
@@ -212,7 +221,14 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
   ];
 
+  String formatDateTime(String dt) {
+    final inputFormat = DateFormat('dd/MM/yyyy');
+    final inputDate = inputFormat.parse(dt); // <-- dd/MM 24H format
 
+    final outputFormat = DateFormat('dd/MM/yyyy');
+    final outputDate = outputFormat.format(inputDate);
+    return outputDate; // 12/31/2000 11:59 PM <-- MM/dd 12H format
+  }
 
   void callApi() {
     getUserData();
@@ -350,15 +366,22 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Future<void> getDanhSachPAKN() async {
     showLoading();
+    // final result = await _YKNDRepo.getDanhSachPAKN(
+    //   tuNgay: startDate,
+    //   donViId: donViId,
+    //   denNgay: endDate,
+    //   pageSize: pageSizeDSPAKN.toString(),
+    //   pageNumber: pageNumberDSPAKN.toString(),
+    //   userId: userId,
+    // );
     final result = await _YKNDRepo.getDanhSachPAKN(
-      tuNgay: startDate,
-      donViId: donViId,
-      denNgay: endDate,
-      pageSize: pageSizeDSPAKN.toString(),
-      pageNumber: pageNumberDSPAKN.toString(),
-      userId: userId,
+      tuNgay: '05/04/2022',
+      donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
+      denNgay: '17/05/2022',
+      pageSize: '10',
+      pageNumber: '1',
+      userId: '19266143-feee-44d0-828a-e29df215f481',
     );
-    showContent();
     result.when(success: (success) {
       if(listDanhSachKetQuaPakn.hasValue) {
         listDanhSachKetQuaPakn.sink.add(listDanhSachKetQuaPakn.value + success);
@@ -368,6 +391,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       } else {
         listDanhSachKetQuaPakn.sink.add(success);
       }
+      showContent();
     }, error: (error) {
       listDanhSachKetQuaPakn.sink.add([]);
     });

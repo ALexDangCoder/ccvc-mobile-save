@@ -123,7 +123,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                   TextFieldStyle(
                     controller: sdtController,
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },
@@ -228,12 +228,14 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     },
                   ),
                   SelectDate(
-                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
+                    isTablet: true,
+                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                     value: widget.item.ngaySinh,
                     onSelectDate: (dateTime) {
                       ngaySinh = dateTime;
                     },
                   ),
+                  spaceH16,
                   CustomRadioButton(
                     value: widget.item.gioiTinh ?? true
                         ? S.current.Nam
@@ -269,7 +271,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                   TextFieldStyle(
                     controller: sdtController,
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },

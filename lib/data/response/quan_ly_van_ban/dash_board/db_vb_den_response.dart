@@ -31,6 +31,7 @@ class DoashBoashVBDenResponse {
         soLuongTrongHan: mapData[VBDenDocumentType.TRONG_HAN.getName()],
         soLuongQuaHan: mapData[VBDenDocumentType.QUA_HAN.getName()],
         soLuongThuongKhan: mapData[VBDenDocumentType.THUONG_KHAN.getName()],
+        soLuongDenHan: mapData[VBDenDocumentType.DEN_HAN.getName()],
       );
     }
 

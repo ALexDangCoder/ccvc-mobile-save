@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
@@ -37,6 +38,18 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   String donViId = '';
   String userId = '';
   String trangThai = '';
+
+  int pageSizeDSPAKN = 10;
+  int pageNumberDSPAKN = 1;
+  bool loadMore = false;
+  bool canLoadMoreList = true;
+  bool refresh = false;
+
+  static const int TRONGHAN = 1;
+  static const int DENHAN = 2;
+  static const int QUAHAN = 3;
+
+
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
       BehaviorSubject<DashboardTinhHinhXuLuModel>();
@@ -59,7 +72,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Stream<bool> get selectSreach => _selectSreach.stream;
 
-
   Stream<DocumentDashboardModel> get statusTinhHinhXuLyData =>
       _statusTinhHinhXuLyData.stream;
 
@@ -77,7 +89,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       _dashBoardTinhHinhXuLy.stream;
 
   String search = '';
-
 
   void setSelectSearch() {
     _selectSreach.sink.add(!_selectSreach.value);
@@ -140,7 +151,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       title: S.current.he_thong_quan_ly_van_ban,
     ),
   ];
-  final List<YKienNguoiDanDashBroadItem> listInitDashBoard= [
+  final List<YKienNguoiDanDashBroadItem> listInitDashBoard = [
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_bo_sung_y_kien,
       numberOfCalendars: 0,
@@ -148,11 +159,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_y_kien,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_cho_y_kien,
     ),
     YKienNguoiDanDashBroadItem(
-      img:ImageAssets.icChoDuyetYKND,
+      img: ImageAssets.icChoDuyetYKND,
       numberOfCalendars: 0,
       typeName: S.current.cho_duyet,
     ),
@@ -163,7 +174,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_tiep_nhan,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_tiep_nhan,
     ),
     YKienNguoiDanDashBroadItem(
@@ -200,6 +211,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       statusData: StatusYKien.DANG_XU_LY,
     ),
   ];
+
+
 
   void callApi() {
     getUserData();
@@ -245,7 +258,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     showContent();
     result.when(
       success: (res) {
-
         final List<YKienNguoiDanDashBroadItem> listItem = [];
         listItem.add(
           YKienNguoiDanDashBroadItem(
@@ -311,6 +323,54 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         return;
       },
     );
+  }
+  ///huy
+
+  Future<void> loadMoreGetDSPAKN() async {
+    if(loadMore == false) {
+      pageNumberDSPAKN += 1;
+      canLoadMoreList = true;
+      loadMore = true;
+      await getDanhSachPAKN();
+    } else {
+      //nothing
+    }
+  }
+
+  Future<void> refreshGetDSPAKN() async {
+    canLoadMoreList = true;
+    if(refresh == false) {
+      pageNumberDSPAKN = 1;
+      refresh = true;
+      await getDanhSachPAKN();
+    }
+  }
+
+  BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn = BehaviorSubject();
+
+  Future<void> getDanhSachPAKN() async {
+    showLoading();
+    final result = await _YKNDRepo.getDanhSachPAKN(
+      tuNgay: startDate,
+      donViId: donViId,
+      denNgay: endDate,
+      pageSize: pageSizeDSPAKN.toString(),
+      pageNumber: pageNumberDSPAKN.toString(),
+      userId: userId,
+    );
+    showContent();
+    result.when(success: (success) {
+      if(listDanhSachKetQuaPakn.hasValue) {
+        listDanhSachKetQuaPakn.sink.add(listDanhSachKetQuaPakn.value + success);
+        canLoadMoreList = listDanhSachKetQuaPakn.value.length >= pageSizeDSPAKN;
+        loadMore = false;
+        refresh = false;
+      } else {
+        listDanhSachKetQuaPakn.sink.add(success);
+      }
+    }, error: (error) {
+      listDanhSachKetQuaPakn.sink.add([]);
+    });
   }
 
   Future<void> getDashBoardTinhHinhXuLy(
@@ -446,6 +506,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
     );
   }
+
   Future<void> searchDanhSachYKienNguoiDan(
     String tuNgay,
     String denNgay,

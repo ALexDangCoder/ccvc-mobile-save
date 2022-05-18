@@ -68,7 +68,7 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
                 builder: (Node node) {
                   // I can decide what widget should be shown here based on the id
                   var value = node.key!.value as NodePhanXuLy<T>;
-                  return widget.builder(value.value);
+                  return widget.builder(value);
                 },
               )),
         ),

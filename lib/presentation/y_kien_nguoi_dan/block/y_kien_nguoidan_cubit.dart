@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
@@ -22,9 +23,17 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum StatusType { CHUA_THUC_HIEN, DA_HOAN_THANH, DANG_THUC_HIEN }
+
+class TextTrangThai {
+  String text;
+  Color color;
+
+  TextTrangThai(this.text, this.color);
+}
 
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
@@ -37,6 +46,17 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   String userId = '';
   String trangThai = '';
   bool showCleanText = false;
+  int pageSizeDSPAKN = 10;
+  int pageNumberDSPAKN = 1;
+  bool loadMore = false;
+  bool canLoadMoreList = true;
+  bool refresh = false;
+  bool isSearching = false;
+
+  static const int TRONGHAN = 1;
+  static const int DENHAN = 2;
+  static const int QUAHAN = 3;
+
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
       BehaviorSubject<DashboardTinhHinhXuLuModel>();
@@ -206,6 +226,15 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
   ];
 
+  String formatDateTime(String dt) {
+    final inputFormat = DateFormat('dd/MM/yyyy');
+    final inputDate = inputFormat.parse(dt); // <-- dd/MM 24H format
+
+    final outputFormat = DateFormat('dd/MM/yyyy');
+    final outputDate = outputFormat.format(inputDate);
+    return outputDate; // 12/31/2000 11:59 PM <-- MM/dd 12H format
+  }
+
   void callApi() {
     getUserData();
     getDashBoardTinhHinhXuLy(
@@ -313,6 +342,95 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
       error: (err) {
         return;
+      },
+    );
+  }
+
+  ///huy
+
+  void clearDSPAKN() {
+    pageNumberDSPAKN = 1;
+    loadMore = false;
+    canLoadMoreList = true;
+    refresh = false;
+    listDanhSachKetQuaPakn.value.clear();
+  }
+
+  Future<void> loadMoreGetDSPAKN() async {
+    if (loadMore == false) {
+      pageNumberDSPAKN += 1;
+      canLoadMoreList = true;
+      loadMore = true;
+      await getDanhSachPAKN();
+    } else {
+      //nothing
+    }
+  }
+
+  Future<void> refreshGetDSPAKN() async {
+    canLoadMoreList = true;
+    if (refresh == false) {
+      pageNumberDSPAKN = 1;
+      refresh = true;
+      await getDanhSachPAKN();
+    }
+  }
+
+  BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn =
+      BehaviorSubject();
+
+  Future<void> getDanhSachPAKN({
+    String? tuKhoa,
+    bool isSearch = false,
+  }) async {
+    if (isSearch) {
+      pageNumberDSPAKN = 1;
+    }
+    showLoading();
+    final result = await _YKNDRepo.getDanhSachPAKN(
+      tuNgay: startDate,
+      donViId: donViId,
+      denNgay: endDate,
+      pageSize: pageSizeDSPAKN.toString(),
+      pageNumber: pageNumberDSPAKN.toString(),
+      userId: userId,
+      tuKhoa: tuKhoa ?? '',
+    );
+
+    ///muốn test mở đoạn này ra
+    // final result = await _YKNDRepo.getDanhSachPAKN(
+    //   tuNgay: '05/04/2022',
+    //   donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
+    //   denNgay: '17/05/2022',
+    //   pageSize: '10',
+    //   pageNumber: '1',
+    //   userId: '19266143-feee-44d0-828a-e29df215f481',
+    // );
+    result.when(
+      success: (success) {
+        if (isSearch) {
+          listDanhSachKetQuaPakn.value.clear();
+          if (listDanhSachKetQuaPakn.hasValue) {
+            listDanhSachKetQuaPakn.sink
+                .add(listDanhSachKetQuaPakn.value + success);
+          } else {
+            listDanhSachKetQuaPakn.sink.add(success);
+          }
+        } else {}
+        if (listDanhSachKetQuaPakn.hasValue) {
+          listDanhSachKetQuaPakn.sink
+              .add(listDanhSachKetQuaPakn.value + success);
+          canLoadMoreList =
+              success.length >= pageSizeDSPAKN;
+          loadMore = false;
+          refresh = false;
+        } else {
+          listDanhSachKetQuaPakn.sink.add(success);
+        }
+        showContent();
+      },
+      error: (error) {
+        listDanhSachKetQuaPakn.sink.add([]);
       },
     );
   }

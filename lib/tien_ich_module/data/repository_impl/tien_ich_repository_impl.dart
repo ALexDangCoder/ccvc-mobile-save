@@ -1,9 +1,10 @@
+import 'dart:convert';
+
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
-import 'package:ccvc_mobile/home_module/data/response/home/todo_current_user_response.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/detail_huong_dan_su_dung_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
@@ -13,8 +14,10 @@ import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_respo
 import 'package:ccvc_mobile/tien_ich_module/data/response/todo_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/topic_hdsd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tra_cuu_van_ban_phap_luat_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/translate_document_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tree_danh_ba_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/service/tien_ich_service.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/ChuyenVBThanhGiong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_sach_title_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/detail_huong_dan_su_dung.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
@@ -30,9 +33,10 @@ class TienIchRepositoryImpl implements TienIchRepository {
   final TienIchService _tienIchService;
   final TienIchServiceCommon _tienIchServiceCommon;
   final TienIchServiceUAT _tienIchServiceUAT;
+  final TienIchServiceGateWay _tienIchServiceGateWay;
 
   TienIchRepositoryImpl(this._tienIchService, this._tienIchServiceUAT,
-      this._tienIchServiceCommon);
+      this._tienIchServiceCommon, this._tienIchServiceGateWay);
 
   @override
   Future<Result<List<TopicHDSD>>> getTopicHDSD() {
@@ -185,5 +189,39 @@ class TienIchRepositoryImpl implements TienIchRepository {
       () => _tienIchService.deleteGroupTodoList(id),
       (response) => response.data?.toModel() ?? NhomCVMoiModel(),
     );
+  }
+
+  @override
+  Future<Result<ChuyenVBThanhGiongModel>> chuyenVBSangGiongNoi(
+    String text,
+    String voiceTone,
+  ) {
+    return runCatchingAsync<ChuyenVBThanhGiongNoiResponse,
+        ChuyenVBThanhGiongModel>(
+      () => _tienIchService.chuyenVBSangGiongNoi(text, voiceTone),
+      (response) => response.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<String>> translateDocument(
+      String document, String target, String source) {
+    return runCatchingAsync<String, String>(
+        () => _tienIchServiceGateWay.translateDocument(
+              document,
+              target,
+              source,
+            ), (response) {
+      try {
+        return DataTranslateResponse.fromJson(json.decode(response))
+                .data
+                ?.translations
+                ?.first
+                .translatedText ??
+            '';
+      } catch (e) {
+        return '';
+      }
+    });
   }
 }

@@ -51,7 +51,8 @@ enum VBDenDocumentType {
   QUA_HAN,
   TRONG_HAN,
   THUONG_KHAN,
-  CHO_PHAN_XU_LY
+  CHO_PHAN_XU_LY,
+  DEN_HAN,
 }
 
 extension TypeVBDen on VBDenDocumentType {
@@ -73,6 +74,8 @@ extension TypeVBDen on VBDenDocumentType {
         return 'THUONG_KHAN';
       case VBDenDocumentType.CHO_PHAN_XU_LY:
         return 'CHO_PHAN_XU_LY';
+      case VBDenDocumentType.DEN_HAN:
+        return 'DEN_HAN';
     }
   }
 
@@ -93,6 +96,8 @@ extension TypeVBDen on VBDenDocumentType {
       case VBDenDocumentType.THUONG_KHAN:
         return true;
       case VBDenDocumentType.CHO_PHAN_XU_LY:
+        return true;
+      case VBDenDocumentType.DEN_HAN:
         return true;
     }
   }

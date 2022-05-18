@@ -16,7 +16,8 @@ import 'package:rxdart/rxdart.dart';
 
 class QLVBCCubit extends BaseCubit<QLVBState> {
   QLVBCCubit() : super(QLVbStateInitial());
-  BehaviorSubject<List<bool>> selectTypeVanBanSubject = BehaviorSubject.seeded([true, false]);
+  BehaviorSubject<List<bool>> selectTypeVanBanSubject =
+      BehaviorSubject.seeded([true, false]);
   final BehaviorSubject<DocumentDashboardModel> _getVbDen =
       BehaviorSubject<DocumentDashboardModel>();
   final BehaviorSubject<DocumentDashboardModel> _getVbDi =
@@ -52,15 +53,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
   void callAPi() {
     initTimeRange();
-    dataVBDen(startDate: '', endDate: '');
-    dataVBDi(startDate: '', endDate: '');
+    dataVBDen(startDate: startDate, endDate: endDate);
+    dataVBDi(startDate: startDate, endDate: endDate);
     listDataDanhSachVBDen(
-      endDate: startDate,
-      startDate: endDate,
+      startDate: startDate,
+      endDate: endDate,
     );
     listDataDanhSachVBDi(
-      endDate: startDate,
       startDate: startDate,
+      endDate: endDate,
     );
   }
 

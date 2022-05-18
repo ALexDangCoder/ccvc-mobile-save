@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_mode
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
@@ -13,10 +12,8 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_wid
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/utils/screen_controller.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
-import 'package:ccvc_mobile/widgets/tree_view/GraphView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -164,7 +161,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Danh sách PAKN', style: textNormalCustom(color: textTitle, fontSize: 16, fontWeight: FontWeight.w500,),),
+                    child: Text(S.current.danh_sach_pakn, style: textNormalCustom(color: textTitle, fontSize: 16, fontWeight: FontWeight.w500,),),
                   ),
                 ),
                 StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
@@ -176,7 +173,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                       return Container(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),child: const NodataWidget());
                     } else {
                       return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: data.length,
                           itemBuilder: (context, index) {
@@ -195,7 +192,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
 
   Widget _itemDanhSachPAKN({required DanhSachKetQuaPAKNModel dsKetQuaPakn}) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       padding: const EdgeInsets.symmetric(
         horizontal: 18,
         vertical: 18,
@@ -252,7 +249,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               Expanded(
                 flex: 8,
                 child: Text(
-                  'Tên cá nhân/ tổ chức: ',
+                  '${S.current.ten_ca_nhan_tc}: ',
                   style: textNormalCustom(
                     color: infoColor,
                     fontWeight: FontWeight.w400,
@@ -275,7 +272,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               Expanded(
                 flex: 8,
                 child: Text(
-                  'Hạn xử lý: ${dsKetQuaPakn.hanXuLy}',
+                  '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
                   style: textNormalCustom(
                     color: infoColor,
                     fontWeight: FontWeight.w400,
@@ -300,6 +297,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
         return choVaoSoColor;
       }
       default :
+        //QUA HAN
         return statusCalenderRed;
     }
   }

@@ -25,125 +25,15 @@ class _ChuyenVanBanThanhGiongNoiTabletState
     extends State<ChuyenVanBanThanhGiongNoiTablet> {
   ChuyenVanBanThanhGiongNoiCubit cubit = ChuyenVanBanThanhGiongNoiCubit();
   TextEditingController textEditingController = TextEditingController();
-  late FlutterTts flutterTts;
-  String? language;
-  String? engine;
-  double volume = 0.5;
-  double pitch = 1.0;
-  double rate = 0.5;
-  bool isCurrentLanguageInstalled = false;
-
-  String? _newVoiceText;
-
-  TtsState ttsState = TtsState.stopped;
-
-  void get isPlaying => ttsState == TtsState.playing;
-
-  void get isStopped => ttsState == TtsState.stopped;
-
-  void get isPaused => ttsState == TtsState.paused;
-
-  void get isContinued => ttsState == TtsState.continued;
-
-  bool get isIOS => !kIsWeb && Platform.isIOS;
-
-  bool get isAndroid => !kIsWeb && Platform.isAndroid;
-
-  bool get isWeb => kIsWeb;
 
   @override
   void initState() {
     super.initState();
-    initTts();
-  }
-
-  void initTts() {
-    flutterTts = FlutterTts();
-
-    _setAwaitOptions();
-
-    if (isAndroid) {
-      _getDefaultEngine();
-    }
-
-    flutterTts.setStartHandler(() {
-      setState(() {
-        print("Playing");
-        ttsState = TtsState.playing;
-      });
-    });
-
-    flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-        ttsState = TtsState.stopped;
-      });
-    });
-
-    flutterTts.setCancelHandler(() {
-      setState(() {
-        print("Cancel");
-        ttsState = TtsState.stopped;
-      });
-    });
-
-    if (isWeb || isIOS) {
-      flutterTts.setPauseHandler(() {
-        setState(() {
-          print("Paused");
-          ttsState = TtsState.paused;
-        });
-      });
-
-      flutterTts.setContinueHandler(() {
-        setState(() {
-          print("Continued");
-          ttsState = TtsState.continued;
-        });
-      });
-    }
-
-    flutterTts.setErrorHandler((msg) {
-      setState(() {
-        print("error: $msg");
-        ttsState = TtsState.stopped;
-      });
-    });
-  }
-
-  Future<void> _getDefaultEngine() async {
-    final engine = await flutterTts.getDefaultEngine;
-    if (engine != null) {
-      print(engine);
-    }
-  }
-
-  Future<void> _speak() async {
-    await flutterTts.setVolume(volume);
-    await flutterTts.setSpeechRate(rate);
-    await flutterTts.setPitch(pitch);
-
-    if (_newVoiceText != null) {
-      if (_newVoiceText!.isNotEmpty) {
-        await flutterTts.speak(_newVoiceText!);
-      }
-    }
-  }
-
-  void _onChange(String text) {
-    setState(() {
-      _newVoiceText = text;
-    });
-  }
-
-  Future<void> _setAwaitOptions() async {
-    await flutterTts.awaitSpeakCompletion(true);
   }
 
   @override
   void dispose() {
     super.dispose();
-    flutterTts.stop();
   }
 
   @override
@@ -169,7 +59,6 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                   isIcon: true,
                   onTap: () {
                     cubit.readFile(textEditingController);
-                    _newVoiceText = textEditingController.text;
                   },
                 )
               ],
@@ -193,9 +82,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                 ),
                 child: TextField(
                   controller: textEditingController,
-                  onChanged: (String value) {
-                    _onChange(value);
-                  },
+                  onChanged: (String value) {},
                   decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -220,9 +107,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
               background: AppTheme.getInstance().colorField(),
               textColor: Colors.white,
               isIcon: false,
-              onTap: () {
-                _speak();
-              },
+              onTap: () {},
             ),
             Expanded(child: Container()),
           ],

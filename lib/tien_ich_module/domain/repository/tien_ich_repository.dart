@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/ChuyenVBThanhGiong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_sach_title_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/detail_huong_dan_su_dung.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
@@ -65,6 +67,11 @@ mixin TienIchRepository {
   Future<Result<NhomCVMoiModel>> updateLabelTodoList(String id, String label);
 
   Future<Result<NhomCVMoiModel>> deleteGroupTodoList(String id);
+
+  Future<Result<ChuyenVBThanhGiongModel>> chuyenVBSangGiongNoi(
+    String text,
+    String voiceTone,
+  );
 
   Future<Result<String>> translateDocument(
     String document,

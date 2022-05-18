@@ -103,8 +103,6 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
           if (cubit.isRefresh) {
             cubit.listYKienXuLy.clear();
           }
-          print('fsadfsdafs-${cubit.listYKienXuLy.length}');
-          print('fsadfsdafs-${(state.list ?? []).length}');
           cubit.listYKienXuLy.addAll(state.list ?? []);
           cubit.canLoadMoreMy =
               cubit.listYKienXuLy.length >= ApiConstants.DEFAULT_PAGE_SIZE;

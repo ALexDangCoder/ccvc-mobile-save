@@ -37,9 +37,9 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_mode
 import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_repository.dart';
 
 class YKienNguoiDanImpl implements YKienNguoiDanRepository {
-  final YKienNguoiDanService _yKienNguoIDanService;
+  final YKienNguoiDanService _yKienNguoiDanService;
 
-  YKienNguoiDanImpl(this._yKienNguoIDanService);
+  YKienNguoiDanImpl(this._yKienNguoiDanService);
 
   @override
   Future<Result<DashboardTinhHinhXuLuModel>> dasdBoardTinhHinhXuLy(
@@ -49,7 +49,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   ) {
     return runCatchingAsync<DashBoashTinhHinhXuLyResponse,
         DashboardTinhHinhXuLuModel>(
-      () => _yKienNguoIDanService.getDashBoardTinhHinhXuLy(
+      () => _yKienNguoiDanService.getDashBoardTinhHinhXuLy(
         donViId,
         fromDate,
         toDate,
@@ -65,7 +65,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     String toDate,
   ) {
     return runCatchingAsync<DashBoashPhanLoaiResponse, PhanLoaiModel>(
-      () => _yKienNguoIDanService.getDashBoardPhanLoai(
+      () => _yKienNguoiDanService.getDashBoardPhanLoai(
         donViId,
         fromDate,
         toDate,
@@ -81,7 +81,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     String toDate,
   ) {
     return runCatchingAsync<ThongTinYKienNguoiDanResponse, ThongTinYKienModel>(
-      () => _yKienNguoIDanService.getThongTinYKienNguoiDan(
+      () => _yKienNguoiDanService.getThongTinYKienNguoiDan(
         donViId,
         fromDate,
         toDate,
@@ -102,7 +102,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   ) {
     return runCatchingAsync<DanhSachYKienNguoiDanResponse,
         DanhSachYKienNguoiDan>(
-      () => _yKienNguoIDanService.getDanhSachYKienNguoiDan(
+      () => _yKienNguoiDanService.getDanhSachYKienNguoiDan(
         tuNgay,
         denNgay,
         trangThai,
@@ -121,7 +121,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     String taskId,
   ) {
     return runCatchingAsync<ChiTietKienNghiResponse, ChiTietYKNDDataModel>(
-      () => _yKienNguoIDanService.chiTietYKienNguoiDan(
+      () => _yKienNguoiDanService.chiTietYKienNguoiDan(
         ChiTietKienNghiRequest(
           kienNghiId: kienNghiId,
           taskId: taskId,
@@ -144,7 +144,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   ) {
     return runCatchingAsync<SearchYKienNguoiDanResponse,
         List<YKienNguoiDanModel>>(
-      () => _yKienNguoIDanService.searchDanhSachYKienNguoiDan(
+      () => _yKienNguoiDanService.searchDanhSachYKienNguoiDan(
         tuNgay,
         denNgay,
         trangThai,
@@ -165,7 +165,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   ) {
     return runCatchingAsync<DanhSachKetQuaYKXLModelResponse,
         DanhSachKetQuaYKXLModel>(
-      () => _yKienNguoIDanService.getDanhSachYKienPAKN(
+      () => _yKienNguoiDanService.getDanhSachYKienPAKN(
         DanhSachYKienPAKNRequest(
           kienNghiId: kienNghiId,
           type: type,
@@ -182,7 +182,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     List<String>? listDonVi,
   }) {
     return runCatchingAsync<BaoCaoYKNDResponse, ThongKeYKNDModel>(
-      () => _yKienNguoIDanService.getBaoCaoYKND(
+      () => _yKienNguoiDanService.getBaoCaoYKND(
         BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
@@ -201,7 +201,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   }) {
     return runCatchingAsync<DashBoardBaoCaoYKNDResponse,
         DashBoardBaoCaoYKNDModel>(
-      () => _yKienNguoIDanService.getDashBoardBaoCaoYKND(
+      () => _yKienNguoiDanService.getDashBoardBaoCaoYKND(
         BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
@@ -219,7 +219,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     List<String>? listDonVi,
   }) {
     return runCatchingAsync<LinhVucKhacResponse, ChartLinhVucKhacModel>(
-      () => _yKienNguoIDanService.getDashBoardLinhVucKhac(
+      () => _yKienNguoiDanService.getDashBoardLinhVucKhac(
         BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
@@ -237,7 +237,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     List<String>? listDonVi,
   }) {
     return runCatchingAsync<DonViXuLyResponse, ChartDonViModel>(
-      () => _yKienNguoIDanService.getDashBoardDonViXuLy(
+      () => _yKienNguoiDanService.getDashBoardDonViXuLy(
         BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
@@ -255,7 +255,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     List<String>? listDonVi,
   }) {
     return runCatchingAsync<SoLuongYKNDBtMonthResponse, ChartYKNDByMonthModel>(
-      () => _yKienNguoIDanService.getDashBoardSoLuongYKND(
+      () => _yKienNguoiDanService.getDashBoardSoLuongYKND(
         BaoCaoYKNDRequest(
           tuNgay: startDate,
           denNgay: endDate,
@@ -269,7 +269,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   @override
   Future<Result<List<TienTrinhXuLyModel>>> tienTrinhXuLy(String paknId) {
     return runCatchingAsync<TienTrinhXuLyResponse, List<TienTrinhXuLyModel>>(
-      () => _yKienNguoIDanService.getTienTrinhXuLyYKND(
+      () => _yKienNguoiDanService.getTienTrinhXuLyYKND(
         paknId,
       ),
       (res) => res.tienTrinhXuLyData.map((e) => e.toDomain()).toList(),
@@ -282,7 +282,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     String taskId,
   ) {
     return runCatchingAsync<KetQuaXuLyResponse, List<KetQuaXuLyModel>>(
-      () => _yKienNguoIDanService.getKetQuaXuLyYKND(
+      () => _yKienNguoiDanService.getKetQuaXuLyYKND(
         kienNghiId,
         taskId,
       ),
@@ -293,7 +293,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   @override
   Future<Result<List<LocationModel>>> getLocationAddress({String? id}) {
     return runCatchingAsync<LocationAddressTotal, List<LocationModel>>(
-      () => _yKienNguoIDanService.getLocationAddress(id: id),
+      () => _yKienNguoiDanService.getLocationAddress(id: id),
       (res) => res.listLocationAddress?.map((e) => e.toModel()).toList() ?? [],
     );
   }
@@ -302,7 +302,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({String? tuNgay, String? denNgay, String? pageSize, String? pageNumber, String? userId, String? donViId}) {
     return runCatchingAsync<DanhSachPAKNTotalResponse,
         List<DanhSachKetQuaPAKNModel>>(
-          () => _yKienNguoIDanService.getDanhSachPAKN(
+          () => _yKienNguoiDanService.getDanhSachPAKN(
         tuNgay: tuNgay,
         denNgay: denNgay,
         pageNumber: pageNumber,
@@ -325,7 +325,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     List<File> file,
   ) {
     return runCatchingAsync<YKienXuLyResponse, ResultXinYKienNguoiDan>(
-      () => _yKienNguoIDanService.postYKienXuLy(
+      () => _yKienNguoiDanService.postYKienXuLy(
         nguoiChoYKien,
         kienNghiId,
         noiDung,

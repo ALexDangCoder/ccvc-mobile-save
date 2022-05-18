@@ -176,9 +176,12 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     final data = snapShot.data ?? [];
                     if (data.isEmpty) {
                       return Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 20,),
-                          child: const NodataWidget(),);
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 20,
+                        ),
+                        child: const NodataWidget(),
+                      );
                     } else {
                       return ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -203,11 +206,12 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     return InkWell(
       onTap: () {
         goTo(
-            context,
-            ChiTietPKAN(
-              iD: dsKetQuaPakn.id ?? '',
-              taskID: dsKetQuaPakn.taskId ?? '',
-            ),);
+          context,
+          ChiTietPKAN(
+            iD: dsKetQuaPakn.id ?? '',
+            taskID: dsKetQuaPakn.taskId ?? '',
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -316,21 +320,27 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                       Text(
                         statusTrangThai(dsKetQuaPakn.trangThai ?? 1).text,
                         style: textNormalCustom(
-                          color:
-                              statusTrangThai(dsKetQuaPakn.trangThai ?? 1).color,
+                          color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1)
+                              .color,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15,),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 3,
+                          horizontal: 15,
+                        ),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           color: choXuLyColor,
                         ),
                         child: Text(
-                            dsKetQuaPakn.trangThaiText ?? '',
-                            style: textNormalCustom(color: null, fontSize: 12, fontWeight: FontWeight.w500,),
+                          dsKetQuaPakn.trangThaiText ?? '',
+                          style: textNormalCustom(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       )
                     ],
@@ -348,15 +358,15 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     switch (trangThai) {
       case YKienNguoiDanCubitt.TRONGHAN:
         {
-          return TextTrangThai('Trong hạn', choTrinhKyColor);
+          return TextTrangThai(S.current.trong_han, choTrinhKyColor);
         }
       case YKienNguoiDanCubitt.DENHAN:
         {
-          return TextTrangThai('Đến hạn', choVaoSoColor);
+          return TextTrangThai(S.current.den_han, choVaoSoColor);
         }
       default:
         //QUA HAN
-        return TextTrangThai('Quá hạn', statusCalenderRed);
+        return TextTrangThai(S.current.qua_han, statusCalenderRed);
     }
   }
 }

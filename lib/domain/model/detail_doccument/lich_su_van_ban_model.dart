@@ -118,19 +118,19 @@ class LichSuVanBanModel {
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-        S.current.noi_dung_thu_hoi,
-        donViTaoXuLy,
-
-        TypeDocumentDetailRow.text,
-      ),
-      DocumentDetailRow(
-        S.current.don_vi_thu_hoi,
-        noiDung,
-        TypeDocumentDetailRow.text,
+      S.current.don_vi_thu_hoi,
+      noiDung,
+      TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
         thoiGianTao ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.noi_dung_thu_hoi,
+        donViTaoXuLy,
+
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -142,6 +142,11 @@ class LichSuVanBanModel {
         S.current.don_vi_bi_thu_hoi,
         donViXuLy,
         TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.file_dinh_kem,
+        fileDinhKems,
+        TypeDocumentDetailRow.fileActacks,
       ),
     ];
     return list;

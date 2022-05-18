@@ -54,33 +54,30 @@ class _LichSuVanBanLienThongExpandWidgetMobileState
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                child: StreamBuilder<List<LichSuVanBanModel>>(
-                  stream: widget.cubit.lichSuVanBanLienThongStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? [];
-                    return data.isNotEmpty
-                        ? SingleChildScrollView(
-                          child: Column(
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      row: e.toListRowLichSuVanBanLienThong(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
+          child: StreamBuilder<List<LichSuVanBanModel>>(
+            stream: widget.cubit.lichSuVanBanLienThongStream,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              if (data.isNotEmpty) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: data
+                        .map(
+                          (e) => WidgetInExpandVanBan(
+                            row: e.toListRowLichSuVanBanLienThong(),
+                          ),
                         )
-                        : const Padding(
-                            padding: EdgeInsets.only(top: 16.0),
-                            child: NodataWidget(),
-                          );
-                  },
-                ),
-              ),
-            ],
+                        .toList(),
+                  ),
+                );
+              } else {
+                return const CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(child: NodataWidget()),
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),

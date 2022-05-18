@@ -26,7 +26,7 @@ const THU_HOI = 'THU_HOI';
 const DA_HOAN_THANH = 'DA_HOAN_THANH';
 const TRA_LAI = 'TRA_LAI';
 
-enum TypeDocumentDetailRow { checkbox, text, fileActacks, status,fileVanBanDi }
+enum TypeDocumentDetailRow { checkbox, text, fileActacks, status, fileVanBanDi }
 
 class DocumentDetailRow {
   String title = '';
@@ -75,7 +75,8 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                       )
                           .then(
                             (value) => MessageConfig.show(
-                                title: S.current.tai_file_thanh_cong),
+                              title: S.current.tai_file_thanh_cong,
+                            ),
                           )
                           .onError(
                             (error, stackTrace) => MessageConfig.show(
@@ -133,37 +134,37 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             children: data
                 .map(
                   (e) => GestureDetector(
-                onTap: () async {
-                  final status = await Permission.storage.status;
-                  if (!status.isGranted) {
-                    await Permission.storage.request();
-                    await Permission.manageExternalStorage.request();
-                  }
-                  await saveFile(
-                    e.ten ?? '',
-                    '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                  )
-                      .then(
-                        (value) => MessageConfig.show(
-                        title: S.current.tai_file_thanh_cong),
-                  )
-                      .onError(
-                        (error, stackTrace) => MessageConfig.show(
-                      title: S.current.tai_file_that_bai,
-                      messState: MessState.error,
+                    onTap: () async {
+                      final status = await Permission.storage.status;
+                      if (!status.isGranted) {
+                        await Permission.storage.request();
+                        await Permission.manageExternalStorage.request();
+                      }
+                      await saveFile(
+                        e.ten ?? '',
+                        '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
+                      )
+                          .then(
+                            (value) => MessageConfig.show(
+                                title: S.current.tai_file_thanh_cong),
+                          )
+                          .onError(
+                            (error, stackTrace) => MessageConfig.show(
+                              title: S.current.tai_file_that_bai,
+                              messState: MessState.error,
+                            ),
+                          );
+                    },
+                    child: Text(
+                      e.ten ?? '',
+                      style: textNormalCustom(
+                        color: choXuLyColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.0.textScale(),
+                      ),
                     ),
-                  );
-                },
-                child: Text(
-                  e.ten ?? '',
-                  style: textNormalCustom(
-                    color: choXuLyColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0.textScale(),
                   ),
-                ),
-              ),
-            )
+                )
                 .toList(),
           );
         }

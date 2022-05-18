@@ -55,37 +55,32 @@ class _LichSuCapNhatTinhHinhXuLyExpandWidgetMobileState
             CAP_NHAT_TINH_HINH_THUC_HIEN,
           );
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              child: StreamBuilder<List<LichSuVanBanModel>>(
-                stream: widget.cubit.lichSuCapNhatXuLyStream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: data.isNotEmpty
-                        ? SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      row: e.toListRowLichSuCapNhat(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          )
-                        : const Padding(
-                            padding: EdgeInsets.only(top: 16.0),
-                            child: NodataWidget(),
-                          ),
-                  );
-                },
-              ),
-            ),
-          ],
+        child: StreamBuilder<List<LichSuVanBanModel>>(
+          stream: widget.cubit.lichSuCapNhatXuLyStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: data.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: data
+                            .map(
+                              (e) => WidgetInExpandVanBan(
+                                row: e.toListRowLichSuCapNhat(),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : const CustomScrollView(
+                      slivers: [
+                        SliverFillRemaining(child:  NodataWidget()),
+                      ],
+                    ),
+            );
+          },
         ),
       ),
     );

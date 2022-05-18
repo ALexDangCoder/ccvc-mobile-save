@@ -49,36 +49,33 @@ class _LichSuTraLaiExpandWidgetMobileState
             TRA_LAI,
           );
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              child: StreamBuilder<List<LichSuVanBanModel>>(
-                stream: widget.cubit.lichSuTraLaiStream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: data.isNotEmpty
-                        ? SingleChildScrollView(
-                          child: Column(
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      row: e.toListRowLichSuTraLai(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                        )
-                        : const Padding(
-                            padding: EdgeInsets.only(top: 16.0),
-                            child: NodataWidget(),
-                          ),
-                  );
-                },
-              ),
-            ),
-          ],
+        child: StreamBuilder<List<LichSuVanBanModel>>(
+          stream: widget.cubit.lichSuTraLaiStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: data.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: data
+                            .map(
+                              (e) => WidgetInExpandVanBan(
+                                row: e.toListRowLichSuTraLai(),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    )
+                  : const CustomScrollView(
+                      slivers: [
+                        SliverFillRemaining(
+                          child: NodataWidget(),
+                        ),
+                      ],
+                    ),
+            );
+          },
         ),
       ),
     );

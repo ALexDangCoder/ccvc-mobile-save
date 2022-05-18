@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
@@ -66,7 +67,7 @@ class _WidgetHeadChiTietVanBanDenMobileState
                     children: [
                       Column(
                         children: data.toListRow().map(
-                          (row) {
+                              (row) {
                             return DetailDocumentRow(
                               row: row,
                             );
@@ -76,38 +77,10 @@ class _WidgetHeadChiTietVanBanDenMobileState
                       const SizedBox(
                         height: 10.0,
                       ),
-                      GridView.count(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        childAspectRatio: 5,
-                        children: snapshot.data!
-                            .toListCheckBox()
-                            .map(
-                              (row) => Row(
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                    width: 41,
-                                    child: CustomCheckBox(
-                                      title: '',
-                                      isCheck: row.value,
-                                      onChange: (bool check) {},
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    row.title,
-                                    style: textNormalCustom(
-                                      color: titleItemEdit,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                            .toList(),
-                      )
+                      ...data
+                          .toListCheckBox()
+                          .map(checkRow)
+                          .toList()
                     ],
                   ),
                 );
@@ -120,6 +93,32 @@ class _WidgetHeadChiTietVanBanDenMobileState
       ),
     );
   }
+
+  Widget checkRow(DocumentDetailRow row) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 20,
+              width: 41,
+              child: CustomCheckBox(
+                title: '',
+                isCheck: row.value,
+                onChange: (bool check) {},
+              ),
+            ),
+            AutoSizeText(
+              row.title,
+              style: textNormalCustom(
+                color: titleItemEdit,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      );
 
   @override
   // TODO: implement wantKeepAlive

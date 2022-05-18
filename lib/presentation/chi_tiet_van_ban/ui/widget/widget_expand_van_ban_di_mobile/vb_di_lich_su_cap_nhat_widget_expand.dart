@@ -25,7 +25,6 @@ class VBDiLichSuCapNhatExpandWidget extends StatefulWidget {
 class _VBDiLichSuCapNhatExpandWidgetState
     extends State<VBDiLichSuCapNhatExpandWidget>
     with AutomaticKeepAliveClientMixin {
-
   @override
   void initState() {
     widget.cubit.getLichSuCapNhatVanBanDi(widget.idDocument);
@@ -49,29 +48,36 @@ class _VBDiLichSuCapNhatExpandWidgetState
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: StreamBuilder<List<LichSuCapNhatVanBanDi>>(
-              stream: widget.cubit.lichSuCapNhatVanBanDiSubject,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
+            stream: widget.cubit.lichSuCapNhatVanBanDiSubject,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              if (data.isNotEmpty) {
                 return SingleChildScrollView(
-                  physics: const  AlwaysScrollableScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
-                    children: data.isNotEmpty
-                        ? data
-                            .map(
-                              (e) => WidgetInExpandVanBan(
-                                row: e.toListRowCapNhat(),
-                              ),
-                            )
-                            .toList()
-                        : [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 16.0),
-                              child: NodataWidget(),
-                            )
-                          ],
+                    children: data
+                        .map(
+                          (e) => WidgetInExpandVanBan(
+                            row: e.toListRowCapNhat(),
+                          ),
+                        )
+                        .toList(),
                   ),
                 );
-              }),
+              } else {
+                return const CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 16.0),
+                        child: NodataWidget(),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
     );

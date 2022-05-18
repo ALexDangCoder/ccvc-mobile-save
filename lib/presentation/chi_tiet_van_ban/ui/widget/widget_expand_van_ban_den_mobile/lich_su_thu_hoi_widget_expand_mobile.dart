@@ -51,31 +51,32 @@ class _LichSuThuHoiExpandWidgetMobileState
           stream: widget.cubit.lichSuThuHoiStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? [];
-            return CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: data.isNotEmpty
-                        ? SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                      row: e.toListRowLichSuThuHoi(),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                        )
-                        : const Padding(
-                            padding: EdgeInsets.only(top: 16.0),
-                            child: NodataWidget(),
-                          ),
+            if (data.isEmpty) {
+              return const CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 16.0),
+                      child: NodataWidget(),
+                    ),
                   ),
+                ],
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: data
+                      .map(
+                        (e) => WidgetInExpandVanBan(
+                          row: e.toListRowLichSuThuHoi(),
+                        ),
+                      )
+                      .toList(),
                 ),
-              ],
+              ),
             );
           },
         ),

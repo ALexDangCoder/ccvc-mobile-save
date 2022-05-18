@@ -10,19 +10,15 @@ class VBDiTheoDoiVanBanBanHanhExpandWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: SingleChildScrollView(
-        physics: const  AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: const [
-            Padding(
-              padding: EdgeInsets.only(top: 16.0),
-              child: NodataWidget(),
-            )
-          ],
+    return const CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          child: Padding(
+            padding: EdgeInsets.only(top: 16.0),
+            child: NodataWidget(),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

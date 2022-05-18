@@ -41,7 +41,7 @@ class ChiTietVanBanDiResponse {
   @JsonKey(name: 'NgayBanHanh')
   String? ngayBanHanh;
   @JsonKey(name: 'LoaiNguonDuLieu')
-  String? loaiNguonDuLieu;
+  int? loaiNguonDuLieu;
   @JsonKey(name: 'TenNguoiSoanThao')
   String? tenNguoiSoanThao;
   @JsonKey(name: 'DonViSoanThao')
@@ -73,7 +73,7 @@ class ChiTietVanBanDiResponse {
   @JsonKey(name: 'IsVanBanChiDao')
   bool? isVanBanChiDao;
   @JsonKey(name: 'VanBanDenResponses')
-  List<String>? vanBanDenResponses;
+  List<VanBanDenResponse>? vanBanDenResponses;
   @JsonKey(name: 'VanBanChiDaoResponses')
   List<String>? vanBanChiDaoResponses;
   @JsonKey(name: 'NguoiTheoDoiResponses')
@@ -215,7 +215,7 @@ class ChiTietVanBanDiResponse {
         isVanBanQppl: isVanBanQppl,
         isVanBanDiBanHanh: isVanBanDiBanHanh,
         isVanBanChiDao: isVanBanChiDao,
-        vanBanDenResponses: vanBanDenResponses,
+        vanBanDenResponses: vanBanDenResponses?.map((e) => e.toModel()).toList() ?? [],
         vanBanChiDaoResponses: vanBanChiDaoResponses,
         nguoiTheoDoiResponses:
             nguoiTheoDoiResponses?.map((e) => e.toModel()).toList() ?? [],
@@ -249,6 +249,51 @@ class ChiTietVanBanDiResponse {
         isCanXinYKien: isCanXinYKien,
         isScan: isScan,
         isCanCopy: isCanCopy,
+      );
+}
+
+@JsonSerializable()
+class VanBanDenResponse {
+  @JsonKey(name: 'id')
+  String? id;
+  @JsonKey(name: 'isKhongTuDongHoanThanh')
+  bool? isKhongTuDongHoanThanh;
+  @JsonKey(name: 'soDen')
+  String? soDen;
+  @JsonKey(name: 'soKyHieu')
+  String? soKyHieu;
+  @JsonKey(name: 'donViBanHanh')
+  String? donViBanHanh;
+  @JsonKey(name: 'trichYeu')
+  String? trichYeu;
+  @JsonKey(name: 'files')
+  List<dynamic>? files;
+
+  VanBanDenResponse({
+    this.id,
+    this.isKhongTuDongHoanThanh,
+    this.soDen,
+    this.soKyHieu,
+    this.donViBanHanh,
+    this.trichYeu,
+    this.files,
+  });
+
+  factory VanBanDenResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$VanBanDenResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VanBanDenResponseToJson(this);
+
+  VanBanDenModel toModel() => VanBanDenModel(
+        id: id,
+        isKhongTuDongHoanThanh: isKhongTuDongHoanThanh,
+        soDen: soDen,
+        soKyHieu: soKyHieu,
+        donViBanHanh: donViBanHanh,
+        trichYeu: trichYeu,
+        files: files,
       );
 }
 

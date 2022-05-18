@@ -204,6 +204,12 @@ class NguoiPhanAnhModel {
   String? diaChiEmail;
   String? soDienthoai;
   String? diaChiChiTiet;
+  String? tinhThanhPho;
+  String? quanHuyen;
+  String? xaPhuong;
+  String? idTinhTp;
+  String? idQuanHuyen;
+  String? idXaPhuong;
 
   NguoiPhanAnhModel({
     this.doiTuong,
@@ -212,6 +218,12 @@ class NguoiPhanAnhModel {
     this.diaChiEmail,
     this.soDienthoai,
     this.diaChiChiTiet,
+    this.tinhThanhPho,
+    this.quanHuyen,
+    this.xaPhuong,
+    this.idTinhTp,
+    this.idQuanHuyen,
+    this.idXaPhuong,
   });
 }
 

@@ -1,6 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
@@ -8,6 +13,7 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_wid
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/screen_controller.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +37,13 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
     super.initState();
     widget.cubit.initTimeRange();
     widget.cubit.callApi();
+    widget.cubit.getDanhSachPAKN();
+  }
+
+  @override
+  void dispose() {
+    widget.cubit.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,25 +57,25 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             final selectData = snapshot.data ?? false;
             return selectData
                 ? TextFormField(
-              controller: controller,
-              onChanged: (value) {
-                setState(() {});
-                widget.cubit.search = value;
-              },
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: S.current.tim_kiem,
-                hintStyle: textNormalCustom(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: unselectLabelColor,
-                ),
-              ),
-            )
+                    controller: controller,
+                    onChanged: (value) {
+                      setState(() {});
+                      widget.cubit.search = value;
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: S.current.tim_kiem,
+                      hintStyle: textNormalCustom(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: unselectLabelColor,
+                      ),
+                    ),
+                  )
                 : Text(
-              S.current.thong_tin_pakn,
-              style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
-            );
+                    S.current.thong_tin_pakn,
+                    style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+                  );
           },
         ),
         leading: IconButton(
@@ -78,7 +91,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             },
             child: SvgPicture.asset(ImageAssets.icSearchPAKN),
           ),
-          const SizedBox(width: 16,),
+          const SizedBox(
+            width: 16,
+          ),
           GestureDetector(
             onTap: () {
               DrawerSlide.navigatorSlide(
@@ -90,177 +105,274 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
             },
             child: SvgPicture.asset(ImageAssets.icMenuCalender),
           ),
-          const SizedBox(width: 16,),
+          const SizedBox(
+            width: 16,
+          ),
         ],
         centerTitle: true,
       ),
+      body: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        stream: widget.cubit.stateStream,
+        error: AppException('', S.current.something_went_wrong),
+        retry: () {},
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (widget.cubit.canLoadMoreList &&
+                scrollInfo.metrics.pixels ==
+                    scrollInfo.metrics.maxScrollExtent) {
+              widget.cubit.loadMoreGetDSPAKN();
+            }
+            return true;
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FilterDateTimeWidget(
+                  context: context,
+                  isMobile: true,
+                  onChooseDateFilter: (DateTime startDate, DateTime endDate) {
+                    widget.cubit.getDanhSachPAKN();
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ExpandPAKNWidget(
+                    name: S.current.tinh_hinh_xu_ly_pakn,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        TiepCanWidget(),
+                        SizedBox(
+                          height: 33,
+                        ),
+                        XuLyWidget(),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 14,
+                ),
+                Container(
+                  color: homeColor,
+                  height: 6,
+                ),
+                spaceH20,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    S.current.danh_sach_pakn,
+                    style: textNormalCustom(
+                      color: textTitle,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
+                  stream: widget.cubit.listDanhSachKetQuaPakn.stream,
+                  initialData: const [],
+                  builder: (context, snapShot) {
+                    final data = snapShot.data ?? [];
+                    if (data.isEmpty) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 20,
+                        ),
+                        child: const NodataWidget(),
+                      );
+                    } else {
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return _itemDanhSachPAKN(dsKetQuaPakn: data[index]);
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
+  Widget _itemDanhSachPAKN({required DanhSachKetQuaPAKNModel dsKetQuaPakn}) {
+    return InkWell(
+      onTap: () {
+        goTo(
+          context,
+          ChiTietPKAN(
+            iD: dsKetQuaPakn.id ?? '',
+            taskID: dsKetQuaPakn.taskId ?? '',
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 18,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+          border: Border.all(color: cellColorborder),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FilterDateTimeWidget(
-              context: context,
-              isMobile: true,
-              onChooseDateFilter: (DateTime startDate, DateTime endDate) {
-
-              },
-            ),
-            const SizedBox(height: 20,),
-            // Container(
-            //   color: homeColor,
-            //   height: 6,
-            // ),
-            // Container(
-            //   padding: const EdgeInsets.only(left: 16),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       StreamBuilder<List<ChartData>>(
-            //         stream: widget.cubit.chartTinhHinhXuLy,
-            //         builder: (context, snapshot) {
-            //           final listDataChart = snapshot.data ?? [];
-            //           return PieChart(
-            //             title: S.current.tinh_hinh_y_kien_nguoi_dan,
-            //             chartData: listDataChart,
-            //             onTap: (int value) {
-            //               final status = widget.cubit.getTrangThai(
-            //                 listDataChart[value].title,
-            //               );
-            //               widget.cubit.trangThai=status;
-            //               Navigator.push(
-            //                 context,
-            //                 PageRouteBuilder(
-            //                   pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                     startDate: widget.cubit.startDate,
-            //                     endDate: widget.cubit.endDate,
-            //                     trangThai: widget.cubit.trangThai,
-            //                   ),
-            //                 ),
-            //               );
-            //
-            //             },
-            //           );
-            //         },
-            //       ),
-            //       Container(height: 20),
-            //       StreamBuilder<DocumentDashboardModel>(
-            //         stream: widget.cubit.statusTinhHinhXuLyData,
-            //         builder: (context, snapshot) {
-            //           final data =
-            //               snapshot.data ?? DocumentDashboardModel();
-            //           return Row(
-            //             children: [
-            //               Expanded(
-            //                 child: BoxStatusVanBan(
-            //                   value: data.soLuongTrongHan ?? 0,
-            //                   onTap: () {
-            //                     final status = widget.cubit.getTrangThai(
-            //                       S.current.trong_han,
-            //                     );
-            //                     widget.cubit.trangThai=status;
-            //                     Navigator.push(
-            //                       context,
-            //                       PageRouteBuilder(
-            //                         pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                           startDate: widget.cubit.startDate,
-            //                           endDate: widget.cubit.endDate,
-            //                           trangThai: widget.cubit.trangThai,
-            //                         ),
-            //                       ),
-            //                     );
-            //                   },
-            //                   color: numberOfCalenders,
-            //                   statusName: S.current.trong_han,
-            //                 ),
-            //               ),
-            //               const SizedBox(
-            //                 width: 16,
-            //               ),
-            //               Expanded(
-            //                 child: BoxStatusVanBan(
-            //                   value: data.soLuongDenHan ?? 0,
-            //                   onTap: () {
-            //                     final status = widget.cubit.getTrangThai(
-            //                       S.current.den_han,
-            //                     );
-            //                     widget.cubit.trangThai=status;
-            //                     Navigator.push(
-            //                       context,
-            //                       PageRouteBuilder(
-            //                         pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                           startDate: widget.cubit.startDate,
-            //                           endDate: widget.cubit.endDate,
-            //                           trangThai: widget.cubit.trangThai,
-            //                         ),
-            //                       ),
-            //                     );
-            //                     print('-----------------------status----------------');
-            //                     print(status);
-            //                   },
-            //                   color: labelColor,
-            //                   statusName: S.current.den_han,
-            //                 ),
-            //               ),
-            //               const SizedBox(
-            //                 width: 16,
-            //               ),
-            //               Expanded(
-            //                 child: BoxStatusVanBan(
-            //                   value: data.soLuongQuaHan ?? 0,
-            //                   onTap: () {
-            //                     final status = widget.cubit.getTrangThai(
-            //                       S.current.qua_han,
-            //                     );
-            //                     widget.cubit.trangThai=status;
-            //                     Navigator.push(
-            //                       context,
-            //                       PageRouteBuilder(
-            //                         pageBuilder: (_, __, ___) => DanhSachYKND(
-            //                           startDate: widget.cubit.startDate,
-            //                           endDate: widget.cubit.endDate,
-            //                           trangThai: widget.cubit.trangThai,
-            //                         ),
-            //                       ),
-            //                     );
-            //                     print('-----------------------status----------------');
-            //                     print(status);
-            //                   },
-            //                   color: statusCalenderRed,
-            //                   statusName: S.current.qua_han,
-            //                 ),
-            //               ),
-            //             ],
-            //           );
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ExpandPAKNWidget(
-                name: S.current.tinh_hinh_xu_ly_pakn,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const[
-                    TiepCanWidget(),
-                    XuLyWidget(),
-                  ],
-                ),
+            Text(
+              dsKetQuaPakn.tieuDe ?? '',
+              style: textNormalCustom(
+                color: textTitle,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(
-              height: 14,
+            spaceH8,
+            Row(
+              children: [
+                Expanded(
+                  child: SvgPicture.asset(
+                    ImageAssets.icInformation,
+                    height: 16,
+                    width: 16,
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    'Số: ${dsKetQuaPakn.soPAKN}',
+                    style: textNormalCustom(
+                      color: infoColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                )
+              ],
             ),
-            Container(
-              color: homeColor,
-              height: 6,
+            spaceH8,
+            Row(
+              children: [
+                Expanded(
+                  child: SvgPicture.asset(
+                    ImageAssets.icLocation,
+                    height: 16,
+                    width: 16,
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn.donViGuiYeuCau ?? 'trống'}',
+                    style: textNormalCustom(
+                      color: infoColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                )
+              ],
             ),
+            spaceH8,
+            Row(
+              children: [
+                Expanded(
+                  child: SvgPicture.asset(
+                    ImageAssets.icTimeH,
+                    height: 16,
+                    width: 16,
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
+                    style: textNormalCustom(
+                      color: infoColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            spaceH10,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        statusTrangThai(dsKetQuaPakn.trangThai ?? 1).text,
+                        style: textNormalCustom(
+                          color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1)
+                              .color,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 3,
+                          horizontal: 15,
+                        ),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          color: choXuLyColor,
+                        ),
+                        child: Text(
+                          dsKetQuaPakn.trangThaiText ?? '',
+                          style: textNormalCustom(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
     );
+  }
+
+  TextTrangThai statusTrangThai(int trangThai) {
+    switch (trangThai) {
+      case YKienNguoiDanCubitt.TRONGHAN:
+        {
+          return TextTrangThai(S.current.trong_han, choTrinhKyColor);
+        }
+      case YKienNguoiDanCubitt.DENHAN:
+        {
+          return TextTrangThai(S.current.den_han, choVaoSoColor);
+        }
+      default:
+        //QUA HAN
+        return TextTrangThai(S.current.qua_han, statusCalenderRed);
+    }
   }
 }

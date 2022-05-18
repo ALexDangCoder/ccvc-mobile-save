@@ -15,6 +15,7 @@ Future<T?> showDiaLogTablet<T>(
   required Function funcBtnOk,
   double maxHeight = 878,
   double width = 592,
+  double? optinalHeight,
 }) {
   return showDialog(
     context: context,
@@ -31,7 +32,7 @@ Future<T?> showDiaLogTablet<T>(
           btnRightTxt: btnRightTxt ?? S.current.them,
           funcBtnOk: funcBtnOk,
           isBottomShow: isBottomShow,
-          maxHeight: maxHeight,
+          maxHeight: optinalHeight ?? maxHeight,
           width: width,
           child: child,
         ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/bao_cao_thong_ke_yknd_request/bao_cao_yknd_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/chi_tiet_kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/danh_sach_y_kien_pakn_request.dart';
@@ -8,6 +10,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/char
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/dash_board_bao_cao_yknd.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/chi_tiet_kien_nghi_respnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_ket_qua_y_kien_xu_ly_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/danh_sach_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
@@ -15,6 +18,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_respons
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/y_kien_xu_ly_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -117,4 +121,28 @@ abstract class YKienNguoiDanService {
     @Query('KienNghiId') String kienNghiId,
     @Query('TaskId') String taskId,
   );
+
+  @POST(ApiConstants.POST_Y_KIEN_XU_LY)
+  @MultiPart()
+  Future<YKienXuLyResponse> postYKienXuLy(
+    @Part() String NguoiChoYKien,
+    @Part() String KienNghiId,
+    @Part() String NoiDung,
+    @Part() List<File> DinhKem,
+  );
+
+  @GET(ApiConstants.GET_LOCATION_ADDRESS)
+  Future<String> getLocationAddress({
+    @Query('id') String? id,
+  });
+
+  @GET(ApiConstants.GET_DANH_SACH_PAKN)
+  Future<DanhSachPAKNTotalResponse> getDanhSachPAKN({
+    @Query('TuNgay') String? tuNgay,
+    @Query('DenNgay') String? denNgay,
+    @Query('PageSize') String? pageSize,
+    @Query('PageNumber') String? pageNumber,
+    @Query('userId') String? userId,
+    @Query('donViId') String? donViId,
+  });
 }

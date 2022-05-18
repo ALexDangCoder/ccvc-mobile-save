@@ -16,18 +16,23 @@ class LichSuThuHoiWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (dataModel.isNotEmpty) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(left: 16,right: 16),
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: dataModel
-              .map(
-                (e) => WidgetInExpand(
-              row: e.listLSTH(),
-              cubit: cubit,
-            ),
-          )
-              .toList(),
+      return RefreshIndicator(
+        onRefresh: () async {
+          await cubit.getLichSuThuHoiNhiemVu(cubit.idNhiemVu);
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 16,right: 16),
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: dataModel
+                .map(
+                  (e) => WidgetInExpand(
+                row: e.listLSTH(),
+                cubit: cubit,
+              ),
+            )
+                .toList(),
+          ),
         ),
       );
     } else {

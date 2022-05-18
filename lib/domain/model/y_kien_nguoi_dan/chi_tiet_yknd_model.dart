@@ -207,6 +207,9 @@ class NguoiPhanAnhModel {
   String? tinhThanhPho;
   String? quanHuyen;
   String? xaPhuong;
+  String? idTinhTp;
+  String? idQuanHuyen;
+  String? idXaPhuong;
 
   NguoiPhanAnhModel({
     this.doiTuong,
@@ -218,6 +221,9 @@ class NguoiPhanAnhModel {
     this.tinhThanhPho,
     this.quanHuyen,
     this.xaPhuong,
+    this.idTinhTp,
+    this.idQuanHuyen,
+    this.idXaPhuong,
   });
 }
 

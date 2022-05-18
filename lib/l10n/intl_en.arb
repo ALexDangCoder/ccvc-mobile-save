@@ -929,6 +929,11 @@
   "doi_lai_ten": "Đổi lại tên",
   "viec_nay_se_xoa_cac_task_ben_trong_no": "Việc này sẽ xóa các task bên trong nó",
   "thong_tin_van_ban": "Thông tin văn bản",
+  "nu_mien_bac": "Nữ miền Bắc (Liên)",
+  "nam_mien_bac": "Nam miền Bắc (Hiếu)",
+  "nu_mien_bac_ha": "Nữ miền Bắc (Hồng Hà)",
+  "nu_mien_nam": "Nữ miền Nam (Ái Hoa)",
+  "nu_mien_nam_nguyet": "Nữ miền Nam (Minh Nguyệt)",
   "tong_hop_tinh_hinh_xu_ly_nhiem_vu": "Tổng hợp tình hình xử lý nhiệm vụ",
   "khong_co_thong_tin_nhiem_vu": "Không có thông tin nhiệm vụ",
   "don_vi_thuc_hien": "Đơn vị thực hiện",
@@ -943,5 +948,6 @@
   "ban_co_muon_xoa_thong_bao": "Bạn có muốn xóa thông báo?",
   "doc_tat_ca": "Đọc tất cả",
   "danh_dau_tat_ca_da_doc": "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
-  "nguoi_tao": "Người tạo"
+  "nguoi_tao": "Người tạo",
+  "giong_noi": "Giọng nói"
 }

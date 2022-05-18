@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
@@ -240,5 +241,33 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
           (response) => response.data?.map((e) => e.toLichSuTDTT()).toList() ?? [],
     );
 
+  }
+
+  @override
+  Future<Result<String>> postYKienXuLy({required Map<String,dynamic> map}) {
+    return runCatchingAsync<PostYKienResponse,
+        String>(
+          () =>
+          nhiemVuService.postYKienXULy(map),
+          (response) => response.isSuccess.toString(),
+    );
+  }
+
+  @override
+  Future<Result<String>> postFile({required List<File> path}) {
+    return runCatchingAsync<PostYKienResponse,
+        String>(
+          () =>
+          nhiemVuService.postFile(path),
+          (response) {
+            if(response.isSuccess.toString() == 'true') {
+              final List<dynamic> list = response.data;
+              final Map<String,dynamic> map = list.first;
+              return map['Id'].toString();
+            } else {
+              return 'false';
+            }
+          },
+    );
   }
 }

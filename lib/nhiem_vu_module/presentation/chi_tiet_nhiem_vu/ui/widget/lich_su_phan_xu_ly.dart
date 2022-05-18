@@ -20,63 +20,68 @@ class LichSuPhanXuLyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (dataModel.isNotEmpty) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: 16,
-          top: 30,
-        ),
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => XemLuongXuLyNhiemVu(
-                      id: idNhiemVu,
+      return RefreshIndicator(
+        onRefresh: () async {
+          await cubit.getLichSuPhanXuLy(cubit.idNhiemVu);
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: 16,
+            top: 30,
+          ),
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => XemLuongXuLyNhiemVu(
+                        id: idNhiemVu,
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                  ),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: borderColor,
+                    border: Border.all(
+                      color: borderColor.withOpacity(0.5),
                     ),
                   ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                margin: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                ),
-                height: 40,
-                decoration: BoxDecoration(
-                  color: borderColor,
-                  border: Border.all(
-                    color: borderColor.withOpacity(0.5),
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    S.current.xem_luong_xu_ly,
-                    style: TextStyle(
-                      color: textTitle,
-                      fontSize: 16.0.textScale(),
-                      fontWeight: FontWeight.w700,
+                  child: Center(
+                    child: Text(
+                      S.current.xem_luong_xu_ly,
+                      style: TextStyle(
+                        color: textTitle,
+                        fontSize: 16.0.textScale(),
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Column(
-              children: dataModel
-                  .map(
-                    (e) => WidgetInExpand(
-                      row: e.listLSPXL(),
-                      cubit: cubit,
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
+              Column(
+                children: dataModel
+                    .map(
+                      (e) => WidgetInExpand(
+                        row: e.listLSPXL(),
+                        cubit: cubit,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ),
         ),
       );
     } else {

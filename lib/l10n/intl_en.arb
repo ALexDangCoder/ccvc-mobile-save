@@ -952,8 +952,11 @@
   "phan_loai": "Phân loại",
   "tai_lieu_dinh_kem_cua": "Tài liệu đính kèm của công dân/ DN",
   "doc_tat_ca" : "Đọc tất cả",
-  "nguoi_tao" : "Người tạo",
   "danh_dau_tat_ca_da_doc" : "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
+  "theo_trang_thai": "Theo trạng thái",
+  "theo_loai": "Theo loại",
+  "theo_don_vi": "Theo đơn vị",
+  "nguoi_tao" : "Người tạo",
   "xa_cheo_phuong": "Xã/ Phường",
   "ban_co_muon_xoa_thong_bao" : "Bạn có muốn xóa thông báo?",
   "giong_noi" : "Giọng nói",
@@ -965,5 +968,4 @@
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
   "danh_sach_pakn": "Danh sách PAKN"
-
 }

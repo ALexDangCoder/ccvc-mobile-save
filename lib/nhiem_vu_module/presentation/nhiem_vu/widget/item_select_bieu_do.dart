@@ -33,32 +33,6 @@ extension statusColor on int{
 }
 
 extension StateLDM on stateBieuDo {
-  // int getIndex(DashBoardLichHopModel model) {
-  //   switch (this) {
-  //     case stateBieuDo.ChoXacNhan:
-  //       return model.soLichChoXacNhan ?? 0;
-  //
-  //     case stateBieuDo.ThamGia:
-  //       return model.soLichThamGia ?? 0;
-  //
-  //     case stateBieuDo.TuChoi:
-  //       return model.soLichChuTriTuChoi ?? 0;
-  //   }
-  // }
-  //
-  // int getIndexLichHop(DashBoardLichHopModel model) {
-  //   switch (this) {
-  //     case stateBieuDo.ChoXacNhan:
-  //       return model.soLichChoXacNhan ?? 0;
-  //
-  //     case stateBieuDo.ThamGia:
-  //       return model.soLichThamGia ?? 0;
-  //
-  //     case stateBieuDo.TuChoi:
-  //       return model.soLichChuTriTuChoi ?? 0;
-  //   }
-  // }
-
   Widget getState(bool isCheck) {
     switch (this) {
       case stateBieuDo.TheoTrangThai:

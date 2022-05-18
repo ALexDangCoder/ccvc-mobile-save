@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/bao_cao_thong_ke_yknd_request/bao_cao_yknd_request.dart';
@@ -292,9 +293,13 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<List<LocationModel>>> getLocationAddress({String? id}) {
-    return runCatchingAsync<LocationAddressTotal, List<LocationModel>>(
+
+    return runCatchingAsync<String, List<LocationModel>>(
       () => _yKienNguoiDanService.getLocationAddress(id: id),
-      (res) => res.listLocationAddress?.map((e) => e.toModel()).toList() ?? [],
+      (res) {
+        final List<dynamic> list = jsonDecode(res);
+        return list.map((e) => LocationAddressResponse.fromJson(e).toModel()).toList();
+      }
     );
   }
 

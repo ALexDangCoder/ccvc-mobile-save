@@ -48,6 +48,7 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen>
     super.initState();
     _tabController = TabController(length: 9, vsync: this);
     cubit.loadDataNhiemVuCaNhan(nhiemVuId: widget.id, isCheck: widget.isCheck);
+    cubit.idNhiemVu = widget.id;
   }
 
   @override

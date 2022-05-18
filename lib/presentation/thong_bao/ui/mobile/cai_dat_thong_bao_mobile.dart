@@ -27,7 +27,6 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.initDataSetting();
   }
 
   @override
@@ -69,10 +68,9 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0.textScale()),
               child: StreamBuilder<List<ThongBaoModel>>(
-                stream: widget.cubit.settingSubject.stream,
+                stream: widget.cubit.thongBaoStream,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? [];
-
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -86,7 +84,15 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
                         unreadCount: data[index].total ?? 0,
                         isSwitch: true,
                         onTap: () {},
-                        onChange: (bool status) {},
+                        valueSwitch:
+                            widget.cubit.isQuanTrong(data[index].code ?? ''),
+                        onChange: (bool status) {
+                          widget.cubit.changeSwitch(
+                            data[index].code ?? '',
+                            status,
+                          );
+                          setState(() {});
+                        },
                       );
                     },
                   );

@@ -57,6 +57,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
             actions: [
               GestureDetector(
                 onTap: () {
+                  thongBaoCubit.appCodes = thongBaoCubit.stateAppCode;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -114,7 +115,8 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                               unreadCount: data[index].total ?? 0,
                               isLine: index != data.length - 1,
                               onTap: () {
-                                thongBaoCubit.appCode = data[index].code ?? '';
+                                thongBaoCubit
+                                    .selectNotiAppCode(data[index].code ?? '');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -124,7 +126,8 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                     ),
                                   ),
                                 );
-                              }, onChange: (bool status) {  },
+                              },
+                              onChange: (bool status) {},
                             );
                           },
                         ),

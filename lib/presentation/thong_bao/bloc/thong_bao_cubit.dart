@@ -15,7 +15,18 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   ThongBaoRepository get _service => Get.find();
   bool isSwitch = false;
-  String appCode = 'COMMON';
+  List<String> appCodes = [
+    'COMMON',
+    'VPDT',
+    'QLVB',
+    'APPDIEUHANH',
+    'VMS',
+    'PAKN',
+    'QLNV'
+  ];
+
+  List<String> stateAppCode = [];
+
   int page = 1;
   int totalPage = 1;
   List<String> listMenu = [
@@ -46,45 +57,6 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     await getThongBaoQuanTrong();
   }
 
-  void initDataSetting() {
-    List<ThongBaoModel> listData = [
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'Quản lý cán bộ',
-        code: 'QLHSCB',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'Hệ thống quản lý common',
-        code: 'COMMON',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'VMS',
-        code: 'VMS',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'Phản ánh kiến nghị',
-        code: 'PAKN',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-    ];
-
-    settingSubject.add(listData);
-  }
-
   Future<void> getNotifyAppCodes() async {
     showLoading();
     final result = await _service.getNotifyAppcodes();
@@ -92,6 +64,11 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     result.when(
       success: (value) {
         thongBaoSubject.add(value);
+        appCodes.clear();
+        value.forEach((element) {
+          appCodes.add(element.code ?? 'COMMON');
+        });
+        stateAppCode = appCodes;
       },
       error: (error) {},
     );
@@ -100,11 +77,13 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   Future<void> readAllNoti(bool isQuanTrong) async {
     showLoading();
-    final result = await _service.readAllNoti(appCode);
+    final result = await _service.readAllNoti(
+      appCodes.toString().getAppCode(),
+    );
 
     result.when(
       success: (value) {
-        if(isQuanTrong) {
+        if (isQuanTrong) {
           getThongBaoQuanTrong();
         } else {
           getListThongBao();
@@ -117,8 +96,9 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   Future<void> getThongBaoQuanTrong() async {
     showLoading();
+    appCodes = stateAppCode;
     final result = await _service.getThongBaoQuanTrong(
-      appCode: appCode,
+      appCode: appCodes.toString().getAppCode(),
       active: true,
       seen: -1,
       currentPage: page,
@@ -147,7 +127,7 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
   Future<void> getListThongBao() async {
     showLoading();
     final result = await _service.getThongBaoQuanTrong(
-      appCode: appCode,
+      appCode: appCodes.toString().getAppCode(),
       active: true,
       seen: -1,
       currentPage: page,
@@ -177,8 +157,33 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     }
   }
 
+  void changeSwitch(String appCode, bool status) {
+    if(!status) {
+      stateAppCode.remove(appCode);
+    } else {
+      stateAppCode.add(appCode);
+    }
+    appCodes = stateAppCode;
+    getThongBaoQuanTrong();
+  }
+
+  bool isQuanTrong(String appCode) {
+    return appCodes.contains(appCode);
+  }
+
+  void selectNotiAppCode(String appCode) {
+    appCodes.clear();
+    appCodes.add(appCode);
+  }
+
   void dispose() {
     thongBaoSubject.close();
     super.close();
+  }
+}
+
+extension AppCodes on String {
+  String getAppCode() {
+    return substring(1, length - 1);
   }
 }

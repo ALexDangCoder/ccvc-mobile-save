@@ -24,11 +24,20 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum StatusType { CHUA_THUC_HIEN, DA_HOAN_THANH, DANG_THUC_HIEN }
 
+class TextTrangThai {
+  String text;
+  Color color;
+
+  TextTrangThai(this.text, this.color);
+}
+
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
+
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
   BehaviorSubject<List<bool>> selectTypeYKNDSubject =
       BehaviorSubject.seeded([true, false]);
@@ -212,7 +221,14 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
   ];
 
+  String formatDateTime(String dt) {
+    final inputFormat = DateFormat('dd/MM/yyyy');
+    final inputDate = inputFormat.parse(dt); // <-- dd/MM 24H format
 
+    final outputFormat = DateFormat('dd/MM/yyyy');
+    final outputDate = outputFormat.format(inputDate);
+    return outputDate; // 12/31/2000 11:59 PM <-- MM/dd 12H format
+  }
 
   void callApi() {
     getUserData();
@@ -358,7 +374,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       pageNumber: pageNumberDSPAKN.toString(),
       userId: userId,
     );
-    showContent();
     result.when(success: (success) {
       if(listDanhSachKetQuaPakn.hasValue) {
         listDanhSachKetQuaPakn.sink.add(listDanhSachKetQuaPakn.value + success);
@@ -371,6 +386,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     }, error: (error) {
       listDanhSachKetQuaPakn.sink.add([]);
     });
+    showContent();
   }
 
   Future<void> getDashBoardTinhHinhXuLy(
@@ -610,5 +626,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       donViId = dataUser.userInformation?.donViTrucThuoc?.id ?? '';
       userId = dataUser.userId ?? '';
     }
+  }
+
+  void dispose() {
+    listDanhSachKetQuaPakn.value.clear();
   }
 }

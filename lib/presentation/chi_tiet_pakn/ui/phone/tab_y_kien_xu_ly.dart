@@ -181,6 +181,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
     // //FocusScope.of(context).requestFocus(_nodeYkien);//todo
     //setState(() {});
   }
+
   Widget _itemViewDetail({
     required double sizeImage,
     List<YKienModel>? list,
@@ -283,17 +284,16 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
               color: AppTheme.getInstance().titleColor(),
             ), //infoColor
           ),
+          if (isViewData) spaceH10,
           if (isViewData)
-          spaceH10,
-          if (isViewData)
-          Text(
-            S.current.van_ban_dinh_kem,
-            style: textNormalCustom(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: AppTheme.getInstance().titleColor(),
-            ), //infoColor
-          ),
+            Text(
+              S.current.van_ban_dinh_kem,
+              style: textNormalCustom(
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                color: AppTheme.getInstance().titleColor(),
+              ), //infoColor
+            ),
           spaceH6,
           Row(
             children: [
@@ -533,7 +533,10 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                         _nhapYMainController.text = '';
                         widget.cubit.listFileMain.clear();
                         widget.cubit.listPickFileMain.clear();
+
                         setState(() {});
+                        widget.cubit.isLoading = false;
+                        await widget.cubit.refreshPosts();
                       } else {
                         MessageConfig.show(
                           title: S.current.tao_y_kien_xu_ly_that_bai,
@@ -568,6 +571,8 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                           widget.cubit.listFileMain.clear();
                           widget.cubit.listPickFileMain.clear();
                           setState(() {});
+                          widget.cubit.isLoading = false;
+                          await widget.cubit.refreshPosts();
                         } else {
                           MessageConfig.show(
                             title: S.current.tao_y_kien_xu_ly_that_bai,

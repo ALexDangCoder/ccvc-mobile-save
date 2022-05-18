@@ -41,11 +41,12 @@ class _NhiemVuMenuTabletState extends State<NhiemVuMenuTablet> {
                 height: 28,
               ),
               ItemMenuNhiemVuWidgetTablet(
+                isShowNumber: false,
                 icon: ImageAssets.icPerson,
                 number: 20,
                 name: S.current.nhiem_vu_ca_nhan,
                 onTap: () {
-                  widget.cubit.selectTypeNhiemVuSubject.add([true, false]);
+                  widget.cubit.selectTypeNhiemVuSubject.add([true,false, false]);
                   widget.cubit.emit(NhiemVuCaNhan());
                   Navigator.pop(context);
                 },
@@ -54,30 +55,32 @@ class _NhiemVuMenuTabletState extends State<NhiemVuMenuTablet> {
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
               ItemMenuNhiemVuWidgetTablet(
+                isShowNumber: false,
                 icon: ImageAssets.icDonViNhiemVu,
                 name: S.current.nhiem_vu_don_vi,
                 number: 20,
                 onTap: () {
-                  widget.cubit.selectTypeNhiemVuSubject.add([false, true]);
+                  widget.cubit.selectTypeNhiemVuSubject.add([false, true,false]);
                   widget.cubit.emit(NhiemVuDonVi());
                   Navigator.pop(context);
                 },
                 isSelect: data[1],
               ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                ),
+              const SizedBox(
+                height: 20,
+              ),
+              ItemMenuNhiemVuWidgetTablet(
+                isShowNumber: false,
+                icon: ImageAssets.icDonViNhiemVu,
+                name: S.current.bao_cao_thong_ke,
+                number: 20,
+                onTap: () {
+                  widget.cubit.selectTypeNhiemVuSubject.add([false,false, true]);
+                  widget.cubit.emit(BaoCaoThongKe());
+                  Navigator.pop(context);
+                },
+                isSelect: data[2],
               ),
             ],
           );

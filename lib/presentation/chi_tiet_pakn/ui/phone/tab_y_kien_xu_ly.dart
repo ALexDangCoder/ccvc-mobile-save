@@ -55,42 +55,33 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
 
   void addDataListPick(Map<String, dynamic> mediaMap, PickImage pickImage) {
     if (mediaMap.getStringValue(NAME_OF_FILE).isNotEmpty) {
+      final _path = mediaMap.getStringValue(PATH_OF_FILE);
+      final _name = mediaMap.getStringValue(NAME_OF_FILE);
+      final _size = mediaMap.intValue(SIZE_OF_FILE);
       final _extensionName = mediaMap.getStringValue(EXTENSION_OF_FILE);
-      if (_extensionName == 'VIDEO' ||
-          _extensionName == 'MP3' ||
-          _extensionName == 'MP4' ||
-          _extensionName == 'GIF') {
-        MessageConfig.show(
-          title: S.current.file_khong_hop_le,
-          messState: MessState.error,
+      final fileMy = mediaMap.getFileValue(FILE_RESULT);
+      widget.cubit.listFileMain.addAll(fileMy);
+      if (pickImage == PickImage.PICK_MAIN) {
+        widget.cubit.listPickFileMain.add(
+          PickImageFileModel(
+            path: _path,
+            name: _name,
+            extension: _extensionName,
+            size: _size,
+          ),
         );
       } else {
-        final _path = mediaMap.getStringValue(PATH_OF_FILE);
-        final _name = mediaMap.getStringValue(NAME_OF_FILE);
-        final _size = mediaMap.intValue(SIZE_OF_FILE);
-        final fileMy = mediaMap.getFileValue(FILE_RESULT);
-        widget.cubit.listFileMain.addAll(fileMy);
-        if (pickImage == PickImage.PICK_MAIN) {
-          widget.cubit.listPickFileMain.add(
-            PickImageFileModel(
-              path: _path,
-              name: _name,
-              extension: _extensionName,
-              size: _size,
-            ),
-          );
-        } else {
-          // _listYkien.add(
-          //   PickImageFileModel(
-          //     path: _path,
-          //     name: _name,
-          //     extension: _extensionName,
-          //     size: _size,
-          //   ),
-          // );
-        }
-        setState(() {});
+        // _listYkien.add(
+        //   PickImageFileModel(
+        //     path: _path,
+        //     name: _name,
+        //     extension: _extensionName,
+        //     size: _size,
+        //   ),
+        // );
       }
+
+      setState(() {});
     }
   }
 
@@ -190,7 +181,6 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
     // //FocusScope.of(context).requestFocus(_nodeYkien);//todo
     //setState(() {});
   }
-
   Widget _itemViewDetail({
     required double sizeImage,
     List<YKienModel>? list,
@@ -293,16 +283,17 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
               color: AppTheme.getInstance().titleColor(),
             ), //infoColor
           ),
-          if (isViewData) spaceH10,
           if (isViewData)
-            Text(
-              S.current.van_ban_dinh_kem,
-              style: textNormalCustom(
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                color: AppTheme.getInstance().titleColor(),
-              ), //infoColor
-            ),
+          spaceH10,
+          if (isViewData)
+          Text(
+            S.current.van_ban_dinh_kem,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: AppTheme.getInstance().titleColor(),
+            ), //infoColor
+          ),
           spaceH6,
           Row(
             children: [
@@ -448,10 +439,10 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    final Map<String, dynamic> mediaMapImage =
+                                    final Map<String, dynamic> mediaMap =
                                         await pickImage(fromCamera: true);
                                     addDataListPick(
-                                      mediaMapImage,
+                                      mediaMap,
                                       isMain
                                           ? PickImage.PICK_MAIN
                                           : PickImage.PICK_Y_KIEN,

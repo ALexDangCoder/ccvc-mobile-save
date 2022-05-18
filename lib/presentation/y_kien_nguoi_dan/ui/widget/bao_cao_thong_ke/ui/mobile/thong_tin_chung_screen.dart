@@ -160,7 +160,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 spaceH20,
                 InkWell(
                   onTap: () {
-                    goTo(context, ChiTietPKAN(iD: 'fd393528-3b62-4766-8014-235cc30210cc', taskID: '2509abc0-97c5-494b-baf3-45422ec35ce1',));
+                    // goTo(context, ChiTietPKAN(iD: 'fd393528-3b62-4766-8014-235cc30210cc', taskID: '2509abc0-97c5-494b-baf3-45422ec35ce1',));
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),

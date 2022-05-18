@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/chi_tiet_cong_viec_nhiem_vu_response.dart';
@@ -132,4 +134,16 @@ abstract class NhiemVuService {
   @GET(ApiConstants.GET_LUONG_XU_LY_NHIEM_VU)
   Future<XemLuongXuLyNhiemVuResponse> getLuongXuLyNhiemVu(
       @Query('nhiemVuId') String id);
+
+
+  @POST(ApiConstants.POST_Y_KIEN_XU_LY_NHIEM_VU)
+  Future<PostYKienResponse> postYKienXULy(
+      @Body() Map<String,dynamic> map,
+      );
+
+  @POST(ApiConstants.UPLOAD_FILE)
+  @MultiPart()
+  Future<PostYKienResponse> postFile(
+      @Part() List<File> path,
+      );
 }

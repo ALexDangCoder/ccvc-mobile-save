@@ -2,6 +2,8 @@ class ApiConstants {
   static const DANHSACHNHIEMVU = '/qlvb/api/qlnv/nhiem-vu/get-all';
   static const DANHSACHCONGVIEC =
       '/qlvb/api/qlnv/cong-viec/danhsachcongvieccanhan';
+  static const POST_Y_KIEN_XU_LY_NHIEM_VU =
+      '/qlvb/api/qlnv/y-kien-xu-ly/them';
   static const GETDASHBROASHNHIEMVU =
       '/qlvb/api/qlnv/nhiem-vu/dem-loai-nhiem-vu/donvi';
   static const GETDASHBROASHCONGVIEC =
@@ -40,6 +42,7 @@ class ApiConstants {
   static const GET_VAN_BAN_LIEN_QUAN_NHIEM_VU =
       '/qlvb/api/qlnv/van-ban-lien-quan/{id}?';
   static const GET_LUONG_XU_LY_NHIEM_VU = '/qlvb/api/qlnv/nhiem-vu/luong-xu-ly';
+  static const String UPLOAD_FILE = '/qlvb/api/Common/UploadMultiFile';
 }
 
 class ImageConstants {

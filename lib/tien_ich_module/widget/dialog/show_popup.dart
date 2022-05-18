@@ -1,9 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 Future<T?> showDiaLogTablet<T>(
   BuildContext context, {
@@ -13,9 +12,12 @@ Future<T?> showDiaLogTablet<T>(
   String? btnLeftTxt,
   bool isBottomShow = true,
   required Function funcBtnOk,
-  double maxHeight = 878,
-  double width = 592,
-  double? optinalHeight,
+  bool isBottomShowText = true,
+  double maxHeight = 165,
+  double width = 342,
+  double? setHeight,
+  bool isPhone = false,
+  bool? isCallApi,
 }) {
   return showDialog(
     context: context,
@@ -32,8 +34,11 @@ Future<T?> showDiaLogTablet<T>(
           btnRightTxt: btnRightTxt ?? S.current.them,
           funcBtnOk: funcBtnOk,
           isBottomShow: isBottomShow,
-          maxHeight: optinalHeight ?? maxHeight,
+          maxHeight: setHeight ?? maxHeight,
           width: width,
+          isBottomShowText: isBottomShowText,
+          isPhone: isPhone,
+          isCallApi: isCallApi,
           child: child,
         ),
       );
@@ -50,6 +55,9 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final bool isBottomShow;
   final double maxHeight;
   final double width;
+  final bool isBottomShowText;
+  final bool isPhone;
+  final bool? isCallApi;
 
   const _DiaLogFeatureWidget({
     Key? key,
@@ -61,6 +69,9 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
+    required this.isBottomShowText,
+    required this.isPhone,
+    this.isCallApi,
   }) : super(key: key);
 
   @override
@@ -73,22 +84,15 @@ class _DiaLogFeatureWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 24),
+              margin: EdgeInsets.only(top: isPhone ? 40 : 30),
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: textNormalCustom(fontSize: 20, color: textTitle),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: SvgPicture.asset(ImageAssets.icClose),
-                  )
-                ],
+              child: Text(
+                title,
+                style: textNormalCustom(
+                  fontSize: isPhone ? 14 : 18,
+                  color: textTitle,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
             Flexible(
@@ -113,6 +117,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                     button(
                       onTap: () {
                         funcBtnOk();
+                        Navigator.pop(context, isCallApi ?? true);
                       },
                       title: btnRightTxt,
                       isLeft: false,
@@ -138,18 +143,22 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         onTap();
       },
       child: Container(
-        height: 44,
-        width: 142,
+        height: isPhone ? 30 : 44,
+        width: isPhone ? 110 : 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft
+              ? AppTheme.getInstance().colorField().withOpacity(0.1)
+              : AppTheme.getInstance().colorField(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
-              fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              fontSize: isPhone ? 14 : 16,
+              color: isLeft
+                  ? AppTheme.getInstance().colorField()
+                  : backgroundColorApp,
             ),
           ),
         ),

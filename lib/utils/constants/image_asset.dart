@@ -38,6 +38,7 @@ class ImageAssets {
   static const icTongSoLichHop = '$baseImg/ic_tong_so_lich_hop.svg';
   static const String icInformation = '$baseImg/ic_information.svg';
   static const String icLocation = '$baseImg/ic_location.svg';
+  static const String icTimeH = '$baseImg/ic_time_h.svg';
 
 
 

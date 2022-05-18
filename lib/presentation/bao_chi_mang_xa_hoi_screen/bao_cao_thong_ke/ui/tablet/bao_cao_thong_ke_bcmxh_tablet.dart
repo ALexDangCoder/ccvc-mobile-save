@@ -72,45 +72,51 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                           )
                         ],
                       ),
-                      child: StreamBuilder<Map<String, List<BarChartModel>>>(
-                        stream: baoCaoThongKeBCMXHCubit.mapTongQuan,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? {};
-                          final listData =
-                              data[BaoCaoThongKeBCMXHCubit.KEY_TONG_QUAN];
-                          final listStatusData = data[
-                              BaoCaoThongKeBCMXHCubit.KEY_STATUS_TONG_QUAN];
-                          return GroupChartItemWidget(
-                            isTablet: true,
-                            onChoiceDate: (startDate, endDate) {
-                              baoCaoThongKeBCMXHCubit.getTongQuanBaoCao(
-                                startDate,
-                                endDate,
-                                widget.topic,
-                              );
-                            },
-                            title: S.current.tong_quan,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: BarCharWidget(
-                                    color: purpleChart,
-                                    listData: listData ?? [],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 28,
-                                ),
-                                Expanded(
-                                  child: BarCharWidget(
-                                    color: orangeDamChart,
-                                    listData: listStatusData ?? [],
-                                  ),
-                                )
-                              ],
-                            ),
+                      child: GroupChartItemWidget(
+                        isTablet: true,
+                        onChoiceDate: (startDate, endDate) {
+                          baoCaoThongKeBCMXHCubit.getTongQuanBaoCao(
+                            startDate,
+                            endDate,
+                            widget.topic,
                           );
                         },
+                        title: S.current.tong_quan,
+                        child: StreamBuilder<Map<String, List<BarChartModel>>>(
+                          stream: baoCaoThongKeBCMXHCubit.mapTongQuan,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? {};
+                            final listData =
+                                data[BaoCaoThongKeBCMXHCubit.KEY_TONG_QUAN];
+                            final listStatusData = data[
+                                BaoCaoThongKeBCMXHCubit.KEY_STATUS_TONG_QUAN];
+                            return snapshot.hasData
+                                ? data.isNotEmpty
+                                    ? Row(
+                                        children: [
+                                          Expanded(
+                                            child: BarCharWidget(
+                                              color: purpleChart,
+                                              listData: listData ?? [],
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 28,
+                                          ),
+                                          Expanded(
+                                            child: BarCharWidget(
+                                              color: orangeDamChart,
+                                              listData: listStatusData ?? [],
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : const NodataWidget(
+                                        height: 64,
+                                      )
+                                : const SizedBox.shrink();
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -120,158 +126,172 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                       stream: baoCaoThongKeBCMXHCubit.listTinTongHop,
                       builder: (context, snapshot) {
                         final listData = snapshot.data ?? [];
-                        if (listData.isNotEmpty) {
-                          return Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(color: cellColorborder),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: shadowContainerColor.withOpacity(0.05),
-                                            offset: const Offset(0, 4),
-                                            blurRadius: 10,
-                                          )
+                        return snapshot.hasData
+                            ? listData.isNotEmpty
+                                ? Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: cellColorborder),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: shadowContainerColor
+                                                        .withOpacity(0.05),
+                                                    offset: const Offset(0, 4),
+                                                    blurRadius: 10,
+                                                  )
+                                                ],
+                                              ),
+                                              child: GroupChartItemWidget(
+                                                isTablet: true,
+                                                onChoiceDate:
+                                                    (startDate, endDate) {
+                                                  baoCaoThongKeBCMXHCubit
+                                                      .getTinTongHop(
+                                                    startDate,
+                                                    endDate,
+                                                  );
+                                                },
+                                                title: S.current.tin_tong_hop,
+                                                child: BarCharWidget(
+                                                  color: orangeDamChart,
+                                                  listData: listData[0],
+                                                  direction: true,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 28,
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: cellColorborder),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: shadowContainerColor
+                                                        .withOpacity(0.05),
+                                                    offset: const Offset(0, 4),
+                                                    blurRadius: 10,
+                                                  )
+                                                ],
+                                              ),
+                                              child: GroupChartItemWidget(
+                                                isTablet: true,
+                                                onChoiceDate:
+                                                    (startDate, endDate) {},
+                                                title: S.current.cac_dia_phuong,
+                                                child: BarCharWidget(
+                                                  color: greenChart,
+                                                  listData: listData[1],
+                                                  direction: true,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      child: GroupChartItemWidget(
-                                        isTablet: true,
-                                        onChoiceDate: (startDate, endDate) {
-                                          baoCaoThongKeBCMXHCubit.getTinTongHop(
-                                            startDate,
-                                            endDate,
-                                          );
-                                        },
-                                        title: S.current.tin_tong_hop,
-                                        child: BarCharWidget(
-                                          color: orangeDamChart,
-                                          listData: listData[0],
-                                          direction: true,
-                                        ),
+                                      const SizedBox(
+                                        height: 28,
                                       ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 28,
-                                  ),
-                                  Expanded(child:  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: cellColorborder),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: shadowContainerColor.withOpacity(0.05),
-                                          offset: const Offset(0, 4),
-                                          blurRadius: 10,
-                                        )
-                                      ],
-                                    ),
-                                    child: GroupChartItemWidget(
-                                      isTablet: true,
-                                      onChoiceDate: (startDate, endDate) {},
-                                      title: S.current.cac_dia_phuong,
-                                      child: BarCharWidget(
-                                        color: greenChart,
-                                        listData: listData[1],
-                                        direction: true,
-                                      ),
-                                    ),
-                                  ),),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 28,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(color: cellColorborder),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: shadowContainerColor.withOpacity(0.05),
-                                            offset: const Offset(0, 4),
-                                            blurRadius: 10,
-                                          )
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: cellColorborder),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: shadowContainerColor
+                                                        .withOpacity(0.05),
+                                                    offset: const Offset(0, 4),
+                                                    blurRadius: 10,
+                                                  )
+                                                ],
+                                              ),
+                                              child: GroupChartItemWidget(
+                                                isTablet: true,
+                                                onChoiceDate:
+                                                    (startDate, endDate) {},
+                                                title: S.current
+                                                    .uy_ban_nhan_dan_tinh,
+                                                child: BarCharWidget(
+                                                  color: blueNhatChart,
+                                                  listData: listData[2],
+                                                  direction: true,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 28,
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: cellColorborder),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: shadowContainerColor
+                                                        .withOpacity(0.05),
+                                                    offset: const Offset(0, 4),
+                                                    blurRadius: 10,
+                                                  )
+                                                ],
+                                              ),
+                                              child: GroupChartItemWidget(
+                                                isTablet: true,
+                                                onChoiceDate:
+                                                    (startDate, endDate) {},
+                                                title: S.current.lanh_dao_tinh,
+                                                child: BarCharWidget(
+                                                  color: redChart,
+                                                  listData: listData[3],
+                                                  direction: true,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
-                                      ),
-                                      child: GroupChartItemWidget(
-                                        isTablet: true,
-                                        onChoiceDate: (startDate, endDate) {},
-                                        title: S.current.uy_ban_nhan_dan_tinh,
-                                        child: BarCharWidget(
-                                          color: blueNhatChart,
-                                          listData: listData[2],
-                                          direction: true,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 28,
-                                  ),
-                                  Expanded(child:  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: cellColorborder),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: shadowContainerColor.withOpacity(0.05),
-                                          offset: const Offset(0, 4),
-                                          blurRadius: 10,
-                                        )
-                                      ],
-                                    ),
-                                    child: GroupChartItemWidget(
-                                      isTablet: true,
-                                      onChoiceDate: (startDate, endDate) {},
-                                      title: S.current.lanh_dao_tinh,
-                                      child: BarCharWidget(
-                                        color: redChart,
-                                        listData: listData[3],
-                                        direction: true,
-                                      ),
-                                    ),
-                                  ),),
-                                ],
-                              )
-                            ],
-                          );
-                        } else {
-                          return const NodataWidget();
-                        }
+                                      )
+                                    ],
+                                  )
+                                : const NodataWidget(
+                                    height: 64,
+                                  )
+                            : const SizedBox.shrink();
                       },
                     ),
                     const SizedBox(
                       height: 28,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: cellColorborder),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: shadowContainerColor.withOpacity(0.05),
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 10,
-                                )
-                              ],
-                            ),
+
+                    // bug is here
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -279,7 +299,8 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                 border: Border.all(color: cellColorborder),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: shadowContainerColor.withOpacity(0.05),
+                                    color:
+                                        shadowContainerColor.withOpacity(0.05),
                                     offset: const Offset(0, 4),
                                     blurRadius: 10,
                                   )
@@ -296,126 +317,144 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                 },
                                 title: S.current.thong_ke_theo_nguon_tin,
                                 child: StreamBuilder<List<ChartData>>(
-                                  stream: baoCaoThongKeBCMXHCubit.chartBaoCaoTheoNguon,
+                                  stream: baoCaoThongKeBCMXHCubit
+                                      .chartBaoCaoTheoNguon,
                                   builder: (context, snapshot) {
                                     final data = snapshot.data ?? [];
-                                    if (data.isNotEmpty) {
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Center(
-                                            child: PieChart(
-                                              chartData: data,
-                                              isSubjectInfo: false,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 30,
-                                          ),
-                                          Center(
-                                            child: Wrap(
-                                              children: [
-                                                ChartIndicatorWidget(
-                                                  title: S.current.mang_xa_hoi,
-                                                  color: blueNhatChart,
-                                                ),
-                                                ChartIndicatorWidget(
-                                                  title: S.current.bao_chi,
-                                                  color: greenChart,
-                                                ),
-                                                ChartIndicatorWidget(
-                                                  title: S.current.forum,
-                                                  color: grayChart,
-                                                ),
-                                                ChartIndicatorWidget(
-                                                  title: S.current.blog,
-                                                  color: orangeNhatChart,
-                                                ),
-                                                ChartIndicatorWidget(
-                                                  title: S.current.khac,
-                                                  color: purpleChart,
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      );
-                                    } else {
-                                      return const NodataWidget();
-                                    }
+                                    return snapshot.hasData
+                                        ? data.isNotEmpty
+                                            ? Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Center(
+                                                    child: PieChart(
+                                                      chartData: data,
+                                                      isSubjectInfo: false,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                  Center(
+                                                    child: Wrap(
+                                                      children: [
+                                                        ChartIndicatorWidget(
+                                                          title: S.current
+                                                              .mang_xa_hoi,
+                                                          color: blueNhatChart,
+                                                        ),
+                                                        ChartIndicatorWidget(
+                                                          title:
+                                                              S.current.bao_chi,
+                                                          color: greenChart,
+                                                        ),
+                                                        ChartIndicatorWidget(
+                                                          title:
+                                                              S.current.forum,
+                                                          color: grayChart,
+                                                        ),
+                                                        ChartIndicatorWidget(
+                                                          title: S.current.blog,
+                                                          color:
+                                                              orangeNhatChart,
+                                                        ),
+                                                        ChartIndicatorWidget(
+                                                          title: S.current.khac,
+                                                          color: purpleChart,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            : const NodataWidget(
+                                                height: 64,
+                                              )
+                                        : const SizedBox.shrink();
                                   },
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 28,
-                        ),
-                        Expanded(child:  Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              )
-                            ],
+                          const SizedBox(
+                            width: 28,
                           ),
-                          child: GroupChartItemWidget(
-                            isTablet: true,
-                            onChoiceDate: (startDate, endDate) {
-                              baoCaoThongKeBCMXHCubit.getBaoCaoTheoSacThai(
-                                startDate,
-                                endDate,
-                                widget.topic,
-                              );
-                            },
-                            title: S.current.thong_ke_theo_sac_thai,
-                            child: StreamBuilder<List<ChartData>>(
-                              stream: baoCaoThongKeBCMXHCubit.chartBaoCaoTheoSacThai,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ?? [];
-                                if (data.isNotEmpty) {
-                                  return Column(
-                                    children: [
-                                      Center(
-                                        child: PieChart(
-                                          chartData: data,
-                                          isSubjectInfo: false,
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Wrap(
-                                          children: [
-                                            ChartIndicatorWidget(
-                                              title: S.current.tich_cuc,
-                                              color: greenChart,
-                                            ),
-                                            ChartIndicatorWidget(
-                                              title: S.current.trung_lap,
-                                              color: blueNhatChart,
-                                            ),
-                                            ChartIndicatorWidget(
-                                              title: S.current.tich_cuc,
-                                              color: redChart,
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                          Expanded(
+                            child: Container(
+                              height: 300,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: cellColorborder),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        shadowContainerColor.withOpacity(0.05),
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 10,
+                                  )
+                                ],
+                              ),
+                              child: GroupChartItemWidget(
+                                isTablet: true,
+                                onChoiceDate: (startDate, endDate) {
+                                  baoCaoThongKeBCMXHCubit.getBaoCaoTheoSacThai(
+                                    startDate,
+                                    endDate,
+                                    widget.topic,
                                   );
-                                } else {
-                                  return const NodataWidget();
-                                }
-                              },
+                                },
+                                title: S.current.thong_ke_theo_sac_thai,
+                                child: StreamBuilder<List<ChartData>>(
+                                  stream: baoCaoThongKeBCMXHCubit
+                                      .chartBaoCaoTheoSacThai,
+                                  builder: (context, snapshot) {
+                                    final data = snapshot.data ?? [];
+                                    return snapshot.hasData
+                                        ? data.isNotEmpty
+                                            ? Column(
+                                                children: [
+                                                  Center(
+                                                    child: PieChart(
+                                                      chartData: data,
+                                                      isSubjectInfo: false,
+                                                    ),
+                                                  ),
+                                                  Center(
+                                                    child: Wrap(
+                                                      children: [
+                                                        ChartIndicatorWidget(
+                                                          title: S
+                                                              .current.tich_cuc,
+                                                          color: greenChart,
+                                                        ),
+                                                        ChartIndicatorWidget(
+                                                          title: S.current
+                                                              .trung_lap,
+                                                          color: blueNhatChart,
+                                                        ),
+                                                        ChartIndicatorWidget(
+                                                          title: S
+                                                              .current.tich_cuc,
+                                                          color: redChart,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            : const NodataWidget(
+                                                height: 64,
+                                              )
+                                        : const SizedBox.shrink();
+                                  },
+                                ),
+                              ),
                             ),
                           ),
-                        ),),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 28,
@@ -561,13 +600,15 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                           stream: baoCaoThongKeBCMXHCubit.lineChartTheoThoiGian,
                           builder: (context, snapshot) {
                             final data = snapshot.data ?? [];
-                            if (data.isNotEmpty) {
-                              return LineChartWidget(
-                                listData: data,
-                              );
-                            } else {
-                              return const NodataWidget();
-                            }
+                            return snapshot.hasData
+                                ? data.isNotEmpty
+                                    ? LineChartWidget(
+                                        listData: data,
+                                      )
+                                    : const NodataWidget(
+                                        height: 64,
+                                      )
+                                : const SizedBox.shrink();
                           },
                         ),
                       ),

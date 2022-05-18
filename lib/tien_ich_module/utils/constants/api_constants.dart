@@ -16,6 +16,13 @@ class ApiConstants {
   static const GET_TRA_CUU_VAN_BAN_PHAP_LUAT = '/api/VbPhapLuat/search';
   static const NHOM_CV_MOI = '/api/TodoListGroup/get-current-user';
   static const GAN_CONG_VIEC_CHO_TOI = '/api/TodoList/get-by-performer';
+  static const XOA_CONG_VIEC = '/api/TodoList/delete';
+  static const TAO_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/create';
+  static const SUA_TEN_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/update';
+  static const XOA_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/delete';
+  static const TRANSLATE_DOCUMENT = '/appdieuhanh/api/Common/dich_van_ban';
+  static const CHUYEN_VB_SANG_GIONG_NOI = '/api/TichHop/chuyen-vanban-sang-giongnoi';
+
 }
 
 class ImageConstants {

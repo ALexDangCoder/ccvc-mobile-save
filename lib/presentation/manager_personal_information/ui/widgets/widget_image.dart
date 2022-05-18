@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -5,6 +6,7 @@ import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manag
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WigetImage extends StatefulWidget {
   final ManagerPersonalInformationCubit cubit;
@@ -23,13 +25,34 @@ class _WigetImageState extends State<WigetImage> {
       children: [
         Column(
           children: [
-            Image.network(
-              ImageAssets.icProfile,
-              errorBuilder: (_, __, ___) {
-                return Image.asset(
-                  ImageAssets.icProfile,
-                );
-              },
+            Container(
+              height: 150,
+              width: 155,
+              decoration: BoxDecoration(
+                border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+                shape: BoxShape.circle,
+                color: Colors.transparent,
+                boxShadow: [
+                  BoxShadow(
+                    color: bgImage.withOpacity(0.1),
+                    blurRadius: 7,
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  imageUrl: widget.cubit.managerPersonalInformationModel
+                          .anhDaiDienFilePath ??
+                      '',
+                  errorWidget: (_, __, ___) {
+                    return Container(
+                      padding: const EdgeInsets.all(54.0),
+                      child: SvgPicture.asset(ImageAssets.icImage),
+                    );
+                  },
+                ),
+              ),
             ),
             spaceH24,
             Text(
@@ -44,13 +67,34 @@ class _WigetImageState extends State<WigetImage> {
         spaceW56,
         Column(
           children: [
-            Image.network(
-              ImageAssets.icProfile,
-              errorBuilder: (_, __, ___) {
-                return Image.asset(
-                  ImageAssets.icProfile,
-                );
-              },
+            Container(
+              height: 150,
+              width: 155,
+              decoration: BoxDecoration(
+                border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+                shape: BoxShape.circle,
+                color: Colors.transparent,
+                boxShadow: [
+                  BoxShadow(
+                    color: bgImage.withOpacity(0.1),
+                    blurRadius: 7,
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  imageUrl: widget.cubit.managerPersonalInformationModel
+                          .anhChuKyFilePath ??
+                      '',
+                  errorWidget: (_, __, ___) {
+                    return Container(
+                      padding: const EdgeInsets.all(54.0),
+                      child: SvgPicture.asset(ImageAssets.icImage),
+                    );
+                  },
+                ),
+              ),
             ),
             spaceH24,
             Text(
@@ -65,13 +109,34 @@ class _WigetImageState extends State<WigetImage> {
         spaceW56,
         Column(
           children: [
-            Image.network(
-              ImageAssets.icProfile,
-              errorBuilder: (_, __, ___) {
-                return Image.asset(
-                  ImageAssets.icProfile,
-                );
-              },
+            Container(
+              height: 150,
+              width: 155,
+              decoration: BoxDecoration(
+                border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+                shape: BoxShape.circle,
+                color: Colors.transparent,
+                boxShadow: [
+                  BoxShadow(
+                    color: bgImage.withOpacity(0.1),
+                    blurRadius: 7,
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  imageUrl: widget.cubit.managerPersonalInformationModel
+                          .anhChuKyNhayFilePath ??
+                      '',
+                  errorWidget: (_, __, ___) {
+                    return Container(
+                      padding: const EdgeInsets.all(54.0),
+                      child: SvgPicture.asset(ImageAssets.icImage),
+                    );
+                  },
+                ),
+              ),
             ),
             spaceH24,
             Text(

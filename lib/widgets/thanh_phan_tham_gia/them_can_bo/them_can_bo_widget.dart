@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -242,14 +243,18 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft
+              ? AppTheme.getInstance().colorSelect().withOpacity(0.1)
+              : AppTheme.getInstance().colorSelect(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorSelect()
+                  : backgroundColorApp,
             ),
           ),
         ),

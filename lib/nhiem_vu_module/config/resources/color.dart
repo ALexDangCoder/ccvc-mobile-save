@@ -43,6 +43,8 @@ const fittingBg = Color(0xFFF2F2F2);
 const itemWidgetUsing = Color(0xff28C76F);
 const itemWidgetNotUse = Color(0xffFF9F43);
 const backgroundWidget = Color(0xffF0F6FF);
+const chuTriColor = Color(0xff6FCF97);
+const phoiHopColor = Color(0xffBB6BD9);
 const textDefault = Color(0xff7966FF);
 const textTitle = Color(0xff3D5586);
 const titleItemEdit = Color(0xff586B8B);
@@ -62,6 +64,7 @@ const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const choXuLyColor = Color(0xff5A8DEE);
+const chuaThucHienColor = Color(0xffF2994A);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -90,6 +93,7 @@ const lavenderColor = Color(0xff7A85CD);
 const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
+
 
 const bgTag = Color(0xffF2F0FF);
 

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/tra_cuu_van_ban_phap_luat_model.dart';
@@ -37,12 +38,12 @@ class _TraCuuVanBanPhapLuatMobileState
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 16.0,left: 16.0,bottom: 16.0),
+            padding:
+                const EdgeInsets.only(right: 16.0, left: 16.0, bottom: 16.0),
             child: BaseSearchBar(
               hintText: S.current.tim_kiem_theo_trich_yeu,
               onChange: (value) {
-                setState(() {
-                });
+                setState(() {});
                 cubit.search = value;
               },
             ),
@@ -56,7 +57,7 @@ class _TraCuuVanBanPhapLuatMobileState
   }
 
   void callApi(int page) {
-    cubit.getTraCuuVanBanPhapLuat( page, ApiConstants.DEFAULT_PAGE_SIZE);
+    cubit.getTraCuuVanBanPhapLuat(page, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   Widget _content() {
@@ -68,13 +69,14 @@ class _TraCuuVanBanPhapLuatMobileState
           page,
         )
       },
-      viewItem: (value, index) =>
-          itemTraCuuVanBan(value as TraCuuVanBanPhapLuatModel, index ?? 0,context),
+      viewItem: (value, index) => itemTraCuuVanBan(
+          value as TraCuuVanBanPhapLuatModel, index ?? 0, context),
     );
   }
 }
 
-Widget itemTraCuuVanBan(TraCuuVanBanPhapLuatModel data, int index,BuildContext context) {
+Widget itemTraCuuVanBan(
+    TraCuuVanBanPhapLuatModel data, int index, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(
       left: 16,
@@ -85,14 +87,7 @@ Widget itemTraCuuVanBan(TraCuuVanBanPhapLuatModel data, int index,BuildContext c
       decoration: BoxDecoration(
         border: Border.all(color: borderItemCalender),
         borderRadius: BorderRadius.circular(10.0),
-        color: backgroundColorApp,
-        boxShadow: const [
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.05),
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
+        color: bgDropDown.withOpacity(0.1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -105,9 +100,10 @@ Widget itemTraCuuVanBan(TraCuuVanBanPhapLuatModel data, int index,BuildContext c
                   child: Text(
                     S.current.ngay_bh,
                     style: textNormalCustom(
-                        color: dateColor,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
+                      color: dateColor,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -115,14 +111,15 @@ Widget itemTraCuuVanBan(TraCuuVanBanPhapLuatModel data, int index,BuildContext c
                   child: Text(
                     data.day ?? '',
                     style: textNormalCustom(
-                        color: dateColor,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
+                      color: dateColor,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             Row(
@@ -132,21 +129,22 @@ Widget itemTraCuuVanBan(TraCuuVanBanPhapLuatModel data, int index,BuildContext c
                   child: Text(
                     S.current.trich_yeu,
                     style: textNormalCustom(
-                        color: dateColor,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
+                      color: dateColor,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
                 Expanded(
                   flex: 7,
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
                         PageRouteBuilder(
                           pageBuilder: (_, __, ___) => WebViewScreen(
                             title: '',
-                            url: data.url?? '',
+                            url: data.url ?? '',
                           ),
                         ),
                       );
@@ -156,7 +154,7 @@ Widget itemTraCuuVanBan(TraCuuVanBanPhapLuatModel data, int index,BuildContext c
                       style: textNormalCustom(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
-                          color: linkColor),
+                          color: AppTheme.getInstance().colorField()),
                     ),
                   ),
                 )

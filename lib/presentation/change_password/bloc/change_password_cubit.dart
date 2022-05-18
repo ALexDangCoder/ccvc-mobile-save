@@ -23,6 +23,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
   String message = '';
   bool? isSuccess;
   final toast = FToast();
+  BehaviorSubject<String> thongBao=BehaviorSubject();
 
   void closeDialog() {
     showContent();
@@ -49,12 +50,13 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
         isSuccess=model.isSuccess??false;
         message = model.messages?.first ?? '';
         if(model.isSuccess==false){
-          toast.showToast(
-            child: ShowToast(
-              text: S.current.mat_khau_hien_tai_chua_dung,
-            ),
-            gravity: ToastGravity.BOTTOM,
-          );
+          thongBao.sink.add(S.current.mat_khau_hien_tai_chua_dung);
+          // toast.showToast(
+          //   child: ShowToast(
+          //     text: S.current.mat_khau_hien_tai_chua_dung,
+          //   ),
+          //   gravity: ToastGravity.BOTTOM,
+          // );
         }
         showContent();
       },

@@ -61,6 +61,9 @@ class Data {
   List<FileData>? fileData;
   String? dateRepeat;
   String? canBoThamGiaStr;
+  String? thoiGianKetThuc;
+  int? trangThaiDuyetKyThuat;
+  String? lichHop_PhienHopStr;
 
   Data({
     this.nguoiTaoStr,
@@ -75,6 +78,7 @@ class Data {
     this.id,
     this.title,
     this.bitHopTrucTuyen,
+    this.thoiGianKetThuc,
     this.linkTrucTuyen,
     this.bitPhongTrungTamDieuHanh,
     this.ngayBatDau,
@@ -104,6 +108,8 @@ class Data {
     this.phongHop,
     this.fileData,
     this.dateRepeat,
+    this.trangThaiDuyetKyThuat,
+    this.lichHop_PhienHopStr,
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -118,6 +124,7 @@ class Data {
     id = json['id'];
     canBoThamGiaStr = json['canBoThamGiaStr'];
     title = json['title'];
+    trangThaiDuyetKyThuat = json['trangThaiDuyetKyThuat'];
     bitHopTrucTuyen = json['bit_HopTrucTuyen'];
     linkTrucTuyen = json['linkTrucTuyen'];
     bitPhongTrungTamDieuHanh = json['bit_PhongTrungTamDieuHanh'];
@@ -130,17 +137,15 @@ class Data {
     diaDiemHop = json['diaDiemHop'];
     congKhai = json['congKhai'];
     lichDonVi = json['lichDonVi'];
-
     chuTri = json['chuTri'] != null ? ChuTri.fromJson(json['chuTri']) : null;
     phongHop =
         json['phongHop'] != null ? PhongHop.fromJson(json['phongHop']) : null;
     mucDo = json['mucDo'];
     typeRepeat = json['typeRepeat'];
-
+    thoiGianKetThuc = json['thoiGianKetThuc'];
     isLichLap = json['isLichLap'];
     isAllDay = json['isAllDay'];
     donViNguoiTaoId = json['donViNguoiTaoId'];
-
     typeReminder = json['typeReminder'];
     bitTrongDonVi = json['bit_TrongDonVi'];
     bitYeuCauDuyet = json['bit_YeuCauDuyet'];
@@ -157,6 +162,7 @@ class Data {
       });
     }
     dateRepeat = json['dateRepeat'];
+    lichHop_PhienHopStr = json['lichHop_PhienHopStr'];
   }
 
   ChiTietLichHopModel toDomain() => ChiTietLichHopModel(
@@ -165,11 +171,17 @@ class Data {
         chuTriModel: chuTri?.toDomain() ?? const ChuTriModel(),
         linhVuc: tenLinhVuc ?? '',
         noiDung: noiDung ?? '',
+        thoiGianKetThuc: thoiGianKetThuc ?? '',
         title: title ?? '',
+        isDuyetThietBi: isDuyetThietBi ?? false,
+        isDuyetPhong: isDuyetPhong ?? false,
         canBoThamGiaStr: canBoThamGiaStr ?? '',
+        trangThaiDuyetKyThuat: trangThaiDuyetKyThuat ?? -1,
         phongHopMode: phongHop?.toDomain() ?? const PhongHopMode(),
         tenLinhVuc: tenLinhVuc ?? '',
+        nguoiTao_str: nguoiTaoStr ?? '',
         timeTo: timeTo ?? '',
+        status: status ?? 0,
         timeStart: timeStart ?? '',
         ngayBatDau: ngayBatDau ?? DateTime.now().toString(),
         ngayKetThuc: ngayKetThuc ?? DateTime.now().toString(),
@@ -178,10 +190,15 @@ class Data {
         bit_TrongDonVi: bitTrongDonVi ?? false,
         isAllDay: isAllDay ?? false,
         typeReminder: typeReminder,
+        bit_YeuCauDuyet: bitYeuCauDuyet ?? false,
         typeRepeat: typeRepeat,
+        createdBy: createdBy ?? '',
         fileData: fileData?.map((e) => e.toDomain()).toList() ?? [],
         dateRepeat: dateRepeat,
         days: days,
+        isTaoTaoBocBang: isTaoBocBang ?? false,
+        bit_PhongTrungTamDieuHanh: bitPhongTrungTamDieuHanh ?? false,
+        lichHop_PhienHopStr: lichHop_PhienHopStr ?? '',
       );
 }
 

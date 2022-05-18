@@ -89,7 +89,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                           Expanded(
                             child: StreamBuilder<List<ChartData>>(
                               stream: danhSachCubit.statusSuject,
-                              initialData: danhSachCubit.chartDataNhiemVu,
+                              initialData: danhSachCubit.chartDataTheoLoai,
                               builder: (context, snapshot) {
                                 final data = snapshot.data ??
                                     widget.cubit.chartDataNhiemVu;
@@ -131,7 +131,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                           Expanded(
                             child: StreamBuilder<List<ChartData>>(
                               stream: danhSachCubit.statusCongViecSuject,
-                              initialData: danhSachCubit.chartDataNhiemVu,
+                              initialData: danhSachCubit.chartDataTheoLoai,
                               builder: (context, snapshot) {
                                 final data = snapshot.data ??
                                     widget.cubit.chartDataNhiemVu;

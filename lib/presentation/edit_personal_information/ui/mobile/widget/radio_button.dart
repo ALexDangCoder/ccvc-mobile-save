@@ -1,14 +1,19 @@
+
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomRadioButtonCheck extends StatefulWidget {
   final Function() onSelectItem;
-  bool isCheckButton = false;
+  bool isCheckButton;
+  final String? name;
 
   CustomRadioButtonCheck({
     Key? key,
     required this.onSelectItem,
+    required this.name,
     this.isCheckButton = false,
   }) : super(key: key);
 
@@ -24,10 +29,25 @@ class _CustomRadioButtonCheckState extends State<CustomRadioButtonCheck> {
         widget.onSelectItem();
         widget.isCheckButton = !widget.isCheckButton;
       },
-      child: SvgPicture.asset(
-        widget.isCheckButton
-            ? ImageAssets.ic_CheckedDate
-            : ImageAssets.ic_unChecked,
+      child: Container(
+        color: Colors.transparent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.name ?? '',
+              style: tokenDetailAmount(
+                color: titleColor,
+                fontSize: 14,
+              ),
+            ),
+            SvgPicture.asset(
+              widget.isCheckButton
+                  ? ImageAssets.ic_CheckedDate
+                  : ImageAssets.ic_unChecked,
+            ),
+          ],
+        ),
       ),
     );
   }

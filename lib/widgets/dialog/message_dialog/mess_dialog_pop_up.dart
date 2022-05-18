@@ -9,6 +9,7 @@ class MessageDialogPopup extends StatefulWidget {
   final Function() onDismiss;
   final String urlIcon;
   final String title;
+
   const MessageDialogPopup({
     Key? key,
     required this.onDismiss,
@@ -23,6 +24,7 @@ class MessageDialogPopup extends StatefulWidget {
 class _MessageDialogPopupState extends State<MessageDialogPopup>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -64,7 +66,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 50),
                   padding:
-                     const  EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
                   constraints: const BoxConstraints(minWidth: 300),
                   decoration: BoxDecoration(
                     color: backgroundColorApp,
@@ -88,9 +90,12 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                         width: 56,
                         height: 56,
                       ),
-                      spaceH32,
+                      const SizedBox(
+                        height: 40,
+                      ),
                       Text(
                         widget.title,
+                        textAlign: TextAlign.center,
                         style:
                             textNormalCustom(fontSize: 18, color: titleColor),
                       )

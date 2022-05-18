@@ -1,7 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/tab_danh_ba_ca_nhan_fix/phone/tab_danh_ba_ca_nhan_fix.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/tab_danh_ba_ca_nhan.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/widget/tab_danh_ba_to_chuc.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +45,9 @@ class _DanhBaDienTuMobileState extends State<DanhBaDienTuMobile> {
         ),
         bottom: TabBar(
           controller: _controller,
-          indicatorColor: indicatorColor,
+          indicatorColor: AppTheme.getInstance().colorField(),
           unselectedLabelColor: unselectLabelColor,
-          labelColor: numberColorTablet,
+          labelColor: AppTheme.getInstance().colorField(),
           tabs: [
             Tab(
               child: Text(
@@ -61,7 +62,7 @@ class _DanhBaDienTuMobileState extends State<DanhBaDienTuMobile> {
       ),
       body: TabBarView(
         controller: _controller,
-        children: const [DanhBaToChuc(), DanhBaCaNhanFix()],
+        children: const [DanhBaToChuc(), DanhBaCaNhan()],
       ),
     );
   }

@@ -29,8 +29,6 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.thanhPhanThamGia.sink.add(widget.cubit.dataThaGiaDefault);
-    widget.cubit.dataThanhPhanThamGia = widget.cubit.dataThaGiaDefault;
   }
 
   @override
@@ -42,6 +40,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           const SizedBox(
             height: 16,
           ),
+          if(widget.cubit.isBtnMoiNguoiThamGia())
           IconWithTiltleWidget(
             icon: ImageAssets.ic_addUser,
             title: S.current.moi_nguoi_tham_gia,

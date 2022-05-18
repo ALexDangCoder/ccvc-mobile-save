@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
 import 'package:ccvc_mobile/presentation/reset_password/ui/tablet/send_mail_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -124,7 +126,23 @@ class _ChangePassWordScreenTabletState
                         },
                       ),
                       const SizedBox(height: 24.0),
+                      StreamBuilder<String>(
+                          stream: cubit.thongBao,
+                          builder: (context, snapshot) {
+                            final data=snapshot.data??'';
+                            if(data.isNotEmpty){
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 24.0),
+                                child: WidgetTextError(text: data,),
+                              );
+                            }else{
+                              return const SizedBox();
+                            }
+
+                          }
+                      ),
                       TextFieldValidator(
+                        maxLength: 32,
                         fillColor: backgroundColorApp,
                         controller: matKhauMoiController,
                         obscureText: cubit.isCheckEye1,
@@ -171,12 +189,13 @@ class _ChangePassWordScreenTabletState
                               value!.isNotEmpty) {
                             return S.current.khong_trung_mat_khau_moi;
                           } else {
-                            return (value ?? '').checkPassWordChangePass();
+                            return (value ?? '').checkPassWordChangePass('Mật khẩu mới!');
                           }
                         },
                       ),
                       const SizedBox(height: 24.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         fillColor: backgroundColorApp,
                         controller: nhapLaiMatKhauController,
                         obscureText: cubit.isCheckEye2,
@@ -220,7 +239,7 @@ class _ChangePassWordScreenTabletState
                             return S.current.mat_khau_chua_khop;
                           } else {
                             return (value ?? '')
-                                .checkTruongNull('Nhập lại mật khẩu!');
+                                .checkTruongNull('Nhập lại mật khẩu mới!');
                           }
                         },
                       ),
@@ -237,7 +256,7 @@ class _ChangePassWordScreenTabletState
                         child: Text(
                           '${S.current.quen_mat_khau}?',
                           style: textNormalCustom(
-                            color: textDefault,
+                            color: AppTheme.getInstance().colorField(),
                             fontSize: 16.0,
                           ),
                         ),
@@ -253,10 +272,10 @@ class _ChangePassWordScreenTabletState
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text,
-                                    passwordOld: matKhauHienTaiController.text,
+                                    password: matKhauMoiController.text.trim(),
+                                    passwordOld: matKhauHienTaiController.text.trim(),
                                     repeatPassword:
-                                        nhapLaiMatKhauController.text)
+                                        nhapLaiMatKhauController.text.trim())
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

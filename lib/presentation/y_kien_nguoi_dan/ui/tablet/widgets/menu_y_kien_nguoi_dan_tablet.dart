@@ -42,6 +42,7 @@ class _MenuYKIenNguoiDanTabletState extends State<MenuYKIenNguoiDanTablet> {
               ),
               ItemMenuNhiemVuWidgetTablet(
                 icon: ImageAssets.icPerson,
+                isShowNumber: false,
                 number: 20,
                 name: S.current.thong_tin_chung,
                 onTap: () {
@@ -64,6 +65,7 @@ class _MenuYKIenNguoiDanTabletState extends State<MenuYKIenNguoiDanTablet> {
               ItemMenuNhiemVuWidgetTablet(
                 icon: ImageAssets.ic_baocao,
                 number: 20,
+                isShowNumber: false,
                 name: S.current.bao_cao_thong_ke,
                 onTap: () {
                   widget.cubit.selectTypeYKNDSubject.add([false, true]);

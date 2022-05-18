@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,9 +11,11 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
   final int number;
   final bool isSelect;
   final Function onTap;
+  final bool isShowNumber;
 
   const ItemMenuNhiemVuWidgetTablet({
     Key? key,
+    this.isShowNumber=true,
     required this.icon,
     required this.name,
     required this.number,
@@ -36,7 +39,9 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
             top: 12.0,
           ),
           decoration: BoxDecoration(
-            color: isSelect ? textDefault : toDayColor.withOpacity(0.1),
+            color: isSelect
+                ? AppTheme.getInstance().colorField()
+                : toDayColor.withOpacity(0.1),
             border: Border.all(
               color: toDayColor.withOpacity(0.5),
             ),
@@ -49,13 +54,17 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                 width: 15.0.textScale(space: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18.0),
-                  color: isSelect ? backgroundColorApp : textDefault,
+                  color: isSelect
+                      ? backgroundColorApp
+                      : AppTheme.getInstance().colorField(),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: SvgPicture.asset(
                     icon,
-                     color: !isSelect ? backgroundColorApp : textDefault,
+                    color: !isSelect
+                        ? backgroundColorApp
+                        : AppTheme.getInstance().colorField(),
                   ),
                 ),
               ),
@@ -72,7 +81,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              if (isShowNumber) Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 4,
                   horizontal: 5,
@@ -82,15 +91,15 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                   color: numberColorTabletbg,
                 ),
                 alignment: Alignment.center,
-                child: Text(
+                child:  Text(
                   number.toString(),
                   style: textNormalCustom(
-                    color: textDefault,
+                    color: AppTheme.getInstance().colorField(),
                     fontWeight: FontWeight.w500,
                     fontSize: 12.0.textScale(),
                   ),
                 ),
-              )
+              ) else const SizedBox(),
             ],
           ),
         ),

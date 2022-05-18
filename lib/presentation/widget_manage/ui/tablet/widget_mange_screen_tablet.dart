@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
@@ -33,21 +34,23 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetManageProvider(
-      widgetManageCubit: widgetManageCubit,
-      child: Scaffold(
-        backgroundColor: bgWidgets,
-        appBar: AppBarDefaultBack(
-          S.current.widget_manage,
+    return Scaffold(
+      backgroundColor: bgWidgets,
+      appBar: AppBarDefaultBack(
+        S.current.widget_manage,
+      ),
+      body: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException(
+          S.current.error,
+          S.current.error,
         ),
-        body: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException(
-            S.current.error,
-            S.current.error,
-          ),
-          stream: widgetManageCubit.stateStream,
+        stream: widgetManageCubit.stateStream,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await widgetManageCubit.onRefreshData();
+          },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
@@ -80,18 +83,22 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                                 ),
                                 Text(
                                   S.current.keep_drop,
-                                  style: textNormal(textTitle, 14.0.textScale()),
+                                  style: textNormal(
+                                    textTitle,
+                                    14.0.textScale(),
+                                  ),
                                 ),
                               ],
                             ),
                             GestureDetector(
                               child: Center(
                                 child: Text(
-                                  S.current.dat_lai_mac_dinh,
+                                  S.current.mac_dinh,
                                   style: textNormalCustom(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16,
-                                    color: labelColor,
+                                    color:
+                                        AppTheme.getInstance().colorField(),
                                   ),
                                 ),
                               ),
@@ -166,25 +173,27 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                         const SizedBox(
                           height: 28,
                         ),
-
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 28,),
+                const SizedBox(
+                  height: 28,
+                ),
                 Center(
                   child: SizedBox(
                     width: 160,
                     height: 44,
                     child: ButtonCustomBottom(
-                      title:  S.current.xem_truoc,
-                      isColorBlue:true,
-                      onPressed:(){
+                      border: 8,
+                      title: S.current.xem_truoc,
+                      isColorBlue: true,
+                      onPressed: () {
                         Navigator.push(
                           context,
                           PageRouteBuilder(
                             pageBuilder: (_, __, ___) =>
-                            const PrevViewWidgetTablet(),
+                                const PrevViewWidgetTablet(),
                           ),
                         );
                       },
@@ -192,34 +201,14 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 28,),
+                const SizedBox(
+                  height: 28,
+                ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-}
-
-class WidgetManageProvider extends InheritedWidget {
-  final WidgetManageCubit widgetManageCubit;
-
-  const WidgetManageProvider({
-    Key? key,
-    required this.widgetManageCubit,
-    required Widget child,
-  }) : super(key: key, child: child);
-
-  static WidgetManageProvider of(BuildContext context) {
-    final WidgetManageProvider? result =
-    context.dependOnInheritedWidgetOfExactType<WidgetManageProvider>();
-    assert(result != null, 'No elenment');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
   }
 }

@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 class AppState {
   String token = '';
   final BehaviorSubject<String> getToken = BehaviorSubject<String>();
+  final BehaviorSubject<String> refreshToken = BehaviorSubject<String>();
   void getTokenPrefs() {
     token = PrefsService.getToken();
     getToken.sink.add(token);
@@ -26,6 +27,10 @@ class AppState {
       AppThemModel(appMode: APP_THEME, appBackGround: APP_BACKGROUND),
     );
     Get.forceAppUpdate();
+  }
+  Future<void> refreshTokenFunc(String token) async {
+   await PrefsService.saveToken(token);
+   refreshToken.sink.add(token);
   }
 
   void setAppBackGround(AppBackGround appBackGround) {

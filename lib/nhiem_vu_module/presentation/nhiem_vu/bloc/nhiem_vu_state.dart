@@ -20,3 +20,7 @@ class NhiemVuDonVi extends NhiemVuState {
   @override
   List<Object?> get props => [];
 }
+class BaoCaoThongKe extends NhiemVuState {
+  @override
+  List<Object?> get props => [];
+}

@@ -27,18 +27,22 @@ class TongHopNhiemVuResponse {
   }
   List<TongHopNhiemVuModel> toDomain() {
     return [
-      mapData[NhiemVuStatus.TONG_SO_NHIEM_VU]?.toDomain() ??
-          TongHopNhiemVuModel(),
-      mapData[NhiemVuStatus.HOAN_THANH_NHIEM_VU]?.toDomain() ??
-          TongHopNhiemVuModel(),
-      mapData[NhiemVuStatus.NHIEM_VU_DANG_THUC_HIEN]?.toDomain() ??
-          TongHopNhiemVuModel(),
-      mapData[NhiemVuStatus.HOAN_THANH_QUA_HAN]?.toDomain() ??
-          TongHopNhiemVuModel(),
-      mapData[NhiemVuStatus.DANG_THUC_HIEN_TRONG_HAN]?.toDomain() ??
-          TongHopNhiemVuModel(),
-      mapData[NhiemVuStatus.DANG_THUC_HIEN_QUA_HAN]?.toDomain() ??
-          TongHopNhiemVuModel(),
+      Data(name: '',code: NhiemVuStatus.CHO_PHAN_XU_LY,value: 10).toDomain(),
+      Data(name: '',code: NhiemVuStatus.CHUA_THUC_HIEN,value: 20).toDomain(),
+      Data(name: '',code: NhiemVuStatus.DANG_THUC_HIEN,value: 30).toDomain(),
+      Data(name: '',code: NhiemVuStatus.HOAN_THANH_NHIEM_VU,value: 40).toDomain(),
+      // mapData[NhiemVuStatus.TONG_SO_NHIEM_VU]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.HOAN_THANH_NHIEM_VU]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.NHIEM_VU_DANG_THUC_HIEN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.HOAN_THANH_QUA_HAN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.DANG_THUC_HIEN_TRONG_HAN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.DANG_THUC_HIEN_QUA_HAN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
     ];
   }
 }

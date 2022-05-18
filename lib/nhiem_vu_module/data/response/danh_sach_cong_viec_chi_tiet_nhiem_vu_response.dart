@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/danh_sach_cong_viec_chi_tiet_nhiem_vu.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -65,10 +66,20 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   String? hanXuLy;
   @JsonKey(name: 'ThoiGianGiaoViec')
   String? thoiGianGiaoViec;
+  @JsonKey(name: 'ThoiGian')
+  String? thoiGian;
   @JsonKey(name: 'NguoiGiaoViec')
   String? nguoiGiaoViec;
+  @JsonKey(name: 'NguoiXuLy')
+  String? nguoiXuLy;
+  @JsonKey(name: 'DonVi')
+  String? donVi;
+  @JsonKey(name: 'NguoiCapNhat')
+  String? nguoiCapNhat;
   @JsonKey(name: 'DonViGiaoViec')
   String? donViGiaoViec;
+  @JsonKey(name: 'DonViXuLy')
+  String? donViXuLy;
   @JsonKey(name: 'DonViGiaoViecId')
   String? donViGiaoViecId;
   @JsonKey(name: 'TrangThai')
@@ -112,47 +123,61 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   @JsonKey(name: 'CoTheXoa')
   bool? coTheXoa;
 
-  DanhSachCongViecChiTietNhiemVuModelResponse({
-    this.stt,
-    this.id,
-    this.tenCv,
-    this.maCv,
-    this.trangThaiHanXuLy,
-    this.noiDungCongViec,
-    this.doiTuongThucHien,
-    this.donViThucHien,
-    this.donViThucHienId,
-    this.caNhanThucHien,
-    this.nguoiThucHienId,
-    this.nguoiThucHien,
-    this.hanXuLyFormatDate,
-    this.thoiGianGiaoFormatDate,
-    this.hanXuLy,
-    this.thoiGianGiaoViec,
-    this.nguoiGiaoViec,
-    this.donViGiaoViec,
-    this.donViGiaoViecId,
-    this.trangThai,
-    this.maTrangThai,
-    this.trangThaiId,
-    this.maNhiemVu,
-    this.nhiemVuId,
-    this.mucDoCongViecId,
-    this.mucDoCongViec,
-    this.noiDungNhiemVu,
-    this.nguoiTaoId,
-    this.nguoiTao,
-    this.currentDonVi,
-    this.actionDate,
-    this.congViecLienQuan,
-    this.isFromCaNhan,
-    this.wTrangThai,
-    this.coTheCapNhatTinhHinh,
-    this.coTheSua,
-    this.coTheHuy,
-    this.coTheGan,
-    this.coTheXoa,
-  });
+  @JsonKey(name: 'NoiDung')
+  String? noiDung;
+  @JsonKey(name: 'VanBanLienQuan')
+  String? vanBanLienQuan;
+  @JsonKey(name: 'FileDinhKems')
+  List<FileDinhKemsResponse>? file;
+
+  DanhSachCongViecChiTietNhiemVuModelResponse(
+      {this.stt,
+      this.id,
+      this.tenCv,
+      this.maCv,
+      this.trangThaiHanXuLy,
+      this.noiDungCongViec,
+      this.doiTuongThucHien,
+      this.donViThucHien,
+      this.donViThucHienId,
+      this.caNhanThucHien,
+      this.nguoiThucHienId,
+      this.nguoiThucHien,
+      this.hanXuLyFormatDate,
+      this.thoiGianGiaoFormatDate,
+      this.hanXuLy,
+      this.thoiGianGiaoViec,
+      this.nguoiGiaoViec,
+      this.donViGiaoViec,
+      this.donViGiaoViecId,
+      this.trangThai,
+      this.maTrangThai,
+      this.trangThaiId,
+      this.maNhiemVu,
+      this.nhiemVuId,
+      this.mucDoCongViecId,
+      this.mucDoCongViec,
+      this.noiDungNhiemVu,
+      this.nguoiTaoId,
+      this.nguoiTao,
+      this.currentDonVi,
+      this.actionDate,
+      this.congViecLienQuan,
+      this.isFromCaNhan,
+      this.wTrangThai,
+      this.coTheCapNhatTinhHinh,
+      this.coTheSua,
+      this.coTheHuy,
+      this.coTheGan,
+      this.coTheXoa,
+      this.nguoiXuLy,
+      this.donViXuLy,
+      this.thoiGian,
+      this.nguoiCapNhat,
+      this.donVi,
+      this.noiDung,
+      this.vanBanLienQuan,
+      this.file});
 
   factory DanhSachCongViecChiTietNhiemVuModelResponse.fromJson(
           Map<String, dynamic> json) =>
@@ -160,6 +185,26 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
 
   Map<String, dynamic> toJson() =>
       _$DanhSachCongViecChiTietNhiemVuModelResponseToJson(this);
+
+  DanhSachCongViecChiTietNhiemVuModel toLichSuGiaoViec() =>
+      DanhSachCongViecChiTietNhiemVuModel(
+        nguoiGiaoViec: nguoiGiaoViec,
+        donViGiaoViec: donViGiaoViec,
+        thoiGianGiaoViec: thoiGian,
+        nguoiThucHien: nguoiXuLy,
+        donViThucHien: donViXuLy,
+      );
+
+  DanhSachCongViecChiTietNhiemVuModel toLichSuTDTT() =>
+      DanhSachCongViecChiTietNhiemVuModel(
+        nguoiGiaoViec: nguoiCapNhat,
+        donViGiaoViec: donVi,
+        thoiGianGiaoViec: thoiGian,
+        noiDungCongViec: noiDung,
+        vanBanLienQuan: vanBanLienQuan,
+        trangThai: trangThai,
+        file: file?.map((e) => e.toModel()).toList(),
+      );
 
   DanhSachCongViecChiTietNhiemVuModel toModel() =>
       DanhSachCongViecChiTietNhiemVuModel(
@@ -206,5 +251,23 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
 
   //todo convert to Model to use
   @override
+  List<Object?> get props => [];
+}
+
+@JsonSerializable()
+class PostYKienResponse extends Equatable {
+  @JsonKey(name: 'IsSuccess')
+  bool? isSuccess;
+  @JsonKey(name: 'Data')
+  dynamic data;
+
+  PostYKienResponse(this.isSuccess,this.data,);
+
+  factory PostYKienResponse.fromJson(Map<String, dynamic> json) =>
+      _$PostYKienResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$PostYKienResponseToJson(this);
+
+  @override
+  // TODO: implement props
   List<Object?> get props => [];
 }

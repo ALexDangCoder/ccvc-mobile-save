@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
@@ -90,14 +91,20 @@ mixin LichLamViecRepository {
   Future<Result<MessageModel>> postTaoMoiBanGhi(TaoMoiBanGhiRequest body);
 
   Future<Result<List<TinhTrangBaoCaoModel>>> getListTinhTrangBaoCao();
+  Future<Result<MessageModel>>checkTrungLichLamviec(CheckTrungLichRequest body);
 
   Future<Result<MessageModel>> taoLichLamViec(
     String title,
     String typeScheduleId,
     String linhVucId,
+    String tinhId,
     String TenTinh,
+    String huyenId,
     String TenHuyen,
+    String xaId,
     String TenXa,
+    String country,
+    String countryId,
     String dateFrom,
     String timeFrom,
     String dateTo,
@@ -112,6 +119,7 @@ mixin LichLamViecRepository {
     bool publishSchedule,
     String tags,
     bool isLichDonVi,
+    bool isLichLanhDao,
     String canBoChuTriId,
     String donViId,
     String note,
@@ -159,6 +167,41 @@ mixin LichLamViecRepository {
       bool only,
       List<int> days,
       );
+  Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
+      String title,
+      String typeScheduleId,
+      String linhVucId,
+      String TenTinh,
+      String TenHuyen,
+      String TenXa,
+      String countryId,
+      String dateFrom,
+      String timeFrom,
+      String dateTo,
+      String timeTo,
+      String content,
+      String location,
+      String vehicle,
+      String expectedResults,
+      String results,
+      int status,
+      String rejectReason,
+      bool publishSchedule,
+      String tags,
+      bool isLichDonVi,
+      String canBoChuTriId,
+      String donViId,
+      String note,
+      bool isAllDay,
+      bool isSendMail,
+      List<DonViModel> scheduleCoperativeRequest,
+      int typeRemider,
+      int typeRepeat,
+      String dateRepeat,
+      String dateRepeat1,
+      bool only,
+      List<int> days,
+      );
 
   Future<Result<MessageModel>> taoBaoCaoKetQua(
     String reportStatusId,
@@ -175,4 +218,6 @@ mixin LichLamViecRepository {
       HuyenSelectRequest huyenSelectRequest);
 
   Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest);
+
+  Future<Result<DataDatNuocSelectModel>> datNuocSelect(DatNuocSelectRequest datNuocSelectRequest);
 }

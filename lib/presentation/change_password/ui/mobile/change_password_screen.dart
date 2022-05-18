@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
 import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/send_mail_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -74,6 +76,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                       ),
                       const SizedBox(height: 10.0),
                       TextFieldValidator(
+                          maxLength: 32,
                           controller: matKhauHienTaiController,
                           obscureText: cubit.isCheckEye,
                           suffixIcon: cubit.isHideEye
@@ -116,7 +119,23 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                                 .checkTruongNull('Mật khẩu hiện tại!');
                           }),
                       const SizedBox(height: 16.0),
+                      StreamBuilder<String>(
+                          stream: cubit.thongBao,
+                          builder: (context, snapshot) {
+                            final data=snapshot.data??'';
+                            if(data.isNotEmpty){
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: WidgetTextError(text: data,),
+                              );
+                            }else{
+                              return const SizedBox();
+                            }
+
+                          }
+                      ),
                       TextFieldValidator(
+                        maxLength: 32,
                         controller: matKhauMoiController,
                         obscureText: cubit.isCheckEye1,
                         suffixIcon: cubit.isHideEye1
@@ -162,12 +181,13 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                               value!.isNotEmpty) {
                             return S.current.khong_trung_mat_khau_moi;
                           } else {
-                            return (value ?? '').checkPassWordChangePass();
+                            return (value ?? '').checkPassWordChangePass('Mật khẩu mới!');
                           }
                         },
                       ),
                       const SizedBox(height: 16.0),
                       TextFieldValidator(
+                        maxLength: 32,
                         controller: nhapLaiMatKhauController,
                         obscureText: cubit.isCheckEye2,
                         suffixIcon: cubit.isHideEye2
@@ -210,7 +230,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                             return S.current.mat_khau_chua_khop;
                           } else {
                             return (value ?? '')
-                                .checkTruongNull('Nhập lại mật khẩu!');
+                                .checkTruongNull('Nhập lại mật khẩu mới!');
                           }
                         },
                       ),
@@ -225,7 +245,7 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                         },
                         child: Text(
                           '${S.current.quen_mat_khau}?',
-                          style: textNormalCustom(color: textDefault),
+                          style: textNormalCustom(color: AppTheme.getInstance().colorField()),
                         ),
                       ),
                       const SizedBox(height: 20.0),
@@ -239,10 +259,10 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text,
-                                    passwordOld: matKhauHienTaiController.text,
+                                    password: matKhauMoiController.text.trim(),
+                                    passwordOld: matKhauHienTaiController.text.trim(),
                                     repeatPassword:
-                                        nhapLaiMatKhauController.text)
+                                        nhapLaiMatKhauController.text.trim())
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

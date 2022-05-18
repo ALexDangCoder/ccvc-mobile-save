@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldValidator extends StatefulWidget {
   final TextEditingController? controller;
@@ -19,6 +20,9 @@ class TextFieldValidator extends StatefulWidget {
   final Widget? prefixIcon;
   final bool? obscureText;
   final Color? fillColor;
+  final int? maxLength;
+  final List<TextInputFormatter>? checkNumber;
+  final Function(String)? onPaste;
 
   const TextFieldValidator({
     Key? key,
@@ -35,6 +39,9 @@ class TextFieldValidator extends StatefulWidget {
     this.onTap,
     this.obscureText,
     this.fillColor,
+    this.maxLength,
+    this.checkNumber,
+    this.onPaste,
   }) : super(key: key);
 
   @override
@@ -44,13 +51,15 @@ class TextFieldValidator extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
   FormProvider? formProvider;
+  bool isPaste = false;
+  String valueText = '';
 
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    formProvider = FormProvider.of(context);
+  void initState() {
+    super.initState();
+    valueText = widget.controller?.text ?? '';
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      formProvider = FormProvider.of(context);
       if (formProvider != null) {
         if (widget.validator != null) {
           final validator =
@@ -67,10 +76,19 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    formProvider?.validator.remove(key);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: key,
       child: TextFormField(
+        inputFormatters: widget.checkNumber,
+        maxLength: widget.maxLength,
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
         onChanged: (value) {
@@ -79,6 +97,16 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           }
           if (widget.onChange != null) {
             widget.onChange!(value);
+          }
+          if (widget.onPaste != null) {
+            if (isPasteOnChange(value)) {
+              if (valueText.isNotEmpty) {
+                widget.onPaste!(value.replaceAll(valueText, ''));
+              } else {
+                widget.onPaste!(value);
+              }
+            }
+            valueText = '';
           }
         },
         initialValue: widget.initialValue,
@@ -95,6 +123,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         ),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
+          counterText: '',
           hintText: widget.hintText,
           hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
           contentPadding: widget.maxLine == 1
@@ -134,5 +163,12 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
       ),
     );
+  }
+
+  bool isPasteOnChange(String value) {
+    if (value.length > valueText.length + 1) {
+      return true;
+    }
+    return false;
   }
 }

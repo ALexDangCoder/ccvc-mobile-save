@@ -24,7 +24,7 @@ class DoubleButtonBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return isTablet
         ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32),
+            padding: const EdgeInsets.symmetric(vertical: 36),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -101,34 +101,6 @@ class DoubleButtonBottom extends StatelessWidget {
   }
 
   Widget button({
-    required Function onTap,
-    required String title,
-    bool isLeft = true,
-  }) {
-    return GestureDetector(
-      onTap: () {
-        onTap();
-      },
-      child: Container(
-        height: 44,
-        width: 142,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: textNormalCustom(
-              fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-  Widget buttonTablet({
     required Function onTap,
     required String title,
     bool isLeft = true,

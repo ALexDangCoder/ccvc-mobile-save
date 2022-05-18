@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
@@ -80,7 +81,7 @@ class _LichHopTheoTuanTabletState extends State<LichHopTheoTuanTablet> {
                             height: 18,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(2.0),
-                              color: choTrinhKyColor,
+                              color: AppTheme.getInstance().colorField(),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(

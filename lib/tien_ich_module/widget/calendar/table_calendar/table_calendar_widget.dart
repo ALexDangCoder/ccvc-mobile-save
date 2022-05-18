@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_null_aware_method_calls, unnecessary_statements
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/calendar/event.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
@@ -146,76 +147,94 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       bottomRight: Radius.circular(20),
                     ),
                   )
-                : BoxDecoration(
+                : const BoxDecoration(
                     color: Colors.white,
                   ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (widget.tablet == false)
-                  TableCalendarPhone(
-                    eventLoader: (day) =>
-                        widget.eventsLoader
-                            ?.where((element) => isSameDay(element, day))
-                            .toList() ??
-                        [],
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    onDaySelected: _onDaySelect,
-                    // rangeSelectionMode: _rangeSelectionMode,
-                    rangeStartDay: cubit.rangeStart,
-                    rangeEndDay: cubit.rangeEnd,
-                    onRangeSelected: _onRangeSelected,
-                    daysOfWeekVisible: true,
-                    onFormatChanged: (CalendarFormat _format) {
-                      setState(() {
-                        widget.isFomatMonth == true
-                            ? _calendarFormatWeek = _format
-                            : _calendarFormatMonth = _format;
-                      });
-                    },
-                    selectedDayPredicate: (day) {
-                      return widget.selectDay(day) ||
-                          isSameDay(widget.cubit.selectTime, day);
-                    },
-                    calendarStyle: CalendarStyle(
-                      weekendTextStyle: textNormalCustom(
-                        color: titleCalenderWork,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      defaultTextStyle: textNormalCustom(
-                        color: titleColor,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      outsideTextStyle: textNormalCustom(
-                        color: titleColor,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      selectedTextStyle: textNormalCustom(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                      todayDecoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: toDayColor,
-                      ),
-                      todayTextStyle: textNormalCustom(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                        color: buttonColor,
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                    ),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: lineColor,
+                        ),
                       ),
                     ),
-                    headerVisible: false,
+                    child: TableCalendarPhone(
+                      eventLoader: (day) =>
+                          widget.eventsLoader
+                              ?.where((element) => isSameDay(element, day))
+                              .toList() ??
+                          [],
+                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      onDaySelected: _onDaySelect,
+                      // rangeSelectionMode: _rangeSelectionMode,
+                      rangeStartDay: cubit.rangeStart,
+                      rangeEndDay: cubit.rangeEnd,
+                      onRangeSelected: _onRangeSelected,
+                      daysOfWeekVisible: true,
+                      onFormatChanged: (CalendarFormat _format) {
+                        setState(() {
+                          widget.isFomatMonth == true
+                              ? _calendarFormatWeek = _format
+                              : _calendarFormatMonth = _format;
+                        });
+                      },
+                      selectedDayPredicate: (day) {
+                        return widget.selectDay(day) ||
+                            isSameDay(widget.cubit.selectTime, day);
+                      },
+                      calendarStyle: CalendarStyle(
+                        weekendTextStyle: textNormalCustom(
+                          color: titleCalenderWork,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        defaultTextStyle: textNormalCustom(
+                          color: titleColor,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        outsideTextStyle: textNormalCustom(
+                          color: titleColor,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        selectedTextStyle: textNormalCustom(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
+                          color: Colors.white,
+                        ),
+                        todayDecoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppTheme.getInstance()
+                              .colorField()
+                              .withOpacity(0.1),
+                        ),
+                        selectedDecoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
+                        todayTextStyle: textNormalCustom(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
+                      ),
+                      headerVisible: false,
 
-                    calendarFormat: widget.isFomatMonth == true
-                        ? _calendarFormatWeek
-                        : _calendarFormatMonth,
-                    firstDay: DateTime.utc(2021, 8, 20),
-                    lastDay: DateTime.utc(2030, 8, 20),
-                    focusedDay: _selectedDay,
+                      calendarFormat: widget.isFomatMonth == true
+                          ? _calendarFormatWeek
+                          : _calendarFormatMonth,
+                      firstDay: DateTime.utc(2021, 8, 20),
+                      lastDay: DateTime.utc(2030, 8, 20),
+                      focusedDay: _selectedDay,
+                    ),
                   )
                 else
                   TableCalendarTablet(
@@ -265,9 +284,15 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         fontSize: 16.0,
                         color: Colors.white,
                       ),
-                      todayDecoration: const BoxDecoration(
+                      todayDecoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: toDayColor,
+                        color: AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
+                      ),
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                       todayTextStyle: textNormalCustom(
                         fontSize: 16.0,

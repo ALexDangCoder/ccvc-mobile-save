@@ -32,7 +32,10 @@ class DashBoardVBDenResponse {
       ..soLuongChoXuLy = getValue(DocumentState.CHO_XU_LY)
       ..soLuongDangXuLy = getValue(DocumentState.DANG_XU_LY)
       ..soLuongDaXuLy = getValue(DocumentState.DA_XU_LY)
-      ..soLuongChoVaoSo = getValue(DocumentState.CHO_VAO_SO);
+      ..soLuongChoVaoSo = getValue(DocumentState.CHO_VAO_SO)
+      ..soLuongQuaHan = getValue(DocumentState.QUA_HAN)
+      ..soLuongDenHan = getValue(DocumentState.DEN_HAN)
+      ..soLuongTrongHan = getValue(DocumentState.TRONG_HAN);
   }
 
   int getValue(String codeValue) {

@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_quan_trong_response.dart';
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_response.dart';
@@ -25,6 +26,13 @@ abstract class ThongBaoService {
     @Query('pageSize') int pageSize,
   );
 
+  @POST(ApiConstants.READ_ALL)
+  Future<ChinhSuaBaoCaoKetQuaResponse> readAllNoti(
+    @Query('appCode') String appCode,
+  );
+
   @DELETE(ApiConstants.DELETE_NOTIFY)
-  Future<TaoLichLamViecResponse> deleteNotify(@Query('notiId') String notiId,);
+  Future<TaoLichLamViecResponse> deleteNotify(
+    @Query('notiId') String notiId,
+  );
 }

@@ -101,7 +101,7 @@ class CanBoModel {
 
   bool showCheckBox() {
     if (isVangMat == true) {
-      return false;
+      return true;
     } else if (isVangMat == false && diemDanh == true) {
       return false;
     } else if (isVangMat == false && diemDanh == false) {

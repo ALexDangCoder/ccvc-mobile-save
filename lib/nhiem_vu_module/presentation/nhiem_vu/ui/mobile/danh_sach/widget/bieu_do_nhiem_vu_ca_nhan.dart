@@ -41,11 +41,11 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
         children: [
           StreamBuilder<List<ChartData>>(
             stream: widget.cubit.statusNhiemVuCaNhanSuject,
-            initialData: widget.cubit.chartDataNhiemVu,
+            initialData: widget.cubit.chartDataNhiemVuCANHAN,
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
               return PieChart(
-                title: widget.title ?? '',
+              //  title: widget.title ?? '',
                 chartData: data,
                 onTap: (int value) {
                   widget.ontap(widget.cubit.chartDataNhiemVuCaNhan[value].title.split(' ')
@@ -59,9 +59,9 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
           Container(height: 20),
           StreamBuilder<List<LoaiNhiemVuComomModel>>(
             stream: widget.cubit.loaiNhiemVuCaNhanSuject,
-            initialData: listFakeData,
+           initialData: listFakeData,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
+              final data = snapshot.data?.reversed ?? [];
               return Row(
                 children: data
                     .map(

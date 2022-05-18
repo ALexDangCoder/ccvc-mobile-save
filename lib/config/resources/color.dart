@@ -45,6 +45,7 @@ const itemWidgetNotUse = Color(0xffFF9F43);
 const backgroundWidget = Color(0xffF0F6FF);
 const textDefault = Color(0xff7966FF);
 const textTitle = Color(0xff3D5586);
+const denHanColor = Color(0xff0046FF);
 const titleItemEdit = Color(0xff586B8B);
 const bgColor = Color(0xffE5E5E5);
 const bgWidgets = Color(0xffF9FAFF);
@@ -59,14 +60,14 @@ const soanThaoColor = Color(0xffdeddcf);
 const kyDuyetColor = Color(0xffFFFF00);
 const kiemTraThucTheColor = Color(0xffFF7F50);
 const nguoiCapSoColor = Color(0xffc6d7f9);
-const nguoiChuTriColor =  Color(0xff2467d2);
+const nguoiChuTriColor = Color(0xff2467d2);
 const phoiHopColor = Color(0xff2ed47a);
 const nhanDeBietColor = Color(0xffEFECEC);
 const choVaoSoLuongColor = Color(0xff0034ff);
 const choPhanXuLyColor = Color(0xff5252d4);
 const choXuLyLuongColor = Color(0xff8b4db4);
 const dangXuLyLuongColor = Color(0xff59c6fa);
-const daXuLyLuongColor =  Color(0xff42b432);
+const daXuLyLuongColor = Color(0xff42b432);
 const thuHoiLuongColor = Color(0xff9b7938);
 const traLaiLuongColor = Color(0xffe5f52f);
 
@@ -75,6 +76,7 @@ const textDropDownColor = Color(0xff3D5586);
 const bgDropDown = Color(0xFFE2E8F0);
 const bgButtonDropDown = Color(0xff7966FF);
 const bgQLVBTablet = Color(0xffF9FAFF);
+const coloriCon = Color(0xffA2AEBD);
 
 const bgrCalendar = Color(0xFFE9E9E9);
 const bgrChart = Color(0xFF00CFE8);
@@ -84,6 +86,7 @@ const AqiColor = Color(0xffA2AEBD);
 const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
+const shadowColor = Color(0xff6262eb);
 const choXuLyColor = Color(0xff5A8DEE);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
@@ -115,6 +118,9 @@ const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
 const xamColor = Color(0xffBAA59F);
+const nhiemVuBoColor = Color(0xff0A45B9);
+const nhiemDonViColor = Color(0xff1CE2BF);
+const chuaThucHienColor = Color(0xffF2994A);
 
 const bgTag = Color(0xffF2F0FF);
 
@@ -187,11 +193,12 @@ const greenChart = Color(0xFF28C76F);
 const orangeNhatChart = Color(0xFFFDB000);
 const purpleChart = Color(0xFF8E7EFF);
 const grayChart = Color(0xFF667793);
-
-
-
+const textTitleColumn  = Color(0xff667793);
+const blueFilterDateWidget = Color(0xFFF1F4FF);
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
+  Color unselectColor();
+
   Color primaryColor();
 
   Color accentColor();
@@ -312,9 +319,19 @@ class LightApp extends AppColor {
   Color colorField() {
     return backgroundColorApp;
   }
+
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
 }
 
 class DarkApp extends AppColor {
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
   @override
   Color primaryColor() {
     return colorPrimary;
@@ -403,6 +420,11 @@ class DarkApp extends AppColor {
 
 class DefaultApp extends AppColor {
   @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
+  @override
   Color colorField() {
     return textDefault;
   }
@@ -489,6 +511,11 @@ class DefaultApp extends AppColor {
 }
 
 class BlueApp extends AppColor {
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
   @override
   Color primaryColor() {
     return colorPrimary;
@@ -577,6 +604,11 @@ class BlueApp extends AppColor {
 
 class PinkApp extends AppColor {
   @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
+  @override
   Color primaryColor() {
     return colorPrimary;
   }
@@ -663,6 +695,11 @@ class PinkApp extends AppColor {
 }
 
 class YellowApp extends AppColor {
+  @override
+  Color unselectColor() {
+    return unselectLabelColor;
+  }
+
   @override
   Color primaryColor() {
     return colorPrimary;

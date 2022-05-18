@@ -7,10 +7,15 @@ import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_mod
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:queue/queue.dart';
@@ -45,6 +50,9 @@ class ManagerPersonalInformationCubit
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
   final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
       BehaviorSubject.seeded([]);
+  final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
+  final isCheckValue = RegExp(r'^[a-zA-Z0-9\+]*$');
+  bool? checkLoad;
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;
@@ -68,9 +76,10 @@ class ManagerPersonalInformationCubit
   String idTinh = '';
   String idHuyen = '';
   String idXa = '';
-
+  String thuTu = '';
   String xa = '';
   bool gioiTinh = false;
+  String identifier = '';
   DataEditPersonInformation dataEditPersonInformation =
       DataEditPersonInformation();
   List<TinhHuyenXaModel> huyenModel = [];
@@ -81,23 +90,28 @@ class ManagerPersonalInformationCubit
 
   AccountRepository get _managerRepo => Get.find();
   bool isChechValidate = false;
+  String valueText = '';
 
-  bool checkValidate({
-    required String hoTen,
-    String? thuTu,
-    required String? cccd,
-    String? email,
-    String? phoneCQ,
-    String? phoneRieng,
-    String? diaChi,
-  }) {
-    if ((hoTen.isEmpty ||
-            hoTen.trim().length <= 5 ||
-            hoTen.trim().length >= 32) ||
-        ((cccd?.length ?? 0) > 2)) {
-      return isChechValidate = false;
+  void checkCopyPaste(
+    String value,
+    TextEditingController thuTu,
+    int offset,
+  ) {
+    try {
+      int.parse(value);
+      thuTu.selection = TextSelection.fromPosition(
+        TextPosition(offset: offset),
+      );
+    } catch (e) {
+      thuTu.text = thuTu.text.substring(0, 2);
     }
-    return isChechValidate = true;
+  }
+
+  String checkThuTu(String? thuTu) {
+    if (thuTu == null || thuTu == '') {
+      return '';
+    }
+    return thuTu;
   }
 
   Future<void> getInfo({
@@ -123,6 +137,19 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+  }
+
+  Future<void> getDeviceDetails() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        final build = await deviceInfoPlugin.androidInfo;
+        identifier = build.androidId; //UUID for Android
+      } else if (Platform.isIOS) {
+        final data = await deviceInfoPlugin.iosInfo;
+        identifier = data.identifierForVendor; //UUID for iOS
+      }
+    } on PlatformException {}
   }
 
   Future<void> getDataTinh() async {
@@ -167,28 +194,29 @@ class ManagerPersonalInformationCubit
     String cmnt = '',
     String diaChiLienHe = '',
     DonViDetail? donViDetail,
-    int thuTu = 0,
+    String? thuTu = '',
     String tinh = '',
     String huyen = '',
     String xa = '',
     String idTinh = '',
     String idHuyen = '',
     String idXa = '',
+    String? iDDonViHoatDong,
   }) async {
     final EditPersonInformationRequest editPerson =
         EditPersonInformationRequest(
       id: id,
       maCanBo: maCanBo,
       hoTen: name,
-      phoneDiDong: '',
+      phoneDiDong: sdt,
       phoneCoQuan: sdtCoQuan,
-      phoneNhaRieng: sdt,
+      phoneNhaRieng: '',
       email: email,
       gioiTinh: gioitinh,
       ngaySinh: DateTime.parse(ngaySinh).formatApiSS,
       userName: '',
       userId: '',
-      iDDonViHoatDong: '',
+      iDDonViHoatDong: '00000000-0000-0000-0000-000000000000',
       cmtnd: cmnt,
       anhDaiDienFilePath: '',
       anhChuKyFilePath: '',
@@ -223,8 +251,16 @@ class ManagerPersonalInformationCubit
       success: (res) {
         dataEditPersonInformation = res;
         dataEditSubject.sink.add(dataEditPersonInformation);
+        MessageConfig.show(
+          title: S.current.thay_doi_thanh_cong,
+        );
       },
-      error: (error) {},
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.thay_doi_that_bai,
+          messState: MessState.error,
+        );
+      },
     );
   }
 
@@ -242,6 +278,9 @@ class ManagerPersonalInformationCubit
     tinh = managerPersonalInformationModel.tinh ?? '';
     huyen = managerPersonalInformationModel.huyen ?? '';
     xa = managerPersonalInformationModel.xa ?? '';
+    idTinh = managerPersonalInformationModel.tinhId ?? '';
+    idHuyen = managerPersonalInformationModel.huyenId ?? '';
+    idXa = managerPersonalInformationModel.xaId ?? '';
   }
 
   Future<void> loadApi({String id = ''}) async {

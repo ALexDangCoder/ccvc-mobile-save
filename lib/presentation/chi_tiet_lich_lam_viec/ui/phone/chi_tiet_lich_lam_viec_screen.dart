@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/lichlv_danh_s
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/widget/item_row.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/widget/menu_select_widget.dart';
 import 'package:ccvc_mobile/presentation/sua_lich_cong_tac_trong_nuoc/ui/phone/sua_lich_cong_tac_trong_nuoc_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -33,6 +34,7 @@ class ChiTietLichLamViecScreen extends StatefulWidget {
 class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
   final ChiTietLichLamViecCubit chiTietLichLamViecCubit =
       ChiTietLichLamViecCubit();
+  final TaoLichLamViecCubit cubit = TaoLichLamViecCubit();
 
   @override
   void initState() {
@@ -125,7 +127,8 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                   onTap: () {
                     showBottomSheetCustom(
                       context,
-                      title: S.current.sua_lich_cong_tac_trong_nuoc,
+                      title: '',
+                      textOption: false,
                       child:  SuaLichCongTacTrongNuocPhone(cubit: chiTietLichLamViecCubit,),
                     );
                   },

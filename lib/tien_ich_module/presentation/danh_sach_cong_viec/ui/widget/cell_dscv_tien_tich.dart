@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -72,7 +73,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
             child: Checkbox(
               checkColor: Colors.white,
               // color of tick Mark
-              activeColor: indicatorColor,
+              activeColor: AppTheme.getInstance().colorField(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3),
               ),
@@ -150,7 +151,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                 ),
               if (widget.isDaBiXoa)
                 GestureDetector(
-                  onTap: widget.onClose,
+                  onTap: widget.onXoaVinhVien,
                   child: SvgPicture.asset(
                     ImageAssets.ic_delete_dscv,
                   ),

@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +84,10 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   children: [
-                    SvgPicture.asset(ImageAssets.icTag),
+                    SvgPicture.asset(
+                      ImageAssets.icTag,
+                      color: AppTheme.getInstance().colorSelect(),
+                    ),
                     const SizedBox(
                       width: 9,
                     ),
@@ -93,7 +95,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                       S.current.chinh_sua_tag,
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: textDefault,
+                        color: AppTheme.getInstance().colorSelect(),
                       ),
                     )
                   ],
@@ -117,54 +119,53 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
             );
           }),
       padding: EdgeInsets.zero,
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _xaHoiCubit.stateStream,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 16,
-              ),
-              tagWidget(cubit),
-              const SizedBox(
-                height: 16,
-              ),
-              Flexible(
-                child: StreamBuilder<List<PressNetWorkModel>>(
-                  stream: _xaHoiCubit.getPressNetWork,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <PressNetWorkModel>[];
-                    if (data.isEmpty) {
-                      return const NodataWidget();
-                    }
-                    return ScrollBarWidget(
-                      children: List.generate(data.length, (index) {
-                        final result = data[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) => WebViewScreen(
-                                    title: '',
-                                    url: result.url,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: baoChiWidget(result),
-                          ),
-                        );
-                      }),
+      child: LoadingOnly(
+        stream: _xaHoiCubit.stateStream,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 16,
+            ),
+            tagWidget(cubit),
+            const SizedBox(
+              height: 16,
+            ),
+            StreamBuilder<List<PressNetWorkModel>>(
+              stream: _xaHoiCubit.getPressNetWork,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? <PressNetWorkModel>[];
+                if (data.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 100),
+                    child: NodataWidget(),
+                  );
+                }
+                return ScrollBarWidget(
+                  children: List.generate(data.length, (index) {
+                    final result = data[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => WebViewScreen(
+                                title: '',
+                                url: result.url,
+                              ),
+                            ),
+                          );
+                        },
+                        child: baoChiWidget(result),
+                      ),
                     );
-                  },
-                ),
-              )
-            ],
-          ),
+                  }),
+                );
+              },
+            )
+          ],
         ),
       ),
     );
@@ -194,7 +195,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
             height: 106,
             clipBehavior: Clip.hardEdge,
             decoration: const BoxDecoration(
-              borderRadius:  BorderRadius.all(
+              borderRadius: BorderRadius.all(
                 Radius.circular(10),
               ),
             ),
@@ -310,7 +311,9 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                         decoration: BoxDecoration(
                           color: result == _xaHoiCubit.tagKey
                               ? AppTheme.getInstance().colorSelect()
-                              : AppTheme.getInstance().colorSelect().withOpacity(0.1),
+                              : AppTheme.getInstance()
+                                  .colorSelect()
+                                  .withOpacity(0.1),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(6)),
                         ),
@@ -343,9 +346,10 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
                                             child: SvgPicture.asset(
                                               ImageAssets.icClose,
                                               color:
-                                              result == _xaHoiCubit.tagKey
-                                                  ? dfBtnTxtColor
-                                                  : AppTheme.getInstance().colorSelect(),
+                                                  result == _xaHoiCubit.tagKey
+                                                      ? dfBtnTxtColor
+                                                      : AppTheme.getInstance()
+                                                          .colorSelect(),
                                             ),
                                           ),
                                         ),

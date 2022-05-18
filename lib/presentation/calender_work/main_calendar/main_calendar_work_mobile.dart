@@ -1,5 +1,5 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
@@ -60,7 +60,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
               title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                   ? cubit.titleAppbar
                   : snapshot.data?.getTitle() ??
-                      TypeCalendarMenu.LichCuaToi.getTitle(),
+                  TypeCalendarMenu.LichCuaToi.getTitle(),
               leadingIcon: IconButton(
                 onPressed: () {
                   setState(() {});
@@ -107,7 +107,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                             },
                             cubit: cubitMenu,
                             streamDashBoard:
-                                cubit.lichLamViecDashBroadSubject.stream,
+                            cubit.lichLamViecDashBroadSubject.stream,
                             title: S.current.lich_lam_viec,
                           ),
                           thenValue: (value) {
@@ -216,7 +216,8 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                             cubit: cubit,
                           );
                         },
-                      )],
+                      )
+                    ],
                     BlocBuilder<CalenderCubit, CalenderState>(
                       bloc: cubit,
                       builder: (context, state) {
@@ -244,7 +245,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                   }
                 });
               },
-              backgroundColor: labelColor,
+              backgroundColor: AppTheme.getInstance().colorField(),
               child: SvgPicture.asset(ImageAssets.icVectorCalender),
             ),
           ),
@@ -274,7 +275,7 @@ Widget itemCalendarWorkIscheck(CalenderCubit cubit) {
                   image: ImageAssets.icTongSoLichLamviec,
                   typeName: S.current.tong_so_lich_lam_viec,
                   numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                          .countScheduleCaNhan ??
+                      .countScheduleCaNhan ??
                       0,
                 );
               },
@@ -331,7 +332,7 @@ Widget itemCalendarWorkDefault(CalenderCubit cubit) {
                     image: ImageAssets.icTongSoLichLamviec,
                     typeName: S.current.tong_so_lich_lam_viec,
                     numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                            .countScheduleCaNhan ??
+                        .countScheduleCaNhan ??
                         0,
                   );
                 },

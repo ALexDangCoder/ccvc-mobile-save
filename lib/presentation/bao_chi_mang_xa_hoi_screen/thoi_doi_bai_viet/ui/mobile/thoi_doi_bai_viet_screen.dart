@@ -18,19 +18,20 @@ class TheoDoiBaiVietScreen extends StatefulWidget {
   _TheoDoiBaiVietScreenState createState() => _TheoDoiBaiVietScreenState();
 }
 
-class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen> with AutomaticKeepAliveClientMixin{
+class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.only(top: 20.0,left: 16.0,right: 16.0),
+            padding: const EdgeInsets.only(top: 20.0, left: 16.0, right: 16.0),
             child: Text(
               S.current.nhap_linK_bao_cao,
               style: textNormalCustom(
@@ -65,43 +66,42 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen> with Automa
           const SizedBox(
             height: 14,
           ),
-      Expanded(
-        child: ListViewLoadMore(
-          cubit: theoDoiBaiVietCubit,
-          isListView: true,
-          callApi: (page) => {
-            callApi(
-              page,
-            )
-          },
-          viewItem: (value, index) =>
-              itemBaiViet(value as BaiVietModel),
-        ),
-      ),
+          Expanded(
+            child: ListViewLoadMore(
+              cubit: theoDoiBaiVietCubit,
+              isListView: true,
+              callApi: (page) => {
+                callApi(
+                  page,
+                )
+              },
+              viewItem: (value, index) => itemBaiViet(value as BaiVietModel),
+            ),
+          ),
         ],
       ),
     );
   }
+
   void callApi(int page) {
     theoDoiBaiVietCubit.getListBaiVietTheoDoi(
-      theoDoiBaiVietCubit.endDate,
-      theoDoiBaiVietCubit.startDate,
-      widget.topic,
-      page,
-        ApiConstants.DEFAULT_PAGE_SIZE
-    );
+        theoDoiBaiVietCubit.endDate,
+        theoDoiBaiVietCubit.startDate,
+        widget.topic,
+        page,
+        ApiConstants.DEFAULT_PAGE_SIZE);
   }
-  Widget itemBaiViet(BaiVietModel data){
-   return Container(
-     padding: const EdgeInsets.symmetric(horizontal: 16),
-     child: BaiVietItem(
+
+  Widget itemBaiViet(BaiVietModel data) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: BaiVietItem(
         baiVietModel: data,
       ),
-   );
+    );
   }
 
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
-

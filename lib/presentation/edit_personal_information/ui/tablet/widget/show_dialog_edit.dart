@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ Future<T?> showDiaLogTablet<T>(
   double width = 342,
   double? setHeight,
   bool isPhone = false,
+  bool? isCallApi,
 }) {
   return showDialog(
     context: context,
@@ -40,6 +42,7 @@ Future<T?> showDiaLogTablet<T>(
           title2: title2,
           isBottomShowText: isBottomShowText,
           isPhone: isPhone,
+          isCallApi: isCallApi,
           child: child,
         ),
       );
@@ -60,6 +63,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final double width;
   final bool isBottomShowText;
   final bool isPhone;
+  final bool? isCallApi;
 
   const _DiaLogFeatureWidget({
     Key? key,
@@ -75,6 +79,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.width,
     required this.isBottomShowText,
     required this.isPhone,
+    this.isCallApi,
   }) : super(key: key);
 
   @override
@@ -153,7 +158,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                     button(
                       onTap: () {
                         funcBtnOk();
-                        Navigator.pop(context, true);
+                        Navigator.pop(context, isCallApi ?? true);
                       },
                       title: btnRightTxt,
                       isLeft: false,
@@ -183,14 +188,18 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         width: isPhone ? 110 : 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft
+              ? AppTheme.getInstance().colorField().withOpacity(0.1)
+              : AppTheme.getInstance().colorField(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: isPhone ? 14 : 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorField()
+                  : backgroundColorApp,
             ),
           ),
         ),

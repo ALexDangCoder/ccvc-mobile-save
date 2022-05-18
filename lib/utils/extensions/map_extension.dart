@@ -1,3 +1,5 @@
+import 'dart:io';
+
 extension MapParse on Map {
   String stringValueOrEmpty(String key) {
     final vl = this[key];
@@ -45,5 +47,21 @@ extension MapParse on Map {
       return '';
     }
     return value.toString();
+  }
+
+  String getStringValue(String key) {
+    String vl = '';
+    try {
+      vl = this[key];
+    } catch (_) {}
+    return vl;
+  }
+
+  List<File> getFileValue(String key) {
+    List<File> vl = [];
+    try {
+      vl = this[key];
+    } catch (_) {}
+    return vl;
   }
 }

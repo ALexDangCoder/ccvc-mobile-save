@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/bloc/phien_dich_tu_dong_cubit.dart';
@@ -13,7 +16,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:translator/translator.dart';
 
 class PhienDichTuDongMobile extends StatefulWidget {
   const PhienDichTuDongMobile({Key? key}) : super(key: key);
@@ -25,63 +27,74 @@ class PhienDichTuDongMobile extends StatefulWidget {
 class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
   PhienDichTuDongCubit cubit = PhienDichTuDongCubit();
   TextEditingController textEditingController = TextEditingController();
-  final translator = GoogleTranslator();
+  final SpeechToText speech = SpeechToText();
+  bool _hasSpeech = false;
+  String lastWords = '';
+  double level = 0.0;
+  double minSoundLevel = 50000;
+  double maxSoundLevel = -50000;
 
-  final SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
+  Future<void> initSpeechState() async {
+    try {
+      final hasSpeech = await speech.initialize();
+      if (!mounted) return;
+      setState(() {
+        _hasSpeech = hasSpeech;
+      });
+    } catch (e) {
+      setState(() {
+        _hasSpeech = false;
+      });
+    }
+  }
+
+  void startListening() {
+    if (!_hasSpeech) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.current.speech_not_available),
+        ),
+      );
+      return;
+    }
+    speech.listen(
+      onResult: resultListener,
+      pauseFor: const Duration(seconds: 3),
+      listenFor: const Duration(seconds: 30),
+      localeId: cubit.voiceType,
+    );
+    setState(() {});
+  }
+
+  void stopListening() {
+    speech.stop();
+    setState(() {
+      level = 0.0;
+    });
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    cubit.debouncer.run(() {
+      textEditingController.text = result.recognizedWords;
+      cubit.translateDocument(document: result.recognizedWords);
+    });
+    setState(() {
+
+    });
+  }
+
+  void soundLevelListener(double level) {
+    minSoundLevel = min(minSoundLevel, level);
+    maxSoundLevel = max(maxSoundLevel, level);
+    setState(() {
+      this.level = level;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _initSpeech();
-  }
-
-  void viToEn() {
-    translator.translate(textEditingController.text, to: 'en').then((result) {
-      cubit.translateLanguage(result.text);
-    });
-  }
-
-  void enToVi() {
-    translator.translate(textEditingController.text, to: 'vi').then((result) {
-      cubit.translateLanguage(result.text);
-    });
-  }
-
-  /// This has to happen only once per app
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
-    setState(() {});
-  }
-
-  /// Each time to start a speech recognition session
-  void _startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
-    viToEn();
-    setState(() {});
-  }
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-  void _stopListening() async {
-    await _speechToText.stop();
-    concatenationString();
-    setState(() {});
-  }
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      _lastWords = result.recognizedWords;
-    });
-  }
-
-  void concatenationString() {
-    textEditingController.text = '${textEditingController.text} $_lastWords';
+    initSpeechState();
   }
 
   @override
@@ -124,12 +137,16 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                       GestureDetector(
                         onTap: () {
                           cubit.swapLanguage();
-                          cubit.translateLanguage(textEditingController.text);
-                          cubit.languageSubject.value == LANGUAGE.vn
-                              ? viToEn()
-                              : enToVi();
+                          stopListening();
+                          cubit.textTranslateSubject
+                              .add(textEditingController.value.text);
+                          cubit.translateDocument(
+                            document: textEditingController.value.text,
+                          );
                         },
-                        child: SvgPicture.asset(ImageAssets.icReplace),
+                        child: SvgPicture.asset(
+                          ImageAssets.icReplace,
+                        ),
                       ),
                       Expanded(
                         child: Row(
@@ -164,13 +181,14 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  //need translate
                   Expanded(
                     child: TextField(
                       controller: textEditingController,
                       onChanged: (String value) {
-                        cubit.languageSubject.value == LANGUAGE.vn
-                            ? viToEn()
-                            : enToVi();
+                        cubit.debouncer.run(() {
+                          cubit.translateDocument(document: value);
+                        });
                       },
                       decoration: const InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -187,23 +205,26 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                       maxLines: null,
                     ),
                   ),
+                  //mic
                   GestureDetector(
-                    onTap: _speechToText.isNotListening
-                        ? _startListening
-                        : _stopListening,
+                    behavior: HitTestBehavior.opaque,
+                    onTap: speech.isListening ? stopListening : startListening,
                     child: Container(
-                      margin: const EdgeInsets.only(
-                        bottom: 20,
-                        right: 20,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 20,
                       ),
                       child: SvgPicture.asset(
                         ImageAssets.icVoiceMini,
+                        color: AppTheme.getInstance().colorField(),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
+
+            //translated
             Container(
               height: 180,
               padding: const EdgeInsets.all(16),
@@ -275,11 +296,10 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
               onTap: () {
                 cubit.readFile(
                   textEditingController,
-                  viToEn,
-                  enToVi,
                 );
               },
             ),
+            spaceH32,
           ],
         ),
       ),
@@ -299,24 +319,27 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
           vertical: 10,
         ),
         decoration: BoxDecoration(
-          color: textDefault.withOpacity(0.1),
+          color: AppTheme.getInstance().colorField().withOpacity(0.1),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(ImageAssets.icDocumentBlue),
+            SvgPicture.asset(
+              ImageAssets.icDocumentBlue,
+              color: AppTheme.getInstance().colorField(),
+            ),
             const SizedBox(
               width: 9,
             ),
             Text(
               S.current.tim_tep_tren_dien_thoai_cua_ban,
               style: textNormalCustom(
-                color: buttonColor,
+                color: AppTheme.getInstance().colorField(),
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
-            )
+            ),
           ],
         ),
       ),

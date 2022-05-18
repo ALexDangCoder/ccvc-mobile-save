@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_dat
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_rounded_date_picker/src/era_mode.dart';
+import 'package:lunar_calendar_converter_new/lunar_solar_converter.dart';
 
 extension CupertinoDataPicker on CupertinoDatePickerDateState {
   Widget buildDayPicker(
@@ -12,12 +13,13 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
   ) {
     final int daysInCurrentMonth =
         DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
+
     return BuildPicker(
       offAxisFraction: offAxisFraction,
       controller: dayController,
       backgroundColor: widget.background,
       canBorderLeft: true,
-      children: List<Widget>.generate(31, (int index) {
+      children: List<Widget>.generate(daysInCurrentMonth, (int index) {
         TextStyle textStyle = themeTextStyle(context);
         if (index >= daysInCurrentMonth) {
           textStyle = textStyle.copyWith(
@@ -69,6 +71,55 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
           widget.onDateTimeChanged(
             DateTime(selectedYear, selectedMonth, selectedDay),
           );
+        }
+      },
+    );
+  }
+
+  Widget buildLunar(
+    double offAxisFraction,
+    TransitionBuilder itemPositioningBuilder,
+  ) {
+    int counter = 0;
+    return BuildPicker(
+      looping: false,
+      offAxisFraction: offAxisFraction,
+      controller: lunarController,
+      backgroundColor: widget.background,
+      children: List<Widget>.generate(2, (int index) {
+        return itemPositioningBuilder(
+          context,
+          Text(index == 0 ? 'Duong' : 'Am', style: widget.textStyleDate),
+        );
+      }),
+      onSelectItem: (index) {
+        counter++;
+        if (index == 0) {
+        } else {
+          final solar = Solar(
+            solarDay: selectedDay,
+            solarMonth: selectedMonth,
+            solarYear: selectedYear,
+          );
+          final lunar = LunarSolarConverter.solarToLunar(solar);
+
+          if (counter == 1) {
+            dayController.animateToItem(
+              (lunar.lunarDay ?? 1) - 1,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.bounceIn,
+            );
+            monthController.animateToItem(
+              (lunar.lunarMonth ?? 1) - 1,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.bounceIn,
+            );
+            yearController.animateToItem(
+              lunar.lunarYear ?? 0,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.bounceIn,
+            );
+          }
         }
       },
     );
@@ -126,8 +177,10 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     List<double> columnWidths,
     List<Widget> pickers,
   ) {
-    pickerBuilders.addAll([buildDayPicker, buildMonthPicker, buildYearPicker]);
+    pickerBuilders.addAll(
+        [buildLunar, buildDayPicker, buildMonthPicker, buildYearPicker]);
     columnWidths.addAll([
+      estimatedColumnWidths[PickerColumnType.lunar.index]!,
       estimatedColumnWidths[PickerColumnType.dayOfMonth.index]!,
       estimatedColumnWidths[PickerColumnType.month.index]!,
       estimatedColumnWidths[PickerColumnType.year.index]!

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tin_tuc_thoi_su/tin_tuc_thoi_su_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
@@ -234,7 +235,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                                   'radio chính thức của UBND tỉnh Đồng NaiKênh radio chính'
                                   ' thức của UBND tỉnh Đồng Nai',
                               trimLines: 6,
-                              colorClickableText: labelColor,
+                              colorClickableText: AppTheme.getInstance().colorField(),
                               trimMode: TrimMode.Line,
                               style: textNormalCustom(
                                 color: infoColor,
@@ -244,10 +245,11 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                               trimCollapsedText: 'Xem thêm',
                               trimExpandedText: 'Thu gọn',
                               moreStyle: textNormalCustom(
-                                color: labelColor,
+                                color: AppTheme.getInstance().colorField(),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
+
                             ),
                           ),
                         ),

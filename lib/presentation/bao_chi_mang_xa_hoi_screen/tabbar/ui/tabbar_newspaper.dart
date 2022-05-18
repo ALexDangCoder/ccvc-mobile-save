@@ -1,8 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/bao_cao_thong_ke/ui/mobile/bao_cao_thong_ke_bcmxh_screen.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/bao_chi_mang_xa_hoi_menu_phone.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/bloc/bao_chi_mang_xa_hoi_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/mobile/tat_ca_chu_de_screen.dart';
@@ -12,7 +10,6 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
-import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,21 +21,25 @@ class TabbarNewspaper extends StatefulWidget {
   State<TabbarNewspaper> createState() => _TabbarNewspaperState();
 }
 
-class _TabbarNewspaperState extends State<TabbarNewspaper> {
-  TinTucThoiSuBloc blocTinTuc = TinTucThoiSuBloc();
+class _TabbarNewspaperState extends State<TabbarNewspaper>
+    with AutomaticKeepAliveClientMixin {
+  late final TinTucThoiSuBloc blocTinTuc;
 
-  var _controller = TabController(vsync: AnimatedListState(), length: 4);
-  BaoChiMangXaHoiBloc cubit = BaoChiMangXaHoiBloc();
+  var _controller = TabController(vsync: AnimatedListState(), length: 3);
+  late final BaoChiMangXaHoiBloc cubit;
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(vsync: AnimatedListState(), length: 4);
+    blocTinTuc = TinTucThoiSuBloc();
+    cubit = BaoChiMangXaHoiBloc();
+    _controller = TabController(vsync: AnimatedListState(), length: 3);
     cubit.getMenu();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -85,11 +86,6 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
           },
           tabs: [
             Tab(
-              child: Text(
-                S.current.bao_cao_thong_ke,
-              ),
-            ),
-            Tab(
               child: Text(S.current.tat_ca_chu_de),
             ),
             Tab(
@@ -103,44 +99,25 @@ class _TabbarNewspaperState extends State<TabbarNewspaper> {
       ),
       body: ProviderWidget<BaoChiMangXaHoiBloc>(
         cubit: cubit,
-        child: StateStreamLayout(
-          stream: cubit.stateStream,
-          retry: () {},
-          textEmpty: S.current.khong_co_du_lieu,
-          error: AppException(
-            S.current.error,
-            S.current.error,
-          ),
-          child: TabBarView(
-            controller: _controller,
-            children: [
-              StreamBuilder(
-                stream: cubit.changeItemMenu,
-                builder: (context,snapshot){
-                  return BaoCaoThongKeBCMXHScreen(
-                    key: UniqueKey(),
-                    topic: cubit.topic,
-                  );
-                },
-              ),
-              const TatCaChuDeScreen(),
-              StreamBuilder(
-                stream: cubit.changeItemMenu,
-                builder: (context, snapshot) {
-                  return TheoDoiBaiVietScreen(
-                    key: UniqueKey(),
-                    topic: cubit.topic,
-                  );
-                },
-              ),
-              TinTucThoiSuScreen(
-                tinTucThoiSuBloc: blocTinTuc,
-                pContext: context,
-              ),
-            ],
-          ),
+        child: TabBarView(
+          controller: _controller,
+          children: [
+            const TatCaChuDeScreen(),
+            TheoDoiBaiVietScreen(
+              key: UniqueKey(),
+              topic: cubit.topic,
+            ),
+            TinTucThoiSuScreen(
+              tinTucThoiSuBloc: blocTinTuc,
+              pContext: context,
+            ),
+          ],
         ),
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -51,7 +51,7 @@ class _ManagerPersonalInformationState
           child: IconButton(
             icon: SvgPicture.asset(ImageAssets.icBack),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, _cubit.checkLoad);
             },
           ),
         ),
@@ -65,7 +65,16 @@ class _ManagerPersonalInformationState
                     id: widget.id,
                   ),
                 ),
-              );
+              ).then((value) {
+                if (value == true) {
+                  _cubit.loadApi(id: widget.id);
+                  _cubit.checkLoad = true;
+                } else if (value == null) {
+                  _cubit.checkLoad = false;
+                  return;
+                }
+                return;
+              });
             },
             child: SvgPicture.asset(
               ImageAssets.icManager,

@@ -80,7 +80,11 @@ class _CustomDropDownState extends State<CustomDropDown> {
                           underline: Container(),
                           isExpanded: true,
                           value: widget.value,
-                          hint: widget.hint ?? Text(S.current.select_validate),
+                          hint: widget.hint ??
+                              Text(
+                                S.current.select_validate,
+                                style: textNormal(infoColor, 14),
+                              ),
                           icon: Container(),
                           focusColor: statusCalenderRed,
                           onChanged: (value) {

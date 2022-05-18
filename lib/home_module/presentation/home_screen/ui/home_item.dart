@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/phan_anh_kien_nghi_don_vi_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/phan_anh_kien_nghi_don_vi_tablet.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
 import 'package:flutter/cupertino.dart';
+
 import '/home_module/presentation/home_screen/ui/mobile/items/calendar_work_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/document_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/event_of_day_widget.dart';
@@ -15,7 +18,7 @@ import '/home_module/presentation/home_screen/ui/mobile/items/summary_of_task_wi
 import '/home_module/presentation/home_screen/ui/mobile/items/word_processing_state_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/work_list_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/calendar_work_tablet_widget.dart';
-import '/home_module/presentation/home_screen/ui/tablet/items/document__tablet_widget.dart';
+import '/home_module/presentation/home_screen/ui/tablet/items/document_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/event_of_day_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/meeting_schedule__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/nhiem_vu_tablet_widget.dart';
@@ -95,6 +98,11 @@ extension ItemExtension on WidgetType {
           key: KeyKeepAlive._keyVanBanDonVi,
           homeItemType: WidgetType.vanBanDonVi,
         );
+      case WidgetType.phanAnhKienNghiDonVi:
+        return PhanAnhKienNghiDonViWidget(
+          key: KeyKeepAlive._keyPhanAnhKienNghiDonVi,
+          homeItemType: WidgetType.phanAnhKienNghiDonVi,
+        );
     }
   }
 
@@ -166,6 +174,11 @@ extension ItemExtension on WidgetType {
           key: KeyKeepAlive._keyVanBanDonVi,
           homeItemType: WidgetType.vanBanDonVi,
         );
+      case WidgetType.phanAnhKienNghiDonVi:
+        return PhanAnhKienNghiDonViTablet(
+          key: KeyKeepAlive._keyPhanAnhKienNghiDonVi,
+          homeItemType: WidgetType.phanAnhKienNghiDonVi,
+        );
     }
   }
 }
@@ -184,4 +197,5 @@ class KeyKeepAlive {
   static final _keyEventOfDay = GlobalKey();
   static final _keySinhNhat = GlobalKey();
   static final _keyVanBanDonVi = GlobalKey();
+  static final _keyPhanAnhKienNghiDonVi = GlobalKey();
 }

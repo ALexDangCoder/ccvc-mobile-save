@@ -1,5 +1,7 @@
-import 'package:ccvc_mobile/home_module/data/response/home/todo_current_user_response.dart';
+
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/detail_huong_dan_su_dung_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
@@ -73,6 +75,37 @@ abstract class TienIchService {
   @GET(ApiConstants.GAN_CONG_VIEC_CHO_TOI)
   @FormUrlEncoded()
   Future<ToDoListDSCVResponse> getListDSCVGanChoToi();
+
+  @DELETE(ApiConstants.XOA_CONG_VIEC)
+  Future<PhanCongThuKyResponse> xoaCongViec(
+    @Query('id') String id,
+  );
+
+  @POST(ApiConstants.TAO_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> createNhomCongViecMoi(
+    @Field('label') String label,
+  );
+
+  @PUT(ApiConstants.SUA_TEN_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> updateLabelGroupTodoList(
+    @Field('id') String id,
+    @Field('label') String newLabel,
+  );
+
+  @DELETE(ApiConstants.XOA_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> deleteGroupTodoList(
+    @Query('id') String id,
+  );
+
+  @POST(ApiConstants.CHUYEN_VB_SANG_GIONG_NOI)
+  @FormUrlEncoded()
+  Future<ChuyenVBThanhGiongNoiResponse> chuyenVBSangGiongNoi(
+    @Field('text') String text,
+    @Field('voiceTone') String voiceTone,
+  );
 }
 
 @RestApi()
@@ -104,5 +137,21 @@ abstract class TienIchServiceCommon {
   @FormUrlEncoded()
   Future<TreeDanhBaResponse> TreeDanhBa(
     @Query('soCap') int soCap,
+  );
+}
+
+@RestApi()
+abstract class TienIchServiceGateWay {
+  @factoryMethod
+  factory TienIchServiceGateWay(Dio dio, {String baseUrl}) =
+      _TienIchServiceGateWay;
+
+
+  @POST(ApiConstants.TRANSLATE_DOCUMENT)
+  @MultiPart()
+  Future<String> translateDocument(
+    @Part() String vanBan,
+    @Part() String target,
+    @Part() String source,
   );
 }

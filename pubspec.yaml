@@ -2,7 +2,7 @@ name: ccvc_mobile
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.1.3+2
+version: 1.1.9+2
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -82,10 +82,13 @@ dependencies:
   freezed: ^0.14.2
   tuple: ^2.0.0
   html_editor_enhanced: ^2.4.0+1
-  translator: ^0.1.7
   flutter_contacts:
+  audioplayers: ^0.20.1
+  lunar_calendar_converter_new: ^2.0.0
+
 
 dev_dependencies:
+
   flutter_test:
     sdk: flutter
   retrofit_generator: any

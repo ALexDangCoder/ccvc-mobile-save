@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
@@ -36,7 +37,7 @@ class _LichHopTheoThangState extends State<LichHopTheoThang> {
                       appointmentTextStyle:
                           textNormalCustom(color: backgroundColorApp),
                       view: CalendarView.month,
-                      todayHighlightColor: labelColor,
+                      todayHighlightColor: AppTheme.getInstance().colorField(),
                       appointmentTimeTextFormat: 'hh:mm:ss a',
                       dataSource: widget.cubit.getCalenderDataSource(
                         snapshot.data ?? DanhSachLichHopModel.empty(),
@@ -85,7 +86,7 @@ class _LichHopTheoThangState extends State<LichHopTheoThang> {
                                 height: 500,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(2.0),
-                                  color: textColorMangXaHoi,
+                                  color: AppTheme.getInstance().colorField(),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(

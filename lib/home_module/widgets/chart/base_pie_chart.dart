@@ -98,6 +98,7 @@ class PieChart extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: paddingLeftSubTitle),
               child: GridView.count(
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,

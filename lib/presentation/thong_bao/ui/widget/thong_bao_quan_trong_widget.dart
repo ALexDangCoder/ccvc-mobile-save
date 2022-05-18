@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -37,7 +38,19 @@ class ThongBaoQuanTrongWidget extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showDiaLog(
+                    context,
+                    title: S.current.doc_tat_ca,
+                    textContent: S.current.danh_dau_tat_ca_da_doc,
+                    icon: Container(),
+                    btnRightTxt: S.current.xac_nhan,
+                    btnLeftTxt: S.current.dong,
+                    funcBtnRight: () {
+                      cubit.readAllNoti(true);
+                    },
+                  );
+                },
                 child: SvgPicture.asset(ImageAssets.icPickAll),
               ),
             ],

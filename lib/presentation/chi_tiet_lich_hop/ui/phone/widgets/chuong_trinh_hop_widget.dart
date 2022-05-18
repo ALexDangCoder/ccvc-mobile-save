@@ -69,6 +69,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            if(widget.cubit.isBtnThemPhienHop())
             SolidButton(
               onTap: () {
                 showBottomSheetCustom(
@@ -622,7 +623,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.thoi_gian_hop,
                   isObligatory: true,
                   child: CustomSelectDate(
-                    value: DateTime.now().toString(),
+                    value: DateTime.now(),
                     onSelectDate: (value) {
                       widget.cubit.taoPhienHopRepuest.thoiGian_BatDau =
                           DateTime.parse(value.toString()).formatApi;

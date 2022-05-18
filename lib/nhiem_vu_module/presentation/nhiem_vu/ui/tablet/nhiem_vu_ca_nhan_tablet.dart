@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
@@ -12,8 +13,11 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/widg
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/bieu_do_nhiem_vu_tablet.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
+import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 class NhiemVuCaNhanTablet extends StatefulWidget {
@@ -204,9 +208,9 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
             child: TabBar(
               unselectedLabelStyle: titleAppbar(fontSize: 16),
               unselectedLabelColor: AqiColor,
-              labelColor: textDefault,
+              labelColor: AppTheme.getInstance().colorField(),
               labelStyle: titleText(fontSize: 16),
-              indicatorColor: textDefault,
+              indicatorColor: AppTheme.getInstance().colorField(),
               tabs: [
                 Container(
                   padding: const EdgeInsets.only(bottom: 8),

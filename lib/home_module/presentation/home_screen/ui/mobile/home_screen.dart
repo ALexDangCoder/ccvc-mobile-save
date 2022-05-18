@@ -1,4 +1,6 @@
 
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/phan_anh_kien_nghi_don_vi_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_screen.dart';
 import 'package:flutter/material.dart';
 import '/data/exception/app_exception.dart';
@@ -14,7 +16,7 @@ import '/home_module/presentation/home_screen/ui/widgets/thong_bao_message_widge
 import '/widgets/views/state_stream_layout.dart';
 import 'home_icon.dart';
 
-final keyHomeMobile = GlobalKey<_HomeScreenMobileState>();
+GlobalKey<HomeScreenMobileState> keyHomeMobile = GlobalKey<HomeScreenMobileState>();
 
 
 
@@ -24,10 +26,10 @@ class HomeScreenMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HomeScreenMobile> createState() => _HomeScreenMobileState();
+  State<HomeScreenMobile> createState() => HomeScreenMobileState();
 }
 
-class _HomeScreenMobileState extends State<HomeScreenMobile> {
+class HomeScreenMobileState extends State<HomeScreenMobile> {
   ScrollController scrollController = ScrollController();
   HomeCubit homeCubit = HomeCubit();
 
@@ -61,7 +63,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
             onRefresh: () async {
               await homeCubit.refreshData();
             },
-
             child: CustomScrollView(
               controller: scrollController,
               physics: const ClampingScrollPhysics(

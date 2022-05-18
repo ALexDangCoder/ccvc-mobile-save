@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/model/danh_sach_chung_model.dart';
 import 'package:ccvc_mobile/ket_noi_module/domain/model/trong_nuoc.dart';
@@ -67,6 +68,7 @@ class _DanhSachChungScreenTabletState extends State<DanhSachChungScreenTablet> {
               padding: const EdgeInsets.only(top: 8, bottom: 8),
               child: SvgPicture.asset(
                 ImageAssets.ic_plus,
+                color: AppTheme.getInstance().colorField(),
               ),
             ),
           ),

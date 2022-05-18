@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_null_aware_method_calls, unnecessary_statements
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/calendar/event.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
@@ -23,6 +24,7 @@ class TableCalendarWidget extends StatefulWidget {
   final Function(String value)? onSearch;
   final Type_Choose_Option_Day type;
   final List<DateTime>? eventsLoader;
+  final DateTime? initTime;
 
   const TableCalendarWidget({
     Key? key,
@@ -33,6 +35,7 @@ class TableCalendarWidget extends StatefulWidget {
     this.type = Type_Choose_Option_Day.DAY,
     this.eventsLoader,
     required this.onChangeText,
+    this.initTime,
   }) : super(key: key);
 
   @override
@@ -45,6 +48,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   @override
   void initState() {
     selectedEvents = {};
+    _selectedDay = widget.initTime ?? DateTime.now();
     super.initState();
   }
 
@@ -85,6 +89,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
     }
+
     cubit.selectedDay = date;
     cubit.moveTimeSubject.add(cubit.selectedDay);
 
@@ -115,6 +120,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         date,
       );
     }
+  }
+  @override
+  void didUpdateWidget(covariant TableCalendarWidget oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    _selectedDay = widget.initTime ?? DateTime.now();
   }
 
   @override
@@ -254,9 +265,15 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           fontSize: 14.0.textScale(),
                           color: Colors.white,
                         ),
-                        todayDecoration: const BoxDecoration(
+                        selectedDecoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: toDayColor,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
+                        todayDecoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppTheme.getInstance()
+                              .colorField()
+                              .withOpacity(0.2),
                         ),
                         todayTextStyle: textNormalCustom(
                           fontSize: 14.0.textScale(),

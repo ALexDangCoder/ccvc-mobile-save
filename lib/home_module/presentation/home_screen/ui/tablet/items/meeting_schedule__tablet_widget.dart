@@ -79,68 +79,69 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
           );
         }
       ),
-      child: Flexible(
-        child: LoadingOnly(
-          stream: _lichHopCubit.stateStream,
-          child: StreamBuilder<List<CalendarMeetingModel>>(
-              stream: _lichHopCubit.getLichHop,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? <CalendarMeetingModel>[];
-                if (data.isEmpty) {
-                  return const NodataWidget();
-                }
-                return ScrollBarWidget(
-                  children: List.generate(data.length, (index) {
-                    final result = data[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: GestureDetector(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailMeetCalenderTablet(
-                              id: result.id,
-                            ),
-                          ),
-                        );
-                      },
-                        child: ContainerInfoWidget(
-                          status: result.isHopTrucTuyen
-                              ? S.current.truc_tuyen
-                              : S.current.truc_tiep,
-                          colorStatus: result.isHopTrucTuyen
-                              ? sideBtnSelected.withOpacity(0.5)
-                              : choXuLyColor,
-                          backGroundStatus: true,
-                          status2: result
-                              .trangThaiTheoUserEnum(_lichHopCubit.userId)
-                              ?.getText() ??
-                              '',
-                          colorStatus2: result
-                              .trangThaiTheoUserEnum(_lichHopCubit.userId)
-                              ?.getColor(),
-                          backGroundStatus2: true,
-                          title: result.title,
-                          listData: [
-                            InfoData(
-                              urlIcon: ImageAssets.icTime,
-                              key: S.current.time,
-                              value: result.convertTime(),
-                            ),
-                            InfoData(
-                              urlIcon: ImageAssets.icPeople,
-                              key: S.current.nguoi_chu_tri,
-                              value: result.nguoiChuTri,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+      child: LoadingOnly(
+        stream: _lichHopCubit.stateStream,
+        child: StreamBuilder<List<CalendarMeetingModel>>(
+            stream: _lichHopCubit.getLichHop,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <CalendarMeetingModel>[];
+              if (data.isEmpty) {
+                return  const Padding(
+                  padding:  EdgeInsets.symmetric(vertical: 100),
+                  child:  NodataWidget(),
                 );
-              }),
-        ),
+              }
+              return ScrollBarWidget(
+                children: List.generate(data.length, (index) {
+                  final result = data[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailMeetCalenderTablet(
+                            id: result.id,
+                          ),
+                        ),
+                      );
+                    },
+                      child: ContainerInfoWidget(
+                        status: result.isHopTrucTuyen
+                            ? S.current.truc_tuyen
+                            : S.current.truc_tiep,
+                        colorStatus: result.isHopTrucTuyen
+                            ? sideBtnSelected.withOpacity(0.5)
+                            : choXuLyColor,
+                        backGroundStatus: true,
+                        status2: result
+                            .trangThaiTheoUserEnum(_lichHopCubit.userId)
+                            ?.getText() ??
+                            '',
+                        colorStatus2: result
+                            .trangThaiTheoUserEnum(_lichHopCubit.userId)
+                            ?.getColor(),
+                        backGroundStatus2: true,
+                        title: result.title,
+                        listData: [
+                          InfoData(
+                            urlIcon: ImageAssets.icTime,
+                            key: S.current.time,
+                            value: result.convertTime(),
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icPeople,
+                            key: S.current.nguoi_chu_tri,
+                            value: result.nguoiChuTri,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              );
+            }),
       ),
     );
   }

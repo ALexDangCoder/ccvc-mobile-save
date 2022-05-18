@@ -1,10 +1,11 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BuildPicker extends StatelessWidget {
   final double offAxisFraction;
-
+  final bool looping;
   final FixedExtentScrollController controller;
   final Color backgroundColor;
   final List<Widget> children;
@@ -12,16 +13,17 @@ class BuildPicker extends StatelessWidget {
   final bool canBorderLeft;
   final bool canBorderRight;
 
-  const BuildPicker({
-    Key? key,
-    required this.offAxisFraction,
-    required this.controller,
-    required this.backgroundColor,
-    required this.children,
-    required this.onSelectItem,
-    this.canBorderRight = false,
-    this.canBorderLeft = false,
-  }) : super(key: key);
+  const BuildPicker(
+      {Key? key,
+      required this.offAxisFraction,
+      required this.controller,
+      required this.backgroundColor,
+      required this.children,
+      required this.onSelectItem,
+      this.canBorderRight = false,
+      this.canBorderLeft = false,
+      this.looping = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,6 @@ class BuildPicker extends StatelessWidget {
       itemExtent: 40,
       useMagnifier: kUseMagnifier,
       magnification: kMagnification,
-
       backgroundColor: backgroundColor,
       squeeze: kSqueeze,
       diameterRatio: 3,
@@ -41,7 +42,7 @@ class BuildPicker extends StatelessWidget {
       onSelectedItemChanged: (int index) {
         onSelectItem(index);
       },
-      looping: true,
+      looping: looping,
       children: children,
     );
   }
@@ -72,7 +73,7 @@ class CupertinoPickerDefaultSelectionOverlayWidget extends StatelessWidget {
               canBorderRight ? const Radius.circular(_border) : Radius.zero,
         ),
         color: CupertinoDynamicColor.resolve(
-          CupertinoColors.systemBlue.withOpacity(0.1),
+          AppTheme.getInstance().colorField().withOpacity(0.1),
           context,
         ),
       ),

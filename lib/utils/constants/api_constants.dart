@@ -15,6 +15,7 @@ class ApiConstants {
   static const String GET_LIST_TOKEN = '/market/coin-list';
   static const String GET_PRICE_TOKEN_BY_SYMBOL = '/market/coin-price/';
   static const String GET_PHAM_VI = '/common/auth/list-pham-vi';
+  static const String CHUYEN_PHAM_VI = '/common/auth/chuyen-pham-vi';
   static const String GET_LUNAR_DATE = '/api/LunarDate/getLunarDate';
   static const String GET_TINH_HUONG_KHAN_CAP =
       '/api/DashBoardHome/tinh-huong-khan-cap?';
@@ -93,7 +94,7 @@ class ApiConstants {
 
   static const DIEM_DANH = '/vpdt/api/MeetingSchedule/check-in-meeting';
 
-  static const HUY_DIEM_DANH = '/vpdt/MeetingSchedule/check-out-meeting';
+  static const HUY_DIEM_DANH = '/vpdt/api/MeetingSchedule/check-out-meeting';
 
   static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
@@ -134,6 +135,8 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
+  static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
+      '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
 
   static const DETAIL_MEETING_SCHEDULE = '/vpdt/api/MeetingSchedule/detail';
@@ -232,10 +235,15 @@ class ApiConstants {
   static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
+  static const READ_ALL = '/api/Notification/read-all';
   static const DELETE_NOTIFY = '/api/Notification/delete';
   static const TINH_SELECT = '/vpdt/api/Country/province-list';
   static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
   static const XA_SELECT = '/vpdt/api/Country/wards-list';
+  static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
+  static const POST_Y_KIEN_XU_LY = '/pakn/api/TaskYKien/XinYKien';
+  static const GET_LOCATION_ADDRESS = '/pakn/api/location';
+  static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
 }
 
 class ImageConstants {

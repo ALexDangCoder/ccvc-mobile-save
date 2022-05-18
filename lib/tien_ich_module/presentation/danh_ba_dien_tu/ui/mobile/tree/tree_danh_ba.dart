@@ -1,9 +1,11 @@
+// ignore_for_file: strict_raw_type, must_be_immutable
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/dropdow_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc/danh_ba_cubit_tree.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc_tree/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/tree.dart';
@@ -13,8 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DanhBaWidget extends StatefulWidget {
-  final Function(TreeDonViDanhBA obj) onChange;
-  final DanhBaCubitTree cubit;
+  final Function(TreeDonViDanhBA) onChange;
+  final DanhBaDienTuCubit cubit;
 
   const DanhBaWidget({
     Key? key,
@@ -27,20 +29,12 @@ class DanhBaWidget extends StatefulWidget {
 }
 
 class _DanhBaScreenState extends State<DanhBaWidget> {
-  final DanhBaCubit danhBaCubit = DanhBaCubit();
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.getTree();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    danhBaCubit.dispose();
+    widget.cubit.getTree().then((value) => widget
+        .onChange(widget.cubit.listTreeDanhBaSubject.value.tree[1].value));
   }
 
   @override
@@ -52,18 +46,20 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
         children: [
           DropdownWidgetTablet(
             title: StreamBuilder<String>(
-                stream: widget.cubit.tenDonVi.stream,
-                builder: (context, snapshot) {
-                  return Container(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width * 0.7),
-                    child: Text(
-                      snapshot.data.toString(),
-                      style: textNormal(titleColor, 14),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  );
-                }),
+              stream: widget.cubit.tenDonVi.stream,
+              builder: (context, snapshot) {
+                return Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.7,
+                  ),
+                  child: Text(
+                    snapshot.data.toString(),
+                    style: textNormal(titleColor, 14),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              },
+            ),
             child: SingleChildScrollView(
               child: Container(
                 margin: const EdgeInsets.only(top: 11),
@@ -79,7 +75,7 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                     BaseSearchBarNoBorder(
                       hintText: S.current.nhap_don_vi,
                       onChange: (vl) {
-                        widget.cubit.search(vl);
+                        widget.cubit.searchTree(vl);
                       },
                     ),
                     Container(
@@ -139,9 +135,9 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
 }
 
 class NodeWidget extends StatefulWidget {
-  final Function(TreeDonViDanhBA obj) onChange;
+  final Function(TreeDonViDanhBA) onChange;
   NodeHSCV? node;
-  final DanhBaCubitTree cubit;
+  final DanhBaDienTuCubit cubit;
 
   NodeWidget({Key? key, this.node, required this.cubit, required this.onChange})
       : super(key: key);
@@ -159,7 +155,7 @@ class _NodeWidgetState extends State<NodeWidget> {
     super.initState();
     nodeCubit = NodeCubit(
         tree: widget.cubit.listTreeDanhBaSubject.value
-            .getChild(widget.node!.value.id));
+            .getChild(widget.node?.value.id ?? ''));
     nodeCubit.init();
   }
 
@@ -179,17 +175,19 @@ class _NodeWidgetState extends State<NodeWidget> {
                   width: widthSize,
                   child: GestureDetector(
                     onTap: () {
-                      widget.node!.isHasChild == false
-                          ? widget.cubit.getValueTree(
-                              id: isExpand ? widget.node!.value.id : '',
-                              donVi:
-                                  isExpand ? widget.node!.value.tenDonVi : '',
-                            )
-                          : setState(() {});
-                      widget.node!.isHasChild == true
-                          ? isExpand = !isExpand
-                          : setState(() {});
-                      widget.onChange(widget.node!.value);
+                      if (widget.node?.isHasChild ?? false) {
+                        setState(() {
+                          isExpand = !isExpand;
+                        });
+                      } else {
+                        widget.cubit.getValueTree(
+                          id: widget.node?.value.id ?? '',
+                          donVi: widget.node?.value.tenDonVi ?? '',
+                        );
+                        widget.onChange(
+                          widget.node?.value ?? TreeDonViDanhBA.Emty(),
+                        );
+                      }
                     },
                     child: Row(
                       children: [
@@ -198,9 +196,9 @@ class _NodeWidgetState extends State<NodeWidget> {
                           child: Container(
                             padding: EdgeInsets.only(
                               bottom:
-                                  widget.node!.value.iD_DonVi_Cha != '' ? 6 : 0,
+                                  widget.node?.value.iD_DonVi_Cha != '' ? 6 : 0,
                               top:
-                                  widget.node!.value.iD_DonVi_Cha != '' ? 6 : 0,
+                                  widget.node?.value.iD_DonVi_Cha != '' ? 6 : 0,
                             ),
                             decoration: BoxDecoration(
                               border: widget.node!.value.iD_DonVi_Cha != ''
@@ -215,9 +213,9 @@ class _NodeWidgetState extends State<NodeWidget> {
                               children: [
                                 Expanded(
                                   flex: 9,
-                                  child: widget.node!.value.iD_DonVi_Cha != ''
+                                  child: widget.node?.value.iD_DonVi_Cha != ''
                                       ? Text(
-                                          widget.node!.value.tenDonVi,
+                                          widget.node?.value.tenDonVi ?? '',
                                           style: textNormal(titleColor, 14),
                                         )
                                       : const SizedBox(),
@@ -228,8 +226,8 @@ class _NodeWidgetState extends State<NodeWidget> {
                                       stream: widget.cubit.idDonVi.stream,
                                       builder: (context, snapshot) {
                                         return snapshot.data.toString() ==
-                                                widget.node!.value.id
-                                            ? (widget.node!.isHasChild)
+                                                widget.node?.value.id
+                                            ? (widget.node?.isHasChild ?? false)
                                                 ? const SizedBox()
                                                 : SvgPicture.asset(
                                                     ImageAssets.ic_tick,
@@ -237,8 +235,8 @@ class _NodeWidgetState extends State<NodeWidget> {
                                             : const SizedBox();
                                       },
                                     ),
-                                    if (widget.node!.value.iD_DonVi_Cha != '')
-                                      widget.node!.isHasChild
+                                    if (widget.node?.value.iD_DonVi_Cha != '')
+                                      widget.node?.isHasChild ?? false
                                           ? isExpand
                                               ? const Icon(
                                                   Icons.keyboard_arrow_up,
@@ -246,7 +244,8 @@ class _NodeWidgetState extends State<NodeWidget> {
                                                 )
                                               : const Icon(
                                                   Icons.keyboard_arrow_down,
-                                                  color: Color(0xFFA2AEBD))
+                                                  color: Color(0xFFA2AEBD),
+                                                )
                                           : const SizedBox(),
                                   ],
                                 )

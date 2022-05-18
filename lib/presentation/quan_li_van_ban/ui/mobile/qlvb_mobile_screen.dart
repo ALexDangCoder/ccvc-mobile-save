@@ -175,9 +175,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                 builder: (context, snapshot) {
                   final dataVBDen = snapshot.data ?? DocumentDashboardModel();
                   return CommonInformationMobile(
-                    qlvbcCubit: qlvbCubit,
+                    chartData: qlvbCubit.chartDataVbDen,
                     documentDashboardModel: dataVBDen,
-                    isVbDen: true,
                     ontap: (value) {},
                   );
                 },
@@ -291,13 +290,10 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
               child: StreamBuilder<DocumentDashboardModel>(
                 stream: qlvbCubit.getVbDi,
                 builder: (context, snapshot) {
-                  final dataVBDi = snapshot.data ?? DocumentDashboardModel();
                   return Container(
                     padding: const EdgeInsets.all(16.0),
                     child: CommonInformationMobile(
-                      qlvbcCubit: qlvbCubit,
-                      documentDashboardModel: dataVBDi,
-                      isVbDen: false,
+                      chartData: qlvbCubit.chartDataVbDi,
                       ontap: (value) {},
                     ),
                   );

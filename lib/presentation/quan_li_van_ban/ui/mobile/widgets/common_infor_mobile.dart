@@ -2,27 +2,23 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/chart/status_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CommonInformationMobile extends StatefulWidget {
-  final DocumentDashboardModel documentDashboardModel;
+  final DocumentDashboardModel? documentDashboardModel;
   final String? title;
-  final bool isVbDen;
-  final QLVBCCubit qlvbcCubit;
   final Function(String) ontap;
+  final List<ChartData> chartData;
 
   const CommonInformationMobile({
     Key? key,
-    required this.documentDashboardModel,
-    required this.qlvbcCubit,
+    this.documentDashboardModel,
     this.title,
-    required this.isVbDen,
     required this.ontap,
+    required this.chartData,
   }) : super(key: key);
 
   @override
@@ -31,10 +27,7 @@ class CommonInformationMobile extends StatefulWidget {
 }
 
 class _CommonInformationMobileState extends State<CommonInformationMobile> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  int selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -48,47 +41,41 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
-          chartData: widget.isVbDen
-              ? widget.qlvbcCubit.chartDataVbDen
-              : widget.qlvbcCubit.chartDataVbDi,
+          chartData: List.generate(
+            widget.chartData.length,
+            (index) => ChartData(
+              widget.chartData[index].title,
+              widget.chartData[index].value,
+              (selectedIndex != index && selectedIndex != -1)
+                  ? widget.chartData[index].color.withOpacity(0.2)
+                  : widget.chartData[index].color,
+              size: selectedIndex == index ? '85%' : null,
+            ),
+          ),
           onTap: (int value) {
-            if (widget.isVbDen) {
-              widget.ontap(
-                widget.qlvbcCubit.chartDataVbDen[value].title
-                    .split(' ')
-                    .join('_')
-                    .toUpperCase()
-                    .vietNameseParse(),
-              );
-            } else {
-              widget.ontap(
-                widget.qlvbcCubit.chartDataVbDi[value].title
-                    .split(' ')
-                    .join('_')
-                    .toUpperCase()
-                    .vietNameseParse(),
-              );
-            }
+            selectedIndex = selectedIndex == value ? -1 : value;
+
+            setState(() {});
           },
         ),
         Container(height: 20),
-        if (widget.isVbDen)
+        if (widget.documentDashboardModel != null)
           StatusWidget(
             showZeroValue: false,
             listData: [
               ChartData(
                 S.current.qua_han,
-                widget.documentDashboardModel.soLuongQuaHan?.toDouble() ?? 0.0,
+                widget.documentDashboardModel?.soLuongQuaHan?.toDouble() ?? 0.0,
                 statusCalenderRed,
               ),
               ChartData(
                 S.current.den_han,
-                widget.documentDashboardModel.soLuongDenHan?.toDouble() ?? 0.0,
+                widget.documentDashboardModel?.soLuongDenHan?.toDouble() ?? 0.0,
                 textColorForum,
               ),
               ChartData(
                 S.current.trong_han,
-                widget.documentDashboardModel.soLuongTrongHan?.toDouble() ??
+                widget.documentDashboardModel?.soLuongTrongHan?.toDouble() ??
                     0.0,
                 choTrinhKyColor,
               )

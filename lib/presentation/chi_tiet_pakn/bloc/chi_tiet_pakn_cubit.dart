@@ -29,24 +29,23 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   final YKienNguoiDanRepository YKNDRepo = Get.find();
 
   final BehaviorSubject<List<List<ListRowYKND>>> tienTrinhXuLyRowData =
-  BehaviorSubject<List<List<ListRowYKND>>>();
+      BehaviorSubject<List<List<ListRowYKND>>>();
 
   final BehaviorSubject<List<List<ListRowYKND>>> ketQuaXuLyRowData =
-  BehaviorSubject<List<List<ListRowYKND>>>();
+      BehaviorSubject<List<List<ListRowYKND>>>();
 
   final BehaviorSubject<List<ListRowYKND>> headerRowData =
-  BehaviorSubject<List<ListRowYKND>>();
+      BehaviorSubject<List<ListRowYKND>>();
 
   final BehaviorSubject<ChiTietYKienNguoiDanRow> rowDataChiTietYKienNguoiDan =
-  BehaviorSubject<ChiTietYKienNguoiDanRow>();
+      BehaviorSubject<ChiTietYKienNguoiDanRow>();
 
   final BehaviorSubject<ChiTietYKNDModel> chiTietYKNDSubject =
-  BehaviorSubject<ChiTietYKNDModel>();
+      BehaviorSubject<ChiTietYKNDModel>();
 
 //tab y kien xu ly
   int byteToMb = 1048576;
   int size = 0;
-  String kienNghiId = '';
   final List<PickImageFileModel> listPickFileMain = [];
   final List<YKienXuLyYKNDModel> listYKienXuLy = [];
 
@@ -56,7 +55,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   String mess = '';
   bool canLoadMoreMy = true;
   bool _isRefresh = true;
-  bool _isLoading = false;
+  bool isLoading = false;
   int page = 0;
 
   bool get canLoadMore => canLoadMoreMy;
@@ -65,19 +64,19 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   String idYkien = '';
 
   Future<void> refreshPosts() async {
-    if (!_isLoading) {
+    if (!isLoading) {
       page = 0;
       _isRefresh = true;
-      _isLoading = true;
+      isLoading = true;
       await getDanhSachYKienXuLyPAKN(idYkien);
     }
   }
 
   void loadMorePosts() {
-    if (!_isLoading) {
+    if (!isLoading) {
       page += 1;
       _isRefresh = false;
-      _isLoading = true;
+      isLoading = true;
       getDanhSachYKienXuLyPAKN(idYkien);
     }
   }
@@ -93,53 +92,54 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     );
     showContent();
     result.when(
-        success: (res) {
-          final List<List<ListRowYKND>> listData = [];
-          for (final element in res) {
-            final List<ListRowYKND> rowData = [];
-            rowData.add(
-              ListRowYKND(
-                title: S.current.thoi_gian_thao_tac,
-                content: [element.ngayBatDau],
-              ),
-            );
+      success: (res) {
+        final List<List<ListRowYKND>> listData = [];
+        for (final element in res) {
+          final List<ListRowYKND> rowData = [];
+          rowData.add(
+            ListRowYKND(
+              title: S.current.thoi_gian_thao_tac,
+              content: [element.ngayBatDau],
+            ),
+          );
 
-            rowData.add(
-              ListRowYKND(
-                title: S.current.don_vi_thao_tac,
-                content: [element.donViThaoTac],
-              ),
-            );
+          rowData.add(
+            ListRowYKND(
+              title: S.current.don_vi_thao_tac,
+              content: [element.donViThaoTac],
+            ),
+          );
 
-            rowData.add(
-              ListRowYKND(
-                title: S.current.tai_khoan_thao_tac,
-                content: [element.taiKhoanThaoTac],
-              ),
-            );
-            rowData.add(
-              ListRowYKND(
-                title: S.current.trang_thai_xu_ly,
-                content: [element.trangThaiXuLy],
-              ),
-            );
-            rowData.add(
-              ListRowYKND(
-                title: S.current.noi_dung_xu_ly,
-                content: [element.noiDungXuLy],
-              ),
-            );
-            // rowData.add(
-            //   ListRowYKND(
-            //     title: S.current.file_dinh_kem,
-            //     content: element.taiLieus.map((e) => e.ten).toList(),
-            //   ),
-            // );
-            listData.add(rowData);
-            tienTrinhXuLyRowData.sink.add(listData);
-          }
-        },
-        error: (error) {});
+          rowData.add(
+            ListRowYKND(
+              title: S.current.tai_khoan_thao_tac,
+              content: [element.taiKhoanThaoTac],
+            ),
+          );
+          rowData.add(
+            ListRowYKND(
+              title: S.current.trang_thai_xu_ly,
+              content: [element.trangThaiXuLy],
+            ),
+          );
+          rowData.add(
+            ListRowYKND(
+              title: S.current.noi_dung_xu_ly,
+              content: [element.noiDungXuLy],
+            ),
+          );
+          // rowData.add(
+          //   ListRowYKND(
+          //     title: S.current.file_dinh_kem,
+          //     content: element.taiLieus.map((e) => e.ten).toList(),
+          //   ),
+          // );
+          listData.add(rowData);
+          tienTrinhXuLyRowData.sink.add(listData);
+        }
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> getKetQuaXuLy(String kienNghiId, String taskID) async {
@@ -239,8 +239,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
 
   Future<void> getDanhSachYKienXuLyPAKN(String kienNghiId) async {
     showLoading();
+    emit(ChiTietPaknLoading());
     final Result<DanhSachKetQuaYKXLModel> result =
-    await YKNDRepo.getDanhSachYKienPAKN(
+        await YKNDRepo.getDanhSachYKienPAKN(
       kienNghiId,
       2,
     );
@@ -253,7 +254,6 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             list: res.danhSachKetQua,
           ),
         );
-        idYkien = res.danhSachKetQua?.first.kienNghiId ?? '';
       },
       error: (error) {
         emit(
@@ -266,8 +266,10 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     );
   }
 
-  Future<void> getThongTinNguoiPhanAnh(String kienNghiId,
-      String taskId,) async {
+  Future<void> getThongTinNguoiPhanAnh(
+    String kienNghiId,
+    String taskId,
+  ) async {
     showLoading();
     final result = await YKNDRepo.chiTietYKienNguoiDan(
       kienNghiId,
@@ -280,20 +282,15 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     result.when(
       success: (res) {
         final data = res.chiTietYKNDModel;
+        nguoiPhanAnhModel.idTinhTp = data.tinhId.toString();
+        nguoiPhanAnhModel.idXaPhuong = data.xaId.toString();
+        nguoiPhanAnhModel.idQuanHuyen = data.huyenId.toString();
         nguoiPhanAnhModel.doiTuong = data.doiTuongId;
         nguoiPhanAnhModel.tenCaNhan = data.tenNguoiPhanAnh;
         nguoiPhanAnhModel.cmnd = data.cMTND;
         nguoiPhanAnhModel.diaChiChiTiet = data.diaChiChiTiet;
         nguoiPhanAnhModel.diaChiEmail = data.email;
         nguoiPhanAnhModel.soDienthoai = data.soDienThoai;
-        // nguoiPhanAnhModel = NguoiPhanAnhModel(
-        //   doiTuong: data.doiTuongId,
-        //   tenCaNhan: data.tenNguoiPhanAnh,
-        //   cmnd: data.cMTND,
-        //   diaChiChiTiet: data.diaChiChiTiet,
-        //   diaChiEmail: data.email,
-        //   soDienthoai: data.soDienThoai,
-        // );
       },
       error: (err) {
         return;
@@ -303,13 +300,43 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     final tinhThanhPhoResponse = await YKNDRepo.getLocationAddress();
     tinhThanhPhoResponse.when(success: (success) {
       nguoiPhanAnhModel.tinhThanhPho = getTinhQuanXa(
-          typeDiaChi: DIACHI.TINHTHANHPHO, listLocationModel: success);
+          typeDiaChi: DIACHI.TINHTHANHPHO,
+          listLocationModel: success,
+          id: int.parse(nguoiPhanAnhModel.idTinhTp ?? '0'));
     }, error: (error) {
       nguoiPhanAnhModel.tinhThanhPho = '';
     });
 
+    final quanHuyenXaResponse =
+        await YKNDRepo.getLocationAddress(id: nguoiPhanAnhModel.idTinhTp);
+    quanHuyenXaResponse.when(
+      success: (success) {
+        nguoiPhanAnhModel.quanHuyen = getTinhQuanXa(
+            typeDiaChi: DIACHI.QUANHUYEN,
+            listLocationModel: success,
+            id: int.parse(nguoiPhanAnhModel.idQuanHuyen ?? '0'));
+      },
+      error: (error) {
+        nguoiPhanAnhModel.quanHuyen = '';
+      },
+    );
+
+    final xaPhuongResponse =
+        await YKNDRepo.getLocationAddress(id: nguoiPhanAnhModel.idQuanHuyen);
+    xaPhuongResponse.when(
+      success: (success) {
+        nguoiPhanAnhModel.xaPhuong = getTinhQuanXa(
+            typeDiaChi: DIACHI.XAPHUONG,
+            listLocationModel: success,
+            id: int.parse(nguoiPhanAnhModel.idXaPhuong ?? '0'));
+      },
+      error: (error) {
+        nguoiPhanAnhModel.xaPhuong = '';
+      },
+    );
+
     final List<DataRowChiTietKienNghi> dataRowThongTinNguoiXuLy =
-    getMapDataNguoiPhananh(nguoiPhanAnhModel);
+        getMapDataNguoiPhananh(nguoiPhanAnhModel);
     rowDataChiTietYKienNguoiDan.sink.add(
       ChiTietYKienNguoiDanRow(
         dataRowThongTinNguoiXuLy,
@@ -318,8 +345,11 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     showContent();
   }
 
-  String getTinhQuanXa({required DIACHI typeDiaChi, int? id, required List<
-      LocationModel> listLocationModel,}) {
+  String getTinhQuanXa({
+    required DIACHI typeDiaChi,
+    int? id,
+    required List<LocationModel> listLocationModel,
+  }) {
     String result = '';
     switch (typeDiaChi) {
       case DIACHI.TINHTHANHPHO:
@@ -356,12 +386,13 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   Future<List<LocationModel>> getLocationThongTinNguoiPAKN({String? id}) async {
     List<LocationModel> result = [];
     final resultResponse = await YKNDRepo.getLocationAddress(id: id);
-    resultResponse.when(success: (success) {
-      result = success;
-    }, error: (error) {});
+    resultResponse.when(
+        success: (success) {
+          result = success;
+        },
+        error: (error) {});
     return result;
   }
-
 
   Future<String> postYKienXuLy({
     required String nguoiChoYKien,
@@ -400,9 +431,9 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   // }
 
   Future<void> getThongTinPAKN(
-      String kienNghiId,
-      String taskId,
-      ) async {
+    String kienNghiId,
+    String taskId,
+  ) async {
     if (headerRowData.hasValue) {
       headerRowData.value.clear();
     } else {}
@@ -475,8 +506,10 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     );
   }
 
-  Future<void> getchiTietYKienNguoiDan(String kienNghiId,
-      String taskId,) async {
+  Future<void> getchiTietYKienNguoiDan(
+    String kienNghiId,
+    String taskId,
+  ) async {
     showLoading();
     final result = await YKNDRepo.chiTietYKienNguoiDan(
       kienNghiId,
@@ -497,8 +530,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         }
         final List<ListRowYKND> listRowHeaderData = [];
         listRowHeaderData
-            .add(
-            ListRowYKND(title: S.current.tieu_de, content: [data.tieuDe]));
+            .add(ListRowYKND(title: S.current.tieu_de, content: [data.tieuDe]));
         listRowHeaderData.add(
           ListRowYKND(
             title: S.current.noi_dung,
@@ -558,8 +590,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     );
     listData.add(
       DataRowChiTietKienNghi(
-          title: S.current.cmt_can_cuoc,
-          content: nguoiPhanAnhModel.cmnd ?? ''),
+          title: S.current.cmt_can_cuoc, content: nguoiPhanAnhModel.cmnd ?? ''),
     );
     listData.add(
       DataRowChiTietKienNghi(
@@ -585,8 +616,18 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         content: nguoiPhanAnhModel.tinhThanhPho ?? '',
       ),
     );
+    listData.add(
+      DataRowChiTietKienNghi(
+        title: S.current.quan_cheo_huyen,
+        content: nguoiPhanAnhModel.quanHuyen ?? '',
+      ),
+    );
+    listData.add(
+      DataRowChiTietKienNghi(
+        title: S.current.xa_cheo_phuong,
+        content: nguoiPhanAnhModel.xaPhuong ?? '',
+      ),
+    );
     return listData;
   }
 }
-
-

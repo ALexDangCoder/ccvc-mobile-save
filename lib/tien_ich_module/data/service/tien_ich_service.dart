@@ -1,5 +1,5 @@
+
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
-import 'package:ccvc_mobile/home_module/data/response/home/todo_current_user_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
@@ -137,5 +137,21 @@ abstract class TienIchServiceCommon {
   @FormUrlEncoded()
   Future<TreeDanhBaResponse> TreeDanhBa(
     @Query('soCap') int soCap,
+  );
+}
+
+@RestApi()
+abstract class TienIchServiceGateWay {
+  @factoryMethod
+  factory TienIchServiceGateWay(Dio dio, {String baseUrl}) =
+      _TienIchServiceGateWay;
+
+
+  @POST(ApiConstants.TRANSLATE_DOCUMENT)
+  @MultiPart()
+  Future<String> translateDocument(
+    @Part() String vanBan,
+    @Part() String target,
+    @Part() String source,
   );
 }

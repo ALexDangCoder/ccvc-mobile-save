@@ -141,8 +141,21 @@ void configureDependencies() {
       provideDio(baseOption: BaseURLOption.API_AND_UAT),
     ),
   );
+
+  Get.put(
+    TienIchServiceGateWay(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+
   Get.put<TienIchRepository>(
-      TienIchRepositoryImpl(Get.find(), Get.find(), Get.find()));
+    TienIchRepositoryImpl(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ),
+  );
   Get.put(
     DanhBaDienTuService(
       provideDio(baseOption: BaseURLOption.COMMON),

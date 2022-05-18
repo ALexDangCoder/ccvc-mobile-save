@@ -27,7 +27,10 @@ Future<Map<String, dynamic>> pickFile() async {
   String _fileExtension = '';
   int _fileSize = 0;
   String _fileName = '';
-  final FilePickerResult? result = await FilePicker.platform.pickFiles();
+  final FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['jpg', 'pdf', 'doc', 'png', 'exec'],
+  );
   if (result != null) {
     _fileExtension = (result.files.single.extension ?? '').toUpperCase();
     _filePath = result.files.single.path ?? '';
@@ -55,17 +58,18 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
   };
   try {
     final newImage = await ImagePicker().pickImage(
-        source: fromCamera ? ImageSource.camera : ImageSource.gallery);
+      source: fromCamera ? ImageSource.camera : ImageSource.gallery,
+    );
     if (newImage == null) {
       return _resultMap;
     }
     final extension = (p.extension(newImage.path)).replaceAll('.', '');
-    _resultMap[EXTENSION_OF_FILE] = extension;
+    _resultMap[EXTENSION_OF_FILE] = extension.toUpperCase();
     _resultMap[SIZE_OF_FILE] =
         File(newImage.path).readAsBytesSync().lengthInBytes;
     _resultMap[PATH_OF_FILE] = newImage.path;
     _resultMap[NAME_OF_FILE] = p.basename(p.basename(newImage.path));
-    _resultMap[FILE_RESULT] = newImage;
+    _resultMap[FILE_RESULT] = [File(newImage.path)];
     return _resultMap;
   } on PlatformException catch (e) {
     throw 'Cant upload image $e';

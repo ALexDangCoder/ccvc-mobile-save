@@ -374,15 +374,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       pageNumber: pageNumberDSPAKN.toString(),
       userId: userId,
     );
-    ///muốn test mở đoạn này ra
-    // final result = await _YKNDRepo.getDanhSachPAKN(
-    //   tuNgay: '05/04/2022',
-    //   donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
-    //   denNgay: '17/05/2022',
-    //   pageSize: '10',
-    //   pageNumber: '1',
-    //   userId: '19266143-feee-44d0-828a-e29df215f481',
-    // );
     result.when(success: (success) {
       if(listDanhSachKetQuaPakn.hasValue) {
         listDanhSachKetQuaPakn.sink.add(listDanhSachKetQuaPakn.value + success);
@@ -392,10 +383,10 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       } else {
         listDanhSachKetQuaPakn.sink.add(success);
       }
-      showContent();
     }, error: (error) {
       listDanhSachKetQuaPakn.sink.add([]);
     });
+    showContent();
   }
 
   Future<void> getDashBoardTinhHinhXuLy(
@@ -635,5 +626,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       donViId = dataUser.userInformation?.donViTrucThuoc?.id ?? '';
       userId = dataUser.userId ?? '';
     }
+  }
+
+  void dispose() {
+    listDanhSachKetQuaPakn.value.clear();
   }
 }

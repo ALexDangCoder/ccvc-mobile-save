@@ -87,6 +87,9 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             FilterDateTimeWidget(
               context: context,
               isMobile: true,
+              initStartDate: DateTime.now()
+                  .dateTimeFormRange(timeRange: TimeRange.THANG_NAY)
+                  .first,
               onChooseDateFilter: (startDate, endDate) {
                 qlvbCubit.startDate = startDate.formatApi;
                 qlvbCubit.endDate = endDate.formatApi;

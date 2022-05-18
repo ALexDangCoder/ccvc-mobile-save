@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
@@ -11,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:translator/translator.dart';
 
 class PhienDichTuDongTablet extends StatefulWidget {
   const PhienDichTuDongTablet({Key? key}) : super(key: key);
@@ -23,71 +24,72 @@ class PhienDichTuDongTablet extends StatefulWidget {
 class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
   PhienDichTuDongCubit cubit = PhienDichTuDongCubit();
   TextEditingController textEditingController = TextEditingController();
-  final translator = GoogleTranslator();
+  final SpeechToText speech = SpeechToText();
+  bool _hasSpeech = false;
+  String lastWords = '';
+  double level = 0.0;
+  double minSoundLevel = 50000;
+  double maxSoundLevel = -50000;
 
-  final SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
+  Future<void> initSpeechState() async {
+    try {
+      final hasSpeech = await speech.initialize();
+      if (!mounted) return;
+      setState(() {
+        _hasSpeech = hasSpeech;
+      });
+    } catch (e) {
+      setState(() {
+        _hasSpeech = false;
+      });
+    }
+  }
+
+  void startListening() {
+    if (!_hasSpeech) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.current.speech_not_available),
+        ),
+      );
+      return;
+    }
+    speech.listen(
+      onResult: resultListener,
+      pauseFor: const Duration(seconds: 3),
+      listenFor: const Duration(seconds: 30),
+      localeId: cubit.voiceType,
+    );
+    setState(() {});
+  }
+
+  void stopListening() {
+    speech.stop();
+    setState(() {
+      level = 0.0;
+    });
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    cubit.debouncer.run(() {
+      textEditingController.text = result.recognizedWords;
+      cubit.translateDocument(document: result.recognizedWords);
+    });
+    setState(() {});
+  }
+
+  void soundLevelListener(double level) {
+    minSoundLevel = min(minSoundLevel, level);
+    maxSoundLevel = max(maxSoundLevel, level);
+    setState(() {
+      this.level = level;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _initSpeech();
-  }
-
-  /// This has to happen only once per app
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
-    setState(() {});
-  }
-
-  /// Each time to start a speech recognition session
-  void _startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
-    viToEn();
-    setState(() {});
-  }
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-  void _stopListening() async {
-    await _speechToText.stop();
-    concatenationString();
-    cubit.lengthTextSubject.add(textEditingController.text.length);
-    setState(() {});
-  }
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      _lastWords = result.recognizedWords;
-    });
-  }
-
-  final snackBar = SnackBar(
-    content: Text(
-      S.current.coppy,
-      textAlign: TextAlign.center,
-    ),
-  );
-
-  void concatenationString() {
-    textEditingController.text = '${textEditingController.text} $_lastWords';
-  }
-
-  void viToEn() {
-    translator.translate(textEditingController.text, to: 'en').then((result) {
-      cubit.translateLanguage(result.text);
-    });
-  }
-
-  void enToVi() {
-    translator.translate(textEditingController.text, to: 'vi').then((result) {
-      cubit.translateLanguage(result.text);
-    });
+    initSpeechState();
   }
 
   @override
@@ -99,10 +101,13 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
               height: 20,
             ),
+
+            /// Change language
             Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
@@ -127,10 +132,13 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                       GestureDetector(
                         onTap: () {
                           cubit.swapLanguage();
-                          cubit.translateLanguage(textEditingController.text);
-                          cubit.languageSubject.value == LANGUAGE.vn
-                              ? viToEn()
-                              : enToVi();                        },
+                          stopListening();
+                          cubit.textTranslateSubject
+                              .add(textEditingController.value.text);
+                          cubit.translateDocument(
+                            document: textEditingController.value.text,
+                          );
+                        },
                         child: SvgPicture.asset(ImageAssets.icReplace),
                       ),
                       Expanded(
@@ -146,167 +154,172 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                 },
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 180,
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: borderColor.withOpacity(0.5),
+
+            Container(
+              height: 250,
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30,
+                vertical: 16,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: double.maxFinite,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: textEditingController,
-                            onChanged: (String value) {
-                              cubit.lengthTextSubject
-                                  .add(textEditingController.text.length);
-                              cubit.languageSubject.value == LANGUAGE.vn
-                                  ? viToEn()
-                                  : enToVi();
-                            },
-                            maxLength: 1000,
-                            decoration: const InputDecoration(
-                              counterText: '',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: toDayColor.withOpacity(0.5),
+                            offset: const Offset(0, 4),
+                            blurRadius: 10,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //input
+                          Expanded(
+                            child: TextField(
+                              controller: textEditingController,
+                              onChanged: (String value) {
+                                cubit.debouncer.run(() {
+                                  cubit.translateDocument(document: value);
+                                });
+                                cubit.lengthTextSubject.add(value.length);
+                              },
+                              style: textNormal(
+                                infoColor,
+                                16,
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            maxLines: null,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 23.5,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: _speechToText.isNotListening
-                                    ? _startListening
-                                    : _stopListening,
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                    bottom: 20,
-                                    right: 20,
+                              decoration: const InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
                                   ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              maxLines: null,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: !speech.isListening
+                                      ? startListening
+                                      : stopListening,
+                                  behavior: HitTestBehavior.opaque,
                                   child: SvgPicture.asset(
                                     ImageAssets.icVoiceMini,
+                                    color: buttonColor,
                                   ),
                                 ),
-                              ),
-                              StreamBuilder<int>(
-                                stream: cubit.lengthTextStream,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? 0;
-                                  return Text(
-                                    '${data.toString()}/1000',
-                                    style: textNormalCustom(
-                                      color: unselectLabelColor,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                  );
-                                },
-                              )
-                            ],
+                                StreamBuilder<int>(
+                                  stream: cubit.lengthTextStream,
+                                  builder: (context, snapshot) {
+                                    final count = snapshot.data ?? 0;
+                                    return Text(
+                                      '$count/1000',
+                                      style: textNormal(
+                                        iconColorDown,
+                                        14,
+                                      ),
+                                    );
+                                  },
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 180,
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 16,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 22,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: borderColor.withOpacity(0.5),
+                          spaceH20,
+                        ],
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: StreamBuilder<String>(
-                            stream: cubit.textTranslateStream,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ?? '';
-                              return Expanded(
-                                child: SingleChildScrollView(
-                                  child: Text(
-                                    textEditingController.text.isEmpty
-                                        ? ''
-                                        : data,
-                                    style: textNormalCustom(
-                                      color: textTitle,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Clipboard.setData(
-                              ClipboardData(text: cubit.textTranslate),
-                            );
-
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          },
-                          child: SvgPicture.asset(ImageAssets.icCoppy),
-                        )
-                      ],
                     ),
                   ),
-                ),
-              ],
+                  spaceW28,
+                  //translated
+                  Expanded(
+                    child: Container(
+                      height: double.maxFinite,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: toDayColor.withOpacity(0.5),
+                            offset: const Offset(0, 4),
+                            blurRadius: 10,
+                          )
+                        ],
+                      ),
+                      child: StreamBuilder<String>(
+                          stream: cubit.textTranslateStream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? '';
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    data,
+                                    style: textNormal(infoColor, 16),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (data.isEmpty) {
+                                      return;
+                                    }
+                                    Clipboard.setData(
+                                      ClipboardData(
+                                        text: cubit.textTranslateSubject.value,
+                                      ),
+                                    ).then(
+                                      (value) => ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            S.current.copy_success,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    ImageAssets.ic_copy,
+                                    color: toDayColor,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
+                    ),
+                  ),
+                ],
+              ),
             ),
+
+            /// choose file
             const SizedBox(
               height: 16,
             ),
@@ -332,13 +345,11 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
             const SizedBox(
               height: 20,
             ),
-            btn(onTap: () {
-              cubit.readFile(
-                textEditingController,
-                viToEn,
-                enToVi,
-              );
-            },),
+            btn(
+              onTap: () {
+                cubit.readFile(textEditingController);
+              },
+            ),
           ],
         ),
       ),

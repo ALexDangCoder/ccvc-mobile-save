@@ -56,7 +56,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     valueText = widget.controller?.text ?? '';
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -168,7 +167,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
 
   bool isPasteOnChange(String value) {
     if (value.length > valueText.length + 1) {
-      print('${valueText}');
       return true;
     }
     return false;

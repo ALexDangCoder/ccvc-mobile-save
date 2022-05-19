@@ -951,12 +951,12 @@
   "tien_trinh_xy_ly": "Tiến trình xử lý",
   "phan_loai": "Phân loại",
   "tai_lieu_dinh_kem_cua": "Tài liệu đính kèm của công dân/ DN",
-  "doc_tat_ca" : "Đọc tất cả",
-  "nguoi_tao" : "Người tạo",
-  "danh_dau_tat_ca_da_doc" : "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
+  "doc_tat_ca": "Đọc tất cả",
+  "nguoi_tao": "Người tạo",
+  "danh_dau_tat_ca_da_doc": "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
   "xa_cheo_phuong": "Xã/ Phường",
-  "ban_co_muon_xoa_thong_bao" : "Bạn có muốn xóa thông báo?",
-  "giong_noi" : "Giọng nói",
+  "ban_co_muon_xoa_thong_bao": "Bạn có muốn xóa thông báo?",
+  "giong_noi": "Giọng nói",
   "quan_cheo_huyen": "Quận/ Huyện",
   "tinh_cheo_thanh_pho": "Tỉnh/Thành phố",
   "ten_don_vi_cheo_phong_ban": "Tên đơn vị/phòng ban",
@@ -964,6 +964,10 @@
   "ban_chua_nhap_y_kien": "Bạn vui lòng nhập ý kiến",
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
-  "danh_sach_pakn": "Danh sách PAKN"
-
+  "danh_sach_pakn": "Danh sách PAKN",
+  "ngay_sinh_require": "Ngày sinh (*)",
+  "sdt_co_quan_require": "Số điện thoại cơ quan (*)",
+  "sdt_nha_rieng_require": "Số điện thoại nhà riêng (*)",
+  "them_danh_ba_ca_nhan_thanh_cong": "Thêm danh bạ cá nhân thành công",
+  "them_danh_ba_ca_nhan_khong_thanh_cong": "Thêm danh bạ cá nhân không thành công"
 }

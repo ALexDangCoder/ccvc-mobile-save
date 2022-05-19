@@ -72,4 +72,10 @@ mixin TienIchRepository {
     String text,
     String voiceTone,
   );
+
+  Future<Result<String>> translateDocument(
+    String document,
+    String target,
+    String source,
+  );
 }

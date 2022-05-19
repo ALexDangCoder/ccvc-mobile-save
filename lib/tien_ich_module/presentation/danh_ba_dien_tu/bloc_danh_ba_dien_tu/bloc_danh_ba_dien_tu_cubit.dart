@@ -378,7 +378,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   }
 }
 
-extension treeDanhBa on DanhBaDienTuCubit {
+extension TreeDanhBa on DanhBaDienTuCubit {
   Future<void> getTree() async {
     final result = await tienIchRepTree.TreeDanhBa(3);
     result.when(
@@ -407,21 +407,8 @@ extension treeDanhBa on DanhBaDienTuCubit {
     idDonVi.sink.add(id);
   }
 
-  bool checkDad(
-      {required NodeHSCV? node,
-      required bool boolCheck,
-      required Function(bool) onChange}) {
-    if (node!.value.iD_DonVi_Cha != '') {
-      boolCheck = false;
-      onChange(boolCheck);
-    } else {
-      boolCheck = true;
-      onChange(boolCheck);
-    }
-    return boolCheck;
-  }
-
   void searchTree(String text) {
+    List<TreeDonViDanhBA> listdf = listTreeDanhBa;
     final searchTxt = text.toLowerCase().vietNameseParse();
     bool isListCanBo(TreeDonViDanhBA tree) {
       return tree.tenDonVi.toLowerCase().vietNameseParse().contains(searchTxt);
@@ -441,7 +428,7 @@ extension treeDanhBa on DanhBaDienTuCubit {
     }
 
     final vlAfterSearch =
-        listTreeDanhBa.where((element) => isListCanBo(element)).toList();
+        listdf.where((element) => isListCanBo(element)).toList();
     try {
       if (vlAfterSearch.isNotEmpty) {
         for (var x = 0; x <= vlAfterSearch.length; x++) {

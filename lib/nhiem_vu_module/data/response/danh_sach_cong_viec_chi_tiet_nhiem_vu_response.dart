@@ -21,7 +21,7 @@ class DataDanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   });
 
   factory DataDanhSachCongViecChiTietNhiemVuModelResponse.fromJson(
-      Map<String, dynamic> json) =>
+          Map<String, dynamic> json) =>
       _$DataDanhSachCongViecChiTietNhiemVuModelResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
@@ -123,7 +123,6 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   @JsonKey(name: 'CoTheXoa')
   bool? coTheXoa;
 
-
   @JsonKey(name: 'NoiDung')
   String? noiDung;
   @JsonKey(name: 'VanBanLienQuan')
@@ -131,58 +130,57 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
   @JsonKey(name: 'FileDinhKems')
   List<FileDinhKemsResponse>? file;
 
-  DanhSachCongViecChiTietNhiemVuModelResponse({
-    this.stt,
-    this.id,
-    this.tenCv,
-    this.maCv,
-    this.trangThaiHanXuLy,
-    this.noiDungCongViec,
-    this.doiTuongThucHien,
-    this.donViThucHien,
-    this.donViThucHienId,
-    this.caNhanThucHien,
-    this.nguoiThucHienId,
-    this.nguoiThucHien,
-    this.hanXuLyFormatDate,
-    this.thoiGianGiaoFormatDate,
-    this.hanXuLy,
-    this.thoiGianGiaoViec,
-    this.nguoiGiaoViec,
-    this.donViGiaoViec,
-    this.donViGiaoViecId,
-    this.trangThai,
-    this.maTrangThai,
-    this.trangThaiId,
-    this.maNhiemVu,
-    this.nhiemVuId,
-    this.mucDoCongViecId,
-    this.mucDoCongViec,
-    this.noiDungNhiemVu,
-    this.nguoiTaoId,
-    this.nguoiTao,
-    this.currentDonVi,
-    this.actionDate,
-    this.congViecLienQuan,
-    this.isFromCaNhan,
-    this.wTrangThai,
-    this.coTheCapNhatTinhHinh,
-    this.coTheSua,
-    this.coTheHuy,
-    this.coTheGan,
-    this.coTheXoa,
-    this.nguoiXuLy,
-    this.donViXuLy,
-    this.thoiGian,
-    this.nguoiCapNhat,
-    this.donVi,
-    this.noiDung,
-    this.vanBanLienQuan,
-    this.file
-  });
+  DanhSachCongViecChiTietNhiemVuModelResponse(
+      {this.stt,
+      this.id,
+      this.tenCv,
+      this.maCv,
+      this.trangThaiHanXuLy,
+      this.noiDungCongViec,
+      this.doiTuongThucHien,
+      this.donViThucHien,
+      this.donViThucHienId,
+      this.caNhanThucHien,
+      this.nguoiThucHienId,
+      this.nguoiThucHien,
+      this.hanXuLyFormatDate,
+      this.thoiGianGiaoFormatDate,
+      this.hanXuLy,
+      this.thoiGianGiaoViec,
+      this.nguoiGiaoViec,
+      this.donViGiaoViec,
+      this.donViGiaoViecId,
+      this.trangThai,
+      this.maTrangThai,
+      this.trangThaiId,
+      this.maNhiemVu,
+      this.nhiemVuId,
+      this.mucDoCongViecId,
+      this.mucDoCongViec,
+      this.noiDungNhiemVu,
+      this.nguoiTaoId,
+      this.nguoiTao,
+      this.currentDonVi,
+      this.actionDate,
+      this.congViecLienQuan,
+      this.isFromCaNhan,
+      this.wTrangThai,
+      this.coTheCapNhatTinhHinh,
+      this.coTheSua,
+      this.coTheHuy,
+      this.coTheGan,
+      this.coTheXoa,
+      this.nguoiXuLy,
+      this.donViXuLy,
+      this.thoiGian,
+      this.nguoiCapNhat,
+      this.donVi,
+      this.noiDung,
+      this.vanBanLienQuan,
+      this.file});
 
   factory DanhSachCongViecChiTietNhiemVuModelResponse.fromJson(
-      Map<String, dynamic> json) =>
+          Map<String, dynamic> json) =>
       _$DanhSachCongViecChiTietNhiemVuModelResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
@@ -190,77 +188,86 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
 
   DanhSachCongViecChiTietNhiemVuModel toLichSuGiaoViec() =>
       DanhSachCongViecChiTietNhiemVuModel(
-
         nguoiGiaoViec: nguoiGiaoViec,
         donViGiaoViec: donViGiaoViec,
         thoiGianGiaoViec: thoiGian,
         nguoiThucHien: nguoiXuLy,
         donViThucHien: donViXuLy,
-
-
       );
+
   DanhSachCongViecChiTietNhiemVuModel toLichSuTDTT() =>
       DanhSachCongViecChiTietNhiemVuModel(
         nguoiGiaoViec: nguoiCapNhat,
         donViGiaoViec: donVi,
         thoiGianGiaoViec: thoiGian,
-        noiDungCongViec:noiDung,
+        noiDungCongViec: noiDung,
         vanBanLienQuan: vanBanLienQuan,
         trangThai: trangThai,
         file: file?.map((e) => e.toModel()).toList(),
-
       );
 
-    DanhSachCongViecChiTietNhiemVuModel toModel() =>
-    DanhSachCongViecChiTietNhiemVuModel(
-    stt: stt,
-    id: id,
-    tenCv: tenCv,
-    maCv: maCv,
-    trangThaiHanXuLy: trangThaiHanXuLy,
-    noiDungCongViec: noiDungCongViec,
-    doiTuongThucHien: doiTuongThucHien,
-    donViThucHien: donViThucHien,
-    donViThucHienId: donViThucHienId,
-    caNhanThucHien: caNhanThucHien,
-    nguoiThucHienId: nguoiThucHienId,
-    nguoiThucHien: nguoiThucHien,
-    hanXuLyFormatDate: hanXuLyFormatDate,
-    thoiGianGiaoFormatDate: thoiGianGiaoFormatDate,
-    hanXuLy: hanXuLy,
-    thoiGianGiaoViec: thoiGianGiaoViec,
-    nguoiGiaoViec: nguoiGiaoViec,
-    donViGiaoViec: donViGiaoViec,
-    donViGiaoViecId: donViGiaoViecId,
-    trangThai: trangThai,
-    maTrangThai: maTrangThai,
-    trangThaiId: trangThaiId,
-    maNhiemVu: maNhiemVu,
-    nhiemVuId: nhiemVuId,
-    mucDoCongViecId: mucDoCongViecId,
-    mucDoCongViec: mucDoCongViec,
-    noiDungNhiemVu: noiDungNhiemVu,
-    nguoiTaoId: nguoiTaoId,
-    nguoiTao: nguoiTao,
-    currentDonVi: currentDonVi,
-    actionDate: actionDate,
-    congViecLienQuan: congViecLienQuan,
-    isFromCaNhan: isFromCaNhan,
-    wTrangThai: wTrangThai,
-    coTheCapNhatTinhHinh: coTheCapNhatTinhHinh,
-    coTheSua: coTheSua,
-    coTheHuy: coTheHuy,
-    coTheGan: coTheGan,
-    coTheXoa: coTheXoa,
-    );
+  DanhSachCongViecChiTietNhiemVuModel toModel() =>
+      DanhSachCongViecChiTietNhiemVuModel(
+        stt: stt,
+        id: id,
+        tenCv: tenCv,
+        maCv: maCv,
+        trangThaiHanXuLy: trangThaiHanXuLy,
+        noiDungCongViec: noiDungCongViec,
+        doiTuongThucHien: doiTuongThucHien,
+        donViThucHien: donViThucHien,
+        donViThucHienId: donViThucHienId,
+        caNhanThucHien: caNhanThucHien,
+        nguoiThucHienId: nguoiThucHienId,
+        nguoiThucHien: nguoiThucHien,
+        hanXuLyFormatDate: hanXuLyFormatDate,
+        thoiGianGiaoFormatDate: thoiGianGiaoFormatDate,
+        hanXuLy: hanXuLy,
+        thoiGianGiaoViec: thoiGianGiaoViec,
+        nguoiGiaoViec: nguoiGiaoViec,
+        donViGiaoViec: donViGiaoViec,
+        donViGiaoViecId: donViGiaoViecId,
+        trangThai: trangThai,
+        maTrangThai: maTrangThai,
+        trangThaiId: trangThaiId,
+        maNhiemVu: maNhiemVu,
+        nhiemVuId: nhiemVuId,
+        mucDoCongViecId: mucDoCongViecId,
+        mucDoCongViec: mucDoCongViec,
+        noiDungNhiemVu: noiDungNhiemVu,
+        nguoiTaoId: nguoiTaoId,
+        nguoiTao: nguoiTao,
+        currentDonVi: currentDonVi,
+        actionDate: actionDate,
+        congViecLienQuan: congViecLienQuan,
+        isFromCaNhan: isFromCaNhan,
+        wTrangThai: wTrangThai,
+        coTheCapNhatTinhHinh: coTheCapNhatTinhHinh,
+        coTheSua: coTheSua,
+        coTheHuy: coTheHuy,
+        coTheGan: coTheGan,
+        coTheXoa: coTheXoa,
+      );
 
-    //todo convert to Model to use
-    @override
-    List<Object?
-    >
-    get
-    props
-    =>
-    [
-    ];
-  }
+  //todo convert to Model to use
+  @override
+  List<Object?> get props => [];
+}
+
+@JsonSerializable()
+class PostYKienResponse extends Equatable {
+  @JsonKey(name: 'IsSuccess')
+  bool? isSuccess;
+  @JsonKey(name: 'Data')
+  dynamic data;
+
+  PostYKienResponse(this.isSuccess,this.data,);
+
+  factory PostYKienResponse.fromJson(Map<String, dynamic> json) =>
+      _$PostYKienResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$PostYKienResponseToJson(this);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

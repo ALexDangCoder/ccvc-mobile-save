@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
@@ -100,5 +101,7 @@ mixin NhiemVuRepository {
   getLichSuThayDoiTrangThai(
       String nhiemVuId,
       );
+  Future<Result<String>> postYKienXuLy({ required Map<String,dynamic> map});
+  Future<Result<String>> postFile({ required List<File> path});
 
 }

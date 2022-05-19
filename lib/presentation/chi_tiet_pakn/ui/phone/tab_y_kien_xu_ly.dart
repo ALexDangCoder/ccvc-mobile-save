@@ -55,33 +55,42 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
 
   void addDataListPick(Map<String, dynamic> mediaMap, PickImage pickImage) {
     if (mediaMap.getStringValue(NAME_OF_FILE).isNotEmpty) {
-      final _path = mediaMap.getStringValue(PATH_OF_FILE);
-      final _name = mediaMap.getStringValue(NAME_OF_FILE);
-      final _size = mediaMap.intValue(SIZE_OF_FILE);
       final _extensionName = mediaMap.getStringValue(EXTENSION_OF_FILE);
-      final fileMy = mediaMap.getFileValue(FILE_RESULT);
-      widget.cubit.listFileMain.addAll(fileMy);
-      if (pickImage == PickImage.PICK_MAIN) {
-        widget.cubit.listPickFileMain.add(
-          PickImageFileModel(
-            path: _path,
-            name: _name,
-            extension: _extensionName,
-            size: _size,
-          ),
+      if (_extensionName == 'VIDEO' ||
+          _extensionName == 'MP3' ||
+          _extensionName == 'MP4' ||
+          _extensionName == 'GIF') {
+        MessageConfig.show(
+          title: S.current.file_khong_hop_le,
+          messState: MessState.error,
         );
       } else {
-        // _listYkien.add(
-        //   PickImageFileModel(
-        //     path: _path,
-        //     name: _name,
-        //     extension: _extensionName,
-        //     size: _size,
-        //   ),
-        // );
+        final _path = mediaMap.getStringValue(PATH_OF_FILE);
+        final _name = mediaMap.getStringValue(NAME_OF_FILE);
+        final _size = mediaMap.intValue(SIZE_OF_FILE);
+        final fileMy = mediaMap.getFileValue(FILE_RESULT);
+        widget.cubit.listFileMain.addAll(fileMy);
+        if (pickImage == PickImage.PICK_MAIN) {
+          widget.cubit.listPickFileMain.add(
+            PickImageFileModel(
+              path: _path,
+              name: _name,
+              extension: _extensionName,
+              size: _size,
+            ),
+          );
+        } else {
+          // _listYkien.add(
+          //   PickImageFileModel(
+          //     path: _path,
+          //     name: _name,
+          //     extension: _extensionName,
+          //     size: _size,
+          //   ),
+          // );
+        }
+        setState(() {});
       }
-
-      setState(() {});
     }
   }
 
@@ -152,8 +161,8 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                             indexMain: index,
                             file: cubit.listYKienXuLy[index].dSFile ?? '',
                             isViewData:
-                                cubit.listYKienXuLy[index].dSFile?.isNotEmpty ??
-                                    false,
+                            cubit.listYKienXuLy[index].dSFile?.isNotEmpty ??
+                                false,
                             noiDung: cubit.listYKienXuLy[index].noiDung ?? '',
                           );
                         },
@@ -181,6 +190,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
     // //FocusScope.of(context).requestFocus(_nodeYkien);//todo
     //setState(() {});
   }
+
   Widget _itemViewDetail({
     required double sizeImage,
     List<YKienModel>? list,
@@ -204,8 +214,8 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
         top: isBorder
             ? 16
             : index == 0
-                ? 16
-                : 8,
+            ? 16
+            : 8,
         left: 16,
         right: isBorder ? 16 : 0,
         bottom: isBorder ? 16 : 8,
@@ -283,17 +293,16 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
               color: AppTheme.getInstance().titleColor(),
             ), //infoColor
           ),
+          if (isViewData) spaceH10,
           if (isViewData)
-          spaceH10,
-          if (isViewData)
-          Text(
-            S.current.van_ban_dinh_kem,
-            style: textNormalCustom(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: AppTheme.getInstance().titleColor(),
-            ), //infoColor
-          ),
+            Text(
+              S.current.van_ban_dinh_kem,
+              style: textNormalCustom(
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                color: AppTheme.getInstance().titleColor(),
+              ), //infoColor
+            ),
           spaceH6,
           Row(
             children: [
@@ -400,9 +409,9 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                         ),
                         child: TextFormField(
                           controller:
-                              //isMain
-                              //?
-                              _nhapYMainController,
+                          //isMain
+                          //?
+                          _nhapYMainController,
                           onChanged: (value) {
                             if (value.trim().isNotEmpty) {
                               widget.cubit.validateNhapYkien.add('');
@@ -439,10 +448,10 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    final Map<String, dynamic> mediaMap =
-                                        await pickImage(fromCamera: true);
+                                    final Map<String, dynamic> mediaMapImage =
+                                    await pickImage(fromCamera: true);
                                     addDataListPick(
-                                      mediaMap,
+                                      mediaMapImage,
                                       isMain
                                           ? PickImage.PICK_MAIN
                                           : PickImage.PICK_Y_KIEN,
@@ -459,7 +468,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                                 GestureDetector(
                                   onTap: () async {
                                     final Map<String, dynamic> mediaMap =
-                                        await pickFile();
+                                    await pickFile();
                                     addDataListPick(
                                       mediaMap,
                                       isMain
@@ -487,12 +496,12 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                           children: list
                               .map(
                                 (i) => _itemPick(
-                                  i,
-                                  isMain
-                                      ? PickImage.PICK_MAIN
-                                      : PickImage.PICK_Y_KIEN,
-                                ),
-                              )
+                              i,
+                              isMain
+                                  ? PickImage.PICK_MAIN
+                                  : PickImage.PICK_Y_KIEN,
+                            ),
+                          )
                               .toList(),
                         )
                       else
@@ -510,7 +519,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                   }
                   if (_nhapYMainController.text.trim().isNotEmpty) {
                     for (final PickImageFileModel value
-                        in widget.cubit.listPickFileMain) {
+                    in widget.cubit.listPickFileMain) {
                       widget.cubit.size += value.size ?? 0;
                     }
                     if (widget.cubit.size / widget.cubit.byteToMb > 30) {
@@ -545,7 +554,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                     //todo
                     if (widget.cubit.listPickFileMain.isNotEmpty) {
                       for (final PickImageFileModel value
-                          in widget.cubit.listPickFileMain) {
+                      in widget.cubit.listPickFileMain) {
                         widget.cubit.size += value.size ?? 0;
                       }
                       if (widget.cubit.size / widget.cubit.byteToMb > 30) {
@@ -595,22 +604,22 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
           builder: (context, snapshot) {
             return snapshot.data?.isNotEmpty ?? false
                 ? Padding(
-                    padding: EdgeInsets.only(
-                      left: isMain ? 16.0 : 0,
-                      bottom: isMain ? 12.0 : 0,
-                    ),
-                    child: Text(
-                      snapshot.data.toString(),
-                      style: textNormalCustom(
-                        color: Colors.red,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  )
+              padding: EdgeInsets.only(
+                left: isMain ? 16.0 : 0,
+                bottom: isMain ? 12.0 : 0,
+              ),
+              child: Text(
+                snapshot.data.toString(),
+                style: textNormalCustom(
+                  color: Colors.red,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            )
                 : const SizedBox(
-                    height: 12,
-                  );
+              height: 12,
+            );
           },
         ),
       ],
@@ -618,9 +627,9 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
   }
 
   Widget _itemPick(
-    PickImageFileModel objPick,
-    PickImage pickImage,
-  ) {
+      PickImageFileModel objPick,
+      PickImage pickImage,
+      ) {
     return Column(
       children: [
         Container(
@@ -656,8 +665,8 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                     setState(() {
                       if (pickImage == PickImage.PICK_MAIN) {
                         for (int i = 0;
-                            i < widget.cubit.listPickFileMain.length;
-                            i++) {
+                        i < widget.cubit.listPickFileMain.length;
+                        i++) {
                           if (objPick == widget.cubit.listPickFileMain[i]) {
                             widget.cubit.listFileMain.removeAt(i);
                           }

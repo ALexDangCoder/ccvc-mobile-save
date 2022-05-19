@@ -1,6 +1,6 @@
 class ChuyenVBThanhGiongModel {
   String? audio_url;
-  String? code;
+  int? code;
   String? create_time;
   String? id;
   String? message;

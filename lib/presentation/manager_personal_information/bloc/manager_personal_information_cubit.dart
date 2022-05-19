@@ -182,7 +182,7 @@ class ManagerPersonalInformationCubit
     );
   }
 
-  Future<void> getEditPerson({
+  Future<bool> getEditPerson({
     String id = '',
     String maCanBo = '',
     String name = '',
@@ -246,6 +246,7 @@ class ManagerPersonalInformationCubit
       userAccounts: editPersonInformationRequest.userAccounts,
       lsCanBoKiemNhiemResponse: [],
     );
+    bool isCheck = true;
     final result = await _managerRepo.getEditPerson(editPerson);
     result.when(
       success: (res) {
@@ -254,14 +255,17 @@ class ManagerPersonalInformationCubit
         MessageConfig.show(
           title: S.current.thay_doi_thanh_cong,
         );
+        isCheck = true;
       },
       error: (error) {
         MessageConfig.show(
           title: S.current.thay_doi_that_bai,
           messState: MessState.error,
         );
+        isCheck = false;
       },
     );
+    return isCheck;
   }
 
   //

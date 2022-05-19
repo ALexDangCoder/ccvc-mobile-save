@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/sua_danh_sach_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/them_danh_ba_ca_nhan_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
-import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_to_chuc_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/danh_ba_dien_tu_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_state.dart';
@@ -16,6 +15,7 @@ import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -38,6 +38,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 
   ////////////////////////////////////////////////////////////////////////
   DanhBaDienTuRepository get tienIchRep => Get.find();
+  String times = DateTime.now().toString();
   int page = 1;
   int totalPage = 1;
   int pageSize = 10;
@@ -96,26 +97,6 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       pageIndex: pageIndex,
       pageSize: pageSize,
       keyword: keyword,
-    );
-  }
-
-  void callApi() {
-    postDanhSach(
-      hoTen: hoTen,
-      phoneDiDong: phoneDiDong,
-      phoneCoQuan: phoneCoQuan,
-      phoneNhaRieng: phoneNhaRieng,
-      email: email,
-      gioiTinh: gioiTinh,
-      ngaySinh: ngaySinh,
-      cmtnd: cmtnd,
-      anhDaiDienFilePath: anhDaiDienFilePath,
-      anhChuKyFilePath: anhChuKyFilePath,
-      anhChuKyNhayFilePath: anhChuKyNhayFilePath,
-      diaChi: diaChi,
-      isDeleted: isDeleted,
-      thuTu: thuTu ?? 0,
-      groupIds: groupIds ?? [],
     );
   }
 
@@ -241,7 +222,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     );
   }
 
-  Future<void> postDanhSach({
+  Future<bool> postDanhSach({
     required String hoTen,
     required String phoneDiDong,
     required String phoneCoQuan,
@@ -258,6 +239,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     required int thuTu,
     required List<String> groupIds,
   }) async {
+    bool isCheck = true;
     final ThemDanhBaCaNhanRequest themDanhBaCaNhanRequest =
         ThemDanhBaCaNhanRequest(
       hoTen: hoTen,
@@ -280,14 +262,23 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         callApiDanhSach();
+        MessageConfig.show(
+          title: S.current.them_danh_ba_ca_nhan_thanh_cong,
+        );
+        isCheck = true;
       },
       error: (error) {
-        showError();
+        MessageConfig.show(
+          title: S.current.them_danh_ba_ca_nhan_khong_thanh_cong,
+          messState: MessState.error,
+        );
+        isCheck = false;
       },
     );
+    return isCheck;
   }
 
-  Future<void> suaDanhSach({
+  Future<bool> suaDanhSach({
     required String groups,
     required String hoTen,
     required String phoneDiDong,
@@ -309,6 +300,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     required String updatedBy,
     required String id,
   }) async {
+    bool isCheckSuccess = true;
     final SuaDanhBaCaNhanRequest suaDanhBaCaNhanRequest =
         SuaDanhBaCaNhanRequest(
       groups: groups,
@@ -336,25 +328,40 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         callApiDanhSach();
+        MessageConfig.show(
+          title: S.current.thay_doi_thanh_cong,
+        );
+        isCheckSuccess = true;
       },
       error: (error) {
-        showError();
+        MessageConfig.show(
+            title: S.current.thay_doi_that_bai, messState: MessState.error);
+        isCheckSuccess = false;
       },
     );
+    return isCheckSuccess;
   }
 
-  Future<void> xoaDanhBa({
+  Future<bool> xoaDanhBa({
     required String id,
   }) async {
+    bool isCheckSuccess = true;
     final result = await tienIchRep.xoaDanhBa(id);
     result.when(
       success: (res) {
         callApiDanhSach();
+        MessageConfig.show(
+          title: S.current.xoa_thanh_cong,
+        );
+        isCheckSuccess = true;
       },
       error: (error) {
-        showError();
+        MessageConfig.show(
+            title: S.current.xoa_that_bai, messState: MessState.error);
+        isCheckSuccess = false;
       },
     );
+    return isCheckSuccess;
   }
 
   void searchAllDanhSach(String values) {

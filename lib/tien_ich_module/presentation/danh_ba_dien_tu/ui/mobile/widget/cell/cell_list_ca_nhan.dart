@@ -159,7 +159,11 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                           btnLeftTxt: S.current.huy,
                           btnRightTxt: S.current.xoa,
                           funcBtnRight: () {
-                            widget.cubit.xoaDanhBa(id: widget.item.id ?? '');
+                            widget.cubit
+                                .xoaDanhBa(id: widget.item.id ?? '')
+                                .then((value) {
+                              Navigator.pop(context, true);
+                            });
                           },
                           textContent: S.current.content_xoa_danh_ba,
                         );
@@ -312,7 +316,11 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                           btnLeftTxt: S.current.huy,
                           btnRightTxt: S.current.xoa,
                           funcBtnRight: () {
-                            widget.cubit.xoaDanhBa(id: widget.item.id ?? '');
+                            widget.cubit
+                                .xoaDanhBa(id: widget.item.id ?? '')
+                                .then((value) {
+                              Navigator.pop(context, true);
+                            });
                           },
                           textContent: S.current.content_xoa_danh_ba,
                         );

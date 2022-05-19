@@ -478,7 +478,8 @@ class _EditPersonalInformationScreen
                         },
                         onPressed2: () async {
                           if (keyGroup.currentState?.validator() ?? true) {
-                            await cubit.getEditPerson(
+                            await cubit
+                                .getEditPerson(
                               id: widget.id,
                               maCanBo: maCanBoController.value.text,
                               name: nameController.value.text,
@@ -498,8 +499,12 @@ class _EditPersonalInformationScreen
                               idTinh: cubit.idTinh,
                               idHuyen: cubit.idHuyen,
                               idXa: cubit.idXa,
-                            );
-                            Navigator.pop(context, true);
+                            )
+                                .then((value) {
+                              if (value) {
+                                Navigator.pop(context, true);
+                              }
+                            });
                           } else {
                             return;
                           }

@@ -99,12 +99,8 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
                   crossAxisSpacing: 10,
                   children: List.generate(widget.chartData.length, (index) {
                     final result =widget. chartData[index];
-                    // ignore: avoid_unnecessary_containers
                     return GestureDetector(
                       onTap: () {
-                        // if (widget.ontap != null) {
-                        //   widget.ontap.!(index);
-                        // } else {}
                       },
                       child: Row(
                         children: [

@@ -63,9 +63,6 @@ class _BieuDoTrangThaiTheoLoaiMobileState extends State<BieuDoTrangThaiTheoLoaiM
                   final result =widget.chartData[index];
                   return GestureDetector(
                     onTap: () {
-                      // if (widget.ontap != null) {
-                      //   widget.ontap.!(index);
-                      // } else {}
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
@@ -99,51 +96,6 @@ class _BieuDoTrangThaiTheoLoaiMobileState extends State<BieuDoTrangThaiTheoLoaiM
                   );
                 },
               ),
-              // GridView.count(
-              //   shrinkWrap: true,
-              //   physics: const NeverScrollableScrollPhysics(),
-              //   crossAxisCount: 2,
-              //   childAspectRatio: 9,
-              //   mainAxisSpacing: 10.0.textScale(space: 4),
-              //   crossAxisSpacing: 10,
-              //   children: List.generate(widget.chartData.length, (index) {
-              //     final result =widget. chartData[index];
-              //     // ignore: avoid_unnecessary_containers
-              //     return GestureDetector(
-              //       onTap: () {
-              //         // if (widget.ontap != null) {
-              //         //   widget.ontap.!(index);
-              //         // } else {}
-              //       },
-              //       child: Row(
-              //         children: [
-              //           Container(
-              //             height: 14,
-              //             width: 14,
-              //             decoration: BoxDecoration(
-              //               color: result.color,
-              //               shape: BoxShape.circle,
-              //             ),
-              //           ),
-              //           const SizedBox(
-              //             width: 12,
-              //           ),
-              //           Flexible(
-              //             child: FittedBox(
-              //               child: Text(
-              //                 '${result.title} (${result.value.toInt()})',
-              //                 style: textNormal(
-              //                   infoColor,
-              //                   14.0.textScale(),
-              //                 ),
-              //               ),
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     );
-              //   }),
-              // ),
             ],
           )),
         ],

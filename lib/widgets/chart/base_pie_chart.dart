@@ -42,10 +42,11 @@ class PieChart extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   title,
-                  style: tittleStyle ?? textNormalCustom(
-                    color: infoColor,
-                    fontSize: 16,
-                  ),
+                  style: tittleStyle ??
+                      textNormalCustom(
+                        color: infoColor,
+                        fontSize: 16,
+                      ),
                 ),
               ),
             ),
@@ -70,6 +71,7 @@ class PieChart extends StatelessWidget {
                         innerRadius: '45',
                         dataSource: chartData,
                         pointColorMapper: (ChartData data, _) => data.color,
+                        pointRadiusMapper: (ChartData data, _) => data.size,
                         xValueMapper: (ChartData data, _) => data.title,
                         yValueMapper: (ChartData data, _) => data.value,
                         dataLabelMapper: (ChartData data, _) =>
@@ -161,9 +163,10 @@ class PieChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData(this.title, this.value, this.color);
+  ChartData(this.title, this.value, this.color, {this.size});
 
   final String title;
   final double value;
   final Color color;
+  final String? size;
 }

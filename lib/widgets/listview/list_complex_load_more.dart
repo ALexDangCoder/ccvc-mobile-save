@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/loading_loadmore.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -136,13 +137,13 @@ class ComplexLoadMore extends StatelessWidget {
                                     : MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20.0, horizontal: 16.0),
+                                    padding:  EdgeInsets.symmetric(
+                                        vertical: 20.0, horizontal: 16.0.textScale(space: 14.0)),
                                     child: Text(
                                       S.current.danh_sach_nhiem_vu,
                                       style: textNormalCustom(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 16,
+                                        fontSize: 16.0.textScale(space: 4.0),
                                         color: textDropDownColor,
                                       ),
                                     ),
@@ -175,7 +176,7 @@ class ComplexLoadMore extends StatelessWidget {
                                       Text(
                                         S.current.khong_co_thong_tin_nhiem_vu,
                                         style: textNormalCustom(
-                                            fontSize: 16.0, color: grayChart),
+                                            fontSize: 16.0.textScale(space: 4.0), color: grayChart),
                                       ),
                                       const SizedBox(
                                         height: 10.0,

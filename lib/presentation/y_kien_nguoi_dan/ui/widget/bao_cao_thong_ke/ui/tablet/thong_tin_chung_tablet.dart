@@ -2,7 +2,9 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/tablet/widgets/filter_date_tablet.dart';
@@ -11,6 +13,7 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_wid
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/screen_controller.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +104,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                         ),
                         child: Row(
                           children: [
+                            //todo: filterDataTime222222
                             FilterDateTablet(
                               onChooseDateFilter:
                                   (DateTime startDate, DateTime endDate) {},
@@ -112,8 +116,22 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                             Expanded(
                               flex: 4,
                               child: TextField(
-                                onChanged: (text) {
-
+                                onChanged: (searchText) {
+                                  if (searchText.isEmpty) {
+                                    setState(() {});
+                                    widget.cubit.showCleanText = false;
+                                    widget.cubit.tuKhoa='';
+                                    widget.cubit.clearDSPAKN();
+                                    widget.cubit.getDanhSachPAKN(isSearch:true);
+                                  }else {
+                                    widget.cubit.debouncer.run(() {
+                                      setState(() {});
+                                      widget.cubit.tuKhoa=searchText;
+                                      widget.cubit.clearDSPAKN();
+                                      widget.cubit.getDanhSachPAKN(isSearch:true);
+                                      widget.cubit.showCleanText = true;
+                                    });
+                                  }
                                 },
                                 onSubmitted: (text) {
 
@@ -192,11 +210,249 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                         ],
                       ),
                     ),
+                    spaceH20,
+                    StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
+                      stream: widget.cubit.listDanhSachKetQuaPakn.stream,
+                      initialData: const [],
+                      builder: (context, snapShot) {
+                        final data = snapShot.data ?? [];
+                        if (data.isEmpty) {
+                          widget.cubit.isEmptyData = true;
+                          return Center(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                                  child: Text(
+                                    S.current.danh_sach_pakn,
+                                    style: textNormalCustom(
+                                      color: textTitle,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                SvgPicture.asset(
+                                  ImageAssets.icNoDataNhiemVu,
+                                ),
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                Text(
+                                  S.current.khong_co_thong_tin_pakn,
+                                  style: textNormalCustom(
+                                      fontSize: 16.0, color: grayChart),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  S.current.danh_sach_pakn,
+                                  style: textNormalCustom(
+                                    color: textTitle,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return _itemDanhSachPAKN(
+                                      dsKetQuaPakn: data[index]);
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
           )),
     );
+  }
+  Widget _itemDanhSachPAKN({required DanhSachKetQuaPAKNModel dsKetQuaPakn}) {
+    return InkWell(
+      onTap: () {
+        goTo(
+          context,
+          ChiTietPKAN(
+            iD: dsKetQuaPakn.id ?? '',
+            taskID: dsKetQuaPakn.taskId ?? '',
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 18,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+          border: Border.all(color: cellColorborder),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              dsKetQuaPakn.tieuDe ?? '',
+              style: textNormalCustom(
+                color: textTitle,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            spaceH8,
+            Row(
+              children: [
+                Expanded(
+                  child: SvgPicture.asset(
+                    ImageAssets.icInformation,
+                    height: 16,
+                    width: 16,
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    'Số: ${dsKetQuaPakn.soPAKN}',
+                    style: textNormalCustom(
+                      color: infoColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            spaceH8,
+            Row(
+              children: [
+                Expanded(
+                  child: SvgPicture.asset(
+                    ImageAssets.icLocation,
+                    height: 16,
+                    width: 16,
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    '${S.current.ten_ca_nhan_tc}: ${dsKetQuaPakn.donViGuiYeuCau ?? 'trống'}',
+                    style: textNormalCustom(
+                      color: infoColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            spaceH8,
+            Row(
+              children: [
+                Expanded(
+                  child: SvgPicture.asset(
+                    ImageAssets.icTimeH,
+                    height: 16,
+                    width: 16,
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
+                    style: textNormalCustom(
+                      color: infoColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            spaceH10,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        statusTrangThai(dsKetQuaPakn.trangThai ?? 1).text,
+                        style: textNormalCustom(
+                          color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1)
+                              .color,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 3,
+                          horizontal: 15,
+                        ),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          color: choXuLyColor,
+                        ),
+                        child: Text(
+                          dsKetQuaPakn.trangThaiText ?? '',
+                          style: textNormalCustom(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+  TextTrangThai statusTrangThai(int trangThai) {
+    switch (trangThai) {
+      case YKienNguoiDanCubitt.TRONGHAN:
+        {
+          return TextTrangThai(S.current.trong_han, choTrinhKyColor);
+        }
+      case YKienNguoiDanCubitt.DENHAN:
+        {
+          return TextTrangThai(S.current.den_han, choVaoSoColor);
+        }
+      default:
+      //QUA HAN
+        return TextTrangThai(S.current.qua_han, statusCalenderRed);
+    }
   }
 }

@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -42,6 +43,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   bool isCheck = false;
   late String startDate;
   late String endDate;
+  DateTime initStartDate=DateTime.now();
   String donViId = '';
   String userId = '';
   String trangThai = '';
@@ -52,6 +54,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   bool canLoadMoreList = true;
   bool refresh = false;
   bool isSearching = false;
+  String tuKhoa='';
+  Debouncer debouncer = Debouncer();
+  bool isEmptyData=false;
 
   static const int TRONGHAN = 1;
   static const int DENHAN = 2;
@@ -380,11 +385,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       BehaviorSubject();
 
   Future<void> getDanhSachPAKN({
-    String? tuKhoa,
+    // String? tuKhoa,
     bool isSearch = false,
   }) async {
     if (isSearch) {
-      pageNumberDSPAKN = 1;
+      print('------------------------  o day-------------------------');
+      clearDSPAKN();
     }
     showLoading();
     final result = await _YKNDRepo.getDanhSachPAKN(
@@ -394,7 +400,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       pageSize: pageSizeDSPAKN.toString(),
       pageNumber: pageNumberDSPAKN.toString(),
       userId: userId,
-      tuKhoa: tuKhoa ?? '',
+      tuKhoa: tuKhoa,
     );
 
     ///muốn test mở đoạn này ra
@@ -408,15 +414,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     // );
     result.when(
       success: (success) {
-        if (isSearch) {
-          listDanhSachKetQuaPakn.value.clear();
-          if (listDanhSachKetQuaPakn.hasValue) {
-            listDanhSachKetQuaPakn.sink
-                .add(listDanhSachKetQuaPakn.value + success);
-          } else {
-            listDanhSachKetQuaPakn.sink.add(success);
-          }
-        } else {}
         if (listDanhSachKetQuaPakn.hasValue) {
           listDanhSachKetQuaPakn.sink
               .add(listDanhSachKetQuaPakn.value + success);
@@ -663,6 +660,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   void initTimeRange() {
     final DateTime date = DateTime.now();
+    initStartDate =
+        DateTime(date.year, date.month, date.day - 30);
     startDate =
         DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;

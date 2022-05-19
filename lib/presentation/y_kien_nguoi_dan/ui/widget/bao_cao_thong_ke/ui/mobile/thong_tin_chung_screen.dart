@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
@@ -39,7 +38,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
-    widget.cubit.callApi();
+    //  widget.cubit.callApi();
     widget.cubit.getDanhSachPAKN();
   }
 
@@ -87,6 +86,10 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                               ? GestureDetector(
                                   onTap: () {
                                     controller.clear();
+                                    widget.cubit.tuKhoa = '';
+                                    widget.cubit.clearDSPAKN();
+                                    widget.cubit
+                                        .getDanhSachPAKN(isSearch: true);
                                     widget.cubit.showCleanText = false;
                                     setState(() {});
                                   },
@@ -104,13 +107,20 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                           ),
                         ),
                         onChanged: (searchText) {
-                          widget.cubit.getDanhSachPAKN(tuKhoa: searchText,isSearch:true);
                           if (searchText.isEmpty) {
                             setState(() {});
                             widget.cubit.showCleanText = false;
-                          }else {
-                            setState(() {});
-                            widget.cubit.showCleanText = true;
+                            widget.cubit.tuKhoa = '';
+                            widget.cubit.clearDSPAKN();
+                            widget.cubit.getDanhSachPAKN(isSearch: true);
+                          } else {
+                            widget.cubit.debouncer.run(() {
+                              setState(() {});
+                              widget.cubit.tuKhoa = searchText;
+                              widget.cubit.clearDSPAKN();
+                              widget.cubit.getDanhSachPAKN(isSearch: true);
+                              widget.cubit.showCleanText = true;
+                            });
                           }
                         },
                         onSubmitted: (searchText) {},
@@ -180,7 +190,8 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FilterDateTimeWidget(
-                  currentStartDate: widget.cubit.startDate,
+                  initStartDate: widget.cubit.initStartDate,
+                  // currentStartDate: widget.cubit.startDate,
                   context: context,
                   isMobile: true,
                   onChooseDateFilter: (DateTime startDate, DateTime endDate) {
@@ -200,6 +211,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
+                        SizedBox(
+                          height: 20,
+                        ),
                         TiepCanWidget(),
                         SizedBox(
                           height: 33,
@@ -217,38 +231,73 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   height: 6,
                 ),
                 spaceH20,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    S.current.danh_sach_pakn,
-                    style: textNormalCustom(
-                      color: textTitle,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
                 StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
                   stream: widget.cubit.listDanhSachKetQuaPakn.stream,
                   initialData: const [],
                   builder: (context, snapShot) {
                     final data = snapShot.data ?? [];
                     if (data.isEmpty) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 20,
+                      widget.cubit.isEmptyData = true;
+                      return Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                S.current.danh_sach_pakn,
+                                style: textNormalCustom(
+                                  color: textTitle,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            SvgPicture.asset(
+                              ImageAssets.icNoDataNhiemVu,
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            Text(
+                              S.current.khong_co_thong_tin_pakn,
+                              style: textNormalCustom(
+                                  fontSize: 16.0, color: grayChart),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                          ],
                         ),
-                        child: const NodataWidget(),
                       );
                     } else {
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return _itemDanhSachPAKN(dsKetQuaPakn: data[index]);
-                        },
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              S.current.danh_sach_pakn,
+                              style: textNormalCustom(
+                                color: textTitle,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              return _itemDanhSachPAKN(
+                                  dsKetQuaPakn: data[index]);
+                            },
+                          ),
+                        ],
                       );
                     }
                   },

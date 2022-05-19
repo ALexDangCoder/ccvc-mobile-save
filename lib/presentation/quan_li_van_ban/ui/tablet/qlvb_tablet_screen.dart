@@ -9,13 +9,8 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/cont
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
-import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
-import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/imcoming_document_screen_dashboard_tablet.dart';
-import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/incoming_document_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/common_infor_tablet.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/list_vb_den.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
@@ -170,7 +165,10 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                     return CommonInformationMobile(
                       chartData: qlvbCubit.chartDataVbDen,
                       documentDashboardModel: dataVBDen,
-                      ontap: (value) {},
+                      onPieTap: (value) {
+                        qlvbCubit.documentInStatusCode = value;
+                        qlvbCubit.listDataDanhSachVBDen();
+                      },
                     );
                   },
                 ),
@@ -276,12 +274,11 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
               child: StreamBuilder<DocumentDashboardModel>(
                 stream: qlvbCubit.getVbDi,
                 builder: (context, snapshot) {
-                  final dataVBDi = snapshot.data ?? DocumentDashboardModel();
                   return Container(
                     padding: const EdgeInsets.all(16.0),
                     child: CommonInformationMobile(
                       chartData: qlvbCubit.chartDataVbDi,
-                      ontap: (value) {},
+                      onPieTap: (value) {},
                     ),
                   );
                 },

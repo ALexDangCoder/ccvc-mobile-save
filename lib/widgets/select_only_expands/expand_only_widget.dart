@@ -36,15 +36,13 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
   void initState() {
     super.initState();
     prepareAnimations();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      groupProvider = GroupProvider.of(context);
+      findGroupExpanded();
+    });
   }
 
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    groupProvider = GroupProvider.of(context);
-    findGroupExpanded();
-  }
+
 
   void findGroupExpanded() {
     if (groupProvider != null) {

@@ -238,14 +238,8 @@ class _NodeWidgetState extends State<NodeWidget> {
                                     if (widget.node?.value.iD_DonVi_Cha != '')
                                       widget.node?.isHasChild ?? false
                                           ? isExpand
-                                              ? const Icon(
-                                                  Icons.keyboard_arrow_up,
-                                                  color: Color(0xFFA2AEBD),
-                                                )
-                                              : const Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  color: Color(0xFFA2AEBD),
-                                                )
+                                              ? iconUp()
+                                              : iconDown()
                                           : const SizedBox(),
                                   ],
                                 )
@@ -303,4 +297,14 @@ class _NodeWidgetState extends State<NodeWidget> {
       },
     );
   }
+
+  Widget iconUp() => const Icon(
+        Icons.keyboard_arrow_up,
+        color: AqiColor,
+      );
+
+  Widget iconDown() => const Icon(
+        Icons.keyboard_arrow_down,
+        color: AqiColor,
+      );
 }

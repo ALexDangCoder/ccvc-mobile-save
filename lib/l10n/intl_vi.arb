@@ -939,6 +939,9 @@
   "ban_co_muon_xoa_thong_bao" : "Bạn có muốn xóa thông báo?",
   "doc_tat_ca" : "Đọc tất cả",
   "danh_dau_tat_ca_da_doc" : "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
+  "theo_trang_thai": "Theo trạng thái",
+  "theo_loai": "Theo loại",
+  "theo_don_vi": "Theo đơn vị",
   "nguoi_tao" : "Người tạo",
   "giong_noi" : "Giọng nói",
   "copy_success": "Copy thành công",
@@ -957,7 +960,8 @@
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
   "danh_sach_pakn": "Danh sách PAKN",
-  "khong_co_thong_tin_pakn": "Không có thông tin Pakn"
+  "khong_co_thong_tin_pakn": "Không có thông tin Pakn",
+  "file_khong_hop_le": "File không hợp lệ!"
 }
 
 

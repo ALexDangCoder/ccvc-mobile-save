@@ -69,6 +69,8 @@ class _PlayRadioState extends State<PlayRadio> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       widget.player.stop();
+    } else {
+      widget.player.play();
     }
   }
 
@@ -140,6 +142,7 @@ class SeekBar extends StatefulWidget {
 
 class _SeekBarState extends State<SeekBar> {
   int count = 0;
+
   @override
   void initState() {
     super.initState();
@@ -179,7 +182,7 @@ class _SeekBarState extends State<SeekBar> {
       count++;
       if (count == 3) {
         widget.onChangeEnd();
-        count=0;
+        count = 0;
       }
     }
   }

@@ -674,4 +674,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       userId = dataUser.userId ?? '';
     }
   }
+
+  void dispose() {
+    listDanhSachKetQuaPakn.value.clear();
+  }
 }

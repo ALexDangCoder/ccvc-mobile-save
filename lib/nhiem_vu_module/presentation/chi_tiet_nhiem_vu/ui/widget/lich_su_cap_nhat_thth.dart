@@ -16,18 +16,23 @@ class LichSuCapNhatTHTHWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (dataModel.isNotEmpty) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(left: 16,right: 16),
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: dataModel
-              .map(
-                (e) => WidgetInExpand(
-              row: e.listLSCNTHTH(),
-              cubit: cubit,
-            ),
-          )
-              .toList(),
+      return RefreshIndicator(
+        onRefresh: () async {
+          await cubit.getLichSuCapNhatThth(cubit.idNhiemVu);
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 16,right: 16),
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: dataModel
+                .map(
+                  (e) => WidgetInExpand(
+                row: e.listLSCNTHTH(),
+                cubit: cubit,
+              ),
+            )
+                .toList(),
+          ),
         ),
       );
     } else {

@@ -18,7 +18,10 @@ class DanhSachCongViecWidget extends StatelessWidget {
     if (dataModel.isNotEmpty) {
       return RefreshIndicator(
         onRefresh: () async {
-
+          await cubit.getDanhSachCongViecChiTietNhiemVu(
+            cubit.idNhiemVu,
+            false,
+          );
         },
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(

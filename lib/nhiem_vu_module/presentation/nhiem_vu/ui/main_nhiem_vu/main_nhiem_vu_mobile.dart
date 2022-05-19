@@ -48,10 +48,7 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
           title = S.current.bao_cao_thong_ke;
         }
 
-        return StreamBuilder<bool>(
-          stream: danhSachCubit.checkClickSearch,
-          builder: (context, snapshot) {
-            return  BlocBuilder<NhiemVuCubit, NhiemVuState>(
+        return BlocBuilder<NhiemVuCubit, NhiemVuState>(
                 bloc: cubit,
                 builder: (context, state) {
                   if (state is NhiemVuCaNhan) {
@@ -75,8 +72,6 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
                 },
 
             );
-          }
-        );
       },
     );
   }

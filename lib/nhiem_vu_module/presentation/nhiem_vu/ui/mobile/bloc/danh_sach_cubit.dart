@@ -7,8 +7,10 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_requ
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/trang_thai_bieu_do_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_state.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/item_select_bieu_do.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
@@ -28,7 +30,33 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<List<PageData>> dataSubject = BehaviorSubject();
   BehaviorSubject<List<PageDatas>> dataSubjects = BehaviorSubject();
   BehaviorSubject<String> searchSubjects = BehaviorSubject();
-  BehaviorSubject<bool> checkClickSearch=BehaviorSubject();
+
+
+  final BehaviorSubject<List<ItemSellectBieuDo>> selectBieuDoModelSubject =
+  BehaviorSubject.seeded([
+    ItemSellectBieuDo(
+        stateBieuDo.TheoTrangThai,
+        true
+    ),
+    ItemSellectBieuDo(
+        stateBieuDo.TheoLoai,
+        false
+    ),
+    ItemSellectBieuDo(
+        stateBieuDo.TheoDonVi,
+        false
+    ),
+  ]);
+
+  BehaviorSubject<stateBieuDo> getStateLDM =
+  BehaviorSubject.seeded(stateBieuDo.TheoTrangThai);
+ final BehaviorSubject<bool> checkClickSearch=BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
+
+  void setSelectSearch(){
+    checkClickSearch.sink.add(!checkClickSearch.value);
+  }
+  bool isHideClearData = false;
   String ngayDauTien = '';
   String ngayKetThuc = '';
   String mangTrangThai='';
@@ -126,6 +154,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required int size,
      int? trangThaiHanXuLy,
   }) async {
+    mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
       index: index,
@@ -355,6 +384,23 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       S.current.da_hoan_thanh,
       0,
       daXuLyColor,
+    ),
+  ];
+  final List<ChartData> chartDataTheoLoai = [
+    ChartData(
+    'Nhiệm vụ CP/VPVP',
+      12,
+      choXuLyColor,
+    ),
+    ChartData(
+      'Nhiệm vụ Bộ',
+      12,
+      nhiemVuBoColor,
+    ),
+    ChartData(
+      'Nhiệm vụ đơn vị',
+      14,
+      nhiemDonViColor,
     ),
   ];
 

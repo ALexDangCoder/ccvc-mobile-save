@@ -21,22 +21,27 @@ class LichSuDonDocWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (dataModel.isNotEmpty) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: 16,
-        ),
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: dataModel
-              .map(
-                (e) => WidgetInExpand(
-                  row: e.listLSDD(),
-                  cubit: cubit,
-                ),
-              )
-              .toList(),
+      return RefreshIndicator(
+        onRefresh: () async {
+          await cubit.getLichSuDonDocNhiemVu(cubit.idNhiemVu);
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: 16,
+          ),
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: dataModel
+                .map(
+                  (e) => WidgetInExpand(
+                    row: e.listLSDD(),
+                    cubit: cubit,
+                  ),
+                )
+                .toList(),
+          ),
         ),
       );
     } else {

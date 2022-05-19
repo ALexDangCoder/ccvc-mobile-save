@@ -43,6 +43,12 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   }
 
   @override
+  void dispose() {
+    widget.cubit.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(

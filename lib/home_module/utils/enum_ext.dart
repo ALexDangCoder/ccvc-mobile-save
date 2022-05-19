@@ -68,6 +68,8 @@ extension SelectKeyExt on SelectKey {
         return S.current.cho_phan_cong_xu_ly;
       case SelectKey.DA_XU_LY:
         return S.current.da_xu_ly;
+      case SelectKey.LICH_CHO_XAC_NHAN:
+        return S.current.lich_cho_xac_nhan;
     }
   }
 }

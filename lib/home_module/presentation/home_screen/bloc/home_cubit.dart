@@ -871,7 +871,7 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
     );
     unawaited(
       queue.add(
-        () => homeRep.getVBdi('','').then(
+        () => homeRep.getVBdi('', '').then(
           (value) {
             value.when(
               success: (res) {
@@ -1195,8 +1195,32 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
   Stream<List<CalendarMeetingModel>> get getListLichLamViec =>
       _getListLichLamViec.stream;
   final userId = HiveLocal.getDataUser()?.userId ?? '';
+  SelectKey selectKey = SelectKey.LICH_HOP_CUA_TOI;
+  void setChangeKey(SelectKey key) {
+    selectKey = key;
+    switch (key) {
+      case SelectKey.LICH_HOP_CUA_TOI:
+        final data = LichLamViecRequest(
+          dateFrom: startDate.formatApi,
+          dateTo: endDate.formatApi,
+          isLichCuaToi: true,
+        );
+        callApi(data);
+        break;
+      case SelectKey.LICH_CHO_XAC_NHAN:
+        final data = LichLamViecRequest(
+          dateFrom: startDate.formatApi,
+          dateTo: endDate.formatApi,
+          isLichDuocMoi: true,
+        );
+        callApi(data);
+        break;
+      default:
+        {}
+    }
+  }
 
-  Future<void> callApi() async {
+  Future<void> callApi(LichLamViecRequest lamViecRequest) async {
     showLoading();
     final result = await homeRep.getListLichLamViec(
       LichLamViecRequest(
@@ -1238,7 +1262,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
       this.startDate = startDate;
       this.endDate = endDate;
       selectKeyDialog.sink.add(true);
-      callApi();
+      setChangeKey(selectKey);
     }
   }
 }
@@ -1303,7 +1327,7 @@ class LichHopCubit extends HomeCubit with SelectKeyDialog {
         isChoXacNhan = false;
         callApi();
         break;
-      case SelectKey.LICH_HOP_DUOC_MOI:
+      case SelectKey.LICH_CHO_XAC_NHAN:
         isLichHopCuaToi = false;
         isLichDuocMoi = true;
         isDuyetLich = false;
@@ -1537,12 +1561,12 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
     if (isCongViec) {
       return homeRep.getDanhSachCongViec(
         DanhSachCongViecRequest(
-            isSortByHanXuLy: true,
-            isCaNhan: isCaNhan,
-            size: 10,
-            index: 1,
-            mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
-            trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
+          isSortByHanXuLy: true,
+          isCaNhan: isCaNhan,
+          size: 10,
+          index: 1,
+          mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
+          trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
         ),
       );
     }
@@ -1553,7 +1577,6 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
         isNhiemVuCaNhan: isCaNhan,
         mangTrangThai: mangTrangThai,
         isSortByHanXuLy: true,
-
       ),
     );
   }

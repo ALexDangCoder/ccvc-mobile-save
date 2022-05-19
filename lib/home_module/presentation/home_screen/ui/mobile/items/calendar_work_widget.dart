@@ -1,6 +1,9 @@
 
 
 
+import 'dart:developer';
+
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +36,10 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _lamViecCubit.callApi();
+    _lamViecCubit.setChangeKey(SelectKey.LICH_HOP_CUA_TOI);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        _lamViecCubit.callApi();
+        _lamViecCubit.setChangeKey(_lamViecCubit.selectKey);
       });
     });
   }
@@ -51,6 +54,13 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _lamViecCubit,
+      listSelect: const [
+        SelectKey.LICH_HOP_CUA_TOI,
+        SelectKey.LICH_CHO_XAC_NHAN
+      ],
+      onChangeKey: (value){
+        _lamViecCubit.setChangeKey(value);
+      },
       dialogSelect: StreamBuilder(
         stream: _lamViecCubit.selectKeyDialog,
         builder: (context, _) => DialogSettingWidget(

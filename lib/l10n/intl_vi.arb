@@ -961,7 +961,9 @@
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
   "danh_sach_pakn": "Danh sách PAKN",
   "so" : "Số",
-  "ten_ca_nhan_to_chuc" : "Tên cá nhân/ tổ chức"
+  "ten_ca_nhan_to_chuc" : "Tên cá nhân/ tổ chức",
+  "lich_cho_xac_nhan" : "Lịch chờ xác nhận"
+
 }
 
 

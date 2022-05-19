@@ -194,6 +194,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           FilterDateTimeWidget(
             context: context,
             isMobile: true,
+            initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien),
             onChooseDateFilter: (startDate, endDate) {
               widget.danhSachCubit.ngayDauTien = startDate.formatApi;
               widget.danhSachCubit.ngayKetThuc = endDate.formatApi;

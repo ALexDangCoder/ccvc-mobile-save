@@ -24,10 +24,12 @@ class BieuDoNhiemVuCaNhanRowTablet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BieuDoNhiemVuCaNhanRowTabletState createState() => _BieuDoNhiemVuCaNhanRowTabletState();
+  _BieuDoNhiemVuCaNhanRowTabletState createState() =>
+      _BieuDoNhiemVuCaNhanRowTabletState();
 }
 
-class _BieuDoNhiemVuCaNhanRowTabletState extends State<BieuDoNhiemVuCaNhanRowTablet> {
+class _BieuDoNhiemVuCaNhanRowTabletState
+    extends State<BieuDoNhiemVuCaNhanRowTablet> {
   @override
   void initState() {
     super.initState();
@@ -50,7 +52,8 @@ class _BieuDoNhiemVuCaNhanRowTabletState extends State<BieuDoNhiemVuCaNhanRowTab
                   isSubjectInfo: false,
                   chartData: data,
                   onTap: (int value) {
-                    widget.ontap(widget.cubit.chartDataNhiemVuCaNhan[value].title.split(' ')
+                    widget.ontap(widget.chartData[value].title
+                        .split(' ')
                         .join('_')
                         .toUpperCase()
                         .vietNameseParse());
@@ -72,20 +75,20 @@ class _BieuDoNhiemVuCaNhanRowTabletState extends State<BieuDoNhiemVuCaNhanRowTab
                       children: data
                           .map(
                             (e) => Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: BoxStatusVanBan(
-                              value: e.value ?? 0,
-                              onTap: () {
-                                widget
-                                    .onTapStatusBox((e.giaTri ?? '').statusBox());
-                              },
-                              color: (e.giaTri ?? '').status(),
-                              statusName: e.text ?? '',
+                              child: Container(
+                                padding: const EdgeInsets.only(right: 16),
+                                child: BoxStatusVanBan(
+                                  value: e.value ?? 0,
+                                  onTap: () {
+                                    widget.onTapStatusBox(
+                                        (e.giaTri ?? '').statusBox());
+                                  },
+                                  color: (e.giaTri ?? '').status(),
+                                  statusName: e.text ?? '',
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )
+                          )
                           .toList(),
                     );
                   },
@@ -99,13 +102,14 @@ class _BieuDoNhiemVuCaNhanRowTabletState extends State<BieuDoNhiemVuCaNhanRowTab
                   mainAxisSpacing: 10.0.textScale(space: 4),
                   crossAxisSpacing: 10,
                   children: List.generate(widget.chartData.length, (index) {
-                    final result =widget. chartData[index];
-                    // ignore: avoid_unnecessary_containers
+                    final result = widget.chartData[index];
                     return GestureDetector(
                       onTap: () {
-                        // if (widget.ontap != null) {
-                        //   widget.ontap.!(index);
-                        // } else {}
+                        widget.ontap(widget.chartData[index].title
+                            .split(' ')
+                            .join('_')
+                            .toUpperCase()
+                            .vietNameseParse());
                       },
                       child: Row(
                         children: [
@@ -139,7 +143,6 @@ class _BieuDoNhiemVuCaNhanRowTabletState extends State<BieuDoNhiemVuCaNhanRowTab
               ],
             ),
           ),
-
         ],
       ),
     );

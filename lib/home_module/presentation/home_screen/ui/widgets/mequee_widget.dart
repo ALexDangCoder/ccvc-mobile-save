@@ -26,7 +26,7 @@ class MarqueeWidget extends StatelessWidget {
           width: 10,
         ),
         Expanded(
-          child: StreamBuilder<List<TinhHuongKhanCapModel>>(
+          child: StreamBuilder<List<TinBuonModel>>(
             stream: HomeProvider.of(context).homeCubit.tinhHuongKhanCap,
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
@@ -35,46 +35,31 @@ class MarqueeWidget extends StatelessWidget {
                   spacing: 16.0.textScale(space: 8).toInt(),
                   child: List.generate(data.length, (index) {
                     final result = data[index];
-                    return GestureDetector(
-                      onTap: () {
-                        if (result.isLink) {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (_, __, ___) => WebViewScreen(
-                                title: '',
-                                url: result.linkOrContent ?? '',
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 6.0.textScale(),
-                            width: 6.0.textScale(),
-                            decoration: BoxDecoration(
-                              color: index % 2 == 0
-                                  ? specialPriceColor
-                                  : textTitle,
-                              shape: BoxShape.circle,
-                            ),
+                    return Row(
+                      children: [
+                        Container(
+                          height: 6.0.textScale(),
+                          width: 6.0.textScale(),
+                          decoration: BoxDecoration(
+                            color: index % 2 == 0
+                                ? specialPriceColor
+                                : textTitle,
+                            shape: BoxShape.circle,
                           ),
-                          SizedBox(
-                            width: 8.0.textScale(),
+                        ),
+                        SizedBox(
+                          width: 8.0.textScale(),
+                        ),
+                        Text(
+                          result.title,
+                          style: textNormalCustom(
+                            color: index % 2 == 0
+                                ? specialPriceColor
+                                : textTitle,
+                            fontSize: 14.0.textScale(),
                           ),
-                          Text(
-                            result.title,
-                            style: textNormalCustom(
-                              color: index % 2 == 0
-                                  ? specialPriceColor
-                                  : textTitle,
-                              fontSize: 14.0.textScale(),
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     );
                   }),
                 );

@@ -143,6 +143,11 @@ class HomeScreenMobileState extends State<HomeScreenMobile> {
                           return const SizedBox();
                         },
                       ),
+                      Container(
+                        height: 10,
+                        width: 200,
+                        color: Colors.red,
+                      )
                     ],
                   ),
                 )

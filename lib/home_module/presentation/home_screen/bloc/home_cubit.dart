@@ -50,8 +50,8 @@ class HomeCubit extends BaseCubit<HomeState> {
       BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<WidgetType?> _showDialogSetting =
       BehaviorSubject<WidgetType?>();
-  final BehaviorSubject<List<TinhHuongKhanCapModel>> _tinhHuongKhanCap =
-      BehaviorSubject<List<TinhHuongKhanCapModel>>();
+  final BehaviorSubject<List<TinBuonModel>> _tinhHuongKhanCap =
+      BehaviorSubject<List<TinBuonModel>>();
   // final BehaviorSubject<DataUser> _userInformation =
   //     BehaviorSubject<DataUser>();
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
@@ -60,15 +60,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
   final PublishSubject<bool> refreshListen = PublishSubject<bool>();
 
-  Future<void> _getTinhHuongKhanCap() async {
-    final result = await homeRep.getTinhHuongKhanCap();
-    result.when(
-      success: (res) {
-        _tinhHuongKhanCap.sink.add(res);
-      },
-      error: (err) {},
-    );
-  }
+
 
   void showDialog(WidgetType type) {
     if (_showDialogSetting.hasValue) {
@@ -95,7 +87,6 @@ class HomeCubit extends BaseCubit<HomeState> {
     showLoading();
     unawaited(queue.add(() => getUserInFor()));
     unawaited(queue.add(() => getDate()));
-    unawaited(queue.add(() => _getTinhHuongKhanCap()));
     unawaited(queue.add(() => configWidget()));
     await queue.onComplete.catchError((er) {});
     showContent();
@@ -107,7 +98,6 @@ class HomeCubit extends BaseCubit<HomeState> {
 
     unawaited(queue.add(() => getUserInFor()));
     unawaited(queue.add(() => getDate()));
-    unawaited(queue.add(() => _getTinhHuongKhanCap()));
     unawaited(queue.add(() => configWidget()));
     await queue.onComplete.catchError((er) {});
     refreshListen.sink.add(true);
@@ -173,7 +163,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   //
   // Stream<DataUser> get userInformation => _userInformation;
 
-  Stream<List<TinhHuongKhanCapModel>> get tinhHuongKhanCap =>
+  Stream<List<TinBuonModel>> get tinhHuongKhanCap =>
       _tinhHuongKhanCap.stream;
 
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
@@ -1454,8 +1444,8 @@ class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {
     showLoading();
     final result = await homeRep.getTinhHinhYKienNguoiDan(
       donViId,
-      startDate.toStringWithListFormat,
-      endDate.toStringWithListFormat,
+      '',
+      '',
     );
     showContent();
     result.when(

@@ -1,5 +1,3 @@
-// ignore_for_file: strict_raw_type, must_be_immutable
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -32,9 +30,9 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    widget.cubit.getTree().then((value) => widget
-        .onChange(widget.cubit.listTreeDanhBaSubject.value.tree[1].value));
+    widget.cubit.getTree().then(
+          (value) => widget.onChange(widget.cubit.initOnchange()),
+        );
   }
 
   @override
@@ -79,14 +77,13 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                       },
                     ),
                     Container(
-                      decoration: const BoxDecoration(
-                        border: Border(top: BorderSide(color: borderColor)),
+                      decoration: BoxDecoration(
+                        border: borderSide(),
                       ),
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       child: StreamBuilder(
                         stream: widget.cubit.listTreeDanhBaSubject.stream,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
+                        builder: (context, snapshot) {
                           if (widget.cubit.listTreeDanhBa.isEmpty) {
                             return const Padding(
                               padding: EdgeInsets.only(top: 20),
@@ -95,9 +92,8 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                           } else {
                             return Scrollbar(
                               child: Container(
-                                constraints: BoxConstraints(
-                                  maxHeight:
-                                      MediaQuery.of(context).size.height * 0.3,
+                                constraints: const BoxConstraints(
+                                  maxHeight: 300,
                                 ),
                                 color: Colors.white,
                                 child: ListView(
@@ -154,8 +150,9 @@ class _NodeWidgetState extends State<NodeWidget> {
   void initState() {
     super.initState();
     nodeCubit = NodeCubit(
-        tree: widget.cubit.listTreeDanhBaSubject.value
-            .getChild(widget.node?.value.id ?? ''));
+      tree: widget.cubit.listTreeDanhBaSubject.value
+          .getChild(widget.node?.value.id ?? ''),
+    );
     nodeCubit.init();
   }
 
@@ -166,6 +163,8 @@ class _NodeWidgetState extends State<NodeWidget> {
     return StreamBuilder<Tree>(
       stream: widget.cubit.listTreeDanhBaSubject.stream,
       builder: (BuildContext context, AsyncSnapshot<Tree> snapshot) {
+        final hasChild = widget.node?.isHasChild ?? false;
+        final idDonviCha = widget.node?.value.iD_DonVi_Cha;
         if (widget.node != null) {
           return SingleChildScrollView(
             child: Column(
@@ -175,7 +174,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                   width: widthSize,
                   child: GestureDetector(
                     onTap: () {
-                      if (widget.node?.isHasChild ?? false) {
+                      if (hasChild) {
                         setState(() {
                           isExpand = !isExpand;
                         });
@@ -195,25 +194,19 @@ class _NodeWidgetState extends State<NodeWidget> {
                           flex: 8,
                           child: Container(
                             padding: EdgeInsets.only(
-                              bottom:
-                                  widget.node?.value.iD_DonVi_Cha != '' ? 6 : 0,
-                              top:
-                                  widget.node?.value.iD_DonVi_Cha != '' ? 6 : 0,
+                              bottom: idDonviCha != '' ? 6 : 0,
+                              top: idDonviCha != '' ? 6 : 0,
                             ),
                             decoration: BoxDecoration(
-                              border: widget.node!.value.iD_DonVi_Cha != ''
-                                  ? isExpand
-                                      ? const Border()
-                                      : const Border(
-                                          bottom:
-                                              BorderSide(color: borderColor))
-                                  : const Border(),
+                              border: idDonviCha != '' && isExpand
+                                  ? const Border()
+                                  : borderSide(),
                             ),
                             child: Row(
                               children: [
                                 Expanded(
                                   flex: 9,
-                                  child: widget.node?.value.iD_DonVi_Cha != ''
+                                  child: idDonviCha != ''
                                       ? Text(
                                           widget.node?.value.tenDonVi ?? '',
                                           style: textNormal(titleColor, 14),
@@ -225,18 +218,16 @@ class _NodeWidgetState extends State<NodeWidget> {
                                     StreamBuilder<String>(
                                       stream: widget.cubit.idDonVi.stream,
                                       builder: (context, snapshot) {
-                                        return snapshot.data.toString() ==
-                                                widget.node?.value.id
-                                            ? (widget.node?.isHasChild ?? false)
-                                                ? const SizedBox()
-                                                : SvgPicture.asset(
-                                                    ImageAssets.ic_tick,
-                                                  )
+                                        final data = snapshot.data;
+                                        return data.toString() ==
+                                                    widget.node?.value.id &&
+                                                hasChild == false
+                                            ? iconTick()
                                             : const SizedBox();
                                       },
                                     ),
-                                    if (widget.node?.value.iD_DonVi_Cha != '')
-                                      widget.node?.isHasChild ?? false
+                                    if (idDonviCha != '')
+                                      hasChild
                                           ? isExpand
                                               ? iconUp()
                                               : iconDown()
@@ -266,8 +257,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                             (e) => Container(
                               decoration: BoxDecoration(
                                 border: e == data.last
-                                    ? const Border(
-                                        bottom: BorderSide(color: borderColor))
+                                    ? borderSide()
                                     : const Border(),
                               ),
                               child: NodeWidget(
@@ -307,4 +297,12 @@ class _NodeWidgetState extends State<NodeWidget> {
         Icons.keyboard_arrow_down,
         color: AqiColor,
       );
+
+  Widget iconTick() => SvgPicture.asset(
+        ImageAssets.ic_tick,
+      );
 }
+
+Border borderSide() => const Border(
+      bottom: BorderSide(color: borderColor),
+    );

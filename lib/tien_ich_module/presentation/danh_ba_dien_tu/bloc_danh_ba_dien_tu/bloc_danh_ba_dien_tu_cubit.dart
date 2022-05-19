@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/sua_danh_sach_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/them_danh_ba_ca_nhan_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
-import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_to_chuc_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/danh_ba_dien_tu_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_state.dart';
@@ -25,12 +24,12 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   /// tree danh ba by tung
   TienIchRepository get tienIchRepTree => Get.find();
   BehaviorSubject<Tree> listTreeDanhBaSubject = BehaviorSubject<Tree>();
+  Tree dataTypeTree = Tree();
 
   List<TreeDonViDanhBA> listTreeDanhBa = [];
 
   final List<String> _listId = [];
   final List<String> _listParent = [];
-  TreeDonViDanhBA tree = TreeDonViDanhBA.Emty();
   int levelTree = 0;
   BehaviorSubject<String> tenDonVi =
       BehaviorSubject.seeded(S.current.UBND_tinh_dong_nai);
@@ -59,6 +58,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   bool isDeleted = false;
   int? thuTu = 0;
   List<String>? groupIds = [];
+  String id = '';
 
   String search = '';
   BehaviorSubject<File> saveFile = BehaviorSubject();
@@ -87,7 +87,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       pageIndex: pageIndexTung ?? pageIndex,
       pageSize: pageSize,
       filterBy: keyWork ?? '',
-      idDonVi: id ?? '',
+      idDonVi: id ?? this.id,
     );
   }
 
@@ -376,13 +376,15 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     final result = await tienIchRepTree.TreeDanhBa(3);
     result.when(
       success: (res) {
-        Tree ans = Tree();
+        final Tree ans = Tree();
         listTreeDanhBa = res;
+
         for (final e in listTreeDanhBa) {
           _listId.add(e.id);
           _listParent.add(e.iD_DonVi_Cha);
         }
         ans.initTree(listNode: listTreeDanhBa);
+        dataTypeTree = ans;
         listTreeDanhBaSubject.add(ans);
       },
       error: (error) {},
@@ -435,8 +437,26 @@ extension TreeDanhBa on DanhBaDienTuCubit {
       }
     } catch (er) {}
 
-    Tree ans = Tree();
+    final ans = Tree();
     ans.initTree(listNode: result);
     listTreeDanhBaSubject.add(ans);
+  }
+
+  TreeDonViDanhBA initOnchange() {
+    final List<TreeDonViDanhBA> list = [];
+    TreeDonViDanhBA goc = TreeDonViDanhBA.Emty();
+    for (final e in listTreeDanhBa) {
+      if (e.iD_DonVi_Cha == '') {
+        goc = e;
+      }
+    }
+    for (final e in listTreeDanhBa) {
+      if (e.iD_DonVi_Cha == goc.id) {
+        list.add(e);
+      }
+    }
+    idDonVi.sink.add(list[0].id);
+
+    return list[0];
   }
 }

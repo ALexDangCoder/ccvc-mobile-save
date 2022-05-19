@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
@@ -856,7 +857,7 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
     final queue = Queue(parallel: 2);
     unawaited(
       queue.add(
-        () => homeRep.getVBden(startDate, endDate).then(
+        () => homeRep.getVBden('', '').then(
           (value) {
             value.when(
               success: (res) {
@@ -870,7 +871,7 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
     );
     unawaited(
       queue.add(
-        () => homeRep.getVBdi(startDate, endDate).then(
+        () => homeRep.getVBdi('','').then(
           (value) {
             value.when(
               success: (res) {
@@ -1048,8 +1049,8 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
 
 ///Ý kiến người dân
 class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<List<DocumentModel>> _getYKien =
-      BehaviorSubject<List<DocumentModel>>();
+  final BehaviorSubject<List<YKienNguoiDanModel>> _getYKien =
+      BehaviorSubject<List<YKienNguoiDanModel>>();
   DataUser? dataUser;
   String donViId = '';
   String userId = '';
@@ -1067,7 +1068,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
     selectKeyPermission = _permissionKeyCheck();
   }
 
-  Stream<List<DocumentModel>> get getYKien => _getYKien.stream;
+  Stream<List<YKienNguoiDanModel>> get getYKien => _getYKien.stream;
 
   Future<void> callApi() async {
     if (selectKeyTrangThai == null) {
@@ -1542,8 +1543,7 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
             index: 1,
             mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
             trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
-            hanXuLy: HanXuLy(
-                fromDate: startDate.formatApi, toDate: endDate.formatApi)),
+        ),
       );
     }
     return homeRep.getNhiemVu(
@@ -1553,10 +1553,7 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
         isNhiemVuCaNhan: isCaNhan,
         mangTrangThai: mangTrangThai,
         isSortByHanXuLy: true,
-        ngayTaoNhiemVu: NgayTaoNhiemVu(
-          fromDate: startDate.toString(),
-          toDate: endDate.toString(),
-        ),
+
       ),
     );
   }

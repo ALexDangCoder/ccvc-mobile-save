@@ -102,6 +102,8 @@ extension DocumentStatusEx on DocumentStatus {
         return S.current.chua_thuc_hien;
       case DocumentStatus.DANG_THUC_HIEN:
         return S.current.dang_thuc_hien;
+      case DocumentStatus.TRONG_HAN:
+        return S.current.trong_han;
     }
   }
 
@@ -133,6 +135,8 @@ extension DocumentStatusEx on DocumentStatus {
         return yellowColor;
       case DocumentStatus.DANG_THUC_HIEN:
         return AqiColor;
+      case DocumentStatus.TRONG_HAN:
+      return choTrinhKyColor;
     }
   }
 }

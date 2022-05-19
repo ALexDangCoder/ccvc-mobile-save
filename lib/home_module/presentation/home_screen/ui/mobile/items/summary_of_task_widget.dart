@@ -72,19 +72,6 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                     SelectKey.DON_VI,
                   ],
                 ),
-                DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _nhiemVuCubit.selectDate(
-                      selectKey: value,
-                      startDate: startDate,
-                      endDate: endDate,
-                    );
-                  },
-                  startDate: _nhiemVuCubit.startDate,
-                  endDate: _nhiemVuCubit.endDate,
-                  title: S.current.time,
-                  initValue: _nhiemVuCubit.selectKeyTime,
-                )
               ],
             );
           }),

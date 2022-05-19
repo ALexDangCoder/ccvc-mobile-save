@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/chi_tiet_yknd_tablet.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
@@ -48,86 +50,83 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
       },
       selectKeyDialog: _danCubit,
       listSelect: _danCubit.selectKeyPermission,
-      onChangeKey: (value){
-        if(_danCubit.selectKeyTrangThai !=value){
+      onChangeKey: (value) {
+        if (_danCubit.selectKeyTrangThai != value) {
           _danCubit.selectTrangThaiApi(value);
         }
       },
       dialogSelect: StreamBuilder(
-        stream: _danCubit.selectKeyDialog,
-        builder: (context, snapshot) {
-          return DialogSettingWidget(
-            type: widget.homeItemType,
-            listSelectKey: [
-              DialogData(
-                onSelect: (value,startDate,endDate) {
-                  _danCubit.selectDate(
-                    selectKey: value,
-                    startDate: startDate,
-                    endDate: endDate,
-                  );
-                },
-                initValue: _danCubit.selectKeyTime,
-                title: S.current.time,
-                  startDate: _danCubit.startDate,
-                  endDate: _danCubit.endDate
-              )
-            ],
-          );
-        }
-      ),
-      child: LoadingOnly(
-        stream: _danCubit.stateStream,
-        child: StreamBuilder<List<DocumentModel>>(
-          stream: _danCubit.getYKien,
+          stream: _danCubit.selectKeyDialog,
           builder: (context, snapshot) {
-            final data = snapshot.data ?? <DocumentModel>[];
-            if (data.isEmpty) {
-              return const Padding(
-                padding:  EdgeInsets.symmetric(vertical: 100),
-                child:  NodataWidget(),
-              );
-            }
-            return ScrollBarWidget(
-              children: List.generate(data.length, (index) {
-                final result = data[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChiTietVanBanTabletScreen(
-                            iD:result.id,
-                            taskID:result.taskId ,
-                          ),
-                        ),
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                    onSelect: (value, startDate, endDate) {
+                      _danCubit.selectDate(
+                        selectKey: value,
+                        startDate: startDate,
+                        endDate: endDate,
                       );
                     },
-                    child: ContainerInfoWidget(
-                      title: result.title,
-                      status: result.documentStatus.getText(),
-                      colorStatus: result.documentStatus.getColor(),
-                      listData: [
-                        InfoData(
-                          urlIcon: ImageAssets.icSoKyHieu,
-                          key: S.current.so_ky_hieu,
-                          value: result.kyHieu,
-                        ),
-                        InfoData(
-                          urlIcon: ImageAssets.icAddress,
-                          key: S.current.noi_gui,
-                          value: result.noiGui,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+                    initValue: _danCubit.selectKeyTime,
+                    title: S.current.time,
+                    startDate: _danCubit.startDate,
+                    endDate: _danCubit.endDate)
+              ],
             );
-          }
-        ),
+          }),
+      child: LoadingOnly(
+        stream: _danCubit.stateStream,
+        child: StreamBuilder<List<YKienNguoiDanModel>>(
+            stream: _danCubit.getYKien,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? <YKienNguoiDanModel>[];
+              if (data.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 100),
+                  child: NodataWidget(),
+                );
+              }
+              return ScrollBarWidget(
+                children: List.generate(data.length, (index) {
+                  final result = data[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChiTietVanBanTabletScreen(
+                              iD: result.id,
+                              taskID: result.taskId,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ContainerInfoWidget(
+                        title: result.title,
+                        // status: result.documentStatus.getText(),
+                        // colorStatus: result.documentStatus.getColor(),
+                        listData: [
+                          InfoData(
+                            urlIcon: ImageAssets.icSoKyHieu,
+                            key: S.current.so_ky_hieu,
+                            value: result.kyHieu,
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icAddress,
+                            key: S.current.noi_gui,
+                            value: result.noiGui,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              );
+            }),
       ),
     );
   }

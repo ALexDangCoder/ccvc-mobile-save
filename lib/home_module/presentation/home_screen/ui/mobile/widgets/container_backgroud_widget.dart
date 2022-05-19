@@ -191,10 +191,10 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
   String subTitle() {
     final data = widget.selectKeyDialog;
     if (widget.isUnit) {
-      if (data?.selectKeyTime == SelectKey.TUY_CHON) {
-        return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
-      }
-      return '${data!.selectKeyDonVi.getText()} - ${data.selectKeyTime.getText()}';
+      // if (data?.selectKeyTime == SelectKey.TUY_CHON) {
+      //   return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
+      // }
+      return '${data!.selectKeyDonVi.getText()}';
     }
     if (data?.selectKeyTime == SelectKey.TUY_CHON) {
       return '${data!.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';

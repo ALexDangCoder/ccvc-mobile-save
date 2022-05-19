@@ -959,7 +959,9 @@
   "ban_chua_nhap_y_kien": "Bạn vui lòng nhập ý kiến",
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
-  "danh_sach_pakn": "Danh sách PAKN"
+  "danh_sach_pakn": "Danh sách PAKN",
+  "so" : "Số",
+  "ten_ca_nhan_to_chuc" : "Tên cá nhân/ tổ chức"
 }
 
 

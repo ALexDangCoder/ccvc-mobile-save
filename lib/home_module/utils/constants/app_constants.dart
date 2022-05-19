@@ -48,6 +48,7 @@ enum SelectKey {
 enum DocumentStatus {
   DEN_HAN,
   QUA_HAN,
+  TRONG_HAN,
   CHO_TIEP_NHAN,
   HOAN_THANH,
   CHO_XAC_NHAN,

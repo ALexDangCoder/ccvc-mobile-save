@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/bloc/chi_tiet_y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_row_data.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class ChiTietYKNDHeader extends StatefulWidget {
@@ -62,7 +63,7 @@ class ItemRow extends StatelessWidget {
               child: Text(
                 title,
                 style: textNormalCustom(
-                  fontSize: 14,
+                  fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
                   color: infoColor,
                 ),
@@ -76,7 +77,7 @@ class ItemRow extends StatelessWidget {
               child: Text(
                 content ?? '',
                 style: textNormalCustom(
-                  fontSize: 14,
+                  fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
                   color: isFile ? numberOfCalenders : titleCalenderWork,
                 ),

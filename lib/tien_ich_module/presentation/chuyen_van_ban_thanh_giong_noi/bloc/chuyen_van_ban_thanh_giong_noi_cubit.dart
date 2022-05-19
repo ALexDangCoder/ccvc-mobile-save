@@ -18,7 +18,7 @@ class ChuyenVanBanThanhGiongNoiCubit {
   List<VoidTone> dataDrop = [
     VoidTone(text: S.current.nu_mien_bac, code: north_female_lien),
     VoidTone(text: S.current.nam_mien_bac, code: north_male_hieu),
-    VoidTone(text: S.current.nu_mien_bac, code: north_female_hongha),
+    VoidTone(text: S.current.nu_mien_bac_ha, code: north_female_hongha),
     VoidTone(text: S.current.nu_mien_nam, code: south_female_aihoa),
     VoidTone(text: S.current.nu_mien_nam_nguyet, code: south_female_minhnguyet),
   ];
@@ -52,13 +52,20 @@ class ChuyenVanBanThanhGiongNoiCubit {
     }
   }
 
-  playMusic(String url) async {
+  Future<void> playMusic(String url) async {
     final int result = await audioPlayer.play(url);
-    if (result == 1) print('suc xet');
+    if (result == 1) {
+    } else {
+      await pauseMusic();
+    }
   }
 
-  pauseMusic() async {
+  Future<void> pauseMusic() async {
     await audioPlayer.pause();
+  }
+
+  Future<void> stopMusic() async {
+    await audioPlayer.stop();
   }
 }
 

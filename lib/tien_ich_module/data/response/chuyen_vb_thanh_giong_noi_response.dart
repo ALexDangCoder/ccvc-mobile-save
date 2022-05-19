@@ -8,7 +8,7 @@ class ChuyenVBThanhGiongNoiResponse {
   @JsonKey(name: 'audio_url')
   String? audio_url;
   @JsonKey(name: 'code')
-  String? code;
+  int? code;
   @JsonKey(name: 'create_time')
   String? create_time;
   @JsonKey(name: 'id')

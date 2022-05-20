@@ -78,8 +78,8 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                       value: widget.valueSwitch,
                       onToggle: (value) {
                         isSwitch = value;
-                        widget.onChange(value);
                         setState(() {});
+                        widget.onChange(value);
                       },
                     )
                   else

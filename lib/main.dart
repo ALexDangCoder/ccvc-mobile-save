@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/strings.dart';
@@ -54,6 +53,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
+
   @override
   void initState() {
     super.initState();
@@ -64,67 +64,57 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Firebase.initializeApp(),
-      builder: (context, snapshot) {
-        if(snapshot.hasError) {
-          print(snapshot.hasError);
-            return Text(snapshot.hasError.toString());
-        }
-        return AppStateCt(
-          appState: appStateCubit,
-          child: KeyboardDismisser(
-            child: ScreenUtilInit(
-              designSize: const Size(375, 812),
-              builder: () => GetMaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: Strings.app_name,
-                theme: ThemeData(
-                  primaryColor: AppTheme.getInstance().primaryColor(),
-                  cardColor: Colors.white,
-                  textTheme: GoogleFonts.latoTextTheme(
-                    Theme.of(context).textTheme,
-                  ),
-                  appBarTheme: const AppBarTheme(
-                    color: Colors.white,
-                    systemOverlayStyle: SystemUiOverlayStyle.dark,
-                  ),
-                  dividerColor: dividerColor,
-                  scaffoldBackgroundColor: Colors.white,
-                  textSelectionTheme: TextSelectionThemeData(
-                    cursorColor: AppTheme.getInstance().primaryColor(),
-                    selectionColor: AppTheme.getInstance().primaryColor(),
-                    selectionHandleColor:
-                    AppTheme.getInstance().primaryColor(),
-                  ),
-                  colorScheme: ColorScheme.fromSwatch().copyWith(
-                    secondary: AppTheme.getInstance().accentColor(),
-                  ),
-                ),
-                localeResolutionCallback: (deviceLocale, supportedLocales) {
-                  // if (supportedLocales.contains(
-                  //   Locale(deviceLocale?.languageCode ?? EN_CODE),
-                  // )) {
-                  //   return deviceLocale;
-                  // } else {
-                  //   return const Locale.fromSubtags(languageCode: EN_CODE);
-                  // }
-                  return const Locale.fromSubtags(languageCode: VI_CODE);
-                },
-                localizationsDelegates: const [
-                  S.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: S.delegate.supportedLocales,
-                onGenerateRoute: AppRouter.generateRoute,
-                initialRoute: AppRouter.splash,
+    return AppStateCt(
+      appState: appStateCubit,
+      child: KeyboardDismisser(
+        child: ScreenUtilInit(
+          designSize: const Size(375, 812),
+          builder: () => GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: Strings.app_name,
+            theme: ThemeData(
+              primaryColor: AppTheme.getInstance().primaryColor(),
+              cardColor: Colors.white,
+              textTheme: GoogleFonts.latoTextTheme(
+                Theme.of(context).textTheme,
+              ),
+              appBarTheme: const AppBarTheme(
+                color: Colors.white,
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
+              ),
+              dividerColor: dividerColor,
+              scaffoldBackgroundColor: Colors.white,
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: AppTheme.getInstance().primaryColor(),
+                selectionColor: AppTheme.getInstance().primaryColor(),
+                selectionHandleColor: AppTheme.getInstance().primaryColor(),
+              ),
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                secondary: AppTheme.getInstance().accentColor(),
               ),
             ),
+            localeResolutionCallback: (deviceLocale, supportedLocales) {
+              // if (supportedLocales.contains(
+              //   Locale(deviceLocale?.languageCode ?? EN_CODE),
+              // )) {
+              //   return deviceLocale;
+              // } else {
+              //   return const Locale.fromSubtags(languageCode: EN_CODE);
+              // }
+              return const Locale.fromSubtags(languageCode: VI_CODE);
+            },
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            onGenerateRoute: AppRouter.generateRoute,
+            initialRoute: AppRouter.splash,
           ),
-        );
-      }
+        ),
+      ),
     );
   }
 

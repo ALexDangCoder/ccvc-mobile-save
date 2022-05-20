@@ -35,15 +35,16 @@ class ThongTinChungYKNDTablet extends StatefulWidget {
 
 class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
     with SingleTickerProviderStateMixin {
-  YKienNguoiDanCubitt cubit = YKienNguoiDanCubitt();
   ChooseTimeCubit chooseTimeScreen = ChooseTimeCubit();
   TextEditingController textcontroller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    cubit.initTimeRange();
-    cubit.callApi();
+    widget.cubit.initTimeRange();
+  //  cubit.callApi();
+    widget.cubit.getDanhSachPAKN();
+
   }
 
   @override
@@ -77,7 +78,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           textEmpty: S.current.khong_co_du_lieu,
           retry: () {},
           error: AppException('1', S.current.something_went_wrong),
-          stream: cubit.stateStream,
+          stream: widget.cubit.stateStream,
           child: SizedBox.expand(
             child: Container(
               color: homeColor,

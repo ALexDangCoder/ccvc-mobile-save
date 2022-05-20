@@ -389,7 +389,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     bool isSearch = false,
   }) async {
     if (isSearch) {
-      print('------------------------  o day-------------------------');
       clearDSPAKN();
     }
     showLoading();

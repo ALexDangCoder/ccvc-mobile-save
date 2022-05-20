@@ -175,114 +175,114 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                 const SizedBox(
                   height: 20,
                 ),
-                IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 550,
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              StreamBuilder<List<ChartData>>(
-                                stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
-                                builder: (context, snapshot) {
-                                  final listDataChart = snapshot.data ?? [];
-                                  return PieChart(
-                                    title:
-                                        S.current.tinh_trang_thuc_hien_yknd,
-                                    chartData: listDataChart,
-                                    onTap: (int value) {},
-                                  );
-                                },
-                              ),
-                              Container(height: 20),
-                              StreamBuilder<DashBroadItemYKNDModel>(
-                                stream: baoCaoCubit.listChartDashBoard,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ??
-                                      DashBroadItemYKNDModel();
-                                  return Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
-                                      Expanded(
-                                        child: BoxStatusVanBan(
-                                          value: data.trongHan ?? 0,
-                                          onTap: () {},
-                                          color: numberOfCalenders,
-                                          statusName: S.current.trong_han,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 16,
-                                      ),
-                                      Expanded(
-                                        child: BoxStatusVanBan(
-                                          value: data.quaHan ?? 0,
-                                          onTap: () {},
-                                          color: statusCalenderRed,
-                                          statusName: S.current.den_han,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 28,
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textviewTitle(S.current.linh_vuc_xu_ly),
-                              ChartLinhVucXuLyWidget(
-                                cubit: baoCaoCubit,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // IntrinsicHeight(
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.stretch,
+                //     children: [
+                //       Expanded(
+                //         child: Container(
+                //           height: 550,
+                //           padding: const EdgeInsets.all(24),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(12),
+                //             border: Border.all(color: cellColorborder),
+                //             boxShadow: [
+                //               BoxShadow(
+                //                 color: shadowContainerColor.withOpacity(0.05),
+                //                 offset: const Offset(0, 4),
+                //                 blurRadius: 10,
+                //               ),
+                //             ],
+                //             color: Colors.white,
+                //           ),
+                //           child: Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               StreamBuilder<List<ChartData>>(
+                //                 stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
+                //                 builder: (context, snapshot) {
+                //                   final listDataChart = snapshot.data ?? [];
+                //                   return PieChart(
+                //                     title:
+                //                         S.current.tinh_trang_thuc_hien_yknd,
+                //                     chartData: listDataChart,
+                //                     onTap: (int value) {},
+                //                   );
+                //                 },
+                //               ),
+                //               Container(height: 20),
+                //               StreamBuilder<DashBroadItemYKNDModel>(
+                //                 stream: baoCaoCubit.listChartDashBoard,
+                //                 builder: (context, snapshot) {
+                //                   final data = snapshot.data ??
+                //                       DashBroadItemYKNDModel();
+                //                   return Row(
+                //                     children: [
+                //                       const SizedBox(
+                //                         width: 50,
+                //                       ),
+                //                       Expanded(
+                //                         child: BoxStatusVanBan(
+                //                           value: data.trongHan ?? 0,
+                //                           onTap: () {},
+                //                           color: numberOfCalenders,
+                //                           statusName: S.current.trong_han,
+                //                         ),
+                //                       ),
+                //                       const SizedBox(
+                //                         width: 16,
+                //                       ),
+                //                       Expanded(
+                //                         child: BoxStatusVanBan(
+                //                           value: data.quaHan ?? 0,
+                //                           onTap: () {},
+                //                           color: statusCalenderRed,
+                //                           statusName: S.current.den_han,
+                //                         ),
+                //                       ),
+                //                       const SizedBox(
+                //                         width: 50,
+                //                       ),
+                //                     ],
+                //                   );
+                //                 },
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       const SizedBox(
+                //         width: 28,
+                //       ),
+                //       Expanded(
+                //         child: Container(
+                //           padding: const EdgeInsets.all(24),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(12),
+                //             border: Border.all(color: cellColorborder),
+                //             boxShadow: [
+                //               BoxShadow(
+                //                 color: shadowContainerColor.withOpacity(0.05),
+                //                 offset: const Offset(0, 4),
+                //                 blurRadius: 10,
+                //               ),
+                //             ],
+                //             color: Colors.white,
+                //           ),
+                //           child: Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               textviewTitle(S.current.linh_vuc_xu_ly),
+                //               ChartLinhVucXuLyWidget(
+                //                 cubit: baoCaoCubit,
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -320,29 +320,32 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                       ),
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 10,
-                              ),
-                            ],
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textviewTitle(S.current.don_vi_xu_ly),
-                              ChartDonViXuLyWidget(
-                                cubit: baoCaoCubit,
-                              ),
-                            ],
-                          ),
+                          color: Colors.blue,
                         ),
+                        // child: Container(
+                        //   padding: const EdgeInsets.all(24),
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(12),
+                        //     border: Border.all(color: cellColorborder),
+                        //     boxShadow: [
+                        //       BoxShadow(
+                        //         color: shadowContainerColor.withOpacity(0.05),
+                        //         offset: const Offset(0, 4),
+                        //         blurRadius: 10,
+                        //       ),
+                        //     ],
+                        //     color: Colors.white,
+                        //   ),
+                        //   child: Column(
+                        //     crossAxisAlignment: CrossAxisAlignment.start,
+                        //     children: [
+                        //       textviewTitle(S.current.don_vi_xu_ly),
+                        //       ChartDonViXuLyWidget(
+                        //         cubit: baoCaoCubit,
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       ),
                     ],
                   ),

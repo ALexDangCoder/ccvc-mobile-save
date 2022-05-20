@@ -24,7 +24,6 @@ class _CaiDatThongBaoTabletState extends State<CaiDatThongBaoTablet> {
   @override
   void initState() {
     super.initState();
-    widget.cubit.initDataSetting();
   }
 
   @override
@@ -66,7 +65,7 @@ class _CaiDatThongBaoTabletState extends State<CaiDatThongBaoTablet> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0.textScale()),
               child: StreamBuilder<List<ThongBaoModel>>(
-                stream: widget.cubit.settingSubject.stream,
+                stream: widget.cubit.thongBaoSubject,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? [];
 

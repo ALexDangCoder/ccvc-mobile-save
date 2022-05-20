@@ -19,7 +19,10 @@ import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:ccvc_mobile/widgets/listview/list_complex_load_more.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class NhiemVuDonViMobile extends StatefulWidget {
@@ -194,6 +197,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
       body: ComplexLoadMore(
         childrenView: [
           FilterDateTimeWidget(
+            initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien) ,
             context: context,
             isMobile: true,
             onChooseDateFilter: (startDate, endDate) {
@@ -283,41 +287,86 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         ),
                       );
                     } else {
-                      return statusWidget([
-                        ChartData(
-                          S.current.cho_phan_xu_ly,
-                          8,
-                          choXuLyColor,
-                        ),
-                        ChartData(S.current.chua_thuc_hien, 8, choVaoSoColor),
-                        ChartData(
-                          S.current.dang_thuc_hien,
-                          5,
-                          choTrinhKyColor,
-                        ),
-                        ChartData(
-                          S.current.da_thuc_hien,
-                          8,
-                          daXuLyColor,
-                        ),
-                      ], [
-                        ChartData(
-                          S.current.cho_phan_xu_ly,
-                          30,
-                          choXuLyColor,
-                        ),
-                        ChartData(S.current.chua_thuc_hien, 12, choVaoSoColor),
-                        ChartData(
-                          S.current.dang_thuc_hien,
-                          14,
-                          choTrinhKyColor,
-                        ),
-                        ChartData(
-                          S.current.da_thuc_hien,
-                          12,
-                          daXuLyColor,
-                        ),
-                      ]);
+                      return StatusWidget(
+                        listData: [
+                          [
+                            ChartData(
+                              S.current.cho_phan_xu_ly,
+                              8,
+                              choXuLyColor,
+                            ),
+                            ChartData(
+                                S.current.chua_thuc_hien, 10, choVaoSoColor),
+                            ChartData(
+                              S.current.dang_thuc_hien,
+                              4,
+                              choTrinhKyColor,
+                            ),
+                            ChartData(
+                              S.current.da_thuc_hien,
+                              5,
+                              daXuLyColor,
+                            ),
+                          ],
+                          [
+                            ChartData(
+                              S.current.cho_phan_xu_ly,
+                              8,
+                              choXuLyColor,
+                            ),
+                            ChartData(
+                                S.current.chua_thuc_hien, 10, choVaoSoColor),
+                            ChartData(
+                              S.current.dang_thuc_hien,
+                              4,
+                              choTrinhKyColor,
+                            ),
+                            ChartData(
+                              S.current.da_thuc_hien,
+                              5,
+                              daXuLyColor,
+                            ),
+                          ],
+                          [
+                            ChartData(
+                              S.current.cho_phan_xu_ly,
+                              6,
+                              choXuLyColor,
+                            ),
+                            ChartData(
+                                S.current.chua_thuc_hien, 12, choVaoSoColor),
+                            ChartData(
+                              S.current.dang_thuc_hien,
+                              5,
+                              choTrinhKyColor,
+                            ),
+                            ChartData(
+                              S.current.da_thuc_hien,
+                              8,
+                              daXuLyColor,
+                            ),
+                          ],
+                        ],
+                        listStatusData: [
+                          ChartData(
+                            S.current.cho_phan_xu_ly,
+                            30,
+                            choXuLyColor,
+                          ),
+                          ChartData(S.current.chua_thuc_hien, 12, choVaoSoColor),
+                          ChartData(
+                            S.current.dang_thuc_hien,
+                            14,
+                            choTrinhKyColor,
+                          ),
+                          ChartData(
+                            S.current.da_thuc_hien,
+                            12,
+                            daXuLyColor,
+                          ),
+                        ],
+                      );
+
                     }
                   })),
           Container(
@@ -370,55 +419,82 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
   }
 }
 
-Widget statusWidget(
-  List<ChartData> listData,
-  List<ChartData> listData2,
-) {
+Widget statusWidget( // List<ChartData> listData,
+    // List<ChartData> listTest,
+    {
+  required List<List<ChartData>> listData,
+  required List<ChartData> listStatusData,
+}) {
+  final heSo = 10;
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      Row(
+      Stack(
         children: [
-          Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  "Trung tâm tin học",
-                  textAlign: TextAlign.right,
-                ),
-              )),
-          Expanded(
-            flex: 5,
-            child: Stack(
-              children: [
-                Container(
-                  height: 28,
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
-                  child: Row(
-                    children: listData.reversed
-                        .map(
-                          (e) => Expanded(
-                            flex: e.value.toInt(),
-                            child: Container(
-                              color: e.color,
-                              child: Center(
-                                child: Text(
-                                  e.value.toInt().toString(),
-                                  style: textNormal(
-                                    backgroundColorApp,
-                                    14.0.textScale(),
+          Column(
+            children: listData
+                .map(
+                  (element) => Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              "Trung tâm tin học",
+                              textAlign: TextAlign.right,
+                            ),
+                          )),
+                      // const SizedBox(width: 8,),
+                      Expanded(
+                        flex: 8,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              key:GlobalKey(),
+                              child: Container(
+                            ),),
+                            // MySeparator(
+                            //   color: lineColor,
+                            // ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Row(
+                                    children: element.reversed
+                                        .map(
+                                          (e) => Container(
+                                            height: 28,
+                                            width: (e.value) * heSo,
+                                            color: e.color,
+                                            child: Center(
+                                              child: Text(
+                                                e.value.toInt().toString(),
+                                                style: textNormal(
+                                                  backgroundColorApp,
+                                                  14.0.textScale(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ),
-                        )
-                        .toList(),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
+                )
+                .toList(),
           ),
         ],
       ),
@@ -434,8 +510,8 @@ Widget statusWidget(
           childAspectRatio: 9,
           mainAxisSpacing: 10.0.textScale(space: 4),
           crossAxisSpacing: 10,
-          children: List.generate(listData2.length, (index) {
-            final result = listData2[index];
+          children: List.generate(listStatusData.length, (index) {
+            final result = listStatusData[index];
             // ignore: avoid_unnecessary_containers
             return GestureDetector(
               onTap: () {},
@@ -472,3 +548,242 @@ Widget statusWidget(
     ],
   );
 }
+
+class MySeprator extends StatelessWidget {
+  const MySeprator({Key? key, this.height = 1, this.color = Colors.black})
+      : super(key: key);
+  final double height;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final boxWidth = constraints.constrainWidth();
+        const dashWidth = 6.0;
+        final dashHeight = height;
+        final dashCount = (boxWidth / (2 * dashWidth)).floor();
+        return Flex(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
+          children: List.generate(dashCount, (_) {
+            return SizedBox(
+              width: dashWidth,
+              height: dashHeight,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: color),
+              ),
+            );
+          }),
+        );
+      },
+    );
+  }
+}
+
+class MySeparator extends StatelessWidget {
+  const MySeparator({Key? key, this.width = 1, this.color = Colors.black, this.height=10})
+      : super(key: key);
+  final double width;
+  final Color color;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final boxWidth = constraints.constrainWidth();
+        const dashHeight = 6.0;
+        final dashWidth = width;
+        final dashCount = (height/(dashWidth *2)).floor();
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flex(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              direction: Axis.vertical,
+              children: List.generate(dashCount, (_) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: SizedBox(
+                    height: dashHeight,
+                    width: dashWidth,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(color: color),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+class StatusWidget extends StatefulWidget {
+  final List<List<ChartData>> listData;
+  final  List<ChartData> listStatusData;
+  const StatusWidget({Key? key, required this.listData, required this.listStatusData}) : super(key: key);
+
+  @override
+  _StatusWidgetState createState() => _StatusWidgetState();
+}
+
+class _StatusWidgetState extends State<StatusWidget> {
+  final heSo = 10;
+  GlobalKey globalKey =GlobalKey();
+  late double height=0;
+  late int sumRowChart=0;
+
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      final renderBox = globalKey.currentContext?.findRenderObject() as RenderBox;
+      height = renderBox.size.height;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          children: [
+            Container(
+              key:globalKey,
+              height: 100,
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: widget.listData
+                  .map(
+                    (element) {
+                      sumRowChart=0;
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              flex: 3,
+                              child: Container(
+                                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                  "Trung tâm tin học",
+                                  textAlign: TextAlign.right,
+                                ),
+                              )),
+                          Expanded(
+                            flex: 8,
+                            child: Stack(
+                              children: [
+                                Positioned.fill(
+                                    child: MySeparator(
+                                      height: height,
+                                      color: lineColor,
+                                    )
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.only(right: 8.0,top: 8),
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            children: element.reversed
+                                                .map(
+                                                    (e) {
+                                                  sumRowChart+=e.value.toInt();
+                                                  return  Container(
+                                                    height: 28,
+                                                    width: (e.value) * heSo,
+                                                    color: e.color,
+                                                    child: Center(
+                                                      child: Text(
+                                                        e.value.toInt().toString(),
+                                                        style: textNormal(
+                                                          backgroundColorApp,
+                                                          14.0.textScale(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                            )
+                                                .toList(),
+                                          ),
+                                          SizedBox(width: 6,),
+                                          Text(sumRowChart.toString()),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+              )
+                  .toList(),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 24,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, bottom: 20.0),
+          child: GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            childAspectRatio: 9,
+            mainAxisSpacing: 10.0.textScale(space: 4),
+            crossAxisSpacing: 10,
+            children: List.generate(widget.listStatusData.length, (index) {
+              final result = widget.listStatusData[index];
+              // ignore: avoid_unnecessary_containers
+              return GestureDetector(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    Container(
+                      height: 14,
+                      width: 14,
+                      decoration: BoxDecoration(
+                        color: result.color,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Flexible(
+                      child: FittedBox(
+                        child: Text(
+                          '${result.title} (${result.value.toInt()})',
+                          style: textNormal(
+                            infoColor,
+                            14.0.textScale(),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
+    );
+
+  }
+}
+

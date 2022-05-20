@@ -125,7 +125,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                             widget.danhSachCubit.chartDataNhiemVuCaNhan,
                         builder: (context, snapshot) {
                           final data = snapshot.data ??
-                              widget.danhSachCubit.chartDataNhiemVu;
+                              widget.danhSachCubit.chartDataNhiemVuCaNhan;
                           return BieuDoNhiemVuCaNhanRowTablet(
                             chartData: data,
                             cubit: widget.danhSachCubit,

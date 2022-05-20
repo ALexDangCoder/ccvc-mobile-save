@@ -2,8 +2,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_popup.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
@@ -11,7 +11,7 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:intl/intl.dart';
 
 class SelectDate extends StatefulWidget {
   final String? value;
@@ -41,11 +41,12 @@ class SelectDate extends StatefulWidget {
 
 class _CustomDropDownState extends State<SelectDate> {
   String dateSelect = '';
-  BehaviorSubject<String> behaviorSubject = BehaviorSubject();
 
   @override
   void initState() {
-    dateSelect = widget.value.toString();
+    if (!widget.isObligatory) {
+      dateSelect = widget.value.toString();
+    }
     super.initState();
   }
 
@@ -65,12 +66,12 @@ class _CustomDropDownState extends State<SelectDate> {
                         child: FlutterRoundedCupertinoDatePickerWidget(
                           onDateTimeChanged: (value) {
                             dateSelect = value.toString();
+                            final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss')
+                                .parse(dateSelect)
+                                .formatApiDanhBa;
+                            dateSelect = dateFormat;
+
                             widget.onSelectDate(dateSelect);
-                            if (dateSelect.isNotEmpty) {
-                              behaviorSubject.sink.add(dateSelect);
-                            } else {
-                              behaviorSubject.sink.add('');
-                            }
                           },
                           textStyleDate: titleAppbar(),
                           initialDateTime: DateTime.parse(dateSelect),
@@ -108,34 +109,24 @@ class _CustomDropDownState extends State<SelectDate> {
                           bottom: 16,
                           left: 16,
                         ),
-                        child: widget.value == null || widget.value == ''
-                            ? StreamBuilder<String>(
-                                stream: behaviorSubject,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? '';
-                                  return data.isNotEmpty
-                                      ? Text(
-                                          DateTime.parse(dateSelect)
-                                              .toStringWithListFormat,
-                                          style: tokenDetailAmount(
-                                            fontSize: 14,
-                                            color: titleColor,
-                                          ),
-                                        )
-                                      : Text(
-                                          S.current.ngay_sinh,
-                                          style: tokenDetailAmount(
-                                            fontSize: 14,
-                                            color: AqiColor,
-                                          ),
-                                        );
-                                },
+                        child: widget.value == null
+                            ? Text(
+                                widget.hintText ?? S.current.vuiLongChon,
+                                style: tokenDetailAmount(
+                                  fontSize: 14.0.textScale(),
+                                  color: titleColor,
+                                ),
                               )
                             : Text(
-                                DateTime.parse(dateSelect)
-                                    .toStringWithListFormat,
+                                widget.isObligatory
+                                    ? DateFormat('yyyy-MM-ddTHH:mm:ss')
+                                        .parse(widget.value ?? '')
+                                        .toStringWithListFormat
+                                    : DateFormat('yyyy-MM-ddTHH:mm:ss')
+                                        .parse(dateSelect)
+                                        .toStringWithListFormat,
                                 style: tokenDetailAmount(
-                                  fontSize: 14,
+                                  fontSize: 14.0.textScale(),
                                   color: titleColor,
                                 ),
                               ),
@@ -166,15 +157,15 @@ class _CustomDropDownState extends State<SelectDate> {
                       child: FlutterRoundedCupertinoDatePickerWidget(
                         onDateTimeChanged: (value) {
                           dateSelect = value.toString();
+                          final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss')
+                              .parse(dateSelect)
+                              .formatApiDanhBa;
+                          dateSelect = dateFormat;
+
                           widget.onSelectDate(dateSelect);
-                          if (dateSelect.isNotEmpty) {
-                            behaviorSubject.sink.add(dateSelect);
-                          } else {
-                            behaviorSubject.sink.add('');
-                          }
                         },
                         textStyleDate: titleAppbar(),
-                        initialDateTime: DateTime.now(),
+                        initialDateTime: DateTime.parse(dateSelect),
                       ),
                     ),
                     Container(
@@ -219,34 +210,24 @@ class _CustomDropDownState extends State<SelectDate> {
                           bottom: 16,
                           left: 16,
                         ),
-                        child: widget.value == null || widget.value == ''
-                            ? StreamBuilder<String>(
-                                stream: behaviorSubject,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ?? '';
-                                  return data.isNotEmpty
-                                      ? Text(
-                                          DateTime.parse(dateSelect)
-                                              .toStringWithListFormat,
-                                          style: tokenDetailAmount(
-                                            fontSize: 14,
-                                            color: titleColor,
-                                          ),
-                                        )
-                                      : Text(
-                                          S.current.ngay_sinh,
-                                          style: tokenDetailAmount(
-                                            fontSize: 14,
-                                            color: AqiColor,
-                                          ),
-                                        );
-                                },
+                        child: widget.value == null
+                            ? Text(
+                                widget.hintText ?? S.current.vuiLongChon,
+                                style: tokenDetailAmount(
+                                  fontSize: 14.0.textScale(),
+                                  color: titleColor,
+                                ),
                               )
                             : Text(
-                                DateTime.parse(dateSelect)
-                                    .toStringWithListFormat,
+                                widget.isObligatory
+                                    ? DateFormat('yyyy-MM-ddTHH:mm:ss')
+                                        .parse(widget.value ?? '')
+                                        .toStringWithListFormat
+                                    : DateFormat('yyyy-MM-ddTHH:mm:ss')
+                                        .parse(dateSelect)
+                                        .toStringWithListFormat,
                                 style: tokenDetailAmount(
-                                  fontSize: 14,
+                                  fontSize: 14.0.textScale(),
                                   color: titleColor,
                                 ),
                               ),

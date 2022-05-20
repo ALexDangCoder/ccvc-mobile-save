@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 

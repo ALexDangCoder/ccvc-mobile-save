@@ -40,7 +40,7 @@ class _BaoCaoThongKeNhiemVuMobileState extends State<BaoCaoThongKeNhiemVuMobile>
             },
             child: const Icon(
               Icons.search,
-              color: textBodyTime,
+              color: colorA2AEBD,
             ),
           ),
           IconButton(

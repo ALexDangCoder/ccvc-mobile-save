@@ -32,8 +32,8 @@ class CustomItemCalenderTablet extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20, left: 20, bottom: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: bgGridView,
-          border: Border.all(color: cellColorborder),
+          color: colorFBFCFD,
+          border: Border.all(color: color05OpacityDBDFEF),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +47,7 @@ class CustomItemCalenderTablet extends StatelessWidget {
                     height: 8.0,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: statusCalenderRed,
+                      color: colorEA5455,
                     ),
                   ),
                 ),
@@ -67,7 +67,7 @@ class CustomItemCalenderTablet extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: textNormalCustom(
-                            color: titleCalenderWork,
+                            color: color3D5586,
                             fontSize: 18.0,
                           ),
                         ),
@@ -77,17 +77,17 @@ class CustomItemCalenderTablet extends StatelessWidget {
                             ? Container(
                                 padding: const EdgeInsets.only(top: 3),
                                 decoration: BoxDecoration(
-                                  color: statusCalenderRed.withOpacity(0.1),
+                                  color: colorEA5455.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(30),
                                   border: Border.all(
-                                    color: statusCalenderRed.withOpacity(0.1),
+                                    color: colorEA5455.withOpacity(0.1),
                                   ),
                                 ),
                                 height: 24,
                                 child: Text(
                                   S.current.trung,
                                   style: textNormalCustom(
-                                    color: statusCalenderRed,
+                                    color: colorEA5455,
                                     fontSize: 14.0,
                                   ),
                                   textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ class CustomItemCalenderTablet extends StatelessWidget {
                     child: Text(
                       '$dateTimeFrom - $dateTimeTo',
                       style: textNormalCustom(
-                        color: textBodyTime,
+                        color: colorA2AEBD,
                         fontWeight: FontWeight.w400,
                       ),
                     ),

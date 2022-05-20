@@ -35,7 +35,7 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
               height: 40.0.textScale(space: 16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
-                color: widget.isColorBlue ? textDefault : buttonColor2,
+                color: widget.isColorBlue ? color7966FF : color1A7966FF,
               ),
               child: Center(
                 child: Text(
@@ -43,7 +43,7 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
                   style: textNormalCustom(
                     fontSize: widget.size ?? 14.0.textScale(space: 4.0),
                     color:
-                        widget.isColorBlue ? backgroundColorApp : textDefault,
+                        widget.isColorBlue ? colorFFFFFF : color7966FF,
                   ),
                 ),
               ),

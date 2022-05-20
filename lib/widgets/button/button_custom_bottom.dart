@@ -50,7 +50,7 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
                   style: textNormalCustom(
                     fontSize: widget.size ?? 14.0.textScale(space: 4.0),
                     color: widget.isColorBlue
-                        ? backgroundColorApp
+                        ? colorFFFFFF
                         : AppTheme.getInstance().colorField(),
                   ),
                 ),

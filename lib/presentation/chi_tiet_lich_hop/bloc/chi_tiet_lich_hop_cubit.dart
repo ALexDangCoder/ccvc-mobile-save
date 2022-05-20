@@ -83,22 +83,22 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     ButtonStatePhatBieu(
       key: S.current.danh_sach_phat_bieu,
       value: 0,
-      color: choXuLyColor,
+      color: color5A8DEE,
     ),
     ButtonStatePhatBieu(
       key: S.current.cho_duyet,
       value: 0,
-      color: itemWidgetNotUse,
+      color: colorFF9F43,
     ),
     ButtonStatePhatBieu(
       key: S.current.da_duyet,
       value: 0,
-      color: itemWidgetUsing,
+      color: color28C76F,
     ),
     ButtonStatePhatBieu(
       key: S.current.huy_duyet,
       value: 0,
-      color: statusCalenderRed,
+      color: colorEA5455,
     ),
   ];
 
@@ -811,15 +811,15 @@ extension PhatBieu on DetailMeetCalenderCubit {
   Color bgrColorButton(int vl) {
     switch (vl) {
       case DANHSACHPHATBIEU:
-        return choXuLyColor;
+        return color5A8DEE;
       case CHODUYET:
-        return itemWidgetNotUse;
+        return colorFF9F43;
       case DADUYET:
-        return itemWidgetUsing;
+        return color28C76F;
       case HUYDUYET:
-        return statusCalenderRed;
+        return colorEA5455;
     }
-    return backgroundColorApp;
+    return colorFFFFFF;
   }
 }
 

@@ -43,7 +43,7 @@ class _ManagerPersonalInformationState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: colorE5E5E5,
       appBar: BaseAppBar(
         title: S.current.manager_information,
         leadingIcon: Padding(
@@ -105,7 +105,7 @@ class _ManagerPersonalInformationState
                     return const SizedBox();
                   }
                   return Container(
-                    color: backgroundColorApp,
+                    color: colorFFFFFF,
                     padding: const EdgeInsets.only(top: 2, left: 16, right: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

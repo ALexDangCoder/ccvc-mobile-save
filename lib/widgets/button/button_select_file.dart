@@ -136,7 +136,7 @@ Widget itemListFile(
     padding: EdgeInsets.all(16.0.textScale()),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(6.0.textScale()),
-      border: Border.all(color: bgDropDown),
+      border: Border.all(color: colorE2E8F0),
     ),
     alignment: Alignment.center,
     child: Row(
@@ -146,7 +146,7 @@ Widget itemListFile(
           child: Text(
             file.path.convertNameFile(),
             style: textNormalCustom(
-              color: choXuLyColor,
+              color: color5A8DEE,
               fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
             ),

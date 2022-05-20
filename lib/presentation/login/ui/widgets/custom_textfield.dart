@@ -47,7 +47,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         style: textNormalCustom(
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.normal,
-            color: colorBlack),
+            color: color000000),
         decoration: InputDecoration(
           prefixIcon: IconButton(
             icon: widget.prefixIcon!,
@@ -68,25 +68,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
           contentPadding: const EdgeInsets.only(left: 20),
           isCollapsed: true,
-          fillColor: bgDropDown.withOpacity(0.1),
+          fillColor: colorE2E8F0.withOpacity(0.1),
           filled: true,
           hintText: widget.textHint,
           hintStyle: textNormalCustom(
             fontSize: 14.0.textScale(),
-            color: unselectedLabelColor,
+            color: color667793,
             fontWeight: FontWeight.w400,
           ),
           errorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(6)),
-            borderSide: BorderSide(color: canceledColor),
+            borderSide: BorderSide(color: colorF94444),
           ),
           focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(6)),
-            borderSide: BorderSide(color: bgDropDown),
+            borderSide: BorderSide(color: colorE2E8F0),
           ),
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(6)),
-            borderSide: BorderSide(color: bgDropDown),
+            borderSide: BorderSide(color: colorE2E8F0),
           ),
         ),
         onChanged: (text) {

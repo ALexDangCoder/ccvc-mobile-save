@@ -48,7 +48,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(
-                color: borderColor,
+                color: colorDBDFEF,
               ),
               borderRadius: BorderRadius.circular(6),
             ),
@@ -71,7 +71,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                             widget.value ?? '',
                             style: tokenDetailAmount(
                               fontSize: 14.0.textScale(),
-                              color: titleColor,
+                              color: color3D5586,
                             ),
                           ),
                         )
@@ -83,10 +83,10 @@ class _CustomDropDownState extends State<CustomDropDown> {
                           hint: widget.hint ??
                               Text(
                                 S.current.select_validate,
-                                style: textNormal(infoColor, 14),
+                                style: textNormal(color667793, 14),
                               ),
                           icon: Container(),
-                          focusColor: statusCalenderRed,
+                          focusColor: colorEA5455,
                           onChanged: (value) {
                             if (widget.items.isNotEmpty &&
                                 widget.items.first !=
@@ -109,7 +109,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                       value,
                                       style: tokenDetailAmount(
                                         fontSize: 14.0.textScale(),
-                                        color: titleColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   );
@@ -121,7 +121,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                       S.current.danh_sach_rong,
                                       style: tokenDetailAmount(
                                         fontSize: 14.0.textScale(),
-                                        color: titleColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   )

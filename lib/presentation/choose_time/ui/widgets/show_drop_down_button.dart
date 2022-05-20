@@ -55,7 +55,7 @@ class _ShowDropDownButtonState extends State<ShowDropDownButton> {
           height: 32,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: bgDropDown),
+            border: Border.all(color: colorE2E8F0),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,7 +117,7 @@ class _ShowDropDownButtonState extends State<ShowDropDownButton> {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.transparent,
                       border: Border.all(
-                        color: bgDropDown,
+                        color: colorE2E8F0,
                       ),
                     ),
                     child: Column(
@@ -144,7 +144,7 @@ class _ShowDropDownButtonState extends State<ShowDropDownButton> {
                                   padding: const EdgeInsets.all(8),
                                   child: Text(
                                     widget.chooseTimeCubit.listText[index],
-                                    style: textNormal(textDropDownColor, 14),
+                                    style: textNormal(color3D5586, 14),
                                   ),
                                 ),
                                 if (index == 2)
@@ -152,7 +152,7 @@ class _ShowDropDownButtonState extends State<ShowDropDownButton> {
                                 else
                                   Container(
                                     height: 1,
-                                    color: bgDropDown,
+                                    color: colorE2E8F0,
                                   )
                               ],
                             ),

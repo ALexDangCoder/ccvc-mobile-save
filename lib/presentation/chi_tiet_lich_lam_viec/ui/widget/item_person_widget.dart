@@ -46,7 +46,7 @@ class ItemPersonWidget extends StatelessWidget {
           Text(
             name,
             style: textNormalCustom(
-              color: textTitle,
+              color: color3D5586,
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w400,
             ),

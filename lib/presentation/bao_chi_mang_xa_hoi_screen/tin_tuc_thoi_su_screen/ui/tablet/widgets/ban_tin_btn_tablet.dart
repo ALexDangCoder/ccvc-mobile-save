@@ -57,7 +57,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? false;
                       return IconButton(
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                         onPressed: () {
                           phatBanTinBloc.setRePlayMode();
                           player.seek(
@@ -69,13 +69,13 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                           ImageAssets.ic_replay,
                           color: data
                               ? AppTheme.getInstance().colorField()
-                              : unselectLabelColor,
+                              : colorA2AEBD,
                         ),
                       );
                     },
                   ),
                   IconButton(
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                     onPressed: () {
                       phatBanTinBloc.setIndexRadio(
                         phatBanTinBloc.getIndexRadio() - 1,
@@ -113,7 +113,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                     },
                   ),
                   IconButton(
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                     onPressed: () {
                       phatBanTinBloc.setIndexRadio(
                         phatBanTinBloc.getIndexRadio() + 1,
@@ -138,7 +138,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                           ImageAssets.ic_loop_mode,
                           color: isLoopMode
                               ? AppTheme.getInstance().colorField()
-                              : unselectLabelColor,
+                              : colorA2AEBD,
                         ),
                       );
                     },
@@ -160,7 +160,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                         return Text(
                           phatBanTinBloc.intToDate(timeData),
                           style: textNormalCustom(
-                            color: AqiColor,
+                            color: colorA2AEBD,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
@@ -205,7 +205,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                         return Text(
                           phatBanTinBloc.intToDate(timeData),
                           style: textNormalCustom(
-                            color: AqiColor,
+                            color: colorA2AEBD,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
@@ -228,7 +228,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.volume_up),
-                            color: unselectLabelColor,
+                            color: colorA2AEBD,
                           ),
                           SizedBox(
                             width: 60,
@@ -237,7 +237,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                               builder: (context, snapshot) {
                                 final data = snapshot.data ?? 0.5;
                                 return Container(
-                                  color: borderButtomColor,
+                                  color: colorE2E8F0,
                                   child: SliderTheme(
                                     data: SliderTheme.of(context).copyWith(
                                       trackShape: CustomTrackShape(),
@@ -254,7 +254,7 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                                       child: Slider(
                                         value: data,
                                         activeColor:  AppTheme.getInstance().colorField(),
-                                        inactiveColor:borderButtomColor,
+                                        inactiveColor:colorE2E8F0,
                                         onChanged: (double value) {
                                           player.setVolume(value);
                                         },

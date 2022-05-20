@@ -38,7 +38,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                 height: 10.0.textScale(),
                 width: 10.0.textScale(),
                 decoration: const BoxDecoration(
-                  color: choVaoSoColor,
+                  color: color28C76F,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -49,7 +49,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                 S.current.gio_hoang_dao_gio_tot,
                 style: textNormalCustom(
                   fontSize: 14.0.textScale(),
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
             ],
@@ -122,7 +122,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                   height: 10.0.textScale(),
                   width: 10.0.textScale(),
                   decoration: const BoxDecoration(
-                    color: choTrinhKyColor,
+                    color: color02C5DD,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -134,7 +134,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                 '${S.current.tiet_khi}: ',
                 tietKhi,
                 fontWeight: FontWeight.w400,
-                color: titleColor,
+                color: color3D5586,
               ),
             ],
           ),
@@ -149,7 +149,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                   height: 10.0.textScale(),
                   width: 10.0.textScale(),
                   decoration: const BoxDecoration(
-                    color: daXuLyColor,
+                    color: color28C76F,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -161,7 +161,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                 '${S.current.ngay}: ',
                 ngayAmLichStr,
                 fontWeight: FontWeight.w400,
-                color: titleColor,
+                color: color3D5586,
               ),
             ],
           ),

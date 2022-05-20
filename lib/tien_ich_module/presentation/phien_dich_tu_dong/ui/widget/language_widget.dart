@@ -31,7 +31,7 @@ class LanguageWidget extends StatelessWidget {
               Text(
                 text,
                 style: textNormalCustom(
-                  color: textTitle,
+                  color: color3D5586,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),
@@ -43,7 +43,7 @@ class LanguageWidget extends StatelessWidget {
               Text(
                 text,
                 style: textNormalCustom(
-                  color: textTitle,
+                  color: color3D5586,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),

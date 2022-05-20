@@ -27,7 +27,7 @@ class ItemTableTopic extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         border: Border.all(
-          color: whiteHide,
+          color: colorAEEF5,
         ),
       ),
       child: Column(
@@ -38,7 +38,7 @@ class ItemTableTopic extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: whiteHide),
+                bottom: BorderSide(color: colorAEEF5),
               ),
             ),
             child: Text(
@@ -46,7 +46,7 @@ class ItemTableTopic extends StatelessWidget {
               style: textNormalCustom(
                 fontWeight: FontWeight.w500,
                 fontSize: 16.0.textScale(space: 4),
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
           ),
@@ -120,7 +120,7 @@ class ItemInTable extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: greyHide,
+        color: colorF5F6FA,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -129,7 +129,7 @@ class ItemInTable extends StatelessWidget {
           Text(
             index,
             style: textNormalCustom(
-              color: titleColor,
+              color: color3D5586,
               fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
@@ -143,7 +143,7 @@ class ItemInTable extends StatelessWidget {
               Text(
                 content,
                 style: textNormalCustom(
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),

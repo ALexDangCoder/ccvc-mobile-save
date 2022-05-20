@@ -137,7 +137,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
               ? BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: shadowContainerColor.withOpacity(0.1),
+                      color: color6566E9.withOpacity(0.1),
                       blurRadius: 20.0.textScale(),
                       offset: const Offset(0, 4),
                     ),
@@ -151,7 +151,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
               : BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: shadowContainerColor.withOpacity(0.1),
+                      color: color6566E9.withOpacity(0.1),
                       blurRadius: 20.0.textScale(),
                       offset: const Offset(0, 4),
                     ),
@@ -180,7 +180,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                             border: InputBorder.none,
                             hintText: S.current.tim_kiem,
                             hintStyle: textNormalCustom(
-                              color: textBodyTime,
+                              color: colorA2AEBD,
                               fontWeight: FontWeight.w400,
                               fontSize: 14.0.textScale(),
                             ),
@@ -202,11 +202,11 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           children: [
                             widget.type.getTextWidget(
                               cubit: cubit,
-                              textColor: titleColor,
+                              textColor: color3D5586,
                             ),
                             const Icon(
                               Icons.arrow_drop_down_sharp,
-                              color: textBodyTime,
+                              color: colorA2AEBD,
                             ),
                           ],
                         ),
@@ -251,12 +251,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       },
                       calendarStyle: CalendarStyle(
                         weekendTextStyle: textNormalCustom(
-                          color: titleCalenderWork,
+                          color: color3D5586,
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w500,
                         ),
                         defaultTextStyle: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w500,
                         ),
@@ -278,7 +278,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         todayTextStyle: textNormalCustom(
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w500,
-                          color: buttonColor,
+                          color: color7966FF,
                         ),
                       ),
                       headerVisible: false,

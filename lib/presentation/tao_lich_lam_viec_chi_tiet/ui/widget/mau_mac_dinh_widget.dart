@@ -63,7 +63,7 @@ class _MauMacDinhWidgetState extends State<MauMacDinhWidget> {
                                     ),
                                     Text(
                                       e.text,
-                                      style: textNormal(titleColor, 16),
+                                      style: textNormal(color3D5586, 16),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ],

@@ -39,9 +39,9 @@ class _CommentWidgetState extends State<CommentWidget> {
       padding: const EdgeInsets.only(top: 16),
       child: Container(
         decoration: BoxDecoration(
-          color: toDayColor.withOpacity(0.1),
+          color: colorDBDFEF.withOpacity(0.1),
           border: Border.all(
-            color: toDayColor.withOpacity(0.4),
+            color: colorDBDFEF.withOpacity(0.4),
           ),
           borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
         ),
@@ -68,7 +68,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   child: Text(
                     showRecoment ? 'Ẩn' : 'Hiện',
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: color3D5586,
                       fontSize: 14.0.textScale(),
                       fontWeight: FontWeight.w500,
                     ),
@@ -131,7 +131,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               child: Text(
                 nguoiTao,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w500,
                 ),
@@ -144,7 +144,7 @@ class _CommentWidgetState extends State<CommentWidget> {
             Text(
               ngayTao,
               style: textNormalCustom(
-                color: infoColor,
+                color: color667793,
                 fontSize: 12.0.textScale(space: 4.0),
                 fontWeight: FontWeight.w400,
               ),
@@ -157,7 +157,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         Text(
           content,
           style: textNormalCustom(
-            color: titleColor,
+            color: color3D5586,
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w400,
           ),

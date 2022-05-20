@@ -61,7 +61,7 @@ class _ManagerPersonalInformationTabletState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgManagerColor,
+      backgroundColor: colorF9FAFF,
       appBar: BaseAppBar(
         title: S.current.manager_information,
         leadingIcon: IconButton(
@@ -114,10 +114,10 @@ class _ManagerPersonalInformationTabletState
                   }
                   return Container(
                     decoration: BoxDecoration(
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                          color: borderItemCalender.withOpacity(0.5)),
+                          color: colorE2E8F0.withOpacity(0.5)),
                     ),
                     margin: const EdgeInsets.only(
                       top: 28,
@@ -157,7 +157,7 @@ class _ManagerPersonalInformationTabletState
                         spaceH16,
                         Container(
                           height: 1,
-                          color: borderItemCalender,
+                          color: colorE2E8F0,
                         ),
                         spaceH28,
                         Row(
@@ -181,7 +181,7 @@ class _ManagerPersonalInformationTabletState
                         spaceH16,
                         Container(
                           height: 1,
-                          color: borderItemCalender,
+                          color: colorE2E8F0,
                         ),
                         spaceH28,
                         WigetImage(

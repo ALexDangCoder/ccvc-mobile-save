@@ -18,9 +18,9 @@ class _ThongTinXuLyPhanAnhState extends State<ThongTinXuLyPhanAnh> {
     return Container(
       padding: const EdgeInsets.only(left: 16, top: 16),
       decoration: BoxDecoration(
-        color: bgDropDown.withOpacity(0.1),
+        color: colorE2E8F0.withOpacity(0.1),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: bgDropDown),
+        border: Border.all(color: colorE2E8F0),
       ),
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),

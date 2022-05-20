@@ -18,7 +18,7 @@ class ContainerStatusLuongXuLyWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: borderColor,
+          color: colorDBDFEF,
         ),
         borderRadius: const BorderRadius.all(
           Radius.circular(8),

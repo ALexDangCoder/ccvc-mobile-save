@@ -49,7 +49,7 @@ class ItemThongBaoTablet extends StatelessWidget {
                   Text(
                     title,
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: color3D5586,
                       fontSize: 18.0,
                       fontWeight: FontWeight.w500,
                     ),
@@ -57,7 +57,7 @@ class ItemThongBaoTablet extends StatelessWidget {
                         Text(
                           time,
                           style: textNormalCustom(
-                            color: AqiColor,
+                            color: colorA2AEBD,
                             fontSize: 16.0,
                             fontWeight: FontWeight.w400,
                           ),
@@ -80,7 +80,7 @@ class ItemThongBaoTablet extends StatelessWidget {
                                 Text(
                                   S.current.vao_hop_truc_tuyen,
                                   style: textNormalCustom(
-                                    color: titleColumn,
+                                    color: color667793,
                                     fontSize: 14.0.textScale(),
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -106,7 +106,7 @@ class ItemThongBaoTablet extends StatelessWidget {
                                   child: Text(
                                     content,
                                     style: textNormalCustom(
-                                      color: textColorMangXaHoi,
+                                      color: color2F80ED,
                                       fontSize: 14.0.textScale(),
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -122,7 +122,7 @@ class ItemThongBaoTablet extends StatelessWidget {
                             child: Text(
                               content,
                               style: textNormalCustom(
-                                color: titleColumn,
+                                color: color667793,
                                 fontSize: 14.0.textScale(),
                                 fontWeight: FontWeight.w400,
                               ),
@@ -139,7 +139,7 @@ class ItemThongBaoTablet extends StatelessWidget {
                           const Icon(
                             Icons.circle,
                             size: 12,
-                            color: textDefault,
+                            color: color7966FF,
                           ),
                       ],
                     )
@@ -154,7 +154,7 @@ class ItemThongBaoTablet extends StatelessWidget {
           Container(
             height: 1,
             width: double.maxFinite,
-            color: bgDropDown,
+            color: colorE2E8F0,
           )
         ],
       ),

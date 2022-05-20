@@ -28,7 +28,7 @@ class ItemRow extends StatelessWidget {
                 style: textNormalCustom(
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
-                  color: titleCalenderWork,
+                  color: color3D5586,
                 ),
               ),
             ),
@@ -42,7 +42,7 @@ class ItemRow extends StatelessWidget {
                 style: textNormalCustom(
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
-                  color: isFile ? numberOfCalenders : titleItemEdit,
+                  color: isFile ? color5A8DEE : color586B8B,
                 ),
               ),
             ),

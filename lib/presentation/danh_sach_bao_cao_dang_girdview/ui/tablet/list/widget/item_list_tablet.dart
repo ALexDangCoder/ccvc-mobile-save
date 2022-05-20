@@ -13,11 +13,11 @@ class ItemListTablet extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 28),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        color: backgroundColorApp,
-        border: Border.all(color: borderColor.withOpacity(0.5)),
+        color: colorFFFFFF,
+        border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
         boxShadow: [
           BoxShadow(
-            color: shadowContainerColor.withOpacity(0.05),
+            color: color6566E9.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -33,7 +33,7 @@ class ItemListTablet extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20),
             child: Text(
               S.current.bac_cao,
-              style: textNormalCustom(color: titleCalenderWork, fontSize: 16),
+              style: textNormalCustom(color: color3D5586, fontSize: 16),
             ),
           )
         ],

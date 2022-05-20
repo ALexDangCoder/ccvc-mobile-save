@@ -55,7 +55,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgTabletColor,
+      backgroundColor: colorF9FAFF,
       appBar: BaseAppBar(
         title: S.current.chi_tiet_lich_hop,
         leadingIcon: IconButton(
@@ -196,18 +196,18 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                         child: Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: backgroundColorApp,
+                            color: colorFFFFFF,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12),
                             ),
                             border:
-                                Border.all(color: borderColor.withOpacity(0.5)),
+                                Border.all(color: colorDBDFEF.withOpacity(0.5)),
                             boxShadow: [
                               BoxShadow(
                                   offset: const Offset(0, 4),
                                   blurRadius: 10,
-                                  color: shadowContainerColor.withOpacity(0.05))
+                                  color: color6566E9.withOpacity(0.05))
                             ],
                           ),
                           child: Row(
@@ -239,17 +239,17 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                    color: backgroundColorApp,
+                    color: colorFFFFFF,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(12),
                       bottomRight: Radius.circular(12),
                     ),
-                    border: Border.all(color: borderColor.withOpacity(0.5)),
+                    border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                     boxShadow: [
                       BoxShadow(
                           offset: const Offset(0, 4),
                           blurRadius: 10,
-                          color: shadowContainerColor.withOpacity(0.05))
+                          color: color6566E9.withOpacity(0.05))
                     ],
                   ),
                   child: StickyHeader(
@@ -258,9 +258,9 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       controller: _controller,
                       unselectedLabelStyle: textNormalCustom(
                           fontSize: 16, fontWeight: FontWeight.w700),
-                      indicatorColor: indicatorColor,
-                      unselectedLabelColor: unselectLabelColor,
-                      labelColor: indicatorColor,
+                      indicatorColor: color7966FF,
+                      unselectedLabelColor: colorA2AEBD,
+                      labelColor: color7966FF,
                       labelStyle: textNormalCustom(
                           fontSize: 16, fontWeight: FontWeight.w400),
                       isScrollable: true,

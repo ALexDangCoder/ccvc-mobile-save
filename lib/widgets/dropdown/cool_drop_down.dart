@@ -58,32 +58,32 @@ class _CoolDropDownState extends State<CoolDropDown> {
       placeholder: widget.placeHoder,
       selectedItemTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleCalenderWork,
+        color: color3D5586,
       ),
       unselectedItemTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleCalenderWork,
+        color: color3D5586,
       ),
       selectedItemBD: BoxDecoration(
-        color: borderColor,
+        color: colorDBDFEF,
         borderRadius: BorderRadius.circular(6),
       ),
       resultTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleCalenderWork,
+        color: color3D5586,
       ),
       placeholderTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleCalenderWork,
+        color: color3D5586,
       ),
       resultBD: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: borderColor),
+        border: Border.all(color: colorDBDFEF),
       ),
       dropdownBD: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         color: Colors.white,
-        border: Border.all(color: borderColor),
+        border: Border.all(color: colorDBDFEF),
       ),
       isTriangle: false,
       gap: 1.0,

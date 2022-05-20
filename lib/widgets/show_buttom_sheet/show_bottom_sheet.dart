@@ -35,7 +35,7 @@ Future<T?> showBottomSheetCustom<T>(BuildContext context,
                   visible: textOption??true,
                   child: Text(
                     title,
-                    style: textNormalCustom(fontSize: 18, color: textTitle),
+                    style: textNormalCustom(fontSize: 18, color: color3D5586),
                   ),
                 ),
                 child
@@ -54,7 +54,7 @@ Widget lineContainer() {
     width: 48,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      color: lineColor,
+      color: colorECEEF7,
     ),
   );
 }

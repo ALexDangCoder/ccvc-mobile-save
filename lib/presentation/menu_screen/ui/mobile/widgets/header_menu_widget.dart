@@ -19,7 +19,7 @@ class HeaderMenuMobileWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: lineColor),
+          bottom: BorderSide(color: colorECEEF7),
         ),
       ),
       child: StreamBuilder<UserInformationModel>(
@@ -55,14 +55,14 @@ class HeaderMenuMobileWidget extends StatelessWidget {
                     children: [
                       Text(
                         data?.hoTen ?? '',
-                        style: textNormalCustom(color: textTitle, fontSize: 14),
+                        style: textNormalCustom(color: color3D5586, fontSize: 14),
                       ),
                       const SizedBox(
                         height: 8,
                       ),
                       Text(
                         data?.chucVu ?? '',
-                        style: textNormal(infoColor, 14),
+                        style: textNormal(color667793, 14),
                       )
                     ],
                   ),
@@ -83,7 +83,7 @@ class HeaderMenuMobileWidget extends StatelessWidget {
                 ),
                 const Icon(
                   Icons.navigate_next,
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                 )
               ],
             );

@@ -109,13 +109,13 @@ extension CheckColor on String {
       case 'thu-hoi':
         return Colors.red;
       case 'cho-phan-xu-ly':
-        return choXuLyColor;
+        return color5A8DEE;
       case 'chua-thuc-hien':
-        return choVaoSoColor;
+        return color28C76F;
       case 'dang-thuc-hien':
-        return choTrinhKyColor;
+        return color02C5DD;
       case 'da-hoan-thanh':
-        return daXuLyColor;
+        return color28C76F;
       case 'tra-lai':
         return Colors.red;
       default:
@@ -126,11 +126,11 @@ extension CheckColor on String {
   Color status() {
     switch (this) {
       case 'qua-han':
-        return statusCalenderRed;
+        return colorEA5455;
       case 'den-han':
-        return denHanColor;
+        return color0046FF;
       case 'trong-han':
-        return textTitle;
+        return color3D5586;
       default:
         return Colors.red;
     }

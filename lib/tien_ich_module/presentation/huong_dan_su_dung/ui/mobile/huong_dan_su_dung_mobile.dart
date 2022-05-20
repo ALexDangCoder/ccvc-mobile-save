@@ -184,7 +184,7 @@ class _HuongDanSuDungMobileState extends State<HuongDanSuDungMobile> {
                                                               '',
                                                           style:
                                                               textNormalCustom(
-                                                            color: titleColumn,
+                                                            color: color667793,
                                                             fontSize: 16,
                                                           ),
                                                         ),
@@ -207,7 +207,7 @@ class _HuongDanSuDungMobileState extends State<HuongDanSuDungMobile> {
                                                             style: {
                                                               'body': Style(
                                                                 color:
-                                                                    titleColumn,
+                                                                    color667793,
                                                                 fontSize:
                                                                     const FontSize(
                                                                   14.0,

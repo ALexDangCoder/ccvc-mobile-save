@@ -34,13 +34,13 @@ class _SuaLichCongTacTrongNuocTabletState
     return WidgetTaoLichLVInherited(
       taoLichLamViecCubit: taoLichLamViecCubit,
       child: Scaffold(
-        backgroundColor: bgWidgets,
+        backgroundColor: colorF9FAFF,
         appBar: BaseAppBar(
           title: S.current.sua_lich_cong_tac_trong_nuoc,
           leadingIcon: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios_rounded,
-              color: unselectLabelColor,
+              color: color667793,
               size: 24,
             ),
             onPressed: () {
@@ -57,7 +57,7 @@ class _SuaLichCongTacTrongNuocTabletState
                     const EdgeInsets.symmetric(vertical: 28, horizontal: 30),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: borderColor.withOpacity(0.5)),
+                  border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: const [
                     BoxShadow(
@@ -79,7 +79,7 @@ class _SuaLichCongTacTrongNuocTabletState
                             Text(
                               S.current.thong_tin_lich,
                               style: textNormalCustom(
-                                color: textTitle,
+                                color: color3D5586,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -143,8 +143,8 @@ class _SuaLichCongTacTrongNuocTabletState
                   children: [
                     buttomWidget(
                       title: S.current.dong,
-                      background: bgTag,
-                      textColor: labelColor,
+                      background: colorF2F0FF,
+                      textColor: color7966FF,
                       onTap: () {},
                     ),
                     const SizedBox(
@@ -152,7 +152,7 @@ class _SuaLichCongTacTrongNuocTabletState
                     ),
                     buttomWidget(
                       title: S.current.luu,
-                      background: textDefault,
+                      background: color7966FF,
                       textColor: Colors.white,
                       onTap: () {},
                     ),

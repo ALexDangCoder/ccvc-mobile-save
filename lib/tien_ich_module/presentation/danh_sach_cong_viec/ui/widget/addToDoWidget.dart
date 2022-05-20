@@ -43,7 +43,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: borderButtomColor)),
+                border: Border(bottom: BorderSide(color: colorE2E8F0)),
               ),
               child: TextFormField(
                 // initialValue: widget.initData ?? '',
@@ -57,7 +57,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                   }
                   setState(() {});
                 },
-                style: textNormal(infoColor, 14),
+                style: textNormal(color667793, 14),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefixIconConstraints:
@@ -70,7 +70,7 @@ class _AddToDoWidgetTienIchState extends State<AddToDoWidgetTienIch> {
                         ImageAssets.icEditBlue,
                         width: 14,
                         height: 14,
-                        color: coloriCon,
+                        color: colorA2AEBD,
                       ),
                     ),
                   ),

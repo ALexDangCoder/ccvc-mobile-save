@@ -24,7 +24,7 @@ class TuoiXungTheoThangWidget extends StatelessWidget {
             S.current.tuoi_xung_theo_thang,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),

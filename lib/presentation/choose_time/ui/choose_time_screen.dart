@@ -43,7 +43,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
       height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 30),
       decoration: BoxDecoration(
-        border: Border.all(color: bgDropDown),
+        border: Border.all(color: colorE2E8F0),
       ),
       child: Row(
         children: [
@@ -109,7 +109,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                                     child: Text(
                                       '${snapshot.data}',
                                       style: textNormal(
-                                        textDropDownColor,
+                                        color3D5586,
                                         14.0.textScale(space: 4),
                                       ),
                                     ),
@@ -187,15 +187,15 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                 ),
                 contentPadding: const EdgeInsets.only(left: 20, bottom: 10),
                 isCollapsed: true,
-                fillColor: bgDropDown.withOpacity(0.1),
+                fillColor: colorE2E8F0.withOpacity(0.1),
                 filled: true,
                 hintText: S.current.tiem_kiem,
                 hintStyle: textNormal(
-                  sideTextInactiveColor,
+                  colorB9C4D0,
                   14,
                 ),
                 enabledBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: bgDropDown),
+                  borderSide: BorderSide(color: colorE2E8F0),
                 ),
               ),
             ),

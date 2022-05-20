@@ -45,7 +45,7 @@ class _DanhSachCongViecTabletState extends State<DanhSachCongViecTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgTabletColor,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(S.current.danh_sach_cong_viec),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

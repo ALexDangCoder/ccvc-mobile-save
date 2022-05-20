@@ -27,9 +27,9 @@ class CellDanhSachNhiemVuTablet extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 24.0),
         height: 137,
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
           borderRadius: BorderRadius.circular(10.0),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -54,7 +54,7 @@ class CellDanhSachNhiemVuTablet extends StatelessWidget {
                             '${(index + 1).toString().padLeft(2, '0')}.',
                             style: textNormalCustom(
                               fontSize: 16.0,
-                              color: titleItemEdit,
+                              color: color586B8B,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -82,7 +82,7 @@ class CellDanhSachNhiemVuTablet extends StatelessWidget {
                               Text(
                                 data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
                                 style: textNormalCustom(
-                                  color: textBodyTime,
+                                  color: colorA2AEBD,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16.0,
                                 ),
@@ -95,7 +95,7 @@ class CellDanhSachNhiemVuTablet extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: textNormalCustom(
-                                color: unselectedLabelColor,
+                                color: color667793,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16.0,
                               ),
@@ -107,7 +107,7 @@ class CellDanhSachNhiemVuTablet extends StatelessWidget {
                                 child: Text(
                                   data.tinhHinhThucHienNoiBo ?? '',
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w400,
                                   ),

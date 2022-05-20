@@ -90,7 +90,7 @@ class _SuaLichCongTacTrongNuocPhoneState
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: const BoxDecoration(
-        color: backgroundColorApp,
+        color: colorFFFFFF,
       ),
       child: FollowKeyBoardWidget(
         child: WidgetTaoLichLVInherited(
@@ -106,7 +106,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                       final data = snapshot.data ?? '';
                       return Text(
                         'Sửa ${data}',
-                        style: textNormalCustom(fontSize: 18, color: textTitle),
+                        style: textNormalCustom(fontSize: 18, color: color3D5586),
                       );
                     }),
                 Expanded(
@@ -413,8 +413,8 @@ class _SuaLichCongTacTrongNuocPhoneState
                     Expanded(
                       child: btnSuaLich(
                         name: S.current.dong,
-                        bgr: buttonColor.withOpacity(0.1),
-                        colorName: textDefault,
+                        bgr: color7966FF.withOpacity(0.1),
+                        colorName: color7966FF,
                         onTap: () {},
                       ),
                     ),
@@ -428,7 +428,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                           return Expanded(
                             child: btnSuaLich(
                               name: S.current.luu,
-                              bgr: labelColor,
+                              bgr: color7966FF,
                               colorName: Colors.white,
                               onTap: () {
                                 if (!data) {

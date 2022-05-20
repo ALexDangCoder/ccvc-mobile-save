@@ -69,13 +69,13 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
                   constraints: const BoxConstraints(minWidth: 300),
                   decoration: BoxDecoration(
-                    color: backgroundColorApp,
+                    color: colorFFFFFF,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(20),
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: shadowContainerColor.withOpacity(0.05),
+                        color: color6566E9.withOpacity(0.05),
                         blurRadius: 10,
                         offset:
                             const Offset(0, 4), // changes position of shadow
@@ -97,7 +97,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                         widget.title,
                         textAlign: TextAlign.center,
                         style:
-                            textNormalCustom(fontSize: 18, color: titleColor),
+                            textNormalCustom(fontSize: 18, color: color3D5586),
                       )
                     ],
                   ),

@@ -51,7 +51,7 @@ class _IncomingDocumentScreenState extends State<IncomingDocumentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColorApp,
+      backgroundColor: colorFFFFFF,
       appBar: AppBarDefaultBack(widget.title),
       body: SafeArea(
         child: _content(),

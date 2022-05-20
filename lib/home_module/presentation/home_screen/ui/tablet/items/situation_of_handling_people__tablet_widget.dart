@@ -107,7 +107,7 @@ class _SituationOfHandlingPeopleWidgetState
                               child: Text(
                                 S.current.tiep_nhan,
                                 style: textNormalCustom(
-                                  color: dateColor,
+                                  color: color667793,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -122,7 +122,7 @@ class _SituationOfHandlingPeopleWidgetState
                                     children: List.generate(
                                       8,
                                           (index) => const MySeparator(
-                                        color: lineColor,
+                                        color: colorECEEF7,
                                         height: 2,
                                       ),
                                     ),
@@ -132,31 +132,31 @@ class _SituationOfHandlingPeopleWidgetState
                                   ChartData(
                                     S.current.cho_trinh_ky,
                                     30,
-                                    choTrinhKyColor,
+                                    color02C5DD,
                                     SelectKey.CHO_TRINH_KY,
                                   ),
                                   ChartData(
                                     S.current.cho_xu_ly,
                                     12,
-                                    choXuLyColor,
+                                    color5A8DEE,
                                     SelectKey.CHO_XU_LY,
                                   ),
                                   ChartData(
                                     S.current.da_xu_ly,
                                     14,
-                                    daXuLyColor,
+                                    color28C76F,
                                     SelectKey.DA_XU_LY,
                                   ),
                                   ChartData(
                                     S.current.cho_cap_so,
                                     14,
-                                    choCapSoColor,
+                                    colorFF6D99,
                                     SelectKey.CHO_CAP_SO,
                                   ),
                                   ChartData(
                                     S.current.cho_ban_hanh,
                                     14,
-                                    choBanHanhColor,
+                                    color374FC7,
                                     SelectKey.CHO_BAN_HANH,
                                   )
                                 ]),
@@ -170,19 +170,19 @@ class _SituationOfHandlingPeopleWidgetState
                                 ChartData(
                                   S.current.qua_han,
                                   14,
-                                  statusCalenderRed,
+                                  colorEA5455,
                                   SelectKey.CHO_VAO_SO,
                                 ),
                                 ChartData(
                                   S.current.den_han,
                                   14,
-                                  yellowColor,
+                                  colorD4DAE3,
                                   SelectKey.DANG_XU_LY,
                                 ),
                                 ChartData(
                                   S.current.trong_han,
                                   14,
-                                  choTrinhKyColor,
+                                  color02C5DD,
                                   SelectKey.DA_XU_LY,
                                 ),
                               ],
@@ -199,32 +199,32 @@ class _SituationOfHandlingPeopleWidgetState
                           ChartData(
                             S.current.cho_tiep_nhan_xu_ly,
                             14,
-                            choTrinhKyColor,
+                            color02C5DD,
                           ),
                           ChartData(
                             S.current.cho_xu_ly,
                             14,
-                            numberOfCalenders,
+                            color5A8DEE,
                           ),
                           ChartData(
                             S.current.cho_phan_xu_ly,
                             14,
-                            radioFocusColor,
+                            color7966FF,
                           ),
                           ChartData(
                             S.current.cho_duyet,
                             14,
-                            choCapSoColor,
+                            colorFF6D99,
                           ),
                           ChartData(
                             S.current.da_phan_cong,
                             14,
-                            choBanHanhColor,
+                            color374FC7,
                           ),
                           ChartData(
                             S.current.da_hoan_thanh,
                             14,
-                            itemWidgetUsing,
+                            color28C76F,
                           ),
                         ],
                       ),),

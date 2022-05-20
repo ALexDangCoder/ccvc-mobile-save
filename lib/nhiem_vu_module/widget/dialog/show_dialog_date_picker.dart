@@ -67,7 +67,7 @@ class CupertinoRoundedDatePickerWidgetDialog {
                     },
                     child: Text(
                       S.current.today,
-                      style: textNormalCustom(color: buttonColor, fontSize: 18),
+                      style: textNormalCustom(color: color7966FF, fontSize: 18),
                     ),
                   ),
                 ),
@@ -122,7 +122,7 @@ Widget lineContainer() {
     width: 48,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      color: lineColor,
+      color: colorECEEF7,
     ),
   );
 }

@@ -23,7 +23,7 @@ class MenuItemTienIch extends StatelessWidget {
 
         borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.all(
-            color: borderColor.withOpacity(0.5),
+            color: colorDBDFEF.withOpacity(0.5),
           ),
       ),
       child: Container(
@@ -47,7 +47,7 @@ class MenuItemTienIch extends StatelessWidget {
                   ),
                   const Icon(
                     Icons.navigate_next,
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                   )
                 ],
               ),

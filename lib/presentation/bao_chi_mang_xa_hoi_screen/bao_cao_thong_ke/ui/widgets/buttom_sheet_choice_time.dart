@@ -47,7 +47,7 @@ class _PopupChoiceDateState extends State<PopupChoiceTimeWidget> {
                 S.current.tu_ngay,
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -60,7 +60,7 @@ class _PopupChoiceDateState extends State<PopupChoiceTimeWidget> {
                 S.current.den_ngay,
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontWeight: FontWeight.w400,
                 ),
               ),

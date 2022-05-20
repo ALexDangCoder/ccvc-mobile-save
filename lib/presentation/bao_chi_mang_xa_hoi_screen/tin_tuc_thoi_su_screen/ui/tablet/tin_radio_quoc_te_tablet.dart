@@ -47,7 +47,7 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgCalenderColor,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(
         widget.title,
       ),
@@ -101,7 +101,7 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                             style: textNormalCustom(
                               fontWeight: FontWeight.w700,
                               fontSize: 16.0.textScale(space: 20),
-                              color: backgroundColorApp,
+                              color: colorFFFFFF,
                             ),
                           ),
                           const SizedBox(
@@ -112,7 +112,7 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                             style: textNormalCustom(
                               fontWeight: FontWeight.w500,
                               fontSize: 16.0.textScale(space: 8),
-                              color: backgroundColorApp,
+                              color: colorFFFFFF,
                             ),
                           ),
                         ],
@@ -136,14 +136,14 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                         style: textNormalCustom(
                           fontWeight: FontWeight.w400,
                           fontSize: 16.0.textScale(),
-                          color: infoColor,
+                          color: color667793,
                         ),
                       ),
                       const SizedBox(
                         width: 12,
                       ),
                       Container(
-                        color: backgroundColorApp,
+                        color: colorFFFFFF,
                         height: 50,
                         width: 160,
                         child: CustomDropDown(
@@ -165,7 +165,7 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                     style: textNormalCustom(
                       fontWeight: FontWeight.w500,
                       fontSize: 16.0.textScale(space: 4),
-                      color: titleCalenderWork,
+                      color: color3D5586,
                     ),
                   ),
                 )
@@ -186,7 +186,7 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,
@@ -233,17 +233,17 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                                   'radio chính thức của UBND tỉnh Đồng NaiKênh radio chính'
                                   ' thức của UBND tỉnh Đồng Nai',
                               trimLines: 6,
-                              colorClickableText: labelColor,
+                              colorClickableText: color7966FF,
                               trimMode: TrimMode.Line,
                               style: textNormalCustom(
-                                color: infoColor,
+                                color: color667793,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
                               trimCollapsedText: 'Xem thêm',
                               trimExpandedText: 'Thu gọn',
                               moreStyle: textNormalCustom(
-                                color: labelColor,
+                                color: color7966FF,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),

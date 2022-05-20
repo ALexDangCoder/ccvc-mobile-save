@@ -24,7 +24,7 @@ class RowDataWidget extends StatelessWidget {
           flex: 2,
           child: Text(
             keyTxt,
-            style: textNormal(infoColor, 14.0.textScale()),
+            style: textNormal(color667793, 14.0.textScale()),
           ),
         ),
         const SizedBox(
@@ -45,13 +45,13 @@ class RowDataWidget extends StatelessWidget {
                     child: Text(
                       value,
                       style: textNormalCustom(
-                          color: backgroundColorApp, fontSize: 12),
+                          color: colorFFFFFF, fontSize: 12),
                     ),
                   ),
                 )
               : Text(
                   value,
-                  style: textNormal(titleColor, 14.0.textScale()),
+                  style: textNormal(color3D5586, 14.0.textScale()),
                 ),
         )
       ],

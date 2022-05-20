@@ -33,11 +33,11 @@ class BaoCaoItemTablet extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 24),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: cellColorborder),
+          border: Border.all(color: color05OpacityDBDFEF),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: shadowContainerColor
+              color: color6566E9
                   .withOpacity(0.05), // changes position of shadow
             ),
           ],
@@ -54,7 +54,7 @@ class BaoCaoItemTablet extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -106,7 +106,7 @@ class BaoCaoItemTablet extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -116,7 +116,7 @@ class BaoCaoItemTablet extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color: titleCalenderWork,
+                      color: color3D5586,
                     ),
                   ),
                 ),
@@ -134,7 +134,7 @@ class BaoCaoItemTablet extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -149,7 +149,7 @@ class BaoCaoItemTablet extends StatelessWidget {
                             style: textNormalCustom(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
-                              color: numberOfCalenders,
+                              color: color5A8DEE,
                             ),
                           ),
                           const SizedBox(

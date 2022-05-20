@@ -31,7 +31,7 @@ class _ResetPasswordScreenTabletState extends State<ResetPasswordScreenTablet> {
                 const SizedBox(height: 30.0),
                 Text(
                   S.current.nhap_ma_xac_minh,
-                  style: textNormalCustom(color: titleColor, fontSize: 20.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 20.0),
                 ),
                 const SizedBox(height: 28.0),
                 Row(
@@ -40,7 +40,7 @@ class _ResetPasswordScreenTabletState extends State<ResetPasswordScreenTablet> {
                       '${S.current.ma_xac_minh_cua_ban}: ',
                       style: textNormalCustom(
                         fontSize: 16.0,
-                        color: titleColor,
+                        color: color3D5586,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -48,7 +48,7 @@ class _ResetPasswordScreenTabletState extends State<ResetPasswordScreenTablet> {
                       child: Text(
                         'tovanhungto228@gmaild.com',
                         overflow: TextOverflow.ellipsis,
-                        style: textNormalCustom(color: textDefault),
+                        style: textNormalCustom(color: color7966FF),
                       ),
                     ),
                   ],
@@ -58,27 +58,27 @@ class _ResetPasswordScreenTabletState extends State<ResetPasswordScreenTablet> {
                   padding: const EdgeInsets.symmetric(horizontal: 80),
                   child: PinCodeTextField(
                     length: 6,
-                    cursorColor: colorBlack,
+                    cursorColor: color000000,
                     //mau nut nhay
-                    backgroundColor: backgroundColorApp,
+                    backgroundColor: colorFFFFFF,
                     animationType: AnimationType.fade,
                     pinTheme: PinTheme(
                       shape: PinCodeFieldShape.underline,
                       fieldHeight: 66,
                       fieldWidth: 48,
-                      inactiveColor: unselectLabelColor,
+                      inactiveColor: colorA2AEBD,
                       //gach chan khi khong duoc chon
-                      activeFillColor: backgroundColorApp,
+                      activeFillColor: colorFFFFFF,
                       //mau khi da dien so
-                      activeColor: unselectLabelColor,
+                      activeColor: colorA2AEBD,
                       //gach chan
-                      selectedColor: unselectLabelColor,
+                      selectedColor: colorA2AEBD,
                       // gach chan khi duoc chon
-                      selectedFillColor: backgroundColorApp,
+                      selectedFillColor: colorFFFFFF,
                       //chon mau khi duoc chon
-                      errorBorderColor: errorBorderColor,
-                      disabledColor: unselectLabelColor,
-                      inactiveFillColor: backgroundColorApp,
+                      errorBorderColor: color585782,
+                      disabledColor: colorA2AEBD,
+                      inactiveFillColor: colorFFFFFF,
                       //mau khi khong chon mac dinh mau vang
                     ),
                     animationDuration: const Duration(milliseconds: 300),
@@ -104,7 +104,7 @@ class _ResetPasswordScreenTabletState extends State<ResetPasswordScreenTablet> {
                       S.current.ban_khong_nhan_duoc_ma,
                       style: textNormalCustom(
                         fontSize: 16.0,
-                        color: titleColor,
+                        color: color3D5586,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -113,7 +113,7 @@ class _ResetPasswordScreenTabletState extends State<ResetPasswordScreenTablet> {
                       child: Text(
                         S.current.gui_lai,
                         style: textNormalCustom(
-                          color: textDefault,
+                          color: color7966FF,
                           fontSize: 16.0,
                         ),
                       ),

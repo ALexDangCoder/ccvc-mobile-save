@@ -33,7 +33,7 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
           Container(
             width: double.maxFinite,
             height: 6,
-            color: homeColor,
+            color: colorEEF3FF,
           ),
           textviewTitle(S.current.so_lich_hop_duoc_to_chuc_boi_cac_don_vi),
           ChartByGroupWidget(
@@ -42,7 +42,7 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
           Container(
             width: double.maxFinite,
             height: 6,
-            color: homeColor,
+            color: colorEEF3FF,
           ),
           textviewTitle(S.current.co_cau_lich_hop),
           CoCauLichHopWidget(
@@ -51,7 +51,7 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
           Container(
             width: double.maxFinite,
             height: 6,
-            color: homeColor,
+            color: colorEEF3FF,
           ),
           textviewTitle(S.current.ti_le_tham_du_cua_cac_don_vi),
 
@@ -67,7 +67,7 @@ class _ThongKeLichHopScreenState extends State<ThongKeLichHopScreen> {
       child: Text(
         title,
         style: textNormalCustom(
-          color: textTitle,
+          color: color3D5586,
           fontWeight: FontWeight.w500,
           fontSize: 16,
         ),

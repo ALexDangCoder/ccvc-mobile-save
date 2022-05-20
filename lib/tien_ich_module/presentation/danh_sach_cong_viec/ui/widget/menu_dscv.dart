@@ -150,9 +150,9 @@ class _MenuDSCVState extends State<MenuDSCV> {
         ),
       ),
       tabletScreen: Scaffold(
-        backgroundColor: bgTabletColor,
+        backgroundColor: colorF9FAFF,
         appBar: BaseAppBar(
-          backGroundColor: bgTabletColor,
+          backGroundColor: colorF9FAFF,
           title: S.current.danh_sach_cong_viec,
           leadingIcon: IconButton(
             onPressed: () {
@@ -282,7 +282,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
         Text(
           menu,
           style: textNormalCustom(
-            color: titleColor,
+            color: color3D5586,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

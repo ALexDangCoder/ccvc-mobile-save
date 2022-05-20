@@ -70,7 +70,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
               child: Column(
                 children: [
                   Container(
-                    color: bgQLVBTablet,
+                    color: colorF9FAFF,
                     child: Container(
                       margin: const EdgeInsets.only(
                         top: 20.0,
@@ -81,7 +81,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: borderColor.withOpacity(0.5),
+                          color: colorDBDFEF.withOpacity(0.5),
                         ),
                       ),
                       child: Row(
@@ -175,7 +175,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                     ),
                   ),
                   Container(
-                    color: bgQLVBTablet,
+                    color: colorF9FAFF,
                     height: 18,
                   ),
                 ],
@@ -186,14 +186,14 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
         body: StickyHeader(
           overlapHeaders: true,
           header: Container(
-            color: bgQLVBTablet,
+            color: colorF9FAFF,
             height: 50,
             child: TabBar(
               unselectedLabelStyle: titleAppbar(fontSize: 16),
-              unselectedLabelColor: AqiColor,
-              labelColor: textDefault,
+              unselectedLabelColor: colorA2AEBD,
+              labelColor: color7966FF,
               labelStyle: titleText(fontSize: 16),
-              indicatorColor: textDefault,
+              indicatorColor: color7966FF,
               tabs: [
                 Container(
                   padding: const EdgeInsets.only(bottom: 8),

@@ -61,7 +61,7 @@ class _MenuScreenState extends State<MenuScreen> {
         retry: () {},
         error: AppException('', S.current.something_went_wrong),
         child: Scaffold(
-          backgroundColor: homeColor,
+          backgroundColor: colorEEF3FF,
           appBar: BaseAppBar(
             title: S.current.menu,
           ),
@@ -101,7 +101,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: lineColor),
+                                bottom: BorderSide(color: colorECEEF7),
                               ),
                             ),
                             child: const ButtonQuanLyMobileWidget()),

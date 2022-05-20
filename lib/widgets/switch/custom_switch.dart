@@ -20,7 +20,7 @@ class CustomSwitch extends StatelessWidget {
       toggleSize: 14,
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
-      inactiveColor: borderColor,
+      inactiveColor: colorDBDFEF,
       activeColor: AppTheme.getInstance().colorField(),
       value: value,
       onToggle: onToggle,

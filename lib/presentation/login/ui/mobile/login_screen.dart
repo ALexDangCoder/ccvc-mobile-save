@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             Text(
                               S.current.wellcom_login,
-                              style: textNormal(AqiColor, 14),
+                              style: textNormal(colorA2AEBD, 14),
                             )
                           ],
                         ),
@@ -278,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       width: 48,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12.0),
-                                        color: buttonColor.withOpacity(0.1),
+                                        color: color7966FF.withOpacity(0.1),
                                       ),
                                       child: Center(
                                         child: SvgPicture.asset(
@@ -300,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       width: 48,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12.0),
-                                        color: buttonColor.withOpacity(0.1),
+                                        color: color7966FF.withOpacity(0.1),
                                       ),
                                       child: Center(
                                         child: SvgPicture.asset(

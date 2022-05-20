@@ -28,7 +28,7 @@ class SolidButton extends StatelessWidget {
             ? const EdgeInsets.only(right: 18, left: 12, top: 6, bottom: 6)
             : const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 20),
         decoration: BoxDecoration(
-          color: buttonColor.withOpacity(0.1),
+          color: color7966FF.withOpacity(0.1),
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         child: Row(
@@ -44,7 +44,7 @@ class SolidButton extends StatelessWidget {
             ),
             Text(
               text,
-              style: textNormalCustom(color: labelColor, fontSize: 14),
+              style: textNormalCustom(color: color7966FF, fontSize: 14),
             )
           ],
         ),

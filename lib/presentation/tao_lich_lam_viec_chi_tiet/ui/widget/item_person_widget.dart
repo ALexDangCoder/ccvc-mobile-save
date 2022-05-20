@@ -30,8 +30,8 @@ class ItemPersonWidget extends StatelessWidget {
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [
-                  gradientStart,
-                  gradientEnd,
+                  color4D74FD,
+                  color4DFDF2,
                 ],
               ),
             ),
@@ -49,7 +49,7 @@ class ItemPersonWidget extends StatelessWidget {
           Text(
             name,
             style: textNormalCustom(
-              color: fontColorTablet2,
+              color: color3D5586,
               fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
             ),

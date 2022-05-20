@@ -79,7 +79,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                       return CustomDropDown(
                         hint: Text(
                           widget.cubit.xemKetLuanHopModel.reportStatus ?? '',
-                          style: textNormal(titleItemEdit, 14),
+                          style: textNormal(color586B8B, 14),
                         ),
                         items: datatinhTrang.map((e) => e.displayName).toList(),
                         onSelectItem: (value) {
@@ -99,7 +99,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                   padding: const EdgeInsets.only(bottom: 8, top: 20),
                   child: Text(
                     S.current.chon_mau_bien_ban,
-                    style: textNormal(titleItemEdit, 14),
+                    style: textNormal(color586B8B, 14),
                   ),
                 ),
                 StreamBuilder<ChonBienBanCuocHopModel>(
@@ -114,7 +114,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                                           .reportTemplateId ??
                                       '',
                                 ),
-                                style: textNormal(titleItemEdit, 14),
+                                style: textNormal(color586B8B, 14),
                               )
                             : const SizedBox(),
                         items: data.map((e) => e.name).toList(),
@@ -132,7 +132,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                   padding: const EdgeInsets.only(bottom: 8, top: 20),
                   child: Text(
                     S.current.noi_dung,
-                    style: textNormal(titleItemEdit, 14),
+                    style: textNormal(color586B8B, 14),
                   ),
                 ),
                 GestureDetector(
@@ -153,7 +153,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                     padding: const EdgeInsets.only(
                         bottom: 8, top: 10, left: 8, right: 8),
                     decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
+                      border: Border.all(color: colorDBDFEF),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: SingleChildScrollView(
@@ -230,11 +230,11 @@ class TitleWithRedStartWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: textNormal(titleItemEdit, 14),
+          style: textNormal(color586B8B, 14),
         ),
         Text(
           ' *',
-          style: textNormalCustom(color: canceledColor),
+          style: textNormalCustom(color: colorF94444),
         ),
       ],
     );
@@ -263,7 +263,7 @@ class ShowRequied extends StatelessWidget {
             ),
             child: Text(
               textShow == '' ? S.current.khong_duoc_de_trong : textShow,
-              style: textDetailHDSD(color: canceledColor, fontSize: 12),
+              style: textDetailHDSD(color: colorF94444, fontSize: 12),
             ),
           )
         else

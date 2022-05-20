@@ -49,19 +49,19 @@ class DonViLuongModel  {
   Color getColor(){
     switch(maTrangThai){
       case 'DANG_XU_LY':
-        return dangXuLyLuongColor;
+        return color59C6FA;
       case 'CHO_PHAN_XU_LY':
-        return choPhanXuLyColor;
+        return color5252D4;
       case 'CHO_VAO_SO':
-        return choVaoSoLuongColor;
+        return color0034FF;
       case 'CHO_XU_LY':
-        return choXuLyLuongColor;
+        return color8B4DB4;
       case 'DA_XU_LY':
-        return daXuLyLuongColor;
+        return color42B432;
       case 'THU_HOI':
-        return thuHoiLuongColor;
+        return color9B7938;
       case 'TRA_LAI':
-        return traLaiLuongColor;
+        return colorE5F52F;
     }
     return Colors.transparent;
   }
@@ -75,11 +75,11 @@ class DonViLuongModel  {
     final vaiTroParseVn = vaiTro?.vietNameseParse().toLowerCase();
     switch(vaiTro){
       case 'Chủ trì':
-        return nguoiChuTriColor;
+        return color2467D2;
       case 'Phối hợp':
-        return phoiHopColor;
+        return color2ED47A;
       case 'Nhận để biết':
-        return nhanDeBietColor;
+        return colorEFECEC;
 
     }
     return Colors.black;

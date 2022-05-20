@@ -62,7 +62,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                           clipBehavior: Clip.hardEdge,
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            border: Border.all(color: borderColor),
+                            border: Border.all(color: colorDBDFEF),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(8)),
                           ),
@@ -131,20 +131,20 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                               Text(
                                 data.infoCanBo?.hoTen ?? '',
                                 maxLines: 2,
-                                style: textNormal(selectColorTabbar, 16),
+                                style: textNormal(color304261, 16),
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
                               Text(data.getLoaiBanHanh().title,
-                                  style: textNormal(borderCaneder, 14)),
+                                  style: textNormal(color586B8B, 14)),
                               const SizedBox(
                                 height: 6,
                               ),
                               Text(data.infoCanBo?.donVi ?? '',
                                   style: textNormalCustom(
-                                    color: titleItemEdit,
+                                    color: color586B8B,
                                     fontSize: 14,
                                   )),
                               const SizedBox(
@@ -189,9 +189,9 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                   margin: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    color: borderColor.withOpacity(0.1),
+                    color: colorDBDFEF.withOpacity(0.1),
                     border: Border.all(
-                      color: borderColor.withOpacity(0.5),
+                      color: colorDBDFEF.withOpacity(0.5),
                     ),
                   ),
                   child: SingleChildScrollView(
@@ -200,7 +200,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                       children: [
                         Text('${S.current.chu_thich}:',
                             style: textNormalCustom(
-                              color: titleItemEdit,
+                              color: color586B8B,
                               fontSize: 16,
                             )),
                         const SizedBox(
@@ -304,7 +304,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
         Flexible(
           child: Text(
             data.title,
-            style: textNormal(titleItemEdit, 16),
+            style: textNormal(color586B8B, 16),
             maxLines: 2,
           ),
         )

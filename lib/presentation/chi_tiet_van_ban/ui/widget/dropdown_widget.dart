@@ -89,10 +89,10 @@ class _ExpansionTitleCustomState extends State<ExpansionTitleCustom>
               color: const Color(0xffDBDFEF).withOpacity(0.1),
               border: Border(
                 bottom: BorderSide(
-                  color: cellColorborder,
+                  color: color05OpacityDBDFEF,
                 ),
                 top: BorderSide(
-                  color: cellColorborder,
+                  color: color05OpacityDBDFEF,
                 ),
               ),
             ),

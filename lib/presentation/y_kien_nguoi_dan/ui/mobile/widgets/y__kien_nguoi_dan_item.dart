@@ -33,9 +33,9 @@ class YKienNguoiDanCell extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 20.0),
         height: 107,
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
           borderRadius: BorderRadius.circular(10.0),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -61,7 +61,7 @@ class YKienNguoiDanCell extends StatelessWidget {
                             height: 8.0,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: statusCalenderRed,
+                              color: colorEA5455,
                             ),
                           ),
                         ),
@@ -81,7 +81,7 @@ class YKienNguoiDanCell extends StatelessWidget {
                           Text(
                             DateTime.parse(dateTime).toStringWithListFormat,
                             style: textNormalCustom(
-                              color: textBodyTime,
+                              color: colorA2AEBD,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -105,7 +105,7 @@ class YKienNguoiDanCell extends StatelessWidget {
                                 child: Text(
                                   userName,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontWeight: FontWeight.w400,
                                   ),
                                   maxLines: 1,
@@ -120,8 +120,8 @@ class YKienNguoiDanCell extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.0),
                                   color: status < 0
-                                      ? statusCalenderRed
-                                      : textColorForum,
+                                      ? colorEA5455
+                                      : colorFF9F43,
                                 ),
                                 child: Center(
                                   child: Text(

@@ -17,7 +17,7 @@ class CaiDatMauWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColorApp,
+      color: colorFFFFFF,
       padding: const EdgeInsets.only(top: 16, bottom: 24),
       child: TitleCaiDatWidget(
         title: S.current.cai_dat_mau,
@@ -25,17 +25,17 @@ class CaiDatMauWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             selectColorCell(context,
-                color: labelColor,
+                color: color7966FF,
                 name: S.current.mac_dinh,
                 appMode: AppMode.MAC_DINH),
             selectColorCell(context,
-                color: numberOfCalenders,
+                color: color5A8DEE,
                 name: S.current.xanh,
                 appMode: AppMode.XANH),
             selectColorCell(context,
-                color: pinkColor, name: S.current.hong, appMode: AppMode.HONG),
+                color: colorFB7897, name: S.current.hong, appMode: AppMode.HONG),
             selectColorCell(context,
-                color: yellowColor,
+                color: colorD4DAE3,
                 name: S.current.vang,
                 appMode: AppMode.VANG),
           ],
@@ -69,7 +69,7 @@ class CaiDatMauWidget extends StatelessWidget {
           ),
           Text(
             name,
-            style: textNormal(infoColor, 14),
+            style: textNormal(color667793, 14),
           )
         ],
       ),

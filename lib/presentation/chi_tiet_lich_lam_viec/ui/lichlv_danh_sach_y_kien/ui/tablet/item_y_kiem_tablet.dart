@@ -17,8 +17,8 @@ class ItemYKienTablet extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: colorNumberCellQLVB,
-        border: Border.all(color: borderColor.withOpacity(0.5)),
+        color: colorFCFDFD,
+        border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -45,7 +45,7 @@ class ItemYKienTablet extends StatelessWidget {
                 yKienModel.name,
                 style: textNormalCustom(
                   fontSize: 16,
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
               Expanded(
@@ -54,7 +54,7 @@ class ItemYKienTablet extends StatelessWidget {
                   child: Text(
                     DateTime.parse(yKienModel.time).toStringWithListFormat,
                     style: textNormalCustom(
-                      color: dateColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                       fontSize: 12.0.textScale(),
                     ),
@@ -69,7 +69,7 @@ class ItemYKienTablet extends StatelessWidget {
           Text(
             yKienModel.content,
             style: textNormalCustom(
-              color: titleColor,
+              color: color3D5586,
               fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
             ),

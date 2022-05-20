@@ -164,7 +164,7 @@ extension GetScreenMenu on TypeCalendarMenu {
           ),
           child: type.getTextLLVWidget(
             cubit: cubit,
-            textColor: textBodyTime,
+            textColor: colorA2AEBD,
           ),
         );
 
@@ -186,7 +186,7 @@ extension GetScreenMenu on TypeCalendarMenu {
                     Expanded(
                       child: type.getTextLLVWidget(
                         cubit: cubit,
-                        textColor: textBodyTime,
+                        textColor: colorA2AEBD,
                       ),
                     ),
                     const SizedBox(
@@ -209,7 +209,7 @@ extension GetScreenMenu on TypeCalendarMenu {
           ),
           child: type.getTextLLVWidget(
             cubit: cubit,
-            textColor: textBodyTime,
+            textColor: colorA2AEBD,
           ),
         );
 
@@ -220,7 +220,7 @@ extension GetScreenMenu on TypeCalendarMenu {
           ),
           child: Text(
             cubit.textDay,
-            style: textNormalCustom(color: textBodyTime),
+            style: textNormalCustom(color: colorA2AEBD),
           ),
         );
     }
@@ -238,7 +238,7 @@ extension GetScreenMenu on TypeCalendarMenu {
                 padding: const EdgeInsets.only(bottom: 28),
                 child: Text(
                   cubit.textDay,
-                  style: textNormalCustom(color: textBodyTime),
+                  style: textNormalCustom(color: colorA2AEBD),
                 ),
               );
 
@@ -258,7 +258,7 @@ extension GetScreenMenu on TypeCalendarMenu {
                   children: [
                     Text(
                       cubit.textDay,
-                      style: textNormalCustom(color: textBodyTime),
+                      style: textNormalCustom(color: colorA2AEBD),
                     ),
                     StateSelectWidget(cubit: cubit),
                   ],
@@ -272,7 +272,7 @@ extension GetScreenMenu on TypeCalendarMenu {
                 padding: const EdgeInsets.only(bottom: 28),
                 child: Text(
                   cubit.textDay,
-                  style: textNormalCustom(color: textBodyTime),
+                  style: textNormalCustom(color: colorA2AEBD),
                 ),
               );
 
@@ -283,7 +283,7 @@ extension GetScreenMenu on TypeCalendarMenu {
                 padding: const EdgeInsets.only(bottom: 28),
                 child: Text(
                   cubit.textDay,
-                  style: textNormalCustom(color: textBodyTime),
+                  style: textNormalCustom(color: colorA2AEBD),
                 ),
               );
     }

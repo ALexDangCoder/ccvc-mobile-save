@@ -36,8 +36,8 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
           margin: const EdgeInsets.only(bottom: 16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6.0),
-            border: Border.all(color: borderButtomColor),
-            color: bgDropDown.withOpacity(0.1),
+            border: Border.all(color: colorE2E8F0),
+            color: colorE2E8F0.withOpacity(0.1),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -54,7 +54,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                         width: 56,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: choTrinhKyColor,
+                          color: color02C5DD,
                         ),
                         child: Center(
                           child: Text(
@@ -76,7 +76,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                       Text(
                         widget.name ?? '',
                         style:
-                            textNormalCustom(fontSize: 16, color: titleColor),
+                            textNormalCustom(fontSize: 16, color: color3D5586),
                       ),
                       spaceH6,
                       Row(
@@ -88,7 +88,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                               widget.phone ?? '',
                               style: tokenDetailAmount(
                                 fontSize: 14,
-                                color: dateColor,
+                                color: color667793,
                               ),
                             ),
                           )
@@ -111,8 +111,8 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
           margin: const EdgeInsets.only(bottom: 16.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(color: borderColor.withOpacity(0.5)),
-            color: backgroundColorApp,
+            border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
+            color: colorFFFFFF,
           ),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -128,7 +128,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                         width: 56,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: choTrinhKyColor,
+                          color: color02C5DD,
                         ),
                         child: Center(
                           child: Text(
@@ -150,7 +150,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                       Text(
                         widget.name ?? '',
                         style:
-                            textNormalCustom(fontSize: 16, color: titleColor),
+                            textNormalCustom(fontSize: 16, color: color3D5586),
                       ),
                       spaceH6,
                       Row(
@@ -162,7 +162,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                               widget.phone ?? '',
                               style: tokenDetailAmount(
                                 fontSize: 14,
-                                color: dateColor,
+                                color: color667793,
                               ),
                             ),
                           )

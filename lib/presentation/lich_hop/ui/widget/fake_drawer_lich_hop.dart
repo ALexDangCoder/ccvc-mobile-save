@@ -43,7 +43,7 @@ class FakeDrawerLichHop extends StatelessWidget {
                   position: offsetAnimation,
                   child: SafeArea(
                    child: Scaffold(
-                     backgroundColor: backgroundDrawerMenu,
+                     backgroundColor: color333333,
                      body: Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [

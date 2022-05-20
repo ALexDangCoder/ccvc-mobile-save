@@ -25,7 +25,7 @@ class TiLeThamDuWidget extends StatelessWidget {
                   tooltipBehavior: TooltipBehavior(
                     enable: true,
                     textStyle: textNormalCustom(
-                      color: infoColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                       fontSize: 10,
                     ),
@@ -33,7 +33,7 @@ class TiLeThamDuWidget extends StatelessWidget {
                   primaryXAxis: CategoryAxis(
                     placeLabelsNearAxisLine: true,
                     labelStyle: textNormalCustom(
-                      color: AqiColor,
+                      color: colorA2AEBD,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
@@ -42,30 +42,30 @@ class TiLeThamDuWidget extends StatelessWidget {
                   ),
                   primaryYAxis: CategoryAxis(
                     labelStyle: textNormalCustom(
-                      color: AqiColor,
+                      color: colorA2AEBD,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
                     placeLabelsNearAxisLine: true,
                     axisLine: const AxisLine(
-                      color: AqiColor,
+                      color: colorA2AEBD,
                       width: 0.41,
                     ),
                     interval: cubit.getMaxTiLe(data),
                     minimum: 0,
                     majorGridLines: const MajorGridLines(
                       width: 0.34,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                       dashArray: [5, 5],
                     ),
                   ),
                   series: <ChartSeries<TiLeThamGiaModel, String>>[
                     BarSeries<TiLeThamGiaModel, String>(
-                      color: itemWidgetUsing,
+                      color: color28C76F,
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,
                         textStyle: textNormalCustom(
-                          color: infoColor,
+                          color: color667793,
                           fontWeight: FontWeight.w400,
                           fontSize: 11,
                         ),

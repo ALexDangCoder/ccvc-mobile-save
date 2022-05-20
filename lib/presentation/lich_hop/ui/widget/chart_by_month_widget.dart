@@ -30,32 +30,32 @@ class ChartByMonthWidget extends StatelessWidget {
                 alignment: ChartAlignment.near,
                 text: S.current.thang,
                 textStyle: textNormalCustom(
-                  color: AqiColor,
+                  color: colorA2AEBD,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                 ),
               ),
               placeLabelsNearAxisLine: true,
               labelStyle: textNormalCustom(
-                color: AqiColor,
+                color: colorA2AEBD,
                 fontSize: 12.0.textScale(space: 4),
                 fontWeight: FontWeight.w400,
               ),
               axisLine: const AxisLine(
-                color: AqiColor,
+                color: colorA2AEBD,
                 width: 0.41,
               ),
               majorGridLines: const MajorGridLines(width: 0),
             ),
             primaryYAxis: CategoryAxis(
               labelStyle: textNormalCustom(
-                color: AqiColor,
+                color: colorA2AEBD,
                 fontSize: 12.0.textScale(space: 4),
                 fontWeight: FontWeight.w400,
               ),
               placeLabelsNearAxisLine: true,
               axisLine: const AxisLine(
-                color: AqiColor,
+                color: colorA2AEBD,
                 width: 0.41,
               ),
               interval: 10,
@@ -67,7 +67,7 @@ class ChartByMonthWidget extends StatelessWidget {
             ),
             series: <ChartSeries<StatisticByMonthModel, int>>[
               StackedLineSeries<StatisticByMonthModel, int>(
-                color: choXuLyColor,
+                color: color5A8DEE,
                 dataSource: dataByMonth,
                 xValueMapper: (StatisticByMonthModel sales, _) => sales.month,
                 yValueMapper: (StatisticByMonthModel sales, _) =>
@@ -75,7 +75,7 @@ class ChartByMonthWidget extends StatelessWidget {
                 dataLabelSettings: DataLabelSettings(
                   isVisible: true,
                   textStyle: textNormalCustom(
-                    color: infoColor,
+                    color: color667793,
                     fontWeight: FontWeight.w400,
                     fontSize: 12.0.textScale(space: 4),
                   ),
@@ -83,7 +83,7 @@ class ChartByMonthWidget extends StatelessWidget {
                 ),
                 markerSettings: const MarkerSettings(
                   isVisible: true,
-                  color: choXuLyColor,
+                  color: color5A8DEE,
                 ),
               )
             ],

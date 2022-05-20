@@ -34,8 +34,8 @@ class _ItemListTrongNuocState extends State<ItemListTrongNuoc> {
             )
           : const EdgeInsets.all(1),
       decoration: BoxDecoration(
-        color: isMobile() ? bgDropDown.withOpacity(0.1) : Colors.white,
-        border: Border.all(color: bgDropDown),
+        color: isMobile() ? colorE2E8F0.withOpacity(0.1) : Colors.white,
+        border: Border.all(color: colorE2E8F0),
         borderRadius: BorderRadius.circular(6.0.textScale()),
       ),
       child: Row(
@@ -113,7 +113,7 @@ class _ItemListTrongNuocState extends State<ItemListTrongNuoc> {
           child: Text(
             value,
             style: textNormalCustom(
-              color: textTitle,
+              color: color3D5586,
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w400,
             ),

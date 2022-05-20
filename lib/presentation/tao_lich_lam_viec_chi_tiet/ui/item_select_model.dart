@@ -39,62 +39,62 @@ List<ItemSelectModel> listColorDefault = [
   ItemSelectModel(
     isSelect: true,
     text: 'Màu mặc định',
-    color: choTrinhKyColor,
+    color: color02C5DD,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu đỏ',
-    color: statusCalenderRed,
+    color: colorEA5455,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu cam',
-    color: itemWidgetNotUse,
+    color: colorFF9F43,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu vàng',
-    color: yellowColor,
+    color: colorD4DAE3,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu xanh lá cây',
-    color: greenColor,
+    color: color058141,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu xanh lá nhạt',
-    color: itemWidgetUsing,
+    color: color28C76F,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu xanh nước biển',
-    color: choXuLyColor,
+    color: color5A8DEE,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu việt quất',
-    color: blueberryColor,
+    color: color3E54AC,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu oải hương',
-    color: lavenderColor,
+    color: color7A85CD,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu nho',
-    color: grapeColor,
+    color: color9B51E0,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu hồng',
-    color: pinkColor,
+    color: colorFB7897,
   ),
   ItemSelectModel(
     isSelect: false,
     text: 'Màu khói',
-    color: smokeColor,
+    color: color636363,
   ),
 ];
 
@@ -136,7 +136,7 @@ extension StartOfEndExtension on StartOfEnd {
               return Text(
                 data.formatDateTime,
                 style: textNormalCustom(
-                  color: dateColor,
+                  color: color667793,
                   fontWeight: FontWeight.w400,
                   fontSize: 16,
                 ),
@@ -154,7 +154,7 @@ extension StartOfEndExtension on StartOfEnd {
             return Text(
               data.formatDateTime,
               style: textNormalCustom(
-                color: dateColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
               ),
@@ -165,7 +165,7 @@ extension StartOfEndExtension on StartOfEnd {
         return Text(
           title ?? '',
           style: textNormalCustom(
-            color: dateColor,
+            color: color667793,
             fontWeight: FontWeight.w400,
             fontSize: 16,
           ),

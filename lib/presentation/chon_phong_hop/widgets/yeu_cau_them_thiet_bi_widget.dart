@@ -110,8 +110,8 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: containerColorTab.withOpacity(0.1),
-        border: Border.all(color: borderItemCalender),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Stack(
@@ -153,7 +153,7 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
           flex: 3,
           child: Text(
             key,
-            style: textNormal(infoColor, 14.0.textScale()),
+            style: textNormal(color667793, 14.0.textScale()),
           ),
         ),
         Expanded(
@@ -163,7 +163,7 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
             padding: const EdgeInsets.only(right: 16),
             child: Text(
               value,
-              style: textNormal(titleColor, 14.0.textScale()),
+              style: textNormal(color3D5586, 14.0.textScale()),
             ),
           ),
         )

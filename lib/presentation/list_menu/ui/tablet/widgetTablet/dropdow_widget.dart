@@ -94,8 +94,8 @@ class _DropdownWidgetTabletState extends State<DropdownWidgetTablet>
               vertical: 12,
             ),
             decoration: BoxDecoration(
-              border: Border.all(color: cellColorborder),
-              color: cellColor,
+              border: Border.all(color: color05OpacityDBDFEF),
+              color: color01DBDFEF,
               borderRadius: const BorderRadius.all(
                 Radius.circular(8),
               ),

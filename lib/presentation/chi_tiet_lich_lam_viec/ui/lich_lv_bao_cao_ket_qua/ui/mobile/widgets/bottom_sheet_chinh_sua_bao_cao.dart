@@ -102,12 +102,12 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<ChinhSuaBaoCaoBottomSheet> {
                     S.current.trang_thai,
                     style: tokenDetailAmount(
                       fontSize: 14,
-                      color: titleItemEdit,
+                      color: color586B8B,
                     ),
                   ),
                   const Text(
                     ' *',
-                    style: TextStyle(color: canceledColor),
+                    style: TextStyle(color: colorF94444),
                   )
                 ],
               ),
@@ -198,7 +198,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<ChinhSuaBaoCaoBottomSheet> {
       padding: EdgeInsets.all(16.0.textScale()),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.0.textScale()),
-        border: Border.all(color: bgDropDown),
+        border: Border.all(color: colorE2E8F0),
       ),
       alignment: Alignment.center,
       child: Row(
@@ -208,7 +208,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<ChinhSuaBaoCaoBottomSheet> {
             child: Text(
               name,
               style: textNormalCustom(
-                color: choXuLyColor,
+                color: color5A8DEE,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
               ),

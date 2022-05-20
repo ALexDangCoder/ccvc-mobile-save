@@ -6,9 +6,9 @@ class FlutterSwitchWidget extends StatefulWidget {
     Key? key,
     required this.value,
     required this.onToggle,
-    this.activeColor = numberOfCalenders,
-    this.inactiveColor = textBodyTime,
-    this.toggleColor = backgroundColorApp,
+    this.activeColor = color5A8DEE,
+    this.inactiveColor = colorA2AEBD,
+    this.toggleColor = colorFFFFFF,
     this.activeToggleColor,
     this.inactiveToggleColor,
     this.width = 70.0,
@@ -135,8 +135,8 @@ class _FlutterSwitchState extends State<FlutterSwitchWidget>
 
   @override
   Widget build(BuildContext context) {
-    Color _toggleColor = backgroundColorApp;
-    Color _switchColor = backgroundColorApp;
+    Color _toggleColor = colorFFFFFF;
+    Color _switchColor = colorFFFFFF;
     Border? _switchBorder;
     Border? _toggleBorder;
 

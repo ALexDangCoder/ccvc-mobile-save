@@ -23,7 +23,7 @@ class CongTacChuanBiWidget extends StatelessWidget {
               color: Colors.transparent,
               child: Text(
                 S.current.cong_tac_chuan_bi,
-                style: textNormalCustom(color: titleColumn, fontSize: 16),
+                style: textNormalCustom(color: color667793, fontSize: 16),
               ),
             ),
           ),
@@ -92,7 +92,7 @@ class CongTacChuanBiWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: textNormalCustom(color: infoColor, fontSize: 14),
+          style: textNormalCustom(color: color667793, fontSize: 14),
         ),
         spaceH16,
         child
@@ -111,8 +111,8 @@ class ThongTinPhongWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: borderItemCalender.withOpacity(0.1),
-        border: Border.all(color: borderItemCalender),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Column(
@@ -159,8 +159,8 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: borderItemCalender.withOpacity(0.1),
-        border: Border.all(color: borderItemCalender),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Column(

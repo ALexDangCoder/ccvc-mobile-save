@@ -28,7 +28,7 @@ class ItemTableTopicTablet extends StatelessWidget {
           margin: const EdgeInsets.only(right: 8),
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
           decoration: BoxDecoration(
-            color: backgroundColorApp,
+            color: colorFFFFFF,
             boxShadow: const [
               BoxShadow(
                 color: Colors.transparent,
@@ -37,7 +37,7 @@ class ItemTableTopicTablet extends StatelessWidget {
             ],
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: cellColorborder,
+              color: color05OpacityDBDFEF,
             ),
           ),
           child: Column(
@@ -48,7 +48,7 @@ class ItemTableTopicTablet extends StatelessWidget {
                 style: textNormalCustom(
                   fontWeight: FontWeight.w500,
                   fontSize: 20,
-                  color: fontColorTablet2,
+                  color: color3D5586,
                 ),
               ),
               const SizedBox(height: 24,),
@@ -129,7 +129,7 @@ class ItemInTableTablet extends StatelessWidget {
     return Container(
        padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: greyHide,
+        color: colorF5F6FA,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -141,7 +141,7 @@ class ItemInTableTablet extends StatelessWidget {
               Text(
                 index,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
@@ -152,7 +152,7 @@ class ItemInTableTablet extends StatelessWidget {
               Text(
                 content,
                 style: textNormalCustom(
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),

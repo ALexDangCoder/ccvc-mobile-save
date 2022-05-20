@@ -143,7 +143,7 @@ class ComplexLoadMore extends StatelessWidget {
                                       style: textNormalCustom(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
-                                        color: textDropDownColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   ),
@@ -175,7 +175,7 @@ class ComplexLoadMore extends StatelessWidget {
                                       Text(
                                         S.current.khong_co_thong_tin_nhiem_vu,
                                         style: textNormalCustom(
-                                            fontSize: 16.0, color: grayChart),
+                                            fontSize: 16.0, color: color28C76F),
                                       ),
                                       const SizedBox(
                                         height: 10.0,

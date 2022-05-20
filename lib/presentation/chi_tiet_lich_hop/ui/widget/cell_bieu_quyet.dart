@@ -28,8 +28,8 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
         margin: const EdgeInsets.only(top: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
-          color: borderItemCalender.withOpacity(0.1),
+          border: Border.all(color: colorE2E8F0),
+          color: colorE2E8F0.withOpacity(0.1),
           borderRadius: const BorderRadius.all(
             Radius.circular(12),
           ),
@@ -46,7 +46,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.ten_bieu_quyet,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -55,7 +55,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.thoi_gian,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -64,7 +64,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.thoi_gian_bq,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -73,7 +73,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.loai_bieu_quyet,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -82,7 +82,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.danh_sach_lua_chon,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -99,7 +99,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     ' ${widget.infoModel.noiDung}',
                     style: textNormalCustom(
                       fontSize: 16,
-                      color: infoColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 1,
@@ -111,7 +111,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiFixMeet}',
                     style: textNormalCustom(
                       fontSize: 16,
-                      color: infoColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 1,
@@ -122,7 +122,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     '00:00:00',
                     style: textNormalCustom(
                       fontSize: 16,
-                      color: statusCalenderRed,
+                      color: colorEA5455,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 1,
@@ -135,7 +135,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     ),
                     style: textNormalCustom(
                       fontSize: 16,
-                      color: infoColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 1,
@@ -180,8 +180,8 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
           margin: const EdgeInsets.only(top: 16),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            border: Border.all(color: borderItemCalender),
-            color: borderItemCalender.withOpacity(0.1),
+            border: Border.all(color: colorE2E8F0),
+            color: colorE2E8F0.withOpacity(0.1),
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
@@ -198,7 +198,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                       '${S.current.ten_bieu_quyet} : ${widget.infoModel.noiDung}',
                       style: textNormalCustom(
                         fontSize: 16,
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                     spaceH16,
@@ -214,7 +214,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.thoi_gian,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -223,7 +223,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.thoi_gian_bq,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -232,7 +232,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.loai_bieu_quyet,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -241,7 +241,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.danh_sach_lua_chon,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -258,7 +258,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 '${DateTime.parse(widget.infoModel.thoiGianKetThuc ?? '').formatApiListBieuQuyet}',
                                 style: textNormalCustom(
                                   fontSize: 16,
-                                  color: infoColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -267,7 +267,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 '00:00:00',
                                 style: textNormalCustom(
                                   fontSize: 16,
-                                  color: statusCalenderRed,
+                                  color: colorEA5455,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -278,7 +278,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 ),
                                 style: textNormalCustom(
                                   fontSize: 16,
-                                  color: infoColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -347,15 +347,15 @@ class ContainerState extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            color: textDefault,
+            color: color7966FF,
             border: Border.all(
-              color: textDefault,
+              color: color7966FF,
             ),
           ),
           child: Text(
             name,
             style: textNormalCustom(
-              color: backgroundColorApp,
+              color: colorFFFFFF,
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w500,
             ),
@@ -365,7 +365,7 @@ class ContainerState extends StatelessWidget {
         Text(
           '$number',
           style: textNormalCustom(
-            color: textDefault,
+            color: color7966FF,
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w500,
           ),

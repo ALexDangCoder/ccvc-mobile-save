@@ -38,7 +38,7 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.seen ? Colors.white : statusNotify,
+      color: widget.seen ? Colors.white : colorF8F9FC,
       padding: EdgeInsets.symmetric(
         horizontal: 16.0.textScale(),
         vertical: 12.0.textScale(),
@@ -63,7 +63,7 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
                     Text(
                       widget.title,
                       style: textNormalCustom(
-                        color: textTitle,
+                        color: color3D5586,
                         fontWeight: FontWeight.w500,
                         fontSize: 16.0.textScale(),
                       ),
@@ -74,7 +74,7 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
                     Text(
                       widget.message,
                       style: textNormalCustom(
-                        color: infoColor,
+                        color: color667793,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -85,7 +85,7 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
                     Text(
                       widget.date,
                       style: textNormalCustom(
-                        color: AqiColor,
+                        color: colorA2AEBD,
                         fontWeight: FontWeight.w400,
                         fontSize: 12.0.textScale(),
                       ),
@@ -134,11 +134,11 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: borderColor.withOpacity(0.5),
+                        color: colorDBDFEF.withOpacity(0.5),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
+                          color: color6566E9.withOpacity(0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),

@@ -96,9 +96,9 @@ class _StatePhatBieuWidgetState extends State<StatePhatBieuWidget>
               child: Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: backgroundColorApp,
+                  color: colorFFFFFF,
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  border: Border.all(color: toDayColor),
+                  border: Border.all(color: colorDBDFEF),
                 ),
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -140,7 +140,7 @@ Widget buttonPhone({
   required String value,
   required Color color,
   required Function() ontap,
-  Color backgroup = backgroundColorApp,
+  Color backgroup = colorFFFFFF,
 }) {
   return GestureDetector(
     onTap: ontap,
@@ -154,7 +154,7 @@ Widget buttonPhone({
             vertical: 8,
           ),
           decoration: BoxDecoration(
-            color: backgroup == color ? backgroup : backgroundColorApp,
+            color: backgroup == color ? backgroup : colorFFFFFF,
             borderRadius: const BorderRadius.all(
               Radius.circular(30),
             ),
@@ -165,7 +165,7 @@ Widget buttonPhone({
           child: Text(
             '$key ($value)',
             style: textNormalCustom(
-              color: color == backgroup ? backgroundColorApp : color,
+              color: color == backgroup ? colorFFFFFF : color,
             ),
           ),
         ),

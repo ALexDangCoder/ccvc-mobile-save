@@ -29,12 +29,12 @@ class _WigetImageState extends State<WigetImage> {
               height: 150,
               width: 155,
               decoration: BoxDecoration(
-                border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+                border: Border.all(color: color80CACFD7.withOpacity(0.3)),
                 shape: BoxShape.circle,
                 color: Colors.transparent,
                 boxShadow: [
                   BoxShadow(
-                    color: bgImage.withOpacity(0.1),
+                    color: colorE4E9FD.withOpacity(0.1),
                     blurRadius: 7,
                   ),
                 ],
@@ -59,7 +59,7 @@ class _WigetImageState extends State<WigetImage> {
               S.current.anh_dai_dien,
               style: tokenDetailAmount(
                 fontSize: 14.0.textScale(),
-                color: infoColor,
+                color: color667793,
               ),
             ),
           ],
@@ -71,12 +71,12 @@ class _WigetImageState extends State<WigetImage> {
               height: 150,
               width: 155,
               decoration: BoxDecoration(
-                border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+                border: Border.all(color: color80CACFD7.withOpacity(0.3)),
                 shape: BoxShape.circle,
                 color: Colors.transparent,
                 boxShadow: [
                   BoxShadow(
-                    color: bgImage.withOpacity(0.1),
+                    color: colorE4E9FD.withOpacity(0.1),
                     blurRadius: 7,
                   ),
                 ],
@@ -101,7 +101,7 @@ class _WigetImageState extends State<WigetImage> {
               S.current.anh_chu_ky,
               style: tokenDetailAmount(
                 fontSize: 14.0.textScale(),
-                color: infoColor,
+                color: color667793,
               ),
             ),
           ],
@@ -113,12 +113,12 @@ class _WigetImageState extends State<WigetImage> {
               height: 150,
               width: 155,
               decoration: BoxDecoration(
-                border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+                border: Border.all(color: color80CACFD7.withOpacity(0.3)),
                 shape: BoxShape.circle,
                 color: Colors.transparent,
                 boxShadow: [
                   BoxShadow(
-                    color: bgImage.withOpacity(0.1),
+                    color: colorE4E9FD.withOpacity(0.1),
                     blurRadius: 7,
                   ),
                 ],
@@ -143,7 +143,7 @@ class _WigetImageState extends State<WigetImage> {
               S.current.anh_ky_nhay,
               style: tokenDetailAmount(
                 fontSize: 14.0.textScale(),
-                color: infoColor,
+                color: color667793,
               ),
             ),
           ],

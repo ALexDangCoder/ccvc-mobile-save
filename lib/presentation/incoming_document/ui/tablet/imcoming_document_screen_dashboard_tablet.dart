@@ -57,7 +57,7 @@ class _IncomingDocumentScreenDashBoardTabletState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgTabletColor,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(widget.title),
       body: _content(),
     );

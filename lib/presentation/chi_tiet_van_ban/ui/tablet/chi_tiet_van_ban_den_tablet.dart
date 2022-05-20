@@ -25,7 +25,7 @@ class ChiTietVanBanDenTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgQLVBTablet,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban_den),
       body: DefaultTabController(
@@ -37,7 +37,7 @@ class ChiTietVanBanDenTablet extends StatelessWidget {
               decoration: const  BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                   ),
                 ),
               ),

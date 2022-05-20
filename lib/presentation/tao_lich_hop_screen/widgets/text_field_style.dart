@@ -40,7 +40,7 @@ class TextFieldStyle extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: maxLines == 1 ? 9 : 0),
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: lineColor),
+                bottom: BorderSide(color: colorECEEF7),
               ),
             ),
             child: textField(),
@@ -59,10 +59,10 @@ class TextFieldStyle extends StatelessWidget {
         }
       },
       maxLines: maxLines,
-      style: textNormal(titleColor, 16),
+      style: textNormal(color3D5586, 16),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: textNormal(textBodyTime, 16),
+        hintStyle: textNormal(colorA2AEBD, 16),
         border: InputBorder.none,
         isDense: true,
         contentPadding: EdgeInsets.zero,

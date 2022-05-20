@@ -31,7 +31,7 @@ class ItemInfomation extends StatelessWidget {
             Text(
               infomationModel.title,
               style: textNormalCustom(
-                color: unselectLabelColor,
+                color: colorA2AEBD,
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
               ),

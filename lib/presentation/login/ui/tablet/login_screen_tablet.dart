@@ -67,7 +67,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
             }
           },
           child: Scaffold(
-            backgroundColor: bgQLVBTablet,
+            backgroundColor: colorF9FAFF,
             resizeToAvoidBottomInset: true,
             body: SingleChildScrollView(
               child: Center(
@@ -113,7 +113,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                   Text(
                                     S.current.wellcom_login,
                                     style:
-                                        textNormal(AqiColor, 16.0.textScale()),
+                                        textNormal(colorA2AEBD, 16.0.textScale()),
                                   )
                                 ],
                               ),
@@ -122,7 +122,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               height: 32,
                             ),
                             TextFieldValidator(
-                              fillColor: backgroundColorApp,
+                              fillColor: colorFFFFFF,
                               controller: textTaiKhoanController,
                               suffixIcon: loginCubit.isHideClearData
                                   ? SizedBox(
@@ -175,7 +175,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                             ),
                             TextFieldValidator(
                               maxLength: 32,
-                              fillColor: backgroundColorApp,
+                              fillColor: colorFFFFFF,
                               controller: textPasswordController,
                               obscureText: loginCubit.isCheckEye1,
                               suffixIcon: loginCubit.isHideEye1
@@ -292,7 +292,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
-                                              color: buttonColor.withOpacity(0.1),
+                                              color: color7966FF.withOpacity(0.1),
                                             ),
                                             child: Center(
                                               child: SvgPicture.asset(
@@ -316,7 +316,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
-                                              color: buttonColor.withOpacity(0.1),
+                                              color: color7966FF.withOpacity(0.1),
                                             ),
                                             child: Center(
                                               child: SvgPicture.asset(

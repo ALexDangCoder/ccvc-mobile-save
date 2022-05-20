@@ -19,7 +19,7 @@ class SelectMuaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColorApp,
+      color: colorFFFFFF,
       padding: const EdgeInsets.only(top: 16, bottom: 24),
       child: TitleCaiDatWidget(
         title: title,
@@ -68,7 +68,7 @@ class SelectMuaWidget extends StatelessWidget {
           ),
           Text(
             appBackGround.getText(),
-            style: textNormal(infoColor, 14),
+            style: textNormal(color667793, 14),
           )
         ],
       ),

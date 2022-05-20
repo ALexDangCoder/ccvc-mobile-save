@@ -24,7 +24,7 @@ class ChooseDayWeedMonth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColorApp,
+      color: colorFFFFFF,
       padding: const EdgeInsets.only(bottom: 13),
       child: StreamBuilder<int>(
         stream: cubit.index.stream,
@@ -46,7 +46,7 @@ class ChooseDayWeedMonth extends StatelessWidget {
                           ImageAssets.icCalenderDay,
                           color: cubit.index.value == 0
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown,),
+                              : colorA2AEBD,),
                         const SizedBox(
                           width: 12.0,
                         ),
@@ -54,7 +54,7 @@ class ChooseDayWeedMonth extends StatelessWidget {
                           S.current.ngay,
                           style: textNormal(cubit.index.value == 0
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown, 14.0,),
+                              : colorA2AEBD, 14.0,),
                         )
                       ],
                     ),
@@ -75,7 +75,7 @@ class ChooseDayWeedMonth extends StatelessWidget {
                         SvgPicture.asset(ImageAssets.icDayCalenderWeek,
                           color: cubit.index.value == 1
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown,),
+                              : colorA2AEBD,),
                         const SizedBox(
                           width: 12.0,
                         ),
@@ -83,7 +83,7 @@ class ChooseDayWeedMonth extends StatelessWidget {
                           S.current.tuan,
                           style: textNormal(cubit.index.value == 1
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown, 14.0),
+                              : colorA2AEBD, 14.0),
                         )
                       ],
                     ),
@@ -104,7 +104,7 @@ class ChooseDayWeedMonth extends StatelessWidget {
                         SvgPicture.asset(ImageAssets.icDayCalenderMonth,
                           color: cubit.index.value == 2
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown,),
+                              : colorA2AEBD,),
                         const SizedBox(
                           width: 12.0,
                         ),
@@ -112,7 +112,7 @@ class ChooseDayWeedMonth extends StatelessWidget {
                           S.current.thang,
                           style: textNormal(cubit.index.value == 2
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown, 14.0),
+                              : colorA2AEBD, 14.0),
                         )
                       ],
                     ),

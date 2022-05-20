@@ -46,7 +46,7 @@ class TepDinhKemMobile extends StatelessWidget {
                 child: Text(
                   S.current.phieu_trinh,
                   style: titleText(
-                    color: textDefault,
+                    color: color7966FF,
                     fontSize: 14.0.textScale(),
                   ),
                   maxLines: 2,
@@ -75,7 +75,7 @@ class TepDinhKemMobile extends StatelessWidget {
                       child: Text(
                         S.current.khong_co_tep_nao,
                         style: textNormal(
-                          textBodyTime,
+                          colorA2AEBD,
                           14.0.textScale(),
                         ),
                       ),
@@ -88,7 +88,7 @@ class TepDinhKemMobile extends StatelessWidget {
                 child: Text(
                   S.current.du_thao,
                   style: titleText(
-                    color: textDefault,
+                    color: color7966FF,
                     fontSize: 14.0.textScale(),
                   ),
                   maxLines: 2,
@@ -117,7 +117,7 @@ class TepDinhKemMobile extends StatelessWidget {
                       child: Text(
                         S.current.khong_co_tep_nao,
                         style: textNormal(
-                          textBodyTime,
+                          colorA2AEBD,
                           14.0.textScale(),
                         ),
                       ),
@@ -130,7 +130,7 @@ class TepDinhKemMobile extends StatelessWidget {
                 child: Text(
                   S.current.van_ban_ban_hanh_kem_theo_du_an,
                   style: titleText(
-                    color: textDefault,
+                    color: color7966FF,
                     fontSize: 14.0.textScale(),
                   ),
                   maxLines: 2,
@@ -159,7 +159,7 @@ class TepDinhKemMobile extends StatelessWidget {
                       child: Text(
                         S.current.khong_co_tep_nao,
                         style: textNormal(
-                          textBodyTime,
+                          colorA2AEBD,
                           14.0.textScale(),
                         ),
                       ),
@@ -172,7 +172,7 @@ class TepDinhKemMobile extends StatelessWidget {
                 child: Text(
                   S.current.van_ban_lien_thong_khong_ban_hanh_cung,
                   style: titleText(
-                    color: textDefault,
+                    color: color7966FF,
                     fontSize: 14.0.textScale(),
                   ),
                   maxLines: 2,
@@ -201,7 +201,7 @@ class TepDinhKemMobile extends StatelessWidget {
                       child: Text(
                         S.current.khong_co_tep_nao,
                         style: textNormal(
-                          textBodyTime,
+                          colorA2AEBD,
                           14.0.textScale(),
                         ),
                       ),
@@ -234,7 +234,7 @@ class CellTepDinhKem extends StatelessWidget {
           .width,
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        border: Border.all(color: bgDropDown),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Padding(
@@ -246,7 +246,7 @@ class CellTepDinhKem extends StatelessWidget {
               child: Text(
                 S.current.tep_dinh_kem,
                 style: textNormal(
-                  textTitle,
+                  color3D5586,
                   14.0.textScale(),
                 ),
                 maxLines: 1,
@@ -282,7 +282,7 @@ class CellTepDinhKem extends StatelessWidget {
                 child: Text(
                   obj.ten ?? '',
                   style: textNormal(
-                    choXuLyColor,
+                    color5A8DEE,
                     14.0.textScale(),
                   ),
                   maxLines: 1,

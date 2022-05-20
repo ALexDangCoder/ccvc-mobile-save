@@ -36,7 +36,7 @@ class ItemTextFieldWidgetDSNV extends StatelessWidget {
             Text(
               title,
               style: textNormalCustom(
-                color: titleItemEdit,
+                color: color586B8B,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
               ),

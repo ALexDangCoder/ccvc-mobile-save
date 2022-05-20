@@ -37,8 +37,8 @@ class _ItemDrawerMenuTabletState extends State<ItemDrawerMenuTablet> {
                   padding: const EdgeInsets.only(top: 15, bottom: 15, left: 30),
                   decoration: BoxDecoration(
                     border: Border(
-                      top: BorderSide(color: cellColorborder),
-                      bottom: BorderSide(color: cellColorborder),
+                      top: BorderSide(color: color05OpacityDBDFEF),
+                      bottom: BorderSide(color: color05OpacityDBDFEF),
                     ),
                   ),
                   child: Row(
@@ -55,7 +55,7 @@ class _ItemDrawerMenuTabletState extends State<ItemDrawerMenuTablet> {
                         widget.title,
                         style: textNormalCustom(
                           fontSize: 14.0.textScale(),
-                        ).copyWith(color: fontColorTablet2, fontSize: 20),
+                        ).copyWith(color: color3D5586, fontSize: 20),
                       ),
                     ],
                   ),
@@ -66,8 +66,8 @@ class _ItemDrawerMenuTabletState extends State<ItemDrawerMenuTablet> {
                 child: Container(
                   padding: const EdgeInsets.only(top: 15, bottom: 15, left: 30),
                   decoration: BoxDecoration(
-                    border: Border.all(color: cellColorborder),
-                    color: cellColor,
+                    border: Border.all(color: color05OpacityDBDFEF),
+                    color: color01DBDFEF,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(8),
                     ),
@@ -86,13 +86,13 @@ class _ItemDrawerMenuTabletState extends State<ItemDrawerMenuTablet> {
                         widget.title,
                         style: textNormalCustom(
                           fontSize: 14.0.textScale(),
-                        ).copyWith(color: fontColorTablet2, fontSize: 20),
+                        ).copyWith(color: color3D5586, fontSize: 20),
                       ),
                       const Expanded(child: SizedBox()),
                       Container(
                         alignment: Alignment.center,
                         decoration: const BoxDecoration(
-                          color: numberColorTabletbg,
+                          color: colorECEAFF,
                           borderRadius: BorderRadius.all(
                             Radius.circular(4),
                           ),
@@ -103,7 +103,7 @@ class _ItemDrawerMenuTabletState extends State<ItemDrawerMenuTablet> {
                             widget.cubit.menuItems[widget.index].badgeNumber
                                 .toString(),
                             style: const TextStyle(
-                              color: numberColorTablet,
+                              color: color3D5586,
                               fontSize: 14,
                             ),
                           ),

@@ -45,8 +45,8 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
         margin: const EdgeInsets.only(top: 16),
         padding: const EdgeInsets.only(top: 10, bottom: 16, left: 16),
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
-          color: borderItemCalender.withOpacity(0.1),
+          border: Border.all(color: colorE2E8F0),
+          color: colorE2E8F0.withOpacity(0.1),
           borderRadius: const BorderRadius.all(
             Radius.circular(12),
           ),
@@ -63,7 +63,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                       '${widget.infoModel.phienHop}',
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -95,7 +95,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                 '${widget.infoModel.nguoiPhatBieu}',
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: infoColor,
+                  color: color667793,
                 ),
               ),
             ),
@@ -105,7 +105,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                 '${widget.infoModel.ndPhatBieu}',
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: infoColor,
+                  color: color667793,
                 ),
               ),
             ),
@@ -115,7 +115,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                   '${widget.infoModel.tthoiGian}',
                   style: textNormalCustom(
                     fontSize: 14,
-                    color: infoColor,
+                    color: color667793,
                   ),
                 )),
           ],
@@ -127,8 +127,8 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
           margin: const EdgeInsets.only(top: 16),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            border: Border.all(color: borderItemCalender),
-            color: borderItemCalender.withOpacity(0.1),
+            border: Border.all(color: colorE2E8F0),
+            color: colorE2E8F0.withOpacity(0.1),
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
@@ -160,7 +160,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                           '${widget.index}.',
                           style: textNormalCustom(
                             fontSize: 16,
-                            color: unselectedLabelColor,
+                            color: color667793,
                           ),
                         );
                       },
@@ -171,7 +171,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                       '${S.current.phien_hop}: ${widget.infoModel.phienHop}',
                       style: textNormalCustom(
                         fontSize: 16,
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -179,7 +179,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                     '${widget.infoModel.tthoiGian}',
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                     ),
                   ),
                 ],
@@ -190,7 +190,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                   '${widget.infoModel.nguoiPhatBieu}:',
                   style: textNormalCustom(
                     fontSize: 14,
-                    color: unselectedLabelColor,
+                    color: color667793,
                   ),
                 ),
               ),
@@ -200,7 +200,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                   '${widget.infoModel.ndPhatBieu}:',
                   style: textNormalCustom(
                     fontSize: 14,
-                    color: unselectedLabelColor,
+                    color: color667793,
                   ),
                 ),
               ),

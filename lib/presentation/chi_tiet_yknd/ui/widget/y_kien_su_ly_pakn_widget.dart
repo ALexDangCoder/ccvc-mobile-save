@@ -23,9 +23,9 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
       padding: const EdgeInsets.only(top: 16),
       child: Container(
         decoration: BoxDecoration(
-          color: toDayColor.withOpacity(0.1),
+          color: colorDBDFEF.withOpacity(0.1),
           border: Border.all(
-            color: toDayColor.withOpacity(0.4),
+            color: colorDBDFEF.withOpacity(0.4),
           ),
           borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
         ),
@@ -50,7 +50,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                       child: Text(
                         widget.object.tenNguoiChoYKien ?? '',
                         style: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w500,
                         ),
@@ -69,7 +69,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                               .formatDdMMYYYY,
                           softWrap: true,
                           style: textNormalCustom(
-                            color: infoColor,
+                            color: color667793,
                             fontSize: 12.0.textScale(space: 4.0),
                             fontWeight: FontWeight.w400,
                           ),
@@ -84,7 +84,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                 Text(
                   widget.object.noiDung ?? '',
                   style: textNormalCustom(
-                    color: titleColor,
+                    color: color3D5586,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   ),
@@ -94,7 +94,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                     child: Text(
                       S.current.khong_co_file,
                       style: textNormalCustom(
-                        color: toDayColor,
+                        color: colorDBDFEF,
                         fontSize: 12.0.textScale(),
                         fontWeight: FontWeight.w400,
                       ),

@@ -43,7 +43,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
         title: Text(
           S.current.thong_bao,
           style: textNormalCustom(
-            color: buttonColor,
+            color: color7966FF,
             fontSize: 24,
             fontWeight: FontWeight.w500,
           ),
@@ -53,7 +53,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_sharp,
-            color: unselectLabelColor,
+            color: colorA2AEBD,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -169,7 +169,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
           Text(
             S.current.hien_tai_ban_chua_co_thong_bao,
             style: textNormalCustom(
-              color: titleColumn,
+              color: color667793,
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),

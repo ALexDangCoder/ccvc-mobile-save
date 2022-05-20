@@ -50,7 +50,7 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: lineColor,
+                    color: colorECEEF7,
                   ),
                 ),
               ),
@@ -60,7 +60,7 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
                   Text(
                     S.current.ca_ngay,
                     style: textNormalCustom(
-                      color: titleItemEdit,
+                      color: color586B8B,
                       fontSize: 16.0.textScale(),
                       fontWeight: FontWeight.w400,
                     ),

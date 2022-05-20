@@ -62,11 +62,11 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
             isScrollable: true,
             controller: _tabController,
             indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: numberColorTablet,
-            labelColor: numberColorTablet,
+            indicatorColor: color7966FF,
+            labelColor: color7966FF,
             labelStyle:
                 textNormalCustom(fontWeight: FontWeight.w700, fontSize: 14),
-            unselectedLabelColor: dateColor,
+            unselectedLabelColor: color667793,
             onTap: (index) {},
             tabs: [
               Tab(

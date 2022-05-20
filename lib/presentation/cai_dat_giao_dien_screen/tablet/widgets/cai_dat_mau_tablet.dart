@@ -17,7 +17,7 @@ class CaiDatMauTabletWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColorApp,
+      color: colorFFFFFF,
       padding: const EdgeInsets.only(top: 28, bottom: 28),
       child: TitleCaiDatWidget(
         title: S.current.cai_dat_mau,
@@ -63,7 +63,7 @@ class CaiDatMauTabletWidget extends StatelessWidget {
               // height: 213,
               width: 60.w,
               decoration: BoxDecoration(
-                border: Border.all(color: borderColor.withOpacity(0.5)),
+                border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                 // image: DecorationImage(
                 //   image: AssetImage(icon),
                 //   fit: BoxFit.fitWidth,
@@ -76,7 +76,7 @@ class CaiDatMauTabletWidget extends StatelessWidget {
             ),
             Text(
               name,
-              style: textNormalCustom(fontSize: 16, color: infoColor),
+              style: textNormalCustom(fontSize: 16, color: color667793),
             ),
             const SizedBox(
               height: 23,

@@ -41,7 +41,7 @@ class _SelectOnlyWidgetState extends State<SelectOnlyWidget>
           style: textNormalCustom(
             fontWeight: FontWeight.w500,
             fontSize: 16.0.textScale(),
-            color: dateColor,
+            color: color667793,
           ),
         ),
       ],

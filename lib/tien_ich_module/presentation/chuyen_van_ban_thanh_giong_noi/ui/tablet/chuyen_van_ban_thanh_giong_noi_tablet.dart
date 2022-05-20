@@ -39,7 +39,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgTabletColor,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(
         S.current.chuyen_van_ban_thanh_giong_noi,
       ),
@@ -69,11 +69,11 @@ class _ChuyenVanBanThanhGiongNoiTabletState
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: colorNumberCellQLVB,
-                  border: Border.all(color: borderColor.withOpacity(0.5)),
+                  color: colorFCFDFD,
+                  border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                   boxShadow: [
                     BoxShadow(
-                      color: shadowContainerColor.withOpacity(0.05),
+                      color: color6566E9.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4), // changes position of shadow
                     ),

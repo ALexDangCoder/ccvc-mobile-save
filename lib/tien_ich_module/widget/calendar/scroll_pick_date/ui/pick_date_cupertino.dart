@@ -22,7 +22,7 @@ class PicKDateCupertino extends StatefulWidget {
     required this.title,
     this.maximumDate,
     this.minimumDate,
-    this.background = bgBottomTab,
+    this.background = colorFCFCFC,
     required this.startOfEnd,
     this.mode = CupertinoDatePickerMode.dateAndTime,
     required this.onDateTimeChanged,
@@ -94,7 +94,7 @@ class _PicKDateCupertinoState extends State<PicKDateCupertino>
                       Text(
                         widget.title,
                         style: textNormalCustom(
-                          color: dateColor,
+                          color: color667793,
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
                         ),
@@ -113,12 +113,12 @@ class _PicKDateCupertinoState extends State<PicKDateCupertino>
                       if (expandController!.value == 0)
                         const Icon(
                           Icons.keyboard_arrow_down_outlined,
-                          color: AqiColor,
+                          color: colorA2AEBD,
                         )
                       else
                         const Icon(
                           Icons.keyboard_arrow_up_rounded,
-                          color: AqiColor,
+                          color: colorA2AEBD,
                         )
                     ],
                   ),
@@ -133,7 +133,7 @@ class _PicKDateCupertinoState extends State<PicKDateCupertino>
                 top: 11.0.textScale(),
               ),
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: lineColor)),
+                border: Border(bottom: BorderSide(color: colorECEEF7)),
               ),
             )
           else

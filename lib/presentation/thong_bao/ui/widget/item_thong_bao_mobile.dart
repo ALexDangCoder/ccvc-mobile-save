@@ -64,7 +64,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                       Text(
                         widget.title,
                         style: textNormalCustom(
-                          color: selectColorTabbar,
+                          color: color304261,
                           fontWeight: FontWeight.w400,
                           fontSize: 14.0.textScale(space: 10),
                         ),
@@ -86,7 +86,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                         Container(
                           padding: EdgeInsets.all(4.0.textScale(space: 3)),
                           decoration: BoxDecoration(
-                            color: statusCalenderRed.withOpacity(0.1),
+                            color: colorEA5455.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
@@ -94,7 +94,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                                 ? '99+'
                                 : widget.unreadCount.toString(),
                             style: textNormalCustom(
-                              color: statusCalenderRed,
+                              color: colorEA5455,
                               fontSize: 12.0.textScale(space: 5),
                               fontWeight: FontWeight.w500,
                             ),
@@ -110,7 +110,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                             onTap: () {},
                             child: const Icon(
                               Icons.navigate_next_rounded,
-                              color: textBodyTime,
+                              color: colorA2AEBD,
                             ),
                           ),
                         ),
@@ -123,7 +123,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
               Container(
                 height: 1,
                 width: double.maxFinite,
-                color: lineColor,
+                color: colorECEEF7,
               )
             else
               Container()

@@ -22,7 +22,7 @@ class TitleChildWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: textNormalCustom(color: titleColumn, fontSize: sizeTitle),
+          style: textNormalCustom(color: color667793, fontSize: sizeTitle),
         ),
         SizedBox(
           height: paddingTop,

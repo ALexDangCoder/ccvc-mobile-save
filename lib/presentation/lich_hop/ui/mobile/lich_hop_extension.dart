@@ -87,7 +87,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
 
   Widget getTextWidget({
     required TableCalendarCubit cubit,
-    Color textColor = textDefault,
+    Color textColor = color7966FF,
   }) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
@@ -145,7 +145,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
 
   Widget getTextLLVWidget({
     required CalenderCubit cubit,
-    Color textColor = textDefault,
+    Color textColor = color7966FF,
   }) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
@@ -205,7 +205,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
 
   Widget getTextLHWidget({
     required LichHopCubit cubit,
-    Color textColor = textDefault,
+    Color textColor = color7966FF,
   }) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:

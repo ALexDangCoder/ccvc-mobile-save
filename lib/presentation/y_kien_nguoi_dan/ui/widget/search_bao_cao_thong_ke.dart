@@ -117,7 +117,7 @@ class _TreeDonViState extends State<TreeDonVi> {
           ),
           Text(
             S.current.danh_sach_don_vi_tham_gia,
-            style: textNormal(textTitle, 16),
+            style: textNormal(color3D5586, 16),
           ),
           SizedBox(
             height: 22.0.textScale(space: -9),
@@ -159,7 +159,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                 S.current.tu_ngay,
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -174,7 +174,7 @@ class _TreeDonViState extends State<TreeDonVi> {
                 S.current.den_ngay,
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontWeight: FontWeight.w400,
                 ),
               ),

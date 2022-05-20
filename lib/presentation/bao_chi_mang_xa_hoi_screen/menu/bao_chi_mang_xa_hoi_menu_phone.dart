@@ -26,7 +26,7 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundDrawerMenu,
+      backgroundColor: color333333,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

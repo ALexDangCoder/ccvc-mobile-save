@@ -70,7 +70,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
                   child: BoxStatusVanBan(
                     value: widget.documentDashboardModel.soLuongTrongHan ?? 0,
                     onTap: () {},
-                    color: numberOfCalenders,
+                    color: color5A8DEE,
                     statusName: S.current.trong_han,
                   ),
                 ),
@@ -81,7 +81,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
                   child: BoxStatusVanBan(
                     value: widget.documentDashboardModel.soLuongQuaHan ?? 0,
                     onTap: () {},
-                    color: statusCalenderRed,
+                    color: colorEA5455,
                     statusName: S.current.qua_han,
                   ),
                 ),
@@ -92,7 +92,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
                   child: BoxStatusVanBan(
                     value: widget.documentDashboardModel.soLuongThuongKhan ?? 0,
                     onTap: () {},
-                    color: textColorForum,
+                    color: colorFF9F43,
                     statusName: S.current.thuong_khan,
                   ),
                 ),
@@ -104,7 +104,7 @@ class _CommonInformationTabletState extends State<CommonInformationTablet> {
               child: BoxStatusVanBan(
                 value: widget.documentDashboardModel.soLuongThuongKhan ?? 0,
                 onTap: () {},
-                color: textColorForum,
+                color: colorFF9F43,
                 statusName: S.current.thuong_khan,
               ),
             ),

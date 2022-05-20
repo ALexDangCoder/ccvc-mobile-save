@@ -73,7 +73,7 @@ class _EditWidgetState extends State<EditWidget> {
                 Text(
                   S.current.nguoi_thuc_hien,
                   style: textNormalCustom(
-                    color: titleItemEdit,
+                    color: color586B8B,
                     fontWeight: FontWeight.w400,
                     fontSize: 14.0.textScale(),
                   ),
@@ -104,7 +104,7 @@ class _EditWidgetState extends State<EditWidget> {
                                 Radius.circular(6.0),
                               ),
                               border: Border.all(
-                                color: borderColor,
+                                color: colorDBDFEF,
                               ),
                             ),
                             child: Padding(
@@ -125,7 +125,7 @@ class _EditWidgetState extends State<EditWidget> {
                                         ? S.current.tim_theo_nguoi
                                         : widget.cubit.person,
                                 style: textNormalCustom(
-                                  color: titleItemEdit,
+                                  color: color586B8B,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14.0.textScale(),
                                 ),

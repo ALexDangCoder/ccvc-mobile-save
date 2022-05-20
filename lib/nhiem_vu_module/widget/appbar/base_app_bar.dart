@@ -32,10 +32,10 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
         statusBarBrightness: Brightness.light,
       ),
       backgroundColor:
-          APP_DEVICE == DeviceType.MOBILE ? backgroundColorApp : bgQLVBTablet,
+          APP_DEVICE == DeviceType.MOBILE ? colorFFFFFF : colorF9FAFF,
       bottomOpacity: 0.0,
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
-      shadowColor: bgDropDown,
+      shadowColor: colorE2E8F0,
       automaticallyImplyLeading: false,
       title: Text(
         title,

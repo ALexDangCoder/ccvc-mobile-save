@@ -27,13 +27,13 @@ extension trangThai on TrangThaiNhiemVu {
   Widget getWidgetTTNhiemVu() {
     switch (this) {
       case TrangThaiNhiemVu.ChoPhanXuLy:
-        return status(S.current.cho_phan_xu_ly, processingColor);
+        return status(S.current.cho_phan_xu_ly, colorFE8922);
 
       case TrangThaiNhiemVu.DangThucHien:
-        return status(S.current.dang_thuc_hien, colorPrimary);
+        return status(S.current.dang_thuc_hien, color0ABAB5);
 
       case TrangThaiNhiemVu.DaThucHien:
-        return status(S.current.da_thuc_hien, canceledColor);
+        return status(S.current.da_thuc_hien, colorF94444);
     }
   }
 }

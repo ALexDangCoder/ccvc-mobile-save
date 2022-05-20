@@ -36,7 +36,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(3),
             ),
-            side: const BorderSide(width: 1.5, color: lineColor),
+            side: const BorderSide(width: 1.5, color: colorECEEF7),
             value: widget.isCheck,
             onChanged: (value) {
               setState(() {
@@ -50,7 +50,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
         ),
         Text(
           widget.title,
-          style: textNormal(titleColor, 14.0.textScale()),
+          style: textNormal(color3D5586, 14.0.textScale()),
         )
       ],
     );

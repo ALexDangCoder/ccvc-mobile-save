@@ -33,7 +33,7 @@ class _ListDanhSachCongViecState extends State<ListDanhSachCongViec> {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
-          color: bgQLVBTablet,
+          color: colorF9FAFF,
           padding: const EdgeInsets.fromLTRB(30, 60, 30, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,

@@ -37,21 +37,21 @@ class _TextFormWidgetState extends State<TextFormWidget> {
             validator: widget.validator,
             decoration: InputDecoration(
               labelStyle: textNormalCustom(
-                color: titleItemEdit,
+                color: color586B8B,
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
               ),
               hintStyle: textNormalCustom(
-                color: unselectLabelColor,
+                color: colorA2AEBD,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(),
               ),
               hintText: widget.hint,
               focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: lineColor),
+                borderSide: BorderSide(color: colorECEEF7),
               ),
               enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: lineColor),
+                borderSide: BorderSide(color: colorECEEF7),
               ),
             ),
           ),

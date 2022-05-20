@@ -66,7 +66,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                 ),
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: backgroundColorApp,
+                    color: colorFFFFFF,
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
                   child: Padding(
@@ -80,7 +80,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                           decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                color: editColor,
+                                color: colorEDF0FD,
                               ),
                             ),
                           ),
@@ -95,7 +95,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                                     widget.title ?? S.current.danh_sach_rong,
                                     style: tokenDetailAmount(
                                       fontSize: 12.0.textScale(),
-                                      color: titleColor,
+                                      color: color3D5586,
                                     ),
                                   ),
                                 ),
@@ -135,7 +135,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                                         S.current.danh_sach_rong,
                                         style: tokenDetailAmount(
                                           fontSize: 12.0.textScale(),
-                                          color: titleColor,
+                                          color: color3D5586,
                                         ),
                                       ),
                                     )
@@ -168,7 +168,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                                             child: Text(
                                               itemTitle,
                                               style: TextStyle(
-                                                color: titleColor,
+                                                color: color3D5586,
                                                 fontWeight: selectedItems
                                                         .contains(itemTitle)
                                                     ? FontWeight.w400
@@ -180,7 +180,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                                       },
                                       separatorBuilder: (context, index) {
                                         return const Divider(
-                                          color: borderColor,
+                                          color: colorDBDFEF,
                                         );
                                       },
                                       itemCount: snapshot.data?.length ?? 0,
@@ -225,7 +225,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
             content,
             style: tokenDetailAmount(
               fontSize: 14.0.textScale(),
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -276,15 +276,15 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
               Container(
                 padding: const EdgeInsets.only(left: 8, top: 14, bottom: 14),
                 decoration: BoxDecoration(
-                  color: borderColor.withOpacity(0.2),
-                  border: Border.all(color: borderColor),
+                  color: colorDBDFEF.withOpacity(0.2),
+                  border: Border.all(color: colorDBDFEF),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
                   widget.title ?? S.current.danh_sach_rong,
                   style: tokenDetailAmount(
                     fontSize: 14.0.textScale(),
-                    color: titleColor,
+                    color: color3D5586,
                   ),
                 ),
               ),
@@ -301,7 +301,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                   key: keyDiaLog,
                   padding: const EdgeInsets.only(left: 8, top: 14, bottom: 14),
                   decoration: BoxDecoration(
-                    border: Border.all(color: borderColor),
+                    border: Border.all(color: colorDBDFEF),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: selectedItems.isNotEmpty
@@ -310,7 +310,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                           widget.title ?? S.current.danh_sach_rong,
                           style: tokenDetailAmount(
                             fontSize: 14.0.textScale(),
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                         ),
                 ),

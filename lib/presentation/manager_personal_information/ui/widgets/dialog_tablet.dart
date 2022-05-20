@@ -81,7 +81,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: textNormalCustom(fontSize: 20, color: textTitle),
+                    style: textNormalCustom(fontSize: 20, color: color3D5586),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -155,7 +155,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
               fontSize: 16,
               color: isLeft
                   ? AppTheme.getInstance().colorSelect()
-                  : backgroundColorApp,
+                  : colorFFFFFF,
             ),
           ),
         ),

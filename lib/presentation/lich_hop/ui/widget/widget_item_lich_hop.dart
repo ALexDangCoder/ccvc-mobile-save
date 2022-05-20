@@ -31,7 +31,7 @@ class WidgetItemLichHop extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 20.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0.textScale()),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -39,7 +39,7 @@ class WidgetItemLichHop extends StatelessWidget {
               spreadRadius: 2,
             ),
           ],
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
         ),
         child: Padding(
           padding: EdgeInsets.only(
@@ -59,7 +59,7 @@ class WidgetItemLichHop extends StatelessWidget {
                       height: 8.0.textScale(space: 4.0),
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: statusCalenderRed,
+                        color: colorEA5455,
                       ),
                     ),
                   ),
@@ -76,14 +76,14 @@ class WidgetItemLichHop extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: textNormalCustom(
-                        color: titleCalenderWork,
+                        color: color3D5586,
                         fontSize: 16.0.textScale(),
                       ),
                     ),
                     Text(
                       '$dateTimeFrom - $dateTimeTo',
                       style: textNormalCustom(
-                        color: textBodyTime,
+                        color: colorA2AEBD,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -113,7 +113,7 @@ class WidgetItemLichHop extends StatelessWidget {
                           width: 79,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
-                            color: textDefault,
+                            color: color7966FF,
                           ),
                           child: Center(
                             child: Text(

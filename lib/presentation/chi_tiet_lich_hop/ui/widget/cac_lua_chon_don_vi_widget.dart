@@ -77,15 +77,15 @@ class SelectDonViCell extends StatelessWidget {
             ? []
             : [
                 BoxShadow(
-                  color: shadowContainerColor.withOpacity(0.05),
+                  color: color6566E9.withOpacity(0.05),
                   offset: const Offset(0, 4),
                   blurRadius: 10,
                 )
               ],
         border: Border.all(
           color: APP_DEVICE == DeviceType.MOBILE
-              ? borderButtomColor
-              : borderColor.withOpacity(0.5),
+              ? colorE2E8F0
+              : colorDBDFEF.withOpacity(0.5),
         ),
         borderRadius: BorderRadius.all(Radius.circular(6.0.textScale())),
         color: Colors.white,
@@ -101,7 +101,7 @@ class SelectDonViCell extends StatelessWidget {
               child: TextField(
                 onSubmitted: onSubmitted,
                 controller: controller,
-                style: textNormal(textTitle, 14.0.textScale()),
+                style: textNormal(color3D5586, 14.0.textScale()),
                 decoration: const InputDecoration(
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -127,7 +127,7 @@ class SelectDonViCell extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        color: APP_DEVICE == DeviceType.MOBILE ? colorF2F0FF : color7966FF,
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(
@@ -141,8 +141,8 @@ class SelectDonViCell extends StatelessWidget {
               title,
               style: textNormal(
                 APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
+                    ? color7966FF
+                    : colorFFFFFF,
                 12.0.textScale(),
               ),
               overflow: TextOverflow.ellipsis,
@@ -159,8 +159,8 @@ class SelectDonViCell extends StatelessWidget {
                 width: 7.5,
                 height: 7.5,
                 color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
-                    : backgroundColorApp,
+                    ? color7966FF
+                    : colorFFFFFF,
               ),
             ),
           )

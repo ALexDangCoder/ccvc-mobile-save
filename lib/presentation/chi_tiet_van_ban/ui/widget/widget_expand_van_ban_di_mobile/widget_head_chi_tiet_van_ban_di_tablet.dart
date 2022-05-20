@@ -70,7 +70,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                         style: textNormalCustom(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: titleColumn,
+                          color: color667793,
                         ),
                       ),
                     ),
@@ -87,7 +87,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                                 style: textNormalCustom(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
@@ -114,7 +114,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                 padding: EdgeInsets.only(top: 8.0),
                 child: Divider(
                   thickness: 4,
-                  color: bgDropDown,
+                  color: colorE2E8F0,
                 ),
               ),
               Padding(
@@ -130,7 +130,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                         style: textNormalCustom(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: titleColumn,
+                          color: color667793,
                         ),
                       ),
                     ),
@@ -145,7 +145,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                               style: textNormalCustom(
                                 fontSize: 14.0.textScale(),
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
@@ -168,7 +168,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                         style: textNormalCustom(
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w400,
-                          color: titleColumn,
+                          color: color667793,
                         ),
                       ),
                     ),
@@ -183,7 +183,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                               style: textNormalCustom(
                                 fontSize: 14.0.textScale(),
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
@@ -210,7 +210,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
                                 child: AutoSizeText(
                                   row.title,
                                   style: textNormalCustom(
-                                    color: titleItemEdit,
+                                    color: color586B8B,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w400,
                                   ),

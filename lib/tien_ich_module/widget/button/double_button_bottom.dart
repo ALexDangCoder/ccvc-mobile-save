@@ -57,14 +57,14 @@ class DoubleButtonBottom extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: buttonColor2,
+                      color: color1A7966FF,
                     ),
                     child: Center(
                       child: Text(
                         title1,
                         style: textNormalCustom(
                           fontSize: 14.0.textScale(space: 4.0),
-                          color: textDefault,
+                          color: color7966FF,
                         ),
                       ),
                     ),
@@ -82,14 +82,14 @@ class DoubleButtonBottom extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: textDefault,
+                      color: color7966FF,
                     ),
                     child: Center(
                       child: Text(
                         title2,
                         style: textNormalCustom(
                           fontSize: 14.0.textScale(space: 4.0),
-                          color: backgroundColorApp,
+                          color: colorFFFFFF,
                         ),
                       ),
                     ),
@@ -114,14 +114,14 @@ class DoubleButtonBottom extends StatelessWidget {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft ? color1A7966FF : color7966FF,
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft ? color7966FF : colorFFFFFF,
             ),
           ),
         ),

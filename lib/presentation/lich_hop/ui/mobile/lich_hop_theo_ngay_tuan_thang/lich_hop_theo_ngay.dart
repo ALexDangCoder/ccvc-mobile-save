@@ -40,8 +40,8 @@ class _LichHopTheoNgayState extends State<LichHopTheoNgay> {
                     viewHeaderHeight: 0.0,
                     headerHeight: 0.0,
                     appointmentTextStyle:
-                        textNormalCustom(color: backgroundColorApp),
-                    todayHighlightColor: statusCalenderRed,
+                        textNormalCustom(color: colorFFFFFF),
+                    todayHighlightColor: colorEA5455,
                     appointmentTimeTextFormat: 'hh:mm:ss a',
                     dataSource: widget.cubit.getCalenderDataSource(
                       snapshot.data ?? DanhSachLichHopModel.empty(),

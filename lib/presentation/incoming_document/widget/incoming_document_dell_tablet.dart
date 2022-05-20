@@ -31,9 +31,9 @@ class IncomingDocumentCellTablet extends StatelessWidget {
         // margin: const EdgeInsets.only(bottom: 24.0),
         height: 105,
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
           borderRadius: BorderRadius.circular(10.0),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -58,7 +58,7 @@ class IncomingDocumentCellTablet extends StatelessWidget {
                             '${index.toString().padLeft(2, '0')}.',
                             style: textNormalCustom(
                               fontSize: 16.0,
-                              color: titleItemEdit,
+                              color: color586B8B,
                               fontWeight: FontWeight.w400
                             ),
                           ),
@@ -86,7 +86,7 @@ class IncomingDocumentCellTablet extends StatelessWidget {
                               Text(
                                 DateTime.parse(dateTime).toStringWithListFormat,
                                 style: textNormalCustom(
-                                  color: textBodyTime,
+                                  color: colorA2AEBD,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16.0,
                                 ),
@@ -99,7 +99,7 @@ class IncomingDocumentCellTablet extends StatelessWidget {
                                 child: Text(
                                   userName,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -112,7 +112,7 @@ class IncomingDocumentCellTablet extends StatelessWidget {
                                 height: 24.0,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.0),
-                                  color: textColorForum,
+                                  color: colorFF9F43,
                                 ),
                                 child: Center(
                                   child: Text(

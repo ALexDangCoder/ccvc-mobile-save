@@ -37,7 +37,7 @@ class _DetailHDSDScreenState extends State<DetailHDSDScreen> {
             spaceH16,
             Text(
               S.current.thong_tin_chuong_trinh_hop,
-              style: textNormalCustom(color: labelColor, fontSize: 16),
+              style: textNormalCustom(color: color7966FF, fontSize: 16),
             ),
             ListView.builder(
               shrinkWrap: true,
@@ -48,7 +48,7 @@ class _DetailHDSDScreenState extends State<DetailHDSDScreen> {
                   padding: const EdgeInsets.only(top: 16),
                   child: Text(
                     cubit.listHDSD[index],
-                    style: textDetailHDSD(color: titleColor, fontSize: 16),
+                    style: textDetailHDSD(color: color3D5586, fontSize: 16),
                   ),
                 );
               },

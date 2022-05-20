@@ -51,17 +51,17 @@ class DonViLuongNhiemVuModel  {
   Color getColor(){
     switch(maTrangThai){
       case 'CHO_PHAN_XU_LY':
-        return numberOfCalenders;
+        return color5A8DEE;
       case 'CHUA_THUC_HIEN':
-        return chuaThucHienColor;
+        return colorF2994A;
       case 'DANG_THUC_HIEN':
-        return choTrinhKyColor;
+        return color02C5DD;
       case 'DA_THUC_HIEN':
-        return greenChart;
+        return color28C76F;
       case 'TRA_LAI':
-        return pinkColor;
+        return colorFB7897;
       case 'THU_HOI':
-        return infoColor;
+        return color667793;
 
     }
     return Colors.transparent;
@@ -77,9 +77,9 @@ class DonViLuongNhiemVuModel  {
 
     switch(vaiTroParseVn){
       case 'chu tri':
-        return nguoiChuTriColor;
+        return color2467D2;
       case 'phoi hop':
-        return phoiHopColor;
+        return color2ED47A;
     }
     return Colors.black;
   }

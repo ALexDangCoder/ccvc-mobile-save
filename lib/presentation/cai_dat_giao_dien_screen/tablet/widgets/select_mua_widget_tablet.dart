@@ -21,7 +21,7 @@ class SelectMuaTabletWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColorApp,
+      color: colorFFFFFF,
       padding: const EdgeInsets.only(top: 28, bottom: 28),
       child: TitleCaiDatWidget(
         title: title,
@@ -77,7 +77,7 @@ class SelectMuaTabletWidget extends StatelessWidget {
             FittedBox(
               child: Text(
                 appBackGround.getText(),
-                style: textNormalCustom(fontSize: 16, color: infoColor),
+                style: textNormalCustom(fontSize: 16, color: color667793),
               ),
             ),
             const SizedBox(

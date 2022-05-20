@@ -42,14 +42,14 @@ class _SearchScreenState extends State<SearchScreen> {
           style: textNormalCustom(
             fontSize: 18,
             fontWeight: FontWeight.w500,
-            color: titleColor,
+            color: color3D5586,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_sharp,
-            color: unselectLabelColor,
+            color: colorA2AEBD,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -70,7 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Expanded(
               child: Container(
-                color: homeColor,
+                color: colorEEF3FF,
                 child: ListView(
                   shrinkWrap: true,
                   children: [
@@ -83,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           Text(
                             S.current.tu_khoa_pho_bien,
                             style: textNormalCustom(
-                              color: unselectLabelColor,
+                              color: colorA2AEBD,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                             ),

@@ -38,7 +38,7 @@ class _DanhSachChungScreenTabletState extends State<DanhSachChungScreenTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgWidgets,
+      backgroundColor: colorF9FAFF,
       appBar: BaseAppBar(
         title: cubit.dataCurrent?.title ?? S.current.chung,
         leadingIcon: IconButton(

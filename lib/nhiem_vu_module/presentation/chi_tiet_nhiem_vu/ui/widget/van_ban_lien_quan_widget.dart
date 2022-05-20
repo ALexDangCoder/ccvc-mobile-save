@@ -34,7 +34,7 @@ class _VanBanLienQuanWidgetState extends State<VanBanLienQuanWidget> {
               Text(
                 S.current.van_ban_giao_nhiem_vu,
                 style: textNormalCustom(
-                  color: radioFocusColor,
+                  color: color7966FF,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0.textScale(),
                 ),
@@ -68,7 +68,7 @@ class _VanBanLienQuanWidgetState extends State<VanBanLienQuanWidget> {
               Text(
                 S.current.van_ban_khac,
                 style: textNormalCustom(
-                  color: radioFocusColor,
+                  color: color7966FF,
                   fontWeight: FontWeight.w500,
                   fontSize: 14.0.textScale(),
                 ),

@@ -32,9 +32,9 @@ class CellMenuCustom extends StatelessWidget {
         right: margin ? 30 : 0,
       ),
       decoration: BoxDecoration(
-        color: toDayColor.withOpacity(0.1),
+        color: colorDBDFEF.withOpacity(0.1),
         border: Border.all(
-          color: toDayColor.withOpacity(0.5),
+          color: colorDBDFEF.withOpacity(0.5),
         ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -62,7 +62,7 @@ class CellMenuCustom extends StatelessWidget {
               Text(
                 name,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0.textScale(space: 4),
                 ),
@@ -75,13 +75,13 @@ class CellMenuCustom extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: numberColorTabletbg,
+                  color: colorECEAFF,
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   number.toString(),
                   style: textNormalCustom(
-                    color: textDefault,
+                    color: color7966FF,
                     fontWeight: FontWeight.w500,
                     fontSize: 12.0.textScale(),
                   ),

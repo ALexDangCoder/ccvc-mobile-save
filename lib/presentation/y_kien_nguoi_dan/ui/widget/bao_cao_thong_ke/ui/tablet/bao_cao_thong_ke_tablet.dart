@@ -127,7 +127,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         decoration: const BoxDecoration(
-          color: bgQLVBTablet,
+          color: colorF9FAFF,
         ),
         child: StateStreamLayout(
           textEmpty: S.current.khong_co_du_lieu,
@@ -184,10 +184,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
+                            border: Border.all(color: color05OpacityDBDFEF),
                             boxShadow: [
                               BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
+                                color: color6566E9.withOpacity(0.05),
                                 offset: const Offset(0, 4),
                                 blurRadius: 10,
                               ),
@@ -224,7 +224,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                         child: BoxStatusVanBan(
                                           value: data.trongHan ?? 0,
                                           onTap: () {},
-                                          color: numberOfCalenders,
+                                          color: color5A8DEE,
                                           statusName: S.current.trong_han,
                                         ),
                                       ),
@@ -235,7 +235,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                         child: BoxStatusVanBan(
                                           value: data.quaHan ?? 0,
                                           onTap: () {},
-                                          color: statusCalenderRed,
+                                          color: colorEA5455,
                                           statusName: S.current.den_han,
                                         ),
                                       ),
@@ -258,10 +258,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
+                            border: Border.all(color: color05OpacityDBDFEF),
                             boxShadow: [
                               BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
+                                color: color6566E9.withOpacity(0.05),
                                 offset: const Offset(0, 4),
                                 blurRadius: 10,
                               ),
@@ -295,10 +295,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
+                            border: Border.all(color: color05OpacityDBDFEF),
                             boxShadow: [
                               BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
+                                color: color6566E9.withOpacity(0.05),
                                 offset: const Offset(0, 4),
                                 blurRadius: 10,
                               ),
@@ -322,10 +322,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                           padding: const EdgeInsets.all(24),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: cellColorborder),
+                            border: Border.all(color: color05OpacityDBDFEF),
                             boxShadow: [
                               BoxShadow(
-                                color: shadowContainerColor.withOpacity(0.05),
+                                color: color6566E9.withOpacity(0.05),
                                 offset: const Offset(0, 4),
                                 blurRadius: 10,
                               ),
@@ -363,7 +363,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
       child: Text(
         title,
         style: textNormalCustom(
-          color: textTitle,
+          color: color3D5586,
           fontWeight: FontWeight.w500,
           fontSize: 16,
         ),

@@ -50,7 +50,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               child: Text(
                 name,
                 style: textNormalCustom(
-                  color: isSelect ? Colors.white : titleColor,
+                  color: isSelect ? Colors.white : color3D5586,
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0.textScale(space: 4),
                 ),
@@ -65,7 +65,7 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: numberColorTabletbg,
+                color: colorECEAFF,
               ),
               alignment: Alignment.center,
               child: Text(

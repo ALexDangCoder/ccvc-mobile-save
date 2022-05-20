@@ -17,7 +17,7 @@ class GhiChuKyHieuWidget extends StatelessWidget {
             S.current.ghi_chu_ky_hieu_tren_lich_thang,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -30,7 +30,7 @@ class GhiChuKyHieuWidget extends StatelessWidget {
                     height: 10.0,
                     width: 10.0,
                     decoration: const BoxDecoration(
-                      color: choVaoSoColor,
+                      color: color28C76F,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -41,7 +41,7 @@ class GhiChuKyHieuWidget extends StatelessWidget {
                     S.current.ngay_hoang_dao,
                     style: textNormalCustom(
                       fontSize: 14.0,
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
                 ],
@@ -54,7 +54,7 @@ class GhiChuKyHieuWidget extends StatelessWidget {
                     height: 10.0,
                     width: 10.0,
                     decoration: const BoxDecoration(
-                      color: titleColor,
+                      color: color3D5586,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -65,7 +65,7 @@ class GhiChuKyHieuWidget extends StatelessWidget {
                     S.current.ngay_hach_dao,
                     style: textNormalCustom(
                       fontSize: 14.0,
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
                 ],

@@ -89,7 +89,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
             },
             child: const Icon(
               Icons.search,
-              color: textBodyTime,
+              color: colorA2AEBD,
             ),
           ),
           IconButton(
@@ -128,7 +128,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                           vertical: 20, horizontal: 16.0),
                       child: Text(
                         S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
-                        style: textNormalCustom(color: titleColor, fontSize: 16),
+                        style: textNormalCustom(color: color3D5586, fontSize: 16),
                       ),
                     ),
                     const Expanded(child: SizedBox())
@@ -174,7 +174,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
             ),
             Container(
               height: 6,
-              color: homeColor,
+              color: colorEEF3FF,
             ),
           ],
           callApi: (page) {

@@ -66,8 +66,8 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
               return Scaffold(
                 appBar: BaseAppBar(
                   backGroundColor: state is LichHopStateDangThongKe
-                      ? backgroundRowColor
-                      : bgQLVBTablet,
+                      ? colorF5F8FD
+                      : colorF9FAFF,
                   title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                       ? cubit.titleAppbar
                       : dataChangeScreen.getTitleLichHop(),
@@ -154,8 +154,8 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                 ),
                 body: Container(
                   color: state is LichHopStateDangThongKe
-                      ? bgColor
-                      : backgroundColorApp,
+                      ? colorE5E5E5
+                      : colorFFFFFF,
                   child: Column(
                     children: [
                       WidgetChooseDayWeekMonth(
@@ -320,7 +320,7 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                               ),
                               child: Container(
                                 height: 1,
-                                color: bgDropDown,
+                                color: colorE2E8F0,
                               ),
                             );
                           }

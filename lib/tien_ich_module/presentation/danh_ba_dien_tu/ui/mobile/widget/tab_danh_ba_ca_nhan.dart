@@ -67,7 +67,7 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
                       Text(
                         S.current.them_moi,
                         style:
-                            tokenDetailAmount(fontSize: 16, color: titleColor),
+                            tokenDetailAmount(fontSize: 16, color: color3D5586),
                       )
                     ],
                   ),
@@ -86,7 +86,7 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
         ),
       ),
       tabletScreen: Scaffold(
-        backgroundColor: bgManagerColor,
+        backgroundColor: colorF9FAFF,
         body: Container(
           padding: const EdgeInsets.only(top: 28, left: 30, right: 30),
           child: Column(
@@ -118,7 +118,7 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
                     spaceW16,
                     Text(
                       S.current.them_moi,
-                      style: tokenDetailAmount(fontSize: 16, color: titleColor),
+                      style: tokenDetailAmount(fontSize: 16, color: color3D5586),
                     )
                   ],
                 ),

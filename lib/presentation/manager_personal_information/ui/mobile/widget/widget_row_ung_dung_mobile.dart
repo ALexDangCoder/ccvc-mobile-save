@@ -29,7 +29,7 @@ class _WidgetRowUngDungMobileState extends State<WidgetRowUngDungMobile> {
                 widget.row.title,
                 style: textDetailHDSD(
                   fontSize: 12.0.textScale(),
-                  color: titleItemEdit,
+                  color: color586B8B,
                   textHeight: 1.7,
                 ),
               ),
@@ -41,7 +41,7 @@ class _WidgetRowUngDungMobileState extends State<WidgetRowUngDungMobile> {
                       '${widget.row.value}',
                       style: textDetailHDSD(
                         fontSize: 12.0.textScale(),
-                        color: titleCalenderWork,
+                        color: color3D5586,
                         textHeight: 1.7,
                       ),
                       maxLines: 3,
@@ -53,7 +53,7 @@ class _WidgetRowUngDungMobileState extends State<WidgetRowUngDungMobile> {
                         if (isContainer)
                           Container(
                             decoration: const BoxDecoration(
-                              color: daXuLyColor,
+                              color: color28C76F,
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
@@ -87,7 +87,7 @@ class _WidgetRowUngDungMobileState extends State<WidgetRowUngDungMobile> {
                                       widget.row.value,
                                       style: tokenDetailAmount(
                                         fontSize: 12.0.textScale(),
-                                        color: titleCalenderWork,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   );

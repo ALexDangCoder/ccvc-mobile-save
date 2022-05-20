@@ -130,12 +130,12 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             height: 100,
             width: 100,
             decoration: BoxDecoration(
-              border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+              border: Border.all(color: color80CACFD7.withOpacity(0.3)),
               shape: BoxShape.circle,
               color: Colors.transparent,
               boxShadow: [
                 BoxShadow(
-                  color: bgImage.withOpacity(0.1),
+                  color: colorE4E9FD.withOpacity(0.1),
                   blurRadius: 7,
                 ),
               ],
@@ -192,7 +192,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           text,
           style: tokenDetailAmount(
             fontSize: 12.0.textScale(),
-            color: infoColor,
+            color: color667793,
           ),
         )
       ],
@@ -209,12 +209,12 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             height: 100,
             width: 100,
             decoration: BoxDecoration(
-              border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+              border: Border.all(color: color80CACFD7.withOpacity(0.3)),
               shape: BoxShape.circle,
               color: Colors.transparent,
               boxShadow: [
                 BoxShadow(
-                  color: bgImage.withOpacity(0.1),
+                  color: colorE4E9FD.withOpacity(0.1),
                   blurRadius: 7,
                   // offset: const Offset(0, 1), // changes position of shadow
                 ),
@@ -272,7 +272,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           text,
           style: tokenDetailAmount(
             fontSize: 12.0.textScale(),
-            color: infoColor,
+            color: color667793,
           ),
         )
       ],
@@ -289,12 +289,12 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             height: 100,
             width: 100,
             decoration: BoxDecoration(
-              border: Border.all(color: colorLineSearch.withOpacity(0.3)),
+              border: Border.all(color: color80CACFD7.withOpacity(0.3)),
               shape: BoxShape.circle,
               color: Colors.transparent,
               boxShadow: [
                 BoxShadow(
-                  color: bgImage.withOpacity(0.1),
+                  color: colorE4E9FD.withOpacity(0.1),
                   blurRadius: 7,
                   // offset: const Offset(0, 1), // changes position of shadow
                 ),
@@ -352,7 +352,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           text,
           style: tokenDetailAmount(
             fontSize: 12.0.textScale(),
-            color: infoColor,
+            color: color667793,
           ),
         )
       ],

@@ -19,9 +19,9 @@ class _DanhSachBaoCaoDangListViewTabletState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgWidgets,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarWithTwoLeading(
-        backGroundColorTablet: bgWidgets,
+        backGroundColorTablet: colorF9FAFF,
         title: S.current.bac_cao,
         actions: [
           Container(

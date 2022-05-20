@@ -33,14 +33,14 @@ class _SearchScreenTabletState extends State<SearchScreenTablet> {
           style: textNormalCustom(
             fontSize: 18.0.textScale(),
             fontWeight: FontWeight.w500,
-            color: titleColor,
+            color: color3D5586,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_sharp,
-            color: unselectLabelColor,
+            color: colorA2AEBD,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -61,7 +61,7 @@ class _SearchScreenTabletState extends State<SearchScreenTablet> {
             ),
             Expanded(
               child: Container(
-                color: homeColor,
+                color: colorEEF3FF,
                 child: ListView(
                   shrinkWrap: true,
                   children: [
@@ -76,7 +76,7 @@ class _SearchScreenTabletState extends State<SearchScreenTablet> {
                           Text(
                             S.current.tu_khoa_pho_bien,
                             style: textNormalCustom(
-                              color: unselectLabelColor,
+                              color: colorA2AEBD,
                               fontWeight: FontWeight.w500,
                               fontSize: 16.0.textScale(),
                             ),

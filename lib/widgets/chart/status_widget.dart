@@ -44,7 +44,7 @@ class StatusWidget extends StatelessWidget {
                                 child: Text(
                                   e.value.toInt().toString(),
                                   style: textNormal(
-                                    backgroundColorApp,
+                                    colorFFFFFF,
                                     14.0.textScale(),
                                   ),
                                 ),
@@ -89,7 +89,7 @@ class StatusWidget extends StatelessWidget {
                       child: Text(
                         '${result.title} (${result.value.toInt()})',
                         style: textNormal(
-                          infoColor,
+                          color667793,
                           14.0.textScale(),
                         ),
                       ),

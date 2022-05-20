@@ -79,7 +79,7 @@ class _TreeWidgetState extends State<TreeViewWidget> {
                                 child: Text(
                                   title(),
                                   style:
-                                      textNormal(textTitle, 14.0.textScale()),
+                                      textNormal(color3D5586, 14.0.textScale()),
                                 ),
                               ),
                               if (widget.node.children.isNotEmpty)

@@ -54,7 +54,7 @@ class _HuongDanSuDungDetailTabletState
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: bgTabletColor,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(
         '${S.current.huong_dan_su_dung} ${widget.title}',
       ),
@@ -101,7 +101,7 @@ class _HuongDanSuDungDetailTabletState
                       style: textNormalCustom(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w400,
-                        color: textTitle,
+                        color: color3D5586,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -112,7 +112,7 @@ class _HuongDanSuDungDetailTabletState
                       S.current.cac_cau_hoi_pho_bien,
                       style: textNormalCustom(
                         fontSize: 18.0,
-                        color: textTitle,
+                        color: color3D5586,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -154,7 +154,7 @@ class _HuongDanSuDungDetailTabletState
                                               child: Text(
                                                 data[index].title ?? '',
                                                 style: textNormalCustom(
-                                                  color: titleColumn,
+                                                  color: color667793,
                                                   fontSize: 18.0,
                                                 ),
                                               ),
@@ -174,7 +174,7 @@ class _HuongDanSuDungDetailTabletState
                                                 Html(
                                                   style: {
                                                     'body': Style(
-                                                      color: titleColumn,
+                                                      color: color667793,
                                                       fontSize: const FontSize(16.0),
                                                     ),
                                                   },
@@ -219,7 +219,7 @@ class _HuongDanSuDungDetailTabletState
                           S.current.ban_van_con_cau_hoi,
                           style: textNormalCustom(
                             fontSize: 16.0,
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -231,7 +231,7 @@ class _HuongDanSuDungDetailTabletState
                           style: textNormalCustom(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w400,
-                            color: dateColor,
+                            color: color667793,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -292,7 +292,7 @@ Widget itemPhoneMailTablet(
             title,
             style: textNormalCustom(
               fontSize: 12.0,
-              color: titleColor,
+              color: color3D5586,
             ),
             textAlign: TextAlign.center,
           ),

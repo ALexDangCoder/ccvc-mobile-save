@@ -22,7 +22,7 @@ extension TypeData on TypeDataNV {
         return Text(
           row.value,
           style: textNormalCustom(
-            color: textTitle,
+            color: color3D5586,
             fontWeight: FontWeight.w400,
             fontSize: 14.0.textScale(),
           ),
@@ -60,7 +60,7 @@ extension TypeData on TypeDataNV {
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -97,37 +97,37 @@ extension StatusChiTietNV on StatusNV {
       case StatusNV.QUA_HAN:
         return statusChiTietNhiemVu(
           name: S.current.qua_han,
-          background: statusCalenderRed,
+          background: colorEA5455,
         );
       case StatusNV.CHUA_THUC_HIEN:
         return statusChiTietNhiemVu(
           name: S.current.chua_thuc_hien,
-          background: AqiColor,
+          background: colorA2AEBD,
         );
       case StatusNV.DANG_THUC_HIEN:
         return statusChiTietNhiemVu(
           name: S.current.dang_thuc_hien,
-          background: yellowColor,
+          background: colorD4DAE3,
         );
       case StatusNV.THU_HOI:
         return statusChiTietNhiemVu(
           name: S.current.thu_hoi,
-          background: yellowColor,
+          background: colorD4DAE3,
         );
       case StatusNV.DA_HOAN_THANH:
         return statusChiTietNhiemVu(
           name: S.current.da_hoan_thanh,
-          background: daXuLyColor,
+          background: color28C76F,
         );
       case StatusNV.CHO_PHAN_XU_LY:
         return statusChiTietNhiemVu(
           name: S.current.cho_phan_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
         );
       case StatusNV.TRA_LAI:
         return statusChiTietNhiemVu(
           name: S.current.tra_lai,
-          background: statusCalenderRed,
+          background: colorEA5455,
         );
     }
   }

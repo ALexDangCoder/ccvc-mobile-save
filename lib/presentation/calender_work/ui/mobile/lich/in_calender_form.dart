@@ -49,8 +49,8 @@ class _InCalenderFormState extends State<InCalenderForm> {
                           headerHeight: 0.0,
                           controller: data,
                           appointmentTextStyle:
-                              textNormalCustom(color: backgroundColorApp),
-                          todayHighlightColor: statusCalenderRed,
+                              textNormalCustom(color: colorFFFFFF),
+                          todayHighlightColor: colorEA5455,
                           timeSlotViewSettings: const TimeSlotViewSettings(
                             timeIntervalHeight: 54,
                           ),

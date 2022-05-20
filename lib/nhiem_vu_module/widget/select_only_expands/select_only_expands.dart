@@ -115,7 +115,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                           Flexible(
                             child: Text(
                               widget.listSelect[index],
-                              style: textNormal(titleColor, 16),
+                              style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -170,7 +170,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),
@@ -180,7 +180,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                   Expanded(
                     child: Text(
                       widget.title,
-                      style: textNormal(titleColumn, 16),
+                      style: textNormal(color667793, 16),
                     ),
                   ),
                   Expanded(
@@ -191,7 +191,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             return screenDevice(
                                 mobileScreen: Text(
                                   valueSelect,
-                                  style: textNormal(titleColor, 16),
+                                  style: textNormal(color3D5586, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 tabletScreen: Align(
@@ -200,7 +200,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                                       padding: const EdgeInsets.only(right: 26),
                                       child: Text(
                                         valueSelect,
-                                        style: textNormal(titleColor, 16),
+                                        style: textNormal(color3D5586, 16),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     )));
@@ -210,12 +210,12 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                   if (expandController!.value == 0)
                     const Icon(
                       Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
                   else
                     const Icon(
                       Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
                 ],
               ),

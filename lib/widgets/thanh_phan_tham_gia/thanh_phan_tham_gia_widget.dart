@@ -92,7 +92,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 children: [
                   Text(
                     S.current.phuong_thuc_nhan_khac,
-                    style: textNormal(textBodyTime, 14),
+                    style: textNormal(colorA2AEBD, 14),
                   ),
                   spaceW25,
                   StreamBuilder<bool>(

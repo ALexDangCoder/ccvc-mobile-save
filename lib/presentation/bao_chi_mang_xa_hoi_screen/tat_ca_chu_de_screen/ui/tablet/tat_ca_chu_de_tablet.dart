@@ -69,7 +69,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                   today: DateTime.now(),
                 ),
                 Container(
-                  color: bgCalenderColor,
+                  color: colorF9FAFF,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +139,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
-                          color: titleColor,
+                          color: color3D5586,
                         ),
                       ),
                       const SizedBox(
@@ -168,7 +168,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                                 const SizedBox(
                                   width: 28,
                                   child: Divider(
-                                    color: lineColor,
+                                    color: colorECEEF7,
                                     height: 1,
                                   ),
                                 ),
@@ -198,7 +198,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                                           const Padding(
                                             padding: EdgeInsets.all(16.0),
                                             child: Divider(
-                                              color: lineColor,
+                                              color: colorECEEF7,
                                               height: 1,
                                             ),
                                           ),

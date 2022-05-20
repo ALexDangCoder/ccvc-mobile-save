@@ -23,30 +23,30 @@ class NhiemVuCubit extends BaseCubit<NhiemVuState> {
     ChartData(
       S.current.cho_phan_xu_ly,
       0,
-      choXuLyColor,
+      color5A8DEE,
     ),
     ChartData(
       S.current.da_thuc_hien,
       0,
-      daXuLyColor,
+      color28C76F,
     ),
     ChartData(
       S.current.dang_thuc_hien,
       0,
-      yellowColor,
+      colorD4DAE3,
     ),
   ];
   final List<ChartData> chartDataCongViec = [
     ChartData(
       S.current.chua_thuc_hien,
       0,
-      yellowColor,
+      colorD4DAE3,
     ),
-    ChartData(S.current.dang_thuc_hien, 14, dangThucHienPurble),
+    ChartData(S.current.dang_thuc_hien, 14, colorBB6BD9),
     ChartData(
       S.current.da_thuc_hien,
       12,
-      daXuLyColor,
+      color28C76F,
     ),
   ];
 }

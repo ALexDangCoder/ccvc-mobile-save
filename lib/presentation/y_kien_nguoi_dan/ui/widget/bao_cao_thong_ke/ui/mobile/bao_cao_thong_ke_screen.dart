@@ -167,7 +167,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
               ),
               Container(
                 height: 6,
-                color: homeColor,
+                color: colorEEF3FF,
               ),
               Container(
                 padding: const EdgeInsets.only(left: 16),
@@ -198,7 +198,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                               child: BoxStatusVanBan(
                                 value: data.trongHan ?? 0,
                                 onTap: () {},
-                                color: numberOfCalenders,
+                                color: color5A8DEE,
                                 statusName: S.current.trong_han,
                               ),
                             ),
@@ -210,7 +210,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                               child: BoxStatusVanBan(
                                 value: data.quaHan ?? 0,
                                 onTap: () {},
-                                color: statusCalenderRed,
+                                color: colorEA5455,
                                 statusName: S.current.den_han,
                               ),
                             ),
@@ -227,7 +227,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
               ),
               Container(
                 height: 6,
-                color: homeColor,
+                color: colorEEF3FF,
               ),
               textviewTitle(S.current.linh_vuc_xu_ly),
               ChartLinhVucXuLyWidget(
@@ -238,7 +238,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
               ),
               Container(
                 height: 6,
-                color: homeColor,
+                color: colorEEF3FF,
               ),
               textviewTitle(S.current.don_vi_xu_ly),
               ChartDonViXuLyWidget(
@@ -249,7 +249,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
               ),
               Container(
                 height: 6,
-                color: homeColor,
+                color: colorEEF3FF,
               ),
               textviewTitle(S.current.so_luong_yknd),
               ChartSoLuongByMonthWidget(cubit: baoCaoCubit),
@@ -266,7 +266,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
       child: Text(
         title,
         style: textNormalCustom(
-          color: textTitle,
+          color: color3D5586,
           fontWeight: FontWeight.w500,
           fontSize: 16,
         ),

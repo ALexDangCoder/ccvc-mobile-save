@@ -26,10 +26,10 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: cellColorborder),
+        border: Border.all(color: color05OpacityDBDFEF),
         boxShadow: [
           BoxShadow(
-            color: shadowContainerColor.withOpacity(0.05),
+            color: color6566E9.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -81,7 +81,7 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
                       style: textNormalCustom(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
-                        color: indicatorColor,
+                        color: color7966FF,
                       ),
                     ),
                     const SizedBox(height: 10,),
@@ -99,7 +99,7 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
                           style: textNormalCustom(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: dateColor,
+                            color: color667793,
                           ),
                         ),
                       ],
@@ -131,7 +131,7 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: containerColorTab,
+                color: colorE2E8F0,
               ),
               child: Image.network(
                 widget.baiVietModel.imageSources,
@@ -158,7 +158,7 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
             child: Text(
               widget.baiVietModel.title,
               style: textNormalCustom(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

@@ -49,21 +49,21 @@ extension StateLDM on stateLDM {
       case stateLDM.ChoXacNhan:
         return ContainerState(
           name: S.current.cho_xac_nhan,
-          color: choXuLyColor,
+          color: color5A8DEE,
           index: index,
         );
 
       case stateLDM.ThamGia:
         return ContainerState(
           name: S.current.tham_gia,
-          color: itemWidgetUsing,
+          color: color28C76F,
           index: index,
         );
 
       case stateLDM.TuChoi:
         return ContainerState(
           name: S.current.tu_choi,
-          color: statusCalenderRed,
+          color: colorEA5455,
           index: index,
         );
     }

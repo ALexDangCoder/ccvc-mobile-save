@@ -35,7 +35,7 @@ class _LichHopTheoThangState extends State<LichHopTheoThang> {
                       controller: data,
                       headerHeight: 0.0,
                       appointmentTextStyle:
-                          textNormalCustom(color: backgroundColorApp),
+                          textNormalCustom(color: colorFFFFFF),
                       view: CalendarView.month,
                       todayHighlightColor: AppTheme.getInstance().colorField(),
                       appointmentTimeTextFormat: 'hh:mm:ss a',
@@ -44,16 +44,16 @@ class _LichHopTheoThangState extends State<LichHopTheoThang> {
                       ),
                       viewHeaderStyle: ViewHeaderStyle(
                         dayTextStyle: textNormalCustom(
-                            fontSize: 13, color: unselectLabelColor),
+                            fontSize: 13, color: colorA2AEBD),
                       ),
                       monthViewSettings: MonthViewSettings(
                         showTrailingAndLeadingDates: false,
                         appointmentDisplayCount: 2,
                         monthCellStyle: MonthCellStyle(
                           trailingDatesTextStyle: textNormalCustom(
-                              fontSize: 14, color: iconColorDown),
+                              fontSize: 14, color: color3D5586),
                           textStyle: textNormalCustom(
-                              fontSize: 14, color: fontColorTablet2),
+                              fontSize: 14, color: color3D5586),
                         ),
                         appointmentDisplayMode:
                             MonthAppointmentDisplayMode.appointment,
@@ -126,7 +126,7 @@ class _LichHopTheoThangState extends State<LichHopTheoThang> {
                                 Text(
                                   '...',
                                   style: textNormalCustom(
-                                    color: textBodyTime,
+                                    color: colorA2AEBD,
                                     fontSize: 14,
                                   ),
                                 ),

@@ -121,12 +121,12 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                   child: Container(
                     width: 179,
                     decoration: BoxDecoration(
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                       borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      border: Border.all(color: borderColor.withOpacity(0.5)),
+                      border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                       boxShadow: [
                         BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
+                          color: color6566E9.withOpacity(0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         )
@@ -176,7 +176,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
               border: Border(
                 bottom: BorderSide(
                   color: isShowBorder
-                      ? borderColor.withOpacity(0.5)
+                      ? colorDBDFEF.withOpacity(0.5)
                       : Colors.transparent,
                 ),
               ),
@@ -184,7 +184,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
             padding: const EdgeInsets.symmetric(vertical: 14),
             child: Text(
               qData.text,
-              style: textNormal(titleCalenderWork, 14.0.textScale()),
+              style: textNormal(color3D5586, 14.0.textScale()),
             ),
           ),
         )

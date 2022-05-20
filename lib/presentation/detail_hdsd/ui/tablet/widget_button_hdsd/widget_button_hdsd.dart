@@ -52,14 +52,14 @@ class _WidgetButtonHDSDState extends State<WidgetButtonHDSD> {
             height: 40.0.textScale(space: 16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0.textScale(space: 4.0)),
-              color: widget.isColorBlue ? textDefault : buttonColor2,
+              color: widget.isColorBlue ? color7966FF : color1A7966FF,
             ),
             child: Center(
               child: Text(
                 widget.title,
                 style: textNormalCustom(
                   fontSize: widget.size ?? 14.0.textScale(space: 4.0),
-                  color: widget.isColorBlue ? backgroundColorApp : textDefault,
+                  color: widget.isColorBlue ? colorFFFFFF : color7966FF,
                 ),
               ),
             ),

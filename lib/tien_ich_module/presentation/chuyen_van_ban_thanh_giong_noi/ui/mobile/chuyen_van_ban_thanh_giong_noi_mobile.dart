@@ -43,11 +43,11 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: colorNumberCellQLVB,
-                  border: Border.all(color: borderColor.withOpacity(0.5)),
+                  color: colorFCFDFD,
+                  border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                   boxShadow: [
                     BoxShadow(
-                      color: shadowContainerColor.withOpacity(0.05),
+                      color: color6566E9.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4), // changes position of shadow
                     ),
@@ -79,7 +79,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
               S.current.giong_noi,
               style: tokenDetailAmount(
                 fontSize: 16.0.textScale(),
-                color: dateColor,
+                color: color667793,
               ),
             ),
             const SizedBox(height: 10),

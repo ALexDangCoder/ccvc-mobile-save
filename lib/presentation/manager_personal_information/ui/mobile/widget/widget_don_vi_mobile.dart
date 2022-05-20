@@ -33,9 +33,9 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
         Container(
           padding: const EdgeInsets.only(top: 6, left: 16),
           decoration: BoxDecoration(
-            color: borderItemCalender.withOpacity(0.1),
+            color: colorE2E8F0.withOpacity(0.1),
             borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: borderItemCalender),
+            border: Border.all(color: colorE2E8F0),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +61,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                 S.current.stt,
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleItemEdit,
+                                  color: color586B8B,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 2,
@@ -70,7 +70,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                 S.current.don_vi,
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleItemEdit,
+                                  color: color586B8B,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 2,
@@ -79,7 +79,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                 S.current.chuc_vu,
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleItemEdit,
+                                  color: color586B8B,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 2,
@@ -88,7 +88,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                 S.current.trang_thai,
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleItemEdit,
+                                  color: color586B8B,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 2,
@@ -97,7 +97,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                 S.current.mac_dinh,
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleItemEdit,
+                                  color: color586B8B,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 2,
@@ -114,7 +114,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                 '${index + 1}',
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleCalenderWork,
+                                  color: color3D5586,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 3,
@@ -126,7 +126,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                     '',
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleCalenderWork,
+                                  color: color3D5586,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 3,
@@ -138,7 +138,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                                     '',
                                 style: textDetailHDSD(
                                   fontSize: 14.0,
-                                  color: titleCalenderWork,
+                                  color: color3D5586,
                                   textHeight: 2.5,
                                 ),
                                 maxLines: 3,
@@ -147,7 +147,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
                               spaceH12,
                               Container(
                                 decoration: const BoxDecoration(
-                                  color: daXuLyColor,
+                                  color: color28C76F,
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(30),
                                   ),
@@ -207,7 +207,7 @@ class _WidgetDonVibMobileState extends State<WidgetDonVibMobile> {
       toggleSize: 14,
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
-      inactiveColor: borderColor,
+      inactiveColor: colorDBDFEF,
       activeColor: AppTheme.getInstance().colorField(),
       value: value,
       onToggle: onToggle,

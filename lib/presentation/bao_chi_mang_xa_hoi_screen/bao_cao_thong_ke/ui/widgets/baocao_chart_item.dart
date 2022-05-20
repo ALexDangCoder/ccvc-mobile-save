@@ -61,7 +61,7 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                         child: Text(
                           widget.title,
                           style: textNormalCustom(
-                            color: titleCalenderWork,
+                            color: color3D5586,
                             fontSize: widget.isTablet ? 20.0 : 16.0,
                             fontWeight: FontWeight.w500,
                           ),
@@ -118,7 +118,7 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                         .parse(endTime)
                         .formatApiDDMMYYYYSlash}',
                     style: textNormalCustom(
-                      color: textBodyTime,
+                      color: colorA2AEBD,
                       fontSize: widget.isTablet ? 16 : 12,
                       fontWeight: FontWeight.w400,
                     ),

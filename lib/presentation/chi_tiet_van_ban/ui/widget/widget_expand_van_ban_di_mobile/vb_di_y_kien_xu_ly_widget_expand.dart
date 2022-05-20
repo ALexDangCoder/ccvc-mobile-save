@@ -76,9 +76,9 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
-                              color: containerColorTab,
+                              color: colorE2E8F0,
                             ),
-                            color: containerColorTab.withOpacity(0.1),
+                            color: colorE2E8F0.withOpacity(0.1),
                           ),
                           padding: const EdgeInsets.only(
                             top: 16,
@@ -149,7 +149,7 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                     style: textNormalCustom(
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -191,7 +191,7 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                     style: textNormalCustom(
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
-                      color: textColorMangXaHoi,
+                      color: color2F80ED,
                     ), //infoColor
                   ),
                 ),
@@ -221,7 +221,7 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                     style: textNormalCustom(
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
-                      color: textColorMangXaHoi,
+                      color: color2F80ED,
                     ), //infoColor
                   ),
                 ),

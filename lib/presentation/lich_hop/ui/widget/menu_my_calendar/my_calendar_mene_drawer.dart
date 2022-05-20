@@ -98,7 +98,7 @@ class _MyCalendarMenuState extends State<MyCalendarMenu> {
                             margin: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: bgDropDown,
+                                color: colorE2E8F0,
                               ),
                             ),
                           ),
@@ -284,7 +284,7 @@ class _MyCalendarMenuState extends State<MyCalendarMenu> {
                   margin: const EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: bgDropDown,
+                      color: colorE2E8F0,
                     ),
                   ),
                 ),
@@ -399,7 +399,7 @@ class _MyCalendarMenuState extends State<MyCalendarMenu> {
         Text(
           menu,
           style: textNormalCustom(
-            color: titleColor,
+            color: color3D5586,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

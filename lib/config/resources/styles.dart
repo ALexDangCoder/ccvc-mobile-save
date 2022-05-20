@@ -6,7 +6,7 @@ const emptyView = SizedBox(width: 0, height: 0);
 
 Widget appDivider = Container(
   height: 6,
-  color: homeColor,
+  color: colorEEF3FF,
 );
 
 /// height and width space
@@ -120,7 +120,7 @@ TextStyle textNormalCustom({
   );
 }
 
-TextStyle titleAppbar({Color color = titleColor, double fontSize = 18}) {
+TextStyle titleAppbar({Color color = color3D5586, double fontSize = 18}) {
   return GoogleFonts.roboto(
     color: color,
     fontWeight: FontWeight.w500,

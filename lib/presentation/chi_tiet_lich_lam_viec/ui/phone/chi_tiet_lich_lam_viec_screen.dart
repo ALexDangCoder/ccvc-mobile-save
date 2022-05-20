@@ -145,7 +145,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
             },
             child: const Icon(
               Icons.arrow_back_ios,
-              color: AqiColor,
+              color: colorA2AEBD,
             ),
           ),
         ),
@@ -160,7 +160,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     const Icon(
                       Icons.circle,
                       size: 12,
-                      color: statusCalenderRed,
+                      color: colorEA5455,
                     ),
                     const SizedBox(
                       width: 16,
@@ -168,7 +168,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     Text(
                       S.current.hop_noi_bo_cong_ty,
                       style: textNormalCustom(
-                        color: textTitle,
+                        color: color3D5586,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),

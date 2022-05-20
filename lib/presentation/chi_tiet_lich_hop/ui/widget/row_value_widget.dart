@@ -29,7 +29,7 @@ class RowDataWidget extends StatelessWidget {
         ),
         Text(
           text,
-          style: textNormal(textTitle, 16),
+          style: textNormal(color3D5586, 16),
         )
       ],
     );

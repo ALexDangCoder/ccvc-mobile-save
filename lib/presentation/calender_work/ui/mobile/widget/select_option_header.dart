@@ -29,7 +29,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColorApp,
+      color: colorFFFFFF,
       padding: const EdgeInsets.only(bottom: 13),
       child: StreamBuilder<int>(
         stream: widget.cubit.index,
@@ -51,7 +51,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           ImageAssets.icCalenderDay,
                           color: widget.cubit.index.value == 0
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown,
+                              : colorA2AEBD,
                         ),
                         const SizedBox(
                           width: 12.0,
@@ -61,7 +61,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           style: textNormal(
                             widget.cubit.index.value == 0
                                 ? AppTheme.getInstance().colorField()
-                                : iconColorDown,
+                                : colorA2AEBD,
                             14.0,
                           ),
                         )
@@ -85,7 +85,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           ImageAssets.icDayCalenderWeek,
                           color: widget.cubit.index.value == 1
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown,
+                              : colorA2AEBD,
                         ),
                         const SizedBox(
                           width: 12.0,
@@ -95,7 +95,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           style: textNormal(
                             widget.cubit.index.value == 1
                                 ? AppTheme.getInstance().colorField()
-                                : iconColorDown,
+                                : colorA2AEBD,
                             14.0,
                           ),
                         )
@@ -119,7 +119,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           ImageAssets.icDayCalenderMonth,
                           color: widget.cubit.index.value == 2
                               ? AppTheme.getInstance().colorField()
-                              : iconColorDown,
+                              : colorA2AEBD,
                         ),
                         const SizedBox(
                           width: 12.0,
@@ -129,7 +129,7 @@ class _SelectOptionHeaderState extends State<SelectOptionHeader> {
                           style: textNormal(
                             widget.cubit.index.value == 2
                                 ? AppTheme.getInstance().colorField()
-                                : iconColorDown,
+                                : colorA2AEBD,
                             14.0,
                           ),
                         )

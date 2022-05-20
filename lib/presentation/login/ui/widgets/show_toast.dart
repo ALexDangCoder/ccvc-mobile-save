@@ -14,7 +14,7 @@ class ShowToast extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: redChart.withOpacity(0.1),
+        color: colorFF9F43.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -27,7 +27,7 @@ class ShowToast extends StatelessWidget {
           spaceW12,
           Text(
             text,
-            style: tokenDetailAmount(color: textTitle, fontSize: 14),
+            style: tokenDetailAmount(color: color3D5586, fontSize: 14),
           )
         ],
       ),

@@ -22,12 +22,12 @@ class RowColunmTabletWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 28),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          border: Border.all(color: borderColor.withOpacity(0.5)),
+          border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
           boxShadow: [
             BoxShadow(
-              color: shadowContainerColor.withOpacity(0.05),
+              color: color6566E9.withOpacity(0.05),
               offset: const Offset(0, 4),
               blurRadius: 10,
             )
@@ -43,7 +43,7 @@ class RowColunmTabletWidget extends StatelessWidget {
                   visible: titleLeft.isNotEmpty,
                   child: Text(
                     titleLeft,
-                    style: textNormalCustom(fontSize: 18, color: titleColor),
+                    style: textNormalCustom(fontSize: 18, color: color3D5586),
                   ),
                 ),
                 widgetLeft
@@ -61,7 +61,7 @@ class RowColunmTabletWidget extends StatelessWidget {
                   visible: titleRight.isNotEmpty,
                   child: Text(
                     titleRight,
-                    style: textNormalCustom(fontSize: 18, color: titleColor),
+                    style: textNormalCustom(fontSize: 18, color: color3D5586),
                   ),
                 ),
                 widgetRight

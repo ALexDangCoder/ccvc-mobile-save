@@ -25,7 +25,7 @@ class ButtomChiTietWidget extends StatelessWidget {
         horizontal: 18.0.textScale(),
       ),
       decoration: BoxDecoration(
-        color: buttonColor.withOpacity(0.1),
+        color: color7966FF.withOpacity(0.1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: GestureDetector(
@@ -42,7 +42,7 @@ class ButtomChiTietWidget extends StatelessWidget {
             Text(
               title,
               style: textNormalCustom(
-                color: buttonColor,
+                color: color7966FF,
                 fontWeight: FontWeight.w500,
                 fontSize: 14.0.textScale(),
               ),

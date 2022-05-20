@@ -30,7 +30,7 @@ class ThongTinCuocHopWidget extends StatelessWidget {
                 const Icon(
                   Icons.circle,
                   size: 12,
-                  color: statusCalenderRed,
+                  color: colorEA5455,
                 ),
                 const SizedBox(
                   width: 16,
@@ -39,7 +39,7 @@ class ThongTinCuocHopWidget extends StatelessWidget {
                   child: Text(
                     data.title,
                     style: textNormalCustom(
-                      color: titleCalenderWork,
+                      color: color3D5586,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),

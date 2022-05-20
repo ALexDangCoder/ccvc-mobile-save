@@ -115,7 +115,7 @@ class _EventOfDayWidgetState extends State<SinhNhatTabletWidget> {
                   children: [
                     Text(
                       S.current.tin_buon,
-                      style: textNormalCustom(color: specialPriceColor),
+                      style: textNormalCustom(color: colorEB5757),
                     ),
                     spaceW16,
                     SizedBox(
@@ -135,14 +135,14 @@ class _EventOfDayWidgetState extends State<SinhNhatTabletWidget> {
                                   height: 6,
                                   width: 6,
                                   decoration: const BoxDecoration(
-                                    color: titleColor,
+                                    color: color3D5586,
                                     shape: BoxShape.circle,
                                   ),
                                 ),
                                 spaceW8,
                                 Text(
                                   S.current.tin_buon,
-                                  style: textNormalCustom(color: titleColor),
+                                  style: textNormalCustom(color: color3D5586),
                                 ),
                               ],
                             ),

@@ -102,7 +102,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                           title,
                           style: textNormalCustom(
                             fontSize: isPhone ? 14 : 18,
-                            color: textTitle,
+                            color: color3D5586,
                           ),
                         ),
                         Container(
@@ -112,7 +112,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                           title1,
                           style: textNormalCustom(
                             fontSize: isPhone ? 14 : 18,
-                            color: bgButtonDropDown,
+                            color: color7966FF,
                           ),
                         ),
                         Container(
@@ -122,7 +122,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                           title2,
                           style: textNormalCustom(
                             fontSize: isPhone ? 14 : 18,
-                            color: textTitle,
+                            color: color3D5586,
                           ),
                         ),
                       ],
@@ -131,7 +131,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                       title,
                       style: textNormalCustom(
                         fontSize: isPhone ? 14 : 18,
-                        color: textTitle,
+                        color: color3D5586,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -199,7 +199,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
               fontSize: isPhone ? 14 : 16,
               color: isLeft
                   ? AppTheme.getInstance().colorField()
-                  : backgroundColorApp,
+                  : colorFFFFFF,
             ),
           ),
         ),

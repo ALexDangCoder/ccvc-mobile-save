@@ -90,7 +90,7 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
                 EdgeInsets.symmetric(vertical: widget.maxLine == 1 ? 2 : 0),
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: lineColor),
+                bottom: BorderSide(color: colorECEEF7),
               ),
             ),
             child: textFromField(),
@@ -122,32 +122,32 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
             widget.onTap!();
           }
         },
-        style: textNormal(titleColor, 14),
+        style: textNormal(color3D5586, 14),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: textNormal(textBodyTime, 14),
+          hintStyle: textNormal(colorA2AEBD, 14),
           contentPadding: EdgeInsets.zero,
           suffixIcon: widget.suffixIcon,
           prefixIcon: widget.prefixIcon,
           fillColor: widget.isEnabled
               ? widget.fillColor ?? Colors.transparent
-              : borderColor.withOpacity(0.3),
+              : colorDBDFEF.withOpacity(0.3),
           filled: true,
           border: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
           ),
           errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
           ),
           focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
           ),
         ),
         validator: (value) {

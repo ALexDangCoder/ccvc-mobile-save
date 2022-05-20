@@ -96,7 +96,7 @@ class ItemTinTrongNuoc extends StatelessWidget {
                           style: textNormalCustom(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
-                            color: indicatorColor,
+                            color: color7966FF,
                           ),
                         ),
                         const SizedBox(
@@ -111,7 +111,7 @@ class ItemTinTrongNuoc extends StatelessWidget {
                               style: textNormalCustom(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: dateColor,
+                                color: color667793,
                               ),
                             ),
                             const SizedBox(
@@ -136,7 +136,7 @@ class ItemTinTrongNuoc extends StatelessWidget {
               height: 170,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: containerColorTab,
+                color: colorE2E8F0,
                 image: DecorationImage(
                   image: imgContent.isNotEmpty
                       ? NetworkImage(imgContent)
@@ -149,7 +149,7 @@ class ItemTinTrongNuoc extends StatelessWidget {
             Text(
               content,
               style: textNormalCustom(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

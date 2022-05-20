@@ -93,9 +93,9 @@ class _WidgetCommentsState extends State<WidgetComments> {
               right: 8,
             ),
             decoration: BoxDecoration(
-              color: backgroundColorApp,
+              color: colorFFFFFF,
               border: Border.all(
-                color: borderColor,
+                color: colorDBDFEF,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(6)),
             ),
@@ -136,7 +136,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
                               ImageAssets.ic_take_photo,
                               width: 20,
                               height: 20,
-                              color: iconColorDown,
+                              color: colorA2AEBD,
                             ),
                           ),
                           spaceW4,
@@ -157,13 +157,13 @@ class _WidgetCommentsState extends State<WidgetComments> {
                               ImageAssets.ic_attach,
                               width: 20,
                               height: 20,
-                              color: iconColorDown,
+                              color: colorA2AEBD,
                             ),
                           ),
                         ],
                       ),
                       hintText: S.current.nhap_y_kien_cua_ban,
-                      hintStyle: textNormalCustom(color: iconColorDown),
+                      hintStyle: textNormalCustom(color: colorA2AEBD),
                       border: InputBorder.none,
                     ),
                     onChanged: (text) {
@@ -225,9 +225,9 @@ class _WidgetCommentsState extends State<WidgetComments> {
       ),
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: grayChart,
+        color: color667793,
         border: Border.all(
-          color: blueberryColor,
+          color: color3E54AC,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),

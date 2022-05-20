@@ -60,7 +60,7 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
         stream: widget.tinTucThoiSuBloc.stateStream,
         child: SingleChildScrollView(
           child: Container(
-            color: bgCalenderColor,
+            color: colorF9FAFF,
             padding: const EdgeInsets.fromLTRB(30, 28, 30, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +103,7 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
                 ),
                 const Divider(
                   height: 1,
-                  color: bgDropDown,
+                  color: colorE2E8F0,
                 ),
                 const SizedBox(
                   height: 28,
@@ -152,7 +152,7 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
                 ),
                 const Divider(
                   height: 1,
-                  color: bgDropDown,
+                  color: colorE2E8F0,
                 ),
                 const SizedBox(
                   height: 28,

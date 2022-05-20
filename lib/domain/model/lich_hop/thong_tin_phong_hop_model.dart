@@ -19,9 +19,9 @@ extension TrangThaiPhongHopEX on TrangThaiPhongHop {
   Color getColor() {
     switch (this) {
       case TrangThaiPhongHop.CHO_DUYET:
-        return itemWidgetNotUse;
+        return colorFF9F43;
       case TrangThaiPhongHop.DA_DUYET:
-        return itemWidgetUsing;
+        return color28C76F;
     }
   }
 }

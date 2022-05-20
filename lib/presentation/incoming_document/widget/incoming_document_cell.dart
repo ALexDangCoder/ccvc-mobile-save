@@ -27,9 +27,9 @@ class IncomingDocumentCell extends StatelessWidget {
       child: Container(
         height: 107,
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
           borderRadius: BorderRadius.circular(10.0),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -55,7 +55,7 @@ class IncomingDocumentCell extends StatelessWidget {
                             height: 8.0,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: statusCalenderRed,
+                              color: colorEA5455,
                             ),
                           ),
                         ),
@@ -76,7 +76,7 @@ class IncomingDocumentCell extends StatelessWidget {
                             //DateTime.parse(dateTime).toStringWithListFormat,
                             dateTime,
                             style: textNormalCustom(
-                              color: textBodyTime,
+                              color: colorA2AEBD,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -86,7 +86,7 @@ class IncomingDocumentCell extends StatelessWidget {
                                 child: Text(
                                   userName,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontWeight: FontWeight.w400,
                                   ),
                                   maxLines: 1,
@@ -98,7 +98,7 @@ class IncomingDocumentCell extends StatelessWidget {
                                 height: 24.0,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.0),
-                                  color: textColorForum,
+                                  color: colorFF9F43,
                                 ),
                                 child: Center(
                                   child: Text(

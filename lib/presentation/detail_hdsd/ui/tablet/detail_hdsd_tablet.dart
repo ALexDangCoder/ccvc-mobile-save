@@ -25,7 +25,7 @@ class _DetailHDSDScreenTabletState extends State<DetailHDSDScreenTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgTabletColor,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(S.current.xem_hdsd),
       body: SingleChildScrollView(
@@ -40,14 +40,14 @@ class _DetailHDSDScreenTabletState extends State<DetailHDSDScreenTablet> {
               padding: const EdgeInsets.only(left: 28),
               child: Text(
                 S.current.thong_tin_chuong_trinh_hop,
-                style: textNormalCustom(color: labelColor, fontSize: 18),
+                style: textNormalCustom(color: color7966FF, fontSize: 18),
               ),
             ),
             Container(
               decoration: BoxDecoration(
-                color: backgroundColorApp,
+                color: colorFFFFFF,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: borderItemCalender.withOpacity(0.5)),
+                border: Border.all(color: colorE2E8F0.withOpacity(0.5)),
               ),
               margin: const EdgeInsets.only(
                 top: 24,
@@ -64,7 +64,7 @@ class _DetailHDSDScreenTabletState extends State<DetailHDSDScreenTablet> {
                     padding: const EdgeInsets.only(top: 16),
                     child: Text(
                       cubit.listHDSD[index],
-                      style: textDetailHDSD(color: titleColor, fontSize: 16),
+                      style: textDetailHDSD(color: color3D5586, fontSize: 16),
                     ),
                   );
                 },

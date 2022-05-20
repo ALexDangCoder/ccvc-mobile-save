@@ -23,7 +23,7 @@ Widget statusWidget(List<ChartData> listData) {
                       width: 38,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: lineColor,
+                        color: colorECEEF7,
                       ),
                       // color: e.color,
                       child: Column(
@@ -37,7 +37,7 @@ Widget statusWidget(List<ChartData> listData) {
                                   child: Text(
                                     e.value.toInt().toString(),
                                     style: textNormal(
-                                      textTitleColumn,
+                                      color667793,
                                       14.0.textScale(),
                                     ),
                                   ),
@@ -100,7 +100,7 @@ Widget statusWidget(List<ChartData> listData) {
                     child: Text(
                       '${result.title} (${result.value.toInt()})',
                       style: textNormal(
-                        infoColor,
+                        color667793,
                         14.0.textScale(),
                       ),
                     ),

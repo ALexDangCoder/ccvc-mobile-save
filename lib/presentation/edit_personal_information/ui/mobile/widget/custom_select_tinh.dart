@@ -94,7 +94,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.5,
                       decoration: const BoxDecoration(
-                        color: backgroundColorApp,
+                        color: colorFFFFFF,
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
                       child: Column(
@@ -171,7 +171,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                               ),
                                               Container(
                                                 height: 1,
-                                                color: cellColorborder,
+                                                color: color05OpacityDBDFEF,
                                               )
                                             ],
                                           );
@@ -198,7 +198,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.5,
                     decoration: const BoxDecoration(
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     child: Column(
@@ -271,7 +271,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                             ),
                                             Container(
                                               height: 1,
-                                              color: cellColorborder,
+                                              color: color05OpacityDBDFEF,
                                             )
                                           ],
                                         );
@@ -292,10 +292,10 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
         key: keyDiaLog,
         padding: const EdgeInsets.only(left: 8, top: 14, bottom: 14),
         decoration: BoxDecoration(
-          border: Border.all(color: borderColor),
+          border: Border.all(color: colorDBDFEF),
           borderRadius: BorderRadius.circular(6),
           color: widget.items.isEmpty && widget.initialValue == null
-              ? borderColor.withOpacity(0.2)
+              ? colorDBDFEF.withOpacity(0.2)
               : Colors.white,
         ),
         child: StreamBuilder<String>(
@@ -305,7 +305,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
               snapshot.data ?? '',
               style: tokenDetailAmount(
                 fontSize: 14.0.textScale(),
-                color: titleColor,
+                color: color3D5586,
               ),
             );
           },

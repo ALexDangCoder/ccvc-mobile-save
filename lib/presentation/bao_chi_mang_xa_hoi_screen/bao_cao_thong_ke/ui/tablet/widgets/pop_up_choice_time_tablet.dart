@@ -54,7 +54,7 @@ class _PopupChoiceTimeTabletState extends State<PopupChoiceTimeTablet> {
                   S.current.tu_ngay,
                   style: textNormalCustom(
                     fontSize: 16,
-                    color: titleItemEdit,
+                    color: color586B8B,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -67,7 +67,7 @@ class _PopupChoiceTimeTabletState extends State<PopupChoiceTimeTablet> {
                   S.current.den_ngay,
                   style: textNormalCustom(
                     fontSize: 16,
-                    color: titleItemEdit,
+                    color: color586B8B,
                     fontWeight: FontWeight.w400,
                   ),
                 ),

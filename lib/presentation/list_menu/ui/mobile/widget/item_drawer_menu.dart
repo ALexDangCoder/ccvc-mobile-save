@@ -40,7 +40,7 @@ class ItemDrawerMenu extends StatelessWidget {
               Container(
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
-                  color: buttonColor,
+                  color: color7966FF,
                   borderRadius: BorderRadius.all(
                     Radius.circular(2),
                   ),

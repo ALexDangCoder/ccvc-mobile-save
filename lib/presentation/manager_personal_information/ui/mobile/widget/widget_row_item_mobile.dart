@@ -32,7 +32,7 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
                 widget.row.title,
                 style: textDetailHDSD(
                   fontSize: 14.0,
-                  color: titleItemEdit,
+                  color: color586B8B,
                   textHeight: 1.7,
                 ),
                 maxLines: 2,
@@ -45,7 +45,7 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
                       '${widget.row.value}',
                       style: textDetailHDSD(
                         fontSize: 14,
-                        color: titleCalenderWork,
+                        color: color3D5586,
                         textHeight: 1.7,
                       ),
                       maxLines: 3,
@@ -57,7 +57,7 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
                         if (isContainer)
                           Container(
                             decoration: const BoxDecoration(
-                              color: daXuLyColor,
+                              color: color28C76F,
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
@@ -95,8 +95,8 @@ class _WidgetRowItemMobileState extends State<WidgetRowItemMobile> {
       toggleSize: 14,
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
-      inactiveColor: borderColor,
-      activeColor: labelColor,
+      inactiveColor: colorDBDFEF,
+      activeColor: color7966FF,
       value: value,
       onToggle: onToggle,
     );

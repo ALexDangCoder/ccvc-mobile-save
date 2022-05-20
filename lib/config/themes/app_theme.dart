@@ -6,13 +6,13 @@ class AppTheme {
   static AppColor getInstance() {
     switch(APP_THEME){
       case AppMode.MAC_DINH:
-         return DefaultApp();
+         return DefaultTheme();
       case AppMode.XANH:
-        return BlueApp();
+        return BlueTheme();
       case AppMode.HONG:
-        return PinkApp();
+        return PinkTheme();
       case AppMode.VANG:
-       return YellowApp();
+       return YellowTheme();
     }
 
   }

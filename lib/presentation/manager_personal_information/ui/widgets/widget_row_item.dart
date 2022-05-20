@@ -32,7 +32,7 @@ class _WidgetRowItemState extends State<WidgetRowItem> {
                 widget.row.title,
                 style: tokenDetailAmount(
                   fontSize: 14.0.textScale(),
-                  color: titleItemEdit,
+                  color: color586B8B,
                 ),
               ),
             ),
@@ -43,7 +43,7 @@ class _WidgetRowItemState extends State<WidgetRowItem> {
                       '${widget.row.value}',
                       style: tokenDetailAmount(
                         fontSize: 14.0.textScale(),
-                        color: titleCalenderWork,
+                        color: color3D5586,
                       ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
@@ -54,7 +54,7 @@ class _WidgetRowItemState extends State<WidgetRowItem> {
                         if (isContainer)
                           Container(
                             decoration: const BoxDecoration(
-                              color: daXuLyColor,
+                              color: color28C76F,
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
@@ -92,8 +92,8 @@ class _WidgetRowItemState extends State<WidgetRowItem> {
       toggleSize: 14,
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
-      inactiveColor: borderColor,
-      activeColor: labelColor,
+      inactiveColor: colorDBDFEF,
+      activeColor: color7966FF,
       value: value,
       onToggle: onToggle,
     );

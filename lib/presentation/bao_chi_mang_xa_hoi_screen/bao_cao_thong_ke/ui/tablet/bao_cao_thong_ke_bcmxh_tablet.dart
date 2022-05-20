@@ -40,7 +40,7 @@ class _BaoCaoThongKeBCMXHTabletScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgManagerColor,
+      backgroundColor: colorF9FAFF,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -63,10 +63,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: cellColorborder),
+                        border: Border.all(color: color05OpacityDBDFEF),
                         boxShadow: [
                           BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
+                            color: color6566E9.withOpacity(0.05),
                             offset: const Offset(0, 4),
                             blurRadius: 10,
                           )
@@ -96,7 +96,7 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                         children: [
                                           Expanded(
                                             child: BarCharWidget(
-                                              color: purpleChart,
+                                              color: color8E7EFF,
                                               listData: listData ?? [],
                                             ),
                                           ),
@@ -105,7 +105,7 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                           ),
                                           Expanded(
                                             child: BarCharWidget(
-                                              color: orangeDamChart,
+                                              color: colorFF9F43,
                                               listData: listStatusData ?? [],
                                             ),
                                           )
@@ -139,10 +139,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                                 border: Border.all(
-                                                    color: cellColorborder),
+                                                    color: color05OpacityDBDFEF),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: shadowContainerColor
+                                                    color: color6566E9
                                                         .withOpacity(0.05),
                                                     offset: const Offset(0, 4),
                                                     blurRadius: 10,
@@ -161,7 +161,7 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                 },
                                                 title: S.current.tin_tong_hop,
                                                 child: BarCharWidget(
-                                                  color: orangeDamChart,
+                                                  color: colorFF9F43,
                                                   listData: listData[0],
                                                   direction: true,
                                                 ),
@@ -178,10 +178,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                                 border: Border.all(
-                                                    color: cellColorborder),
+                                                    color: color05OpacityDBDFEF),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: shadowContainerColor
+                                                    color: color6566E9
                                                         .withOpacity(0.05),
                                                     offset: const Offset(0, 4),
                                                     blurRadius: 10,
@@ -194,7 +194,7 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                     (startDate, endDate) {},
                                                 title: S.current.cac_dia_phuong,
                                                 child: BarCharWidget(
-                                                  color: greenChart,
+                                                  color: color28C76F,
                                                   listData: listData[1],
                                                   direction: true,
                                                 ),
@@ -215,10 +215,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                                 border: Border.all(
-                                                    color: cellColorborder),
+                                                    color: color05OpacityDBDFEF),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: shadowContainerColor
+                                                    color: color6566E9
                                                         .withOpacity(0.05),
                                                     offset: const Offset(0, 4),
                                                     blurRadius: 10,
@@ -232,7 +232,7 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                 title: S.current
                                                     .uy_ban_nhan_dan_tinh,
                                                 child: BarCharWidget(
-                                                  color: blueNhatChart,
+                                                  color: color5A8DEE,
                                                   listData: listData[2],
                                                   direction: true,
                                                 ),
@@ -249,10 +249,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                                 border: Border.all(
-                                                    color: cellColorborder),
+                                                    color: color05OpacityDBDFEF),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: shadowContainerColor
+                                                    color: color6566E9
                                                         .withOpacity(0.05),
                                                     offset: const Offset(0, 4),
                                                     blurRadius: 10,
@@ -265,7 +265,7 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                     (startDate, endDate) {},
                                                 title: S.current.lanh_dao_tinh,
                                                 child: BarCharWidget(
-                                                  color: redChart,
+                                                  color: colorEA5455,
                                                   listData: listData[3],
                                                   direction: true,
                                                 ),
@@ -296,11 +296,11 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: cellColorborder),
+                                border: Border.all(color: color05OpacityDBDFEF),
                                 boxShadow: [
                                   BoxShadow(
                                     color:
-                                        shadowContainerColor.withOpacity(0.05),
+                                        color6566E9.withOpacity(0.05),
                                     offset: const Offset(0, 4),
                                     blurRadius: 10,
                                   )
@@ -342,26 +342,26 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                         ChartIndicatorWidget(
                                                           title: S.current
                                                               .mang_xa_hoi,
-                                                          color: blueNhatChart,
+                                                          color: color5A8DEE,
                                                         ),
                                                         ChartIndicatorWidget(
                                                           title:
                                                               S.current.bao_chi,
-                                                          color: greenChart,
+                                                          color: color28C76F,
                                                         ),
                                                         ChartIndicatorWidget(
                                                           title:
                                                               S.current.forum,
-                                                          color: grayChart,
+                                                          color: color28C76F,
                                                         ),
                                                         ChartIndicatorWidget(
                                                           title: S.current.blog,
                                                           color:
-                                                              orangeNhatChart,
+                                                              colorFDB000,
                                                         ),
                                                         ChartIndicatorWidget(
                                                           title: S.current.khac,
-                                                          color: purpleChart,
+                                                          color: color8E7EFF,
                                                         )
                                                       ],
                                                     ),
@@ -386,11 +386,11 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: cellColorborder),
+                                border: Border.all(color: color05OpacityDBDFEF),
                                 boxShadow: [
                                   BoxShadow(
                                     color:
-                                        shadowContainerColor.withOpacity(0.05),
+                                        color6566E9.withOpacity(0.05),
                                     offset: const Offset(0, 4),
                                     blurRadius: 10,
                                   )
@@ -427,17 +427,17 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                                         ChartIndicatorWidget(
                                                           title: S
                                                               .current.tich_cuc,
-                                                          color: greenChart,
+                                                          color: color28C76F,
                                                         ),
                                                         ChartIndicatorWidget(
                                                           title: S.current
                                                               .trung_lap,
-                                                          color: blueNhatChart,
+                                                          color: color5A8DEE,
                                                         ),
                                                         ChartIndicatorWidget(
                                                           title: S
                                                               .current.tich_cuc,
-                                                          color: redChart,
+                                                          color: colorEA5455,
                                                         ),
                                                       ],
                                                     ),
@@ -463,10 +463,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: cellColorborder),
+                        border: Border.all(color: color05OpacityDBDFEF),
                         boxShadow: [
                           BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
+                            color: color6566E9.withOpacity(0.05),
                             offset: const Offset(0, 4),
                             blurRadius: 10,
                           )
@@ -492,23 +492,23 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                 children: [
                                   ChartIndicatorWidget(
                                     title: S.current.mang_xa_hoi,
-                                    color: orangeDamChart,
+                                    color: colorFF9F43,
                                   ),
                                   ChartIndicatorWidget(
                                     title: S.current.bao_chi,
-                                    color: redChart,
+                                    color: colorEA5455,
                                   ),
                                   ChartIndicatorWidget(
                                     title: S.current.forum,
-                                    color: purpleChart,
+                                    color: color8E7EFF,
                                   ),
                                   ChartIndicatorWidget(
                                     title: S.current.blog,
-                                    color: orangeNhatChart,
+                                    color: colorFDB000,
                                   ),
                                   ChartIndicatorWidget(
                                     title: S.current.khac,
-                                    color: orangeDamChart,
+                                    color: colorFF9F43,
                                   )
                                 ],
                               ),
@@ -524,10 +524,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: cellColorborder),
+                        border: Border.all(color: color05OpacityDBDFEF),
                         boxShadow: [
                           BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
+                            color: color6566E9.withOpacity(0.05),
                             offset: const Offset(0, 4),
                             blurRadius: 10,
                           )
@@ -553,15 +553,15 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                                 children: [
                                   ChartIndicatorWidget(
                                     title: S.current.tich_cuc,
-                                    color: greenChart,
+                                    color: color28C76F,
                                   ),
                                   ChartIndicatorWidget(
                                     title: S.current.trung_lap,
-                                    color: grayChart,
+                                    color: color28C76F,
                                   ),
                                   ChartIndicatorWidget(
                                     title: S.current.tich_cuc,
-                                    color: redChart,
+                                    color: colorEA5455,
                                   ),
                                 ],
                               ),
@@ -577,10 +577,10 @@ class _BaoCaoThongKeBCMXHTabletScreenState
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: cellColorborder),
+                        border: Border.all(color: color05OpacityDBDFEF),
                         boxShadow: [
                           BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
+                            color: color6566E9.withOpacity(0.05),
                             offset: const Offset(0, 4),
                             blurRadius: 10,
                           )

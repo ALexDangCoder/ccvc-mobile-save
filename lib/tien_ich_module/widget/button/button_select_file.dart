@@ -66,7 +66,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: widget.background ?? labelColor.withOpacity(0.1),
+              color: widget.background ?? color7966FF.withOpacity(0.1),
               borderRadius: const BorderRadius.all(Radius.circular(4)),
             ),
             padding: EdgeInsets.symmetric(
@@ -91,7 +91,7 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 Text(
                   widget.title,
                   style: textNormalCustom(
-                    color: widget.titleColor ?? labelColor,
+                    color: widget.titleColor ?? color7966FF,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w500,
                   ),
@@ -131,7 +131,7 @@ Widget itemListFile(
     padding: EdgeInsets.all(16.0.textScale()),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(6.0.textScale()),
-      border: Border.all(color: bgDropDown),
+      border: Border.all(color: colorE2E8F0),
     ),
     alignment: Alignment.center,
     child: Row(
@@ -141,7 +141,7 @@ Widget itemListFile(
           child: Text(
             file.path.convertNameFile(),
             style: textNormalCustom(
-              color: choXuLyColor,
+              color: color5A8DEE,
               fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
             ),

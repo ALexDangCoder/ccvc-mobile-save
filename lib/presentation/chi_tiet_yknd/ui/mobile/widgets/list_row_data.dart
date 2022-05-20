@@ -28,7 +28,7 @@ class ListItemRow extends StatelessWidget {
                 style: textNormalCustom(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
-                  color: infoColor,
+                  color: color667793,
                 ),
               ),
             ),
@@ -45,7 +45,7 @@ class ListItemRow extends StatelessWidget {
                       style: textNormalCustom(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: isFile ? numberOfCalenders : titleCalenderWork,
+                        color: isFile ? color5A8DEE : color3D5586,
                       ),
                     ),
                 ).toList()??[],

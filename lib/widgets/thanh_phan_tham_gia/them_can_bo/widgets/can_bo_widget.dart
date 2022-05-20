@@ -28,8 +28,8 @@ class _CanBoWidgetState extends State<CanBoWidget> {
     return Container(
       padding: const EdgeInsets.all(17),
       decoration: BoxDecoration(
-        color: borderButtomColor.withOpacity(0.1),
-        border: Border.all(color: borderButtomColor),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Column(
@@ -48,7 +48,7 @@ class _CanBoWidgetState extends State<CanBoWidget> {
               Text(
                 widget.canBoModel.name,
                 style: textNormalCustom(
-                    color: titleColor, fontSize: 14.0.textScale(),),
+                    color: color3D5586, fontSize: 14.0.textScale(),),
               )
             ],
           ),
@@ -72,14 +72,14 @@ class _CanBoWidgetState extends State<CanBoWidget> {
           flex: 2,
           child: Text(
             key,
-            style: textNormal(infoColor, 14.0.textScale()),
+            style: textNormal(color667793, 14.0.textScale()),
           ),
         ),
         Expanded(
           flex: 6,
           child: Text(
             value,
-            style: textNormal(titleColor, 14.0.textScale()),
+            style: textNormal(color3D5586, 14.0.textScale()),
           ),
         )
       ],

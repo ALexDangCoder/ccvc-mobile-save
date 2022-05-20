@@ -79,7 +79,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
             child: Text(
               S.current.phien_hop,
               style: tokenDetailAmount(
-                color: dateColor,
+                color: color667793,
                 fontSize: 14.0,
               ),
             ),
@@ -93,7 +93,7 @@ class _TextFormFieldWidgetState extends State<DangKyPhatBieuWidget> {
                   'Tất cả',
                   style: tokenDetailAmount(
                     fontSize: 14.0.textScale(),
-                    color: titleColor,
+                    color: color3D5586,
                   ),
                 ),
                 items: [...data.map((e) => e.tieuDe ?? '').toList(), 'Tất cả'],

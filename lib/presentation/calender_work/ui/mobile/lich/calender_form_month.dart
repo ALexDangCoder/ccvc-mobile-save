@@ -45,7 +45,7 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                   controller: data,
                   headerHeight: 0.0,
                   appointmentTextStyle:
-                      textNormalCustom(color: backgroundColorApp),
+                      textNormalCustom(color: colorFFFFFF),
                   view: CalendarView.month,
                   todayHighlightColor: AppTheme.getInstance().colorField(),
                   appointmentTimeTextFormat: 'hh:mm:ss a',
@@ -55,7 +55,7 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                   viewHeaderStyle: ViewHeaderStyle(
                     dayTextStyle: textNormalCustom(
                       fontSize: 13,
-                      color: unselectLabelColor,
+                      color: colorA2AEBD,
                     ),
                   ),
                   monthViewSettings: MonthViewSettings(
@@ -64,11 +64,11 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                     monthCellStyle: MonthCellStyle(
                       trailingDatesTextStyle: textNormalCustom(
                         fontSize: 14,
-                        color: iconColorDown,
+                        color: color3D5586,
                       ),
                       textStyle: textNormalCustom(
                         fontSize: 14,
-                        color: fontColorTablet2,
+                        color: color3D5586,
                       ),
                     ),
                     appointmentDisplayMode:
@@ -143,7 +143,7 @@ class _CalenderFormMonthState extends State<CalenderFormMonth> {
                             Text(
                               '...',
                               style: textNormalCustom(
-                                color: textBodyTime,
+                                color: colorA2AEBD,
                                 fontSize: 14,
                               ),
                             ),

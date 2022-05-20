@@ -35,7 +35,7 @@ class _InputInfoUserWidgetState extends State<InputInfoUserWidget> {
               if (widget.isObligatory)
                 const Text(
                   ' *',
-                  style: TextStyle(color: canceledColor),
+                  style: TextStyle(color: colorF94444),
                 )
               else
                 const SizedBox()
@@ -53,7 +53,7 @@ class _InputInfoUserWidgetState extends State<InputInfoUserWidget> {
       widget.title,
       style: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleItemEdit,
+        color: color586B8B,
       ),
     );
   }

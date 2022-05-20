@@ -37,7 +37,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
             Text(
               widget.title,
               style: textNormalCustom(
-                color: titleItemEdit,
+                color: color586B8B,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
               ),
@@ -62,7 +62,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           ),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: toDayColor),
+            border: Border.all(color: colorDBDFEF),
             borderRadius: BorderRadius.circular(6),
           ),
           child: DropdownButtonHideUnderline(
@@ -79,7 +79,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               hint: Text(
                 widget.hint,
                 style: textNormalCustom(
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                 ),
@@ -93,7 +93,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
                     e,
                     style: textNormalCustom(
                       fontWeight: FontWeight.w400,
-                      color: textTitle,
+                      color: color3D5586,
                       fontSize: 14,
                     ),
                   ),

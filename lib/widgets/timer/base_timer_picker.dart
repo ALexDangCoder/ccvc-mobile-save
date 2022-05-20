@@ -61,7 +61,7 @@ class BaseChooseTimerWidgetState extends State<BaseChooseTimerWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 14),
               child: Text(
                 S.current.den,
-                style: textNormal(dateColor, 14),
+                style: textNormal(color667793, 14),
               ),
             ),
             Expanded(

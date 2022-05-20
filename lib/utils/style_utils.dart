@@ -42,7 +42,7 @@ TextStyle textStyle({double size = 16, double height = 1.2}) =>
     GoogleFonts.roboto(
       fontSize: size,
       fontWeight: FontWeight.w500,
-      color: dfTxtColor,
+      color: color303742,
       fontStyle: FontStyle.normal,
       height: height,
     );

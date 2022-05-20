@@ -31,8 +31,8 @@ class BaoCaoItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: bgDropDown.withOpacity(0.1),
-          border: Border.all(color: bgDropDown),
+          color: colorE2E8F0.withOpacity(0.1),
+          border: Border.all(color: colorE2E8F0),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -46,7 +46,7 @@ class BaoCaoItem extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -101,7 +101,7 @@ class BaoCaoItem extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -114,7 +114,7 @@ class BaoCaoItem extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: titleCalenderWork,
+                      color: color3D5586,
                     ),
                   ),
                 ),
@@ -133,7 +133,7 @@ class BaoCaoItem extends StatelessWidget {
                     style: textNormalCustom(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -151,7 +151,7 @@ class BaoCaoItem extends StatelessWidget {
                             style: textNormalCustom(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: numberOfCalenders,
+                              color: color5A8DEE,
                             ),
                           ),
                           const SizedBox(

@@ -47,7 +47,7 @@ class _ChangePassWordScreenTabletState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgQLVBTablet,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(S.current.doi_mat_khau),
       body: ProviderWidget<ChangePasswordCubit>(
@@ -83,7 +83,7 @@ class _ChangePassWordScreenTabletState
                       ),
                       const SizedBox(height: 20.0),
                       TextFieldValidator(
-                        fillColor: backgroundColorApp,
+                        fillColor: colorFFFFFF,
                         controller: matKhauHienTaiController,
                         obscureText: cubit.isCheckEye,
                         suffixIcon: cubit.isHideEye
@@ -143,7 +143,7 @@ class _ChangePassWordScreenTabletState
                       ),
                       TextFieldValidator(
                         maxLength: 32,
-                        fillColor: backgroundColorApp,
+                        fillColor: colorFFFFFF,
                         controller: matKhauMoiController,
                         obscureText: cubit.isCheckEye1,
                         suffixIcon: cubit.isHideEye1
@@ -196,7 +196,7 @@ class _ChangePassWordScreenTabletState
                       const SizedBox(height: 24.0),
                       TextFieldValidator(
                         maxLength: 32,
-                        fillColor: backgroundColorApp,
+                        fillColor: colorFFFFFF,
                         controller: nhapLaiMatKhauController,
                         obscureText: cubit.isCheckEye2,
                         suffixIcon: cubit.isHideEye2

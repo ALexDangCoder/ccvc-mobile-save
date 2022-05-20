@@ -138,13 +138,13 @@ extension checkColorTitle on int {
   Color trangThaiHanXuLy() {
     switch (this) {
       case 1:
-        return denHanColor;
+        return color0046FF;
       case 2:
-        return statusCalenderRed;
+        return colorEA5455;
       case 3:
-        return textTitle;
+        return color3D5586;
       default:
-        return textTitle;
+        return color3D5586;
     }
   }
 }
@@ -152,21 +152,21 @@ extension CheckColor on String {
   Color trangThaiColorNhiemVu() {
     switch (this) {
       case 'QUA_HAN':
-        return statusCalenderRed;
+        return colorEA5455;
       case 'CHUA_THUC_HIEN':
-        return choVaoSoColor;
+        return colorFF9F43;
       case 'DANG_THUC_HIEN':
-        return choTrinhKyColor;
+        return color02C5DD;
       case 'THU_HOI':
-        return yellowColor;
+        return colorD4DAE3;
       case 'DA_HOAN_THANH':
-        return daXuLyColor;
+        return color28C76F;
       case 'CHO_PHAN_XU_LY':
-        return choXuLyColor;
+        return color5A8DEE;
       case 'TRA_LAI':
-        return statusCalenderRed;
+        return colorEA5455;
       default:
-        return statusCalenderRed;
+        return colorEA5455;
     }
   }
 

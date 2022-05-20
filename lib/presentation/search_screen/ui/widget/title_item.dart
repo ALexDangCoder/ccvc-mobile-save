@@ -24,7 +24,7 @@ class TitleItem extends StatelessWidget {
           style: textNormalCustom(
             fontSize: 16.0.textScale(),
             fontWeight: FontWeight.w500,
-            color: titleCalenderWork,
+            color: color3D5586,
           ),
         ),
         SizedBox(
@@ -35,7 +35,7 @@ class TitleItem extends StatelessWidget {
           style: textNormalCustom(
             fontSize: 12.0.textScale(),
             fontWeight: FontWeight.w400,
-            color: textBodyTime,
+            color: colorA2AEBD,
           ),
         ),
         SizedBox(

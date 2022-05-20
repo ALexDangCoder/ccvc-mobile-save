@@ -74,7 +74,7 @@ class _DoubleButtonEditHDSDScreenState
                 widget.title2,
                 style: textNormalCustom(
                   fontSize: 14.0.textScale(space: 4.0),
-                  color: backgroundColorApp,
+                  color: colorFFFFFF,
                 ),
               ),
             ),

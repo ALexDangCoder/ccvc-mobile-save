@@ -98,7 +98,7 @@ class _WidgetHeadChiTietVanBanDenMobileState
                                   AutoSizeText(
                                     row.title,
                                     style: textNormalCustom(
-                                      color: titleItemEdit,
+                                      color: color586B8B,
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w400,
                                     ),

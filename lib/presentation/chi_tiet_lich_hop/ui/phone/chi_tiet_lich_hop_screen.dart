@@ -122,7 +122,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   const Icon(
                                     Icons.circle,
                                     size: 12,
-                                    color: statusCalenderRed,
+                                    color: colorEA5455,
                                   ),
                                   const SizedBox(
                                     width: 16,
@@ -130,7 +130,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   Text(
                                     data.title,
                                     style: textNormalCustom(
-                                      color: titleCalenderWork,
+                                      color: color3D5586,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -214,7 +214,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        color: backgroundColorApp,
+        color: colorFFFFFF,
         width: 170,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,7 +233,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     name,
                     textAlign: TextAlign.center,
                     style: textNormalCustom(
-                      color: textTitle,
+                      color: color3D5586,
                       fontWeight: FontWeight.w400,
                       fontSize: 14.0.textScale(),
                     ),
@@ -243,7 +243,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   ),
                   Container(
                     height: 1,
-                    color: borderColor.withOpacity(0.5),
+                    color: colorDBDFEF.withOpacity(0.5),
                   ),
                   SizedBox(
                     height: 14.0.textScale(),

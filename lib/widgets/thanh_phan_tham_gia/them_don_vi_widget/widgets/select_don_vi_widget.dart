@@ -76,15 +76,15 @@ class SelectDonViCell extends StatelessWidget {
               ? []
               : [
                   BoxShadow(
-                    color: shadowContainerColor.withOpacity(0.05),
+                    color: color6566E9.withOpacity(0.05),
                     offset: const Offset(0, 4),
                     blurRadius: 10,
                   )
                 ],
           border: Border.all(
             color: APP_DEVICE == DeviceType.MOBILE
-                ? borderButtomColor
-                : borderColor.withOpacity(0.5),
+                ? colorE2E8F0
+                : colorDBDFEF.withOpacity(0.5),
           ),
           borderRadius: BorderRadius.all(Radius.circular(6.0.textScale())),
           color: Colors.white),
@@ -99,7 +99,7 @@ class SelectDonViCell extends StatelessWidget {
               child: TextField(
                 onChanged: onChange,
                 controller: controller,
-                style: textNormal(textTitle, 14.0.textScale()),
+                style: textNormal(color3D5586, 14.0.textScale()),
                 decoration: const InputDecoration(
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(vertical: 5),
@@ -136,7 +136,7 @@ class SelectDonViCell extends StatelessWidget {
           Text(
             title,
             style: textNormal(
-              APP_DEVICE == DeviceType.MOBILE ? AppTheme.getInstance().colorField() : backgroundColorApp,
+              APP_DEVICE == DeviceType.MOBILE ? AppTheme.getInstance().colorField() : colorFFFFFF,
               12.0.textScale(),
             ),
           ),
@@ -152,7 +152,7 @@ class SelectDonViCell extends StatelessWidget {
                 height: 7.5,
                 color: APP_DEVICE == DeviceType.MOBILE
                     ? AppTheme.getInstance().colorField()
-                    : backgroundColorApp,
+                    : colorFFFFFF,
               ),
             ),
           )

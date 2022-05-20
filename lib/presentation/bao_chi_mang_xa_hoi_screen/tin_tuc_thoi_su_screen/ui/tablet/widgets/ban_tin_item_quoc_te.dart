@@ -57,7 +57,7 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
         Text(
           widget.description,
           style: textNormalCustom(
-            color: dateColor,
+            color: color667793,
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w400,
           ),
@@ -73,16 +73,16 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
                 padding: const EdgeInsets.all(20),
                 height: 380,
                 decoration: BoxDecoration(
-                  color: backgroundColorApp,
+                  color: colorFFFFFF,
                   boxShadow: [
                     BoxShadow(
-                      color: shadowContainerColor.withOpacity(0.05),
+                      color: color6566E9.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
                   ],
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: cellColorborder),
+                  border: Border.all(color: color05OpacityDBDFEF),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -124,14 +124,14 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
                               style: textNormalCustom(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16.0.textScale(),
-                                color: infoColor,
+                                color: color667793,
                               ),
                             ),
                             const SizedBox(
                               width: 12,
                             ),
                             Container(
-                              color: backgroundColorApp,
+                              color: colorFFFFFF,
                               height: 50,
                               width: 160,
                               child: CustomDropDown(

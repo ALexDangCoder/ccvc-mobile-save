@@ -42,7 +42,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgCalenderColor,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(S.current.tao_lich_hop),
       body: SingleChildScrollView(

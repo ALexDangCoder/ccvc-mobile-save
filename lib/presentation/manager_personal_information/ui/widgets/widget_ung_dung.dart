@@ -56,7 +56,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                               S.current.stt,
                               style: textDetailHDSD(
                                 fontSize: 16.0,
-                                color: titleItemEdit,
+                                color: color586B8B,
                                 textHeight: 2.5,
                               ),
                               maxLines: 2,
@@ -68,7 +68,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                               '${index + 1}',
                               style: textDetailHDSD(
                                 fontSize: 16.0,
-                                color: titleCalenderWork,
+                                color: color3D5586,
                                 textHeight: 2.5,
                               ),
                               maxLines: 3,
@@ -86,7 +86,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                               S.current.ten_dang_nhap,
                               style: textDetailHDSD(
                                 fontSize: 16.0,
-                                color: titleItemEdit,
+                                color: color586B8B,
                                 textHeight: 2.5,
                               ),
                               maxLines: 2,
@@ -100,7 +100,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                                   '',
                               style: textDetailHDSD(
                                 fontSize: 16.0,
-                                color: titleCalenderWork,
+                                color: color3D5586,
                                 textHeight: 2.5,
                               ),
                               maxLines: 3,
@@ -122,7 +122,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                                   S.current.ung_dung,
                                   style: textDetailHDSD(
                                     fontSize: 16.0,
-                                    color: titleItemEdit,
+                                    color: color586B8B,
                                     textHeight: 2.5,
                                   ),
                                   maxLines: 2,
@@ -153,7 +153,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                                       '',
                                   style: textDetailHDSD(
                                     fontSize: 16.0,
-                                    color: titleCalenderWork,
+                                    color: color3D5586,
                                     textHeight: 2.5,
                                   ),
                                   maxLines: 2,
@@ -173,7 +173,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                               S.current.trang_thai,
                               style: textDetailHDSD(
                                 fontSize: 16.0,
-                                color: titleItemEdit,
+                                color: color586B8B,
                                 textHeight: 2.5,
                               ),
                               maxLines: 2,
@@ -195,7 +195,7 @@ class _WidgetUngDungState extends State<WidgetUngDung> {
                                     bottom: 4,
                                   ),
                                   decoration: const BoxDecoration(
-                                    color: daXuLyColor,
+                                    color: color28C76F,
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(30),
                                     ),

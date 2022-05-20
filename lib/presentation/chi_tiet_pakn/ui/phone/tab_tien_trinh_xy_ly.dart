@@ -58,7 +58,7 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   margin: const EdgeInsets.only(bottom: 10, left: 16, right: 16),
                   decoration: const BoxDecoration(
-                    color: containerColorTab,
+                    color: colorE2E8F0,
                     borderRadius: BorderRadius.all(Radius.circular(6)),
                   ),
                   child: ListView.builder(
@@ -90,7 +90,7 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
       width: 343,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
-        color: containerColorTab,
+        color: colorE2E8F0,
         borderRadius: BorderRadius.all(Radius.circular(6)),
       ),
       child: Column(

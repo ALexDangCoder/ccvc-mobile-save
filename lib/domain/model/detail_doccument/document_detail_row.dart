@@ -50,7 +50,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
         return Text(
           row.value,
           style: textNormalCustom(
-            color: textTitle,
+            color: color3D5586,
             fontWeight: FontWeight.w400,
             fontSize: 14.0.textScale(),
           ),
@@ -87,7 +87,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -118,7 +118,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             AutoSizeText(
               row.title,
               style: textNormalCustom(
-                color: titleItemEdit,
+                color: color586B8B,
                 fontSize: 14.0,
                 fontWeight: FontWeight.w400,
               ),
@@ -157,7 +157,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                 child: Text(
                   e.ten ?? '',
                   style: textNormalCustom(
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                     fontWeight: FontWeight.w400,
                     fontSize: 14.0.textScale(),
                   ),
@@ -192,62 +192,62 @@ extension StatusChiTietVanBan on StatusVanBan {
       case StatusVanBan.QUA_HAN:
         return statusChiTietVanBan(
           name: S.current.qua_han,
-          background: statusCalenderRed,
+          background: colorEA5455,
         );
       case StatusVanBan.CHUA_THUC_HIEN:
         return statusChiTietVanBan(
           name: S.current.chua_thuc_hien,
-          background: yellowColor,
+          background: colorD4DAE3,
         );
       case StatusVanBan.DANG_THUC_HIEN:
         return statusChiTietVanBan(
           name: S.current.dang_thuc_hien,
-          background: AqiColor,
+          background: colorA2AEBD,
         );
       case StatusVanBan.CHO_VAO_SO:
         return statusChiTietVanBan(
           name: S.current.cho_vao_so,
-          background: choVaoSoColor,
+          background: color28C76F,
         );
       case StatusVanBan.NHAN_DE_BIET:
         return statusChiTietVanBan(
           name: S.current.nhan_de_biet,
-          background: choVaoSoColor,
+          background: color28C76F,
         );
       case StatusVanBan.CHO_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
         );
       case StatusVanBan.DANG_XU_LY:
         return statusChiTietVanBan(
           name: S.current.dang_xu_ly,
-          background: dangXyLyColor,
+          background: color7966FF,
         );
       case StatusVanBan.CHO_TIEP_NHAN:
         return statusChiTietVanBan(
           name: S.current.cho_tiep_nhan,
-          background: itemWidgetNotUse,
+          background: colorFF9F43,
         );
       case StatusVanBan.CHO_PHAN_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_phan_xu_ly,
-          background: yellowColor,
+          background: colorD4DAE3,
         );
       case StatusVanBan.THU_HOI:
         return statusChiTietVanBan(
           name: S.current.thu_hoi,
-          background: yellowColor,
+          background: colorD4DAE3,
         );
       case StatusVanBan.DA_HOAN_THANH:
         return statusChiTietVanBan(
           name: S.current.da_hoan_thanh,
-          background: daXuLyColor,
+          background: color28C76F,
         );
       case StatusVanBan.TRA_LAI:
         return statusChiTietVanBan(
           name: S.current.tra_lai,
-          background: statusCalenderRed,
+          background: colorEA5455,
         );
     }
   }
@@ -304,7 +304,7 @@ Widget statusChiTietVanBan({required String name, required Color background}) {
         child: Text(
           name,
           style: textNormalCustom(
-            color: backgroundColorApp,
+            color: colorFFFFFF,
             fontSize: 12.0.textScale(),
             fontWeight: FontWeight.w500,
           ),

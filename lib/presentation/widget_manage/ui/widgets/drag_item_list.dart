@@ -52,11 +52,11 @@ class _DragItemListState extends State<DragItemList> {
                         ? SvgPicture.asset(ImageAssets.icClose)
                         : SvgPicture.asset(ImageAssets.icAdd),
                     backgroundColor: widget.isUsing
-                        ? itemWidgetUsing.withOpacity(0.04)
-                        : itemWidgetNotUse.withOpacity(0.05),
+                        ? color28C76F.withOpacity(0.04)
+                        : colorFF9F43.withOpacity(0.05),
                     borderColor: widget.isUsing
-                        ? itemWidgetUsing.withOpacity(0.3)
-                        : itemWidgetNotUse.withOpacity(0.3),
+                        ? color28C76F.withOpacity(0.3)
+                        : colorFF9F43.withOpacity(0.3),
                     content: productName,
                   ),
                 ),
@@ -74,11 +74,11 @@ class _DragItemListState extends State<DragItemList> {
                     ? SvgPicture.asset(ImageAssets.icClose)
                     : SvgPicture.asset(ImageAssets.icAdd),
                 backgroundColor: widget.isUsing
-                    ? itemWidgetUsing.withOpacity(0.04)
-                    : itemWidgetNotUse.withOpacity(0.05),
+                    ? color28C76F.withOpacity(0.04)
+                    : colorFF9F43.withOpacity(0.05),
                 borderColor: widget.isUsing
-                    ? itemWidgetUsing.withOpacity(0.3)
-                    : itemWidgetNotUse.withOpacity(0.3),
+                    ? color28C76F.withOpacity(0.3)
+                    : colorFF9F43.withOpacity(0.3),
                 content: productName,
                 clickICon: () {
                   widget.isUsing

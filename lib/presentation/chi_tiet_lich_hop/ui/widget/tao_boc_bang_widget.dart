@@ -28,7 +28,7 @@ class _TaoBocBangWidgetState extends State<TaoBocBangWidget> {
         ),
         Text(
           S.current.can_bo_boc_bang,
-          style: textNormalCustom(color: infoColor),
+          style: textNormalCustom(color: color667793),
         ),
         const SizedBox(
           height: 8,

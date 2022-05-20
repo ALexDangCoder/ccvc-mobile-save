@@ -113,11 +113,11 @@ Widget itemLichLapTuyChinhHop({required bool isCheck, required String title}) {
       width: 32.0,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isCheck ? textDefault : textDefault.withOpacity(0.1)),
+          color: isCheck ? color7966FF : color7966FF.withOpacity(0.1)),
       child: Center(
         child: Text(
           title,
-          style: textNormal(isCheck ? backgroundColorApp : textDefault, 14),
+          style: textNormal(isCheck ? colorFFFFFF : color7966FF, 14),
         ),
       ));
 }
@@ -157,7 +157,7 @@ class _ItemLapDenNgayHopWidgetState extends State<ItemLapDenNgayHopWidget> {
             children: [
               Text(
                 S.current.lap_den_ngay,
-                style: textNormal(titleColor, 16.0),
+                style: textNormal(color3D5586, 16.0),
               ),
               GestureDetector(
                   onTap: () {
@@ -178,14 +178,14 @@ class _ItemLapDenNgayHopWidgetState extends State<ItemLapDenNgayHopWidget> {
                       builder: (context, snapshot) {
                         return Text(
                           dateTimeLapDenNgay.toStringWithListFormat,
-                          style: textNormal(titleColor, 16.0),
+                          style: textNormal(color3D5586, 16.0),
                         );
                       })),
             ],
           ),
           const Divider(
             thickness: 1,
-            color: lineColor,
+            color: colorECEEF7,
           ),
         ],
       ),

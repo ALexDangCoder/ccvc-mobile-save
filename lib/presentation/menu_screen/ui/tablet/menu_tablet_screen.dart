@@ -72,9 +72,9 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
           retry: () {},
           error: AppException('', S.current.something_went_wrong),
           child: Scaffold(
-            backgroundColor: bgWidgets,
+            backgroundColor: colorF9FAFF,
             appBar: BaseAppBar(
-              backGroundColor: bgWidgets,
+              backGroundColor: colorF9FAFF,
               title: S.current.menu,
             ),
             body: RefreshIndicator(
@@ -181,11 +181,11 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                 boxShadow: [
                                   BoxShadow(
                                     blurRadius: 10,
-                                    color: colorBlack.withOpacity(0.05),
+                                    color: color000000.withOpacity(0.05),
                                   )
                                 ],
                                 border: Border.all(
-                                    color: borderColor.withOpacity(0.5)),
+                                    color: colorDBDFEF.withOpacity(0.5)),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -195,7 +195,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                         vertical: 16),
                                     decoration: const BoxDecoration(
                                       border: Border(
-                                        bottom: BorderSide(color: lineColor),
+                                        bottom: BorderSide(color: colorECEEF7),
                                       ),
                                     ),
                                     child: Text(
@@ -288,13 +288,13 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(
-          color: backgroundColorApp,
-          border: Border.all(color: borderColor.withOpacity(0.5)),
+          color: colorFFFFFF,
+          border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           boxShadow: [
             BoxShadow(
               blurRadius: 10,
-              color: shadowContainerColor.withOpacity(0.05),
+              color: color6566E9.withOpacity(0.05),
             )
           ],
         ),
@@ -310,7 +310,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
               padding: EdgeInsets.only(top: 10.h),
               child: Text(
                 type.getItem().title,
-                style: textNormalCustom(fontSize: 18, color: titleColor),
+                style: textNormalCustom(fontSize: 18, color: color3D5586),
                 textAlign: TextAlign.center,
               ),
             )

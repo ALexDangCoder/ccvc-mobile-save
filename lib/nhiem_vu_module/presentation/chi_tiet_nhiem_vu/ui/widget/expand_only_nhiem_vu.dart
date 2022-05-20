@@ -39,8 +39,8 @@ class _ExpandOnlyNhiemVuState extends State<ExpandOnlyNhiemVu> {
                 vertical: 10.5.textScale(space: 4),
               ),
               decoration: BoxDecoration(
-                color: borderColor.withOpacity(0.1),
-                border: Border.all(color: borderColor.withOpacity(0.5)),
+                color: colorDBDFEF.withOpacity(0.1),
+                border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,7 +48,7 @@ class _ExpandOnlyNhiemVuState extends State<ExpandOnlyNhiemVu> {
                   Text(
                     widget.name,
                     style: textNormalCustom(
-                      color: textTitle,
+                      color: color3D5586,
                       fontWeight: FontWeight.w400,
                       fontSize: 16.0.textScale(),
                     ),
@@ -57,7 +57,7 @@ class _ExpandOnlyNhiemVuState extends State<ExpandOnlyNhiemVu> {
                     isExpand
                         ? Icons.keyboard_arrow_up_rounded
                         : Icons.keyboard_arrow_down_outlined,
-                    color: AqiColor,
+                    color: colorA2AEBD,
                   ),
                 ],
               ),

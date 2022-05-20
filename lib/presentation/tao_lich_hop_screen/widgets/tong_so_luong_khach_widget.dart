@@ -24,7 +24,7 @@ class _TongSoLuongKhachWidgetState extends State<TongSoLuongKhachWidget> {
           child: RichText(
             text: TextSpan(
               text: S.current.tong_so_luong_khach,
-              style: textNormal(infoColor, 14),
+              style: textNormal(color667793, 14),
               children: const <TextSpan>[
                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
               ],
@@ -41,7 +41,7 @@ class _TongSoLuongKhachWidgetState extends State<TongSoLuongKhachWidget> {
     return Form(
       key: _key,
       child: TextFormField(
-        style: textNormal(titleColor, 14.0.textScale()),
+        style: textNormal(color3D5586, 14.0.textScale()),
         onChanged: (value) {
           _key.currentState?.validate();
           onChange(value);
@@ -54,25 +54,25 @@ class _TongSoLuongKhachWidgetState extends State<TongSoLuongKhachWidget> {
               const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           isDense: true,
           hintText: S.current.nhap_so_luong,
-          hintStyle: textNormal(textBodyTime, 14.0.textScale()),
+          hintStyle: textNormal(colorA2AEBD, 14.0.textScale()),
           border: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderButtomColor),
+            borderSide: BorderSide(color: colorE2E8F0),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderButtomColor),
+            borderSide: BorderSide(color: colorE2E8F0),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderButtomColor),
+            borderSide: BorderSide(color: colorE2E8F0),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderButtomColor),
+            borderSide: BorderSide(color: colorE2E8F0),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderButtomColor),
+            borderSide: BorderSide(color: colorE2E8F0),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
         ),

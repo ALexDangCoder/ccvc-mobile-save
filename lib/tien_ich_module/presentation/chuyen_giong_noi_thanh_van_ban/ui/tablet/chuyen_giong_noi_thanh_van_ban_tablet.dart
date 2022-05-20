@@ -133,7 +133,7 @@ class _ChuyenGiongNoiThanhVanBanTabletState
             child: Text(
               S.current.thay_doi_giong_noi,
               style: textNormalCustom(
-                color: infoColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(),
               ),
@@ -143,11 +143,11 @@ class _ChuyenGiongNoiThanhVanBanTabletState
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: colorNumberCellQLVB,
-                border: Border.all(color: borderColor.withOpacity(0.5)),
+                color: colorFCFDFD,
+                border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                 boxShadow: [
                   BoxShadow(
-                    color: shadowContainerColor.withOpacity(0.05),
+                    color: color6566E9.withOpacity(0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4), // changes position of shadow
                   ),

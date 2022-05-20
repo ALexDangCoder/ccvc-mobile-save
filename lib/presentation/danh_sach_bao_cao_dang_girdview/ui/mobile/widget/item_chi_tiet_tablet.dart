@@ -12,7 +12,7 @@ class ItemChiTietTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgWidgets,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(S.current.bac_cao),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -42,7 +42,7 @@ class ItemChiTietTablet extends StatelessWidget {
                               child: Text(
                                 S.current.phuong_xa,
                                 style: textNormalCustom(
-                                  color: textTitle,
+                                  color: color3D5586,
                                   fontSize: 16,
                                 ),
                               ),
@@ -50,7 +50,7 @@ class ItemChiTietTablet extends StatelessWidget {
                             Text(
                               S.current.k_hoat_dong,
                               style: tokenDetailAmount(
-                                color: AqiColor,
+                                color: colorA2AEBD,
                                 fontSize: 14,
                               ),
                             ),
@@ -61,7 +61,7 @@ class ItemChiTietTablet extends StatelessWidget {
                   ),
                   Container(
                     height: 1,
-                    color: toDayColor.withOpacity(0.5),
+                    color: colorDBDFEF.withOpacity(0.5),
                   ),
                   //  spaceH16
                 ],

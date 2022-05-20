@@ -33,11 +33,11 @@ class _CellListDanhBaToChucTabletState
       padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: borderColor.withOpacity(0.5)),
-        color: backgroundColorApp,
+        border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
+        color: colorFFFFFF,
         boxShadow: [
           BoxShadow(
-            color: bgColor.withOpacity(0.5),
+            color: colorE5E5E5.withOpacity(0.5),
             blurRadius: 10,
             offset: const Offset(0, 4), // changes position of shadow
           ),
@@ -56,7 +56,7 @@ class _CellListDanhBaToChucTabletState
                   width: 96,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: choTrinhKyColor,
+                    color: color02C5DD,
                   ),
                   child: Center(
                     child: Text(
@@ -77,7 +77,7 @@ class _CellListDanhBaToChucTabletState
               children: [
                 Text(
                   widget.item.hoTen ?? '',
-                  style: textNormalCustom(fontSize: 16, color: titleColor),
+                  style: textNormalCustom(fontSize: 16, color: color3D5586),
                 ),
                 spaceH26,
                 Row(
@@ -88,7 +88,7 @@ class _CellListDanhBaToChucTabletState
                       S.current.nhan_vien,
                       style: tokenDetailAmount(
                         fontSize: 16,
-                        color: titleColor,
+                        color: color3D5586,
                       ),
                     )
                   ],
@@ -105,7 +105,7 @@ class _CellListDanhBaToChucTabletState
                           '',
                       style: tokenDetailAmount(
                         fontSize: 16,
-                        color: titleColor,
+                        color: color3D5586,
                       ),
                     )
                   ],
@@ -122,7 +122,7 @@ class _CellListDanhBaToChucTabletState
                         overflow: TextOverflow.ellipsis,
                         style: tokenDetailAmount(
                           fontSize: 16,
-                          color: titleColor,
+                          color: color3D5586,
                         ),
                       ),
                     )

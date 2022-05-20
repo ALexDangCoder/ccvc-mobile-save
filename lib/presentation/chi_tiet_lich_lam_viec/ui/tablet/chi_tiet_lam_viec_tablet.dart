@@ -47,7 +47,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
       error: AppException('', S.current.something_went_wrong),
       stream: chiTietLichLamViecCubit.stateStream,
       child: Scaffold(
-        backgroundColor: bgWidgets,
+        backgroundColor: colorF9FAFF,
         appBar: BaseAppBar(
           title: S.current.chi_tiet_lich_lam_viec,
           actions: [
@@ -147,7 +147,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
             },
             child: const Icon(
               Icons.arrow_back_ios,
-              color: AqiColor,
+              color: colorA2AEBD,
             ),
           ),
         ),
@@ -160,11 +160,11 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: toDayColor.withOpacity(0.5),
+              color: colorDBDFEF.withOpacity(0.5),
             ),
             boxShadow: [
               BoxShadow(
-                color: shadowContainerColor.withOpacity(0.05),
+                color: color6566E9.withOpacity(0.05),
                 offset: const Offset(0, 4),
                 blurRadius: 10,
               )
@@ -179,7 +179,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                     const Icon(
                       Icons.circle,
                       size: 12,
-                      color: statusCalenderRed,
+                      color: colorEA5455,
                     ),
                     const SizedBox(
                       width: 16,
@@ -187,7 +187,7 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                     Text(
                       S.current.hop_noi_bo_cong_ty,
                       style: textNormalCustom(
-                        color: textTitle,
+                        color: color3D5586,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),

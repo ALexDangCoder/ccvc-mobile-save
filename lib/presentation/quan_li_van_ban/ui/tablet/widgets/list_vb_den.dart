@@ -31,7 +31,7 @@ class _ListVBDenState extends State<ListVBDen> {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
-          color: bgQLVBTablet,
+          color: colorF9FAFF,
           padding: const EdgeInsets.fromLTRB(30, 60, 30, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -85,12 +85,12 @@ Widget buttonChitiet(String text, Function onTap) {
       width: 205,
       height: 40,
       padding: const EdgeInsets.only(left: 20),
-      color: textDefault.withOpacity(0.1),
+      color: color7966FF.withOpacity(0.1),
       child: Row(
         children: [
           Text(
             text,
-            style: textNormalCustom(color: textDefault),
+            style: textNormalCustom(color: color7966FF),
           ),
           const SizedBox(
             width: 8,

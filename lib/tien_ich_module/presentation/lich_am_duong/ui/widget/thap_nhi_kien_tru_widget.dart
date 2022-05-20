@@ -24,7 +24,7 @@ class ThapNhiKienTruWidget extends StatelessWidget {
             S.current.thap_nhi_kien_tru,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -35,12 +35,12 @@ class ThapNhiKienTruWidget extends StatelessWidget {
         titleNgayBachKy(
           '${S.current.nen_lam}: ',
           thapNhiKienTru.nenLam ?? '',
-          color: colorNenLam,
+          color: color27AE60,
         ),
         titleNgayBachKy(
           '${S.current.khong_nen_lam}: ',
           thapNhiKienTru.khongNenLam ?? '',
-          color: specialPriceColor,
+          color: colorEB5757,
         ),
       ],
     );

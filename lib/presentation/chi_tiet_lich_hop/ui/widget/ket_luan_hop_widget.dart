@@ -204,8 +204,8 @@ class ItemKetLuanHopWidget extends StatelessWidget {
       margin: EdgeInsets.only(top: 16.0.textScale()),
       padding: EdgeInsets.all(16.0.textScale()),
       decoration: BoxDecoration(
-        color: bgDropDown.withOpacity(0.1),
-        border: Border.all(color: bgDropDown),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
@@ -217,7 +217,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
               Text(
                 title,
                 style: textNormalCustom(
-                  color: textTitle,
+                  color: color3D5586,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
@@ -323,7 +323,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
             child: Text(
               time,
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontSize: 14.0.textScale(),
                 fontWeight: FontWeight.w400,
               ),
@@ -349,7 +349,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                   data[index],
                   style: textDetailHDSD(
                     fontSize: 14.0.textScale(),
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                   ),
                 );
               },
@@ -392,15 +392,15 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
           style: textNormalCustom(
             fontWeight: FontWeight.w500,
             fontSize: 14.0.textScale(),
-            color: dateColor,
+            color: color667793,
           ),
         ),
         Container(
           margin: EdgeInsets.only(top: 16.0.textScale()),
           padding: EdgeInsets.all(16.0.textScale()),
           decoration: BoxDecoration(
-            color: bgDropDown.withOpacity(0.1),
-            border: Border.all(color: bgDropDown),
+            color: colorE2E8F0.withOpacity(0.1),
+            border: Border.all(color: colorE2E8F0),
             borderRadius: BorderRadius.circular(6),
           ),
           child: Column(
@@ -416,7 +416,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                         child: Text(
                           S.current.so_nhiem_vu,
                           style: textNormalCustom(
-                            color: titleColumn,
+                            color: color667793,
                             fontSize: 14.0.textScale(),
                             fontWeight: FontWeight.w400,
                           ),
@@ -427,7 +427,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                         child: Text(
                           soNhiemVu,
                           style: textNormalCustom(
-                            color: textTitle,
+                            color: color3D5586,
                             fontSize: 14.0.textScale(),
                             fontWeight: FontWeight.w400,
                           ),
@@ -446,7 +446,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                 child: Text(
                   ndTheoDoi,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   ),
@@ -457,7 +457,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                 child: Text(
                   tinhHinhThucHien,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   ),
@@ -468,7 +468,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                 child: Text(
                   hanXuLy,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   ),
@@ -479,7 +479,7 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
                 child: Text(
                   loaiNV,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   ),
@@ -508,7 +508,7 @@ Widget widgetRow({required String name, required Widget child}) {
           child: Text(
             name,
             style: textNormalCustom(
-              color: titleColumn,
+              color: color667793,
               fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
             ),

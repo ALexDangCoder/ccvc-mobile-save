@@ -151,7 +151,7 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                   ? S.current.thay_doi_giong_noi
                   : S.current.speech_not_available,
               style: textNormalCustom(
-                color: infoColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(),
               ),
@@ -162,11 +162,11 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: colorNumberCellQLVB,
-                border: Border.all(color: borderColor.withOpacity(0.5)),
+                color: colorFCFDFD,
+                border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                 boxShadow: [
                   BoxShadow(
-                    color: shadowContainerColor.withOpacity(0.05),
+                    color: color6566E9.withOpacity(0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4), // changes position of shadow
                   ),
@@ -200,7 +200,7 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                   right: 20,
                 ),
                 decoration: BoxDecoration(
-                  color: buttonColor.withOpacity(0.1),
+                  color: color7966FF.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Row(
@@ -212,7 +212,7 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                     spaceW10,
                     Text(
                       S.current.copy,
-                      style: textNormal(buttonColor, 14),
+                      style: textNormal(color7966FF, 14),
                     ),
                   ],
                 ),

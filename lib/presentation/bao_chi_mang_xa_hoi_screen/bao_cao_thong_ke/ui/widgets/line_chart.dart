@@ -24,32 +24,32 @@ class LineChartWidget extends StatelessWidget {
             alignment: ChartAlignment.near,
             text: S.current.thang,
             textStyle: textNormalCustom(
-              color: AqiColor,
+              color: colorA2AEBD,
               fontSize: 12,
               fontWeight: FontWeight.w400,
             ),
           ),
           placeLabelsNearAxisLine: true,
           labelStyle: textNormalCustom(
-            color: AqiColor,
+            color: colorA2AEBD,
             fontSize: 12,
             fontWeight: FontWeight.w400,
           ),
           axisLine: const AxisLine(
-            color: AqiColor,
+            color: colorA2AEBD,
             width: 0.41,
           ),
           majorGridLines: const MajorGridLines(width: 0),
         ),
         primaryYAxis: CategoryAxis(
           labelStyle: textNormalCustom(
-            color: AqiColor,
+            color: colorA2AEBD,
             fontSize: 12,
             fontWeight: FontWeight.w400,
           ),
           placeLabelsNearAxisLine: true,
           axisLine: const AxisLine(
-            color: AqiColor,
+            color: colorA2AEBD,
             width: 0.41,
           ),
           interval: 10,
@@ -61,14 +61,14 @@ class LineChartWidget extends StatelessWidget {
         ),
         series: <ChartSeries<LineChartData, String>>[
           StackedLineSeries<LineChartData, String>(
-            color: choXuLyColor,
+            color: color5A8DEE,
             dataSource: listData,
             xValueMapper: (LineChartData sales, _) => sales.date,
             yValueMapper: (LineChartData sales, _) => sales.count,
             dataLabelSettings: DataLabelSettings(
               isVisible: true,
               textStyle: textNormalCustom(
-                color: infoColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 12,
               ),
@@ -76,7 +76,7 @@ class LineChartWidget extends StatelessWidget {
             ),
             markerSettings: const MarkerSettings(
               isVisible: true,
-              color: choXuLyColor,
+              color: color5A8DEE,
             ),
           ),
         ],

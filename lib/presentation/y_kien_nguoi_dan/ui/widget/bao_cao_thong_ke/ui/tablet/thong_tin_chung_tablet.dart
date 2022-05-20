@@ -73,7 +73,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           stream: cubit.stateStream,
           child: SizedBox.expand(
             child: Container(
-              color: homeColor,
+              color: colorEEF3FF,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -87,13 +87,13 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                         height: 64,
                         padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 12,),
                         decoration: BoxDecoration(
-                          color: backgroundColorApp,
+                          color: colorFFFFFF,
                           border: Border.all(
-                            color: borderColor.withOpacity(0.5),
+                            color: colorDBDFEF.withOpacity(0.5),
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: shadowContainerColor.withOpacity(0.05),
+                              color: color6566E9.withOpacity(0.05),
                               offset: const Offset(0, 4),
                               blurRadius: 10,
                             )
@@ -139,15 +139,15 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                                   ),
                                   contentPadding: const EdgeInsets.only(left: 20, bottom: 10),
                                   isCollapsed: true,
-                                  fillColor: bgDropDown.withOpacity(0.1),
+                                  fillColor: colorE2E8F0.withOpacity(0.1),
                                   filled: true,
                                   hintText: S.current.tiem_kiem,
                                   hintStyle: textNormal(
-                                    sideTextInactiveColor,
+                                    colorB9C4D0,
                                     14,
                                   ),
                                   enabledBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(color: bgDropDown),
+                                    borderSide: BorderSide(color: colorE2E8F0),
                                   ),
                                 ),
                               ),
@@ -167,11 +167,11 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: borderColor.withOpacity(0.5),
+                          color: colorDBDFEF.withOpacity(0.5),
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
+                            color: color6566E9.withOpacity(0.05),
                             offset: const Offset(0, 4),
                             blurRadius: 10,
                           )

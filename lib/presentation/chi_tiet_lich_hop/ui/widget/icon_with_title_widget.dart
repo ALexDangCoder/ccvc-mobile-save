@@ -33,8 +33,8 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
               const EdgeInsets.only(top: 8, bottom: 8, left: 12, right: 18),
           decoration: BoxDecoration(
             color: widget.type2
-                ? statusCalenderRed.withOpacity(0.1)
-                : textDefault.withOpacity(0.1),
+                ? colorEA5455.withOpacity(0.1)
+                : color7966FF.withOpacity(0.1),
             borderRadius: const BorderRadius.all(
               Radius.circular(4.0),
             ),
@@ -53,7 +53,7 @@ class _SolidButtonState extends State<IconWithTiltleWidget> {
                   Text(
                     widget.title,
                     style: textNormalCustom(
-                      color: widget.type2 ? statusCalenderRed : textDefault,
+                      color: widget.type2 ? colorEA5455 : color7966FF,
                     ),
                   ),
                 ],

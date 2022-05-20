@@ -39,7 +39,7 @@ class _CreateNewPassWordTabletState extends State<CreateNewPassWordTablet> {
                 const SizedBox(height: 80.0),
                 Text(
                   S.current.tao_mk_moi_cho,
-                  style: textNormalCustom(color: titleColor, fontSize: 20.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 20.0),
                 ),
                 const SizedBox(height: 28.0),
                 Row(
@@ -48,14 +48,14 @@ class _CreateNewPassWordTabletState extends State<CreateNewPassWordTablet> {
                     Text(
                       '${S.current.account}:',
                       style: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 16.0,
                       ),
                     ),
                     Text(
                       'hungto228@gmail.com',
                       style: textNormalCustom(
-                        color: textDefault,
+                        color: color7966FF,
                         fontSize: 16.0,
                       ),
                     ),

@@ -23,7 +23,7 @@ class HeaderChiTiet extends StatelessWidget {
       children: [
         Container(
           height: 1,
-          color: radioUnfocusColor,
+          color: colorE2E8F0,
         ),
         Container(
           padding: APP_DEVICE == DeviceType.TABLET
@@ -34,11 +34,11 @@ class HeaderChiTiet extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: toDayColor.withOpacity(0.5),
+                    color: colorDBDFEF.withOpacity(0.5),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: colorBlack.withOpacity(0.05),
+                      color: color000000.withOpacity(0.05),
                       blurRadius: 10, // changes position of shadow
                     ),
                   ],
@@ -62,7 +62,7 @@ class HeaderChiTiet extends StatelessWidget {
                                 TextSpan(
                                   text: e.key,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14.0.textScale(),
                                   ),
@@ -87,7 +87,7 @@ class HeaderChiTiet extends StatelessWidget {
                           child: Text(
                             e.value,
                             style: textNormalCustom(
-                              color: textTitle,
+                              color: color3D5586,
                               fontSize: 16.0.textScale(),
                               fontWeight: FontWeight.w400,
                             ),

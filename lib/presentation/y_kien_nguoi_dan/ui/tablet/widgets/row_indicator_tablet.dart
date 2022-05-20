@@ -47,7 +47,7 @@ class RowIndicatorTablet extends StatelessWidget {
                       child: Text(
                         '${result.title} (${result.value.toInt()})',
                         style: textNormal(
-                          infoColor,
+                          color667793,
                           14.0.textScale(),
                         ),
                       ),
@@ -117,7 +117,7 @@ class RowIndicatorSmallTablet extends StatelessWidget {
                   child: Text(
                     '${result.title} (${result.value.toInt()})',
                     style: textNormal(
-                      infoColor,
+                      color667793,
                       14.0.textScale(),
                     ),
                   ),
@@ -162,11 +162,11 @@ Widget getGridView() {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
-            color: backgroundColorApp,
-            border: Border.all(color: borderColor.withOpacity(0.5)),
+            color: colorFFFFFF,
+            border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
             boxShadow: [
               BoxShadow(
-                color: shadowContainerColor.withOpacity(0.05),
+                color: color6566E9.withOpacity(0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -180,7 +180,7 @@ Widget getGridView() {
               ),
               Text(
                 S.current.bac_cao,
-                style: textNormal(textTitle, 16),
+                style: textNormal(color3D5586, 16),
               ),
             ],
           ),

@@ -86,7 +86,7 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
                         child: Text(
                           widget.name,
                           style: tokenDetailAmount(
-                            color: textTitle,
+                            color: color3D5586,
                             fontSize: 14.0.textScale(),
                           ),
                         ),
@@ -123,7 +123,7 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
                       isExpand
                           ? Icons.keyboard_arrow_down_outlined
                           : Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
               ],
             ),

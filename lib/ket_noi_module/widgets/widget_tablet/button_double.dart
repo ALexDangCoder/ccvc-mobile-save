@@ -64,7 +64,7 @@ class ButtonSaveWidget extends StatelessWidget {
               fontSize: 16,
               color: isLeft
                   ? AppTheme.getInstance().colorField()
-                  : backgroundColorApp,
+                  : colorFFFFFF,
             ),
           ),
         ),

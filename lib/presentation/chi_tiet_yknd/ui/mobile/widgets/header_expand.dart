@@ -19,8 +19,8 @@ class _HeaderExpanedState extends State<HeaderExpaned> {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-        color: cellColor,
-        border: Border.all(color: cellColorborder),
+        color: color01DBDFEF,
+        border: Border.all(color: color05OpacityDBDFEF),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -30,19 +30,19 @@ class _HeaderExpanedState extends State<HeaderExpaned> {
             widget.title,
             style: textNormalCustom(
               fontWeight: FontWeight.w400,
-              color: titleColor,
+              color: color3D5586,
               fontSize: 16,
             ),
           ),
           if (isExpandIcon)
             const Icon(
               Icons.keyboard_arrow_down_outlined,
-              color: AqiColor,
+              color: colorA2AEBD,
             )
           else
             const Icon(
               Icons.keyboard_arrow_up_rounded,
-              color: AqiColor,
+              color: colorA2AEBD,
             ),
         ],
       ),

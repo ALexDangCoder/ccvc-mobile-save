@@ -50,7 +50,7 @@ class _TimeDateInputWidgetState extends State<TimeDateInputWidget> {
           border: Border.all(
             color: minuteFocus.hasFocus || timeFocus.hasFocus
                 ? AppTheme.getInstance().colorField()
-                : borderColor,
+                : colorDBDFEF,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(6)),
         ),
@@ -70,7 +70,7 @@ class _TimeDateInputWidgetState extends State<TimeDateInputWidget> {
               ImageAssets.icClock,
               color: minuteFocus.hasFocus || timeFocus.hasFocus
                   ? AppTheme.getInstance().colorField()
-                  : textBodyTime,
+                  : colorA2AEBD,
             )
           ],
         ),
@@ -139,7 +139,7 @@ class _TimeDatePickerWidgetState extends State<TimeDatePickerWidget> {
             padding: const EdgeInsets.only(bottom: 2),
             child: Text(
               ':',
-              style: textNormal(titleColor, 14),
+              style: textNormal(color3D5586, 14),
             ),
           ),
           SizedBox(
@@ -318,7 +318,7 @@ class _BuildPickerState extends State<BuildPicker> {
             child: Text(
               index < 10 ? '0$index' : '$index',
               style: textNormal(
-                widget.focusNode.hasFocus ? AppTheme.getInstance().colorField() : titleColor,
+                widget.focusNode.hasFocus ? AppTheme.getInstance().colorField() : color3D5586,
                 15,
               ),
             ),
@@ -378,7 +378,7 @@ class _TimeTextFieldWidgetState extends State<TimeTextFieldWidget> {
       style: textNormal(
           widget.focusNode.hasFocus
               ? AppTheme.getInstance().colorField()
-              : titleColor,
+              : color3D5586,
           15),
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],

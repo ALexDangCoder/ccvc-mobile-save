@@ -25,9 +25,9 @@ class WidgetTraCuuVanBanPhapLuatTablet extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
           borderRadius: BorderRadius.circular(10.0),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -51,7 +51,7 @@ class WidgetTraCuuVanBanPhapLuatTablet extends StatelessWidget {
                       '${index.toString().padLeft(2, '0')}.',
                       style: textNormalCustom(
                         fontSize: 16.0,
-                        color: titleItemEdit,
+                        color: color586B8B,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -80,7 +80,7 @@ class WidgetTraCuuVanBanPhapLuatTablet extends StatelessWidget {
                   Text(
                     '${S.current.ban_hanh}: ${data.day}',
                     style: textNormalCustom(
-                      color: textBodyTime,
+                      color: colorA2AEBD,
                       fontWeight: FontWeight.w400,
                       fontSize: 16.0,
                     ),

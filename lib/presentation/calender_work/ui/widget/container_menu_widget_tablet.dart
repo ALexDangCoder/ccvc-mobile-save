@@ -46,9 +46,9 @@ class _ContainerMenuWidgetTabletState extends State<ContainerMenuWidgetTablet> {
         Container(
           margin: const EdgeInsets.only(top: 24),
           decoration: BoxDecoration(
-            color: toDayColor.withOpacity(0.1),
+            color: colorDBDFEF.withOpacity(0.1),
             border: Border.all(
-              color: toDayColor.withOpacity(0.5),
+              color: colorDBDFEF.withOpacity(0.5),
             ),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -93,7 +93,7 @@ class _ContainerMenuWidgetTabletState extends State<ContainerMenuWidgetTablet> {
                       Text(
                         widget.name,
                         style: textNormalCustom(
-                          color: textTitle,
+                          color: color3D5586,
                           fontSize: 16.0.textScale(),
                           fontWeight: FontWeight.w400,
                         ),
@@ -129,7 +129,7 @@ class _ContainerMenuWidgetTabletState extends State<ContainerMenuWidgetTablet> {
                         isExpand
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up_rounded,
-                        color: AqiColor,
+                        color: colorA2AEBD,
                       )
                 ],
               ),

@@ -34,7 +34,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                 child: AutoSizeText(
                   widget.row.title,
                   style: textNormalCustom(
-                    color: titleItemEdit,
+                    color: color586B8B,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                   ),
@@ -55,7 +55,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               style: textNormalCustom(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
@@ -73,7 +73,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               style: textNormalCustom(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                             ),
                           )
@@ -96,7 +96,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
               AutoSizeText(
                 widget.row.title,
                 style: textNormalCustom(
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w400,
                 ),

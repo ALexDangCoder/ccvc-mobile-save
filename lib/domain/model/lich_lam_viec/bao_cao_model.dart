@@ -12,11 +12,11 @@ extension BaoCao on BaoCaoStatus {
   StatusText getText() {
     switch (this) {
       case BaoCaoStatus.TRUNG_BINH:
-        return StatusText(text: S.current.trung_binh, color: textColorForum);
+        return StatusText(text: S.current.trung_binh, color: colorFF9F43);
       case BaoCaoStatus.DAT:
-        return StatusText(text: S.current.dat, color: itemWidgetUsing);
+        return StatusText(text: S.current.dat, color: color28C76F);
       case BaoCaoStatus.KHONG_DAT:
-        return StatusText(text: S.current.khong_dat, color: statusCalenderRed);
+        return StatusText(text: S.current.khong_dat, color: colorEA5455);
     }
   }
 }

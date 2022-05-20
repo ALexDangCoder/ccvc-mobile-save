@@ -28,7 +28,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
         Text(
           widget.title,
           style: tokenDetailAmount(
-            color: dateColor,
+            color: color667793,
             fontSize: 14.0,
           ),
         ),
@@ -36,7 +36,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
           children: [
             Radio(
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              activeColor: textDefault,
+              activeColor: color7966FF,
               value: S.current.bo_khieu_kin,
               onChanged: (String? value) {
                 setState(() {});
@@ -49,7 +49,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               S.current.bo_khieu_kin,
               style: tokenDetailAmount(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
               ),
             )
           ],
@@ -58,7 +58,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
           children: [
             Radio(
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              activeColor: textDefault,
+              activeColor: color7966FF,
               value: S.current.bo_phieu_cong_khai,
               onChanged: (String? value) {
                 setState(() {});
@@ -71,7 +71,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               S.current.bo_phieu_cong_khai,
               style: tokenDetailAmount(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
               ),
             )
           ],
@@ -81,6 +81,6 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
   }
 
   Color getColor(Set<MaterialState> states) {
-    return textDefault;
+    return color7966FF;
   }
 }

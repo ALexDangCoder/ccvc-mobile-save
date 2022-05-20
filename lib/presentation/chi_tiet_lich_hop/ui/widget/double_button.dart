@@ -32,14 +32,14 @@ class _DoubleButtonWidgetState extends State<DoubleButtonWidget> {
               padding: const EdgeInsets.symmetric(vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0.textScale(space: 4.0)),
-                color: itemWidgetUsing.withOpacity(0.1),
+                color: color28C76F.withOpacity(0.1),
               ),
               child: Center(
                 child: Text(
                   S.current.tham_gia,
                   style: textNormalCustom(
                     fontSize: 14.0.textScale(space: 4.0),
-                    color: textTitle,
+                    color: color3D5586,
                   ),
                 ),
               ),
@@ -56,14 +56,14 @@ class _DoubleButtonWidgetState extends State<DoubleButtonWidget> {
               padding: const EdgeInsets.symmetric(vertical: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0.textScale(space: 4.0)),
-                color: statusCalenderRed.withOpacity(0.1),
+                color: colorEA5455.withOpacity(0.1),
               ),
               child: Center(
                 child: Text(
                   S.current.huy,
                   style: textNormalCustom(
                     fontSize: 14.0.textScale(space: 4.0),
-                    color: textTitle,
+                    color: color3D5586,
                   ),
                 ),
               ),

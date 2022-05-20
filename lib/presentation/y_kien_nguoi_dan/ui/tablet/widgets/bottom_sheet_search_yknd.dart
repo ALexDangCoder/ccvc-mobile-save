@@ -43,7 +43,7 @@ class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
             S.current.danh_sach_don_vi_tham_gia,
             style: textNormalCustom(
               fontSize: 14,
-              color: titleItemEdit,
+              color: color586B8B,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -84,7 +84,7 @@ class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
                 S.current.tu_ngay,
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -99,7 +99,7 @@ class _BottomSheetSearchYKNDState extends State<BottomSheetSearchYKND> {
                 S.current.den_ngay,
                 style: textNormalCustom(
                   fontSize: 14,
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontWeight: FontWeight.w400,
                 ),
               ),

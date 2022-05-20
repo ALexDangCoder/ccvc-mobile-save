@@ -40,15 +40,15 @@ class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
                 style: textNormalCustom(
                   fontWeight: FontWeight.w500,
                   fontSize: 16.0.textScale(),
-                  color: unselectedLabelColor,
+                  color: color667793,
                 ),
               ),
               if (isExpand) const Icon(
                       Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     ) else const Icon(
                       Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
             ],
           ),

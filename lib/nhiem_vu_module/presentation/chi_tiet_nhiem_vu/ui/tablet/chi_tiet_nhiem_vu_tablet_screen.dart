@@ -58,7 +58,7 @@ class _ChiTietNhiemVuTabletScreenState extends State<ChiTietNhiemVuTabletScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgWidgets,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(S.current.chi_tiet_nhiem_vu),
       body: ProviderWidget<ChiTietNVCubit>(
         cubit: cubit,
@@ -105,9 +105,9 @@ class _ChiTietNhiemVuTabletScreenState extends State<ChiTietNhiemVuTabletScreen>
                 controller: _tabController,
                 indicatorSize: TabBarIndicatorSize.tab,
                 isScrollable: true,
-                labelColor: textDefault,
-                unselectedLabelColor: infoColor,
-                indicatorColor: textDefault,
+                labelColor: color7966FF,
+                unselectedLabelColor: color667793,
+                indicatorColor: color7966FF,
                 labelStyle:  TextStyle(
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w700,

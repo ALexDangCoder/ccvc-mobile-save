@@ -74,7 +74,7 @@ class CalendarHeader extends StatelessWidget {
                           return Text(
                             'Tháng ${data.month} - ${data.year}',
                             style: textNormalCustom(
-                              color: textTitle,
+                              color: color3D5586,
                               fontWeight: FontWeight.w700,
                               fontSize: 32,
                             ),

@@ -31,7 +31,7 @@ class RowSumInfoWidget extends StatelessWidget {
               height: 88,
               constraints: const BoxConstraints(minWidth: 247),
               decoration: const BoxDecoration(
-                color: backgroundRowColor,
+                color: colorF5F8FD,
                 borderRadius: BorderRadius.all(
                   Radius.circular(6),
                 ),
@@ -44,7 +44,7 @@ class RowSumInfoWidget extends StatelessWidget {
                     height: 56,
                     padding: const EdgeInsets.all(12),
                     decoration: const BoxDecoration(
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                       shape: BoxShape.circle,
                     ),
                     child: SvgPicture.asset(

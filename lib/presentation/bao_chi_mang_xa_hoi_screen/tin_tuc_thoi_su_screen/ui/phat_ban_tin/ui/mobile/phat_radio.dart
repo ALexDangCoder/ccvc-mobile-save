@@ -149,7 +149,7 @@ class _SeekBarState extends State<SeekBar> {
   Widget build(BuildContext context) {
     nextItemCallBack(widget.position.inSeconds, widget.duration.inSeconds);
     return Container(
-      color: borderButtomColor,
+      color: colorE2E8F0,
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
           trackShape: CustomTrackShape(),
@@ -164,7 +164,7 @@ class _SeekBarState extends State<SeekBar> {
             value: widget.position.inSeconds.toDouble(),
             max: widget.duration.inSeconds.toDouble(),
             activeColor: AppTheme.getInstance().colorField(),
-            inactiveColor: borderButtomColor,
+            inactiveColor: colorE2E8F0,
             onChanged: (double value) {
               widget.onChange(value.round());
             },

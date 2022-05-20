@@ -7,9 +7,9 @@ extension DanhSachYKien on StatusYKien {
   StatusData getText() {
     switch (this) {
       case StatusYKien.DANG_XU_LY:
-        return StatusData(text: S.current.dang_xu_ly, color: textColorForum);
+        return StatusData(text: S.current.dang_xu_ly, color: colorFF9F43);
       case StatusYKien.QUA_HAN:
-        return StatusData(text: S.current.qua_han, color: statusCalenderRed);
+        return StatusData(text: S.current.qua_han, color: colorEA5455);
     }
   }
 }

@@ -35,8 +35,8 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
       return Container(
         margin: const EdgeInsets.only(left: 27, right: 29, bottom: 24),
         decoration: BoxDecoration(
-          border: Border.all(color: cellColorborder),
-          color: cellColor,
+          border: Border.all(color: color05OpacityDBDFEF),
+          color: color01DBDFEF,
           borderRadius: const BorderRadius.all(
             Radius.circular(8),
           ),
@@ -61,7 +61,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                 Text(
                   widget.title,
                   style: textNormalCustom(fontSize: 20.0.textScale())
-                      .copyWith(color: fontColorTablet2),
+                      .copyWith(color: color3D5586),
                 ),
                 const Expanded(child: SizedBox()),
                 if (widget.cubit.menuItems[widget.index].badgeNumber == 0)
@@ -70,7 +70,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                   Container(
                     alignment: Alignment.center,
                     decoration: const BoxDecoration(
-                      color: numberColorTabletbg,
+                      color: colorECEAFF,
                       borderRadius: BorderRadius.all(
                         Radius.circular(4),
                       ),
@@ -81,7 +81,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                         widget.cubit.menuItems[widget.index].badgeNumber
                             .toString(),
                         style: const TextStyle(
-                          color: numberColorTablet,
+                          color: color3D5586,
                           fontSize: 14,
                         ),
                       ),
@@ -112,7 +112,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                 widget.title,
                 style: textNormalCustom(
                   fontSize: 20.0.textScale(),
-                  color: fontColorTablet2,
+                  color: color3D5586,
                 ),
               ),
             ],
@@ -126,7 +126,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                 padding: const EdgeInsets.only(left: 45),
                 margin: const EdgeInsets.only(top: 16),
                 decoration: BoxDecoration(
-                  color: cellColor,
+                  color: color01DBDFEF,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(8),
                   ),
@@ -136,11 +136,11 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                     widget.cubit.menuItems[widget.index].children[index].title,
                     style: textNormalCustom(
                       fontSize: 14.0.textScale(),
-                    ).copyWith(color: fontColorTablet2, fontSize: 20),
+                    ).copyWith(color: color3D5586, fontSize: 20),
                   ),
                   trailing: Container(
                     decoration: const BoxDecoration(
-                      color: numberColorTabletbg,
+                      color: color3D5586,
                       borderRadius: BorderRadius.all(
                         Radius.circular(4),
                       ),
@@ -152,7 +152,7 @@ class ItemDropDownMenuTabletState extends State<ItemDropDownMenuTablet> {
                             .number
                             .toString(),
                         style: const TextStyle(
-                          color: numberColorTablet,
+                          color: color3D5586,
                           fontSize: 14,
                         ),
                       ),

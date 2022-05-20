@@ -40,7 +40,7 @@ class ItemSelectWidget extends StatelessWidget {
                   child: Text(
                     text,
                     style: textNormalCustom(
-                      color: fontColorTablet2,
+                      color: color3D5586,
                       fontWeight: FontWeight.w400,
                       fontSize: 16.0.textScale(),
                     ),

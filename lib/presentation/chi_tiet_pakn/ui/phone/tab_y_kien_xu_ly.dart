@@ -211,9 +211,9 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
         bottom: isBorder ? 16 : 8,
       ),
       decoration: BoxDecoration(
-        color: colorNumberCellQLVB,
+        color: colorFCFDFD,
         border: Border.all(
-          color: isBorder ? borderColor : colorNumberCellQLVB,
+          color: isBorder ? colorDBDFEF : colorFCFDFD,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
@@ -240,7 +240,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                     return Container(
                       width: sizeImage,
                       height: sizeImage,
-                      color: grayChart,
+                      color: color28C76F,
                     );
                   },
                 ),
@@ -267,7 +267,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                     style: textNormalCustom(
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                 ),
@@ -309,7 +309,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                       style: textNormalCustom(
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
-                        color: textColorMangXaHoi,
+                        color: color2F80ED,
                       ), //infoColor
                     ),
                   ),
@@ -386,7 +386,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: borderColor,
+                      color: colorDBDFEF,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(6)),
                   ),
@@ -452,7 +452,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                                     ImageAssets.ic_cam,
                                     width: 20,
                                     height: 20,
-                                    color: iconColorDown,
+                                    color: colorA2AEBD,
                                   ),
                                 ),
                                 spaceW4,
@@ -471,13 +471,13 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                                     ImageAssets.ic_file,
                                     width: 20,
                                     height: 20,
-                                    color: iconColorDown,
+                                    color: colorA2AEBD,
                                   ),
                                 ),
                               ],
                             ),
                             hintText: S.current.nhap_y_kien_cua_ban,
-                            hintStyle: textNormalCustom(color: iconColorDown),
+                            hintStyle: textNormalCustom(color: colorA2AEBD),
                             border: InputBorder.none,
                           ),
                         ),
@@ -630,9 +630,9 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
           ),
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
-            color: grayChart,
+            color: color28C76F,
             border: Border.all(
-              color: blueberryColor,
+              color: color3E54AC,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(6)),
           ),

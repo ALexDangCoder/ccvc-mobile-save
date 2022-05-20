@@ -344,17 +344,17 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     ChartData(
       S.current.chua_thuc_hien,
       0,
-      choVaoSoColor,
+      color28C76F,
     ),
     ChartData(
       S.current.dang_thuc_hien,
       0,
-      choTrinhKyColor,
+      color02C5DD,
     ),
     ChartData(
       S.current.da_hoan_thanh,
       0,
-      daXuLyColor,
+      color28C76F,
     ),
   ];
 
@@ -362,22 +362,22 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     ChartData(
       S.current.cho_phan_xu_ly,
       0,
-      choXuLyColor,
+      color5A8DEE,
     ),
     ChartData(
       S.current.chua_thuc_hien,
       0,
-      statusCalenderRed,
+      colorEA5455,
     ),
     ChartData(
       S.current.dang_thuc_hien,
       0,
-      yellowColor,
+      colorD4DAE3,
     ),
     ChartData(
       S.current.da_hoan_thanh,
       0,
-      daXuLyColor,
+      color28C76F,
     ),
   ];
 

@@ -67,7 +67,7 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           Text(
             value,
             style: textNormalCustom(
-              color: textTitle,
+              color: color3D5586,
               fontWeight: FontWeight.w400,
               fontSize: 16.0.textScale(),
             ),

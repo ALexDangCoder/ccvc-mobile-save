@@ -125,7 +125,7 @@ class TreeDonVi extends StatelessWidget {
               children: [
                 Text(
                   S.current.danh_sach_don_vi_tham_gia,
-                  style: textNormal(textTitle, 16),
+                  style: textNormal(color3D5586, 16),
                 ),
                 SizedBox(
                   height: 22.0.textScale(space: -9),

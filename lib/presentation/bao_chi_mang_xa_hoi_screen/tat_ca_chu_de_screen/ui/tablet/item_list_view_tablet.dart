@@ -47,7 +47,7 @@ class ItemListNewsTablet extends StatelessWidget {
                   child: Text(
                     title,
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: color3D5586,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                     ),
@@ -76,7 +76,7 @@ class ItemListNewsTablet extends StatelessWidget {
                     Text(
                       date,
                       style: textNormalCustom(
-                        color: unselectedLabelColor,
+                        color: color667793,
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),

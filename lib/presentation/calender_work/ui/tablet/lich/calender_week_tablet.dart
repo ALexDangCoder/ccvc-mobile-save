@@ -51,14 +51,14 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                   ),
                   viewHeaderStyle: ViewHeaderStyle(
                     dayTextStyle: textNormalCustom(
-                        fontSize: 13, color: unselectLabelColor),
+                        fontSize: 13, color: colorA2AEBD),
                   ),
                   monthViewSettings: const MonthViewSettings(
                     appointmentDisplayMode:
                         MonthAppointmentDisplayMode.appointment,
                   ),
                   appointmentTextStyle:
-                      textNormalCustom(color: backgroundColorApp),
+                      textNormalCustom(color: colorFFFFFF),
                   todayHighlightColor: AppTheme.getInstance().colorField(),
                   appointmentTimeTextFormat: 'hh:mm:ss a',
                   dataSource: widget.cubit.getCalenderDataSource(
@@ -76,7 +76,7 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                         height: 18,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(2.0),
-                          color: choTrinhKyColor,
+                          color: color02C5DD,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(

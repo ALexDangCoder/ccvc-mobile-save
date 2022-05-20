@@ -28,7 +28,7 @@ class BaseAppBarMobile extends StatelessWidget with PreferredSizeWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
       ),
-      backgroundColor: backgroundColorApp,
+      backgroundColor: colorFFFFFF,
       bottomOpacity: 0.0,
       elevation: elevation ?? 0.0,
       automaticallyImplyLeading: false,

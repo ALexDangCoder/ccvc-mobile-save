@@ -24,7 +24,7 @@ class RowTitleFeatDescription extends StatelessWidget {
             title,
             style: (titleStyle != null)
                 ? textNormalCustom(
-                    color: dateColor,
+                    color: color667793,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   )
@@ -38,7 +38,7 @@ class RowTitleFeatDescription extends StatelessWidget {
             description,
             style: (descriptionStyle != null)
                 ? textNormalCustom(
-                    color: titleColor,
+                    color: color3D5586,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   )

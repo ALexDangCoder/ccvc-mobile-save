@@ -56,7 +56,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                             S.current.stt,
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleItemEdit,
+                              color: color586B8B,
                               textHeight: 2.5,
                             ),
                             maxLines: 2,
@@ -65,7 +65,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                             S.current.don_vi,
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleItemEdit,
+                              color: color586B8B,
                               textHeight: 2.5,
                             ),
                             maxLines: 2,
@@ -74,7 +74,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                             S.current.chuc_vu,
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleItemEdit,
+                              color: color586B8B,
                               textHeight: 2.5,
                             ),
                             maxLines: 2,
@@ -83,7 +83,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                             S.current.trang_thai,
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleItemEdit,
+                              color: color586B8B,
                               textHeight: 2.5,
                             ),
                             maxLines: 2,
@@ -92,7 +92,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                             S.current.mac_dinh,
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleItemEdit,
+                              color: color586B8B,
                               textHeight: 2.5,
                             ),
                             maxLines: 2,
@@ -109,7 +109,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                             '${index + 1}',
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleCalenderWork,
+                              color: color3D5586,
                               textHeight: 2.5,
                             ),
                             maxLines: 1,
@@ -121,7 +121,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                                 '',
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleCalenderWork,
+                              color: color3D5586,
                               textHeight: 2.5,
                             ),
                             maxLines: 1,
@@ -133,7 +133,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                                 '',
                             style: textDetailHDSD(
                               fontSize: 16.0,
-                              color: titleCalenderWork,
+                              color: color3D5586,
                               textHeight: 2.5,
                             ),
                             maxLines: 3,
@@ -142,7 +142,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
                           spaceH16,
                           Container(
                             decoration: const BoxDecoration(
-                              color: daXuLyColor,
+                              color: color28C76F,
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
@@ -197,7 +197,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
       toggleSize: 14,
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
-      inactiveColor: borderColor,
+      inactiveColor: colorDBDFEF,
       activeColor:  AppTheme.getInstance().colorField(),
       value: value,
       onToggle: onToggle,

@@ -38,7 +38,7 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                 child: Container(
                   margin: const EdgeInsets.only(right: 30, left: 30),
                   decoration: BoxDecoration(
-                    border: Border.all(color: cellColorborder),
+                    border: Border.all(color: color05OpacityDBDFEF),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: StreamBuilder<DataLichLvModel>(
@@ -54,8 +54,8 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                         selectionDecoration:
                             const BoxDecoration(color: Colors.transparent),
                         appointmentTextStyle:
-                            textNormalCustom(color: backgroundColorApp),
-                        todayHighlightColor: statusCalenderRed,
+                            textNormalCustom(color: colorFFFFFF),
+                        todayHighlightColor: colorEA5455,
                         appointmentTimeTextFormat: 'hh:mm:ss a',
                         dataSource: widget.cubit.getCalenderDataSource(
                           snapshot.data ?? DataLichLvModel(),
@@ -73,7 +73,7 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(6.0),
-                              color: choTrinhKyColor,
+                              color: color02C5DD,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

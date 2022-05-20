@@ -26,7 +26,7 @@ class TaiLieuCuocHopWidget extends StatelessWidget {
               child: Text(
                 isMobile() ? S.current.tai_lieu : S.current.tai_lieu_dinh_kem,
                 style: textNormalCustom(
-                  color: titleColumn,
+                  color: color667793,
                   fontSize: 16.0.textScale(),
                 ),
               ),

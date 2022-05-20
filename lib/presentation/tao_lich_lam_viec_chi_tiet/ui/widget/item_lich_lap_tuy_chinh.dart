@@ -139,11 +139,11 @@ Widget itemLichLapTuyChinh(bool isCheck, String title) {
       width: 32.0,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isCheck ? textDefault : textDefault.withOpacity(0.1)),
+          color: isCheck ? color7966FF : color7966FF.withOpacity(0.1)),
       child: Center(
         child: Text(
           title,
-          style: textNormal(isCheck ? backgroundColorApp : textDefault, 14),
+          style: textNormal(isCheck ? colorFFFFFF : color7966FF, 14),
         ),
       ));
 }

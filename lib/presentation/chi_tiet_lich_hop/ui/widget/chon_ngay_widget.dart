@@ -25,7 +25,7 @@ class PickDateWidget extends StatefulWidget {
     this.isNote = false,
     this.maximumDate,
     this.minimumDate,
-    this.background = bgrCalendar,
+    this.background = colorE9E9E9,
     required this.onChange,
   }) : super(key: key);
 
@@ -49,7 +49,7 @@ class _PickDateWidgetState extends State<PickDateWidget> {
               Text(
                 widget.title,
                 style: textNormalCustom(
-                  color: titleItemEdit,
+                  color: color586B8B,
                   fontWeight: FontWeight.w400,
                   fontSize: 14.0.textScale(),
                 ),
@@ -98,7 +98,7 @@ class _PickDateWidgetState extends State<PickDateWidget> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: cellColorborder),
+        border: Border.all(color: color05OpacityDBDFEF),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,7 +110,7 @@ class _PickDateWidgetState extends State<PickDateWidget> {
                 return Text(
                   data.toStringWithListFormat,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),

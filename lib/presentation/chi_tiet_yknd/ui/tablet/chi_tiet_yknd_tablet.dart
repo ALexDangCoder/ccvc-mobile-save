@@ -44,7 +44,7 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgQLVBTablet,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(
         S.current.chi_tiet_yknd,
@@ -76,12 +76,12 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
                               Container(
                                 padding: const EdgeInsets.all(20),
                                 decoration: BoxDecoration(
-                                    color: backgroundColorApp,
+                                    color: colorFFFFFF,
                                     borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: cellColorborder),
+                                    border: Border.all(color: color05OpacityDBDFEF),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: shadowContainerColor
+                                        color: color6566E9
                                             .withOpacity(0.05),
                                         blurRadius: 10,
                                       )
@@ -96,7 +96,7 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
                               ExpandOnlyNhiemVu(
                                 name: S.current.thong_tin_nguoi_phan_anh,
                                 child: Container(
-                                  color: backgroundColorApp,
+                                  color: colorFFFFFF,
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 16,
                                     vertical: 16,
@@ -155,9 +155,9 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
                   margin: EdgeInsets.only(left: 14.0),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: borderButtomColor,
+                      color: colorE2E8F0,
                     ),
-                    color: backgroundColorApp,
+                    color: colorFFFFFF,
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
                   ),
                   child: SingleChildScrollView(

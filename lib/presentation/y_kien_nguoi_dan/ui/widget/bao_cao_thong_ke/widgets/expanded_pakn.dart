@@ -34,7 +34,7 @@ class _ExpandPAKNWidgetState extends State<ExpandPAKNWidget> {
               Text(
                 widget.name,
                 style: textNormalCustom(
-                  color: textTitle,
+                  color: color3D5586,
                   fontWeight: FontWeight.w500,
                   fontSize: 16.0.textScale(),
                 ),
@@ -48,7 +48,7 @@ class _ExpandPAKNWidgetState extends State<ExpandPAKNWidget> {
                   isExpand
                       ? Icons.keyboard_arrow_up_rounded
                       : Icons.keyboard_arrow_down_outlined,
-                  color: AqiColor,
+                  color: colorA2AEBD,
                 ),
               ),
             ],

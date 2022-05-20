@@ -41,9 +41,9 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
           decoration: BoxDecoration(
             color: isSelect
                 ? AppTheme.getInstance().colorField()
-                : toDayColor.withOpacity(0.1),
+                : colorDBDFEF.withOpacity(0.1),
             border: Border.all(
-              color: toDayColor.withOpacity(0.5),
+              color: colorDBDFEF.withOpacity(0.5),
             ),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -55,7 +55,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18.0),
                   color: isSelect
-                      ? backgroundColorApp
+                      ? colorFFFFFF
                       : AppTheme.getInstance().colorField(),
                 ),
                 child: Padding(
@@ -63,7 +63,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                   child: SvgPicture.asset(
                     icon,
                     color: !isSelect
-                        ? backgroundColorApp
+                        ? colorFFFFFF
                         : AppTheme.getInstance().colorField(),
                   ),
                 ),
@@ -75,7 +75,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                 child: Text(
                   name,
                   style: textNormalCustom(
-                    color: isSelect ? backgroundColorApp : titleColor,
+                    color: isSelect ? colorFFFFFF : color3D5586,
                     fontWeight: FontWeight.w400,
                     fontSize: 16.0.textScale(space: 4),
                   ),
@@ -88,7 +88,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: numberColorTabletbg,
+                  color: colorECEAFF,
                 ),
                 alignment: Alignment.center,
                 child:  Text(

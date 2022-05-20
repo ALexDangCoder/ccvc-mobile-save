@@ -76,7 +76,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
             style: textNormalCustom(
               fontWeight: FontWeight.w500,
               fontSize: 18,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
           const SizedBox(
@@ -101,7 +101,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
               Row(
                 children: [
                   IconButton(
-                    color: unselectLabelColor,
+                    color: color667793,
                     onPressed: () {
                       phatBanTinBloc.setIndexRadio(
                         phatBanTinBloc.getIndexRadio() - 1,
@@ -139,7 +139,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                     },
                   ),
                   IconButton(
-                    color: unselectLabelColor,
+                    color: color667793,
                     onPressed: () {
                       phatBanTinBloc.setIndexRadio(
                         phatBanTinBloc.getIndexRadio() + 1,
@@ -164,7 +164,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.volume_up),
-                            color: unselectLabelColor,
+                            color: color667793,
                           ),
                           SizedBox(
                             width: 60,
@@ -173,12 +173,12 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                               builder: (context, snapshot) {
                                 final data = snapshot.data ?? 0.5;
                                 return Container(
-                                  color: borderButtomColor,
+                                  color: colorE2E8F0,
                                   child: SliderTheme(
                                     data: SliderTheme.of(context).copyWith(
                                       trackShape: CustomTrackShape(),
                                       trackHeight: 4,
-                                      thumbColor: labelColor,
+                                      thumbColor: color7966FF,
                                       thumbShape: const RoundSliderThumbShape(
                                         enabledThumbRadius: 6,
                                       ),
@@ -190,7 +190,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                                         value: data,
                                         activeColor:
                                             AppTheme.getInstance().colorField(),
-                                        inactiveColor: borderButtomColor,
+                                        inactiveColor: colorE2E8F0,
                                         onChanged: (double value) {
                                           player.setVolume(value);
                                         },
@@ -214,7 +214,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                         return Text(
                           '${phatBanTinBloc.intToDate(timeData)}/',
                           style: textNormalCustom(
-                            color: AqiColor,
+                            color: colorA2AEBD,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
@@ -228,7 +228,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                         return Text(
                           phatBanTinBloc.intToDate(timeData),
                           style: textNormalCustom(
-                            color: AqiColor,
+                            color: colorA2AEBD,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),

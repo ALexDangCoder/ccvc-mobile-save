@@ -46,9 +46,9 @@ class _ContainerMenuBaoChiTabletWidgetState
         Container(
           margin: const EdgeInsets.only(top: 24),
           decoration: BoxDecoration(
-            color: toDayColor.withOpacity(0.1),
+            color: colorDBDFEF.withOpacity(0.1),
             border: Border.all(
-              color: toDayColor.withOpacity(0.5),
+              color: colorDBDFEF.withOpacity(0.5),
             ),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -96,7 +96,7 @@ class _ContainerMenuBaoChiTabletWidgetState
                           child: Text(
                             widget.name,
                             style: tokenDetailAmount(
-                              color: textTitle,
+                              color: color3D5586,
                               fontSize: 14.0.textScale(),
                             ),
                           ),
@@ -115,7 +115,7 @@ class _ContainerMenuBaoChiTabletWidgetState
                         isExpand
                             ? Icons.keyboard_arrow_down_outlined
                             : Icons.keyboard_arrow_up_rounded,
-                        color: AqiColor,
+                        color: colorA2AEBD,
                       )
                 ],
               ),

@@ -72,7 +72,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
         GestureDetector(
           onTap: onTap,
           child: DottedBorder(
-              color: bgImage,
+              color: colorE4E9FD,
               dashPattern: const [5, 5],
               strokeWidth: 2,
               radius: const Radius.circular(10),
@@ -85,7 +85,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                   color: Colors.transparent,
                   boxShadow: [
                     BoxShadow(
-                      color: bgImage.withOpacity(0.1),
+                      color: colorE4E9FD.withOpacity(0.1),
                       blurRadius: 7,
                     ),
                   ],
@@ -108,7 +108,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                                       S.current.them,
                                       style: tokenDetailAmount(
                                         fontSize: 14,
-                                        color: AqiColor,
+                                        color: colorA2AEBD,
                                       ),
                                     ),
                                   ],
@@ -158,7 +158,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
         GestureDetector(
           onTap: onTap,
           child: DottedBorder(
-            color: bgTag,
+            color: colorF2F0FF,
             dashPattern: const [5, 5],
             strokeWidth: 2,
             radius: const Radius.circular(12),
@@ -168,10 +168,10 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
               width: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: labelColor.withOpacity(0.05),
+                color: color7966FF.withOpacity(0.05),
                 boxShadow: [
                   BoxShadow(
-                    color: bgImage.withOpacity(0.1),
+                    color: colorE4E9FD.withOpacity(0.1),
                     blurRadius: 7,
                   ),
                 ],
@@ -193,7 +193,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                                   S.current.them_anh,
                                   style: tokenDetailAmount(
                                     fontSize: 16,
-                                    color: AqiColor,
+                                    color: colorA2AEBD,
                                   ),
                                 ),
                               ],

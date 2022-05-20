@@ -41,7 +41,7 @@ class _BaseMenuPhoneState extends State<BaseMenuTablet> {
                   position: widget.offsetAnimation,
                   child: Scaffold(
                     backgroundColor: fontColor,
-                    appBar: AppBarDefaultClose(widget.title, fontColorTablet2),
+                    appBar: AppBarDefaultClose(widget.title, color3D5586),
                     body: SafeArea(
                       child: Padding(
                         padding:
@@ -79,7 +79,7 @@ class _BaseMenuPhoneState extends State<BaseMenuTablet> {
                                   margin:
                                       const EdgeInsets.only(bottom: 25, top: 8),
                                   height: 1,
-                                  color: containerColorTab,
+                                  color: colorE2E8F0,
                                 ),
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),

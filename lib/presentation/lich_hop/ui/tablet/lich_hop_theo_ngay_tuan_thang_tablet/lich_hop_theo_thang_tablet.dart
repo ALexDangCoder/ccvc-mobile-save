@@ -43,18 +43,18 @@ class _LichHopTheoThangTabletState extends State<LichHopTheoThangTablet> {
                       ),
                       viewHeaderStyle: ViewHeaderStyle(
                         dayTextStyle: textNormalCustom(
-                            fontSize: 13, color: unselectLabelColor),
+                            fontSize: 13, color: colorA2AEBD),
                       ),
                       monthViewSettings: MonthViewSettings(
                         showTrailingAndLeadingDates: false,
                         dayFormat: 'EEEE',
                         appointmentDisplayCount: 2,
                         monthCellStyle: MonthCellStyle(
-                          backgroundColor: bgCalenderColor,
+                          backgroundColor: colorF9FAFF,
                           trailingDatesTextStyle: textNormalCustom(
-                              fontSize: 14, color: iconColorDown),
+                              fontSize: 14, color: color3D5586),
                           textStyle: textNormalCustom(
-                              fontSize: 14, color: fontColorTablet2),
+                              fontSize: 14, color: color3D5586),
                         ),
                         // numberOfWeeksInView: 4,
                         //showAgenda: true,
@@ -106,7 +106,7 @@ class _LichHopTheoThangTabletState extends State<LichHopTheoThangTablet> {
                                 Text(
                                   '...',
                                   style: textNormalCustom(
-                                    color: textBodyTime,
+                                    color: colorA2AEBD,
                                     fontSize: 14,
                                   ),
                                 ),

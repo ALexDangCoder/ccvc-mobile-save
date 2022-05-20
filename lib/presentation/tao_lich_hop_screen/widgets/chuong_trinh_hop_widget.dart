@@ -40,7 +40,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
               child: Text(
                 S.current.chuong_trinh_hop,
                 style: textNormalCustom(
-                  color: titleColumn,
+                  color: color667793,
                   fontSize: 16.0.textScale(),
                 ),
               ),

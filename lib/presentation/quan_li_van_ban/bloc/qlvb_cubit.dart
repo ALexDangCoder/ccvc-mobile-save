@@ -84,21 +84,21 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
           ChartData(
             S.current.cho_trinh_ky,
             dataVbDi.soLuongChoTrinhKy?.toDouble() ?? 0,
-            choTrinhKyColor,
+            color02C5DD,
           ),
         );
         chartDataVbDi.add(
           ChartData(
             S.current.cho_xu_ly,
             dataVbDi.soLuongChoXuLy?.toDouble() ?? 0,
-            choXuLyColor,
+            color5A8DEE,
           ),
         );
         chartDataVbDi.add(
           ChartData(
             S.current.da_xu_ly,
             dataVbDi.soLuongDaXuLy?.toDouble() ?? 0,
-            daXuLyColor,
+            color28C76F,
           ),
         );
         _getVbDi.sink.add(dataVbDi);
@@ -123,28 +123,28 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
           ChartData(
             S.current.cho_xu_ly,
             dataVbDen.soLuongChoXuLy?.toDouble() ?? 0,
-            choXuLyColor,
+            color5A8DEE,
           ),
         );
         chartDataVbDen.add(
           ChartData(
             S.current.dang_xu_ly,
             dataVbDen.soLuongDangXuLy?.toDouble() ?? 0,
-            dangXyLyColor,
+            color7966FF,
           ),
         );
         chartDataVbDen.add(
           ChartData(
             S.current.da_xu_ly,
             dataVbDen.soLuongDaXuLy?.toDouble() ?? 0,
-            daXuLyColor,
+            color28C76F,
           ),
         );
         chartDataVbDen.add(
           ChartData(
             S.current.cho_vao_so,
             dataVbDen.soLuongChoVaoSo?.toDouble() ?? 0,
-            choVaoSoColor,
+            colorFF9F43,
           ),
         );
         _getVbDen.sink.add(dataVbDen);

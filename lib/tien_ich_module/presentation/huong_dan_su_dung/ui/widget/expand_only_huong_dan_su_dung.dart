@@ -42,10 +42,10 @@ class _ExpandOnlyHuongDanSuDungState extends State<ExpandOnlyHuongDanSuDung> {
               ),
               decoration: BoxDecoration(
                 color: widget.isTablet ?? false
-                    ? backgroundColorApp
-                    : borderColor.withOpacity(0.1),
+                    ? colorFFFFFF
+                    : colorDBDFEF.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(color: borderColor.withOpacity(0.5)),
+                border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +57,7 @@ class _ExpandOnlyHuongDanSuDungState extends State<ExpandOnlyHuongDanSuDung> {
                         child: Text(
                           widget.name,
                           style: textNormalCustom(
-                            color: textTitle,
+                            color: color3D5586,
                             fontWeight: FontWeight.w400,
                             fontSize: 16.0.textScale(),
                           ),
@@ -68,7 +68,7 @@ class _ExpandOnlyHuongDanSuDungState extends State<ExpandOnlyHuongDanSuDung> {
                         isExpand
                             ? Icons.keyboard_arrow_up_rounded
                             : Icons.keyboard_arrow_down_outlined,
-                        color: AqiColor,
+                        color: colorA2AEBD,
                       ),
                     ],
                   ),

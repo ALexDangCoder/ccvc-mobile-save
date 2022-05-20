@@ -61,7 +61,7 @@ class _ChitietCongViecNhiemVuMobileState
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: radioUnfocusColor,
+                        color: colorE2E8F0,
                       ),
                     ),
                   ),
@@ -80,9 +80,9 @@ class _ChitietCongViecNhiemVuMobileState
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.tab,
                     isScrollable: true,
-                    labelColor: textDefault,
-                    unselectedLabelColor: infoColor,
-                    indicatorColor: textDefault,
+                    labelColor: color7966FF,
+                    unselectedLabelColor: color667793,
+                    indicatorColor: color7966FF,
                     labelStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,

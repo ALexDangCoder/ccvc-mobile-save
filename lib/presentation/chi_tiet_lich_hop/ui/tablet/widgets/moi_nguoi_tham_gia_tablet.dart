@@ -148,7 +148,7 @@ class _ThanhPhanThamGiaWidgetTabletState
                         S.current.chon_tat_ca,
                         style: textNormalCustom(
                           fontSize: 16,
-                          color: infoColor,
+                          color: color667793,
                         ),
                       ),
                     ],

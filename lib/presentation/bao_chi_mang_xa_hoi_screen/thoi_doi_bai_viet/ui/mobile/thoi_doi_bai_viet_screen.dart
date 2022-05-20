@@ -36,7 +36,7 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
               S.current.nhap_linK_bao_cao,
               style: textNormalCustom(
                 fontSize: 14,
-                color: dateColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -58,7 +58,7 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
             child: Text(
               S.current.bai_theo_doi,
               style: textNormalCustom(
-                color: titleCalenderWork,
+                color: color3D5586,
                 fontSize: 16,
               ),
             ),

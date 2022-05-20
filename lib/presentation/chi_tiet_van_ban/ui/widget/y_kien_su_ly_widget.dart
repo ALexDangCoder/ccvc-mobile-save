@@ -27,9 +27,9 @@ class _YKienSuLyWidgetState extends State<YKienSuLyWidget> {
       padding: const EdgeInsets.only(top: 16),
       child: Container(
         decoration: BoxDecoration(
-          color: toDayColor.withOpacity(0.1),
+          color: colorDBDFEF.withOpacity(0.1),
           border: Border.all(
-            color: toDayColor.withOpacity(0.4),
+            color: colorDBDFEF.withOpacity(0.4),
           ),
           borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
         ),
@@ -56,7 +56,7 @@ class _YKienSuLyWidgetState extends State<YKienSuLyWidget> {
                     child: Text(
                       widget.object.tenNhanVien ?? '',
                       style: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 14.0.textScale(),
                         fontWeight: FontWeight.w500,
                       ),
@@ -75,7 +75,7 @@ class _YKienSuLyWidgetState extends State<YKienSuLyWidget> {
                             .formatDdMMYYYY,
                         softWrap: true,
                         style: textNormalCustom(
-                          color: infoColor,
+                          color: color667793,
                           fontSize: 12.0.textScale(space: 4.0),
                           fontWeight: FontWeight.w400,
                         ),
@@ -90,7 +90,7 @@ class _YKienSuLyWidgetState extends State<YKienSuLyWidget> {
               Text(
                 widget.object.noiDung ?? '',
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
                 ),
@@ -105,7 +105,7 @@ class _YKienSuLyWidgetState extends State<YKienSuLyWidget> {
                     Text(
                       S.current.cac_van_ban_dinh_kem,
                       style: textNormalCustom(
-                        color: titleItemEdit,
+                        color: color586B8B,
                         fontSize: 12.0.textScale(),
                         fontWeight: FontWeight.w400,
                       ),
@@ -177,7 +177,7 @@ class _YKienSuLyWidgetState extends State<YKienSuLyWidget> {
                                         .fileDinhKem?.ten ??
                                     '',
                                 style: textNormalCustom(
-                                  color: textColorMangXaHoi,
+                                  color: color2F80ED,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12.0.textScale(),
                                 ),
@@ -198,7 +198,7 @@ class _YKienSuLyWidgetState extends State<YKienSuLyWidget> {
                   child: Text(
                     S.current.khong_co_file,
                     style: textNormalCustom(
-                      color: toDayColor,
+                      color: colorDBDFEF,
                       fontSize: 12.0.textScale(),
                       fontWeight: FontWeight.w400,
                     ),

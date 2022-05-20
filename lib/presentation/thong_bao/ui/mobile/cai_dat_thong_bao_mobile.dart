@@ -45,7 +45,7 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
             width: 18,
             child: Icon(
               Icons.arrow_back_ios_sharp,
-              color: textBodyTime,
+              color: colorA2AEBD,
             ),
           ),
         ),
@@ -61,7 +61,7 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
             Text(
               S.current.thong_bao_quan_trong,
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontWeight: FontWeight.w500,
                 fontSize: 16.0.textScale(),
               ),
@@ -99,7 +99,7 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
             Text(
               S.current.chung,
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontWeight: FontWeight.w500,
                 fontSize: 16.0.textScale(),
               ),

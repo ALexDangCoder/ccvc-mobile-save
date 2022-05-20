@@ -42,7 +42,7 @@ class ItemListBangTin extends StatelessWidget {
             ),
             Icon(
               Icons.brightness_1,
-              color: isCheck ? AppTheme.getInstance().colorField() : sideTextInactiveColor,
+              color: isCheck ? AppTheme.getInstance().colorField() : colorB9C4D0,
               size: 8,
             ),
             const SizedBox(
@@ -54,7 +54,7 @@ class ItemListBangTin extends StatelessWidget {
                 style: textNormalCustom(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  color: isCheck ? AppTheme.getInstance().colorField() : infoColor,
+                  color: isCheck ? AppTheme.getInstance().colorField() : color667793,
                 ),
               ),
             )

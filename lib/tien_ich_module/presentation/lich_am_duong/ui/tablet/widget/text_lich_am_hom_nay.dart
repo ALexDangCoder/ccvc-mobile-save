@@ -24,7 +24,7 @@ class TextLichAmHomNay extends StatelessWidget {
         child: Text(
           title,
           style: textNormalCustom(
-            color: color ?? unselectedLabelColor,
+            color: color ?? color667793,
             fontSize: fontSize ?? 16.0,
             fontWeight: fontWeight??FontWeight.w500
           ),

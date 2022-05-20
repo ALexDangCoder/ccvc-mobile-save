@@ -76,7 +76,7 @@ class _ContainerKetNoiMenuWidgetState extends State<ContainerKetNoiMenuWidget> {
                         child: Text(
                           widget.data.title ?? '',
                           style: textNormalCustom(
-                            color: textTitle,
+                            color: color3D5586,
                             fontSize: 14.0.textScale(),
                             fontWeight: FontWeight.w400,
                           ),
@@ -95,7 +95,7 @@ class _ContainerKetNoiMenuWidgetState extends State<ContainerKetNoiMenuWidget> {
                     (widget.data.isShowExpanded ?? false)
                         ? Icons.keyboard_arrow_down_outlined
                         : Icons.keyboard_arrow_up_rounded,
-                    color: AqiColor,
+                    color: colorA2AEBD,
                   )
               ],
             ),

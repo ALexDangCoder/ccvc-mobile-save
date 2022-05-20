@@ -22,7 +22,7 @@ class MenuCellWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: isBorder ? lineColor : Colors.transparent),
+          bottom: BorderSide(color: isBorder ? colorECEEF7 : Colors.transparent),
         ),
       ),
       child: Row(
@@ -44,7 +44,7 @@ class MenuCellWidget extends StatelessWidget {
                 ),
                 const Icon(
                   Icons.navigate_next,
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                 )
               ],
             ),

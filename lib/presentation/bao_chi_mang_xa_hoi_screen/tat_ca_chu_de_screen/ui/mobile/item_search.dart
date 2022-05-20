@@ -20,7 +20,7 @@ class ItemSearch extends StatelessWidget {
               width: 8,
               height: 8,
               decoration: const BoxDecoration(
-                color: sideTextInactiveColor,
+                color: colorB9C4D0,
                 shape: BoxShape.circle,
               ),
             ),
@@ -33,7 +33,7 @@ class ItemSearch extends StatelessWidget {
                 style: textNormalCustom(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  color: infoColor,
+                  color: color667793,
                 ),
               ),
             ),

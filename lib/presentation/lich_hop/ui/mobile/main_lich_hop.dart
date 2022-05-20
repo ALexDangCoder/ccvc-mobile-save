@@ -182,7 +182,7 @@ class _MainLichHopState extends State<MainLichHop> {
                     ],
                   ),
                   body: Container(
-                    color: backgroundColorApp,
+                    color: colorFFFFFF,
                     child: Stack(
                       children: [
                         Column(

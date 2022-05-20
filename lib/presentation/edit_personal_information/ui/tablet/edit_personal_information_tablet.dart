@@ -77,7 +77,7 @@ class _EditPersonalInformationTabletScreen
     final Map<String, dynamic> user =
         cubit.managerPersonalInformationModel.getInfoToMap();
     return Scaffold(
-      backgroundColor: bgManagerColor,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(
         S.current.chinh_sua_thong_tin,
@@ -97,9 +97,9 @@ class _EditPersonalInformationTabletScreen
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Container(
               decoration: BoxDecoration(
-                color: backgroundColorApp,
+                color: colorFFFFFF,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: borderItemCalender.withOpacity(0.5)),
+                border: Border.all(color: colorE2E8F0.withOpacity(0.5)),
               ),
               margin: const EdgeInsets.only(
                 top: 28,
@@ -125,7 +125,7 @@ class _EditPersonalInformationTabletScreen
                               S.current.thong_tin,
                               style: textNormalCustom(
                                 fontSize: 18,
-                                color: fontColorTablet2,
+                                color: color3D5586,
                               ),
                             ),
                             TextButton(
@@ -511,7 +511,7 @@ class _EditPersonalInformationTabletScreen
                         spaceH28,
                         Container(
                           height: 1,
-                          color: borderItemCalender,
+                          color: colorE2E8F0,
                         ),
                         spaceH28,
                         Row(
@@ -536,10 +536,10 @@ class _EditPersonalInformationTabletScreen
                                     ),
                                     decoration: BoxDecoration(
                                       color:
-                                          borderItemCalender.withOpacity(0.1),
+                                          colorE2E8F0.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(6),
                                       border:
-                                          Border.all(color: borderItemCalender),
+                                          Border.all(color: colorE2E8F0),
                                     ),
                                     child: WidgetDonVi(
                                       cubit: cubit,
@@ -567,10 +567,10 @@ class _EditPersonalInformationTabletScreen
                                     ),
                                     decoration: BoxDecoration(
                                       color:
-                                          borderItemCalender.withOpacity(0.1),
+                                          colorE2E8F0.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(6),
                                       border:
-                                          Border.all(color: borderItemCalender),
+                                          Border.all(color: colorE2E8F0),
                                     ),
                                     child: WidgetUngDung(
                                       cubit: cubit,
@@ -585,7 +585,7 @@ class _EditPersonalInformationTabletScreen
                         spaceH28,
                         Container(
                           height: 1,
-                          color: borderItemCalender,
+                          color: colorE2E8F0,
                         ),
                         spaceH28,
                         AvatarAndSignatureTablet(

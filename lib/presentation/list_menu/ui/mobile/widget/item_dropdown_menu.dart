@@ -52,7 +52,7 @@ class ItemDropDownMenuState extends State<ItemDropDownMenu> {
                 Container(
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
-                    color: buttonColor,
+                    color: color7966FF,
                     borderRadius: BorderRadius.all(
                       Radius.circular(2),
                     ),
@@ -120,7 +120,7 @@ class ItemDropDownMenuState extends State<ItemDropDownMenu> {
                             ),
                             trailing: Container(
                               decoration: const BoxDecoration(
-                                color: buttonColor,
+                                color: color7966FF,
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(2),
                                 ),

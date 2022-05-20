@@ -92,11 +92,11 @@ class _TaoLichLamViecChiTietScreenState
               statusBarBrightness: Brightness.light,
             ),
             backgroundColor: APP_DEVICE == DeviceType.MOBILE
-                ? backgroundColorApp
-                : bgQLVBTablet,
+                ? colorFFFFFF
+                : colorF9FAFF,
             bottomOpacity: 0.0,
             elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
-            shadowColor: bgDropDown,
+            shadowColor: colorE2E8F0,
             automaticallyImplyLeading: false,
             title: StreamBuilder<String>(
                 initialData: S.current.lich_cong_tac_trong_nuoc,
@@ -111,7 +111,7 @@ class _TaoLichLamViecChiTietScreenState
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios_rounded,
-                color: unselectLabelColor,
+                color: colorA2AEBD,
                 size: 18,
               ),
               onPressed: () {
@@ -207,7 +207,7 @@ class _TaoLichLamViecChiTietScreenState
                             margin: const EdgeInsets.only(left: 30.0),
                             height: 16,
                             child: const Divider(
-                              color: dividerColor,
+                              color: colorCACFD7,
                               height: 1,
                             ),
                           ),
@@ -287,10 +287,10 @@ class _TaoLichLamViecChiTietScreenState
                             children: [
                               Expanded(
                                 child: buttomWidget(
-                                  background: buttonColor.withOpacity(0.1),
+                                  background: color7966FF.withOpacity(0.1),
                                   title: S.current.dong,
                                   onTap: () {},
-                                  textColor: buttonColor,
+                                  textColor: color7966FF,
                                 ),
                               ),
                               const SizedBox(
@@ -298,7 +298,7 @@ class _TaoLichLamViecChiTietScreenState
                               ),
                               Expanded(
                                 child: buttomWidget(
-                                  background: buttonColor,
+                                  background: color7966FF,
                                   title: S.current.luu,
                                   onTap: () async {
                                     if (_formKey.currentState!.validate()) {
@@ -364,7 +364,7 @@ Widget buttonTaoLich({required Function onTap}) {
     child: Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
       margin: const EdgeInsets.only(top: 33, bottom: 10),
-      color: textDefault,
+      color: color7966FF,
       alignment: Alignment.center,
       width: double.maxFinite,
       child: Text(

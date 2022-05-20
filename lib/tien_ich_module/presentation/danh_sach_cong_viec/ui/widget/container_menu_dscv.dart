@@ -85,7 +85,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                           child: Text(
                             widget.name,
                             style: textNormalCustom(
-                              color: titleColor,
+                              color: color3D5586,
                               fontWeight: FontWeight.w400,
                               fontSize: 16.0.textScale(space: 4),
                             ),
@@ -120,9 +120,9 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
           Container(
             margin: const EdgeInsets.only(top: 24, left: 10, right: 10),
             decoration: BoxDecoration(
-              color: toDayColor.withOpacity(0.1),
+              color: colorDBDFEF.withOpacity(0.1),
               border: Border.all(
-                color: toDayColor.withOpacity(0.5),
+                color: colorDBDFEF.withOpacity(0.5),
               ),
               borderRadius: BorderRadius.circular(8),
             ),
@@ -170,7 +170,7 @@ class _ContainerMenuDSCVWidgetState extends State<ContainerMenuDSCVWidget> {
                             child: Text(
                               widget.name,
                               style: textNormalCustom(
-                                color: titleColor,
+                                color: color3D5586,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16.0.textScale(space: 4),
                               ),

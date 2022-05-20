@@ -57,7 +57,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
           return [
             SliverToBoxAdapter(
               child: Container(
-                color: backgroundColorApp,
+                color: colorFFFFFF,
                 child: ChooseTimeScreen(
                   baseChooseTimeCubit: chooseTimeCubit,
                   today: DateTime.now(),
@@ -74,7 +74,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
               child: Column(
                 children: [
                   Container(
-                    color: bgQLVBTablet,
+                    color: colorF9FAFF,
                     child: Container(
                       margin: const EdgeInsets.only(
                         top: 20.0,
@@ -85,7 +85,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: borderColor.withOpacity(0.5),
+                          color: colorDBDFEF.withOpacity(0.5),
                         ),
                       ),
                       child: Row(
@@ -192,7 +192,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                     ),
                   ),
                   Container(
-                    color: bgQLVBTablet,
+                    color: colorF9FAFF,
                     height: 18,
                   ),
                 ],
@@ -203,11 +203,11 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
         body: StickyHeader(
           overlapHeaders: true,
           header: Container(
-            color: bgQLVBTablet,
+            color: colorF9FAFF,
             height: 50,
             child: TabBar(
               unselectedLabelStyle: titleAppbar(fontSize: 16),
-              unselectedLabelColor: AqiColor,
+              unselectedLabelColor: colorA2AEBD,
               labelColor: AppTheme.getInstance().colorField(),
               labelStyle: titleText(fontSize: 16),
               indicatorColor: AppTheme.getInstance().colorField(),

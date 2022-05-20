@@ -650,7 +650,7 @@ class LichHopCubit extends BaseCubit<LichHopState> {
           startTime: DateTime.parse(model.items?[i].dateTimeFrom ?? ''),
           endTime: DateTime.parse(model.items?[i].dateTimeTo ?? ''),
           subject: model.items?[i].title ?? '',
-          color: textColorMangXaHoi,
+          color: color2F80ED,
           id: model.items?[i].id ?? '',
         ),
       );

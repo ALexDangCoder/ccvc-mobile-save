@@ -36,8 +36,8 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
           padding: const EdgeInsets.all(20),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            border: Border.all(color: borderColor.withOpacity(0.5)),
-            color: colorNumberCellQLVB,
+            border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
+            color: colorFCFDFD,
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
@@ -52,7 +52,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       '${widget.infoModel.tenCoQuan}',
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                     const Expanded(child: SizedBox()),
@@ -85,7 +85,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       '${widget.infoModel.tenCanBo}',
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                   ],
@@ -99,7 +99,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       '${widget.infoModel.vaiTro}',
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                   ],
@@ -113,7 +113,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                       '${widget.infoModel.ghiChu}',
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                   ],
@@ -143,8 +143,8 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
           padding: const EdgeInsets.all(20),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            border: Border.all(color: borderColor.withOpacity(0.5)),
-            color: colorNumberCellQLVB,
+            border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
+            color: colorFCFDFD,
             borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
@@ -170,7 +170,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                     '${S.current.ten_can_bo}: ${widget.infoModel.tenCanBo}',
                     style: textNormalCustom(
                       fontSize: 16,
-                      color: infoColor,
+                      color: color667793,
                     ),
                   ),
                   const Expanded(child: SizedBox()),
@@ -193,7 +193,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                             '${widget.infoModel.vaiTro}',
                             style: textNormalCustom(
                               fontSize: 14,
-                              color: infoColor,
+                              color: color667793,
                             ),
                           ),
                         ),
@@ -203,7 +203,7 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                             '${widget.infoModel.ghiChu}',
                             style: textNormalCustom(
                               fontSize: 14,
-                              color: infoColor,
+                              color: color667793,
                             ),
                           ),
                         ),

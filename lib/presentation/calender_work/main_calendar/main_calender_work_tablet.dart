@@ -203,7 +203,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                           margin: const EdgeInsets.only(
                             left: 28.0,
                           ),
-                          color: backgroundColorApp,
+                          color: colorFFFFFF,
                           height: 116,
                           child: Row(
                             children: [
@@ -259,7 +259,7 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
                 Container(
                   margin: const EdgeInsets.only(right: 30, left: 30),
                   height: 1,
-                  color: bgDropDown,
+                  color: colorE2E8F0,
                 ),
                 Expanded(
                   child: BlocBuilder<CalenderCubit, CalenderState>(

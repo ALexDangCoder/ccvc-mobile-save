@@ -31,7 +31,7 @@ class LichAmWidget extends StatelessWidget {
                 thu,
                 fontSize: 14.0,
                 fontWeight: FontWeight.w500,
-                color: AqiColor,
+                color: colorA2AEBD,
               ),
               titleLichAm(
                   DateTime.parse(
@@ -42,16 +42,16 @@ class LichAmWidget extends StatelessWidget {
                   '${ngayAmLich.day??''}, Tháng ${ngayAmLich.month??''} (AL), ${ngayAmLich.yearName??''}',
                   fontSize: 12.0,
                   fontWeight: FontWeight.w500,
-                  color: AqiColor),
+                  color: colorA2AEBD),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               titleLichAm('N. ${ngayAmLich.yearName ?? ''}',
-                  fontSize: 12.0, fontWeight: FontWeight.w500, color: AqiColor),
+                  fontSize: 12.0, fontWeight: FontWeight.w500, color: colorA2AEBD),
               titleLichAm('T. ${ngayAmLich.monthLongName ?? ''}',
-                  fontSize: 12.0, fontWeight: FontWeight.w500, color: AqiColor),
+                  fontSize: 12.0, fontWeight: FontWeight.w500, color: colorA2AEBD),
             ],
           )
         ],
@@ -69,7 +69,7 @@ Widget titleLichAm(String title,
       style: textNormalCustom(
         fontSize: fontSize ?? 12.0,
         fontWeight: fontWeight ?? FontWeight.w400,
-        color: color ?? titleColor,
+        color: color ?? color3D5586,
       ),
     ),
   );

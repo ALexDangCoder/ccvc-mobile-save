@@ -48,7 +48,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgCalenderColor,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(
         widget.title,
       ),
@@ -102,7 +102,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                             style: textNormalCustom(
                               fontWeight: FontWeight.w700,
                               fontSize: 16.0.textScale(space: 20),
-                              color: backgroundColorApp,
+                              color: colorFFFFFF,
                             ),
                           ),
                           const SizedBox(
@@ -113,7 +113,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                             style: textNormalCustom(
                               fontWeight: FontWeight.w500,
                               fontSize: 16.0.textScale(space: 8),
-                              color: backgroundColorApp,
+                              color: colorFFFFFF,
                             ),
                           ),
                         ],
@@ -137,14 +137,14 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                         style: textNormalCustom(
                           fontWeight: FontWeight.w400,
                           fontSize: 16.0.textScale(),
-                          color: infoColor,
+                          color: color667793,
                         ),
                       ),
                       const SizedBox(
                         width: 12,
                       ),
                       Container(
-                        color: backgroundColorApp,
+                        color: colorFFFFFF,
                         height: 50,
                         width: 160,
                         child: CustomDropDown(
@@ -166,7 +166,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                     style: textNormalCustom(
                       fontWeight: FontWeight.w500,
                       fontSize: 16.0.textScale(space: 4),
-                      color: titleCalenderWork,
+                      color: color3D5586,
                     ),
                   ),
                 )
@@ -187,7 +187,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,
@@ -238,7 +238,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                               colorClickableText: AppTheme.getInstance().colorField(),
                               trimMode: TrimMode.Line,
                               style: textNormalCustom(
-                                color: infoColor,
+                                color: color667793,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),

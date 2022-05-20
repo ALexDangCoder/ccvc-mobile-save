@@ -30,7 +30,7 @@ class IndicatorChart extends StatelessWidget {
               child: Text(
                 itemIndicator.title,
                 style: textNormal(
-                  infoColor,
+                  color667793,
                   14.0.textScale(),
                 ),
               ),

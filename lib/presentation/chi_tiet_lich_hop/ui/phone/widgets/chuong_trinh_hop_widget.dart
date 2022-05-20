@@ -59,7 +59,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
             children: [
               Text(
                 S.current.chuong_trinh_hop,
-                style: textNormalCustom(color: titleColumn, fontSize: 16),
+                style: textNormalCustom(color: color667793, fontSize: 16),
               ),
               const Expanded(child: SizedBox())
             ],
@@ -174,7 +174,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(6)),
-              border: Border.all(color: borderItemCalender),
+              border: Border.all(color: colorE2E8F0),
             ),
             child: Column(
               children: [
@@ -264,7 +264,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               S.current.thoi_gian,
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
-                                color: infoColor,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -274,7 +274,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               'Người phụ trách',
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
-                                color: infoColor,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -284,7 +284,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               S.current.noi_dung,
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
-                                color: infoColor,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -302,7 +302,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           child: Text(
                             listPhienHopModel.thoiGianBatDau ?? '',
                             style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
+                                fontSize: 14.0.textScale(), color: color3D5586),
                           ),
                         ),
                         Padding(
@@ -310,7 +310,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           child: Text(
                             listPhienHopModel.hoTen ?? '',
                             style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
+                                fontSize: 14.0.textScale(), color: color3D5586),
                           ),
                         ),
                         Padding(
@@ -318,7 +318,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           child: Text(
                             listPhienHopModel.noiDung ?? '',
                             style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
+                                fontSize: 14.0.textScale(), color: color3D5586),
                           ),
                         ),
                       ],
@@ -332,7 +332,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                       '${S.current.file}                      ',
                       style: textDetailHDSD(
                         fontSize: 14.0.textScale(),
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                     const SizedBox(
@@ -350,7 +350,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                             data[index] ?? S.current.khong_co_tep_nao,
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
-                              color: choXuLyColor,
+                              color: color5A8DEE,
                             ),
                           );
                         },
@@ -366,7 +366,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(6)),
-              border: Border.all(color: borderItemCalender),
+              border: Border.all(color: colorE2E8F0),
             ),
             child: Column(
               children: [
@@ -450,7 +450,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               S.current.thoi_gian,
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
-                                color: infoColor,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -460,7 +460,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               'Người phụ trách',
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
-                                color: infoColor,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -470,7 +470,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               S.current.noi_dung,
                               style: textDetailHDSD(
                                 fontSize: 14.0.textScale(),
-                                color: infoColor,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -488,7 +488,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           child: Text(
                             listPhienHopModel.thoiGianBatDau ?? '',
                             style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
+                                fontSize: 14.0.textScale(), color: color3D5586),
                           ),
                         ),
                         Padding(
@@ -496,7 +496,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           child: Text(
                             listPhienHopModel.hoTen ?? '',
                             style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
+                                fontSize: 14.0.textScale(), color: color3D5586),
                           ),
                         ),
                         Padding(
@@ -504,7 +504,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           child: Text(
                             listPhienHopModel.noiDung ?? '',
                             style: textDetailHDSD(
-                                fontSize: 14.0.textScale(), color: textTitle),
+                                fontSize: 14.0.textScale(), color: color3D5586),
                           ),
                         ),
                       ],
@@ -518,7 +518,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                       '${S.current.file}                      ',
                       style: textDetailHDSD(
                         fontSize: 14.0.textScale(),
-                        color: infoColor,
+                        color: color667793,
                       ),
                     ),
                     const SizedBox(
@@ -536,7 +536,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                             data[index] ?? S.current.khong_co_tep_nao,
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
-                              color: choXuLyColor,
+                              color: color5A8DEE,
                             ),
                           );
                         },

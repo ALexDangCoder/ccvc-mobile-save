@@ -46,7 +46,7 @@ class _WidgetItemState extends State<WidgetItem> {
             children: [
               Text(
                 widget.content,
-                style: textNormal(textTitle, 16),
+                style: textNormal(color3D5586, 16),
               ),
               IconButton(
                 onPressed: () {

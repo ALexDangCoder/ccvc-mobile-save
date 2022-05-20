@@ -17,7 +17,7 @@ void showDiaLogFeature(
     context: context,
     builder: (_) {
       return Dialog(
-        backgroundColor: backgroundColorApp,
+        backgroundColor: colorFFFFFF,
         insetPadding: const EdgeInsets.symmetric(horizontal: 150),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
@@ -72,7 +72,7 @@ class DiaLogFeatureWidget extends StatelessWidget {
                     child: Text(
                       title,
                       style:
-                          textNormalCustom(color: titleColor, fontSize: 20.0),
+                          textNormalCustom(color: color3D5586, fontSize: 20.0),
                     ),
                   ),
                   Expanded(

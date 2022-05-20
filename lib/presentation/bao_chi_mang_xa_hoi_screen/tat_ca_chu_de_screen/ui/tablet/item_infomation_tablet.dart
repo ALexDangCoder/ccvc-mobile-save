@@ -18,9 +18,9 @@ class ItemInfomationTablet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration:  BoxDecoration(
-        border: Border.all(color: cellColorborder),
+        border: Border.all(color: color05OpacityDBDFEF),
         borderRadius: BorderRadius.circular(12),
-        color: backgroundColorApp,
+        color: colorFFFFFF,
         boxShadow: const [
           BoxShadow(
             color: Colors.transparent,
@@ -44,7 +44,7 @@ class ItemInfomationTablet extends StatelessWidget {
               Text(
                 infomationModel.title,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontWeight: FontWeight.w400,
                   fontSize: 14.0.textScale(),
                 ),

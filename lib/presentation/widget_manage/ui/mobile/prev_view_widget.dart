@@ -48,11 +48,11 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
             children: [
               Container(
                 margin: const EdgeInsets.only(bottom: 20,top: 16),
-                color: homeColor,
+                color: colorEEF3FF,
                 height: 6,
               ),
               Container(
-                color: homeColor,
+                color: colorEEF3FF,
                 child: StreamBuilder<List<WidgetModel>>(
                   stream: widget.cubit.listWidgetUsing,
                   builder: (context, snapshot) {

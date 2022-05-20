@@ -119,13 +119,13 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
-          color: titleColor,
+          color: color3D5586,
         ),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
           counterText: '',
           hintText: widget.hintText,
-          hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
+          hintStyle: textNormal(color586B8B.withOpacity(0.5), 14),
           contentPadding: widget.maxLine == 1
               ? const EdgeInsets.symmetric(vertical: 14, horizontal: 10)
               : null,
@@ -133,26 +133,26 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           prefixIcon: widget.prefixIcon,
           fillColor: widget.isEnabled
               ? widget.fillColor ?? Colors.transparent
-              : borderColor.withOpacity(0.3),
+              : colorDBDFEF.withOpacity(0.3),
           filled: true,
           border: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
+            borderSide: BorderSide(color: colorDBDFEF),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
+            borderSide: BorderSide(color: colorDBDFEF),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
+            borderSide: BorderSide(color: colorDBDFEF),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
+            borderSide: BorderSide(color: colorDBDFEF),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: borderColor),
+            borderSide: BorderSide(color: colorDBDFEF),
             borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
         ),

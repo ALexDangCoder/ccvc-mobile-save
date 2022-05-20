@@ -32,14 +32,14 @@ class _CustomSwitchWidgetState extends State<CustomSwitchWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(S.current.cong_khai_lich,style: textNormal(titleColumn, 16.0.textScale()),),
+        Text(S.current.cong_khai_lich,style: textNormal(color667793, 16.0.textScale()),),
         FlutterSwitchWidget(
           height: 24,
           width: 42,
           toggleSize: 14,
           inactiveIcon: SvgPicture.asset(ImageAssets.icX),
           activeIcon: SvgPicture.asset(ImageAssets.icV),
-          inactiveColor: borderColor,
+          inactiveColor: colorDBDFEF,
           activeColor: AppTheme.getInstance().colorField(),
           value: value,
           onToggle: (v){

@@ -44,7 +44,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
         PieChart(
           title: widget.title ?? '',
           tittleStyle: textNormalCustom(
-            color: textTitle,
+            color: color3D5586,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
@@ -79,18 +79,18 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
               ChartData(
                 S.current.qua_han,
                 widget.documentDashboardModel.soLuongQuaHan?.toDouble() ?? 0.0,
-                statusCalenderRed,
+                colorEA5455,
               ),
               ChartData(
                 S.current.den_han,
                 widget.documentDashboardModel.soLuongDenHan?.toDouble() ?? 0.0,
-                textColorForum,
+                colorFF9F43,
               ),
               ChartData(
                 S.current.trong_han,
                 widget.documentDashboardModel.soLuongTrongHan?.toDouble() ??
                     0.0,
-                choTrinhKyColor,
+                color02C5DD,
               )
             ],
           )

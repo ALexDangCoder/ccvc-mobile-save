@@ -26,9 +26,9 @@ class CellCongViec extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 20.0),
         height: 107,
         decoration: BoxDecoration(
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
           borderRadius: BorderRadius.circular(10.0),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -54,7 +54,7 @@ class CellCongViec extends StatelessWidget {
                             height: 8.0,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: statusCalenderRed,
+                              color: colorEA5455,
                             ),
                           ),
                         ),
@@ -74,7 +74,7 @@ class CellCongViec extends StatelessWidget {
                           Text(
                             data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
                             style: textNormalCustom(
-                              color: textBodyTime,
+                              color: colorA2AEBD,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -84,7 +84,7 @@ class CellCongViec extends StatelessWidget {
                                 child: Text(
                                   data.doiTuongThucHien ?? '',
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontWeight: FontWeight.w400,
                                   ),
                                   maxLines: 1,

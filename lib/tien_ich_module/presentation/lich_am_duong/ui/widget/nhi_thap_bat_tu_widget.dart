@@ -25,21 +25,21 @@ class ThapNhiBatTuWidget extends StatelessWidget {
             S.current.theo_nhi_thap_bat_tu,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
         titleNgayBachKy(
           '${S.current.tinh_moc_han_dieu_ky}: ',
           thapNhiBatTu.totXau ?? '',
-          color: colorNenLam,
+          color: color27AE60,
         ),
         titleNgayBachKy('${S.current.nen_lam}: ', thapNhiBatTu.nenLam ?? '',
-            color: colorNenLam,),
+            color: color27AE60,),
         titleNgayBachKy(
           '${S.current.kieng_cu}: ',
           thapNhiBatTu.kieng ?? '',
-          color: specialPriceColor,
+          color: colorEB5757,
         ),
         titleNgayBachKy(
           '${S.current.ngoai_le}: ',

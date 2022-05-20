@@ -24,9 +24,9 @@ class WidgetInExpandVanBan extends StatelessWidget {
         top: 16,
       ),
       decoration: BoxDecoration(
-        color: bgDropDown.withOpacity(0.1),
+        color: colorE2E8F0.withOpacity(0.1),
         border: Border.all(
-          color: bgDropDown.withOpacity(0.5),
+          color: colorE2E8F0.withOpacity(0.5),
         ),
         borderRadius: BorderRadius.circular(6.0.textScale(space: 6)),
       ),
@@ -44,7 +44,7 @@ class WidgetInExpandVanBan extends StatelessWidget {
                         child: Text(
                           e.title,
                           style: textNormalCustom(
-                            color: dateColor,
+                            color: color667793,
                             fontSize: 14.0.textScale(),
                             fontWeight: FontWeight.w400,
                           ),

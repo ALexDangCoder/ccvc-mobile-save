@@ -126,7 +126,7 @@ class ListFileFromAPI extends StatelessWidget {
                 child: Text(
                   data[index] ?? '',
                   style: textNormalCustom(
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                     fontWeight: FontWeight.w400,
                     fontSize: 14.0.textScale(),
                   ),

@@ -31,47 +31,47 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 const SizedBox(height: 30.0),
                 Text(
                   S.current.nhap_ma_xac_minh,
-                  style: textNormalCustom(color: titleColor, fontSize: 16.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 16.0),
                 ),
                 const SizedBox(height: 16.0),
                 Text(
                   S.current.ma_xac_minh_cua_ban,
                   style: textNormalCustom(
-                    color: titleColor,
+                    color: color3D5586,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 const SizedBox(height: 5.0),
                 Text(
                   'hungto228@gmail.com',
-                  style: textNormalCustom(color: textDefault),
+                  style: textNormalCustom(color: color7966FF),
                 ),
                 const SizedBox(height: 80.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: PinCodeTextField(
                     length: 6,
-                    cursorColor: colorBlack,
+                    cursorColor: color000000,
                     //mau nut nhay
-                    backgroundColor: backgroundColorApp,
+                    backgroundColor: colorFFFFFF,
                     animationType: AnimationType.fade,
                     pinTheme: PinTheme(
                       shape: PinCodeFieldShape.underline,
                       fieldHeight: 50,
                       fieldWidth: 32,
-                      inactiveColor: unselectLabelColor,
+                      inactiveColor: colorA2AEBD,
                       //gach chan khi khong duoc chon
-                      activeFillColor: backgroundColorApp,
+                      activeFillColor: colorFFFFFF,
                       //mau khi da dien so
-                      activeColor: unselectLabelColor,
+                      activeColor: colorA2AEBD,
                       //gach chan
-                      selectedColor: unselectLabelColor,
+                      selectedColor: colorA2AEBD,
                       // gach chan khi duoc chon
-                      selectedFillColor: backgroundColorApp,
+                      selectedFillColor: colorFFFFFF,
                       //chon mau khi duoc chon
-                      errorBorderColor: errorBorderColor,
-                      disabledColor: unselectLabelColor,
-                      inactiveFillColor: backgroundColorApp
+                      errorBorderColor: color585782,
+                      disabledColor: colorA2AEBD,
+                      inactiveFillColor: colorFFFFFF
                       //mau khi khong chon mac dinh mau vang
                       ,
                     ),
@@ -97,7 +97,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     Text(
                       S.current.ban_khong_nhan_duoc_ma,
                       style: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -105,7 +105,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       onTap: () {},
                       child: Text(
                         S.current.gui_lai,
-                        style: textNormalCustom(color: textDefault),
+                        style: textNormalCustom(color: color7966FF),
                       ),
                     ),
                   ],

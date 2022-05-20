@@ -60,7 +60,7 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                     ),
                     child: Text(
                       snapshot.data.toString(),
-                      style: textNormal(titleColor, 14),
+                      style: textNormal(color3D5586, 14),
                       overflow: TextOverflow.ellipsis,
                     ),
                   );
@@ -69,7 +69,7 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
               child: Container(
                 margin: const EdgeInsets.only(top: 11),
                 decoration: BoxDecoration(
-                  border: Border.all(color: borderColor),
+                  border: Border.all(color: colorDBDFEF),
                   borderRadius: const BorderRadius.all(Radius.circular(6)),
                 ),
                 constraints: BoxConstraints(
@@ -85,7 +85,7 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                        border: Border(top: BorderSide(color: borderColor)),
+                        border: Border(top: BorderSide(color: colorDBDFEF)),
                       ),
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       child: StreamBuilder(
@@ -211,7 +211,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                                       ? const Border()
                                       : const Border(
                                           bottom:
-                                              BorderSide(color: borderColor))
+                                              BorderSide(color: colorDBDFEF))
                                   : const Border(),
                             ),
                             child: Row(
@@ -221,7 +221,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                                   child: widget.node!.value.iD_DonVi_Cha != ''
                                       ? Text(
                                           widget.node!.value.tenDonVi,
-                                          style: textNormal(titleColor, 14),
+                                          style: textNormal(color3D5586, 14),
                                         )
                                       : const SizedBox(),
                                 ),
@@ -277,7 +277,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                               decoration: BoxDecoration(
                                 border: e == data.last
                                     ? const Border(
-                                        bottom: BorderSide(color: borderColor))
+                                        bottom: BorderSide(color: colorDBDFEF))
                                     : const Border(),
                               ),
                               child: NodeWidget(

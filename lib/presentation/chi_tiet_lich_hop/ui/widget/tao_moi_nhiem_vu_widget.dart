@@ -59,8 +59,8 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                     Expanded(
                       child: btnSuaLich(
                         name: S.current.dong,
-                        bgr: buttonColor.withOpacity(0.1),
-                        colorName: textDefault,
+                        bgr: color7966FF.withOpacity(0.1),
+                        colorName: color7966FF,
                         onTap: () {
                           Navigator.pop(context);
                         },
@@ -72,7 +72,7 @@ class _TaoMoiNhiemVuWidgetState extends State<TaoMoiNhiemVuWidget> {
                     Expanded(
                       child: btnSuaLich(
                         name: S.current.xac_nhan,
-                        bgr: labelColor,
+                        bgr: color7966FF,
                         colorName: Colors.white,
                         onTap: () {
                           keyGroup.currentState!.validator();
@@ -269,7 +269,7 @@ Widget btnWidget({required String name, required Function onTap}) {
         vertical: 8.0.textScale(),
       ),
       decoration: BoxDecoration(
-        color: buttonColor.withOpacity(0.1),
+        color: color7966FF.withOpacity(0.1),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
@@ -282,7 +282,7 @@ Widget btnWidget({required String name, required Function onTap}) {
           Text(
             name,
             style: textNormalCustom(
-              color: buttonColor,
+              color: color7966FF,
               fontWeight: FontWeight.w500,
               fontSize: 14.0.textScale(),
             ),
@@ -346,8 +346,8 @@ class ItemVbGIaoNhiemVuWidget extends StatelessWidget {
       margin: EdgeInsets.only(top: 16.0.textScale()),
       padding: EdgeInsets.all(16.0.textScale()),
       decoration: BoxDecoration(
-        color: bgDropDown.withOpacity(0.1),
-        border: Border.all(color: bgDropDown),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
@@ -361,7 +361,7 @@ class ItemVbGIaoNhiemVuWidget extends StatelessWidget {
                   child: Text(
                     soKyHieu,
                     style: textNormalCustom(
-                      color: textTitle,
+                      color: color3D5586,
                       fontSize: 14.0.textScale(),
                       fontWeight: FontWeight.w400,
                     ),
@@ -381,7 +381,7 @@ class ItemVbGIaoNhiemVuWidget extends StatelessWidget {
             child: Text(
               ngayVB,
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontSize: 14.0.textScale(),
                 fontWeight: FontWeight.w400,
               ),
@@ -392,7 +392,7 @@ class ItemVbGIaoNhiemVuWidget extends StatelessWidget {
             child: Text(
               trichYeu,
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontSize: 14.0.textScale(),
                 fontWeight: FontWeight.w400,
               ),
@@ -410,7 +410,7 @@ class ItemVbGIaoNhiemVuWidget extends StatelessWidget {
                   data[index],
                   style: textDetailHDSD(
                     fontSize: 14.0.textScale(),
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                   ),
                 );
               },

@@ -21,7 +21,7 @@ class ContainerToggleWidget extends StatelessWidget {
       margin: const EdgeInsets.only(left: 29),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: lineColor),
+          bottom: BorderSide(color: colorECEEF7),
         ),
       ),
       child: Row(
@@ -29,7 +29,7 @@ class ContainerToggleWidget extends StatelessWidget {
         children: [
           Text(
             title,
-            style: textNormal(titleColumn, 16),
+            style: textNormal(color667793, 16),
           ),
           CustomToggle(
             initValue: initData,

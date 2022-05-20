@@ -90,11 +90,11 @@ class ThongKeLichHopTablet extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: borderColor.withOpacity(0.5),
+          color: colorDBDFEF.withOpacity(0.5),
         ),
         boxShadow: [
           BoxShadow(
-            color: shadowContainerColor.withOpacity(0.05),
+            color: color6566E9.withOpacity(0.05),
             offset: const Offset(0, 4),
             blurRadius: 10,
           ),
@@ -115,7 +115,7 @@ class ThongKeLichHopTablet extends StatelessWidget {
       child: Text(
         title,
         style: textNormalCustom(
-          color: textTitle,
+          color: color3D5586,
           fontWeight: FontWeight.w500,
           fontSize: 18,
         ),

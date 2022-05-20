@@ -22,7 +22,7 @@ class ThongTinLienHeWidget extends StatelessWidget {
       children: [
         Text(
           S.current.thong_tin_lien_he,
-          style: textNormalCustom(color: infoColor, fontSize: 16),
+          style: textNormalCustom(color: color667793, fontSize: 16),
         ),
         SizedBox(
           height: 16.0.textScale(space: 8),

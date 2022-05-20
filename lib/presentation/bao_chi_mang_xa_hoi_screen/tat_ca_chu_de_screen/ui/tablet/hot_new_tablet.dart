@@ -43,7 +43,7 @@ class HotNewsTablet extends StatelessWidget {
             style: textNormalCustom(
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w500,
-              color: titleCalenderWork,
+              color: color3D5586,
             ).copyWith(height: 1.3),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -69,7 +69,7 @@ class HotNewsTablet extends StatelessWidget {
             Text(
               date,
               style: textNormalCustom(
-                color: unselectedLabelColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
               ),
@@ -82,7 +82,7 @@ class HotNewsTablet extends StatelessWidget {
         Text(
           content,
           style: textNormalCustom(
-            color: unselectedLabelColor,
+            color: color667793,
             fontWeight: FontWeight.w400,
             fontSize: 14.0.textScale(),
           ),

@@ -32,7 +32,7 @@ class HeaderMenuWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 30),
       decoration: const BoxDecoration(
           color: Colors.transparent,
-          border: Border(bottom: BorderSide(color: editColor))),
+          border: Border(bottom: BorderSide(color: colorEDF0FD))),
       child: StreamBuilder<UserInformationModel>(
         stream: isMobile()
             ? keyHomeMobile.currentState?.homeCubit.getInforUser
@@ -70,7 +70,7 @@ class HeaderMenuWidget extends StatelessWidget {
                   Text(
                     data?.hoTen ?? '',
                     style: textNormalCustom(
-                      color: textDropDownColor,
+                      color: color3D5586,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
@@ -81,7 +81,7 @@ class HeaderMenuWidget extends StatelessWidget {
                   Text(
                     data?.chucVu ?? '',
                     style: textNormal(
-                      infoColor,
+                      color667793,
                       14,
                     ),
                   )
@@ -90,7 +90,7 @@ class HeaderMenuWidget extends StatelessWidget {
               const Expanded(child: SizedBox()),
               const Icon(
                 Icons.navigate_next,
-                color: unselectLabelColor,
+                color: colorA2AEBD,
               )
             ],
           );

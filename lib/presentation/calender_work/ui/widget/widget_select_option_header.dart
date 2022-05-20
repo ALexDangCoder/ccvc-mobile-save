@@ -57,7 +57,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
               height: 48,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
-                color: backgroundRowColor,
+                color: colorF5F8FD,
               ),
               child: Center(
                 child: StreamBuilder<int>(
@@ -81,7 +81,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: widget.cubit.index.value == 0
                                       ? AppTheme.getInstance().colorField()
-                                      : backgroundRowColor,
+                                      : colorF5F8FD,
                                 ),
                                 child: Center(
                                   child: Text(
@@ -89,8 +89,8 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                     style: textNormalCustom(
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 0
-                                          ? backgroundColorApp
-                                          : titleColor,
+                                          ? colorFFFFFF
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),
@@ -99,8 +99,8 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                           ),
                           Container(
                             color: widget.cubit.index.value == 2
-                                ? borderItemCalender
-                                : backgroundRowColor,
+                                ? colorE2E8F0
+                                : colorF5F8FD,
                             width: 1.0,
                             height: 48,
                           ),
@@ -117,7 +117,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: widget.cubit.index.value == 1
                                       ? AppTheme.getInstance().colorField()
-                                      : backgroundRowColor,
+                                      : colorF5F8FD,
                                 ),
                                 child: Center(
                                   child: Text(
@@ -125,8 +125,8 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                     style: textNormalCustom(
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 1
-                                          ? backgroundColorApp
-                                          : titleColor,
+                                          ? colorFFFFFF
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),
@@ -135,8 +135,8 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                           ),
                           Container(
                             color: widget.cubit.index.value == 0
-                                ? borderItemCalender
-                                : backgroundRowColor,
+                                ? colorE2E8F0
+                                : colorF5F8FD,
                             width: 1.0,
                             height: 48,
                           ),
@@ -153,7 +153,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: widget.cubit.index.value == 2
                                       ? AppTheme.getInstance().colorField()
-                                      : backgroundRowColor,
+                                      : colorF5F8FD,
                                 ),
                                 child: Center(
                                   child: Text(
@@ -161,8 +161,8 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                     style: textNormalCustom(
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 2
-                                          ? backgroundColorApp
-                                          : titleColor,
+                                          ? colorFFFFFF
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),
@@ -184,12 +184,12 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
               child: Container(
                 width: 180,
                 decoration: BoxDecoration(
-                  color: backgroundColorApp,
+                  color: colorFFFFFF,
                   borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: toDayColor),
+                  border: Border.all(color: colorDBDFEF),
                   boxShadow: [
                     BoxShadow(
-                      color: shadowContainerColor.withOpacity(0.05),
+                      color: color6566E9.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     )
@@ -207,7 +207,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                     border: InputBorder.none,
                     hintText: S.current.tim_kiem,
                     hintStyle: textNormalCustom(
-                      color: textBodyTime,
+                      color: colorA2AEBD,
                       fontWeight: FontWeight.w400,
                       fontSize: 14.0.textScale(),
                     ),

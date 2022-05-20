@@ -44,13 +44,13 @@ class _DropDownSearchState extends State<DropDownSearch> {
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
         width: double.infinity,
         decoration: BoxDecoration(
-            border: Border.all(color: borderColor),
+            border: Border.all(color: colorDBDFEF),
             borderRadius: const BorderRadius.all(Radius.circular(6))),
         child: select.isEmpty
             ? Text(
                 widget.hintText,
                 style: textNormal(
-                  titleItemEdit,
+                  color586B8B,
                   14.0.textScale(),
                 ),
               )
@@ -58,7 +58,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
                 select,
                 style: tokenDetailAmount(
                   fontSize: 14.0.textScale(),
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
       ),
@@ -85,7 +85,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
                 backgroundColor: Colors.transparent,
                 body: Container(
                   decoration: const BoxDecoration(
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                       borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -189,7 +189,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
                             child: Text(
                               itemTitle,
                               style: textNormalCustom(
-                                color: titleItemEdit,
+                                color: color586B8B,
                                 fontWeight: itemTitle == select
                                     ? FontWeight.w600
                                     : FontWeight.w400,
@@ -200,7 +200,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
                       },
                       separatorBuilder: (context, index) {
                         return const Divider(
-                          color: borderColor,
+                          color: colorDBDFEF,
                         );
                       },
                       itemCount: snapshot.data?.length ?? 0,

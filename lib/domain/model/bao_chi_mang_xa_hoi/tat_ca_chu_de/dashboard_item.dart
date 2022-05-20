@@ -43,11 +43,11 @@ List<String> listIconDashBoard = [
   ImageAssets.icNguonKhac,
 ];
 List<Color> listColorsItemDashBoard = [
-  textColorTongTin,
-  textColorBaoChi,
-  textColorMangXaHoi,
-  textColorForum,
+  color39CEAD,
+  colorF763A0,
+  color2F80ED,
+  colorFF9F43,
   textColorBlog,
-  textColorNguonKhac,
+  colorF57168,
 ];
 

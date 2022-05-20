@@ -107,7 +107,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                               style: textNormalCustom(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: titleColumn,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -124,7 +124,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                                     style: textNormalCustom(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
-                                      color: titleColor,
+                                      color: color3D5586,
                                     ),
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
@@ -152,7 +152,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                       padding: EdgeInsets.only(top: 8.0),
                       child: Divider(
                         thickness: 4,
-                        color: bgDropDown,
+                        color: colorE2E8F0,
                       ),
                     ),
                     Padding(
@@ -168,7 +168,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                               style: textNormalCustom(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: titleColumn,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -183,7 +183,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                                     style: textNormalCustom(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
-                                      color: titleColor,
+                                      color: color3D5586,
                                     ),
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
@@ -206,7 +206,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                               style: textNormalCustom(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: titleColumn,
+                                color: color667793,
                               ),
                             ),
                           ),
@@ -221,7 +221,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                                     style: textNormalCustom(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
-                                      color: titleColor,
+                                      color: color3D5586,
                                     ),
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
@@ -259,7 +259,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                                   AutoSizeText(
                                     row.title,
                                     style: textNormalCustom(
-                                      color: titleItemEdit,
+                                      color: color586B8B,
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w400,
                                     ),

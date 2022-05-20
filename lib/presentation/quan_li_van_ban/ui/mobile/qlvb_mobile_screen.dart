@@ -58,7 +58,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
             onTap: () {},
             child: const Icon(
               Icons.search,
-              color: textBodyTime,
+              color: colorA2AEBD,
             ),
           ),
           IconButton(
@@ -124,17 +124,17 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
       height: 40,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: bgTag,
+        color: colorF2F0FF,
         borderRadius: BorderRadius.circular(8),
       ),
       child: TabBar(
         controller: _tabController,
         indicator: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
-          color: radioFocusColor,
+          color: color7966FF,
         ),
-        labelColor: backgroundColorApp,
-        unselectedLabelColor: radioFocusColor,
+        labelColor: colorFFFFFF,
+        unselectedLabelColor: color7966FF,
         tabs: [
           Tab(
             text: S.current.document_incoming,
@@ -161,7 +161,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                 child: Text(
                   S.current.word_processing_state,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -192,7 +192,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                       S.current.danh_sach_van_ban_den,
                       style: textNormalCustom(
                         fontSize: 16,
-                        color: textDropDownColor,
+                        color: color3D5586,
                       ),
                     ),
                   ],
@@ -279,7 +279,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                 child: Text(
                   S.current.word_processing_state,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -313,7 +313,7 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
                       S.current.danh_sach_van_ban_di,
                       style: textNormalCustom(
                         fontSize: 16,
-                        color: textDropDownColor,
+                        color: color3D5586,
                       ),
                     ),
                   ],

@@ -26,7 +26,7 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
     final keyGroup = GlobalKey<FormGroupState>();
 
     return Scaffold(
-      backgroundColor: bgQLVBTablet,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
       body: SingleChildScrollView(
@@ -40,20 +40,20 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
                   const SizedBox(height: 80.0),
                   Text(
                     S.current.nhan_ma_xac_minh,
-                    style: textNormalCustom(color: titleColor, fontSize: 20.0),
+                    style: textNormalCustom(color: color3D5586, fontSize: 20.0),
                   ),
                   const SizedBox(height: 40.0),
                   Text(
                     S.current.de_nhan_ma_xac_minh,
                     style: textNormalCustom(
                       fontSize: 16.0,
-                      color: titleColor,
+                      color: color3D5586,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   const SizedBox(height: 24.0),
                   TextFieldValidator(
-                    fillColor: backgroundColorApp,
+                    fillColor: colorFFFFFF,
                     controller: emailController,
                     hintText: S.current.email,
                     prefixIcon: SizedBox(

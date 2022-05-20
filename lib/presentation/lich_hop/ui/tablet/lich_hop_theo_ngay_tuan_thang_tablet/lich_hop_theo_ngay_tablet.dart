@@ -29,7 +29,7 @@ class _LichHopTheoNgayTabletState extends State<LichHopTheoNgayTablet> {
           return Container(
             margin: const EdgeInsets.only(right: 30, left: 30),
             decoration: BoxDecoration(
-              border: Border.all(color: cellColorborder),
+              border: Border.all(color: color05OpacityDBDFEF),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Padding(
@@ -50,8 +50,8 @@ class _LichHopTheoNgayTabletState extends State<LichHopTheoNgayTablet> {
                       selectionDecoration:
                           const BoxDecoration(color: Colors.transparent),
                       appointmentTextStyle:
-                          textNormalCustom(color: backgroundColorApp),
-                      todayHighlightColor: statusCalenderRed,
+                          textNormalCustom(color: colorFFFFFF),
+                      todayHighlightColor: colorEA5455,
                       appointmentTimeTextFormat: 'hh:mm:ss a',
                       dataSource: widget.cubit.getCalenderDataSource(
                         snapshot.data ?? DanhSachLichHopModel.empty(),

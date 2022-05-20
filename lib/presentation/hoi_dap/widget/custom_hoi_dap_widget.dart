@@ -28,8 +28,8 @@ class CustomHoiDapWidget extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.0),
-        border: Border.all(color: borderButtomColor),
-        color: bgDropDown.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
+        color: colorE2E8F0.withOpacity(0.1),
       ),
       height: 140,
       child: Padding(
@@ -44,7 +44,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       S.current.tieu_de,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: unselectedLabelColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -57,7 +57,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       softWrap: true,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: textTitle,
+                        color: color3D5586,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -73,7 +73,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       S.current.chu_de,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: unselectedLabelColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -86,7 +86,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       softWrap: true,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: textTitle,
+                        color: color3D5586,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -102,7 +102,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       S.current.loai_hdsd,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: unselectedLabelColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -115,7 +115,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                           loaiHDSD,
                           style: textNormalCustom(
                             fontSize: 14.0,
-                            color: textTitle,
+                            color: color3D5586,
                             fontWeight: FontWeight.normal,
                           ),
                         ),

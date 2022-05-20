@@ -80,7 +80,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: textNormalCustom(fontSize: 20, color: textTitle),
+                    style: textNormalCustom(fontSize: 20, color: color3D5586),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -142,14 +142,14 @@ class _DiaLogFeatureWidget extends StatelessWidget {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? buttonColor2 : textDefault,
+          color: isLeft ? color1A7966FF : color7966FF,
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? textDefault : backgroundColorApp,
+              color: isLeft ? color7966FF : colorFFFFFF,
             ),
           ),
         ),

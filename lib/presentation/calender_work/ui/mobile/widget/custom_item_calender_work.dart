@@ -25,7 +25,7 @@ class CustomItemCalenderWork extends StatelessWidget {
         width: 274,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
-           color: backgroundItemCalender,
+           color: colorF5F8FD,
         ),
         child: Row(
           children: [
@@ -36,7 +36,7 @@ class CustomItemCalenderWork extends StatelessWidget {
                 width: 56,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: backgroundColorApp,
+                  color: colorFFFFFF,
                 ),
                 child: Center(
                   child: SvgPicture.asset(image),
@@ -53,11 +53,11 @@ class CustomItemCalenderWork extends StatelessWidget {
                     typeName,
                     softWrap: true,
                     maxLines: 2,
-                    style: textNormalCustom(color: titleCalenderWork),
+                    style: textNormalCustom(color: color3D5586),
                   ),
                   Text(
                     numberOfCalendars.toString(),
-                    style: titleText(color: numberOfCalenders, fontSize: 26.0),
+                    style: titleText(color: color5A8DEE, fontSize: 26.0),
                   ),
                 ],
               ),

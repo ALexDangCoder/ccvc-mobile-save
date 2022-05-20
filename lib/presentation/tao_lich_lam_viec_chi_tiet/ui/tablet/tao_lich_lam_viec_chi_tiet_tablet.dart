@@ -92,17 +92,17 @@ class _TaoLichLamViecChiTietTabletState
       child: WidgetTaoLichLVInherited(
         taoLichLamViecCubit: taoLichLamViecCubit,
         child: Scaffold(
-          backgroundColor: bgWidgets,
+          backgroundColor: colorF9FAFF,
           appBar:  AppBar(
             systemOverlayStyle: const SystemUiOverlayStyle(
               statusBarBrightness: Brightness.light,
             ),
             backgroundColor: APP_DEVICE == DeviceType.MOBILE
-                ? backgroundColorApp
-                : bgQLVBTablet,
+                ? colorFFFFFF
+                : colorF9FAFF,
             bottomOpacity: 0.0,
             elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
-            shadowColor: bgDropDown,
+            shadowColor: colorE2E8F0,
             automaticallyImplyLeading: false,
             title: StreamBuilder<String>(
                 initialData: S.current.lich_cong_tac_trong_nuoc,
@@ -117,7 +117,7 @@ class _TaoLichLamViecChiTietTabletState
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios_rounded,
-                color: unselectLabelColor,
+                color: colorA2AEBD,
                 size: 24,
               ),
               onPressed: () {
@@ -151,7 +151,7 @@ class _TaoLichLamViecChiTietTabletState
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border:
-                              Border.all(color: borderColor.withOpacity(0.5)),
+                              Border.all(color: colorDBDFEF.withOpacity(0.5)),
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: const [
                             BoxShadow(
@@ -173,7 +173,7 @@ class _TaoLichLamViecChiTietTabletState
                                     Text(
                                       S.current.thong_tin_lich,
                                       style: textNormalCustom(
-                                        color: textTitle,
+                                        color: color3D5586,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -241,7 +241,7 @@ class _TaoLichLamViecChiTietTabletState
                                       margin: const EdgeInsets.only(left: 30.0),
                                       height: 16,
                                       child: const Divider(
-                                        color: dividerColor,
+                                        color: colorCACFD7,
                                         height: 1,
                                       ),
                                     ),

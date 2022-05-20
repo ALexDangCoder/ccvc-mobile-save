@@ -46,7 +46,7 @@ class DialogUtils {
                 ),
                 Text(
                   title,
-                  style: textNormalCustom(color: textTitle, fontSize: 18.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 18.0),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
@@ -55,7 +55,7 @@ class DialogUtils {
                 Text(
                   S.current.ban_co_chac_chan_xoa,
                   style: textNormalCustom(
-                    color: infoColor,
+                    color: color667793,
                     fontSize: 14.0.textScale(),
                   ),
                   textAlign: TextAlign.center,

@@ -53,8 +53,8 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
             Expanded(
               child: btnSuaLich(
                 name: S.current.dong,
-                bgr: buttonColor.withOpacity(0.1),
-                colorName: textDefault,
+                bgr: color7966FF.withOpacity(0.1),
+                colorName: color7966FF,
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -66,7 +66,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
             Expanded(
               child: btnSuaLich(
                 name: S.current.luu,
-                bgr: labelColor,
+                bgr: color7966FF,
                 colorName: Colors.white,
                 onTap: () {
                   if (vBGiaoNhiemVuModel.ngayVanBan == null) {

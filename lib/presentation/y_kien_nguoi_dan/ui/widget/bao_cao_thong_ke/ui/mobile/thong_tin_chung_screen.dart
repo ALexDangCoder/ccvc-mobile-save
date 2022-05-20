@@ -61,7 +61,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                       hintStyle: textNormalCustom(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                       ),
                     ),
                   )
@@ -151,7 +151,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   height: 14,
                 ),
                 Container(
-                  color: homeColor,
+                  color: colorEEF3FF,
                   height: 6,
                 ),
                 spaceH20,
@@ -161,7 +161,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(S.current.danh_sach_pakn, style: textNormalCustom(color: textTitle, fontSize: 16, fontWeight: FontWeight.w500,),),
+                    child: Text(S.current.danh_sach_pakn, style: textNormalCustom(color: color3D5586, fontSize: 16, fontWeight: FontWeight.w500,),),
                   ),
                 ),
                 StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
@@ -201,14 +201,14 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
         borderRadius: const BorderRadius.all(
           Radius.circular(12),
         ),
-        border: Border.all(color: cellColorborder),
+        border: Border.all(color: color05OpacityDBDFEF),
       ),
       child: Column(
         children: [
           Text(
             'Chậm trễ hỗ trợ tiền lương ngừng việc do COVID19',
             style: textNormalCustom(
-              color: textTitle,
+              color: color3D5586,
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
@@ -228,7 +228,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 child: Text(
                   'Số: ',
                   style: textNormalCustom(
-                    color: infoColor,
+                    color: color667793,
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                   ),
@@ -251,7 +251,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 child: Text(
                   '${S.current.ten_ca_nhan_tc}: ',
                   style: textNormalCustom(
-                    color: infoColor,
+                    color: color667793,
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                   ),
@@ -274,7 +274,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 child: Text(
                   '${S.current.han_xu_ly}: ${dsKetQuaPakn.hanXuLy}',
                   style: textNormalCustom(
-                    color: infoColor,
+                    color: color667793,
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                   ),
@@ -291,14 +291,14 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   Color statusTrangThai(int trangThai) {
     switch(trangThai) {
       case YKienNguoiDanCubitt.TRONGHAN : {
-        return choTrinhKyColor;
+        return color02C5DD;
       }
       case YKienNguoiDanCubitt.DENHAN : {
-        return choVaoSoColor;
+        return color28C76F;
       }
       default :
         //QUA HAN
-        return statusCalenderRed;
+        return colorEA5455;
     }
   }
 }

@@ -59,7 +59,7 @@ class _ThemYKienWidgetState extends State<ThemYKienWidget> {
             child: Text(
               S.current.cuoc_hop,
               style: tokenDetailAmount(
-                color: dateColor,
+                color: color667793,
                 fontSize: 14.0,
               ),
             ),

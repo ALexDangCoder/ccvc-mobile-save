@@ -76,7 +76,7 @@ class HanXuLyWidget extends StatelessWidget {
                         child: Text(
                           '${result.title} (${result.value.toInt()})',
                           style: textNormal(
-                            infoColor,
+                            color667793,
                             14.0.textScale(),
                           ),
                         ),

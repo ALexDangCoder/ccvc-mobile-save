@@ -90,7 +90,7 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
                 EdgeInsets.symmetric(vertical: widget.maxLine == 1 ? 2 : 0),
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: lineColor),
+                bottom: BorderSide(color: colorECEEF7),
               ),
             ),
             child: textFromField(),
@@ -122,36 +122,36 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
             widget.onTap!();
           }
         },
-        style: textNormal(titleColor, 16),
+        style: textNormal(color3D5586, 16),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: textNormal(textBodyTime, 16),
+          hintStyle: textNormal(colorA2AEBD, 16),
           contentPadding: EdgeInsets.zero,
           suffixIcon: widget.suffixIcon,
           prefixIcon: widget.prefixIcon,
           fillColor: widget.isEnabled
               ? widget.fillColor ?? Colors.transparent
-              : borderColor.withOpacity(0.3),
+              : colorDBDFEF.withOpacity(0.3),
           filled: false,
           border: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
             //  borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
             //  borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
             // borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
             // borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: backgroundColorApp),
+            borderSide: BorderSide(color: colorFFFFFF),
             //  borderRadius: BorderRadius.all(Radius.circular(6)),
           ),
         ),

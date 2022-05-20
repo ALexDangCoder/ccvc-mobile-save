@@ -26,13 +26,13 @@ class ItemHuongDanSuDung extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 7),
         decoration: BoxDecoration(
-          color: backgroundColorApp,
-          border: Border.all(color: borderColor.withOpacity(0.5)),
+          color: colorFFFFFF,
+          border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           boxShadow: [
             BoxShadow(
               blurRadius: 10,
-              color: shadowContainerColor.withOpacity(0.05),
+              color: color6566E9.withOpacity(0.05),
             )
           ],
         ),
@@ -50,7 +50,7 @@ class ItemHuongDanSuDung extends StatelessWidget {
                 title,
                 style: textNormalCustom(
                     fontSize: 16.0.textScale(),
-                    color: titleColor,
+                    color: color3D5586,
                     fontWeight: FontWeight.w400),
                 textAlign: TextAlign.center,
               ),

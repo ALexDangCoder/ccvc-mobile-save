@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
                 color: Colors.white,
                 systemOverlayStyle: SystemUiOverlayStyle.dark,
               ),
-              dividerColor: dividerColor,
+              dividerColor: colorCACFD7,
               scaffoldBackgroundColor: Colors.white,
               textSelectionTheme: TextSelectionThemeData(
                 cursorColor: AppTheme.getInstance().primaryColor(),

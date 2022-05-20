@@ -120,10 +120,10 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
               ),
               decoration: BoxDecoration(
                 color: widget.isTablet ?? false
-                    ? backgroundColorApp
-                    : borderColor.withOpacity(0.1),
+                    ? colorFFFFFF
+                    : colorDBDFEF.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(color: borderColor.withOpacity(0.5)),
+                border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
               ),
               child: Column(
                 children: [
@@ -137,11 +137,11 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
                             return expandController.value == 0
                                 ? const Icon(
                                     Icons.keyboard_arrow_down_outlined,
-                                    color: AqiColor,
+                                    color: colorA2AEBD,
                                   )
                                 : const Icon(
                                     Icons.keyboard_arrow_up_rounded,
-                                    color: AqiColor,
+                                    color: colorA2AEBD,
                                   );
                           },
                         )

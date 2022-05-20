@@ -173,7 +173,7 @@ extension GetDataMenu on TypeCalendarMenu {
                   Expanded(
                     child: type.getTextLHWidget(
                       cubit: cubit,
-                      textColor: textBodyTime,
+                      textColor: colorA2AEBD,
                     ),
                   ),
                   const SizedBox(
@@ -193,7 +193,7 @@ extension GetDataMenu on TypeCalendarMenu {
         ),
         child: type.getTextLHWidget(
           cubit: cubit,
-          textColor: textBodyTime,
+          textColor: colorA2AEBD,
         ),
       );
     }
@@ -269,7 +269,7 @@ extension GetDataMenu on TypeCalendarMenu {
                 padding: const EdgeInsets.only(bottom: 28),
                 child: type.getTextLHWidget(
                   cubit: cubit,
-                  textColor: textBodyTime,
+                  textColor: colorA2AEBD,
                 ),
               );
 
@@ -289,7 +289,7 @@ extension GetDataMenu on TypeCalendarMenu {
                   children: [
                     type.getTextLHWidget(
                       cubit: cubit,
-                      textColor: textBodyTime,
+                      textColor: colorA2AEBD,
                     ),
                     StateSelectLichHopWidget(cubit: cubit),
                   ],
@@ -303,7 +303,7 @@ extension GetDataMenu on TypeCalendarMenu {
                 padding: const EdgeInsets.only(bottom: 28),
                 child: type.getTextLHWidget(
                   cubit: cubit,
-                  textColor: textBodyTime,
+                  textColor: colorA2AEBD,
                 ),
               );
 
@@ -314,7 +314,7 @@ extension GetDataMenu on TypeCalendarMenu {
                 padding: const EdgeInsets.only(bottom: 28),
                 child: type.getTextLHWidget(
                   cubit: cubit,
-                  textColor: textBodyTime,
+                  textColor: colorA2AEBD,
                 ),
               );
     }

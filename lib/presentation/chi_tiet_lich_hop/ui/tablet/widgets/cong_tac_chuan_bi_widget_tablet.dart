@@ -89,7 +89,7 @@ class _CongTacChuanBiWidgetTabletState
       children: [
         Text(
           title,
-          style: textNormalCustom(color: infoColor, fontSize: 14),
+          style: textNormalCustom(color: color667793, fontSize: 14),
         ),
         spaceH16,
         child

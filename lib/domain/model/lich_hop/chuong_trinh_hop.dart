@@ -77,13 +77,13 @@ class CanBoModel {
   Color trangThaiColor() {
     switch (trangThai) {
       case 1:
-        return daXuLyColor;
+        return color28C76F;
       case 2:
-        return choXuLyColor;
+        return color5A8DEE;
       case 4:
-        return statusCalenderRed;
+        return colorEA5455;
       default:
-        return itemWidgetNotUse;
+        return colorFF9F43;
     }
   }
 
@@ -113,13 +113,13 @@ class CanBoModel {
 
   Color diemDanhColors() {
     if (isVangMat == true) {
-      return infoColor;
+      return color667793;
     } else if (isVangMat == false && diemDanh == true) {
-      return deliveredColor;
+      return color19A865;
     } else if (isVangMat == false && diemDanh == false) {
-      return statusCalenderRed;
+      return colorEA5455;
     } else {
-      return backgroundColorApp;
+      return colorFFFFFF;
     }
   }
 }

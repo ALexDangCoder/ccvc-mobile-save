@@ -41,7 +41,7 @@ class ItemChiTiet extends StatelessWidget {
                               child: Text(
                                 S.current.phuong_xa,
                                 style: textNormalCustom(
-                                  color: textTitle,
+                                  color: color3D5586,
                                   fontSize: 14,
                                 ),
                               ),
@@ -49,7 +49,7 @@ class ItemChiTiet extends StatelessWidget {
                             Text(
                               S.current.k_hoat_dong,
                               style: tokenDetailAmount(
-                                color: AqiColor,
+                                color: colorA2AEBD,
                                 fontSize: 12,
                               ),
                             ),
@@ -60,7 +60,7 @@ class ItemChiTiet extends StatelessWidget {
                   ),
                   Container(
                     height: 1,
-                    color: toDayColor.withOpacity(0.5),
+                    color: colorDBDFEF.withOpacity(0.5),
                   ),
                   //  spaceH16
                 ],

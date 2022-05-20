@@ -29,7 +29,7 @@ class HotNews extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: containerColorTab,
+            color: colorE2E8F0,
           ),
           child: Image(
             image: NetworkImage(image),
@@ -51,7 +51,7 @@ class HotNews extends StatelessWidget {
             style: textNormalCustom(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: titleCalenderWork,
+              color: color3D5586,
             ).copyWith(height: 1.3),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -77,7 +77,7 @@ class HotNews extends StatelessWidget {
             Text(
               date,
               style: textNormalCustom(
-                color: unselectedLabelColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
               ),
@@ -90,7 +90,7 @@ class HotNews extends StatelessWidget {
         Text(
           content,
           style: textNormalCustom(
-            color: unselectedLabelColor,
+            color: color667793,
             fontWeight: FontWeight.w400,
             fontSize: 14,
           ),

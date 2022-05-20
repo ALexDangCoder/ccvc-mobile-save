@@ -35,7 +35,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgWidgets,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarDefaultBack(
         S.current.widget_manage,
       ),
@@ -62,9 +62,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: borderColor.withOpacity(0.5),
+                        color: colorDBDFEF.withOpacity(0.5),
                       ),
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +84,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                                 Text(
                                   S.current.keep_drop,
                                   style: textNormal(
-                                    textTitle,
+                                    color3D5586,
                                     14.0.textScale(),
                                   ),
                                 ),
@@ -114,7 +114,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                         Text(
                           S.current.using,
                           style: textNormalCustom(
-                            color: itemWidgetUsing,
+                            color: color28C76F,
                             fontSize: 16.0.textScale(),
                           ),
                         ),
@@ -145,7 +145,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                         Text(
                           S.current.not_use,
                           style: textNormalCustom(
-                            color: itemWidgetNotUse,
+                            color: colorFF9F43,
                             fontSize: 16.0.textScale(),
                           ),
                         ),

@@ -44,7 +44,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
         title: Text(
           S.current.widget_manage,
           style: textNormalCustom(
-            color: textTitle,
+            color: color3D5586,
             fontSize: 18.0.textScale(space: 6),
           ),
         ),
@@ -106,7 +106,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                     height: 45,
                     width: double.maxFinite,
                     decoration: BoxDecoration(
-                      color: backgroundWidget,
+                      color: colorF0F6FF,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -115,7 +115,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                         const SizedBox(width: 14,),
                         Text(
                           S.current.keep_drop,
-                          style: const TextStyle(color: textTitle),
+                          style: const TextStyle(color: color3D5586),
                         ),
                       ],
                     ),
@@ -126,7 +126,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                   Text(
                     S.current.using,
                     style: textNormalCustom(
-                      color: itemWidgetUsing,
+                      color: color28C76F,
                       fontSize: 16,
                     ),
                   ),
@@ -157,7 +157,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                   Text(
                     S.current.not_use,
                     style: textNormalCustom(
-                      color: itemWidgetNotUse,
+                      color: colorFF9F43,
                       fontSize: 16,
                     ),
                   ),

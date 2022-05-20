@@ -109,29 +109,29 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   ];
 
   List<ChartData> chartYKienNduoiDan = [
-    ChartData(S.current.cong_dvc_quoc_gia, 10, choTrinhKyColor),
-    ChartData(S.current.thu_dien_tu, 10, labelColor),
-    ChartData(S.current.thu_dien_tu_hai, 10, unselectLabelColor),
-    ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, itemWidgetUsing),
-    ChartData(S.current.he_thong_quan_ly_van_ban, 5, itemWidgetNotUse),
+    ChartData(S.current.cong_dvc_quoc_gia, 10, color02C5DD),
+    ChartData(S.current.thu_dien_tu, 10, color7966FF),
+    ChartData(S.current.thu_dien_tu_hai, 10, color667793),
+    ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, color28C76F),
+    ChartData(S.current.he_thong_quan_ly_van_ban, 5, colorFF9F43),
   ];
   List<ChartData> chartYKienNduoiDanTablet = [
-    ChartData(S.current.thu_dien_tu, 10, labelColor),
-    ChartData(S.current.cong_dvc_quoc_gia, 10, numberOfCalenders),
-    ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, itemWidgetUsing),
-    ChartData(S.current.thu_dien_tu_hai, 10, unselectLabelColor),
-    ChartData(S.current.he_thong_quan_ly_van_ban, 5, itemWidgetNotUse),
+    ChartData(S.current.thu_dien_tu, 10, color7966FF),
+    ChartData(S.current.cong_dvc_quoc_gia, 10, color5A8DEE),
+    ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, color28C76F),
+    ChartData(S.current.thu_dien_tu_hai, 10, color667793),
+    ChartData(S.current.he_thong_quan_ly_van_ban, 5, colorFF9F43),
   ];
   List<ChartData> chartColorPhanLoaiYKND = [
-    ChartData(S.current.dang_xu_ly, 30, choXuLyColor),
-    ChartData(S.current.da_hoan_thanh, 12, daXuLyColor),
-    ChartData(S.current.chua_thuc_hien, 14, choVaoSoColor),
+    ChartData(S.current.dang_xu_ly, 30, color5A8DEE),
+    ChartData(S.current.da_hoan_thanh, 12, color28C76F),
+    ChartData(S.current.chua_thuc_hien, 14, color28C76F),
   ];
 
   List<ChartData> chartPhanLoaiYKND = [
-    ChartData(S.current.dang_xu_ly, 30, choXuLyColor),
-    ChartData(S.current.da_hoan_thanh, 12, daXuLyColor),
-    ChartData(S.current.chua_thuc_hien, 14, choVaoSoColor),
+    ChartData(S.current.dang_xu_ly, 30, color5A8DEE),
+    ChartData(S.current.da_hoan_thanh, 12, color28C76F),
+    ChartData(S.current.chua_thuc_hien, 14, color28C76F),
   ];
   DocumentDashboardModel dashboardModel = DocumentDashboardModel(
     soLuongTrongHan: 0,
@@ -139,15 +139,15 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     soLuongQuaHan: 0,
   );
   List<ItemIndicator> listIndicator = [
-    ItemIndicator(color: numberOfCalenders, title: S.current.cong_dvc_quoc_gia),
-    ItemIndicator(color: labelColor, title: S.current.thu_dien_tu),
-    ItemIndicator(color: unselectLabelColor, title: S.current.thu_dien_tu_hai),
+    ItemIndicator(color: color5A8DEE, title: S.current.cong_dvc_quoc_gia),
+    ItemIndicator(color: color7966FF, title: S.current.thu_dien_tu),
+    ItemIndicator(color: color667793, title: S.current.thu_dien_tu_hai),
     ItemIndicator(
-      color: itemWidgetUsing,
+      color: color28C76F,
       title: S.current.ung_dung_chi_dao_dieu_hanh,
     ),
     ItemIndicator(
-      color: itemWidgetNotUse,
+      color: colorFF9F43,
       title: S.current.he_thong_quan_ly_van_ban,
     ),
   ];
@@ -438,35 +438,35 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
           ChartData(
             res.listPhanLoai[4].tenNguon,
             res.listPhanLoai[4].soLuong.toDouble(),
-            choTrinhKyColor,
+            color02C5DD,
           ),
         );
         listChartPhanLoai.add(
           ChartData(
             res.listPhanLoai[0].tenNguon,
             res.listPhanLoai[0].soLuong.toDouble(),
-            labelColor,
+            color7966FF,
           ),
         );
         listChartPhanLoai.add(
           ChartData(
             res.listPhanLoai[3].tenNguon,
             res.listPhanLoai[3].soLuong.toDouble(),
-            unselectLabelColor,
+            color667793,
           ),
         );
         listChartPhanLoai.add(
           ChartData(
             res.listPhanLoai[5].tenNguon,
             res.listPhanLoai[5].soLuong.toDouble(),
-            itemWidgetUsing,
+            color28C76F,
           ),
         );
         listChartPhanLoai.add(
           ChartData(
             res.listPhanLoai[6].tenNguon,
             res.listPhanLoai[6].soLuong.toDouble(),
-            itemWidgetNotUse,
+            colorFF9F43,
           ),
         );
         _chartPhanLoai.sink.add(listChartPhanLoai);
@@ -560,13 +560,13 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     Color colorResult = Colors.transparent;
     switch (status) {
       case 'CHUA_THUC_HIEN':
-        colorResult = choVaoSoColor;
+        colorResult = color28C76F;
         break;
       case 'DA_HOAN_THANH':
-        colorResult = daXuLyColor;
+        colorResult = color28C76F;
         break;
       case 'DANG_THUC_HIEN':
-        colorResult = numberOfCalenders;
+        colorResult = color5A8DEE;
         break;
     }
     return colorResult;

@@ -38,7 +38,7 @@ class _FilterDateTabletState extends State<FilterDateTablet>
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: const ColorScheme.light().copyWith(
-              primary: purpleChart,
+              primary: color8E7EFF,
             ),
           ),
           child: child ?? Container(),
@@ -59,7 +59,7 @@ class _FilterDateTabletState extends State<FilterDateTablet>
           children: [
             Text(
               S.current.tu_ngay,
-              style: textNormal(titleItemEdit, 14.0),
+              style: textNormal(color586B8B, 14.0),
             ),
             const SizedBox(
               width: 16.0,
@@ -78,9 +78,9 @@ class _FilterDateTabletState extends State<FilterDateTablet>
                   horizontal: 16.0,
                 ),
                 decoration: BoxDecoration(
-                  border: Border.all(color: cellColorborder),
+                  border: Border.all(color: color05OpacityDBDFEF),
                   borderRadius: BorderRadius.circular(4.0),
-                  color: backgroundColorApp,
+                  color: colorFFFFFF,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +88,7 @@ class _FilterDateTabletState extends State<FilterDateTablet>
                     Text(
                       widget
                           .selectedStartDate.toStringWithListFormat,
-                      style: textNormal(textBodyTime, 14.0),
+                      style: textNormal(colorA2AEBD, 14.0),
                     ),
                     const SizedBox(height: 36,),
                     SvgPicture.asset(
@@ -105,7 +105,7 @@ class _FilterDateTabletState extends State<FilterDateTablet>
           children: [
             Text(
               S.current.den_ngay,
-              style: textNormal(titleItemEdit, 14.0),
+              style: textNormal(color586B8B, 14.0),
             ),
             const SizedBox(
               width: 16.0,
@@ -119,16 +119,16 @@ class _FilterDateTabletState extends State<FilterDateTablet>
                 horizontal: 16.0,
               ),
               decoration: BoxDecoration(
-                border: Border.all(color: cellColorborder),
+                border: Border.all(color: color05OpacityDBDFEF),
                 borderRadius: BorderRadius.circular(4.0),
-                color: blueFilterDateWidget,
+                color: colorF1F4FF,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     widget.selectedEndDate.toStringWithListFormat,
-                    style: textNormal(titleColor, 14.0),
+                    style: textNormal(color3D5586, 14.0),
                   ),
                   SvgPicture.asset(ImageAssets.icCalendarUnFocus),
                 ],

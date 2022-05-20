@@ -75,7 +75,7 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
                         S.current.ban_co_the_tim_kiem_hoi_dap,
                         style: textNormalCustom(
                           fontSize: 16.0,
-                          color: unselectedLabelColor,
+                          color: color667793,
                         ),
                       ),
                     ),
@@ -85,7 +85,7 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
                           S.current.chu_de,
                           style: textNormalCustom(
                             fontSize: 16.0,
-                            color: unselectedLabelColor,
+                            color: color667793,
                           ),
                         ),
                         const SizedBox(

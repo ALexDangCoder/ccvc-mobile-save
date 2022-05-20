@@ -107,7 +107,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                   child: Column(
                     children: [
                       Container(
-                        color: bgQLVBTablet,
+                        color: colorF9FAFF,
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                             horizontal: 30,
@@ -117,7 +117,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: borderColor.withOpacity(0.5),
+                              color: colorDBDFEF.withOpacity(0.5),
                             ),
                           ),
                           child: Row(
@@ -199,7 +199,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                         ),
                       ),
                       Container(
-                        color: bgQLVBTablet,
+                        color: colorF9FAFF,
                         height: 18,
                       ),
                     ],
@@ -210,11 +210,11 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
             body: StickyHeader(
               overlapHeaders: true,
               header: Container(
-                color: bgQLVBTablet,
+                color: colorF9FAFF,
                 height: 50,
                 child: TabBar(
                   unselectedLabelStyle: titleAppbar(fontSize: 16),
-                  unselectedLabelColor: AqiColor,
+                  unselectedLabelColor: colorA2AEBD,
                   labelColor: AppTheme.getInstance().colorField(),
                   labelStyle: titleText(fontSize: 16),
                   indicatorColor: AppTheme.getInstance().colorField(),

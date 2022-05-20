@@ -32,7 +32,7 @@ class CustomItemCalenderMobile extends StatelessWidget {
         padding: const EdgeInsets.only(top: 16, left: 10, bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: backgroundColorApp,
+          color: colorFFFFFF,
           boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -40,7 +40,7 @@ class CustomItemCalenderMobile extends StatelessWidget {
               spreadRadius: 2,
             ),
           ],
-          border: Border.all(color: borderItemCalender),
+          border: Border.all(color: colorE2E8F0),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class CustomItemCalenderMobile extends StatelessWidget {
                     height: 8.0,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: statusCalenderRed,
+                      color: colorEA5455,
                     ),
                   ),
                 ),
@@ -74,7 +74,7 @@ class CustomItemCalenderMobile extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: textNormalCustom(
-                            color: titleCalenderWork,
+                            color: color3D5586,
                             fontSize: 16.0,
                           ),
                         ),
@@ -85,17 +85,17 @@ class CustomItemCalenderMobile extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.only(top: 3, left: 15),
                                 decoration: BoxDecoration(
-                                  color: statusCalenderRed.withOpacity(0.1),
+                                  color: colorEA5455.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(30),
                                   border: Border.all(
-                                    color: statusCalenderRed.withOpacity(0.1),
+                                    color: colorEA5455.withOpacity(0.1),
                                   ),
                                 ),
                                 height: 24,
                                 child: Text(
                                   S.current.trung,
                                   style: textNormalCustom(
-                                    color: statusCalenderRed,
+                                    color: colorEA5455,
                                     fontSize: 12.0,
                                   ),
                                 ),
@@ -110,7 +110,7 @@ class CustomItemCalenderMobile extends StatelessWidget {
                     child: Text(
                       '$dateTimeFrom - $dateTimeTo',
                       style: textNormalCustom(
-                        color: textBodyTime,
+                        color: colorA2AEBD,
                         fontWeight: FontWeight.w400,
                       ),
                     ),

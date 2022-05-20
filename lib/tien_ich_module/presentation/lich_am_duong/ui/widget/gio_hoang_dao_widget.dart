@@ -32,7 +32,7 @@ class GioHoangDaoWidget extends StatelessWidget {
               height: 10.0,
               width: 10.0,
               decoration: const BoxDecoration(
-                color: choVaoSoColor,
+                color: color28C76F,
                 shape: BoxShape.circle,
               ),
             ),
@@ -43,7 +43,7 @@ class GioHoangDaoWidget extends StatelessWidget {
               S.current.gio_hoang_dao_gio_tot,
               style: textNormalCustom(
                 fontSize: 14.0,
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
           ],
@@ -92,14 +92,14 @@ Widget titleWidget(String title, String value) {
         '$title: ',
         style: textNormalCustom(
           fontSize: 12.0.textScale(),
-          color: AqiColor,
+          color: colorA2AEBD,
         ),
       ),
       Text(
         value,
         style: textNormalCustom(
           fontSize: 12.0.textScale(),
-          color: titleColor,
+          color: color3D5586,
         ),
       ),
     ],
@@ -127,7 +127,7 @@ Widget icon12ConGiap(String url, String ten, String gio) {
               ten,
               style: textNormalCustom(
                 fontSize: 12.0.textScale(),
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
             const SizedBox(
@@ -137,7 +137,7 @@ Widget icon12ConGiap(String url, String ten, String gio) {
               gio,
               style: textNormalCustom(
                 fontSize: 12.0.textScale(),
-                color: iconColorDown,
+                color: color3D5586,
               ),
             ),
           ],

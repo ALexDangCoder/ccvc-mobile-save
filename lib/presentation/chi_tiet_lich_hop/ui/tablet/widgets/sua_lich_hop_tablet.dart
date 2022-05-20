@@ -33,7 +33,7 @@ class _SuaLichHopScreenState extends State<SuaLichHopTabletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgCalenderColor,
+      backgroundColor: colorF9FAFF,
       resizeToAvoidBottomInset: true,
       appBar: BaseAppBar(
         title: S.current.sua_lich_hop,

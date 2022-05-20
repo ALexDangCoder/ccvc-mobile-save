@@ -299,27 +299,27 @@ class BaoCaoThongKeBCMXHCubit extends BaseCubit<BaoCaoThongKeBCMXhState> {
           ChartData(
             S.current.mang_xa_hoi,
             double.parse(res.mangXaHoi),
-            blueNhatChart,
+            colorFF9F43,
           ),
         );
         chartBaoCaoTheoNguonData.add(
           ChartData(
             S.current.bao_chi,
             double.parse(res.baoChi),
-            greenChart,
+            color28C76F,
           ),
         );
         chartBaoCaoTheoNguonData.add(
-          ChartData(S.current.forum, double.parse(res.forum), grayChart),
+          ChartData(S.current.forum, double.parse(res.forum), color28C76F),
         );
         chartBaoCaoTheoNguonData.add(
-          ChartData(S.current.blog, double.parse(res.blog), orangeNhatChart),
+          ChartData(S.current.blog, double.parse(res.blog), colorFDB000),
         );
         chartBaoCaoTheoNguonData.add(
           ChartData(
             S.current.khac,
             double.parse(res.nguonKhac),
-            purpleChart,
+            color8E7EFF,
           ),
         );
         _chartBaoCaoTheoNguon.sink.add(chartBaoCaoTheoNguonData);

@@ -20,7 +20,7 @@ class ItemListBangTinTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:isCheck? AppTheme.getInstance().colorField().withOpacity(0.1):backgroundColorApp,
+      color:isCheck? AppTheme.getInstance().colorField().withOpacity(0.1):colorFFFFFF,
       // margin: const EdgeInsets.symmetric(vertical: 6),
       child: GestureDetector(
         onTap: (){
@@ -43,7 +43,7 @@ class ItemListBangTinTablet extends StatelessWidget {
             ),
             Icon(
               Icons.brightness_1,
-              color: isCheck ? AppTheme.getInstance().colorField() : sideTextInactiveColor,
+              color: isCheck ? AppTheme.getInstance().colorField() : colorB9C4D0,
               size: 12,
             ),
             const SizedBox(
@@ -58,7 +58,7 @@ class ItemListBangTinTablet extends StatelessWidget {
                   style: textNormalCustom(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
-                    color: isCheck ? AppTheme.getInstance().colorField() : infoColor,
+                    color: isCheck ? AppTheme.getInstance().colorField() : color667793,
                   ),
                   softWrap: true,
                   maxLines: 3,

@@ -45,7 +45,7 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
               widget.title,
               style: tokenDetailAmount(
                 fontSize: 14.0.textScale(),
-                color: borderCaneder,
+                color: color586B8B,
               ),
             ),
             if (widget.isRequired)
@@ -71,18 +71,18 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             style: tokenDetailAmount(
               fontSize: 14.0.textScale(),
-              color: titleColor,
+              color: color3D5586,
             ),
             decoration: InputDecoration(
               hintText: widget.hintText,
-              fillColor: backgroundColorApp,
+              fillColor: colorFFFFFF,
               filled: true,
               focusedErrorBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(10.0),
                 ),
                 borderSide: BorderSide(
-                  color: canceledColor,
+                  color: colorF94444,
                 ),
               ),
               errorBorder: const OutlineInputBorder(
@@ -90,7 +90,7 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
                   Radius.circular(10.0),
                 ),
                 borderSide: BorderSide(
-                  color: canceledColor,
+                  color: colorF94444,
                 ),
               ),
               focusedBorder: const OutlineInputBorder(
@@ -98,7 +98,7 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
                   Radius.circular(10.0),
                 ),
                 borderSide: BorderSide(
-                  color: borderColor,
+                  color: colorDBDFEF,
                 ),
               ),
               enabledBorder: const OutlineInputBorder(
@@ -106,12 +106,12 @@ class _BlockTextViewLichState extends State<BlockTextViewLich> {
                   Radius.circular(10.0),
                 ),
                 borderSide: BorderSide(
-                  color: borderColor,
+                  color: colorDBDFEF,
                 ),
               ),
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
-              errorStyle: tokenDetailAmount(fontSize: 12, color: canceledColor),
+              errorStyle: tokenDetailAmount(fontSize: 12, color: colorF94444),
             ),
             validator: (value) {
               if (widget.validator != null) {

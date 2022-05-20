@@ -25,7 +25,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: cellColorborder),
+        border: Border.all(color: color05OpacityDBDFEF),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +86,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
                             style: textNormalCustom(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: dateColor,
+                              color: color667793,
                             ),
                           ),
                         ],
@@ -116,7 +116,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: containerColorTab,
+                color: colorE2E8F0,
               ),
               child: Image.network(
                 widget.baiVietModel.imageSources,
@@ -143,7 +143,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
             child: Text(
               widget.baiVietModel.title,
               style: textNormalCustom(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

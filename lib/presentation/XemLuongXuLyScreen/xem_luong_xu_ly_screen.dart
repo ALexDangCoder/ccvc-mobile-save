@@ -119,7 +119,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                                   '${donViLuongModel.ten ?? ''}',
                                                   maxLines: 2,
                                                   style: textNormal(
-                                                      selectColorTabbar, 14),
+                                                      color304261, 14),
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 const SizedBox(
@@ -128,7 +128,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                                 Text(
                                                   '${donViLuongModel.chucVu ?? ''}',
                                                   style: textNormalCustom(
-                                                    color: titleItemEdit,
+                                                    color: color586B8B,
                                                     fontSize: 12,
                                                   ),
                                                 ),
@@ -205,7 +205,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                               '${donViLuongModel.tenDonVi ?? ''}',
                                               maxLines: 2,
                                               style: textNormal(
-                                                selectColorTabbar,
+                                                color304261,
                                                 14,
                                               ),
                                               textAlign: TextAlign.center,
@@ -258,8 +258,8 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                 margin: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    color: borderColor.withOpacity(0.1),
-                    border: Border.all(color: borderColor.withOpacity(0.5))),
+                    color: colorDBDFEF.withOpacity(0.1),
+                    border: Border.all(color: colorDBDFEF.withOpacity(0.5))),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,7 +267,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                       Text(
                         '${S.current.chu_thich}:',
                         style: textNormalCustom(
-                          color: titleItemEdit,
+                          color: color586B8B,
                           fontSize: 16,
                         ),
                       ),
@@ -282,31 +282,31 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                         childAspectRatio: 6.7,
                         children: [
                           rowChuThich(
-                            color: choVaoSoLuongColor,
+                            color: color0034FF,
                             title: S.current.cho_vao_so,
                           ),
                           rowChuThich(
-                            color: choPhanXuLyColor,
+                            color: color5252D4,
                             title: S.current.cho_phan_xu_ly,
                           ),
                           rowChuThich(
-                            color: choXuLyLuongColor,
+                            color: color8B4DB4,
                             title: S.current.cho_xu_ly,
                           ),
                           rowChuThich(
-                            color: dangXuLyLuongColor,
+                            color: color59C6FA,
                             title: S.current.dang_xu_ly,
                           ),
                           rowChuThich(
-                            color: daXuLyLuongColor,
+                            color: color42B432,
                             title: S.current.da_xu_ly,
                           ),
                           rowChuThich(
-                            color: thuHoiLuongColor,
+                            color: color9B7938,
                             title: S.current.thu_hoi,
                           ),
                           rowChuThich(
-                            color: traLaiLuongColor,
+                            color: colorE5F52F,
                             title: S.current.tra_lai,
                           ),
                         ],
@@ -323,16 +323,16 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                         children: [
                           rowChuThich(
                             boxShape: BoxShape.rectangle,
-                            color: nguoiChuTriColor,
+                            color: color2467D2,
                             title: S.current.chu_tri,
                           ),
                           rowChuThich(
                               boxShape: BoxShape.rectangle,
-                              color: phoiHopColor,
+                              color: color2ED47A,
                               title: S.current.phoi_hop),
                           rowChuThich(
                             boxShape: BoxShape.rectangle,
-                            color: nhanDeBietColor,
+                            color: colorEFECEC,
                             title: S.current.nhan_de_biet,
                           ),
                         ],
@@ -366,7 +366,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
         ),
         Text(
           title,
-          style: textNormal(titleItemEdit, 16),
+          style: textNormal(color586B8B, 16),
         ),
       ],
     );

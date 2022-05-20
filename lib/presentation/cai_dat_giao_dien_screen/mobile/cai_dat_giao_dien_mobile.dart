@@ -49,7 +49,7 @@ class _CaiDatGiaoDienMobileScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: homeColor,
+      backgroundColor: colorEEF3FF,
       appBar: AppBarDefaultBack(S.current.cai_dat_giao_dien),
       body: SingleChildScrollView(
         child: Column(

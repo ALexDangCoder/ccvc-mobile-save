@@ -35,7 +35,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   style: textNormalCustom(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: titleColumn,
+                    color: color667793,
                   ),
                 ),
               ),
@@ -53,7 +53,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     style: textNormalCustom(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
@@ -70,14 +70,14 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     '${widget.row.value}',
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
                 )
                     : Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: daXuLyColor,
+                    color: color28C76F,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -86,7 +86,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                       '${widget.row.value}',
                       style: textNormalCustom(
                         fontSize: 14,
-                        color: titleColor,
+                        color: color3D5586,
                       ),
                     ),
                   ),
@@ -106,7 +106,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   style:textNormalCustom(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: titleColumn,
+                    color: color667793,
                   ),
                 ),
               ),
@@ -118,7 +118,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                     Container(
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color: daXuLyColor,
+                        color: color28C76F,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -129,7 +129,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                           '${widget.row.value}',
                           style: textNormalCustom(
                             fontSize: 14,
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                         ),
                       ),
@@ -161,7 +161,7 @@ Widget checkBoxCusTom(DocumentDetailRow row) {
           style: textNormalCustom(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: titleColumn,
+            color: color667793,
           ),),
     ],
   );

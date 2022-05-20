@@ -140,12 +140,12 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                   child: Container(
                     width: isMobile() ? 179 : 210,
                     decoration: BoxDecoration(
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                       borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      border: Border.all(color: borderColor.withOpacity(0.5)),
+                      border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                       boxShadow: [
                         BoxShadow(
-                          color: shadowContainerColor.withOpacity(0.05),
+                          color: color6566E9.withOpacity(0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         )

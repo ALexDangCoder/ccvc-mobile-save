@@ -33,8 +33,8 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
         margin: const EdgeInsets.only(bottom: 16.0, left: 16, right: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
-          border: Border.all(color: borderButtomColor),
-          color: bgDropDown.withOpacity(0.1),
+          border: Border.all(color: colorE2E8F0),
+          color: colorE2E8F0.withOpacity(0.1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -51,7 +51,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                       width: 56,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: choTrinhKyColor,
+                        color: color02C5DD,
                       ),
                       child: Center(
                         child: Text(
@@ -72,14 +72,14 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                   children: [
                     Text(
                       widget.item.hoTen ?? '',
-                      style: textNormalCustom(fontSize: 16, color: titleColor),
+                      style: textNormalCustom(fontSize: 16, color: color3D5586),
                     ),
                     spaceH6,
                     Text(
                       widget.item.chucVuDetail?.chucVu ?? '',
                       style: tokenDetailAmount(
                         fontSize: 14,
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                       ),
                     ),
                     spaceH12,
@@ -98,7 +98,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                                 '',
                             style: tokenDetailAmount(
                               fontSize: 14,
-                              color: dateColor,
+                              color: color667793,
                             ),
                           ),
                         )
@@ -117,7 +117,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                             overflow: TextOverflow.ellipsis,
                             style: tokenDetailAmount(
                               fontSize: 14,
-                              color: dateColor,
+                              color: color667793,
                             ),
                           ),
                         )
@@ -134,8 +134,8 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
         margin: const EdgeInsets.only(bottom: 16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
-          border: Border.all(color: borderButtomColor),
-          color: bgDropDown.withOpacity(0.1),
+          border: Border.all(color: colorE2E8F0),
+          color: colorE2E8F0.withOpacity(0.1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -151,7 +151,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                       width: 56,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: choTrinhKyColor,
+                        color: color02C5DD,
                       ),
                       child: Center(
                         child: Text(
@@ -172,7 +172,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                   children: [
                     Text(
                       widget.item.hoTen ?? '',
-                      style: textNormalCustom(fontSize: 16, color: titleColor),
+                      style: textNormalCustom(fontSize: 16, color: color3D5586),
                     ),
                     spaceH24,
                     Row(
@@ -183,7 +183,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                           S.current.nhan_vien,
                           style: tokenDetailAmount(
                             fontSize: 16,
-                            color: dateColor,
+                            color: color667793,
                           ),
                         )
                       ],
@@ -202,7 +202,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                                   '',
                               style: tokenDetailAmount(
                                 fontSize: 16,
-                                color: dateColor,
+                                color: color667793,
                               ),
                             )
                           ],
@@ -218,7 +218,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                               overflow: TextOverflow.ellipsis,
                               style: tokenDetailAmount(
                                 fontSize: 16,
-                                color: dateColor,
+                                color: color667793,
                               ),
                             )
                           ],

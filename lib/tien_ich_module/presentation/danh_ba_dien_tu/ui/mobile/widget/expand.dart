@@ -112,11 +112,11 @@ class _ExpandedSectionState extends State<ExpandOnlyWidgetAutoShow>
                     return expandController.value == 0
                         ? const Icon(
                       Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
                         : const Icon(
                       Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     );
                   },
                 )

@@ -182,7 +182,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                               Flexible(
                                 child: Text(
                                   widget.listSelect[index],
-                                  style: textNormal(titleColor, 16),
+                                  style: textNormal(color3D5586, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -242,7 +242,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),
@@ -253,7 +253,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                     Expanded(
                       child: Text(
                         widget.title,
-                        style: textNormal(titleColumn, 16),
+                        style: textNormal(color667793, 16),
                       ),
                     )
                   else
@@ -269,12 +269,12 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                   if (expandController!.value == 0)
                     const Icon(
                       Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
                   else
                     const Icon(
                       Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
                 ],
               ),
@@ -305,16 +305,16 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
     return Container(
       padding: const EdgeInsets.only(bottom: 4, left: 4, right: 4),
       decoration: BoxDecoration(
-        color: bgTabletColor,
+        color: colorF9FAFF,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: borderColor.withOpacity(0.5)),
+        border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             content,
-            style: textDetailHDSD(fontSize: 14, color: textTitle),
+            style: textDetailHDSD(fontSize: 14, color: color3D5586),
           ),
           GestureDetector(
             onTap: () {

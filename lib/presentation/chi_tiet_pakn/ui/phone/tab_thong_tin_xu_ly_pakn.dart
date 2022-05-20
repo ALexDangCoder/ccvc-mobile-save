@@ -44,7 +44,7 @@ class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN> {
       width: 343,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
-        color: containerColorTab,
+        color: colorE2E8F0,
         borderRadius: BorderRadius.all(Radius.circular(6)),
       ),
       child: Column(

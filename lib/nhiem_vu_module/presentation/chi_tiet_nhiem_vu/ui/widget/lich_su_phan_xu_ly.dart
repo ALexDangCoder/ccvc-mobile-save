@@ -49,16 +49,16 @@ class LichSuPhanXuLyWidget extends StatelessWidget {
                 ),
                 height: 40,
                 decoration: BoxDecoration(
-                  color: borderColor,
+                  color: colorDBDFEF,
                   border: Border.all(
-                    color: borderColor.withOpacity(0.5),
+                    color: colorDBDFEF.withOpacity(0.5),
                   ),
                 ),
                 child: Center(
                   child: Text(
                     S.current.xem_luong_xu_ly,
                     style: TextStyle(
-                      color: textTitle,
+                      color: color3D5586,
                       fontSize: 16.0.textScale(),
                       fontWeight: FontWeight.w700,
                     ),

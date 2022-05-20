@@ -85,10 +85,10 @@ class _CustomDropDownState extends State<SelectDateTablet> {
             child: Container(
               decoration: BoxDecoration(
                 color: widget.isObligatory
-                    ? borderColor.withOpacity(0.3)
+                    ? colorDBDFEF.withOpacity(0.3)
                     : widget.backgroundColor ?? Colors.transparent,
                 border: Border.all(
-                  color: borderColor,
+                  color: colorDBDFEF,
                 ),
                 borderRadius: BorderRadius.circular(6),
               ),
@@ -108,7 +108,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
                                 widget.hintText ?? S.current.vuiLongChon,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               )
                             : Text(
@@ -118,7 +118,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
                                         .toStringWithListFormat,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                       )

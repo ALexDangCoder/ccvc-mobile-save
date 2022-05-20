@@ -19,32 +19,32 @@ class _XuLyWidgetState extends State<XuLyWidget> {
         ChartData(
           S.current.cho_tiep_nhan_xu_ly,
           14,
-          choTrinhKyColor,
+          color02C5DD,
         ),
         ChartData(
           S.current.cho_xu_ly,
           14,
-          numberOfCalenders,
+          color5A8DEE,
         ),
         ChartData(
           S.current.cho_phan_xu_ly,
           14,
-          radioFocusColor,
+          color7966FF,
         ),
         ChartData(
           S.current.cho_duyet,
           14,
-          choCapSoColor,
+          colorFF6D99,
         ),
         ChartData(
           S.current.da_phan_cong,
           14,
-          choBanHanhColor,
+          color374FC7,
         ),
         ChartData(
           S.current.da_hoan_thanh,
           14,
-          itemWidgetUsing,
+          color28C76F,
         ),
       ],
     );

@@ -76,7 +76,7 @@ Future<T?> showDiaLog<T>(
                     Text(
                       textContent,
                       style: textNormal(
-                        dateColor,
+                        color667793,
                         showTablet ? 14.0.textScale() : 14,
                       ),
                     ),

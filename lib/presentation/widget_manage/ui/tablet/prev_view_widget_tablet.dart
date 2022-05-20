@@ -47,7 +47,7 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
           child: Column(
             children: [
               Container(
-                color: homeColor,
+                color: colorEEF3FF,
                 child: StreamBuilder<List<WidgetModel>>(
                   stream: cubit.listWidgetUsing,
                   builder: (context, snapshot) {

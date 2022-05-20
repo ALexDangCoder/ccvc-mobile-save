@@ -24,7 +24,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
           child: Text(
             S.current.tiep_nhan,
             style: textNormalCustom(
-              color: dateColor,
+              color: color667793,
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
@@ -39,7 +39,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                 children: List.generate(
                   8,
                       (index) => const MySeparator(
-                    color: lineColor,
+                    color: colorECEEF7,
                     height: 2,
                   ),
                 ),
@@ -49,27 +49,27 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               ChartData(
                 S.current.cho_trinh_ky,
                 30,
-                choTrinhKyColor,
+                color02C5DD,
               ),
               ChartData(
                 S.current.cho_xu_ly,
                 12,
-                choXuLyColor,
+                color5A8DEE,
               ),
               ChartData(
                 S.current.da_xu_ly,
                 14,
-                daXuLyColor,
+                color28C76F,
               ),
               ChartData(
                 S.current.cho_cap_so,
                 14,
-                choCapSoColor,
+                colorFF6D99,
               ),
               ChartData(
                 S.current.cho_ban_hanh,
                 14,
-                choBanHanhColor,
+                color374FC7,
               )
             ]),
           ],
@@ -82,17 +82,17 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
             ChartData(
               S.current.qua_han,
               14,
-              statusCalenderRed,
+              colorEA5455,
             ),
             ChartData(
               S.current.den_han,
               14,
-              yellowColor,
+              colorD4DAE3,
             ),
             ChartData(
               S.current.trong_han,
               14,
-              choTrinhKyColor,
+              color02C5DD,
             ),
           ],
         ),

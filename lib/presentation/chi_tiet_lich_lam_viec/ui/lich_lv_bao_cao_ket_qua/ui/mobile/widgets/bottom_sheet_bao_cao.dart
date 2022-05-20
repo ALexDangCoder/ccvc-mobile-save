@@ -73,12 +73,12 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<BaoCaoBottomSheet> {
                     S.current.trang_thai,
                     style: tokenDetailAmount(
                       fontSize: 14,
-                      color: titleItemEdit,
+                      color: color586B8B,
                     ),
                   ),
                   const Text(
                     ' *',
-                    style: TextStyle(color: canceledColor),
+                    style: TextStyle(color: colorF94444),
                   )
                 ],
               ),

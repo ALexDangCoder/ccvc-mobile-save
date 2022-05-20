@@ -106,31 +106,31 @@ extension DocumentStatusEx on DocumentStatus {
   Color getColor() {
     switch (this) {
       case DocumentStatus.DEN_HAN:
-        return itemWidgetNotUse;
+        return colorFF9F43;
       case DocumentStatus.QUA_HAN:
-        return statusCalenderRed;
+        return colorEA5455;
       case DocumentStatus.CHO_TIEP_NHAN:
-        return itemWidgetNotUse;
+        return colorFF9F43;
       case DocumentStatus.HOAN_THANH:
-        return itemWidgetUsing;
+        return color28C76F;
       case DocumentStatus.CHO_XAC_NHAN:
-        return itemWidgetNotUse;
+        return colorFF9F43;
       case DocumentStatus.THAM_GIA:
-        return itemWidgetUsing;
+        return color28C76F;
       case DocumentStatus.CHO_PHAN_XU_LY:
-        return choXuLyColor;
+        return color5A8DEE;
       case DocumentStatus.HOA_TOC:
-        return statusCalenderRed;
+        return colorEA5455;
       case DocumentStatus.KHAN:
-        return yellowColor;
+        return colorD4DAE3;
       case DocumentStatus.BINH_THUONG:
-        return indicatorColor;
+        return color7966FF;
       case DocumentStatus.THUONG_KHAN:
-        return yellowColor;
+        return colorD4DAE3;
       case DocumentStatus.CHUA_THUC_HIEN:
-        return yellowColor;
+        return colorD4DAE3;
       case DocumentStatus.DANG_THUC_HIEN:
-        return AqiColor;
+        return colorA2AEBD;
     }
   }
 }

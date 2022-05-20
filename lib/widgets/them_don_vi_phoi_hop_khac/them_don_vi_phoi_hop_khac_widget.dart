@@ -116,8 +116,8 @@ class ItemThanhPhanWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: borderButtomColor.withOpacity(0.1),
-        border: Border.all(color: borderButtomColor),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Stack(
@@ -144,14 +144,14 @@ class ItemThanhPhanWidget extends StatelessWidget {
                     flex: 2.0.textScale().toInt(),
                     child: Text(
                       S.current.noi_dung,
-                      style: textNormal(infoColor, 14),
+                      style: textNormal(color667793, 14),
                     ),
                   ),
                   Expanded(
                     flex: 6,
                     child: Text(
                       data.noidung,
-                      style: textNormal(titleColor, 14.0.textScale()),
+                      style: textNormal(color3D5586, 14.0.textScale()),
                     ),
                   )
                 ],
@@ -180,14 +180,14 @@ class ItemThanhPhanWidget extends StatelessWidget {
           flex: 2.0.textScale().toInt(),
           child: Text(
             key,
-            style: textNormal(infoColor, 14.0.textScale()),
+            style: textNormal(color667793, 14.0.textScale()),
           ),
         ),
         Expanded(
           flex: 6,
           child: Text(
             value,
-            style: textNormal(titleColor, 14.0.textScale()),
+            style: textNormal(color3D5586, 14.0.textScale()),
           ),
         )
       ],

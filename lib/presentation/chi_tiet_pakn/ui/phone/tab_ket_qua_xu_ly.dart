@@ -59,9 +59,9 @@ class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
                 padding: const EdgeInsets.only(left: 16, top: 16),
                 margin: const EdgeInsets.only(top: 16),
                 decoration: BoxDecoration(
-                  color: bgDropDown.withOpacity(0.1),
+                  color: colorE2E8F0.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: bgDropDown),
+                  border: Border.all(color: colorE2E8F0),
                 ),
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -95,7 +95,7 @@ class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
       width: 343,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: const BoxDecoration(
-        color: containerColorTab,
+        color: colorE2E8F0,
         borderRadius: BorderRadius.all(Radius.circular(6)),
       ),
       child: Column(

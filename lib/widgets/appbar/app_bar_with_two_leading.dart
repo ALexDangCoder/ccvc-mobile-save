@@ -31,11 +31,11 @@ class AppBarWithTwoLeading extends StatelessWidget with PreferredSizeWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
       ),
-      backgroundColor: backGroundColorTablet ?? backgroundColorApp,
+      backgroundColor: backGroundColorTablet ?? colorFFFFFF,
       bottomOpacity: 0.0,
       leadingWidth: 100,
       elevation: APP_DEVICE == DeviceType.MOBILE ? 0 : 0.7,
-      shadowColor: bgDropDown,
+      shadowColor: colorE2E8F0,
       automaticallyImplyLeading: false,
       title: Text(
         title,

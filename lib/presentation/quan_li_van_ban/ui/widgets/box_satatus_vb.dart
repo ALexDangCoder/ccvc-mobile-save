@@ -26,8 +26,8 @@ class BoxStatusVanBan extends StatelessWidget {
           borderRadius: const BorderRadius.all(
             Radius.circular(6),
           ),
-          color: radioUnfocusColor.withOpacity(0.1),
-          border: Border.all(color: radioUnfocusColor),
+          color: colorE2E8F0.withOpacity(0.1),
+          border: Border.all(color: colorE2E8F0),
         ),
         child: Center(
           child: Column(

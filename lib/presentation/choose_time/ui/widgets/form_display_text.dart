@@ -22,7 +22,7 @@ class _FormDisplayTextState extends State<FormDisplayText> {
         child: FittedBox(
           child: Text(
             widget.text,
-            style: textNormal(textDropDownColor, 14.0.textScale()),
+            style: textNormal(color3D5586, 14.0.textScale()),
           ),
         ),
       ),

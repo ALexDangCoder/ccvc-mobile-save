@@ -25,7 +25,7 @@ class BottomTabBarWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
         color: AppTheme.getInstance().dfBtnTxtColor(),
-        border: const Border(top: BorderSide(color: fittingBg)),
+        border: const Border(top: BorderSide(color: colorE7F8F8)),
       ),
       child: SafeArea(
         child: screenDevice(

@@ -27,10 +27,10 @@ class _SearchWidgetState extends State<SearchWidget> {
             hintStyle: textNormalCustom(
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
-                color: unselectLabelColor,),
+                color: colorA2AEBD,),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  color: borderItemCalender,),
+                  color: colorE2E8F0,),
               borderRadius: BorderRadius.circular(6.0),
             ),
             focusedBorder: OutlineInputBorder(

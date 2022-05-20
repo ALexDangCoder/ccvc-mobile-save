@@ -47,17 +47,17 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
                   maxLines: 3,
                   style: tokenDetailAmount(
                     fontSize: 14.0.textScale(),
-                    color: sideTextInactiveColor,
+                    color: colorB9C4D0,
                   ),
                   decoration: InputDecoration(
-                    fillColor: backgroundColorApp,
+                    fillColor: colorFFFFFF,
                     filled: true,
                     focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10.0),
                       ),
                       borderSide: BorderSide(
-                        color: borderColor,
+                        color: colorDBDFEF,
                       ),
                     ),
                     enabledBorder: const OutlineInputBorder(
@@ -65,7 +65,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
                         Radius.circular(10.0),
                       ),
                       borderSide: BorderSide(
-                        color: borderColor,
+                        color: colorDBDFEF,
                       ),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -74,7 +74,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
                     ),
                     hintText: S.current.nhap_y_kien_cua_ban,
                     hintStyle: textNormalCustom(
-                      color: sideTextInactiveColor,
+                      color: colorB9C4D0,
                       fontWeight: FontWeight.w400,
                       fontSize: 14.0.textScale(),
                     ),

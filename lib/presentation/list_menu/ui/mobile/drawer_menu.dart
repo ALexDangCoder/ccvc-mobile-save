@@ -41,14 +41,14 @@ class _BaseMenuPhoneState extends State<BaseMenuPhone> {
                 child: SlideTransition(
                   position: widget.offsetAnimation,
                   child: Scaffold(
-                    backgroundColor: backgroundDrawerMenu,
+                    backgroundColor: color333333,
                     appBar: AppBar(
                       elevation: 0,
                       title: Text(
                         widget.title,
                         style: textNormalCustom(fontSize: 14.0.textScale()),
                       ),
-                      backgroundColor: backgroundDrawerMenu,
+                      backgroundColor: color333333,
                       leading: Builder(
                         builder: (BuildContext context) {
                           return IconButton(
@@ -85,7 +85,7 @@ class _BaseMenuPhoneState extends State<BaseMenuPhone> {
                                   margin:
                                       const EdgeInsets.only(bottom: 25, top: 8),
                                   height: 1,
-                                  color: containerColor,
+                                  color: color4F4F4F,
                                 ),
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),

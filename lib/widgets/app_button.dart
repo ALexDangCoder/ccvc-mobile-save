@@ -41,7 +41,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color color =
         backgroundColor ?? AppTheme.getInstance().primaryColor();
-    final Color btnColor = onPressed != null ? color : dividerColor;
+    final Color btnColor = onPressed != null ? color : colorCACFD7;
     return Container(
       width: width,
       height: height,

@@ -77,7 +77,7 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> {
         bottom: TabBar(
           controller: _controller,
           indicatorColor: AppTheme.getInstance().colorField(),
-          unselectedLabelColor: unselectLabelColor,
+          unselectedLabelColor: colorA2AEBD,
           labelColor: AppTheme.getInstance().colorField(),
           tabs: [
             Tab(

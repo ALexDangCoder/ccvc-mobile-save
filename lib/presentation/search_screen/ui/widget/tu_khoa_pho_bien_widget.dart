@@ -21,7 +21,7 @@ class TuKhoaPhoBienWidget extends StatelessWidget {
                 bottom: 8.0.textScale(),
               ),
               decoration: BoxDecoration(
-                color: backgroundWidget,
+                color: colorF0F6FF,
                 borderRadius: BorderRadius.circular(30),
               ),
               padding: EdgeInsets.symmetric(
@@ -31,7 +31,7 @@ class TuKhoaPhoBienWidget extends StatelessWidget {
               child: Text(
                 value,
                 style: textNormalCustom(
-                  color: infoColor,
+                  color: color667793,
                   fontWeight: FontWeight.w400,
                   fontSize: 14.0.textScale(),
                 ),

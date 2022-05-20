@@ -36,7 +36,7 @@ class _ThongTinNguoiPhanAnhState extends State<NguoiPhanAnhTablet> {
                 style: textNormalCustom(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
-                  color: titleCalenderWork,
+                  color: color3D5586,
                 ),
               ),
             ),
@@ -129,7 +129,7 @@ class _ThongTinNguoiPhanAnhTabletState
                 style: textNormalCustom(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
-                  color: titleCalenderWork,
+                  color: color3D5586,
                 ),
               ),
             ),
@@ -208,7 +208,7 @@ class RadioImage extends StatelessWidget {
           style: textNormalCustom(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: titleCalenderWork,
+            color: color3D5586,
           ),
         )
       ],

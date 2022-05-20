@@ -47,7 +47,7 @@ class _PhanCongThuKyWidgetState extends State<PhanCongThuKyWidget> {
             if (APP_DEVICE == DeviceType.MOBILE)
               Text(
                 S.current.chon_thu_ky_cuoc_hop,
-                style: textNormalCustom(color: infoColor),
+                style: textNormalCustom(color: color667793),
               ),
             Sb(8),
             SelectThuKyWidget(cubit: widget.cubit),
@@ -128,15 +128,15 @@ class SelectThuKyCell extends StatelessWidget {
             ? []
             : [
                 BoxShadow(
-                  color: shadowContainerColor.withOpacity(0.05),
+                  color: color6566E9.withOpacity(0.05),
                   offset: const Offset(0, 4),
                   blurRadius: 10,
                 )
               ],
         border: Border.all(
           color: APP_DEVICE == DeviceType.MOBILE
-              ? borderButtomColor
-              : borderColor.withOpacity(0.5),
+              ? colorE2E8F0
+              : colorDBDFEF.withOpacity(0.5),
         ),
         borderRadius: BorderRadius.all(Radius.circular(6.0.textScale())),
         color: Colors.white,
@@ -190,7 +190,7 @@ class SelectThuKyCell extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 8, top: 6, bottom: 6),
       decoration: BoxDecoration(
-        color: APP_DEVICE == DeviceType.MOBILE ? bgTag : labelColor,
+        color: APP_DEVICE == DeviceType.MOBILE ? colorF2F0FF : color7966FF,
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Row(
@@ -204,8 +204,8 @@ class SelectThuKyCell extends StatelessWidget {
               title,
               style: textNormal(
                 APP_DEVICE == DeviceType.MOBILE
-                    ? linkColor
-                    : backgroundColorApp,
+                    ? color7966FF
+                    : colorFFFFFF,
                 12.0.textScale(),
               ),
               overflow: TextOverflow.ellipsis,
@@ -222,8 +222,8 @@ class SelectThuKyCell extends StatelessWidget {
                 width: 7.5,
                 height: 7.5,
                 color: APP_DEVICE == DeviceType.MOBILE
-                    ? labelColor
-                    : backgroundColorApp,
+                    ? color7966FF
+                    : colorFFFFFF,
               ),
             ),
           )
@@ -272,7 +272,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                 ? Text(
                     widget.hintText,
                     style: textNormal(
-                      titleItemEdit,
+                      color586B8B,
                       14.0.textScale(),
                     ),
                   )
@@ -280,7 +280,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                     '',
                     style: tokenDetailAmount(
                       fontSize: 14.0.textScale(),
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
           ),
@@ -289,7 +289,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
             top: 6,
             child: Icon(
               Icons.keyboard_arrow_down_outlined,
-              color: AqiColor,
+              color: colorA2AEBD,
             ),
           ),
         ],
@@ -317,7 +317,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                 backgroundColor: Colors.transparent,
                 body: Container(
                   decoration: const BoxDecoration(
-                      color: backgroundColorApp,
+                      color: colorFFFFFF,
                       borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -429,7 +429,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                                   child: Text(
                                     itemTitle.hoTen ?? '',
                                     style: textNormalCustom(
-                                      color: titleItemEdit,
+                                      color: color586B8B,
                                       fontWeight: itemTitle == select
                                           ? FontWeight.w600
                                           : FontWeight.w400,
@@ -439,7 +439,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                                 if (itemTitle.isThuKy ?? false)
                                   const Icon(
                                     Icons.done_sharp,
-                                    color: buttonColor,
+                                    color: color7966FF,
                                   ),
                               ],
                             ),
@@ -448,7 +448,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                       },
                       separatorBuilder: (context, index) {
                         return const Divider(
-                          color: borderColor,
+                          color: colorDBDFEF,
                         );
                       },
                       itemCount: snapshot.data?.length ?? 0,

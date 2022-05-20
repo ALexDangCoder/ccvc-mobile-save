@@ -37,7 +37,7 @@ class _CustomRadioButtonCheckState extends State<CustomRadioButtonCheck> {
             Text(
               widget.name ?? '',
               style: tokenDetailAmount(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
               ),
             ),

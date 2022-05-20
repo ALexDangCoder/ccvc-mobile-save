@@ -23,7 +23,7 @@ class WidgetTextError extends StatelessWidget {
         spaceW8,
         Text(
           text,
-          style: textNormalCustom(color: titleItemEdit, fontSize: 12.0.textScale()),
+          style: textNormalCustom(color: color586B8B, fontSize: 12.0.textScale()),
         )
       ],
     );

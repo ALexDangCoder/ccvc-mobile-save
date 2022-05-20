@@ -87,14 +87,14 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                                 : Column(
                                     children: [
                                       BarCharWidget(
-                                        color: purpleChart,
+                                        color: color8E7EFF,
                                         listData: listData ?? [],
                                       ),
                                       const SizedBox(
                                         height: 16,
                                       ),
                                       BarCharWidget(
-                                        color: orangeDamChart,
+                                        color: colorFF9F43,
                                         listData: listStatusData ?? [],
                                       ),
                                     ],
@@ -105,7 +105,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                   ),
                   Container(
                     height: 6,
-                    color: homeColor,
+                    color: colorEEF3FF,
                   ),
                   StreamBuilder<List<List<BarChartModel>>>(
                     stream: baoCaoThongKeBCMXHCubit.listTinTongHop,
@@ -124,14 +124,14 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                                       },
                                       title: S.current.tin_tong_hop,
                                       child: BarCharWidget(
-                                        color: orangeDamChart,
+                                        color: colorFF9F43,
                                         listData: listData[0],
                                         direction: true,
                                       ),
                                     ),
                                     Container(
                                       height: 6,
-                                      color: homeColor,
+                                      color: colorEEF3FF,
                                     ),
                                     GroupChartItemWidget(
                                       onChoiceDate: (startDate, endDate) {
@@ -142,14 +142,14 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                                       },
                                       title: S.current.cac_dia_phuong,
                                       child: BarCharWidget(
-                                        color: greenChart,
+                                        color: color28C76F,
                                         listData: listData[1],
                                         direction: true,
                                       ),
                                     ),
                                     Container(
                                       height: 6,
-                                      color: homeColor,
+                                      color: colorEEF3FF,
                                     ),
                                     GroupChartItemWidget(
                                       onChoiceDate: (startDate, endDate) {
@@ -160,14 +160,14 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                                       },
                                       title: S.current.uy_ban_nhan_dan_tinh,
                                       child: BarCharWidget(
-                                        color: blueNhatChart,
+                                        color: colorFF9F43,
                                         listData: listData[2],
                                         direction: true,
                                       ),
                                     ),
                                     Container(
                                       height: 6,
-                                      color: homeColor,
+                                      color: colorEEF3FF,
                                     ),
                                     GroupChartItemWidget(
                                       onChoiceDate: (startDate, endDate) {
@@ -178,7 +178,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                                       },
                                       title: S.current.lanh_dao_tinh,
                                       child: BarCharWidget(
-                                        color: redChart,
+                                        color: colorFF9F43,
                                         listData: listData[3],
                                         direction: true,
                                       ),
@@ -193,7 +193,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                   ),
                   Container(
                     height: 6,
-                    color: homeColor,
+                    color: colorEEF3FF,
                   ),
                   GroupChartItemWidget(
                     onChoiceDate: (startDate, endDate) {
@@ -222,7 +222,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                   ),
                   Container(
                     height: 6,
-                    color: homeColor,
+                    color: colorEEF3FF,
                   ),
                   GroupChartItemWidget(
                     onChoiceDate: (startDate, endDate) {
@@ -257,23 +257,23 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                                           children: [
                                             ChartIndicatorWidget(
                                               title: S.current.mang_xa_hoi,
-                                              color: blueNhatChart,
+                                              color: colorFF9F43,
                                             ),
                                             ChartIndicatorWidget(
                                               title: S.current.bao_chi,
-                                              color: greenChart,
+                                              color: color28C76F,
                                             ),
                                             ChartIndicatorWidget(
                                               title: S.current.forum,
-                                              color: grayChart,
+                                              color: color667793,
                                             ),
                                             ChartIndicatorWidget(
                                               title: S.current.blog,
-                                              color: orangeNhatChart,
+                                              color: colorFDB000,
                                             ),
                                             ChartIndicatorWidget(
                                               title: S.current.khac,
-                                              color: purpleChart,
+                                              color: color8E7EFF,
                                             )
                                           ],
                                         ),
@@ -289,7 +289,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                   ),
                   Container(
                     height: 6,
-                    color: homeColor,
+                    color: colorEEF3FF,
                   ),
                   GroupChartItemWidget(
                     onChoiceDate: (startDate, endDate) {
@@ -319,15 +319,15 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                                           children: [
                                             ChartIndicatorWidget(
                                               title: S.current.tich_cuc,
-                                              color: greenChart,
+                                              color: color28C76F,
                                             ),
                                             ChartIndicatorWidget(
                                               title: S.current.trung_lap,
-                                              color: blueNhatChart,
+                                              color: colorFF9F43,
                                             ),
                                             ChartIndicatorWidget(
                                               title: S.current.tich_cuc,
-                                              color: redChart,
+                                              color: colorFF9F43,
                                             ),
                                           ],
                                         ),
@@ -343,7 +343,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                   ),
                   Container(
                     height: 6,
-                    color: homeColor,
+                    color: colorEEF3FF,
                   ),
                   GroupChartItemWidget(
                     onChoiceDate: (startDate, endDate) {
@@ -364,23 +364,23 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                             children: [
                               ChartIndicatorWidget(
                                 title: S.current.mang_xa_hoi,
-                                color: orangeDamChart,
+                                color: colorFF9F43,
                               ),
                               ChartIndicatorWidget(
                                 title: S.current.bao_chi,
-                                color: redChart,
+                                color: colorFF9F43,
                               ),
                               ChartIndicatorWidget(
                                 title: S.current.forum,
-                                color: purpleChart,
+                                color: color8E7EFF,
                               ),
                               ChartIndicatorWidget(
                                 title: S.current.blog,
-                                color: orangeNhatChart,
+                                color: colorFDB000,
                               ),
                               ChartIndicatorWidget(
                                 title: S.current.khac,
-                                color: orangeDamChart,
+                                color: colorFF9F43,
                               )
                             ],
                           ),
@@ -390,7 +390,7 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                   ),
                   Container(
                     height: 6,
-                    color: homeColor,
+                    color: colorEEF3FF,
                   ),
                   GroupChartItemWidget(
                     onChoiceDate: (startDate, endDate) {
@@ -411,15 +411,15 @@ class _BaoCaoThongKeBCMXHScreenState extends State<BaoCaoThongKeBCMXHScreen>
                             children: [
                               ChartIndicatorWidget(
                                 title: S.current.tich_cuc,
-                                color: greenChart,
+                                color: color28C76F,
                               ),
                               ChartIndicatorWidget(
                                 title: S.current.trung_lap,
-                                color: grayChart,
+                                color: color667793,
                               ),
                               ChartIndicatorWidget(
                                 title: S.current.tich_cuc,
-                                color: redChart,
+                                color: colorFF9F43,
                               ),
                             ],
                           ),

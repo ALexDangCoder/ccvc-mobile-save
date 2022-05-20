@@ -110,7 +110,7 @@ class _ThongTinGuiNhanWidgetExpandTabletState
         );
       },
       child: Container(
-        color: borderColor,
+        color: colorDBDFEF,
         padding: const EdgeInsets.symmetric(
           horizontal: 30,
           vertical: 12,
@@ -119,7 +119,7 @@ class _ThongTinGuiNhanWidgetExpandTabletState
           child: Text(
             S.current.xem_luong_xu_ly,
             style: textNormalCustom(
-              color: textTitle,
+              color: color3D5586,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),

@@ -34,7 +34,7 @@ class TextFormFieldWidget extends StatelessWidget {
       maxLines: maxLine,
       style: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleColor,
+        color: color3D5586,
       ),
       enabled: isEnabled,
       decoration: InputDecoration(
@@ -42,18 +42,18 @@ class TextFormFieldWidget extends StatelessWidget {
             ? const EdgeInsets.symmetric(vertical: 14, horizontal: 10)
             : null,
         fillColor:
-            isEnabled ? Colors.transparent : borderColor.withOpacity(0.3),
+            isEnabled ? Colors.transparent : colorDBDFEF.withOpacity(0.3),
         filled: true,
         border: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
+          borderSide: BorderSide(color: colorDBDFEF),
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
+          borderSide: BorderSide(color: colorDBDFEF),
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor),
+          borderSide: BorderSide(color: colorDBDFEF),
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
       ),

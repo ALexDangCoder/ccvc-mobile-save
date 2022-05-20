@@ -198,7 +198,7 @@ class _DanhSachCongViecTienIchMobileState
                                   S.current.da_hoan_thanh,
                                   style: textNormalCustom(
                                     fontSize: 14,
-                                    color: infoColor,
+                                    color: color667793,
                                   ),
                                 ),
                               ),
@@ -285,7 +285,7 @@ AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {
     bottomOpacity: 0.0,
     leadingWidth: 100,
     elevation: isMobile() ? 0 : 0.7,
-    shadowColor: bgDropDown,
+    shadowColor: colorE2E8F0,
     automaticallyImplyLeading: false,
     title: StreamBuilder<String>(
       stream: cubit.titleAppBar.stream,

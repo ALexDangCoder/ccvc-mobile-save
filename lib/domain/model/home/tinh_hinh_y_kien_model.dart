@@ -9,8 +9,8 @@ class TinhHinhYKienModel {
 
   TinhHinhYKienModel({this.soLuong = 0, this.status = ''});
   static List<Color> listColor =[
-    choVaoSoColor,
-    statusCalenderRed,
-    itemWidgetUsing
+    color28C76F,
+    colorEA5455,
+    color28C76F
   ];
 }

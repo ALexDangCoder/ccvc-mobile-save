@@ -39,12 +39,12 @@ class _BaoCaoDialogTabletState extends State<BaoCaoDialogTablet> {
                   S.current.trang_thai,
                   style: tokenDetailAmount(
                     fontSize: 14.0.textScale(),
-                    color: titleItemEdit,
+                    color: color586B8B,
                   ),
                 ),
                 const Text(
                   ' *',
-                  style: TextStyle(color: canceledColor),
+                  style: TextStyle(color: colorF94444),
                 )
               ],
             ),

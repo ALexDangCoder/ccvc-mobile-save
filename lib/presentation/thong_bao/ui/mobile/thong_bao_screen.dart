@@ -81,7 +81,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                 width: 18,
                 child: Icon(
                   Icons.arrow_back_ios_sharp,
-                  color: textBodyTime,
+                  color: colorA2AEBD,
                 ),
               ),
             ),
@@ -178,7 +178,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
           Text(
             S.current.hien_tai_ban_chua_co_thong_bao,
             style: textNormalCustom(
-              color: titleColumn,
+              color: color667793,
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),

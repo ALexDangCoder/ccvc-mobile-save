@@ -46,7 +46,7 @@ class _DanhSachLichHopState extends State<DanhSachLichHop> {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             widget.cubit.currentTime,
-            style: textNormalCustom(color: textBodyTime),
+            style: textNormalCustom(color: colorA2AEBD),
           ),
         ),
         Expanded(

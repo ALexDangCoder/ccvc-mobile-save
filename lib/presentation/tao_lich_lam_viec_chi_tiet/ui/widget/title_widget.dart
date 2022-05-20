@@ -78,7 +78,7 @@ class _TitleWidgetState extends State<TitleWidget> {
                       Text(
                         widget.title,
                         style: textNormalCustom(
-                          color: dateColor,
+                          color: color667793,
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
                         ),
@@ -96,7 +96,7 @@ class _TitleWidgetState extends State<TitleWidget> {
                         isExpand
                             ? Icons.keyboard_arrow_up_rounded
                             : Icons.keyboard_arrow_down_outlined,
-                        color: AqiColor,
+                        color: colorA2AEBD,
                       ),
                     ],
                   ),
@@ -111,7 +111,7 @@ class _TitleWidgetState extends State<TitleWidget> {
                 top: 5.0.textScale(),
               ),
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: lineColor)),
+                border: Border(bottom: BorderSide(color: colorECEEF7)),
               ),
             )
           else

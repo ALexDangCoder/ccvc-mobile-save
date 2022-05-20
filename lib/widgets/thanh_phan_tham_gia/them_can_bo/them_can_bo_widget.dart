@@ -127,7 +127,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
           ),
           Text(
             S.current.danh_sach_don_vi_tham_gia,
-            style: textNormal(textTitle, 16),
+            style: textNormal(color3D5586, 16),
           ),
           spaceH16,
           BaseSearchBar(
@@ -254,7 +254,7 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
               fontSize: 16,
               color: isLeft
                   ? AppTheme.getInstance().colorSelect()
-                  : backgroundColorApp,
+                  : colorFFFFFF,
             ),
           ),
         ),

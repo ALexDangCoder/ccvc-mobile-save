@@ -24,7 +24,7 @@ class TitleCaiDatWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textNormalCustom(fontSize: 16, color: titleColor),
+                style: textNormalCustom(fontSize: 16, color: color3D5586),
               ),
               const SizedBox(
                 height: 20,
@@ -40,7 +40,7 @@ class TitleCaiDatWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textNormalCustom(fontSize: 18, color: titleColor),
+                style: textNormalCustom(fontSize: 18, color: color3D5586),
               ),
               const SizedBox(
                 height: 24,
@@ -49,8 +49,8 @@ class TitleCaiDatWidget extends StatelessWidget {
                 padding:  EdgeInsets.only(
                     top: 48, left: 48, right: 48, bottom: bottomPadding),
                 decoration: BoxDecoration(
-                  color: backgroundRowColor,
-                  border: Border.all(color: borderColor.withOpacity(0.5)),
+                  color: colorF5F8FD,
+                  border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                 ),
                 child: child,

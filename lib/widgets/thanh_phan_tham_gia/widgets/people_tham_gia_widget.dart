@@ -24,8 +24,8 @@ class PeopleThamGiaWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: borderButtomColor.withOpacity(0.1),
-        border: Border.all(color: borderButtomColor),
+        color: colorE2E8F0.withOpacity(0.1),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
       ),
       child: Stack(
@@ -52,7 +52,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
                     flex: 2.0.textScale().toInt(),
                     child: Text(
                       S.current.noi_dung,
-                      style: textNormal(infoColor, 14),
+                      style: textNormal(color667793, 14),
                     ),
                   ),
                   Expanded(
@@ -89,14 +89,14 @@ class PeopleThamGiaWidget extends StatelessWidget {
           flex: 2.0.textScale().toInt(),
           child: Text(
             key,
-            style: textNormal(infoColor, 14.0.textScale()),
+            style: textNormal(color667793, 14.0.textScale()),
           ),
         ),
         Expanded(
           flex: 6,
           child: Text(
             value,
-            style: textNormal(titleColor, 14.0.textScale()),
+            style: textNormal(color3D5586, 14.0.textScale()),
           ),
         )
       ],
@@ -105,7 +105,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
 
   Widget textField({required Function(String) onChange}) {
     return TextField(
-      style: textNormal(titleColor, 14.0.textScale()),
+      style: textNormal(color3D5586, 14.0.textScale()),
       onChanged: (value) {
         onChange(value);
       },
@@ -116,17 +116,17 @@ class PeopleThamGiaWidget extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         isDense: true,
         hintText: S.current.nhap_noi_dung_cong_viec,
-        hintStyle: textNormal(textBodyTime, 14.0.textScale()),
+        hintStyle: textNormal(colorA2AEBD, 14.0.textScale()),
         border: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderButtomColor),
+          borderSide: BorderSide(color: colorE2E8F0),
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderButtomColor),
+          borderSide: BorderSide(color: colorE2E8F0),
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: borderButtomColor),
+          borderSide: BorderSide(color: colorE2E8F0),
           borderRadius: BorderRadius.all(Radius.circular(6)),
         ),
       ),

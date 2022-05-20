@@ -26,7 +26,7 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet> with Automa
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: bgManagerColor,
+      backgroundColor: colorF9FAFF,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +36,7 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet> with Automa
               S.current.nhap_linK_bao_cao,
               style: textNormalCustom(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -49,7 +49,7 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet> with Automa
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: shadowContainerColor.withOpacity(0.05),
+                  color: color6566E9.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),

@@ -51,7 +51,7 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: unselectLabelColor,
+            color: colorA2AEBD,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -75,9 +75,9 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
         ],
         bottom: TabBar(
           controller: _controller,
-          indicatorColor: indicatorColor,
-          unselectedLabelColor: unselectLabelColor,
-          labelColor: selectColorTabbar,
+          indicatorColor: color7966FF,
+          unselectedLabelColor: colorA2AEBD,
+          labelColor: color304261,
           isScrollable: true,
           onTap: (value) {
             // if (value == 3) {

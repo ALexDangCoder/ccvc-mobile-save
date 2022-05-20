@@ -47,7 +47,7 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                     controller: data,
                     headerHeight: 0.0,
                     view: CalendarView.month,
-                    todayHighlightColor: labelColor,
+                    todayHighlightColor: color7966FF,
                     appointmentTimeTextFormat: 'hh:mm:ss a',
                     dataSource: widget.cubit.getCalenderDataSource(
                       snapshot.data ?? DataLichLvModel(),
@@ -55,21 +55,21 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                     viewHeaderStyle: ViewHeaderStyle(
                       dayTextStyle: textNormalCustom(
                         fontSize: 13,
-                        color: unselectLabelColor,
+                        color: color667793,
                       ),
                     ),
                     monthViewSettings: MonthViewSettings(
                       showTrailingAndLeadingDates: false,
                       appointmentDisplayCount: 2,
                       monthCellStyle: MonthCellStyle(
-                        backgroundColor: bgCalenderColor,
+                        backgroundColor: colorF9FAFF,
                         trailingDatesTextStyle: textNormalCustom(
                           fontSize: 14,
-                          color: iconColorDown,
+                          color: colorA2AEBD,
                         ),
                         textStyle: textNormalCustom(
                           fontSize: 14,
-                          color: fontColorTablet2,
+                          color: color3D5586,
                         ),
                       ),
                       // numberOfWeeksInView: 4,
@@ -92,7 +92,7 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(2.0),
-                              color: choTrinhKyColor,
+                              color: color02C5DD,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +143,7 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
                               Text(
                                 '...',
                                 style: textNormalCustom(
-                                  color: textBodyTime,
+                                  color: colorA2AEBD,
                                   fontSize: 14,
                                 ),
                               ),

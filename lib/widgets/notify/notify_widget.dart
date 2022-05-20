@@ -32,7 +32,7 @@ class NotifyWidget extends StatelessWidget {
             Text(
               content,
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontSize: 18.0.textScale(),
                 fontWeight: FontWeight.w400,
               ),
@@ -50,13 +50,13 @@ class NotifyWidget extends StatelessWidget {
                   vertical: 12.0.textScale(),
                 ),
                 decoration: BoxDecoration(
-                  color: bgButtonDropDown.withOpacity(0.1),
+                  color: color7966FF.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(4.0.textScale()),
                 ),
                 child: Text(
                   textButtom,
                   style: textNormalCustom(
-                    color: labelColor,
+                    color: color7966FF,
                     fontWeight: FontWeight.w500,
                     fontSize: 14.0.textScale(),
                   ),

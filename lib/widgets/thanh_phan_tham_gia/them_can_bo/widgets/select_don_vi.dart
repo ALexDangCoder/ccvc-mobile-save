@@ -51,7 +51,7 @@ class _SelectDonViState extends State<SelectDonVi> {
       children: [
         Text(
           widget.title ?? S.current.don_vi_phong_ban,
-          style: textNormal(titleItemEdit, 14.0.textScale()),
+          style: textNormal(color586B8B, 14.0.textScale()),
         ),
         SizedBox(
           height: 8.0.textScale(),
@@ -64,7 +64,7 @@ class _SelectDonViState extends State<SelectDonVi> {
             width: double.maxFinite,
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: borderColor),
+              border: Border.all(color: colorDBDFEF),
               borderRadius: const BorderRadius.all(Radius.circular(6)),
             ),
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -73,7 +73,7 @@ class _SelectDonViState extends State<SelectDonVi> {
               children: [
                 Text(
                   title(),
-                  style: textNormal(textTitle, 14.0.textScale()),
+                  style: textNormal(color3D5586, 14.0.textScale()),
                 ),
                 SvgPicture.asset(ImageAssets.icEditInfor)
               ],
@@ -159,7 +159,7 @@ class TreeDonVi extends StatelessWidget {
               children: [
                 Text(
                   S.current.danh_sach_don_vi_tham_gia,
-                  style: textNormal(textTitle, 16),
+                  style: textNormal(color3D5586, 16),
                 ),
                 SizedBox(
                   height: 22.0.textScale(space: -9),

@@ -20,10 +20,10 @@ class CheckBoxWidget extends StatelessWidget {
         ),
         child: Theme(
           data: ThemeData(
-            unselectedWidgetColor: borderColor,
+            unselectedWidgetColor: colorDBDFEF,
           ),
           child: Checkbox(
-            side: const BorderSide(width: 1.5, color: borderColor),
+            side: const BorderSide(width: 1.5, color: colorDBDFEF),
             value: value,
             onChanged: (value) {
               onChange(value ?? false);

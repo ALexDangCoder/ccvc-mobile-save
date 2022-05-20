@@ -24,9 +24,9 @@ class _DanhSachBaoCaoDangGirdviewTabletState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgWidgets,
+      backgroundColor: colorF9FAFF,
       appBar: AppBarWithTwoLeading(
-        backGroundColorTablet: bgWidgets,
+        backGroundColorTablet: colorF9FAFF,
         title: S.current.bac_cao,
         actions: [
           GestureDetector(
@@ -86,13 +86,13 @@ class _DanhSachBaoCaoDangGirdviewTabletState
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0),
-                          color: backgroundColorApp,
+                          color: colorFFFFFF,
                           border: Border.all(
-                            color: borderItemCalender.withOpacity(0.5),
+                            color: colorE2E8F0.withOpacity(0.5),
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: shadowContainerColor.withOpacity(0.05),
+                              color: color6566E9.withOpacity(0.05),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -108,7 +108,7 @@ class _DanhSachBaoCaoDangGirdviewTabletState
                             Text(
                               S.current.bac_cao,
                               style: textNormalCustom(
-                                color: textTitle,
+                                color: color3D5586,
                                 fontSize: 18,
                               ),
                             )

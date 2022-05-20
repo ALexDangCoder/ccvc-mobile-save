@@ -54,7 +54,7 @@ class _ShowDropDownButtonHoiDapState extends State<ShowDropDownButtonHoiDap> {
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: bgDropDown),
+            border: Border.all(color: colorE2E8F0),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -116,7 +116,7 @@ class _ShowDropDownButtonHoiDapState extends State<ShowDropDownButtonHoiDap> {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                       border: Border.all(
-                        color: bgDropDown,
+                        color: colorE2E8F0,
                       ),
                     ),
                     child: Column(
@@ -141,7 +141,7 @@ class _ShowDropDownButtonHoiDapState extends State<ShowDropDownButtonHoiDap> {
                                 padding: const EdgeInsets.all(8),
                                 child: Text(
                                   widget.cubit.listText[index],
-                                  style: textNormal(textDropDownColor, 14),
+                                  style: textNormal(color3D5586, 14),
                                 ),
                               ),
                               if (index == 2)
@@ -149,7 +149,7 @@ class _ShowDropDownButtonHoiDapState extends State<ShowDropDownButtonHoiDap> {
                               else
                                 Container(
                                   height: 1,
-                                  color: bgDropDown,
+                                  color: colorE2E8F0,
                                 )
                             ],
                           ),

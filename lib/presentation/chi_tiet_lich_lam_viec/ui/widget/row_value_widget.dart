@@ -54,7 +54,7 @@ Widget rowData({required TypeData row, bool isMarinleft = false,}) {
       Text(
         row.value,
         style: textNormalCustom(
-          color: textTitle,
+          color: color3D5586,
           fontWeight: FontWeight.w400,
           fontSize: 16.0.textScale(),
         ),
@@ -102,7 +102,7 @@ class _ColumnDataTabletState extends State<ColumnDataTablet> {
             Text(
               '${data.tongSoNguoi} người',
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(),
               ),
@@ -169,7 +169,7 @@ class _TitleRowState extends State<TitleRow> {
                 Text(
                   widget.number,
                   style: textNormalCustom(
-                    color: textTitle,
+                    color: color3D5586,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),
@@ -185,7 +185,7 @@ class _TitleRowState extends State<TitleRow> {
                 isExpand
                     ? Icons.keyboard_arrow_up_rounded
                     : Icons.keyboard_arrow_down_outlined,
-                color: AqiColor,
+                color: colorA2AEBD,
               ),
             ),
           ],
@@ -247,7 +247,7 @@ class _ColumnDataState extends State<ColumnData> {
             Text(
               '${data.tongSoNguoi} người',
               style: textNormalCustom(
-                color: textTitle,
+                color: color3D5586,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(),
               ),
@@ -264,7 +264,7 @@ class _ColumnDataState extends State<ColumnData> {
             style: textNormalCustom(
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w400,
-              color: unselectLabelColor,
+              color: colorA2AEBD,
             ),
           ),
         ),
@@ -307,7 +307,7 @@ class _ColumnDataState extends State<ColumnData> {
                             Text(
                               'Khối chuyển đổi số (${data.listPerson.length - 5})',
                               style: textNormalCustom(
-                                color: textTitle,
+                                color: color3D5586,
                                 fontSize: 14.0.textScale(),
                                 fontWeight: FontWeight.w400,
                               ),

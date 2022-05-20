@@ -43,7 +43,7 @@ class PieChart extends StatelessWidget {
                 child: Text(
                   title,
                   style: tittleStyle ?? textNormalCustom(
-                    color: infoColor,
+                    color: color667793,
                     fontSize: 16,
                   ),
                 ),
@@ -88,7 +88,7 @@ class PieChart extends StatelessWidget {
                           isVisible: true,
                           showZeroValue: false,
                           textStyle: textNormalCustom(
-                            color: backgroundColorApp,
+                            color: colorFFFFFF,
                             fontSize: 14,
                           ),
                         ))
@@ -132,7 +132,7 @@ class PieChart extends StatelessWidget {
                           child: Text(
                             '${result.title} (${result.value.toInt()})',
                             style: textNormal(
-                              infoColor,
+                              color667793,
                               14.0.textScale(),
                             ),
                           ),

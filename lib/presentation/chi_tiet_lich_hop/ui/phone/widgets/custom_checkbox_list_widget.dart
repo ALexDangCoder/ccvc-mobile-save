@@ -100,7 +100,7 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                       decoration: BoxDecoration(
                         border: Border(
                           bottom:
-                              BorderSide(color: borderColor.withOpacity(0.5)),
+                              BorderSide(color: colorDBDFEF.withOpacity(0.5)),
                         ),
                       ),
                       padding: EdgeInsets.only(
@@ -164,7 +164,7 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                                     widget.dataNguoiThamGia[index].tenCoQuan,
                                   ),
                                   style:
-                                      textNormal(titleColor, 14.0.textScale()),
+                                      textNormal(color3D5586, 14.0.textScale()),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -204,7 +204,7 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),
@@ -223,12 +223,12 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                   if (expandController!.value == 0)
                     const Icon(
                       Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
                   else
                     const Icon(
                       Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
+                      color: colorA2AEBD,
                     )
                 ],
               ),
@@ -259,16 +259,16 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
     return Container(
       padding: const EdgeInsets.only(bottom: 4, left: 4, right: 4),
       decoration: BoxDecoration(
-        color: bgTabletColor,
+        color: colorF9FAFF,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: borderColor.withOpacity(0.5)),
+        border: Border.all(color: colorDBDFEF.withOpacity(0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             content,
-            style: textDetailHDSD(fontSize: 14, color: textTitle),
+            style: textDetailHDSD(fontSize: 14, color: color3D5586),
           ),
           GestureDetector(
             onTap: () {

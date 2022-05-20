@@ -85,9 +85,9 @@ Widget itemTraCuuVanBan(
     ),
     child: Container(
       decoration: BoxDecoration(
-        border: Border.all(color: borderItemCalender),
+        border: Border.all(color: colorE2E8F0),
         borderRadius: BorderRadius.circular(10.0),
-        color: bgDropDown.withOpacity(0.1),
+        color: colorE2E8F0.withOpacity(0.1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -100,7 +100,7 @@ Widget itemTraCuuVanBan(
                   child: Text(
                     S.current.ngay_bh,
                     style: textNormalCustom(
-                      color: dateColor,
+                      color: color667793,
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -111,7 +111,7 @@ Widget itemTraCuuVanBan(
                   child: Text(
                     data.day ?? '',
                     style: textNormalCustom(
-                      color: dateColor,
+                      color: color667793,
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -129,7 +129,7 @@ Widget itemTraCuuVanBan(
                   child: Text(
                     S.current.trich_yeu,
                     style: textNormalCustom(
-                      color: dateColor,
+                      color: color667793,
                       fontSize: 14.0,
                       fontWeight: FontWeight.w400,
                     ),

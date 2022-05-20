@@ -30,7 +30,7 @@ class _ChangeSuccessPasswordState extends State<ChangeSuccessPassword> {
                 const SizedBox(height: 80.0),
                 Text(
                   S.current.doi_lai_mat_khau_thanh_cong,
-                  style: textNormalCustom(color: titleColor, fontSize: 16.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 16.0),
                 ),
                 const SizedBox(height: 20.0),
                 Center(
@@ -44,7 +44,7 @@ class _ChangeSuccessPasswordState extends State<ChangeSuccessPassword> {
                     S.current.chuc_mung_ban,
                     textAlign: TextAlign.center,
                     style: textNormalCustom(
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

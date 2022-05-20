@@ -7,10 +7,12 @@ import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_mod
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -96,14 +98,12 @@ class ManagerPersonalInformationCubit
     int offset,
   ) {
     try {
-      print("try1111");
       int.parse(value);
       thuTu.selection = TextSelection.fromPosition(
         TextPosition(offset: offset),
       );
     } catch (e) {
-      print("cathc1111");
-      thuTu.text = thuTu.text.substring(0,2);
+      thuTu.text = thuTu.text.substring(0, 2);
     }
   }
 
@@ -182,7 +182,7 @@ class ManagerPersonalInformationCubit
     );
   }
 
-  Future<void> getEditPerson({
+  Future<bool> getEditPerson({
     String id = '',
     String maCanBo = '',
     String name = '',
@@ -246,14 +246,26 @@ class ManagerPersonalInformationCubit
       userAccounts: editPersonInformationRequest.userAccounts,
       lsCanBoKiemNhiemResponse: [],
     );
+    bool isCheck = true;
     final result = await _managerRepo.getEditPerson(editPerson);
     result.when(
       success: (res) {
         dataEditPersonInformation = res;
         dataEditSubject.sink.add(dataEditPersonInformation);
+        MessageConfig.show(
+          title: S.current.thay_doi_thanh_cong,
+        );
+        isCheck = true;
       },
-      error: (error) {},
+      error: (error) {
+        MessageConfig.show(
+          title: S.current.thay_doi_that_bai,
+          messState: MessState.error,
+        );
+        isCheck = false;
+      },
     );
+    return isCheck;
   }
 
   //

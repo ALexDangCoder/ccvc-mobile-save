@@ -51,7 +51,6 @@ class _SuaLichCongTacTrongNuocPhoneState
 
   @override
   void initState() {
-    print('init');
     widget.cubit.chiTietLichLamViecSubject.listen((event) {
       taoLichLamViecCubit.chiTietLichLamViecModel = event;
       taoLichLamViecCubit.selectedCountry = event.country ?? '';
@@ -67,7 +66,6 @@ class _SuaLichCongTacTrongNuocPhoneState
       taoLichLamViecCubit.changeOption.sink.add(event.typeScheduleName??'');
 
       taoLichLamViecCubit.dateRepeat = event.dateRepeat;
-      print("--------${event.country ?? ''}");
 
       taoLichLamViecCubit.scheduleReminder = event.scheduleReminder;
 
@@ -86,7 +84,6 @@ class _SuaLichCongTacTrongNuocPhoneState
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: const BoxDecoration(

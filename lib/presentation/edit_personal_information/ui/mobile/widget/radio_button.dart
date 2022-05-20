@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomRadioButtonCheck extends StatefulWidget {
   final Function() onSelectItem;
-  bool isCheckButton = false;
+  bool isCheckButton;
   final String? name;
 
   CustomRadioButtonCheck({

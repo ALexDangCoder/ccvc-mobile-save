@@ -17,6 +17,7 @@ class DataDanhSachYKienXuLy {
 class DanhSachYKienXuLy {
   String? id;
   String? vanBanId;
+  bool isInput = false;
   String? taskId;
   String? noiDung;
   String? nguoiTaoId;
@@ -36,6 +37,7 @@ class DanhSachYKienXuLy {
   List<YKienXuLyFileDinhKem>? yKienXuLyFileDinhKem;
 
   DanhSachYKienXuLy({
+    this.isInput = false,
     this.id,
     this.vanBanId,
     this.taskId,

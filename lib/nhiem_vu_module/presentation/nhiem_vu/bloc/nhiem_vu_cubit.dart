@@ -15,6 +15,8 @@ class NhiemVuCubit extends BaseCubit<NhiemVuState> {
       BehaviorSubject<ChartData>();
   BehaviorSubject<List<bool>> selectTypeNhiemVuSubject =
       BehaviorSubject.seeded([true, false,false]);
+  BehaviorSubject<bool>isSearchSubject=BehaviorSubject();
+  Stream<bool>get searchStream =>isSearchSubject.stream;
 
   Stream<ChartData> get dataChartNhiemVu => _dataChartNhiemVu.stream;
   final List<ChartData> chartDataNhiemVu = [

@@ -2,6 +2,8 @@ class ApiConstants {
   static const DANHSACHNHIEMVU = '/qlvb/api/qlnv/nhiem-vu/get-all';
   static const DANHSACHCONGVIEC =
       '/qlvb/api/qlnv/cong-viec/danhsachcongvieccanhan';
+  static const POST_Y_KIEN_XU_LY_NHIEM_VU =
+      '/qlvb/api/qlnv/y-kien-xu-ly/them';
   static const GETDASHBROASHNHIEMVU =
       '/qlvb/api/qlnv/nhiem-vu/dem-loai-nhiem-vu/donvi';
   static const GETDASHBROASHCONGVIEC =
@@ -21,6 +23,12 @@ class ApiConstants {
   static const GET_Y_KIEN_XU_LY = '/qlvb/api/qlnv/y-kien-xu-ly/{id}?';
   static const GET_DANH_SACH_CONG_VIEC_CHI_TIET_NHIEM_VU =
       '/qlvb/api/qlnv/cong-viec/dsbynhiemvu';
+
+  static const GET_LICH_SU_GIAO_VIEC =
+      '/qlvb/api/qlnv/cong-viec/lichsugiaoviec';
+  static const GET_LICH_SU_TDTT =
+      '/qlvb/api/qlnv/cong-viec/lichsuthaydoitrangthai';
+
   static const GET_LICH_SU_TRA_LAI_NHIEM_VU =
       '/qlvb/api/qlnv/nhiem-vu/lich-su-tra-lai/{id}?';
   static const GET_LICH_SU_TINH_HINH_THUC_HIEN =
@@ -33,6 +41,8 @@ class ApiConstants {
       '/qlvb/api/qlnv/cong-viec/chitiet';
   static const GET_VAN_BAN_LIEN_QUAN_NHIEM_VU =
       '/qlvb/api/qlnv/van-ban-lien-quan/{id}?';
+  static const GET_LUONG_XU_LY_NHIEM_VU = '/qlvb/api/qlnv/nhiem-vu/luong-xu-ly';
+  static const String UPLOAD_FILE = '/qlvb/api/Common/UploadMultiFile';
 }
 
 class ImageConstants {

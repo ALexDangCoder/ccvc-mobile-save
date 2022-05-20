@@ -35,6 +35,13 @@ class _CellListDanhBaToChucTabletState
         borderRadius: BorderRadius.circular(12.0),
         border: Border.all(color: borderColor.withOpacity(0.5)),
         color: backgroundColorApp,
+        boxShadow: [
+          BoxShadow(
+            color: bgColor.withOpacity(0.5),
+            blurRadius: 10,
+            offset: const Offset(0, 4), // changes position of shadow
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

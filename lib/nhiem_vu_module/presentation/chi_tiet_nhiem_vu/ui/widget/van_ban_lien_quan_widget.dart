@@ -8,8 +8,6 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'expand_only_nhiem_vu.dart';
-
 class VanBanLienQuanWidget extends StatefulWidget {
   final ChiTietNVCubit cubit;
 
@@ -25,87 +23,91 @@ class VanBanLienQuanWidget extends StatefulWidget {
 class _VanBanLienQuanWidgetState extends State<VanBanLienQuanWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 1,
-          color: radioUnfocusColor,
+    return RefreshIndicator(
+      onRefresh: () async {
+        await widget.cubit.getVanBanLienQuanNhiemVu(widget.cubit.idNhiemVu);
+      },
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16,top: 16,),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    S.current.van_ban_giao_nhiem_vu,
+                    style: textNormalCustom(
+                      color: radioFocusColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0.textScale(),
+                    ),
+                  ),
+                  StreamBuilder<List<VanBanLienQuanNhiemVuModel>>(
+                    stream: widget.cubit.vanBanGiaoNhiemvuStream,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? [];
+                      if (data.isNotEmpty) {
+                        return Column(
+                          children: data
+                              .map(
+                                (e) => WidgetInExpand(
+                                  row: e.dataRowVBLQ(),
+                                  cubit: widget.cubit,
+                                ),
+                              )
+                              .toList(),
+                        );
+                      } else {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 16.0),
+                          child: NodataWidget(),
+                        );
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 14.0.textScale(),
+                  ),
+                  Text(
+                    S.current.van_ban_khac,
+                    style: textNormalCustom(
+                      color: radioFocusColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.0.textScale(),
+                    ),
+                  ),
+                  StreamBuilder<List<VanBanLienQuanNhiemVuModel>>(
+                    stream: widget.cubit.vanBanKhacNhiemvuStream,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? [];
+                      if (data.isNotEmpty) {
+                        return Column(
+                          children: data
+                              .map(
+                                (e) => WidgetInExpand(
+                                  row: e.dataRowVBLQ(),
+                                  cubit: widget.cubit,
+                                ),
+                              )
+                              .toList(),
+                        );
+                      } else {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 16.0),
+                          child: NodataWidget(),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16,top: 16,),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                S.current.van_ban_giao_nhiem_vu,
-                style: textNormalCustom(
-                  color: radioFocusColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14.0.textScale(),
-                ),
-              ),
-              StreamBuilder<List<VanBanLienQuanNhiemVuModel>>(
-                stream: widget.cubit.vanBanGiaoNhiemvuStream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  if (data.isNotEmpty) {
-                    return Column(
-                      children: data
-                          .map(
-                            (e) => WidgetInExpand(
-                              row: e.dataRowVBLQ(),
-                              cubit: widget.cubit,
-                            ),
-                          )
-                          .toList(),
-                    );
-                  } else {
-                    return const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: NodataWidget(),
-                    );
-                  }
-                },
-              ),
-              SizedBox(
-                height: 14.0.textScale(),
-              ),
-              Text(
-                S.current.van_ban_khac,
-                style: textNormalCustom(
-                  color: radioFocusColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14.0.textScale(),
-                ),
-              ),
-              StreamBuilder<List<VanBanLienQuanNhiemVuModel>>(
-                stream: widget.cubit.vanBanKhacNhiemvuStream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  if (data.isNotEmpty) {
-                    return Column(
-                      children: data
-                          .map(
-                            (e) => WidgetInExpand(
-                              row: e.dataRowVBLQ(),
-                              cubit: widget.cubit,
-                            ),
-                          )
-                          .toList(),
-                    );
-                  } else {
-                    return const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: NodataWidget(),
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

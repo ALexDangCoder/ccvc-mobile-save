@@ -55,6 +55,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
     sdtController.text = widget.item.phoneDiDong ?? '';
     sdtCoquanController.text = widget.item.phoneCoQuan ?? '';
     sdtRiengController.text = widget.item.phoneNhaRieng ?? '';
+    ngaySinh = widget.item.ngaySinh ?? '';
   }
 
   @override
@@ -81,7 +82,8 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     },
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return S.current.khong_duoc_de_trong;
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.ho_ten_cb}!';
                       }
                       return null;
                     },
@@ -109,7 +111,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      return (value ?? '').checkEmailBoolean();
                     },
                   ),
                   TextFieldStyle(
@@ -119,32 +121,41 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     controller: sdtController,
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdt();
+                      return (value ?? '').checkSdtRequire();
                     },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     controller: sdtCoquanController,
                     urlIcon: ImageAssets.icPhoneCp,
-                    hintText: S.current.sdt_co_quan,
+                    hintText: S.current.sdt_co_quan_require,
                     onChange: (value) {
                       widget.cubit.phoneCoQuan = value;
+                    },
+                    textInputType: TextInputType.number,
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
                     },
                   ),
                   TextFieldStyle(
                     controller: sdtRiengController,
                     urlIcon: ImageAssets.icCallDb,
-                    hintText: S.current.sdt_nha_rieng,
+                    hintText: S.current.sdt_co_quan_require,
                     onChange: (value) {
                       widget.cubit.phoneNhaRieng = value;
+                    },
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
                     },
                   ),
                   spaceH16,
@@ -165,7 +176,8 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                   DoubleButtonBottom(
                     onPressed2: () {
                       if (keyGroup.currentState!.validator()) {
-                        widget.cubit.suaDanhSach(
+                        widget.cubit
+                            .suaDanhSach(
                           groups: '',
                           hoTen: hoTenController.text,
                           phoneDiDong: sdtController.text,
@@ -187,8 +199,12 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                           updatedAt: widget.cubit.updatedAt,
                           updatedBy: widget.id,
                           id: widget.id,
-                        );
-                        Navigator.pop(context);
+                        )
+                            .then((value) {
+                          if (value) {
+                            Navigator.pop(context);
+                          }
+                        });
                       } else {}
                     },
                     onPressed1: () {
@@ -222,18 +238,21 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     },
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return S.current.khong_duoc_de_trong;
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.ho_ten_cb}!';
                       }
                       return null;
                     },
                   ),
                   SelectDate(
-                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
+                    isTablet: true,
+                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                     value: widget.item.ngaySinh,
                     onSelectDate: (dateTime) {
                       ngaySinh = dateTime;
                     },
                   ),
+                  spaceH16,
                   CustomRadioButton(
                     value: widget.item.gioiTinh ?? true
                         ? S.current.Nam
@@ -255,7 +274,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      return (value ?? '').checkEmailBoolean();
                     },
                   ),
                   TextFieldStyle(
@@ -265,33 +284,43 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     controller: sdtController,
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdt();
+                      return (value ?? '').checkSdtRequire();
                     },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     controller: sdtCoquanController,
                     urlIcon: ImageAssets.icPhoneCp,
-                    hintText: S.current.sdt_co_quan,
+                    hintText: S.current.sdt_co_quan_require,
                     onChange: (value) {
                       widget.cubit.phoneCoQuan = value;
                     },
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     controller: sdtRiengController,
                     urlIcon: ImageAssets.icCallDb,
-                    hintText: S.current.sdt_nha_rieng,
+                    hintText: S.current.sdt_nha_rieng_require,
                     onChange: (value) {
                       widget.cubit.phoneNhaRieng = value;
                     },
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     controller: diaDiemController,
@@ -305,7 +334,8 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     isTablet: true,
                     onPressed2: () {
                       if (keyGroup.currentState!.validator()) {
-                        widget.cubit.suaDanhSach(
+                        widget.cubit
+                            .suaDanhSach(
                           groups: '',
                           hoTen: hoTenController.text,
                           phoneDiDong: sdtController.text,
@@ -327,8 +357,12 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                           updatedAt: widget.cubit.updatedAt,
                           updatedBy: widget.id,
                           id: widget.id,
-                        );
-                        Navigator.pop(context);
+                        )
+                            .then((value) {
+                          if (value) {
+                            Navigator.pop(context);
+                          }
+                        });
                       } else {}
                     },
                     onPressed1: () {

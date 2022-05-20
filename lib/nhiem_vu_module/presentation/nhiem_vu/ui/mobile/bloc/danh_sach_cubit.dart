@@ -7,8 +7,10 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_requ
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/trang_thai_bieu_do_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_state.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/item_select_bieu_do.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
@@ -28,8 +30,38 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<List<PageData>> dataSubject = BehaviorSubject();
   BehaviorSubject<List<PageDatas>> dataSubjects = BehaviorSubject();
   BehaviorSubject<String> searchSubjects = BehaviorSubject();
+
+
+  final BehaviorSubject<List<ItemSellectBieuDo>> selectBieuDoModelSubject =
+  BehaviorSubject.seeded([
+    ItemSellectBieuDo(
+        stateBieuDo.TheoTrangThai,
+        true
+    ),
+    ItemSellectBieuDo(
+        stateBieuDo.TheoLoai,
+        false
+    ),
+    ItemSellectBieuDo(
+        stateBieuDo.TheoDonVi,
+        false
+    ),
+  ]);
+
+  BehaviorSubject<stateBieuDo> getStateLDM =
+  BehaviorSubject.seeded(stateBieuDo.TheoTrangThai);
+ final BehaviorSubject<bool> checkClickSearch=BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
+
+  void setSelectSearch(){
+    checkClickSearch.sink.add(!checkClickSearch.value);
+  }
+  bool isHideClearData = false;
   String ngayDauTien = '';
   String ngayKetThuc = '';
+  String mangTrangThai='';
+  int? trangThaiHanXuLy;
+  bool checkDataNhiemVu=false;
 
   void callApi(bool isCheckCaNhan) {
     initTimeRange();
@@ -47,19 +79,19 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   void callApiDonVi(bool isCheckCaNhan) {
     initTimeRange();
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
-    getDashBroashCongViec(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViec(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callApiDashBroashDonVi(bool isCheckCaNhan) {
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
-    getDashBroashCongViec(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViec(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
@@ -68,23 +100,23 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    getDashBroashCongViecCaNhan(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViecCaNhan(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callDataDanhSach(String start, String end, bool isCheckCaNhan) {
-    postDanhSachCongViec(
-      hanXuLy: {'FromDate': start, 'ToDate': end},
-      index: pageIndex,
-      isCaNhan: isCheckCaNhan,
-      isSortByHanXuLy: true,
-      keySearch: keySearch,
-      mangTrangThai: [],
-      size: pageSize,
-    );
+    // postDanhSachCongViec(
+    //   hanXuLy: {'FromDate': start, 'ToDate': end},
+    //   index: pageIndex,
+    //   isCaNhan: isCheckCaNhan,
+    //   isSortByHanXuLy: true,
+    //   keySearch: keySearch,
+    //   mangTrangThai: [],
+    //   size: pageSize,
+    // );
     postDanhSachNhiemVu(
       index: pageIndex,
       isNhiemVuCaNhan: isCheckCaNhan,
@@ -122,6 +154,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required int size,
      int? trangThaiHanXuLy,
   }) async {
+    mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
       index: index,
@@ -140,7 +173,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         dataSubject.sink.add(res.pageData ?? []);
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
-            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+            emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
@@ -150,8 +183,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         }
       },
       error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
       },
     );
   }
@@ -185,7 +216,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
             //   showEmpty();
-            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+           // emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
@@ -296,6 +327,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
             .toList();
         chartDataNhiemVuCaNhan.removeLast();
         chartDataNhiemVuCaNhan.removeAt(0);
+        chartDataNhiemVuCaNhan.removeAt(0);
         statusNhiemVuCaNhanSuject.sink.add(chartDataNhiemVuCaNhan);
         showContent();
       },
@@ -337,6 +369,40 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       },
     );
   }
+  final List<ChartData> chartDataNhiemVuCANHAN = [
+    ChartData(
+      S.current.chua_thuc_hien,
+      0,
+      choVaoSoColor,
+    ),
+    ChartData(
+      S.current.dang_thuc_hien,
+      0,
+      choTrinhKyColor,
+    ),
+    ChartData(
+      S.current.da_hoan_thanh,
+      0,
+      daXuLyColor,
+    ),
+  ];
+  final List<ChartData> chartDataTheoLoai = [
+    ChartData(
+    'Nhiệm vụ CP/VPVP',
+      12,
+      choXuLyColor,
+    ),
+    ChartData(
+      'Nhiệm vụ Bộ',
+      12,
+      nhiemVuBoColor,
+    ),
+    ChartData(
+      'Nhiệm vụ đơn vị',
+      14,
+      nhiemDonViColor,
+    ),
+  ];
 
   final List<ChartData> chartDataNhiemVu = [
     ChartData(
@@ -363,8 +429,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   void initTimeRange() {
     final dataDateTime =
-        DateTime.now().dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-    ngayDauTien = dataDateTime.first.formatApi;
-    ngayKetThuc = dataDateTime.last.formatApi;
+        DateTime.now();
+    ngayDauTien = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    ngayKetThuc = dataDateTime.formatApi;
   }
 }

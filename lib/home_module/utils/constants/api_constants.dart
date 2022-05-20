@@ -1,8 +1,10 @@
 class ApiConstants {
+
+
   static const String GET_PHAM_VI = '/common/auth/list-pham-vi';
   static const String GET_LUNAR_DATE = '/api/LunarDate/getLunarDate';
-  static const String GET_TINH_HUONG_KHAN_CAP =
-      '/api/DashBoardHome/tinh-huong-khan-cap?';
+  static const String GET_TIN_BUON =
+      '/appdieuhanh/api/DashBoardHome/tin-buon';
   static const String GET_DASHBOARD_WIDGET =
       '/api/Widget/get-dashboard-widget-config?';
   static const String GET_DASHBOARD_VB_DEN =

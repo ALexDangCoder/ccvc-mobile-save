@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/chi_tiet_cong_viec_nhiem_vu_response.dart';
@@ -14,6 +17,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_phan_xu_ly_nhi
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_thu_hoi_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/lich_su_tra_lai_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/van_ban_lien_quan_response.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/xem_luong_xu_ly_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/y_kien_su_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/service/nhiem_vu_service.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
@@ -29,6 +33,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kie
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/luong_xu_ly_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
 
 class NhiemVuRepoImpl implements NhiemVuRepository {
@@ -207,5 +212,62 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
             List<VanBanLienQuanNhiemVuModel>>(
         () => nhiemVuService.getVanBanLienQuanNhiemVu(id),
         (response) => response.data?.map((e) => e.toModel()).toList() ?? []);
+  }
+
+  @override
+
+  Future<Result<NodePhanXuLy<DonViLuongNhiemVuModel>?>> getLuongXuLyVanBanDen(String id) {
+    return runCatchingAsync<XemLuongXuLyNhiemVuResponse,
+        NodePhanXuLy<DonViLuongNhiemVuModel>?>(
+            () => nhiemVuService.getLuongXuLyNhiemVu(id),
+            (res) => res.toDomain());
+  }
+
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuGiaoViec(String congViecID) {
+    return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
+        List<DanhSachCongViecChiTietNhiemVuModel>>(
+          () =>
+          nhiemVuService.getLichSuGiaoViec(congViecID),
+          (response) => response.data?.map((e) => e.toLichSuGiaoViec()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuThayDoiTrangThai(String congViecID) {
+    return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
+        List<DanhSachCongViecChiTietNhiemVuModel>>(
+          () =>
+          nhiemVuService.getLichSuTDTT(congViecID),
+          (response) => response.data?.map((e) => e.toLichSuTDTT()).toList() ?? [],
+    );
+
+  }
+
+  @override
+  Future<Result<String>> postYKienXuLy({required Map<String,dynamic> map}) {
+    return runCatchingAsync<PostYKienResponse,
+        String>(
+          () =>
+          nhiemVuService.postYKienXULy(map),
+          (response) => response.isSuccess.toString(),
+    );
+  }
+
+  @override
+  Future<Result<String>> postFile({required List<File> path}) {
+    return runCatchingAsync<PostYKienResponse,
+        String>(
+          () =>
+          nhiemVuService.postFile(path),
+          (response) {
+            if(response.isSuccess.toString() == 'true') {
+              final List<dynamic> list = response.data;
+              final Map<String,dynamic> map = list.first;
+              return map['Id'].toString();
+            } else {
+              return 'false';
+            }
+          },
+    );
   }
 }

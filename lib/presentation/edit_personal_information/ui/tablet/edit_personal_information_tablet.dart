@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -15,13 +13,10 @@ import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/do
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_don_vi.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/widget_ung_dung.dart';
-import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -397,21 +392,17 @@ class _EditPersonalInformationTabletScreen
                                             cubit
                                                 .managerPersonalInformationModel
                                                 .xa = null;
-
+                                            cubit.idXa = '';
+                                            cubit.idHuyen = '';
                                             cubit.getDataHuyenXa(
                                               isXa: false,
-                                              parentId:
-                                                  cubit.tinhModel[indexes].id ??
-                                                      '',
+                                              parentId: id,
                                             );
                                             if (indexes >= 0) {
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.tinh =
-                                                data[indexes].name ?? '';
-                                            cubit.idTinh =
-                                                data[indexes].id ?? '';
+                                            cubit.idTinh = id;
                                           },
                                           onRemove: () {
                                             cubit.huyenSubject.sink.add([]);
@@ -451,18 +442,13 @@ class _EditPersonalInformationTabletScreen
                                                 .xa = null;
                                             cubit.getDataHuyenXa(
                                               isXa: true,
-                                              parentId: cubit
-                                                      .huyenModel[indexes].id ??
-                                                  '',
+                                              parentId: id,
                                             );
                                             if (indexes >= 0) {
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.huyen =
-                                                data[indexes].name ?? '';
-                                            cubit.idHuyen =
-                                                data[indexes].id ?? '';
+                                            cubit.idHuyen = id;
                                           },
                                           onRemove: () {
                                             cubit.xaSubject.sink.add([]);
@@ -497,8 +483,7 @@ class _EditPersonalInformationTabletScreen
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.xa = data[indexes].name ?? '';
-                                            cubit.idXa = data[indexes].id ?? '';
+                                            cubit.idXa = id;
                                           },
                                           onRemove: () {
                                             cubit.isCheckTinhSubject.sink
@@ -653,20 +638,11 @@ class _EditPersonalInformationTabletScreen
                                 idHuyen: cubit.idHuyen,
                                 idXa: cubit.idXa,
                               )
-                                  .then(
-                                (value) {
-                                  ProviderWidget.of<MenuCubit>(context).cubit.getUserRefresh();
-                                  return MessageConfig.show(
-                                    title: S.current.thay_doi_thanh_cong,
-                                  );
-                                },
-                              ).onError(
-                                (error, stackTrace) => MessageConfig.show(
-                                  title: S.current.thay_doi_that_bai,
-                                  messState: MessState.error,
-                                ),
-                              );
-                              Navigator.pop(context, true);
+                                  .then((value) {
+                                if (value) {
+                                  Navigator.pop(context, true);
+                                }
+                              });
                             } else {
                               return;
                             }

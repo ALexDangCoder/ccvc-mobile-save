@@ -4,6 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 const emptyView = SizedBox(width: 0, height: 0);
 
+Widget appDivider = Container(
+  height: 6,
+  color: homeColor,
+);
+
 /// height and width space
 
 const spaceH2 = SizedBox(height: 2);

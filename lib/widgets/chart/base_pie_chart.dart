@@ -14,6 +14,7 @@ class PieChart extends StatelessWidget {
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
   final bool isThongKeLichHop;
+  final TextStyle? tittleStyle;
 
   const PieChart({
     Key? key,
@@ -24,6 +25,7 @@ class PieChart extends StatelessWidget {
     this.isSubjectInfo = true,
     this.paddingLeftSubTitle = 0,
     this.isThongKeLichHop = true,
+    this.tittleStyle,
   }) : super(key: key);
 
   @override
@@ -40,10 +42,11 @@ class PieChart extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   title,
-                  style: textNormalCustom(
-                    color: infoColor,
-                    fontSize: 16,
-                  ),
+                  style: tittleStyle ??
+                      textNormalCustom(
+                        color: infoColor,
+                        fontSize: 16,
+                      ),
                 ),
               ),
             ),
@@ -55,34 +58,42 @@ class PieChart extends StatelessWidget {
               ? const NodataWidget()
               : SfCircularChart(
                   margin: EdgeInsets.zero,
+                  onDataLabelTapped: (value) {
+                    if (onTap != null) {
+                      final key = chartData[value.pointIndex];
+
+                      onTap!(value.pointIndex);
+                    } else {}
+                  },
                   series: [
                     // Renders doughnut chart
                     DoughnutSeries<ChartData, String>(
-                      innerRadius: '45',
-                      dataSource: chartData,
-                      pointColorMapper: (ChartData data, _) => data.color,
-                      xValueMapper: (ChartData data, _) => data.title,
-                      yValueMapper: (ChartData data, _) => data.value,
-                      dataLabelMapper: (ChartData data, _) =>
-                          percent(data.value),
-                      onPointTap: (value) {
-                        if (onTap != null) {
-                          onTap!(value.pointIndex ?? 0);
-                        } else {}
-                      },
-                      dataLabelSettings: isThongKeLichHop
-                          ? DataLabelSettings(
-                              isVisible: true,
-                              showZeroValue: false,
-                              textStyle: textNormalCustom(
-                                color: backgroundColorApp,
-                                fontSize: 14,
-                              ),
-                            )
-                          : const DataLabelSettings(
-                              isVisible: true,
-                            ),
-                    ),
+                        innerRadius: '45',
+                        dataSource: chartData,
+                        pointColorMapper: (ChartData data, _) => data.color,
+                        pointRadiusMapper: (ChartData data, _) => data.size,
+                        xValueMapper: (ChartData data, _) => data.title,
+                        yValueMapper: (ChartData data, _) => data.value,
+                        dataLabelMapper: (ChartData data, _) =>
+                            percent(data.value),
+                        onPointTap: (value) {
+                          if (onTap != null) {
+                            final key = chartData[value.pointIndex ?? 0];
+
+                            onTap!(
+                              value.pointIndex ?? 0,
+                            );
+                          } else {}
+                        },
+                        dataLabelSettings: DataLabelSettings(
+                          useSeriesColor: true,
+                          isVisible: true,
+                          showZeroValue: false,
+                          textStyle: textNormalCustom(
+                            color: backgroundColorApp,
+                            fontSize: 14,
+                          ),
+                        ))
                   ],
                 ),
         ),
@@ -152,9 +163,10 @@ class PieChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData(this.title, this.value, this.color);
+  ChartData(this.title, this.value, this.color, {this.size});
 
   final String title;
   final double value;
   final Color color;
+  final String? size;
 }

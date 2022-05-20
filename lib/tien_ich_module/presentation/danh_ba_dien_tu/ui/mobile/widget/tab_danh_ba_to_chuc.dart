@@ -62,6 +62,8 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
                             pageIndexTung: 1,
                             id: value.id,
                           );
+
+                          cubit.id = value.id;
                         },
                       ),
                       Expanded(child: _content()),
@@ -100,6 +102,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
                     pageIndexTung: 1,
                     id: value.id,
                   );
+                  cubit.id = value.id;
                 },
               ),
             ),

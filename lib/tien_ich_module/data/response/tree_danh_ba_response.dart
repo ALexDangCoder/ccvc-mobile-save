@@ -126,7 +126,7 @@ class DataTreeDanhBaResponse extends Equatable {
         email: email ?? '',
         fax: fax,
         hasDonViCon: hasDonViCon ?? false,
-        iD_DonVi_Cha: iD_DonVi_Cha ?? '',
+        iDDonViCha: iD_DonVi_Cha ?? '',
         iD_DonVi_Goc: iD_DonVi_Goc ?? '',
         id: id ?? '',
         level: level ?? 0,

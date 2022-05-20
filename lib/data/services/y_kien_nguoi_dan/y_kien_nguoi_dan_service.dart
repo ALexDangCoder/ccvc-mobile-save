@@ -144,5 +144,6 @@ abstract class YKienNguoiDanService {
     @Query('PageNumber') String? pageNumber,
     @Query('userId') String? userId,
     @Query('donViId') String? donViId,
+    @Query('TuKhoa') String? tuKhoa,
   });
 }

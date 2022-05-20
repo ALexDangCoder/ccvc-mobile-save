@@ -27,7 +27,7 @@ abstract class HomeRepository {
 
   Future<Result<DateModel>> getLunarDate(String inputDate);
 
-  Future<Result<List<TinhHuongKhanCapModel>>> getTinhHuongKhanCap();
+  Future<Result<List<TinBuonModel>>> getTinBuon();
 
   Future<Result<List<WidgetModel>>> getDashBoardConfig();
 

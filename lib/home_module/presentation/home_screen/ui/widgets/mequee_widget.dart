@@ -15,27 +15,22 @@ class MarqueeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Image.asset(
-          ImageAssets.gifKhanCap,
-          width: 24,
-          height: 24,
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          child: StreamBuilder<List<TinBuonModel>>(
-            stream: HomeProvider.of(context).homeCubit.tinhHuongKhanCap,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? [];
-              if (data.isNotEmpty) {
-                return _MarqueeCell(
-                  spacing: 16.0.textScale(space: 8).toInt(),
-                  child: List.generate(data.length, (index) {
-                    final result = data[index];
-                    return Row(
+    return StreamBuilder<List<TinBuonModel>>(
+      stream: HomeProvider.of(context).homeCubit.tinhHuongKhanCap,
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        if (data.isNotEmpty) {
+          return SizedBox(
+            height: 30,
+            child: MarqueeContinuous(
+
+
+              child: Row(
+                children: List.generate(data.length, (index) {
+                  final result = data[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Row(
                       children: [
                         Container(
                           height: 6.0.textScale(),
@@ -60,120 +55,73 @@ class MarqueeWidget extends StatelessWidget {
                           ),
                         )
                       ],
-                    );
-                  }),
-                );
-              }
-              return Container(
-                color: Colors.transparent,
-              );
-            },
-          ),
-        )
-      ],
+                    ),
+                  );
+                }),
+              ),
+            ),
+          );
+        }
+        return Container(
+          color: Colors.transparent,
+        );
+      },
     );
   }
 }
 
-class _MarqueeCell extends StatefulWidget {
-  final List<Widget> child;
-  final int spacing;
-  const _MarqueeCell({Key? key, required this.child, this.spacing = 0})
+class MarqueeContinuous extends StatefulWidget {
+  final Widget child;
+  final Duration duration;
+  final double stepOffset;
+
+ const MarqueeContinuous(
+      {Key? key,
+       required this.child,
+        this.duration = const Duration(seconds: 3),
+        this.stepOffset = 50.0})
       : super(key: key);
 
   @override
-  _MequeeWidgetState createState() => _MequeeWidgetState();
+  _MarqueeContinuousState createState() => _MarqueeContinuousState();
 }
 
-class _MequeeWidgetState extends State<_MarqueeCell> {
-  double offset = 0;
-  double offset1 = 0;
-  double widthWidget = 0;
-  double sizeScreen = 0;
-  GlobalKey key = GlobalKey();
-  late Timer timer;
+class _MarqueeContinuousState extends State<MarqueeContinuous> {
+  late ScrollController _controller;
+  late Timer _timer;
+  double _offset = 0.0;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _controller = ScrollController(initialScrollOffset: _offset);
+    _timer = Timer.periodic(widget.duration, (timer) {
+      double newOffset = _controller.offset + widget.stepOffset;
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      widthWidget = key.currentContext?.size?.width ?? 0;
-      sizeScreen = MediaQuery.of(context).size.width;
-      offset = sizeScreen;
-      offset1 = offset + widthWidget + widget.spacing;
-
-      timer = getAnimationRun();
+      if (newOffset != _offset) {
+        _offset = newOffset;
+        _controller.animateTo(_offset,
+            duration: widget.duration, curve: Curves.linear);
+      }
     });
   }
-@override
+
+  @override
   void dispose() {
-    // TODO: implement dispose
+    _timer.cancel();
+    _controller.dispose();
     super.dispose();
-    timer.cancel();
   }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        timer.cancel();
-      },
-      onLongPressEnd: (_) {
-        timer = getAnimationRun();
-      },
-      child: Container(
-        height: 60,
-        color: Colors.transparent,
-        width: double.infinity,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Positioned(
-              top: 20,
-              left: offset == 0 ? MediaQuery.of(context).size.width : offset,
-              child: Row(
-                key: key,
-                children: List.generate(
-                  widget.child.length,
-                  (index) => Padding(
-                    padding: EdgeInsets.only(right: widget.spacing + 0.0),
-                    child: widget.child[index],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 20,
-              left: offset == 0 ? MediaQuery.of(context).size.width : offset1,
-              child: Row(
-                children: List.generate(
-                  widget.child.length,
-                  (index) => Padding(
-                    padding: EdgeInsets.only(right: widget.spacing + 0.0),
-                    child: widget.child[index],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Timer getAnimationRun() {
-    return Timer.periodic(const Duration(milliseconds: 40), (timer) {
-      // log("message$offset");
-      offset = offset - 1;
-      offset1 = offset1 - 1;
-      if (offset1 < 0 && offset1 > -2) {
-        offset = widthWidget + widget.spacing;
-      }
-      if (offset < 0 && offset > -2) {
-        offset1 = widthWidget + widget.spacing;
-      }
-
-     if(mounted) setState(() {});
-    });
+    return ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        controller: _controller,
+        addAutomaticKeepAlives: false,
+        itemBuilder: (context, index) {
+          return widget.child;
+        });
   }
 }

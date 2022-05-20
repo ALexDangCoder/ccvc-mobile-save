@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -60,7 +61,16 @@ class HomeCubit extends BaseCubit<HomeState> {
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
   final PublishSubject<bool> refreshListen = PublishSubject<bool>();
 
-
+  Future<void> _getTinhHuongKhanCap() async {
+    final result = await homeRep.getTinBuon();
+    result.when(
+      success: (res) {
+        log('${res}');
+        _tinhHuongKhanCap.sink.add(res);
+      },
+      error: (err) {},
+    );
+  }
 
   void showDialog(WidgetType type) {
     if (_showDialogSetting.hasValue) {
@@ -87,6 +97,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     showLoading();
     unawaited(queue.add(() => getUserInFor()));
     unawaited(queue.add(() => getDate()));
+    unawaited(queue.add(() => _getTinhHuongKhanCap()));
     unawaited(queue.add(() => configWidget()));
     await queue.onComplete.catchError((er) {});
     showContent();
@@ -98,6 +109,7 @@ class HomeCubit extends BaseCubit<HomeState> {
 
     unawaited(queue.add(() => getUserInFor()));
     unawaited(queue.add(() => getDate()));
+    unawaited(queue.add(() => _getTinhHuongKhanCap()));
     unawaited(queue.add(() => configWidget()));
     await queue.onComplete.catchError((er) {});
     refreshListen.sink.add(true);

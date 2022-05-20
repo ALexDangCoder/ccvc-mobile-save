@@ -64,10 +64,10 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<TinhHuongKhanCapModel>>> getTinhHuongKhanCap() {
+  Future<Result<List<TinBuonModel>>> getTinBuon() {
     return runCatchingAsync<TinhHuongKhanCapResponse,
-        List<TinhHuongKhanCapModel>>(
-      () => _homeServiceCCVC.getTinhHuongKhanCap(),
+        List<TinBuonModel>>(
+      () => _homeServiceGateWay.getTinBuon(),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }

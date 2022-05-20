@@ -231,24 +231,6 @@ class ChiTietVanBanDenModel {
     }
   }
 
-  List<DocumentDetailRow> toListCheckBox() {
-    final List<DocumentDetailRow> listCheckbox = [
-      DocumentDetailRow(S.current.van_ban_qppl, isQPPL ?? false,
-          TypeDocumentDetailRow.checkbox),
-      DocumentDetailRow(
-        S.current.hoi_bao_van_ban,
-        isHoiBao ?? false,
-        TypeDocumentDetailRow.checkbox,
-      ),
-      DocumentDetailRow(
-        S.current.da_nhan_ban_giay,
-        isNhanBanGiay ?? false,
-        TypeDocumentDetailRow.checkbox,
-      )
-    ];
-
-    return listCheckbox;
-  }
 }
 
 class FileDinhKemsVanBanDen {

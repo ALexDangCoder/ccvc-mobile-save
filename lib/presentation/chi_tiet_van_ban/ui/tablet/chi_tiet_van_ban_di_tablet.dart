@@ -26,10 +26,7 @@ class ChiTietVanBanDiTablet extends StatefulWidget {
 }
 
 class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
-
-
   late CommonDetailDocumentGoCubit commonDetailDocumentGoCubit;
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +50,10 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                 tabs: [
                   Tab(text: S.current.thong_tin_chung),
                   Tab(text: S.current.don_vi_nhan_va_theo_doi_van_ban),
-                  Tab(text: S.current.y_kien_xu_ly),
-                  Tab(text: S.current.thong_tin_ky_duyet),
                   Tab(text: S.current.tep_dinh_kem),
-                  Tab(text: S.current.lich_su_cap_nhat_thth),
+                  Tab(text: S.current.thong_tin_ky_duyet),
+                  Tab(text: S.current.y_kien_xu_ly),
+                  Tab(text: S.current.lich_su_cap_nhat),
                   Tab(text: S.current.lich_su_tra_lai),
                   Tab(text: S.current.lich_su_thu_hoi),
                   Tab(text: S.current.lich_su_huy_duyet),
@@ -76,8 +73,11 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                     cubit: commonDetailDocumentGoCubit,
                     id: widget.id,
                   ),
-                  TheoDoiVanBanMobile(cubit: commonDetailDocumentGoCubit,),
-                  VBDiYKienXuLyExpandWidget(
+                  TheoDoiVanBanMobile(
+                    cubit: commonDetailDocumentGoCubit,
+                    id: widget.id,
+                  ),
+                  TepDinhKemMobile(
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),
@@ -85,7 +85,7 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),
-                  TepDinhKemMobile(
+                  VBDiYKienXuLyExpandWidget(
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),

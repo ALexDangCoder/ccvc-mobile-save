@@ -123,8 +123,7 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
               CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  data.anhDaiDien ??
-                      'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  data.anhDaiDien ??'',
                 ),
               ),
               spaceW13,

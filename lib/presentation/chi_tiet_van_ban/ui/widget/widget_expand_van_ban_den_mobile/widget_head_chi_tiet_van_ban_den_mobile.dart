@@ -12,6 +12,8 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../widget_in_expand_van_ban.dart';
+
 class WidgetHeadChiTietVanBanDenMobile extends StatefulWidget {
   final CommonDetailDocumentCubit cubit;
   final String processId;
@@ -77,10 +79,18 @@ class _WidgetHeadChiTietVanBanDenMobileState
                       const SizedBox(
                         height: 10.0,
                       ),
-                      ...data
-                          .toListCheckBox()
-                          .map(checkRow)
-                          .toList()
+                      checkRow(
+                        S.current.van_ban_qppl,
+                        value: data.isQPPL ?? false,
+                      ),
+                      checkRow(
+                        S.current.hoi_bao_van_ban,
+                        value: data.isHoiBao ?? false,
+                      ),
+                      checkRow(
+                        S.current.da_nhan_ban_giay,
+                        value: data.isNhanBanGiay ?? false,
+                      ),
                     ],
                   ),
                 );
@@ -94,7 +104,7 @@ class _WidgetHeadChiTietVanBanDenMobileState
     );
   }
 
-  Widget checkRow(DocumentDetailRow row) =>
+  Widget checkRow(String title, {required bool value}) =>
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
@@ -104,12 +114,12 @@ class _WidgetHeadChiTietVanBanDenMobileState
               width: 41,
               child: CustomCheckBox(
                 title: '',
-                isCheck: row.value,
+                isCheck: value,
                 onChange: (bool check) {},
               ),
             ),
             AutoSizeText(
-              row.title,
+              title,
               style: textNormalCustom(
                 color: titleItemEdit,
                 fontSize: 14.0,

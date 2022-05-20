@@ -3,13 +3,14 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
+
+import '../widget_in_expand_van_ban.dart';
 
 class WidgetHeadChiTietVanBanDi extends StatefulWidget {
   final CommonDetailDocumentGoCubit cubit;
@@ -60,7 +61,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                     padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                     child: Column(
                       children: data.toListRowHead().map(
-                            (row) {
+                        (row) {
                           return DetailDocumentRow(
                             row: row,
                           );
@@ -68,7 +69,38 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                       ).toList(),
                     ),
                   ),
-                  ...data.toListCheckBox().map(checkRow).toList()
+                  checkRow(
+                    S.current.van_ban_tra_loi,
+                    value: data.isLaVanBanTraLoi ?? false,
+                  ),
+                  ...?data.vanBanDenResponses
+                      ?.map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16 ),
+                          child: WidgetInExpandVanBan(
+                            row: e.toListRowView(),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  checkRow(
+                    S.current.van_ban_qppl,
+                    value: data.isVanBanQppl ?? false,
+                  ),
+                  checkRow(
+                    S.current.van_ban_chi_dao,
+                    value: data.isVanBanChiDao ?? false,
+                  ),
+                  ...?data.vanBanChiDaoResponses
+                      ?.map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16 ),
+                          child: WidgetInExpandVanBan(
+                            row: e.toListRowView(),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ],
               );
             },
@@ -78,7 +110,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
     );
   }
 
-  Widget checkRow(DocumentDetailRow row) => Padding(
+  Widget checkRow(String title, {required bool value}) => Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,
           horizontal: 16,
@@ -90,12 +122,12 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
               width: 41,
               child: CustomCheckBox(
                 title: '',
-                isCheck: row.value,
+                isCheck: value,
                 onChange: (bool check) {},
               ),
             ),
             AutoSizeText(
-              row.title,
+              title,
               style: textNormalCustom(
                 color: titleItemEdit,
                 fontSize: 14.0,

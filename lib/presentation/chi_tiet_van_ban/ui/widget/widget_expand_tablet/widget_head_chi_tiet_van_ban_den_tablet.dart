@@ -76,38 +76,18 @@ class _WidgetHeadChiTietVanBanDenTabletState
                       const SizedBox(
                         height: 10.0,
                       ),
-                      GridView.count(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        childAspectRatio: 5,
-                        children: snapshot.data!
-                            .toListCheckBox()
-                            .map(
-                              (row) => Row(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                                width: 41,
-                                child: CustomCheckBox(
-                                  title: '',
-                                  isCheck: row.value,
-                                  onChange: (bool check) {},
-                                ),
-                              ),
-                              AutoSizeText(
-                                row.title,
-                                style: textNormalCustom(
-                                  color: titleItemEdit,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                            .toList(),
-                      )
+                      checkRow(
+                        S.current.van_ban_qppl,
+                        value: data.isQPPL ?? false,
+                      ),
+                      checkRow(
+                        S.current.hoi_bao_van_ban,
+                        value: data.isHoiBao ?? false,
+                      ),
+                      checkRow(
+                        S.current.da_nhan_ban_giay,
+                        value: data.isNhanBanGiay ?? false,
+                      ),
                     ],
                   ),
                 );
@@ -120,6 +100,32 @@ class _WidgetHeadChiTietVanBanDenTabletState
       ),
     );
   }
+
+  Widget checkRow(String title, {required bool value}) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 20,
+              width: 41,
+              child: CustomCheckBox(
+                title: '',
+                isCheck: value,
+                onChange: (bool check) {},
+              ),
+            ),
+            AutoSizeText(
+              title,
+              style: textNormalCustom(
+                color: titleItemEdit,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      );
 
   @override
   // TODO: implement wantKeepAlive

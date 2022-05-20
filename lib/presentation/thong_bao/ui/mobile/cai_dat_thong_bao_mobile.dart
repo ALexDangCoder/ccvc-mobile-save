@@ -49,7 +49,7 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
         builder: (context, snapshot) {
           return Scaffold(
             appBar: BaseAppBar(
-              title: S.current.thong_bao,
+              title: S.current.cai_dat_thong_bao,
               elevation: 0.5,
               leadingIcon: GestureDetector(
                 onTap: () {
@@ -101,7 +101,8 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
                               isSwitch: true,
                               onTap: () {},
                               valueSwitch: widget.cubit.stateAppCode.contains(
-                                  (data[index].code ?? '').trim(),),
+                                (data[index].code ?? '').trim(),
+                              ),
                               onChange: (bool status) {
                                 widget.cubit.changeSwitch(
                                   (data[index].code ?? '').trim(),
@@ -124,6 +125,18 @@ class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16.0.textScale(),
                     ),
+                  ),
+                  ItemThongBaoMobile(
+                    isImage: false,
+                    title: S.current.che_do_im_lang,
+                    id: '',
+                    unreadCount: 1,
+                    isSwitch: true,
+                    onTap: () {},
+                    valueSwitch: snapshot.data?.modeSilent ?? false,
+                    onChange: (bool status) {
+                      widget.cubit.changeModeSilent();
+                    },
                   ),
                 ],
               ),

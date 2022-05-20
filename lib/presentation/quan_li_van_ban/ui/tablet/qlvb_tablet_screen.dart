@@ -8,13 +8,14 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
-import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget_tablet.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -33,11 +34,13 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
   ChooseTimeCubit chooseTimeCubit = ChooseTimeCubit();
   late TabController controller;
   late ScrollController scrollController;
+  TextEditingController textcontroller = TextEditingController();
 
   @override
   void initState() {
     controller = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
+    qlvbCubit.initTimeRange();
     super.initState();
     qlvbCubit.callAPi();
   }
@@ -57,46 +60,26 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
           length: 2,
           child: Column(
             children: [
-              Container(
-                color: Colors.white,
-                child: ChooseTimeScreen(
-                  baseChooseTimeCubit: chooseTimeCubit,
-                  today: DateTime.now(),
-                  onSubmit: (value) {
-                    qlvbCubit.searchDataDanhSachVBDen(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                      keySearch: value,
-                    );
-                    qlvbCubit.searchDataDanhSachVBDi(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                      keySearch: value,
-                    );
-                    qlvbCubit.listDataDanhSachVBDen(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                    qlvbCubit.listDataDanhSachVBDi(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                  },
-                  onChangTime: () {
-                    qlvbCubit.dataVBDen(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                    );
-                    qlvbCubit.dataVBDi(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                    );
-                    qlvbCubit.listDataDanhSachVBDen(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                    qlvbCubit.listDataDanhSachVBDi(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                  },
-                ),
+              FilterDateTimeWidgetTablet(
+              initStartDate: DateTime.parse(qlvbCubit.startDate),
+                context: context,
+                onChooseDateFilter: (startDate, endDate) {
+                  qlvbCubit.startDate = startDate.formatApi;
+                  qlvbCubit.endDate = endDate.formatApi;
+                  qlvbCubit.dataVBDen();
+                  qlvbCubit.dataVBDi();
+                  qlvbCubit.listDataDanhSachVBDen();
+                  qlvbCubit.listDataDanhSachVBDi();
+                },
+                controller: textcontroller,
+                onChange: (text) {
+                  qlvbCubit.debouncer.run(() {
+                    setState(() {});
+                    qlvbCubit.keySearch = text;
+                    qlvbCubit.listDataDanhSachVBDen();
+                    qlvbCubit.listDataDanhSachVBDi();
+                  });
+                },
               ),
               Container(
                 color: bgQLVBTablet,

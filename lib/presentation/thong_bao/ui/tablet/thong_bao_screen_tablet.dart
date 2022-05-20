@@ -115,6 +115,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
                                 builder: (context) =>
                                     ThongBaoQuanLyVanBanScreen(
                                   cubit: thongBaoCubit,
+                                  title: data[index].name ?? '',
                                 ),
                               ),
                             );

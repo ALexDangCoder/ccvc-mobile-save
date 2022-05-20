@@ -65,7 +65,9 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                         cubit: thongBaoCubit,
                       ),
                     ),
-                  );
+                  ).then((value) {
+                    thongBaoCubit.getThongBaoQuanTrong();
+                  });
                 },
                 child: SvgPicture.asset(ImageAssets.icSettingNotify),
               ),
@@ -123,6 +125,7 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                     builder: (context) =>
                                         ThongBaoQuanLyVanBanScreen(
                                       cubit: thongBaoCubit,
+                                      title: data[index].name ?? '',
                                     ),
                                   ),
                                 );

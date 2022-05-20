@@ -4,7 +4,8 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,7 @@ class _YKienXuLyExpandWidgetMobileState
             await widget.cubit.getDanhSachYKienXuLy(widget.processId);
           },
           child: SingleChildScrollView(
+            physics: const  AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
                 Container(
@@ -128,8 +130,7 @@ class _YKienXuLyExpandWidgetMobileState
               CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  data.avatar ??
-                      'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  '$DO_MAIN_DOWLOAD_FILE${data.avatar ?? ''}',
                 ),
               ),
               spaceW13,

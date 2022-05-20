@@ -15,6 +15,7 @@ class ItemThongBaoMobile extends StatefulWidget {
   final bool isLine;
   final Function() onTap;
   final bool isSwitch;
+  final bool valueSwitch;
   final Function(bool status) onChange;
 
   const ItemThongBaoMobile({
@@ -27,6 +28,7 @@ class ItemThongBaoMobile extends StatefulWidget {
     required this.onTap,
     this.isSwitch = false,
     required this.onChange,
+     this.valueSwitch = false,
   }) : super(key: key);
 
   @override
@@ -73,11 +75,11 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                   ),
                   if (widget.isSwitch)
                     CustomSwitch(
-                      value: isSwitch,
+                      value: widget.valueSwitch,
                       onToggle: (value) {
                         isSwitch = value;
-                        widget.onChange(value);
                         setState(() {});
+                        widget.onChange(value);
                       },
                     )
                   else

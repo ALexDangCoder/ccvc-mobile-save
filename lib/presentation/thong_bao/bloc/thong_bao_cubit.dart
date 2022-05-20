@@ -1,8 +1,9 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
+import 'package:ccvc_mobile/domain/model/thong_bao/setting_notify_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_state.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -15,7 +16,11 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   ThongBaoRepository get _service => Get.find();
   bool isSwitch = false;
-  String appCode = 'COMMON';
+  String appCode = '';
+  List<String> appCodes = [];
+
+  List<String> stateAppCode = [];
+
   int page = 1;
   int totalPage = 1;
   List<String> listMenu = [
@@ -35,7 +40,7 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
   Stream<ThongBaoQuanTrongModel> get thongBaoQuanTrongStream =>
       thongBaoQuanTrongSubject.stream;
 
-  BehaviorSubject<List<ThongBaoModel>> settingSubject = BehaviorSubject();
+  BehaviorSubject<SettingNotifyModel> settingSubject = BehaviorSubject();
 
   BehaviorSubject<List<ThongBaoModel>> thongBaoSubject = BehaviorSubject();
 
@@ -46,45 +51,80 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     await getThongBaoQuanTrong();
   }
 
-  void initDataSetting() {
-    List<ThongBaoModel> listData = [
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'Quản lý cán bộ',
-        code: 'QLHSCB',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'Hệ thống quản lý common',
-        code: 'COMMON',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'VMS',
-        code: 'VMS',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-      ThongBaoModel(
-        id: 'f554cc20-fd71-4bca-b59a-2b2e860a993a',
-        name: 'Phản ánh kiến nghị',
-        code: 'PAKN',
-        description: '',
-        unreadCount: 0,
-        total: 0,
-      ),
-    ];
-
-    settingSubject.add(listData);
+  ThongBaoType typeContent(String typeNotify) {
+    switch (typeNotify) {
+      case ThongBaoTypeConstant.LICH_HOP_MOI:
+        return ThongBaoType.LichHopMoi;
+      case ThongBaoTypeConstant.TIN_NHAN_MOI:
+        return ThongBaoType.TinNhanMoi;
+      default:
+        return ThongBaoType.LichHopMoi;
+    }
   }
 
+  void dispose() {
+    thongBaoSubject.close();
+    super.close();
+  }
+}
+
+extension SettingScreen on ThongBaoCubit {
+  Future<void> getSettingNoti() async {
+    showLoading();
+    final result = await _service.getSetting();
+
+    result.when(
+      success: (value) {
+        if ((value.subSystem ?? []).isNotEmpty) {
+          stateAppCode.addAll(value.subSystem ?? []);
+          stateAppCode = stateAppCode.map((e) => e.trim()).toList();
+          settingSubject.add(value);
+        }
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  Future<void> postSetting() async {
+    showLoading();
+    final result = await _service.postSetting(
+      SettingNotifyRequest(
+        createdBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        messageShowNew: true,
+        messageShowNotRead: true,
+        messageShowPreview: true,
+        modeSilent: true,
+        noticeHideAuto: '',
+        noticeLocation: '',
+        sound: true,
+        soundType: '',
+        soundVolume: 0,
+        subSystem: stateAppCode.toString().getAppCode(),
+      ),
+    );
+    result.when(
+      success: (success) {
+        stateAppCode.clear();
+        showContent();
+        getSettingNoti();
+      },
+      error: (error) {},
+    );
+
+  }
+
+  void changeSwitch(String appCode, bool status) {
+    if (!status) {
+      stateAppCode.remove(appCode.trim());
+    } else {
+      stateAppCode.add(appCode.trim());
+    }
+    postSetting();
+  }
+}
+
+extension ThongBaoScreen on ThongBaoCubit {
   Future<void> getNotifyAppCodes() async {
     showLoading();
     final result = await _service.getNotifyAppcodes();
@@ -92,6 +132,10 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     result.when(
       success: (value) {
         thongBaoSubject.add(value);
+        appCodes.clear();
+        value.forEach((element) {
+          appCodes.add(element.code ?? '');
+        });
       },
       error: (error) {},
     );
@@ -100,11 +144,14 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   Future<void> readAllNoti(bool isQuanTrong) async {
     showLoading();
-    final result = await _service.readAllNoti(appCode);
+    appCodes = stateAppCode.map((e) => e).toList();
+    final result = await _service.readAllNoti(
+      appCodes.toString().getAppCode(),
+    );
 
     result.when(
       success: (value) {
-        if(isQuanTrong) {
+        if (isQuanTrong) {
           getThongBaoQuanTrong();
         } else {
           getListThongBao();
@@ -118,7 +165,6 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
   Future<void> getThongBaoQuanTrong() async {
     showLoading();
     final result = await _service.getThongBaoQuanTrong(
-      appCode: appCode,
       active: true,
       seen: -1,
       currentPage: page,
@@ -146,7 +192,7 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
 
   Future<void> getListThongBao() async {
     showLoading();
-    final result = await _service.getThongBaoQuanTrong(
+    final result = await _service.getListThongBao(
       appCode: appCode,
       active: true,
       seen: -1,
@@ -166,19 +212,13 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
     showContent();
   }
 
-  ThongBaoType typeContent(String typeNotify) {
-    switch (typeNotify) {
-      case ThongBaoTypeConstant.LICH_HOP_MOI:
-        return ThongBaoType.LichHopMoi;
-      case ThongBaoTypeConstant.TIN_NHAN_MOI:
-        return ThongBaoType.TinNhanMoi;
-      default:
-        return ThongBaoType.LichHopMoi;
-    }
+  void selectNotiAppCode(String appCode) {
+    this.appCode = appCode;
   }
+}
 
-  void dispose() {
-    thongBaoSubject.close();
-    super.close();
+extension AppCodes on String {
+  String getAppCode() {
+    return substring(1, length - 1).trim();
   }
 }

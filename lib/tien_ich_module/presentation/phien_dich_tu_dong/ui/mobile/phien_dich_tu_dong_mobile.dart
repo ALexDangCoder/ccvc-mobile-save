@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -33,6 +34,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
   double level = 0.0;
   double minSoundLevel = 50000;
   double maxSoundLevel = -50000;
+  bool isListening = false;
 
   Future<void> initSpeechState() async {
     try {
@@ -63,11 +65,13 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
       listenFor: const Duration(seconds: 30),
       localeId: cubit.voiceType,
     );
+    isListening = true;
     setState(() {});
   }
 
   void stopListening() {
     speech.stop();
+    isListening = false;
     setState(() {
       level = 0.0;
     });
@@ -78,9 +82,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
       textEditingController.text = result.recognizedWords;
       cubit.translateDocument(document: result.recognizedWords);
     });
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void soundLevelListener(double level) {
@@ -206,20 +208,43 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                     ),
                   ),
                   //mic
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: speech.isListening ? stopListening : startListening,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 20,
-                      ),
-                      child: SvgPicture.asset(
-                        ImageAssets.icVoiceMini,
-                        color: AppTheme.getInstance().colorField(),
+                  if (Platform.isAndroid)
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap:
+                          speech.isListening ? stopListening : startListening,
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          bottom: 20,
+                        ),
+                        child: SvgPicture.asset(
+                          ImageAssets.icVoiceMini,
+                          color: speech.isListening
+                              ? AppTheme.getInstance().colorField()
+                              : textBodyTime,
+                        ),
                       ),
                     ),
-                  ),
+                  if (Platform.isIOS)
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: isListening ? stopListening : startListening,
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          bottom: 20,
+                        ),
+                        child: SvgPicture.asset(
+                          ImageAssets.icVoiceMini,
+                          color: isListening
+                              ? AppTheme.getInstance().colorField()
+                              : textBodyTime,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

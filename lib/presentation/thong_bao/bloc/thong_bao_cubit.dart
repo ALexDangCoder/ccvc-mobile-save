@@ -111,7 +111,6 @@ extension SettingScreen on ThongBaoCubit {
       },
       error: (error) {},
     );
-
   }
 
   void changeSwitch(String appCode, bool status) {

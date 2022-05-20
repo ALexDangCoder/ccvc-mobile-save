@@ -63,6 +63,10 @@ class _BieuDoTrangThaiTheoLoaiMobileState extends State<BieuDoTrangThaiTheoLoaiM
                   final result =widget.chartData[index];
                   return GestureDetector(
                     onTap: () {
+                      widget.ontap(widget.cubit.chartData[index].title.split(' ')
+                          .join('_')
+                          .toUpperCase()
+                          .vietNameseParse());
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),

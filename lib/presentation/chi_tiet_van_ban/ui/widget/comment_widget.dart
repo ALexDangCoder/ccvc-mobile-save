@@ -197,7 +197,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
               totalSize += item.size ?? 0;
             }
             if (totalSize / 1048576 > widget.maxSizeMB) {
-              //todo popup   print('fuck data');
+              //todo popup
             } else {
               if (widget.onSend != null) {
                 widget.onSend!(comment, listFile.toList());

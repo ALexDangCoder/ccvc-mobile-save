@@ -395,8 +395,25 @@ class DanhSachCongViecTienIchCubit
         performer: toDoListRequest.performer ?? todo.performer,
       ),
     );
-    await result.when(
-      success: (res) async {
+    result.when(
+      success: (res) {
+        final data = listDSCV.value;
+        if (isTicked != null) {
+          data.insert(0, res);
+          listDSCV.sink.add(data);
+          data.remove(todo);
+        }
+        if (important != null) {
+          data.insert(data.indexOf(todo), res);
+          listDSCV.sink.add(data);
+        }
+        if (inUsed != null) {
+          data.remove(todo);
+          listDSCV.sink.add(data);
+        }
+        if (isDeleted != null) {
+          data.remove(todo);
+        }
         callAndFillApiAutu();
       },
       error: (err) {},

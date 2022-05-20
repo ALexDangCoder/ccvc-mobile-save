@@ -40,13 +40,16 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                     color: unselectedLabelColor,
                   ),
                 ),
-                if (isExpand) const Icon(
-                        Icons.keyboard_arrow_up_rounded,
-                        color: AqiColor,
-                      ) else const Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        color: AqiColor,
-                      )
+                if (isExpand)
+                  const Icon(
+                    Icons.keyboard_arrow_up_rounded,
+                    color: AqiColor,
+                  )
+                else
+                  const Icon(
+                    Icons.keyboard_arrow_down_outlined,
+                    color: AqiColor,
+                  )
               ],
             ),
           ),
@@ -57,9 +60,8 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             expand: isExpand,
             child: ButtonSelectFile(
               title: S.current.tai_lieu_dinh_kem,
-              onChange: (List<File> files) {
-                print(files);
-              }, files: [],
+              onChange: (List<File> files) {},
+              files: [],
             ),
           )
         ],

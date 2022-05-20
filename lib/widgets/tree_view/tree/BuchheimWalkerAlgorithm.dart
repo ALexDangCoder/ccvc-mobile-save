@@ -39,7 +39,6 @@ class BuchheimWalkerAlgorithm extends Algorithm {
     graph.nodes.forEach((element) {
       if (getNodeData(element) == null) {
         if (!kReleaseMode) {
-          print('$element is not connected to primary ancestor');
         }
       }
     });

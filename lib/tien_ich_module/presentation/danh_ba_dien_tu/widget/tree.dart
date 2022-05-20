@@ -12,16 +12,15 @@ class Tree<T> {
         tree.add(node);
       }
     } catch (e) {
-      print(e);
     }
   }
 
   bool isDaPhanXuLy(NodeHSCV value, List<TreeDonViDanhBA> listChild) {
-    if (value.value.iD_DonVi_Cha.trim() == '') {
+    if (value.value.iDDonViCha.trim() == '') {
       return true;
     } else {
       for (var i in listChild) {
-        if (i.iD_DonVi_Cha == value.value.id) {
+        if (i.iDDonViCha == value.value.id) {
           return true;
         }
       }
@@ -78,7 +77,7 @@ class NodeHSCV {
     return NodeHSCV(
       value: value,
       iDDonViCha:
-          value.iD_DonVi_Cha.trim() == '' ? value.id : value.iD_DonVi_Cha,
+          value.iDDonViCha.trim() == '' ? value.id : value.iDDonViCha,
       colorNode: getColor(value),
     );
   }

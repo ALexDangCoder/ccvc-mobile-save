@@ -164,7 +164,7 @@ class _NodeWidgetState extends State<NodeWidget> {
       stream: widget.cubit.listTreeDanhBaSubject.stream,
       builder: (BuildContext context, AsyncSnapshot<Tree> snapshot) {
         final hasChild = widget.node?.isHasChild ?? false;
-        final idDonviCha = widget.node?.value.iD_DonVi_Cha;
+        final idDonviCha = widget.node?.value.iDDonViCha;
         if (widget.node != null) {
           return SingleChildScrollView(
             child: Column(

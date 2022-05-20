@@ -326,7 +326,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
             Text(
               S.current.chon_tai_lieu,
               style: textNormalCustom(
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 fontSize: 18,
                 color: titleColor,
               ),

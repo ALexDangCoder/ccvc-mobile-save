@@ -32,10 +32,10 @@ class Tree<T> {
     tree.add(NodeHSCV.createNode(value: value));
   }
 
-  List<NodeHSCV> getChild(String iD_DonVi_Cha) {
+  List<NodeHSCV> getChild(String iDDonViCha) {
     List<NodeHSCV> res = [];
     for (int i = 0; i < tree.length; i++) {
-      if (tree[i].iD_DonVi_Cha == iD_DonVi_Cha &&
+      if (tree[i].iD_DonVi_Cha == iDDonViCha &&
           tree[i].iD_DonVi_Cha != tree[i].value.id) res.add(tree[i]);
     }
 

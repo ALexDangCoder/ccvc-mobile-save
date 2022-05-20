@@ -1,13 +1,14 @@
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ket_noi_module/config/resources/color.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<void> launchURL(String url) async {
   if (await canLaunch(url)) {
-    await launch(url);
+    await canLaunch(url);
   } else {
     throw 'Could not launch $url';
   }
@@ -51,7 +52,7 @@ Color getColorFromStatus(int statusCode) {
   }
 }
 
-Color getColorFromPriorityCode(String code){
+Color getColorFromPriorityCode(String code) {
   switch (code) {
     case "BinhThuong":
       return daXuLyColor;
@@ -64,4 +65,21 @@ Color getColorFromPriorityCode(String code){
     default:
       return titleColor;
   }
+}
+
+String getCodeFromTitlePieChart(String title) {
+  return title.split(' ').join('_').toUpperCase().vietNameseParse();
+}
+
+List<String> statusSearchDocumentInCode(String code) {
+  if (code == '') return [];
+  if (code == CHO_XU_LY) return [CHO_XU_LY, CHO_PHAN_XU_LY];
+  return [code];
+}
+
+List<int>? statusSearchDocumentOutCode(String code) {
+  if (code == 'DA_XU_LY') return [];
+  if (code == 'CHO_TRINH_KY') return [1];
+  if (code == 'CHO_XU_LY') return [2];
+  return null;
 }

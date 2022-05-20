@@ -376,6 +376,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(10),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .tinh,
@@ -427,6 +428,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(11),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .huyen,
@@ -469,6 +471,7 @@ class _EditPersonalInformationTabletScreen
                                       return InputInfoUserWidget(
                                         title: user.keys.elementAt(12),
                                         child: CustomSelectTinh(
+                                          tapLet: true,
                                           initialValue: cubit
                                               .managerPersonalInformationModel
                                               .xa,
@@ -613,7 +616,8 @@ class _EditPersonalInformationTabletScreen
                           },
                           onPressed2: () async {
                             if (keyGroup.currentState?.validator() ?? true) {
-                              await cubit.getEditPerson(
+                              await cubit
+                                  .getEditPerson(
                                 id: widget.id,
                                 maCanBo: maCanBoController.value.text,
                                 name: nameController.value.text,
@@ -633,8 +637,12 @@ class _EditPersonalInformationTabletScreen
                                 idTinh: cubit.idTinh,
                                 idHuyen: cubit.idHuyen,
                                 idXa: cubit.idXa,
-                              );
-                              Navigator.pop(context, true);
+                              )
+                                  .then((value) {
+                                if (value) {
+                                  Navigator.pop(context, true);
+                                }
+                              });
                             } else {
                               return;
                             }

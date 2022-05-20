@@ -1016,7 +1016,6 @@ extension KetLuanHop on DetailMeetCalenderCubit {
         noiDung.sink.add(res.content ?? '');
       },
       error: (err) {
-        print('lỗi kết luận họp');
       },
     );
   }

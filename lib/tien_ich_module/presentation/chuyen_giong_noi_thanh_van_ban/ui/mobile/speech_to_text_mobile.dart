@@ -53,18 +53,19 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
     speech.listen(
       onResult: resultListener,
       localeId: VI_VN_VOICE,
-      pauseFor: const Duration(seconds: 3),
+      pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
     );
-    isListening = true;
-    setState(() {});
+    setState(() {
+      isListening = true;
+    });
   }
 
   void stopListening() {
     speech.stop();
     setState(() {
+      isListening = false;
       level = 0.0;
     });
-    isListening = false;
   }
 
   void cancelListening() {
@@ -97,6 +98,7 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
   @override
   void dispose() {
     super.dispose();
+    speech.stop();
     speech.cancel();
   }
 
@@ -172,7 +174,7 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                       if (!_hasSpeech) {
                         return;
                       }
-                      isListening ? startListening() : stopListening();
+                      !isListening ? startListening() : stopListening();
                       cubit.isVoiceSubject.sink.add(speech.isListening);
                     },
                     child: SvgPicture.asset(

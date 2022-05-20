@@ -50,15 +50,17 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   void startListening() {
     speech.listen(
       onResult: resultListener,
+      pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
     );
-    isListening = true;
-    setState(() {});
+    setState(() {
+      isListening = true;
+    });
   }
 
   void stopListening() {
     speech.stop();
-    isListening = false;
     setState(() {
+      isListening = false;
       level = 0.0;
     });
   }
@@ -93,6 +95,7 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   @override
   void dispose() {
     super.dispose();
+    speech.stop();
     speech.cancel();
   }
 
@@ -173,7 +176,7 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
                       if (!_hasSpeech) {
                         return;
                       }
-                      isListening ? startListening() : stopListening();
+                      !isListening ? startListening() : stopListening();
                       cubit.isVoiceSubject.sink.add(speech.isListening);
                     },
                     child: SvgPicture.asset(

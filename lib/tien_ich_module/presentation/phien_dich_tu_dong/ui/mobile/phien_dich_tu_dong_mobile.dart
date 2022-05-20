@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/bloc/phien_dich_tu_dong_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/ui/widget/language_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,6 +36,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
   double minSoundLevel = 50000;
   double maxSoundLevel = -50000;
   bool isListening = false;
+  late final Debouncer debouncer;
 
   Future<void> initSpeechState() async {
     try {
@@ -65,20 +67,21 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
       listenFor: const Duration(seconds: 30),
       localeId: cubit.voiceType,
     );
-    isListening = true;
-    setState(() {});
+    setState(() {
+      isListening = true;
+    });
   }
 
   void stopListening() {
     speech.stop();
-    isListening = false;
     setState(() {
+      isListening = false;
       level = 0.0;
     });
   }
 
   void resultListener(SpeechRecognitionResult result) {
-    cubit.debouncer.run(() {
+    debouncer.run(() {
       textEditingController.text = result.recognizedWords;
       cubit.translateDocument(document: result.recognizedWords);
     });
@@ -92,10 +95,17 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
       this.level = level;
     });
   }
+  @override
+  void dispose() {
+    speech.stop();
+    super.dispose();
+    cubit.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
+    debouncer = Debouncer(milliseconds: 500);
     initSpeechState();
   }
 
@@ -137,6 +147,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           cubit.swapLanguage();
                           stopListening();
@@ -146,8 +157,11 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                             document: textEditingController.value.text,
                           );
                         },
-                        child: SvgPicture.asset(
-                          ImageAssets.icReplace,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: SvgPicture.asset(
+                            ImageAssets.icReplace,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -188,9 +202,9 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                     child: TextField(
                       controller: textEditingController,
                       onChanged: (String value) {
-                        cubit.debouncer.run(() {
+                        debouncer.run(() {
                           cubit.translateDocument(document: value);
-                        });
+                        },);
                       },
                       decoration: const InputDecoration(
                         enabledBorder: OutlineInputBorder(

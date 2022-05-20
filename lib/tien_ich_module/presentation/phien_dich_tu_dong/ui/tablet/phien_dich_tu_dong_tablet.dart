@@ -1,7 +1,10 @@
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/tien_ich_module/config/resources/color.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/bloc/phien_dich_tu_dong_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/ui/widget/language_widget.dart';
@@ -30,6 +33,8 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
   double level = 0.0;
   double minSoundLevel = 50000;
   double maxSoundLevel = -50000;
+  late final Debouncer debouncer;
+  bool isListening = false;
 
   Future<void> initSpeechState() async {
     try {
@@ -57,21 +62,23 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
     speech.listen(
       onResult: resultListener,
       pauseFor: const Duration(seconds: 3),
-      listenFor: const Duration(seconds: 30),
       localeId: cubit.voiceType,
     );
-    setState(() {});
+    setState(() {
+      isListening = true;
+    });
   }
 
   void stopListening() {
     speech.stop();
     setState(() {
+      isListening = false;
       level = 0.0;
     });
   }
 
   void resultListener(SpeechRecognitionResult result) {
-    cubit.debouncer.run(() {
+    debouncer.run(() {
       textEditingController.text = result.recognizedWords;
       cubit.translateDocument(document: result.recognizedWords);
     });
@@ -89,7 +96,15 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
   @override
   void initState() {
     super.initState();
+    debouncer = Debouncer();
     initSpeechState();
+  }
+
+  @override
+  void dispose() {
+    speech.stop();
+    super.dispose();
+    cubit.dispose();
   }
 
   @override
@@ -154,7 +169,6 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                 },
               ),
             ),
-
             Container(
               height: 250,
               width: MediaQuery.of(context).size.width,
@@ -191,7 +205,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                             child: TextField(
                               controller: textEditingController,
                               onChanged: (String value) {
-                                cubit.debouncer.run(() {
+                                debouncer.run(() {
                                   cubit.translateDocument(document: value);
                                 });
                                 cubit.lengthTextSubject.add(value.length);
@@ -222,16 +236,49 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
-                                  onTap: !speech.isListening
-                                      ? startListening
-                                      : stopListening,
-                                  behavior: HitTestBehavior.opaque,
-                                  child: SvgPicture.asset(
-                                    ImageAssets.icVoiceMini,
-                                    color: buttonColor,
+                                //mic
+                                if (Platform.isAndroid)
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: speech.isListening
+                                        ? stopListening
+                                        : startListening,
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        bottom: 20,
+                                      ),
+                                      child: SvgPicture.asset(
+                                        ImageAssets.icVoiceMini,
+                                        color: speech.isListening
+                                            ? AppTheme.getInstance()
+                                                .colorField()
+                                            : textBodyTime,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                if (Platform.isIOS)
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: isListening
+                                        ? stopListening
+                                        : startListening,
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        bottom: 20,
+                                      ),
+                                      child: SvgPicture.asset(
+                                        ImageAssets.icVoiceMini,
+                                        color: isListening
+                                            ? AppTheme.getInstance()
+                                                .colorField()
+                                            : textBodyTime,
+                                      ),
+                                    ),
+                                  ),
                                 StreamBuilder<int>(
                                   stream: cubit.lengthTextStream,
                                   builder: (context, snapshot) {

@@ -108,8 +108,8 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                       },
                       child: ContainerInfoWidget(
                         title: result.title,
-                        // status: result.documentStatus.getText(),
-                        // colorStatus: result.documentStatus.getColor(),
+                        status: result.trangThaiXuXy.getText(),
+                        colorStatus: result.trangThaiXuXy.getColor(),
                         listData: [
                           InfoData(
                             urlIcon: ImageAssets.icSoKyHieu,

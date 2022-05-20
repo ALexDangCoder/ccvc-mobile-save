@@ -1264,7 +1264,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
       this.startDate = startDate;
       this.endDate = endDate;
       selectKeyDialog.sink.add(true);
-      setChangeKey(selectKey);
+      setChangeKey(this.selectKey);
     }
   }
 }

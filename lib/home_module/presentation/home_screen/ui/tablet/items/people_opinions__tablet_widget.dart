@@ -107,18 +107,23 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
                       },
                       child: ContainerInfoWidget(
                         title: result.title,
-                        // status: result.documentStatus.getText(),
-                        // colorStatus: result.documentStatus.getColor(),
+                        status: result.trangThaiXuXy.getText(),
+                        colorStatus: result.trangThaiXuXy.getColor(),
                         listData: [
                           InfoData(
                             urlIcon: ImageAssets.icSoKyHieu,
-                            key: S.current.so_ky_hieu,
+                            key: S.current.so,
                             value: result.kyHieu,
                           ),
                           InfoData(
                             urlIcon: ImageAssets.icAddress,
-                            key: S.current.noi_gui,
+                            key: S.current.ten_ca_nhan_to_chuc,
                             value: result.noiGui,
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icTime,
+                            key: S.current.han_xu_ly,
+                            value: result.hanXuLyCover,
                           ),
                         ],
                       ),

@@ -23,12 +23,18 @@ class YKienNguoiDanModel {
       this.id = '',
       this.taskId = '',
       this.soNgayDenHan = 0});
-  String get hanXuLyCover{
-    try{
+  String get hanXuLyCover {
+    try {
       return DateTime.parse(hanXuLy).toStringWithListFormat;
-    }catch(e){
+    } catch (e) {
       return '';
     }
   }
 
+  DocumentStatus get trangThaiXuXy {
+    if (soNgayDenHan < 0) {
+      return DocumentStatus.QUA_HAN;
+    }
+    return DocumentStatus.TRONG_HAN;
+  }
 }

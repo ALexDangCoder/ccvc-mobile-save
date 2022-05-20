@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
@@ -46,6 +47,14 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
       title: S.current.calendar_work,
+      onTapTitle: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CalenderWorkDayTablet(),
+          ),
+        );
+      },
       maxHeight: 415,
       minHeight: 415,
       onTapIcon: () {

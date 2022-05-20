@@ -47,11 +47,13 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
       title: S.current.calendar_work,
-      onTapTitle: (){
+      onTapTitle: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CalenderWorkDayTablet(),
+            builder: (context) => const CalenderWorkDayTablet(
+              isBack: true,
+            ),
           ),
         );
       },
@@ -65,7 +67,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
         SelectKey.LICH_HOP_CUA_TOI,
         SelectKey.LICH_CHO_XAC_NHAN
       ],
-      onChangeKey: (value){
+      onChangeKey: (value) {
         _lamViecCubit.setChangeKey(value);
       },
       dialogSelect: StreamBuilder(
@@ -73,15 +75,14 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
         builder: (context, _) => DialogSettingWidget(
           listSelectKey: [
             DialogData(
-              initValue: _lamViecCubit.selectKeyTime,
-              onSelect: (value, startDate, endDate) {
-                _lamViecCubit.selectDate(
-                    selectKey: value, startDate: startDate, endDate: endDate);
-              },
-              title: S.current.time,
-              startDate: _lamViecCubit.startDate,
-              endDate: _lamViecCubit.endDate
-            )
+                initValue: _lamViecCubit.selectKeyTime,
+                onSelect: (value, startDate, endDate) {
+                  _lamViecCubit.selectDate(
+                      selectKey: value, startDate: startDate, endDate: endDate);
+                },
+                title: S.current.time,
+                startDate: _lamViecCubit.startDate,
+                endDate: _lamViecCubit.endDate)
           ],
           type: widget.homeItemType,
         ),
@@ -105,24 +106,23 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: GestureDetector(
                       onTap: () {
-                        if(result.screenTypeMetting == ScreenTypeMetting.LICH_LAM_VIEC) {
+                        if (result.screenTypeMetting ==
+                            ScreenTypeMetting.LICH_LAM_VIEC) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  ChiTietLamViecTablet(
-                                    id: result.id,
-                                  ),
+                              builder: (context) => ChiTietLamViecTablet(
+                                id: result.id,
+                              ),
                             ),
                           );
-                        }else{
+                        } else {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailMeetCalenderTablet(
-                                    id: result.id,
-                                  ),
+                              builder: (context) => DetailMeetCalenderTablet(
+                                id: result.id,
+                              ),
                             ),
                           );
                         }

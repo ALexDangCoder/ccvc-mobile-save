@@ -51,7 +51,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CalenderWorkDayMobile(),
+            builder: (context) => const CalenderWorkDayMobile(isBack: true,),
           ),
         );
       },

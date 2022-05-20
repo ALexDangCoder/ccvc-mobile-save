@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -50,6 +53,7 @@ class TextFieldValidator extends StatefulWidget {
 
 class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
+  late TextSelectionControls _selectionControls;
   FormProvider? formProvider;
   bool isPaste = false;
   String valueText = '';
@@ -97,16 +101,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
           }
           if (widget.onChange != null) {
             widget.onChange!(value);
-          }
-          if (widget.onPaste != null) {
-            if (isPasteOnChange(value)) {
-              if (valueText.isNotEmpty) {
-                widget.onPaste!(value.replaceAll(valueText, ''));
-              } else {
-                widget.onPaste!(value);
-              }
-            }
-            valueText = '';
           }
         },
         initialValue: widget.initialValue,
@@ -163,12 +157,5 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
       ),
     );
-  }
-
-  bool isPasteOnChange(String value) {
-    if (value.length > valueText.length + 1) {
-      return true;
-    }
-    return false;
   }
 }

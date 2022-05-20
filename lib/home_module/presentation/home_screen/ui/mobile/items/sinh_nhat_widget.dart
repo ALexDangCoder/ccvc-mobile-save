@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
+import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/mobile/thiep_chuc_sinh_nhat_mobile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -94,7 +95,14 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
                           padding: const EdgeInsets.only(bottom: 8),
                           child: EventWidget(
                             onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ThiepChucMungMobileScreen(
 
+                                  ),
+                                ),
+                              );
                             },
                             title: result.title(),
                           ),

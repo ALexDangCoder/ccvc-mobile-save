@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -181,19 +183,19 @@ class _EditPersonalInformationScreen
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(value, thuTuController, 2);
-                          },
-                          onChange: (value) {
-                            if (value.length > 2) {
-                              final input = value.substring(0, 2);
-                              thuTuController.text = input;
-                              thuTuController.selection =
-                                  TextSelection.fromPosition(
-                                const TextPosition(offset: 2),
-                              );
-                            }
-                          },
+                          maxLength: 2,
+                          // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          // onPaste: (value) {
+                          //   cubit.checkCopyPaste(value, thuTuController, 2);
+                          // },
+                          // validatorPaste: (value){
+                          //   try{
+                          //     int.parse(value);
+                          //     return true;
+                          //   }catch(e){
+                          //     return false;
+                          //   }
+                          // },
                         ),
                       ),
                       InputInfoUserWidget(
@@ -219,9 +221,9 @@ class _EditPersonalInformationScreen
                           hintText: S.current.cmnd,
                           controller: cmndController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(value, cmndController, 255);
-                          },
+                          // onPaste: (value) {
+                          //   cubit.checkCopyPaste(value, cmndController, 255);
+                          // },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -284,13 +286,13 @@ class _EditPersonalInformationScreen
                           hintText: S.current.sdt_co_quan,
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(
-                              value,
-                              sdtCoquanController,
-                              255,
-                            );
-                          },
+                          // onPaste: (value) {
+                          //   cubit.checkCopyPaste(
+                          //     value,
+                          //     sdtCoquanController,
+                          //     255,
+                          //   );
+                          // },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -310,13 +312,13 @@ class _EditPersonalInformationScreen
                           hintText: S.current.so_dien_thoai,
                           controller: sdtController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(
-                              value,
-                              sdtController,
-                              255,
-                            );
-                          },
+                          // onPaste: (value) {
+                          //   cubit.checkCopyPaste(
+                          //     value,
+                          //     sdtController,
+                          //     255,
+                          //   );
+                          // },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);

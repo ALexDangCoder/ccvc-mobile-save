@@ -348,8 +348,13 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               textviewTitle(S.current.don_vi_xu_ly),
-                              ChartDonViXuLyWidget(
-                                cubit: baoCaoCubit,
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height*0.3,
+                                child: SingleChildScrollView(
+                                  child: ChartDonViXuLyWidget(
+                                    cubit: baoCaoCubit,
+                                  ),
+                                ),
                               ),
                             ],
                           ),

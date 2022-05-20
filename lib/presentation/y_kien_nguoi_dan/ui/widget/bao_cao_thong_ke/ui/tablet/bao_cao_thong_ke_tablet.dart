@@ -225,7 +225,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                         child: BoxStatusVanBan(
                                           value: data.trongHan ?? 0,
                                           onTap: () {},
-                                          color: numberOfCalenders,
+                                          color: titleColor,
                                           statusName: S.current.trong_han,
                                         ),
                                       ),
@@ -234,11 +234,22 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                       ),
                                       Expanded(
                                         child: BoxStatusVanBan(
+                                          value: data.denHan ?? 0,
+                                          onTap: () {},
+                                          color: numberOfCalenders,
+                                          statusName: S.current.den_han,
+                                        ),
+
+                                      ),
+
+                                      Expanded(
+                                        child: BoxStatusVanBan(
                                           value: data.quaHan ?? 0,
                                           onTap: () {},
                                           color: statusCalenderRed,
-                                          statusName: S.current.den_han,
+                                          statusName: S.current.qua_han,
                                         ),
+
                                       ),
                                       const SizedBox(
                                         width: 50,

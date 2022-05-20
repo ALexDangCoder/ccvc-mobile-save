@@ -39,6 +39,8 @@ abstract class HomeServiceGateWay {
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
 
+  @GET(ApiConstants.GET_TIN_BUON)
+  Future<TinhHuongKhanCapResponse> getTinBuon();
   @GET(ApiConstants.GET_DASHBOARD_VB_DEN)
   @FormUrlEncoded()
   Future<DashBoardVBDenResponse> getDashBoardVBDen(
@@ -161,9 +163,6 @@ abstract class HomeServiceCCVC {
   @FormUrlEncoded()
   Future<LunarDateResponse> getLunarDate(@Query('inputDate') String inputDate);
 
-  @GET(ApiConstants.GET_TINH_HUONG_KHAN_CAP)
-  @FormUrlEncoded()
-  Future<TinhHuongKhanCapResponse> getTinhHuongKhanCap();
 
   @GET(ApiConstants.GET_DASHBOARD_WIDGET)
   @FormUrlEncoded()

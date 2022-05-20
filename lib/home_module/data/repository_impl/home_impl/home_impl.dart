@@ -1,5 +1,6 @@
 
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
 import '/home_module/data/request/home/danh_sach_van_ban_den_request.dart';
@@ -63,10 +64,10 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<TinhHuongKhanCapModel>>> getTinhHuongKhanCap() {
+  Future<Result<List<TinBuonModel>>> getTinBuon() {
     return runCatchingAsync<TinhHuongKhanCapResponse,
-        List<TinhHuongKhanCapModel>>(
-      () => _homeServiceCCVC.getTinhHuongKhanCap(),
+        List<TinBuonModel>>(
+      () => _homeServiceGateWay.getTinBuon(),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -160,7 +161,7 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<DocumentModel>>> getYKienNguoidan(
+  Future<Result<List<YKienNguoiDanModel>>> getYKienNguoidan(
     int pageSize,
     int page,
     String trangThai,
@@ -170,7 +171,7 @@ class HomeImpl extends HomeRepository {
     String userId, [
     String? loaiMenu,
   ]) {
-    return runCatchingAsync<ListYKienNguoiDanResponse, List<DocumentModel>>(
+    return runCatchingAsync<ListYKienNguoiDanResponse, List<YKienNguoiDanModel>>(
       () => _homeServiceGateWay.getListYKienNguoiDan(
         pageSize,
         page,

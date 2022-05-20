@@ -155,7 +155,6 @@ class SelectTHuHoiCell extends StatelessWidget {
                       cubit.dataThuHoi[vl].trangThai = 4;
                     }
                     cubit.listThuHoi.sink.add(cubit.dataThuHoi);
-                    print(cubit.dataThuHoi.map((e) => e.trangThai).toList());
                   },
                 ),
                 Wrap(

@@ -51,7 +51,6 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                     title: widget.title ?? '',
                     chartData: widget.chartData,
                     onTap: (int value) {
-                      print('-------------++++${widget.chartData[value].title}');
                       widget.onTap(widget.chartData[value].title
                           .split(' ')
                           .join('_')
@@ -67,11 +66,6 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                     title: widget.title ?? '',
                     chartData: widget.chartData,
                     onTap: (int value) {
-                      print('-------------++++${widget.chartData[value].title
-                          .split(' ')
-                          .join('_')
-                          .toUpperCase()
-                          .vietNameseParse()}');
                       widget.onTap(widget.chartData[value].title
                           .split(' ')
                           .join('_')
@@ -103,8 +97,8 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                                   child: BoxStatusVanBan(
                                     value: e.value ?? 0,
                                     onTap: () {
-                                      widget
-                                          .onTapStatusBox((e.giaTri ?? '').statusBox());
+                                      widget.onTapStatusBox(
+                                          (e.giaTri ?? '').statusBox());
                                     },
                                     color: (e.giaTri ?? '').status(),
                                     statusName: e.text ?? '',
@@ -136,8 +130,8 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                                   child: BoxStatusVanBan(
                                     value: e.value ?? 0,
                                     onTap: () {
-                                      widget
-                                          .onTapStatusBox((e.giaTri ?? '').statusBox());
+                                      widget.onTapStatusBox(
+                                          (e.giaTri ?? '').statusBox());
                                     },
                                     color: (e.giaTri ?? '').status(),
                                     statusName: e.text ?? '',

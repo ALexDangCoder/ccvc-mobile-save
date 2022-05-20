@@ -101,6 +101,10 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
                     final result =widget. chartData[index];
                     return GestureDetector(
                       onTap: () {
+                        widget.ontap(widget.cubit.chartData[index].title.split(' ')
+                            .join('_')
+                            .toUpperCase()
+                            .vietNameseParse());
                       },
                       child: Row(
                         children: [

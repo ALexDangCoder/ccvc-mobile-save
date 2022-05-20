@@ -23,43 +23,39 @@ class _ExpandPAKNWidgetState extends State<ExpandPAKNWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10.0.textScale()),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                widget.name,
-                style: textNormalCustom(
-                  color: textTitle,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16.0.textScale(),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.name,
+              style: textNormalCustom(
+                color: textTitle,
+                fontWeight: FontWeight.w500,
+                fontSize: 16.0.textScale(),
               ),
-              GestureDetector(
-                onTap: () {
-                  isExpand = !isExpand;
-                  setState(() {});
-                },
-                child: Icon(
-                  isExpand
-                      ? Icons.keyboard_arrow_up_rounded
-                      : Icons.keyboard_arrow_down_outlined,
-                  color: AqiColor,
-                ),
+            ),
+            GestureDetector(
+              onTap: () {
+                isExpand = !isExpand;
+                setState(() {});
+              },
+              child: Icon(
+                isExpand
+                    ? Icons.keyboard_arrow_up_rounded
+                    : Icons.keyboard_arrow_down_outlined,
+                color: AqiColor,
               ),
-            ],
-          ),
-          const SizedBox(height: 20,),
-          ExpandedSection(
-            expand: isExpand,
-            child: widget.child,
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        ExpandedSection(
+          expand: isExpand,
+          child: widget.child,
+        ),
+      ],
     );
   }
 }

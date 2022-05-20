@@ -429,8 +429,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   void initTimeRange() {
     final dataDateTime =
-        DateTime.now().dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-    ngayDauTien = dataDateTime.first.formatApi;
-    ngayKetThuc = dataDateTime.last.formatApi;
+        DateTime.now();
+    ngayDauTien = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    ngayKetThuc = dataDateTime.formatApi;
   }
 }

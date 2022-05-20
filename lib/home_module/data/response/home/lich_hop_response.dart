@@ -156,6 +156,7 @@ class Items {
   }
   CalendarMeetingModel toDomain() => CalendarMeetingModel(
         title: title ?? '',
+        address: diaDiem ?? '',
         nguoiChuTri: canBoChuTriInfo?.hoTen ?? '',
         dataTimeFrom: dateTimeFrom ?? DateTime.now().toString(),
         dateTimeTo: dateTimeTo ?? DateTime.now().toString(),

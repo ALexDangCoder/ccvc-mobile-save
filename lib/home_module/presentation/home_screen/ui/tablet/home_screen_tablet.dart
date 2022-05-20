@@ -1,12 +1,8 @@
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/situation_of_handling_people__tablet_widget.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
-import 'package:ccvc_mobile/presentation/search_screen/ui/tablet/search_screen_tablet.dart';
+
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/mequee_widget.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/thong_bao_screen_tablet.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '/data/exception/app_exception.dart';
 import '/generated/l10n.dart';
@@ -70,17 +66,6 @@ class HomeScreenTabletState extends State<HomeScreenTablet>
           appBar: AppBarWidget(
             title: S.current.home,
             acction: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SearchScreenTablet(),
-                    ),
-                  );
-                },
-                child: SvgPicture.asset(ImageAssets.icSearchWhite),
-              ),
               const SizedBox(
                 width: 31,
               ),
@@ -189,6 +174,11 @@ class HomeScreenTabletState extends State<HomeScreenTablet>
                         },
                       ),
                     ),
+                    Container(
+                      color: backgroundColorApp,
+                      padding: const EdgeInsets.symmetric(vertical: 25),
+                      child: const MarqueeWidget(),
+                    )
                   ],
                 ),
               ),

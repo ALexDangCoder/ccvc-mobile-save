@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class RowTitleFeatDescription extends StatelessWidget {
@@ -25,7 +26,7 @@ class RowTitleFeatDescription extends StatelessWidget {
             style: (titleStyle != null)
                 ? textNormalCustom(
                     color: dateColor,
-                    fontSize: 14,
+                    fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   )
                 : titleStyle,
@@ -39,7 +40,7 @@ class RowTitleFeatDescription extends StatelessWidget {
             style: (descriptionStyle != null)
                 ? textNormalCustom(
                     color: titleColor,
-                    fontSize: 14,
+                    fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   )
                 : descriptionStyle,

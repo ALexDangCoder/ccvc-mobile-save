@@ -7,19 +7,20 @@ class Tree<T> {
   void initTree({required List<TreeDonViDanhBA> listNode}) {
     try {
       for (int i = 0; i < listNode.length; i++) {
-        NodeHSCV node = NodeHSCV.createNode(value: listNode[i]);
-        node.isHasChild = IsDaPhanXuLy(node, listNode);
+        final NodeHSCV node = NodeHSCV.createNode(value: listNode[i]);
+        node.isHasChild = isDaPhanXuLy(node, listNode);
         tree.add(node);
       }
-    } catch (e) {}
+    } catch (e) {
+    }
   }
 
-  bool IsDaPhanXuLy(NodeHSCV value, List<TreeDonViDanhBA> listChild) {
-    if (value.value.iD_DonVi_Cha.trim() == '') {
+  bool isDaPhanXuLy(NodeHSCV value, List<TreeDonViDanhBA> listChild) {
+    if (value.value.iDDonViCha.trim() == '') {
       return true;
     } else {
       for (var i in listChild) {
-        if (i.iD_DonVi_Cha == value.value.id) {
+        if (i.iDDonViCha == value.value.id) {
           return true;
         }
       }
@@ -33,10 +34,10 @@ class Tree<T> {
   }
 
   List<NodeHSCV> getChild(String iDDonViCha) {
-    List<NodeHSCV> res = [];
+    final List<NodeHSCV> res = [];
     for (int i = 0; i < tree.length; i++) {
-      if (tree[i].iD_DonVi_Cha == iDDonViCha &&
-          tree[i].iD_DonVi_Cha != tree[i].value.id) res.add(tree[i]);
+      if (tree[i].iDDonViCha == iDDonViCha &&
+          tree[i].iDDonViCha != tree[i].value.id) res.add(tree[i]);
     }
 
     return res;
@@ -44,27 +45,29 @@ class Tree<T> {
 
   NodeHSCV? getRoot() {
     for (int i = 0; i < tree.length; i++) {
-      if (tree[i].iD_DonVi_Cha == tree[i].value.id) return tree[i];
+      if (tree[i].iDDonViCha == tree[i].value.id) return tree[i];
     }
 
-    return tree
-        .firstWhere((element) => element.iD_DonVi_Cha == element.value.id);
+    return tree.firstWhere((element) => element.iDDonViCha == element.value.id);
   }
+
+
 }
 
 class NodeHSCV {
   TreeDonViDanhBA value;
-  String? iD_DonVi_Cha;
+  String? iDDonViCha;
   int colorNode;
-  String vaiTro;
+
   bool isHasChild;
 
-  NodeHSCV(
-      {required this.value,
-      required this.iD_DonVi_Cha,
-      required this.colorNode,
-      this.vaiTro = '',
-      this.isHasChild = false});
+  NodeHSCV({
+    required this.value,
+    required this.iDDonViCha,
+    required this.colorNode,
+    this.isHasChild = false,
+  });
+
 
   factory NodeHSCV.createNode({required TreeDonViDanhBA value}) {
     int getColor(TreeDonViDanhBA data) {
@@ -72,12 +75,11 @@ class NodeHSCV {
     }
 
     return NodeHSCV(
-        value: value,
-        iD_DonVi_Cha:
-            value.iD_DonVi_Cha.trim() == '' ? value.id : value.iD_DonVi_Cha,
-        colorNode: getColor(value),
-        vaiTro: '',
-        isHasChild: false);
+      value: value,
+      iDDonViCha:
+          value.iDDonViCha.trim() == '' ? value.id : value.iDDonViCha,
+      colorNode: getColor(value),
+    );
   }
 }
 

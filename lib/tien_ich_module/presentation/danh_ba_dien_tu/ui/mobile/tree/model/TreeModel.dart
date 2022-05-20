@@ -11,7 +11,7 @@ class TreeDonViDanhBA {
   String email = '';
   dynamic fax;
   bool hasDonViCon = false;
-  String iD_DonVi_Cha = '';
+  String iDDonViCha = '';
   String iD_DonVi_Goc = '';
   String id = '';
   int level = 0;
@@ -38,7 +38,7 @@ class TreeDonViDanhBA {
     required this.email,
     this.fax,
     required this.hasDonViCon,
-    required this.iD_DonVi_Cha,
+    required this.iDDonViCha,
     required this.iD_DonVi_Goc,
     required this.id,
     required this.level,

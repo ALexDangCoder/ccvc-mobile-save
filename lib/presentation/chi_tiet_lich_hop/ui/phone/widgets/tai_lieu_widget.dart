@@ -35,7 +35,6 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
               ButtonSelectFile(
                 title: S.current.them_tai_lieu_cuoc_hop,
                 onChange: (List<File> files) {
-                  print(files);
                 },
               ),
               const SizedBox(
@@ -74,7 +73,6 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             ButtonSelectFile(
               title: S.current.them_tai_lieu_cuoc_hop,
               onChange: (files) {
-                print(files);
               },
             ),
             const SizedBox(

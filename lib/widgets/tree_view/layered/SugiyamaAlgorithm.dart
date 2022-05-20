@@ -700,7 +700,6 @@ class SugiyamaAlgorithm extends Algorithm {
           currentNode = align[currentNode];
         } while (currentNode != v);
       } catch (e) {
-        print(e);
       }
     }
   }

@@ -126,7 +126,7 @@ class DanhSachKetQua {
 
   YKienNguoiDanModel toDomain() => YKienNguoiDanModel(
       kyHieu: soPAKN ?? '',
-      status: 'Quá Hạn',
+      status: '',
       title: tieuDe?.trim() ?? '',
       hanXuLy: hanXuLy ?? '',
       code: '',

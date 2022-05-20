@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -31,7 +32,7 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   String lastWords = '';
   final SpeechToText speech = SpeechToText();
   ChuyenGiongNoiThanhVanBanCubit cubit = ChuyenGiongNoiThanhVanBanCubit();
-
+  bool isListening = false;
   Future<void> initSpeechState() async {
     try {
       final hasSpeech = await speech.initialize();
@@ -49,13 +50,17 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   void startListening() {
     speech.listen(
       onResult: resultListener,
+      pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
     );
-    setState(() {});
+    setState(() {
+      isListening = true;
+    });
   }
 
   void stopListening() {
     speech.stop();
     setState(() {
+      isListening = false;
       level = 0.0;
     });
   }
@@ -90,6 +95,7 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   @override
   void dispose() {
     super.dispose();
+    speech.stop();
     speech.cancel();
   }
 
@@ -104,7 +110,8 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
           const SizedBox(
             height: 40,
           ),
-          Container(
+          if(Platform.isAndroid)
+            Container(
             margin: const EdgeInsets.symmetric(horizontal: 17),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -147,6 +154,50 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
               ],
             ),
           ),
+          if(Platform.isIOS)
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 17),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 160),
+                    child: isListening
+                        ? VoiceWidget(
+                      cubit: cubit,
+                    )
+                        : const SizedBox.shrink(),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (!_hasSpeech) {
+                        return;
+                      }
+                      !isListening ? startListening() : stopListening();
+                      cubit.isVoiceSubject.sink.add(speech.isListening);
+                    },
+                    child: SvgPicture.asset(
+                      ImageAssets.icVoice,
+                      color: AppTheme.getInstance().colorField(),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 160),
+                    child: isListening
+                        ? VoiceWidget(
+                      cubit: cubit,
+                    )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
           Container(
             padding: EdgeInsets.all(24.0.textScale(space: 4)),
             child: Text(

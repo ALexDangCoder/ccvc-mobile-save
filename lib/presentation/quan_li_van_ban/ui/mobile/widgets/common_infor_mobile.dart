@@ -13,6 +13,7 @@ class CommonInformationMobile extends StatefulWidget {
   final String? title;
   final Function(String) onPieTap;
   final List<ChartData> chartData;
+  final bool isTablet;
 
   const CommonInformationMobile({
     Key? key,
@@ -20,6 +21,7 @@ class CommonInformationMobile extends StatefulWidget {
     this.title,
     required this.onPieTap,
     required this.chartData,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -65,6 +67,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
         if (widget.documentDashboardModel != null)
           StatusWidget(
             showZeroValue: false,
+            horizontalView: widget.isTablet,
             listData: [
               ChartData(
                 S.current.qua_han,

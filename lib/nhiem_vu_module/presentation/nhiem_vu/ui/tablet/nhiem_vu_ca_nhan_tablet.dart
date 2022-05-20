@@ -63,6 +63,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
       body: ComplexLoadMore(
         childrenView: [
           FilterDateTimeWidgetTablet(
+            initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien) ,
             context: context,
             onChooseDateFilter: (startDate, endDate) {
               widget.danhSachCubit.ngayDauTien = startDate.formatApi;

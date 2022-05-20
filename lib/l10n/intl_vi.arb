@@ -964,6 +964,8 @@
   "lich_cho_xac_nhan" : "Lịch chờ xác nhận",
   "file_khong_hop_le": "File không hợp lệ!",
   "danh_sach_pakn": "Danh sách PAKN",
+  "khong_co_thong_tin_pakn": "Không có thông tin Pakn",
+  "file_khong_hop_le": "File không hợp lệ!",
   "ngay_sinh_require": "Ngày sinh (*)",
   "sdt_co_quan_require": "Số điện thoại cơ quan (*)",
   "sdt_nha_rieng_require": "Số điện thoại nhà riêng (*)"

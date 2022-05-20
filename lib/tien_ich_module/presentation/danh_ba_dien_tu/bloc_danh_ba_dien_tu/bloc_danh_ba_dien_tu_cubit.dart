@@ -394,7 +394,6 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         ans.initTree(listNode: listTreeDanhBa);
         dataTypeTree = ans;
         listTreeDanhBaSubject.add(ans);
-        prin
       },
       error: (error) {},
     );

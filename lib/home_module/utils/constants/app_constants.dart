@@ -178,3 +178,6 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
+class PermissionConst{
+  static String VB_DEN_VAO_SO = 'van-ban-den-vao-so-van-ban-giay';
+}

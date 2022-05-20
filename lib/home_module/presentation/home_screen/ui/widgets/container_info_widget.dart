@@ -76,6 +76,7 @@ class ContainerInfoWidget extends StatelessWidget {
                         '${data.key}: ${data.value}',
                         style: textNormal(infoColor, 14.0.textScale()),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                     ),
                   ],

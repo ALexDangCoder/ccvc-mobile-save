@@ -959,11 +959,15 @@
   "ban_chua_nhap_y_kien": "Bạn vui lòng nhập ý kiến",
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
+  "so" : "Số",
+  "ten_ca_nhan_to_chuc" : "Tên cá nhân/ tổ chức",
+  "lich_cho_xac_nhan" : "Lịch chờ xác nhận",
   "file_khong_hop_le": "File không hợp lệ!",
   "danh_sach_pakn": "Danh sách PAKN",
   "ngay_sinh_require": "Ngày sinh (*)",
   "sdt_co_quan_require": "Số điện thoại cơ quan (*)",
   "sdt_nha_rieng_require": "Số điện thoại nhà riêng (*)"
+
 }
 
 

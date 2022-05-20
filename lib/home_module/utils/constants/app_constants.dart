@@ -179,5 +179,5 @@ class DateFormatApp {
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
 class PermissionConst{
-  static String VB_DEN_VAO_SO = 'van-ban-den-vao-so-van-ban-giay';
+  static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }

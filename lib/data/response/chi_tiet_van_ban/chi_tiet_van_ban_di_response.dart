@@ -41,7 +41,7 @@ class ChiTietVanBanDiResponse {
   @JsonKey(name: 'NgayBanHanh')
   String? ngayBanHanh;
   @JsonKey(name: 'LoaiNguonDuLieu')
-  String? loaiNguonDuLieu;
+  int? loaiNguonDuLieu;
   @JsonKey(name: 'TenNguoiSoanThao')
   String? tenNguoiSoanThao;
   @JsonKey(name: 'DonViSoanThao')
@@ -73,9 +73,9 @@ class ChiTietVanBanDiResponse {
   @JsonKey(name: 'IsVanBanChiDao')
   bool? isVanBanChiDao;
   @JsonKey(name: 'VanBanDenResponses')
-  List<String>? vanBanDenResponses;
+  List<VanBanDenResponse>? vanBanDenResponses;
   @JsonKey(name: 'VanBanChiDaoResponses')
-  List<String>? vanBanChiDaoResponses;
+  List<VanBanChiDaoResponse>? vanBanChiDaoResponses;
   @JsonKey(name: 'NguoiTheoDoiResponses')
   List<NguoiTheoDoiResponse>? nguoiTheoDoiResponses;
   @JsonKey(name: 'NguoiKyDuyetResponses')
@@ -215,8 +215,10 @@ class ChiTietVanBanDiResponse {
         isVanBanQppl: isVanBanQppl,
         isVanBanDiBanHanh: isVanBanDiBanHanh,
         isVanBanChiDao: isVanBanChiDao,
-        vanBanDenResponses: vanBanDenResponses,
-        vanBanChiDaoResponses: vanBanChiDaoResponses,
+        vanBanDenResponses:
+            vanBanDenResponses?.map((e) => e.toModel()).toList() ?? [],
+        vanBanChiDaoResponses:
+            vanBanChiDaoResponses?.map((e) => e.toModel()).toList() ?? [],
         nguoiTheoDoiResponses:
             nguoiTheoDoiResponses?.map((e) => e.toModel()).toList() ?? [],
         nguoiKyDuyetResponses: nguoiKyDuyetResponse
@@ -249,6 +251,92 @@ class ChiTietVanBanDiResponse {
         isCanXinYKien: isCanXinYKien,
         isScan: isScan,
         isCanCopy: isCanCopy,
+      );
+}
+
+@JsonSerializable()
+class VanBanChiDaoResponse {
+  @JsonKey(name: 'Id')
+  String? id;
+  @JsonKey(name: 'IdDonViCaNhan')
+  String? idDonViCaNhan;
+  @JsonKey(name: 'TenDonViCaNhan')
+  String? tenDonViCaNhan;
+  @JsonKey(name: 'IsDonVi')
+  bool? isDonVi;
+  @JsonKey(name: 'NoiDung')
+  String? noiDung;
+  @JsonKey(name: 'NgayXuLy')
+  String? ngayXuLy;
+
+  VanBanChiDaoResponse({
+    this.id,
+    this.idDonViCaNhan,
+    this.tenDonViCaNhan,
+    this.isDonVi,
+    this.noiDung,
+    this.ngayXuLy,
+  });
+
+  factory VanBanChiDaoResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$VanBanChiDaoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VanBanChiDaoResponseToJson(this);
+
+  VanBanChiDaoModel toModel() => VanBanChiDaoModel(
+        id: id ?? '',
+        idDonViCaNhan: idDonViCaNhan ?? '',
+        tenDonViCaNhan: tenDonViCaNhan ?? '',
+        isDonVi: isDonVi ?? false,
+        noiDung: noiDung ?? '',
+        ngayXuLy: ngayXuLy ?? '',
+      );
+}
+
+@JsonSerializable()
+class VanBanDenResponse {
+  @JsonKey(name: 'Id')
+  String? id;
+  @JsonKey(name: 'IsKhongTuDongHoanThanh')
+  bool? isKhongTuDongHoanThanh;
+  @JsonKey(name: 'SoDen')
+  String? soDen;
+  @JsonKey(name: 'SoKyHieu')
+  String? soKyHieu;
+  @JsonKey(name: 'DonViBanHanh')
+  String? donViBanHanh;
+  @JsonKey(name: 'TrichYeu')
+  String? trichYeu;
+  @JsonKey(name: 'Files')
+  List<dynamic>? files;
+
+  VanBanDenResponse({
+    this.id,
+    this.isKhongTuDongHoanThanh,
+    this.soDen,
+    this.soKyHieu,
+    this.donViBanHanh,
+    this.trichYeu,
+    this.files,
+  });
+
+  factory VanBanDenResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$VanBanDenResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VanBanDenResponseToJson(this);
+
+  VanBanDenModel toModel() => VanBanDenModel(
+        id: id,
+        isKhongTuDongHoanThanh: isKhongTuDongHoanThanh,
+        soDen: soDen,
+        soKyHieu: soKyHieu,
+        donViBanHanh: donViBanHanh,
+        trichYeu: trichYeu?.parseHtml() ?? '',
+        files: files,
       );
 }
 

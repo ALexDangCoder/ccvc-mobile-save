@@ -9,7 +9,6 @@ class ResetPasswordCubit extends BaseCubit<ResetPassWordState> {
 
   validateInputText(String inputText) {
     if (inputText.isEmpty) {
-      print('khong the bo trong');
       return S.current.khong_the_bo_trong;
     }
     return ;

@@ -476,8 +476,7 @@ class DialogData {
       SelectKey.HOM_NAY,
       SelectKey.TUAN_NAY,
       SelectKey.THANG_NAY,
-      SelectKey.NAM_NAY,
-      SelectKey.TUY_CHON
+      SelectKey.NAM_NAY
     ],
     this.startDate,
     this.endDate,

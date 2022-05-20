@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lam_viec_dashbroad_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
@@ -23,7 +24,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CalenderWorkDayTablet extends StatefulWidget {
-  const CalenderWorkDayTablet({Key? key}) : super(key: key);
+  final bool isBack;
+  const CalenderWorkDayTablet({Key? key, this.isBack = false})
+      : super(key: key);
 
   @override
   _CalenderWorkDayTabletState createState() => _CalenderWorkDayTabletState();
@@ -54,69 +57,86 @@ class _CalenderWorkDayTabletState extends State<CalenderWorkDayTablet> {
             S.current.error,
           ),
           child: Scaffold(
-            appBar: BaseAppBar(
+            appBar: AppBarWithTwoLeading(
               title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                   ? cubit.titleAppbar
                   : snapshot.data?.getTitle() ??
                       TypeCalendarMenu.LichCuaToi.getTitle(),
-              leadingIcon: BlocBuilder<CalenderCubit, CalenderState>(
-                bloc: cubit,
-                builder: (context, state) {
-                  return IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MenuWidget(
-                            isBaoCaoThongKe: false,
-                            onTap: (value) {
-                              if (value == S.current.theo_dang_lich) {
-                                cubit.chooseTypeListLv(
-                                  Type_Choose_Option_List.DANG_LICH,
-                                );
-                                cubit.modeLLV =
-                                    Type_Choose_Option_List.DANG_LICH;
-                              }
+              leadingIcon: Row(
+                children: [
+                  if (widget.isBack)
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: SvgPicture.asset(
+                        ImageAssets.icBack,
+                      ),
+                    )
+                  else
+                    const SizedBox(),
+                  BlocBuilder<CalenderCubit, CalenderState>(
+                    bloc: cubit,
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MenuWidget(
+                                isBaoCaoThongKe: false,
+                                onTap: (value) {
+                                  if (value == S.current.theo_dang_lich) {
+                                    cubit.chooseTypeListLv(
+                                      Type_Choose_Option_List.DANG_LICH,
+                                    );
+                                    cubit.modeLLV =
+                                        Type_Choose_Option_List.DANG_LICH;
+                                  }
 
-                              if (value == S.current.theo_dang_danh_sach) {
-                                cubit.chooseTypeListLv(
-                                  Type_Choose_Option_List.DANG_LIST,
-                                );
-                              }
-                              cubit.modeLLV = Type_Choose_Option_List.DANG_LIST;
-                            },
-                            listItem: listThongBao,
-                            onTapLanhDao: (value) {
-                              cubit.titleAppbar = value.tenDonVi ?? '';
-                              cubit.idDonViLanhDao = value.id ?? '';
-                            },
-                            streamDashBoard:
-                                cubit.lichLamViecDashBroadSubject.stream,
-                            title: S.current.lich_lam_viec,
-                            cubit: cubitMenu,
-                          ),
+                                  if (value == S.current.theo_dang_danh_sach) {
+                                    cubit.chooseTypeListLv(
+                                      Type_Choose_Option_List.DANG_LIST,
+                                    );
+                                  }
+                                  cubit.modeLLV =
+                                      Type_Choose_Option_List.DANG_LIST;
+                                },
+                                listItem: listThongBao,
+                                onTapLanhDao: (value) {
+                                  cubit.titleAppbar = value.tenDonVi ?? '';
+                                  cubit.idDonViLanhDao = value.id ?? '';
+                                },
+                                streamDashBoard:
+                                    cubit.lichLamViecDashBroadSubject.stream,
+                                title: S.current.lich_lam_viec,
+                                cubit: cubitMenu,
+                              ),
+                            ),
+                          ).then((value) {
+                            final data = value as TypeCalendarMenu;
+                            cubit.chooseTypeCalender(
+                              cubit.stateOptionDay,
+                            );
+                            cubit.changeScreenMenu(data);
+                            if (data == TypeCalendarMenu.LichTheoLanhDao) {}
+                            if (state.type == Type_Choose_Option_Day.DAY) {
+                              cubit.callApi();
+                            } else if (state.type ==
+                                Type_Choose_Option_Day.WEEK) {
+                              cubit.callApiTuan();
+                            } else {
+                              cubit.callApiMonth();
+                            }
+                          });
+                        },
+                        icon: SvgPicture.asset(
+                          ImageAssets.icMenuCalender,
                         ),
-                      ).then((value) {
-                        final data = value as TypeCalendarMenu;
-                        cubit.chooseTypeCalender(
-                          cubit.stateOptionDay,
-                        );
-                        cubit.changeScreenMenu(data);
-                        if (data == TypeCalendarMenu.LichTheoLanhDao) {}
-                        if (state.type == Type_Choose_Option_Day.DAY) {
-                          cubit.callApi();
-                        } else if (state.type == Type_Choose_Option_Day.WEEK) {
-                          cubit.callApiTuan();
-                        } else {
-                          cubit.callApiMonth();
-                        }
-                      });
+                      );
                     },
-                    icon: SvgPicture.asset(
-                      ImageAssets.icMenuCalender,
-                    ),
-                  );
-                },
+                  ),
+                ],
               ),
             ),
             body: Column(

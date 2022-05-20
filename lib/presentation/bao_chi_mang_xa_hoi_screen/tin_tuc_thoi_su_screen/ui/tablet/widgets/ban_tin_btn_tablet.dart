@@ -177,16 +177,12 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                             widget.listTinTuc.map((e) => e.audioUrl).toList(),
                         initPlay: widget.index,
                         onChangeEnd: () {
-                          print('-----------------------current index ${phatBanTinBloc.getIndexRadio()}');
-                          print('------------------------- isLoop ${isLoopMode}---------');
                           if (isLoopMode) {
-                            print('------------------- co lap');
                             phatBanTinBloc.setIndexRadio(
                               phatBanTinBloc.getIndexRadio(),
                               widget.listTinTuc.length - 1,
                             );
                           } else {
-                            print('-------------------- khong lap-------------------------');
                             phatBanTinBloc.setIndexRadio(
                               phatBanTinBloc.getIndexRadio() + 1,
                               widget.listTinTuc.length - 1,
@@ -285,7 +281,6 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                   itemCount: widget.listTinTuc.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    print('----------------------load Index ${data}-----------');
                     return (index == data)
                         ? ItemListBangTinTablet(
                             onclick: () {

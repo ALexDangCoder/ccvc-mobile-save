@@ -46,7 +46,6 @@ Future<void> writeFile(String path, String _fileName, dynamic data) async {
     count += 1;
     file = File(fullPath);
   }
-  print(fullPath);
   final raf = file.openSync(mode: FileMode.write);
   raf.writeFromSync(data);
   await raf.close();

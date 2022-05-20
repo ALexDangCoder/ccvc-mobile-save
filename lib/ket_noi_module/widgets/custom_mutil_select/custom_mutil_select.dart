@@ -141,28 +141,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                               }
                             }
                           }
-                          //
-                          print("idsssss ${id}");
-                          // for (final value in listIdLoaiBaiViet) {
-                          //   if (id == value) {
-                          //     listIdLoaiBaiViet.remove(value);
-                          //     print("remove");
-                          //     print(
-                          //         "listRemove${listIdLoaiBaiViet.toString()} /n");
-                          //   } else {
-                          //     listIdLoaiBaiViet.add(id);
-                          //     print("add");
-                          //     print(
-                          //         "listAdd${listIdLoaiBaiViet.toString()} /n");
-                          //   }
-                          // }
-                          // if (listIdLoaiBaiViet.contains(id)) {
-                          //
-                          // } else {
-                          //
-                          // }
-                          //
-                          //listIdLoaiBaiViet.add(id);
+
 
                           if (addIndex.contains(index)) {
                             addIndex.remove(index);

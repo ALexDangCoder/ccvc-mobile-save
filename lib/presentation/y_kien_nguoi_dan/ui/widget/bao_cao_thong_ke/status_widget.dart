@@ -20,7 +20,7 @@ class StatusWidget extends StatelessWidget {
             children: listData
                 .map(
                   (e) => Expanded(
-                flex: e.value.toInt(),
+                flex: e.value.toInt()+1,
                 child: Container(
                   color: e.color,
                   child: Center(

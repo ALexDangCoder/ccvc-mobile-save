@@ -16,8 +16,8 @@ import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_mod
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_state.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -37,27 +37,30 @@ class TextTrangThai {
 }
 
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
-
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
   BehaviorSubject<List<bool>> selectTypeYKNDSubject =
       BehaviorSubject.seeded([true, false]);
   bool isCheck = false;
   late String startDate;
   late String endDate;
+  DateTime initStartDate=DateTime.now();
   String donViId = '';
   String userId = '';
   String trangThai = '';
-
+  bool showCleanText = false;
   int pageSizeDSPAKN = 10;
   int pageNumberDSPAKN = 1;
   bool loadMore = false;
   bool canLoadMoreList = true;
   bool refresh = false;
+  bool isSearching = false;
+  String tuKhoa='';
+  Debouncer debouncer = Debouncer();
+  bool isEmptyData=false;
 
   static const int TRONGHAN = 1;
   static const int DENHAN = 2;
   static const int QUAHAN = 3;
-
 
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
@@ -77,9 +80,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   final BehaviorSubject<DocumentDashboardModel> _statusTinhHinhXuLyData =
       BehaviorSubject<DocumentDashboardModel>();
-  final BehaviorSubject<bool> _selectSreach = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _selectSearch = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _removeTextSearch = BehaviorSubject.seeded(false);
 
-  Stream<bool> get selectSreach => _selectSreach.stream;
+  Stream<bool> get selectSearch => _selectSearch.stream;
+
+  Stream<bool> get removeTextSearch => _removeTextSearch.stream;
 
   Stream<DocumentDashboardModel> get statusTinhHinhXuLyData =>
       _statusTinhHinhXuLyData.stream;
@@ -100,7 +106,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   String search = '';
 
   void setSelectSearch() {
-    _selectSreach.sink.add(!_selectSreach.value);
+    _selectSearch.sink.add(!_selectSearch.value);
+  }
+
+  void showIconRemove() {
+    _removeTextSearch.sink.add(!_removeTextSearch.value);
   }
 
   ImageThongTinYKienNguoiDan imageThongTinYKienNguoiDan =
@@ -340,10 +350,19 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
     );
   }
+
   ///huy
 
+  void clearDSPAKN() {
+    pageNumberDSPAKN = 1;
+    loadMore = false;
+    canLoadMoreList = true;
+    refresh = false;
+    listDanhSachKetQuaPakn.value.clear();
+  }
+
   Future<void> loadMoreGetDSPAKN() async {
-    if(loadMore == false) {
+    if (loadMore == false) {
       pageNumberDSPAKN += 1;
       canLoadMoreList = true;
       loadMore = true;
@@ -355,16 +374,23 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Future<void> refreshGetDSPAKN() async {
     canLoadMoreList = true;
-    if(refresh == false) {
+    if (refresh == false) {
       pageNumberDSPAKN = 1;
       refresh = true;
       await getDanhSachPAKN();
     }
   }
 
-  BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn = BehaviorSubject();
+  BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn =
+      BehaviorSubject();
 
-  Future<void> getDanhSachPAKN() async {
+  Future<void> getDanhSachPAKN({
+    // String? tuKhoa,
+    bool isSearch = false,
+  }) async {
+    if (isSearch) {
+      clearDSPAKN();
+    }
     showLoading();
     final result = await _YKNDRepo.getDanhSachPAKN(
       tuNgay: startDate,
@@ -373,20 +399,36 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       pageSize: pageSizeDSPAKN.toString(),
       pageNumber: pageNumberDSPAKN.toString(),
       userId: userId,
+      tuKhoa: tuKhoa,
     );
-    result.when(success: (success) {
-      if(listDanhSachKetQuaPakn.hasValue) {
-        listDanhSachKetQuaPakn.sink.add(listDanhSachKetQuaPakn.value + success);
-        canLoadMoreList = listDanhSachKetQuaPakn.value.length >= pageSizeDSPAKN;
-        loadMore = false;
-        refresh = false;
-      } else {
-        listDanhSachKetQuaPakn.sink.add(success);
-      }
-    }, error: (error) {
-      listDanhSachKetQuaPakn.sink.add([]);
-    });
-    showContent();
+
+    ///muốn test mở đoạn này ra
+    // final result = await _YKNDRepo.getDanhSachPAKN(
+    //   tuNgay: '05/04/2022',
+    //   donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
+    //   denNgay: '17/05/2022',
+    //   pageSize: '10',
+    //   pageNumber: '1',
+    //   userId: '19266143-feee-44d0-828a-e29df215f481',
+    // );
+    result.when(
+      success: (success) {
+        if (listDanhSachKetQuaPakn.hasValue) {
+          listDanhSachKetQuaPakn.sink
+              .add(listDanhSachKetQuaPakn.value + success);
+          canLoadMoreList =
+              success.length >= pageSizeDSPAKN;
+          loadMore = false;
+          refresh = false;
+        } else {
+          listDanhSachKetQuaPakn.sink.add(success);
+        }
+        showContent();
+      },
+      error: (error) {
+        listDanhSachKetQuaPakn.sink.add([]);
+      },
+    );
   }
 
   Future<void> getDashBoardTinhHinhXuLy(
@@ -616,7 +658,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   void initTimeRange() {
-    startDate = DateTime.now().toStringWithListFormat;
+    final DateTime date = DateTime.now();
+    initStartDate =
+        DateTime(date.year, date.month, date.day - 30);
+    startDate =
+        DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;
   }
 

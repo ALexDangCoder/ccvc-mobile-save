@@ -11,7 +11,7 @@
   "search": "Search...",
   "list_empty": "Danh sách trống",
   "press_socialNetWord": "Báo chí - mạng xã hội",
-  "word_processing_state": "Tình hình xử lý văn bản",
+  "word_processing_state": "Tình hình xử lý văn bản ",
   "document": "Văn bản",
   "document_incoming": "Văn bản đến",
   "document_out_going": "Văn bản đi",
@@ -969,12 +969,17 @@
   "ban_chua_nhap_y_kien": "Bạn vui lòng nhập ý kiến",
   "tao_y_kien_xu_ly_thanh_cong": "Tạo ý kiến xử lý thành công",
   "tao_y_kien_xu_ly_that_bai": "Tạo ý kiến xử lý thất bại",
+  "so" : "Số",
+  "ten_ca_nhan_to_chuc" : "Tên cá nhân/ tổ chức",
+  "lich_cho_xac_nhan" : "Lịch chờ xác nhận",
   "ngay_sinh_require": "Ngày sinh (*)",
   "sdt_co_quan_require": "Số điện thoại cơ quan (*)",
   "sdt_nha_rieng_require": "Số điện thoại nhà riêng (*)",
   "them_danh_ba_ca_nhan_thanh_cong": "Thêm danh bạ cá nhân thành công",
   "them_danh_ba_ca_nhan_khong_thanh_cong": "Thêm danh bạ cá nhân không thành công",
   "danh_sach_pakn": "Danh sách PAKN",
+  "khong_co_thong_tin_pakn": "Không có thông tin Pakn",
   "file_khong_hop_le": "File không hợp lệ!"
+
 
 }

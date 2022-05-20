@@ -20,7 +20,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,8 +66,9 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
             children: [
               GestureDetector(
                 onTap: () {
-                  showBottomSheetCustom(
+                  showDiaLogTablet(
                     context,
+                    isBottomShow: false,
                     child: StreamBuilder<List<DonViModel>>(
                       stream: thamGiaCubit.listPeopleThamGia,
                       builder: (context, snapshot) {
@@ -98,7 +99,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                         );
                       },
                     ),
-                    title: S.current.tim_kiem,
+                    title: S.current.tim_kiem, funcBtnOk: () {  },
                   );
                 },
                 child: SvgPicture.asset(ImageAssets.ic_kinh_to),
@@ -224,7 +225,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                         child: BoxStatusVanBan(
                                           value: data.trongHan ?? 0,
                                           onTap: () {},
-                                          color: numberOfCalenders,
+                                          color: titleColor,
                                           statusName: S.current.trong_han,
                                         ),
                                       ),
@@ -233,11 +234,22 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                       ),
                                       Expanded(
                                         child: BoxStatusVanBan(
+                                          value: data.denHan ?? 0,
+                                          onTap: () {},
+                                          color: numberOfCalenders,
+                                          statusName: S.current.den_han,
+                                        ),
+
+                                      ),
+
+                                      Expanded(
+                                        child: BoxStatusVanBan(
                                           value: data.quaHan ?? 0,
                                           onTap: () {},
                                           color: statusCalenderRed,
-                                          statusName: S.current.den_han,
+                                          statusName: S.current.qua_han,
                                         ),
+
                                       ),
                                       const SizedBox(
                                         width: 50,

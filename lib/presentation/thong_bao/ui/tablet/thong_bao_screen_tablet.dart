@@ -4,9 +4,10 @@ import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
-import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/cai_dat_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_quan_ly_vb_screen.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/cai_dat_thong_bao_tablet.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/type_detail.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_quan_trong.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/thong_bao_quan_trong_widget.dart';
@@ -14,7 +15,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
 
 class ThongBaoScreenTablet extends StatefulWidget {
   const ThongBaoScreenTablet({
@@ -143,6 +143,11 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
                             seen: dataTBQT[index].seen ?? false,
                             id: dataTBQT[index].id ?? '',
                             cubit: thongBaoCubit,
+                            onTap: () {
+                              (dataTBQT[index].subSystem ?? '')
+                                  .getEnumDetail
+                                  .getScreenDetail(context);
+                            },
                           );
                         },
                       );

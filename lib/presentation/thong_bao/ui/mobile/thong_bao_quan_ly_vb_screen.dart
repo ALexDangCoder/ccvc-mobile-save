@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/type_detail.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_quan_trong.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
@@ -115,6 +116,11 @@ class _ThongBaoQuanLyVanBanScreenState
                       seen: data[index].seen ?? false,
                       id: data[index].id ?? '',
                       cubit: widget.cubit,
+                      onTap: () {
+                        (data[index].subSystem ?? '')
+                            .getEnumDetail
+                            .getScreenDetail(context);
+                      },
                     );
                   },
                 );

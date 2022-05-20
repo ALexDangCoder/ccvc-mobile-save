@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -77,57 +75,57 @@ class _EditPersonalInformationScreen
     final Map<String, dynamic> user =
         cubit.managerPersonalInformationModel.getInfoToMap();
 
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: BaseAppBar(
-        title: S.current.chinh_sua_thong_tin,
-        leadingIcon: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: SvgPicture.asset(ImageAssets.icBack),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: TextButton(
+    return StateStreamLayout(
+      textEmpty: S.current.khong_co_du_lieu,
+      retry: () {},
+      error: AppException('1', ''),
+      stream: cubit.stateStream,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: BaseAppBar(
+          title: S.current.chinh_sua_thong_tin,
+          leadingIcon: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: SvgPicture.asset(ImageAssets.icBack),
               onPressed: () {
-                showDiaLogTablet(
-                  context,
-                  title: S.current.ban_co_chac_muon,
-                  child: Container(),
-                  funcBtnOk: () {
-                    cubit.getInfo(id: widget.id);
-                    cubit.huyenSubject.sink.add([]);
-                    cubit.xaSubject.sink.add([]);
-                  },
-                  btnRightTxt: S.current.dong_y,
-                  btnLeftTxt: S.current.khong,
-                  title2: S.current.khong_edit,
-                  title1: S.current.reset,
-                  isPhone: true,
-                );
+                Navigator.pop(context);
               },
-              child: Text(
-                S.current.reset,
-                style: textNormalCustom(
-                  fontSize: 14,
-                  color: AppTheme.getInstance().colorField(),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: TextButton(
+                onPressed: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.ban_co_chac_muon,
+                    child: Container(),
+                    funcBtnOk: () {
+                      cubit.getInfo(id: widget.id);
+                      cubit.huyenSubject.sink.add([]);
+                      cubit.xaSubject.sink.add([]);
+                    },
+                    btnRightTxt: S.current.dong_y,
+                    btnLeftTxt: S.current.khong,
+                    title2: S.current.khong_edit,
+                    title1: S.current.reset,
+                    isPhone: true,
+                  );
+                },
+                child: Text(
+                  S.current.reset,
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      ),
-      body: StateStreamLayout(
-        textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
-        error: AppException('1', ''),
-        stream: cubit.stateStream,
-        child: RefreshIndicator(
+            )
+          ],
+        ),
+        body: RefreshIndicator(
           onRefresh: () async {
             await cubit.getInfo(id: widget.id);
             if (keyGroup.currentState!.validator()) {
@@ -183,19 +181,19 @@ class _EditPersonalInformationScreen
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
                           textInputType: TextInputType.number,
-                          maxLength: 2,
-                          // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          // onPaste: (value) {
-                          //   cubit.checkCopyPaste(value, thuTuController, 2);
-                          // },
-                          // validatorPaste: (value){
-                          //   try{
-                          //     int.parse(value);
-                          //     return true;
-                          //   }catch(e){
-                          //     return false;
-                          //   }
-                          // },
+                          onPaste: (value) {
+                            cubit.checkCopyPaste(value, thuTuController, 2);
+                          },
+                          onChange: (value) {
+                            if (value.length > 2) {
+                              final input = value.substring(0, 2);
+                              thuTuController.text = input;
+                              thuTuController.selection =
+                                  TextSelection.fromPosition(
+                                const TextPosition(offset: 2),
+                              );
+                            }
+                          },
                         ),
                       ),
                       InputInfoUserWidget(
@@ -221,9 +219,9 @@ class _EditPersonalInformationScreen
                           hintText: S.current.cmnd,
                           controller: cmndController,
                           textInputType: TextInputType.number,
-                          // onPaste: (value) {
-                          //   cubit.checkCopyPaste(value, cmndController, 255);
-                          // },
+                          onPaste: (value) {
+                            cubit.checkCopyPaste(value, cmndController, 255);
+                          },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -286,13 +284,13 @@ class _EditPersonalInformationScreen
                           hintText: S.current.sdt_co_quan,
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
-                          // onPaste: (value) {
-                          //   cubit.checkCopyPaste(
-                          //     value,
-                          //     sdtCoquanController,
-                          //     255,
-                          //   );
-                          // },
+                          onPaste: (value) {
+                            cubit.checkCopyPaste(
+                              value,
+                              sdtCoquanController,
+                              255,
+                            );
+                          },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -312,13 +310,13 @@ class _EditPersonalInformationScreen
                           hintText: S.current.so_dien_thoai,
                           controller: sdtController,
                           textInputType: TextInputType.number,
-                          // onPaste: (value) {
-                          //   cubit.checkCopyPaste(
-                          //     value,
-                          //     sdtController,
-                          //     255,
-                          //   );
-                          // },
+                          onPaste: (value) {
+                            cubit.checkCopyPaste(
+                              value,
+                              sdtController,
+                              255,
+                            );
+                          },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);

@@ -455,8 +455,11 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         list.add(e);
       }
     }
-    idDonVi.sink.add(list[0].id);
-
-    return list[0];
+    if (list.isEmpty) {
+      return TreeDonViDanhBA.Emty();
+    } else {
+      idDonVi.sink.add(list[0].id);
+      return list[0];
+    }
   }
 }

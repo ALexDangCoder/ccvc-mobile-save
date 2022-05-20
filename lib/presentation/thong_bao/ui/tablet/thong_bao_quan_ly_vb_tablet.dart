@@ -13,23 +13,22 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ThongBaoQuanLyVanBanScreen extends StatefulWidget {
+
+class ThongBaoQuanLyVBTablet extends StatefulWidget {
   final ThongBaoCubit cubit;
   final String title;
 
-  const ThongBaoQuanLyVanBanScreen({
+  const ThongBaoQuanLyVBTablet({
     Key? key,
     required this.cubit,
     required this.title,
   }) : super(key: key);
 
   @override
-  State<ThongBaoQuanLyVanBanScreen> createState() =>
-      _ThongBaoQuanLyVanBanScreenState();
+  _ThongBaoQuanLyVBTabletState createState() => _ThongBaoQuanLyVBTabletState();
 }
 
-class _ThongBaoQuanLyVanBanScreenState
-    extends State<ThongBaoQuanLyVanBanScreen> {
+class _ThongBaoQuanLyVBTabletState extends State<ThongBaoQuanLyVBTablet> {
   final ScrollController _scrollController = ScrollController();
 
   @override

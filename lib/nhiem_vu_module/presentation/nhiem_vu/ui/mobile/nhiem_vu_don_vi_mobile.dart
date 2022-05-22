@@ -195,307 +195,227 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
           },
         ),
       ),
-      body:  StatusWidget(
-        listData: [
-          [
-            ChartData(
-              S.current.cho_phan_xu_ly,
-              8,
-              choXuLyColor,
-            ),
-            ChartData(
-                S.current.chua_thuc_hien, 10, choVaoSoColor),
-            ChartData(
-              S.current.dang_thuc_hien,
-              4,
-              choTrinhKyColor,
-            ),
-            ChartData(
-              S.current.da_thuc_hien,
-              5,
-              daXuLyColor,
-            ),
-          ],
-          [
-            ChartData(
-              S.current.cho_phan_xu_ly,
-              8,
-              choXuLyColor,
-            ),
-            ChartData(
-                S.current.chua_thuc_hien, 10, choVaoSoColor),
-            ChartData(
-              S.current.dang_thuc_hien,
-              4,
-              choTrinhKyColor,
-            ),
-            ChartData(
-              S.current.da_thuc_hien,
-              5,
-              daXuLyColor,
-            ),
-          ],
-          [
-            ChartData(
-              S.current.cho_phan_xu_ly,
-              6,
-              choXuLyColor,
-            ),
-            ChartData(
-                S.current.chua_thuc_hien, 12, choVaoSoColor),
-            ChartData(
-              S.current.dang_thuc_hien,
-              5,
-              choTrinhKyColor,
-            ),
-            ChartData(
-              S.current.da_thuc_hien,
-              8,
-              daXuLyColor,
-            ),
-          ],
+      body: ComplexLoadMore(
+        childrenView: [
+          FilterDateTimeWidget(
+            initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
+            context: context,
+            isMobile: true,
+            onChooseDateFilter: (startDate, endDate) {
+              widget.danhSachCubit.ngayDauTien = startDate.formatApi;
+              widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
+              widget.danhSachCubit.callApiDashBroash(true);
+            },
+          ),
+          ExpandOnlyWidget(
+              isPadingIcon: true,
+              initExpand: true,
+              header: Container(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 16.0,),
+                      child: Text(
+                        S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
+                        style:
+                            textNormalCustom(color: titleColor, fontSize: 16),
+                      ),
+                    ),
+                    StateSelectBieuDoTrangThaiWidget(
+                      cubit: widget.danhSachCubit,
+                    ),
+                  ],
+                ),
+              ),
+              child: StreamBuilder<List<ItemSellectBieuDo>>(
+                  stream: widget.danhSachCubit.selectBieuDoModelSubject,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? [];
+                    if (data.isEmpty) {
+                      return const SizedBox();
+                    }
+                    if (data.map((e) => e.isCheck).first == true) {
+                      return Container(
+                        padding:
+                            const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                        child: StreamBuilder<List<ChartData>>(
+                          stream: widget.danhSachCubit.statusSuject,
+                          initialData: widget.danhSachCubit.chartDataTheoLoai,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ??
+                                widget.danhSachCubit.chartDataTheoLoai;
+                            return BieuDoNhiemVuMobile(
+                              title: S.current.nhiem_vu,
+                              chartData: data,
+                              cubit: widget.danhSachCubit,
+                              ontap: (value) {
+                                widget.danhSachCubit.mangTrangThai = value;
+                                widget.danhSachCubit.trangThaiHanXuLy = null;
+                                setState(() {
+                                  callBack;
+                                });
+                              },
+                              onTapStatusBox: (value_status_box) {
+                                widget.danhSachCubit.mangTrangThai = '';
+                                widget.danhSachCubit.trangThaiHanXuLy =
+                                    value_status_box;
+                                setState(() {
+                                  callBack;
+                                });
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    } else if (data.map((e) => e.isCheck).elementAt(1) ==
+                        true) {
+                      return Container(
+                        padding:
+                            const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                        child: BieuDoTrangThaiTheoLoaiMobile(
+                          chartData: widget.danhSachCubit.chartDataTheoLoai,
+                          cubit: widget.danhSachCubit,
+                          ontap: (value) {
+                            widget.danhSachCubit.mangTrangThai = value;
+                            widget.danhSachCubit.trangThaiHanXuLy = null;
+                            setState(() {
+                              callBack;
+                            });
+                          },
+                        ),
+                      );
+                    } else {
+                      return StatusWidget(
+                        listData: [
+                          [
+                            ChartData(
+                              S.current.cho_phan_xu_ly,
+                              8,
+                              choXuLyColor,
+                            ),
+                            ChartData(
+                                S.current.chua_thuc_hien, 10, choVaoSoColor),
+                            ChartData(
+                              S.current.dang_thuc_hien,
+                              4,
+                              choTrinhKyColor,
+                            ),
+                            ChartData(
+                              S.current.da_thuc_hien,
+                              5,
+                              daXuLyColor,
+                            ),
+                          ],
+                          [
+                            ChartData(
+                              S.current.cho_phan_xu_ly,
+                              8,
+                              choXuLyColor,
+                            ),
+                            ChartData(
+                                S.current.chua_thuc_hien, 10, choVaoSoColor),
+                            ChartData(
+                              S.current.dang_thuc_hien,
+                              4,
+                              choTrinhKyColor,
+                            ),
+                            ChartData(
+                              S.current.da_thuc_hien,
+                              5,
+                              daXuLyColor,
+                            ),
+                          ],
+                          [
+                            ChartData(
+                              S.current.cho_phan_xu_ly,
+                              6,
+                              choXuLyColor,
+                            ),
+                            ChartData(
+                                S.current.chua_thuc_hien, 12, choVaoSoColor),
+                            ChartData(
+                              S.current.dang_thuc_hien,
+                              5,
+                              choTrinhKyColor,
+                            ),
+                            ChartData(
+                              S.current.da_thuc_hien,
+                              8,
+                              daXuLyColor,
+                            ),
+                          ],
+                        ],
+                        listStatusData: [
+                          ChartData(
+                            S.current.cho_phan_xu_ly,
+                            30,
+                            choXuLyColor,
+                          ),
+                          ChartData(
+                              S.current.chua_thuc_hien, 12, choVaoSoColor),
+                          ChartData(
+                            S.current.dang_thuc_hien,
+                            14,
+                            choTrinhKyColor,
+                          ),
+                          ChartData(
+                            S.current.da_thuc_hien,
+                            12,
+                            daXuLyColor,
+                          ),
+                        ],
+                      );
+                    }
+                  },),),
+          Container(
+            height: 6,
+            color: homeColor,
+          ),
         ],
-        listStatusData: [
-          ChartData(
-            S.current.cho_phan_xu_ly,
-            30,
-            choXuLyColor,
-          ),
-          ChartData(
-              S.current.chua_thuc_hien, 12, choVaoSoColor),
-          ChartData(
-            S.current.dang_thuc_hien,
-            14,
-            choTrinhKyColor,
-          ),
-          ChartData(
-            S.current.da_thuc_hien,
-            12,
-            daXuLyColor,
-          ),
-        ],
+        callApi: (page) {
+          widget.danhSachCubit.postDanhSachNhiemVu(
+            index: page,
+            isNhiemVuCaNhan: widget.isCheck,
+            isSortByHanXuLy: true,
+            mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+            ngayTaoNhiemVu: {
+              'FromDate': widget.danhSachCubit.ngayDauTien,
+              'ToDate': widget.danhSachCubit.ngayKetThuc
+            },
+            size: widget.danhSachCubit.pageSize,
+            keySearch: widget.danhSachCubit.keySearch,
+            trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+          );
+        },
+        isListView: true,
+        cubit: widget.danhSachCubit,
+        viewItem: (value, index) {
+          try {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: NhiemVuItemMobile(
+                data: value as PageData,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChiTietNhiemVuPhoneScreen(
+                        id: value.id ?? '',
+                        isCheck: widget.isCheck,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          } catch (e) {
+            return const SizedBox();
+          }
+        },
       ),
-      // body: ComplexLoadMore(
-      //   childrenView: [
-      //     FilterDateTimeWidget(
-      //       initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
-      //       context: context,
-      //       isMobile: true,
-      //       onChooseDateFilter: (startDate, endDate) {
-      //         widget.danhSachCubit.ngayDauTien = startDate.formatApi;
-      //         widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-      //         widget.danhSachCubit.callApiDashBroash(true);
-      //       },
-      //     ),
-      //     ExpandOnlyWidget(
-      //         isPadingIcon: true,
-      //         initExpand: true,
-      //         header: Container(
-      //           color: Colors.transparent,
-      //           child: Row(
-      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //             children: [
-      //               Padding(
-      //                 padding: const EdgeInsets.symmetric(
-      //                     vertical: 20, horizontal: 16.0,),
-      //                 child: Text(
-      //                   S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
-      //                   style:
-      //                       textNormalCustom(color: titleColor, fontSize: 16),
-      //                 ),
-      //               ),
-      //               StateSelectBieuDoTrangThaiWidget(
-      //                 cubit: widget.danhSachCubit,
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //         child: StreamBuilder<List<ItemSellectBieuDo>>(
-      //             stream: widget.danhSachCubit.selectBieuDoModelSubject,
-      //             builder: (context, snapshot) {
-      //               final data = snapshot.data ?? [];
-      //               if (data.isEmpty) {
-      //                 return const SizedBox();
-      //               }
-      //               if (data.map((e) => e.isCheck).first == true) {
-      //                 return Container(
-      //                   padding:
-      //                       const EdgeInsets.only(bottom: 20.0, left: 16.0),
-      //                   child: StreamBuilder<List<ChartData>>(
-      //                     stream: widget.danhSachCubit.statusSuject,
-      //                     initialData: widget.danhSachCubit.chartDataTheoLoai,
-      //                     builder: (context, snapshot) {
-      //                       final data = snapshot.data ??
-      //                           widget.danhSachCubit.chartDataTheoLoai;
-      //                       return BieuDoNhiemVuMobile(
-      //                         title: S.current.nhiem_vu,
-      //                         chartData: data,
-      //                         cubit: widget.danhSachCubit,
-      //                         ontap: (value) {
-      //                           widget.danhSachCubit.mangTrangThai = value;
-      //                           widget.danhSachCubit.trangThaiHanXuLy = null;
-      //                           setState(() {
-      //                             callBack;
-      //                           });
-      //                         },
-      //                         onTapStatusBox: (value_status_box) {
-      //                           widget.danhSachCubit.mangTrangThai = '';
-      //                           widget.danhSachCubit.trangThaiHanXuLy =
-      //                               value_status_box;
-      //                           setState(() {
-      //                             callBack;
-      //                           });
-      //                         },
-      //                       );
-      //                     },
-      //                   ),
-      //                 );
-      //               } else if (data.map((e) => e.isCheck).elementAt(1) ==
-      //                   true) {
-      //                 return Container(
-      //                   padding:
-      //                       const EdgeInsets.only(bottom: 20.0, left: 16.0),
-      //                   child: BieuDoTrangThaiTheoLoaiMobile(
-      //                     chartData: widget.danhSachCubit.chartDataTheoLoai,
-      //                     cubit: widget.danhSachCubit,
-      //                     ontap: (value) {
-      //                       widget.danhSachCubit.mangTrangThai = value;
-      //                       widget.danhSachCubit.trangThaiHanXuLy = null;
-      //                       setState(() {
-      //                         callBack;
-      //                       });
-      //                     },
-      //                   ),
-      //                 );
-      //               } else {
-      //                 return StatusWidget(
-      //                   listData: [
-      //                     [
-      //                       ChartData(
-      //                         S.current.cho_phan_xu_ly,
-      //                         8,
-      //                         choXuLyColor,
-      //                       ),
-      //                       ChartData(
-      //                           S.current.chua_thuc_hien, 10, choVaoSoColor),
-      //                       ChartData(
-      //                         S.current.dang_thuc_hien,
-      //                         4,
-      //                         choTrinhKyColor,
-      //                       ),
-      //                       ChartData(
-      //                         S.current.da_thuc_hien,
-      //                         5,
-      //                         daXuLyColor,
-      //                       ),
-      //                     ],
-      //                     [
-      //                       ChartData(
-      //                         S.current.cho_phan_xu_ly,
-      //                         8,
-      //                         choXuLyColor,
-      //                       ),
-      //                       ChartData(
-      //                           S.current.chua_thuc_hien, 10, choVaoSoColor),
-      //                       ChartData(
-      //                         S.current.dang_thuc_hien,
-      //                         4,
-      //                         choTrinhKyColor,
-      //                       ),
-      //                       ChartData(
-      //                         S.current.da_thuc_hien,
-      //                         5,
-      //                         daXuLyColor,
-      //                       ),
-      //                     ],
-      //                     [
-      //                       ChartData(
-      //                         S.current.cho_phan_xu_ly,
-      //                         6,
-      //                         choXuLyColor,
-      //                       ),
-      //                       ChartData(
-      //                           S.current.chua_thuc_hien, 12, choVaoSoColor),
-      //                       ChartData(
-      //                         S.current.dang_thuc_hien,
-      //                         5,
-      //                         choTrinhKyColor,
-      //                       ),
-      //                       ChartData(
-      //                         S.current.da_thuc_hien,
-      //                         8,
-      //                         daXuLyColor,
-      //                       ),
-      //                     ],
-      //                   ],
-      //                   listStatusData: [
-      //                     ChartData(
-      //                       S.current.cho_phan_xu_ly,
-      //                       30,
-      //                       choXuLyColor,
-      //                     ),
-      //                     ChartData(
-      //                         S.current.chua_thuc_hien, 12, choVaoSoColor),
-      //                     ChartData(
-      //                       S.current.dang_thuc_hien,
-      //                       14,
-      //                       choTrinhKyColor,
-      //                     ),
-      //                     ChartData(
-      //                       S.current.da_thuc_hien,
-      //                       12,
-      //                       daXuLyColor,
-      //                     ),
-      //                   ],
-      //                 );
-      //               }
-      //             },),),
-      //     Container(
-      //       height: 6,
-      //       color: homeColor,
-      //     ),
-      //   ],
-      //   callApi: (page) {
-      //     widget.danhSachCubit.postDanhSachNhiemVu(
-      //       index: page,
-      //       isNhiemVuCaNhan: widget.isCheck,
-      //       isSortByHanXuLy: true,
-      //       mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-      //       ngayTaoNhiemVu: {
-      //         'FromDate': widget.danhSachCubit.ngayDauTien,
-      //         'ToDate': widget.danhSachCubit.ngayKetThuc
-      //       },
-      //       size: widget.danhSachCubit.pageSize,
-      //       keySearch: widget.danhSachCubit.keySearch,
-      //       trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-      //     );
-      //   },
-      //   isListView: true,
-      //   cubit: widget.danhSachCubit,
-      //   viewItem: (value, index) {
-      //     try {
-      //       return Padding(
-      //         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      //         child: NhiemVuItemMobile(
-      //           data: value as PageData,
-      //           onTap: () {
-      //             Navigator.push(
-      //               context,
-      //               MaterialPageRoute(
-      //                 builder: (context) => ChiTietNhiemVuPhoneScreen(
-      //                   id: value.id ?? '',
-      //                   isCheck: widget.isCheck,
-      //                 ),
-      //               ),
-      //             );
-      //           },
-      //         ),
-      //       );
-      //     } catch (e) {
-      //       return const SizedBox();
-      //     }
-      //   },
-      // ),
     );
   }
 }

@@ -73,8 +73,8 @@ class ThongTinGuiNhanModel {
       ),
       DocumentDetailRow(
         S.current.trang_thai,
-        trangThai?.split(' ').join('_').toUpperCase().vietNameseParse() ?? '',
-        TypeDocumentDetailRow.status,
+        trangThai ?? '',
+        TypeDocumentDetailRow.text,
       ),
     ];
     return list;

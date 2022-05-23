@@ -719,11 +719,14 @@ class DanhSachFilesResponse {
   String? id;
   @JsonKey(name: 'IsSign')
   String? isSign;
+  @JsonKey(name: 'DuongDan')
+  String? duongDan;
 
   DanhSachFilesResponse({
     this.ten,
     this.id,
     this.isSign,
+    this.duongDan,
   });
 
   factory DanhSachFilesResponse.fromJson(
@@ -737,5 +740,6 @@ class DanhSachFilesResponse {
         ten: ten,
         id: id,
         isSign: isSign,
+        duongDan: duongDan,
       );
 }

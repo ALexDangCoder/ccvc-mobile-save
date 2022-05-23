@@ -137,6 +137,35 @@ class HistoryUpdateDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
   }
 }
 
+class TrackTextDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
+  TrackTextDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
+  final QLVBRepository _qLVBRepo = Get.find();
+
+  BehaviorSubject<List<dynamic>> theoDoiVanBanSubject =
+      BehaviorSubject();
+
+  Stream<List<dynamic>> get theoDoiVanBanStream =>
+      theoDoiVanBanSubject.stream;
+
+  Future<void> getTheoDoiVanBan(
+    String id,
+  ) async {
+    showLoading();
+    final result = await _qLVBRepo.getTheoDoiVanBan(id);
+    result.when(
+      success: (res) {
+        showContent();
+        theoDoiVanBanSubject.add(res);
+      },
+      error: (error) {
+        showError();
+      },
+    );
+  }
+}
+
 class HistoryGiveBackDetailDocumentCubit
     extends BaseCubit<DetailDocumentState> {
   HistoryGiveBackDetailDocumentCubit() : super(DetailDocumentInitial()){

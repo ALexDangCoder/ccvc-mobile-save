@@ -235,23 +235,23 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                     nhiemvuId: widget.cubit.idNhiemVu,
                     fileId: widget.cubit.listFileId,
                   );
-
-                  if (result == 'true') {
-
-                    MessageConfig.show(
-                      title: S.current.tao_y_kien_xu_ly_thanh_cong,
-                    );
+                  ///Popup success
+                  // if (result == 'true') {
+                  //
+                  //   MessageConfig.show(
+                  //     title: S.current.tao_y_kien_xu_ly_thanh_cong,
+                  //   );
                     _nhapYMainController.text = '';
                     widget.cubit.listFileMain.clear();
                     widget.cubit.listFileId.clear();
                     widget.cubit.listPickFileMain.clear();
                     setState(() {});
-                  } else {
-                    MessageConfig.show(
-                      title: S.current.tao_y_kien_xu_ly_that_bai,
-                      messState: MessState.error,
-                    );
-                  }
+                  // } else {
+                  //   MessageConfig.show(
+                  //     title: S.current.tao_y_kien_xu_ly_that_bai,
+                  //     messState: MessState.error,
+                  //   );
+                  // }
                 } else {
                   //todo
                   if (widget.cubit.listPickFileMain.isNotEmpty) {
@@ -260,22 +260,22 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                       nhiemvuId: widget.cubit.idNhiemVu,
                       fileId: widget.cubit.listFileId,
                     );
-
-                    if (result == 'true') {
-                      MessageConfig.show(
-                        title: S.current.tao_y_kien_xu_ly_thanh_cong,
-                      );
+                    ///Popup success
+                    // if (result == 'true') {
+                    //   MessageConfig.show(
+                    //     title: S.current.tao_y_kien_xu_ly_thanh_cong,
+                    //   );
                       _nhapYMainController.text = '';
                       widget.cubit.listFileMain.clear();
                       widget.cubit.listFileId.clear();
                       widget.cubit.listPickFileMain.clear();
                       setState(() {});
-                    } else {
-                      MessageConfig.show(
-                        title: S.current.tao_y_kien_xu_ly_that_bai,
-                        messState: MessState.error,
-                      );
-                    }
+                    // } else {
+                    //   MessageConfig.show(
+                    //     title: S.current.tao_y_kien_xu_ly_that_bai,
+                    //     messState: MessState.error,
+                    //   );
+                    // }
                   } else {
                     widget.cubit.validateNhapYkien
                         .add(S.current.ban_chua_nhap_y_kien);
@@ -405,23 +405,22 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
               size: _size,
             ),
           );
-        } else {
-          MessageConfig.show(
-            title: S.current.file_dinh_kem_mb,
-            messState: MessState.error,
-          );
+        }else {
+          // _listYkien.add(
+          //   PickImageFileModel(
+          //     path: _path,
+          //     name: _name,
+          //     extension: _extensionName,
+          //     size: _size,
+          //   ),
+          // );
         }
       } else {
-        // _listYkien.add(
-        //   PickImageFileModel(
-        //     path: _path,
-        //     name: _name,
-        //     extension: _extensionName,
-        //     size: _size,
-        //   ),
-        // );
+        MessageConfig.show(
+          title: S.current.file_dinh_kem_mb,
+          messState: MessState.error,
+        );
       }
-
       setState(() {});
     }
   }

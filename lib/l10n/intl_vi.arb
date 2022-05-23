@@ -968,7 +968,11 @@
   "ngay_sinh_require": "Ngày sinh (*)",
   "sdt_co_quan_require": "Số điện thoại cơ quan (*)",
   "sdt_nha_rieng_require": "Số điện thoại nhà riêng (*)",
-  "thiep_va_loi_chuc" : "Thiệp và lời chúc"
+  "thiep_va_loi_chuc" : "Thiệp và lời chúc",
+  "gui_loi_chuc" : "Gửi lời chúc",
+  "gui_loi_chuc_toi" : "Gửi lời chúc tới",
+  "gui" : "Gửi"
+
 
 
 }

@@ -978,7 +978,12 @@
   "danh_sach_pakn": "Danh sách PAKN",
   "khong_co_thong_tin_pakn": "Không có thông tin Pakn",
   "file_khong_hop_le": "File không hợp lệ!",
-  "thiep_va_loi_chuc" : "Thiệp và lời chúc"
+  "thiep_va_loi_chuc" : "Thiệp và lời chúc",
+  "gui_loi_chuc" : "Gửi lời chúc",
+  "gui_loi_chuc_toi" : "Gửi lời chúc tới",
+  "gui" : "Gửi"
+
+
 
 
 }

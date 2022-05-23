@@ -1,15 +1,15 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PageViewWidget extends StatefulWidget {
-  final PageController pageController;
+  final List<String> listImage;
+  final Function(int) onSelect;
 
   const PageViewWidget({
     Key? key,
-    required this.pageController,
+    required this.listImage,
+    required this.onSelect,
   }) : super(key: key);
 
   @override
@@ -17,13 +17,6 @@ class PageViewWidget extends StatefulWidget {
 }
 
 class _PageViewWidgetState extends State<PageViewWidget> {
-  final List<String> listImg = [
-    'https://photo-cms-baonghean.zadn.vn/w607/Uploaded/2022/ftgbtgazsnzm/2020_07_14/ngoctrinhmuonsinhcon1_swej7996614_1472020.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR46vbIeWnWTrhYxLuEzN9ih1eb7xjCsp1rE2fMJ88Ln11VrzGUhSwcSUu4eDFiU-9zRCU&usqp=CAU',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwyzVlWrslUqyK4NtmPxvyu1FXt6bRyL1kbh-Pl4nV7PdedmSAmkoADHL_gFGoke7baKY&usqp=CAU'
-  ];
-  double viewportFraction = 0.4;
-  double? pageOffset = 0;
   CarouselController controller = CarouselController();
   int indexSelect = 0;
   @override
@@ -35,28 +28,41 @@ class _PageViewWidgetState extends State<PageViewWidget> {
   Widget build(BuildContext context) {
     return CarouselSlider(
       carouselController: controller,
-      items: List.generate(
-          listImg.length,
-          (index) => Container(
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-                    border: Border.all(
-                     color: Colors.white,width: 4),
-                    image: DecorationImage(
-                        image: NetworkImage(listImg[index]),
-                        fit: BoxFit.cover)),
-              )),
+      items: List.generate(widget.listImage.length, (index) {
+        final data = widget.listImage[index];
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: index == indexSelect ? linkColor : Colors.transparent,
+                width: 1.5),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+          ),
+          child: pageCell(data),
+        );
+      }),
       options: CarouselOptions(
         onPageChanged: (index, _) {
           indexSelect = index;
+          widget.onSelect(index);
           setState(() {});
         },
-        autoPlay: false,
         enlargeCenterPage: true,
-        viewportFraction: 0.7,
+        viewportFraction: 0.6,
         aspectRatio: 1.0,
-        initialPage: 0,
+      ),
+    );
+  }
+
+  Widget pageCell(String url) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        border: Border.all(color: Colors.white, width: 4),
+        image: DecorationImage(
+          image: NetworkImage(url),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
-import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/home_module/config/resources/color.dart';
+
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/mobile/thiep_chuc_sinh_nhat_mobile_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -98,8 +97,9 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ThiepChucMungMobileScreen(
-
+                                  builder: (context) =>
+                                      ThiepChucMungMobileScreen(
+                                    sinhNhatUserModel: result,
                                   ),
                                 ),
                               );
@@ -113,7 +113,6 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
                 },
               ),
             ),
-
           ],
         ),
       ),

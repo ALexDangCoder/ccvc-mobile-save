@@ -181,9 +181,7 @@ class _EditPersonalInformationScreen
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(value, thuTuController, 2);
-                          },
+
                           onChange: (value) {
                             if (value.length > 2) {
                               final input = value.substring(0, 2);
@@ -219,9 +217,7 @@ class _EditPersonalInformationScreen
                           hintText: S.current.cmnd,
                           controller: cmndController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(value, cmndController, 255);
-                          },
+
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -284,13 +280,7 @@ class _EditPersonalInformationScreen
                           hintText: S.current.sdt_co_quan,
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(
-                              value,
-                              sdtCoquanController,
-                              255,
-                            );
-                          },
+
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -310,13 +300,7 @@ class _EditPersonalInformationScreen
                           hintText: S.current.so_dien_thoai,
                           controller: sdtController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(
-                              value,
-                              sdtController,
-                              255,
-                            );
-                          },
+
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);

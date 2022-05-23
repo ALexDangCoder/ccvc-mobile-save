@@ -18,7 +18,7 @@ Future<List<dynamic>> uploadFileToSever({
       request.headers['Authorization'] = 'Bearer $token';
     }
     request.headers['Content-Type'] = 'multipart/form-data';
-    request.files.add(await http.MultipartFile.fromPath('files', path));
+    request.files.add(await http.MultipartFile.fromPath('File', path));
     final http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final Map<String, dynamic> map =

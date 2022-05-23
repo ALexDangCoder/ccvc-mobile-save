@@ -117,6 +117,18 @@ class ManagerPersonalInformationCubit
     return thuTu;
   }
 
+  Future<void> uploadFile(String path) async {
+    final result = await _managerRepo.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnhChuKy = res.data?.filePath ?? '';
+        pathAnhDaiDien = res.data?.filePath ?? '';
+        pathAnhKyNhay = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+  }
+
   Future<void> getInfo({
     String id = '',
   }) async {

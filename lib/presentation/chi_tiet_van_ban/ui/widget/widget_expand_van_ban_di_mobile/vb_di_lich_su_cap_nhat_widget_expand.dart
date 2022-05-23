@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_cap_nhat_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_in_expand_van_ban.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -25,7 +25,6 @@ class VBDiLichSuCapNhatExpandWidget extends StatefulWidget {
 class _VBDiLichSuCapNhatExpandWidgetState
     extends State<VBDiLichSuCapNhatExpandWidget>
     with AutomaticKeepAliveClientMixin {
-
   @override
   void initState() {
     widget.cubit.getLichSuCapNhatVanBanDi(widget.idDocument);
@@ -49,29 +48,36 @@ class _VBDiLichSuCapNhatExpandWidgetState
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: StreamBuilder<List<LichSuCapNhatVanBanDi>>(
-              stream: widget.cubit.lichSuCapNhatVanBanDiSubject,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
+            stream: widget.cubit.lichSuCapNhatVanBanDiSubject,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              if (data.isNotEmpty) {
                 return SingleChildScrollView(
-                  physics: const  AlwaysScrollableScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
-                    children: data.isNotEmpty
-                        ? data
-                            .map(
-                              (e) => WidgetInExpandVanBan(
-                                row: e.toListRowCapNhat(),
-                              ),
-                            )
-                            .toList()
-                        : [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 16.0),
-                              child: NodataWidget(),
-                            )
-                          ],
+                    children: data
+                        .map(
+                          (e) => WidgetInExpandVanBan(
+                            row: e.toListRowCapNhat(),
+                          ),
+                        )
+                        .toList(),
                   ),
                 );
-              }),
+              } else {
+                return const CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 16.0),
+                        child: NodataWidget(),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
     );

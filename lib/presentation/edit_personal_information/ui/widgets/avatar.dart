@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manag
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/utils/upload_file.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -74,6 +73,7 @@ class AvatarAndSignature extends StatelessWidget {
         );
       } else {
         cubit.avatarPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
@@ -93,8 +93,8 @@ class AvatarAndSignature extends StatelessWidget {
           gravity: ToastGravity.BOTTOM,
         );
       } else {
-        await uploadFileToSever(path: _path.path);
         cubit.chuKyPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
@@ -115,6 +115,7 @@ class AvatarAndSignature extends StatelessWidget {
         );
       } else {
         cubit.kyNhayPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }

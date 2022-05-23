@@ -31,37 +31,204 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<List<PageDatas>> dataSubjects = BehaviorSubject();
   BehaviorSubject<String> searchSubjects = BehaviorSubject();
 
-
   final BehaviorSubject<List<ItemSellectBieuDo>> selectBieuDoModelSubject =
-  BehaviorSubject.seeded([
-    ItemSellectBieuDo(
-        stateBieuDo.TheoTrangThai,
-        true
-    ),
-    ItemSellectBieuDo(
-        stateBieuDo.TheoLoai,
-        false
-    ),
-    ItemSellectBieuDo(
-        stateBieuDo.TheoDonVi,
-        false
-    ),
+      BehaviorSubject.seeded([
+    ItemSellectBieuDo(stateBieuDo.TheoTrangThai, true),
+    ItemSellectBieuDo(stateBieuDo.TheoLoai, false),
+    ItemSellectBieuDo(stateBieuDo.TheoDonVi, false),
   ]);
 
   BehaviorSubject<stateBieuDo> getStateLDM =
-  BehaviorSubject.seeded(stateBieuDo.TheoTrangThai);
- final BehaviorSubject<bool> checkClickSearch=BehaviorSubject<bool>.seeded(false);
+      BehaviorSubject.seeded(stateBieuDo.TheoTrangThai);
+  final BehaviorSubject<bool> checkClickSearch =
+      BehaviorSubject<bool>.seeded(false);
+
   Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
 
-  void setSelectSearch(){
+  void setSelectSearch() {
     checkClickSearch.sink.add(!checkClickSearch.value);
   }
+
   bool isHideClearData = false;
   String ngayDauTien = '';
   String ngayKetThuc = '';
-  String mangTrangThai='';
+  String mangTrangThai = '';
   int? trangThaiHanXuLy;
-  bool checkDataNhiemVu=false;
+  bool checkDataNhiemVu = false;
+  List<String> titleNhiemVu = [
+    'Trung tâm tin học',
+    'Văn phòng Bộ ',
+    'Vụ Tổng hợp kinh tế  ',
+    'Vụ Kinh tế địa phương',
+    'Vụ Tài chính, tiền tệ',
+    'Vụ Kinh tế công nghiệp',
+    'Vụ Kinh tế dịch vụ',
+    'Vụ Kết cấu hạ tầng và ...',
+  ];
+  List<List<ChartData>> listData = [
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        8,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 5, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        8,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        8,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        5,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 3, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        5,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        5,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        7,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 5, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        7,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        7,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        6,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 4, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        6,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        6,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        3,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 2, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        3,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        3,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        2,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 1, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        2,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        2,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        9,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 6, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        9,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        9,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        6,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 4, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        6,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        6,
+        daXuLyColor,
+      ),
+    ],
+  ];
+  List<ChartData> listStatusData = [
+    ChartData(
+      S.current.cho_phan_xu_ly,
+      30,
+      choXuLyColor,
+    ),
+    ChartData(S.current.chua_thuc_hien, 12, choVaoSoColor),
+    ChartData(
+      S.current.dang_thuc_hien,
+      14,
+      choTrinhKyColor,
+    ),
+    ChartData(
+      S.current.da_thuc_hien,
+      12,
+      daXuLyColor,
+    ),
+  ];
 
   void callApi(bool isCheckCaNhan) {
     initTimeRange();
@@ -139,8 +306,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       size: pageSize,
     );
   }
-
-
 
   Debouncer debouncer = Debouncer();
 

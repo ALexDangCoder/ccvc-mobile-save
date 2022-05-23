@@ -44,12 +44,12 @@ class ChiTietVanBanDenTablet extends StatelessWidget {
               child: TabBar(
                 tabs: [
                   Tab(text: S.current.thong_tin_chung),
-                  Tab(text: S.current.thong_tin_gui_nhan),
                   Tab(text: S.current.y_kien_xu_ly),
-                  Tab(text: S.current.lich_su_cap_nhat),
+                  Tab(text: S.current.thong_tin_gui_nhan),
+                  Tab(text: S.current.lich_su_cap_nhat_thth),
                   Tab(text: S.current.lich_su_tra_lai),
                   Tab(text: S.current.lich_su_thu_hoi),
-                  Tab(text: S.current.van_ban_lien_quan),
+                  Tab(text: S.current.lich_su_van_ban_lien_thong),
                 ],
                 isScrollable: true,
                 unselectedLabelColor: AppTheme.getInstance().unselectColor(),
@@ -65,12 +65,12 @@ class ChiTietVanBanDenTablet extends StatelessWidget {
                     processId: processId,
                     taskId: taskId,
                   ),
-                  ThongTinGuiNhanWidgetExpandTablet(
-                    cubit: DeliveryNoticeDetailDocumentCubit(),
-                    processId: processId,
-                  ),
                   YKienSuLyWidgetExpandTablet(
                     cubit: CommentsDetailDocumentCubit(),
+                    processId: processId,
+                  ),
+                  ThongTinGuiNhanWidgetExpandTablet(
+                    cubit: DeliveryNoticeDetailDocumentCubit(),
                     processId: processId,
                   ),
                   LichSuCapNhatTinhHinhWidgetExpandTablet(

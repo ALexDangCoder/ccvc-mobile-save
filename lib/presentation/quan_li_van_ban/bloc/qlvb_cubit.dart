@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -62,6 +63,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Stream<ChartData> get dataChatVbDi => _dataChartVBDi.stream;
   late String startDate;
   late String endDate;
+  String keySearch = '';
+  final BehaviorSubject<bool> checkClickSearch=BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
+
+  void setSelectSearch(){
+    checkClickSearch.sink.add(!checkClickSearch.value);
+  }
+  bool isHideClearData = false;
+  Debouncer debouncer = Debouncer();
 
   void callAPi() {
     showLoading();
@@ -189,7 +199,8 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       isDanhSachDaXuLy: documentOutStatusCode == ''
           ? null
           : documentOutStatusCode == 'DA_XU_LY',
-      trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode)
+      trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode),
+      keySearch: keySearch,
     );
     result.when(
       success: (res) {
@@ -225,6 +236,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         thoiGianStartFilter: startDate ?? this.startDate,
         thoiGianEndFilter: endDate ?? this.endDate,
         size: 10,
+        keySearch: keySearch,
       ),
     );
     result.when(
@@ -298,8 +310,8 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
   void initTimeRange() {
     final dataDateTime =
-        DateTime.now().dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-    startDate = dataDateTime.first.formatApi;
-    endDate = dataDateTime.last.formatApi;
+    DateTime.now();
+    startDate = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    endDate = dataDateTime.formatApi;
   }
 }

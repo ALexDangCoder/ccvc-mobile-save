@@ -310,9 +310,9 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
               height: 16,
             ),
             Text(
-              S.current.chon_tat_ca,
+              S.current.chon_tai_lieu,
               style: textNormalCustom(
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: titleColor,
               ),

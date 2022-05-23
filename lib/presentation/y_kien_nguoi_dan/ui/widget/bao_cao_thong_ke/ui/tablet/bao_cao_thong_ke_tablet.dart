@@ -17,10 +17,11 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/search_bao_c
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
-import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -99,7 +100,8 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                         );
                       },
                     ),
-                    title: S.current.tim_kiem, funcBtnOk: () {  },
+                    title: S.current.tim_kiem,
+                    funcBtnOk: () {},
                   );
                 },
                 child: SvgPicture.asset(ImageAssets.ic_kinh_to),
@@ -202,11 +204,13 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                 stream: baoCaoCubit.streamDashBoardBaoCaoYKND,
                                 builder: (context, snapshot) {
                                   final listDataChart = snapshot.data ?? [];
-                                  return PieChart(
-                                    title:
-                                        S.current.tinh_trang_thuc_hien_yknd,
-                                    chartData: listDataChart,
-                                    onTap: (int value) {},
+                                  return Expanded(
+                                    child: PieChart(
+                                      title:
+                                          S.current.y_kien_nguoi_dan,
+                                      chartData: listDataChart,
+                                      onTap: (int value) {},
+                                    ),
                                   );
                                 },
                               ),
@@ -214,13 +218,10 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                               StreamBuilder<DashBroadItemYKNDModel>(
                                 stream: baoCaoCubit.listChartDashBoard,
                                 builder: (context, snapshot) {
-                                  final data = snapshot.data ??
-                                      DashBroadItemYKNDModel();
+                                  final data =
+                                      snapshot.data ?? DashBroadItemYKNDModel();
                                   return Row(
                                     children: [
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
                                       Expanded(
                                         child: BoxStatusVanBan(
                                           value: data.trongHan ?? 0,
@@ -239,9 +240,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                           color: numberOfCalenders,
                                           statusName: S.current.den_han,
                                         ),
-
                                       ),
-
                                       Expanded(
                                         child: BoxStatusVanBan(
                                           value: data.quaHan ?? 0,
@@ -249,10 +248,6 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                           color: statusCalenderRed,
                                           statusName: S.current.qua_han,
                                         ),
-
-                                      ),
-                                      const SizedBox(
-                                        width: 50,
                                       ),
                                     ],
                                   );
@@ -348,8 +343,14 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               textviewTitle(S.current.don_vi_xu_ly),
-                              ChartDonViXuLyWidget(
-                                cubit: baoCaoCubit,
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                child: SingleChildScrollView(
+                                  child: ChartDonViXuLyWidget(
+                                    cubit: baoCaoCubit,
+                                  ),
+                                ),
                               ),
                             ],
                           ),

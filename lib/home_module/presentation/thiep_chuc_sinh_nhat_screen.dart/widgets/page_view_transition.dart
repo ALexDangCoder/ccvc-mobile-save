@@ -1,5 +1,6 @@
-import 'dart:math';
+import 'dart:developer';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,34 +24,40 @@ class _PageViewWidgetState extends State<PageViewWidget> {
   ];
   double viewportFraction = 0.4;
   double? pageOffset = 0;
-
+  CarouselController controller = CarouselController();
+  int indexSelect = 0;
   @override
   void initState() {
     super.initState();
-    widget.pageController.addListener(() {
-      setState(() {
-        pageOffset = widget.pageController.page;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: widget.pageController,
-      itemBuilder: (context, index) {
-        double scale = max(viewportFraction,
-            (1 - (pageOffset! - index).abs()) + viewportFraction);
-        return Container(
-          margin: EdgeInsets.symmetric(vertical: 50 - scale * 25),
-          decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-              image: DecorationImage(
-                  image: NetworkImage(listImg[index]), fit: BoxFit.cover)),
-        );
-      },
-      itemCount: 3,
+    return CarouselSlider(
+      carouselController: controller,
+      items: List.generate(
+          listImg.length,
+          (index) => Container(
+                decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                    border: Border.all(
+                     color: Colors.white,width: 4),
+                    image: DecorationImage(
+                        image: NetworkImage(listImg[index]),
+                        fit: BoxFit.cover)),
+              )),
+      options: CarouselOptions(
+        onPageChanged: (index, _) {
+          indexSelect = index;
+          setState(() {});
+        },
+        autoPlay: false,
+        enlargeCenterPage: true,
+        viewportFraction: 0.7,
+        aspectRatio: 1.0,
+        initialPage: 0,
+      ),
     );
   }
 }

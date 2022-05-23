@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/widgets/page_view_transition.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
+
 class ThiepChucMungMobileScreen extends StatefulWidget {
   const ThiepChucMungMobileScreen({Key? key}) : super(key: key);
 
@@ -19,7 +20,12 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungMobileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 200,child: PageViewWidget(pageController: controller,))
+            SizedBox(
+              width: double.infinity,
+                height: 375,
+                child: PageViewWidget(
+                  pageController: controller,
+                ))
           ],
         ),
       ),

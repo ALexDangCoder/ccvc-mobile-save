@@ -85,6 +85,7 @@ dependencies:
   flutter_contacts:
   audioplayers: ^0.20.1
   lunar_calendar_converter_new: ^2.0.0
+  carousel_slider: ^4.1.1
 
   #firebase
 

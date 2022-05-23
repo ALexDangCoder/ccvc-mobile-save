@@ -50,5 +50,6 @@ class Data {
         ngaySinh: ngaySinh ?? '',
         tenCanBo: tenCanBo ?? '',
         gioiTinh: gioiTinh ?? '',
+        email: email ?? '',
       );
 }

@@ -8,13 +8,14 @@ class SinhNhatUserModel {
   final String ngaySinh;
   final String tenCanBo;
   final String gioiTinh;
+  final String email;
   GioiTinh gioiTinhEnum = GioiTinh.Nam;
-  SinhNhatUserModel({
-    this.canBoId = '',
-    this.ngaySinh = '',
-    this.tenCanBo = '',
-    this.gioiTinh = '',
-  }) {
+  SinhNhatUserModel(
+      {this.canBoId = '',
+      this.ngaySinh = '',
+      this.tenCanBo = '',
+      this.gioiTinh = '',
+      this.email = '',}) {
     gioiTinhEnum = fromEnum();
   }
   String title() {

@@ -332,8 +332,7 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.so_dien_thoai,
                                       controller: sdtController,
                                       textInputType: TextInputType.number,
-
-                                      onChange: (value) {
+                     onChange: (value) {
                                         if (value.length > 255) {
                                           final input = value.substring(0, 255);
                                           sdtController.text = input;

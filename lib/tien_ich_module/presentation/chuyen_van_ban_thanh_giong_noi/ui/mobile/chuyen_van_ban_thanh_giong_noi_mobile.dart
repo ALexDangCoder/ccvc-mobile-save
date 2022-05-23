@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/bloc/chuyen_van_ban_thanh_giong_noi_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -30,6 +31,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     data = cubit.dataDrop;
   }
 
@@ -37,15 +39,14 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     cubit.pauseMusic();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.inactive) {
       cubit.pauseMusic();
-    } else {
-      cubit.playMusic(cubit.url);
     }
   }
 
@@ -65,7 +66,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
             S.current.error,
           ),
           stream: cubit.stateStream,
-          child:  Container(
+          child: Container(
             margin: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +80,8 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
                         BoxShadow(
                           color: shadowContainerColor.withOpacity(0.05),
                           blurRadius: 10,
-                          offset: const Offset(0, 4), // changes position of shadow
+                          offset:
+                              const Offset(0, 4), // changes position of shadow
                         ),
                       ],
                       borderRadius: BorderRadius.circular(8),
@@ -121,7 +123,7 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
                   listData: data.map((e) => e.text ?? '').toList(),
                   onChange: (vl) {
                     final List<String> dataSelect =
-                    data.map((e) => e.code ?? '').toList();
+                        data.map((e) => e.code ?? '').toList();
                     if (cubit.voidTone != dataSelect[vl]) {
                       cubit.voidTone = dataSelect[vl];
                       cubit.check = true;
@@ -141,40 +143,39 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
             ),
           ),
         ),
-      )
-
-     ,
-    );
-  }
-
-  Widget btnListen({required Function onTap}) {
-    return GestureDetector(
-      onTap: () {
-        onTap();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-        ),
-        decoration: BoxDecoration(
-          color: AppTheme.getInstance().colorField(),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              S.current.doc_ngay,
-              style: textNormalCustom(
-                fontSize: 14,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-            )
-          ],
-        ),
       ),
     );
   }
+}
+
+Widget btnListen({required Function onTap}) {
+  return GestureDetector(
+    onTap: () {
+      onTap();
+    },
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: !isMobile() ? 300 : 0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+      ),
+      decoration: BoxDecoration(
+        color: AppTheme.getInstance().colorField(),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            S.current.doc_ngay,
+            style: textNormalCustom(
+              fontSize: 14.0.textScale(),
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    ),
+  );
 }

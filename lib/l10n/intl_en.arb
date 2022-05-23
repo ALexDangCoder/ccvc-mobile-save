@@ -981,7 +981,9 @@
   "thiep_va_loi_chuc" : "Thiệp và lời chúc",
   "gui_loi_chuc" : "Gửi lời chúc",
   "gui_loi_chuc_toi" : "Gửi lời chúc tới",
-  "gui" : "Gửi"
+  "gui" : "Gửi",
+  "gui_thiep_thanh_cong" : "Gửi thiệp thành công"
+
 
 
 

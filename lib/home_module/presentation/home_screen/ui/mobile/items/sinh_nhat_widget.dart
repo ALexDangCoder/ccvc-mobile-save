@@ -1,5 +1,5 @@
-
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/mobile/thiep_chuc_sinh_nhat_mobile_screen.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -102,7 +102,11 @@ class _EventOfDayWidgetState extends State<SinhNhatWidget> {
                                     sinhNhatUserModel: result,
                                   ),
                                 ),
-                              );
+                              ).then((value) {
+                                if (value != null) {
+                                  MessageConfig.show(title: value);
+                                }
+                              });
                             },
                             title: result.title(),
                           ),

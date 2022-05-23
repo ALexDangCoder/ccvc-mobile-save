@@ -13,3 +13,7 @@ class Loading extends ChucSinhNhatState {
   @override
   List<Object> get props => [];
 }
+class Succeeded extends ChucSinhNhatState {
+  @override
+  List<Object> get props => [];
+}

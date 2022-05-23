@@ -4,8 +4,10 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
 import '../comment_widget.dart';
@@ -56,7 +58,7 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
               ),
               Container(
                 color: Colors.transparent,
-                constraints: const   BoxConstraints(
+                constraints: const BoxConstraints(
                   minHeight: 500,
                 ),
                 child: StreamBuilder<ChiTietVanBanDiModel>(
@@ -123,7 +125,7 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
               CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  data.anhDaiDien ??'',
+                  data.anhDaiDien ?? '',
                 ),
               ),
               spaceW13,
@@ -171,57 +173,27 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
             ), //infoColor
           ),
           spaceH6,
-          Row(
-            children: [
-              if (data.danhSachFiles?.isNotEmpty ?? false) ...[
-                GestureDetector(
-                  onTap: () {
-                    //todo
-                  },
-                  child: Text(
-                    data.danhSachFiles
-                            ?.map((e) => e.ten ?? '')
-                            .toList()
-                            .join(',') ??
-                        '',
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: textColorMangXaHoi,
-                    ), //infoColor
-                  ),
-                ),
-                spaceW16
-              ],
-              if (showChild)
-                GestureDetector(
-                  onTap: () {
-                    if (index != indexActiveRelay) {
-                      setState(() {
-                        if (indexActiveRelay != null) {
-                          (widget.cubit.chiTietVanBanDiSubject.valueOrNull
-                                      ?.danhSachChoYKien ??
-                                  [])[indexActiveRelay!]
-                              .isInput = false;
-                        }
-                        (widget.cubit.chiTietVanBanDiSubject.valueOrNull
-                                    ?.danhSachChoYKien ??
-                                [])[index]
-                            .isInput = true;
-                        indexActiveRelay = index;
-                      });
-                    }
-                  },
-                  child: Text(
-                    S.current.phan_hoi,
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: textColorMangXaHoi,
-                    ), //infoColor
-                  ),
-                ),
-            ],
+          Wrap(
+            children: data.danhSachFiles
+                    ?.map(
+                      (e) => GestureDetector(
+                        onTap: () {
+                          handleSaveFile(
+                              url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
+                              name: e.ten ?? '');
+                        },
+                        child: Text(
+                          '${e.ten ?? ''} ;',
+                          style: textNormalCustom(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: textColorMangXaHoi,
+                          ), //infoColor
+                        ),
+                      ),
+                    )
+                    .toList() ??
+                [],
           ),
           // if ((data.listYKien?.isNotEmpty ?? false) && showChild == true) ...[
           //   ListView.builder(

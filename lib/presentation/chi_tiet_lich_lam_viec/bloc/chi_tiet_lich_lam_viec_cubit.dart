@@ -96,7 +96,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
     final rs = await detailLichLamViec.cancelCalenderWork(id);
     rs.when(
         success: (data) {
-          print('trang thai huy: $data');
+
         },
         error: (error) {});
   }

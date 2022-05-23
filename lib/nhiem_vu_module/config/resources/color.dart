@@ -155,6 +155,8 @@ const unFocusColor = Color(0xffF2F0FF);
 const colorImageLichHop = Color(0xffF1F7FF);
 const dangThucHienPurble = Color(0xffBB6BD9);
 const textUnfocus = Color(0xffF9F9FA);
+const nhiemVuBoColor = Color(0xff0A45B9);
+const nhiemDonViColor = Color(0xff1CE2BF);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

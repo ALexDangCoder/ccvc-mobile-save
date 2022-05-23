@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class YKienSuLyWidgetExpandTablet extends StatefulWidget {
@@ -106,8 +107,7 @@ class _YKienSuLyWidgetExpandTabletState
               CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  data.avatar ??
-                      'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  '$DO_MAIN_DOWLOAD_FILE${data.avatar ?? ''}',
                 ),
               ),
               spaceW13,

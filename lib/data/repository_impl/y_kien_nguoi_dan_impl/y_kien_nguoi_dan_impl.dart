@@ -303,13 +303,15 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
   }
 
   @override
-  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN(
-      {String? tuNgay,
-      String? denNgay,
-      String? pageSize,
-      String? pageNumber,
-      String? userId,
-      String? donViId}) {
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({
+    String? tuNgay,
+    String? denNgay,
+    String? pageSize,
+    String? pageNumber,
+    String? userId,
+    String? donViId,
+    String? tuKhoa,
+  }) {
     return runCatchingAsync<DanhSachPAKNTotalResponse,
         List<DanhSachKetQuaPAKNModel>>(
       () => _yKienNguoiDanService.getDanhSachPAKN(
@@ -319,6 +321,7 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
         pageSize: pageSize,
         donViId: donViId,
         userId: userId,
+        tuKhoa: tuKhoa,
       ),
       (res) =>
           res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
@@ -345,13 +348,13 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<ResultXinYKienNguoiDan>> postChoYKienYKienXuLy(
-   //   String nguoiChoYKien,
+      //   String nguoiChoYKien,
       String kienNghiId,
       String noiDung,
       List<File> file) {
     return runCatchingAsync<YKienXuLyResponse, ResultXinYKienNguoiDan>(
       () => _yKienNguoiDanService.postChoYKienXuLy(
-       // nguoiChoYKien,
+        // nguoiChoYKien,
         kienNghiId,
         noiDung,
         file,

@@ -29,6 +29,7 @@ enum SelectKey {
   DA_XU_LY,
   CHO_TIEP_NHAN,
   LICH_HOP_CUA_TOI,
+  LICH_CHO_XAC_NHAN,
   LICH_DUOC_MOI,
   LICH_HOP_DUOC_MOI,
   LICH_HOP_CAN_DUYET,
@@ -48,6 +49,7 @@ enum SelectKey {
 enum DocumentStatus {
   DEN_HAN,
   QUA_HAN,
+  TRONG_HAN,
   CHO_TIEP_NHAN,
   HOAN_THANH,
   CHO_XAC_NHAN,
@@ -74,6 +76,8 @@ const String CHO_TIEP_NHAN = 'CHO_TIEP_NHAN';
 const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+const String CHO_XU_LY = 'CHO_XU_LY';
+
 
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';

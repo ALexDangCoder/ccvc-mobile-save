@@ -2,6 +2,8 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_state.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/menu/nhiem_vu_menu_tablet.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/bao_cao_thong_ke_nhiem_vu_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/nhiem_vu_ca_nhan_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/nhiem_vu_don_vi_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -23,11 +25,13 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
 
   late ScrollController scrollController;
   late NhiemVuCubit cubit;
+  late final DanhSachCubit danhSachCubit;
   late String title;
 
   @override
   void initState() {
     cubit = NhiemVuCubit();
+    danhSachCubit = DanhSachCubit();
     controller = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     title = S.current.nhiem_vu_ca_nhan;
@@ -71,7 +75,7 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
                     ),
                   );
                 },
-                icon: SvgPicture.asset(ImageAssets.icMenuLichHopTablet),
+                icon: SvgPicture.asset(ImageAssets.icMenuCalender),
               )
             ],
           ),
@@ -81,13 +85,17 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
               if (state is NhiemVuCaNhan) {
                 return NhiemVuCaNhanTablet(
                   cubit: cubit,
+                  danhSachCubit: danhSachCubit,
                   isCheck: true,
                 );
-              } else {
+              } else if(state is NhiemVuDonVi) {
                 return NhiemVuDonViTablet(
+                  danhSachCubit: danhSachCubit,
                   cubit: cubit,
                   isCheck: false,
                 );
+              }else{
+                return const BaoCaoThongKeNhiemVuTablet();
               }
             },
           ),

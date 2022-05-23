@@ -24,13 +24,20 @@ class HanXuLyWidget extends StatelessWidget {
             final result = data[index];
             return result.value ==0? const SizedBox() : Expanded(
               flex: result.value.toInt(),
-              child: Container(
-                height: 38,
-                color: result.color,
-                alignment: Alignment.center,
-                child: Text(
-                  result.value.toInt().toString(),
-                  style: textNormal(Colors.white, 14),
+              child: GestureDetector(
+                onTap: (){
+                  if (onTap != null) {
+                    onTap!(index);
+                  } else {}
+                },
+                child: Container(
+                  height: 38,
+                  color: result.color,
+                  alignment: Alignment.center,
+                  child: Text(
+                    result.value.toInt().toString(),
+                    style: textNormal(Colors.white, 14),
+                  ),
                 ),
               ),
             );

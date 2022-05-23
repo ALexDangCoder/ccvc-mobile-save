@@ -91,6 +91,9 @@ class ManagerPersonalInformationCubit
   AccountRepository get _managerRepo => Get.find();
   bool isChechValidate = false;
   String valueText = '';
+  String pathAnhDaiDien = '';
+  String pathAnhKyNhay = '';
+  String pathAnhChuKy = '';
 
   void checkCopyPaste(
     String value,
@@ -204,6 +207,9 @@ class ManagerPersonalInformationCubit
     String idHuyen = '',
     String idXa = '',
     String? iDDonViHoatDong,
+    String anhDaiDien = '',
+    String anhChuKy = '',
+    String anhKyNhay = '',
   }) async {
     final EditPersonInformationRequest editPerson =
         EditPersonInformationRequest(
@@ -220,9 +226,9 @@ class ManagerPersonalInformationCubit
       userId: '',
       iDDonViHoatDong: '00000000-0000-0000-0000-000000000000',
       cmtnd: cmnt,
-      anhDaiDienFilePath: '',
-      anhChuKyFilePath: '',
-      anhChuKyNhayFilePath: '',
+      anhDaiDienFilePath: anhDaiDien,
+      anhChuKyFilePath: anhChuKy,
+      anhChuKyNhayFilePath: anhKyNhay,
       bitChuyenCongTac: false,
       thoiGianCapNhat: '',
       bitNhanTinBuonEmail: false,

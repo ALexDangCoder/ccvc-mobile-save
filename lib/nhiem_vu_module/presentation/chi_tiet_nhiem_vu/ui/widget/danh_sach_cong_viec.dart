@@ -29,7 +29,7 @@ class DanhSachCongViecWidget extends StatelessWidget {
             right: 16,
             bottom: 16,
           ),
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: dataModel
                 .map(

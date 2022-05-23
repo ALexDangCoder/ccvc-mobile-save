@@ -395,15 +395,15 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   }
 
   Future<String> postYKienXuLy({
-    required String nguoiChoYKien,
+    // required String nguoiChoYKien,
     required String kienNghiId,
     required String noiDung,
     required List<File> file,
   }) async {
     String status = '';
     showLoading();
-    final result = await YKNDRepo.postYKienXuLy(
-      nguoiChoYKien,
+    final result = await YKNDRepo.postChoYKienYKienXuLy(
+      //  nguoiChoYKien,
       kienNghiId,
       noiDung,
       file,
@@ -412,10 +412,14 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
       success: (res) {
         status = 'success';
         showContent();
+        isLoading = false;
+        refreshPosts();
       },
       error: (error) {
         status = '';
         showContent();
+        isLoading = false;
+        refreshPosts();
       },
     );
     return status;

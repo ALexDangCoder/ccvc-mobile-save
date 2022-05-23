@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -73,77 +74,152 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
-                ? Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    padding: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: cellColorborder,
-                      ),
-                    ),
-                    child: TextFormField(
-                      controller: textcontroller,
-                      // focusNode: focusNode,
-                      textAlignVertical: TextAlignVertical.center,
-                      cursorColor: colorBlack,
-                      style: tokenDetailAmount(
-                        color: colorBlack,
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        suffixIcon: widget.danhSachCubit.isHideClearData
-                            ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {});
-                                      textcontroller.clear();
-                                      widget.danhSachCubit.isHideClearData =
-                                          false;
-                                    },
-                                    child: const Icon(Icons.clear,
-                                        color: coloriCon),
-                                  ),
+                ? Platform.isIOS
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          padding: const EdgeInsets.only(right: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: cellColorborder,
+                            ),
+                          ),
+                          child: TextFormField(
+                            controller: textcontroller,
+                            // focusNode: focusNode,
+                            textAlignVertical: TextAlignVertical.center,
+                            cursorColor: colorBlack,
+                            style: tokenDetailAmount(
+                              color: colorBlack,
+                              fontSize: 14,
+                            ),
+                            decoration: InputDecoration(
+                              isCollapsed: true,
+                              suffixIcon: widget.danhSachCubit.isHideClearData
+                                  ? SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Center(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {});
+                                            textcontroller.clear();
+                                            widget.danhSachCubit
+                                                .isHideClearData = false;
+                                          },
+                                          child: const Icon(Icons.clear,
+                                              color: coloriCon),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              prefixIcon: GestureDetector(
+                                onTap: () {
+                                  widget.danhSachCubit.setSelectSearch();
+                                },
+                                child: const Icon(
+                                  Icons.search,
+                                  color: coloriCon,
                                 ),
-                              )
-                            : const SizedBox(),
-                        prefixIcon: GestureDetector(
-                          onTap: () {
-                            widget.danhSachCubit.setSelectSearch();
-                          },
-                          child: const Icon(
-                            Icons.search,
-                            color: coloriCon,
+                              ),
+                              border: InputBorder.none,
+                              hintText: S.current.tim_kiem,
+                              hintStyle: const TextStyle(
+                                color: coloriCon,
+                                fontSize: 14,
+                              ),
+                            ),
+                            onChanged: (text) {
+                              if (text.isEmpty) {
+                                setState(() {});
+                                widget.danhSachCubit.isHideClearData = false;
+                              } else {
+                                widget.danhSachCubit.debouncer.run(() {
+                                  setState(() {});
+                                  widget.danhSachCubit.keySearch = text;
+                                  widget.danhSachCubit.mangTrangThai = '';
+                                  widget.danhSachCubit.isHideClearData = true;
+                                });
+                                // setState(() {});
+
+                              }
+                            },
                           ),
                         ),
-                        border: InputBorder.none,
-                        hintText: S.current.tim_kiem,
-                        hintStyle: const TextStyle(
-                          color: coloriCon,
-                          fontSize: 14,
+                      )
+                    : Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        padding: const EdgeInsets.only(right: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: cellColorborder,
+                          ),
                         ),
-                      ),
-                      onChanged: (text) {
-                        if (text.isEmpty) {
-                          setState(() {});
-                          widget.danhSachCubit.isHideClearData = false;
-                        } else {
-                          widget.danhSachCubit.debouncer.run(() {
-                            setState(() {});
-                            widget.danhSachCubit.keySearch = text;
-                            widget.danhSachCubit.mangTrangThai = '';
-                            widget.danhSachCubit.isHideClearData = true;
-                          });
-                          // setState(() {});
+                        child: TextFormField(
+                          controller: textcontroller,
+                          // focusNode: focusNode,
+                          textAlignVertical: TextAlignVertical.center,
+                          cursorColor: colorBlack,
+                          style: tokenDetailAmount(
+                            color: colorBlack,
+                            fontSize: 14,
+                          ),
+                          decoration: InputDecoration(
+                            isCollapsed: true,
+                            suffixIcon: widget.danhSachCubit.isHideClearData
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {});
+                                          textcontroller.clear();
+                                          widget.danhSachCubit.isHideClearData =
+                                              false;
+                                        },
+                                        child: const Icon(Icons.clear,
+                                            color: coloriCon),
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            prefixIcon: GestureDetector(
+                              onTap: () {
+                                widget.danhSachCubit.setSelectSearch();
+                              },
+                              child: const Icon(
+                                Icons.search,
+                                color: coloriCon,
+                              ),
+                            ),
+                            border: InputBorder.none,
+                            hintText: S.current.tim_kiem,
+                            hintStyle: const TextStyle(
+                              color: coloriCon,
+                              fontSize: 14,
+                            ),
+                          ),
+                          onChanged: (text) {
+                            if (text.isEmpty) {
+                              setState(() {});
+                              widget.danhSachCubit.isHideClearData = false;
+                            } else {
+                              widget.danhSachCubit.debouncer.run(() {
+                                setState(() {});
+                                widget.danhSachCubit.keySearch = text;
+                                widget.danhSachCubit.mangTrangThai = '';
+                                widget.danhSachCubit.isHideClearData = true;
+                              });
+                              // setState(() {});
 
-                        }
-                      },
-                    ),
-                  )
+                            }
+                          },
+                        ),
+                      )
                 : AppBar(
                     elevation: 0.0,
                     title: Text(
@@ -189,120 +265,131 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           },
         ),
       ),
-      body: ComplexLoadMore(
-        childrenView: [
-          FilterDateTimeWidget(
-            context: context,
-            isMobile: true,
-            initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien),
-            onChooseDateFilter: (startDate, endDate) {
-              widget.danhSachCubit.ngayDauTien = startDate.formatApi;
-              widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-              widget.danhSachCubit.callApiDashBroash(true);
-            },
-          ),
-          ExpandOnlyWidget(
-            isPadingIcon: true,
-            initExpand: true,
-            header: Container(
-              color: Colors.transparent,
-              child: Row(
+      body: GestureDetector(
+        onTap: () {
+          if (widget.danhSachCubit.checkClickSearch.value == true) {
+            widget.danhSachCubit.checkClickSearch.sink.add(false);
+            widget.danhSachCubit.isHideClearData = false;
+            widget.danhSachCubit.keySearch = '';
+            textcontroller.clear();
+          }
+        },
+        child: ComplexLoadMore(
+          childrenView: [
+            FilterDateTimeWidget(
+              context: context,
+              isMobile: true,
+              initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
+              onChooseDateFilter: (startDate, endDate) {
+                widget.danhSachCubit.ngayDauTien = startDate.formatApi;
+                widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
+                widget.danhSachCubit.callApiDashBroash(true);
+              },
+            ),
+            ExpandOnlyWidget(
+              isPadingIcon: true,
+              initExpand: true,
+              header: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 16.0),
+                      child: Text(
+                        S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
+                        style:
+                            textNormalCustom(color: titleColor, fontSize: 16),
+                      ),
+                    ),
+                    const Expanded(child: SizedBox())
+                  ],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 16.0),
-                    child: Text(
-                      S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
-                      style: textNormalCustom(color: titleColor, fontSize: 16),
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                    child: StreamBuilder<List<ChartData>>(
+                      stream: widget.danhSachCubit.statusNhiemVuCaNhanSuject,
+                      initialData: widget.danhSachCubit.chartDataNhiemVuCaNhan,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ??
+                            widget.danhSachCubit.chartDataNhiemVu;
+                        return BieuDoNhiemVuCaNhan(
+                          title: S.current.nhiem_vu,
+                          chartData: data,
+                          cubit: widget.danhSachCubit,
+                          ontap: (value) {
+                            widget.danhSachCubit.mangTrangThai = value;
+                            widget.danhSachCubit.trangThaiHanXuLy = null;
+                            setState(() {
+                              callBack;
+                            });
+                          },
+                          onTapStatusBox: (value_status_box) {
+                            widget.danhSachCubit.mangTrangThai = '';
+                            widget.danhSachCubit.trangThaiHanXuLy =
+                                value_status_box;
+                            setState(() {
+                              callBack;
+                            });
+                          },
+                        );
+                      },
                     ),
                   ),
-                  const Expanded(child: SizedBox())
                 ],
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                  child: StreamBuilder<List<ChartData>>(
-                    stream: widget.danhSachCubit.statusNhiemVuCaNhanSuject,
-                    initialData: widget.danhSachCubit.chartDataNhiemVuCaNhan,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ??
-                          widget.danhSachCubit.chartDataNhiemVu;
-                      return BieuDoNhiemVuCaNhan(
-                        title: S.current.nhiem_vu,
-                        chartData: data,
-                        cubit: widget.danhSachCubit,
-                        ontap: (value) {
-                          widget.danhSachCubit.mangTrangThai = value;
-                          widget.danhSachCubit.trangThaiHanXuLy = null;
-                          setState(() {
-                            callBack;
-                          });
-                        },
-                        onTapStatusBox: (value_status_box) {
-                          widget.danhSachCubit.mangTrangThai = '';
-                          widget.danhSachCubit.trangThaiHanXuLy =
-                              value_status_box;
-                          setState(() {
-                            callBack;
-                          });
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
+            Container(
+              height: 6,
+              color: homeColor,
             ),
-          ),
-          Container(
-            height: 6,
-            color: homeColor,
-          ),
-        ],
-        callApi: (page) {
-          widget.danhSachCubit.postDanhSachNhiemVu(
-            index: page,
-            isNhiemVuCaNhan: widget.isCheck,
-            isSortByHanXuLy: true,
-            mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-            ngayTaoNhiemVu: {
-              'FromDate': widget.danhSachCubit.ngayDauTien,
-              'ToDate': widget.danhSachCubit.ngayKetThuc
-            },
-            size: widget.danhSachCubit.pageSize,
-            keySearch: widget.danhSachCubit.keySearch,
-            trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-          );
-        },
-        isListView: true,
-        cubit: widget.danhSachCubit,
-        viewItem: (value, index) {
-          try {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: NhiemVuItemMobile(
-                data: value as PageData,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChiTietNhiemVuPhoneScreen(
-                        id: value.id ?? '',
-                        isCheck: widget.isCheck,
-                      ),
-                    ),
-                  );
-                },
-              ),
+          ],
+          callApi: (page) {
+            widget.danhSachCubit.postDanhSachNhiemVu(
+              index: page,
+              isNhiemVuCaNhan: widget.isCheck,
+              isSortByHanXuLy: true,
+              mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+              ngayTaoNhiemVu: {
+                'FromDate': widget.danhSachCubit.ngayDauTien,
+                'ToDate': widget.danhSachCubit.ngayKetThuc
+              },
+              size: widget.danhSachCubit.pageSize,
+              keySearch: widget.danhSachCubit.keySearch,
+              trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
             );
-          } catch (e) {
-            return const SizedBox();
-          }
-        },
+          },
+          isListView: true,
+          cubit: widget.danhSachCubit,
+          viewItem: (value, index) {
+            try {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: NhiemVuItemMobile(
+                  data: value as PageData,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChiTietNhiemVuPhoneScreen(
+                          id: value.id ?? '',
+                          isCheck: widget.isCheck,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            } catch (e) {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }

@@ -293,21 +293,28 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
 
   @override
   Future<Result<List<LocationModel>>> getLocationAddress({String? id}) {
-
     return runCatchingAsync<String, List<LocationModel>>(
-      () => _yKienNguoiDanService.getLocationAddress(id: id),
-      (res) {
-        final List<dynamic> list = jsonDecode(res);
-        return list.map((e) => LocationAddressResponse.fromJson(e).toModel()).toList();
-      }
-    );
+        () => _yKienNguoiDanService.getLocationAddress(id: id), (res) {
+      final List<dynamic> list = jsonDecode(res);
+      return list
+          .map((e) => LocationAddressResponse.fromJson(e).toModel())
+          .toList();
+    });
   }
 
   @override
-  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({String? tuNgay, String? denNgay, String? pageSize, String? pageNumber, String? userId, String? donViId, String? tuKhoa}) {
+  Future<Result<List<DanhSachKetQuaPAKNModel>>> getDanhSachPAKN({
+    String? tuNgay,
+    String? denNgay,
+    String? pageSize,
+    String? pageNumber,
+    String? userId,
+    String? donViId,
+    String? tuKhoa,
+  }) {
     return runCatchingAsync<DanhSachPAKNTotalResponse,
         List<DanhSachKetQuaPAKNModel>>(
-          () => _yKienNguoiDanService.getDanhSachPAKN(
+      () => _yKienNguoiDanService.getDanhSachPAKN(
         tuNgay: tuNgay,
         denNgay: denNgay,
         pageNumber: pageNumber,
@@ -316,12 +323,10 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
         userId: userId,
         tuKhoa: tuKhoa,
       ),
-          (res) =>
-      res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
+      (res) =>
+          res.listDanhSachKetQuaPAKN?.map((e) => e.toModel()).toList() ?? [],
     );
   }
-
-
 
   @override
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(
@@ -333,6 +338,23 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     return runCatchingAsync<YKienXuLyResponse, ResultXinYKienNguoiDan>(
       () => _yKienNguoiDanService.postYKienXuLy(
         nguoiChoYKien,
+        kienNghiId,
+        noiDung,
+        file,
+      ),
+      (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<ResultXinYKienNguoiDan>> postChoYKienYKienXuLy(
+      //   String nguoiChoYKien,
+      String kienNghiId,
+      String noiDung,
+      List<File> file) {
+    return runCatchingAsync<YKienXuLyResponse, ResultXinYKienNguoiDan>(
+      () => _yKienNguoiDanService.postChoYKienXuLy(
+        // nguoiChoYKien,
         kienNghiId,
         noiDung,
         file,

@@ -39,136 +39,147 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        widget.onTap();
-      },
-      child: Container(
-        color: widget.seen ? Colors.white : statusNotify,
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.0.textScale(),
-          vertical: 12.0.textScale(),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset(
-                    ImageAssets.icNotifyHome,
-                  ),
-                  SizedBox(
-                    width: 12.0.textScale(),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.title,
-                        style: textNormalCustom(
-                          color: textTitle,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0.textScale(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 6.0.textScale(),
-                      ),
-                      Text(
-                        widget.message,
-                        style: textNormalCustom(
-                          color: infoColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0.textScale(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10.0.textScale(),
-                      ),
-                      Text(
-                        widget.date,
-                        style: textNormalCustom(
-                          color: AqiColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.0.textScale(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 12.0.textScale(),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    isVisible = !isVisible;
-                    setState(() {});
-                  },
-                  child: SvgPicture.asset(
-                    ImageAssets.ic_three_dot_doc,
-                  ),
-                ),
-                if (isVisible)
-                  GestureDetector(
-                    onTap: () {
-                      showDiaLog(
-                        context,
-                        title: S.current.xoa_thong_bao,
-                        textContent: S.current.ban_co_muon_xoa_thong_bao,
-                        icon: Container(),
-                        btnRightTxt: S.current.xac_nhan,
-                        btnLeftTxt: S.current.dong,
-                        funcBtnRight: () {
-                          widget.cubit.deleteNoti(widget.id);
-                          isVisible = !isVisible;
-                          setState(() {});
-                        },
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        top: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: borderColor.withOpacity(0.5),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: shadowContainerColor.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
+    return Container(
+      color: widget.seen ? Colors.white : statusNotify,
+      padding: EdgeInsets.symmetric(
+        horizontal: 16.0.textScale(),
+        vertical: 12.0.textScale(),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                widget.onTap();
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            ImageAssets.icNotifyHome,
+                          ),
+                          SizedBox(
+                            width: 12.0.textScale(),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.title,
+                                style: textNormalCustom(
+                                  color: textTitle,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0.textScale(),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 6.0.textScale(),
+                              ),
+                              Text(
+                                widget.message,
+                                style: textNormalCustom(
+                                  color: infoColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14.0.textScale(),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0.textScale(),
+                              ),
+                              Text(
+                                widget.date,
+                                style: textNormalCustom(
+                                  color: AqiColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.0.textScale(),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: widget.cubit.listMenu
-                            .map(
-                              (e) => Container(
-                                padding: const EdgeInsets.all(7),
-                                child: SvgPicture.asset(e),
-                              ),
-                            )
-                            .toList(),
                       ),
                     ),
-                  )
-                else
-                  Container(),
-              ],
-            )
-          ],
-        ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 12.0.textScale(),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  isVisible = !isVisible;
+                  setState(() {});
+                },
+                child: SvgPicture.asset(
+                  ImageAssets.ic_three_dot_doc,
+                ),
+              ),
+              if (isVisible)
+                GestureDetector(
+                  onTap: () {
+                    showDiaLog(
+                      context,
+                      title: S.current.xoa_thong_bao,
+                      textContent: S.current.ban_co_muon_xoa_thong_bao,
+                      icon: Container(),
+                      btnRightTxt: S.current.xac_nhan,
+                      btnLeftTxt: S.current.dong,
+                      funcBtnRight: () {
+                        widget.cubit.deleteNoti(widget.id);
+                        isVisible = !isVisible;
+                        setState(() {});
+                      },
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: borderColor.withOpacity(0.5),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowContainerColor.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: widget.cubit.listMenu
+                          .map(
+                            (e) => Container(
+                              padding: const EdgeInsets.all(7),
+                              child: SvgPicture.asset(e),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                )
+              else
+                Container(),
+            ],
+          )
+        ],
       ),
     );
   }

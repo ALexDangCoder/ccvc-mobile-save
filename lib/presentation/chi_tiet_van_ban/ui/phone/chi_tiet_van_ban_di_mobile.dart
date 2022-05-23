@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/tep_dinh_kem_widget/tep_dinh_kem_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_don_vi_nhan_va_nguoi_deo_doi_van_ban_mobie.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_cap_nhat_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_huy_duyet_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_ky_duyet_widget_expand.dart';
@@ -33,14 +34,13 @@ class _ChiTietVanBanDiMobileState extends State<ChiTietVanBanDiMobile> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBarDefaultBack(S.current.chi_tiet_van_ban_di),
       body: DefaultTabController(
-        length: 10,
+        length: 11,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -55,10 +55,11 @@ class _ChiTietVanBanDiMobileState extends State<ChiTietVanBanDiMobile> {
               child: TabBar(
                 tabs: [
                   Tab(text: S.current.thong_tin_chung),
-                  Tab(text: S.current.y_kien_xu_ly),
-                  Tab(text: S.current.thong_tin_ky_duyet),
+                  Tab(text: S.current.don_vi_nhan_va_theo_doi_van_ban),
                   Tab(text: S.current.tep_dinh_kem),
-                  Tab(text: S.current.lich_su_cap_nhat_thth),
+                  Tab(text: S.current.thong_tin_ky_duyet),
+                  Tab(text: S.current.y_kien_xu_ly),
+                  Tab(text: S.current.lich_su_cap_nhat),
                   Tab(text: S.current.lich_su_tra_lai),
                   Tab(text: S.current.lich_su_thu_hoi),
                   Tab(text: S.current.lich_su_huy_duyet),
@@ -78,7 +79,11 @@ class _ChiTietVanBanDiMobileState extends State<ChiTietVanBanDiMobile> {
                     cubit: commonDetailDocumentGoCubit,
                     id: widget.id,
                   ),
-                  VBDiYKienXuLyExpandWidget(
+                  TheoDoiVanBanMobile(
+                    cubit: commonDetailDocumentGoCubit,
+                    id: widget.id,
+                  ),
+                  TepDinhKemMobile(
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),
@@ -86,7 +91,7 @@ class _ChiTietVanBanDiMobileState extends State<ChiTietVanBanDiMobile> {
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),
-                  TepDinhKemMobile(
+                  VBDiYKienXuLyExpandWidget(
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),

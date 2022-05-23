@@ -18,7 +18,7 @@ class ThongBaoCubit extends BaseCubit<ThongBaoState> {
   bool isSwitch = false;
   String appCode = '';
   List<String> appCodes = [];
-
+  bool modeSilent = false;
   List<String> stateAppCode = [];
 
   int page = 1;
@@ -94,7 +94,7 @@ extension SettingScreen on ThongBaoCubit {
         messageShowNew: true,
         messageShowNotRead: true,
         messageShowPreview: true,
-        modeSilent: true,
+        modeSilent: modeSilent,
         noticeHideAuto: '',
         noticeLocation: '',
         sound: true,
@@ -111,7 +111,11 @@ extension SettingScreen on ThongBaoCubit {
       },
       error: (error) {},
     );
+  }
 
+  void changeModeSilent() {
+    modeSilent = !modeSilent;
+    postSetting();
   }
 
   void changeSwitch(String appCode, bool status) {

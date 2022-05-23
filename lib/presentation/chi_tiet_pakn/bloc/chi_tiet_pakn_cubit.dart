@@ -53,7 +53,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   List<File> listFileMain = [];
   final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
   String mess = '';
-  bool canLoadMoreMy = true;
+  bool canLoadMoreMy = false;
   bool _isRefresh = true;
   bool isLoading = false;
   int page = 0;
@@ -77,7 +77,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
       page += 1;
       _isRefresh = false;
       isLoading = true;
-      getDanhSachYKienXuLyPAKN(idYkien);
+      // /getDanhSachYKienXuLyPAKN(idYkien);
     }
   }
 

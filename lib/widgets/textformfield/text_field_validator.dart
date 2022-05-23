@@ -24,8 +24,8 @@ class TextFieldValidator extends StatefulWidget {
   final bool? obscureText;
   final Color? fillColor;
   final int? maxLength;
-  final List<TextInputFormatter>? checkNumber;
-  final Function(String)? onPaste;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool Function(String)? validatorPaste;
 
   const TextFieldValidator({
     Key? key,
@@ -43,8 +43,8 @@ class TextFieldValidator extends StatefulWidget {
     this.obscureText,
     this.fillColor,
     this.maxLength,
-    this.checkNumber,
-    this.onPaste,
+    this.inputFormatters,
+    this.validatorPaste,
   }) : super(key: key);
 
   @override
@@ -55,13 +55,32 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   final key = GlobalKey<FormState>();
   late TextSelectionControls _selectionControls;
   FormProvider? formProvider;
-  bool isPaste = false;
-  String valueText = '';
+
 
   @override
   void initState() {
     super.initState();
-    valueText = widget.controller?.text ?? '';
+    if (Platform.isIOS) {
+      _selectionControls = AppCupertinoTextSelectionControls(
+          validatorPaste: (value){
+            if(widget.validatorPaste == null){
+              return true;
+            }else{
+              return widget.validatorPaste!(value);
+            }
+          });
+    } else {
+      _selectionControls = AppMaterialTextSelectionControls(
+          validatorPaste: (value){
+            if(widget.validatorPaste == null){
+              return true;
+            }else{
+              return widget.validatorPaste!(value);
+            }
+          }
+      );
+    }
+
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       formProvider = FormProvider.of(context);
       if (formProvider != null) {
@@ -91,7 +110,8 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
     return Form(
       key: key,
       child: TextFormField(
-        inputFormatters: widget.checkNumber,
+        selectionControls: _selectionControls,
+        inputFormatters: widget.inputFormatters,
         maxLength: widget.maxLength,
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
@@ -158,4 +178,84 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
       ),
     );
   }
+
+}
+
+class AppCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
+  AppCupertinoTextSelectionControls({
+    required this.validatorPaste,
+  });
+  final bool Function(String) validatorPaste;
+  @override
+  Future<void> handlePaste(final TextSelectionDelegate delegate) async {
+    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    if (validatorPaste(data?.text ?? '')) {
+      await handlePasteValidator(delegate, data?.text);
+    } else {
+      delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+      delegate.hideToolbar();
+    }
+  }
+
+  Future<void> handlePasteValidator(
+      TextSelectionDelegate delegate, String? text) async {
+    final TextEditingValue value =
+        delegate.textEditingValue; // Snapshot the input before using `await`.
+    if (text != null) {
+      delegate.userUpdateTextEditingValue(
+        TextEditingValue(
+          text: value.selection.textBefore(value.text) +
+              text +
+              value.selection.textAfter(value.text),
+          selection: TextSelection.collapsed(
+            offset: value.selection.start + text.length,
+          ),
+        ),
+        SelectionChangedCause.toolBar,
+      );
+    }
+    delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+    delegate.hideToolbar();
+  }
+}
+
+class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
+  AppMaterialTextSelectionControls({
+    required this.validatorPaste,
+  });
+  final bool Function(String)? validatorPaste;
+  @override
+  Future<void> handlePaste(final TextSelectionDelegate delegate) async {
+    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    final validator = validatorPaste!(data?.text ?? '');
+
+    if (validator) {
+      await handlePasteValidator(delegate, data?.text);
+    } else {
+      delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+      delegate.hideToolbar();
+    }
+  }
+
+  Future<void> handlePasteValidator(
+      TextSelectionDelegate delegate, String? text) async {
+    final TextEditingValue value =
+        delegate.textEditingValue; // Snapshot the input before using `await`.
+    if (text != null) {
+      delegate.userUpdateTextEditingValue(
+        TextEditingValue(
+          text: value.selection.textBefore(value.text) +
+              text +
+              value.selection.textAfter(value.text),
+          selection: TextSelection.collapsed(
+            offset: value.selection.start + text.length,
+          ),
+        ),
+        SelectionChangedCause.toolBar,
+      );
+    }
+    delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+    delegate.hideToolbar();
+  }
+
 }

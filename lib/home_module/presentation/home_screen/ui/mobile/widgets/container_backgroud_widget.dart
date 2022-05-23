@@ -29,6 +29,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final List<SelectKey>? listSelect;
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
+  final Function()? onTapTitle;
   const ContainerBackgroundWidget({
     Key? key,
     required this.child,
@@ -47,6 +48,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.listSelect,
     this.onChangeKey,
     this.isCustomDialog = false,
+    this.onTapTitle,
   }) : super(key: key);
 
   @override
@@ -95,12 +97,19 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    widget.title,
-                                    style: textNormalCustom(
-                                      fontSize: 16,
-                                      color:
-                                      textTitle,
+                                  GestureDetector(
+                                    onTap: (){
+                                      if(widget.onTapTitle!=null){
+                                        widget.onTapTitle!();
+                                      }
+                                    },
+                                    child: Text(
+                                      widget.title,
+                                      style: textNormalCustom(
+                                        fontSize: 16,
+                                        color:
+                                        textTitle,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
@@ -191,10 +200,10 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
   String subTitle() {
     final data = widget.selectKeyDialog;
     if (widget.isUnit) {
-      if (data?.selectKeyTime == SelectKey.TUY_CHON) {
-        return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
-      }
-      return '${data!.selectKeyDonVi.getText()} - ${data.selectKeyTime.getText()}';
+      // if (data?.selectKeyTime == SelectKey.TUY_CHON) {
+      //   return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
+      // }
+      return '${data!.selectKeyDonVi.getText()}';
     }
     if (data?.selectKeyTime == SelectKey.TUY_CHON) {
       return '${data!.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';

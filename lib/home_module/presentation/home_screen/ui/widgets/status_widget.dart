@@ -27,17 +27,17 @@ class StatusWidget extends StatelessWidget {
           child: Row(
             children: listData
                 .map(
-                  (e) => GestureDetector(
-                    onTap: () {
-                      if (onSelectItem != null) {
-                        // ignore: prefer_null_aware_method_calls
-                        onSelectItem!(e);
-                      }
-                    },
-                    child: (e.value.toInt() == 0 && showZeroValue == false)
-                        ? const SizedBox.shrink()
-                        : Expanded(
-                            flex: e.value.toInt(),
+                  (e) => (e.value.toInt() == 0 && showZeroValue == false)
+                      ? const SizedBox.shrink()
+                      : Expanded(
+                          flex: e.value.toInt(),
+                          child: GestureDetector(
+                            onTap: (){
+                              if (onSelectItem != null) {
+                                // ignore: prefer_null_aware_method_calls
+                                onSelectItem!(e);
+                              }
+                            },
                             child: Container(
                               color: e.color,
                               child: Center(
@@ -51,7 +51,7 @@ class StatusWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                  ),
+                        ),
                 )
                 .toList(),
           ),

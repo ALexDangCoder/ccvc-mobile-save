@@ -43,6 +43,7 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
     return ContainerBackgroundWidget(
       title: S.current.nhiem_vu,
       spacingTitle: 0,
+      minHeight: 0,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
@@ -77,19 +78,7 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
                     SelectKey.DON_VI,
                   ],
                 ),
-                DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _nhiemVuCubit.selectDate(
-                      selectKey: value,
-                      startDate: startDate,
-                      endDate: endDate,
-                    );
-                  },
-                  initValue: _nhiemVuCubit.selectKeyTime,
-                  title: S.current.time,
-                    startDate: _nhiemVuCubit.startDate,
-                    endDate: _nhiemVuCubit.endDate
-                )
+
               ],
             );
           }),

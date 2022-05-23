@@ -70,28 +70,8 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
       onTapIcon: () {
         cubit.showDialog(widget.homeItemType);
       },
-      selectKeyDialog: _xuLyCubit,
-      dialogSelect: StreamBuilder(
-          stream: _xuLyCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              type: widget.homeItemType,
-              listSelectKey: <DialogData>[
-                DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _xuLyCubit.selectDate(
-                        selectKey: value,
-                        startDate: startDate,
-                        endDate: endDate);
-                  },
-                  title: S.current.time,
-                  initValue: _xuLyCubit.selectKeyTime,
-                  startDate: _xuLyCubit.startDate,
-                  endDate: _xuLyCubit.endDate,
-                )
-              ],
-            );
-          }),
+      // selectKeyDialog: _xuLyCubit,
+      //
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -152,6 +132,21 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                           height: 26,
                         ),
                         HanXuLyWidget(
+                          onTap: (value){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => IncomingDocumentScreen(
+                                  startDate: '',
+                                  title: S.current.danh_sach_van_ban_den,
+                                  endDate: '',
+                                  type: TypeScreen.VAN_BAN_DEN,
+                                  maTrangThai: [],
+
+                                ),
+                              ),
+                            );
+                          },
                           data: [
                             ChartData(
                                 S.current.qua_han,

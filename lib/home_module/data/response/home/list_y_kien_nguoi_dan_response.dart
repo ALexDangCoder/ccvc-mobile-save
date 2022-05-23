@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
+
 import '/home_module/domain/model/home/document_model.dart';
 
 class ListYKienNguoiDanResponse {
@@ -122,12 +124,14 @@ class DanhSachKetQua {
     totalItems = json['TotalItems'];
   }
 
-  DocumentModel toDomain() => DocumentModel(
+  YKienNguoiDanModel toDomain() => YKienNguoiDanModel(
       kyHieu: soPAKN ?? '',
-      status: 'Quá Hạn',
+      status: '',
       title: tieuDe?.trim() ?? '',
+      hanXuLy: hanXuLy ?? '',
       code: '',
-      noiGui: diaChi ?? '',
+      noiGui: tenNguoiPhanAnh ?? '',
       taskId: taskId ?? '',
-      id: id ?? '');
+      id: id ?? '',
+      soNgayDenHan: soNgayToiHan ?? 0);
 }

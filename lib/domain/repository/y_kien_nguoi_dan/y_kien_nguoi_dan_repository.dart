@@ -114,6 +114,7 @@ mixin YKienNguoiDanRepository {
     String? pageNumber,
     String? userId,
     String? donViId,
+    String? tuKhoa,
   });
 
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(

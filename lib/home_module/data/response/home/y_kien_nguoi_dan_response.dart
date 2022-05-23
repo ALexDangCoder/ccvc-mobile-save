@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 
 class YKienNguoiDanResponse {
@@ -23,7 +21,10 @@ class YKienNguoiDanResponse {
   List<TinhHinhYKienModel> toDomain() {
     final data = <TinhHinhYKienModel>[];
     danhSachKetQua?.forEach((element) {
-      data.add(element.toDomain());
+      if (data.length > 3) {
+      } else {
+        data.add(element.toDomain());
+      }
     });
     return data;
   }

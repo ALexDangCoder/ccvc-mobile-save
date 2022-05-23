@@ -18,15 +18,34 @@ class ChuyenVanBanThanhGiongNoi extends StatefulWidget {
       _ChuyenVanBanThanhGiongNoiState();
 }
 
-class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
+class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
+    with WidgetsBindingObserver {
   ChuyenVanBanThanhGiongNoiCubit cubit = ChuyenVanBanThanhGiongNoiCubit();
   List<VoidTone> data = [];
+  late bool check;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     data = cubit.dataDrop;
+    check = false;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    cubit.pauseMusic();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      cubit.pauseMusic();
+    } else {
+      cubit.playMusic(cubit.url);
+    }
   }
 
   @override
@@ -56,7 +75,10 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
                 ),
                 child: TextField(
                   onChanged: (String value) {
-                    cubit.text = value;
+                    if (cubit.text != value) {
+                      cubit.text = value;
+                      check = true;
+                    }
                   },
                   decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -89,13 +111,20 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi> {
               onChange: (vl) {
                 final List<String> dataSelect =
                     data.map((e) => e.code ?? '').toList();
-                cubit.voidTone = dataSelect[vl];
+                if (cubit.voidTone != dataSelect[vl]) {
+                  cubit.voidTone = dataSelect[vl];
+                  check = true;
+                }
               },
             ),
             const SizedBox(height: 24),
             btnListen(
               onTap: () {
-                cubit.chuyenVBSangGiongNoi();
+                if (check) {
+                  cubit.chuyenVBSangGiongNoi();
+                  check = false;
+                }
+                cubit.pauseMusic();
               },
             ),
           ],

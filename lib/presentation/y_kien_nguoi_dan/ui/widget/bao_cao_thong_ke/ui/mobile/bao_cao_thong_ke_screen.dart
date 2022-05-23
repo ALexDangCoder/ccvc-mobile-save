@@ -2,14 +2,13 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
-import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/yknd_dash_board_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/box_satatus_vb.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/bloc/bao_cao_thong_ke_cubit.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/status_widget.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_don_vi_xu_ly.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_linh_vu_xu_ly.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/chart_so_luong_by_month.dart';
@@ -141,6 +140,7 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                     ),
                     height: 88,
                     child: StreamBuilder<List<YKienNguoiDanDashBroadItem>>(
+                      initialData: baoCaoCubit.listInitDataBaoCao,
                       stream: baoCaoCubit.listBaoCaoYKND,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? [];
@@ -186,37 +186,11 @@ class _BaoCaoThongKeScreenState extends State<BaoCaoThongKeScreen> {
                       },
                     ),
                     Container(height: 20),
-                    StreamBuilder<DashBroadItemYKNDModel>(
-                      stream: baoCaoCubit.listChartDashBoard,
+                    StreamBuilder<List<ChartData>>(
+                      stream: baoCaoCubit.statusChartData,
                       builder: (context, snapshot) {
-                        final data = snapshot.data ?? DashBroadItemYKNDModel();
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width:102,
-                              child: BoxStatusVanBan(
-                                value: data.trongHan ?? 0,
-                                onTap: () {},
-                                color: numberOfCalenders,
-                                statusName: S.current.trong_han,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            SizedBox(
-                              width:102,
-                              child: BoxStatusVanBan(
-                                value: data.quaHan ?? 0,
-                                onTap: () {},
-                                color: statusCalenderRed,
-                                statusName: S.current.den_han,
-                              ),
-                            ),
-
-                          ],
-                        );
+                        final data = snapshot.data ?? [];
+                        return StatusWidget(listData: data);
                       },
                     ),
                   ],

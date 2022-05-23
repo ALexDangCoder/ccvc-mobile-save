@@ -62,7 +62,7 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
     loadMorePage = page;
     final result = await _QLVBRepo.getDanhSachVbDen(
       DanhSachVBRequest(
-        isDanhSachDaXuLy:isDanhSachDaXuLy ,
+        isDanhSachDaXuLy: isDanhSachDaXuLy,
         maTrangThai: maTrangThai,
         index: page,
         isChoYKien: null,
@@ -100,8 +100,12 @@ class IncomingDocumentCubit extends BaseCubit<BaseState> {
   }) async {
     if (index == ApiConstants.PAGE_BEGIN) {}
     loadMorePage = index;
-    final result =
-        await _QLVBRepo.getDanhSachVbDi(startDate, endDate, index, size);
+    final result = await _QLVBRepo.getDanhSachVbDi(
+      startDate: startDate,
+      endDate: endDate,
+      index: index,
+      size: size,
+    );
     result.when(
       success: (res) {
         if (index == ApiConstants.PAGE_BEGIN) {

@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -25,11 +28,12 @@ class DanhSachKetQuaYKXLModelResponse extends Equatable {
 
   Map<String, dynamic> toJson() =>
       _$DanhSachKetQuaYKXLModelResponseToJson(this);
-  DanhSachKetQuaYKXLModel toModel()=>DanhSachKetQuaYKXLModel(
-    danhSachKetQua:danhSachKetQua?.map((e) => e.toModel()).toList()??[],
-    noiDungThongDiep:noiDungThongDiep,
-    maTraLoi:maTraLoi,
-  );
+
+  DanhSachKetQuaYKXLModel toModel() => DanhSachKetQuaYKXLModel(
+        danhSachKetQua: danhSachKetQua?.map((e) => e.toModel()).toList() ?? [],
+        noiDungThongDiep: noiDungThongDiep,
+        maTraLoi: maTraLoi,
+      );
 
   //todo convert to Model to use
   @override
@@ -83,20 +87,80 @@ class YKienXuLyYKNDModelResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$YKienXuLyYKNDModelResponseToJson(this);
 
-  YKienXuLyYKNDModel toModel()=>YKienXuLyYKNDModel(
-    id:id,
-    kienNghiId:kienNghiId,
-    nguoiXinYKien:nguoiXinYKien,
-    nguoiChoYKien:nguoiChoYKien,
-    daChoYKien:daChoYKien,
-    noiDung:noiDung?.parseHtml(),
-    ngayTao:ngayTao,
-    ngaySua:ngaySua,
-    type:type,
-    tenNguoiChoYKien:tenNguoiChoYKien,
-    tenNguoiXinYKien:tenNguoiXinYKien,
-    dSFile:dSFile,
+  YKienXuLyYKNDModel toModel() => YKienXuLyYKNDModel(
+        id: id,
+        kienNghiId: kienNghiId,
+        nguoiXinYKien: nguoiXinYKien,
+        nguoiChoYKien: nguoiChoYKien,
+        daChoYKien: daChoYKien,
+        noiDung: noiDung?.parseHtml(),
+        ngayTao: ngayTao == null ? '' : DateTime.parse(ngayTao!).formatApiSS,
+        ngaySua: ngaySua == null ? '' : DateTime.parse(ngaySua!).formatApiSS,
+        type: type,
+        tenNguoiChoYKien: tenNguoiChoYKien,
+        tenNguoiXinYKien: tenNguoiXinYKien,
+        dSFile: dSFile == null
+            ? null
+            : (jsonDecode(dSFile ?? '') as List<dynamic>)
+                .map((e) => FileResponse.fromJson(e).toModel())
+                .toList(),
+      );
+
+  //todo convert to Model to use
+  @override
+  List<Object?> get props => [];
+}
+
+@JsonSerializable()
+class FileResponse extends Equatable {
+  @JsonKey(name: 'Id')
+  String? id;
+  @JsonKey(name: 'Ten')
+  String? ten;
+  @JsonKey(name: 'DuongDan')
+  String? duongDan;
+  @JsonKey(name: 'DungLuong')
+  String? dungLuong;
+  @JsonKey(name: 'DaKySo')
+  bool? daKySo;
+  @JsonKey(name: 'DaGanQR')
+  bool? daGanQR;
+  @JsonKey(name: 'NgayTao')
+  String? ngayTao;
+  @JsonKey(name: 'NguoiTaoId')
+  String? nguoiTaoId;
+  @JsonKey(name: 'SuDung')
+  bool? suDung;
+
+  FileResponse(
+    this.id,
+    this.ten,
+    this.duongDan,
+    this.dungLuong,
+    this.daKySo,
+    this.daGanQR,
+    this.ngayTao,
+    this.nguoiTaoId,
+    this.suDung,
   );
+
+  factory FileResponse.fromJson(Map<String, dynamic> json) =>
+      _$FileResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FileResponseToJson(this);
+
+  FileModel toModel() => FileModel(
+        id,
+        ten,
+        duongDan,
+        dungLuong,
+        daKySo,
+        daGanQR,
+        ngayTao,
+        nguoiTaoId,
+        suDung,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];

@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -6,12 +7,12 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/bloc/chuyen_giong_noi_thanh_van_ban_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/widget/voice_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -31,6 +32,7 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
   String lastWords = '';
   final SpeechToText speech = SpeechToText();
   ChuyenGiongNoiThanhVanBanCubit cubit = ChuyenGiongNoiThanhVanBanCubit();
+  bool isListening = false;
 
   Future<void> initSpeechState() async {
     try {
@@ -49,13 +51,18 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
   void startListening() {
     speech.listen(
       onResult: resultListener,
+      localeId: VI_VN_VOICE,
+      pauseFor: Platform.isAndroid ? const Duration(seconds: 3) : null,
     );
-    setState(() {});
+    setState(() {
+      isListening = true;
+    });
   }
 
   void stopListening() {
     speech.stop();
     setState(() {
+      isListening = false;
       level = 0.0;
     });
   }
@@ -90,6 +97,7 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
   @override
   void dispose() {
     super.dispose();
+    speech.stop();
     speech.cancel();
   }
 
@@ -104,7 +112,8 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
           const SizedBox(
             height: 40,
           ),
-          Container(
+          if(Platform.isAndroid)
+            Container(
             margin: const EdgeInsets.symmetric(horizontal: 17),
             child: Row(
               children: [
@@ -144,6 +153,47 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
               ],
             ),
           ),
+          if(Platform.isIOS)
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 17),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: isListening
+                        ? VoiceWidget(
+                      cubit: cubit,
+                    )
+                        : const SizedBox.shrink(),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (!_hasSpeech) {
+                        return;
+                      }
+                      !isListening ? startListening() : stopListening();
+                      cubit.isVoiceSubject.sink.add(speech.isListening);
+                    },
+                    child: SvgPicture.asset(
+                      ImageAssets.icVoice,
+                      color: AppTheme.getInstance().colorField(),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Expanded(
+                    child: isListening
+                        ? VoiceWidget(
+                      cubit: cubit,
+                    )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
           Container(
             padding: EdgeInsets.all(24.0.textScale(space: 4)),
             child: Text(
@@ -173,49 +223,10 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                 ],
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
+              child: SelectableText(
                 // If listening is active show
                 // the recognized words
                 lastWords,
-              ),
-            )
-          else
-            Container(),
-          if (lastWords.isNotEmpty)
-            GestureDetector(
-              onTap: () {
-                Clipboard.setData(ClipboardData(text: lastWords)).then(
-                  (value) => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(S.current.copy_success),
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                  left: 15,
-                  right: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: buttonColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      ImageAssets.ic_copy,
-                    ),
-                    spaceW10,
-                    Text(
-                      S.current.copy,
-                      style: textNormal(buttonColor, 14),
-                    ),
-                  ],
-                ),
               ),
             )
           else

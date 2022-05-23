@@ -117,6 +117,7 @@ class ManagerPersonalInformationCubit
   Future<void> getInfo({
     String id = '',
   }) async {
+    showLoading();
     final result = await _managerRepo.getInfo(id);
     result.when(
       success: (res) {
@@ -134,6 +135,7 @@ class ManagerPersonalInformationCubit
           );
         }
         managerPersonSubject.sink.add(managerPersonalInformationModel);
+        showContent();
       },
       error: (error) {},
     );
@@ -247,6 +249,7 @@ class ManagerPersonalInformationCubit
       lsCanBoKiemNhiemResponse: [],
     );
     bool isCheck = true;
+    showLoading();
     final result = await _managerRepo.getEditPerson(editPerson);
     result.when(
       success: (res) {
@@ -265,6 +268,7 @@ class ManagerPersonalInformationCubit
         isCheck = false;
       },
     );
+    showContent();
     return isCheck;
   }
 

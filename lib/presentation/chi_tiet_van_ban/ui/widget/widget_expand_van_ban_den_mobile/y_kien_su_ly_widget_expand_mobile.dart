@@ -4,8 +4,10 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -53,6 +55,7 @@ class _YKienXuLyExpandWidgetMobileState
             await widget.cubit.getDanhSachYKienXuLy(widget.processId);
           },
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
                 Container(
@@ -128,12 +131,11 @@ class _YKienXuLyExpandWidgetMobileState
               CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  data.avatar ??
-                      'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  '$DO_MAIN_DOWLOAD_FILE${data.avatar ?? ''}',
                 ),
               ),
               spaceW13,
-              Expanded( 
+              Expanded(
                 child: Text(
                   data.tenNhanVien ?? '',
                   style: textNormalCustom(
@@ -145,7 +147,7 @@ class _YKienXuLyExpandWidgetMobileState
               ),
               Expanded(
                 child: Align(
-                  alignment:  Alignment.centerRight,
+                  alignment: Alignment.centerRight,
                   child: Text(
                     data.ngayTao ?? '',
                     style: textNormalCustom(
@@ -177,52 +179,29 @@ class _YKienXuLyExpandWidgetMobileState
             ), //infoColor
           ),
           spaceH6,
-          Row(
-            children: [
-              if (data.yKienXuLyFileDinhKem?.isNotEmpty ?? false) ...[
-                GestureDetector(
-                  onTap: () {
-                    //todo
-                  },
-                  child: Text(
-                    data.yKienXuLyFileDinhKem
-                            ?.map((e) => e.fileDinhKem?.ten ?? '')
-                            .toList()
-                            .join(',') ??
-                        '',
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: textColorMangXaHoi,
-                    ), //infoColor
-                  ),
-                ),
-                spaceW16
-              ],
-              if (showChild)
-                GestureDetector(
-                  onTap: () {
-                    if (index != indexActiveRelay) {
-                      setState(() {
-                        if (indexActiveRelay != null) {
-                          widget.cubit.listComment[indexActiveRelay!].isInput =
-                              false;
-                        }
-                        widget.cubit.listComment[index].isInput = true;
-                        indexActiveRelay = index;
-                      });
-                    }
-                  },
-                  child: Text(
-                    S.current.phan_hoi,
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: textColorMangXaHoi,
-                    ), //infoColor
-                  ),
-                ),
-            ],
+          Wrap(
+            children: data.yKienXuLyFileDinhKem
+                    ?.map(
+                      (e) => GestureDetector(
+                        onTap: () {
+                          handleSaveFile(
+                            url:
+                                '$DO_MAIN_DOWLOAD_FILE${e.fileDinhKem?.duongDan ?? ''}',
+                            name: e.fileDinhKem?.ten ?? '',
+                          );
+                        },
+                        child: Text(
+                          '${e.fileDinhKem?.ten ?? ''} ;',
+                          style: textNormalCustom(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: textColorMangXaHoi,
+                          ), //infoColor
+                        ),
+                      ),
+                    )
+                    .toList() ??
+                [],
           ),
           // if ((data.listYKien?.isNotEmpty ?? false) && showChild == true) ...[
           //   ListView.builder(
@@ -242,7 +221,7 @@ class _YKienXuLyExpandWidgetMobileState
           //   ),
           //   spaceH24
           // ] else
-            spaceH24,
+          spaceH24,
           if (data.isInput)
             WidgetComments(
               onTab: () {},
@@ -258,4 +237,3 @@ class _YKienXuLyExpandWidgetMobileState
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
-

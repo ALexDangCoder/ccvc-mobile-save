@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -6,6 +7,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
@@ -49,8 +51,8 @@ class HomeCubit extends BaseCubit<HomeState> {
       BehaviorSubject<List<WidgetModel>>();
   final BehaviorSubject<WidgetType?> _showDialogSetting =
       BehaviorSubject<WidgetType?>();
-  final BehaviorSubject<List<TinhHuongKhanCapModel>> _tinhHuongKhanCap =
-      BehaviorSubject<List<TinhHuongKhanCapModel>>();
+  final BehaviorSubject<List<TinBuonModel>> _tinhHuongKhanCap =
+      BehaviorSubject<List<TinBuonModel>>();
   // final BehaviorSubject<DataUser> _userInformation =
   //     BehaviorSubject<DataUser>();
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
@@ -60,9 +62,10 @@ class HomeCubit extends BaseCubit<HomeState> {
   final PublishSubject<bool> refreshListen = PublishSubject<bool>();
 
   Future<void> _getTinhHuongKhanCap() async {
-    final result = await homeRep.getTinhHuongKhanCap();
+    final result = await homeRep.getTinBuon();
     result.when(
       success: (res) {
+        log('${res}');
         _tinhHuongKhanCap.sink.add(res);
       },
       error: (err) {},
@@ -172,7 +175,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   //
   // Stream<DataUser> get userInformation => _userInformation;
 
-  Stream<List<TinhHuongKhanCapModel>> get tinhHuongKhanCap =>
+  Stream<List<TinBuonModel>> get tinhHuongKhanCap =>
       _tinhHuongKhanCap.stream;
 
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
@@ -856,7 +859,7 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
     final queue = Queue(parallel: 2);
     unawaited(
       queue.add(
-        () => homeRep.getVBden(startDate, endDate).then(
+        () => homeRep.getVBden('', '').then(
           (value) {
             value.when(
               success: (res) {
@@ -870,7 +873,7 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
     );
     unawaited(
       queue.add(
-        () => homeRep.getVBdi(startDate, endDate).then(
+        () => homeRep.getVBdi('', '').then(
           (value) {
             value.when(
               success: (res) {
@@ -924,8 +927,8 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         index: 1,
         isChoYKien: isChoYKien,
         isSortByDoKhan: true,
-        thoiGianStartFilter: startDate.formatApi,
-        thoiGianEndFilter: endDate.formatApi,
+        thoiGianStartFilter: '',
+        thoiGianEndFilter: '',
         size: 10,
       ),
     );
@@ -949,8 +952,8 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         isDanhSachChoXuLy: isDanhSachChoXuLy,
         isDanhSachDaBanHanh: isDanhSachDaBanHanh,
         isSortByDoKhan: true,
-        ngayTaoEndSearch: endDate.toString(),
-        ngayTaoStartSearch: startDate.toString(),
+        ngayTaoEndSearch: '',
+        ngayTaoStartSearch: '',
         size: 10,
       ),
     );
@@ -1048,8 +1051,8 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
 
 ///Ý kiến người dân
 class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<List<DocumentModel>> _getYKien =
-      BehaviorSubject<List<DocumentModel>>();
+  final BehaviorSubject<List<YKienNguoiDanModel>> _getYKien =
+      BehaviorSubject<List<YKienNguoiDanModel>>();
   DataUser? dataUser;
   String donViId = '';
   String userId = '';
@@ -1067,7 +1070,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
     selectKeyPermission = _permissionKeyCheck();
   }
 
-  Stream<List<DocumentModel>> get getYKien => _getYKien.stream;
+  Stream<List<YKienNguoiDanModel>> get getYKien => _getYKien.stream;
 
   Future<void> callApi() async {
     if (selectKeyTrangThai == null) {
@@ -1194,8 +1197,32 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
   Stream<List<CalendarMeetingModel>> get getListLichLamViec =>
       _getListLichLamViec.stream;
   final userId = HiveLocal.getDataUser()?.userId ?? '';
+  SelectKey selectKey = SelectKey.LICH_HOP_CUA_TOI;
+  void setChangeKey(SelectKey key) {
+    selectKey = key;
+    switch (key) {
+      case SelectKey.LICH_HOP_CUA_TOI:
+        final data = LichLamViecRequest(
+          dateFrom: startDate.formatApi,
+          dateTo: endDate.formatApi,
+          isLichCuaToi: true,
+        );
+        callApi(data);
+        break;
+      case SelectKey.LICH_CHO_XAC_NHAN:
+        final data = LichLamViecRequest(
+          dateFrom: startDate.formatApi,
+          dateTo: endDate.formatApi,
+          isLichDuocMoi: true,
+        );
+        callApi(data);
+        break;
+      default:
+        {}
+    }
+  }
 
-  Future<void> callApi() async {
+  Future<void> callApi(LichLamViecRequest lamViecRequest) async {
     showLoading();
     final result = await homeRep.getListLichLamViec(
       LichLamViecRequest(
@@ -1237,7 +1264,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
       this.startDate = startDate;
       this.endDate = endDate;
       selectKeyDialog.sink.add(true);
-      callApi();
+      setChangeKey(this.selectKey);
     }
   }
 }
@@ -1302,7 +1329,7 @@ class LichHopCubit extends HomeCubit with SelectKeyDialog {
         isChoXacNhan = false;
         callApi();
         break;
-      case SelectKey.LICH_HOP_DUOC_MOI:
+      case SelectKey.LICH_CHO_XAC_NHAN:
         isLichHopCuaToi = false;
         isLichDuocMoi = true;
         isDuyetLich = false;
@@ -1429,8 +1456,8 @@ class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {
     showLoading();
     final result = await homeRep.getTinhHinhYKienNguoiDan(
       donViId,
-      startDate.toStringWithListFormat,
-      endDate.toStringWithListFormat,
+      '',
+      '',
     );
     showContent();
     result.when(
@@ -1536,14 +1563,13 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
     if (isCongViec) {
       return homeRep.getDanhSachCongViec(
         DanhSachCongViecRequest(
-            isSortByHanXuLy: true,
-            isCaNhan: isCaNhan,
-            size: 10,
-            index: 1,
-            mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
-            trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
-            hanXuLy: HanXuLy(
-                fromDate: startDate.formatApi, toDate: endDate.formatApi)),
+          isSortByHanXuLy: true,
+          isCaNhan: isCaNhan,
+          size: 10,
+          index: 1,
+          mangTrangThai: ["CHUA_THUC_HIEN", "DANG_THUC_HIEN"],
+          trangThaiFilter: ["DANH_SACH_CONG_VIEC"],
+        ),
       );
     }
     return homeRep.getNhiemVu(
@@ -1553,10 +1579,6 @@ class NhiemVuCubit extends HomeCubit with SelectKeyDialog {
         isNhiemVuCaNhan: isCaNhan,
         mangTrangThai: mangTrangThai,
         isSortByHanXuLy: true,
-        ngayTaoNhiemVu: NgayTaoNhiemVu(
-          fromDate: startDate.toString(),
-          toDate: endDate.toString(),
-        ),
       ),
     );
   }

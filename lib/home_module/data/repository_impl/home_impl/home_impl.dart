@@ -1,5 +1,8 @@
-
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
 import '/home_module/data/request/home/danh_sach_van_ban_den_request.dart';
@@ -63,10 +66,9 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<TinhHuongKhanCapModel>>> getTinhHuongKhanCap() {
-    return runCatchingAsync<TinhHuongKhanCapResponse,
-        List<TinhHuongKhanCapModel>>(
-      () => _homeServiceCCVC.getTinhHuongKhanCap(),
+  Future<Result<List<TinBuonModel>>> getTinBuon() {
+    return runCatchingAsync<TinhHuongKhanCapResponse, List<TinBuonModel>>(
+      () => _homeServiceGateWay.getTinBuon(),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -160,7 +162,7 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<DocumentModel>>> getYKienNguoidan(
+  Future<Result<List<YKienNguoiDanModel>>> getYKienNguoidan(
     int pageSize,
     int page,
     String trangThai,
@@ -170,7 +172,8 @@ class HomeImpl extends HomeRepository {
     String userId, [
     String? loaiMenu,
   ]) {
-    return runCatchingAsync<ListYKienNguoiDanResponse, List<DocumentModel>>(
+    return runCatchingAsync<ListYKienNguoiDanResponse,
+        List<YKienNguoiDanModel>>(
       () => _homeServiceGateWay.getListYKienNguoiDan(
         pageSize,
         page,
@@ -275,5 +278,12 @@ class HomeImpl extends HomeRepository {
             List<CalendarMeetingModel>>(
         () => _homeServiceGateWay.getDanhSachCongViec(request),
         (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? []);
+  }
+
+  @override
+  Future<Result<MessageModel>> guiLoiChuc(GuiLoiChucRequest guiLoiChucRequest) {
+    return runCatchingAsync<GuiLoiChucResponse, MessageModel>(
+        () => _homeServiceCCVC.guiLoiChuc(guiLoiChucRequest),
+        (res) => res.toDomain());
   }
 }

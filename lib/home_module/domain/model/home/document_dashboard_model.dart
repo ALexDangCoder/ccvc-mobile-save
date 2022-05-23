@@ -1,3 +1,8 @@
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/home_module/config/resources/color.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:flutter/material.dart';
+
 class DocumentDashboardModel {
   int? soLuongChoTrinhKy = 0;
   int? soLuongChoXuLy = 0;
@@ -36,7 +41,31 @@ class DocumentDashboardModel {
     this.soLuongDangXuLy,
     this.soLuongChoVaoSo,
   });
+
+  List<DataRow> listVBDen() {
+    final List<DataRow> list = [];
+    if (HiveLocal.checkPermissionApp(
+        permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
+        permissionType: PermissionType.QLVB)) {
+      list.add(
+          DataRow(SelectKey.CHO_VAO_SO, choVaoSoColor, soLuongChoVaoSo ?? 0));
+    }
+    list.addAll([
+      DataRow(SelectKey.DANG_XU_LY, dangXyLyColor, soLuongDangXuLy ?? 0),
+      DataRow(SelectKey.CHO_XU_LY, choXuLyColor, soLuongChoXuLy ?? 0),
+      DataRow(SelectKey.DA_XU_LY, daXuLyColor, soLuongDaXuLy ?? 0),
+    ]);
+    return list;
+  }
 }
+
+class DataRow {
+  final SelectKey key;
+  final Color color;
+  final int value;
+  DataRow(this.key, this.color, this.value);
+}
+
 enum VBDenDocumentType {
   CHO_XU_LY,
   DANG_XU_LY,
@@ -46,6 +75,7 @@ enum VBDenDocumentType {
   TRONG_HAN,
   THUONG_KHAN
 }
+
 extension TypeVBDen on VBDenDocumentType {
   String getName() {
     switch (this) {

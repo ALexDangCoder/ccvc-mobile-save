@@ -114,13 +114,20 @@ mixin YKienNguoiDanRepository {
     String? pageNumber,
     String? userId,
     String? donViId,
+    String? tuKhoa,
   });
 
   Future<Result<ResultXinYKienNguoiDan>> postYKienXuLy(
-      String nguoiChoYKien,
-      String kienNghiId,
-      String noiDung,
-      List<File> file,
-      );
-}
+    String nguoiChoYKien,
+    String kienNghiId,
+    String noiDung,
+    List<File> file,
+  );
 
+  Future<Result<ResultXinYKienNguoiDan>> postChoYKienYKienXuLy(
+   // String nguoiChoYKien,
+    String kienNghiId,
+    String noiDung,
+    List<File> file,
+  );
+}

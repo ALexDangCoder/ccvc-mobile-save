@@ -12,7 +12,7 @@ class ChiTietVanBanDiModel {
   String? dueDate;
   String? ngayTao;
   String? ngayBanHanh;
-  String? loaiNguonDuLieu;
+  int? loaiNguonDuLieu;
   String? tenNguoiSoanThao;
   String? donViSoanThao;
   String? donViBanHanh;
@@ -28,8 +28,8 @@ class ChiTietVanBanDiModel {
   bool? isVanBanQppl;
   bool? isVanBanDiBanHanh;
   bool? isVanBanChiDao;
-  List<String>? vanBanDenResponses;
-  List<String>? vanBanChiDaoResponses;
+  List<VanBanDenModel>? vanBanDenResponses;
+  List<VanBanChiDaoModel>? vanBanChiDaoResponses;
   List<NguoiTheoDoi>? nguoiTheoDoiResponses;
   List<NguoiKyDuyetModel>? nguoiKyDuyetResponses;
   String? nguoiKy;
@@ -111,31 +111,76 @@ class ChiTietVanBanDiModel {
 
   List<DocumentDetailRow> toListRowHead() {
     final List<DocumentDetailRow> list = [
-      DocumentDetailRow(S.current.loai_van_ban_di, vanBanBanhanh(),
-          TypeDocumentDetailRow.text),
       DocumentDetailRow(
-          S.current.ma_pakn, maPAKN ?? '', TypeDocumentDetailRow.text),
-      DocumentDetailRow(S.current.dv_soan_thao, donViSoanThao ?? '',
-          TypeDocumentDetailRow.text),
-      DocumentDetailRow(S.current.nguoi_soan_thao, tenNguoiSoanThao ?? '',
-          TypeDocumentDetailRow.text),
-      DocumentDetailRow(S.current.loai_van_ban, processType ?? '',
-          TypeDocumentDetailRow.text),
+        S.current.loai_van_ban_di,
+        vanBanBanhanh(),
+        TypeDocumentDetailRow.text,
+      ),
       DocumentDetailRow(
-          S.current.ky_hieu, kyHieuVanBanGoc ?? '', TypeDocumentDetailRow.text),
+        S.current.ma_pakn,
+        maPAKN ?? '',
+        TypeDocumentDetailRow.text,
+      ),
       DocumentDetailRow(
-          S.current.ngay_han_xl, dueDate??'', TypeDocumentDetailRow.text),
-    ];
-
-    return list;
-  }
-
-  List<DocumentDetailRow> toListRowBottom() {
-    final List<DocumentDetailRow> list = [
+        S.current.dv_soan_thao,
+        donViSoanThao ?? '',
+        TypeDocumentDetailRow.text,
+      ),
       DocumentDetailRow(
-          S.current.do_khan, doKhan ?? '', TypeDocumentDetailRow.text),
+        S.current.nguoi_soan_thao,
+        tenNguoiSoanThao ?? '',
+        TypeDocumentDetailRow.text,
+      ),
       DocumentDetailRow(
-          S.current.trich_yeu, subject ?? '', TypeDocumentDetailRow.text),
+        S.current.loai_van_ban,
+        processType ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.ky_hieu,
+        fileNotation ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.so_di,
+        '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.so_phu,
+        '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.trich_yeu,
+        subject ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.ngay_ban_hanh,
+        ngayBanHanh ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.ngay_han_xl,
+        dueDate ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.so_ban,
+        issuedAmount ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.do_khan,
+        doKhan ?? '',
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.trang_thai,
+        '',
+        TypeDocumentDetailRow.text,
+      ),
     ];
 
     return list;
@@ -150,25 +195,94 @@ class ChiTietVanBanDiModel {
       return '';
     }
   }
+}
 
-  List<DocumentDetailRow> toListCheckBox() {
-    final List<DocumentDetailRow> listCheckbox = [
-      DocumentDetailRow(S.current.van_ban_qppl, isVanBanQppl ?? false,
-          TypeDocumentDetailRow.checkbox),
-      DocumentDetailRow(
-        S.current.hoi_bao_van_ban,
-        isLaVanBanTraLoi ?? false,
-        TypeDocumentDetailRow.checkbox,
-      ),
-      DocumentDetailRow(
-        S.current.da_nhan_ban_giay,
-        isVanBanChiDao ?? false,
-        TypeDocumentDetailRow.checkbox,
-      )
-    ];
+class VanBanChiDaoModel {
+  String id;
+  String idDonViCaNhan;
+  String tenDonViCaNhan;
+  bool isDonVi;
+  String noiDung;
+  String ngayXuLy;
 
-    return listCheckbox;
-  }
+  VanBanChiDaoModel({
+    this.id = '',
+    this.idDonViCaNhan = '',
+    this.tenDonViCaNhan = '',
+    this.isDonVi = false,
+    this.noiDung = '',
+    this.ngayXuLy = '',
+  });
+
+  List<DocumentDetailRow> toListRowView() => [
+        DocumentDetailRow(
+          S.current.ten_don_vi_cheo_ca_nhan,
+          tenDonViCaNhan,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.noi_dung,
+          noiDung ,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_han_xu_ly,
+          ngayXuLy ,
+          TypeDocumentDetailRow.text,
+        ),
+      ];
+}
+
+class VanBanDenModel {
+  String? id;
+  bool? isKhongTuDongHoanThanh;
+  String? soDen;
+  String? soKyHieu;
+  String? donViBanHanh;
+  String? trichYeu;
+  List<dynamic>? files;
+
+  VanBanDenModel({
+    this.id,
+    this.isKhongTuDongHoanThanh,
+    this.soDen,
+    this.soKyHieu,
+    this.donViBanHanh,
+    this.trichYeu,
+    this.files,
+  });
+  List<DocumentDetailRow> toListRowView() => [
+    DocumentDetailRow(
+      S.current.so_ky_hieu,
+      soKyHieu ?? '',
+      TypeDocumentDetailRow.text,
+    ),
+    DocumentDetailRow(
+      S.current.trich_yeu,
+      trichYeu ?? '',
+      TypeDocumentDetailRow.text,
+    ),
+    DocumentDetailRow(
+      S.current.don_vi_ban_hanh,
+      donViBanHanh ?? '',
+      TypeDocumentDetailRow.text,
+    ),
+    DocumentDetailRow(
+      S.current.ngay_ban_hanh,
+      '',
+      TypeDocumentDetailRow.text,
+    ),
+    DocumentDetailRow(
+      S.current.ngay_han_xu_ly,
+      '',
+      TypeDocumentDetailRow.text,
+    ),
+    DocumentDetailRow(
+      S.current.file_dinh_kem,
+      files ?? [],
+      TypeDocumentDetailRow.fileVanBanDi,
+    ),
+  ];
 }
 
 class NguoiKyDuyetModel {
@@ -374,10 +488,12 @@ class DanhSachFiles {
   String? ten;
   String? id;
   String? isSign;
+  String? duongDan;
 
   DanhSachFiles({
     this.ten,
     this.id,
     this.isSign,
+    this.duongDan,
   });
 }

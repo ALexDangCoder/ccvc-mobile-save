@@ -273,7 +273,7 @@ class DanhSachCongViecTienIchCubit
           res,
         );
         listDSCV.sink.add(data);
-
+        callAndFillApiAutu();
         closeDialog();
       },
       error: (err) {
@@ -363,12 +363,7 @@ class DanhSachCongViecTienIchCubit
 
   String person = '';
 
-  void getPersontodo({required String person}) {
-    this.person = person;
-  }
-
   ///chinh sưa và update công việc
-
   Future<void> editWork({
     bool? isTicked,
     bool? important,

@@ -12,7 +12,6 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -227,49 +226,10 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
                 ],
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
+              child: SelectableText(
                 // If listening is active show
                 // the recognized words
                 lastWords,
-              ),
-            )
-          else
-            Container(),
-          if (lastWords.isNotEmpty)
-            GestureDetector(
-              onTap: () {
-                Clipboard.setData(ClipboardData(text: lastWords)).then(
-                      (value) => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(S.current.copy_success),
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                  left: 15,
-                  right: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: buttonColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      ImageAssets.ic_copy,
-                    ),
-                    spaceW10,
-                    Text(
-                      S.current.copy,
-                      style: textNormal(buttonColor, 14),
-                    ),
-                  ],
-                ),
               ),
             )
           else

@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
@@ -110,6 +112,28 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                             truc: snapshot.data?.nguHanh?.truc ?? '',
                             hanh: snapshot.data?.nguHanh?.hanh ?? '',
                           ),
+                          Row(
+                            children: [
+                              Text(
+                                '${S.current.tiet_khi}:',
+                                style: textNormalCustom(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500,
+                                  color: AqiColor,
+                                ),
+                              ),
+                              spaceW3,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: titleLichAm(
+                                  '${snapshot.data?.tietKhi}',
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: titleColor,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       );
                     },
@@ -125,8 +149,11 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                       cubit.getLichAmDuong(cubit.startDate);
                       cubit.selectTime = selectDay;
                     },
-                    onChangeRange: (DateTime? start, DateTime? end,
-                        DateTime? focusedDay) {},
+                    onChangeRange: (
+                      DateTime? start,
+                      DateTime? end,
+                      DateTime? focusedDay,
+                    ) {},
                     selectDay: (day) => cubit.selectDay(day),
                     cubit: cubit,
                   );

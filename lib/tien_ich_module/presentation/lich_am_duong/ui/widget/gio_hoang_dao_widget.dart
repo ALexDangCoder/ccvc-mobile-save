@@ -44,6 +44,7 @@ class GioHoangDaoWidget extends StatelessWidget {
               style: textNormalCustom(
                 fontSize: 14.0,
                 color: titleColor,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],

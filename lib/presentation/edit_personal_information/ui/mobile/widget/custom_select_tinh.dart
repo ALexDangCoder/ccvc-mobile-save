@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart'
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/radio_button.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
-
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
@@ -199,7 +198,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                 child: FollowKeyBoardWidget(
                   child: SingleChildScrollView(
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.5,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       decoration: const BoxDecoration(
                         color: backgroundColorApp,
                         borderRadius: BorderRadius.all(Radius.circular(8)),

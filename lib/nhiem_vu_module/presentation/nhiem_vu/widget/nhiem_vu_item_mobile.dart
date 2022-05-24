@@ -39,7 +39,7 @@ class NhiemVuItemMobile extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
               Expanded(
@@ -100,6 +100,7 @@ class NhiemVuItemMobile extends StatelessWidget {
                             ],
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Expanded(
                                 child: Column(

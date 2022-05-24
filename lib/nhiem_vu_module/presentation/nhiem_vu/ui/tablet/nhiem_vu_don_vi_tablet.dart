@@ -48,6 +48,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
     // TODO: implement initState
     super.initState();
     widget.danhSachCubit.callApiDonVi(false);
+    widget.danhSachCubit.mangTrangThai='';
     callBack = (page) {
       widget.danhSachCubit.postDanhSachNhiemVu(
         index: page,
@@ -140,10 +141,10 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                             child: StreamBuilder<List<ChartData>>(
                               stream: widget.danhSachCubit.statusSuject,
                               initialData:
-                                  widget.danhSachCubit.chartDataTheoLoai,
+                                  widget.danhSachCubit.chartDataNhiemVuCaNhan,
                               builder: (context, snapshot) {
                                 final data = snapshot.data ??
-                                    widget.danhSachCubit.chartDataTheoLoai;
+                                    widget.danhSachCubit.chartDataNhiemVuCaNhan;
                                 return BieuDoNhiemVuDonViRowTablet(
                                   chartData: data,
                                   cubit: widget.danhSachCubit,
@@ -152,7 +153,19 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                     widget.danhSachCubit.trangThaiHanXuLy =
                                         null;
                                     setState(() {
-                                      callBack;
+                                      widget.danhSachCubit.postDanhSachNhiemVu(
+                                        index: 0,
+                                        isNhiemVuCaNhan: widget.isCheck,
+                                        isSortByHanXuLy: true,
+                                        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                        ngayTaoNhiemVu: {
+                                          'FromDate': widget.danhSachCubit.ngayDauTien,
+                                          'ToDate': widget.danhSachCubit.ngayKetThuc
+                                        },
+                                        size: widget.danhSachCubit.pageSize,
+                                        keySearch: widget.danhSachCubit.keySearch,
+                                        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                      );
                                     });
                                   },
                                   onTapStatusBox: (value_status_box) {
@@ -160,7 +173,19 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                     widget.danhSachCubit.trangThaiHanXuLy =
                                         value_status_box;
                                     setState(() {
-                                      callBack;
+                                      widget.danhSachCubit.postDanhSachNhiemVu(
+                                        index: 0,
+                                        isNhiemVuCaNhan: widget.isCheck,
+                                        isSortByHanXuLy: true,
+                                        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                        ngayTaoNhiemVu: {
+                                          'FromDate': widget.danhSachCubit.ngayDauTien,
+                                          'ToDate': widget.danhSachCubit.ngayKetThuc
+                                        },
+                                        size: widget.danhSachCubit.pageSize,
+                                        keySearch: widget.danhSachCubit.keySearch,
+                                        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                      );
                                     });
                                   },
                                 );

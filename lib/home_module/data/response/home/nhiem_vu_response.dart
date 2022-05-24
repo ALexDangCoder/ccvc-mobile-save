@@ -40,17 +40,18 @@ class PageData {
   String? trangThai;
   String? maTrangThai;
   String? trangThaiId;
+  int? trangThaiHanXuLy;
 
-  PageData({
-    this.id,
-    this.noiDungTheoDoi,
-    this.hanXuLy,
-    this.loaiNhiemVuId,
-    this.loaiNhiemVu,
-    this.trangThai,
-    this.maTrangThai,
-    this.trangThaiId,
-  });
+  PageData(
+      {this.id,
+      this.noiDungTheoDoi,
+      this.hanXuLy,
+      this.loaiNhiemVuId,
+      this.loaiNhiemVu,
+      this.trangThai,
+      this.maTrangThai,
+      this.trangThaiId,
+      this.trangThaiHanXuLy});
 
   PageData.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -62,12 +63,13 @@ class PageData {
     trangThai = json['TrangThai'];
     maTrangThai = json['MaTrangThai'];
     trangThaiId = json['TrangThaiId'];
+    trangThaiHanXuLy = json['TrangThaiHanXuLy'];
   }
   CalendarMeetingModel toDomain() => CalendarMeetingModel(
-        title: noiDungTheoDoi?.parseHtml() ?? '',
-        loaiNhiemVu: loaiNhiemVu ?? '',
-        hanXuLy: hanXuLy ?? '',
-        maTrangThai: maTrangThai ?? '',
-        id: id ?? '',
-      );
+      title: noiDungTheoDoi?.parseHtml() ?? '',
+      loaiNhiemVu: loaiNhiemVu ?? '',
+      hanXuLy: hanXuLy ?? '',
+      maTrangThai: maTrangThai ?? '',
+      id: id ?? '',
+      trangThaiHanXuLy: trangThaiHanXuLy ?? -1);
 }

@@ -88,8 +88,8 @@ class _DanhSachCongViecTienIchMobileState
             child: SingleChildScrollView(
               child: StreamBuilder<int>(
                 stream: cubit.statusDSCV.stream,
-                builder: (context, snapshotbool) {
-                  final dataType = snapshotbool.data ?? 0;
+                builder: (context, snapshotType) {
+                  final dataType = snapshotType.data ?? 0;
                   return ScrollBarWidget(
                     children: [
                       BaseSearchBar(

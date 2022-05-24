@@ -49,10 +49,11 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
                   isSubjectInfo: false,
                   chartData: data,
                   onTap: (int value) {
-                    widget.ontap(widget.cubit.chartData[value].title.split(' ')
-                        .join('_')
-                        .toUpperCase()
-                        .vietNameseParse());
+                    print("ddddd");
+                    // widget.ontap(widget.cubit.chartData[value].title.split(' ')
+                    //     .join('_')
+                    //     .toUpperCase()
+                    //     .vietNameseParse());
                   },
                 );
               },
@@ -122,7 +123,10 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
                           Flexible(
                             child: FittedBox(
                               child: Text(
-                                '${result.title} (${result.value.toInt()})',
+                                '${result.title.split(' ')
+                                    .join('_')
+                                    .toUpperCase()
+                                    .vietNameseParse().titleTrangThai()} (${result.value.toInt()})',
                                 style: textNormal(
                                   infoColor,
                                   14.0.textScale(),

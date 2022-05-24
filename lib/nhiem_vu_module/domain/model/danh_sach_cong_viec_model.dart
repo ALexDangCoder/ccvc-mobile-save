@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class DanhSachCongViecModel {
@@ -145,6 +146,21 @@ extension CheckColor on String {
         return 3;
       default:
         return 2;
+    }
+  }
+
+  String titleTrangThai() {
+    switch (this) {
+      case 'CHUA_THUC_HIEN':
+        return S.current.chua_thuc_hien;
+      case 'DA_HOAN_THANH':
+        return S.current.da_thuc_hien;
+      case 'DANG_THUC_HIEN':
+        return S.current.dang_thuc_hien;
+        case 'CHO_PHAN_XU_LY':
+        return S.current.cho_phan_xu_ly;
+      default:
+        return '';
     }
   }
 }

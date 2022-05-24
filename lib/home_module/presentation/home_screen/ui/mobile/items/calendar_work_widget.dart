@@ -34,7 +34,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _lamViecCubit.setChangeKey(SelectKey.LICH_HOP_CUA_TOI);
+    _lamViecCubit.setChangeKey(SelectKey.LICH_CUA_TOI);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         _lamViecCubit.setChangeKey(_lamViecCubit.selectKey);
@@ -61,7 +61,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
       },
       selectKeyDialog: _lamViecCubit,
       listSelect: const [
-        SelectKey.LICH_HOP_CUA_TOI,
+        SelectKey.LICH_CUA_TOI,
         SelectKey.LICH_CHO_XAC_NHAN
       ],
       onChangeKey: (value) {

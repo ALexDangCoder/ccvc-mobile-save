@@ -14,16 +14,16 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart'
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
 
-class DocumentInPage extends StatefulWidget {
+class DocumentInPageTablet extends StatefulWidget {
   final QLVBCCubit qlvbCubit;
 
-  const DocumentInPage({Key? key, required this.qlvbCubit}) : super(key: key);
+  const DocumentInPageTablet({Key? key, required this.qlvbCubit}) : super(key: key);
 
   @override
-  State<DocumentInPage> createState() => _DocumentInPageState();
+  State<DocumentInPageTablet> createState() => _DocumentInPageTabletState();
 }
 
-class _DocumentInPageState extends State<DocumentInPage>
+class _DocumentInPageTabletState extends State<DocumentInPageTablet>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class _DocumentInPageState extends State<DocumentInPage>
                 builder: (context, snapshot) {
                   final dataVBDen = snapshot.data ?? DocumentDashboardModel();
                   return CommonInformationMobile(
+                    isTablet: true,
                     chartData: widget.qlvbCubit.chartDataVbDen,
                     documentDashboardModel: dataVBDen,
                     onPieTap: (value) {
@@ -62,7 +63,7 @@ class _DocumentInPageState extends State<DocumentInPage>
                               : value;
                       widget.qlvbCubit.listDataDanhSachVBDen();
                     },
-                    onStatusTap: (key) {
+                    onStatusTap: (key){
                       widget.qlvbCubit.documentInStatusCode = '';
                       widget.qlvbCubit.documentInSubStatusCode = key;
                       widget.qlvbCubit.listDataDanhSachVBDen();

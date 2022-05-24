@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -64,12 +65,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   late String startDate;
   late String endDate;
   String keySearch = '';
-  final BehaviorSubject<bool> checkClickSearch=BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> checkClickSearch =
+      BehaviorSubject<bool>.seeded(false);
+
   Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
 
-  void setSelectSearch(){
+  void setSelectSearch() {
     checkClickSearch.sink.add(!checkClickSearch.value);
   }
+
   bool isHideClearData = false;
   Debouncer debouncer = Debouncer();
 
@@ -192,13 +196,13 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       size: size,
       isDanhSachChoTrinhKy: documentOutStatusCode == ''
           ? null
-          : documentOutStatusCode == 'CHO_TRINH_KY',
+          : documentOutStatusCode == CHO_TRINH_KY_STRING,
       isDanhSachChoXuLy: documentOutStatusCode == ''
           ? null
-          : documentOutStatusCode == 'CHO_XU_LY',
+          : documentOutStatusCode == CHO_XU_LY_STRING,
       isDanhSachDaXuLy: documentOutStatusCode == ''
           ? null
-          : documentOutStatusCode == 'DA_XU_LY',
+          : documentOutStatusCode == DA_XU_LY_STRING,
       trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode),
       keySearch: keySearch,
     );
@@ -237,6 +241,8 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
         thoiGianEndFilter: endDate ?? this.endDate,
         size: 10,
         keySearch: keySearch,
+        trangThaiXuLy: statusSearchDocumentInSubCode(documentInSubStatusCode),
+        isDanhSachDaXuLy: documentInSubStatusCode.isNotEmpty ? false : null,
       ),
     );
     result.when(
@@ -309,9 +315,10 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   }
 
   void initTimeRange() {
-    final dataDateTime =
-    DateTime.now();
-    startDate = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    final dataDateTime = DateTime.now();
+    startDate =
+        DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30)
+            .formatApi;
     endDate = dataDateTime.formatApi;
   }
 }

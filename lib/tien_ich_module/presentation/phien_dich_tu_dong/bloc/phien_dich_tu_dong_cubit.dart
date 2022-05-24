@@ -1,8 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/ui/widget/language_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -70,9 +75,14 @@ class PhienDichTuDongCubit{
 
   TienIchRepository get repo => Get.find();
 
+  String lastedWord = '';
+
   Future<void> translateDocument({required String document}) async {
     if(document.isEmpty){
       textTranslateSubject.add('');
+      return;
+    }
+    if(document == lastedWord){
       return;
     }
     final rs = await repo.translateDocument(
@@ -84,7 +94,14 @@ class PhienDichTuDongCubit{
       success: (res) {
         textTranslateSubject.add(res);
       },
-      error: (error) {},
+      error: (error) {
+        if(error is NoNetworkException){
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+      },
     );
   }
 

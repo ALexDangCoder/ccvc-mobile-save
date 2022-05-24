@@ -980,8 +980,8 @@
   "gui_loi_chuc_toi" : "Gửi lời chúc tới",
   "gui" : "Gửi",
   "gui_thiep_thanh_cong" : "Gửi thiệp thành công",
-  "cai_dat_thong_bao" : "Cài đặt thông báo"
-
+  "cai_dat_thong_bao" : "Cài đặt thông báo",
+  "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại."
 }
 
 

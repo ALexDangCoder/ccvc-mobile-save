@@ -247,6 +247,8 @@ class ApiConstants {
   static const POST_CHO_Y_KIEN_XU_LY = '/PAKN/api/TaskYKien/ChoYKien';
   static const GET_LOCATION_ADDRESS = '/pakn/api/location';
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
+  static const CREATE_DEVICE = '/api/DeviceNotification/create-device';
+  static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
 }
 
 class ImageConstants {

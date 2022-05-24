@@ -262,6 +262,7 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
       success: (res) {
         status = res;
         getYKienXuLyNhiemVu(idNhiemVu);
+        showContent();
       },
       error: (error) {
         status = '';

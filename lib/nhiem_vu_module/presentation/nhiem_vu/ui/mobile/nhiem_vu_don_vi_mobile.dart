@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -24,6 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:rxdart/rxdart.dart';
 
 class NhiemVuDonViMobile extends StatefulWidget {
   final bool isCheck;
@@ -78,77 +80,150 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
-                ? Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    padding: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: cellColorborder,
-                      ),
-                    ),
-                    child: TextFormField(
-                      controller: textcontroller,
-                      // focusNode: focusNode,
-                      textAlignVertical: TextAlignVertical.center,
-                      cursorColor: colorBlack,
-                      style: tokenDetailAmount(
-                        color: colorBlack,
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        suffixIcon: widget.danhSachCubit.isHideClearData
-                            ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {});
-                                      textcontroller.clear();
-                                      widget.danhSachCubit.isHideClearData =
-                                          false;
-                                    },
-                                    child: const Icon(Icons.clear,
-                                        color: coloriCon),
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                        prefixIcon: GestureDetector(
-                          onTap: () {
-                            widget.danhSachCubit.setSelectSearch();
-                          },
-                          child: const Icon(
-                            Icons.search,
-                            color: coloriCon,
-                          ),
+                ? Platform.isIOS ? Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.only(right: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: cellColorborder,
                         ),
-                        border: InputBorder.none,
-                        hintText: S.current.tim_kiem,
-                        hintStyle: const TextStyle(
-                          color: coloriCon,
+                      ),
+                      child: TextFormField(
+                        controller: textcontroller,
+                        // focusNode: focusNode,
+                        textAlignVertical: TextAlignVertical.center,
+                        cursorColor: colorBlack,
+                        style: tokenDetailAmount(
+                          color: colorBlack,
                           fontSize: 14,
                         ),
-                      ),
-                      onChanged: (text) {
-                        if (text.isEmpty) {
-                          setState(() {});
-                          widget.danhSachCubit.isHideClearData = false;
-                        } else {
-                          widget.danhSachCubit.debouncer.run(() {
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          suffixIcon: widget.danhSachCubit.isHideClearData
+                              ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Center(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {});
+                                        textcontroller.clear();
+                                        widget.danhSachCubit.isHideClearData =
+                                            false;
+                                      },
+                                      child: const Icon(Icons.clear,
+                                          color: coloriCon),
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          prefixIcon: GestureDetector(
+                            onTap: () {
+                              widget.danhSachCubit.setSelectSearch();
+                            },
+                            child: const Icon(
+                              Icons.search,
+                              color: coloriCon,
+                            ),
+                          ),
+                          border: InputBorder.none,
+                          hintText: S.current.tim_kiem,
+                          hintStyle: const TextStyle(
+                            color: coloriCon,
+                            fontSize: 14,
+                          ),
+                        ),
+                        onChanged: (text) {
+                          if (text.isEmpty) {
                             setState(() {});
-                            widget.danhSachCubit.keySearch = text;
-                            widget.danhSachCubit.mangTrangThai = '';
-                            widget.danhSachCubit.isHideClearData = true;
-                          });
-                          // setState(() {});
+                            widget.danhSachCubit.isHideClearData = false;
+                          } else {
+                            widget.danhSachCubit.debouncer.run(() {
+                              setState(() {});
+                              widget.danhSachCubit.keySearch = text;
+                              widget.danhSachCubit.mangTrangThai = '';
+                              widget.danhSachCubit.isHideClearData = true;
+                            });
+                            // setState(() {});
 
-                        }
-                      },
+                          }
+                        },
+                      ),
+                    ),
+                ) : Container(
+              margin: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: cellColorborder,
+                ),
+              ),
+              child: TextFormField(
+                controller: textcontroller,
+                // focusNode: focusNode,
+                textAlignVertical: TextAlignVertical.center,
+                cursorColor: colorBlack,
+                style: tokenDetailAmount(
+                  color: colorBlack,
+                  fontSize: 14,
+                ),
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  suffixIcon: widget.danhSachCubit.isHideClearData
+                      ? SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {});
+                          textcontroller.clear();
+                          widget.danhSachCubit.isHideClearData =
+                          false;
+                        },
+                        child: const Icon(Icons.clear,
+                            color: coloriCon),
+                      ),
                     ),
                   )
+                      : const SizedBox(),
+                  prefixIcon: GestureDetector(
+                    onTap: () {
+                      widget.danhSachCubit.setSelectSearch();
+                    },
+                    child: const Icon(
+                      Icons.search,
+                      color: coloriCon,
+                    ),
+                  ),
+                  border: InputBorder.none,
+                  hintText: S.current.tim_kiem,
+                  hintStyle: const TextStyle(
+                    color: coloriCon,
+                    fontSize: 14,
+                  ),
+                ),
+                onChanged: (text) {
+                  if (text.isEmpty) {
+                    setState(() {});
+                    widget.danhSachCubit.isHideClearData = false;
+                  } else {
+                    widget.danhSachCubit.debouncer.run(() {
+                      setState(() {});
+                      widget.danhSachCubit.keySearch = text;
+                      widget.danhSachCubit.mangTrangThai = '';
+                      widget.danhSachCubit.isHideClearData = true;
+                    });
+                    // setState(() {});
+
+                  }
+                },
+              ),
+            )
                 : AppBar(
                     elevation: 0.0,
                     title: Text(
@@ -194,437 +269,242 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
           },
         ),
       ),
-      body: ComplexLoadMore(
-        childrenView: [
-          FilterDateTimeWidget(
-            initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien) ,
-            context: context,
-            isMobile: true,
-            onChooseDateFilter: (startDate, endDate) {
-              widget.danhSachCubit.ngayDauTien = startDate.formatApi;
-              widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
-              widget.danhSachCubit.callApiDashBroash(true);
-            },
-          ),
-          ExpandOnlyWidget(
-              isPadingIcon: true,
-              initExpand: true,
-              header: Container(
-                color: Colors.transparent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 16.0),
-                      child: Text(
-                        S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
-                        style:
-                            textNormalCustom(color: titleColor, fontSize: 16),
-                      ),
-                    ),
-                    StateSelectBieuDoTrangThaiWidget(
-                      cubit: widget.danhSachCubit,
-                    ),
-                  ],
-                ),
-              ),
-              child: StreamBuilder<List<ItemSellectBieuDo>>(
-                  stream: widget.danhSachCubit.selectBieuDoModelSubject,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? [];
-                    if (data.isEmpty) {
-                      return const SizedBox();
-                    }
-                    if (data.map((e) => e.isCheck).first == true) {
-                      return Container(
-                        padding:
-                            const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                        child: StreamBuilder<List<ChartData>>(
-                          stream: widget.danhSachCubit.statusSuject,
-                          initialData: widget.danhSachCubit.chartDataTheoLoai,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ??
-                                widget.danhSachCubit.chartDataTheoLoai;
-                            return BieuDoNhiemVuMobile(
-                              title: S.current.nhiem_vu,
-                              chartData: data,
-                              cubit: widget.danhSachCubit,
-                              ontap: (value) {
-                                widget.danhSachCubit.mangTrangThai = value;
-                                widget.danhSachCubit.trangThaiHanXuLy = null;
-                                setState(() {
-                                  callBack;
-                                });
-                              },
-                              onTapStatusBox: (value_status_box) {
-                                widget.danhSachCubit.mangTrangThai = '';
-                                widget.danhSachCubit.trangThaiHanXuLy =
-                                    value_status_box;
-                                setState(() {
-                                  callBack;
-                                });
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    } else if (data.map((e) => e.isCheck).elementAt(1) ==
-                        true) {
-                      return Container(
-                        padding:
-                            const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                        child: BieuDoTrangThaiTheoLoaiMobile(
-                          chartData: widget.danhSachCubit.chartDataTheoLoai,
-                          cubit: widget.danhSachCubit,
-                          ontap: (value) {
-                            widget.danhSachCubit.mangTrangThai = value;
-                            widget.danhSachCubit.trangThaiHanXuLy = null;
-                            setState(() {
-                              callBack;
-                            });
-                          },
-                        ),
-                      );
-                    } else {
-                      return StatusWidget(
-                        listData: [
-                          [
-                            ChartData(
-                              S.current.cho_phan_xu_ly,
-                              8,
-                              choXuLyColor,
-                            ),
-                            ChartData(
-                                S.current.chua_thuc_hien, 10, choVaoSoColor),
-                            ChartData(
-                              S.current.dang_thuc_hien,
-                              4,
-                              choTrinhKyColor,
-                            ),
-                            ChartData(
-                              S.current.da_thuc_hien,
-                              5,
-                              daXuLyColor,
-                            ),
-                          ],
-                          [
-                            ChartData(
-                              S.current.cho_phan_xu_ly,
-                              8,
-                              choXuLyColor,
-                            ),
-                            ChartData(
-                                S.current.chua_thuc_hien, 10, choVaoSoColor),
-                            ChartData(
-                              S.current.dang_thuc_hien,
-                              4,
-                              choTrinhKyColor,
-                            ),
-                            ChartData(
-                              S.current.da_thuc_hien,
-                              5,
-                              daXuLyColor,
-                            ),
-                          ],
-                          [
-                            ChartData(
-                              S.current.cho_phan_xu_ly,
-                              6,
-                              choXuLyColor,
-                            ),
-                            ChartData(
-                                S.current.chua_thuc_hien, 12, choVaoSoColor),
-                            ChartData(
-                              S.current.dang_thuc_hien,
-                              5,
-                              choTrinhKyColor,
-                            ),
-                            ChartData(
-                              S.current.da_thuc_hien,
-                              8,
-                              daXuLyColor,
-                            ),
-                          ],
-                        ],
-                        listStatusData: [
-                          ChartData(
-                            S.current.cho_phan_xu_ly,
-                            30,
-                            choXuLyColor,
-                          ),
-                          ChartData(S.current.chua_thuc_hien, 12, choVaoSoColor),
-                          ChartData(
-                            S.current.dang_thuc_hien,
-                            14,
-                            choTrinhKyColor,
-                          ),
-                          ChartData(
-                            S.current.da_thuc_hien,
-                            12,
-                            daXuLyColor,
-                          ),
-                        ],
-                      );
-
-                    }
-                  })),
-          Container(
-            height: 6,
-            color: homeColor,
-          ),
-        ],
-        callApi: (page) {
-          widget.danhSachCubit.postDanhSachNhiemVu(
-            index: page,
-            isNhiemVuCaNhan: widget.isCheck,
-            isSortByHanXuLy: true,
-            mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-            ngayTaoNhiemVu: {
-              'FromDate': widget.danhSachCubit.ngayDauTien,
-              'ToDate': widget.danhSachCubit.ngayKetThuc
-            },
-            size: widget.danhSachCubit.pageSize,
-            keySearch: widget.danhSachCubit.keySearch,
-            trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-          );
-        },
-        isListView: true,
-        cubit: widget.danhSachCubit,
-        viewItem: (value, index) {
-          try {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: NhiemVuItemMobile(
-                data: value as PageData,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChiTietNhiemVuPhoneScreen(
-                        id: value.id ?? '',
-                        isCheck: widget.isCheck,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
-          } catch (e) {
-            return const SizedBox();
+      body: GestureDetector(
+        onTap: (){
+          if(widget.danhSachCubit.checkClickSearch.value==true) {
+            widget.danhSachCubit.checkClickSearch.sink.add(false);
+            widget.danhSachCubit.isHideClearData = false;
+            widget.danhSachCubit.keySearch='';
+            textcontroller.clear();
           }
         },
-      ),
-    );
-  }
-}
-
-Widget statusWidget( // List<ChartData> listData,
-    // List<ChartData> listTest,
-    {
-  required List<List<ChartData>> listData,
-  required List<ChartData> listStatusData,
-}) {
-  final heSo = 10;
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Stack(
-        children: [
-          Column(
-            children: listData
-                .map(
-                  (element) => Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: ComplexLoadMore(
+          childrenView: [
+            FilterDateTimeWidget(
+              initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien) ,
+              context: context,
+              isMobile: true,
+              onChooseDateFilter: (startDate, endDate) {
+                widget.danhSachCubit.ngayDauTien = startDate.formatApi;
+                widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
+                widget.danhSachCubit.callApiDashBroash(true);
+              },
+            ),
+            ExpandOnlyWidget(
+                isPadingIcon: true,
+                initExpand: true,
+                header: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              "Trung tâm tin học",
-                              textAlign: TextAlign.right,
-                            ),
-                          )),
-                      // const SizedBox(width: 8,),
-                      Expanded(
-                        flex: 8,
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              key:GlobalKey(),
-                              child: Container(
-                            ),),
-                            // MySeparator(
-                            //   color: lineColor,
-                            // ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Row(
-                                    children: element.reversed
-                                        .map(
-                                          (e) => Container(
-                                            height: 28,
-                                            width: (e.value) * heSo,
-                                            color: e.color,
-                                            child: Center(
-                                              child: Text(
-                                                e.value.toInt().toString(),
-                                                style: textNormal(
-                                                  backgroundColorApp,
-                                                  14.0.textScale(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 16.0),
+                        child: Text(
+                          S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
+                          style:
+                              textNormalCustom(color: titleColor, fontSize: 16),
                         ),
+                      ),
+                      StateSelectBieuDoTrangThaiWidget(
+                        cubit: widget.danhSachCubit,
                       ),
                     ],
                   ),
-                )
-                .toList(),
-          ),
-        ],
-      ),
-      const SizedBox(
-        height: 24,
-      ),
-      Padding(
-        padding: const EdgeInsets.only(left: 16.0, bottom: 20.0),
-        child: GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          childAspectRatio: 9,
-          mainAxisSpacing: 10.0.textScale(space: 4),
-          crossAxisSpacing: 10,
-          children: List.generate(listStatusData.length, (index) {
-            final result = listStatusData[index];
-            // ignore: avoid_unnecessary_containers
-            return GestureDetector(
-              onTap: () {},
-              child: Row(
-                children: [
-                  Container(
-                    height: 14,
-                    width: 14,
-                    decoration: BoxDecoration(
-                      color: result.color,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Flexible(
-                    child: FittedBox(
-                      child: Text(
-                        '${result.title} (${result.value.toInt()})',
-                        style: textNormal(
-                          infoColor,
-                          14.0.textScale(),
+                ),
+                child: StreamBuilder<List<ItemSellectBieuDo>>(
+                    stream: widget.danhSachCubit.selectBieuDoModelSubject,
+                    builder: (context, snapshot) {
+                      final data = snapshot.data ?? [];
+                      if (data.isEmpty) {
+                        return const SizedBox();
+                      }
+                      if (data.map((e) => e.isCheck).first == true) {
+                        return Container(
+                          padding:
+                              const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                          child: StreamBuilder<List<ChartData>>(
+                            stream: widget.danhSachCubit.statusSuject,
+                            initialData: widget.danhSachCubit.chartDataTheoLoai,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ??
+                                  widget.danhSachCubit.chartDataTheoLoai;
+                              return BieuDoNhiemVuMobile(
+                                title: S.current.nhiem_vu,
+                                chartData: data,
+                                cubit: widget.danhSachCubit,
+                                ontap: (value) {
+                                  widget.danhSachCubit.mangTrangThai = value;
+                                  widget.danhSachCubit.trangThaiHanXuLy = null;
+                                  setState(() {
+                                    callBack;
+                                  });
+                                },
+                                onTapStatusBox: (value_status_box) {
+                                  widget.danhSachCubit.mangTrangThai = '';
+                                  widget.danhSachCubit.trangThaiHanXuLy =
+                                      value_status_box;
+                                  setState(() {
+                                    callBack;
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      } else if (data.map((e) => e.isCheck).elementAt(1) ==
+                          true) {
+                        return Container(
+                          padding:
+                              const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                          child: BieuDoTrangThaiTheoLoaiMobile(
+                            chartData: widget.danhSachCubit.chartDataTheoLoai,
+                            cubit: widget.danhSachCubit,
+                            ontap: (value) {
+                              widget.danhSachCubit.mangTrangThai = value;
+                              widget.danhSachCubit.trangThaiHanXuLy = null;
+                              setState(() {
+                                callBack;
+                              });
+                            },
+                          ),
+                        );
+                      } else {
+                        return StatusWidget(
+                          listData:widget.danhSachCubit.listData ,
+                          listStatusData: widget.danhSachCubit.listStatusData,
+                          title:
+                          widget.danhSachCubit.titleNhiemVu,
+                        );
+
+                      }
+                    })),
+            Container(
+              height: 6,
+              color: homeColor,
+            ),
+          ],
+          callApi: (page) {
+            widget.danhSachCubit.postDanhSachNhiemVu(
+              index: page,
+              isNhiemVuCaNhan: widget.isCheck,
+              isSortByHanXuLy: true,
+              mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+              ngayTaoNhiemVu: {
+                'FromDate': widget.danhSachCubit.ngayDauTien,
+                'ToDate': widget.danhSachCubit.ngayKetThuc
+              },
+              size: widget.danhSachCubit.pageSize,
+              keySearch: widget.danhSachCubit.keySearch,
+              trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+            );
+          },
+          isListView: true,
+          cubit: widget.danhSachCubit,
+          viewItem: (value, index) {
+            try {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: NhiemVuItemMobile(
+                  data: value as PageData,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChiTietNhiemVuPhoneScreen(
+                          id: value.id ?? '',
+                          isCheck: widget.isCheck,
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          }),
+                    );
+                  },
+                ),
+              );
+            } catch (e) {
+              return const SizedBox();
+            }
+          },
         ),
       ),
-    ],
-  );
-}
-
-class MySeprator extends StatelessWidget {
-  const MySeprator({Key? key, this.height = 1, this.color = Colors.black})
-      : super(key: key);
-  final double height;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final boxWidth = constraints.constrainWidth();
-        const dashWidth = 6.0;
-        final dashHeight = height;
-        final dashCount = (boxWidth / (2 * dashWidth)).floor();
-        return Flex(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
-          children: List.generate(dashCount, (_) {
-            return SizedBox(
-              width: dashWidth,
-              height: dashHeight,
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: color),
-              ),
-            );
-          }),
-        );
-      },
     );
   }
 }
 
 class MySeparator extends StatelessWidget {
-  const MySeparator({Key? key, this.width = 1, this.color = Colors.black, this.height=10})
+  const MySeparator(
+      {Key? key,
+      this.width = 1,
+      this.color = colorBlack,
+      this.height = 10,
+      required this.dashCountRow,
+      required this.heSo,
+      required this.scale,})
       : super(key: key);
   final double width;
   final Color color;
   final double height;
+  final int dashCountRow;
+  final int heSo;
+  final int scale;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final boxWidth = constraints.constrainWidth();
         const dashHeight = 6.0;
         final dashWidth = width;
-        final dashCount = (height/(dashWidth *2)).floor();
+        final dashCount = (height /(dashHeight*1.5)).floor()+1;
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flex(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              direction: Axis.vertical,
-              children: List.generate(dashCount, (_) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: SizedBox(
-                    height: dashHeight,
-                    width: dashWidth,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(color: color),
+          children: List.generate(dashCountRow, (index) {
+            final String indexTrucHoanh = (index * scale).toString();
+            return SizedBox(
+              width: (heSo * scale).toDouble(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flex(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    direction: Axis.vertical,
+                    children: List.generate(dashCount, (_) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: dashHeight/2),
+                        child: SizedBox(
+                          height: dashHeight,
+                          width: dashWidth,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(color: color),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                  const SizedBox(height:5),
+                  Text(
+                    indexTrucHoanh,
+                    style:textNormal(
+                      coloriCon,
+                      12,
                     ),
                   ),
-                );
-              }),
-            ),
-          ],
+                ],
+              ),
+            );
+          }),
         );
       },
     );
   }
 }
+
 class StatusWidget extends StatefulWidget {
   final List<List<ChartData>> listData;
-  final  List<ChartData> listStatusData;
-  const StatusWidget({Key? key, required this.listData, required this.listStatusData}) : super(key: key);
+  final List<ChartData> listStatusData;
+  final List<String> title;
+
+  const StatusWidget(
+      {Key? key, required this.listData, required this.listStatusData, required this.title})
+      : super(key: key);
 
   @override
   _StatusWidgetState createState() => _StatusWidgetState();
@@ -632,109 +512,152 @@ class StatusWidget extends StatefulWidget {
 
 class _StatusWidgetState extends State<StatusWidget> {
   final heSo = 10;
-  GlobalKey globalKey =GlobalKey();
-  late double height=0;
-  late int sumRowChart=0;
-
+  final scale = 5;
+  GlobalKey globalKey = GlobalKey();
+  late double height = 10;
+  late int sumRowChart = 0;
+  late double countRangeChart = 0;
+  final BehaviorSubject<double> setHeight =
+  BehaviorSubject.seeded(0);
 
   @override
   void initState() {
     super.initState();
+    countRangeChart = getMaxRow(widget.listData);
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      final renderBox = globalKey.currentContext?.findRenderObject() as RenderBox;
+      final renderBox =
+          globalKey.currentContext?.findRenderObject() as RenderBox;
       height = renderBox.size.height;
+      setHeight.sink.add(height);
     });
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Stack(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              key:globalKey,
-              height: 100,
+            Expanded(
+              flex: 4,
+              child: Container(
+                padding: const EdgeInsets.only(top:20),
+                child: Column(
+                  children: List.generate(widget.title.length, (index) {
+                    return Container(
+                      margin: const EdgeInsets.only(right: 8,top: 20,left: 16),
+                      child: Text(
+                        widget.title[index],
+                        textAlign: TextAlign.right,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style:  textNormal(
+                          infoColor,
+                          14.0,
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: widget.listData
-                  .map(
-                    (element) {
-                      sumRowChart=0;
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 3,
-                              child: Container(
-                                 margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  "Trung tâm tin học",
-                                  textAlign: TextAlign.right,
-                                ),
-                              )),
-                          Expanded(
-                            flex: 8,
-                            child: Stack(
-                              children: [
-                                Positioned.fill(
-                                    child: MySeparator(
-                                      height: height,
-                                      color: lineColor,
-                                    )
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      padding: const EdgeInsets.only(right: 8.0,top: 8),
-                                      child: Row(
-                                        children: [
-                                          Row(
-                                            children: element.reversed
-                                                .map(
-                                                    (e) {
-                                                  sumRowChart+=e.value.toInt();
-                                                  return  Container(
-                                                    height: 28,
-                                                    width: (e.value) * heSo,
-                                                    color: e.color,
-                                                    child: Center(
-                                                      child: Text(
-                                                        e.value.toInt().toString(),
-                                                        style: textNormal(
-                                                          backgroundColorApp,
-                                                          14.0.textScale(),
-                                                        ),
+            Expanded(
+              flex: 8,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Stack(
+                  children: [
+                    StreamBuilder<double>(
+                      stream: setHeight.stream,
+                      builder: (context, snapshot){
+                        final height=snapshot.data??0;
+                        return MySeparator(
+                          heSo: heSo,
+                          scale: scale,
+                          dashCountRow: countRangeChart.floor(),
+                          height: height,
+                          color: lineColor,
+                        );
+                      },
+                    ),
+                    Column(
+                      key: globalKey,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(top:20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: widget.listData.map((element) {
+                              sumRowChart = 0;
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        padding: const EdgeInsets.only(
+                                          right: 8.0,
+                                          top: 8,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Row(
+                                              children: element.reversed.map((e) {
+                                                sumRowChart += e.value.toInt();
+                                                return Container(
+                                                  height: 28,
+                                                  width: (e.value) * heSo,
+                                                  color: e.color,
+                                                  child: Center(
+                                                    child: Text(
+                                                      e.value.toInt().toString(),
+                                                      style: textNormal(
+                                                        backgroundColorApp,
+                                                        14.0.textScale(),
                                                       ),
                                                     ),
-                                                  );
-                                                }
-                                            )
-                                                .toList(),
-                                          ),
-                                          SizedBox(width: 6,),
-                                          Text(sumRowChart.toString()),
-                                        ],
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            ),
+                                            const SizedBox(
+                                              width: 6,
+                                            ),
+                                            Text(sumRowChart.toString(), style:  textNormal(
+                                              infoColor,
+                                              14.0,
+                                            ),),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            }).toList(),
                           ),
-                        ],
-                      );
-                    }
-              )
-                  .toList(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
-        const SizedBox(
+         const SizedBox(
           height: 24,
         ),
         Padding(
@@ -783,7 +706,25 @@ class _StatusWidgetState extends State<StatusWidget> {
         ),
       ],
     );
+  }
 
+  double getTotalRow(List<ChartData> data) {
+    double total = 0;
+    for (final element in data) {
+      total += element.value;
+    }
+    return total;
+  }
+
+  double getMaxRow(List<List<ChartData>> listData) {
+    double value = 0;
+    for (final element in listData) {
+      final double max = getTotalRow(element);
+      if (value < max) {
+        value = max;
+      }
+    }
+    final double range = value % 10;
+    return (value + (10.0 - range)) / scale;
   }
 }
-

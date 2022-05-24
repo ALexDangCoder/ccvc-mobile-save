@@ -16,6 +16,7 @@ class ItemThongBaoQuanTrong extends StatefulWidget {
   final String message;
   final String date;
   final bool seen;
+  final Function onTap;
   final ThongBaoCubit cubit;
 
   const ItemThongBaoQuanTrong({
@@ -26,6 +27,7 @@ class ItemThongBaoQuanTrong extends StatefulWidget {
     required this.date,
     required this.seen,
     required this.cubit,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -48,51 +50,67 @@ class _ItemThongBaoQuanTrongState extends State<ItemThongBaoQuanTrong> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SvgPicture.asset(
-                  ImageAssets.icNotifyHome,
-                ),
-                SizedBox(
-                  width: 12.0.textScale(),
-                ),
-                Column(
+            child: GestureDetector(
+              onTap: () {
+                widget.onTap();
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      widget.title,
-                      style: textNormalCustom(
-                        color: textTitle,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.0.textScale(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 6.0.textScale(),
-                    ),
-                    Text(
-                      widget.message,
-                      style: textNormalCustom(
-                        color: infoColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.0.textScale(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0.textScale(),
-                    ),
-                    Text(
-                      widget.date,
-                      style: textNormalCustom(
-                        color: AqiColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12.0.textScale(),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            ImageAssets.icNotifyHome,
+                          ),
+                          SizedBox(
+                            width: 12.0.textScale(),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.title,
+                                style: textNormalCustom(
+                                  color: textTitle,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0.textScale(),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 6.0.textScale(),
+                              ),
+                              Text(
+                                widget.message,
+                                style: textNormalCustom(
+                                  color: infoColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14.0.textScale(),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0.textScale(),
+                              ),
+                              Text(
+                                widget.date,
+                                style: textNormalCustom(
+                                  color: AqiColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.0.textScale(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
           SizedBox(

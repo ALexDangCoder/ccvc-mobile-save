@@ -23,7 +23,9 @@ import 'package:rxdart/rxdart.dart';
 import 'detai_doccument_state.dart';
 
 class CommonDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  CommonDetailDocumentCubit() : super(DetailDocumentInitial());
+  CommonDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<ChiTietVanBanDenModel> chiTietVanBanDenSubject =
@@ -76,7 +78,9 @@ class DeliveryNoticeDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 }
 
 class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  CommentsDetailDocumentCubit() : super(DetailDocumentInitial());
+  CommentsDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<DanhSachYKienXuLy>> danhSachYKienXuLySubject =
@@ -104,7 +108,9 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 }
 
 class HistoryUpdateDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  HistoryUpdateDetailDocumentCubit() : super(DetailDocumentInitial());
+  HistoryUpdateDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuCapNhatXuLySubject =
@@ -131,9 +137,40 @@ class HistoryUpdateDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
   }
 }
 
+class TrackTextDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
+  TrackTextDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
+  final QLVBRepository _qLVBRepo = Get.find();
+
+  BehaviorSubject<List<dynamic>> theoDoiVanBanSubject =
+      BehaviorSubject();
+
+  Stream<List<dynamic>> get theoDoiVanBanStream =>
+      theoDoiVanBanSubject.stream;
+
+  Future<void> getTheoDoiVanBan(
+    String id,
+  ) async {
+    showLoading();
+    final result = await _qLVBRepo.getTheoDoiVanBan(id);
+    result.when(
+      success: (res) {
+        showContent();
+        theoDoiVanBanSubject.add(res);
+      },
+      error: (error) {
+        showError();
+      },
+    );
+  }
+}
+
 class HistoryGiveBackDetailDocumentCubit
     extends BaseCubit<DetailDocumentState> {
-  HistoryGiveBackDetailDocumentCubit() : super(DetailDocumentInitial());
+  HistoryGiveBackDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuThuHoiSubject =
@@ -163,7 +200,9 @@ class HistoryGiveBackDetailDocumentCubit
 }
 
 class HistoryRecallDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  HistoryRecallDetailDocumentCubit() : super(DetailDocumentInitial());
+  HistoryRecallDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuTraLaiSubject =
@@ -192,7 +231,9 @@ class HistoryRecallDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
 class RelatedDocumentsDetailDocumentCubit
     extends BaseCubit<DetailDocumentState> {
-  RelatedDocumentsDetailDocumentCubit() : super(DetailDocumentInitial());
+  RelatedDocumentsDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuVanBanLienThongSubject =

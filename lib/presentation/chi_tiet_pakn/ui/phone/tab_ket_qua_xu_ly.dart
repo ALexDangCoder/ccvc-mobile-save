@@ -51,13 +51,12 @@ class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
         final data= snapshot.data??[];
         if(data.isNotEmpty){
           return ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: data.length,
             itemBuilder: (context, indexItem){
               return  Container(
                 padding: const EdgeInsets.only(left: 16, top: 16),
-                margin: const EdgeInsets.only(top: 16),
+                margin: const EdgeInsets.only(top: 16, bottom: 16),
                 decoration: BoxDecoration(
                   color: bgDropDown.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(6),

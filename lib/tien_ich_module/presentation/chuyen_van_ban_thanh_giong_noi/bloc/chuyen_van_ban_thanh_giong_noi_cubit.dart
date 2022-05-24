@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
@@ -9,12 +10,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ChuyenVanBanThanhGiongNoiCubit {
+import 'chuyen_vb_thanh_giong_noi_state.dart';
+
+class ChuyenVanBanThanhGiongNoiCubit
+    extends BaseCubit<ChuyenVBThanhGiongNoiState> {
+  ChuyenVanBanThanhGiongNoiCubit() : super(ChuyenVBThanhGiongNoiInitial()) {
+    showContent();
+  }
+
   TienIchRepository get tienIchRepTree => Get.find();
   String text = '';
-  String voidTone = '';
+  String? voidTone;
   String url = '';
-
+  bool check = false;
   List<VoidTone> dataDrop = [
     VoidTone(text: S.current.nu_mien_bac, code: north_female_lien),
     VoidTone(text: S.current.nam_mien_bac, code: north_male_hieu),
@@ -24,12 +32,20 @@ class ChuyenVanBanThanhGiongNoiCubit {
   ];
 
   Future<void> chuyenVBSangGiongNoi() async {
-    final result = await tienIchRepTree.chuyenVBSangGiongNoi(text, voidTone);
+    showLoading();
+    final result = await tienIchRepTree.chuyenVBSangGiongNoi(
+      text,
+      voidTone ?? north_female_lien,
+    );
     result.when(
       success: (res) {
-        playMusic(res.audio_url ?? '');
+        showContent();
+        check = false;
+        playMusic(res.audio_url ?? '').whenComplete(() => check = true);
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
   }
 

@@ -86,7 +86,9 @@ enum PageTransitionType {
   BOTTOM_TO_TOP,
   RIGHT_TO_LEFT_WITH_FADE,
 }
-
+const String DEVICE_ID = '';
+const String DEVICE_ANDROID = 'ANDROID';
+const String DEVICE_IOS = 'IOS';
 const String CAP_NHAT_TINH_HINH_THUC_HIEN = 'CAP_NHAT_TINH_HINH_THUC_HIEN';
 const String TRA_LAI = 'TRA_LAI';
 const String THU_HOI = 'THU_HOI';

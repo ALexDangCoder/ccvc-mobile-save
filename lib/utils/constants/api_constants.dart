@@ -56,6 +56,8 @@ class ApiConstants {
   static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay?';
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
+  static const UPLOAD_FILE = '/api/CanBo/upload';
+
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';
@@ -247,6 +249,8 @@ class ApiConstants {
   static const POST_CHO_Y_KIEN_XU_LY = '/PAKN/api/TaskYKien/ChoYKien';
   static const GET_LOCATION_ADDRESS = '/pakn/api/location';
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
+  static const CREATE_DEVICE = '/api/DeviceNotification/create-device';
+  static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
 }
 
 class ImageConstants {

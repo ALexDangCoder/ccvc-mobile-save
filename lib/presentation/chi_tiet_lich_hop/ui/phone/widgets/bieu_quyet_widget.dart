@@ -23,12 +23,6 @@ class BieuQuyetWidget extends StatefulWidget {
 
 class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
   @override
-  void initState() {
-    // TODO: implement initState
-    widget.cubit.getDanhSachNTGChuongTrinhHop(id: widget.id);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SelectOnlyWidget(
       title: S.current.bieu_quyet,

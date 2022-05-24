@@ -30,101 +30,89 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
   @override
   void initState() {
     // TODO: implement initState
-    widget.cubit.getTree().then(
-          (value) => widget.onChange(widget.cubit.initOnchange()),
-        );
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DropdownWidgetTablet(
-            title: StreamBuilder<String>(
-              stream: widget.cubit.tenDonVi.stream,
-              builder: (context, snapshot) {
-                return Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7,
-                  ),
-                  child: Text(
-                    snapshot.data.toString(),
-                    style: textNormal(titleColor, 14),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-              },
-            ),
-            child: SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.only(top: 11),
-                decoration: BoxDecoration(
-                  border: Border.all(color: borderColor),
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
-                ),
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.4,
-                ),
-                child: Column(
-                  children: [
-                    BaseSearchBarNoBorder(
-                      hintText: S.current.nhap_don_vi,
-                      onChange: (vl) {
-                        widget.cubit.searchTree(vl);
-                      },
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: borderSide(),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: StreamBuilder(
-                        stream: widget.cubit.listTreeDanhBaSubject.stream,
-                        builder: (context, snapshot) {
-                          if (widget.cubit.listTreeDanhBa.isEmpty) {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: NodataWidget(),
-                            );
-                          } else {
-                            return Scrollbar(
-                              child: Container(
-                                constraints: const BoxConstraints(
-                                  maxHeight: 300,
-                                ),
-                                color: Colors.white,
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      child: NodeWidget(
-                                        onChange: (vl) {
-                                          widget.onChange(vl);
-                                        },
-                                        key: UniqueKey(),
-                                        node: widget.cubit.getRoot(),
-                                        cubit: widget.cubit,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
+      child: DropdownWidgetTablet(
+        title: StreamBuilder<String>(
+          stream: widget.cubit.tenDonVi.stream,
+          builder: (context, snapshot) {
+            return Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.7,
               ),
+              child: Text(
+                snapshot.data.toString(),
+                style: textNormal(titleColor, 14),
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
+          },
+        ),
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(top: 11),
+            decoration: BoxDecoration(
+              border: Border.all(color: borderColor),
+              borderRadius: const BorderRadius.all(Radius.circular(6)),
+            ),
+            child: Column(
+              children: [
+                BaseSearchBarNoBorder(
+                  hintText: S.current.nhap_don_vi,
+                  onChange: (vl) {
+                    widget.cubit.searchTree(vl);
+                  },
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: borderSide(),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: StreamBuilder(
+                    stream: widget.cubit.listTreeDanhBaSubject.stream,
+                    builder: (context, snapshot) {
+                      if (widget.cubit.listTreeDanhBa.isEmpty) {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: NodataWidget(),
+                        );
+                      } else {
+                        return Scrollbar(
+                          child: Container(
+                            constraints: const BoxConstraints(
+                              maxHeight: 300,
+                            ),
+                            color: Colors.white,
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: NodeWidget(
+                                    onChange: (vl) {
+                                      widget.onChange(vl);
+                                    },
+                                    key: UniqueKey(),
+                                    node: widget.cubit.getRoot(),
+                                    cubit: widget.cubit,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                )
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -160,10 +148,10 @@ class _NodeWidgetState extends State<NodeWidget> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double widthSize = size.width;
-    return StreamBuilder<Tree>(
+    return StreamBuilder<treeDanhBaDienTu>(
       stream: widget.cubit.listTreeDanhBaSubject.stream,
-      builder: (BuildContext context, AsyncSnapshot<Tree> snapshot) {
-        final hasChild = widget.node?.isHasChild ?? false;
+      builder: (context, snapshot) {
+        final hasChild = widget.node?.value.hasDonViCon ?? false;
         final idDonviCha = widget.node?.value.iDDonViCha;
         if (widget.node != null) {
           return SingleChildScrollView(
@@ -275,14 +263,12 @@ class _NodeWidgetState extends State<NodeWidget> {
                     },
                   )
                 else
-                  Container(),
+                  const SizedBox(),
               ],
             ),
           );
         } else {
-          return const SizedBox(
-            height: 0,
-          );
+          return const SizedBox();
         }
       },
     );

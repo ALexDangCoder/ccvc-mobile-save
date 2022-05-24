@@ -88,7 +88,10 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
               child: BaseSearchBar(
                 hintText: S.current.tim_kiem_danh_ba,
                 onChange: (value) {
-                  cubit.callApiDanhBaToChuc(keyWork: value, pageIndexTung: 1);
+                  cubit.callApiDanhBaToChuc(
+                    keyWork: value,
+                    pageIndexTung: 1,
+                  );
                 },
               ),
             ),
@@ -123,7 +126,15 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
       cubit: cubit,
       sinkWap: true,
       isListView: true,
-      callApi: (page) => {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
+      callApi: (page) => {
+        cubit.pageIndex = page,
+        if (cubit.listTreeDanhBa.isEmpty)
+          cubit.getTree(1).then(
+                (value) => cubit.callApiDanhBaToChuc(id: cubit.init().id),
+              )
+        else
+          cubit.callApiDanhBaToChuc()
+      },
       viewItem: (value, index) => CellListDanhBaToChuc(
         item: value as ItemsToChuc,
         index: index ?? 0,
@@ -137,7 +148,15 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
       checkRatio: 1.5,
       cubit: cubit,
       isListView: false,
-      callApi: (page) => {cubit.pageIndex = page, cubit.callApiDanhBaToChuc()},
+      callApi: (page) => {
+        cubit.pageIndex = page,
+        if (cubit.listTreeDanhBa.isEmpty)
+          cubit.getTree(1).then(
+                (value) => cubit.callApiDanhBaToChuc(id: cubit.init().id),
+              )
+        else
+          cubit.callApiDanhBaToChuc()
+      },
       viewItem: (value, index) => CellListDanhBaToChucTablet(
         item: value as ItemsToChuc,
         index: index ?? 0,

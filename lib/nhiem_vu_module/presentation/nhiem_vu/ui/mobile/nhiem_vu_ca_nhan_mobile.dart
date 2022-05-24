@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -39,29 +38,14 @@ class NhiemVuCaNhanMobile extends StatefulWidget {
 
 class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
   TextEditingController textcontroller = TextEditingController();
-  late Function(int page) callBack;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     widget.danhSachCubit.callApi(true);
+    widget.danhSachCubit.keySearch = '';
     widget.danhSachCubit.mangTrangThai='';
-    callBack = (page) {
-      widget.danhSachCubit.postDanhSachNhiemVu(
-        index: page,
-        isNhiemVuCaNhan: widget.isCheck,
-        isSortByHanXuLy: true,
-        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-        ngayTaoNhiemVu: {
-          'FromDate': widget.danhSachCubit.ngayDauTien,
-          'ToDate': widget.danhSachCubit.ngayKetThuc
-        },
-        size: widget.danhSachCubit.pageSize,
-        keySearch: widget.danhSachCubit.keySearch,
-        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-      );
-    };
   }
 
   @override
@@ -75,8 +59,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
-                ? Platform.isIOS
-                    ? Padding(
+                ? Padding(
                         padding: const EdgeInsets.only(top: 12),
                         child: Container(
                           margin: const EdgeInsets.only(top: 30),
@@ -109,6 +92,21 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                             textcontroller.clear();
                                             widget.danhSachCubit
                                                 .isHideClearData = false;
+                                            widget.danhSachCubit.keySearch='';
+                                            widget.danhSachCubit.mangTrangThai = '';
+                                            widget.danhSachCubit.postDanhSachNhiemVu(
+                                              index: 0,
+                                              isNhiemVuCaNhan: widget.isCheck,
+                                              isSortByHanXuLy: true,
+                                              mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                              ngayTaoNhiemVu: {
+                                                'FromDate': widget.danhSachCubit.ngayDauTien,
+                                                'ToDate': widget.danhSachCubit.ngayKetThuc
+                                              },
+                                              size: widget.danhSachCubit.pageSize,
+                                              keySearch: widget.danhSachCubit.keySearch,
+                                              trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                            );
                                           },
                                           child: const Icon(Icons.clear,
                                               color: coloriCon),
@@ -136,89 +134,46 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                               if (text.isEmpty) {
                                 setState(() {});
                                 widget.danhSachCubit.isHideClearData = false;
+                                widget.danhSachCubit.keySearch = text;
+                                widget.danhSachCubit.mangTrangThai = '';
+                                widget.danhSachCubit.postDanhSachNhiemVu(
+                                  index: 0,
+                                  isNhiemVuCaNhan: widget.isCheck,
+                                  isSortByHanXuLy: true,
+                                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                  ngayTaoNhiemVu: {
+                                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                                    'ToDate': widget.danhSachCubit.ngayKetThuc
+                                  },
+                                  size: widget.danhSachCubit.pageSize,
+                                  keySearch: widget.danhSachCubit.keySearch,
+                                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                );
                               } else {
                                 widget.danhSachCubit.debouncer.run(() {
                                   setState(() {});
                                   widget.danhSachCubit.keySearch = text;
                                   widget.danhSachCubit.mangTrangThai = '';
                                   widget.danhSachCubit.isHideClearData = true;
+                                  widget.danhSachCubit.postDanhSachNhiemVu(
+                                    index: 0,
+                                    isNhiemVuCaNhan: widget.isCheck,
+                                    isSortByHanXuLy: true,
+                                    mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                    ngayTaoNhiemVu: {
+                                      'FromDate': widget.danhSachCubit.ngayDauTien,
+                                      'ToDate': widget.danhSachCubit.ngayKetThuc
+                                    },
+                                    size: widget.danhSachCubit.pageSize,
+                                    keySearch: widget.danhSachCubit.keySearch,
+                                    trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                  );
                                 });
                                 // setState(() {});
 
                               }
                             },
                           ),
-                        ),
-                      )
-                    : Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        padding: const EdgeInsets.only(right: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: cellColorborder,
-                          ),
-                        ),
-                        child: TextFormField(
-                          controller: textcontroller,
-                          // focusNode: focusNode,
-                          textAlignVertical: TextAlignVertical.center,
-                          cursorColor: colorBlack,
-                          style: tokenDetailAmount(
-                            color: colorBlack,
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            isCollapsed: true,
-                            suffixIcon: widget.danhSachCubit.isHideClearData
-                                ? SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {});
-                                          textcontroller.clear();
-                                          widget.danhSachCubit.isHideClearData =
-                                              false;
-                                        },
-                                        child: const Icon(Icons.clear,
-                                            color: coloriCon),
-                                      ),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                            prefixIcon: GestureDetector(
-                              onTap: () {
-                                widget.danhSachCubit.setSelectSearch();
-                              },
-                              child: const Icon(
-                                Icons.search,
-                                color: coloriCon,
-                              ),
-                            ),
-                            border: InputBorder.none,
-                            hintText: S.current.tim_kiem,
-                            hintStyle: const TextStyle(
-                              color: coloriCon,
-                              fontSize: 14,
-                            ),
-                          ),
-                          onChanged: (text) {
-                            if (text.isEmpty) {
-                              setState(() {});
-                              widget.danhSachCubit.isHideClearData = false;
-                            } else {
-                              widget.danhSachCubit.debouncer.run(() {
-                                setState(() {});
-                                widget.danhSachCubit.keySearch = text;
-                                widget.danhSachCubit.mangTrangThai = '';
-                                widget.danhSachCubit.isHideClearData = true;
-                              });
-                              // setState(() {});
-
-                            }
-                          },
                         ),
                       )
                 : AppBar(

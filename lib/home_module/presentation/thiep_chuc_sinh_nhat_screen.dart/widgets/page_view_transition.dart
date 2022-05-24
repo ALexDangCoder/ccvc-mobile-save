@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 class PageViewWidget extends StatefulWidget {
   final List<String> listImage;
   final Function(int) onSelect;
-
+ final double viewportFraction;
   const PageViewWidget({
     Key? key,
     required this.listImage,
     required this.onSelect,
+    this.viewportFraction = 0.6
   }) : super(key: key);
 
   @override
@@ -47,7 +48,7 @@ class _PageViewWidgetState extends State<PageViewWidget> {
           setState(() {});
         },
         enlargeCenterPage: true,
-        viewportFraction: 0.6,
+        viewportFraction: widget.viewportFraction,
         aspectRatio: 1.0,
       ),
     );

@@ -123,53 +123,6 @@ class _EventOfDayWidgetState extends State<SinhNhatTabletWidget> {
                 },
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                padding: const EdgeInsets.only(left: 30, right: 30),
-                child: Row(
-                  children: [
-                    Text(
-                      S.current.tin_buon,
-                      style: textNormalCustom(color: specialPriceColor),
-                    ),
-                    spaceW16,
-                    SizedBox(
-                      height: 30,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 6,
-                        itemBuilder: (index, context) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20, right: 16),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 6,
-                                  width: 6,
-                                  decoration: const BoxDecoration(
-                                    color: titleColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                spaceW8,
-                                Text(
-                                  S.current.tin_buon,
-                                  style: textNormalCustom(color: titleColor),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       ),

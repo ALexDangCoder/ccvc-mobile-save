@@ -56,6 +56,8 @@ class ApiConstants {
   static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay?';
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
+  static const UPLOAD_FILE = '/api/CanBo/upload';
+
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';

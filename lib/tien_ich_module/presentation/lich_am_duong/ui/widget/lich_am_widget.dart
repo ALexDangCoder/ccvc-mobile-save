@@ -9,7 +9,7 @@ class LichAmWidget extends StatelessWidget {
   final String thu;
   final String ngayAmLichStr;
 
-  LichAmWidget({
+  const LichAmWidget({
     Key? key,
     required this.ngayAmLich,
     required this.thu,
@@ -34,12 +34,13 @@ class LichAmWidget extends StatelessWidget {
                 color: AqiColor,
               ),
               titleLichAm(
-                  DateTime.parse(
-                    ngayAmLich.solarDate ?? DateTime.now().toString(),
-                  ).formatDayCalendar,
-                  fontSize: 16.0,),
+                DateTime.parse(
+                  ngayAmLich.solarDate ?? DateTime.now().toString(),
+                ).formatDayCalendar,
+                fontSize: 16.0,
+              ),
               titleLichAm(
-                  '${ngayAmLich.day??''}, Tháng ${ngayAmLich.month??''} (AL), ${ngayAmLich.yearName??''}',
+                  '${ngayAmLich.day ?? ''}, Tháng ${ngayAmLich.month ?? ''} (AL), ${ngayAmLich.yearName ?? ''}',
                   fontSize: 12.0,
                   fontWeight: FontWeight.w500,
                   color: AqiColor),

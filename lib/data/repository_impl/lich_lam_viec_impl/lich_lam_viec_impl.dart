@@ -27,11 +27,11 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_trang_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
 import 'package:ccvc_mobile/data/response/them_y_kien_response/them_y_kien_response.dart';
-import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_service.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/cancel_lich_lam_viec_model.dart';
@@ -206,6 +206,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     );
   }
 
+
   @override
   Future<Result<List<TinhTrangBaoCaoModel>>> getListTinhTrangBaoCao() {
     return runCatchingAsync<ListTinhTrangResponse, List<TinhTrangBaoCaoModel>>(
@@ -351,41 +352,42 @@ class LichLamViecImlp implements LichLamViecRepository {
       (res) => res.toDomain(),
     );
   }
+
   @override
   Future<Result<MessageModel>> suaLichLamViec(
-      String title,
-      String typeScheduleId,
-      String linhVucId,
-      String TenTinh,
-      String TenHuyen,
-      String TenXa,
-      String dateFrom,
-      String timeFrom,
-      String dateTo,
-      String timeTo,
-      String content,
-      String location,
-      String vehicle,
-      String expectedResults,
-      String results,
-      int status,
-      String rejectReason,
-      bool publishSchedule,
-      String tags,
-      bool isLichDonVi,
-      String canBoChuTriId,
-      String donViId,
-      String note,
-      bool isAllDay,
-      bool isSendMail,
-      List<DonViModel> scheduleCoperativeRequest,
-      int typeRemider,
-      int typeRepeat,
-      String dateRepeat,
-      String dateRepeat1,
-      bool only,
-      List<int> days,
-      ) {
+    String title,
+    String typeScheduleId,
+    String linhVucId,
+    String TenTinh,
+    String TenHuyen,
+    String TenXa,
+    String dateFrom,
+    String timeFrom,
+    String dateTo,
+    String timeTo,
+    String content,
+    String location,
+    String vehicle,
+    String expectedResults,
+    String results,
+    int status,
+    String rejectReason,
+    bool publishSchedule,
+    String tags,
+    bool isLichDonVi,
+    String canBoChuTriId,
+    String donViId,
+    String note,
+    bool isAllDay,
+    bool isSendMail,
+    List<DonViModel> scheduleCoperativeRequest,
+    int typeRemider,
+    int typeRepeat,
+    String dateRepeat,
+    String dateRepeat1,
+    bool only,
+    List<int> days,
+  ) {
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
     _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
@@ -448,46 +450,47 @@ class LichLamViecImlp implements LichLamViecRepository {
     }
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-          () => lichLamViecService.taoLichLamviec(_data),
-          (res) => res.toDomain(),
+      () => lichLamViecService.taoLichLamviec(_data),
+      (res) => res.toDomain(),
     );
   }
+
   @override
   Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
-      String title,
-      String typeScheduleId,
-      String linhVucId,
-      String TenTinh,
-      String TenHuyen,
-      String TenXa,
-      String countryId,
-      String dateFrom,
-      String timeFrom,
-      String dateTo,
-      String timeTo,
-      String content,
-      String location,
-      String vehicle,
-      String expectedResults,
-      String results,
-      int status,
-      String rejectReason,
-      bool publishSchedule,
-      String tags,
-      bool isLichDonVi,
-      String canBoChuTriId,
-      String donViId,
-      String note,
-      bool isAllDay,
-      bool isSendMail,
-      List<DonViModel> scheduleCoperativeRequest,
-      int typeRemider,
-      int typeRepeat,
-      String dateRepeat,
-      String dateRepeat1,
-      bool only,
-      List<int> days,
-      ) {
+    String title,
+    String typeScheduleId,
+    String linhVucId,
+    String TenTinh,
+    String TenHuyen,
+    String TenXa,
+    String countryId,
+    String dateFrom,
+    String timeFrom,
+    String dateTo,
+    String timeTo,
+    String content,
+    String location,
+    String vehicle,
+    String expectedResults,
+    String results,
+    int status,
+    String rejectReason,
+    bool publishSchedule,
+    String tags,
+    bool isLichDonVi,
+    String canBoChuTriId,
+    String donViId,
+    String note,
+    bool isAllDay,
+    bool isSendMail,
+    List<DonViModel> scheduleCoperativeRequest,
+    int typeRemider,
+    int typeRepeat,
+    String dateRepeat,
+    String dateRepeat1,
+    bool only,
+    List<int> days,
+  ) {
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
     _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
@@ -551,8 +554,8 @@ class LichLamViecImlp implements LichLamViecRepository {
     }
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-          () => lichLamViecService.taoLichLamviec(_data),
-          (res) => res.toDomain(),
+      () => lichLamViecService.taoLichLamviec(_data),
+      (res) => res.toDomain(),
     );
   }
 
@@ -609,17 +612,16 @@ class LichLamViecImlp implements LichLamViecRepository {
       HuyenSelectRequest huyenSelectRequest) {
     return runCatchingAsync<PageDaTaHuyenSelectModelResponse,
         DaTaHuyenSelectModel>(
-          () => lichLamViecService.huyenSelect(huyenSelectRequest),
-          (response) => response.data?.toModel() ?? DaTaHuyenSelectModel(),
+      () => lichLamViecService.huyenSelect(huyenSelectRequest),
+      (response) => response.data?.toModel() ?? DaTaHuyenSelectModel(),
     );
   }
 
   @override
   Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest) {
-    return runCatchingAsync<PageDaTaXaSelectModelResponse,
-        DaTaXaSelectModel>(
-          () => lichLamViecService.xaSelect(xaSelectRequest),
-          (response) => response.data?.toModel() ?? DaTaXaSelectModel(),
+    return runCatchingAsync<PageDaTaXaSelectModelResponse, DaTaXaSelectModel>(
+      () => lichLamViecService.xaSelect(xaSelectRequest),
+      (response) => response.data?.toModel() ?? DaTaXaSelectModel(),
     );
   }
 

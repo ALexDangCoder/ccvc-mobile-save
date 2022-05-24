@@ -2,10 +2,13 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/bloc/chu_de_cubit.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/sreach_sheet_btn_tablet.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/widgets/show_drop_down_button.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,15 +19,17 @@ class ChooseTimeScreen extends StatefulWidget {
   final Function(String text)? onSubmit;
   final Function()? onChangTime;
   final ChooseTimeCubit baseChooseTimeCubit;
+  final ChuDeCubit? chuDeCubit;
 
-  const ChooseTimeScreen({
-    Key? key,
-    required this.today,
-    required this.baseChooseTimeCubit,
-    this.onChange,
-    this.onSubmit,
-    this.onChangTime,
-  }) : super(key: key);
+  const ChooseTimeScreen(
+      {Key? key,
+      required this.today,
+      required this.baseChooseTimeCubit,
+      this.onChange,
+      this.onSubmit,
+      this.onChangTime,
+      this.chuDeCubit})
+      : super(key: key);
 
   @override
   _ChooseTimeScreenState createState() => _ChooseTimeScreenState();
@@ -158,48 +163,39 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
             width: 40,
           ),
           Expanded(
-            flex: 4,
-            child: TextField(
-              onChanged: (text) {
-                widget.onChange != null ? widget.onChange!(text) : null;
-              },
-              onSubmitted: (text) {
-                widget.onSubmit != null ? widget.onSubmit!(text) : null;
-              },
-              decoration: InputDecoration(
-                prefixIcon: SizedBox(
-                  width: 36,
-                  height: 14,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: SvgPicture.asset(
-                        ImageAssets.ic_KinhRong,
-                        color: AppTheme.getInstance().colorField(),
-                      ),
+              flex: 4,
+              child: GestureDetector(
+                child: Center(
+                  child: SizedBox(
+                    height: 22,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          ImageAssets.ic_box_serach,
+                          fit: BoxFit.cover,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
+                        spaceW15,
+                        Text(
+                          S.current.tim_kiem,
+                          style: textNormalCustom(
+                            color: titleColor,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-                prefixIconConstraints: const BoxConstraints(
-                  minWidth: 26,
-                  minHeight: 26,
-                ),
-                contentPadding: const EdgeInsets.only(left: 20, bottom: 10),
-                isCollapsed: true,
-                fillColor: bgDropDown.withOpacity(0.1),
-                filled: true,
-                hintText: S.current.tiem_kiem,
-                hintStyle: textNormal(
-                  sideTextInactiveColor,
-                  14,
-                ),
-                enabledBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: bgDropDown),
-                ),
-              ),
-            ),
-          )
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    child: SearchBanTinBtnSheet(
+                      cubit: widget.chuDeCubit ?? ChuDeCubit(),
+                    ),
+                    title: S.current.tim_kiem,
+                  );
+                },
+              ))
         ],
       ),
     );

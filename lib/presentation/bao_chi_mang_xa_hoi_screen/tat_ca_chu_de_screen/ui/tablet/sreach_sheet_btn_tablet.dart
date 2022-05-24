@@ -13,7 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-import 'item_search.dart';
+import 'item_search_tablet.dart';
 
 class SearchBanTinBtnSheet extends StatefulWidget {
   final ChuDeCubit cubit;
@@ -38,7 +38,9 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
       DateTime.now().formatApiEndDay,
       '',
     );
+
     super.initState();
+
   }
 
   @override
@@ -50,7 +52,7 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.65,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [

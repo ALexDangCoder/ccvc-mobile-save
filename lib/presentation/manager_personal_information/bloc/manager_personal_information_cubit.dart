@@ -50,7 +50,7 @@ class ManagerPersonalInformationCubit
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
   final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
       BehaviorSubject.seeded([]);
-  final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
+  final isCheckRegex = RegExp('[0-9]');
   final isCheckValue = RegExp(r'^[a-zA-Z0-9\+]*$');
   bool? checkLoad;
 
@@ -91,6 +91,9 @@ class ManagerPersonalInformationCubit
   AccountRepository get _managerRepo => Get.find();
   bool isChechValidate = false;
   String valueText = '';
+  String pathAnhDaiDien = '';
+  String pathAnhKyNhay = '';
+  String pathAnhChuKy = '';
 
   void checkCopyPaste(
     String value,
@@ -112,6 +115,18 @@ class ManagerPersonalInformationCubit
       return '';
     }
     return thuTu;
+  }
+
+  Future<void> uploadFile(String path) async {
+    final result = await _managerRepo.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnhChuKy = res.data?.filePath ?? '';
+        pathAnhDaiDien = res.data?.filePath ?? '';
+        pathAnhKyNhay = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> getInfo({
@@ -204,6 +219,9 @@ class ManagerPersonalInformationCubit
     String idHuyen = '',
     String idXa = '',
     String? iDDonViHoatDong,
+    String anhDaiDien = '',
+    String anhChuKy = '',
+    String anhKyNhay = '',
   }) async {
     final EditPersonInformationRequest editPerson =
         EditPersonInformationRequest(
@@ -220,9 +238,9 @@ class ManagerPersonalInformationCubit
       userId: '',
       iDDonViHoatDong: '00000000-0000-0000-0000-000000000000',
       cmtnd: cmnt,
-      anhDaiDienFilePath: '',
-      anhChuKyFilePath: '',
-      anhChuKyNhayFilePath: '',
+      anhDaiDienFilePath: anhDaiDien,
+      anhChuKyFilePath: anhChuKy,
+      anhChuKyNhayFilePath: anhKyNhay,
       bitChuyenCongTac: false,
       thoiGianCapNhat: '',
       bitNhanTinBuonEmail: false,

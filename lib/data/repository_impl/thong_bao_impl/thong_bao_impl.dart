@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/thong_bao/device_request.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
@@ -94,6 +95,22 @@ class ThongBaoImpl implements ThongBaoRepository {
   Future<Result<MessageModel>> postSetting(SettingNotifyRequest body) {
     return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
       () => service.postSettingNotify(body),
+      (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<MessageModel>> updateDevice(DeviceRequest body) {
+    return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
+      () => service.updateDevice(body),
+      (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<MessageModel>> createDevice(DeviceRequest body) {
+    return runCatchingAsync<TaoBaoCaoKetQuaResponse, MessageModel>(
+      () => service.createDevice(body),
       (res) => res.toDomain(),
     );
   }

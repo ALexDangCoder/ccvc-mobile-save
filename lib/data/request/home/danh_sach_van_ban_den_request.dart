@@ -9,6 +9,7 @@ class DanhSachVBRequest {
   String? thoiGianEndFilter;
   String? keySearch;
   bool? isDanhSachDaXuLy;
+  int? trangThaiXuLy;
 
   DanhSachVBRequest({
     this.maTrangThai,
@@ -21,6 +22,7 @@ class DanhSachVBRequest {
     this.thoiGianEndFilter,
     this.keySearch,
     this.isDanhSachDaXuLy,
+    this.trangThaiXuLy,
   });
 
   Map<String, dynamic> toJson() {
@@ -35,6 +37,8 @@ class DanhSachVBRequest {
     data['ThoiGianEndFilter'] = thoiGianEndFilter;
     data['KeySearch'] = keySearch;
     data['IsDanhSachDaXuLy'] = isDanhSachDaXuLy;
+    data['TrangThaiXuLy'] = trangThaiXuLy;
+
     return data;
   }
 }
@@ -53,19 +57,20 @@ class SearchVBRequest {
   bool? isDanhSachDaBanHanh;
   bool? isDanhSachChoTrinhKy;
 
-  SearchVBRequest(
-      {this.trangThaiFilter,
-      this.isSortByDoKhan,
-      this.size,
-      this.index,
-      this.isDaChoYKien,
-      this.isChoYKien,
-      this.ngayTaoStartSearch,
-      this.ngayTaoEndSearch,
-      this.isDanhSachChoXuLy,
-      this.isDanhSachChoCapSo,
-      this.isDanhSachDaBanHanh,
-      this.isDanhSachChoTrinhKy,});
+  SearchVBRequest({
+    this.trangThaiFilter,
+    this.isSortByDoKhan,
+    this.size,
+    this.index,
+    this.isDaChoYKien,
+    this.isChoYKien,
+    this.ngayTaoStartSearch,
+    this.ngayTaoEndSearch,
+    this.isDanhSachChoXuLy,
+    this.isDanhSachChoCapSo,
+    this.isDanhSachDaBanHanh,
+    this.isDanhSachChoTrinhKy,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -99,19 +104,20 @@ class SearchDanhSachVanBanRequest {
   bool? isDanhSachDaBanHanh;
   bool? isDanhSachChoTrinhKy;
 
-  SearchDanhSachVanBanRequest(
-      {this.trangThaiFilter,
-      this.isSortByDoKhan,
-      this.size,
-      this.index,
-      this.isDaChoYKien,
-      this.isChoYKien,
-      this.ngayTaoStartSearch,
-      this.ngayTaoEndSearch,
-      this.isDanhSachChoXuLy,
-      this.isDanhSachChoCapSo,
-      this.isDanhSachDaBanHanh,
-      this.isDanhSachChoTrinhKy,});
+  SearchDanhSachVanBanRequest({
+    this.trangThaiFilter,
+    this.isSortByDoKhan,
+    this.size,
+    this.index,
+    this.isDaChoYKien,
+    this.isChoYKien,
+    this.ngayTaoStartSearch,
+    this.ngayTaoEndSearch,
+    this.isDanhSachChoXuLy,
+    this.isDanhSachChoCapSo,
+    this.isDanhSachDaBanHanh,
+    this.isDanhSachChoTrinhKy,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

@@ -19,7 +19,6 @@ dependencies:
   auto_size_text: ^3.0.0-nullsafety.0
   optimized_cached_image: ^3.0.0
   permission_handler: ^8.1.4+2
-
   #Favourite library
   share: ^2.0.1
   provider: ^5.0.0
@@ -90,6 +89,7 @@ dependencies:
   #firebase
 
   firebase_core: ^1.12.0
+  http: ^0.13.4
   platform_device_id: ^1.0.1
 
 dev_dependencies:
@@ -98,7 +98,7 @@ dev_dependencies:
     sdk: flutter
   retrofit_generator: any
   hive_generator:
-  build_runner:  #flutter pub run build_runner build --delete-conflicting-outputs
+  build_runner: 2.1.1  #flutter pub run build_runner build --delete-conflicting-outputs
   json_serializable: ^4.1.0
   injectable_generator: ^1.4.1
   flutter_lints: ^1.0.0

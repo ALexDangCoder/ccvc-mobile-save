@@ -50,7 +50,7 @@ class ManagerPersonalInformationCubit
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
   final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
       BehaviorSubject.seeded([]);
-  final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
+  final isCheckRegex = RegExp('[0-9]');
   final isCheckValue = RegExp(r'^[a-zA-Z0-9\+]*$');
   bool? checkLoad;
 

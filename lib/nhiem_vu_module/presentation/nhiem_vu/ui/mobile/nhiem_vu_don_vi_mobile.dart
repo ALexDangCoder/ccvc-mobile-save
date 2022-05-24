@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -45,28 +44,14 @@ class NhiemVuDonViMobile extends StatefulWidget {
 
 class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
   TextEditingController textcontroller = TextEditingController();
-  late Function(int page) callBack;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    widget.danhSachCubit.mangTrangThai = '';
+    widget.danhSachCubit.keySearch = '';
     widget.danhSachCubit.callApiDonVi(false);
-    callBack = (page) {
-      widget.danhSachCubit.postDanhSachNhiemVu(
-        index: page,
-        isNhiemVuCaNhan: widget.isCheck,
-        isSortByHanXuLy: true,
-        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-        ngayTaoNhiemVu: {
-          'FromDate': widget.danhSachCubit.ngayDauTien,
-          'ToDate': widget.danhSachCubit.ngayKetThuc
-        },
-        size: widget.danhSachCubit.pageSize,
-        keySearch: widget.danhSachCubit.keySearch,
-        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-      );
-    };
   }
 
   @override
@@ -80,9 +65,9 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
-                ? Platform.isIOS ? Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: Container(
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Container(
                       margin: const EdgeInsets.only(top: 30),
                       padding: const EdgeInsets.only(right: 10),
                       decoration: BoxDecoration(
@@ -113,6 +98,28 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                         textcontroller.clear();
                                         widget.danhSachCubit.isHideClearData =
                                             false;
+                                        widget.danhSachCubit.keySearch = '';
+                                        widget.danhSachCubit.mangTrangThai = '';
+                                        widget.danhSachCubit
+                                            .postDanhSachNhiemVu(
+                                          index: 0,
+                                          isNhiemVuCaNhan: widget.isCheck,
+                                          isSortByHanXuLy: true,
+                                          mangTrangThai: [
+                                            widget.danhSachCubit.mangTrangThai
+                                          ],
+                                          ngayTaoNhiemVu: {
+                                            'FromDate': widget
+                                                .danhSachCubit.ngayDauTien,
+                                            'ToDate':
+                                                widget.danhSachCubit.ngayKetThuc
+                                          },
+                                          size: widget.danhSachCubit.pageSize,
+                                          keySearch:
+                                              widget.danhSachCubit.keySearch,
+                                          trangThaiHanXuLy: widget
+                                              .danhSachCubit.trangThaiHanXuLy,
+                                        );
                                       },
                                       child: const Icon(Icons.clear,
                                           color: coloriCon),
@@ -140,12 +147,46 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                           if (text.isEmpty) {
                             setState(() {});
                             widget.danhSachCubit.isHideClearData = false;
+                            widget.danhSachCubit.keySearch = text;
+                            widget.danhSachCubit.mangTrangThai = '';
+                            widget.danhSachCubit.postDanhSachNhiemVu(
+                              index: 0,
+                              isNhiemVuCaNhan: widget.isCheck,
+                              isSortByHanXuLy: true,
+                              mangTrangThai: [
+                                widget.danhSachCubit.mangTrangThai
+                              ],
+                              ngayTaoNhiemVu: {
+                                'FromDate': widget.danhSachCubit.ngayDauTien,
+                                'ToDate': widget.danhSachCubit.ngayKetThuc
+                              },
+                              size: widget.danhSachCubit.pageSize,
+                              keySearch: widget.danhSachCubit.keySearch,
+                              trangThaiHanXuLy:
+                                  widget.danhSachCubit.trangThaiHanXuLy,
+                            );
                           } else {
                             widget.danhSachCubit.debouncer.run(() {
                               setState(() {});
                               widget.danhSachCubit.keySearch = text;
                               widget.danhSachCubit.mangTrangThai = '';
                               widget.danhSachCubit.isHideClearData = true;
+                              widget.danhSachCubit.postDanhSachNhiemVu(
+                                index: 0,
+                                isNhiemVuCaNhan: widget.isCheck,
+                                isSortByHanXuLy: true,
+                                mangTrangThai: [
+                                  widget.danhSachCubit.mangTrangThai
+                                ],
+                                ngayTaoNhiemVu: {
+                                  'FromDate': widget.danhSachCubit.ngayDauTien,
+                                  'ToDate': widget.danhSachCubit.ngayKetThuc
+                                },
+                                size: widget.danhSachCubit.pageSize,
+                                keySearch: widget.danhSachCubit.keySearch,
+                                trangThaiHanXuLy:
+                                    widget.danhSachCubit.trangThaiHanXuLy,
+                              );
                             });
                             // setState(() {});
 
@@ -153,77 +194,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         },
                       ),
                     ),
-                ) : Container(
-              margin: const EdgeInsets.only(top: 30),
-              padding: const EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: cellColorborder,
-                ),
-              ),
-              child: TextFormField(
-                controller: textcontroller,
-                // focusNode: focusNode,
-                textAlignVertical: TextAlignVertical.center,
-                cursorColor: colorBlack,
-                style: tokenDetailAmount(
-                  color: colorBlack,
-                  fontSize: 14,
-                ),
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  suffixIcon: widget.danhSachCubit.isHideClearData
-                      ? SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {});
-                          textcontroller.clear();
-                          widget.danhSachCubit.isHideClearData =
-                          false;
-                        },
-                        child: const Icon(Icons.clear,
-                            color: coloriCon),
-                      ),
-                    ),
                   )
-                      : const SizedBox(),
-                  prefixIcon: GestureDetector(
-                    onTap: () {
-                      widget.danhSachCubit.setSelectSearch();
-                    },
-                    child: const Icon(
-                      Icons.search,
-                      color: coloriCon,
-                    ),
-                  ),
-                  border: InputBorder.none,
-                  hintText: S.current.tim_kiem,
-                  hintStyle: const TextStyle(
-                    color: coloriCon,
-                    fontSize: 14,
-                  ),
-                ),
-                onChanged: (text) {
-                  if (text.isEmpty) {
-                    setState(() {});
-                    widget.danhSachCubit.isHideClearData = false;
-                  } else {
-                    widget.danhSachCubit.debouncer.run(() {
-                      setState(() {});
-                      widget.danhSachCubit.keySearch = text;
-                      widget.danhSachCubit.mangTrangThai = '';
-                      widget.danhSachCubit.isHideClearData = true;
-                    });
-                    // setState(() {});
-
-                  }
-                },
-              ),
-            )
                 : AppBar(
                     elevation: 0.0,
                     title: Text(
@@ -270,18 +241,18 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
         ),
       ),
       body: GestureDetector(
-        onTap: (){
-          if(widget.danhSachCubit.checkClickSearch.value==true) {
+        onTap: () {
+          if (widget.danhSachCubit.checkClickSearch.value == true) {
             widget.danhSachCubit.checkClickSearch.sink.add(false);
             widget.danhSachCubit.isHideClearData = false;
-            widget.danhSachCubit.keySearch='';
+            widget.danhSachCubit.keySearch = '';
             textcontroller.clear();
           }
         },
         child: ComplexLoadMore(
           childrenView: [
             FilterDateTimeWidget(
-              initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien) ,
+              initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
               context: context,
               isMobile: true,
               onChooseDateFilter: (startDate, endDate) {
@@ -326,7 +297,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               const EdgeInsets.only(bottom: 20.0, left: 16.0),
                           child: StreamBuilder<List<ChartData>>(
                             stream: widget.danhSachCubit.statusSuject,
-                            initialData: widget.danhSachCubit.chartDataNhiemVuCaNhan,
+                            initialData:
+                                widget.danhSachCubit.chartDataNhiemVuCaNhan,
                             builder: (context, snapshot) {
                               final data = snapshot.data ??
                                   widget.danhSachCubit.chartDataNhiemVuCaNhan;
@@ -342,14 +314,19 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                       index: 0,
                                       isNhiemVuCaNhan: widget.isCheck,
                                       isSortByHanXuLy: true,
-                                      mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                      mangTrangThai: [
+                                        widget.danhSachCubit.mangTrangThai
+                                      ],
                                       ngayTaoNhiemVu: {
-                                        'FromDate': widget.danhSachCubit.ngayDauTien,
-                                        'ToDate': widget.danhSachCubit.ngayKetThuc
+                                        'FromDate':
+                                            widget.danhSachCubit.ngayDauTien,
+                                        'ToDate':
+                                            widget.danhSachCubit.ngayKetThuc
                                       },
                                       size: widget.danhSachCubit.pageSize,
                                       keySearch: widget.danhSachCubit.keySearch,
-                                      trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                      trangThaiHanXuLy:
+                                          widget.danhSachCubit.trangThaiHanXuLy,
                                     );
                                   });
                                 },
@@ -362,14 +339,19 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                       index: 0,
                                       isNhiemVuCaNhan: widget.isCheck,
                                       isSortByHanXuLy: true,
-                                      mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                      mangTrangThai: [
+                                        widget.danhSachCubit.mangTrangThai
+                                      ],
                                       ngayTaoNhiemVu: {
-                                        'FromDate': widget.danhSachCubit.ngayDauTien,
-                                        'ToDate': widget.danhSachCubit.ngayKetThuc
+                                        'FromDate':
+                                            widget.danhSachCubit.ngayDauTien,
+                                        'ToDate':
+                                            widget.danhSachCubit.ngayKetThuc
                                       },
                                       size: widget.danhSachCubit.pageSize,
                                       keySearch: widget.danhSachCubit.keySearch,
-                                      trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                      trangThaiHanXuLy:
+                                          widget.danhSachCubit.trangThaiHanXuLy,
                                     );
                                   });
                                 },
@@ -388,20 +370,16 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                             ontap: (value) {
                               widget.danhSachCubit.mangTrangThai = value;
                               widget.danhSachCubit.trangThaiHanXuLy = null;
-                              setState(() {
-                                callBack;
-                              });
+                              setState(() {});
                             },
                           ),
                         );
                       } else {
                         return StatusWidget(
-                          listData:widget.danhSachCubit.listData ,
+                          listData: widget.danhSachCubit.listData,
                           listStatusData: widget.danhSachCubit.listStatusData,
-                          title:
-                          widget.danhSachCubit.titleNhiemVu,
+                          title: widget.danhSachCubit.titleNhiemVu,
                         );
-
                       }
                     })),
             Container(
@@ -456,15 +434,15 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
 }
 
 class MySeparator extends StatelessWidget {
-  const MySeparator(
-      {Key? key,
-      this.width = 1,
-      this.color = colorBlack,
-      this.height = 10,
-      required this.dashCountRow,
-      required this.heSo,
-      required this.scale,})
-      : super(key: key);
+  const MySeparator({
+    Key? key,
+    this.width = 1,
+    this.color = colorBlack,
+    this.height = 10,
+    required this.dashCountRow,
+    required this.heSo,
+    required this.scale,
+  }) : super(key: key);
   final double width;
   final Color color;
   final double height;
@@ -478,7 +456,7 @@ class MySeparator extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         const dashHeight = 6.0;
         final dashWidth = width;
-        final dashCount = (height /(dashHeight*1.5)).floor()+1;
+        final dashCount = (height / (dashHeight * 1.5)).floor() + 1;
         return Row(
           children: List.generate(dashCountRow, (index) {
             final String indexTrucHoanh = (index * scale).toString();
@@ -492,7 +470,7 @@ class MySeparator extends StatelessWidget {
                     direction: Axis.vertical,
                     children: List.generate(dashCount, (_) {
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: dashHeight/2),
+                        padding: const EdgeInsets.only(bottom: dashHeight / 2),
                         child: SizedBox(
                           height: dashHeight,
                           width: dashWidth,
@@ -503,10 +481,10 @@ class MySeparator extends StatelessWidget {
                       );
                     }),
                   ),
-                  const SizedBox(height:5),
+                  const SizedBox(height: 5),
                   Text(
                     indexTrucHoanh,
-                    style:textNormal(
+                    style: textNormal(
                       coloriCon,
                       12,
                     ),
@@ -527,7 +505,10 @@ class StatusWidget extends StatefulWidget {
   final List<String> title;
 
   const StatusWidget(
-      {Key? key, required this.listData, required this.listStatusData, required this.title})
+      {Key? key,
+      required this.listData,
+      required this.listStatusData,
+      required this.title})
       : super(key: key);
 
   @override
@@ -541,8 +522,7 @@ class _StatusWidgetState extends State<StatusWidget> {
   late double height = 10;
   late int sumRowChart = 0;
   late double countRangeChart = 0;
-  final BehaviorSubject<double> setHeight =
-  BehaviorSubject.seeded(0);
+  final BehaviorSubject<double> setHeight = BehaviorSubject.seeded(0);
 
   @override
   void initState() {
@@ -554,7 +534,6 @@ class _StatusWidgetState extends State<StatusWidget> {
       height = renderBox.size.height;
       setHeight.sink.add(height);
     });
-
   }
 
   @override
@@ -572,17 +551,18 @@ class _StatusWidgetState extends State<StatusWidget> {
             Expanded(
               flex: 4,
               child: Container(
-                padding: const EdgeInsets.only(top:20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Column(
                   children: List.generate(widget.title.length, (index) {
                     return Container(
-                      margin: const EdgeInsets.only(right: 8,top: 20,left: 16),
+                      margin:
+                          const EdgeInsets.only(right: 8, top: 20, left: 16),
                       child: Text(
                         widget.title[index],
                         textAlign: TextAlign.right,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style:  textNormal(
+                        style: textNormal(
                           infoColor,
                           14.0,
                         ),
@@ -600,8 +580,8 @@ class _StatusWidgetState extends State<StatusWidget> {
                   children: [
                     StreamBuilder<double>(
                       stream: setHeight.stream,
-                      builder: (context, snapshot){
-                        final height=snapshot.data??0;
+                      builder: (context, snapshot) {
+                        final height = snapshot.data ?? 0;
                         return MySeparator(
                           heSo: heSo,
                           scale: scale,
@@ -616,7 +596,7 @@ class _StatusWidgetState extends State<StatusWidget> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(top:20),
+                          padding: const EdgeInsets.only(top: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -627,7 +607,8 @@ class _StatusWidgetState extends State<StatusWidget> {
                                 children: [
                                   Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
@@ -638,7 +619,8 @@ class _StatusWidgetState extends State<StatusWidget> {
                                         child: Row(
                                           children: [
                                             Row(
-                                              children: element.reversed.map((e) {
+                                              children:
+                                                  element.reversed.map((e) {
                                                 sumRowChart += e.value.toInt();
                                                 return Container(
                                                   height: 28,
@@ -646,7 +628,9 @@ class _StatusWidgetState extends State<StatusWidget> {
                                                   color: e.color,
                                                   child: Center(
                                                     child: Text(
-                                                      e.value.toInt().toString(),
+                                                      e.value
+                                                          .toInt()
+                                                          .toString(),
                                                       style: textNormal(
                                                         backgroundColorApp,
                                                         14.0.textScale(),
@@ -659,10 +643,13 @@ class _StatusWidgetState extends State<StatusWidget> {
                                             const SizedBox(
                                               width: 6,
                                             ),
-                                            Text(sumRowChart.toString(), style:  textNormal(
-                                              infoColor,
-                                              14.0,
-                                            ),),
+                                            Text(
+                                              sumRowChart.toString(),
+                                              style: textNormal(
+                                                infoColor,
+                                                14.0,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -681,7 +668,7 @@ class _StatusWidgetState extends State<StatusWidget> {
             ),
           ],
         ),
-         const SizedBox(
+        const SizedBox(
           height: 24,
         ),
         Padding(

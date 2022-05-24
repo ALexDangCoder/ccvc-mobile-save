@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
@@ -48,16 +49,20 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                 name: S.current.ten_don_vi,
                 child: Row(
                   children: [
-                    Text(
-                      '${widget.infoModel.tenCoQuan}',
-                      style: textNormalCustom(
-                        fontSize: 14,
-                        color: infoColor,
+                    Expanded(
+                      child: Text(
+                        '${widget.infoModel.tenCoQuan}',
+                        style: textNormalCustom(
+                          fontSize: 14,
+                          color: infoColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const Expanded(child: SizedBox()),
                     if (widget.infoModel.showCheckBox())
                       CustomCheckBox(
+                        isOnlyCheckbox: true,
                         title: '',
                         isCheck: isChecked,
                         onChange: (isCheck) {
@@ -65,7 +70,6 @@ class _CellThanhPhanThamGiaState extends State<CellThanhPhanThamGia> {
                             isSelected: isChecked,
                             id: widget.infoModel.id ?? '',
                           );
-                          // widget.cubit.checkAllSelect();
                           setState(() {});
                         },
                       )

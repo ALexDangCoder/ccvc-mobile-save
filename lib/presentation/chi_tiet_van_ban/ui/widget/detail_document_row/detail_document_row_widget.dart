@@ -14,8 +14,9 @@ import 'bloc/detail_row_cubit.dart';
 
 class DetailDocumentRow extends StatefulWidget {
   final DocumentDetailRow row;
+  final bool isTablet;
 
-  const DetailDocumentRow({Key? key, required this.row}) : super(key: key);
+  const DetailDocumentRow({Key? key, required this.row, this.isTablet =false}) : super(key: key);
 
   @override
   State<DetailDocumentRow> createState() => _DetailDocumentRowState();

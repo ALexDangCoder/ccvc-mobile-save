@@ -127,7 +127,10 @@ class _BieuDoNhiemVuCaNhanRowTabletState
                           Flexible(
                             child: FittedBox(
                               child: Text(
-                                '${result.title} (${result.value.toInt()})',
+                                '${result.title.split(' ')
+                                    .join('_')
+                                    .toUpperCase()
+                                    .vietNameseParse().titleTrangThai()} (${result.value.toInt()})',
                                 style: textNormal(
                                   infoColor,
                                   14.0.textScale(),

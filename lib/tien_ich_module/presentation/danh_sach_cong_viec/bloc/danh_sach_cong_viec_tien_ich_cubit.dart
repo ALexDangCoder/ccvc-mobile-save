@@ -273,7 +273,7 @@ class DanhSachCongViecTienIchCubit
           res,
         );
         listDSCV.sink.add(data);
-
+        callAndFillApiAutu();
         closeDialog();
       },
       error: (err) {
@@ -363,12 +363,7 @@ class DanhSachCongViecTienIchCubit
 
   String person = '';
 
-  void getPersontodo({required String person}) {
-    this.person = person;
-  }
-
   ///chinh sưa và update công việc
-
   Future<void> editWork({
     bool? isTicked,
     bool? important,
@@ -400,8 +395,8 @@ class DanhSachCongViecTienIchCubit
         final data = listDSCV.value;
         if (isTicked != null) {
           data.insert(0, res);
-          listDSCV.sink.add(data);
           data.remove(todo);
+          listDSCV.sink.add(data);
         }
         if (important != null) {
           data.insert(data.indexOf(todo), res);
@@ -411,9 +406,7 @@ class DanhSachCongViecTienIchCubit
           data.remove(todo);
           listDSCV.sink.add(data);
         }
-        if (isDeleted != null) {
-          data.remove(todo);
-        }
+        if (isDeleted != null) {}
         callAndFillApiAutu();
       },
       error: (err) {},

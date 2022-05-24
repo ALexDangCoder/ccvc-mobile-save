@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -100,15 +101,12 @@ class _SuaPhienHopScreenState extends State<SuaPhienHopScreen> {
                   Navigator.pop(context, true);
                 }).onError((error, stackTrace) {
                   MessageConfig.show(
-                    title: S.current.sua_that_bai,
-                    messState: MessState.error
-                  );
+                      title: S.current.sua_that_bai,
+                      messState: MessState.error);
                 });
               } else {
                 MessageConfig.show(
-                  title: S.current.sua_that_bai,
-                    messState: MessState.error
-                );
+                    title: S.current.sua_that_bai, messState: MessState.error);
               }
             },
             onPressed1: () {

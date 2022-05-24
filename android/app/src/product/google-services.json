@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "222424476578",
+    "project_id": "mpi-synodus",
+    "storage_bucket": "mpi-synodus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222424476578:android:50c6061fd2dcd2e02ea0fb",
+        "android_client_info": {
+          "package_name": "com.edsolabs.ccvc_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222424476578-jbcfmgs5ceaa13uijdmonr8ptrhvujo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8ZcOtwsfuWKDxaQpaDwCAShBwHP1CMsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222424476578-jbcfmgs5ceaa13uijdmonr8ptrhvujo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

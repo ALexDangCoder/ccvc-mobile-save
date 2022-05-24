@@ -331,6 +331,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       size: size,
           trangThaiHanXuLy: trangThaiHanXuLy,
     );
+     showLoading();
     loadMorePage = index ?? 1;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
@@ -338,12 +339,14 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         dataSubject.sink.add(res.pageData ?? []);
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
+            showContent();
             emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
           }
         } else {
+          showContent();
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
         }
       },
@@ -406,6 +409,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required String ngayDauTien,
     required String ngayCuoiCung,
   }) async {
+    showLoading();
     final result = await repo.getDashBroashNhiemVu(ngayDauTien, ngayCuoiCung);
     result.when(
       success: (res) {
@@ -546,7 +550,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       choTrinhKyColor,
     ),
     ChartData(
-      S.current.da_hoan_thanh,
+      S.current.da_thuc_hien,
       0,
       daXuLyColor,
     ),
@@ -578,15 +582,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     ChartData(
       S.current.chua_thuc_hien,
       0,
-      statusCalenderRed,
+      choVaoSoColor,
     ),
     ChartData(
       S.current.dang_thuc_hien,
       0,
-      yellowColor,
+      choTrinhKyColor,
     ),
     ChartData(
-      S.current.da_hoan_thanh,
+      S.current.da_thuc_hien,
       0,
       daXuLyColor,
     ),

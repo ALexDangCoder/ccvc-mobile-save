@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/chart/status_widget.dart';
@@ -14,6 +15,7 @@ class CommonInformationMobile extends StatefulWidget {
   final Function(String) onPieTap;
   final List<ChartData> chartData;
   final bool isTablet;
+  final Function(String) onStatusTap;
 
   const CommonInformationMobile({
     Key? key,
@@ -22,6 +24,7 @@ class CommonInformationMobile extends StatefulWidget {
     required this.onPieTap,
     required this.chartData,
     this.isTablet = false,
+    required this.onStatusTap,
   }) : super(key: key);
 
   @override
@@ -31,6 +34,8 @@ class CommonInformationMobile extends StatefulWidget {
 
 class _CommonInformationMobileState extends State<CommonInformationMobile> {
   int selectedIndex = -1;
+  String sKey = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +43,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         PieChart(
+          isVectical: !widget.isTablet,
           title: widget.title ?? '',
           tittleStyle: textNormalCustom(
             color: textTitle,
@@ -56,6 +62,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
             ),
           ),
           onTap: (int value) {
+            sKey = '';
             selectedIndex = selectedIndex == value ? -1 : value;
             widget.onPieTap(
               getCodeFromTitlePieChart(widget.chartData[value].title),
@@ -66,24 +73,37 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
         Container(height: 20),
         if (widget.documentDashboardModel != null)
           StatusWidget(
+            key: UniqueKey(),
+            selectedKey: sKey,
             showZeroValue: false,
             horizontalView: widget.isTablet,
+            onSelectItem: (e) {
+              widget.onStatusTap(e);
+              sKey = e;
+              selectedIndex = -1;
+              setState(() {
+
+              });
+            },
             listData: [
               ChartData(
                 S.current.qua_han,
                 widget.documentDashboardModel?.soLuongQuaHan?.toDouble() ?? 0.0,
                 statusCalenderRed,
+                key: DocumentState.QUA_HAN,
               ),
               ChartData(
                 S.current.den_han,
                 widget.documentDashboardModel?.soLuongDenHan?.toDouble() ?? 0.0,
                 textColorForum,
+                key: DocumentState.DEN_HAN,
               ),
               ChartData(
                 S.current.trong_han,
                 widget.documentDashboardModel?.soLuongTrongHan?.toDouble() ??
                     0.0,
                 choTrinhKyColor,
+                key: DocumentState.TRONG_HAN,
               )
             ],
           )

@@ -56,10 +56,16 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                     chartData: widget.qlvbCubit.chartDataVbDen,
                     documentDashboardModel: dataVBDen,
                     onPieTap: (value) {
+                      widget.qlvbCubit.documentInSubStatusCode = '';
                       widget.qlvbCubit.documentInStatusCode =
                           widget.qlvbCubit.documentInStatusCode == value
                               ? ''
                               : value;
+                      widget.qlvbCubit.listDataDanhSachVBDen();
+                    },
+                    onStatusTap: (key){
+                      widget.qlvbCubit.documentInStatusCode = '';
+                      widget.qlvbCubit.documentInSubStatusCode = key;
                       widget.qlvbCubit.listDataDanhSachVBDen();
                     },
                   );

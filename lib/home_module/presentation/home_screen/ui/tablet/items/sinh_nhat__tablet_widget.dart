@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/tablet/thiep_chuc_sinh_nhat_tablet_screen.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -97,7 +99,21 @@ class _EventOfDayWidgetState extends State<SinhNhatTabletWidget> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: EventWidget(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ThiepChucMungTabletScreen(
+                                        sinhNhatUserModel: result,
+                                      ),
+                                ),
+                              ).then((value) {
+                                if (value != null) {
+                                  MessageConfig.show(title: value);
+                                }
+                              });
+                            },
                             title: result.title(),
                           ),
                         );
@@ -107,53 +123,6 @@ class _EventOfDayWidgetState extends State<SinhNhatTabletWidget> {
                 },
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                padding: const EdgeInsets.only(left: 30, right: 30),
-                child: Row(
-                  children: [
-                    Text(
-                      S.current.tin_buon,
-                      style: textNormalCustom(color: specialPriceColor),
-                    ),
-                    spaceW16,
-                    SizedBox(
-                      height: 30,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 6,
-                        itemBuilder: (index, context) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20, right: 16),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 6,
-                                  width: 6,
-                                  decoration: const BoxDecoration(
-                                    color: titleColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                spaceW8,
-                                Text(
-                                  S.current.tin_buon,
-                                  style: textNormalCustom(color: titleColor),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       ),

@@ -1,4 +1,3 @@
-
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -89,6 +88,9 @@ const EN_CODE = 'en';
 const VI_CODE = 'vi';
 const VI_LANG = 'vn';
 
+const EN_US_VOICE  = 'en_US';
+const VI_VN_VOICE  = 'vi_VN';
+
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 const VN_PHONE = r'(84|0[3|5|7|8|9])+([0-9]{8})\b';
@@ -164,3 +166,9 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
+
+const String north_female_lien = 'north_female_lien';
+const String north_male_hieu = 'north_male_hieu';
+const String north_female_hongha = 'north_female_hongha';
+const String south_female_aihoa = 'south_female_aihoa';
+const String south_female_minhnguyet = 'south_female_minhnguyet';

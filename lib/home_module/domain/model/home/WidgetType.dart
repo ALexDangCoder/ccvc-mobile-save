@@ -115,7 +115,7 @@ class WidgetModel {
       case WidgetTypeConstant.SINH_NHAT:
         return WidgetType.sinhNhat;
       case WidgetTypeConstant.TINH_HINH_XU_LY_Y_KIEN:
-        return WidgetType.situationHandlingPeople;
+        return WidgetType.phanAnhKienNghiDonVi;
       case WidgetTypeConstant.NHIEM_VU:
         return WidgetType.nhiemVu;
     }

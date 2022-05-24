@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -76,59 +75,61 @@ class _EditPersonalInformationScreen
     final Map<String, dynamic> user =
         cubit.managerPersonalInformationModel.getInfoToMap();
 
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: BaseAppBar(
-        title: S.current.chinh_sua_thong_tin,
-        leadingIcon: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: SvgPicture.asset(ImageAssets.icBack),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: TextButton(
+    return StateStreamLayout(
+      textEmpty: S.current.khong_co_du_lieu,
+      retry: () {},
+      error: AppException('1', ''),
+      stream: cubit.stateStream,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: BaseAppBar(
+          title: S.current.chinh_sua_thong_tin,
+          leadingIcon: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: SvgPicture.asset(ImageAssets.icBack),
               onPressed: () {
-                showDiaLogTablet(
-                  context,
-                  title: S.current.ban_co_chac_muon,
-                  child: Container(),
-                  funcBtnOk: () {
-                    cubit.getInfo(id: widget.id);
-                    cubit.huyenSubject.sink.add([]);
-                    cubit.xaSubject.sink.add([]);
-                  },
-                  btnRightTxt: S.current.dong_y,
-                  btnLeftTxt: S.current.khong,
-                  title2: S.current.khong_edit,
-                  title1: S.current.reset,
-                  isPhone: true,
-                );
+                Navigator.pop(context);
               },
-              child: Text(
-                S.current.reset,
-                style: textNormalCustom(
-                  fontSize: 14,
-                  color: AppTheme.getInstance().colorField(),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: TextButton(
+                onPressed: () {
+                  showDiaLogTablet(
+                    context,
+                    title: S.current.ban_co_chac_muon,
+                    child: Container(),
+                    funcBtnOk: () {
+                      cubit.getInfo(id: widget.id);
+                      cubit.huyenSubject.sink.add([]);
+                      cubit.xaSubject.sink.add([]);
+                    },
+                    btnRightTxt: S.current.dong_y,
+                    btnLeftTxt: S.current.khong,
+                    title2: S.current.khong_edit,
+                    title1: S.current.reset,
+                    isPhone: true,
+                  );
+                },
+                child: Text(
+                  S.current.reset,
+                  style: textNormalCustom(
+                    fontSize: 14,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      ),
-      body: StateStreamLayout(
-        textEmpty: S.current.khong_co_du_lieu,
-        retry: () {},
-        error: AppException('1', ''),
-        stream: cubit.stateStream,
-        child: RefreshIndicator(
+            )
+          ],
+        ),
+        body: RefreshIndicator(
           onRefresh: () async {
             await cubit.getInfo(id: widget.id);
+            cubit.huyenSubject.sink.add([]);
+            cubit.xaSubject.sink.add([]);
             if (keyGroup.currentState!.validator()) {
             } else {}
           },
@@ -181,19 +182,23 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
+                          maxLength: 2,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(value, thuTuController, 2);
-                          },
                           onChange: (value) {
                             if (value.length > 2) {
                               final input = value.substring(0, 2);
-                              thuTuController.text = input;
-                              thuTuController.selection =
+                              sdtCoquanController.text = input;
+                              sdtCoquanController.selection =
                                   TextSelection.fromPosition(
                                 const TextPosition(offset: 2),
                               );
                             }
+                          },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
                           },
                         ),
                       ),
@@ -219,10 +224,8 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.cmnd,
                           controller: cmndController,
+                          maxLength: 255,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(value, cmndController, 255);
-                          },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -232,6 +235,12 @@ class _EditPersonalInformationScreen
                                 const TextPosition(offset: 255),
                               );
                             }
+                          },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
                           },
                         ),
                       ),
@@ -285,13 +294,7 @@ class _EditPersonalInformationScreen
                           hintText: S.current.sdt_co_quan,
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(
-                              value,
-                              sdtCoquanController,
-                              255,
-                            );
-                          },
+                          maxLength: 255,
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -302,6 +305,12 @@ class _EditPersonalInformationScreen
                               );
                             }
                           },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
+                          },
                         ),
                       ),
                       //
@@ -310,14 +319,8 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.so_dien_thoai,
                           controller: sdtController,
+                          maxLength: 255,
                           textInputType: TextInputType.number,
-                          onPaste: (value) {
-                            cubit.checkCopyPaste(
-                              value,
-                              sdtController,
-                              255,
-                            );
-                          },
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -327,6 +330,12 @@ class _EditPersonalInformationScreen
                                 const TextPosition(offset: 255),
                               );
                             }
+                          },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
                           },
                         ),
                       ),
@@ -348,16 +357,16 @@ class _EditPersonalInformationScreen
                                 cubit.managerPersonalInformationModel.huyen =
                                     null;
                                 cubit.managerPersonalInformationModel.xa = null;
-
+                                cubit.idXa = '';
+                                cubit.idHuyen = '';
                                 cubit.getDataHuyenXa(
                                   isXa: false,
-                                  parentId: cubit.tinhModel[indexes].id ?? '',
+                                  parentId: id,
                                 );
                                 if (indexes >= 0) {
                                   cubit.isCheckTinhSubject.sink.add(false);
                                 }
-                                cubit.tinh = data[indexes].name ?? '';
-                                cubit.idTinh = data[indexes].id ?? '';
+                                cubit.idTinh = id;
                               },
                               onRemove: () {
                                 cubit.huyenSubject.sink.add([]);
@@ -390,13 +399,12 @@ class _EditPersonalInformationScreen
                                 cubit.managerPersonalInformationModel.xa = null;
                                 cubit.getDataHuyenXa(
                                   isXa: true,
-                                  parentId: cubit.huyenModel[indexes].id ?? '',
+                                  parentId: id,
                                 );
                                 if (indexes >= 0) {
                                   cubit.isCheckTinhSubject.sink.add(false);
                                 }
-                                cubit.huyen = data[indexes].name ?? '';
-                                cubit.idHuyen = data[indexes].id ?? '';
+                                cubit.idHuyen = id;
                               },
                               onRemove: () {
                                 cubit.xaSubject.sink.add([]);
@@ -425,8 +433,7 @@ class _EditPersonalInformationScreen
                                 if (indexes >= 0) {
                                   cubit.isCheckTinhSubject.sink.add(false);
                                 }
-                                cubit.xa = data[indexes].name ?? '';
-                                cubit.idXa = data[indexes].id ?? '';
+                                cubit.idXa = id;
                               },
                               onRemove: () {
                                 cubit.isCheckTinhSubject.sink.add(true);
@@ -502,20 +509,15 @@ class _EditPersonalInformationScreen
                               idTinh: cubit.idTinh,
                               idHuyen: cubit.idHuyen,
                               idXa: cubit.idXa,
+                              anhChuKy: cubit.pathAnhChuKy,
+                              anhDaiDien: cubit.pathAnhDaiDien,
+                              anhKyNhay: cubit.pathAnhKyNhay,
                             )
-                                .then(
-                              (value) {
-                                return MessageConfig.show(
-                                  title: S.current.thay_doi_thanh_cong,
-                                );
-                              },
-                            ).onError(
-                              (error, stackTrace) => MessageConfig.show(
-                                title: S.current.thay_doi_that_bai,
-                                messState: MessState.error,
-                              ),
-                            );
-                            Navigator.pop(context, true);
+                                .then((value) {
+                              if (value) {
+                                Navigator.pop(context, true);
+                              }
+                            });
                           } else {
                             return;
                           }

@@ -72,19 +72,6 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                     SelectKey.DON_VI,
                   ],
                 ),
-                DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _nhiemVuCubit.selectDate(
-                      selectKey: value,
-                      startDate: startDate,
-                      endDate: endDate,
-                    );
-                  },
-                  startDate: _nhiemVuCubit.startDate,
-                  endDate: _nhiemVuCubit.endDate,
-                  title: S.current.time,
-                  initValue: _nhiemVuCubit.selectKeyTime,
-                )
               ],
             );
           }),
@@ -116,23 +103,23 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                     final result = data[index];
                     return GestureDetector(
                       onTap: () {
-                        _nhiemVuCubit.clickScreen(result.tongHopNhiemVuModel);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DanhSachNhiemVuMobile(
-                              ngayBatDau: _nhiemVuCubit.startDate.toString(),
-                              ngayKetThuc: _nhiemVuCubit.endDate.toString(),
-                              // ignore: avoid_bool_literals_in_conditional_expressions
-                              isCheck: _nhiemVuCubit.selectKeyDonVi ==
-                                      SelectKey.DON_VI
-                                  ? false
-                                  : true,
-                              mangTrangThai: _nhiemVuCubit.mangTrangThai,
-                              trangThaiHanXuLy: _nhiemVuCubit.trangThaiHanXuLy,
-                            ),
-                          ),
-                        );
+                        // _nhiemVuCubit.clickScreen(result.tongHopNhiemVuModel);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DanhSachNhiemVuMobile(
+                        //       ngayBatDau: _nhiemVuCubit.startDate.toString(),
+                        //       ngayKetThuc: _nhiemVuCubit.endDate.toString(),
+                        //       // ignore: avoid_bool_literals_in_conditional_expressions
+                        //       isCheck: _nhiemVuCubit.selectKeyDonVi ==
+                        //               SelectKey.DON_VI
+                        //           ? false
+                        //           : true,
+                        //       mangTrangThai: _nhiemVuCubit.mangTrangThai,
+                        //       trangThaiHanXuLy: _nhiemVuCubit.trangThaiHanXuLy,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: NhiemVuWidget(
                         title: result.tongHopNhiemVuModel.getText(),

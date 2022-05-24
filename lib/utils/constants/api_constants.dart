@@ -56,6 +56,8 @@ class ApiConstants {
   static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay?';
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
+  static const UPLOAD_FILE = '/api/CanBo/upload';
+
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';
@@ -135,7 +137,8 @@ class ApiConstants {
       '/vpdt/api/Files/add-file-with-meeting';
 
   static const TAO_LICH_LAM_VIEC = '/vpdt/api/Schedules';
-  static const CHECK_TRUNG_LICH_LICH_LAM_VIEC = '/vpdt/api/Schedules/Check-trung-lich';
+  static const CHECK_TRUNG_LICH_LICH_LAM_VIEC =
+      '/vpdt/api/Schedules/Check-trung-lich';
   static const TAO_BAO_KET_QUA = '/vpdt/api/ScheduleReport/create';
 
   static const DETAIL_MEETING_SCHEDULE = '/vpdt/api/MeetingSchedule/detail';
@@ -170,6 +173,7 @@ class ApiConstants {
   static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
   static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
   static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
+  static const THEO_DOI_VAN_BAN_DA_BAN_HANH = '/qlvb/api/van-ban-di/{myId}/lich-su-theo-doi-van-ban';
   static const XEM_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/xem-ket-luan';
   static const LICH_SU_VAN_BAN_DEN = '/qlvb/api/vanban/lich-su-by-type';
   static const LIST_PERMISSION = '/api/auth/list-permission';
@@ -233,12 +237,20 @@ class ApiConstants {
   static const TIEN_TRINH_XU_LY = '/pakn/api/KienNghi/TienTrinhXulyPAKN';
   static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
+  static const SETTING_NOTIFY = '/api/Notification/setting';
   static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
+  static const READ_ALL = '/api/Notification/read-all';
   static const DELETE_NOTIFY = '/api/Notification/delete';
   static const TINH_SELECT = '/vpdt/api/Country/province-list';
   static const HUYEN_SELECT = '/vpdt/api/Country/disytrict-list';
   static const XA_SELECT = '/vpdt/api/Country/wards-list';
   static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
+  static const POST_Y_KIEN_XU_LY = '/pakn/api/TaskYKien/XinYKien';
+  static const POST_CHO_Y_KIEN_XU_LY = '/PAKN/api/TaskYKien/ChoYKien';
+  static const GET_LOCATION_ADDRESS = '/pakn/api/location';
+  static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
+  static const CREATE_DEVICE = '/api/DeviceNotification/create-device';
+  static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
 }
 
 class ImageConstants {

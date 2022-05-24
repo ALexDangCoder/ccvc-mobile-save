@@ -65,7 +65,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          DateTime.parse(widget.object.ngayTao ?? '')
+                          DateTime.parse(widget.object.ngayTao)
                               .formatDdMMYYYY,
                           softWrap: true,
                           style: textNormalCustom(

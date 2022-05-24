@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/main.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/xem_luong_xu_ly/xem_luong_xu_ly_nhiem_vu.dart';
 
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/manager_personal_information.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
@@ -66,7 +67,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              await menuCubit.refeshUser();
+              await menuCubit.refeshMenu();
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -117,7 +118,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                         context,
                                         PageRouteBuilder(
                                           pageBuilder: (_, __, ___) =>
-                                              type.getScreen(),
+                                          type.getScreen(),
                                         ),
                                       );
                                     },

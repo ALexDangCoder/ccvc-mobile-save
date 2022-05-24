@@ -1,6 +1,9 @@
 
 
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
 import '/home_module/data/request/home/danh_sach_van_ban_den_request.dart';
@@ -26,7 +29,7 @@ abstract class HomeRepository {
 
   Future<Result<DateModel>> getLunarDate(String inputDate);
 
-  Future<Result<List<TinhHuongKhanCapModel>>> getTinhHuongKhanCap();
+  Future<Result<List<TinBuonModel>>> getTinBuon();
 
   Future<Result<List<WidgetModel>>> getDashBoardConfig();
 
@@ -51,7 +54,7 @@ abstract class HomeRepository {
   Future<Result<List<TinhHinhYKienModel>>> getTinhHinhYKienNguoiDan(
       String donViId, String tuNgay, String denNgay);
 
-  Future<Result<List<DocumentModel>>> getYKienNguoidan(
+  Future<Result<List<YKienNguoiDanModel>>> getYKienNguoidan(
       int pageSize,
       int page,
       String trangThai,
@@ -86,4 +89,5 @@ abstract class HomeRepository {
       String dataFrom, String dateTo);
   Future<Result<List<CalendarMeetingModel>>> getDanhSachCongViec(
       DanhSachCongViecRequest request);
+  Future<Result<MessageModel>> guiLoiChuc(GuiLoiChucRequest guiLoiChucRequest);
 }

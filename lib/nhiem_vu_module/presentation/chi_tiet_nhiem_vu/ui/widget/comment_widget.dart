@@ -14,7 +14,8 @@ import 'package:permission_handler/permission_handler.dart';
 class YKienSuLyNhiemVuWidget extends StatefulWidget {
   final YKienSuLyNhiemVuModel object;
 
-  const YKienSuLyNhiemVuWidget({Key? key, required this.object}) : super(key: key);
+  const YKienSuLyNhiemVuWidget({Key? key, required this.object})
+      : super(key: key);
 
   @override
   _YKienSuLyNhiemVuWidgetState createState() => _YKienSuLyNhiemVuWidgetState();
@@ -33,178 +34,168 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
           ),
           borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
         ),
-        child:Padding(
+        child: Padding(
           padding: EdgeInsets.all(16.0.textScale(space: 4.0)),
           child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: CachedNetworkImageProvider(widget
-                          .object.avatar ??
-                          'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png'),
-                    ),
-                    SizedBox(
-                      width: 14.0.textScale(),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        widget.object.tenNhanVien ?? '',
-                        style: textNormalCustom(
-                          color: titleColor,
-                          fontSize: 14.0.textScale(),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    // const Spacer(),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          DateTime.parse(widget.object.ngayTao ?? '')
-                              .formatDdMMYYYY,
-                          softWrap: true,
-                          style: textNormalCustom(
-                            color: infoColor,
-                            fontSize: 12.0.textScale(space: 4.0),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 12.0.textScale(space: 4.0),
-                ),
-                Text(
-                  widget.object.noiDung ?? '',
-                  style: textNormalCustom(
-                    color: titleColor,
-                    fontSize: 14.0.textScale(),
-                    fontWeight: FontWeight.w400,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: CachedNetworkImageProvider(widget
+                            .object.avatar ??
+                        'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png'),
                   ),
-                ),
-                if (widget.object.yKienXuLyFileDinhKem?.isNotEmpty ?? true)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
+                  SizedBox(
+                    width: 14.0.textScale(),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      widget.object.tenNhanVien ?? '',
+                      style: textNormalCustom(
+                        color: titleColor,
+                        fontSize: 14.0.textScale(),
+                        fontWeight: FontWeight.w500,
                       ),
-                      Text(
-                        S.current.cac_van_ban_dinh_kem,
+                    ),
+                  ),
+                  // const Spacer(),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        DateTime.parse(widget.object.ngayTao ?? '')
+                            .formatDdMMYYYY,
+                        softWrap: true,
                         style: textNormalCustom(
-                          color: titleItemEdit,
-                          fontSize: 12.0.textScale(),
+                          color: infoColor,
+                          fontSize: 12.0.textScale(space: 4.0),
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.object.yKienXuLyFileDinhKem?.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  final status =
-                                  await Permission.storage.status;
-                                  if (!status.isGranted) {
-                                    await Permission.storage.request();
-                                    await Permission.manageExternalStorage
-                                        .request();
-                                  }
-                                  if (widget.object.yKienXuLyFileDinhKem?[index]
-                                      .fileDinhKem?.pathIOC ==
-                                      null) {
-                                    await saveFile(
-                                      widget.object.yKienXuLyFileDinhKem?[index]
-                                          .fileDinhKem?.ten ??
-                                          '',
-                                      '$DO_MAIN_DOWLOAD_FILE${widget.object.yKienXuLyFileDinhKem?[index].fileDinhKem?.duongDan ?? ''}',
-                                    )
-                                        .then(
-                                          (value) => MessageConfig.show(
-                                          title: S
-                                              .current.tai_file_thanh_cong),
-                                    )
-                                        .onError(
-                                          (error, stackTrace) =>
-                                          MessageConfig.show(
-                                            title: S.current.tai_file_that_bai,
-                                            messState: MessState.error,
-                                          ),
-                                    );
-                                  } else {
-                                    await saveFile(
-                                      widget.object.yKienXuLyFileDinhKem?[index]
-                                          .fileDinhKem?.ten ??
-                                          '',
-                                      widget.object.yKienXuLyFileDinhKem?[index]
-                                          .fileDinhKem?.pathIOC,
-                                    )
-                                        .then(
-                                          (value) => MessageConfig.show(
-                                          title: S
-                                              .current.tai_file_thanh_cong),
-                                    )
-                                        .onError(
-                                          (error, stackTrace) =>
-                                          MessageConfig.show(
-                                            title: S.current.tai_file_that_bai,
-                                            messState: MessState.error,
-                                          ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  widget.object.yKienXuLyFileDinhKem?[index]
-                                      .fileDinhKem?.ten ??
-                                      '',
-                                  style: textNormalCustom(
-                                    color: textColorMangXaHoi,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12.0.textScale(),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                            ],
-                          );
-                        },
-                      )
-                    ],
+                    ),
                   )
-                else
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0.textScale(space: 4.0)),
-                    child: Text(
-                      S.current.khong_co_file,
+                ],
+              ),
+              SizedBox(
+                height: 12.0.textScale(space: 4.0),
+              ),
+              Text(
+                widget.object.noiDung ?? '',
+                style: textNormalCustom(
+                  color: titleColor,
+                  fontSize: 14.0.textScale(),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              if (widget.object.yKienXuLyFileDinhKem?.isNotEmpty ?? true)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      S.current.cac_van_ban_dinh_kem,
                       style: textNormalCustom(
-                        color: toDayColor,
+                        color: titleItemEdit,
                         fontSize: 12.0.textScale(),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                  ),
-              ]),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: widget.object.yKienXuLyFileDinhKem?.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                final status = await Permission.storage.status;
+                                if (!status.isGranted) {
+                                  await Permission.storage.request();
+                                  await Permission.manageExternalStorage
+                                      .request();
+                                }
+                                if (widget.object.yKienXuLyFileDinhKem?[index]
+                                        .fileDinhKem?.pathIOC ==
+                                    null) {
+                                  await saveFile(
+                                    widget.object.yKienXuLyFileDinhKem?[index]
+                                            .fileDinhKem?.ten ??
+                                        '',
+                                    '$DO_MAIN_DOWLOAD_FILE_NHIEM_VU${widget.object.yKienXuLyFileDinhKem?[index].fileDinhKem?.duongDan ?? ''}',
+                                  )
+                                      .then(
+                                        (value) => MessageConfig.show(
+                                          title: S.current.tai_file_thanh_cong,
+                                        ),
+                                      )
+                                      .onError(
+                                        (error, stackTrace) =>
+                                            MessageConfig.show(
+                                          title: S.current.tai_file_that_bai,
+                                          messState: MessState.error,
+                                        ),
+                                      );
+                                } else {
+                                  await saveFile(
+                                    widget.object.yKienXuLyFileDinhKem?[index]
+                                            .fileDinhKem?.ten ??
+                                        '',
+                                    widget.object.yKienXuLyFileDinhKem?[index]
+                                        .fileDinhKem?.pathIOC,
+                                  )
+                                      .then(
+                                        (value) => MessageConfig.show(
+                                            title:
+                                                S.current.tai_file_thanh_cong),
+                                      )
+                                      .onError(
+                                        (error, stackTrace) =>
+                                            MessageConfig.show(
+                                          title: S.current.tai_file_that_bai,
+                                          messState: MessState.error,
+                                        ),
+                                      );
+                                }
+                              },
+                              child: Text(
+                                widget.object.yKienXuLyFileDinhKem?[index]
+                                        .fileDinhKem?.ten ??
+                                    '',
+                                style: textNormalCustom(
+                                  color: textColorMangXaHoi,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.0.textScale(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                          ],
+                        );
+                      },
+                    )
+                  ],
+                )
+              else
+                const SizedBox.shrink(),
+            ],
+          ),
         ),
       ),
     );

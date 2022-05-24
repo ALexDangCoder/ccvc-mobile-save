@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
-import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
@@ -34,13 +35,17 @@ mixin QLVBRepository {
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDen(
       DanhSachVBRequest danhSachVBRequest);
 
-  Future<Result<DanhSachVanBanModel>> getDanhSachVbDi(
-    String startDate,
-    String endDate,
-    int index,
-    int size, [
+  Future<Result<DanhSachVanBanModel>> getDanhSachVbDi({
+    required String startDate,
+    required String endDate,
+    required int index,
+    bool? isDanhSachChoTrinhKy,
+    bool? isDanhSachChoXuLy,
+    bool? isDanhSachDaXuLy,
+    List<int>? trangThaiFilter,
+    required int size,
     String keySearch = '',
-  ]);
+  });
 
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDiDashBoard(
     String startDate,
@@ -63,6 +68,7 @@ mixin QLVBRepository {
 
   Future<Result<DataLichSuVanBanModel>> getDataLichSuVanBanDen(
       String processId, String type);
+  Future<Result<List<dynamic>>> getTheoDoiVanBan(String id);
 
   Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(String vanBanId);
 
@@ -80,6 +86,9 @@ mixin QLVBRepository {
 
   Future<Result<DataLichSuCapNhatVanBanDi>> getLichSuCapNhatVanBanDi(
       String id, String vanBanId);
+
   Future<Result<List<LuongXuLyVBDiModel>>> getLuongXuLyVanBanDi(String id);
-  Future<Result<NodePhanXuLy<DonViLuongModel>?>> getLuongXuLyVanBanDen(String id);
+
+  Future<Result<NodePhanXuLy<DonViLuongModel>?>> getLuongXuLyVanBanDen(
+      String id);
 }

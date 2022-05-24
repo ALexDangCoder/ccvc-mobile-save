@@ -12,8 +12,8 @@ class FilterDateTimeWidget extends StatefulWidget {
   final String? currentEndDate;
   final Function(DateTime startDate, DateTime endDate) onChooseDateFilter;
   final BuildContext context;
-  DateTime selectedStartDate = DateTime.now();
-  DateTime selectedEndDate = DateTime.now();
+  final DateTime? initStartDate;
+  final DateTime? initEndDate;
 
   FilterDateTimeWidget({
     Key? key,
@@ -22,6 +22,8 @@ class FilterDateTimeWidget extends StatefulWidget {
     this.currentStartDate,
     this.currentEndDate,
     required this.isMobile,
+    this.initStartDate,
+    this.initEndDate,
   }) : super(key: key) {}
 
   @override
@@ -30,6 +32,16 @@ class FilterDateTimeWidget extends StatefulWidget {
 
 class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
     with SingleTickerProviderStateMixin {
+  late DateTime currentStartDate;
+  late DateTime currentEndDate;
+
+  @override
+  void initState() {
+    currentStartDate = widget.initStartDate ?? DateTime.now();
+    currentEndDate = widget.initEndDate ?? DateTime.now();
+    super.initState();
+  }
+
   Future<void> _showDatePicker({required DateTime initialDate}) async {
     final selectedDate = await showDatePicker(
       context: widget.context,
@@ -47,10 +59,12 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
         );
       },
     );
-    setState(() {
-      widget.selectedStartDate = selectedDate ?? DateTime.now();
-    });
-    widget.onChooseDateFilter(selectedDate ?? DateTime.now(), DateTime.now());
+    if (selectedDate != null) {
+      widget.onChooseDateFilter(selectedDate, DateTime.now());
+      setState(() {
+        currentStartDate = selectedDate;
+      });
+    }
   }
 
   @override
@@ -77,7 +91,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                         GestureDetector(
                           onTap: () {
                             _showDatePicker(
-                              initialDate: widget.selectedStartDate,
+                              initialDate: currentStartDate,
                             );
                           },
                           child: Container(
@@ -94,8 +108,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  widget
-                                      .selectedStartDate.toStringWithListFormat,
+                                  currentStartDate.toStringWithListFormat,
                                   style: textNormal(textBodyTime, 14.0),
                                 ),
                                 SvgPicture.asset(
@@ -122,7 +135,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                         GestureDetector(
                           onTap: () {
                             _showDatePicker(
-                              initialDate: widget.selectedStartDate,
+                              initialDate: currentStartDate,
                             );
                           },
                           child: Container(
@@ -139,8 +152,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  widget
-                                      .selectedStartDate.toStringWithListFormat,
+                                  currentStartDate.toStringWithListFormat,
                                   style: textNormal(textBodyTime, 14.0),
                                 ),
                                 SvgPicture.asset(
@@ -182,7 +194,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                widget.selectedEndDate.toStringWithListFormat,
+                                currentEndDate.toStringWithListFormat,
                                 style: textNormal(titleColor, 14.0),
                               ),
                               SvgPicture.asset(ImageAssets.icCalendarUnFocus),
@@ -217,7 +229,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                widget.selectedEndDate.toStringWithListFormat,
+                                currentEndDate.toStringWithListFormat,
                                 style: textNormal(titleColor, 14.0),
                               ),
                               SvgPicture.asset(ImageAssets.icCalendarUnFocus),

@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/ghi_chu_ky_hieu_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_hoang_dao_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_ly_thuan_phong_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich_am_widget.dart';
@@ -100,6 +99,13 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                           const SizedBox(
                             height: 100,
                           ),
+                          // const Padding(
+                          //   padding: EdgeInsets.only(bottom: 12.0),
+                          //   child: Divider(
+                          //     thickness: 1,
+                          //   ),
+                          // ),
+                          // const GhiChuKyHieuWidget(),
                           LichAmWidget(
                             ngayAmLich:
                                 snapshot.data?.ngayAmLich ?? NgayAmLich(),
@@ -181,13 +187,6 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                             listGioLyThuanPhong:
                                 snapshot.data?.gioLyThuanPhong ?? [],
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          const GhiChuKyHieuWidget(),
                         ],
                       );
                     },

@@ -1,8 +1,12 @@
 
 import 'dart:developer';
 
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen_dashboard.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -34,11 +38,11 @@ class _DocumentWidgetState extends State<DocumentWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _vanBanCubit.selectTrangThaiVanBan(SelectKey.CHO_VAO_SO);
+    _vanBanCubit.selectTrangThaiVanBan(_vanBanCubit.selectKey ?? _vanBanCubit.listKey.first);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         _vanBanCubit.selectTrangThaiVanBan(
-          _vanBanCubit.selectKey ?? SelectKey.CHO_VAO_SO,
+          _vanBanCubit.selectKey ?? _vanBanCubit.listKey.first,
         );
       });
     });
@@ -50,6 +54,21 @@ class _DocumentWidgetState extends State<DocumentWidget> {
       minHeight: 0,
       title: S.current.document,
       spacingTitle: 0,
+      onTapTitle: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => IncomingDocumentScreen(
+              startDate: '',
+              title: S.current.danh_sach_van_ban_den,
+              endDate: '',
+              type: TypeScreen.VAN_BAN_DEN,
+              maTrangThai: [],
+
+            ),
+          ),
+        );
+      },
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
@@ -59,37 +78,9 @@ class _DocumentWidgetState extends State<DocumentWidget> {
         }
         _vanBanCubit.selectTrangThaiVanBan(value);
       },
-      selectKeyDialog: _vanBanCubit,
-      listSelect: const [
-        SelectKey.CHO_VAO_SO,
-        SelectKey.CHO_XU_LY_VB_DI,
-        SelectKey.CHO_XU_LY_VB_DEN,
-        SelectKey.CHO_TRINH_KY,
-        SelectKey.CHO_CHO_Y_KIEN_VB_DEN,
-        SelectKey.CHO_CAP_SO,
-        SelectKey.CHO_BAN_HANH
-      ],
-      dialogSelect: StreamBuilder<Object>(
-          stream: _vanBanCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              type: widget.homeItemType,
-              listSelectKey: <DialogData>[
-                DialogData(
-                  initValue: _vanBanCubit.selectKeyTime,
-                  onSelect: (value, startDate, endDate) {
-                    _vanBanCubit.selectDate(
-                        selectKey: value,
-                        startDate: startDate,
-                        endDate: endDate);
-                  },
-                  title: S.current.time,
-                    startDate: _vanBanCubit.startDate,
-                    endDate: _vanBanCubit.endDate
-                )
-              ],
-            );
-          }),
+
+      listSelect: _vanBanCubit.listKey,
+
       child: LoadingOnly(
         stream: _vanBanCubit.stateStream,
         child: StreamBuilder<List<DocumentModel>>(

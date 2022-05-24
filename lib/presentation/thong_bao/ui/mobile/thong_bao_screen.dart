@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/cai_dat_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_quan_ly_vb_screen.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/type_detail.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_mobile.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/item_thong_bao_quan_trong.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/widget/thong_bao_quan_trong_widget.dart';
@@ -64,7 +65,9 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                         cubit: thongBaoCubit,
                       ),
                     ),
-                  );
+                  ).then((value) {
+                    thongBaoCubit.getThongBaoQuanTrong();
+                  });
                 },
                 child: SvgPicture.asset(ImageAssets.icSettingNotify),
               ),
@@ -114,17 +117,20 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                               unreadCount: data[index].total ?? 0,
                               isLine: index != data.length - 1,
                               onTap: () {
-                                thongBaoCubit.appCode = data[index].code ?? '';
+                                thongBaoCubit
+                                    .selectNotiAppCode(data[index].code ?? '');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         ThongBaoQuanLyVanBanScreen(
                                       cubit: thongBaoCubit,
+                                      title: data[index].name ?? '',
                                     ),
                                   ),
                                 );
-                              }, onChange: (bool status) {  },
+                              },
+                              onChange: (bool status) {},
                             );
                           },
                         ),
@@ -148,6 +154,11 @@ class _ThongBaoScreenState extends State<ThongBaoScreen> {
                                 seen: dataTBQT[index].seen ?? false,
                                 id: dataTBQT[index].id ?? '',
                                 cubit: thongBaoCubit,
+                                onTap: () {
+                                  (dataTBQT[index].subSystem ?? '')
+                                      .getEnumDetail
+                                      .getScreenDetail(context);
+                                },
                               );
                             },
                           );

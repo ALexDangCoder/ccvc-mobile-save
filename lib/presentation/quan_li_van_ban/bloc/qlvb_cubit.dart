@@ -8,6 +8,8 @@ import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -15,11 +17,18 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
 
 class QLVBCCubit extends BaseCubit<QLVBState> {
-  QLVBCCubit() : super(QLVbStateInitial());
+  QLVBCCubit() : super(QLVbStateInitial()) {
+    showContent();
+  }
+
+  BehaviorSubject<List<bool>> selectTypeVanBanSubject =
+      BehaviorSubject.seeded([true, false]);
   final BehaviorSubject<DocumentDashboardModel> _getVbDen =
       BehaviorSubject<DocumentDashboardModel>();
+
   final BehaviorSubject<DocumentDashboardModel> _getVbDi =
       BehaviorSubject<DocumentDashboardModel>();
+
   final BehaviorSubject<List<VanBanModel>> _getDanhSachVBDi =
       BehaviorSubject<List<VanBanModel>>();
 
@@ -29,13 +38,19 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Stream<List<VanBanModel>> get getDanhSachVbDi => _getDanhSachVBDi.stream;
 
   Stream<List<VanBanModel>> get getDanhSachVbDen => _getDanhSachVBDen.stream;
+
   final BehaviorSubject<ChartData> _dataChartVBDen =
       BehaviorSubject<ChartData>();
+
   final BehaviorSubject<ChartData> _dataChartVBDi =
       BehaviorSubject<ChartData>();
   final List<ChartData> chartDataVbDen = [];
   final List<ChartData> chartDataVbDi = [];
   List<String> maTrangThai = [];
+  String documentInStatusCode = '';
+  String documentInSubStatusCode = '';
+  String documentOutStatusCode = '';
+
   int index = 1;
   int size = 10;
 
@@ -48,28 +63,33 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   Stream<ChartData> get dataChatVbDi => _dataChartVBDi.stream;
   late String startDate;
   late String endDate;
+  String keySearch = '';
+  final BehaviorSubject<bool> checkClickSearch=BehaviorSubject<bool>.seeded(false);
+  Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
+
+  void setSelectSearch(){
+    checkClickSearch.sink.add(!checkClickSearch.value);
+  }
+  bool isHideClearData = false;
+  Debouncer debouncer = Debouncer();
 
   void callAPi() {
+    showLoading();
     initTimeRange();
-    dataVBDen(startDate: '', endDate: '');
-    dataVBDi(startDate: '', endDate: '');
-    listDataDanhSachVBDen(
-      endDate: startDate,
-      startDate: endDate,
-    );
-    listDataDanhSachVBDi(
-      endDate: startDate,
-      startDate: startDate,
-    );
+    dataVBDen();
+    dataVBDi();
+    listDataDanhSachVBDen(initCall: true);
+    listDataDanhSachVBDi();
   }
 
   final QLVBRepository _qLVBRepo = Get.find();
 
   Future<void> dataVBDi({
-    required String startDate,
-    required String endDate,
+    String? startDate,
+    String? endDate,
   }) async {
-    final result = await _qLVBRepo.getVBDi(startDate, endDate);
+    final result = await _qLVBRepo.getVBDi(
+        startDate ?? this.startDate, endDate ?? this.endDate);
     result.when(
       success: (res) {
         chartDataVbDi.clear();
@@ -109,11 +129,13 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   }
 
   Future<void> dataVBDen({
-    required String startDate,
-    required String endDate,
+    String? startDate,
+    String? endDate,
   }) async {
-    showLoading();
-    final result = await _qLVBRepo.getVBDen(startDate, endDate);
+    final result = await _qLVBRepo.getVBDen(
+      startDate ?? this.startDate,
+      endDate ?? this.endDate,
+    );
     result.when(
       success: (res) {
         chartDataVbDen.clear();
@@ -147,7 +169,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
           ),
         );
         _getVbDen.sink.add(dataVbDen);
-        showContent();
       },
       error: (err) {
         return;
@@ -156,46 +177,81 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   }
 
   Future<void> listDataDanhSachVBDi({
-    required String startDate,
-    required String endDate,
+    String? startDate,
+    String? endDate,
+    bool initCall = false,
   }) async {
     List<VanBanModel> listVbDi = [];
-    final result =
-        await _qLVBRepo.getDanhSachVbDi(startDate, endDate, index, size);
+    if (!initCall) {
+      showLoading();
+    }
+    final result = await _qLVBRepo.getDanhSachVbDi(
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      index: index,
+      size: size,
+      isDanhSachChoTrinhKy: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == 'CHO_TRINH_KY',
+      isDanhSachChoXuLy: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == 'CHO_XU_LY',
+      isDanhSachDaXuLy: documentOutStatusCode == ''
+          ? null
+          : documentOutStatusCode == 'DA_XU_LY',
+      trangThaiFilter: statusSearchDocumentOutCode(documentOutStatusCode),
+      keySearch: keySearch,
+    );
     result.when(
       success: (res) {
         listVbDi = res.pageData ?? [];
         _getDanhSachVBDi.sink.add(listVbDi);
+        if (!initCall) {
+          showContent();
+        }
       },
       error: (err) {
+        if (!initCall) {
+          showError();
+        }
         return err;
       },
     );
   }
 
   Future<void> listDataDanhSachVBDen({
-    required String startDate,
-    required String endDate,
+    String? startDate,
+    String? endDate,
+    bool initCall = false,
   }) async {
+    if (!initCall) {
+      showLoading();
+    }
     List<VanBanModel> listVbDen = [];
     final result = await _qLVBRepo.getDanhSachVbDen(
       DanhSachVBRequest(
-        maTrangThai: maTrangThai,
+        maTrangThai: statusSearchDocumentInCode(documentInStatusCode),
         index: 1,
-        isChoYKien: null,
         isSortByDoKhan: true,
-        thoiGianStartFilter: startDate,
-        thoiGianEndFilter: endDate,
+        thoiGianStartFilter: startDate ?? this.startDate,
+        thoiGianEndFilter: endDate ?? this.endDate,
         size: 10,
+        keySearch: keySearch,
       ),
     );
     result.when(
       success: (res) {
         listVbDen = res.pageData ?? [];
         _getDanhSachVBDen.sink.add(listVbDen);
+        if (!initCall) {
+          showContent();
+        }
       },
       error: (error) {
-        showError();
+        if (!initCall) {
+          showError();
+        }
+        return error;
       },
     );
   }
@@ -207,11 +263,11 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   }) async {
     List<VanBanModel> listVbDi = [];
     final result = await _qLVBRepo.getDanhSachVbDi(
-      startDate,
-      endDate,
-      index,
-      size,
-      keySearch ?? '',
+      startDate: startDate,
+      endDate: endDate,
+      index: index,
+      size: size,
+      keySearch: keySearch ?? '',
     );
     result.when(
       success: (res) {
@@ -234,7 +290,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       DanhSachVBRequest(
         maTrangThai: maTrangThai,
         index: 1,
-        isChoYKien: null,
         isSortByDoKhan: true,
         thoiGianStartFilter: startDate,
         thoiGianEndFilter: endDate,
@@ -255,8 +310,8 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
 
   void initTimeRange() {
     final dataDateTime =
-        DateTime.now().dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-    startDate = dataDateTime.first.formatApi;
-    endDate = dataDateTime.last.formatApi;
+    DateTime.now();
+    startDate = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    endDate = dataDateTime.formatApi;
   }
 }

@@ -26,6 +26,7 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundDrawerMenu,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -131,7 +132,7 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
         Text(
           menu,
           style: textNormalCustom(
-            color: titleColor,
+            color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

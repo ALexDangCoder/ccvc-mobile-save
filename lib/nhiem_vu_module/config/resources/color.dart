@@ -43,6 +43,8 @@ const fittingBg = Color(0xFFF2F2F2);
 const itemWidgetUsing = Color(0xff28C76F);
 const itemWidgetNotUse = Color(0xffFF9F43);
 const backgroundWidget = Color(0xffF0F6FF);
+const chuTriColor = Color(0xff6FCF97);
+const phoiHopColor = Color(0xffBB6BD9);
 const textDefault = Color(0xff7966FF);
 const textTitle = Color(0xff3D5586);
 const titleItemEdit = Color(0xff586B8B);
@@ -62,6 +64,7 @@ const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const choXuLyColor = Color(0xff5A8DEE);
+const chuaThucHienColor = Color(0xffF2994A);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -152,6 +155,8 @@ const unFocusColor = Color(0xffF2F0FF);
 const colorImageLichHop = Color(0xffF1F7FF);
 const dangThucHienPurble = Color(0xffBB6BD9);
 const textUnfocus = Color(0xffF9F9FA);
+const nhiemVuBoColor = Color(0xff0A45B9);
+const nhiemDonViColor = Color(0xff1CE2BF);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

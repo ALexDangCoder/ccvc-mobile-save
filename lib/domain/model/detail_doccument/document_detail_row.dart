@@ -3,10 +3,10 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,14 @@ const THU_HOI = 'THU_HOI';
 const DA_HOAN_THANH = 'DA_HOAN_THANH';
 const TRA_LAI = 'TRA_LAI';
 
-enum TypeDocumentDetailRow { checkbox, text, fileActacks, status,fileVanBanDi }
+enum TypeDocumentDetailRow {
+  checkbox,
+  text,
+  fileActacks,
+  statusText,
+  status,
+  fileVanBanDi
+}
 
 class DocumentDetailRow {
   String title = '';
@@ -45,7 +52,6 @@ class DocumentDetailRow {
 extension TypeDataDocument on TypeDocumentDetailRow {
   Widget getWidgetVanBan({
     required DocumentDetailRow row,
-    required DetailDocumentCubit cubit,
   }) {
     switch (this) {
       case TypeDocumentDetailRow.text:
@@ -77,7 +83,8 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                       )
                           .then(
                             (value) => MessageConfig.show(
-                                title: S.current.tai_file_thanh_cong),
+                              title: S.current.tai_file_thanh_cong,
+                            ),
                           )
                           .onError(
                             (error, stackTrace) => MessageConfig.show(
@@ -100,6 +107,12 @@ extension TypeDataDocument on TypeDocumentDetailRow {
           );
         }
       case TypeDocumentDetailRow.status:
+        {
+          final data = row.value as String;
+
+          return data.getStatusVanBan().getStatus();
+        }
+      case TypeDocumentDetailRow.statusText:
         {
           final data = row.value as String;
 
@@ -129,45 +142,34 @@ extension TypeDataDocument on TypeDocumentDetailRow {
         );
       case TypeDocumentDetailRow.fileVanBanDi:
         {
-          final data = row.value as List<Files>;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: data
-                .map(
-                  (e) => GestureDetector(
-                onTap: () async {
-                  final status = await Permission.storage.status;
-                  if (!status.isGranted) {
-                    await Permission.storage.request();
-                    await Permission.manageExternalStorage.request();
-                  }
-                  await saveFile(
-                    e.ten ?? '',
-                    '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                  )
-                      .then(
-                        (value) => MessageConfig.show(
-                        title: S.current.tai_file_thanh_cong),
-                  )
-                      .onError(
-                        (error, stackTrace) => MessageConfig.show(
-                      title: S.current.tai_file_that_bai,
-                      messState: MessState.error,
+          if (row.value is List<Files>) {
+            final data = row.value;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[...data
+                  .map(
+                    (e) => GestureDetector(
+                      onTap: () async {
+                        await handleSaveFile(
+                          url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
+                          name: e.ten ?? '',
+                        );
+                      },
+                      child: Text(
+                        e.ten ?? '',
+                        style: textNormalCustom(
+                          color: choXuLyColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
+                        ),
+                      ),
                     ),
-                  );
-                },
-                child: Text(
-                  e.ten ?? '',
-                  style: textNormalCustom(
-                    color: choXuLyColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0.textScale(),
-                  ),
-                ),
-              ),
-            )
-                .toList(),
-          );
+                  )
+                  .toList()],
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
         }
     }
   }
@@ -189,67 +191,79 @@ enum StatusVanBan {
 }
 
 extension StatusChiTietVanBan on StatusVanBan {
-  Widget getStatus() {
+  Widget getStatus({bool changeTextColor = false}) {
     switch (this) {
       case StatusVanBan.QUA_HAN:
         return statusChiTietVanBan(
           name: S.current.qua_han,
           background: statusCalenderRed,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.CHUA_THUC_HIEN:
         return statusChiTietVanBan(
           name: S.current.chua_thuc_hien,
           background: yellowColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.DANG_THUC_HIEN:
         return statusChiTietVanBan(
           name: S.current.dang_thuc_hien,
           background: AqiColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.CHO_VAO_SO:
         return statusChiTietVanBan(
           name: S.current.cho_vao_so,
           background: choVaoSoColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.NHAN_DE_BIET:
         return statusChiTietVanBan(
           name: S.current.nhan_de_biet,
           background: choVaoSoColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.CHO_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_xu_ly,
           background: choXuLyColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.DANG_XU_LY:
         return statusChiTietVanBan(
           name: S.current.dang_xu_ly,
           background: dangXyLyColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.CHO_TIEP_NHAN:
         return statusChiTietVanBan(
           name: S.current.cho_tiep_nhan,
           background: itemWidgetNotUse,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.CHO_PHAN_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_phan_xu_ly,
           background: yellowColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.THU_HOI:
         return statusChiTietVanBan(
           name: S.current.thu_hoi,
           background: yellowColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.DA_HOAN_THANH:
         return statusChiTietVanBan(
           name: S.current.da_hoan_thanh,
           background: daXuLyColor,
+          changeTextColor: changeTextColor,
         );
       case StatusVanBan.TRA_LAI:
         return statusChiTietVanBan(
           name: S.current.tra_lai,
           background: statusCalenderRed,
+          changeTextColor: changeTextColor,
         );
     }
   }
@@ -290,28 +304,48 @@ extension GetStatusVanBan on String {
   }
 }
 
-Widget statusChiTietVanBan({required String name, required Color background}) {
+Widget statusChiTietVanBan({
+  required String name,
+  required Color background,
+  bool changeTextColor = false,
+}) {
   return Row(
     mainAxisSize: MainAxisSize.min,
     children: [
-      Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 15.0.textScale(),
-          vertical: 4.0.textScale(),
-        ),
-        decoration: BoxDecoration(
-          color: background,
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Text(
-          name,
-          style: textNormalCustom(
-            color: backgroundColorApp,
-            fontSize: 12.0.textScale(),
-            fontWeight: FontWeight.w500,
+      if (changeTextColor)
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 15.0.textScale(),
+            vertical: 4.0.textScale(),
+          ),
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Text(
+            name,
+            style: textNormalCustom(
+              color: backgroundColorApp,
+              fontSize: 12.0.textScale(),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        )
+      else
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 15.0.textScale(),
+            vertical: 4.0.textScale(),
+          ),
+          child: Text(
+            name,
+            style: textNormalCustom(
+              color: background,
+              fontSize: 12.0.textScale(),
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
-      ),
     ],
   );
 }

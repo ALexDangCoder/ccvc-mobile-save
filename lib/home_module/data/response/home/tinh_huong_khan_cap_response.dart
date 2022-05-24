@@ -40,7 +40,7 @@ class Data {
     linkOrContent = json['linkOrContent'];
     isLink = json['isLink'];
   }
-  TinhHuongKhanCapModel toDomain() => TinhHuongKhanCapModel(
+  TinBuonModel toDomain() => TinBuonModel(
         id: id ?? '',
         isLink: isLink ?? false,
         title: title ?? '',

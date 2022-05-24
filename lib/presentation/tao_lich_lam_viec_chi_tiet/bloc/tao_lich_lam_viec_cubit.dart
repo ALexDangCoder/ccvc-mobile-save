@@ -405,7 +405,6 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       emit(CreateSuccess());
       showContent();
     }, error: (error) {
-        print(error.message);
         toast.showToast(
           child: ShowToast(
             text: error.message,

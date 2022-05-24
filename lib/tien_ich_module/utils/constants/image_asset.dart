@@ -64,6 +64,8 @@ class ImageAssets {
       '$baseImg/ic_danh_ba_dien_tu_hdsd_tablet.svg';
   static const String imageHuongDanSuDungTablet =
       '$baseImg/image_huong_dan_su_dung_tablet.png';
+  static const String icVectors = '$baseImg/ic_vectors.svg';
+  static const String icCalenders = '$baseImg/ic_calenders.svg';
 
   //icon huong dan su dung bao cao
   static const String icCallHDSD = '$baseImg/ic_call_hdsd.svg';

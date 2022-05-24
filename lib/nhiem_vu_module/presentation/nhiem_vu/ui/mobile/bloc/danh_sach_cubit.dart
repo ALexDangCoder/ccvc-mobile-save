@@ -1,14 +1,16 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/trang_thai_bieu_do_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_state.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/item_select_bieu_do.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
@@ -28,8 +30,205 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   BehaviorSubject<List<PageData>> dataSubject = BehaviorSubject();
   BehaviorSubject<List<PageDatas>> dataSubjects = BehaviorSubject();
   BehaviorSubject<String> searchSubjects = BehaviorSubject();
+
+  final BehaviorSubject<List<ItemSellectBieuDo>> selectBieuDoModelSubject =
+      BehaviorSubject.seeded([
+    ItemSellectBieuDo(stateBieuDo.TheoTrangThai, true),
+    ItemSellectBieuDo(stateBieuDo.TheoLoai, false),
+    ItemSellectBieuDo(stateBieuDo.TheoDonVi, false),
+  ]);
+
+  BehaviorSubject<stateBieuDo> getStateLDM =
+      BehaviorSubject.seeded(stateBieuDo.TheoTrangThai);
+  final BehaviorSubject<bool> checkClickSearch =
+      BehaviorSubject<bool>.seeded(false);
+
+  Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
+
+  void setSelectSearch() {
+    checkClickSearch.sink.add(!checkClickSearch.value);
+  }
+
+  bool isHideClearData = false;
   String ngayDauTien = '';
   String ngayKetThuc = '';
+  String mangTrangThai = '';
+  int? trangThaiHanXuLy;
+  bool checkDataNhiemVu = false;
+  List<String> titleNhiemVu = [
+    'Trung tâm tin học',
+    'Văn phòng Bộ ',
+    'Vụ Tổng hợp kinh tế  ',
+    'Vụ Kinh tế địa phương',
+    'Vụ Tài chính, tiền tệ',
+    'Vụ Kinh tế công nghiệp',
+    'Vụ Kinh tế dịch vụ',
+    'Vụ Kết cấu hạ tầng và ...',
+  ];
+  List<List<ChartData>> listData = [
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        8,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 5, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        8,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        8,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        5,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 3, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        5,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        5,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        7,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 5, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        7,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        7,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        6,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 4, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        6,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        6,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        3,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 2, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        3,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        3,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        2,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 1, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        2,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        2,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        9,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 6, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        9,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        9,
+        daXuLyColor,
+      ),
+    ],
+    [
+      ChartData(
+        S.current.cho_phan_xu_ly,
+        6,
+        choXuLyColor,
+      ),
+      ChartData(S.current.chua_thuc_hien, 4, choVaoSoColor),
+      ChartData(
+        S.current.dang_thuc_hien,
+        6,
+        choTrinhKyColor,
+      ),
+      ChartData(
+        S.current.da_thuc_hien,
+        6,
+        daXuLyColor,
+      ),
+    ],
+  ];
+  List<ChartData> listStatusData = [
+    ChartData(
+      S.current.cho_phan_xu_ly,
+      30,
+      choXuLyColor,
+    ),
+    ChartData(S.current.chua_thuc_hien, 12, choVaoSoColor),
+    ChartData(
+      S.current.dang_thuc_hien,
+      14,
+      choTrinhKyColor,
+    ),
+    ChartData(
+      S.current.da_thuc_hien,
+      12,
+      daXuLyColor,
+    ),
+  ];
 
   void callApi(bool isCheckCaNhan) {
     initTimeRange();
@@ -47,19 +246,19 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   void callApiDonVi(bool isCheckCaNhan) {
     initTimeRange();
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
-    getDashBroashCongViec(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViec(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callApiDashBroashDonVi(bool isCheckCaNhan) {
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
-    getDashBroashCongViec(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViec(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
@@ -68,23 +267,23 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    getDashBroashCongViecCaNhan(
-      ngayDauTien: ngayDauTien,
-      ngayCuoiCung: ngayKetThuc,
-    );
+    // getDashBroashCongViecCaNhan(
+    //   ngayDauTien: ngayDauTien,
+    //   ngayCuoiCung: ngayKetThuc,
+    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callDataDanhSach(String start, String end, bool isCheckCaNhan) {
-    postDanhSachCongViec(
-      hanXuLy: {'FromDate': start, 'ToDate': end},
-      index: pageIndex,
-      isCaNhan: isCheckCaNhan,
-      isSortByHanXuLy: true,
-      keySearch: keySearch,
-      mangTrangThai: [],
-      size: pageSize,
-    );
+    // postDanhSachCongViec(
+    //   hanXuLy: {'FromDate': start, 'ToDate': end},
+    //   index: pageIndex,
+    //   isCaNhan: isCheckCaNhan,
+    //   isSortByHanXuLy: true,
+    //   keySearch: keySearch,
+    //   mangTrangThai: [],
+    //   size: pageSize,
+    // );
     postDanhSachNhiemVu(
       index: pageIndex,
       isNhiemVuCaNhan: isCheckCaNhan,
@@ -108,8 +307,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     );
   }
 
-
-
   Debouncer debouncer = Debouncer();
 
   Future<void> postDanhSachNhiemVu({
@@ -122,6 +319,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required int size,
      int? trangThaiHanXuLy,
   }) async {
+    mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
       index: index,
@@ -133,6 +331,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       size: size,
           trangThaiHanXuLy: trangThaiHanXuLy,
     );
+     showLoading();
     loadMorePage = index ?? 1;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
@@ -140,18 +339,18 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         dataSubject.sink.add(res.pageData ?? []);
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
-            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+            showContent();
+            emit(const CompletedLoadMore(CompleteType.SUCCESS, posts: []));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
           }
         } else {
+          showContent();
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
         }
       },
       error: (error) {
-        emit(const CompletedLoadMore(CompleteType.ERROR));
-        showError();
       },
     );
   }
@@ -185,7 +384,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
             //   showEmpty();
-            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+           // emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
@@ -210,6 +409,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required String ngayDauTien,
     required String ngayCuoiCung,
   }) async {
+    showLoading();
     final result = await repo.getDashBroashNhiemVu(ngayDauTien, ngayCuoiCung);
     result.when(
       success: (res) {
@@ -296,6 +496,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
             .toList();
         chartDataNhiemVuCaNhan.removeLast();
         chartDataNhiemVuCaNhan.removeAt(0);
+        chartDataNhiemVuCaNhan.removeAt(0);
         statusNhiemVuCaNhanSuject.sink.add(chartDataNhiemVuCaNhan);
         showContent();
       },
@@ -337,6 +538,40 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       },
     );
   }
+  final List<ChartData> chartDataNhiemVuCANHAN = [
+    ChartData(
+      S.current.chua_thuc_hien,
+      0,
+      choVaoSoColor,
+    ),
+    ChartData(
+      S.current.dang_thuc_hien,
+      0,
+      choTrinhKyColor,
+    ),
+    ChartData(
+      S.current.da_thuc_hien,
+      0,
+      daXuLyColor,
+    ),
+  ];
+  final List<ChartData> chartDataTheoLoai = [
+    ChartData(
+    'Nhiệm vụ CP/VPVP',
+      12,
+      choXuLyColor,
+    ),
+    ChartData(
+      'Nhiệm vụ Bộ',
+      12,
+      nhiemVuBoColor,
+    ),
+    ChartData(
+      'Nhiệm vụ đơn vị',
+      14,
+      nhiemDonViColor,
+    ),
+  ];
 
   final List<ChartData> chartDataNhiemVu = [
     ChartData(
@@ -347,15 +582,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     ChartData(
       S.current.chua_thuc_hien,
       0,
-      statusCalenderRed,
+      choVaoSoColor,
     ),
     ChartData(
       S.current.dang_thuc_hien,
       0,
-      yellowColor,
+      choTrinhKyColor,
     ),
     ChartData(
-      S.current.da_hoan_thanh,
+      S.current.da_thuc_hien,
       0,
       daXuLyColor,
     ),
@@ -363,8 +598,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   void initTimeRange() {
     final dataDateTime =
-        DateTime.now().dateTimeFormRange(timeRange: TimeRange.THANG_NAY);
-    ngayDauTien = dataDateTime.first.formatApi;
-    ngayKetThuc = dataDateTime.last.formatApi;
+        DateTime.now();
+    ngayDauTien = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    ngayKetThuc = dataDateTime.formatApi;
   }
 }

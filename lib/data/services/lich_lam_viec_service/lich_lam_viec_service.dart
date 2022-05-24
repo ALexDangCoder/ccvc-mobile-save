@@ -117,6 +117,7 @@ abstract class LichLamViecService {
     @Part() String id,
   );
 
+
   @GET(ApiConstants.REPORT_STATUS_LIST)
   Future<ListTinhTrangResponse> getListTinhTrangBaoCao();
 

@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/item_row.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class ListItemRow extends StatelessWidget {
@@ -26,7 +27,7 @@ class ListItemRow extends StatelessWidget {
               child: Text(
                 title,
                 style: textNormalCustom(
-                  fontSize: 14,
+                  fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
                   color: infoColor,
                 ),
@@ -43,7 +44,7 @@ class ListItemRow extends StatelessWidget {
                     Text(
                       e,
                       style: textNormalCustom(
-                        fontSize: 14,
+                        fontSize: 14.0.textScale(),
                         fontWeight: FontWeight.w400,
                         color: isFile ? numberOfCalenders : titleCalenderWork,
                       ),
@@ -53,8 +54,8 @@ class ListItemRow extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(
-          height: 10,
+         SizedBox(
+          height: 10.0.textScale(),
         ),
       ],
     );

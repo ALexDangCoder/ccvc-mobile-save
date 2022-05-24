@@ -124,13 +124,13 @@ class _SituationOfHandlingPeopleWidgetState
                         ),
                         ChartData(
                           S.current.cho_xu_ly,
-                          12,
+                          10,
                           choXuLyColor,
                           SelectKey.CHO_XU_LY,
                         ),
                         ChartData(
                           S.current.da_xu_ly,
-                          14,
+                          10,
                           daXuLyColor,
                           SelectKey.DA_XU_LY,
                         ),

@@ -3,8 +3,11 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +34,9 @@ class HeaderMenuWidget extends StatelessWidget {
           color: Colors.transparent,
           border: Border(bottom: BorderSide(color: editColor))),
       child: StreamBuilder<UserInformationModel>(
-        stream: menuCubit.getInforUser,
+        stream: isMobile()
+            ? keyHomeMobile.currentState?.homeCubit.getInforUser
+            : keyHomeTablet.currentState?.homeCubit.getInforUser,
         builder: (context, snapshot) {
           final data = snapshot.data;
           return Row(

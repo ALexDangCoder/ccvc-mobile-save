@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/dashboard_schedule.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
@@ -15,17 +16,25 @@ import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_mod
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_state.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/indicator_chart.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum StatusType { CHUA_THUC_HIEN, DA_HOAN_THANH, DANG_THUC_HIEN }
+
+class TextTrangThai {
+  String text;
+  Color color;
+
+  TextTrangThai(this.text, this.color);
+}
 
 class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   YKienNguoiDanCubitt() : super(YKienNguoiDanStateInitial());
@@ -34,9 +43,25 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   bool isCheck = false;
   late String startDate;
   late String endDate;
+  DateTime initStartDate=DateTime.now();
   String donViId = '';
   String userId = '';
   String trangThai = '';
+  bool showCleanText = false;
+  int pageSizeDSPAKN = 10;
+  int pageNumberDSPAKN = 1;
+  bool loadMore = false;
+  bool canLoadMoreList = true;
+  bool refresh = false;
+  bool isSearching = false;
+  String tuKhoa='';
+  Debouncer debouncer = Debouncer();
+  bool isEmptyData=false;
+
+  static const int TRONGHAN = 1;
+  static const int DENHAN = 2;
+  static const int QUAHAN = 3;
+
   final List<ChartData> listChartPhanLoai = [];
   final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
       BehaviorSubject<DashboardTinhHinhXuLuModel>();
@@ -55,6 +80,12 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   final BehaviorSubject<DocumentDashboardModel> _statusTinhHinhXuLyData =
       BehaviorSubject<DocumentDashboardModel>();
+  final BehaviorSubject<bool> _selectSearch = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _removeTextSearch = BehaviorSubject.seeded(false);
+
+  Stream<bool> get selectSearch => _selectSearch.stream;
+
+  Stream<bool> get removeTextSearch => _removeTextSearch.stream;
 
   Stream<DocumentDashboardModel> get statusTinhHinhXuLyData =>
       _statusTinhHinhXuLyData.stream;
@@ -71,6 +102,16 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   Stream<DashboardTinhHinhXuLuModel> get dashBoardTinhHinhXuLy =>
       _dashBoardTinhHinhXuLy.stream;
+
+  String search = '';
+
+  void setSelectSearch() {
+    _selectSearch.sink.add(!_selectSearch.value);
+  }
+
+  void showIconRemove() {
+    _removeTextSearch.sink.add(!_removeTextSearch.value);
+  }
 
   ImageThongTinYKienNguoiDan imageThongTinYKienNguoiDan =
       ImageThongTinYKienNguoiDan();
@@ -129,7 +170,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       title: S.current.he_thong_quan_ly_van_ban,
     ),
   ];
-  final List<YKienNguoiDanDashBroadItem> listInitDashBoard= [
+  final List<YKienNguoiDanDashBroadItem> listInitDashBoard = [
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_bo_sung_y_kien,
       numberOfCalendars: 0,
@@ -137,11 +178,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_cho_y_kien,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_cho_y_kien,
     ),
     YKienNguoiDanDashBroadItem(
-      img:ImageAssets.icChoDuyetYKND,
+      img: ImageAssets.icChoDuyetYKND,
       numberOfCalendars: 0,
       typeName: S.current.cho_duyet,
     ),
@@ -152,7 +193,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ),
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_cho_tiep_nhan,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.cho_tiep_nhan,
     ),
     YKienNguoiDanDashBroadItem(
@@ -189,6 +230,15 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       statusData: StatusYKien.DANG_XU_LY,
     ),
   ];
+
+  String formatDateTime(String dt) {
+    final inputFormat = DateFormat('dd/MM/yyyy');
+    final inputDate = inputFormat.parse(dt); // <-- dd/MM 24H format
+
+    final outputFormat = DateFormat('dd/MM/yyyy');
+    final outputDate = outputFormat.format(inputDate);
+    return outputDate; // 12/31/2000 11:59 PM <-- MM/dd 12H format
+  }
 
   void callApi() {
     getUserData();
@@ -234,7 +284,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     showContent();
     result.when(
       success: (res) {
-
         final List<YKienNguoiDanDashBroadItem> listItem = [];
         listItem.add(
           YKienNguoiDanDashBroadItem(
@@ -298,6 +347,86 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       },
       error: (err) {
         return;
+      },
+    );
+  }
+
+  ///huy
+
+  void clearDSPAKN() {
+    pageNumberDSPAKN = 1;
+    loadMore = false;
+    canLoadMoreList = true;
+    refresh = false;
+    listDanhSachKetQuaPakn.value.clear();
+  }
+
+  Future<void> loadMoreGetDSPAKN() async {
+    if (loadMore == false) {
+      pageNumberDSPAKN += 1;
+      canLoadMoreList = true;
+      loadMore = true;
+      await getDanhSachPAKN();
+    } else {
+      //nothing
+    }
+  }
+
+  Future<void> refreshGetDSPAKN() async {
+    canLoadMoreList = true;
+    if (refresh == false) {
+      pageNumberDSPAKN = 1;
+      refresh = true;
+      await getDanhSachPAKN();
+    }
+  }
+
+  BehaviorSubject<List<DanhSachKetQuaPAKNModel>> listDanhSachKetQuaPakn =
+      BehaviorSubject();
+
+  Future<void> getDanhSachPAKN({
+    // String? tuKhoa,
+    bool isSearch = false,
+  }) async {
+    if (isSearch) {
+      clearDSPAKN();
+    }
+    showLoading();
+    final result = await _YKNDRepo.getDanhSachPAKN(
+      tuNgay: startDate,
+      donViId: donViId,
+      denNgay: endDate,
+      pageSize: pageSizeDSPAKN.toString(),
+      pageNumber: pageNumberDSPAKN.toString(),
+      userId: userId,
+      tuKhoa: tuKhoa,
+    );
+
+    ///muốn test mở đoạn này ra
+    // final result = await _YKNDRepo.getDanhSachPAKN(
+    //   tuNgay: '05/04/2022',
+    //   donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
+    //   denNgay: '17/05/2022',
+    //   pageSize: '10',
+    //   pageNumber: '1',
+    //   userId: '19266143-feee-44d0-828a-e29df215f481',
+    // );
+    result.when(
+      success: (success) {
+        if (listDanhSachKetQuaPakn.hasValue) {
+          listDanhSachKetQuaPakn.sink
+              .add(listDanhSachKetQuaPakn.value + success);
+          canLoadMoreList =
+              success.length >= pageSizeDSPAKN;
+          loadMore = false;
+          refresh = false;
+        } else {
+          listDanhSachKetQuaPakn.sink.add(success);
+        }
+        showContent();
+      },
+      error: (error) {
+        listDanhSachKetQuaPakn.sink.add([]);
       },
     );
   }
@@ -529,7 +658,11 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   }
 
   void initTimeRange() {
-    startDate = DateTime.now().toStringWithListFormat;
+    final DateTime date = DateTime.now();
+    initStartDate =
+        DateTime(date.year, date.month, date.day - 30);
+    startDate =
+        DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;
   }
 
@@ -539,5 +672,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       donViId = dataUser.userInformation?.donViTrucThuoc?.id ?? '';
       userId = dataUser.userId ?? '';
     }
+  }
+
+  void dispose() {
+    listDanhSachKetQuaPakn.value.clear();
   }
 }

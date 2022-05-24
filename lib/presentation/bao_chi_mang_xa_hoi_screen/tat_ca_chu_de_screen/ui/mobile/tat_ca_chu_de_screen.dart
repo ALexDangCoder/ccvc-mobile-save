@@ -35,12 +35,13 @@ class TatCaChuDeScreen extends StatefulWidget {
 class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
-  ChuDeCubit chuDeCubit = ChuDeCubit();
+  late ChuDeCubit chuDeCubit;
   String defaultTime = ChuDeCubit.HOM_NAY;
 
   @override
   void initState() {
     super.initState();
+    chuDeCubit = ChuDeCubit();
     chuDeCubit.callApi();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -59,15 +60,15 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
                 children: [
                   Expanded(
                     child: CustomDropDown(
@@ -129,29 +130,35 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                   )
                 ],
               ),
-              Expanded(
-                child: StateStreamLayout(
-                  textEmpty: S.current.khong_co_du_lieu,
-                  retry: () {},
-                  error: AppException('1', ''),
-                  stream: chuDeCubit.stateStream,
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      chuDeCubit.pageIndex = 1;
-                      chuDeCubit.totalPage = 1;
-                      setState(() {
-                        defaultTime = ChuDeCubit.HOM_NAY;
-                      });
-                      await chuDeCubit.callApi();
-                    },
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          StreamBuilder<DashBoardModel>(
+            ),
+            Expanded(
+              child: StateStreamLayout(
+                textEmpty: S.current.khong_co_du_lieu,
+                retry: () {
+                  chuDeCubit.callApi();
+                },
+                error: AppException(
+                    S.current.error, S.current.something_went_wrong),
+                stream: chuDeCubit.stateStream,
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    chuDeCubit.pageIndex = 1;
+                    chuDeCubit.totalPage = 1;
+                    setState(() {
+                      defaultTime = ChuDeCubit.HOM_NAY;
+                    });
+                    await chuDeCubit.callApi();
+                  },
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: StreamBuilder<DashBoardModel>(
                             stream: chuDeCubit.streamDashBoard,
                             builder: (context, snapshot) {
                               final data =
@@ -171,38 +178,47 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                               );
                             },
                           ),
-                          StreamBuilder<TuongTacThongKeResponseModel>(
-                            stream: chuDeCubit.dataBaoCaoThongKe,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ??
-                                  TuongTacThongKeResponseModel(
-                                    danhSachTuongtacThongKe: [],
-                                  );
-                              return SizedBox(
-                                height: 240,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount:
-                                      data.danhSachTuongtacThongKe.length,
-                                  itemBuilder: (context, index) {
-                                    return ItemTableTopic(
+                        ),
+                        StreamBuilder<TuongTacThongKeResponseModel>(
+                          stream: chuDeCubit.dataBaoCaoThongKe,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ??
+                                TuongTacThongKeResponseModel(
+                                  danhSachTuongtacThongKe: [],
+                                );
+                            return SizedBox(
+                              height: 240,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: data.danhSachTuongtacThongKe.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: index == 0
+                                        ? const EdgeInsets.only(
+                                            left: 16,
+                                          )
+                                        : EdgeInsets.zero,
+                                    child: ItemTableTopic(
                                       chuDeCubit.listTitle[index],
                                       '',
                                       data
                                           .danhSachTuongtacThongKe[index]
                                           .dataTuongTacThongKeModel
                                           .interactionStatistic,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          StreamBuilder<List<ChuDeModel>>(
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: StreamBuilder<List<ChuDeModel>>(
                             stream: chuDeCubit.listYKienNguoiDan,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
@@ -293,14 +309,14 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                               }
                             },
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

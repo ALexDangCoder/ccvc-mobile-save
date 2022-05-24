@@ -117,11 +117,11 @@ class _EditWidgetState extends State<EditWidget> {
                               child: Text(
                                 snapshot.data == true
                                     ? (widget.cubit.person.isEmpty
-                                        ? widget.cubit.convertIdToPerson(
+                                        ? (widget.cubit.convertIdToPerson(
                                             widget.todo.performer ?? '',
-                                          )
+                                          ))
                                         : widget.cubit.person)
-                                    : (widget.cubit.person.isEmpty)
+                                    : (widget.cubit.person.isNotEmpty)
                                         ? S.current.tim_theo_nguoi
                                         : widget.cubit.person,
                                 style: textNormalCustom(
@@ -139,20 +139,19 @@ class _EditWidgetState extends State<EditWidget> {
                             child: GestureDetector(
                               onTap: () {
                                 widget.cubit.enabled.sink.add(false);
-                                widget.cubit.getPersontodo(person: '');
+                                widget.cubit.person = '';
                                 widget.cubit.toDoListRequest.performer =
                                     widget.todo.id;
                                 setState(() {});
                               },
-                              child: snapshot.data == true
-                                  ? (widget.cubit.person != ''
-                                      ? Container(
-                                          color: Colors.transparent,
-                                          child: SvgPicture.asset(
-                                            ImageAssets.icClose,
-                                          ),
-                                        )
-                                      : const SizedBox())
+                              child: snapshot.data == true &&
+                                      widget.cubit.person != ''
+                                  ? Container(
+                                      color: Colors.transparent,
+                                      child: SvgPicture.asset(
+                                        ImageAssets.icClose,
+                                      ),
+                                    )
                                   : const SizedBox(),
                             ),
                           )

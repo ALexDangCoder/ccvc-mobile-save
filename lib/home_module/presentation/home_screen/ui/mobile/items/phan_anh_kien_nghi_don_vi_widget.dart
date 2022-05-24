@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/views/loading_only.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -26,12 +31,13 @@ class PhanAnhKienNghiDonViWidget extends StatefulWidget {
 class _PhanAnhKienNghiDonViWidgetState
     extends State<PhanAnhKienNghiDonViWidget> {
   late HomeCubit cubit;
-  final PhanAnhKienNghiCubit _phanAnhKienNghiCubit = PhanAnhKienNghiCubit();
+  final TinhHinhXuLyYKienCubit _phanAnhKienNghiCubit = TinhHinhXuLyYKienCubit();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _phanAnhKienNghiCubit.callApi();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         // _vanBanDonViCubit.getDocument();
@@ -57,30 +63,38 @@ class _PhanAnhKienNghiDonViWidgetState
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ContainerBackgroundWidget(
-        minHeight: 260,
+       minHeight: 0,
         isShowSubTitle: false,
         title: S.current.phan_anh_kien_nghi_don_vi,
         onTapIcon: () {
           // cubit.showDialog(widget.homeItemType);
         },
         selectKeyDialog: _phanAnhKienNghiCubit,
-        child: statusBarWidget([
-          ChartData(
-            S.current.da_qua_han,
-            7,
-            statusCalenderRed,
-          ),
-          ChartData(
-            S.current.dang_xu_ly,
-            30,
-            itemWidgetNotUse,
-          ),
-          ChartData(
-            S.current.da_hoan_thanh,
-            7,
-            daXuLyColor,
-          ),
-        ]),
+        child: LoadingOnly(
+          stream: _phanAnhKienNghiCubit.stateStream,
+          child: StreamBuilder<List<TinhHinhYKienModel>>(
+              stream: _phanAnhKienNghiCubit.getTinhHinhXuLy,
+              builder: (context, snapshot) {
+
+                final data = snapshot.data ?? <TinhHinhYKienModel>[];
+                if(data.isEmpty){
+                  return const Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 50),
+                    child: NodataWidget(),
+                  );
+                }
+                return statusBarWidget(
+                  List.generate(
+                    data.length,
+                    (index) => ChartData(
+                      data[index].status,
+                      data[index].soLuong.toDouble(),
+                      TinhHinhYKienModel.listColor[index],
+                    ),
+                  ),
+                );
+              }),
+        ),
       ),
     );
   }
@@ -88,9 +102,9 @@ class _PhanAnhKienNghiDonViWidgetState
   Widget statusBarWidget(List<ChartData> listData) {
     final data = listData.map((e) => e.value).toList();
     final total = data.reduce((a, b) => a + b);
-    final listDataGirdView=[];
+    final listDataGirdView = [];
     listDataGirdView.addAll(listData);
-    listDataGirdView.insert(0,listDataGirdView.removeAt(1));
+    listDataGirdView.insert(0, listDataGirdView.removeAt(1));
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -100,36 +114,26 @@ class _PhanAnhKienNghiDonViWidgetState
           width: double.maxFinite,
           child: Row(
             children: [
-              Expanded(
-                flex: listData[0].value.toInt(),
-                child: Container(
-                  color: listData[0].color,
-                  child: Center(
-                    child: Text(
-                      listData[0].value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: listData[1].value.toInt(),
-                child: Container(
-                  color: listData[1].color,
-                  child: Center(
-                    child: Text(
-                      listData[1].value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              ...List.generate(2, (index) {
+                final data = listData[index];
+                return data.value == 0
+                    ? const SizedBox()
+                    : Expanded(
+                        flex: data.value.toInt(),
+                        child: Container(
+                          color: data.color,
+                          child: Center(
+                            child: Text(
+                              data.value.toInt().toString(),
+                              style: textNormal(
+                                backgroundColorApp,
+                                14.0.textScale(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+              }),
               Expanded(
                 flex: (total - (listData[0].value + listData[1].value)).toInt(),
                 child: const SizedBox(),
@@ -146,21 +150,24 @@ class _PhanAnhKienNghiDonViWidgetState
           color: backgroundRowColor,
           child: Row(
             children: [
-              Expanded(
-                flex: listData[2].value.toInt(),
-                child: Container(
-                  color: listData[2].color,
-                  child: Center(
-                    child: Text(
-                      listData[2].value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
+              if (listData[2].value == 0)
+                const SizedBox()
+              else
+                Expanded(
+                  flex: listData[2].value.toInt(),
+                  child: Container(
+                    color: listData[2].color,
+                    child: Center(
+                      child: Text(
+                        listData[2].value.toInt().toString(),
+                        style: textNormal(
+                          backgroundColorApp,
+                          14.0.textScale(),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
               Expanded(
                 flex: (total - (listData[2].value)).toInt(),
                 child: const SizedBox(),

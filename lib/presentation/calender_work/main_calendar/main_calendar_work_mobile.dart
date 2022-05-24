@@ -15,7 +15,7 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/widget/lich_lv_extensi
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_calendar_cubit.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -24,7 +24,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CalenderWorkDayMobile extends StatefulWidget {
-  const CalenderWorkDayMobile({Key? key}) : super(key: key);
+  final bool isBack;
+  const CalenderWorkDayMobile({Key? key,this.isBack = false}) : super(key: key);
 
   @override
   _CalenderWorkDayMobileState createState() => _CalenderWorkDayMobileState();
@@ -56,22 +57,34 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
             S.current.error,
           ),
           child: Scaffold(
-            appBar: BaseAppBar(
+            appBar: AppBarWithTwoLeading(
               title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                   ? cubit.titleAppbar
                   : snapshot.data?.getTitle() ??
                   TypeCalendarMenu.LichCuaToi.getTitle(),
-              leadingIcon: IconButton(
-                onPressed: () {
-                  setState(() {});
-                  cubit.isCheck = !cubit.isCheck;
-                },
-                icon: BlocBuilder<CalenderCubit, CalenderState>(
-                  bloc: cubit,
-                  builder: (context, state) {
-                    return state.lichLamViecIconsMobile();
-                  },
-                ),
+              leadingIcon: Row(
+                children: [
+                 if (widget.isBack) IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: SvgPicture.asset(
+                      ImageAssets.icBack,
+                    ),
+                  ) else const SizedBox(),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {});
+                      cubit.isCheck = !cubit.isCheck;
+                    },
+                    icon: BlocBuilder<CalenderCubit, CalenderState>(
+                      bloc: cubit,
+                      builder: (context, state) {
+                        return state.lichLamViecIconsMobile();
+                      },
+                    ),
+                  ),
+                ],
               ),
               actions: [
                 BlocBuilder<CalenderCubit, CalenderState>(

@@ -137,6 +137,24 @@ extension CheckValidate on String {
     }
   }
 
+  String? checkSdtRequire() {
+    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    if (isCheckSdt) {
+      return null;
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
+  String? validateCopyPaste() {
+    final isCheck = RegExp('[^0-9]').hasMatch(this);
+    if (isCheck) {
+      return null;
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
   String? checkNull() {
     if (trim().isEmpty) {
       return S.current.khong_duoc_de_trong;

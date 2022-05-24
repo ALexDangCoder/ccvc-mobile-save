@@ -1,9 +1,11 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class NhiemVuItemMobile extends StatelessWidget {
   final PageData data;
@@ -23,7 +25,7 @@ class NhiemVuItemMobile extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20.0),
-        height: 107,
+        height: 126,
         decoration: BoxDecoration(
           border: Border.all(color: borderItemCalender),
           borderRadius: BorderRadius.circular(10.0),
@@ -66,28 +68,62 @@ class NhiemVuItemMobile extends StatelessWidget {
                         children: [
                           Text(
                             (data.noiDungTheoDoi ?? '').parseHtml(),
-                            style: titleAppbar(fontSize: 16.0),
+                            style: titleAppbar(
+                                fontSize: 16.0,
+                                color:
+                                    data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
+                                        textTitle),
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          Text(
-                            data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
-                            style: textNormalCustom(
-                              color: textBodyTime,
-                              fontWeight: FontWeight.w400,
-                            ),
+                            maxLines: 2,
                           ),
                           Row(
                             children: [
                               Expanded(
+                                flex: 5,
                                 child: Text(
-                                  data.tinhHinhThucHienNoiBo ?? '',
+                                  data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: textBodyTime,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  maxLines: 1,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  'Chủ trì',
+                                  style: titleAppbar(fontSize: 16.0),
                                   overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data.nguoiGiaoViec ?? '',
+                                      style: textNormalCustom(
+                                        color: unselectedLabelColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      '${S.current.nhiem_vu}: ${data.loaiNhiemVu}',
+                                      style: textNormalCustom(
+                                        color: unselectedLabelColor,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
                               ),
                               Container(

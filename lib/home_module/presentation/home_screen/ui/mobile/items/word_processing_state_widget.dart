@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ccvc_mobile/domain/model/document/incoming_document.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/widgets/han_xu_ly_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/home_module/utils/enum_ext.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/ui/mobile/incoming_document_screen_dashboard.dart';
@@ -70,28 +71,8 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
       onTapIcon: () {
         cubit.showDialog(widget.homeItemType);
       },
-      selectKeyDialog: _xuLyCubit,
-      dialogSelect: StreamBuilder(
-          stream: _xuLyCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              type: widget.homeItemType,
-              listSelectKey: <DialogData>[
-                DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _xuLyCubit.selectDate(
-                        selectKey: value,
-                        startDate: startDate,
-                        endDate: endDate);
-                  },
-                  title: S.current.time,
-                  initValue: _xuLyCubit.selectKeyTime,
-                  startDate: _xuLyCubit.startDate,
-                  endDate: _xuLyCubit.endDate,
-                )
-              ],
-            );
-          }),
+      // selectKeyDialog: _xuLyCubit,
+      //
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -108,28 +89,10 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                       children: [
                         PieChart(
                           paddingTop: 0,
-                          chartData: [
-                            ChartData(
-                                S.current.cho_vao_so,
-                                data.soLuongChoVaoSo?.toDouble() ?? 0,
-                                choVaoSoColor,
-                                SelectKey.CHO_VAO_SO),
-                            ChartData(
-                                S.current.dang_xu_ly,
-                                data.soLuongDangXuLy?.toDouble() ?? 0,
-                                dangXyLyColor,
-                                SelectKey.DANG_XU_LY),
-                            ChartData(
-                                S.current.cho_xu_ly,
-                                data.soLuongChoXuLy?.toDouble() ?? 0,
-                                choXuLyColor,
-                                SelectKey.CHO_XU_LY),
-                            ChartData(
-                                S.current.da_xu_ly,
-                                data.soLuongDaXuLy?.toDouble() ?? 0,
-                                daXuLyColor,
-                                SelectKey.DA_XU_LY),
-                          ],
+                          chartData:List.generate(data.listVBDen().length, (index){
+                            final result = data.listVBDen()[index];
+                            return ChartData(result.key.getText(), result.value.toDouble(), result.color);
+                          }),
                           onTap: (value, key) {
                             if (key != null) {
                               _xuLyCubit.selectTrangThaiVBDen(key);
@@ -152,6 +115,21 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                           height: 26,
                         ),
                         HanXuLyWidget(
+                          onTap: (value){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => IncomingDocumentScreen(
+                                  startDate: '',
+                                  title: S.current.danh_sach_van_ban_den,
+                                  endDate: '',
+                                  type: TypeScreen.VAN_BAN_DEN,
+                                  maTrangThai: [],
+
+                                ),
+                              ),
+                            );
+                          },
                           data: [
                             ChartData(
                                 S.current.qua_han,

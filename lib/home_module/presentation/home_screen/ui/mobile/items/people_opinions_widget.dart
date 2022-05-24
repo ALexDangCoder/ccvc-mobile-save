@@ -96,15 +96,15 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                     padding: const EdgeInsets.only(top: 16),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChiTietYKNDScreen(
-                              iD: result.id,
-                              taskID: result.taskId,
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ChiTietYKNDScreen(
+                        //       iD: result.id,
+                        //       taskID: result.taskId,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: ContainerInfoWidget(
                         title: result.title,
@@ -113,7 +113,7 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                         listData: [
                           InfoData(
                             urlIcon: ImageAssets.icSoKyHieu,
-                            key: S.current.so,
+                            key: S.current.so_ky_hieu,
                             value: result.kyHieu,
                           ),
                           InfoData(
@@ -121,11 +121,7 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                             key: S.current.ten_ca_nhan_to_chuc,
                             value: result.noiGui,
                           ),
-                          InfoData(
-                            urlIcon: ImageAssets.icTime,
-                            key: S.current.han_xu_ly,
-                            value: result.hanXuLyCover,
-                          ),
+
                         ],
                       ),
                     ),

@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/tablet/thiep_chuc_sinh_nhat_tablet_screen.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -97,7 +99,21 @@ class _EventOfDayWidgetState extends State<SinhNhatTabletWidget> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: EventWidget(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ThiepChucMungTabletScreen(
+                                        sinhNhatUserModel: result,
+                                      ),
+                                ),
+                              ).then((value) {
+                                if (value != null) {
+                                  MessageConfig.show(title: value);
+                                }
+                              });
+                            },
                             title: result.title(),
                           ),
                         );

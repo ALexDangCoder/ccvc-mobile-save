@@ -1,5 +1,6 @@
 
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/phone/chi_tiet_nhiem_vu_phone_screen.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_mobile.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -46,6 +47,14 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
       minHeight: 0,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+      },
+      onTapTitle: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainNhieVuMobile(),
+          ),
+        );
       },
       isUnit: true,
       selectKeyDialog: _nhiemVuCubit,
@@ -101,20 +110,20 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
                     padding: const EdgeInsets.only(top: 16),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChiTietNhiemVuPhoneScreen(
-                              id: result.id,
-                              isCheck: _nhiemVuCubit.selectKeyDonVi == SelectKey.CA_NHAN ? true: false,
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ChiTietNhiemVuPhoneScreen(
+                        //       id: result.id,
+                        //       isCheck: _nhiemVuCubit.selectKeyDonVi == SelectKey.CA_NHAN ? true: false,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: ContainerInfoWidget(
                         title: result.title,
-                        status: result.codeStatus.getText(),
-                        colorStatus: result.codeStatus.getColor(),
+                        status: result.trangThaiHanXuLyEnum?.getText() ?? '',
+                        colorStatus: result.trangThaiHanXuLyEnum?.getColor(),
                         listData: [
                           InfoData(
                             urlIcon: ImageAssets.icWork,

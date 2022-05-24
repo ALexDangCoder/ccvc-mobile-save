@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
@@ -12,11 +11,13 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thon
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_widget.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/screen_controller.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ThongTinChungYKNDScreen extends StatefulWidget {
@@ -32,11 +33,12 @@ class ThongTinChungYKNDScreen extends StatefulWidget {
 
 class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   TextEditingController controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
-    widget.cubit.callApi();
+    //  widget.cubit.callApi();
     widget.cubit.getDanhSachPAKN();
   }
 
@@ -49,67 +51,130 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: StreamBuilder<bool>(
-          stream: widget.cubit.selectSreach,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56.0),
+        child: StreamBuilder<bool>(
+          initialData: false,
+          stream: widget.cubit.selectSearch,
           builder: (context, snapshot) {
-            final selectData = snapshot.data ?? false;
-            return selectData
-                ? TextFormField(
-                    controller: controller,
-                    onChanged: (value) {
-                      setState(() {});
-                      widget.cubit.search = value;
-                    },
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: S.current.tim_kiem,
-                      hintStyle: textNormalCustom(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: unselectLabelColor,
+            final data = snapshot.data ?? false;
+            return data
+                ? SafeArea(
+                    child: Container(
+                      padding: const EdgeInsets.only(right: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: cellColorborder,
+                        ),
+                      ),
+                      child: TextField(
+                        controller: controller,
+                        // focusNode: focusNode,
+                        textAlignVertical: TextAlignVertical.center,
+                        cursorColor: Colors.black,
+                        style: tokenDetailAmount(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          prefixIcon: GestureDetector(
+                            onTap: () {
+                              widget.cubit.setSelectSearch();
+                            },
+                            child: const Icon(
+                              Icons.search,
+                              color: coloriCon,
+                            ),
+                          ),
+                          suffixIcon: widget.cubit.showCleanText
+                              ? GestureDetector(
+                                  onTap: () {
+                                    controller.clear();
+                                    widget.cubit.tuKhoa = '';
+                                    widget.cubit.clearDSPAKN();
+                                    widget.cubit
+                                        .getDanhSachPAKN(isSearch: true);
+                                    widget.cubit.showCleanText = false;
+                                    setState(() {});
+                                  },
+                                  child: const Icon(
+                                    Icons.close,
+                                    color: coloriCon,
+                                  ),
+                                )
+                              : const SizedBox(),
+                          border: InputBorder.none,
+                          hintText: S.current.tim_kiem,
+                          hintStyle: const TextStyle(
+                            color: coloriCon,
+                            fontSize: 14,
+                          ),
+                        ),
+                        onChanged: (searchText) {
+                          if (searchText.isEmpty) {
+                            setState(() {});
+                            widget.cubit.showCleanText = false;
+                            widget.cubit.tuKhoa = '';
+                            widget.cubit.clearDSPAKN();
+                            widget.cubit.getDanhSachPAKN(isSearch: true);
+                          } else {
+                            widget.cubit.debouncer.run(() {
+                              setState(() {});
+                              widget.cubit.tuKhoa = searchText;
+                              widget.cubit.clearDSPAKN();
+                              widget.cubit.getDanhSachPAKN(isSearch: true);
+                              widget.cubit.showCleanText = true;
+                            });
+                          }
+                        },
+                        onSubmitted: (searchText) {},
                       ),
                     ),
                   )
-                : Text(
-                    S.current.thong_tin_pakn,
-                    style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+                : AppBar(
+                    elevation: 0.0,
+                    title: Text(
+                      S.current.thong_tin_pakn,
+                      style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+                    ),
+                    leading: IconButton(
+                      onPressed: () => {Navigator.pop(context)},
+                      icon: SvgPicture.asset(
+                        ImageAssets.icBack,
+                      ),
+                    ),
+                    actions: [
+                      GestureDetector(
+                        onTap: () {
+                          // widget.cubit.setSelectSearch();
+                          widget.cubit.setSelectSearch();
+                        },
+                        child: SvgPicture.asset(ImageAssets.icSearchPAKN),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          DrawerSlide.navigatorSlide(
+                            context: context,
+                            screen: YKienNguoiDanMenu(
+                              cubit: widget.cubit,
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(ImageAssets.icMenuCalender),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                    ],
+                    centerTitle: true,
                   );
           },
         ),
-        leading: IconButton(
-          onPressed: () => {Navigator.pop(context)},
-          icon: SvgPicture.asset(
-            ImageAssets.icBack,
-          ),
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              widget.cubit.setSelectSearch();
-            },
-            child: SvgPicture.asset(ImageAssets.icSearchPAKN),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-          GestureDetector(
-            onTap: () {
-              DrawerSlide.navigatorSlide(
-                context: context,
-                screen: YKienNguoiDanMenu(
-                  cubit: widget.cubit,
-                ),
-              );
-            },
-            child: SvgPicture.asset(ImageAssets.icMenuCalender),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-        ],
-        centerTitle: true,
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
@@ -131,9 +196,13 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FilterDateTimeWidget(
+                  initStartDate: widget.cubit.initStartDate,
                   context: context,
                   isMobile: true,
                   onChooseDateFilter: (DateTime startDate, DateTime endDate) {
+                    widget.cubit.startDate = startDate.toStringWithListFormat;
+                    widget.cubit.endDate = endDate.toStringWithListFormat;
+                    widget.cubit.clearDSPAKN();
                     widget.cubit.getDanhSachPAKN();
                   },
                 ),
@@ -147,6 +216,9 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
+                        SizedBox(
+                          height: 20,
+                        ),
                         TiepCanWidget(),
                         SizedBox(
                           height: 33,
@@ -164,38 +236,73 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   height: 6,
                 ),
                 spaceH20,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    S.current.danh_sach_pakn,
-                    style: textNormalCustom(
-                      color: textTitle,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
                 StreamBuilder<List<DanhSachKetQuaPAKNModel>>(
                   stream: widget.cubit.listDanhSachKetQuaPakn.stream,
                   initialData: const [],
                   builder: (context, snapShot) {
                     final data = snapShot.data ?? [];
                     if (data.isEmpty) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 20,
+                      widget.cubit.isEmptyData = true;
+                      return Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                S.current.danh_sach_pakn,
+                                style: textNormalCustom(
+                                  color: textTitle,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            SvgPicture.asset(
+                              ImageAssets.icNoDataNhiemVu,
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            Text(
+                              S.current.khong_co_thong_tin_pakn,
+                              style: textNormalCustom(
+                                  fontSize: 16.0, color: grayChart),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                          ],
                         ),
-                        child: const NodataWidget(),
                       );
                     } else {
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return _itemDanhSachPAKN(dsKetQuaPakn: data[index]);
-                        },
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              S.current.danh_sach_pakn,
+                              style: textNormalCustom(
+                                color: textTitle,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              return _itemDanhSachPAKN(
+                                  dsKetQuaPakn: data[index]);
+                            },
+                          ),
+                        ],
                       );
                     }
                   },

@@ -29,7 +29,7 @@ Future<Map<String, dynamic>> pickFile() async {
   String _fileName = '';
   final FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
-    allowedExtensions: ['jpg', 'pdf', 'doc', 'png', 'exec'],
+    allowedExtensions: ['jpg', 'pdf', 'doc', 'png', 'exec', 'jpeg'],
   );
   if (result != null) {
     _fileExtension = (result.files.single.extension ?? '').toUpperCase();

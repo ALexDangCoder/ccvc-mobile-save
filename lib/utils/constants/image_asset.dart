@@ -39,6 +39,7 @@ class ImageAssets {
   static const String icInformation = '$baseImg/ic_information.svg';
   static const String icLocation = '$baseImg/ic_location.svg';
   static const String icTimeH = '$baseImg/ic_time_h.svg';
+  static const String icNoDataNhiemVu= '$baseImg/ic_no_data_nhiem_vu.svg';
 
 
 

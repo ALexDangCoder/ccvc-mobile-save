@@ -1,10 +1,10 @@
-class TinhHuongKhanCapModel {
+class TinBuonModel {
   String id = '';
   bool isLink = false;
   String? linkOrContent;
   String title = '';
 
-  TinhHuongKhanCapModel({
+  TinBuonModel({
     required this.id,
     required this.isLink,
     this.linkOrContent,

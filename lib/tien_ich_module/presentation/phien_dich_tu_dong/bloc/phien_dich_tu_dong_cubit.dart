@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/phien_dich_tu_dong/ui/widget/language_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
-class PhienDichTuDongCubit {
+class PhienDichTuDongCubit{
 
   /// source language
   BehaviorSubject<LANGUAGE> languageSubject =
@@ -71,7 +70,6 @@ class PhienDichTuDongCubit {
 
   TienIchRepository get repo => Get.find();
 
-  final Debouncer debouncer = Debouncer(milliseconds: 500);
   Future<void> translateDocument({required String document}) async {
     if(document.isEmpty){
       textTranslateSubject.add('');
@@ -88,5 +86,11 @@ class PhienDichTuDongCubit {
       },
       error: (error) {},
     );
+  }
+
+  void dispose(){
+    languageSubject.close();
+    lengthTextSubject.close();
+    textTranslateSubject.close();
   }
 }

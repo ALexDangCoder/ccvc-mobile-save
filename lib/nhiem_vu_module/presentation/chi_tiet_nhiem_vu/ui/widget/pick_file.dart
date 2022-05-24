@@ -13,21 +13,16 @@ const String VALID_FORMAT_OF_FILE = 'valid_format';
 const String NAME_OF_FILE = 'name';
 const String FILE_RESULT = 'file_result';
 
-const String MEDIA_VIDEO_FILE = 'video';
-const String MEDIA_IMAGE_FILE = 'image';
-const String MEDIA_AUDIO_FILE = 'audio';
-const String DOCUMENT_FILE = 'document';
-const String AVATAR_PHOTO = 'AVATAR';
-const String COVER_PHOTO = 'COVER_PHOTO';
-const String FEATURE_PHOTO = 'FEATURE_PHOTO';
-const String VIDEO_ACTIVITY = 'video/MP4';
 
 Future<Map<String, dynamic>> pickFile() async {
   String _filePath = '';
   String _fileExtension = '';
   int _fileSize = 0;
   String _fileName = '';
-  final FilePickerResult? result = await FilePicker.platform.pickFiles();
+  final FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['jpg', 'pdf', 'doc','xls','xlsx',],
+  );
   if (result != null) {
     _fileExtension = (result.files.single.extension ?? '').toUpperCase();
     _filePath = result.files.single.path ?? '';

@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/extensions/string_extension.dart';
@@ -25,7 +25,7 @@ class NhiemVuItemMobile extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20.0),
-        height: 107,
+        height: 126,
         decoration: BoxDecoration(
           border: Border.all(color: borderItemCalender),
           borderRadius: BorderRadius.circular(10.0),
@@ -74,7 +74,7 @@ class NhiemVuItemMobile extends StatelessWidget {
                                     data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
                                         textTitle),
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            maxLines: 2,
                           ),
                           Row(
                             children: [

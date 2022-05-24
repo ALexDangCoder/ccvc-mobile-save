@@ -1,11 +1,18 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/data/di/module.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 
 class YKienSuLyWidgetExpandTablet extends StatefulWidget {
   final CommentsDetailDocumentCubit cubit;
@@ -106,8 +113,7 @@ class _YKienSuLyWidgetExpandTabletState
               CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  data.avatar ??
-                      'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  '$DO_MAIN_DOWLOAD_FILE${data.avatar ?? ''}',
                 ),
               ),
               spaceW13,
@@ -155,52 +161,30 @@ class _YKienSuLyWidgetExpandTabletState
             ), //infoColor
           ),
           spaceH6,
-          Row(
-            children: [
-              if (data.yKienXuLyFileDinhKem?.isNotEmpty ?? false) ...[
-                GestureDetector(
-                  onTap: () {
-                    //todo
-                  },
-                  child: Text(
-                    data.yKienXuLyFileDinhKem
-                        ?.map((e) => e.fileDinhKem?.ten ?? '')
-                        .toList()
-                        .join(',') ??
-                        '',
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: textColorMangXaHoi,
-                    ), //infoColor
-                  ),
+          Wrap(
+            children: data.yKienXuLyFileDinhKem
+                ?.map(
+                  (e) => GestureDetector(
+                onTap: () {
+                  final appConstants = Get.find<AppConstants>();
+                  handleSaveFile(
+                    url:
+                    '${appConstants.baseUrlGateWay}${e.fileDinhKem?.duongDan ?? ''}',
+                    name: e.fileDinhKem?.ten ?? '',
+                  );
+                },
+                child: Text(
+                  '${e.fileDinhKem?.ten ?? ''} ;',
+                  style: textNormalCustom(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: textColorMangXaHoi,
+                  ), //infoColor
                 ),
-                spaceW16
-              ],
-              if (showChild)
-                GestureDetector(
-                  onTap: () {
-                    if (index != indexActiveRelay) {
-                      setState(() {
-                        if (indexActiveRelay != null) {
-                          widget.cubit.listComment[indexActiveRelay!].isInput =
-                          false;
-                        }
-                        widget.cubit.listComment[index].isInput = true;
-                        indexActiveRelay = index;
-                      });
-                    }
-                  },
-                  child: Text(
-                    S.current.phan_hoi,
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: textColorMangXaHoi,
-                    ), //infoColor
-                  ),
-                ),
-            ],
+              ),
+            )
+                .toList() ??
+                [],
           ),
           // if ((data.listYKien?.isNotEmpty ?? false) && showChild == true) ...[
           //   ListView.builder(

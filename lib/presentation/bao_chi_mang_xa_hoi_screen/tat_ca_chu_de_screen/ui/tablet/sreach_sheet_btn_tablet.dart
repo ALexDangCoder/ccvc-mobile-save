@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/bloc/chu_de_cubit.dart';
+import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/item_search_tablet.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/bloc/phat_ban_tin_bloc.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
@@ -12,8 +13,6 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-
-import 'item_search.dart';
 
 class SearchBanTinBtnSheet extends StatefulWidget {
   final ChuDeCubit cubit;
@@ -38,6 +37,7 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
       DateTime.now().formatApiEndDay,
       '',
     );
+
     super.initState();
   }
 
@@ -50,7 +50,7 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.65,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [

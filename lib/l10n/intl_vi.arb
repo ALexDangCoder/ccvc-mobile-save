@@ -425,6 +425,7 @@
   "van_ban_lien_quan_kbh": "Văn bản liên quan(không ban hành)",
   "van_ban_tra_loi" : "Văn bản trả lời",
   "don_vi_ban_hanh": "Đơn vị banh hành",
+  "ngay_nhan_ban_giay": "Ngày nhận bản giấy",
   "ten_don_vi_cheo_ca_nhan": "Tên đơn vị/cá nhân",
   "van_ban_giao_nhiem_vu": "Văn bản giao nhiệm vụ",
   "van_ban_khac": "Văn bản khác",
@@ -969,13 +970,18 @@
   "so" : "Số",
   "ten_ca_nhan_to_chuc" : "Tên cá nhân/ tổ chức",
   "lich_cho_xac_nhan" : "Lịch chờ xác nhận",
-  "file_khong_hop_le": "File không hợp lệ!",
   "danh_sach_pakn": "Danh sách PAKN",
   "khong_co_thong_tin_pakn": "Không có thông tin Pakn",
   "ngay_sinh_require": "Ngày sinh (*)",
   "sdt_co_quan_require": "Số điện thoại cơ quan (*)",
   "sdt_nha_rieng_require": "Số điện thoại nhà riêng (*)",
+  "thiep_va_loi_chuc" : "Thiệp và lời chúc",
+  "gui_loi_chuc" : "Gửi lời chúc",
+  "gui_loi_chuc_toi" : "Gửi lời chúc tới",
+  "gui" : "Gửi",
+  "gui_thiep_thanh_cong" : "Gửi thiệp thành công",
   "cai_dat_thong_bao" : "Cài đặt thông báo"
+
 }
 
 

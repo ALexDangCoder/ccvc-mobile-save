@@ -50,7 +50,7 @@ class ChiTietVanBanDenResponse extends Equatable {
   String? loaiVanBanId;
   @JsonKey(name: 'LoaiVanBan')
   String? loaiVanBan;
-  @JsonKey(name: 'DoKyHieu')
+  @JsonKey(name: 'SoKyHieu')
   String? soKyHieu;
   @JsonKey(name: 'NgayBanHanh')
   String? ngayBanHanh;

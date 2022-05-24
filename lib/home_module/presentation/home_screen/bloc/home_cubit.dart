@@ -927,8 +927,8 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         index: 1,
         isChoYKien: isChoYKien,
         isSortByDoKhan: true,
-        thoiGianStartFilter: startDate.formatApi,
-        thoiGianEndFilter: endDate.formatApi,
+        thoiGianStartFilter: '',
+        thoiGianEndFilter: '',
         size: 10,
       ),
     );
@@ -952,8 +952,8 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         isDanhSachChoXuLy: isDanhSachChoXuLy,
         isDanhSachDaBanHanh: isDanhSachDaBanHanh,
         isSortByDoKhan: true,
-        ngayTaoEndSearch: endDate.toString(),
-        ngayTaoStartSearch: startDate.toString(),
+        ngayTaoEndSearch: '',
+        ngayTaoStartSearch: '',
         size: 10,
       ),
     );

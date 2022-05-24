@@ -146,7 +146,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             final data = row.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: data
+              children: <Widget>[...data
                   .map(
                     (e) => GestureDetector(
                       onTap: () async {
@@ -165,7 +165,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                       ),
                     ),
                   )
-                  .toList(),
+                  .toList()],
             );
           } else {
             return const SizedBox.shrink();

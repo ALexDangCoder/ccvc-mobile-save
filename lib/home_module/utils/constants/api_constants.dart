@@ -9,7 +9,7 @@ class ApiConstants {
       '/api/Widget/get-dashboard-widget-config?';
   static const String GET_DASHBOARD_VB_DEN =
       '/qlvb/api/danh-muc/dashboard-van-ban-den';
-  static const String GET_VB_DI_SO_LUONG = '/qlvb/api/van-ban-di/so-luong?';
+  static const String GET_VB_DI_SO_LUONG = '/qlvb/api/van-ban-di/so-luong';
 
   static const String DANH_SACH_CONG_VIEC =
       '/qlvb/api/qlnv/cong-viec/danhsachcongvieccanhan';
@@ -32,8 +32,9 @@ class ApiConstants {
   static const DANH_SACH_LICH_LAM_VIEC = '/vpdt/api/Schedules/danh-sach-lich';
   static const CANLENDAR_LIST_MEETING =
       '/vpdt/api/MeetingSchedule/calendar-list';
-  static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay?';
-  static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
+  static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay';
+  static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat';
+  static const GUI_LOI_CHUC = '/api/CmsCard/tao-loichuc-thiep';
 }
 
 class ImageConstants {

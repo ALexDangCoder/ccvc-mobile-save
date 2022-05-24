@@ -50,7 +50,8 @@ class Data {
   SinhNhatUserModel toDomain() => SinhNhatUserModel(
         canBoId: canBoId ?? '',
         ngaySinh: ngaySinh ?? '',
-        tenCanBo: tenCanBo ?? '',
+        tenCanBo: (tenCanBo ?? '').trim(),
         gioiTinh: gioiTinh ?? '',
+    email: (email ?? '').trim(),
       );
 }

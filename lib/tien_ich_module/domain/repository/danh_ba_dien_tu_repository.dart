@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/tien_ich_module/data/request/sua_danh_sach_request.d
 import 'package:ccvc_mobile/tien_ich_module/data/request/them_danh_ba_ca_nhan_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_to_chuc_model.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/path_file_anh_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/them_moi_danh_ba_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/xoa_danh_ba_model.dart';
 
@@ -36,4 +37,5 @@ mixin DanhBaDienTuRepository {
     String filterBy,
     String idDonVi,
   );
+
 }

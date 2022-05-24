@@ -17,6 +17,7 @@ class ChinhSuaBaoCaoKetQuaResponse {
     code = json['code'];
     message = json['message'];
   }
+
   MessageModel toDomain() => MessageModel(
         code: code ?? '',
         succeeded: succeeded ?? false,

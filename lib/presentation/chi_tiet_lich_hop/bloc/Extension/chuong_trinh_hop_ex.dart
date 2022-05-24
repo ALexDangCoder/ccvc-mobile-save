@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
@@ -44,6 +46,62 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         getListPhienHop(id);
       },
       error: (error) {},
+    );
+  }
+
+  Future<void> suaChuongTrinhHop({
+    required String id,
+    required String lichHopId,
+    required String tieuDe,
+    required String thoiGianBatDau,
+    required String thoiGianKetThuc,
+    required String canBoId,
+    required String donViId,
+    required String noiDung,
+    required String? hoTen,
+    required bool isMultipe,
+    required List<File>? file,
+  }) async {
+    showLoading();
+
+    final result = await hopRp.suaChuongTrinhHop(
+      id,
+      lichHopId,
+      tieuDe,
+      thoiGianBatDau,
+      thoiGianKetThuc,
+      canBoId,
+      donViId,
+      noiDung,
+      hoTen ?? '',
+      isMultipe,
+      file ?? [],
+    );
+
+    result.when(
+      success: (value) {
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
+    );
+  }
+
+  Future<void> xoaChuongTrinhHop({
+    required String id,
+  }) async {
+    showLoading();
+
+    final result = await hopRp.xoaChuongTrinhHop(id);
+
+    result.when(
+      success: (value) {
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
     );
   }
 }

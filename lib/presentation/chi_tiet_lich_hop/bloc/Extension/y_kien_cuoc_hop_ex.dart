@@ -23,18 +23,13 @@ extension YKienCuocHop on DetailMeetCalenderCubit {
   }) async {
     showLoading();
     final ThemYKienRequest themYKienRequest = ThemYKienRequest(
-      content: yKien != '' ? yKien : '',
+      content: yKien.isNotEmpty ? yKien : '',
       scheduleId: idLichHop,
-      scheduleOpinionId: scheduleOpinionId != '' ? scheduleOpinionId : null,
-      phienHopId: phienHopId != '' ? phienHopId : null,
+      scheduleOpinionId:
+          scheduleOpinionId.isNotEmpty ? scheduleOpinionId : null,
+      phienHopId: phienHopId.isNotEmpty ? phienHopId : null,
     );
     final result = await hopRp.themYKienHop(themYKienRequest);
-    result.when(
-      success: (res) {},
-      error: (err) {
-        return;
-      },
-    );
   }
 
   // danh sách phiên họp - ý kiến cuộc họp

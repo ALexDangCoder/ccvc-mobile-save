@@ -198,6 +198,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String chonNgay = '';
   List<File>? listFile = [];
 
+  TimerData start = TimerData(hour: 0, minutes: 0);
+  TimerData end = TimerData(hour: 0, minutes: 0);
+
   Future<void> initData({
     required String id,
   }) async {
@@ -254,8 +257,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     return TimerData(hour: dateTime.hour, minutes: dateTime.minute);
   }
 
-  TimerData start = TimerData(hour: 0, minutes: 0);
-  TimerData end = TimerData(hour: 0, minutes: 0);
+
 
   String chonNgayStr(String date) {
     final DateFormat paserDate = DateFormat('yyyy-MM-ddTHH:mm:ss');
@@ -290,61 +292,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     return times.formatApiTaoBieuQuyet;
   }
 
-  Future<void> suaChuongTrinhHop({
-    required String id,
-    required String lichHopId,
-    required String tieuDe,
-    required String thoiGianBatDau,
-    required String thoiGianKetThuc,
-    required String canBoId,
-    required String donViId,
-    required String noiDung,
-    required String? hoTen,
-    required bool isMultipe,
-    required List<File>? file,
-  }) async {
-    showLoading();
 
-    final result = await hopRp.suaChuongTrinhHop(
-      id,
-      lichHopId,
-      tieuDe,
-      thoiGianBatDau,
-      thoiGianKetThuc,
-      canBoId,
-      donViId,
-      noiDung,
-      hoTen ?? '',
-      isMultipe,
-      file ?? [],
-    );
-
-    result.when(
-      success: (value) {
-        showContent();
-      },
-      error: (error) {
-        showError();
-      },
-    );
-  }
-
-  Future<void> xoaChuongTrinhHop({
-    required String id,
-  }) async {
-    showLoading();
-
-    final result = await hopRp.xoaChuongTrinhHop(id);
-
-    result.when(
-      success: (value) {
-        showContent();
-      },
-      error: (error) {
-        showError();
-      },
-    );
-  }
 
   BehaviorSubject<List<DanhSachNguoiThamGiaModel>> nguoiThamGiaSubject =
       BehaviorSubject();

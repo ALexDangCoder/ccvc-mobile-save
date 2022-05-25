@@ -192,18 +192,15 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
   }
 
   void getListVanBanLienQuanNhiemVu(List<VanBanLienQuanNhiemVuModel> list) {
-    for (final data in list) {
-      if (data.daGanVanBan == true) {
-        vanBanGiaoNhiemVuSubject.sink.add([data]);
-      } else {
-        vanBanKhacNhiemVuSubject.sink.add([data]);
-      }
-    }
+    vanBanGiaoNhiemVuSubject.sink
+        .add(list.where((element) => element.daGanVanBan == true).toList());
+    vanBanKhacNhiemVuSubject.sink
+        .add(list.where((element) => element.daGanVanBan == false).toList());
   }
 
   /// Xin ý kiến
 
-  List<File> listFileMain = [];
+
   final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
   final List<PickImageFileModel> listPickFileMain = [];
   int byteToMb = 1048576;

@@ -60,8 +60,8 @@ class ChiTietNhiemVuModel {
       ),
       ChiTietHeaderRow(
         key: S.current.so_nhiem_vu,
-        value: processTypeCode??'',
-        isNote: true,
+        value: processCode??'',
+        isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.tinh_hinh_thuc_hien,
@@ -71,7 +71,7 @@ class ChiTietNhiemVuModel {
       ChiTietHeaderRow(
         key: S.current.han_xu_ly,
         value: hanXuLy??'',
-        isNote: true,
+        isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.nguoi_giao,
@@ -81,7 +81,7 @@ class ChiTietNhiemVuModel {
       ChiTietHeaderRow(
         key: S.current.noi_dung,
         value: processContent?.parseHtml()??'',
-        isNote: true,
+        isNote: false,
       ),
     ];
 

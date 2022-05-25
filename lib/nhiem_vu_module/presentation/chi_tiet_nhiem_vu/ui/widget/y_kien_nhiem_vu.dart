@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
@@ -10,6 +13,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -76,7 +80,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                     },
                   );
                 } else {
-                  return NodataWidget();
+                  return const NodataWidget();
                 }
               },
             ),
@@ -160,14 +164,65 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                             children: [
                               GestureDetector(
                                 onTap: () async {
-                                  final Map<String, dynamic> mediaMap =
-                                      await pickImage(fromCamera: true);
-                                  addDataListPick(
-                                    mediaMap,
-                                    isMain
-                                        ? PickImage.PICK_MAIN
-                                        : PickImage.PICK_Y_KIEN,
-                                  );
+                                  if (Platform.isIOS) {
+                                    unawaited(
+                                      showCupertinoModalPopup(
+                                        context: context,
+                                        builder: (_) => CupertinoActionSheet(
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                                final Map<String, dynamic>
+                                                mediaMapImage =
+                                                await pickImage(
+                                                  fromCamera: true,
+                                                );
+                                                addDataListPick(
+                                                  mediaMapImage,
+                                                  isMain
+                                                      ? PickImage.PICK_MAIN
+                                                      : PickImage.PICK_Y_KIEN,
+                                                );
+                                              },
+                                              child: const Text('Camera'),
+                                            ),
+                                            CupertinoActionSheetAction(
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                                final Map<String, dynamic>
+                                                mediaMapImage =
+                                                await pickImage();
+                                                addDataListPick(
+                                                  mediaMapImage,
+                                                  isMain
+                                                      ? PickImage.PICK_MAIN
+                                                      : PickImage.PICK_Y_KIEN,
+                                                );
+                                              },
+                                              child: const Text('Albums'),
+                                            ),
+                                          ],
+                                          cancelButton:
+                                          CupertinoActionSheetAction(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(S.current.cancel),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    final Map<String, dynamic> mediaMapImage =
+                                    await pickImage(fromCamera: true);
+                                    addDataListPick(
+                                      mediaMapImage,
+                                      isMain
+                                          ? PickImage.PICK_MAIN
+                                          : PickImage.PICK_Y_KIEN,
+                                    );
+                                  }
                                 },
                                 child: SvgPicture.asset(
                                   ImageAssets.ic_cam,
@@ -179,14 +234,48 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                               spaceW4,
                               GestureDetector(
                                 onTap: () async {
-                                  final Map<String, dynamic> mediaMap =
-                                      await pickFile();
-                                  addDataListPick(
-                                    mediaMap,
-                                    isMain
-                                        ? PickImage.PICK_MAIN
-                                        : PickImage.PICK_Y_KIEN,
-                                  );
+                                  if (Platform.isIOS) {
+                                    unawaited(
+                                      showCupertinoModalPopup(
+                                        context: context,
+                                        builder: (_) => CupertinoActionSheet(
+                                          actions: [
+                                            CupertinoActionSheetAction(
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                                final Map<String, dynamic>
+                                                mediaMapImage =
+                                                await pickFile();
+                                                addDataListPick(
+                                                  mediaMapImage,
+                                                  isMain
+                                                      ? PickImage.PICK_MAIN
+                                                      : PickImage.PICK_Y_KIEN,
+                                                );
+                                              },
+                                              child: const Text('Files'),
+                                            ),
+                                          ],
+                                          cancelButton:
+                                          CupertinoActionSheetAction(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(S.current.cancel),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    final Map<String, dynamic> mediaMapImage =
+                                    await pickFile();
+                                    addDataListPick(
+                                      mediaMapImage,
+                                      isMain
+                                          ? PickImage.PICK_MAIN
+                                          : PickImage.PICK_Y_KIEN,
+                                    );
+                                  }
                                 },
                                 child: SvgPicture.asset(
                                   ImageAssets.ic_file,
@@ -235,17 +324,17 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                     nhiemvuId: widget.cubit.idNhiemVu,
                     fileId: widget.cubit.listFileId,
                   );
+
                   ///Popup success
                   // if (result == 'true') {
                   //
                   //   MessageConfig.show(
                   //     title: S.current.tao_y_kien_xu_ly_thanh_cong,
                   //   );
-                    _nhapYMainController.text = '';
-                    widget.cubit.listFileMain.clear();
-                    widget.cubit.listFileId.clear();
-                    widget.cubit.listPickFileMain.clear();
-                    setState(() {});
+                  _nhapYMainController.text = '';
+                  widget.cubit.listFileId.clear();
+                  widget.cubit.listPickFileMain.clear();
+                  setState(() {});
                   // } else {
                   //   MessageConfig.show(
                   //     title: S.current.tao_y_kien_xu_ly_that_bai,
@@ -260,16 +349,16 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                       nhiemvuId: widget.cubit.idNhiemVu,
                       fileId: widget.cubit.listFileId,
                     );
+
                     ///Popup success
                     // if (result == 'true') {
                     //   MessageConfig.show(
                     //     title: S.current.tao_y_kien_xu_ly_thanh_cong,
                     //   );
-                      _nhapYMainController.text = '';
-                      widget.cubit.listFileMain.clear();
-                      widget.cubit.listFileId.clear();
-                      widget.cubit.listPickFileMain.clear();
-                      setState(() {});
+                    _nhapYMainController.text = '';
+                    widget.cubit.listFileId.clear();
+                    widget.cubit.listPickFileMain.clear();
+                    setState(() {});
                     // } else {
                     //   MessageConfig.show(
                     //     title: S.current.tao_y_kien_xu_ly_that_bai,
@@ -355,13 +444,6 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                   onTap: () {
                     setState(() {
                       if (pickImage == PickImage.PICK_MAIN) {
-                        for (int i = 0;
-                            i < widget.cubit.listPickFileMain.length;
-                            i++) {
-                          if (objPick == widget.cubit.listPickFileMain[i]) {
-                            widget.cubit.listFileMain.removeAt(i);
-                          }
-                        }
                         widget.cubit.listPickFileMain.remove(objPick);
                       } else {
                         //_listYkien.remove(objPick);
@@ -394,7 +476,6 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
       final _extensionName = mediaMap.getStringValue(EXTENSION_OF_FILE);
       final fileMy = mediaMap.getFileValue(FILE_RESULT);
       if (widget.cubit.checkFile(_size)) {
-        widget.cubit.listFileMain.addAll(fileMy);
         widget.cubit.uploadFile(path: fileMy);
         if (pickImage == PickImage.PICK_MAIN) {
           widget.cubit.listPickFileMain.add(
@@ -405,7 +486,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
               size: _size,
             ),
           );
-        }else {
+        } else {
           // _listYkien.add(
           //   PickImageFileModel(
           //     path: _path,

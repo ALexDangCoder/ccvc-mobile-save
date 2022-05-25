@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/dropdow_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc_tree/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/tree.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -42,10 +41,10 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
           builder: (context, snapshot) {
             return Container(
               constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.7,
+                maxWidth: MediaQuery.of(context).size.width * 0.5,
               ),
               child: Text(
-                snapshot.data.toString(),
+                snapshot.data ?? '',
                 style: textNormal(titleColor, 14),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -148,7 +147,7 @@ class _NodeWidgetState extends State<NodeWidget> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double widthSize = size.width;
-    return StreamBuilder<treeDanhBaDienTu>(
+    return StreamBuilder<dynamic>(
       stream: widget.cubit.listTreeDanhBaSubject.stream,
       builder: (context, snapshot) {
         final hasChild = widget.node?.value.hasDonViCon ?? false;
@@ -166,10 +165,14 @@ class _NodeWidgetState extends State<NodeWidget> {
                         setState(() {
                           isExpand = !isExpand;
                         });
+
                       } else {
                         widget.cubit.getValueTree(
-                          id: widget.node?.value.id ?? '',
-                          donVi: widget.node?.value.tenDonVi ?? '',
+                          nodeHSCV: widget.node ??
+                              NodeHSCV(
+                                iDDonViCha: '',
+                                value: TreeDonViDanhBA.Emty(),
+                              ),
                         );
                         widget.onChange(
                           widget.node?.value ?? TreeDonViDanhBA.Emty(),

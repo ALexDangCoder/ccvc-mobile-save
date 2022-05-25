@@ -416,9 +416,9 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     }
   }
 
-  void getValueTree({required String donVi, required String id}) {
-    tenDonVi.sink.add(donVi);
-    idDonVi.sink.add(id);
+  void getValueTree({required NodeHSCV nodeHSCV}) {
+    tenDonVi.sink.add(nodeHSCV.value.tenDonVi);
+    idDonVi.sink.add(nodeHSCV.value.id);
   }
 
   void searchTree(String text) {
@@ -441,7 +441,7 @@ extension TreeDanhBa on DanhBaDienTuCubit {
       }
     }
 
-    final vlAfterSearch =
+    final List<TreeDonViDanhBA> vlAfterSearch =
         listDf.where((element) => isListCanBo(element)).toList();
 
     if (vlAfterSearch.isNotEmpty) {
@@ -460,9 +460,23 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     listTreeDanhBaSubject.add(ans);
   }
 
+  void searchTreeVersion2(
+    Set<NodeHSCV> list,
+    NodeHSCV node,
+    String key,
+  ) {
+    if (node.value.tenDonVi
+        .toLowerCase()
+        .vietNameseParse()
+        .contains(key.toLowerCase().vietNameseParse())) {
+      list.add(node);
+    }
+  }
+
   TreeDonViDanhBA init() {
-    showContent();
+    showLoading();
     idDonVi.sink.add(listTreeDanhBa[0].id);
+    tenDonVi.sink.add(listTreeDanhBa[0].tenDonVi);
     return listTreeDanhBa[0];
   }
 }

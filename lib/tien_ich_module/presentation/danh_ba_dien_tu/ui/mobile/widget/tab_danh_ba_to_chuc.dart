@@ -131,7 +131,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         if (cubit.listTreeDanhBa.isEmpty)
           cubit.getTree(1).then(
                 (value) => cubit.callApiDanhBaToChuc(id: cubit.init().id),
-              )
+              ).then((value) => cubit.getTree(2))
         else
           cubit.callApiDanhBaToChuc()
       },
@@ -153,7 +153,7 @@ class _DanhBaToChucState extends State<DanhBaToChuc> {
         if (cubit.listTreeDanhBa.isEmpty)
           cubit.getTree(1).then(
                 (value) => cubit.callApiDanhBaToChuc(id: cubit.init().id),
-              )
+              ).then((value) => cubit.getTree(2))
         else
           cubit.callApiDanhBaToChuc()
       },

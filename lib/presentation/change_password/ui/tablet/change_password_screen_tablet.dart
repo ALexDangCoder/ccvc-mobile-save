@@ -243,24 +243,6 @@ class _ChangePassWordScreenTabletState
                           }
                         },
                       ),
-                      const SizedBox(height: 24.0),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const SendMailScreenTablet(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          '${S.current.quen_mat_khau}?',
-                          style: textNormalCustom(
-                            color: AppTheme.getInstance().colorField(),
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 36.0),
                       DoubleButtonBottom(
                         title1: S.current.cancel,

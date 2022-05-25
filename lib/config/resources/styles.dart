@@ -57,6 +57,7 @@ const spaceW20 = SizedBox(width: 20);
 const spaceW25 = SizedBox(width: 25);
 const spaceW28 = SizedBox(width: 28);
 const spaceW30 = SizedBox(width: 30);
+const spaceW40 = SizedBox(width: 40);
 const spaceW56 = SizedBox(width: 56);
 const spaceW60 = SizedBox(width: 60);
 const spaceW78 = SizedBox(width: 78);

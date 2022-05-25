@@ -4,11 +4,13 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
-import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/search_bar.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_in_page_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_out_page_tablet.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +39,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF9FAFF),
       appBar: AppBarDefaultBack(
         S.current.thong_tin_chung,
       ),
@@ -45,86 +48,80 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
         retry: () {},
         error: AppException('1', ''),
         stream: qlvbCubit.stateStream,
-        child: DefaultTabController(
-          length: 2,
-          child: Column(
-            children: [
-              Container(
-                color: Colors.white,
-                child: ChooseTimeScreen(
-                  baseChooseTimeCubit: chooseTimeCubit,
-                  today: DateTime.now(),
-                  onSubmit: (value) {
-                    qlvbCubit.searchDataDanhSachVBDen(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                      keySearch: value,
-                    );
-                    qlvbCubit.searchDataDanhSachVBDi(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                      keySearch: value,
-                    );
-                    qlvbCubit.listDataDanhSachVBDen(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                    qlvbCubit.listDataDanhSachVBDi(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                  },
-                  onChangTime: () {
-                    qlvbCubit.dataVBDen(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                    );
-                    qlvbCubit.dataVBDi(
-                      startDate: chooseTimeCubit.startDate,
-                      endDate: chooseTimeCubit.endDate,
-                    );
-                    qlvbCubit.listDataDanhSachVBDen(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                    qlvbCubit.listDataDanhSachVBDi(
-                        endDate: qlvbCubit.endDate,
-                        startDate: qlvbCubit.startDate);
-                  },
-                ),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white
               ),
-              Container(
-                color: bgQLVBTablet,
-                height: 50,
-                child: TabBar(
-                  unselectedLabelStyle: titleAppbar(fontSize: 16),
-                  unselectedLabelColor: AqiColor,
-                  labelColor: AppTheme.getInstance().colorField(),
-                  labelStyle: titleText(fontSize: 16),
-                  indicatorColor: AppTheme.getInstance().colorField(),
-                  tabs: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(S.current.danh_sach_van_ban_den),
+              child: Row(
+                children: [
+                  FilterDateTimeWidget(
+                    context: context,
+                    isMobile: false,
+                    initStartDate: DateTime.parse(qlvbCubit.startDate),
+                    onChooseDateFilter: (startDate, endDate) {
+                      qlvbCubit.startDate = startDate.formatApi;
+                      qlvbCubit.endDate = endDate.formatApi;
+                      qlvbCubit.dataVBDen();
+                      qlvbCubit.dataVBDi();
+                      qlvbCubit.listDataDanhSachVBDen();
+                      qlvbCubit.listDataDanhSachVBDi();
+                    },
+                  ),
+                  Expanded(
+                    child: SearchBarDocumentManagement(
+                      qlvbCubit: qlvbCubit,
+                      isTablet: true,
+                      initKeyWord: qlvbCubit.keySearch,
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(S.current.danh_sach_van_ban_di),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: TabBarView(
+            ),
+            Expanded(
+              child: DefaultTabController(
+                length: 2,
+                child: Column(
                   children: [
-                    DocumentInPageTablet(
-                      qlvbCubit: qlvbCubit,
+                    Container(
+                      color: bgQLVBTablet,
+                      height: 50,
+                      child: TabBar(
+                        unselectedLabelStyle: titleAppbar(fontSize: 16),
+                        unselectedLabelColor: AqiColor,
+                        labelColor: AppTheme.getInstance().colorField(),
+                        labelStyle: titleText(fontSize: 16),
+                        indicatorColor: AppTheme.getInstance().colorField(),
+                        tabs: [
+                          Container(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Text(S.current.danh_sach_van_ban_den),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Text(S.current.danh_sach_van_ban_di),
+                          ),
+                        ],
+                      ),
                     ),
-                    DocumentOutPageTablet(
-                      qlvbCubit: qlvbCubit,
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          DocumentInPageTablet(
+                            qlvbCubit: qlvbCubit,
+                          ),
+                          DocumentOutPageTablet(
+                            qlvbCubit: qlvbCubit,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

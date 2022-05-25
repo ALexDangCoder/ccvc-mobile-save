@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -7,6 +6,7 @@ import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/menu/van_ban_menu_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/document_in_page.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/document_out_page.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
@@ -26,7 +26,6 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
     with TickerProviderStateMixin {
   QLVBCCubit qlvbCubit = QLVBCCubit();
   late final TabController _tabController;
-  TextEditingController textcontroller = TextEditingController();
 
   @override
   void initState() {
@@ -43,161 +42,19 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
         preferredSize: const Size.fromHeight(56.0),
         child: StreamBuilder<bool>(
           initialData: false,
-          stream: qlvbCubit.checkClickSearchStream,
+          stream: qlvbCubit.showSearchStream,
           builder: (context, snapshot) {
             final data = snapshot.data ?? false;
             return data
-                ? Platform.isIOS
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 30),
-                          padding: const EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: cellColorborder,
-                            ),
-                          ),
-                          child: TextFormField(
-                            controller: textcontroller,
-                            // focusNode: focusNode,
-                            textAlignVertical: TextAlignVertical.center,
-                            cursorColor: colorBlack,
-                            style: tokenDetailAmount(
-                              color: colorBlack,
-                              fontSize: 14,
-                            ),
-                            decoration: InputDecoration(
-                              isCollapsed: true,
-                              suffixIcon: qlvbCubit.isHideClearData
-                                  ? SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: Center(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {});
-                                            textcontroller.clear();
-                                            qlvbCubit.isHideClearData = false;
-                                          },
-                                          child: const Icon(Icons.clear,
-                                              color: coloriCon),
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                              prefixIcon: GestureDetector(
-                                onTap: () {
-                                  qlvbCubit.setSelectSearch();
-                                },
-                                child: const Icon(
-                                  Icons.search,
-                                  color: coloriCon,
-                                ),
-                              ),
-                              border: InputBorder.none,
-                              hintText: S.current.tim_kiem,
-                              hintStyle: const TextStyle(
-                                color: coloriCon,
-                                fontSize: 14,
-                              ),
-                            ),
-                            onChanged: (text) {
-                              if (text.isEmpty) {
-                                setState(() {});
-                                qlvbCubit.isHideClearData = false;
-                              } else {
-                                qlvbCubit.debouncer.run(() {
-                                  setState(() {});
-                                  qlvbCubit.keySearch = text;
-                                  qlvbCubit.isHideClearData = true;
-                                });
-                                // setState(() {});
-
-                              }
-                            },
-                          ),
-                        ),
-                      )
-                    : Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        padding: const EdgeInsets.only(right: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: cellColorborder,
-                          ),
-                        ),
-                        child: TextFormField(
-                          controller: textcontroller,
-                          // focusNode: focusNode,
-                          textAlignVertical: TextAlignVertical.center,
-                          cursorColor: colorBlack,
-                          style: tokenDetailAmount(
-                            color: colorBlack,
-                            fontSize: 14,
-                          ),
-                          decoration: InputDecoration(
-                            isCollapsed: true,
-                            suffixIcon: qlvbCubit.isHideClearData
-                                ? SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {});
-                                          textcontroller.clear();
-                                          qlvbCubit.isHideClearData = false;
-                                        },
-                                        child: const Icon(
-                                          Icons.clear,
-                                          color: coloriCon,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                            prefixIcon: GestureDetector(
-                              onTap: () {
-                                qlvbCubit.setSelectSearch();
-                              },
-                              child: const Icon(
-                                Icons.search,
-                                color: coloriCon,
-                              ),
-                            ),
-                            border: InputBorder.none,
-                            hintText: S.current.tim_kiem,
-                            hintStyle: const TextStyle(
-                              color: coloriCon,
-                              fontSize: 14,
-                            ),
-                          ),
-                          onChanged: (text) {
-                            if (text.isEmpty) {
-                              setState(() {});
-                              qlvbCubit.isHideClearData = false;
-                            } else {
-                              qlvbCubit.debouncer.run(() {
-                                setState(() {});
-                                qlvbCubit.keySearch = text;
-                                qlvbCubit.isHideClearData = true;
-                                qlvbCubit.listDataDanhSachVBDen();
-                                qlvbCubit.listDataDanhSachVBDi();
-                              });
-                            }
-                          },
-                        ),
-                      )
+                ? SearchBarDocumentManagement(
+                    qlvbCubit: qlvbCubit,
+                    initKeyWord: qlvbCubit.keySearch,
+                  )
                 : AppBar(
                     elevation: 0.0,
                     title: Text(
                       S.current.thong_tin_van_ban,
-                      style: titleAppbar(
-
-                      ),
+                      style: titleAppbar(),
                     ),
                     leading: IconButton(
                       onPressed: () => {Navigator.pop(context)},
@@ -240,11 +97,8 @@ class _QLVBMobileScreenState extends State<QLVBMobileScreen>
       ),
       body: GestureDetector(
         onTap: () {
-          if (qlvbCubit.checkClickSearch.value == true) {
-            qlvbCubit.checkClickSearch.sink.add(false);
-            qlvbCubit.isHideClearData = false;
-            qlvbCubit.keySearch = '';
-            textcontroller.clear();
+          if (qlvbCubit.showSearchSubject.value == true) {
+            qlvbCubit.showSearchSubject.sink.add(false);
           }
         },
         child: StateStreamLayout(

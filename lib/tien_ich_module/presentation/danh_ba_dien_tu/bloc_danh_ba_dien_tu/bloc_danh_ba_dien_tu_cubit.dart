@@ -388,8 +388,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 }
 
 extension TreeDanhBa on DanhBaDienTuCubit {
-  Future<void> getTree({required int soCap, String? idDonViCha}) async {
-    final result = await tienIchRepTree.treeDanhBa(soCap, idDonViCha ?? '');
+  Future<void> getTree({int? soCap, String? idDonViCha}) async {
+    final result =
+        await tienIchRepTree.treeDanhBa(soCap ?? 0, idDonViCha ?? '');
     result.when(
       success: (res) {
         showContent();
@@ -422,12 +423,12 @@ extension TreeDanhBa on DanhBaDienTuCubit {
   }
 
   void searchTree(String text) {
-    final List<TreeDonViDanhBA> listDf = listTreeDanhBa;
     final searchTxt = text.toLowerCase().vietNameseParse();
     bool isListCanBo(TreeDonViDanhBA tree) {
       return tree.tenDonVi.toLowerCase().vietNameseParse().contains(searchTxt);
     }
 
+    ///hàm tim node cha
     List<TreeDonViDanhBA> result = [];
     void findDonViCha(List<TreeDonViDanhBA> listAll, TreeDonViDanhBA node) {
       final parentsNode =
@@ -441,9 +442,11 @@ extension TreeDanhBa on DanhBaDienTuCubit {
       }
     }
 
+    /// các object sau khi tìm
     final List<TreeDonViDanhBA> vlAfterSearch =
-        listDf.where((element) => isListCanBo(element)).toList();
+        listTreeDanhBa.where((element) => isListCanBo(element)).toList();
 
+    /// tìm các node cha của list đã tìm
     if (vlAfterSearch.isNotEmpty) {
       for (var x = 0; x <= vlAfterSearch.length; x++) {
         if (!(result.map((e) => e.id)).contains(vlAfterSearch[x].id)) {
@@ -451,8 +454,6 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         }
         findDonViCha(listTreeDanhBa, vlAfterSearch[x]);
       }
-    } else {
-      result = listTreeDanhBa;
     }
 
     final ans = treeDanhBaDienTu();
@@ -460,17 +461,42 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     listTreeDanhBaSubject.add(ans);
   }
 
-  void searchTreeVersion2(
-    Set<NodeHSCV> list,
-    NodeHSCV node,
-    String key,
-  ) {
-    if (node.value.tenDonVi
-        .toLowerCase()
-        .vietNameseParse()
-        .contains(key.toLowerCase().vietNameseParse())) {
-      list.add(node);
+  void searchTree2(String keyword) {
+    final ans = treeDanhBaDienTu();
+    if (keyword.isEmpty) {
+      ans.initTree(listNode: listTreeDanhBa);
+      listTreeDanhBaSubject.add(ans);
+      return;
     }
+    List<TreeDonViDanhBA> result = [];
+
+    List<TreeDonViDanhBA> matches = listTreeDanhBa
+        .where(
+          (x) => x.tenDonVi
+          .toLowerCase()
+          .vietNameseParse()
+          .trim()
+          .contains(keyword.toLowerCase().vietNameseParse().trim()),
+    )
+        .toList();
+
+    void GetParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {
+      var parent = treeAlls.where((x) => x.id == node.iDDonViCha).first;
+      if (!result.contains(parent)) {
+        result.add(parent);
+      }
+      if (parent.iDDonViCha.isNotEmpty) {
+        GetParent(treeAlls, parent);
+      }
+    }
+
+    for (final e in matches) {
+      result.add(e);
+      GetParent(listTreeDanhBa, e);
+    }
+
+    ans.initTree(listNode: result);
+    listTreeDanhBaSubject.add(ans);
   }
 
   TreeDonViDanhBA init() {

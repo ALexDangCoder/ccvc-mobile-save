@@ -62,6 +62,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902628814863:android:1935acc850314199ddb37a",
+        "android_client_info": {
+          "package_name": "com.edsolabs.ccvc_mobile.stg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902628814863-q4h3rqke44i73figrqs380aajq2j60v5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB17rbT4dMLsmggnqm9stJ3aRjkQUcMr5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902628814863-q4h3rqke44i73figrqs380aajq2j60v5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

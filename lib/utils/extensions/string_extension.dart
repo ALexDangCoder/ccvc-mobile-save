@@ -59,6 +59,10 @@ extension FormatAddressConfirm on String {
     return result;
   }
 
+  String changeToNewPatternDate(String oldPattern, String newPattern) {
+    return DateFormat(newPattern).format(DateFormat(oldPattern).parse(this));
+  }
+
   DateTime convertStringToDate() {
     return DateFormat('yyyy-MM-dd').parse(this);
   }

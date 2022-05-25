@@ -36,13 +36,9 @@ class LichSuCapNhatTHTHWidget extends StatelessWidget {
         ),
       );
     } else {
-      return Column(
-        children: const [
-          Padding(
-            padding: EdgeInsets.only(top: 16.0),
-            child: NodataWidget(),
-          ),
-        ],
+      return const Padding(
+        padding: EdgeInsets.only(top: 16.0),
+        child: NodataWidget(),
       );
     }
   }

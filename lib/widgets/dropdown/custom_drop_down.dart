@@ -105,7 +105,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                       value,
                                       style: tokenDetailAmount(
                                         fontSize: 14.0.textScale(),
-                                        color: Colors.white,
+                                        color: titleColor,
                                       ),
                                     ),
                                   );

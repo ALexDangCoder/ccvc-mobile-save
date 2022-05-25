@@ -65,7 +65,7 @@ class ChiTietNhiemVuModel {
       ),
       ChiTietHeaderRow(
         key: S.current.tinh_hinh_thuc_hien,
-        value: statusName??'',
+        value: statusCode??'',
         isNote: false,
       ),
       ChiTietHeaderRow(

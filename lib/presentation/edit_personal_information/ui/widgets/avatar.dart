@@ -36,7 +36,6 @@ class AvatarAndSignature extends StatelessWidget {
             await upLoadImg(context, 1, toast);
           },
           cubit.managerPersonalInformationModel.anhDaiDienFilePath ?? '',
-          true,
         ),
         pickChuKy(
           context,
@@ -45,7 +44,6 @@ class AvatarAndSignature extends StatelessWidget {
             await upLoadChuKy(context, 2, toast);
           },
           cubit.managerPersonalInformationModel.anhChuKyFilePath ?? '',
-          true,
         ),
         pickAnhKyNhay(
           context,
@@ -54,7 +52,6 @@ class AvatarAndSignature extends StatelessWidget {
             await upLoadKyNhay(context, 3, toast);
           },
           cubit.managerPersonalInformationModel.anhChuKyNhayFilePath ?? '',
-          true,
         )
       ],
     );
@@ -76,6 +73,7 @@ class AvatarAndSignature extends StatelessWidget {
         );
       } else {
         cubit.avatarPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
@@ -96,6 +94,7 @@ class AvatarAndSignature extends StatelessWidget {
         );
       } else {
         cubit.chuKyPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
@@ -116,12 +115,17 @@ class AvatarAndSignature extends StatelessWidget {
         );
       } else {
         cubit.kyNhayPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
 
-  Widget pickAnhDaiDien(BuildContext context, String text, Function() onTap,
-      String url, bool isAvatarUser) {
+  Widget pickAnhDaiDien(
+    BuildContext context,
+    String text,
+    Function() onTap,
+    String url,
+  ) {
     return Column(
       children: [
         GestureDetector(
@@ -146,31 +150,20 @@ class AvatarAndSignature extends StatelessWidget {
                 if (!snapshot.hasData) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: isAvatarUser
-                        ? Padding(
-                            padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(
-                              ImageAssets.icImage,
-                              color: AppTheme.getInstance().colorField(),
-                            ),
-                          )
-                        : CachedNetworkImage(
-                            imageUrl:
-                                'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2.0),
-                                  ),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: imageProvider,
-                                  ),
-                                ),
-                              );
-                            },
+                    child: CachedNetworkImage(
+                      imageUrl: cubit.managerPersonalInformationModel
+                              .anhDaiDienFilePath ??
+                          '',
+                      errorWidget: (_, __, ___) {
+                        return Container(
+                          padding: const EdgeInsets.all(34.0),
+                          child: SvgPicture.asset(
+                            ImageAssets.icImage,
+                            color: AppTheme.getInstance().colorField(),
                           ),
+                        );
+                      },
+                    ),
                   );
                 } else {
                   return ClipRRect(
@@ -199,8 +192,12 @@ class AvatarAndSignature extends StatelessWidget {
     );
   }
 
-  Widget pickChuKy(BuildContext context, String text, Function() onTap,
-      String url, bool isAvatarUser) {
+  Widget pickChuKy(
+    BuildContext context,
+    String text,
+    Function() onTap,
+    String url,
+  ) {
     return Column(
       children: [
         GestureDetector(
@@ -226,31 +223,20 @@ class AvatarAndSignature extends StatelessWidget {
                 if (!snapshot.hasData) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: isAvatarUser
-                        ? Padding(
-                            padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(
-                              ImageAssets.icImage,
-                              color: AppTheme.getInstance().colorField(),
-                            ),
-                          )
-                        : CachedNetworkImage(
-                            imageUrl:
-                                'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2.0),
-                                  ),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: imageProvider,
-                                  ),
-                                ),
-                              );
-                            },
+                    child: CachedNetworkImage(
+                      imageUrl: cubit.managerPersonalInformationModel
+                              .anhChuKyFilePath ??
+                          '',
+                      errorWidget: (_, __, ___) {
+                        return Container(
+                          padding: const EdgeInsets.all(34.0),
+                          child: SvgPicture.asset(
+                            ImageAssets.icImage,
+                            color: AppTheme.getInstance().colorField(),
                           ),
+                        );
+                      },
+                    ),
                   );
                 } else {
                   return ClipRRect(
@@ -279,8 +265,12 @@ class AvatarAndSignature extends StatelessWidget {
     );
   }
 
-  Widget pickAnhKyNhay(BuildContext context, String text, Function() onTap,
-      String url, bool isAvatarUser) {
+  Widget pickAnhKyNhay(
+    BuildContext context,
+    String text,
+    Function() onTap,
+    String url,
+  ) {
     return Column(
       children: [
         GestureDetector(
@@ -306,33 +296,23 @@ class AvatarAndSignature extends StatelessWidget {
                 if (!snapshot.hasData) {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: isAvatarUser
-                        ? Padding(
-                            padding: const EdgeInsets.all(34.0),
-                            child: SvgPicture.asset(
-                              ImageAssets.icImage,
-                              color: AppTheme.getInstance().colorField(),
-                            ),
-                          )
-                        : CachedNetworkImage(
-                            imageUrl:
-                                'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(2.0),
-                                  ),
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: imageProvider,
-                                  ),
-                                ),
-                              );
-                            },
+                    child: CachedNetworkImage(
+                      imageUrl: cubit.managerPersonalInformationModel
+                              .anhChuKyNhayFilePath ??
+                          '',
+                      errorWidget: (_, __, ___) {
+                        return Container(
+                          padding: const EdgeInsets.all(34.0),
+                          child: SvgPicture.asset(
+                            ImageAssets.icImage,
+                            color: AppTheme.getInstance().colorField(),
                           ),
+                        );
+                      },
+                    ),
                   );
                 } else {
+                  cubit.pathAnhKyNhay = snapshot.data?.path ?? '';
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(

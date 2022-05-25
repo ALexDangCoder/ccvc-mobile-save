@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class DanhSachCongViecModel {
@@ -106,17 +108,17 @@ class PageDatas {
 extension CheckColor on String {
   Color trangThaiToColor() {
     switch (this) {
-      case 'thu-hoi':
+      case NhiemVuLowerCase.THU_HOI:
         return Colors.red;
-      case 'cho-phan-xu-ly':
+      case NhiemVuLowerCase.CHO_PHAN_XU_LY:
         return choXuLyColor;
-      case 'chua-thuc-hien':
+      case NhiemVuLowerCase.CHUA_THUC_HIEN:
         return choVaoSoColor;
-      case 'dang-thuc-hien':
+      case NhiemVuLowerCase.DANG_THUC_HIEN:
         return choTrinhKyColor;
-      case 'da-hoan-thanh':
+      case NhiemVuLowerCase.DA_HOAN_THANH:
         return daXuLyColor;
-      case 'tra-lai':
+      case NhiemVuLowerCase.TRA_LAI:
         return Colors.red;
       default:
         return Colors.red;
@@ -125,11 +127,11 @@ extension CheckColor on String {
 
   Color status() {
     switch (this) {
-      case 'qua-han':
+      case NhiemVuLowerCase.QUA_HAN:
         return statusCalenderRed;
-      case 'den-han':
+      case NhiemVuLowerCase.DEN_HAN:
         return denHanColor;
-      case 'trong-han':
+      case NhiemVuLowerCase.TRONG_HAN:
         return textTitle;
       default:
         return Colors.red;
@@ -137,14 +139,29 @@ extension CheckColor on String {
   }
   int statusBox() {
     switch (this) {
-      case 'qua-han':
+      case NhiemVuLowerCase.QUA_HAN:
         return 2;
-      case 'den-han':
+      case NhiemVuLowerCase.DEN_HAN:
         return 1;
-      case 'trong-han':
+      case NhiemVuLowerCase.TRONG_HAN:
         return 3;
       default:
         return 2;
+    }
+  }
+
+  String titleTrangThai() {
+    switch (this) {
+      case CHUA_THUC_HIEN:
+        return S.current.chua_thuc_hien;
+      case DA_HOAN_THANH:
+        return S.current.da_thuc_hien;
+      case DANG_THUC_HIEN:
+        return S.current.dang_thuc_hien;
+        case CHO_PHAN_XU_LY:
+        return S.current.cho_phan_xu_ly;
+      default:
+        return '';
     }
   }
 }

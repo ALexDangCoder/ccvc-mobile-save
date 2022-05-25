@@ -16,7 +16,7 @@ class BlockTextView extends StatefulWidget {
   final bool? validate;
   final bool isHideRequired;
   final bool useCustomTitle;
-
+  final int maxLines;
   const BlockTextView({
     Key? key,
     required this.formKey,
@@ -28,6 +28,7 @@ class BlockTextView extends StatefulWidget {
     this.isRequired = true,
     this.isLimitCharacter = false,
     this.useCustomTitle = false,
+    this.maxLines = 5
   }) : super(key: key);
 
   @override
@@ -68,7 +69,7 @@ class _BlockTextViewState extends State<BlockTextView> {
           key: widget.formKey,
           child: TextFormField(
             controller: widget.contentController,
-            maxLines: 5,
+            maxLines: widget.maxLines,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             style: tokenDetailAmount(
               fontSize: 14.0.textScale(),

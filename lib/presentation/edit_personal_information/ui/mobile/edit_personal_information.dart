@@ -128,6 +128,8 @@ class _EditPersonalInformationScreen
         body: RefreshIndicator(
           onRefresh: () async {
             await cubit.getInfo(id: widget.id);
+            cubit.huyenSubject.sink.add([]);
+            cubit.xaSubject.sink.add([]);
             if (keyGroup.currentState!.validator()) {
             } else {}
           },
@@ -180,17 +182,26 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
+                          maxLength: 2,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           textInputType: TextInputType.number,
-
                           onChange: (value) {
                             if (value.length > 2) {
                               final input = value.substring(0, 2);
-                              thuTuController.text = input;
-                              thuTuController.selection =
+                              sdtCoquanController.text = input;
+                              sdtCoquanController.selection =
                                   TextSelection.fromPosition(
                                 const TextPosition(offset: 2),
                               );
                             }
+                          },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
                           },
                         ),
                       ),
@@ -216,8 +227,11 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.cmnd,
                           controller: cmndController,
+                          maxLength: 255,
                           textInputType: TextInputType.number,
-
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -227,6 +241,12 @@ class _EditPersonalInformationScreen
                                 const TextPosition(offset: 255),
                               );
                             }
+                          },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
                           },
                         ),
                       ),
@@ -280,7 +300,10 @@ class _EditPersonalInformationScreen
                           hintText: S.current.sdt_co_quan,
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
-
+                          maxLength: 255,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -291,6 +314,12 @@ class _EditPersonalInformationScreen
                               );
                             }
                           },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
+                          },
                         ),
                       ),
                       //
@@ -299,8 +328,11 @@ class _EditPersonalInformationScreen
                         child: TextFieldValidator(
                           hintText: S.current.so_dien_thoai,
                           controller: sdtController,
+                          maxLength: 255,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           textInputType: TextInputType.number,
-
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -310,6 +342,12 @@ class _EditPersonalInformationScreen
                                 const TextPosition(offset: 255),
                               );
                             }
+                          },
+                          validatorPaste: (value) {
+                            if (value.trim().validateCopyPaste() != null) {
+                              return true;
+                            }
+                            return false;
                           },
                         ),
                       ),
@@ -483,6 +521,9 @@ class _EditPersonalInformationScreen
                               idTinh: cubit.idTinh,
                               idHuyen: cubit.idHuyen,
                               idXa: cubit.idXa,
+                              anhChuKy: cubit.pathAnhChuKy,
+                              anhDaiDien: cubit.pathAnhDaiDien,
+                              anhKyNhay: cubit.pathAnhKyNhay,
                             )
                                 .then((value) {
                               if (value) {

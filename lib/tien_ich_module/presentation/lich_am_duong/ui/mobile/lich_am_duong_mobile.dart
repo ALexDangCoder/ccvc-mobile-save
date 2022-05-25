@@ -1,17 +1,12 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_hoang_dao_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_ly_thuan_phong_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich_am_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/ngay_bach_ky_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/nhi_thap_bat_tu_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/sao_tot_sao_xau_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/thap_nhi_kien_tru_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/tuoi_xung_theo_ngay_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/tuoi_xung_theo_thang_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/provider_widget.dart';
@@ -99,18 +94,17 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                           const SizedBox(
                             height: 100,
                           ),
-                          // const Padding(
-                          //   padding: EdgeInsets.only(bottom: 12.0),
-                          //   child: Divider(
-                          //     thickness: 1,
-                          //   ),
-                          // ),
-                          // const GhiChuKyHieuWidget(),
                           LichAmWidget(
                             ngayAmLich:
                                 snapshot.data?.ngayAmLich ?? NgayAmLich(),
                             thu: snapshot.data?.thu ?? '',
                             ngayAmLichStr: snapshot.data?.ngayAmLicgStr ?? '',
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 12.0),
+                            child: Divider(
+                              thickness: 1,
+                            ),
                           ),
                           GioHoangDaoWidget(
                             listGioHoangDao: snapshot.data?.gioHoangDao ?? [],
@@ -118,74 +112,27 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                             truc: snapshot.data?.nguHanh?.truc ?? '',
                             hanh: snapshot.data?.nguHanh?.hanh ?? '',
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          TuoiXungTheoNgayWidget(
-                            listTuoiXungTheoNgay:
-                                snapshot.data?.tuoiXungTheoNgay ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          TuoiXungTheoThangWidget(
-                            listTuoiXungTheoThang:
-                                snapshot.data?.tuoiXungTheoThang ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          NgayBachKyWidget(
-                            listNgayBachKy: snapshot.data?.ngayBachKy ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          ThapNhiKienTruWidget(
-                            thapNhiKienTru: snapshot.data?.thapNhiKienTru ??
-                                ThapNhiKienTru(),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          ThapNhiBatTuWidget(
-                            thapNhiBatTu:
-                                snapshot.data?.thapNhiBatTu ?? ThapNhiBatTu(),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          SaoTotSaoXauWidget(
-                            listSaoTot: snapshot.data?.saoTot ?? [],
-                            listSaoXau: snapshot.data?.saoXau ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          GioLyThuanPhongWidget(
-                            listGioLyThuanPhong:
-                                snapshot.data?.gioLyThuanPhong ?? [],
+                          Row(
+                            children: [
+                              Text(
+                                '${S.current.tiet_khi}:',
+                                style: textNormalCustom(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w500,
+                                  color: AqiColor,
+                                ),
+                              ),
+                              spaceW3,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: titleLichAm(
+                                  '${snapshot.data?.tietKhi}',
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: titleColor,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       );
@@ -202,8 +149,11 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                       cubit.getLichAmDuong(cubit.startDate);
                       cubit.selectTime = selectDay;
                     },
-                    onChangeRange: (DateTime? start, DateTime? end,
-                        DateTime? focusedDay) {},
+                    onChangeRange: (
+                      DateTime? start,
+                      DateTime? end,
+                      DateTime? focusedDay,
+                    ) {},
                     selectDay: (day) => cubit.selectDay(day),
                     cubit: cubit,
                   );

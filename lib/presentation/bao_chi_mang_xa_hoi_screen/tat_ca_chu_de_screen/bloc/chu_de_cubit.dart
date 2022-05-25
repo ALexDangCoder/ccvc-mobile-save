@@ -30,14 +30,13 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
   final BehaviorSubject<DashBoardModel> _dataDashBoard =
       BehaviorSubject<DashBoardModel>();
 
-  final BehaviorSubject<List<TinTucData>> _listDataSearch =
-      BehaviorSubject<List<TinTucData>>();
+  final _listDataSearch = BehaviorSubject<List<TinTucData>?>();
   final List<ChuDeModel> listChuDeLoadMore = [];
   bool isFirstCall = true;
   ChuDeModel hotNewData = ChuDeModel();
 
   int pageIndex = 1;
-  int papeSize = 10;
+  int pageSize = 10;
   int totalPage = 1;
   int totalItem = 1;
 
@@ -61,7 +60,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
 
   Stream<List<ChuDeModel>> get listYKienNguoiDan => _listYKienNguoiDan.stream;
 
-  Stream<List<TinTucData>> get listDataSearch => _listDataSearch.stream;
+  Stream<List<TinTucData>?> get listDataSearch => _listDataSearch.stream;
 
   Stream<List<ListMenuItemModel>> get dataMenu => _dataMenu.stream;
 
@@ -110,7 +109,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     if (isShow) showLoading();
     final result = await _BCMXHRepo.getDashListChuDe(
       pageIndex,
-      papeSize,
+      6,
       0,
       true,
       startDate,
@@ -166,7 +165,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     String enDate, {
     bool isShow = false,
   }) async {
-    if(isShow) showLoading();
+    if (isShow) showLoading();
     final result = await _BCMXHRepo.getDashBoardTatCaChuDe(
       1,
       30,
@@ -177,7 +176,7 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     );
     result.when(
       success: (res) {
-        if(isShow) showContent();
+        if (isShow) showContent();
         _dataDashBoard.sink.add(res);
       },
       error: (err) {
@@ -254,5 +253,13 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     final int prevDay = millisecondNow - millisecondOfDay;
     startDate = DateTime.fromMillisecondsSinceEpoch(prevDay).formatApiStartDay;
     endDate = DateTime.fromMillisecondsSinceEpoch(prevDay).formatApiEndDay;
+  }
+
+  void clear() {
+    _listDataSearch.value?.clear();
+  }
+
+  void addNull() {
+    _listDataSearch.sink.add(null);
   }
 }

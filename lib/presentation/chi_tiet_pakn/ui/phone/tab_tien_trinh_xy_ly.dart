@@ -50,7 +50,6 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
           return Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: data.length,
               itemBuilder: (context, indexItem){

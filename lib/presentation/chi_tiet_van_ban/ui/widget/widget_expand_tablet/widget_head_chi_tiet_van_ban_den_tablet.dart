@@ -51,10 +51,11 @@ class _WidgetHeadChiTietVanBanDenTabletState
       stream: widget.cubit.stateStream,
       child: RefreshIndicator(
         onRefresh: () async {
-          await widget.cubit.getChiTietVanBanDen(widget.processId, widget.taskId);
+          await widget.cubit
+              .getChiTietVanBanDen(widget.processId, widget.taskId);
         },
         child: SingleChildScrollView(
-          physics: const  AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: StreamBuilder<ChiTietVanBanDenModel>(
             initialData: widget.cubit.chiTietVanBanDenModel,
             stream: widget.cubit.chiTietVanBanDenSubject,
@@ -65,14 +66,42 @@ class _WidgetHeadChiTietVanBanDenTabletState
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Column(
-                        children: data.toListRow().map(
-                              (row) {
-                            return DetailDocumentRow(
-                              row: row,
+                      Row(
+                        children: data.toListRowTablet().map(
+                          (row) {
+                            return Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: row
+                                    .map(
+                                      (e) => DetailDocumentRow(
+                                        row: e,
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
                             );
                           },
                         ).toList(),
+                      ),
+                      DetailDocumentRow(
+                        isTablet: true,
+                        row: DocumentDetailRow(
+                          S.current.trich_yeu,
+                          data.trichYeu ?? '',
+                          TypeDocumentDetailRow.text,
+                        ),
+                      ),
+                      DetailDocumentRow(
+                        isTablet: true,
+                        row: DocumentDetailRow(
+                          S.current.file_dinh_kem,
+                          data.fileDinhKems
+                                  ?.map((e) => e.toFileDinhKemModel())
+                                  .toList() ??
+                              [],
+                          TypeDocumentDetailRow.fileActacks,
+                        ),
                       ),
                       const SizedBox(
                         height: 10.0,
@@ -89,13 +118,17 @@ class _WidgetHeadChiTietVanBanDenTabletState
                         S.current.da_nhan_ban_giay,
                         value: data.isNhanBanGiay ?? false,
                       ),
-                      if (data.isNhanBanGiay ?? false) DetailDocumentRow(
-                        row: DocumentDetailRow(
-                          S.current.ngay_nhan_ban_giay,
-                          data.ngayNhanBanGiay ?? '',
-                          TypeDocumentDetailRow.text,
-                        ),
-                      ) else const  SizedBox.shrink()
+                      if (data.isNhanBanGiay ?? false)
+                        DetailDocumentRow(
+                          isTablet: true,
+                          row: DocumentDetailRow(
+                            S.current.ngay_nhan_ban_giay,
+                            data.ngayNhanBanGiay ?? '',
+                            TypeDocumentDetailRow.text,
+                          ),
+                        )
+                      else
+                        const SizedBox.shrink()
                     ],
                   ),
                 );
@@ -109,8 +142,7 @@ class _WidgetHeadChiTietVanBanDenTabletState
     );
   }
 
-  Widget checkRow(String title, {required bool value}) =>
-      Padding(
+  Widget checkRow(String title, {required bool value}) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           children: [

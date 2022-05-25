@@ -60,6 +60,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     _getListWidgetUsing();
     _getListWidgetNotUse();
     setFullParaNotUse();
+
   }
 
   void insertItemUsing(
@@ -226,6 +227,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
         listTitleWidgetUse = data.map((e) => e.name).toList();
         _listWidgetUsing.sink.add(data);
         _getListWidgetNotUse();
+        orderWidgetHome(listUsing);
       },
       error: (err) {},
     );

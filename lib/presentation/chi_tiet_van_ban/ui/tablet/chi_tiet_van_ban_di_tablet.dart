@@ -29,6 +29,13 @@ class ChiTietVanBanDiTablet extends StatefulWidget {
 class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
   late CommonDetailDocumentGoCubit commonDetailDocumentGoCubit;
 
+
+  @override
+  void initState() {
+    commonDetailDocumentGoCubit = CommonDetailDocumentGoCubit();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

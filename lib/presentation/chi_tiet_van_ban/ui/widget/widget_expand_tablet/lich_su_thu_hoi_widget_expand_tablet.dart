@@ -58,21 +58,22 @@ class _LichSuThuHoiWidgetExpandTabletState
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: data.isNotEmpty
                         ? SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: data
-                            .map(
-                              (e) => WidgetInExpandVanBan(
-                            row: e.toListRowLichSuThuHoi(),
-                          ),
-                        )
-                            .toList(),
-                      ),
-                    )
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      isTablet: true,
+                                      row: e.toListRowLichSuThuHoi(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          )
                         : const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: NodataWidget(),
-                    ),
+                            padding: EdgeInsets.only(top: 16.0),
+                            child: NodataWidget(),
+                          ),
                   ),
                 ),
               ],

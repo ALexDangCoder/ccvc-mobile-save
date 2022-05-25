@@ -90,6 +90,8 @@ class _EditPersonalInformationTabletScreen
         child: RefreshIndicator(
           onRefresh: () async {
             await cubit.getInfo(id: widget.id);
+            cubit.huyenSubject.sink.add([]);
+            cubit.xaSubject.sink.add([]);
             if (keyGroup.currentState!.validator()) {
             } else {}
           },
@@ -201,7 +203,9 @@ class _EditPersonalInformationTabletScreen
                                       textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
                                       controller: thuTuController,
-
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                       onChange: (value) {
                                         if (value.length > 2) {
                                           final input = value.substring(0, 2);
@@ -211,6 +215,13 @@ class _EditPersonalInformationTabletScreen
                                             const TextPosition(offset: 2),
                                           );
                                         }
+                                      },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
                                       },
                                     ),
                                   ),
@@ -239,7 +250,9 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
                                       textInputType: TextInputType.number,
-
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                       onChange: (value) {
                                         if (value.length > 255) {
                                           final input = value.substring(0, 255);
@@ -249,6 +262,13 @@ class _EditPersonalInformationTabletScreen
                                             const TextPosition(offset: 255),
                                           );
                                         }
+                                      },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
                                       },
                                     ),
                                   ),
@@ -313,7 +333,9 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.sdt_co_quan,
                                       controller: sdtCoquanController,
                                       textInputType: TextInputType.number,
-
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
                                       onChange: (value) {
                                         if (value.length > 255) {
                                           final input = value.substring(0, 255);
@@ -324,6 +346,13 @@ class _EditPersonalInformationTabletScreen
                                           );
                                         }
                                       },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -332,7 +361,10 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.so_dien_thoai,
                                       controller: sdtController,
                                       textInputType: TextInputType.number,
-                     onChange: (value) {
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      onChange: (value) {
                                         if (value.length > 255) {
                                           final input = value.substring(0, 255);
                                           sdtController.text = input;
@@ -341,6 +373,13 @@ class _EditPersonalInformationTabletScreen
                                             const TextPosition(offset: 255),
                                           );
                                         }
+                                      },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
                                       },
                                     ),
                                   ),

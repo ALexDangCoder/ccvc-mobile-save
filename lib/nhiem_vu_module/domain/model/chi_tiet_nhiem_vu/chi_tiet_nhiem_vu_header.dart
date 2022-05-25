@@ -31,7 +31,7 @@ class ChiTietNhiemVuHeader {
       ChiTietHeaderRow(
         key: S.current.so_nhiem_vu,
         value: soNhiemVu,
-        isNote: true,
+        isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.tinh_hinh_thuc_hien,
@@ -41,7 +41,7 @@ class ChiTietNhiemVuHeader {
       ChiTietHeaderRow(
         key: S.current.han_xu_ly,
         value: hanXuLy,
-        isNote: true,
+        isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.nguoi_giao,
@@ -51,7 +51,7 @@ class ChiTietNhiemVuHeader {
       ChiTietHeaderRow(
         key: S.current.noi_dung,
         value: noiDung,
-        isNote: true,
+        isNote: false,
       ),
     ];
     return list;

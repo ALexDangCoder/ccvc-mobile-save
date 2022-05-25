@@ -59,6 +59,10 @@ extension FormatAddressConfirm on String {
     return result;
   }
 
+  String changeToNewPatternDate(String oldPattern, String newPattern) {
+    return DateFormat(newPattern).format(DateFormat(oldPattern).parse(this));
+  }
+
   DateTime convertStringToDate() {
     return DateFormat('yyyy-MM-dd').parse(this);
   }
@@ -140,6 +144,15 @@ extension CheckValidate on String {
   String? checkSdtRequire() {
     final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
     if (isCheckSdt) {
+      return null;
+    } else {
+      return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
+  String? validateCopyPaste() {
+    final isCheck = RegExp('[^0-9]').hasMatch(this);
+    if (isCheck) {
       return null;
     } else {
       return S.current.nhap_sai_dinh_dang;

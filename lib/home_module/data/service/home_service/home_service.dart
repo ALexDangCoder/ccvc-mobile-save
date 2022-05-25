@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -39,8 +41,6 @@ abstract class HomeServiceGateWay {
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
 
-  @GET(ApiConstants.GET_TIN_BUON)
-  Future<TinhHuongKhanCapResponse> getTinBuon();
   @GET(ApiConstants.GET_DASHBOARD_VB_DEN)
   @FormUrlEncoded()
   Future<DashBoardVBDenResponse> getDashBoardVBDen(
@@ -167,5 +167,11 @@ abstract class HomeServiceCCVC {
   @GET(ApiConstants.GET_DASHBOARD_WIDGET)
   @FormUrlEncoded()
   Future<DashBoardResponse> getDashBoard();
+
+  @POST(ApiConstants.GUI_LOI_CHUC)
+  Future<GuiLoiChucResponse> guiLoiChuc(@Body() GuiLoiChucRequest guiLoiChucRequest);
+
+  @GET(ApiConstants.GET_TIN_BUON)
+  Future<TinhHuongKhanCapResponse> getTinBuon();
 
 }

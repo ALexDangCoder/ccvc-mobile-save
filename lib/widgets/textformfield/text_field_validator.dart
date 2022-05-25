@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -56,28 +55,28 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
   late TextSelectionControls _selectionControls;
   FormProvider? formProvider;
 
-
   @override
   void initState() {
     super.initState();
     if (Platform.isIOS) {
       _selectionControls = AppCupertinoTextSelectionControls(
-          validatorPaste: (value){
-            if(widget.validatorPaste == null){
-              return true;
-            }else{
-              return widget.validatorPaste!(value);
-            }
-          });
+        validatorPaste: (value) {
+          if (widget.validatorPaste == null) {
+            return true;
+          } else {
+            return widget.validatorPaste!(value);
+          }
+        },
+      );
     } else {
       _selectionControls = AppMaterialTextSelectionControls(
-          validatorPaste: (value){
-            if(widget.validatorPaste == null){
-              return true;
-            }else{
-              return widget.validatorPaste!(value);
-            }
+        validatorPaste: (value) {
+          if (widget.validatorPaste == null) {
+            return true;
+          } else {
+            return widget.validatorPaste!(value);
           }
+        },
       );
     }
 
@@ -178,13 +177,16 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
       ),
     );
   }
+
 }
 
 class AppCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
   AppCupertinoTextSelectionControls({
     required this.validatorPaste,
   });
+
   final bool Function(String) validatorPaste;
+
   @override
   Future<void> handlePaste(final TextSelectionDelegate delegate) async {
     final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
@@ -222,7 +224,9 @@ class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
   AppMaterialTextSelectionControls({
     required this.validatorPaste,
   });
+
   final bool Function(String)? validatorPaste;
+
   @override
   Future<void> handlePaste(final TextSelectionDelegate delegate) async {
     final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
@@ -256,4 +260,5 @@ class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
     delegate.bringIntoView(delegate.textEditingValue.selection.extent);
     delegate.hideToolbar();
   }
+
 }

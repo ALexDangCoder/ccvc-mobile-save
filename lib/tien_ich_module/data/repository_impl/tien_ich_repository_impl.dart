@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -218,6 +219,27 @@ class TienIchRepositoryImpl implements TienIchRepository {
                 ?.translations
                 ?.first
                 .translatedText ??
+            '';
+      } catch (e) {
+        return '';
+      }
+    });
+  }
+
+  @override
+  Future<Result<String>> translateFile(File file, String target, String source) {
+    return runCatchingAsync<String, String>(
+            () => _tienIchService.translateFile(
+          file,
+          target,
+          source,
+        ), (response) {
+      try {
+        return DataTranslateResponse.fromJson(json.decode(response))
+            .data
+            ?.translations
+            ?.first
+            .translatedText ??
             '';
       } catch (e) {
         return '';

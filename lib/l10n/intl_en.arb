@@ -433,6 +433,7 @@
   "nguoi_xu_ly": "Người xử lý",
   "don_vi_xu_ly": "Đơn vị xử lý",
   "don_vi_ban_hanh": "Đơn vị banh hành",
+  "ngay_nhan_ban_giay": "Ngày nhận bản giấy",
   "thoi_gian_giao_viec": "Thời gian giao việc",
   "noi_dung_cong_viec": "Nội dung công việc",
   "nguoi_gui": "Người gửi",
@@ -685,7 +686,7 @@
   "english": "English",
   "tim_tep_tren_dien_thoai_cua_ban": "Tìm tệp trên điện thoại của bạn",
   "chon_tai_lieu": "Chọn tài liệu",
-  "chi_ho_tro_txt": "Chỉ hỗ trợ tệp .txt",
+  "chi_ho_tro_txt": "Chỉ hỗ trợ tệp .doc,.docx, .txt",
   "coppy": "Coppy",
   "cac_co_quan_khac": "Các cơ quan khác",
   "cac_to_chuc": "Các tổ chức",
@@ -985,7 +986,14 @@
   "danh_sach_pakn": "Danh sách PAKN",
   "khong_co_thong_tin_pakn": "Không có thông tin Pakn",
   "file_khong_hop_le": "File không hợp lệ!",
-  "cai_dat_thong_bao" : "Cài đặt thông báo",
   "may_anh": "Máy ảnh",
-  "thu_vien": "Thư viện"
+  "thu_vien": "Thư viện",
+  "thiep_va_loi_chuc" : "Thiệp và lời chúc",
+  "gui_loi_chuc" : "Gửi lời chúc",
+  "gui_loi_chuc_toi" : "Gửi lời chúc tới",
+  "gui" : "Gửi",
+  "gui_thiep_thanh_cong" : "Gửi thiệp thành công",
+  "khong_co_thong_tin": "Không có thông tin, tin tức",
+  "cai_dat_thong_bao" : "Cài đặt thông báo",
+  "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại."
 }

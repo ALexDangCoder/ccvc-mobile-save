@@ -145,6 +145,7 @@ class PageData {
     hanXuLy: hanXuLy ?? '',
     maTrangThai: maTrangThai ?? '',
     id: id ?? '',
+    trangThaiHanXuLy: trangThaiHanXuLy ?? -1
 
   );
 }

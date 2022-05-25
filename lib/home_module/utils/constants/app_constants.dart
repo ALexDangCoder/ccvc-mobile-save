@@ -29,6 +29,7 @@ enum SelectKey {
   DA_XU_LY,
   CHO_TIEP_NHAN,
   LICH_HOP_CUA_TOI,
+  LICH_CUA_TOI,
   LICH_CHO_XAC_NHAN,
   LICH_DUOC_MOI,
   LICH_HOP_DUOC_MOI,
@@ -177,4 +178,7 @@ class DateFormatApp {
   static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+}
+class PermissionConst{
+  static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }

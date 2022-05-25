@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dialog.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/thanh_phan_tham_gia_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/cell_thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/select_only_expand.dart';
@@ -26,12 +28,6 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 
 class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SelectOnlyWidget(
       title: S.current.thanh_phan_tham_gia,
@@ -40,20 +36,20 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
           const SizedBox(
             height: 16,
           ),
-          if(widget.cubit.isBtnMoiNguoiThamGia())
-          IconWithTiltleWidget(
-            icon: ImageAssets.ic_addUser,
-            title: S.current.moi_nguoi_tham_gia,
-            onPress: () {
-              showBottomSheetCustom(
-                context,
-                title: S.current.them_thanh_phan_tham_gia,
-                child: ThemThanhPhanThamGiaWidget(
-                  cubit: widget.cubit,
-                ),
-              );
-            },
-          ),
+          if (widget.cubit.isBtnMoiNguoiThamGia())
+            IconWithTiltleWidget(
+              icon: ImageAssets.ic_addUser,
+              title: S.current.moi_nguoi_tham_gia,
+              onPress: () {
+                showBottomSheetCustom(
+                  context,
+                  title: S.current.them_thanh_phan_tham_gia,
+                  child: ThemThanhPhanThamGiaWidget(
+                    cubit: widget.cubit,
+                  ),
+                );
+              },
+            ),
           const SizedBox(
             height: 16,
           ),

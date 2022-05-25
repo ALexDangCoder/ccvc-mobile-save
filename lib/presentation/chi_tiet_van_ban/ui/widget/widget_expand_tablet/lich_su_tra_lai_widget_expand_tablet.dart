@@ -60,20 +60,21 @@ class _LichSuTraLaiWidgetExpandTabletState
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: data.isNotEmpty
                         ? SingleChildScrollView(
-                      child: Column(
-                        children: data
-                            .map(
-                              (e) => WidgetInExpandVanBan(
-                            row: e.toListRowLichSuTraLai(),
-                          ),
-                        )
-                            .toList(),
-                      ),
-                    )
+                            child: Column(
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      isTablet: true,
+                                      row: e.toListRowLichSuTraLai(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          )
                         : const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: NodataWidget(),
-                    ),
+                            padding: EdgeInsets.only(top: 16.0),
+                            child: NodataWidget(),
+                          ),
                   );
                 },
               ),

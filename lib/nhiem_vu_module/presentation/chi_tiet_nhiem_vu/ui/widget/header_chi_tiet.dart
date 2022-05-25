@@ -115,12 +115,12 @@ Widget getStatus(StatusNV status) {
     case StatusNV.CHUA_THUC_HIEN:
       return statusChiTietNhiemVu(
         name: S.current.chua_thuc_hien,
-        background: AqiColor,
+        background: yellowColor,
       );
     case StatusNV.DANG_THUC_HIEN:
       return statusChiTietNhiemVu(
         name: S.current.dang_thuc_hien,
-        background: yellowColor,
+        background: blueNhatChart,
       );
     case StatusNV.THU_HOI:
       return statusChiTietNhiemVu(
@@ -142,6 +142,8 @@ Widget getStatus(StatusNV status) {
         name: S.current.tra_lai,
         background: statusCalenderRed,
       );
+    case StatusNV.NONE:
+      return const SizedBox();
   }
 }
 
@@ -162,7 +164,7 @@ StatusNV getStatusNV(String status) {
     case 'TRA_LAI':
       return StatusNV.TRA_LAI;
     default:
-      return StatusNV.QUA_HAN;
+      return StatusNV.NONE;
   }
 }
 

@@ -62,17 +62,14 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                       ),
                     ),
                   ),
-                  // const Spacer(),
-                  const SizedBox(
-                    width: 6,
-                  ),
+                  const Spacer(),
                   Expanded(
                     flex: 2,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         DateTime.parse(widget.object.ngayTao ?? '')
-                            .formatDdMMYYYY,
+                            .formatApiListBieuQuyetMobile,
                         softWrap: true,
                         style: textNormalCustom(
                           color: infoColor,

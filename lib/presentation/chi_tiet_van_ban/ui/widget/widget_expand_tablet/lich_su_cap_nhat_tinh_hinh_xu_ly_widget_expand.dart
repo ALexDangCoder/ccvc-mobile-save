@@ -26,7 +26,6 @@ class LichSuCapNhatTinhHinhWidgetExpandTablet extends StatefulWidget {
 class _LichSuCapNhatTinhHinhWidgetExpandTabletState
     extends State<LichSuCapNhatTinhHinhWidgetExpandTablet>
     with AutomaticKeepAliveClientMixin {
-
   @override
   void initState() {
     widget.cubit.getLichSuVanBanLichSuCapNhat(
@@ -67,21 +66,22 @@ class _LichSuCapNhatTinhHinhWidgetExpandTabletState
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: data.isNotEmpty
                         ? SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: data
-                            .map(
-                              (e) => WidgetInExpandVanBan(
-                            row: e.toListRowLichSuCapNhat(),
-                          ),
-                        )
-                            .toList(),
-                      ),
-                    )
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      isTablet: true,
+                                      row: e.toListRowLichSuCapNhat(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          )
                         : const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: NodataWidget(),
-                    ),
+                            padding: EdgeInsets.only(top: 16.0),
+                            child: NodataWidget(),
+                          ),
                   );
                 },
               ),

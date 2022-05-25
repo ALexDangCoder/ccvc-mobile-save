@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class WidgetInExpandVanBan extends StatelessWidget {
   final List<DocumentDetailRow> row;
+  final bool isTablet;
 
   const WidgetInExpandVanBan({
     Key? key,
     required this.row,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,7 @@ class WidgetInExpandVanBan extends StatelessWidget {
                         width: 14.0.textScale(),
                       ),
                       Expanded(
-                        flex: 5,
+                        flex:isTablet ? 8 : 5,
                         child: e.type.getWidgetVanBan(row: e),
                       ),
                     ],

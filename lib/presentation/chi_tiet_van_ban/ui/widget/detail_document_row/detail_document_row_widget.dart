@@ -16,7 +16,11 @@ class DetailDocumentRow extends StatefulWidget {
   final DocumentDetailRow row;
   final bool isTablet;
 
-  const DetailDocumentRow({Key? key, required this.row, this.isTablet =false}) : super(key: key);
+  const DetailDocumentRow({
+    Key? key,
+    required this.row,
+    this.isTablet = false,
+  }) : super(key: key);
 
   @override
   State<DetailDocumentRow> createState() => _DetailDocumentRowState();
@@ -50,7 +54,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
+                  flex: widget.isTablet ? 26 : 6,
                   child: Wrap(
                     children: data
                         .map(
@@ -116,7 +120,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
+                  flex: widget.isTablet ? 26 : 6,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -166,7 +170,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
+                  flex: widget.isTablet ? 26 : 6,
                   child: widget.row.type == TypeDocumentDetailRow.text
                       ? cubit.isCheckLine
                           ? GestureDetector(

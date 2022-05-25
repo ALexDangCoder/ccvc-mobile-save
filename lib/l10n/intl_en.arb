@@ -686,7 +686,7 @@
   "english": "English",
   "tim_tep_tren_dien_thoai_cua_ban": "Tìm tệp trên điện thoại của bạn",
   "chon_tai_lieu": "Chọn tài liệu",
-  "chi_ho_tro_txt": "Chỉ hỗ trợ tệp .txt",
+  "chi_ho_tro_txt": "Chỉ hỗ trợ tệp .doc,.docx, .txt",
   "coppy": "Coppy",
   "cac_co_quan_khac": "Các cơ quan khác",
   "cac_to_chuc": "Các tổ chức",
@@ -991,7 +991,8 @@
   "gui_loi_chuc_toi" : "Gửi lời chúc tới",
   "gui" : "Gửi",
   "gui_thiep_thanh_cong" : "Gửi thiệp thành công",
-  "cai_dat_thong_bao" : "Cài đặt thông báo",
   "khong_co_thong_tin": "Không có thông tin, tin tức",
-  "cai_dat_thong_bao" : "Cài đặt thông báo"
+  "cai_dat_thong_bao" : "Cài đặt thông báo",
+  "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại."
+
 }

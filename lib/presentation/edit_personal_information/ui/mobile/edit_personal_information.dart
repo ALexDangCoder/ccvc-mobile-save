@@ -183,6 +183,9 @@ class _EditPersonalInformationScreen
                           hintText: S.current.thu_tus,
                           controller: thuTuController,
                           maxLength: 2,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           textInputType: TextInputType.number,
                           onChange: (value) {
                             if (value.length > 2) {
@@ -226,6 +229,9 @@ class _EditPersonalInformationScreen
                           controller: cmndController,
                           maxLength: 255,
                           textInputType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -295,6 +301,9 @@ class _EditPersonalInformationScreen
                           controller: sdtCoquanController,
                           textInputType: TextInputType.number,
                           maxLength: 255,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           onChange: (value) {
                             if (value.length > 255) {
                               final input = value.substring(0, 255);
@@ -320,6 +329,9 @@ class _EditPersonalInformationScreen
                           hintText: S.current.so_dien_thoai,
                           controller: sdtController,
                           maxLength: 255,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           textInputType: TextInputType.number,
                           onChange: (value) {
                             if (value.length > 255) {

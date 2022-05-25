@@ -64,7 +64,7 @@ class _LichSuTraLaiWidgetExpandTabletState
                               children: data
                                   .map(
                                     (e) => WidgetInExpandVanBan(
-                                      isTablet: true,
+                                      flexValue: 8,
                                       row: e.toListRowLichSuTraLai(),
                                     ),
                                   )

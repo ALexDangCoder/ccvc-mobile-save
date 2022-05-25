@@ -71,7 +71,7 @@ class _LichSuCapNhatTinhHinhWidgetExpandTabletState
                               children: data
                                   .map(
                                     (e) => WidgetInExpandVanBan(
-                                      isTablet: true,
+                                      flexValue: 8,
                                       row: e.toListRowLichSuCapNhat(),
                                     ),
                                   )

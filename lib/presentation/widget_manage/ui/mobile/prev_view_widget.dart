@@ -7,9 +7,9 @@ import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/preview_widget_item.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
-
 class PrevViewWidget extends StatefulWidget {
   final WidgetManageCubit cubit;
+
   const PrevViewWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-     homeCubit.loadApi();
+    homeCubit.loadApi();
   }
 
   @override
@@ -44,33 +44,38 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
         controller: scrollController,
         child: SingleChildScrollView(
           controller: scrollController,
-          child: Column(
+          child: Stack(
             children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 20,top: 16),
-                color: homeColor,
-                height: 6,
+              Column(
+                children: [
+                  Container(
+                    color: homeColor,
+                    child: StreamBuilder<List<WidgetModel>>(
+                      stream: widget.cubit.listWidgetUsing,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? <WidgetModel>[];
+                        if (data.isNotEmpty) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(data.length, (index) {
+                              final type = data[index];
+                              return type.widgetType?.getItemsMobilePreview() ??
+                                  const SizedBox();
+                            }),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                color: homeColor,
-                child: StreamBuilder<List<WidgetModel>>(
-                  stream: widget.cubit.listWidgetUsing,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? <WidgetModel>[];
-                    if (data.isNotEmpty) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: List.generate(data.length, (index) {
-                          final type = data[index];
-                          return type.widgetType?.getItemsMobilePreview() ??
-                              const SizedBox();
-                        }),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-              ),
+              Positioned.fill(
+                  child: Container(
+                    width: double.maxFinite,
+                    color: Colors.transparent,
+                  ),
+              )
             ],
           ),
         ),

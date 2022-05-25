@@ -28,7 +28,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    viewModel.xemLuongXuLyVbDen('affc2d0e-b51e-4a42-b45b-7d64693737f2');
+    viewModel.xemLuongXuLyVbDen(widget.id);
   }
 
   @override

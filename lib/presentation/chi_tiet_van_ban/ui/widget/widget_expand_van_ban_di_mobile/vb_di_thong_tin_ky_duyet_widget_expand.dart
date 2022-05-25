@@ -104,7 +104,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: '${item.donViNguoiKy ?? ''} - ',
+                          text: item.donViNguoiKy ?? '',
                           style: textNormalCustom(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,

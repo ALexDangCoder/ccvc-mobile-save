@@ -9,12 +9,20 @@ class MessageDialogPopup extends StatefulWidget {
   final Function() onDismiss;
   final String urlIcon;
   final String title;
+  final String? title2;
+  bool? showTitle2;
+  FontWeight? fontWeight;
+  double? fontSize;
 
-  const MessageDialogPopup({
+  MessageDialogPopup({
     Key? key,
     required this.onDismiss,
     this.urlIcon = '',
     this.title = '',
+    this.title2 = '',
+    this.showTitle2 = false,
+    this.fontWeight = FontWeight.w500,
+    this.fontSize = 18.0,
   }) : super(key: key);
 
   @override
@@ -96,9 +104,23 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                       Text(
                         widget.title,
                         textAlign: TextAlign.center,
-                        style:
-                            textNormalCustom(fontSize: 18, color: titleColor),
-                      )
+                        style: textNormalCustom(
+                            fontSize: widget.fontSize,
+                            color: titleColor,
+                            fontWeight: widget.fontWeight),
+                      ),
+                      if (widget.showTitle2 ?? false)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            widget.title2 ?? '',
+                            textAlign: TextAlign.center,
+                            style:
+                                textNormalCustom(fontSize: 18, color: labelColor),
+                          ),
+                        )
+                      else
+                        const SizedBox(),
                     ],
                   ),
                 ),

@@ -992,5 +992,6 @@
   "gui" : "Gửi",
   "gui_thiep_thanh_cong" : "Gửi thiệp thành công",
   "cai_dat_thong_bao" : "Cài đặt thông báo",
-  "khong_co_thong_tin": "Không có thông tin, tin tức"
+  "khong_co_thong_tin": "Không có thông tin, tin tức",
+  "cai_dat_thong_bao" : "Cài đặt thông báo"
 }

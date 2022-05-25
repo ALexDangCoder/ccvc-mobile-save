@@ -68,7 +68,7 @@ class HomeImpl extends HomeRepository {
   @override
   Future<Result<List<TinBuonModel>>> getTinBuon() {
     return runCatchingAsync<TinhHuongKhanCapResponse, List<TinBuonModel>>(
-      () => _homeServiceGateWay.getTinBuon(),
+      () => _homeServiceCCVC.getTinBuon(),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }

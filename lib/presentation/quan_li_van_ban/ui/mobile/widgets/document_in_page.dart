@@ -55,10 +55,16 @@ class _DocumentInPageState extends State<DocumentInPage>
                     chartData: widget.qlvbCubit.chartDataVbDen,
                     documentDashboardModel: dataVBDen,
                     onPieTap: (value) {
+                      widget.qlvbCubit.documentInSubStatusCode = '';
                       widget.qlvbCubit.documentInStatusCode =
                           widget.qlvbCubit.documentInStatusCode == value
                               ? ''
                               : value;
+                      widget.qlvbCubit.listDataDanhSachVBDen();
+                    },
+                    onStatusTap: (key) {
+                      widget.qlvbCubit.documentInStatusCode = '';
+                      widget.qlvbCubit.documentInSubStatusCode = key;
                       widget.qlvbCubit.listDataDanhSachVBDen();
                     },
                   );
@@ -92,25 +98,25 @@ class _DocumentInPageState extends State<DocumentInPage>
                             shrinkWrap: true,
                             itemCount: listData.length,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChiTietVanBanDenMobile(
-                                        processId: listData[index].iD ?? '',
-                                        taskId: listData[index].taskId ?? '',
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 16,
+                                  top: (index == 0) ? 16 : 0,
+                                ),
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChiTietVanBanDenMobile(
+                                          processId: listData[index].iD ?? '',
+                                          taskId: listData[index].taskId ?? '',
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16,
-                                    top: (index == 0) ? 16 : 0,
-                                  ),
+                                    );
+                                  },
                                   child: ContainerInfoWidget(
                                     title:
                                         listData[index].trichYeu?.parseHtml() ??

@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/bao_cao_thong_ke/ui/tablet/bao_cao_thong_ke_bcmxh_tablet.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/tab/menu_bao_chi_tablet.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/bloc/bao_chi_mang_xa_hoi_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/ui/tablet/tat_ca_chu_de_tablet.dart';
@@ -30,7 +29,7 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> {
   @override
   void initState() {
     super.initState();
-    _controller = TabController(vsync: AnimatedListState(), length: 4);
+    _controller = TabController(vsync: AnimatedListState(), length: 3);
     cubit.getMenu();
   }
 
@@ -81,11 +80,6 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> {
           labelColor: AppTheme.getInstance().colorField(),
           tabs: [
             Tab(
-              child: Text(
-                S.current.bao_cao_thong_ke,
-              ),
-            ),
-            Tab(
               child: Text(S.current.tat_ca_chu_de),
             ),
             Tab(
@@ -109,24 +103,10 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> {
           controller: _controller,
           children: [
             //  TinRadioScreen(title: 'Tin Radio', tinTucThoiSuBloc: TinTucThoiSuBloc(),),
-            StreamBuilder(
-              stream: cubit.changeItemMenu,
-              builder: (context,snapshot){
-                return BaoCaoThongKeBCMXHTabletScreen(
-                  key: UniqueKey(),
-                  topic: cubit.topic,
-                );
-              },
-            ),
             const TatCaChuDeScreenTablet(),
-            StreamBuilder<bool>(
-              stream: cubit.changeItemMenu,
-              builder: (context, nspshot) {
-                return TheoDoiBaiVietTablet(
-                  topic: cubit.topic,
-                  key: UniqueKey(),
-                );
-              },
+            TheoDoiBaiVietTablet(
+              topic: cubit.topic,
+              key: UniqueKey(),
             ),
             TinTucThoiSuScreenTablet(
               tinTucThoiSuBloc: TinTucThoiSuBloc(),

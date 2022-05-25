@@ -21,7 +21,7 @@ class _ResetPasswordScreenTabletState extends State<ResetPasswordScreenTablet> {
     final TextEditingController textEditingController = TextEditingController();
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(

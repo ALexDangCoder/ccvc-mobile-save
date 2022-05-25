@@ -108,6 +108,73 @@ class ChiTietVanBanDiModel {
     this.isScan,
     this.isCanCopy,
   });
+  List<List<DocumentDetailRow> > toListRowHeadTablet() {
+    return  [
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.loai_van_ban_di,
+          vanBanBanhanh(),
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.nguoi_soan_thao,
+          tenNguoiSoanThao ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_ban_hanh,
+          ngayBanHanh ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.do_khan,
+          doKhan ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.ma_pakn,
+          maPAKN ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.loai_van_ban,
+          processType ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_han_xl,
+          dueDate ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.trang_thai,
+          '',
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.dv_soan_thao,
+          donViSoanThao ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ky_hieu,
+          fileNotation ?? '',
+          TypeDocumentDetailRow.text,
+
+        ),
+        DocumentDetailRow(
+          S.current.so_ban,
+          issuedAmount ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+    ];
+
+  }
 
   List<DocumentDetailRow> toListRowHead() {
     final List<DocumentDetailRow> list = [
@@ -139,16 +206,6 @@ class ChiTietVanBanDiModel {
       DocumentDetailRow(
         S.current.ky_hieu,
         fileNotation ?? '',
-        TypeDocumentDetailRow.text,
-      ),
-      DocumentDetailRow(
-        S.current.so_di,
-        '',
-        TypeDocumentDetailRow.text,
-      ),
-      DocumentDetailRow(
-        S.current.so_phu,
-        '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(

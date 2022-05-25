@@ -269,7 +269,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
               padding: const EdgeInsets.all(16),
               margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: buttonColor,
                 border: Border.all(
                   color: borderColor.withOpacity(0.5),
                 ),
@@ -294,7 +294,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                           child: Text(
                             textEditingController.text.isEmpty ? '' : data,
                             style: textNormalCustom(
-                              color: textTitle,
+                              color: AppTheme.getInstance().dfBtnTxtColor(),
                               fontWeight: FontWeight.w400,
                               fontSize: 16,
                             ),
@@ -333,7 +333,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
             ),
             btn(
               onTap: () {
-                cubit.readFile(
+                cubit.translateFile(
                   textEditingController,
                 );
               },

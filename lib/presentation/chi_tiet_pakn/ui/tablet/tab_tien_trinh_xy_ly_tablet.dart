@@ -50,7 +50,6 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
           return Padding(
             padding: const EdgeInsets.only(top: 28.0,left: 14.0,right: 14.0),
             child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: data.length,
               itemBuilder: (context, indexItem){

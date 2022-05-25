@@ -6,9 +6,8 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_mo
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/widget/detail_document_row_tablet.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/detail_document_row_widget.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
-import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +17,11 @@ class WidgetHeadChiTietVanBanDiTablet extends StatefulWidget {
   final CommonDetailDocumentGoCubit cubit;
   final String id;
 
-  const WidgetHeadChiTietVanBanDiTablet(
-      {Key? key, required this.cubit, required this.id,})
-      : super(key: key);
+  const WidgetHeadChiTietVanBanDiTablet({
+    Key? key,
+    required this.cubit,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<WidgetHeadChiTietVanBanDiTablet> createState() =>
@@ -35,6 +36,7 @@ class _WidgetHeadChiTietVanBanDiTabletState
     widget.cubit.getChiTietVanBanDi(widget.id);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -55,19 +57,34 @@ class _WidgetHeadChiTietVanBanDiTabletState
             stream: widget.cubit.chiTietVanBanDiSubject,
             builder: (context, snapshot) {
               final data = snapshot.data ?? ChiTietVanBanDiModel();
-              if (snapshot.hasData) {
-                return Column(
+              return Padding(
+                padding: const EdgeInsets.all(30),
+                child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                      child: Column(
-                        children: data.toListRowHead().map(
-                              (row) {
-                            return DetailDocumentRowTablet(
-                              row: row,
-                            );
-                          },
-                        ).toList(),
+                    Row(
+                      children: data.toListRowHeadTablet().map(
+                        (row) {
+                          return Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: row
+                                  .map(
+                                    (e) => DetailDocumentRow(
+                                      row: e,
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                    DetailDocumentRow(
+                      isTablet: true,
+                      row: DocumentDetailRow(
+                        S.current.trich_yeu,
+                        data.subject ?? '',
+                        TypeDocumentDetailRow.text,
                       ),
                     ),
                     checkRow(
@@ -77,14 +94,17 @@ class _WidgetHeadChiTietVanBanDiTabletState
                     ...?data.vanBanDenResponses
                         ?.map(
                           (e) => WidgetInExpandVanBan(
-                        row: e.toListRowView(),
-                      ),
-                    )
+                            flexValue: 19,
+                            row: e.toListRowView(),
+                          ),
+                        )
                         .toList(),
+                    spaceH15,
                     checkRow(
                       S.current.van_ban_qppl,
                       value: data.isVanBanQppl ?? false,
                     ),
+                    spaceH30,
                     checkRow(
                       S.current.van_ban_chi_dao,
                       value: data.isVanBanChiDao ?? false,
@@ -92,15 +112,14 @@ class _WidgetHeadChiTietVanBanDiTabletState
                     ...?data.vanBanChiDaoResponses
                         ?.map(
                           (e) => WidgetInExpandVanBan(
-                        row: e.toListRowView(),
-                      ),
-                    )
+                            flexValue: 19,
+                            row: e.toListRowView(),
+                          ),
+                        )
                         .toList(),
                   ],
-                );
-              } else {
-                return const NodataWidget();
-              }
+                ),
+              );
             },
           ),
         ),
@@ -108,33 +127,27 @@ class _WidgetHeadChiTietVanBanDiTabletState
     );
   }
 
-  Widget checkRow(String title, {required bool value}) => Padding(
-    padding: const EdgeInsets.symmetric(
-      vertical: 8,
-      horizontal: 16,
-    ),
-    child: Row(
-      children: [
-        SizedBox(
-          height: 20,
-          width: 41,
-          child: CustomCheckBox(
-            title: '',
-            isCheck: value,
-            onChange: (bool check) {},
+  Widget checkRow(String title, {required bool value}) => Row(
+        children: [
+          SizedBox(
+            height: 20,
+            width: 41,
+            child: CustomCheckBox(
+              title: '',
+              isCheck: value,
+              onChange: (bool check) {},
+            ),
           ),
-        ),
-        AutoSizeText(
-          title,
-          style: textNormalCustom(
-            color: titleItemEdit,
-            fontSize: 14.0,
-            fontWeight: FontWeight.w400,
+          AutoSizeText(
+            title,
+            style: textNormalCustom(
+              color: titleItemEdit,
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      );
 
   @override
   // TODO: implement wantKeepAlive

@@ -135,10 +135,12 @@ const _dtFormat3 = 'dd/MM hh:mm a';
 const _dtFormat4 = 'yyyy-MM-dd';
 const _dtFormat5 = 'MMM dd, yyyy';
 const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
+const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
+const _dtFormat8 = 'd/MM/yyyy';
 
 const String DO_MAIN_DOWLOAD_FILE='http://api-qlvb-nv.dongnai.edsolabs.vn';
-const String DO_MAIN_DOWLOAD_FILE_NHIEM_VU='https://api-qlvb-nv-ccvc-uat.chinhquyendientu.vn';
 const String DO_MAIN_LICH_AM_DUONG='https://api-and-uat.chinhquyendientu.vn';
+const String AVATAR_DEFAULT ='http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -147,6 +149,8 @@ class DateTimeFormat {
   static const DOB_FORMAT = _dtFormat4;
   static const CREATE_BLOG_FORMAT = _dtFormat5;
   static const DATE_MM_DD_YYYY = _dtFormat6;
+  static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
+  static const DATE_DD_MM_YYYY = _dtFormat8;
 }
 
 class ThongBaoTypeConstant {

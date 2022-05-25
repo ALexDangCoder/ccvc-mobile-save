@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _SendMailScreenState extends State<SendMailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -38,7 +39,7 @@ class _SendMailScreenState extends State<SendMailScreen> {
                   const SizedBox(height: 20.0),
                   TextFieldValidator(
                     controller: emailController,
-                    hintText: S.current.email,
+                    hintText: '${S.current.email}/${S.current.so_dien_thoai}',
                    prefixIcon: SizedBox(
                      width: 20,
                      height: 20,
@@ -46,7 +47,17 @@ class _SendMailScreenState extends State<SendMailScreen> {
                          child: SvgPicture.asset(ImageAssets.ic_email),),
                    ),
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      final   isCheckSdt=(value ?? '').checkSdtDinhDangTruong() ?? false;
+                      final   isCheckEmail=(value ?? '').checkEmailBooleanDinhDangTruong() ?? false;
+                      if((value ?? '').isNotEmpty){
+                        if(isCheckSdt || isCheckEmail){
+
+                        }else{
+                          return'${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                        }
+                      }else{
+                        return (value ?? '').checkTruongNull('${S.current.email}/${S.current.so_dien_thoai}');
+                      }
                     },
                   ),
                   const SizedBox(height: 20.0),

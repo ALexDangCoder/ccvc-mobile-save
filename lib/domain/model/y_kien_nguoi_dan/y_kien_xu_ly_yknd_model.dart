@@ -23,6 +23,8 @@ class YKienXuLyYKNDModel {
   String? tenNguoiChoYKien;
   String? tenNguoiXinYKien;
   List<FileModel>? dSFile;
+  String? anhDaiDienNguoiCho;
+  String? anhDaiDienNguoiXin;
 
   YKienXuLyYKNDModel({
     this.id,
@@ -37,6 +39,8 @@ class YKienXuLyYKNDModel {
     this.tenNguoiChoYKien,
     this.tenNguoiXinYKien,
     this.dSFile,
+    this.anhDaiDienNguoiXin,
+    this.anhDaiDienNguoiCho,
   });
 }
 

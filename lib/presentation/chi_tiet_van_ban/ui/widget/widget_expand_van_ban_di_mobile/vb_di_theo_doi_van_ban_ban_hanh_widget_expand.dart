@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 class VBDiTheoDoiVanBanBanHanhExpandWidget extends StatefulWidget {
   final TrackTextDetailDocumentCubit cubit;
   final String id;
+  final bool isTablet;
 
   const VBDiTheoDoiVanBanBanHanhExpandWidget({
     Key? key,
     required this.cubit,
     required this.id,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override

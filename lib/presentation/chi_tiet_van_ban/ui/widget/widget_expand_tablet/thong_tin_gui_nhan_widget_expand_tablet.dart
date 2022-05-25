@@ -70,7 +70,7 @@ class _ThongTinGuiNhanWidgetExpandTabletState
                                         .map(
                                           (e) => WidgetInExpandVanBan(
                                             row: e.toListRow(),
-                                            isTablet: true,
+                                            flexValue: 8,
                                           ),
                                         )
                                         .toList(),

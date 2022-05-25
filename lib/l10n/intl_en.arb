@@ -985,5 +985,7 @@
   "danh_sach_pakn": "Danh sách PAKN",
   "khong_co_thong_tin_pakn": "Không có thông tin Pakn",
   "file_khong_hop_le": "File không hợp lệ!",
-  "cai_dat_thong_bao" : "Cài đặt thông báo"
+  "cai_dat_thong_bao" : "Cài đặt thông báo",
+  "may_anh": "Máy ảnh",
+  "thu_vien": "Thư viện"
 }

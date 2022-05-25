@@ -975,8 +975,9 @@
   "ngay_sinh_require": "Ngày sinh (*)",
   "sdt_co_quan_require": "Số điện thoại cơ quan (*)",
   "sdt_nha_rieng_require": "Số điện thoại nhà riêng (*)",
-  "cai_dat_thong_bao" : "Cài đặt thông báo"
-
+  "cai_dat_thong_bao" : "Cài đặt thông báo",
+  "may_anh": "Máy ảnh",
+  "thu_vien": "Thư viện"
 }
 
 

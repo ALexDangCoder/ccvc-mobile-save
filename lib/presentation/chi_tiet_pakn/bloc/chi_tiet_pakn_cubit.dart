@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -256,6 +258,12 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         );
       },
       error: (error) {
+       // if(error is NoNetworkException){
+        //   MessageConfig.show(
+        //     title: S.current.no_internet,
+        //     messState: MessState.error,
+        //   );
+        // }
         emit(
           ChiTietPaknSuccess(
             CompleteType.SUCCESS,

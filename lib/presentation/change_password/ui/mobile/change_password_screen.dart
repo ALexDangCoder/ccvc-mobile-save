@@ -1,12 +1,8 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
-import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/send_mail_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -18,7 +14,6 @@ import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../../main.dart';
 
 class ChangePassWordScreen extends StatefulWidget {
@@ -233,20 +228,6 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                                 .checkTruongNull('Nhập lại mật khẩu mới!');
                           }
                         },
-                      ),
-                      const SizedBox(height: 16.0),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const SendMailScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          '${S.current.quen_mat_khau}?',
-                          style: textNormalCustom(color: AppTheme.getInstance().colorField()),
-                        ),
                       ),
                       const SizedBox(height: 20.0),
                       DoubleButtonBottom(

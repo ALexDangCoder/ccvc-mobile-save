@@ -512,6 +512,10 @@ class ImageAssets {
   static const String icThongKe= '$baseImg/ic_thong_ke.svg';
   static const String ic_copy= '$baseImg/ic_copy.svg';
   static const String icInfo= '$baseImg/ic_qlvb_info.svg';
+  static const String icEmailPopup= '$baseImg/ic_email_popup.svg';
+  static const String icSendPhonePopUp= '$baseImg/ic_sendphone_popup.svg';
+  static const String icUserNotExits= '$baseImg/ic_user_not_exits.svg';
+  static const String icWarningPopUp= '$baseImg/ic_warning_popup.svg';
 
 
 

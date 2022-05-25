@@ -106,7 +106,7 @@
   "doi_mat_khau": "Đổi mật khẩu",
   "dang_xuat": "Đăng xuất",
   "quan_ly_widget": "Quản lý widgets",
-  "dat_lai_mat_khau": "Đặt lại mật khẩu",
+  "doi_lai_mat_khau": "Đổi lại mật khẩu",
   "mat_khau_hien_tai": "Mật khẩu hiện tại",
   "mat_khau_moi": "Mật khẩu mới",
   "nhap_lai_mat_khau": "Nhập lại mật khẩu mới",
@@ -983,6 +983,10 @@
   "gui" : "Gửi",
   "gui_thiep_thanh_cong" : "Gửi thiệp thành công",
   "cai_dat_thong_bao" : "Cài đặt thông báo",
+  "mat_khau_cua_ban_da_duoc_gui_den_email": "Mật khẩu của bạn đã được gửi đến email",
+  "email_ban_nhap_khong_khop_voi_email_da_dang_ky": "Email bạn nhập không khớp với email bạn đã đăng ký!",
+  "mat_khau_cua_ban_da_duoc_gui_den_sdt": "Mật khẩu của bạn đã được gửi đến SĐT",
+  "sdt_ban_nhap_khong_khop_voi_sdt_da_dang_ky": "SĐT bạn nhập không khớp với SĐT bạn đã đăng ký!",
   "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại.",
   "khong_co_thong_tin": "Không có thông tin, tin tức"
 }

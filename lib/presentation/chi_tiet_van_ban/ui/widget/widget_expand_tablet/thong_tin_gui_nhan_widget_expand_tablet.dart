@@ -26,8 +26,8 @@ class ThongTinGuiNhanWidgetExpandTablet extends StatefulWidget {
 }
 
 class _ThongTinGuiNhanWidgetExpandTabletState
-    extends State<ThongTinGuiNhanWidgetExpandTablet> with AutomaticKeepAliveClientMixin{
-
+    extends State<ThongTinGuiNhanWidgetExpandTablet>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     widget.cubit.getThongTinGuiNhan(widget.processId);
@@ -59,29 +59,34 @@ class _ThongTinGuiNhanWidgetExpandTabletState
                     final data = snapshot.data ?? [];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: data.isNotEmpty ? SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            buttonStream,
-                            Column(
-                              children: data
-                                  .map(
-                                    (e) => WidgetInExpandVanBan(
-                                  row: e.toListRow(),
-                                ),
-                              )
-                                  .toList(),
+                      child: data.isNotEmpty
+                          ? SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  buttonStream,
+                                  Column(
+                                    children: data
+                                        .map(
+                                          (e) => WidgetInExpandVanBan(
+                                            row: e.toListRow(),
+                                            isTablet: true,
+                                          ),
+                                        )
+                                        .toList(),
+                                  )
+                                ],
+                              ),
                             )
-                          ],
-                        ),
-                      ) : Column(
-                        children: [
-                          buttonStream,
-                          const Expanded(
-                            child:  NodataWidget(),
-                          ),
-                        ],
-                      ),
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                buttonStream,
+                                const Expanded(
+                                  child: NodataWidget(),
+                                ),
+                              ],
+                            ),
                     );
                   },
                 ),
@@ -94,40 +99,41 @@ class _ThongTinGuiNhanWidgetExpandTabletState
   }
 
   Widget get buttonStream => Padding(
-    padding: const EdgeInsets.only(
-      top: 16.0,
-      bottom: 24.0,
-    ),
-    child: InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => XemLuongXuLyScreen(
-              id: widget.processId,
+        padding: const EdgeInsets.only(
+          top: 16.0,
+          bottom: 24.0,
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => XemLuongXuLyScreen(
+                  id: widget.processId,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            width: 250,
+            color: borderColor,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30,
+              vertical: 12,
+            ),
+            child: Center(
+              child: Text(
+                S.current.xem_luong_xu_ly,
+                style: textNormalCustom(
+                  color: textTitle,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
           ),
-        );
-      },
-      child: Container(
-        color: borderColor,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30,
-          vertical: 12,
         ),
-        child: Center(
-          child: Text(
-            S.current.xem_luong_xu_ly,
-            style: textNormalCustom(
-              color: textTitle,
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
+      );
 
   @override
   bool get wantKeepAlive => true;

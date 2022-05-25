@@ -53,7 +53,9 @@ class CommonDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 }
 
 class DeliveryNoticeDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  DeliveryNoticeDetailDocumentCubit() : super(DetailDocumentInitial());
+  DeliveryNoticeDetailDocumentCubit() : super(DetailDocumentInitial()){
+    showContent();
+  }
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<ThongTinGuiNhanModel>> thongTinGuiNhanSubject =

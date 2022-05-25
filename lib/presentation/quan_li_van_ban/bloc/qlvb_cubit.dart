@@ -65,16 +65,15 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
   late String startDate;
   late String endDate;
   String keySearch = '';
-  final BehaviorSubject<bool> checkClickSearch =
+  final BehaviorSubject<bool> showSearchSubject =
       BehaviorSubject<bool>.seeded(false);
 
-  Stream<bool> get checkClickSearchStream => checkClickSearch.stream;
+  Stream<bool> get showSearchStream => showSearchSubject.stream;
 
   void setSelectSearch() {
-    checkClickSearch.sink.add(!checkClickSearch.value);
+    showSearchSubject.sink.add(!showSearchSubject.value);
   }
 
-  bool isHideClearData = false;
   Debouncer debouncer = Debouncer();
 
   void callAPi() {

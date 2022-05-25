@@ -99,25 +99,25 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                             shrinkWrap: true,
                             itemCount: listData.length,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChiTietVanBanDenTablet(
-                                        processId: listData[index].iD ?? '',
-                                        taskId: listData[index].taskId ?? '',
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 16,
+                                  top: (index == 0) ? 16 : 0,
+                                ),
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChiTietVanBanDenTablet(
+                                              processId: listData[index].iD ?? '',
+                                              taskId: listData[index].taskId ?? '',
+                                            ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16,
-                                    top: (index == 0) ? 16 : 0,
-                                  ),
+                                    );
+                                  },
                                   child: ContainerInfoWidget(
                                     title:
                                         listData[index].trichYeu?.parseHtml() ??

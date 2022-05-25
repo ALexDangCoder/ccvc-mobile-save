@@ -56,14 +56,15 @@ class PhienDichTuDongCubit{
     }
   }
 
-  Future<void> readFile(
-    TextEditingController textEditingController,
-  ) async {
+  TienIchRepository get repo => Get.find();
+
+  Future<void> translateFile(
+      TextEditingController textEditingController,
+      ) async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['txt'],
     );
-
     if (result != null) {
       final File file = File(result.files.single.path ?? '');
 
@@ -72,8 +73,6 @@ class PhienDichTuDongCubit{
       await translateDocument(document: file.readAsStringSync());
     }
   }
-
-  TienIchRepository get repo => Get.find();
 
   String lastedWord = '';
 

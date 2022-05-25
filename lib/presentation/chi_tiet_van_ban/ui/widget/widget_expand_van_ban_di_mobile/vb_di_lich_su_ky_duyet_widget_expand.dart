@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 
 class VBDiLichSuKyDuyetExpandWidget extends StatefulWidget {
   final String id;
+  final bool isTablet;
 
   final SignForApprovalDetailDocumentGoCubit cubit;
 
   const VBDiLichSuKyDuyetExpandWidget({
     Key? key,
+    this.isTablet = false,
     required this.cubit,
     required this.id,
   }) : super(key: key);
@@ -59,6 +61,7 @@ class _VBDiLichSuKyDuyetExpandWidgetState
                     children: data
                         .map(
                           (e) => WidgetInExpandVanBan(
+                            flexValue: widget.isTablet ? 8 : 5,
                             row: e.toListRowKyDuyet(),
                           ),
                         )

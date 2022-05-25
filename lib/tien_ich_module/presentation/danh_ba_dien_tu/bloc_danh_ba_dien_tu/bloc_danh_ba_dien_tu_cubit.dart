@@ -388,8 +388,8 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 }
 
 extension TreeDanhBa on DanhBaDienTuCubit {
-  Future<void> getTree(int coCap) async {
-    final result = await tienIchRepTree.TreeDanhBa(coCap);
+  Future<void> getTree({required int soCap, String? idDonViCha}) async {
+    final result = await tienIchRepTree.treeDanhBa(soCap, idDonViCha ?? '');
     result.when(
       success: (res) {
         showContent();

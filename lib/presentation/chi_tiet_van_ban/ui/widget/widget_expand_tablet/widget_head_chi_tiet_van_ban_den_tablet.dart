@@ -66,16 +66,26 @@ class _WidgetHeadChiTietVanBanDenTabletState
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Column(
-                        children: data.toListRow().map(
+                      Row(
+                        children: data.toListRowTablet().map(
                           (row) {
-                            return DetailDocumentRow(
-                              row: row,
+                            return Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: row
+                                    .map(
+                                      (e) => DetailDocumentRow(
+                                        row: e,
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
                             );
                           },
                         ).toList(),
                       ),
                       DetailDocumentRow(
+                        isTablet: true,
                         row: DocumentDetailRow(
                           S.current.trich_yeu,
                           data.trichYeu ?? '',
@@ -83,6 +93,7 @@ class _WidgetHeadChiTietVanBanDenTabletState
                         ),
                       ),
                       DetailDocumentRow(
+                        isTablet: true,
                         row: DocumentDetailRow(
                           S.current.file_dinh_kem,
                           data.fileDinhKems
@@ -109,6 +120,7 @@ class _WidgetHeadChiTietVanBanDenTabletState
                       ),
                       if (data.isNhanBanGiay ?? false)
                         DetailDocumentRow(
+                          isTablet: true,
                           row: DocumentDetailRow(
                             S.current.ngay_nhan_ban_giay,
                             data.ngayNhanBanGiay ?? '',

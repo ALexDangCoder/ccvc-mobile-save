@@ -71,37 +71,41 @@ class _YKienXuLyExpandWidgetMobileState
                   stream: widget.cubit.danhSachYKienXuLyStream,
                   builder: (context, snapshot) {
                     final data = snapshot.data ?? [];
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.only(
-                            top: 6,
-                            left: 13,
-                            right: 13,
-                            bottom: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
-                              color: containerColorTab,
+                    if (data.isNotEmpty) {
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.only(
+                              top: 6,
+                              left: 13,
+                              right: 13,
+                              bottom: 6,
                             ),
-                            color: containerColorTab.withOpacity(0.1),
-                          ),
-                          padding: const EdgeInsets.only(
-                            top: 16,
-                            left: 16,
-                            right: 16,
-                          ),
-                          child: _itemViewDetail(
-                            data: data[index],
-                            index: index,
-                          ),
-                        );
-                      },
-                    );
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: containerColorTab,
+                              ),
+                              color: containerColorTab.withOpacity(0.1),
+                            ),
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              left: 16,
+                              right: 16,
+                            ),
+                            child: _itemViewDetail(
+                              data: data[index],
+                              index: index,
+                            ),
+                          );
+                        },
+                      );
+                    }else {
+                      return const SizedBox (height: 300,);
+                    }
                   },
                 ),
               ],

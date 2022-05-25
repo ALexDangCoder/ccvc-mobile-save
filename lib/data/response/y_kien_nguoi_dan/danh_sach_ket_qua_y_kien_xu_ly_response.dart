@@ -165,7 +165,7 @@ class FileResponse extends Equatable {
   FileModel toModel() => FileModel(
         id,
         ten,
-        'https://api-mpi-pakn-test.chinhquyendientu.vn/$duongDan',//todo
+        '${Get.find<AppConstants>().baseUrlPAKN}/$duongDan',
         dungLuong,
         daKySo,
         daGanQR,

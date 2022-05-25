@@ -265,7 +265,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                 child: Image.network(
                   avatar.isNotEmpty
                       ? avatar
-                      : 'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                      : AVATAR_DEFAULT,
                   width: sizeImage,
                   height: sizeImage,
                   fit: BoxFit.cover,

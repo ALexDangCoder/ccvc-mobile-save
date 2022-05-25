@@ -60,7 +60,7 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
         File(newImage.path).readAsBytesSync().lengthInBytes;
     _resultMap[PATH_OF_FILE] = newImage.path;
     _resultMap[NAME_OF_FILE] = p.basename(p.basename(newImage.path));
-    _resultMap[FILE_RESULT] = newImage;
+    _resultMap[FILE_RESULT] = [File(newImage.path)];
     return _resultMap;
   } on PlatformException catch (e) {
     throw 'Cant upload image $e';

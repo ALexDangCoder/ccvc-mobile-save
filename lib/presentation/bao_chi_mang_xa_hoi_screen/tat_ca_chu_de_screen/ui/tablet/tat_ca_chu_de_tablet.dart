@@ -28,9 +28,10 @@ class TatCaChuDeScreenTablet extends StatefulWidget {
   State<TatCaChuDeScreenTablet> createState() => _TatCaChuDeScreenTabletState();
 }
 
-class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with AutomaticKeepAliveClientMixin {
+class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
+    with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
-  ChooseTimeCubit chooseTimeCubit=ChooseTimeCubit();
+  ChooseTimeCubit chooseTimeCubit = ChooseTimeCubit();
   ChuDeCubit chuDeCubit = ChuDeCubit();
 
   @override
@@ -67,6 +68,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                 ChooseTimeScreen(
                   baseChooseTimeCubit: chooseTimeCubit,
                   today: DateTime.now(),
+                  chuDeCubit: chuDeCubit,
                 ),
                 Container(
                   color: bgCalenderColor,

@@ -45,7 +45,6 @@ class _VBDiLichSuHuyDuyetExpandWidgetState
       child: RefreshIndicator(
         onRefresh: () async {
           await widget.cubit.getLichSuHuyDuyetVanBanDi(widget.id);
-          ;
         },
         child: StreamBuilder<List<LichSuHuyDuyetVanBanDi>>(
           stream: widget.cubit.lichSuHuyDuyetVanBanDiSubject,

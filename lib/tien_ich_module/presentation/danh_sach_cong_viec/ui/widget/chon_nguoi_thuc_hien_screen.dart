@@ -60,9 +60,7 @@ class _DanhSachCongViecTienIchMobileState
                         final todo = data[index];
                         return GestureDetector(
                           onTap: () {
-                            widget.cubit.getPersontodo(
-                              person: todo.data(),
-                            );
+                            widget.cubit.person = todo.data();
                             widget.cubit.toDoListRequest.performer = todo.id;
                             widget.cubit.enabled.sink.add(true);
                             Navigator.pop(context);

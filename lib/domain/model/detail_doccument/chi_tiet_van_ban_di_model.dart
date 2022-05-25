@@ -133,12 +133,12 @@ class ChiTietVanBanDiModel {
       ),
       DocumentDetailRow(
         S.current.loai_van_ban,
-        '',
+        processType ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.ky_hieu,
-        kyHieuVanBanGoc ?? '',
+        fileNotation ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -168,7 +168,7 @@ class ChiTietVanBanDiModel {
       ),
       DocumentDetailRow(
         S.current.so_ban,
-        '',
+        issuedAmount ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -488,10 +488,12 @@ class DanhSachFiles {
   String? ten;
   String? id;
   String? isSign;
+  String? duongDan;
 
   DanhSachFiles({
     this.ten,
     this.id,
     this.isSign,
+    this.duongDan,
   });
 }

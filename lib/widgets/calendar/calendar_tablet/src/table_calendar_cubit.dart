@@ -21,6 +21,14 @@ class TableCalendarCubit {
     }
   }
 
+  bool isMatchDay(DateTime? oldData, DateTime? newData) {
+    if (oldData == null || newData == null || oldData == newData) return false;
+
+    if (oldData != newData) return true;
+
+    return false;
+  }
+
   bool selectDay(DateTime b) {
     return selectedDay.year == b.year &&
         selectedDay.month == b.month &&

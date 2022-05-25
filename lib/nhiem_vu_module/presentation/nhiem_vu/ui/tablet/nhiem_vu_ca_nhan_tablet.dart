@@ -32,28 +32,14 @@ class NhiemVuCaNhanTablet extends StatefulWidget {
 
 class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
   TextEditingController textcontroller = TextEditingController();
-  late Function(int page) callBack;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     widget.danhSachCubit.callApi(true);
-    callBack = (page) {
-      widget.danhSachCubit.postDanhSachNhiemVu(
-        index: page,
-        isNhiemVuCaNhan: widget.isCheck,
-        isSortByHanXuLy: true,
-        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-        ngayTaoNhiemVu: {
-          'FromDate': widget.danhSachCubit.ngayDauTien,
-          'ToDate': widget.danhSachCubit.ngayKetThuc
-        },
-        size: widget.danhSachCubit.pageSize,
-        keySearch: widget.danhSachCubit.keySearch,
-        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-      );
-    };
+    widget.danhSachCubit.mangTrangThai='';
+    widget.danhSachCubit.keySearch='';
   }
 
   @override
@@ -76,6 +62,19 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                 setState(() {});
                 widget.danhSachCubit.keySearch = text;
                 widget.danhSachCubit.mangTrangThai = '';
+                widget.danhSachCubit.postDanhSachNhiemVu(
+                  index: 0,
+                  isNhiemVuCaNhan: widget.isCheck,
+                  isSortByHanXuLy: true,
+                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                  ngayTaoNhiemVu: {
+                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                    'ToDate': widget.danhSachCubit.ngayKetThuc
+                  },
+                  size: widget.danhSachCubit.pageSize,
+                  keySearch: widget.danhSachCubit.keySearch,
+                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                );
               });
             },
           ),
@@ -134,7 +133,19 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                               widget.danhSachCubit.mangTrangThai = value;
                               widget.danhSachCubit.trangThaiHanXuLy = null;
                               setState(() {
-                                callBack;
+                                widget.danhSachCubit.postDanhSachNhiemVu(
+                                  index: 0,
+                                  isNhiemVuCaNhan: widget.isCheck,
+                                  isSortByHanXuLy: true,
+                                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                  ngayTaoNhiemVu: {
+                                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                                    'ToDate': widget.danhSachCubit.ngayKetThuc
+                                  },
+                                  size: widget.danhSachCubit.pageSize,
+                                  keySearch: widget.danhSachCubit.keySearch,
+                                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                );
                               });
                             },
                             onTapStatusBox: (value_status_box) {
@@ -142,7 +153,19 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                               widget.danhSachCubit.trangThaiHanXuLy =
                                   value_status_box;
                               setState(() {
-                                callBack;
+                                widget.danhSachCubit.postDanhSachNhiemVu(
+                                  index: 0,
+                                  isNhiemVuCaNhan: widget.isCheck,
+                                  isSortByHanXuLy: true,
+                                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                  ngayTaoNhiemVu: {
+                                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                                    'ToDate': widget.danhSachCubit.ngayKetThuc
+                                  },
+                                  size: widget.danhSachCubit.pageSize,
+                                  keySearch: widget.danhSachCubit.keySearch,
+                                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                );
                               });
                             },
                           );
@@ -156,6 +179,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
           ),
         ],
         callApi: (page) {
+          print('call');
           widget.danhSachCubit.postDanhSachNhiemVu(
             index: page,
             isNhiemVuCaNhan: widget.isCheck,

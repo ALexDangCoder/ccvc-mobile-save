@@ -193,9 +193,9 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
 
   void getListVanBanLienQuanNhiemVu(List<VanBanLienQuanNhiemVuModel> list) {
     vanBanGiaoNhiemVuSubject.sink
-        .add(list.where((element) => element.daGanVanBan == true).toList());
+        .add(list.where((element) => element.hinhThucVanBan == 'lienquan').toList());
     vanBanKhacNhiemVuSubject.sink
-        .add(list.where((element) => element.daGanVanBan == false).toList());
+        .add(list.where((element) => element.hinhThucVanBan == 'khac').toList());
   }
 
   /// Xin ý kiến

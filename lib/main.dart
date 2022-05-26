@@ -67,9 +67,7 @@ class _MyAppState extends State<MyApp> {
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-
-    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {});
   }
 
   @override

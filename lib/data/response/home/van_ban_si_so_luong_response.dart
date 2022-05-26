@@ -68,6 +68,7 @@ class Data {
     soLuongKhongCoHan = json['SoLuongKhongCoHan'];
     soLuongThuongKhan = json['SoLuongThuongKhan'];
   }
+
   DocumentDashboardModel toDomain() => DocumentDashboardModel(
       soLuongChoTrinhKy: soLuongChoTrinhKy,
       soLuongChoXuLy: soLuongChoXuLy,

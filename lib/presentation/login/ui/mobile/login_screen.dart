@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/app_config.dart';
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -106,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(
                               S.current.wellcom_login,
                               style: textNormal(
-                                  AppTheme.getInstance().textBodyTimeColor(),
+                                  textBodyTime,
                                   14),
                             )
                           ],

@@ -13,6 +13,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class EventOfDayWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const EventOfDayWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -22,6 +23,7 @@ class EventOfDayWidget extends StatefulWidget {
 
 class _EventOfDayWidgetState extends State<EventOfDayWidget> {
   final SuKienTrongNgayCubit _suKienTrongNgayCubit = SuKienTrongNgayCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -49,19 +51,19 @@ class _EventOfDayWidgetState extends State<EventOfDayWidget> {
               type: widget.homeItemType,
               listSelectKey: <DialogData>[
                 DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _suKienTrongNgayCubit.selectDate(
-                        selectKey: value, startDate: startDate, endDate: endDate);
-                  },
-                  initValue: _suKienTrongNgayCubit.selectKeyTime,
-                  title: S.current.time,
+                    onSelect: (value, startDate, endDate) {
+                      _suKienTrongNgayCubit.selectDate(
+                          selectKey: value,
+                          startDate: startDate,
+                          endDate: endDate);
+                    },
+                    initValue: _suKienTrongNgayCubit.selectKeyTime,
+                    title: S.current.time,
                     startDate: _suKienTrongNgayCubit.startDate,
-                    endDate: _suKienTrongNgayCubit.endDate
-                )
+                    endDate: _suKienTrongNgayCubit.endDate)
               ],
             );
-          }
-      ),
+          }),
       selectKeyDialog: _suKienTrongNgayCubit,
       child: LoadingOnly(
         stream: _suKienTrongNgayCubit.stateStream,

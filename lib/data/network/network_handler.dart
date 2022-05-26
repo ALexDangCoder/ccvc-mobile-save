@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 
 class NetworkHandler {
   static AppException handleError(DioError error) {

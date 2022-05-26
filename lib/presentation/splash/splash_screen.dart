@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
@@ -20,24 +19,23 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-   GlobalKey globalKey = GlobalKey();
+  GlobalKey globalKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
-   WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-     AppStateCt.of(context).appState.refreshToken.listen((value) {
-       log('>>>>>>>>>>>>>>>>>>>>>');
-       globalKey = GlobalKey();
-       if(isMobile()){
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      AppStateCt.of(context).appState.refreshToken.listen((value) {
+        log('>>>>>>>>>>>>>>>>>>>>>');
+        globalKey = GlobalKey();
+        if (isMobile()) {
           keyHomeMobile = GlobalKey<HomeScreenMobileState>();
-       }else{
-         keyHomeTablet = GlobalKey<HomeScreenTabletState>();
-       }
-       setState(() {
-
-       });
-     });
-   });
+        } else {
+          keyHomeTablet = GlobalKey<HomeScreenTabletState>();
+        }
+        setState(() {});
+      });
+    });
   }
 
   @override
@@ -67,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget screen(String token) {
     if (token.isNotEmpty) {
-      return  MainTabBarView(
+      return MainTabBarView(
         key: globalKey,
       );
     } else {

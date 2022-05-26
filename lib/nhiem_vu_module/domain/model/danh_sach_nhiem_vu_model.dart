@@ -134,6 +134,7 @@ class PageData {
     this.idCuocHop,
   });
 }
+
 extension checkColorTitle on int {
   Color trangThaiHanXuLy() {
     switch (this) {
@@ -148,6 +149,7 @@ extension checkColorTitle on int {
     }
   }
 }
+
 extension CheckColor on String {
   Color trangThaiColorNhiemVu() {
     switch (this) {
@@ -180,11 +182,11 @@ extension CheckColor on String {
         return ['DA_THUC_HIEN'];
       case 'DA_HOAN_THANH':
         return ['DA_HOAN_THANH'];
-        case 'THU_HOI':
+      case 'THU_HOI':
         return ['THU_HOI'];
       case 'CHO_PHAN_XU_LY':
         return ['CHO_PHAN_XU_LY'];
-        case 'TRA_LAI':
+      case 'TRA_LAI':
         return ['TRA_LAI'];
       default:
         return [];

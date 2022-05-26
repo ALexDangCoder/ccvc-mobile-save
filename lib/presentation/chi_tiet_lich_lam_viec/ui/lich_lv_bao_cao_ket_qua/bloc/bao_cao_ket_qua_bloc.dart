@@ -16,13 +16,16 @@ class BaoCaoKetQuaCubit {
   final List<FileModel> listFileRemove = [];
   String idReport = '';
   List<File> filesLocal = [];
+
   void getFile(List<FileModel> files) {
     listFileModel.addAll(files);
     _getFileApi.sink.add(listFileModel);
   }
-void selectReport(String id){
+
+  void selectReport(String id) {
     idReport = id;
-}
+  }
+
   void removeFileApi(FileModel fileModel) {
     listFileRemove.add(fileModel);
     listFileModel.remove(fileModel);
@@ -33,7 +36,8 @@ void selectReport(String id){
     filesLocal = files;
     _addFile.sink.add(files);
   }
-  void removeFileLocal(File file){
+
+  void removeFileLocal(File file) {
     filesLocal.remove(file);
     _addFile.sink.add(filesLocal);
   }

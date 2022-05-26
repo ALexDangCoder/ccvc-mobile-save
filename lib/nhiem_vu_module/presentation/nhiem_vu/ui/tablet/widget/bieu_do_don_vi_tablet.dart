@@ -98,7 +98,8 @@ class _BieuDoDonViTabletState extends State<BieuDoDonViTablet> {
                                     value: e.value ?? 0,
                                     onTap: () {
                                       widget.onTapStatusBox(
-                                          (e.giaTri ?? '').statusBox(),);
+                                        (e.giaTri ?? '').statusBox(),
+                                      );
                                     },
                                     color: (e.giaTri ?? '').status(),
                                     statusName: e.text ?? '',

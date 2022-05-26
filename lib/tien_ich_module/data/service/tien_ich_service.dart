@@ -111,10 +111,10 @@ abstract class TienIchService {
   @POST(ApiConstants.TRANSLATE_FILE)
   @MultiPart()
   Future<String> translateFile(
-      @Part() File file,
-      @Part() String target,
-      @Part() String source,
-      );
+    @Part() File file,
+    @Part() String target,
+    @Part() String source,
+  );
 }
 
 @RestApi()
@@ -144,10 +144,10 @@ abstract class TienIchServiceCommon {
 
   @GET(ApiConstants.TREE_DANH_BA)
   @FormUrlEncoded()
-  Future<TreeDanhBaResponse> TreeDanhBa(
+  Future<TreeDanhBaResponse> treeDanhBa(
     @Query('soCap') int soCap,
+    @Query('idDonViCha') String idDonViCha,
   );
-
 }
 
 @RestApi()
@@ -155,7 +155,6 @@ abstract class TienIchServiceGateWay {
   @factoryMethod
   factory TienIchServiceGateWay(Dio dio, {String baseUrl}) =
       _TienIchServiceGateWay;
-
 
   @POST(ApiConstants.TRANSLATE_DOCUMENT)
   @MultiPart()

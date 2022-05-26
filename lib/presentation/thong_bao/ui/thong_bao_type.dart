@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/config/app_config.dart';
-import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 

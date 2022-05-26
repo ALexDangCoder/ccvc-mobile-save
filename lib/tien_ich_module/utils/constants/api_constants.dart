@@ -23,7 +23,8 @@ class ApiConstants {
   static const XOA_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/delete';
   static const TRANSLATE_DOCUMENT = '/appdieuhanh/api/Common/dich_van_ban';
   static const TRANSLATE_FILE = '/api/Common/dich_tai_lieu';
-  static const CHUYEN_VB_SANG_GIONG_NOI = '/api/TichHop/chuyen-vanban-sang-giongnoi';
+  static const CHUYEN_VB_SANG_GIONG_NOI =
+      '/api/TichHop/chuyen-vanban-sang-giongnoi';
 }
 
 class ImageConstants {

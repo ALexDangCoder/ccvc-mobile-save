@@ -32,39 +32,38 @@ class TaoLichHopRequest {
 
   TaoLichHopRequest(
       {this.typeScheduleId,
-        this.linhVucId,
-        this.title,
-        this.ngayBatDau,
-        this.ngayKetThuc,
-        this.timeStart,
-        this.timeTo,
-        this.mucDo,
-        this.isLichLap,
-        this.isNhacLich,
-        this.isAllDay,
-        this.congKhai,
-        this.lichDonVi,
-        this.noiDung,
-        this.bitHopTrucTuyen,
-        this.chuTri,
-        this.diaDiemHop,
-        this.phongHop,
-        this.phongHopThietBi,
-        this.status,
-        this.bitYeuCauDuyet,
-        this.linkTrucTuyen,
-        this.bitTrongDonVi,
-        this.dsDiemCau,
-        this.thuMoiFiles,
-        this.typeReminder,
-        this.typeRepeat,
-        this.dateRepeat,
-        this.days,
-        this.bitLinkTrongHeThong});
-
+      this.linhVucId,
+      this.title,
+      this.ngayBatDau,
+      this.ngayKetThuc,
+      this.timeStart,
+      this.timeTo,
+      this.mucDo,
+      this.isLichLap,
+      this.isNhacLich,
+      this.isAllDay,
+      this.congKhai,
+      this.lichDonVi,
+      this.noiDung,
+      this.bitHopTrucTuyen,
+      this.chuTri,
+      this.diaDiemHop,
+      this.phongHop,
+      this.phongHopThietBi,
+      this.status,
+      this.bitYeuCauDuyet,
+      this.linkTrucTuyen,
+      this.bitTrongDonVi,
+      this.dsDiemCau,
+      this.thuMoiFiles,
+      this.typeReminder,
+      this.typeRepeat,
+      this.dateRepeat,
+      this.days,
+      this.bitLinkTrongHeThong});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['typeScheduleId'] = typeScheduleId;
     data['linhVucId'] = linhVucId;
     data['title'] = title;
@@ -118,13 +117,11 @@ class ChuTri {
 
   ChuTri(
       {this.donViId,
-        this.canBoId,
-        this.tenCanBo,
-        this.tenCoQuan,
-        this.dauMoiLienHe,
-        this.soDienThoai});
-
-
+      this.canBoId,
+      this.tenCanBo,
+      this.tenCoQuan,
+      this.dauMoiLienHe,
+      this.soDienThoai});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -147,15 +144,13 @@ class PhongHop {
 
   PhongHop(
       {this.phongHopId,
-        this.noiDungYeuCau,
-        this.ten,
-        this.donViId,
-        this.bitTTDH});
-
-
+      this.noiDungYeuCau,
+      this.ten,
+      this.donViId,
+      this.bitTTDH});
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['phongHopId'] = phongHopId;
     data['noiDungYeuCau'] = noiDungYeuCau;
     data['ten'] = ten;
@@ -188,12 +183,13 @@ class DsDiemCau {
 
   DsDiemCau(
       {this.tenDiemCau,
-        this.canBoDauMoiHoTen,
-        this.canBoDauMoiChucVu,
-        this.canBoDauMoiSDT,
-        this.loaiDiemCau});
+      this.canBoDauMoiHoTen,
+      this.canBoDauMoiChucVu,
+      this.canBoDauMoiSDT,
+      this.loaiDiemCau});
+
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['tenDiemCau'] = tenDiemCau;
     data['canBoDauMoi_HoTen'] = canBoDauMoiHoTen;
     data['canBoDauMoi_ChucVu'] = canBoDauMoiChucVu;

@@ -31,7 +31,6 @@ class DanhSachCongViecMobile extends StatefulWidget {
 class _DanhSachCongViecMobileState extends State<DanhSachCongViecMobile> {
   final DanhSachCubit cubit = DanhSachCubit();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

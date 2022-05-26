@@ -46,7 +46,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.ten_bieu_quyet,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -55,7 +55,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.thoi_gian,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -64,7 +64,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.thoi_gian_bq,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -73,7 +73,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.loai_bieu_quyet,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -82,7 +82,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     S.current.danh_sach_lua_chon,
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -214,7 +214,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.thoi_gian,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -223,7 +223,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.thoi_gian_bq,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -232,7 +232,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.loai_bieu_quyet,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -241,7 +241,7 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 S.current.danh_sach_lua_chon,
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: unselectedLabelColor,
+                                  color: color667793,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),

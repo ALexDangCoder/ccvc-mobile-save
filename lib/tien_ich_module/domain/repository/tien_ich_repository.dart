@@ -45,8 +45,9 @@ mixin TienIchRepository {
     String date,
   );
 
-  Future<Result<List<TreeDonViDanhBA>>> TreeDanhBa(
+  Future<Result<List<TreeDonViDanhBA>>> treeDanhBa(
     int soCap,
+    String idDonViCha,
   );
 
   Future<Result<PageTraCuuVanBanPhapLuatModel>> getTraCuuVanBanPhapLuat(
@@ -79,6 +80,7 @@ mixin TienIchRepository {
     String target,
     String source,
   );
+
   Future<Result<String>> translateFile(
     File file,
     String target,

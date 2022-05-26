@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/mequee_widget.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/tablet/thong_bao_screen_tablet.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
@@ -14,10 +13,10 @@ import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/app_bar_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/header_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/thong_bao_message_widget.dart';
-import '/home_module/utils/constants/image_asset.dart';
 import '/widgets/views/state_stream_layout.dart';
 
-GlobalKey<HomeScreenTabletState> keyHomeTablet = GlobalKey<HomeScreenTabletState>();
+GlobalKey<HomeScreenTabletState> keyHomeTablet =
+    GlobalKey<HomeScreenTabletState>();
 
 class HomeScreenTablet extends StatefulWidget {
   const HomeScreenTablet({Key? key}) : super(key: key);

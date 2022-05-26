@@ -38,9 +38,9 @@ final listFeatureTienIch = [
   MenuTypeTienIch.chuyenVanBanThanhGiongNoi,
   MenuTypeTienIch.phienDichTuDong,
   MenuTypeTienIch.lichAmDuong,
-  MenuTypeTienIch.traCuuVanBanPhapLuat,
+  // MenuTypeTienIch.traCuuVanBanPhapLuat,
   MenuTypeTienIch.danhBaDienTu,
-  MenuTypeTienIch.huongDanSuDung,
+  // MenuTypeTienIch.huongDanSuDung,
   MenuTypeTienIch.mangXaHoiNoiBo,
   MenuTypeTienIch.danhSachCongViec,
 ];

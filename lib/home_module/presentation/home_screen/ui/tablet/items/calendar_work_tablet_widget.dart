@@ -1,8 +1,6 @@
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +20,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class CalendarWorkTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const CalendarWorkTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -31,6 +30,7 @@ class CalendarWorkTabletWidget extends StatefulWidget {
 
 class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
   final LichLamViecCubit _lamViecCubit = LichLamViecCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -63,10 +63,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _lamViecCubit,
-      listSelect: const [
-        SelectKey.LICH_CUA_TOI,
-        SelectKey.LICH_CHO_XAC_NHAN
-      ],
+      listSelect: const [SelectKey.LICH_CUA_TOI, SelectKey.LICH_CHO_XAC_NHAN],
       onChangeKey: (value) {
         _lamViecCubit.setChangeKey(value);
       },

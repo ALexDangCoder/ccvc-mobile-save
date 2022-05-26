@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class Tree<T> {
+class treeDanhBaDienTu<T> {
   List<NodeHSCV> tree = [];
 
   void initTree({required List<TreeDonViDanhBA> listNode}) {
@@ -12,6 +12,7 @@ class Tree<T> {
         tree.add(node);
       }
     } catch (e) {
+      e.toString();
     }
   }
 
@@ -50,35 +51,24 @@ class Tree<T> {
 
     return tree.firstWhere((element) => element.iDDonViCha == element.value.id);
   }
-
-
 }
 
 class NodeHSCV {
   TreeDonViDanhBA value;
   String? iDDonViCha;
-  int colorNode;
 
   bool isHasChild;
 
   NodeHSCV({
     required this.value,
     required this.iDDonViCha,
-    required this.colorNode,
     this.isHasChild = false,
   });
 
-
   factory NodeHSCV.createNode({required TreeDonViDanhBA value}) {
-    int getColor(TreeDonViDanhBA data) {
-      return 0xFFFFFFFF;
-    }
-
     return NodeHSCV(
       value: value,
-      iDDonViCha:
-          value.iDDonViCha.trim() == '' ? value.id : value.iDDonViCha,
-      colorNode: getColor(value),
+      iDDonViCha: value.iDDonViCha.trim() == '' ? value.id : value.iDDonViCha,
     );
   }
 }

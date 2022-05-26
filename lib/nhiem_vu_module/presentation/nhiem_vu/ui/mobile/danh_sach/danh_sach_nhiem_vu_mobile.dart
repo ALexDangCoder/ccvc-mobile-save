@@ -13,7 +13,8 @@ class DanhSachNhiemVuMobile extends StatefulWidget {
   final String ngayBatDau;
   final String ngayKetThuc;
   final List<String> mangTrangThai;
-final int? trangThaiHanXuLy;
+  final int? trangThaiHanXuLy;
+
   const DanhSachNhiemVuMobile({
     Key? key,
     required this.isCheck,

@@ -33,14 +33,9 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
   final BaoChiMangXaHoiRepository _BCMXHRepo = Get.find();
 
   Future<void> getListBaiVietTheoDoi(
-    String startDate,
-    String enDate,
-    int topic,
-      int page,
-      int size
-  ) async {
+      String startDate, String enDate, int topic, int page, int size) async {
     loadMorePage = page;
-   // showLoading();
+    // showLoading();
     final result = await _BCMXHRepo.getBaiVietTheoDoi(
       page,
       size,
@@ -53,12 +48,12 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
         // totalPage=res.totalPages;
         // _listBaiVietTheoDoi.sink.add(res);
         if (page == ApiConstants.PAGE_BEGIN) {
-
           if (res.listBaiViet.isEmpty) {
             showEmpty();
           } else {
             showContent();
-            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.listBaiViet));
+            emit(CompletedLoadMore(CompleteType.SUCCESS,
+                posts: res.listBaiViet));
           }
         } else {
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.listBaiViet));
@@ -69,6 +64,6 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
         showError();
       },
     );
-   // showContent();
+    // showContent();
   }
 }

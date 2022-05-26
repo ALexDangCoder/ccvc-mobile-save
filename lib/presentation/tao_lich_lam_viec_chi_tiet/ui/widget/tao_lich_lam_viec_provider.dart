@@ -12,7 +12,7 @@ class TaoLichLamViecProvider extends InheritedWidget {
 
   static TaoLichLamViecProvider of(BuildContext context) {
     final TaoLichLamViecProvider? result =
-    context.dependOnInheritedWidgetOfExactType<TaoLichLamViecProvider>();
+        context.dependOnInheritedWidgetOfExactType<TaoLichLamViecProvider>();
     assert(result != null, 'No element');
     return result!;
   }

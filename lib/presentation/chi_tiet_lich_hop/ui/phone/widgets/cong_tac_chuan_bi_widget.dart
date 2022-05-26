@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 
 class CongTacChuanBiWidget extends StatelessWidget {
   final DetailMeetCalenderCubit cubit;
+
   const CongTacChuanBiWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -103,6 +104,7 @@ class CongTacChuanBiWidget extends StatelessWidget {
 
 class ThongTinPhongWidget extends StatelessWidget {
   final ThongTinPhongHopModel thongTinPhongHopModel;
+
   const ThongTinPhongWidget({Key? key, required this.thongTinPhongHopModel})
       : super(key: key);
 
@@ -151,6 +153,7 @@ class ThongTinPhongWidget extends StatelessWidget {
 
 class ThongTinYeuCauThietBiWidget extends StatelessWidget {
   final ThietBiPhongHopModel model;
+
   const ThongTinYeuCauThietBiWidget({Key? key, required this.model})
       : super(key: key);
 

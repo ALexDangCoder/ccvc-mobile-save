@@ -58,7 +58,7 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                     child: Text(
                       widget.object.tenNhanVien ?? '',
                       style: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 14.0.textScale(),
                         fontWeight: FontWeight.w500,
                       ),
@@ -89,7 +89,7 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
               Text(
                 widget.object.noiDung ?? '',
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
                 ),

@@ -8,6 +8,7 @@ class ChiTietKienNghiRequest {
   final String kienNghiId;
   @JsonKey(name: 'TaskId')
   final String? taskId;
+
   ChiTietKienNghiRequest({
     required this.kienNghiId,
     required this.taskId,

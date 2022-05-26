@@ -19,11 +19,11 @@ const attackFile = Color(0xff8F9CAE);
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);
 const tabUnselected = Color(0xFFA9B8BD);
-
+//sideTextInactiveColor
 //custom color
 const signInRowColor = Color(0xFFA9B8BD);
 const signInTextColor = Color(0xff0ABAB5);
-const sideTextInactiveColor = Color(0xFFB9C4D0);
+const colorB9C4D0 = Color(0xFFB9C4D0);
 const signInTextSecondaryColor = Color(0xFF8F8F8F);
 const dotActiveColor = Color(0xff0ABAB5);
 const dividerColor = Color(0xffcacfd7);
@@ -133,17 +133,17 @@ const colorNumberCellQLVB = Color(0xffFCFDFD);
 
 //tabbar color
 const labelColor = Color(0xff7966FF);
-const unselectedLabelColor = Color(0xff667793);
+const color667793 = Color(0xff667793);
 const indicatorColor = Color(0xff7966FF);
-const titleColor = Color(0xFF3D5586);
+const color3D5586 = Color(0xFF3D5586);
 const colorBlack = Color(0xff000000);
 const errorBorderColor = Color(0xFF585782);
 
-const lineColor = Color(0xffECEEF7);
+const colorECEEF7 = Color(0xffECEEF7);
 const buttonColor = Color(0xff7966FF);
 const buttonColor2 = Color(0x1A7966FF);
 //tabar color
-const unselectLabelColor = Color(0xFFA2AEBD);
+const colorA2AEBD = Color(0xFFA2AEBD);
 const selectColorTabbar = Color(0xFF304261);
 const whiteHide = Color(0xFFEAEEF5);
 const greyHide = Color(0xFFF5F6FA);
@@ -193,8 +193,10 @@ const greenChart = Color(0xFF28C76F);
 const orangeNhatChart = Color(0xFFFDB000);
 const purpleChart = Color(0xFF8E7EFF);
 const grayChart = Color(0xFF667793);
-const textTitleColumn  = Color(0xff667793);
+const textTitleColumn = Color(0xff667793);
 const blueFilterDateWidget = Color(0xFFF1F4FF);
+const enableButton = Color(0xFF2A30CB);
+
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
   Color unselectColor();
@@ -232,207 +234,20 @@ abstract class AppColor {
   Color buttonUnfocus();
 
   Color colorField();
-  Color textBodyTimeColor();
-}
 
-class LightApp extends AppColor {
-  @override
-  Color primaryColor() {
-    return colorPrimary;
-  }
+  Color lineColor();
 
-  @override
-  Color accentColor() {
-    return colorAccent;
-  }
+  Color unselectedColor();
 
-  @override
-  Color statusColor() {
-    return const Color(0xFFFCFCFC);
-  }
+  Color unselectedLabelColor();
 
-  @override
-  Color mainColor() {
-    return const Color(0xFF30536F);
-  }
-
-  @override
-  Color bgColor() {
-    return const Color(0xFFFCFCFC);
-  }
-
-  @override
-  Color dfBtnColor() {
-    return const Color(0xFF324452);
-  }
-
-  @override
-  Color dfBtnTxtColor() {
-    return const Color(0xFFFFFFFF);
-  }
-
-  @override
-  Color dfTxtColor() {
-    return const Color(0xFF303742);
-  }
-
-  @override
-  Color secondTxtColor() {
-    return const Color(0xFF9097A3);
-  }
-
-  @override
-  Color txtLightColor() {
-    return Colors.white.withOpacity(0.85);
-  }
-
-  @override
-  Color sideBtnColor() {
-    return const Color(0xFFDCFFFE);
-  }
-
-  @override
-  Color disableColor() {
-    return const Color(0xFFA9B8BD);
-  }
-
-  @override
-  Color titleColor() {
-    return const Color(0xff3D5586);
-  }
-
-  @override
-  Color backGroundColor() {
-    return const Color(0xffFFFFFF);
-  }
-
-  @override
-  Color subTitleColor() {
-    return const Color(0xff5A8DEE);
-  }
-
-  @override
-  Color buttonUnfocus() {
-    return textDefault;
-  }
-
-  @override
-  Color colorField() {
-    return backgroundColorApp;
-  }
-
-  @override
-  Color unselectColor() {
-    return unselectLabelColor;
-  }
-
-  @override
-  Color textBodyTimeColor() {
-    return textBodyTime;
-  }
-}
-
-class DarkApp extends AppColor {
-  @override
-  Color unselectColor() {
-    return unselectLabelColor;
-  }
-
-  @override
-  Color primaryColor() {
-    return colorPrimary;
-  }
-
-  @override
-  Color accentColor() {
-    return colorAccent;
-  }
-
-  @override
-  Color statusColor() {
-    return const Color(0xFFFCFCFC);
-  }
-
-  @override
-  Color mainColor() {
-    return const Color(0xFF30536F);
-  }
-
-  @override
-  Color bgColor() {
-    return const Color(0xFFFCFCFC);
-  }
-
-  @override
-  Color dfBtnColor() {
-    return const Color(0xFF324452);
-  }
-
-  @override
-  Color dfBtnTxtColor() {
-    return const Color(0xFFFFFFFF);
-  }
-
-  @override
-  Color dfTxtColor() {
-    return const Color(0xFF303742);
-  }
-
-  @override
-  Color secondTxtColor() {
-    return const Color(0xFF9097A3);
-  }
-
-  @override
-  Color txtLightColor() {
-    return Colors.white.withOpacity(0.85);
-  }
-
-  @override
-  Color sideBtnColor() {
-    return const Color(0xFFDCFFFE);
-  }
-
-  @override
-  Color disableColor() {
-    return const Color(0xFFA9B8BD);
-  }
-
-  @override
-  Color titleColor() {
-    return const Color(0xff3D5586);
-  }
-
-  @override
-  Color backGroundColor() {
-    return const Color(0xffFFFFFF);
-  }
-
-  @override
-  Color subTitleColor() {
-    return const Color(0xff5A8DEE);
-  }
-
-  @override
-  Color buttonUnfocus() {
-    return textDefault;
-  }
-
-  @override
-  Color colorField() {
-    return backgroundColorApp;
-  }
-
-  @override
-  Color textBodyTimeColor() {
-    return textBodyTime;
-  }
+  Color sideTextInactiveColor();
 }
 
 class DefaultApp extends AppColor {
   @override
   Color unselectColor() {
-    return unselectLabelColor;
+    return colorA2AEBD;
   }
 
   @override
@@ -521,6 +336,26 @@ class DefaultApp extends AppColor {
   }
 
   @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
+  }
+
+  @override
   Color textBodyTimeColor() {
     return textBodyTime;
   }
@@ -529,7 +364,7 @@ class DefaultApp extends AppColor {
 class BlueApp extends AppColor {
   @override
   Color unselectColor() {
-    return unselectLabelColor;
+    return colorA2AEBD;
   }
 
   @override
@@ -594,7 +429,7 @@ class BlueApp extends AppColor {
 
   @override
   Color titleColor() {
-    return const Color(0xff3D5586);
+    return color3D5586;
   }
 
   @override
@@ -618,6 +453,26 @@ class BlueApp extends AppColor {
   }
 
   @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
+  }
+
+  @override
   Color textBodyTimeColor() {
     return textBodyTime;
   }
@@ -626,7 +481,7 @@ class BlueApp extends AppColor {
 class PinkApp extends AppColor {
   @override
   Color unselectColor() {
-    return unselectLabelColor;
+    return colorA2AEBD;
   }
 
   @override
@@ -691,7 +546,7 @@ class PinkApp extends AppColor {
 
   @override
   Color titleColor() {
-    return const Color(0xff3D5586);
+    return color3D5586;
   }
 
   @override
@@ -714,6 +569,26 @@ class PinkApp extends AppColor {
     return pinkColor;
   }
 
+  @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
+  }
+
 
   @override
   Color textBodyTimeColor() {
@@ -724,7 +599,7 @@ class PinkApp extends AppColor {
 class YellowApp extends AppColor {
   @override
   Color unselectColor() {
-    return unselectLabelColor;
+    return colorA2AEBD;
   }
 
   @override
@@ -789,7 +664,7 @@ class YellowApp extends AppColor {
 
   @override
   Color titleColor() {
-    return const Color(0xff3D5586);
+    return color3D5586;
   }
 
   @override
@@ -810,6 +685,26 @@ class YellowApp extends AppColor {
   @override
   Color colorField() {
     return yellowColor;
+  }
+
+  @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
   }
 
   @override

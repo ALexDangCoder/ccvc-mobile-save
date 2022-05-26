@@ -13,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SelectSearchDonViWidget extends StatefulWidget {
   final ThemDonViCubit themDonViCubit;
+
   const SelectSearchDonViWidget({Key? key, required this.themDonViCubit})
       : super(key: key);
 
@@ -23,6 +24,7 @@ class SelectSearchDonViWidget extends StatefulWidget {
 
 class _SelectSearchDonViWidgetState extends State<SelectSearchDonViWidget> {
   final TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Node<DonViModel>>>(
@@ -58,6 +60,7 @@ class SelectDonViCell extends StatelessWidget {
   final Function(Node<DonViModel>) onDelete;
   final TextEditingController controller;
   final Function(String) onChange;
+
   const SelectDonViCell({
     Key? key,
     required this.listSelect,
@@ -136,7 +139,9 @@ class SelectDonViCell extends StatelessWidget {
           Text(
             title,
             style: textNormal(
-              APP_DEVICE == DeviceType.MOBILE ? AppTheme.getInstance().colorField() : backgroundColorApp,
+              APP_DEVICE == DeviceType.MOBILE
+                  ? AppTheme.getInstance().colorField()
+                  : backgroundColorApp,
               12.0.textScale(),
             ),
           ),

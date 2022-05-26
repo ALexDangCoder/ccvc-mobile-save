@@ -10,7 +10,9 @@ class KetQuaXuLyResponse {
   @JsonKey(name: 'PageData')
   List<KetQuaXuLyData> listKetQuaXuLy;
 
-  KetQuaXuLyResponse(this.listKetQuaXuLy,);
+  KetQuaXuLyResponse(
+    this.listKetQuaXuLy,
+  );
 
   factory KetQuaXuLyResponse.fromJson(Map<String, dynamic> json) =>
       _$KetQuaXuLyResponseFromJson(json);
@@ -53,22 +55,24 @@ class KetQuaXuLyData {
   @JsonKey(name: 'DSFile')
   String? dSFile;
 
-  KetQuaXuLyData(this.id,
-      this.depth,
-      this.location,
-      this.donViId,
-      this.canBoId,
-      this.soVanBanDi,
-      this.ngayKyVanBanDi,
-      this.coQuanBanHanh,
-      this.nguoiKyDuyet,
-      this.trichYeu,
-      this.tenDonVi,
-      this.tenCanBo,
-      this.taskContent,
-      this.trangThai,
-      this.isChuTri,
-      this.dSFile,);
+  KetQuaXuLyData(
+    this.id,
+    this.depth,
+    this.location,
+    this.donViId,
+    this.canBoId,
+    this.soVanBanDi,
+    this.ngayKyVanBanDi,
+    this.coQuanBanHanh,
+    this.nguoiKyDuyet,
+    this.trichYeu,
+    this.tenDonVi,
+    this.tenCanBo,
+    this.taskContent,
+    this.trangThai,
+    this.isChuTri,
+    this.dSFile,
+  );
 
   factory KetQuaXuLyData.fromJson(Map<String, dynamic> json) =>
       _$KetQuaXuLyDataFromJson(json);
@@ -125,24 +129,25 @@ class FileDinhKemKQXL {
   @JsonKey(name: 'LoaiFileDinhKem')
   int? loaiFileDinhKem;
 
-  FileDinhKemKQXL(this.id,
-      this.ten,
-      this.duongDan,
-      this.dungLuong,
-      this.daKySo,
-      this.daGanQR,
-      this.ngayTao,
-      this.nguoiTaoId,
-      this.suDung,
-      this.loaiFileDinhKem,);
+  FileDinhKemKQXL(
+    this.id,
+    this.ten,
+    this.duongDan,
+    this.dungLuong,
+    this.daKySo,
+    this.daGanQR,
+    this.ngayTao,
+    this.nguoiTaoId,
+    this.suDung,
+    this.loaiFileDinhKem,
+  );
 
   factory FileDinhKemKQXL.fromJson(Map<String, dynamic> json) =>
       _$FileDinhKemKQXLFromJson(json);
 
   Map<String, dynamic> toJson() => _$FileDinhKemKQXLToJson(this);
 
-  TaiLieuDinhKemModel toDomain() =>
-      TaiLieuDinhKemModel(
+  TaiLieuDinhKemModel toDomain() => TaiLieuDinhKemModel(
         id: id ?? '',
         ten: ten ?? '',
         duongDan: duongDan ?? '',

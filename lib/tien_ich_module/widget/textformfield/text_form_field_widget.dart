@@ -34,7 +34,7 @@ class TextFormFieldWidget extends StatelessWidget {
       maxLines: maxLine,
       style: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleColor,
+        color: color3D5586,
       ),
       enabled: isEnabled,
       decoration: InputDecoration(

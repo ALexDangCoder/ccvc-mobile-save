@@ -16,7 +16,6 @@ class TinTongHopResponse {
       _$TinTongHopResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$TinTongHopResponseToJson(this);
-
 }
 
 @JsonSerializable()
@@ -73,9 +72,9 @@ class TinTongHopData {
   Map<String, dynamic> toJson() => _$TinTongHopDataToJson(this);
 
   TinTongHopModel toDomain() => TinTongHopModel(
-        reach: reach??0,
-        like: like??0,
-        share: share??0,
-        comment: comment??0,
+        reach: reach ?? 0,
+        like: like ?? 0,
+        share: share ?? 0,
+        comment: comment ?? 0,
       );
 }

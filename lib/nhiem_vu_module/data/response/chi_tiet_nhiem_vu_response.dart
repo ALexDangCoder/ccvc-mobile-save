@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'chi_tiet_nhiem_vu_response.g.dart';
+
 @JsonSerializable()
 class DataChiTietNhiemVuResponse extends Equatable {
   @JsonKey(name: 'Messages')

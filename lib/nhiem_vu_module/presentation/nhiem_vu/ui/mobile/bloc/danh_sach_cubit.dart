@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
@@ -304,7 +304,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required List<String> mangTrangThai,
     required Map<String, String> ngayTaoNhiemVu,
     required int size,
-     int? trangThaiHanXuLy,
+    int? trangThaiHanXuLy,
   }) async {
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
@@ -316,9 +316,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       mangTrangThai: mangTrangThai,
       ngayTaoNhiemVu: ngayTaoNhiemVu,
       size: size,
-          trangThaiHanXuLy: trangThaiHanXuLy,
+      trangThaiHanXuLy: trangThaiHanXuLy,
     );
-     showLoading();
+    showLoading();
     loadMorePage = index ?? 1;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
@@ -337,8 +337,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
         }
       },
-      error: (error) {
-      },
+      error: (error) {},
     );
   }
 
@@ -371,7 +370,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
             //   showEmpty();
-           // emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+            // emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
@@ -525,6 +524,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       },
     );
   }
+
   final List<ChartData> chartDataNhiemVuCANHAN = [
     ChartData(
       S.current.chua_thuc_hien,
@@ -544,7 +544,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   ];
   final List<ChartData> chartDataTheoLoai = [
     ChartData(
-    'Nhiệm vụ CP/VPVP',
+      'Nhiệm vụ CP/VPVP',
       12,
       choXuLyColor,
     ),
@@ -584,9 +584,10 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   ];
 
   void initTimeRange() {
-    final dataDateTime =
-        DateTime.now();
-    ngayDauTien = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    final dataDateTime = DateTime.now();
+    ngayDauTien =
+        DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30)
+            .formatApi;
     ngayKetThuc = dataDateTime.formatApi;
   }
 }

@@ -85,7 +85,7 @@ abstract class QuanLyVanBanClient {
   @GET(ApiConstants.THEO_DOI_VAN_BAN_DA_BAN_HANH)
   Future<DataTheoDoiVanBanResponse> getTheoDoiVanBan(
     @Path('myId') String myId,
-    @Query('id') String id ,
+    @Query('id') String id,
   );
 
   @GET(ApiConstants.LICH_SU_VAN_BAN_DEN)

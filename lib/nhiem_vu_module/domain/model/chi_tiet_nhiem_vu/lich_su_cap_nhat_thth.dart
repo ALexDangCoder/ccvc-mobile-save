@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_ban_lien_quan.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/type_data_row.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/string_extension.dart';
 
 class LichSuCapNhatTHTHModel {
   String? id;

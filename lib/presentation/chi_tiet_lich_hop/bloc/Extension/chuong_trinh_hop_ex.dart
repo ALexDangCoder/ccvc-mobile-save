@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
@@ -103,5 +105,55 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
         showError();
       },
     );
+  }
+
+  TimerData subStringTime(String time) {
+    final DateFormat dateFormat = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    final dateTime = dateFormat.parse(time);
+    return TimerData(hour: dateTime.hour, minutes: dateTime.minute);
+  }
+
+  String chonNgayStr(String date) {
+    final DateFormat paserDate = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    final paserDates = paserDate.parse(date).formatApiFix;
+    return paserDates;
+  }
+
+  String plus(String? date, TimerData time) {
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd 00:00:00');
+    final dateTime = dateFormat.parse(date ?? chonNgayStr(chonNgay));
+    final times = DateTime(
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+      time.hour,
+      time.minutes,
+    );
+    return times.formatApiSuaPhienHop;
+  }
+
+  void getTimeHour({required TimerData startT, required TimerData endT}) {
+    final int hourStart = startT.hour;
+    final int minuteStart = startT.minutes;
+    final int hourEnd = endT.hour;
+    final int minuteEnd = endT.minutes;
+    String hStart = hourStart.toString();
+    String mStart = minuteStart.toString();
+    String hEnd = hourEnd.toString();
+    String mEnd = minuteEnd.toString();
+    if (hourStart < 10) {
+      hStart = '0$hStart';
+    }
+    if (minuteStart < 10) {
+      mStart = '0$mStart';
+    }
+    if (hourEnd < 10) {
+      hEnd = '0$hEnd';
+    }
+    if (minuteEnd < 10) {
+      mEnd = '0$mEnd';
+    }
+    startTime = '$hStart:$mStart';
+    endTime = '$hEnd:$mEnd';
   }
 }

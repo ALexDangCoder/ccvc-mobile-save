@@ -116,8 +116,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                   Text(
                                     S.current.wellcom_login,
                                     style: textNormal(
-                                        AppTheme.getInstance()
-                                            .textBodyTimeColor(),
+                                        textBodyTime,
                                         16.0.textScale()),
                                   )
                                 ],

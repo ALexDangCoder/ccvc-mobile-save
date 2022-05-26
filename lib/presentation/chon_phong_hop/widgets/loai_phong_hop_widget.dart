@@ -10,6 +10,7 @@ class LoaiPhongHopWidget extends StatefulWidget {
 
   const LoaiPhongHopWidget({Key? key, required this.onChange})
       : super(key: key);
+
   @override
   _LoaiPhongHopWidgetState createState() => _LoaiPhongHopWidgetState();
 }
@@ -31,12 +32,14 @@ class _LoaiPhongHopGroup extends StatefulWidget {
 
   const _LoaiPhongHopGroup({Key? key, required this.onChange})
       : super(key: key);
+
   @override
   __LoaiPhongHopGroupState createState() => __LoaiPhongHopGroupState();
 }
 
 class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
   LoaiPhongHopEnum selectLoaiPhong = LoaiPhongHopEnum.PHONG_HOP_THUONG;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,7 +57,7 @@ class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
             setState(() {});
           },
         ),
-         SizedBox(
+        SizedBox(
           height: 20.0.textScale(space: -2),
         ),
         RadioButton<LoaiPhongHopEnum>(

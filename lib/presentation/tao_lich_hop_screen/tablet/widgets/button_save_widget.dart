@@ -7,6 +7,7 @@ class ButtonSaveWidget extends StatelessWidget {
   final String leftTxt;
   final String rightTxt;
   final Function() funcBtnOk;
+
   const ButtonSaveWidget(
       {Key? key,
       required this.leftTxt,
@@ -52,14 +53,18 @@ class ButtonSaveWidget extends StatelessWidget {
         width: 142,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isLeft ? AppTheme.getInstance().colorField().withOpacity(0.1) : AppTheme.getInstance().colorField(),
+          color: isLeft
+              ? AppTheme.getInstance().colorField().withOpacity(0.1)
+              : AppTheme.getInstance().colorField(),
         ),
         child: Center(
           child: Text(
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? AppTheme.getInstance().colorField() : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorField()
+                  : backgroundColorApp,
             ),
           ),
         ),

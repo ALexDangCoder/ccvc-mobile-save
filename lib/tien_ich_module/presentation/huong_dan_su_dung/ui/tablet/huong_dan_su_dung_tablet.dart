@@ -165,9 +165,11 @@ class _HuongDanSuDungTabletState extends State<HuongDanSuDungTablet> {
                                             return ExpandOnlyWidget(
                                               isTablet: true,
                                               onTap: () async {
-                                                cubit.detailHuongDanSuDungSubject
+                                                cubit
+                                                    .detailHuongDanSuDungSubject
                                                     .sink
-                                                    .add(DetailHuongDanSuDung());
+                                                    .add(
+                                                        DetailHuongDanSuDung());
                                                 await cubit
                                                     .getDetailDanhSachHuongDanSuDung(
                                                   data[index].id ?? '',
@@ -206,11 +208,13 @@ class _HuongDanSuDungTabletState extends State<HuongDanSuDungTablet> {
                                                         Html(
                                                           style: {
                                                             'body': Style(
-                                                              color: titleColumn,
-                                                              fontSize: const FontSize(16.0),
+                                                              color:
+                                                                  titleColumn,
+                                                              fontSize:
+                                                                  const FontSize(
+                                                                      16.0),
                                                             ),
                                                           },
-
                                                           data: addDomainImage(
                                                             snapshot.data
                                                                     ?.content ??
@@ -226,8 +230,9 @@ class _HuongDanSuDungTabletState extends State<HuongDanSuDungTablet> {
                                                             Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    FullScreenImageViewer(
+                                                                builder:
+                                                                    (context) =>
+                                                                        FullScreenImageViewer(
                                                                   url ?? '',
                                                                 ),
                                                               ),

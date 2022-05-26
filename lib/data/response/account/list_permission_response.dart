@@ -52,6 +52,7 @@ class Data {
       });
     }
   }
+
   PermissionApp toDomain() => PermissionApp(
         qLVB: qLVB?.map((e) => e.toDomain()).toList() ?? [],
         pAKN: pAKN?.map((e) => e.toDomain()).toList() ?? [],
@@ -82,5 +83,6 @@ class PermissionCellResponse {
     appId = json['appId'];
     appCode = json['appCode'];
   }
+
   PermissionModel toDomain() => PermissionModel(id: id ?? '', name: name ?? '');
 }

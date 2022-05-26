@@ -231,7 +231,6 @@ class _DanhSachCongViecTienIchTabletState
                                   ? Column(
                                       children:
                                           List.generate(data.length, (index) {
-
                                         final todo = data[index];
                                         return CongViecCellTienIch(
                                           enabled: false,

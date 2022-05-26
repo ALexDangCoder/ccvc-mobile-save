@@ -94,7 +94,10 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
                       child: SizedBox(
                         height: 55,
                         width: 55,
-                        child: SvgPicture.asset(ImageAssets.icPlay,color: AppTheme.getInstance().colorField(),),
+                        child: SvgPicture.asset(
+                          ImageAssets.icPlay,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                       ),
                     ),
                     Image.asset(
@@ -143,7 +146,10 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
                           ],
                         ),
                         GestureDetector(
-                          child: SvgPicture.asset(ImageAssets.ic_xem_them,color: AppTheme.getInstance().colorField(),),
+                          child: SvgPicture.asset(
+                            ImageAssets.ic_xem_them,
+                            color: AppTheme.getInstance().colorField(),
+                          ),
                           onTap: () {
                             widget.clickXemThem();
                           },
@@ -180,7 +186,7 @@ class _BanTinItemQuocTeTabletState extends State<BanTinItemQuocTeTablet> {
                                     child: BanTinBtnSheetTablet(
                                       listTinTuc: widget
                                           .tinTucThoiSuBloc.listTinTucQuocTe,
-                                      index:index,
+                                      index: index,
                                     ),
                                   );
                                 },

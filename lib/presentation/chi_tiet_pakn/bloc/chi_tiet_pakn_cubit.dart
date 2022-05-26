@@ -215,7 +215,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             rowData.add(
               ListRowYKND(
                 title: S.current.trich_yeu,
-                content: [element.trichYeu],
+                content: [element.trichYeu.parseHtml()],
               ),
             );
             rowData.add(

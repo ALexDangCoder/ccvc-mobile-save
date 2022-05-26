@@ -267,23 +267,10 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    // getDashBroashCongViecCaNhan(
-    //   ngayDauTien: ngayDauTien,
-    //   ngayCuoiCung: ngayKetThuc,
-    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callDataDanhSach(String start, String end, bool isCheckCaNhan) {
-    // postDanhSachCongViec(
-    //   hanXuLy: {'FromDate': start, 'ToDate': end},
-    //   index: pageIndex,
-    //   isCaNhan: isCheckCaNhan,
-    //   isSortByHanXuLy: true,
-    //   keySearch: keySearch,
-    //   mangTrangThai: [],
-    //   size: pageSize,
-    // );
     postDanhSachNhiemVu(
       index: pageIndex,
       isNhiemVuCaNhan: isCheckCaNhan,

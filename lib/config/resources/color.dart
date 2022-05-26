@@ -232,6 +232,7 @@ abstract class AppColor {
   Color buttonUnfocus();
 
   Color colorField();
+  Color textBodyTimeColor();
 }
 
 class LightApp extends AppColor {
@@ -323,6 +324,11 @@ class LightApp extends AppColor {
   @override
   Color unselectColor() {
     return unselectLabelColor;
+  }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
   }
 }
 
@@ -416,6 +422,11 @@ class DarkApp extends AppColor {
   Color colorField() {
     return backgroundColorApp;
   }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
+  }
 }
 
 class DefaultApp extends AppColor {
@@ -507,6 +518,11 @@ class DefaultApp extends AppColor {
   @override
   Color buttonUnfocus() {
     return AqiColor;
+  }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
   }
 }
 
@@ -600,6 +616,11 @@ class BlueApp extends AppColor {
   Color colorField() {
     return numberOfCalenders;
   }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
+  }
 }
 
 class PinkApp extends AppColor {
@@ -692,6 +713,12 @@ class PinkApp extends AppColor {
   Color colorField() {
     return pinkColor;
   }
+
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
+  }
 }
 
 class YellowApp extends AppColor {
@@ -783,6 +810,11 @@ class YellowApp extends AppColor {
   @override
   Color colorField() {
     return yellowColor;
+  }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
   }
 }
 

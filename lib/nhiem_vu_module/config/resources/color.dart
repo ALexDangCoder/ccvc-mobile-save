@@ -71,7 +71,7 @@ const choVaoSoColor = Color(0xffFF9F43);
 const choTrinhKyColor = Color(0xff02C5DD);
 const choCapSoColor = Color(0xffFF6D99);
 const choBanHanhColor = Color(0xff374FC7);
-const radioUnfocusColor = Color(0xffE2E8F0);
+const colorE2E8F0 = Color(0xffE2E8F0);
 const radioFocusColor = Color(0xff7966FF);
 const borderButtomColor = Color(0xffE2E8F0);
 const backgroundRowColor = Color(0xffF5F8FD);
@@ -193,6 +193,7 @@ abstract class AppColor {
   Color buttonUnfocus();
 
   Color colorField();
+  Color radioUnfocusColor();
 }
 
 class LightApp extends AppColor {
@@ -279,6 +280,11 @@ class LightApp extends AppColor {
   @override
   Color colorField() {
     return backgroundColorApp;
+  }
+
+  @override
+  Color radioUnfocusColor() {
+   return colorE2E8F0;
   }
 }
 
@@ -367,6 +373,11 @@ class DarkApp extends AppColor {
   Color colorField() {
     return backgroundColorApp;
   }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
+  }
 }
 
 class DefaultApp extends AppColor {
@@ -453,6 +464,11 @@ class DefaultApp extends AppColor {
   @override
   Color buttonUnfocus() {
     return AqiColor;
+  }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
   }
 }
 
@@ -541,6 +557,11 @@ class BlueApp extends AppColor {
   Color colorField() {
     return numberOfCalenders;
   }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
+  }
 }
 
 class PinkApp extends AppColor {
@@ -628,6 +649,11 @@ class PinkApp extends AppColor {
   Color colorField() {
     return pinkColor;
   }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
+  }
 }
 
 class YellowApp extends AppColor {
@@ -714,6 +740,11 @@ class YellowApp extends AppColor {
   @override
   Color colorField() {
     return yellowColor;
+  }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
   }
 }
 

@@ -229,9 +229,10 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
               ListRowYKND(
                 title: S.current.file_dinh_kem,
                 content: element.dSFile.map((e) => e.ten).toList(),
+                urlDownload: element.dSFile.map((e) => e.duongDan).toList(),
+                nameFile: element.dSFile.map((e) => e.ten).toList(),
               ),
             );
-
             listData.add(rowData);
             ketQuaXuLyRowData.sink.add(listData);
           }

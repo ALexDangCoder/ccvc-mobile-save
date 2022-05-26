@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dar
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/widgets/row_title_ft_description.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_row_data.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:flutter/material.dart';
 
 class TabKetQuaXuLyTablet extends StatefulWidget {
@@ -73,6 +74,8 @@ class _TabKetQuaXuLyTabletState extends State<TabKetQuaXuLyTablet> {
                     return ListItemRow(
                       title: data[indexItem][index].title,
                       content: data[indexItem][index].content,
+                      urlFile: data[indexItem][index].urlDownload ?? [],
+                      nameFile: data[indexItem][index].nameFile ?? [],
                     );
                   },
                 ),

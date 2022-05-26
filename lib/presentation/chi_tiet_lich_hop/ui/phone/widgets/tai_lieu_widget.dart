@@ -34,12 +34,9 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             children: [
               ButtonSelectFile(
                 title: S.current.them_tai_lieu_cuoc_hop,
-                onChange: (List<File> files) {
-                },
+                onChange: (List<File> files) {},
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               StreamBuilder<ChiTietLichHopModel>(
                 stream: widget.cubit.chiTietLichLamViecSubject,
                 builder: (context, snapshot) {
@@ -52,9 +49,12 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                       shrinkWrap: true,
                       itemCount: data.length,
                       itemBuilder: (context, index) {
-                        return ListFileFromAPI(
-                          data: data,
-                          onTap: () {},
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: ListFileFromAPI(
+                            data: data[index] ?? '',
+                            onTap: () {},
+                          ),
                         );
                       },
                     );
@@ -72,12 +72,9 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
           children: [
             ButtonSelectFile(
               title: S.current.them_tai_lieu_cuoc_hop,
-              onChange: (files) {
-              },
+              onChange: (files) {},
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             StreamBuilder<ChiTietLichHopModel>(
               stream: widget.cubit.chiTietLichLamViecSubject,
               builder: (context, snapshot) {
@@ -88,9 +85,12 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return ListFileFromAPI(
-                      data: data,
-                      onTap: () {},
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: ListFileFromAPI(
+                        data: data[index] ?? '',
+                        onTap: () {},
+                      ),
                     );
                   },
                 );
@@ -105,39 +105,33 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
 
 class ListFileFromAPI extends StatelessWidget {
   final Function onTap;
-  final List<String?> data;
+  final String data;
 
   const ListFileFromAPI({Key? key, required this.onTap, required this.data})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  data[index] ?? '',
-                  style: textNormalCustom(
-                    color: choXuLyColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0.textScale(),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  onTap();
-                },
-                child: SvgPicture.asset(ImageAssets.icDelete),
-              ),
-            ],
-          );
-        });
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            data,
+            style: textNormalCustom(
+              color: choXuLyColor,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.textScale(),
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            onTap();
+          },
+          child: SvgPicture.asset(ImageAssets.icDelete),
+        ),
+      ],
+    );
   }
 }

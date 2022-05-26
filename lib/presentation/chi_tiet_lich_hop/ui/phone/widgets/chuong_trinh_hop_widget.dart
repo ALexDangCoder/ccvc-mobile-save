@@ -96,7 +96,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return CellDetailMeet(
+                    return cellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
                       id: widget.id,
@@ -143,7 +143,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return CellDetailMeet(
+                    return cellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
                       id: widget.id,
@@ -159,7 +159,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
     );
   }
 
-  Widget CellDetailMeet({
+  Widget cellDetailMeet({
     required ListPhienHopModel listPhienHopModel,
     required BuildContext context,
     required String id,

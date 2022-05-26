@@ -8,6 +8,8 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_gi
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -88,9 +90,11 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
                     ),
                     child: TextField(
                       onChanged: (String value) {
-                        if (cubit.text != value) {
+                        if (cubit.text != value && value.isNotEmpty) {
                           cubit.text = value;
-                          cubit.check = true;
+                          cubit.enableButton.sink.add(true);
+                        } else {
+                          cubit.enableButton.sink.add(false);
                         }
                       },
                       decoration: const InputDecoration(
@@ -126,17 +130,23 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
                         data.map((e) => e.code ?? '').toList();
                     if (cubit.voidTone != dataSelect[vl]) {
                       cubit.voidTone = dataSelect[vl];
-                      cubit.check = true;
+                      cubit.enableButton.sink.add(true);
                     }
                   },
                 ),
                 const SizedBox(height: 24),
-                btnListen(
-                  onTap: () {
-                    if (cubit.check) {
-                      cubit.chuyenVBSangGiongNoi();
-                    }
-                    cubit.pauseMusic();
+                StreamBuilder<bool>(
+                  stream: cubit.enableButton.stream,
+                  builder: (context, snapshot) {
+                    return btnListen(
+                      onTap: () {
+                        if (cubit.enableButton.value) {
+                          cubit.chuyenVBSangGiongNoi();
+                        }
+                        cubit.pauseMusic();
+                      },
+                      isEnable: snapshot.data ?? true,
+                    );
                   },
                 ),
               ],
@@ -148,10 +158,12 @@ class _ChuyenVanBanThanhGiongNoiState extends State<ChuyenVanBanThanhGiongNoi>
   }
 }
 
-Widget btnListen({required Function onTap}) {
+Widget btnListen({required Function onTap, required bool isEnable}) {
   return GestureDetector(
     onTap: () {
-      onTap();
+      if (isEnable) {
+        onTap();
+      }
     },
     child: Container(
       margin: EdgeInsets.symmetric(horizontal: !isMobile() ? 300 : 0),
@@ -159,8 +171,8 @@ Widget btnListen({required Function onTap}) {
         vertical: 12,
       ),
       decoration: BoxDecoration(
-        color: AppTheme.getInstance().colorField(),
-        borderRadius: BorderRadius.circular(4),
+        color: isEnable ? AppTheme.getInstance().colorField() : textTitleColumn,
+        borderRadius: BorderRadius.circular(isMobile() ? 4 : 8),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

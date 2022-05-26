@@ -100,22 +100,17 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                           height: 20,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(ImageAssets.ic_hoicham),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  S.current.keep_drop,
-                                  style: textNormal(
-                                    textTitle,
-                                    14.0.textScale(),
-                                  ),
-                                ),
-                              ],
+                            SvgPicture.asset(ImageAssets.ic_hoicham),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              S.current.keep_drop,
+                              style: textNormal(
+                                textTitle,
+                                14.0.textScale(),
+                              ),
                             ),
                           ],
                         ),
@@ -139,6 +134,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                             if (data.isNotEmpty) {
                               final List<WidgetModel> listWidgetUsing = data;
                               return DragItemList(
+                                paddingTablet: true,
                                 headerList: const SizedBox(),
                                 footerList: const SizedBox(),
                                 listWidget: listWidgetUsing,
@@ -173,6 +169,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                             if (data.isNotEmpty) {
                               final List<WidgetModel> listWidgetNotUse = data;
                               return DragItemList(
+                                paddingTablet: true,
                                 headerList: const SizedBox(),
                                 footerList: const SizedBox(),
                                 listWidget: listWidgetNotUse,

@@ -221,7 +221,7 @@ class ImageAssets {
 
   static const String icDongNai = '$baseImg/ic_default_chu_de.png';
 
-  static const String icYKienNguoiDan = '$baseImg/ic_y_kien_nguoi_dan.svg';
+  static const String icYKienNguoiDan = '$baseImg/item_pakn_menu.svg';
   static const String icQuanLyVanBan = '$baseImg/ic_quan_ly_van_ban.svg';
   static const String icBaoChiMangXaHoi = '$baseImg/ic_bao_chi_mang_xa_hoi.svg';
   static const String icKetNoi = '$baseImg/ic_ket_noi.svg';
@@ -516,6 +516,10 @@ class ImageAssets {
   static const String icSendPhonePopUp= '$baseImg/ic_sendphone_popup.svg';
   static const String icUserNotExits= '$baseImg/ic_user_not_exits.svg';
   static const String icWarningPopUp= '$baseImg/ic_warning_popup.svg';
+  static const String itemMenuDiemDanh= '$baseImg/item_diemdanh_menu.svg';
+  static const String itemMenuTuongTacBoiBo= '$baseImg/item_tuongtacnoibo_menu.svg';
+  static const String itemMenuLichLamViec= '$baseImg/item_lichlamviec_menu.svg';
+  static const String itemMenuBaoCao= '$baseImg/item_bao_cao_menu.svg';
 
 
 

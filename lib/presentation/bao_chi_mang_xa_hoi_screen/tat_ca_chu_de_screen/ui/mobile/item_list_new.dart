@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class ItemListNews extends StatelessWidget {
                   child: Text(
                     title,
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: AppTheme.getInstance().titleColor(),
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                     ),
@@ -82,7 +83,7 @@ class ItemListNews extends StatelessWidget {
                     Text(
                       date,
                       style: textNormalCustom(
-                        color: unselectedLabelColor,
+                        color: color667793,
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),

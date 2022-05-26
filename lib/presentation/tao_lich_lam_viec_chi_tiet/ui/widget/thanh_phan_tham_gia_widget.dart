@@ -10,10 +10,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaTLWidget extends StatefulWidget {
-  final TaoLichLamViecCubit taoLichLamViecCubit ;
+  final TaoLichLamViecCubit taoLichLamViecCubit;
+
   final List<DonViModel>? listPeopleInit;
 
-  const ThanhPhanThamGiaTLWidget({Key? key, required this.taoLichLamViecCubit, this.listPeopleInit}) : super(key: key);
+  const ThanhPhanThamGiaTLWidget(
+      {Key? key, required this.taoLichLamViecCubit, this.listPeopleInit})
+      : super(key: key);
 
   @override
   _ThanhPhanThamGiaTLWidgetState createState() =>
@@ -40,27 +43,31 @@ class _ThanhPhanThamGiaTLWidgetState extends State<ThanhPhanThamGiaTLWidget> {
                 style: textNormalCustom(
                   fontWeight: FontWeight.w500,
                   fontSize: 16.0.textScale(),
-                  color: unselectedLabelColor,
+                  color: color667793,
                 ),
               ),
-              if (isExpand) const Icon(
-                      Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
-                    ) else const Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
-                    )
+              if (isExpand)
+                const Icon(
+                  Icons.keyboard_arrow_up_rounded,
+                  color: AqiColor,
+                )
+              else
+                const Icon(
+                  Icons.keyboard_arrow_down_outlined,
+                  color: AqiColor,
+                )
             ],
           ),
         ),
-
-        SizedBox(height: 16.5.textScale(),),
+        SizedBox(
+          height: 16.5.textScale(),
+        ),
         ExpandedSection(
           expand: isExpand,
           child: ThanhPhanThamGiaWidget(
             listPeopleInit: widget.listPeopleInit,
             onChange: (value) {
-              widget.taoLichLamViecCubit.donviModel=value;
+              widget.taoLichLamViecCubit.donviModel = value;
             },
             phuongThucNhan: (value) {},
             isPhuongThucNhan: false,

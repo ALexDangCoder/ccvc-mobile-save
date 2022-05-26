@@ -22,7 +22,7 @@ class ThongBaoQuanTrongWidget extends StatelessWidget {
         Container(
           height: 1,
           width: double.maxFinite,
-          color: lineColor,
+          color: colorECEEF7,
         ),
         Container(
           margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
@@ -59,7 +59,7 @@ class ThongBaoQuanTrongWidget extends StatelessWidget {
         Container(
           height: 1,
           width: double.maxFinite,
-          color: lineColor,
+          color: colorECEEF7,
         ),
       ],
     );

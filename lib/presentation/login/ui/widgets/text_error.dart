@@ -1,6 +1,6 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,7 +23,8 @@ class WidgetTextError extends StatelessWidget {
         spaceW8,
         Text(
           text,
-          style: textNormalCustom(color: titleItemEdit, fontSize: 12.0.textScale()),
+          style: textNormalCustom(
+              color: titleItemEdit, fontSize: 12.0.textScale()),
         )
       ],
     );

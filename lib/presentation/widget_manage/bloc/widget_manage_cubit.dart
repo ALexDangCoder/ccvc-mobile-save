@@ -49,18 +49,15 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     if (listUsing.isNotEmpty) {
       listTitleWidgetUse = listUsing.map((e) => e.name).toList();
       _listWidgetUsing.sink.add(listUsing);
-    }
-    else{
+    } else {
       _listWidgetUsing.sink.add([]);
     }
-
   }
 
   void loadApi() {
     _getListWidgetUsing();
     _getListWidgetNotUse();
     setFullParaNotUse();
-
   }
 
   void insertItemUsing(

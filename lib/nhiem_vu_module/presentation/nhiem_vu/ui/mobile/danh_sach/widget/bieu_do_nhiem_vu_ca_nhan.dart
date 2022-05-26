@@ -1,5 +1,5 @@
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
@@ -48,10 +48,11 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
               final data = snapshot.data ?? [];
               return PieChart(
                 isSubjectInfo: false,
-              //  title: widget.title ?? '',
+                //  title: widget.title ?? '',
                 chartData: data,
                 onTap: (int value) {
-                  widget.ontap(widget.cubit.chartDataNhiemVuCaNhan[value].title.split(' ')
+                  widget.ontap(widget.cubit.chartDataNhiemVuCaNhan[value].title
+                      .split(' ')
                       .join('_')
                       .toUpperCase()
                       .vietNameseParse());
@@ -92,10 +93,7 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
                     Flexible(
                       child: FittedBox(
                         child: Text(
-                          '${result.title.split(' ')
-                              .join('_')
-                              .toUpperCase()
-                              .vietNameseParse().titleTrangThai()} (${result.value.toInt()})',
+                          '${result.title.split(' ').join('_').toUpperCase().vietNameseParse().titleTrangThai()} (${result.value.toInt()})',
                           style: textNormal(
                             infoColor,
                             14.0,
@@ -111,7 +109,7 @@ class _BieuDoNhiemVuCaNhanState extends State<BieuDoNhiemVuCaNhan> {
           Container(height: 20),
           StreamBuilder<List<LoaiNhiemVuComomModel>>(
             stream: widget.cubit.loaiNhiemVuCaNhanSuject,
-           initialData: listFakeData,
+            initialData: listFakeData,
             builder: (context, snapshot) {
               final data = snapshot.data?.reversed ?? [];
               return Row(

@@ -8,6 +8,7 @@ class SearchInit extends ThemCanBoState {
   @override
   List<Object> get props => [];
 }
+
 class MainStateInitial extends ThemCanBoState {
   @override
   List<Object> get props => [];

@@ -19,6 +19,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class MeetingScheduleTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const MeetingScheduleTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -29,6 +30,7 @@ class MeetingScheduleTabletWidget extends StatefulWidget {
 
 class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
   final LichHopCubit _lichHopCubit = LichHopCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -60,25 +62,25 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
         _lichHopCubit.selectTrangThaiHop(value);
       },
       dialogSelect: StreamBuilder(
-        stream: _lichHopCubit.selectKeyDialog,
-        builder: (context, snapshot) {
-          return DialogSettingWidget(
-            type: widget.homeItemType,
-            listSelectKey: [
-              DialogData(
-                onSelect: (value, startDate, endDate) {
-                  _lichHopCubit.selectDate(
-                      selectKey: value, startDate: startDate, endDate: endDate);
-                },
-                initValue: _lichHopCubit.selectKeyTime,
-                title: S.current.time,
-                  startDate: _lichHopCubit.startDate,
-                  endDate: _lichHopCubit.endDate
-              )
-            ],
-          );
-        }
-      ),
+          stream: _lichHopCubit.selectKeyDialog,
+          builder: (context, snapshot) {
+            return DialogSettingWidget(
+              type: widget.homeItemType,
+              listSelectKey: [
+                DialogData(
+                    onSelect: (value, startDate, endDate) {
+                      _lichHopCubit.selectDate(
+                          selectKey: value,
+                          startDate: startDate,
+                          endDate: endDate);
+                    },
+                    initValue: _lichHopCubit.selectKeyTime,
+                    title: S.current.time,
+                    startDate: _lichHopCubit.startDate,
+                    endDate: _lichHopCubit.endDate)
+              ],
+            );
+          }),
       child: LoadingOnly(
         stream: _lichHopCubit.stateStream,
         child: StreamBuilder<List<CalendarMeetingModel>>(
@@ -86,9 +88,9 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
             builder: (context, snapshot) {
               final data = snapshot.data ?? <CalendarMeetingModel>[];
               if (data.isEmpty) {
-                return  const Padding(
-                  padding:  EdgeInsets.symmetric(vertical: 100),
-                  child:  NodataWidget(),
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 100),
+                  child: NodataWidget(),
                 );
               }
               return ScrollBarWidget(
@@ -97,16 +99,16 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailMeetCalenderTablet(
-                            id: result.id,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailMeetCalenderTablet(
+                              id: result.id,
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
                       child: ContainerInfoWidget(
                         status: result.isHopTrucTuyen
                             ? S.current.truc_tuyen
@@ -116,8 +118,8 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleTabletWidget> {
                             : choXuLyColor,
                         backGroundStatus: true,
                         status2: result
-                            .trangThaiTheoUserEnum(_lichHopCubit.userId)
-                            ?.getText() ??
+                                .trangThaiTheoUserEnum(_lichHopCubit.userId)
+                                ?.getText() ??
                             '',
                         colorStatus2: result
                             .trangThaiTheoUserEnum(_lichHopCubit.userId)

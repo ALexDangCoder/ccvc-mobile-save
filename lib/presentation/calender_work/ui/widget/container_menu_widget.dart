@@ -106,7 +106,9 @@ class _ContainerMenuWidgetState extends State<ContainerMenuWidget> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: AppTheme.getInstance().colorField().withOpacity(0.1),
+                        color: AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
                       ),
                       alignment: Alignment.center,
                       child: Text(

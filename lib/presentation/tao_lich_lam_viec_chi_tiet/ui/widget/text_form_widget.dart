@@ -42,16 +42,16 @@ class _TextFormWidgetState extends State<TextFormWidget> {
                 fontSize: 16,
               ),
               hintStyle: textNormalCustom(
-                color: unselectLabelColor,
+                color: colorA2AEBD,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(),
               ),
               hintText: widget.hint,
               focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: lineColor),
+                borderSide: BorderSide(color: colorECEEF7),
               ),
               enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: lineColor),
+                borderSide: BorderSide(color: colorECEEF7),
               ),
             ),
           ),

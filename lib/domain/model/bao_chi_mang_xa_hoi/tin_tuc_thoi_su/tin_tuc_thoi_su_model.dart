@@ -17,8 +17,7 @@ class TinTucRadioModel {
   TinTucRadioModel(
     this.domain,
     this.urlImage,
-    this.url,
-      {
+    this.url, {
     required this.title,
     required this.content,
     required this.publishedTime,

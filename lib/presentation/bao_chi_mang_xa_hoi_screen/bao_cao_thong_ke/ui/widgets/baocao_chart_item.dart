@@ -67,39 +67,46 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                           ),
                         ),
                       ),
-                     const  SizedBox(width: 20,),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       GestureDetector(
                         onTap: () {
-                          widget.isTablet?showDialog(context: context, builder: (context){
-                            return Dialog(
-                              child: PopupChoiceTimeTablet(
-                                initEndDate: endTime,
-                                initStartDate: startTime,
-                                onChoiceTime: (startDate, endDate) {
-                                  widget.onChoiceDate(startDate, endDate);
-                                  setState(() {
-                                    startTime = startDate;
-                                    endTime = endDate;
-                                  });
-                                },
-                              ),
-                            );
-                          },):
-                          showBottomSheetCustom(
-                            context,
-                            child: PopupChoiceTimeWidget(
-                              initEndDate: endTime,
-                              initStartDate: startTime,
-                              onChoiceTime: (startDate, endDate) {
-                                widget.onChoiceDate(startDate, endDate);
-                                setState(() {
-                                  startTime = startDate;
-                                  endTime = endDate;
-                                });
-                              },
-                            ),
-                            title: '',
-                          );
+                          widget.isTablet
+                              ? showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: PopupChoiceTimeTablet(
+                                        initEndDate: endTime,
+                                        initStartDate: startTime,
+                                        onChoiceTime: (startDate, endDate) {
+                                          widget.onChoiceDate(
+                                              startDate, endDate);
+                                          setState(() {
+                                            startTime = startDate;
+                                            endTime = endDate;
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  },
+                                )
+                              : showBottomSheetCustom(
+                                  context,
+                                  child: PopupChoiceTimeWidget(
+                                    initEndDate: endTime,
+                                    initStartDate: startTime,
+                                    onChoiceTime: (startDate, endDate) {
+                                      widget.onChoiceDate(startDate, endDate);
+                                      setState(() {
+                                        startTime = startDate;
+                                        endTime = endDate;
+                                      });
+                                    },
+                                  ),
+                                  title: '',
+                                );
                         },
                         child: SvgPicture.asset(ImageAssets.ic_three_dot_doc),
                       ),
@@ -112,11 +119,7 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
                 Padding(
                   padding: EdgeInsets.only(left: widget.isTablet ? 24 : 16),
                   child: Text(
-                    '${DateTime
-                        .parse(startTime)
-                        .formatApiDDMMYYYYSlash}~${DateTime
-                        .parse(endTime)
-                        .formatApiDDMMYYYYSlash}',
+                    '${DateTime.parse(startTime).formatApiDDMMYYYYSlash}~${DateTime.parse(endTime).formatApiDDMMYYYYSlash}',
                     style: textNormalCustom(
                       color: textBodyTime,
                       fontSize: widget.isTablet ? 16 : 12,
@@ -140,9 +143,7 @@ class _GroupChartItemWidgetState extends State<GroupChartItemWidget> {
 
   void initDateTime() {
     const int millisecondOfWeek = 7 * 24 * 60 * 60 * 1000;
-    final int millisecondNow = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+    final int millisecondNow = DateTime.now().millisecondsSinceEpoch;
     final int prevWeek = millisecondNow - millisecondOfWeek;
     endTime = DateTime.now().toString();
     startTime = DateTime.fromMillisecondsSinceEpoch(prevWeek).toString();

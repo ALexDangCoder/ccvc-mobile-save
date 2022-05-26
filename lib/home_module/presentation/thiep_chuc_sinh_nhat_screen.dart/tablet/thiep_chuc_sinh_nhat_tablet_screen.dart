@@ -18,6 +18,7 @@ const kHeightKeyBoard = 150;
 
 class ThiepChucMungTabletScreen extends StatefulWidget {
   final SinhNhatUserModel sinhNhatUserModel;
+
   const ThiepChucMungTabletScreen({Key? key, required this.sinhNhatUserModel})
       : super(key: key);
 
@@ -48,8 +49,7 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungTabletScreen> {
           retry: () {},
           error: AppException('', S.current.something_went_wrong),
           child: SingleChildScrollView(
-            keyboardDismissBehavior:
-                ScrollViewKeyboardDismissBehavior.onDrag,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
               children: [
                 SizedBox(
@@ -99,7 +99,6 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungTabletScreen> {
                     title1: S.current.dong,
                   ),
                 )
-
               ],
             ),
           ),

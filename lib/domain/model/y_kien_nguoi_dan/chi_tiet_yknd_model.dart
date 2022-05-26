@@ -149,7 +149,7 @@ class ChiTietYKNDModel {
     return listCheckbox;
   }
 
-   getFile() {
+  getFile() {
     if (fileDinhKem.isNotEmpty) {
       final List<String> listFileName = [];
       for (final element in fileDinhKem) {
@@ -180,8 +180,6 @@ class HeaderChiTietYKNDModel {
     this.taiLieuCongDan,
   });
 }
-
-
 
 class DataRowChiTietKienNghi {
   final String title;
@@ -237,8 +235,8 @@ class ThongTinXuLy {
 class KetQuaXuLy {
   final String? chuyenVienXuLy;
   final String? donViXuLy;
-  final String?  vaiTroXuLy;
-  final String?  noiDungXuLy;
+  final String? vaiTroXuLy;
+  final String? noiDungXuLy;
   final String? soHieuVanBan;
   final String? ngayBanHanh;
   final String? trichYeu;

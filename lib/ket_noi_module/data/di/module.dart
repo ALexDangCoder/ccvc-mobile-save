@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:dio/dio.dart';
@@ -14,14 +13,9 @@ import 'flutter_transformer.dart';
 enum BaseURLOption { GATE_WAY, COMMON, CCVC }
 
 void configureDependenciesHome() {
-
-
   Get.put(HomeServiceGateWay(provideDio(baseOption: BaseURLOption.GATE_WAY)));
   Get.put(HomeServiceCCVC(provideDio()));
   Get.put<HomeRepository>(HomeImpl(Get.find(), Get.find()));
-
-
-
 }
 
 int _connectTimeOut = 60000;

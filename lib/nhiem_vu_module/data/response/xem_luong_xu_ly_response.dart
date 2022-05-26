@@ -1,11 +1,9 @@
-import 'dart:developer';
 
-import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/luong_xu_ly_nhiem_vu_model.dart';
 
 class XemLuongXuLyNhiemVuResponse {
- dynamic data;
+  dynamic data;
 
   bool? isSuccess;
 
@@ -18,12 +16,14 @@ class XemLuongXuLyNhiemVuResponse {
 
     isSuccess = json['IsSuccess'];
   }
+
   NodePhanXuLy<DonViLuongNhiemVuModel>? toDomain() {
     if (data?.isNotEmpty ?? false) {
       final rootTree = data ?? {};
 
-      NodePhanXuLy<DonViLuongNhiemVuModel> node = NodePhanXuLy<DonViLuongNhiemVuModel>(
-          Data.fromJson(rootTree).toDomain());
+      NodePhanXuLy<DonViLuongNhiemVuModel> node =
+          NodePhanXuLy<DonViLuongNhiemVuModel>(
+              Data.fromJson(rootTree).toDomain());
       _makeBuildTree(node, rootTree['children'] ?? []);
       return node;
     }
@@ -35,7 +35,8 @@ class XemLuongXuLyNhiemVuResponse {
       for (var element in children) {
         Map<String, dynamic> data = element as Map<String, dynamic>;
 
-        NodePhanXuLy<DonViLuongNhiemVuModel> nodeTree = NodePhanXuLy<DonViLuongNhiemVuModel>(
+        NodePhanXuLy<DonViLuongNhiemVuModel> nodeTree =
+            NodePhanXuLy<DonViLuongNhiemVuModel>(
           Data.fromJson(data).toDomain(),
         );
 
@@ -49,37 +50,37 @@ class XemLuongXuLyNhiemVuResponse {
 class Data {
   String? id;
   String? ten;
- String? tenNguoiTao;
+  String? tenNguoiTao;
   String? trangThai;
   String? maTrangThai;
   String? tenDonVi;
- String? vaiTro;
-  Data({
-    this.id,
-    this.ten,
-    this.trangThai,
-    this.maTrangThai,
-    this.tenDonVi,
-    this.tenNguoiTao,
-    this.vaiTro
-  });
+  String? vaiTro;
+
+  Data(
+      {this.id,
+      this.ten,
+      this.trangThai,
+      this.maTrangThai,
+      this.tenDonVi,
+      this.tenNguoiTao,
+      this.vaiTro});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     ten = json['ten'];
-tenNguoiTao = json['tenNguoiTao'];
+    tenNguoiTao = json['tenNguoiTao'];
     trangThai = json['trangThai'];
     maTrangThai = json['maTrangThai'];
     tenDonVi = json['tenDonVi'];
-vaiTro = json['vaiTro'];
-
+    vaiTro = json['vaiTro'];
   }
+
   DonViLuongNhiemVuModel toDomain() => DonViLuongNhiemVuModel(
       taskId: id,
       ten: ten,
       trangThai: trangThai,
       maTrangThai: maTrangThai,
       tenDonVi: tenDonVi,
-  tenNguoiTao: tenNguoiTao,
-  vaiTro: vaiTro);
+      tenNguoiTao: tenNguoiTao,
+      vaiTro: vaiTro);
 }

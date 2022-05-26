@@ -10,6 +10,7 @@ import '/home_module/utils/constants/image_asset.dart';
 
 class DayTimeWidget extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
+
   const DayTimeWidget({
     Key? key,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
@@ -56,7 +57,9 @@ class DayTimeWidget extends StatelessWidget {
                         else
                           const SizedBox(),
                         Text(
-                          data.lunarDate.isNotEmpty ? '(${data.lunarDate})' : '',
+                          data.lunarDate.isNotEmpty
+                              ? '(${data.lunarDate})'
+                              : '',
                           style: textNormal(
                             AqiColor.withOpacity(0.8),
                             12.0.textScale(),
@@ -68,7 +71,6 @@ class DayTimeWidget extends StatelessWidget {
                 )
               ],
             ),
-
           ],
         ),
         Positioned(
@@ -77,9 +79,9 @@ class DayTimeWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Image.asset(ImageAssets.icThoiTiet),
-            const SizedBox(
-              width: 12,
-            ),
+              const SizedBox(
+                width: 12,
+              ),
               Text(
                 '32°C',
                 style: textNormalCustom(fontSize: 16, color: titleColor),

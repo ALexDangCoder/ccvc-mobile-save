@@ -108,7 +108,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
                                 widget.hintText ?? S.current.vuiLongChon,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               )
                             : Text(
@@ -118,7 +118,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
                                         .toStringWithListFormat,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                       )

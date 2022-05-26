@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/su_kien_model.dart';
 
 class SuKienResponse {

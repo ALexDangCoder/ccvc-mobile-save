@@ -42,6 +42,7 @@ class PageData {
   String? title;
   @JsonKey(name: 'url')
   String? url;
+
   PageData({
     this.title,
     this.url,

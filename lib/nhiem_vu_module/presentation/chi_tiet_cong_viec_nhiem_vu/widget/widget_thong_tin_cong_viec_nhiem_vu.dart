@@ -7,7 +7,9 @@ class WidgetThongTinCongViecNhiemVu extends StatefulWidget {
   final ChiTietCongViecNhiemVuCubit cubit;
   final ChiTietCongViecNhiemVuModel data;
 
-  const WidgetThongTinCongViecNhiemVu({Key? key, required this.cubit, required this.data}) : super(key: key);
+  const WidgetThongTinCongViecNhiemVu(
+      {Key? key, required this.cubit, required this.data})
+      : super(key: key);
 
   @override
   _WidgetThongTinCongViecNhiemVuState createState() =>

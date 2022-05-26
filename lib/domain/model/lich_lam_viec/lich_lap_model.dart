@@ -6,6 +6,7 @@ class LichLapModel {
     this.id,
     this.name,
   });
+
   LichLapModel.seeded({this.id = 1, this.name = 'Không lặp lại'});
 }
 
@@ -25,7 +26,4 @@ class DayOffWeek {
   bool? isChoose;
 
   DayOffWeek({this.index, this.name, this.isChoose});
-
 }
-
-

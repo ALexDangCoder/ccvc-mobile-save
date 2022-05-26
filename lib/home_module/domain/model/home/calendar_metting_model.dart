@@ -27,6 +27,7 @@ class CalendarMeetingModel {
   final String typeSchedule;
   final int trangThaiHanXuLy;
   ScreenTypeMetting screenTypeMetting = ScreenTypeMetting.LICH_LAM_VIEC;
+
   CalendarMeetingModel({
     this.title = '',
     this.time = '',

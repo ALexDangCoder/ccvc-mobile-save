@@ -1,12 +1,9 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/domain/model/home/WidgetType.dart';
-import '/home_module/domain/model/home/document_model.dart';
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
@@ -19,6 +16,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class PeopleOpinions extends StatefulWidget {
   final WidgetType homeItemType;
+
   const PeopleOpinions({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -28,6 +26,7 @@ class PeopleOpinions extends StatefulWidget {
 
 class _PeopleOpinionsState extends State<PeopleOpinions> {
   final YKienNguoiDanCubit _danCubit = YKienNguoiDanCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -121,7 +120,6 @@ class _PeopleOpinionsState extends State<PeopleOpinions> {
                             key: S.current.ten_ca_nhan_to_chuc,
                             value: result.noiGui,
                           ),
-
                         ],
                       ),
                     ),

@@ -80,4 +80,69 @@ extension BieuQuyet on DetailMeetCalenderCubit {
   void removeTag(String value) {
     cacLuaChonBieuQuyet.remove(value);
   }
+
+  Future<void> postThemBieuQuyetHop(String id, String noidung) async {
+    await themBieuQuyetHopByLuc(
+      dateStart: date,
+      thoiGianBatDau: plusTaoBieuQuyet(
+        date,
+        start,
+      ),
+      thoiGianKetThuc: plusTaoBieuQuyet(
+        date,
+        end,
+      ),
+      loaiBieuQuyet: loaiBieuQ,
+      danhSachLuaChon: listLuaChon
+          .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))
+          .toList(),
+      noiDung: noidung,
+      lichHopId: id,
+      trangThai: 0,
+      quyenBieuQuyet: true,
+      danhSachThanhPhanThamGia: listDanhSach
+          .map(
+            (e) => DanhSachThanhPhanThamGia(
+              canBoId: e.canBoId,
+              donViId: e.donViId,
+              idPhienhopCanbo: e.id,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Future<void> themBieuQuyetHopByLuc({
+    required String? dateStart,
+    required String? thoiGianBatDau,
+    required String? thoiGianKetThuc,
+    required bool? loaiBieuQuyet,
+    required List<DanhSachLuaChon>? danhSachLuaChon,
+    required String? noiDung,
+    required String? lichHopId,
+    required int? trangThai,
+    required bool? quyenBieuQuyet,
+    required List<DanhSachThanhPhanThamGia>? danhSachThanhPhanThamGia,
+  }) async {
+    showLoading();
+    final BieuQuyetRequest bieuQuyetRequest = BieuQuyetRequest(
+      dateStart: dateStart,
+      thoiGianBatDau: thoiGianBatDau,
+      thoiGianKetThuc: thoiGianKetThuc,
+      loaiBieuQuyet: loaiBieuQuyet,
+      danhSachLuaChon: danhSachLuaChon,
+      noiDung: noiDung,
+      lichHopId: lichHopId,
+      trangThai: trangThai,
+      quyenBieuQuyet: quyenBieuQuyet,
+      danhSachThanhPhanThamGia: danhSachThanhPhanThamGia,
+    );
+    final result = await hopRp.themBieuQuyet(bieuQuyetRequest);
+    result.when(
+      success: (res) {},
+      error: (err) {
+        return;
+      },
+    );
+  }
 }

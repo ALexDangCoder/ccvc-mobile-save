@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ccvc_mobile/data/request/quan_li_widget/quan_ly_widget_request.dart';
+
 import 'package:ccvc_mobile/data/response/quan_li_widget/quan_li_widget_response.dart';
 import 'package:ccvc_mobile/data/response/quan_li_widget/reset_widget_response.dart';
 import 'package:ccvc_mobile/data/response/quan_li_widget/update_list_widget_response.dart';
@@ -39,7 +39,8 @@ class QuanLyWidgetImlp implements QuanLyWidgetRepository {
   // }
   @override
   Future<Result<List<WidgetModel>>> updateListWidget(
-      String widgetRequest,) {
+    String widgetRequest,
+  ) {
     return runCatchingAsync<String, List<WidgetModel>>(
         () => _quanLyWidgetClient.updateListWidget(widgetRequest), (response) {
       return UpdateListWidgetResponse.fromJson(jsonDecode(response)).toDomain();

@@ -66,7 +66,7 @@ Widget avata({required String firstName, required Color color}) {
       shape: BoxShape.circle,
     ),
     alignment: Alignment.center,
-    child:  Text(
+    child: Text(
       firstName,
       style: textNormalCustom(
         fontWeight: FontWeight.w700,

@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
 import '/home_module/utils/constants/app_constants.dart';
 
@@ -9,6 +7,7 @@ class TongHopNhiemVuResponse {
   dynamic validationResult;
   bool? isSuccess;
   Map<String, Data> mapData = {};
+
   TongHopNhiemVuResponse(
       {this.messages, this.data, this.validationResult, this.isSuccess});
 
@@ -25,12 +24,14 @@ class TongHopNhiemVuResponse {
     validationResult = json['ValidationResult'];
     isSuccess = json['IsSuccess'];
   }
+
   List<TongHopNhiemVuModel> toDomain() {
     return [
-      Data(name: '',code: NhiemVuStatus.CHO_PHAN_XU_LY,value: 10).toDomain(),
-      Data(name: '',code: NhiemVuStatus.CHUA_THUC_HIEN,value: 20).toDomain(),
-      Data(name: '',code: NhiemVuStatus.DANG_THUC_HIEN,value: 30).toDomain(),
-      Data(name: '',code: NhiemVuStatus.HOAN_THANH_NHIEM_VU,value: 40).toDomain(),
+      Data(name: '', code: NhiemVuStatus.CHO_PHAN_XU_LY, value: 10).toDomain(),
+      Data(name: '', code: NhiemVuStatus.CHUA_THUC_HIEN, value: 20).toDomain(),
+      Data(name: '', code: NhiemVuStatus.DANG_THUC_HIEN, value: 30).toDomain(),
+      Data(name: '', code: NhiemVuStatus.HOAN_THANH_NHIEM_VU, value: 40)
+          .toDomain(),
       // mapData[NhiemVuStatus.TONG_SO_NHIEM_VU]?.toDomain() ??
       //     TongHopNhiemVuModel(),
       // mapData[NhiemVuStatus.HOAN_THANH_NHIEM_VU]?.toDomain() ??
@@ -59,6 +60,7 @@ class Data {
     code = json['Code'];
     value = json['Value'];
   }
+
   TongHopNhiemVuModel toDomain() => TongHopNhiemVuModel(
         name: name ?? '',
         code: code ?? '',

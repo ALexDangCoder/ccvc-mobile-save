@@ -53,6 +53,7 @@ class LuongXuLyVBDiModel {
   String? idTrinhKy;
   String? id;
   bool? isDenLuot;
+
   LuongXuLyVBDiModel(
       {this.infoCanBo,
       this.trangThaiHienTai,

@@ -15,7 +15,8 @@ class ShowToast extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: redChart.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

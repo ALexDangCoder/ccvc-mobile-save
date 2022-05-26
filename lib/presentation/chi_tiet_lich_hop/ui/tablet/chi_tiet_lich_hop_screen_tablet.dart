@@ -260,7 +260,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                       unselectedLabelStyle: textNormalCustom(
                           fontSize: 16, fontWeight: FontWeight.w700),
                       indicatorColor: indicatorColor,
-                      unselectedLabelColor: unselectLabelColor,
+                      unselectedLabelColor: colorA2AEBD,
                       labelColor: indicatorColor,
                       labelStyle: textNormalCustom(
                           fontSize: 16, fontWeight: FontWeight.w400),

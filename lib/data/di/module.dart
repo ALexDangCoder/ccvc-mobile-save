@@ -34,6 +34,7 @@ import 'package:ccvc_mobile/ket_noi_module/domain/repository/ket_noi_repository.
 import 'package:ccvc_mobile/nhiem_vu_module/data/repository_impl/nhiem_vu_repository_impl.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/service/nhiem_vu_service.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/repository_impl/danh_ba_dien_tu_impl.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/repository_impl/tien_ich_repository_impl.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/service/danh_ba_dien_tu_service.dart';
@@ -81,7 +82,7 @@ void configureDependencies() {
   Get.put(ThongBaoService(provideDio(baseOption: BaseURLOption.NOTI)));
 
   Get.put<ThongBaoRepository>(ThongBaoImpl(Get.find()));
-
+  Get.put<ThongBaoCubit>(ThongBaoCubit());
   Get.put(
     YKienNguoiDanService(
       provideDio(baseOption: BaseURLOption.GATE_WAY),

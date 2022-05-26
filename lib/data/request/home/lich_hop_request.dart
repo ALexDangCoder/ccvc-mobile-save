@@ -5,6 +5,7 @@ class LichHopRequest {
   bool? isLichDuocMoi;
   bool? isDuyetLich;
   bool? isChoXacNhan;
+
   LichHopRequest({
     this.dateFrom,
     this.dateTo,

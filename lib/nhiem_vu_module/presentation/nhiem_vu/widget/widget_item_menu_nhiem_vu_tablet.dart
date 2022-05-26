@@ -15,7 +15,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
 
   const ItemMenuNhiemVuWidgetTablet({
     Key? key,
-    this.isShowNumber=true,
+    this.isShowNumber = true,
     required this.icon,
     required this.name,
     required this.number,
@@ -75,31 +75,34 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                 child: Text(
                   name,
                   style: textNormalCustom(
-                    color: isSelect ? backgroundColorApp : titleColor,
+                    color: isSelect ? backgroundColorApp : color3D5586,
                     fontWeight: FontWeight.w400,
                     fontSize: 16.0.textScale(space: 4),
                   ),
                 ),
               ),
-              if (isShowNumber) Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4,
-                  horizontal: 5,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: numberColorTabletbg,
-                ),
-                alignment: Alignment.center,
-                child:  Text(
-                  number.toString(),
-                  style: textNormalCustom(
-                    color: AppTheme.getInstance().colorField(),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0.textScale(),
+              if (isShowNumber)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 5,
                   ),
-                ),
-              ) else const SizedBox(),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: numberColorTabletbg,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    number.toString(),
+                    style: textNormalCustom(
+                      color: AppTheme.getInstance().colorField(),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12.0.textScale(),
+                    ),
+                  ),
+                )
+              else
+                const SizedBox(),
             ],
           ),
         ),

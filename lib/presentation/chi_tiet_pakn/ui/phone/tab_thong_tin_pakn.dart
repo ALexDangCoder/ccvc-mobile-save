@@ -1,9 +1,7 @@
-import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_pakn/widgets/row_title_ft_description.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_row_data.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -19,6 +17,7 @@ class TabThongTinPAKN extends StatefulWidget {
   final ChiTietPaknCubit cubit;
   final String id;
   final String taskId;
+
   @override
   State<TabThongTinPAKN> createState() => _TabThongTinPAKNState();
 }
@@ -29,7 +28,6 @@ class _TabThongTinPAKNState extends State<TabThongTinPAKN> {
     // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
-
   }
 
   @override

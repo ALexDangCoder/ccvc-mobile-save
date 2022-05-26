@@ -85,7 +85,7 @@ class _DropdownWidgetTabletState extends State<DropdownWidgetTablet>
       children: [
         GestureDetector(
           onTap: () {
-            expand =!expand;
+            expand = !expand;
             _runExpandCheck();
           },
           child: Container(

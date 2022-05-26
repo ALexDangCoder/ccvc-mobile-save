@@ -27,12 +27,11 @@ class HotNewsTablet extends StatelessWidget {
         Container(
           height: 241,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: NetworkImage(image),
-              fit: BoxFit.cover,
-            )
-          ),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(image),
+                fit: BoxFit.cover,
+              )),
         ),
         const SizedBox(
           height: 10,
@@ -69,7 +68,7 @@ class HotNewsTablet extends StatelessWidget {
             Text(
               date,
               style: textNormalCustom(
-                color: unselectedLabelColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
               ),
@@ -82,7 +81,7 @@ class HotNewsTablet extends StatelessWidget {
         Text(
           content,
           style: textNormalCustom(
-            color: unselectedLabelColor,
+            color: color667793,
             fontWeight: FontWeight.w400,
             fontSize: 14.0.textScale(),
           ),

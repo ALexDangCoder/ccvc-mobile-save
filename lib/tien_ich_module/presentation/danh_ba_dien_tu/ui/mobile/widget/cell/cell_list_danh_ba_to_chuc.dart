@@ -72,14 +72,14 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                   children: [
                     Text(
                       widget.item.hoTen ?? '',
-                      style: textNormalCustom(fontSize: 16, color: titleColor),
+                      style: textNormalCustom(fontSize: 16, color: color3D5586),
                     ),
                     spaceH6,
                     Text(
                       widget.item.chucVuDetail?.chucVu ?? '',
                       style: tokenDetailAmount(
                         fontSize: 14,
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                       ),
                     ),
                     spaceH12,
@@ -172,7 +172,7 @@ class _CellListDanhBaToChucState extends State<CellListDanhBaToChuc> {
                   children: [
                     Text(
                       widget.item.hoTen ?? '',
-                      style: textNormalCustom(fontSize: 16, color: titleColor),
+                      style: textNormalCustom(fontSize: 16, color: color3D5586),
                     ),
                     spaceH24,
                     Row(

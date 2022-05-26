@@ -27,18 +27,19 @@ class ToDoListResponse {
     code = json['code'];
     message = json['message'];
   }
+
   TodoListModel toDomain() {
     final List<Data> listImportant = data
-        ?.where(
-          (element) => element.isTicked == false && element.inUsed == true,
-    )
-        .toList() ??
+            ?.where(
+              (element) => element.isTicked == false && element.inUsed == true,
+            )
+            .toList() ??
         [];
     final List<Data> listTodoDone = data
-        ?.where(
-          (element) => element.isTicked == true && element.inUsed == true,
-    )
-        .toList() ??
+            ?.where(
+              (element) => element.isTicked == true && element.inUsed == true,
+            )
+            .toList() ??
         [];
     return TodoListModel(
       listTodoDone: listTodoDone.map((e) => e.toDomain()).toList(),
@@ -118,14 +119,15 @@ class Data {
     note = json['note'];
     performer = json['performer'];
   }
+
   TodoModel toDomain() => TodoModel(
-    id: id,
-    label: label,
-    important: important ?? false,
-    inUsed: inUsed,
-    isDeleted: isDeleted,
-    isTicked: isTicked,
-    createdBy: createdBy,
-    createdOn: createdOn,
-  );
+        id: id,
+        label: label,
+        important: important ?? false,
+        inUsed: inUsed,
+        isDeleted: isDeleted,
+        isTicked: isTicked,
+        createdBy: createdBy,
+        createdOn: createdOn,
+      );
 }

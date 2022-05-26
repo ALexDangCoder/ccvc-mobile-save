@@ -2,7 +2,7 @@ import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ChonPhongHopCubit {
-   LoaiPhongHopEnum loaiPhongHopEnum = LoaiPhongHopEnum.PHONG_HOP_THUONG;
+  LoaiPhongHopEnum loaiPhongHopEnum = LoaiPhongHopEnum.PHONG_HOP_THUONG;
   final List<ThietBiValue> listThietBi = [];
   final BehaviorSubject<List<ThietBiValue>> _listThietBi =
       BehaviorSubject<List<ThietBiValue>>();

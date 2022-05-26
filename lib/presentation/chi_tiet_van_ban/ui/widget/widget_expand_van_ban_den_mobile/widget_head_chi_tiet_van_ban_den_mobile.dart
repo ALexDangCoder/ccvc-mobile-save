@@ -89,13 +89,16 @@ class _WidgetHeadChiTietVanBanDenMobileState
                         S.current.da_nhan_ban_giay,
                         value: data.isNhanBanGiay ?? false,
                       ),
-                      if (data.isNhanBanGiay ?? false) DetailDocumentRow(
-                              row: DocumentDetailRow(
-                                S.current.ngay_nhan_ban_giay,
-                                data.ngayNhanBanGiay ?? '',
-                                TypeDocumentDetailRow.text,
-                              ),
-                            ) else const  SizedBox.shrink()
+                      if (data.isNhanBanGiay ?? false)
+                        DetailDocumentRow(
+                          row: DocumentDetailRow(
+                            S.current.ngay_nhan_ban_giay,
+                            data.ngayNhanBanGiay ?? '',
+                            TypeDocumentDetailRow.text,
+                          ),
+                        )
+                      else
+                        const SizedBox.shrink()
                     ],
                   ),
                 );

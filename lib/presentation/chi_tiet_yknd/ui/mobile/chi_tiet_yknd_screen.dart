@@ -51,7 +51,7 @@ class _ChiTietYKNDScreenState extends State<ChiTietYKNDScreen>
           child: Column(
             children: [
               Container(
-                padding: const  EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: ChiTietYKNDHeader(
                   cubit: cubit,
                 ),

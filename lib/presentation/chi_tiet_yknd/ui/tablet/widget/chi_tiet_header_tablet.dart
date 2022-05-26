@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class ChiTietYKNDHeaderTablet extends StatefulWidget {
   final List<DataRowChiTietKienNghi> listRow;
 
-  const ChiTietYKNDHeaderTablet({Key? key, required this.listRow}) : super(key: key);
+  const ChiTietYKNDHeaderTablet({Key? key, required this.listRow})
+      : super(key: key);
 
   @override
-  _ChiTietYKNDHeaderTabletState createState() => _ChiTietYKNDHeaderTabletState();
+  _ChiTietYKNDHeaderTabletState createState() =>
+      _ChiTietYKNDHeaderTabletState();
 }
 
 class _ChiTietYKNDHeaderTabletState extends State<ChiTietYKNDHeaderTablet> {
@@ -30,5 +32,3 @@ class _ChiTietYKNDHeaderTabletState extends State<ChiTietYKNDHeaderTablet> {
     );
   }
 }
-
-

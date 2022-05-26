@@ -118,9 +118,10 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<List<TreeDonViDanhBA>>> TreeDanhBa(int soCap) {
+  Future<Result<List<TreeDonViDanhBA>>> treeDanhBa(
+      int soCap, String idDonViCha) {
     return runCatchingAsync<TreeDanhBaResponse, List<TreeDonViDanhBA>>(
-      () => _tienIchServiceCommon.TreeDanhBa(soCap),
+      () => _tienIchServiceCommon.treeDanhBa(soCap, idDonViCha),
       (response) => response.toModel(),
     );
   }
@@ -227,19 +228,20 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<String>> translateFile(File file, String target, String source) {
+  Future<Result<String>> translateFile(
+      File file, String target, String source) {
     return runCatchingAsync<String, String>(
-            () => _tienIchService.translateFile(
-          file,
-          target,
-          source,
-        ), (response) {
+        () => _tienIchService.translateFile(
+              file,
+              target,
+              source,
+            ), (response) {
       try {
         return DataTranslateResponse.fromJson(json.decode(response))
-            .data
-            ?.translations
-            ?.first
-            .translatedText ??
+                .data
+                ?.translations
+                ?.first
+                .translatedText ??
             '';
       } catch (e) {
         return '';

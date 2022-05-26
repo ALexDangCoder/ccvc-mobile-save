@@ -4,7 +4,8 @@ class AppException implements Exception {
   String title;
   String message;
   int? code;
-  AppException(this.title, this.message,[this.code]);
+
+  AppException(this.title, this.message, [this.code]);
 
   @override
   String toString() => '$title $message';

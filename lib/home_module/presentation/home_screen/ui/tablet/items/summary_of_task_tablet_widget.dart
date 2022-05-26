@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/danh_sach_tablet/danh_sach_nhiem_vu_tablet.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -16,6 +15,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class SummaryOfTaskTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const SummaryOfTaskTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -26,6 +26,7 @@ class SummaryOfTaskTabletWidget extends StatefulWidget {
 class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
   late HomeCubit cubit;
   final TongHopNhiemVuCubit _nhiemVuCubit = TongHopNhiemVuCubit();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -73,7 +74,6 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskTabletWidget> {
                     SelectKey.DON_VI,
                   ],
                 ),
-
               ],
             );
           }),

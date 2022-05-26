@@ -18,7 +18,8 @@ class TextFieldValidator extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool? obscureText;
- final Color? fillColor;
+  final Color? fillColor;
+
   const TextFieldValidator({
     Key? key,
     this.controller,
@@ -31,10 +32,7 @@ class TextFieldValidator extends StatefulWidget {
     this.hintText,
     this.suffixIcon,
     this.prefixIcon,
-
     this.onTap,
-
-
     this.obscureText,
     this.fillColor,
   }) : super(key: key);
@@ -74,7 +72,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
       key: key,
       child: TextFormField(
         controller: widget.controller,
-        obscureText: widget.obscureText??false,
+        obscureText: widget.obscureText ?? false,
         onChanged: (value) {
           if (formProvider != null) {
             formProvider?.validator[key] = key.currentState!.validate();
@@ -86,14 +84,14 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         initialValue: widget.initialValue,
         keyboardType: widget.textInputType,
         maxLines: widget.maxLine,
-        onTap: (){
-          if(widget.onTap != null){
+        onTap: () {
+          if (widget.onTap != null) {
             widget.onTap!();
           }
         },
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
-          color: titleColor,
+          color: color3D5586,
         ),
         enabled: widget.isEnabled,
         decoration: InputDecoration(

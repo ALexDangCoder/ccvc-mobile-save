@@ -1,12 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/bloc/chuyen_van_ban_thanh_giong_noi_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_van_ban_thanh_giong_noi/ui/mobile/chuyen_van_ban_thanh_giong_noi_mobile.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
@@ -84,7 +81,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                           data.map((e) => e.code ?? '').toList();
                       if (cubit.voidTone != dataSelect[vl]) {
                         cubit.voidTone = dataSelect[vl];
-                        cubit.check = true;
+                        cubit.enableButton.sink.add(true);
                       }
                     },
                   ),
@@ -109,7 +106,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                       onChanged: (String value) {
                         if (cubit.text != value) {
                           cubit.text = value;
-                          cubit.check = true;
+                          cubit.enableButton.sink.add(true);
                         }
                       },
                       decoration: const InputDecoration(
@@ -129,12 +126,18 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                   ),
                 ),
                 const SizedBox(height: 28),
-                btnListen(
-                  onTap: () {
-                    if (cubit.check) {
-                      cubit.chuyenVBSangGiongNoi();
-                    }
-                    cubit.pauseMusic();
+                StreamBuilder<bool>(
+                  stream: cubit.enableButton,
+                  builder: (context, snapshot) {
+                    return btnListen(
+                      onTap: () {
+                        if (cubit.enableButton.value) {
+                          cubit.chuyenVBSangGiongNoi();
+                        }
+                        cubit.pauseMusic();
+                      },
+                      isEnable: snapshot.data ?? true,
+                    );
                   },
                 ),
                 Expanded(child: Container()),

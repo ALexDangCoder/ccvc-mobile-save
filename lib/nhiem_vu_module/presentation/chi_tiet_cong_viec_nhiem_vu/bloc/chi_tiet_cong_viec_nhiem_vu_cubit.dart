@@ -16,15 +16,14 @@ class ChiTietCongViecNhiemVuCubit
   BehaviorSubject<ChiTietCongViecNhiemVuModel> chiTietCongViecSubject =
       BehaviorSubject();
   BehaviorSubject<List<DanhSachCongViecChiTietNhiemVuModel>>
-  lichSuGiaoViecStream = BehaviorSubject();
-  BehaviorSubject<List<DanhSachCongViecChiTietNhiemVuModel>>
-  lichSuTDTTStream = BehaviorSubject();
+      lichSuGiaoViecStream = BehaviorSubject();
+  BehaviorSubject<List<DanhSachCongViecChiTietNhiemVuModel>> lichSuTDTTStream =
+      BehaviorSubject();
 
   Stream<ChiTietCongViecNhiemVuModel> get chiTietCongViecStream =>
       chiTietCongViecSubject.stream;
 
-
-  void callApi(String congViecId){
+  void callApi(String congViecId) {
     showLoading();
     getChiTietCongViecNhiemVu(congViecId);
     getLichSuGiaoViec(congViecId);
@@ -41,6 +40,7 @@ class ChiTietCongViecNhiemVuCubit
       error: (error) {},
     );
   }
+
   Future<void> getLichSuGiaoViec(String congViecId) async {
     showLoading();
     final result = await nhiemVuRepo.getLichSuGiaoViec(congViecId);

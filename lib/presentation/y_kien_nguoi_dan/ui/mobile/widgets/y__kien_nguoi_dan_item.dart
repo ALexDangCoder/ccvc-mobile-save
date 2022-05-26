@@ -105,7 +105,7 @@ class YKienNguoiDanCell extends StatelessWidget {
                                 child: Text(
                                   userName,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontWeight: FontWeight.w400,
                                   ),
                                   maxLines: 1,

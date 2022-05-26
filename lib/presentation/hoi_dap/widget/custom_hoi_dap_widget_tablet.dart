@@ -42,7 +42,7 @@ class CustomHoiDapWidgetTablet extends StatelessWidget {
                 '${S.current.tieu_de} :',
                 style: textNormalCustom(
                   fontSize: 16.0,
-                  color: unselectedLabelColor,
+                  color: color667793,
                 ),
               ),
             ),
@@ -70,7 +70,7 @@ class CustomHoiDapWidgetTablet extends StatelessWidget {
                           S.current.chu_de,
                           style: textNormalCustom(
                             fontSize: 16.0,
-                            color: unselectedLabelColor,
+                            color: color667793,
                           ),
                         ),
                       ),
@@ -97,7 +97,7 @@ class CustomHoiDapWidgetTablet extends StatelessWidget {
                           S.current.loai_hdsd,
                           style: textNormalCustom(
                             fontSize: 16.0,
-                            color: unselectedLabelColor,
+                            color: color667793,
                           ),
                         ),
                       ),

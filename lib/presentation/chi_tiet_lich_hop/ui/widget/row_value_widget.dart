@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class RowDataWidget extends StatelessWidget {
   final String urlIcon;
   final String text;
+
   const RowDataWidget({Key? key, required this.text, required this.urlIcon})
       : super(key: key);
 

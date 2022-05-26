@@ -179,7 +179,7 @@ class _ChooseTimeScreenState extends State<ChooseTimeScreen> {
                         Text(
                           S.current.tim_kiem,
                           style: textNormalCustom(
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                         )
                       ],

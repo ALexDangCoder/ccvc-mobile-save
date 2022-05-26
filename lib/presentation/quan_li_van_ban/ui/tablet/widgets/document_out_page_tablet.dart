@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_di_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -112,7 +112,7 @@ class _DocumentOutPageTabletState extends State<DocumentOutPageTablet>
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            ChiTietVanBanDiMobile(
+                                            ChiTietVanBanDiTablet(
                                           id: listData[index].iD ?? '',
                                         ),
                                       ),

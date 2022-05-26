@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
@@ -106,6 +107,14 @@ abstract class TienIchService {
     @Field('text') String text,
     @Field('voiceTone') String voiceTone,
   );
+
+  @POST(ApiConstants.TRANSLATE_FILE)
+  @MultiPart()
+  Future<String> translateFile(
+      @Part() File file,
+      @Part() String target,
+      @Part() String source,
+      );
 }
 
 @RestApi()
@@ -138,6 +147,7 @@ abstract class TienIchServiceCommon {
   Future<TreeDanhBaResponse> TreeDanhBa(
     @Query('soCap') int soCap,
   );
+
 }
 
 @RestApi()

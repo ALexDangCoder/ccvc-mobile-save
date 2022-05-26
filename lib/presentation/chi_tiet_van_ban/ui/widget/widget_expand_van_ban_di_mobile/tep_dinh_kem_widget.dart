@@ -14,11 +14,13 @@ import 'package:flutter/material.dart';
 class TepDinhKemMobile extends StatelessWidget {
   final CommonDetailDocumentGoCubit cubit;
   final String idDocument;
+  final bool isTablet;
 
   const TepDinhKemMobile({
     Key? key,
     required this.cubit,
     required this.idDocument,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -79,59 +81,62 @@ class TepDinhKemMobile extends StatelessWidget {
   }
 
   Widget cellListFile(String title, List<FileDinhKemVanBanDiModel> data) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 4,
-          child: AutoSizeText(
-            S.current.dv_trong_he_thong,
-            style: textNormalCustom(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: titleColumn,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: AutoSizeText(
+              S.current.dv_trong_he_thong,
+              style: textNormalCustom(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: titleColumn,
+              ),
             ),
           ),
-        ),
-        Expanded(
-          flex: 7,
-          child: data.isNotEmpty
-              ? Wrap(
-                  children: data
-                      .map(
-                        (e) => GestureDetector(
-                          onTap: () async {
-                            await handleSaveFile(
-                              name: e.ten ?? '',
-                              url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                            );
-                          },
-                          child: Text(
-                            '${e.ten ?? ''}; ',
-                            style: textNormalCustom(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: textColorMangXaHoi,
-                            ).copyWith(
-                              decoration: TextDecoration.underline,
+          Expanded(
+            flex: isTablet ? 10 : 7,
+            child: data.isNotEmpty
+                ? Wrap(
+                    children: data
+                        .map(
+                          (e) => GestureDetector(
+                            onTap: () async {
+                              await handleSaveFile(
+                                name: e.ten ?? '',
+                                url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
+                              );
+                            },
+                            child: Text(
+                              '${e.ten ?? ''}; ',
+                              style: textNormalCustom(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: textColorMangXaHoi,
+                              ).copyWith(
+                                decoration: TextDecoration.underline,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      )
-                      .toList(),
-                )
-              : SizedBox(
-                  child: Text(
-                    S.current.khong_co_tep_nao,
-                    style: textNormal(
-                      textBodyTime,
-                      14.0.textScale(),
+                        )
+                        .toList(),
+                  )
+                : SizedBox(
+                    child: Text(
+                      S.current.khong_co_tep_nao,
+                      style: textNormal(
+                        textBodyTime,
+                        14.0.textScale(),
+                      ),
                     ),
                   ),
-                ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

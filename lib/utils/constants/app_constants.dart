@@ -139,8 +139,8 @@ const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
 const _dtFormat8 = 'd/MM/yyyy';
 
 const String DO_MAIN_DOWLOAD_FILE='http://api-qlvb-nv.dongnai.edsolabs.vn';
-const String DO_MAIN_DOWLOAD_FILE_NHIEM_VU='https://api-qlvb-nv-ccvc-uat.chinhquyendientu.vn';
 const String DO_MAIN_LICH_AM_DUONG='https://api-and-uat.chinhquyendientu.vn';
+const String AVATAR_DEFAULT ='http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;

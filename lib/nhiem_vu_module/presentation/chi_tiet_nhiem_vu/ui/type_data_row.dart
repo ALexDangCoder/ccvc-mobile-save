@@ -88,7 +88,8 @@ enum StatusNV {
   THU_HOI,
   DA_HOAN_THANH,
   CHO_PHAN_XU_LY,
-  TRA_LAI
+  TRA_LAI,
+  NONE,
 }
 
 extension StatusChiTietNV on StatusNV {
@@ -129,6 +130,8 @@ extension StatusChiTietNV on StatusNV {
           name: S.current.tra_lai,
           background: statusCalenderRed,
         );
+      case StatusNV.NONE:
+        return const SizedBox();
     }
   }
 }

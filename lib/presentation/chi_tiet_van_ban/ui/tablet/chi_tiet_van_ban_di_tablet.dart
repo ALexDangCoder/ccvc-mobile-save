@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/tep_dinh_kem_widget/tep_dinh_kem_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/tep_dinh_kem_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_don_vi_nhan_va_nguoi_deo_doi_van_ban_mobie.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_cap_nhat_widget_expand.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_expand_van_ban_di_mobile/vb_di_lich_su_huy_duyet_widget_expand.dart';
@@ -28,6 +28,13 @@ class ChiTietVanBanDiTablet extends StatefulWidget {
 
 class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
   late CommonDetailDocumentGoCubit commonDetailDocumentGoCubit;
+
+
+  @override
+  void initState() {
+    commonDetailDocumentGoCubit = CommonDetailDocumentGoCubit();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,42 +82,52 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                     id: widget.id,
                   ),
                   TheoDoiVanBanMobile(
+                    isTablet:  true,
                     cubit: commonDetailDocumentGoCubit,
                     id: widget.id,
                   ),
                   TepDinhKemMobile(
+                    isTablet:  true,
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),
                   VBDiThongTinKyDuyetExpandWidgetMobile(
+                    isTablet: true,
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),
                   VBDiYKienXuLyExpandWidget(
+                    isTablet: true,
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),
                   VBDiLichSuCapNhatExpandWidget(
+                    isTablet: true,
                     cubit: HistoryUpdateDetailDocumentGoCubit(),
                     idDocument: widget.id,
                   ),
                   VBDiLichSuTraLaiExpandWidget(
+                    isTablet: true,
                     cubit: HistoryGiveBackDetailDocumentGoCubit(),
                     id: widget.id,
                   ),
                   VBDiLichSuThuHoiExpandWidget(
+                    isTablet: true,
                     cubit: HistoryRecallDetailDocumentGoCubit(),
                     id: widget.id,
                   ),
                   VBDiLichSuHuyDuyetExpandWidget(
+                    isTablet: true,
                     cubit: UnsubscribeDetailDocumentGoCubit(),
                     id: widget.id,
                   ),
                   VBDiLichSuKyDuyetExpandWidget(
+                    isTablet: true,
                     cubit: SignForApprovalDetailDocumentGoCubit(),
                     id: widget.id,
                   ),
                   VBDiTheoDoiVanBanBanHanhExpandWidget(
+                    isTablet: true,
                     cubit: TrackTextDetailDocumentCubit(),
                     id: widget.id,
                   ),

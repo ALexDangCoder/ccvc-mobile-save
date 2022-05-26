@@ -10,11 +10,13 @@ import 'package:flutter/material.dart';
 class VBDiLichSuCapNhatExpandWidget extends StatefulWidget {
   final HistoryUpdateDetailDocumentGoCubit cubit;
   final String idDocument;
+  final bool isTablet;
 
   const VBDiLichSuCapNhatExpandWidget({
     Key? key,
     required this.cubit,
     required this.idDocument,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -58,6 +60,7 @@ class _VBDiLichSuCapNhatExpandWidgetState
                     children: data
                         .map(
                           (e) => WidgetInExpandVanBan(
+                            flexValue: widget.isTablet ? 8 : 5,
                             row: e.toListRowCapNhat(),
                           ),
                         )

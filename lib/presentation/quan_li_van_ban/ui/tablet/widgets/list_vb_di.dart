@@ -51,16 +51,15 @@ class _ListVBDiState extends State<ListVBDi> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  ChiTietVanBanDiTablet(
-                               id: widget.list[index].iD??''
-                            ),
+                            builder: (context) => ChiTietVanBanDiTablet(
+                                id: widget.list[index].iD ?? ''),
                           ),
                         );
                       },
-                      title: widget.list[index].loaiVanBan??'',
-                      dateTime: widget.list[index].ngayDen??'',
-                      userName: widget.list[index].nguoiSoanThao??'',
-                      status: widget.list[index].doKhan??'',
+                      title: widget.list[index].loaiVanBan ?? '',
+                      dateTime: widget.list[index].ngayDen ?? '',
+                      userName: widget.list[index].nguoiSoanThao ?? '',
+                      status: widget.list[index].doKhan ?? '',
                       index: index,
                     ),
                   );

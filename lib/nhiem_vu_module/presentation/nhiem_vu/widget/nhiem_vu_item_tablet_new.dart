@@ -71,8 +71,8 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                             style: titleAppbar(
                                 fontSize: 16.0,
                                 color:
-                                data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
-                                    textTitle),
+                                    data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
+                                        textTitle),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -81,17 +81,20 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
+                                    data.hanXuLy ??
+                                        DateTime.now().formatDdMMYYYY,
                                     style: textNormalCustom(
                                       color: textBodyTime,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  SizedBox(width: 10.0,),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
                                   Text(
                                     'Chủ trì',
                                     style: textNormalCustom(
-                                      color: unselectedLabelColor,
+                                      color: color667793,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -99,28 +102,33 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8.0,),
+                              const SizedBox(
+                                height: 8.0,
+                              ),
                               Row(
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           // data.nguoiGiaoViec ?? '',
                                           'Phạm Viết Cương',
                                           style: textNormalCustom(
-                                            color: unselectedLabelColor,
+                                            color: color667793,
                                             fontWeight: FontWeight.w400,
                                           ),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                        const SizedBox(height: 8.0,),
+                                        const SizedBox(
+                                          height: 8.0,
+                                        ),
                                         Text(
                                           '${S.current.nhiem_vu}: ${data.loaiNhiemVu}',
                                           style: textNormalCustom(
-                                            color: unselectedLabelColor,
+                                            color: color667793,
                                             fontWeight: FontWeight.w400,
                                           ),
                                           maxLines: 1,
@@ -134,8 +142,8 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                                     height: 24.0,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30.0),
-                                      color:
-                                      data.maTrangThai?.trangThaiColorNhiemVu(),
+                                      color: data.maTrangThai
+                                          ?.trangThaiColorNhiemVu(),
                                     ),
                                     child: Center(
                                       child: Text(
@@ -148,7 +156,6 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                               ),
                             ],
                           ),
-
                         ],
                       ),
                     )

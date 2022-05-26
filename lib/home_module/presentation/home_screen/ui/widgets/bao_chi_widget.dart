@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +12,7 @@ import '/home_module/utils/extensions/date_time_extension.dart';
 class BaoChiWidget extends StatelessWidget {
   final PressNetWorkModel data;
 
- const BaoChiWidget({Key? key, required this.data}) : super(key: key);
+  const BaoChiWidget({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +39,11 @@ class BaoChiWidget extends StatelessWidget {
             height: 90,
             clipBehavior: Clip.hardEdge,
             decoration: const BoxDecoration(
-              borderRadius:  BorderRadius.all(
+              borderRadius: BorderRadius.all(
                 Radius.circular(10),
               ),
             ),
-            child:  CachedNetworkImage(
+            child: CachedNetworkImage(
               imageUrl: data.avatar,
               fit: BoxFit.cover,
               errorWidget: (context, _, err) {
@@ -53,7 +52,6 @@ class BaoChiWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                 );
               },
-
             ),
           ),
           const SizedBox(

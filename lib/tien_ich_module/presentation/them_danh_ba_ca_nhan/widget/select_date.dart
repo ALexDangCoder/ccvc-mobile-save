@@ -114,7 +114,7 @@ class _CustomDropDownState extends State<SelectDate> {
                                 widget.hintText ?? S.current.vuiLongChon,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               )
                             : Text(
@@ -127,7 +127,7 @@ class _CustomDropDownState extends State<SelectDate> {
                                         .toStringWithListFormat,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                       ),
@@ -135,7 +135,7 @@ class _CustomDropDownState extends State<SelectDate> {
                         margin: const EdgeInsets.only(left: 16),
                         decoration: const BoxDecoration(
                           border: Border(
-                            bottom: BorderSide(color: lineColor),
+                            bottom: BorderSide(color: colorECEEF7),
                           ),
                         ),
                       ),
@@ -215,7 +215,7 @@ class _CustomDropDownState extends State<SelectDate> {
                                 widget.hintText ?? S.current.vuiLongChon,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               )
                             : Text(
@@ -228,7 +228,7 @@ class _CustomDropDownState extends State<SelectDate> {
                                         .toStringWithListFormat,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                       ),
@@ -236,7 +236,7 @@ class _CustomDropDownState extends State<SelectDate> {
                         margin: const EdgeInsets.only(left: 16),
                         decoration: const BoxDecoration(
                           border: Border(
-                            bottom: BorderSide(color: lineColor),
+                            bottom: BorderSide(color: colorECEEF7),
                           ),
                         ),
                       ),

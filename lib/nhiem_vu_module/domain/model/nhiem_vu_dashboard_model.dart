@@ -7,12 +7,18 @@ class NhiemVuDashBoardModel {
   int? soLuongQuaHan = 0;
   int? soLuongDenHan = 0;
 
-  NhiemVuDashBoardModel(this.soLuongChoPhanXuLy, this.soLuongDaThucHien,
-      this.soLuongDangThucHien, this.soLuongChuaThucHien, this.soLuongTrongHan,
-      this.soLuongQuaHan, this.soLuongDenHan);
+  NhiemVuDashBoardModel(
+      this.soLuongChoPhanXuLy,
+      this.soLuongDaThucHien,
+      this.soLuongDangThucHien,
+      this.soLuongChuaThucHien,
+      this.soLuongTrongHan,
+      this.soLuongQuaHan,
+      this.soLuongDenHan);
 }
-NhiemVuDashBoardModel nhiemVuDashBoardModel=NhiemVuDashBoardModel(1,1,1,1,1,1,1
-);
+
+NhiemVuDashBoardModel nhiemVuDashBoardModel =
+    NhiemVuDashBoardModel(1, 1, 1, 1, 1, 1, 1);
 
 enum NhiemVuType {
   CHO_XU_LY,

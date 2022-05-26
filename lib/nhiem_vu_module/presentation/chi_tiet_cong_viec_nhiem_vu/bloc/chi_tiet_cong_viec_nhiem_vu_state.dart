@@ -10,4 +10,3 @@ class ChiTietCongViecNhiemVuIntial extends ChiTietCongViecNhiemVuState {
   @override
   List<Object?> get props => [];
 }
-

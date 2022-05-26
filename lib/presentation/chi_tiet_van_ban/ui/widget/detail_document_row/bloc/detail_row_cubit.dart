@@ -6,6 +6,4 @@ class DetailRowCubit extends BaseCubit<DetailRowState> {
   DetailRowCubit() : super(DetailRowInitial());
 
   bool isCheckLine = true;
-
-
 }

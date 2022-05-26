@@ -25,8 +25,8 @@ class LoginResponse {
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 
   DataLogin toModel() => DataLogin(
-    dataUser:data?.toDomainDataUser(),
-    succeeded:succeeded,
-    statusCode: statusCode,
-  );
+        dataUser: data?.toDomainDataUser(),
+        succeeded: succeeded,
+        statusCode: statusCode,
+      );
 }

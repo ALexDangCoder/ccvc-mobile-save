@@ -143,6 +143,7 @@ class ChiTietLichLamViecModel {
     this.country,
     this.linhVuc,
   });
+
   String lichLap() {
     switch (typeRepeat) {
       case 1:
@@ -184,6 +185,7 @@ class ScheduleReminder {
     this.jobId,
     this.typeReminder,
   });
+
   String nhacLai() {
     switch (typeReminder) {
       case 1:
@@ -235,6 +237,7 @@ class CreateBy {
     this.donViGocId,
     this.tenDonViGoc,
   });
+
   String title() {
     return '$hoTen - $tenDonVi';
   }
@@ -299,7 +302,8 @@ class ScheduleCoperatives {
   String? taskContent;
   String? parentId;
 
-  ScheduleCoperatives({this.id,
+  ScheduleCoperatives({
+    this.id,
     this.donViId,
     this.tenDonVi,
     this.canBoId,
@@ -311,5 +315,6 @@ class ScheduleCoperatives {
     this.status,
     this.confirmDate,
     this.taskContent,
-    this.parentId,});
+    this.parentId,
+  });
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
@@ -6,7 +5,6 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -71,12 +69,13 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
     await widget.callApi(widget.cubit.loadMorePage);
   }
 
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initData();
   }
+
   @override
   Widget build(BuildContext context) {
     // initData();
@@ -89,7 +88,6 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                 widget.cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
               widget.cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
-
               } else {
                 widget.cubit.showContent();
               }
@@ -143,13 +141,15 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                               ...widget.childrenView,
                               Row(
                                 mainAxisAlignment:
-                                (snapshot.data?.length ?? 0) > 0
-                                    ? MainAxisAlignment.start
-                                    : MainAxisAlignment.center,
+                                    (snapshot.data?.length ?? 0) > 0
+                                        ? MainAxisAlignment.start
+                                        : MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding:  EdgeInsets.symmetric(
-                                        vertical: 20.0, horizontal: 16.0.textScale(space: 14.0)),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 20.0,
+                                        horizontal:
+                                            16.0.textScale(space: 14.0)),
                                     child: Text(
                                       S.current.danh_sach_nhiem_vu,
                                       style: textNormalCustom(
@@ -187,7 +187,9 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                                       Text(
                                         S.current.khong_co_thong_tin_nhiem_vu,
                                         style: textNormalCustom(
-                                            fontSize: 16.0.textScale(space: 4.0), color: grayChart),
+                                            fontSize:
+                                                16.0.textScale(space: 4.0),
+                                            color: grayChart),
                                       ),
                                       const SizedBox(
                                         height: 10.0,
@@ -215,7 +217,8 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                           ),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return widget.viewItem(snapshot.data![index], index);
+                            return widget.viewItem(
+                                snapshot.data![index], index);
                           },
                         );
                       }

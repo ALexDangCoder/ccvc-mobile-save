@@ -52,7 +52,7 @@ class _MenuScreenState extends State<MenuScreen> {
       bloc: menuCubit,
       listener: (BuildContext context, state) {
         if (state is ChuyenPhamViSucsess) {
-        AppStateCt.of(context).appState.refreshTokenFunc(state.token);
+          AppStateCt.of(context).appState.refreshTokenFunc(state.token);
         }
       },
       child: StateStreamLayout(
@@ -101,7 +101,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: lineColor),
+                                bottom: BorderSide(color: colorECEEF7),
                               ),
                             ),
                             child: const ButtonQuanLyMobileWidget()),
@@ -118,7 +118,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                         context,
                                         PageRouteBuilder(
                                           pageBuilder: (_, __, ___) =>
-                                          type.getScreen(),
+                                              type.getScreen(),
                                         ),
                                       );
                                     },

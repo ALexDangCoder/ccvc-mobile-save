@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 
 class DanhSachYKienButtom extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
-  const DanhSachYKienButtom({Key? key,required this.cubit}) : super(key: key);
+
+  const DanhSachYKienButtom({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _DanhSachYKienButtomState createState() => _DanhSachYKienButtomState();
@@ -23,7 +24,9 @@ class _DanhSachYKienButtomState extends State<DanhSachYKienButtom> {
       onTap: () {
         showBottomSheetCustom(
           context,
-          child:  DanhSachYKienScreen(cubit: widget.cubit,),
+          child: DanhSachYKienScreen(
+            cubit: widget.cubit,
+          ),
           title: S.current.danh_sach_y_kien,
         );
       },

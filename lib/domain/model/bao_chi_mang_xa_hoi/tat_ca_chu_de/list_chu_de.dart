@@ -8,7 +8,6 @@ class ChuDeModel {
   String? publishedTime;
   String? contents;
 
-
   ChuDeModel({
     this.id,
     this.title,
@@ -21,9 +20,10 @@ class ChuDeModel {
   });
 }
 
-class ListChuDeModel{
+class ListChuDeModel {
   List<ChuDeModel>? getlistChuDe;
   int? totalPages;
   int? totalItems;
-  ListChuDeModel({this.getlistChuDe,this.totalPages, this.totalItems});
+
+  ListChuDeModel({this.getlistChuDe, this.totalPages, this.totalItems});
 }

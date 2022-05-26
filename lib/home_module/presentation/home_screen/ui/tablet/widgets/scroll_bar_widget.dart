@@ -1,9 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ScrollBarWidget extends StatefulWidget {
   final List<Widget> children;
+
   const ScrollBarWidget({Key? key, required this.children}) : super(key: key);
 
   @override
@@ -12,6 +12,7 @@ class ScrollBarWidget extends StatefulWidget {
 
 class _ScrollBarWidgetState extends State<ScrollBarWidget> {
   final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -20,10 +21,9 @@ class _ScrollBarWidgetState extends State<ScrollBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
-
         children: widget.children,
       ),
     );

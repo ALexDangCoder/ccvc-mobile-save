@@ -32,6 +32,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
   final Function()? onTapTitle;
+
   const ContainerBackgroundTabletWidget({
     Key? key,
     required this.child,
@@ -42,7 +43,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.padding,
     this.onTapIcon,
     this.spacingTitle = 20,
-    this.isShowSubtitle=true,
+    this.isShowSubtitle = true,
     this.maxHeight,
     this.minHeight,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
@@ -117,8 +118,8 @@ class _ContainerBackgroudWidgetState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     GestureDetector(
-                                      onTap: (){
-                                        if(widget.onTapTitle!=null){
+                                      onTap: () {
+                                        if (widget.onTapTitle != null) {
                                           widget.onTapTitle!();
                                         }
                                       },
@@ -139,10 +140,13 @@ class _ContainerBackgroudWidgetState
                                         stream: widget.selectKeyDialog!
                                             .selectKeyDialog.stream,
                                         builder: (context, snapshot) {
-                                          return widget.isShowSubtitle?Text(
-                                            subTitle(),
-                                            style: textNormal(titleColumn, 16),
-                                          ): const SizedBox();
+                                          return widget.isShowSubtitle
+                                              ? Text(
+                                                  subTitle(),
+                                                  style: textNormal(
+                                                      titleColumn, 16),
+                                                )
+                                              : const SizedBox();
                                         },
                                       )
                                     ] else

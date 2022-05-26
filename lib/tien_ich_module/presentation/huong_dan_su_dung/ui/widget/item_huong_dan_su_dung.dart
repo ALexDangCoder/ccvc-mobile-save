@@ -50,7 +50,7 @@ class ItemHuongDanSuDung extends StatelessWidget {
                 title,
                 style: textNormalCustom(
                     fontSize: 16.0.textScale(),
-                    color: titleColor,
+                    color: color3D5586,
                     fontWeight: FontWeight.w400),
                 textAlign: TextAlign.center,
               ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -40,8 +39,7 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color =
-        backgroundColor  ?? Colors.blue;
+    final Color color = backgroundColor ?? Colors.blue;
     final Color btnColor = onPressed != null ? color : dividerColor;
     return Container(
       width: width,

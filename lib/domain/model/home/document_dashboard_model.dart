@@ -151,7 +151,8 @@ extension TypeVBDi on String {
     }
     return [];
   }
-  List<String> daHoanThanh(){
+
+  List<String> daHoanThanh() {
     switch (this) {
       case 'CHO_VAO_SO':
         return ['CHO_VAO_SO'];
@@ -160,7 +161,7 @@ extension TypeVBDi on String {
       case 'DA_XU_LY':
         return ['DA_XU_LY'];
       case 'CHO_XU_LY':
-        return ['CHO_XU_LY','CHO_PHAN_XU_LY'];
+        return ['CHO_XU_LY', 'CHO_PHAN_XU_LY'];
       case 'QUA_HAN':
         return ['DANG_THUC_HIEN'];
       case 'TRONG_HAN':
@@ -172,7 +173,8 @@ extension TypeVBDi on String {
     }
     return [];
   }
-  bool isDanhSachDaXuLy(){
+
+  bool isDanhSachDaXuLy() {
     switch (this) {
       case 'CHO_VAO_SO':
         return false;

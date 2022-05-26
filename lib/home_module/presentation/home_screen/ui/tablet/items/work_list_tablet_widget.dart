@@ -20,6 +20,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class WorkListTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const WorkListTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -30,6 +31,7 @@ class WorkListTabletWidget extends StatefulWidget {
 class _WorkListWidgetState extends State<WorkListTabletWidget> {
   late HomeCubit cubit;
   DanhSachCongViecCubit danhSachCVCubit = DanhSachCongViecCubit();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -77,8 +79,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
             StreamBuilder<TodoListModel>(
               stream: danhSachCVCubit.getTodoList,
               builder: (context, snapshot) {
-                final data =
-                    snapshot.data?.listTodoImportant ?? <TodoModel>[];
+                final data = snapshot.data?.listTodoImportant ?? <TodoModel>[];
                 if (data.isNotEmpty) {
                   return Column(
                     key: UniqueKey(),
@@ -194,6 +195,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
 
 class AddToDoWidget extends StatefulWidget {
   final Function(String) onTap;
+
   const AddToDoWidget({Key? key, required this.onTap}) : super(key: key);
 
   @override
@@ -204,6 +206,7 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
   bool isAdd = false;
   TextEditingController controller = TextEditingController();
   FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -224,8 +227,11 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
                 width: 18,
                 height: 18,
                 child: Checkbox(
-                  checkColor: Colors.white, // color of tick Mark
-                  activeColor: !isAdd ? sideTextInactiveColor : AppTheme.getInstance().colorField(),
+                  checkColor: Colors.white,
+                  // color of tick Mark
+                  activeColor: !isAdd
+                      ? sideTextInactiveColor
+                      : AppTheme.getInstance().colorField(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(3),
                   ),

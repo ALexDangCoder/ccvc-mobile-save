@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 enum stateBieuDo { TheoTrangThai, TheoLoai, TheoDonVi }
 
 extension StateLichHop on stateBieuDo {
-  bool? getListState (stateBieuDo state) {
+  bool? getListState(stateBieuDo state) {
     if (this == state) {
       return true;
     } else {
@@ -17,7 +17,7 @@ extension StateLichHop on stateBieuDo {
   }
 }
 
-extension statusColor on int{
+extension statusColor on int {
   Color trangThaiColor() {
     switch (this) {
       case 0:
@@ -60,12 +60,10 @@ class ContainerState extends StatelessWidget {
   final String name;
   final bool isCheck;
 
-
   const ContainerState({
     Key? key,
     required this.name,
     required this.isCheck,
-
   }) : super(key: key);
 
   @override
@@ -79,16 +77,15 @@ class ContainerState extends StatelessWidget {
         bottom: 16,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: isCheck?linkColor:backgroundColorApp
-      ),
+          borderRadius: BorderRadius.circular(30),
+          color: isCheck ? linkColor : backgroundColorApp),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             name,
             style: textNormalCustom(
-              color: isCheck?backgroundColorApp:unselectedLabelColor,
+              color: isCheck ? backgroundColorApp : color667793,
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w500,
             ),

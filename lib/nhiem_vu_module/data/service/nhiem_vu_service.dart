@@ -91,17 +91,16 @@ abstract class NhiemVuService {
     @Query('nhiemVuId') String nhiemVuId,
     @Query('isCaNhan') bool isCaNhan,
   );
+
   @GET(ApiConstants.GET_LICH_SU_GIAO_VIEC)
-  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse>
-  getLichSuGiaoViec(
-      @Query('congViecId') String congViecId,
-      );
+  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse> getLichSuGiaoViec(
+    @Query('congViecId') String congViecId,
+  );
 
   @GET(ApiConstants.GET_LICH_SU_TDTT)
-  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse>
-  getLichSuTDTT(
-      @Query('congViecId') String congViecId,
-      );
+  Future<DataDanhSachCongViecChiTietNhiemVuModelResponse> getLichSuTDTT(
+    @Query('congViecId') String congViecId,
+  );
 
   @GET(ApiConstants.GET_LICH_SU_TRA_LAI_NHIEM_VU)
   Future<DataLichSuTraLaiNhiemVuResponse> getLichSuTraLaiNhiemVu(
@@ -127,23 +126,24 @@ abstract class NhiemVuService {
   Future<DataChiTietCongViecNhiemVuModelResponse> getChiTietCongViec(
     @Query('congViecId') String congViecId,
   );
+
   @GET(ApiConstants.GET_VAN_BAN_LIEN_QUAN_NHIEM_VU)
   Future<DataVanBanLienQuanNhiemVuResponse> getVanBanLienQuanNhiemVu(
-      @Path('id') String id,
-      );
+    @Path('id') String id,
+  );
+
   @GET(ApiConstants.GET_LUONG_XU_LY_NHIEM_VU)
   Future<XemLuongXuLyNhiemVuResponse> getLuongXuLyNhiemVu(
       @Query('nhiemVuId') String id);
 
-
   @POST(ApiConstants.POST_Y_KIEN_XU_LY_NHIEM_VU)
   Future<PostYKienResponse> postYKienXULy(
-      @Body() Map<String,dynamic> map,
-      );
+    @Body() Map<String, dynamic> map,
+  );
 
   @POST(ApiConstants.UPLOAD_FILE)
   @MultiPart()
   Future<PostYKienResponse> postFile(
-      @Part() List<File> path,
-      );
+    @Part() List<File> path,
+  );
 }

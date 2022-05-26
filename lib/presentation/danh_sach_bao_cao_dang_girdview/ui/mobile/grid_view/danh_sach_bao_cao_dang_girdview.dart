@@ -48,9 +48,7 @@ class _DanhSachBaoCaoDangGirdviewMobileState
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-
-        },
+        onRefresh: () async {},
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: cubit.isCheckList

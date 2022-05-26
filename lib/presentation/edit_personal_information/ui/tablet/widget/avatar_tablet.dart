@@ -282,7 +282,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
               stream: cubit.kyNhayPathSubject,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                   return ClipRRect(
+                  return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: CachedNetworkImage(
                       imageUrl: cubit.managerPersonalInformationModel

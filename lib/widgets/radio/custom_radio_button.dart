@@ -49,7 +49,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               S.current.bo_khieu_kin,
               style: tokenDetailAmount(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
               ),
             )
           ],
@@ -71,7 +71,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               S.current.bo_phieu_cong_khai,
               style: tokenDetailAmount(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
               ),
             )
           ],

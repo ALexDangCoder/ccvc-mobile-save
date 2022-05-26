@@ -7,6 +7,7 @@ class AppBarWidget extends StatelessWidget with PreferredSizeWidget {
   final List<Widget>? acction;
   final Widget? leading;
   final String title;
+
   const AppBarWidget({
     Key? key,
     this.acction,
@@ -19,7 +20,7 @@ class AppBarWidget extends StatelessWidget with PreferredSizeWidget {
     return Container(
       height: 100,
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(appBarUrlIcon()),
           fit: BoxFit.fill,

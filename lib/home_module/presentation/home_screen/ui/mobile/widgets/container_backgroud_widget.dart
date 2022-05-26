@@ -30,6 +30,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
   final Function()? onTapTitle;
+
   const ContainerBackgroundWidget({
     Key? key,
     required this.child,
@@ -39,7 +40,7 @@ class ContainerBackgroundWidget extends StatefulWidget {
     this.dialogSelect,
     this.padding,
     this.onTapIcon,
-    this.isShowSubTitle=true,
+    this.isShowSubTitle = true,
     this.spacingTitle = 20,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
     this.selectKeyDialog,
@@ -98,8 +99,8 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   GestureDetector(
-                                    onTap: (){
-                                      if(widget.onTapTitle!=null){
+                                    onTap: () {
+                                      if (widget.onTapTitle != null) {
                                         widget.onTapTitle!();
                                       }
                                     },
@@ -107,8 +108,7 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                                       widget.title,
                                       style: textNormalCustom(
                                         fontSize: 16,
-                                        color:
-                                        textTitle,
+                                        color: textTitle,
                                       ),
                                     ),
                                   ),
@@ -120,10 +120,13 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                                       stream: widget.selectKeyDialog!
                                           .selectKeyDialog.stream,
                                       builder: (context, snapshot) {
-                                        return widget.isShowSubTitle? Text(
-                                          subTitle(),
-                                          style: textNormal(textBodyTime, 12),
-                                        ):const SizedBox();
+                                        return widget.isShowSubTitle
+                                            ? Text(
+                                                subTitle(),
+                                                style: textNormal(
+                                                    textBodyTime, 12),
+                                              )
+                                            : const SizedBox();
                                       },
                                     )
                                   else
@@ -134,20 +137,25 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
                           ),
                         ),
                       ),
-                      if (widget.isCustomDialog) GestureDetector(
-                        onTap: () {
-                          if (widget.onTapIcon != null) {
-                            widget.onTapIcon!();
-                          } else {}
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24),
-                          color: Colors.transparent,
-                          alignment: Alignment.centerRight,
-                          child: SvgPicture.asset(widget.urlIcon,color: AppTheme.getInstance().colorSelect(),),
-                        ),
-                      ) else widget.dialogSelect ?? const SizedBox()
+                      if (widget.isCustomDialog)
+                        GestureDetector(
+                          onTap: () {
+                            if (widget.onTapIcon != null) {
+                              widget.onTapIcon!();
+                            } else {}
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            color: Colors.transparent,
+                            alignment: Alignment.centerRight,
+                            child: SvgPicture.asset(
+                              widget.urlIcon,
+                              color: AppTheme.getInstance().colorSelect(),
+                            ),
+                          ),
+                        )
+                      else
+                        widget.dialogSelect ?? const SizedBox()
                     ],
                   ),
                 ),
@@ -187,11 +195,14 @@ class _ContainerBackgroudWidgetState extends State<ContainerBackgroundWidget> {
               ],
             ),
           ),
-          if (widget.isCustomDialog) Positioned(
-            top: 30,
-            right: 16,
-            child: widget.dialogSelect ?? const SizedBox(),
-          ) else const SizedBox()
+          if (widget.isCustomDialog)
+            Positioned(
+              top: 30,
+              right: 16,
+              child: widget.dialogSelect ?? const SizedBox(),
+            )
+          else
+            const SizedBox()
         ],
       ),
     );

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 class ThongTinLienHeWidget extends StatelessWidget {
   final String thongTinTxt;
   final String sdtTxt;
+
   const ThongTinLienHeWidget({
     Key? key,
     this.thongTinTxt = '',

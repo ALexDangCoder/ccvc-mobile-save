@@ -25,7 +25,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 enum PickImage {
   PICK_MAIN,
   PICK_Y_KIEN,
@@ -157,38 +156,38 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                       },
                       child: state is ChiTietPaknSuccess
                           ? cubit.listYKienXuLy.isNotEmpty
-                          ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: cubit.listYKienXuLy.length,
-                        itemBuilder: (context, index) {
-                          return _itemViewDetail(
-                            sizeImage: 32,
-                            list: [],
-                            //todo list
-                            index: index,
-                            avatar: cubit.listYKienXuLy[index]
-                                .anhDaiDienNguoiCho ??
-                                '',
-                            time: cubit.listYKienXuLy[index].ngayTao,
-                            name: cubit.listYKienXuLy[index]
-                                .tenNguoiChoYKien ??
-                                '',
-                            indexMain: index,
-                            file: cubit.listYKienXuLy[index].dSFile ??
-                                [],
-                            isViewData: cubit.listYKienXuLy[index]
-                                .dSFile?.isNotEmpty ??
-                                false,
-                            noiDung:
-                            cubit.listYKienXuLy[index].noiDung ??
-                                '',
-                          );
-                        },
-                      )
-                          : const Padding(
-                        padding: EdgeInsets.only(top: 16.0),
-                        child: NodataWidget(),
-                      )
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: cubit.listYKienXuLy.length,
+                                  itemBuilder: (context, index) {
+                                    return _itemViewDetail(
+                                      sizeImage: 32,
+                                      list: [],
+                                      //todo list
+                                      index: index,
+                                      avatar: cubit.listYKienXuLy[index]
+                                              .anhDaiDienNguoiCho ??
+                                          '',
+                                      time: cubit.listYKienXuLy[index].ngayTao,
+                                      name: cubit.listYKienXuLy[index]
+                                              .tenNguoiChoYKien ??
+                                          '',
+                                      indexMain: index,
+                                      file: cubit.listYKienXuLy[index].dSFile ??
+                                          [],
+                                      isViewData: cubit.listYKienXuLy[index]
+                                              .dSFile?.isNotEmpty ??
+                                          false,
+                                      noiDung:
+                                          cubit.listYKienXuLy[index].noiDung ??
+                                              '',
+                                    );
+                                  },
+                                )
+                              : const Padding(
+                                  padding: EdgeInsets.only(top: 16.0),
+                                  child: NodataWidget(),
+                                )
                           : const SizedBox.shrink(),
                     ),
                   ),
@@ -237,8 +236,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
         top: isBorder
             ? 16
             : index == 0
-            ? 16
-            : 8,
+                ? 16
+                : 8,
         left: 16,
         right: isBorder ? 16 : 0,
         bottom: isBorder ? 16 : 8,
@@ -263,9 +262,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                   shape: BoxShape.circle,
                 ),
                 child: Image.network(
-                  avatar.isNotEmpty
-                      ? avatar
-                      : 'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  avatar.isNotEmpty ? avatar : AVATAR_DEFAULT,
                   width: sizeImage,
                   height: sizeImage,
                   fit: BoxFit.cover,
@@ -350,14 +347,14 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                           )
                               .then(
                                 (value) => MessageConfig.show(
-                                title: S.current.tai_file_thanh_cong),
-                          )
+                                    title: S.current.tai_file_thanh_cong),
+                              )
                               .onError(
                                 (error, stackTrace) => MessageConfig.show(
-                              title: S.current.tai_file_that_bai,
-                              messState: MessState.error,
-                            ),
-                          );
+                                  title: S.current.tai_file_that_bai,
+                                  messState: MessState.error,
+                                ),
+                              );
                         },
                         child: Text(
                           dataSnb.ten ?? '',
@@ -457,9 +454,9 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                         ),
                         child: TextFormField(
                           controller:
-                          //isMain
-                          //?
-                          _nhapYMainController,
+                              //isMain
+                              //?
+                              _nhapYMainController,
                           onChanged: (value) {
                             if (value.trim().isNotEmpty) {
                               widget.cubit.validateNhapYkien.add('');
@@ -506,8 +503,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                                                 onPressed: () async {
                                                   Navigator.pop(context);
                                                   final Map<String, dynamic>
-                                                  mediaMapImage =
-                                                  await pickImage(
+                                                      mediaMapImage =
+                                                      await pickImage(
                                                     fromCamera: true,
                                                   );
                                                   addDataListPick(
@@ -523,8 +520,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                                                 onPressed: () async {
                                                   Navigator.pop(context);
                                                   final Map<String, dynamic>
-                                                  mediaMapImage =
-                                                  await pickImage();
+                                                      mediaMapImage =
+                                                      await pickImage();
                                                   addDataListPick(
                                                     mediaMapImage,
                                                     isMain
@@ -536,7 +533,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                                               ),
                                             ],
                                             cancelButton:
-                                            CupertinoActionSheetAction(
+                                                CupertinoActionSheetAction(
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
@@ -547,7 +544,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                                       );
                                     } else {
                                       final Map<String, dynamic> mediaMapImage =
-                                      await pickImage(fromCamera: true);
+                                          await pickImage(fromCamera: true);
                                       addDataListPick(
                                         mediaMapImage,
                                         isMain
@@ -567,7 +564,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                                 GestureDetector(
                                   onTap: () async {
                                     final Map<String, dynamic> mediaMap =
-                                    await pickFile();
+                                        await pickFile();
                                     addDataListPick(
                                       mediaMap,
                                       isMain
@@ -595,12 +592,12 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                           children: list
                               .map(
                                 (i) => _itemPick(
-                              i,
-                              isMain
-                                  ? PickImage.PICK_MAIN
-                                  : PickImage.PICK_Y_KIEN,
-                            ),
-                          )
+                                  i,
+                                  isMain
+                                      ? PickImage.PICK_MAIN
+                                      : PickImage.PICK_Y_KIEN,
+                                ),
+                              )
                               .toList(),
                         )
                       else
@@ -618,7 +615,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                   }
                   if (_nhapYMainController.text.trim().isNotEmpty) {
                     for (final PickImageFileModel value
-                    in widget.cubit.listPickFileMain) {
+                        in widget.cubit.listPickFileMain) {
                       widget.cubit.size += value.size ?? 0;
                     }
                     if (widget.cubit.size / widget.cubit.byteToMb > 30) {
@@ -652,7 +649,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                   } else {
                     if (widget.cubit.listPickFileMain.isNotEmpty) {
                       for (final PickImageFileModel value
-                      in widget.cubit.listPickFileMain) {
+                          in widget.cubit.listPickFileMain) {
                         widget.cubit.size += value.size ?? 0;
                       }
                       if (widget.cubit.size / widget.cubit.byteToMb > 30) {
@@ -702,22 +699,22 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
           builder: (context, snapshot) {
             return snapshot.data?.isNotEmpty ?? false
                 ? Padding(
-              padding: EdgeInsets.only(
-                left: isMain ? 16.0 : 0,
-                bottom: isMain ? 12.0 : 0,
-              ),
-              child: Text(
-                snapshot.data.toString(),
-                style: textNormalCustom(
-                  color: Colors.red,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            )
+                    padding: EdgeInsets.only(
+                      left: isMain ? 16.0 : 0,
+                      bottom: isMain ? 12.0 : 0,
+                    ),
+                    child: Text(
+                      snapshot.data.toString(),
+                      style: textNormalCustom(
+                        color: Colors.red,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  )
                 : const SizedBox(
-              height: 12,
-            );
+                    height: 12,
+                  );
           },
         ),
       ],
@@ -725,9 +722,9 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
   }
 
   Widget _itemPick(
-      PickImageFileModel objPick,
-      PickImage pickImage,
-      ) {
+    PickImageFileModel objPick,
+    PickImage pickImage,
+  ) {
     return Column(
       children: [
         Container(
@@ -763,8 +760,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                     setState(() {
                       if (pickImage == PickImage.PICK_MAIN) {
                         for (int i = 0;
-                        i < widget.cubit.listPickFileMain.length;
-                        i++) {
+                            i < widget.cubit.listPickFileMain.length;
+                            i++) {
                           if (objPick == widget.cubit.listPickFileMain[i]) {
                             widget.cubit.listFileMain.removeAt(i);
                           }

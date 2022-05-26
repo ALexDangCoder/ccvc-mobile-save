@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/y_kien_su_ly_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -9,6 +10,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class YKienSuLyNhiemVuWidget extends StatefulWidget {
@@ -44,9 +46,9 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                 children: [
                   CircleAvatar(
                     radius: 20,
-                    backgroundImage: CachedNetworkImageProvider(widget
-                            .object.avatar ??
-                        'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png'),
+                    backgroundImage: CachedNetworkImageProvider(
+                      widget.object.avatar ?? AVATAR_DEFAULT,
+                    ),
                   ),
                   SizedBox(
                     width: 14.0.textScale(),
@@ -56,23 +58,20 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                     child: Text(
                       widget.object.tenNhanVien ?? '',
                       style: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 14.0.textScale(),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  // const Spacer(),
-                  const SizedBox(
-                    width: 6,
-                  ),
+                  const Spacer(),
                   Expanded(
                     flex: 2,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         DateTime.parse(widget.object.ngayTao ?? '')
-                            .formatDdMMYYYY,
+                            .formatApiListBieuQuyetMobile,
                         softWrap: true,
                         style: textNormalCustom(
                           color: infoColor,
@@ -90,7 +89,7 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
               Text(
                 widget.object.noiDung ?? '',
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w400,
                 ),
@@ -123,6 +122,8 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                           children: [
                             GestureDetector(
                               onTap: () async {
+                                final appConstants =
+                                    Get.find<AppConstants>().baseUrlQLNV;
                                 final status = await Permission.storage.status;
                                 if (!status.isGranted) {
                                   await Permission.storage.request();
@@ -136,7 +137,7 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                     widget.object.yKienXuLyFileDinhKem?[index]
                                             .fileDinhKem?.ten ??
                                         '',
-                                    '$DO_MAIN_DOWLOAD_FILE_NHIEM_VU${widget.object.yKienXuLyFileDinhKem?[index].fileDinhKem?.duongDan ?? ''}',
+                                    '$appConstants/${widget.object.yKienXuLyFileDinhKem?[index].fileDinhKem?.duongDan ?? ''}',
                                   )
                                       .then(
                                         (value) => MessageConfig.show(
@@ -160,8 +161,8 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                   )
                                       .then(
                                         (value) => MessageConfig.show(
-                                            title:
-                                                S.current.tai_file_thanh_cong),
+                                          title: S.current.tai_file_thanh_cong,
+                                        ),
                                       )
                                       .onError(
                                         (error, stackTrace) =>

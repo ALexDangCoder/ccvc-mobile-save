@@ -24,6 +24,7 @@ import '/presentation/webview/web_view_screen.dart';
 
 class PressSocialNetWorkTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const PressSocialNetWorkTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -36,6 +37,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
   late HomeCubit cubit;
   final BaoChiMangXaHoiCubit _xaHoiCubit = BaoChiMangXaHoiCubit();
   final ScrollController scrollController = ScrollController();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies

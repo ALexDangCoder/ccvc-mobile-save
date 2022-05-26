@@ -7,6 +7,7 @@ enum MessState { error, success, customIcon }
 
 class MessageConfig {
   static BuildContext? _context;
+
   static void init(BuildContext context) {
     if (_context != null) {
       return;
@@ -16,6 +17,10 @@ class MessageConfig {
 
   static void show({
     String title = '',
+    String title2 = '',
+    bool? showTitle2 = false,
+    FontWeight? fontWeight,
+    double? fontSize,
     String urlIcon = '',
     MessState messState = MessState.success,
     Function()? onDismiss,
@@ -27,12 +32,16 @@ class MessageConfig {
         return MessageDialogPopup(
           onDismiss: () {
             overlayEntry.remove();
-            if(onDismiss!=null){
+            if (onDismiss != null) {
               onDismiss();
             }
           },
           urlIcon: _urlIcon(messState, urlIcon),
           title: title,
+          showTitle2: showTitle2,
+          title2: title2,
+          fontSize: fontSize ?? 18.0,
+          fontWeight: fontWeight ?? FontWeight.w500,
         );
       },
     );

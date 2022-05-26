@@ -30,7 +30,7 @@ class ItemTinTrongNuoc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -149,7 +149,7 @@ class ItemTinTrongNuoc extends StatelessWidget {
             Text(
               content,
               style: textNormalCustom(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

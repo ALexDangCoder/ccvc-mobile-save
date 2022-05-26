@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ContainerStatusLuongXuLyWidget extends StatelessWidget {
   final Widget child;
   final Color colorBorder;
+
   const ContainerStatusLuongXuLyWidget(
       {Key? key, required this.child, this.colorBorder = Colors.black})
       : super(key: key);
@@ -11,9 +12,7 @@ class ContainerStatusLuongXuLyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-     constraints: const BoxConstraints(
-       maxWidth: 160
-     ),
+      constraints: const BoxConstraints(maxWidth: 160),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -33,7 +32,7 @@ class ContainerStatusLuongXuLyWidget extends StatelessWidget {
             color: colorBorder,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 9,vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
             child: child,
           )
         ],

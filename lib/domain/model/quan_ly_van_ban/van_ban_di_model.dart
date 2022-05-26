@@ -1,4 +1,3 @@
-
 class VanBanDiModel {
   String? iD;
   String? doKhan;

@@ -135,7 +135,8 @@ class ItemDanhSachLichLamViecResponse extends Equatable {
   factory ItemDanhSachLichLamViecResponse.fromJson(Map<String, dynamic> json) =>
       _$ItemDanhSachLichLamViecResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ItemDanhSachLichLamViecResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ItemDanhSachLichLamViecResponseToJson(this);
 
   ItemDanhSachLichLamViec toModel() => ItemDanhSachLichLamViec(
         id: id,

@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class RowSumInfoWidget extends StatelessWidget {
   final List<DataInfo> data;
   final double padding;
+
   const RowSumInfoWidget({
     Key? key,
     required this.data,
@@ -91,5 +92,6 @@ class DataInfo {
   final String urlIcon;
   final String title;
   final String value;
+
   DataInfo({required this.urlIcon, required this.title, required this.value});
 }

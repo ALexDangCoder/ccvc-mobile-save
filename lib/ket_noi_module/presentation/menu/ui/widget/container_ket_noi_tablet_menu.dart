@@ -72,7 +72,6 @@ class _ContainerKetNoiTabletState extends State<ContainerKetNoiTablet> {
                             width: 15.0.textScale(space: 8),
                             child: SvgPicture.asset(
                               ImageAssets.icSide.svgToTheme(),
-
                             ),
                           )
                         else

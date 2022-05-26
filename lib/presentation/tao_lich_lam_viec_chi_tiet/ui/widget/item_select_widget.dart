@@ -27,7 +27,9 @@ class ItemSelectWidget extends StatelessWidget {
             height: 12.0.textScale(),
             width: 12.0.textScale(),
             decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(4),),
+              color: color,
+              borderRadius: BorderRadius.circular(4),
+            ),
           ),
           SizedBox(
             width: 20.5.textScale(),

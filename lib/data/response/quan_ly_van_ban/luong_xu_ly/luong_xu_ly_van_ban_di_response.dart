@@ -48,6 +48,7 @@ class Data {
     id = json['Id'];
     isDenLuot = json['IsDenLuot'];
   }
+
   LuongXuLyVBDiModel toDomain() => LuongXuLyVBDiModel(
       id: id,
       infoCanBo: infoCanBo?.toDomain(),
@@ -115,22 +116,23 @@ class InfoCanBo {
     anhDaiDien = json['AnhDaiDien'];
     anhChuKy = json['AnhChuKy'];
   }
+
   InfoCanBoModel toDomain() => InfoCanBoModel(
-        id : id,
-        hoTen : hoTen,
-        donVi : donVi,
-        chucVu : chucVu,
-        idChucVu : idChucVu,
-        idDonVi : idDonVi,
-        tenTaiKhoan : tenTaiKhoan,
-        sdt : sdt,
-        ngaySinh : ngaySinh,
-        gioiTinh : gioiTinh,
-        email : email,
-        pathAnhDaiDien : pathAnhDaiDien,
-        pathChuKy : pathChuKy,
-        user : user,
-        anhDaiDien : anhDaiDien,
-        anhChuKy : anhChuKy,
+        id: id,
+        hoTen: hoTen,
+        donVi: donVi,
+        chucVu: chucVu,
+        idChucVu: idChucVu,
+        idDonVi: idDonVi,
+        tenTaiKhoan: tenTaiKhoan,
+        sdt: sdt,
+        ngaySinh: ngaySinh,
+        gioiTinh: gioiTinh,
+        email: email,
+        pathAnhDaiDien: pathAnhDaiDien,
+        pathChuKy: pathChuKy,
+        user: user,
+        anhDaiDien: anhDaiDien,
+        anhChuKy: anhChuKy,
       );
 }

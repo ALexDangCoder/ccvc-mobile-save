@@ -32,7 +32,7 @@ class StatusWidget extends StatelessWidget {
                       : Expanded(
                           flex: e.value.toInt(),
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               if (onSelectItem != null) {
                                 // ignore: prefer_null_aware_method_calls
                                 onSelectItem!(e);

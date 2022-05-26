@@ -17,6 +17,7 @@ class DropDownSearch extends StatefulWidget {
   final String title;
   final Function(int) onChange;
   final String hintText;
+
   const DropDownSearch({
     Key? key,
     required this.listSelect,
@@ -34,6 +35,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
   BehaviorSubject<List<String>> searchItemSubject = BehaviorSubject();
   List<String> searchList = [];
   String select = '';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -58,7 +60,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
                 select,
                 style: tokenDetailAmount(
                   fontSize: 14.0.textScale(),
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
       ),

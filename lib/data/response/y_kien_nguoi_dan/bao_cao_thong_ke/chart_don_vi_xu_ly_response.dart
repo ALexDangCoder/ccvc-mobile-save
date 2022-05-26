@@ -47,7 +47,7 @@ class DonViData {
 
   DonViYKNDModel toDomain() => DonViYKNDModel(
         donViID: donViId ?? '',
-        isParent: isParent??false,
+        isParent: isParent ?? false,
         tenLinhVuc: tenLinhVuc ?? '',
         soPhanAnhKienNghi: soPhanAnhKienNghi ?? 0,
       );

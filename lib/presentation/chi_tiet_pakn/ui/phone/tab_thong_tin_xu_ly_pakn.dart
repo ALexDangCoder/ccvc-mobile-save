@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/widgets/row_title_ft_description.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 
 class TabThongTinXuLyPAKN extends StatefulWidget {
   const TabThongTinXuLyPAKN({Key? key}) : super(key: key);

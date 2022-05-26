@@ -9,9 +9,10 @@ import 'package:flutter/rendering.dart';
 class ItemPersonWidget extends StatelessWidget {
   final String name;
 
-  const ItemPersonWidget(
-      {Key? key, required this.name,})
-      : super(key: key);
+  const ItemPersonWidget({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +39,10 @@ class ItemPersonWidget extends StatelessWidget {
             child: Text(
               name[0],
               style: textNormalCustom(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.0.textScale(),),
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 14.0.textScale(),
+              ),
             ),
           ),
           SizedBox(

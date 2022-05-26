@@ -47,9 +47,9 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
       builder: (context, state) {
         if (state is NhiemVuCaNhan) {
           title = S.current.nhiem_vu_ca_nhan;
-        } else if(state is NhiemVuDonVi) {
+        } else if (state is NhiemVuDonVi) {
           title = S.current.nhiem_vu_don_vi;
-        }else{
+        } else {
           title = S.current.bao_cao_thong_ke;
         }
         return Scaffold(
@@ -88,13 +88,13 @@ class _MainNhiemVuTabletState extends State<MainNhiemVuTablet>
                   danhSachCubit: danhSachCubit,
                   isCheck: true,
                 );
-              } else if(state is NhiemVuDonVi) {
+              } else if (state is NhiemVuDonVi) {
                 return NhiemVuDonViTablet(
                   danhSachCubit: danhSachCubit,
                   cubit: cubit,
                   isCheck: false,
                 );
-              }else{
+              } else {
                 return const BaoCaoThongKeNhiemVuTablet();
               }
             },

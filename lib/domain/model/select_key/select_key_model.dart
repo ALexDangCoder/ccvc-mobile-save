@@ -13,11 +13,13 @@ class SelectkeyModel {
   @HiveField(2)
   String endDate;
   SelectKey selectKey = SelectKey.HOM_NAY;
+
   SelectkeyModel({required this.key, this.startDate = '', this.endDate = ''}) {
     startDate = DateTime.now().toString();
     endDate = DateTime.now().toString();
     selectKey = fromEnum();
   }
+
   SelectKey fromEnum() {
     if (key == SelectKey.HOM_NAY.toString()) {
       final data = DateTime.now().dateTimeFormRange();

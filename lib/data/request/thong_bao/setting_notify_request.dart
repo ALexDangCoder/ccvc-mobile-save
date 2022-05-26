@@ -3,7 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'setting_notify_request.g.dart';
 
 @JsonSerializable()
-
 class SettingNotifyRequest {
   @JsonKey(name: 'modeSilent')
   bool? modeSilent;

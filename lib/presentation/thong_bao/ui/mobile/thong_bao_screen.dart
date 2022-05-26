@@ -18,6 +18,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class ThongBaoScreen extends StatefulWidget {
   const ThongBaoScreen({
@@ -29,7 +30,7 @@ class ThongBaoScreen extends StatefulWidget {
 }
 
 class _ThongBaoScreenState extends State<ThongBaoScreen> {
-  final ThongBaoCubit thongBaoCubit = ThongBaoCubit();
+  final ThongBaoCubit thongBaoCubit = Get.find();
 
   @override
   void initState() {

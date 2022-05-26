@@ -27,12 +27,14 @@ class CaiDatThongBaoMobile extends StatefulWidget {
 }
 
 class _CaiDatThongBaoMobileState extends State<CaiDatThongBaoMobile> {
+
   @override
   void initState() {
     super.initState();
     widget.cubit.showContent();
     widget.cubit.getSettingNoti();
   }
+
 
   @override
   Widget build(BuildContext context) {

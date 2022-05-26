@@ -40,7 +40,9 @@ class TheoDangLichWidgetDSCV extends StatelessWidget {
               width: 15.0.textScale(space: 8),
               child: SvgPicture.asset(
                 icon,
-                color: isSelect ? Colors.white : AppTheme.getInstance().colorField(),
+                color: isSelect
+                    ? Colors.white
+                    : AppTheme.getInstance().colorField(),
               ),
             ),
             SizedBox(

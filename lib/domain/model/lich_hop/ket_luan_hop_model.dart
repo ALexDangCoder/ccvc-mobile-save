@@ -11,12 +11,11 @@ class KetLuanHopModel {
 
   KetLuanHopModel.empty();
 
-  KetLuanHopModel({
-    required this.id,
-    required this.thoiGian,
-    required this.trangThai,
-    required this.tinhTrang,
-    required this.file,
-    this.title
-  });
+  KetLuanHopModel(
+      {required this.id,
+      required this.thoiGian,
+      required this.trangThai,
+      required this.tinhTrang,
+      required this.file,
+      this.title});
 }

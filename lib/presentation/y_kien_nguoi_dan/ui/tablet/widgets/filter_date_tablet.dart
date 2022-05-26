@@ -86,11 +86,12 @@ class _FilterDateTabletState extends State<FilterDateTablet>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget
-                          .selectedStartDate.toStringWithListFormat,
+                      widget.selectedStartDate.toStringWithListFormat,
                       style: textNormal(textBodyTime, 14.0),
                     ),
-                    const SizedBox(height: 36,),
+                    const SizedBox(
+                      height: 36,
+                    ),
                     SvgPicture.asset(
                       ImageAssets.icCalendarUnFocus,
                     ),
@@ -100,7 +101,9 @@ class _FilterDateTabletState extends State<FilterDateTablet>
             )
           ],
         ),
-        const SizedBox(width: 24,),
+        const SizedBox(
+          width: 24,
+        ),
         Row(
           children: [
             Text(
@@ -110,7 +113,6 @@ class _FilterDateTabletState extends State<FilterDateTablet>
             const SizedBox(
               width: 16.0,
             ),
-
             Container(
               width: 163,
               height: 40,

@@ -5,18 +5,18 @@ import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/widgets/tree_view/GraphView.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:rxdart/rxdart.dart';
 
 class TreeViewWidget<T> extends StatefulWidget {
   final NodePhanXuLy<T> tree;
   final Widget Function(dynamic) builder;
   final bool scaleEnable;
+
   const TreeViewWidget(
       {Key? key,
-        required this.tree,
-        required this.builder,
-        this.scaleEnable = true})
+      required this.tree,
+      required this.builder,
+      this.scaleEnable = true})
       : super(key: key);
 
   @override
@@ -27,6 +27,7 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
   final Graph graph = Graph()..isTree = true;
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
   TransformationController controller = TransformationController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -53,28 +54,29 @@ class _TreeViewWidgetState<T> extends State<TreeViewWidget> {
               maxScale: 3,
               child: widget.tree.children.isEmpty
                   ? Padding(
-                padding: const EdgeInsets.only(left: 26),
-                child: widget.builder(widget.tree.value),
-              )
+                      padding: const EdgeInsets.only(left: 26),
+                      child: widget.builder(widget.tree.value),
+                    )
                   : GraphView(
-                graph: graph,
-                algorithm: BuchheimWalkerAlgorithm(
-                    builder, TreeEdgeRenderer(builder)),
-                paint: Paint()
-                  ..color = const Color(0xffA2AEBD)
-                  ..strokeWidth = 1
-                  ..style = PaintingStyle.stroke
-                  ..strokeCap = StrokeCap.round,
-                builder: (Node node) {
-                  // I can decide what widget should be shown here based on the id
-                  var value = node.key!.value as NodePhanXuLy<T>;
-                  return widget.builder(value.value);
-                },
-              )),
+                      graph: graph,
+                      algorithm: BuchheimWalkerAlgorithm(
+                          builder, TreeEdgeRenderer(builder)),
+                      paint: Paint()
+                        ..color = const Color(0xffA2AEBD)
+                        ..strokeWidth = 1
+                        ..style = PaintingStyle.stroke
+                        ..strokeCap = StrokeCap.round,
+                      builder: (Node node) {
+                        // I can decide what widget should be shown here based on the id
+                        var value = node.key!.value as NodePhanXuLy<T>;
+                        return widget.builder(value.value);
+                      },
+                    )),
         ),
       ],
     );
   }
+
   void _makeBuildTree<T>(NodePhanXuLy<T> node) {
     if (node.children.isNotEmpty) {
       for (var element in node.children) {

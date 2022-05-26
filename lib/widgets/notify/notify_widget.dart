@@ -42,7 +42,7 @@ class NotifyWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pop(context,true);
+                Navigator.pop(context, true);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(

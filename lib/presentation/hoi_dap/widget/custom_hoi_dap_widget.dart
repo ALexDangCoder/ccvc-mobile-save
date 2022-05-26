@@ -125,7 +125,10 @@ class CustomHoiDapWidget extends StatelessWidget {
                               onTap: () {
                                 onTapEdit();
                               },
-                              child: SvgPicture.asset(ImageAssets.icEditBlue,color: AppTheme.getInstance().colorField(),),
+                              child: SvgPicture.asset(
+                                ImageAssets.icEditBlue,
+                                color: AppTheme.getInstance().colorField(),
+                              ),
                             ),
                             const SizedBox(
                               width: 20.0,

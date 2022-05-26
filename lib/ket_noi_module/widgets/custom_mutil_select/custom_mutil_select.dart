@@ -142,7 +142,6 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             }
                           }
 
-
                           if (addIndex.contains(index)) {
                             addIndex.remove(index);
                             selectBloc.sink.add(addIndex);

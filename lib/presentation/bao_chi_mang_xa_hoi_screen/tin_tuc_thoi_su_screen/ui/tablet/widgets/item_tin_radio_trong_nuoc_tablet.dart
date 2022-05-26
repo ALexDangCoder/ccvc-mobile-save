@@ -93,7 +93,7 @@ class ItemTinRadioTrongNuocTablet extends StatelessWidget {
                             Container(
                               width: 12,
                               height: 12,
-                              decoration:  BoxDecoration(
+                              decoration: BoxDecoration(
                                 color: AppTheme.getInstance().colorField(),
                                 shape: BoxShape.circle,
                               ),
@@ -117,7 +117,10 @@ class ItemTinRadioTrongNuocTablet extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        child: SvgPicture.asset(ImageAssets.icPlay,color: AppTheme.getInstance().colorField(),),
+                        child: SvgPicture.asset(
+                          ImageAssets.icPlay,
+                          color: AppTheme.getInstance().colorField(),
+                        ),
                         onTap: () {
                           clickItem();
                         },

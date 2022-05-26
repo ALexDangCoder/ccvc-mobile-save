@@ -71,7 +71,9 @@ class CupertinoRoundedDatePickerWidget {
                   },
                   child: Text(
                     S.current.today,
-                    style: textNormalCustom(color: AppTheme.getInstance().colorField(), fontSize: 18),
+                    style: textNormalCustom(
+                        color: AppTheme.getInstance().colorField(),
+                        fontSize: 18),
                   ),
                 ),
               ),

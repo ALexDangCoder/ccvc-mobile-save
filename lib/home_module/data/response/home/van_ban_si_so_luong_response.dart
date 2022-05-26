@@ -1,4 +1,3 @@
-
 import '/home_module/domain/model/home/document_dashboard_model.dart';
 
 class VanBanDiSoLuongResponse {
@@ -69,6 +68,7 @@ class Data {
     soLuongKhongCoHan = json['SoLuongKhongCoHan'];
     soLuongThuongKhan = json['SoLuongThuongKhan'];
   }
+
   DocumentDashboardModel toDomain() => DocumentDashboardModel(
       soLuongChoTrinhKy: soLuongChoTrinhKy,
       soLuongChoXuLy: soLuongChoXuLy,

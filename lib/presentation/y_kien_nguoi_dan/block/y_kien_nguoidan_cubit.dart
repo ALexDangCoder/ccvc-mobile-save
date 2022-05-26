@@ -43,7 +43,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   bool isCheck = false;
   late String startDate;
   late String endDate;
-  DateTime initStartDate=DateTime.now();
+  DateTime initStartDate = DateTime.now();
   String donViId = '';
   String userId = '';
   String trangThai = '';
@@ -54,9 +54,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   bool canLoadMoreList = true;
   bool refresh = false;
   bool isSearching = false;
-  String tuKhoa='';
+  String tuKhoa = '';
   Debouncer debouncer = Debouncer();
-  bool isEmptyData=false;
+  bool isEmptyData = false;
 
   static const int TRONGHAN = 1;
   static const int DENHAN = 2;
@@ -416,8 +416,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         if (listDanhSachKetQuaPakn.hasValue) {
           listDanhSachKetQuaPakn.sink
               .add(listDanhSachKetQuaPakn.value + success);
-          canLoadMoreList =
-              success.length >= pageSizeDSPAKN;
+          canLoadMoreList = success.length >= pageSizeDSPAKN;
           loadMore = false;
           refresh = false;
         } else {
@@ -659,8 +658,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   void initTimeRange() {
     final DateTime date = DateTime.now();
-    initStartDate =
-        DateTime(date.year, date.month, date.day - 30);
+    initStartDate = DateTime(date.year, date.month, date.day - 30);
     startDate =
         DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;

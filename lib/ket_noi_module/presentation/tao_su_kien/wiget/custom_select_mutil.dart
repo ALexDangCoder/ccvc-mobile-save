@@ -137,15 +137,17 @@ class _ExpandedSectionState extends State<CustomSelectMutil>
                                 stream: selectBloc.stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data ?? [0];
-                                return  CustomCheckBox(
+                                  return CustomCheckBox(
                                     title: '',
                                     onChange: (isCheck) {
                                       setState(() {});
-                                      if (valueSelect
-                                          .contains(widget.dataLoaiBaiViet[index])) {
-                                        valueSelect.remove(widget.dataLoaiBaiViet[index]);
+                                      if (valueSelect.contains(
+                                          widget.dataLoaiBaiViet[index])) {
+                                        valueSelect.remove(
+                                            widget.dataLoaiBaiViet[index]);
                                       } else {
-                                        valueSelect.add(widget.dataLoaiBaiViet[index]);
+                                        valueSelect
+                                            .add(widget.dataLoaiBaiViet[index]);
                                       }
                                       if (addIndex.contains(index)) {
                                         addIndex.remove(index);

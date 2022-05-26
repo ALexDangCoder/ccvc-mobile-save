@@ -8,7 +8,8 @@ Future<List<dynamic>> uploadFileToSever({
   bool isPrivate = false,
 }) async {
   try {
-    const  String uri = 'https://api-common-ccvc-uat.chinhquyendientu.vn/api/CanBo/upload';
+    const String uri =
+        'https://api-common-ccvc-uat.chinhquyendientu.vn/api/CanBo/upload';
     final request = http.MultipartRequest(
       'PATCH',
       Uri.parse(uri),
@@ -22,7 +23,7 @@ Future<List<dynamic>> uploadFileToSever({
     final http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final Map<String, dynamic> map =
-      jsonDecode(await response.stream.bytesToString());
+          jsonDecode(await response.stream.bytesToString());
       return map['data'] as List<dynamic>;
     } else {
       return [];

@@ -250,7 +250,8 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                     SizedBox(
                                       height: 16,
                                       child: Divider(
-                                        color: AppTheme.getInstance().lineColor(),
+                                        color:
+                                            AppTheme.getInstance().lineColor(),
                                         height: 1,
                                       ),
                                     ),

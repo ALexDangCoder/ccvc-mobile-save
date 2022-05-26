@@ -17,19 +17,20 @@ class BlockTextView extends StatefulWidget {
   final bool isHideRequired;
   final bool useCustomTitle;
   final int maxLines;
-  const BlockTextView({
-    Key? key,
-    required this.formKey,
-    required this.contentController,
-    required this.title,
-    this.hintText,
-    this.validate,
-    this.isHideRequired = false,
-    this.isRequired = true,
-    this.isLimitCharacter = false,
-    this.useCustomTitle = false,
-    this.maxLines = 5
-  }) : super(key: key);
+
+  const BlockTextView(
+      {Key? key,
+      required this.formKey,
+      required this.contentController,
+      required this.title,
+      this.hintText,
+      this.validate,
+      this.isHideRequired = false,
+      this.isRequired = true,
+      this.isLimitCharacter = false,
+      this.useCustomTitle = false,
+      this.maxLines = 5})
+      : super(key: key);
 
   @override
   _BlockTextViewState createState() => _BlockTextViewState();

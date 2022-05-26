@@ -69,8 +69,7 @@ class ChartSoLuongByMonthWidget extends StatelessWidget {
                 color: choXuLyColor,
                 dataSource: dataByMonth,
                 xValueMapper: (YKNDByMonth sales, _) => sales.month,
-                yValueMapper: (YKNDByMonth sales, _) =>
-                sales.quantities,
+                yValueMapper: (YKNDByMonth sales, _) => sales.quantities,
                 dataLabelSettings: DataLabelSettings(
                   isVisible: true,
                   textStyle: textNormalCustom(
@@ -92,4 +91,3 @@ class ChartSoLuongByMonthWidget extends StatelessWidget {
     );
   }
 }
-

@@ -14,7 +14,10 @@ class LichSuPhanXuLyWidget extends StatelessWidget {
   final String idNhiemVu;
 
   const LichSuPhanXuLyWidget(
-      {Key? key, required this.dataModel, required this.cubit, required this.idNhiemVu})
+      {Key? key,
+      required this.dataModel,
+      required this.cubit,
+      required this.idNhiemVu})
       : super(key: key);
 
   @override

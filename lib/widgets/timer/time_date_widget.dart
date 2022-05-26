@@ -318,7 +318,9 @@ class _BuildPickerState extends State<BuildPicker> {
             child: Text(
               index < 10 ? '0$index' : '$index',
               style: textNormal(
-                widget.focusNode.hasFocus ? AppTheme.getInstance().colorField() : color3D5586,
+                widget.focusNode.hasFocus
+                    ? AppTheme.getInstance().colorField()
+                    : color3D5586,
                 15,
               ),
             ),

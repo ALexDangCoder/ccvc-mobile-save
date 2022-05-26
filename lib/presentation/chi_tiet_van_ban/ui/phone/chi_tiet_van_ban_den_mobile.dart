@@ -33,7 +33,7 @@ class ChiTietVanBanDenMobile extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              decoration: const  BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     color: colorA2AEBD,

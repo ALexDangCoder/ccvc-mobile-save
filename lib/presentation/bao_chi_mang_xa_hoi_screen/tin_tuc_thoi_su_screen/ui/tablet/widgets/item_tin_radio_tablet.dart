@@ -80,7 +80,7 @@ class ItemTinRadioTablet extends StatelessWidget {
                             Container(
                               width: 12,
                               height: 12,
-                              decoration:  BoxDecoration(
+                              decoration: BoxDecoration(
                                 color: AppTheme.getInstance().colorField(),
                                 shape: BoxShape.circle,
                               ),

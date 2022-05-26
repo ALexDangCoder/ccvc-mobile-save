@@ -206,7 +206,6 @@ class LichLamViecImlp implements LichLamViecRepository {
     );
   }
 
-
   @override
   Future<Result<List<TinhTrangBaoCaoModel>>> getListTinhTrangBaoCao() {
     return runCatchingAsync<ListTinhTrangResponse, List<TinhTrangBaoCaoModel>>(

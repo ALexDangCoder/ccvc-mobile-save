@@ -118,7 +118,8 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
                     spaceW16,
                     Text(
                       S.current.them_moi,
-                      style: tokenDetailAmount(fontSize: 16, color: color3D5586),
+                      style:
+                          tokenDetailAmount(fontSize: 16, color: color3D5586),
                     )
                   ],
                 ),

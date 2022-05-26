@@ -49,7 +49,10 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
                   funcBtnOk: () {},
                 );
               },
-              icon: SvgPicture.asset(ImageAssets.icAddButtonCalenderTablet,color: AppTheme.getInstance().colorField(),),
+              icon: SvgPicture.asset(
+                ImageAssets.icAddButtonCalenderTablet,
+                color: AppTheme.getInstance().colorField(),
+              ),
             ),
           )
         ],

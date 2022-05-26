@@ -11,16 +11,15 @@ class MainCubit extends BaseCubit<MainState> {
   Stream<TabBarType> get selectTabBar => _selectTabBar.stream;
 
   final PublishSubject<TabBarType> _selectDoubleTapTabBar =
-  PublishSubject<TabBarType>();
+      PublishSubject<TabBarType>();
 
-
-  Stream<TabBarType> get selectDoubleTapTabBar =>
-      _selectDoubleTapTabBar.stream;
+  Stream<TabBarType> get selectDoubleTapTabBar => _selectDoubleTapTabBar.stream;
 
   void selectTab(TabBarType tab) {
     _selectTabBar.sink.add(tab);
   }
-  void selectDoubleTap(TabBarType type){
+
+  void selectDoubleTap(TabBarType type) {
     _selectDoubleTapTabBar.sink.add(type);
   }
 

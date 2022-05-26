@@ -2,9 +2,9 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_ky_duyet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
-import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/widget_in_expand_van_ban.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
 class VBDiLichSuKyDuyetExpandWidget extends StatefulWidget {
@@ -69,12 +69,11 @@ class _VBDiLichSuKyDuyetExpandWidgetState
                   ),
                 ),
               );
-            }
-            else {
-              return const  CustomScrollView(
+            } else {
+              return const CustomScrollView(
                 slivers: [
                   SliverFillRemaining(
-                    child:  Padding(
+                    child: Padding(
                       padding: EdgeInsets.only(top: 16.0),
                       child: NodataWidget(),
                     ),

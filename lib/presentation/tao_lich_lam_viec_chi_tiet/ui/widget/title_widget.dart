@@ -116,7 +116,6 @@ class _TitleWidgetState extends State<TitleWidget> {
             )
           else
             Container(),
-
           ExpandedSection(expand: isExpand, child: widget.child),
         ],
       ),

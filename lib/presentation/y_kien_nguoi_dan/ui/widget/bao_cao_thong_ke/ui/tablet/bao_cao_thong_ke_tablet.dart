@@ -17,7 +17,6 @@ import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/search_bao_c
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
@@ -206,8 +205,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                   final listDataChart = snapshot.data ?? [];
                                   return Expanded(
                                     child: PieChart(
-                                      title:
-                                          S.current.y_kien_nguoi_dan,
+                                      title: S.current.y_kien_nguoi_dan,
                                       chartData: listDataChart,
                                       onTap: (int value) {},
                                     ),

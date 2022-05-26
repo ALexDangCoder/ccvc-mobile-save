@@ -6,16 +6,14 @@ import 'package:flutter/material.dart';
 
 class DanhSachYKienScreen extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
-  const DanhSachYKienScreen({Key? key,required this.cubit}) : super(key: key);
+
+  const DanhSachYKienScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _DanhSachYKienScreenState createState() => _DanhSachYKienScreenState();
 }
 
 class _DanhSachYKienScreenState extends State<DanhSachYKienScreen> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Container(

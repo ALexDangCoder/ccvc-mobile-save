@@ -25,8 +25,9 @@ class _MauMacDinhWidgetState extends State<MauMacDinhWidget> {
     return StreamBuilder<List<ItemSelectModel>>(
         stream: widget.taoLichLamViecCubit.listColorDefaultStream,
         builder: (context, snapshot) {
-          final index =
-              snapshot.data?.indexWhere((element) => element.isSelect == true) ?? 0;
+          final index = snapshot.data
+                  ?.indexWhere((element) => element.isSelect == true) ??
+              0;
 
           return TitleWidget(
             isColor: true,
@@ -74,7 +75,9 @@ class _MauMacDinhWidgetState extends State<MauMacDinhWidget> {
                                   Container(),
                               ],
                             ),
-                            const SizedBox(height: 21,),
+                            const SizedBox(
+                              height: 21,
+                            ),
                           ],
                         ),
                       ),

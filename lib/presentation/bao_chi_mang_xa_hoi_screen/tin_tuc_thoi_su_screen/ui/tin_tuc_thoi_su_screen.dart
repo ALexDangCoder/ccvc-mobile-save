@@ -23,6 +23,7 @@ enum dropDown { tinRadio, tinTrongNuoc, tinQuocTe }
 class TinTucThoiSuScreen extends StatefulWidget {
   final BuildContext pContext;
   final TinTucThoiSuBloc tinTucThoiSuBloc;
+
   const TinTucThoiSuScreen({
     Key? key,
     required this.tinTucThoiSuBloc,
@@ -36,7 +37,6 @@ class TinTucThoiSuScreen extends StatefulWidget {
 class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
     with AutomaticKeepAliveClientMixin {
   dropDown? valueChoose = dropDown.tinRadio;
-
 
   @override
   void initState() {
@@ -122,8 +122,10 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
                                 listTinTuc: valueChoose == dropDown.tinRadio
                                     ? widget.tinTucThoiSuBloc.listTinTuc
                                     : valueChoose == dropDown.tinTrongNuoc
-                                        ? widget.tinTucThoiSuBloc.listTinTucTrongNuoc
-                                        : widget.tinTucThoiSuBloc.listTinTucQuocTe,
+                                        ? widget.tinTucThoiSuBloc
+                                            .listTinTucTrongNuoc
+                                        : widget
+                                            .tinTucThoiSuBloc.listTinTucQuocTe,
                               );
                             },
                           );
@@ -132,7 +134,9 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           height: 45,
                           decoration: BoxDecoration(
-                            color:  AppTheme.getInstance().colorField().withOpacity(0.1),
+                            color: AppTheme.getInstance()
+                                .colorField()
+                                .withOpacity(0.1),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Row(
@@ -145,7 +149,7 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
                               Text(
                                 S.current.nghe_doc_tin,
                                 style: textNormalCustom(
-                                  color:  AppTheme.getInstance().colorField(),
+                                  color: AppTheme.getInstance().colorField(),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -192,7 +196,7 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
                       widget.tinTucThoiSuBloc.listTinTucTrongNuoc.clear();
                       return Expanded(
                         child: ListViewLoadMore(
-                          cubit:widget.tinTucThoiSuBloc,
+                          cubit: widget.tinTucThoiSuBloc,
                           isListView: true,
                           callApi: (page) => {
                             callApiTrongNuoc(
@@ -239,7 +243,8 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
   }
 
   void callApi(int page) {
-    widget.tinTucThoiSuBloc.getListTinTucRadio(page, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc
+        .getListTinTucRadio(page, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   Widget itemTinTucThoiSu(TinTucRadioModel data, int index) {
@@ -267,8 +272,8 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
   }
 
   void callApiTrongNuoc(int page) {
-    widget.tinTucThoiSuBloc.getListTinTucRadioTrongNuoc(
-        page, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc
+        .getListTinTucRadioTrongNuoc(page, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   Widget itemTinTucThoiSuTrongNuoc(TinTucRadioModel data, int index) {
@@ -299,8 +304,8 @@ class _TinTucThoiSuScreenState extends State<TinTucThoiSuScreen>
   }
 
   void callApiQuocTe(int page) {
-    widget.tinTucThoiSuBloc.getListTinTucRadioQuocTe(
-        page, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc
+        .getListTinTucRadioQuocTe(page, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   Widget itemTinTucThoiSuQuocTe(TinTucRadioModel data, int index) {

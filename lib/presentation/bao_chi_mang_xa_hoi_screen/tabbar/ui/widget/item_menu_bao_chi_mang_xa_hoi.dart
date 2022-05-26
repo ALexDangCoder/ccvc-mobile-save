@@ -73,7 +73,6 @@ List<ItemBaoChiMangXaHoiModel> listBaoChiMangXaHoi = [
     listWidget: [],
     onTap: (BuildContext context, BaoChiMangXaHoiBloc cubit) {},
   ),
-
 ];
 enum TypeBaoChiMangXaHoiMenu {
   TinTonngHop,
@@ -84,9 +83,10 @@ enum TypeBaoChiMangXaHoiMenu {
   CacDiaPhuong,
   MTQQVaCacDoanThe
 }
-extension GetStringTypeMenu on TypeBaoChiMangXaHoiMenu{
-  String getTitle(){
-    switch(this){
+
+extension GetStringTypeMenu on TypeBaoChiMangXaHoiMenu {
+  String getTitle() {
+    switch (this) {
       case TypeBaoChiMangXaHoiMenu.TinTonngHop:
         return S.current.tin_tong_hop;
       case TypeBaoChiMangXaHoiMenu.LanhDaoTinh:

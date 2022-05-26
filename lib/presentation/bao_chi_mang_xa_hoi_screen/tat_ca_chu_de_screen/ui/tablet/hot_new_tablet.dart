@@ -27,12 +27,11 @@ class HotNewsTablet extends StatelessWidget {
         Container(
           height: 241,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: NetworkImage(image),
-              fit: BoxFit.cover,
-            )
-          ),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(image),
+                fit: BoxFit.cover,
+              )),
         ),
         const SizedBox(
           height: 10,

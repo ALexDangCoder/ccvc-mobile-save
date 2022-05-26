@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -11,7 +10,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/main.dart';
-import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/base_popup.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/tablet/manager_personal_information_tablet.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_state.dart';
@@ -19,7 +17,6 @@ import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/mobile/widgets/button_quan_ly_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/header_widget.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/menu_cell_widget.dart';
-import 'package:ccvc_mobile/presentation/menu_screen/ui/widgets/text_button_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/sua_danh_ba_ca_nhan/widget/input_infor_user_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -38,6 +35,7 @@ import 'icon_tablet_menu.dart';
 
 class MenuTabletScreen extends StatefulWidget {
   final MenuCubit menuCubit;
+
   const MenuTabletScreen({Key? key, required this.menuCubit}) : super(key: key);
 
   @override
@@ -94,8 +92,8 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   ManagerPersonalInformationTablet(
-                                    id: menuCubit.id,
-                                  ),
+                                id: menuCubit.id,
+                              ),
                             ),
                           );
                         },
@@ -150,14 +148,14 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                     mainAxisSpacing: 28,
                                     childAspectRatio: 1.25,
                                     physics:
-                                    const NeverScrollableScrollPhysics(),
+                                        const NeverScrollableScrollPhysics(),
                                     crossAxisCount: 4,
                                     children:
-                                    List.generate(data.length, (index) {
+                                        List.generate(data.length, (index) {
                                       final type = data[index];
                                       return containerType(type, () {
                                         Navigator.of(context,
-                                            rootNavigator: true)
+                                                rootNavigator: true)
                                             .push(
                                           PageRouteBuilder(
                                             pageBuilder: (_, __, ___) =>
@@ -173,11 +171,11 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                             ),
                             Container(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 20),
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               decoration: BoxDecoration(
                                 color: AppTheme.getInstance().backGroundColor(),
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
+                                    const BorderRadius.all(Radius.circular(8)),
                                 boxShadow: [
                                   BoxShadow(
                                     blurRadius: 10,
@@ -202,7 +200,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                       S.current.cai_dat,
                                       style: textNormalCustom(
                                         color:
-                                        AppTheme.getInstance().colorField(),
+                                            AppTheme.getInstance().colorField(),
                                         fontSize: 18,
                                       ),
                                     ),
@@ -261,7 +259,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                     icon: Image.asset(ImageAssets.icDangXuat),
                                     title: S.current.dang_xuat,
                                     textContent:
-                                    S.current.ban_co_muon_dang_xuat,
+                                        S.current.ban_co_muon_dang_xuat,
                                     btnLeftTxt: S.current.khong,
                                     btnRightTxt: S.current.dong_y,
                                   );

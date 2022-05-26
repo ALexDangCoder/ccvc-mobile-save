@@ -117,8 +117,7 @@ class _ContainerMenuWidgetTabletState extends State<ContainerMenuWidgetTablet> {
                         child: Text(
                           widget.index.toString(),
                           style: textNormalCustom(
-                            color: AppTheme.getInstance()
-                                .colorField(),
+                            color: AppTheme.getInstance().colorField(),
                             fontWeight: FontWeight.w500,
                             fontSize: 12.0.textScale(),
                           ),

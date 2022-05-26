@@ -53,9 +53,9 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               Container(),
           ],
         ),
-
-        SizedBox(height: 10.0.textScale(),),
-
+        SizedBox(
+          height: 10.0.textScale(),
+        ),
         Container(
           padding: EdgeInsets.symmetric(
             horizontal: 16.0.textScale(),
@@ -88,17 +88,17 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               items: widget.listData
                   .map<DropdownMenuItem<String>>(
                     (e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(
-                    e,
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      color: textTitle,
-                      fontSize: 14,
+                      value: e,
+                      child: Text(
+                        e,
+                        style: textNormalCustom(
+                          fontWeight: FontWeight.w400,
+                          color: textTitle,
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
+                  )
                   .toList(),
             ),
           ),

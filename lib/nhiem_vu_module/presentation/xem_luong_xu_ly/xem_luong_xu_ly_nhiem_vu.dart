@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 
 class XemLuongXuLyNhiemVu extends StatefulWidget {
   final String id;
+
   const XemLuongXuLyNhiemVu({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -28,6 +29,7 @@ class XemLuongXuLyNhiemVu extends StatefulWidget {
 
 class _XemLuongXuLyNhiemVuState extends State<XemLuongXuLyNhiemVu> {
   XemLuongXuLyNhiemVuCubit viewModel = XemLuongXuLyNhiemVuCubit();
+
   @override
   void initState() {
     // TODO: implement initState

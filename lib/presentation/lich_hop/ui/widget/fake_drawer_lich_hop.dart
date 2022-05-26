@@ -42,56 +42,56 @@ class FakeDrawerLichHop extends StatelessWidget {
                 child: SlideTransition(
                   position: offsetAnimation,
                   child: SafeArea(
-                   child: Scaffold(
-                     backgroundColor: backgroundDrawerMenu,
-                     body: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                        GestureDetector(
-                          onTap: (){
-                            ontap1();
-                          },
-                          child: Row(
-                            children: [
-                              IconButton(onPressed: (){
-
-                              }, icon: SvgPicture.asset(image1),),
-                              Text(title1),
-
-                            ],
+                    child: Scaffold(
+                      backgroundColor: backgroundDrawerMenu,
+                      body: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              ontap1();
+                            },
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: SvgPicture.asset(image1),
+                                ),
+                                Text(title1),
+                              ],
+                            ),
                           ),
-                        ),
-                         GestureDetector(
-                           onTap: (){
-                             ontap2();
-                           },
-                           child: Row(
-                             children: [
-                               IconButton(onPressed: (){
-
-                               }, icon: SvgPicture.asset(image2),),
-                               Text(title2),
-
-                             ],
-                           ),
-                         ),
-                         GestureDetector(
-                           onTap: (){
-                             ontap3();
-                           },
-                           child: Row(
-                             children: [
-                               IconButton(onPressed: (){
-
-                               }, icon: SvgPicture.asset(image3),),
-                               Text(title3),
-
-                             ],
-                           ),
-                         )
-                       ],
-                     ),
-                   ),
+                          GestureDetector(
+                            onTap: () {
+                              ontap2();
+                            },
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: SvgPicture.asset(image2),
+                                ),
+                                Text(title2),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              ontap3();
+                            },
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: SvgPicture.asset(image3),
+                                ),
+                                Text(title3),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -47,19 +47,20 @@ class SearchVBRequest {
   bool? isDanhSachDaBanHanh;
   bool? isDanhSachChoTrinhKy;
 
-  SearchVBRequest(
-      {this.trangThaiFilter,
-      this.isSortByDoKhan,
-      this.size,
-      this.index,
-      this.isDaChoYKien,
-      this.isChoYKien,
-      this.ngayTaoStartSearch,
-      this.ngayTaoEndSearch,
-      this.isDanhSachChoXuLy,
-      this.isDanhSachChoCapSo,
-      this.isDanhSachDaBanHanh,
-      this.isDanhSachChoTrinhKy,});
+  SearchVBRequest({
+    this.trangThaiFilter,
+    this.isSortByDoKhan,
+    this.size,
+    this.index,
+    this.isDaChoYKien,
+    this.isChoYKien,
+    this.ngayTaoStartSearch,
+    this.ngayTaoEndSearch,
+    this.isDanhSachChoXuLy,
+    this.isDanhSachChoCapSo,
+    this.isDanhSachDaBanHanh,
+    this.isDanhSachChoTrinhKy,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -93,19 +94,20 @@ class SearchDanhSachVanBanRequest {
   bool? isDanhSachDaBanHanh;
   bool? isDanhSachChoTrinhKy;
 
-  SearchDanhSachVanBanRequest(
-      {this.trangThaiFilter,
-      this.isSortByDoKhan,
-      this.size,
-      this.index,
-      this.isDaChoYKien,
-      this.isChoYKien,
-      this.ngayTaoStartSearch,
-      this.ngayTaoEndSearch,
-      this.isDanhSachChoXuLy,
-      this.isDanhSachChoCapSo,
-      this.isDanhSachDaBanHanh,
-      this.isDanhSachChoTrinhKy,});
+  SearchDanhSachVanBanRequest({
+    this.trangThaiFilter,
+    this.isSortByDoKhan,
+    this.size,
+    this.index,
+    this.isDaChoYKien,
+    this.isChoYKien,
+    this.ngayTaoStartSearch,
+    this.ngayTaoEndSearch,
+    this.isDanhSachChoXuLy,
+    this.isDanhSachChoCapSo,
+    this.isDanhSachDaBanHanh,
+    this.isDanhSachChoTrinhKy,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

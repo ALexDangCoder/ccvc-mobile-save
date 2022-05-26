@@ -7,6 +7,7 @@ class RowColunmTabletWidget extends StatelessWidget {
   final String titleRight;
   final Widget widgetLeft;
   final Widget widgetRight;
+
   const RowColunmTabletWidget({
     Key? key,
     required this.titleLeft,

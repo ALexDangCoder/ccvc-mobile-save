@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class KetQuaXuLyScreenTablet extends StatefulWidget {
   final List<DataRowChiTietKienNghi> listRow;
 
-  const KetQuaXuLyScreenTablet({Key? key, required this.listRow}) : super(key: key);
+  const KetQuaXuLyScreenTablet({Key? key, required this.listRow})
+      : super(key: key);
 
   @override
   _KetQuaXuLyScreenTabletState createState() => _KetQuaXuLyScreenTabletState();
@@ -28,7 +29,7 @@ class _KetQuaXuLyScreenTabletState extends State<KetQuaXuLyScreenTablet> {
         itemCount: widget.listRow.length,
         itemBuilder: (context, index) {
           return Container(
-            padding: const  EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: 16),
             child: ItemRow(
               title: widget.listRow[index].title,
               content: widget.listRow[index].content,

@@ -12,6 +12,7 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
   final String? currentEndDate;
   final Function(DateTime startDate, DateTime endDate) onChooseDateFilter;
   final BuildContext context;
+
   // DateTime selectedStartDate = DateTime.now();
   // DateTime selectedEndDate = DateTime.now();
   final DateTime? initStartDate;
@@ -36,20 +37,22 @@ class FilterDateTimeWidgetTablet extends StatefulWidget {
   }) : super(key: key) {}
 
   @override
-  _FilterDateTimeWidgetTabletState createState() => _FilterDateTimeWidgetTabletState();
+  _FilterDateTimeWidgetTabletState createState() =>
+      _FilterDateTimeWidgetTabletState();
 }
 
 class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
     with SingleTickerProviderStateMixin {
-
   late DateTime currentStartDate;
   late DateTime currentEndDate;
+
   @override
   void initState() {
     currentStartDate = widget.initStartDate ?? DateTime.now();
     currentEndDate = widget.initEndDate ?? DateTime.now();
     super.initState();
   }
+
   @override
   Future<void> _showDatePicker({required DateTime initialDate}) async {
     final selectedDate = await showDatePicker(
@@ -80,7 +83,10 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
   Widget build(BuildContext context) {
     return Container(
       height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 12,),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30,
+        vertical: 12,
+      ),
       decoration: BoxDecoration(
         color: backgroundColorApp,
         border: Border.all(
@@ -110,7 +116,7 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                   GestureDetector(
                     onTap: () {
                       _showDatePicker(
-                        initialDate:currentStartDate,
+                        initialDate: currentStartDate,
                       );
                     },
                     child: Container(
@@ -132,7 +138,9 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                             style: textNormal(textBodyTime, 14.0),
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 36,),
+                          const SizedBox(
+                            height: 36,
+                          ),
                           SvgPicture.asset(
                             ImageAssets.icCalendarUnFocus,
                           ),
@@ -142,7 +150,9 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                   )
                 ],
               ),
-              const SizedBox(width: 24,),
+              const SizedBox(
+                width: 24,
+              ),
               Row(
                 children: [
                   Text(
@@ -152,7 +162,6 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                   const SizedBox(
                     width: 16.0,
                   ),
-
                   Container(
                     width: 163,
                     height: 40,
@@ -186,12 +195,12 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
           Expanded(
             flex: 4,
             child: TextField(
-              controller:widget.controller,
+              controller: widget.controller,
               onChanged: (searchText) {
                 widget.onChange != null ? widget.onChange!(searchText) : null;
               },
               onSubmitted: (searchText) {
-                widget. onSubmit != null ? widget.onSubmit!(searchText) : null;
+                widget.onSubmit != null ? widget.onSubmit!(searchText) : null;
               },
               decoration: InputDecoration(
                 prefixIcon: SizedBox(
@@ -216,7 +225,7 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                 isCollapsed: true,
                 fillColor: bgDropDown.withOpacity(0.1),
                 filled: true,
-                hintText: widget.hintText ??S.current.tiem_kiem,
+                hintText: widget.hintText ?? S.current.tiem_kiem,
                 hintStyle: textNormal(
                   AppTheme.getInstance().sideTextInactiveColor(),
                   14,

@@ -115,8 +115,8 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                           child: Text(
                             widget.title2 ?? '',
                             textAlign: TextAlign.center,
-                            style:
-                                textNormalCustom(fontSize: 18, color: labelColor),
+                            style: textNormalCustom(
+                                fontSize: 18, color: labelColor),
                           ),
                         )
                       else

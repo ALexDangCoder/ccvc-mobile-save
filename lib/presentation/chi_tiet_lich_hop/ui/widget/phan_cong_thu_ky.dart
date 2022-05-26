@@ -162,7 +162,8 @@ class SelectThuKyCell extends StatelessWidget {
                     } else {
                       cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = true;
                     }
-                    cubit.listNguoiCHuTriModel.sink.add(cubit.dataThuKyOrThuHoiDeFault);
+                    cubit.listNguoiCHuTriModel.sink
+                        .add(cubit.dataThuKyOrThuHoiDeFault);
                     log(cubit.listNguoiCHuTriModel.value.toString());
                   },
                 ),

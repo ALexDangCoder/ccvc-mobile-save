@@ -66,7 +66,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
                         style: textNormalCustom(
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
-                          color:  AppTheme.getInstance().colorField(),
+                          color: AppTheme.getInstance().colorField(),
                         ),
                       ),
                       const SizedBox(

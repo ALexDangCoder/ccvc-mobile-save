@@ -175,7 +175,8 @@ class _HuongDanSuDungDetailTabletState
                                                   style: {
                                                     'body': Style(
                                                       color: titleColumn,
-                                                      fontSize: const FontSize(16.0),
+                                                      fontSize:
+                                                          const FontSize(16.0),
                                                     ),
                                                   },
                                                   data: addDomainImage(

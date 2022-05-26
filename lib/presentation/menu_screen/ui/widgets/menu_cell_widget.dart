@@ -9,6 +9,7 @@ class MenuCellWidget extends StatelessWidget {
   final String urlIcon;
   final String title;
   final bool isBorder;
+
   const MenuCellWidget({
     Key? key,
     required this.title,
@@ -22,7 +23,8 @@ class MenuCellWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: isBorder ? colorECEEF7 : Colors.transparent),
+          bottom:
+              BorderSide(color: isBorder ? colorECEEF7 : Colors.transparent),
         ),
       ),
       child: Row(

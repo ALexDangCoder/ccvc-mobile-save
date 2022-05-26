@@ -3,8 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:flutter/material.dart';
 
 Future<T?> showBottomSheetCustom<T>(BuildContext context,
-    {required Widget child, required String title,bool? textOption}) {
- return showModalBottomSheet(
+    {required Widget child, required String title, bool? textOption}) {
+  return showModalBottomSheet(
     backgroundColor: Colors.white,
     context: context,
     isScrollControlled: true,
@@ -32,7 +32,7 @@ Future<T?> showBottomSheetCustom<T>(BuildContext context,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Visibility(
-                  visible: textOption??true,
+                  visible: textOption ?? true,
                   child: Text(
                     title,
                     style: textNormalCustom(fontSize: 18, color: textTitle),

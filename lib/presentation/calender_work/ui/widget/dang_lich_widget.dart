@@ -30,7 +30,7 @@ class TheoDangLichWidget extends StatelessWidget {
           horizontal: 17.0.textScale(space: 13),
           vertical: 10.0.textScale(space: 4),
         ),
-        color: isSelect ?  AppTheme.getInstance().colorField() : Colors.white,
+        color: isSelect ? AppTheme.getInstance().colorField() : Colors.white,
         child: Row(
           children: [
             SizedBox(
@@ -38,7 +38,9 @@ class TheoDangLichWidget extends StatelessWidget {
               width: 15.0.textScale(space: 8),
               child: SvgPicture.asset(
                 icon,
-                color: isSelect ? Colors.white :  AppTheme.getInstance().colorField(),
+                color: isSelect
+                    ? Colors.white
+                    : AppTheme.getInstance().colorField(),
               ),
             ),
             SizedBox(

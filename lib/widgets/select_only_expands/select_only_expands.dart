@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -72,11 +71,11 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect = widget.listSelect[index];
-      }else{
+      } else {
         valueSelect = '';
       }
       selectBloc.sink.add(index);
-    }else{
+    } else {
       valueSelect = '';
     }
     setState(() {});
@@ -138,7 +137,8 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                                             const EdgeInsets.only(right: 4),
                                         child: SvgPicture.asset(
                                           ImageAssets.icCheck,
-                                          color: AppTheme.getInstance().colorField(),
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
                                         ),
                                       )
                                     : const SizedBox();

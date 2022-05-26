@@ -95,6 +95,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
       this.level = level;
     });
   }
+
   @override
   void dispose() {
     speech.stop();
@@ -202,9 +203,11 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                     child: TextField(
                       controller: textEditingController,
                       onChanged: (String value) {
-                        debouncer.run(() {
-                          cubit.translateDocument(document: value);
-                        },);
+                        debouncer.run(
+                          () {
+                            cubit.translateDocument(document: value);
+                          },
+                        );
                       },
                       decoration: const InputDecoration(
                         enabledBorder: OutlineInputBorder(

@@ -84,7 +84,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
       }
       return <Widget>[
         Row(
-          crossAxisAlignment:  CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Column(

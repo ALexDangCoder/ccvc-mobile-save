@@ -49,7 +49,7 @@ class SaoTotSaoXauWidget extends StatelessWidget {
             return titleNgayBachKy(
               listSaoTot[index].tenSao ?? '',
               listSaoTot[index].thongTin ?? '',
-              color:color3D5586,
+              color: color3D5586,
               isLine: true,
             );
           },
@@ -72,12 +72,11 @@ class SaoTotSaoXauWidget extends StatelessWidget {
             return titleNgayBachKy(
               listSaoXau[index].tenSao ?? '',
               listSaoXau[index].thongTin ?? '',
-              color:color3D5586,
+              color: color3D5586,
               isLine: true,
             );
           },
         ),
-
       ],
     );
   }

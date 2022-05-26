@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -18,6 +17,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final bool isShowValue;
   final Widget? customValue;
   final Function(int)? onChange;
+
   const SelectOnlyExpand({
     Key? key,
     this.initExpand = false,
@@ -39,6 +39,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   final BehaviorSubject<int> selectBloc = BehaviorSubject<int>();
   String valueSelect = '';
   late AnimationController? expandController;
+
   @override
   void initState() {
     super.initState();

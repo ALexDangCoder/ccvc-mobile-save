@@ -21,8 +21,7 @@ class SendCommentWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SendCommentWidgetState createState() =>
-      _SendCommentWidgetState();
+  _SendCommentWidgetState createState() => _SendCommentWidgetState();
 }
 
 class _SendCommentWidgetState extends State<SendCommentWidget> {

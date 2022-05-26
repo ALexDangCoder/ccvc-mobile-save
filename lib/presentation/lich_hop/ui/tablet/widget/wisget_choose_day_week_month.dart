@@ -204,7 +204,10 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       onPressed: () {},
-                      icon: SvgPicture.asset(ImageAssets.icSeachTablet,color: AppTheme.getInstance().colorField(),),
+                      icon: SvgPicture.asset(
+                        ImageAssets.icSeachTablet,
+                        color: AppTheme.getInstance().colorField(),
+                      ),
                     ),
                     border: InputBorder.none,
                     hintText: S.current.tim_kiem,

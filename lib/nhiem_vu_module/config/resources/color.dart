@@ -94,7 +94,6 @@ const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
 
-
 const bgTag = Color(0xffF2F0FF);
 
 const bgGridView = Color(0xffFBFCFD);

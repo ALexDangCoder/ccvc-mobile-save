@@ -42,8 +42,8 @@ class _LichHopTheoTuanTabletState extends State<LichHopTheoTuanTablet> {
                       minimumAppointmentDuration: Duration(minutes: 30),
                     ),
                     viewHeaderStyle: ViewHeaderStyle(
-                      dayTextStyle: textNormalCustom(
-                          fontSize: 13, color: colorA2AEBD),
+                      dayTextStyle:
+                          textNormalCustom(fontSize: 13, color: colorA2AEBD),
                     ),
                     monthViewSettings: const MonthViewSettings(
                       appointmentDisplayMode:

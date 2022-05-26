@@ -29,7 +29,6 @@ class ChiTietVanBanDiTablet extends StatefulWidget {
 class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
   late CommonDetailDocumentGoCubit commonDetailDocumentGoCubit;
 
-
   @override
   void initState() {
     commonDetailDocumentGoCubit = CommonDetailDocumentGoCubit();
@@ -82,12 +81,12 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                     id: widget.id,
                   ),
                   TheoDoiVanBanMobile(
-                    isTablet:  true,
+                    isTablet: true,
                     cubit: commonDetailDocumentGoCubit,
                     id: widget.id,
                   ),
                   TepDinhKemMobile(
-                    isTablet:  true,
+                    isTablet: true,
                     cubit: commonDetailDocumentGoCubit,
                     idDocument: widget.id,
                   ),

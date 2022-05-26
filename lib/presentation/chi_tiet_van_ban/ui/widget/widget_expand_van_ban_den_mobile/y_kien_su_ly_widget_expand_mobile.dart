@@ -103,8 +103,10 @@ class _YKienXuLyExpandWidgetMobileState
                           );
                         },
                       );
-                    }else {
-                      return const SizedBox (height: 300,);
+                    } else {
+                      return const SizedBox(
+                        height: 300,
+                      );
                     }
                   },
                 ),

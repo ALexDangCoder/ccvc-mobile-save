@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class ItemYKien extends StatelessWidget {
   final YKienModel yKienModel;
+
   const ItemYKien({Key? key, required this.yKienModel}) : super(key: key);
 
   @override

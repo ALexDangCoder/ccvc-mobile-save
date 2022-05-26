@@ -45,15 +45,15 @@ class ItemThongBaoTablet extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: textNormalCustom(
-                      color: color3D5586,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                      children: [
+                        Text(
+                          title,
+                          style: textNormalCustom(
+                            color: color3D5586,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         Text(
                           time,
                           style: textNormalCustom(

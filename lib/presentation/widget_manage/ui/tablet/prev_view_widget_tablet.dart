@@ -21,6 +21,7 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
   WidgetManageCubit cubit = WidgetManageCubit();
   HomeCubit homeCubit = HomeCubit();
   ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -58,8 +59,9 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                               final type = data[index];
                               return Padding(
                                 padding: const EdgeInsets.only(top: 8),
-                                child: type.widgetType?.getItemsTabletPreview() ??
-                                    const SizedBox(),
+                                child:
+                                    type.widgetType?.getItemsTabletPreview() ??
+                                        const SizedBox(),
                               );
                             }),
                           );
@@ -70,10 +72,12 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                   ),
                 ],
               ),
-              Positioned.fill(child: Container(
-                width: double.maxFinite,
-                color: Colors.transparent,
-              ),),
+              Positioned.fill(
+                child: Container(
+                  width: double.maxFinite,
+                  color: Colors.transparent,
+                ),
+              ),
             ],
           ),
         ),

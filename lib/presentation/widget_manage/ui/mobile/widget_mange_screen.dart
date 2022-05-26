@@ -167,17 +167,18 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                           if (data.isNotEmpty) {
                             final List<WidgetModel> listWidgetNotUse = data;
                             return ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  return ItemWidgetNotUse(
-                                    widgetItem: listWidgetNotUse[index],
-                                    cubit: widgetManageCubit,
-                                    index: index,
-                                    contentWidget: listWidgetNotUse[index].name,
-                                  );
-                                },);
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return ItemWidgetNotUse(
+                                  widgetItem: listWidgetNotUse[index],
+                                  cubit: widgetManageCubit,
+                                  index: index,
+                                  contentWidget: listWidgetNotUse[index].name,
+                                );
+                              },
+                            );
                           } else {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 16),

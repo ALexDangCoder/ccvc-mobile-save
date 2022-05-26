@@ -60,19 +60,23 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
                       width: 20,
                       height: 20,
                       child: Center(
-                        child: SvgPicture.asset(ImageAssets.ic_email),),
+                        child: SvgPicture.asset(ImageAssets.ic_email),
+                      ),
                     ),
                     validator: (value) {
-                      final   isCheckSdt=(value ?? '').checkSdtDinhDangTruong() ?? false;
-                      final   isCheckEmail=(value ?? '').checkEmailBooleanDinhDangTruong() ?? false;
-                      if((value ?? '').isNotEmpty){
-                        if(isCheckSdt || isCheckEmail){
-
-                        }else{
-                          return'${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                      final isCheckSdt =
+                          (value ?? '').checkSdtDinhDangTruong() ?? false;
+                      final isCheckEmail =
+                          (value ?? '').checkEmailBooleanDinhDangTruong() ??
+                              false;
+                      if ((value ?? '').isNotEmpty) {
+                        if (isCheckSdt || isCheckEmail) {
+                        } else {
+                          return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
                         }
-                      }else{
-                        return (value ?? '').checkTruongNull('${S.current.email}/${S.current.so_dien_thoai}');
+                      } else {
+                        return (value ?? '').checkTruongNull(
+                            '${S.current.email}/${S.current.so_dien_thoai}');
                       }
                     },
                   ),

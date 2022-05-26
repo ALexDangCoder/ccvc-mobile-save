@@ -165,7 +165,6 @@ class _NodeWidgetState extends State<NodeWidget> {
                         setState(() {
                           isExpand = !isExpand;
                         });
-
                       } else {
                         widget.cubit.getValueTree(
                           nodeHSCV: widget.node ??

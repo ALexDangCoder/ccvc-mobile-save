@@ -8,6 +8,7 @@ class RowDataWidget extends StatelessWidget {
   final String value;
   final bool isStatus;
   final Color? color;
+
   const RowDataWidget({
     Key? key,
     required this.keyTxt,

@@ -26,13 +26,15 @@ class ItemListNewsTablet extends StatelessWidget {
             child: Container(
               height: 80,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: image.isNotEmpty
-                        ? NetworkImage(image)
-                        : const AssetImage(ImageAssets.icDongNai) as ImageProvider,
-                    fit: BoxFit.fill,
-                  ),),
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: image.isNotEmpty
+                      ? NetworkImage(image)
+                      : const AssetImage(ImageAssets.icDongNai)
+                          as ImageProvider,
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
           ),
           const SizedBox(

@@ -73,17 +73,17 @@ class _ContainerMenuBaoChiTabletWidgetState
                         if (widget.isIcon)
                           widget.icon != null
                               ? SizedBox(
-                            height: 15.0.textScale(space: 8),
-                            width: 15.0.textScale(space: 8),
-                            child: SvgPicture.asset(
-                              widget.icon ?? '',
-                              color: Colors.grey,
-                            ),
-                          )
+                                  height: 15.0.textScale(space: 8),
+                                  width: 15.0.textScale(space: 8),
+                                  child: SvgPicture.asset(
+                                    widget.icon ?? '',
+                                    color: Colors.grey,
+                                  ),
+                                )
                               : SizedBox(
-                            height: 15.0.textScale(space: 8),
-                            width: 15.0.textScale(space: 8),
-                          )
+                                  height: 15.0.textScale(space: 8),
+                                  width: 15.0.textScale(space: 8),
+                                )
                         else
                           const SizedBox(
                             height: 15,

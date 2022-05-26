@@ -25,6 +25,7 @@ class ButtonSelectFile extends StatefulWidget {
   final Widget Function(BuildContext, File)? builder;
   List<File> files;
   final double? spacingFile;
+
   ButtonSelectFile({
     Key? key,
     this.background,
@@ -96,7 +97,8 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                 Text(
                   widget.title,
                   style: textNormalCustom(
-                    color: widget.titleColor ?? AppTheme.getInstance().colorField(),
+                    color: widget.titleColor ??
+                        AppTheme.getInstance().colorField(),
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w500,
                   ),

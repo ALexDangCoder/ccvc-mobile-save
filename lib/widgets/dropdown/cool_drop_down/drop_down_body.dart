@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/util/drop_down_util.dart';
 import 'package:flutter/foundation.dart';
@@ -157,6 +156,7 @@ class DropdownBodyState extends State<DropdownBody>
   late int currentIndex;
   AnimationUtil au = AnimationUtil();
   final GlobalKey globalKey = GlobalKey();
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -499,8 +499,7 @@ class DropdownBodyState extends State<DropdownBody>
                                         children: [
                                           if (index == 0)
                                             Container(
-                                              height:
-                                                  widget.dropdownItemTopGap,
+                                              height: widget.dropdownItemTopGap,
                                             ),
                                           GestureDetector(
                                             onTap: () async {
@@ -544,8 +543,8 @@ class DropdownBodyState extends State<DropdownBody>
                                             child: DecoratedBoxTransition(
                                               decoration:
                                                   selectedDecorationTween
-                                                      .animate(_DCController[
-                                                          index]),
+                                                      .animate(
+                                                          _DCController[index]),
                                               child: Container(
                                                 padding:
                                                     _paddingAnimation[index]
@@ -553,8 +552,8 @@ class DropdownBodyState extends State<DropdownBody>
                                                 height:
                                                     widget.dropdownItemHeight,
                                                 child: Align(
-                                                  alignment: widget
-                                                      .dropdownItemAlign,
+                                                  alignment:
+                                                      widget.dropdownItemAlign,
                                                   child: Row(
                                                     mainAxisAlignment: widget
                                                         .dropdownItemMainAxis,
@@ -597,14 +596,15 @@ class DropdownBodyState extends State<DropdownBody>
                                                           duration: au.isAnimation(
                                                               status: widget
                                                                   .isAnimation,
-                                                              duration: const Duration(
-                                                                  milliseconds:
-                                                                      300)),
-                                                          transitionBuilder: (Widget
-                                                                  child,
-                                                              Animation<
-                                                                      double>
-                                                                  animation) {
+                                                              duration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          300)),
+                                                          transitionBuilder:
+                                                              (Widget child,
+                                                                  Animation<
+                                                                          double>
+                                                                      animation) {
                                                             return FadeTransition(
                                                                 child: child,
                                                                 opacity:
@@ -621,22 +621,19 @@ class DropdownBodyState extends State<DropdownBody>
                                                                     as Widget
                                                                 : widget.dropdownList[
                                                                             index]
-                                                                        [
-                                                                        'icon']
+                                                                        ['icon']
                                                                     as Widget,
                                                           ),
                                                         )
                                                       else
                                                         widget.dropdownList[
                                                                         index]
-                                                                    [
-                                                                    'icon'] !=
+                                                                    ['icon'] !=
                                                                 null
                                                             ? Container(
                                                                 child: widget
-                                                                            .dropdownList[
-                                                                        index]
-                                                                    ['icon'])
+                                                                        .dropdownList[
+                                                                    index]['icon'])
                                                             : Container(),
                                                     ].isReverse(widget
                                                         .dropdownItemReverse),
@@ -653,8 +650,8 @@ class DropdownBodyState extends State<DropdownBody>
                                           if (index ==
                                               widget.dropdownList.length - 1)
                                             Container(
-                                              height: widget
-                                                  .dropdownItemBottomGap,
+                                              height:
+                                                  widget.dropdownItemBottomGap,
                                             )
                                         ],
                                       );

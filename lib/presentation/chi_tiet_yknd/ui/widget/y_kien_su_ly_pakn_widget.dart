@@ -65,8 +65,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          DateTime.parse(widget.object.ngayTao)
-                              .formatDdMMYYYY,
+                          DateTime.parse(widget.object.ngayTao).formatDdMMYYYY,
                           softWrap: true,
                           style: textNormalCustom(
                             color: infoColor,
@@ -89,17 +88,17 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0.textScale(space: 4.0)),
-                    child: Text(
-                      S.current.khong_co_file,
-                      style: textNormalCustom(
-                        color: toDayColor,
-                        fontSize: 12.0.textScale(),
-                        fontWeight: FontWeight.w400,
-                      ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0.textScale(space: 4.0)),
+                  child: Text(
+                    S.current.khong_co_file,
+                    style: textNormalCustom(
+                      color: toDayColor,
+                      fontSize: 12.0.textScale(),
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
+                ),
               ]),
         ),
       ),

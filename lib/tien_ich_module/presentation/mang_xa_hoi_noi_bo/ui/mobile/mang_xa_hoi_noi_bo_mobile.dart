@@ -13,9 +13,7 @@ class _MangXaHoiNoiBoMobileState extends State<MangXaHoiNoiBoMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarDefaultBack(
-          S.current.mang_xa_hoi_noi_bo
-      ),
+      appBar: AppBarDefaultBack(S.current.mang_xa_hoi_noi_bo),
       body: Container(),
     );
   }

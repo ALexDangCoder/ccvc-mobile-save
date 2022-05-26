@@ -177,7 +177,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
       ),
     );
   }
-
 }
 
 class AppCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
@@ -260,5 +259,4 @@ class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
     delegate.bringIntoView(delegate.textEditingValue.selection.extent);
     delegate.hideToolbar();
   }
-
 }

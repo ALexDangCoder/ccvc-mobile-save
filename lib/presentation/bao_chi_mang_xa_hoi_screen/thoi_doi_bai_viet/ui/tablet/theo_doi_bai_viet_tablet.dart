@@ -18,7 +18,8 @@ class TheoDoiBaiVietTablet extends StatefulWidget {
   _TheoDoiBaiVietTabletState createState() => _TheoDoiBaiVietTabletState();
 }
 
-class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet> with AutomaticKeepAliveClientMixin{
+class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
 

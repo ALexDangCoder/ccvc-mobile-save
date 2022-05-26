@@ -51,17 +51,17 @@ class ItemTableTopic extends StatelessWidget {
             ),
           ),
           Row(
-            children:  [
+            children: [
               Expanded(
                 child: ItemInTable(
-                   '${dataItem.articleCount}',
+                  '${dataItem.articleCount}',
                   S.current.bai_viet,
                   ImageAssets.icBaiViet,
                 ),
               ),
               Expanded(
                 child: ItemInTable(
-                    '${dataItem.likeCount}',
+                  '${dataItem.likeCount}',
                   S.current.like,
                   ImageAssets.icLike,
                 ),
@@ -69,7 +69,7 @@ class ItemTableTopic extends StatelessWidget {
             ],
           ),
           Row(
-            children:  [
+            children: [
               Expanded(
                 child: ItemInTable(
                   '${dataItem.shareCount}',
@@ -95,7 +95,7 @@ class ItemTableTopic extends StatelessWidget {
                 style: textNormalCustom(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color:  AppTheme.getInstance().colorField(),
+                  color: AppTheme.getInstance().colorField(),
                 ),
               ),
             ),

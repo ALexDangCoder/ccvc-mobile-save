@@ -7,6 +7,7 @@ class TitleCaiDatWidget extends StatelessWidget {
   final String title;
   final Widget child;
   final double bottomPadding;
+
   const TitleCaiDatWidget(
       {Key? key,
       required this.title,
@@ -46,7 +47,7 @@ class TitleCaiDatWidget extends StatelessWidget {
                 height: 24,
               ),
               Container(
-                padding:  EdgeInsets.only(
+                padding: EdgeInsets.only(
                     top: 48, left: 48, right: 48, bottom: bottomPadding),
                 decoration: BoxDecoration(
                   color: backgroundRowColor,

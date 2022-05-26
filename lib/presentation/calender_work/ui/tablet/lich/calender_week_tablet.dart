@@ -50,8 +50,8 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
                     minimumAppointmentDuration: Duration(minutes: 30),
                   ),
                   viewHeaderStyle: ViewHeaderStyle(
-                    dayTextStyle: textNormalCustom(
-                        fontSize: 13, color: colorA2AEBD),
+                    dayTextStyle:
+                        textNormalCustom(fontSize: 13, color: colorA2AEBD),
                   ),
                   monthViewSettings: const MonthViewSettings(
                     appointmentDisplayMode:

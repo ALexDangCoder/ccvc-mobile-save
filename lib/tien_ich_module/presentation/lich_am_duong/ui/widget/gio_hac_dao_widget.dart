@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 class GioHacDaoWidget extends StatelessWidget {
   final List<GioHacDao> listGioHacDao;
 
-
   const GioHacDaoWidget({
     Key? key,
     required this.listGioHacDao,
@@ -67,4 +66,3 @@ class GioHacDaoWidget extends StatelessWidget {
     );
   }
 }
-

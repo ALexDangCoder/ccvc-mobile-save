@@ -14,17 +14,17 @@ class LoaiBaiVietModel {
   bool? isShowExpanded;
 
   LoaiBaiVietModel({
-     this.childrens,
-     this.id,
-     this.title,
-     this.code,
-     this.alias,
-     this.description,
-     this.thumbnailUrl,
-     this.parentId,
-     this.pathItem,
-     this.isDuocMoi,
-     this.type,
-     this.order,
+    this.childrens,
+    this.id,
+    this.title,
+    this.code,
+    this.alias,
+    this.description,
+    this.thumbnailUrl,
+    this.parentId,
+    this.pathItem,
+    this.isDuocMoi,
+    this.type,
+    this.order,
   });
 }

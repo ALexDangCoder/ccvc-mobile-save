@@ -84,17 +84,19 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
                         color: indicatorColor,
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       children: [
                         SvgPicture.asset(ImageAssets.icCalendar),
                         const SizedBox(
                           width: 10,
                         ),
-
                         Text(
                           DateTime.parse(
-                            widget.baiVietModel.publishedTime.replaceAll("/", "-"),
+                            widget.baiVietModel.publishedTime
+                                .replaceAll("/", "-"),
                           ).formatApiSSAM,
                           style: textNormalCustom(
                             fontSize: 16,
@@ -116,7 +118,7 @@ class _BaiVietItemTabletState extends State<BaiVietItemTablet> {
             height: 16,
           ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(

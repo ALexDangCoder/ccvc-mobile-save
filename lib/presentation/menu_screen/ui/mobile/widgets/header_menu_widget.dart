@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 
 class HeaderMenuMobileWidget extends StatelessWidget {
   final MenuCubit menuCubit;
+
   const HeaderMenuMobileWidget({Key? key, required this.menuCubit})
       : super(key: key);
 

@@ -14,6 +14,7 @@ class RowValueWidget extends StatefulWidget {
   final TypeData row;
   final bool isTablet;
   final bool isMarinLeft;
+
   const RowValueWidget({
     Key? key,
     required this.row,
@@ -40,7 +41,10 @@ class _RowValueWidgetState extends State<RowValueWidget> {
   }
 }
 
-Widget rowData({required TypeData row, bool isMarinleft = false,}) {
+Widget rowData({
+  required TypeData row,
+  bool isMarinleft = false,
+}) {
   return Row(
     children: [
       SizedBox(
@@ -59,8 +63,12 @@ Widget rowData({required TypeData row, bool isMarinleft = false,}) {
           fontSize: 16.0.textScale(),
         ),
       ),
-
-      if (isMarinleft) const SizedBox(width: 37,) else Container(),
+      if (isMarinleft)
+        const SizedBox(
+          width: 37,
+        )
+      else
+        Container(),
     ],
   );
 }

@@ -9,6 +9,7 @@ class MenuItemTienIch extends StatelessWidget {
   final String urlIcon;
   final String title;
   final bool isBorder;
+
   const MenuItemTienIch({
     Key? key,
     required this.title,
@@ -20,11 +21,10 @@ class MenuItemTienIch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-
         borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.all(
-            color: borderColor.withOpacity(0.5),
-          ),
+        border: Border.all(
+          color: borderColor.withOpacity(0.5),
+        ),
       ),
       child: Container(
         padding: const EdgeInsets.all(16.0),

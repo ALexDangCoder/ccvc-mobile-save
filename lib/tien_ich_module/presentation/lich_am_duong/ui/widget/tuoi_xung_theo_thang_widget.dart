@@ -43,7 +43,6 @@ class TuoiXungTheoThangWidget extends StatelessWidget {
             );
           }),
         ),
-
       ],
     );
   }

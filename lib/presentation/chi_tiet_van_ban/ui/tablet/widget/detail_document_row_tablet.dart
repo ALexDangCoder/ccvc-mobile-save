@@ -40,7 +40,9 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                   ),
                 ),
               ),
-              const SizedBox(width: 5.0,),
+              const SizedBox(
+                width: 5.0,
+              ),
               Expanded(
                 flex: 6,
                 child: widget.row.type == TypeDocumentDetailRow.text

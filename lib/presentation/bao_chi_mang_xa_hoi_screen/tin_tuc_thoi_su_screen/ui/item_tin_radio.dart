@@ -89,7 +89,8 @@ class ItemTinRadio extends StatelessWidget {
                         width: 45,
                       ),
                       GestureDetector(
-                        child: SvgPicture.asset(ImageAssets.icPlay.svgToTheme()),
+                        child:
+                            SvgPicture.asset(ImageAssets.icPlay.svgToTheme()),
                         onTap: () {
                           clickItem();
                         },
@@ -105,4 +106,3 @@ class ItemTinRadio extends StatelessWidget {
     );
   }
 }
-

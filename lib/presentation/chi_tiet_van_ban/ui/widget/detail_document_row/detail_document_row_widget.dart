@@ -39,7 +39,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
             data = widget.row.value as List<FileDinhKems>;
           } catch (_) {}
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10 ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
                 Expanded(
@@ -103,7 +103,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
       case TypeDocumentDetailRow.status:
         {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10 ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -154,7 +154,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
       case TypeDocumentDetailRow.text:
         {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10 ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

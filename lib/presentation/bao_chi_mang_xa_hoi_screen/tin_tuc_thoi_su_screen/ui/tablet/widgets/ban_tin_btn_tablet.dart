@@ -249,8 +249,9 @@ class _BanTinBtnSheetTabletState extends State<BanTinBtnSheetTablet> {
                                       height: 4,
                                       child: Slider(
                                         value: data,
-                                        activeColor:  AppTheme.getInstance().colorField(),
-                                        inactiveColor:borderButtomColor,
+                                        activeColor:
+                                            AppTheme.getInstance().colorField(),
+                                        inactiveColor: borderButtomColor,
                                         onChanged: (double value) {
                                           player.setVolume(value);
                                         },

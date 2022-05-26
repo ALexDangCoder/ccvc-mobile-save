@@ -55,24 +55,25 @@ class _SearchNameWidgetState extends State<SearchNameWidget> {
             ],
           ),
           StreamBuilder(
-              stream: WidgetTaoLichLVInherited.of(context)
-                  .taoLichLamViecCubit
-                  .listItemPersonStream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Container();
-                }
+            stream: WidgetTaoLichLVInherited.of(context)
+                .taoLichLamViecCubit
+                .listItemPersonStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Container();
+              }
 
-                return Column(
-                  children: listPerson
-                      .map(
-                        (e) => ItemPersonWidget(
-                          name: e,
-                        ),
-                      )
-                      .toList(),
-                );
-              },),
+              return Column(
+                children: listPerson
+                    .map(
+                      (e) => ItemPersonWidget(
+                        name: e,
+                      ),
+                    )
+                    .toList(),
+              );
+            },
+          ),
         ],
       ),
     );

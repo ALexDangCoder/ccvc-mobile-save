@@ -7,12 +7,13 @@ class DanhSachLichHopModel {
 
   DanhSachLichHopModel.empty();
 
-  DanhSachLichHopModel(
-      {required this.items,
-      required this.pageIndex,
-      required this.pageSize,
-      required this.totalCount,
-      required this.totalPage,});
+  DanhSachLichHopModel({
+    required this.items,
+    required this.pageIndex,
+    required this.pageSize,
+    required this.totalCount,
+    required this.totalPage,
+  });
 }
 
 class ItemDanhSachLichHop {
@@ -114,4 +115,3 @@ class CanBo {
     required this.tenDonViGoc,
   });
 }
-

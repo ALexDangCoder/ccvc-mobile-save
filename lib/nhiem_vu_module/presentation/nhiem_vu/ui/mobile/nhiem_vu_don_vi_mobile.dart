@@ -274,8 +274,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                             vertical: 20, horizontal: 16.0),
                         child: Text(
                           S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
-                          style:
-                              textNormalCustom(color: color3D5586, fontSize: 16),
+                          style: textNormalCustom(
+                              color: color3D5586, fontSize: 16),
                         ),
                       ),
                       StateSelectBieuDoTrangThaiWidget(

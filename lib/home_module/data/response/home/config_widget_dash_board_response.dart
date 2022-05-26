@@ -109,50 +109,50 @@ class WidgetData {
   @JsonKey(name: 'minW')
   int? minW;
   @JsonKey(name: 'props')
-  Map<String,dynamic>? props;
+  Map<String, dynamic>? props;
 
   WidgetData(
-      this.id,
-      this.name,
-      this.component,
-      this.widgetTypeId,
-      this.description,
-      this.code,
-      this.width,
-      this.height,
-      this.minWidth,
-      this.minHeight,
-      this.maxHeight,
-      this.maxWidth,
-      this.props,
-      this.static,
-      this.isResizable,
-      this.thumbnail,
-      this.appId,
-      this.order,
-      this.isShowing,
-      this.x,
-      this.y,
-      this.i,
-      this.enable,
-      this.moved,
-      this.w,
-      this.h,
-      this.maxH,
-      this.maxW,
-      this.minH,
-      this.minW,);
+    this.id,
+    this.name,
+    this.component,
+    this.widgetTypeId,
+    this.description,
+    this.code,
+    this.width,
+    this.height,
+    this.minWidth,
+    this.minHeight,
+    this.maxHeight,
+    this.maxWidth,
+    this.props,
+    this.static,
+    this.isResizable,
+    this.thumbnail,
+    this.appId,
+    this.order,
+    this.isShowing,
+    this.x,
+    this.y,
+    this.i,
+    this.enable,
+    this.moved,
+    this.w,
+    this.h,
+    this.maxH,
+    this.maxW,
+    this.minH,
+    this.minW,
+  );
 
   factory WidgetData.fromJson(Map<String, dynamic> json) =>
       _$WidgetDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$WidgetDataToJson(this);
 
-  WidgetModel toDomain() =>
-      WidgetModel(
+  WidgetModel toDomain() => WidgetModel(
         id: id ?? '',
         name: name ?? '',
-        component: component??'',
+        component: component ?? '',
         widgetTypeId: widgetTypeId,
         description: description,
         code: code,

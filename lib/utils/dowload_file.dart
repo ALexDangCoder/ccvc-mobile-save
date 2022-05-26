@@ -1,30 +1,55 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> saveFile(String _fileName, dynamic data) async {
-  final response = await Dio().get(
-    data,
-    options: Options(
-      responseType: ResponseType.bytes,
-      followRedirects: false,
-      receiveTimeout: 0,
-    ),
-  );
-  final dynamic dataSave = response.data;
-  if (Platform.isAndroid) {
-    try {
-      const String dir = '/storage/emulated/0/Download';
-      await writeFile(dir, _fileName, dataSave);
-    } catch (e) {
-      final tempDir = await getExternalStorageDirectory();
-      await writeFile(tempDir?.path ?? '', _fileName, dataSave);
+Future<bool> saveFile(String _fileName, dynamic data, {bool? http}) async {
+  bool success = false;
+  if (http == true) {
+    final HttpClient httpClient = HttpClient();
+    File file;
+    String filePath = '';
+    const String dir = '/storage/emulated/0/Download';
+    final request = await httpClient.getUrl(Uri.parse(data));
+    final responses = await request.close();
+    if (responses.statusCode == 200) {
+      final bytes = await consolidateHttpClientResponseBytes(responses);
+      filePath = '$dir/$_fileName';
+      file = File(filePath);
+      await file.writeAsBytes(bytes);
+      success = true;
+    } else {
+      success = false;
     }
-  } else if (Platform.isIOS) {
-    final tempDir = await getApplicationDocumentsDirectory();
-    await writeFile(tempDir.path, _fileName, dataSave);
+  } else {
+    final response = await Dio()
+        .get(
+          data,
+          options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            receiveTimeout: 60000,
+          ),
+        )
+        .catchError((error) {});
+    final dynamic dataSave = response;
+    if (Platform.isAndroid) {
+      try {
+        const String dir = '/storage/emulated/0/Download';
+        await writeFile(dir, _fileName, dataSave);
+      } catch (e) {
+        final tempDir = await getExternalStorageDirectory();
+        await writeFile(tempDir?.path ?? '', _fileName, dataSave);
+        success = true;
+      }
+    } else if (Platform.isIOS) {
+      final tempDir = await getApplicationDocumentsDirectory();
+      await writeFile(tempDir.path, _fileName, dataSave);
+      success = false;
+    }
   }
+  return success;
 }
 
 Future<void> writeFile(String path, String _fileName, dynamic data) async {

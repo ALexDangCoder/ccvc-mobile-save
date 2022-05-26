@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
@@ -10,6 +11,7 @@ import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'lich_su_van_ban_model.dart';
@@ -79,7 +81,8 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                       }
                       await saveFile(
                         e.ten ?? '',
-                        e.pathIOC,
+                        '${Get.find<AppConstants>().baseUrlQLNV}${e.duongDan}',
+                        http: true,
                       )
                           .then(
                             (value) => MessageConfig.show(
@@ -146,26 +149,28 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             final data = row.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[...data
-                  .map(
-                    (e) => GestureDetector(
-                      onTap: () async {
-                        await handleSaveFile(
-                          url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                          name: e.ten ?? '',
-                        );
-                      },
-                      child: Text(
-                        e.ten ?? '',
-                        style: textNormalCustom(
-                          color: choXuLyColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0.textScale(),
+              children: <Widget>[
+                ...data
+                    .map(
+                      (e) => GestureDetector(
+                        onTap: () async {
+                          await handleSaveFile(
+                            url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
+                            name: e.ten ?? '',
+                          );
+                        },
+                        child: Text(
+                          e.ten ?? '',
+                          style: textNormalCustom(
+                            color: choXuLyColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.0.textScale(),
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList()],
+                    )
+                    .toList()
+              ],
             );
           } else {
             return const SizedBox.shrink();

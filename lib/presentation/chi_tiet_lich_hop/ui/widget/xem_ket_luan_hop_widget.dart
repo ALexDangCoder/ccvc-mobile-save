@@ -179,7 +179,7 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                   ),
                 ),
                 ListFileFromAPI(
-                  data: [],
+                  data: '',
                   onTap: () {},
                 ),
                 Padding(

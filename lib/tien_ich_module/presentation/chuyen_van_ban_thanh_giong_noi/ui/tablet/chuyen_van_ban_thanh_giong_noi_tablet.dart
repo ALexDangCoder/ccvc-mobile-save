@@ -84,7 +84,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                           data.map((e) => e.code ?? '').toList();
                       if (cubit.voidTone != dataSelect[vl]) {
                         cubit.voidTone = dataSelect[vl];
-                        cubit.check = true;
+                        cubit.enableButton.sink.add(true);
                       }
                     },
                   ),
@@ -109,7 +109,7 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                       onChanged: (String value) {
                         if (cubit.text != value) {
                           cubit.text = value;
-                          cubit.check = true;
+                          cubit.enableButton.sink.add(true);
                         }
                       },
                       decoration: const InputDecoration(
@@ -129,12 +129,18 @@ class _ChuyenVanBanThanhGiongNoiTabletState
                   ),
                 ),
                 const SizedBox(height: 28),
-                btnListen(
-                  onTap: () {
-                    if (cubit.check) {
-                      cubit.chuyenVBSangGiongNoi();
-                    }
-                    cubit.pauseMusic();
+                StreamBuilder<bool>(
+                  stream: cubit.enableButton,
+                  builder: (context, snapshot) {
+                    return btnListen(
+                      onTap: () {
+                        if (cubit.enableButton.value) {
+                          cubit.chuyenVBSangGiongNoi();
+                        }
+                        cubit.pauseMusic();
+                      },
+                      isEnable: snapshot.data ?? true,
+                    );
                   },
                 ),
                 Expanded(child: Container()),

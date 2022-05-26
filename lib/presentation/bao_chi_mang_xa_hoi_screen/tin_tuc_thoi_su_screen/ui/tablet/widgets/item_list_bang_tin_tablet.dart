@@ -43,7 +43,7 @@ class ItemListBangTinTablet extends StatelessWidget {
             ),
             Icon(
               Icons.brightness_1,
-              color: isCheck ? AppTheme.getInstance().colorField() : sideTextInactiveColor,
+              color: isCheck ? AppTheme.getInstance().colorField() : AppTheme.getInstance().sideTextInactiveColor(),
               size: 12,
             ),
             const SizedBox(

@@ -226,7 +226,7 @@ class _BaoCaoThongKeTabletState extends State<BaoCaoThongKeTablet> {
                                         child: BoxStatusVanBan(
                                           value: data.trongHan ?? 0,
                                           onTap: () {},
-                                          color: titleColor,
+                                          color: color3D5586,
                                           statusName: S.current.trong_han,
                                         ),
                                       ),

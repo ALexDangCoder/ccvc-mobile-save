@@ -67,7 +67,7 @@ class ItemTinRadio extends StatelessWidget {
                     style: textNormalCustom(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
                   const SizedBox(

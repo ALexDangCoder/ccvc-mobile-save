@@ -264,7 +264,7 @@ class _ColumnDataState extends State<ColumnData> {
             style: textNormalCustom(
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w400,
-              color: unselectLabelColor,
+              color: colorA2AEBD,
             ),
           ),
         ),

@@ -46,7 +46,7 @@ class ItemTableTopic extends StatelessWidget {
               style: textNormalCustom(
                 fontWeight: FontWeight.w500,
                 fontSize: 16.0.textScale(space: 4),
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
           ),
@@ -129,7 +129,7 @@ class ItemInTable extends StatelessWidget {
           Text(
             index,
             style: textNormalCustom(
-              color: titleColor,
+              color: color3D5586,
               fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
@@ -143,7 +143,7 @@ class ItemInTable extends StatelessWidget {
               Text(
                 content,
                 style: textNormalCustom(
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),

@@ -91,7 +91,7 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                                   Text(
                                     'Chủ trì',
                                     style: textNormalCustom(
-                                      color: unselectedLabelColor,
+                                      color: color667793,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -110,7 +110,7 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                                           // data.nguoiGiaoViec ?? '',
                                           'Phạm Viết Cương',
                                           style: textNormalCustom(
-                                            color: unselectedLabelColor,
+                                            color: color667793,
                                             fontWeight: FontWeight.w400,
                                           ),
                                           maxLines: 1,
@@ -120,7 +120,7 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                                         Text(
                                           '${S.current.nhiem_vu}: ${data.loaiNhiemVu}',
                                           style: textNormalCustom(
-                                            color: unselectedLabelColor,
+                                            color: color667793,
                                             fontWeight: FontWeight.w400,
                                           ),
                                           maxLines: 1,

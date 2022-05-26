@@ -55,7 +55,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               style: textNormalCustom(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
@@ -73,7 +73,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               style: textNormalCustom(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                             ),
                           )

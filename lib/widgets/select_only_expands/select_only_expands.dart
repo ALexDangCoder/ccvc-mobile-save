@@ -123,7 +123,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                           Flexible(
                             child: Text(
                               widget.listSelect[index],
-                              style: textNormal(titleColor, 16),
+                              style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -180,7 +180,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),
@@ -201,7 +201,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             return screenDevice(
                                 mobileScreen: Text(
                                   valueSelect,
-                                  style: textNormal(titleColor, 16),
+                                  style: textNormal(color3D5586, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 tabletScreen: Align(
@@ -210,7 +210,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                                       padding: const EdgeInsets.only(right: 26),
                                       child: Text(
                                         valueSelect,
-                                        style: textNormal(titleColor, 16),
+                                        style: textNormal(color3D5586, 16),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     )));

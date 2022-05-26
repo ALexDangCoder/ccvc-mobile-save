@@ -128,7 +128,7 @@ class _FilterDateTabletState extends State<FilterDateTablet>
                 children: [
                   Text(
                     widget.selectedEndDate.toStringWithListFormat,
-                    style: textNormal(titleColor, 14.0),
+                    style: textNormal(color3D5586, 14.0),
                   ),
                   SvgPicture.asset(ImageAssets.icCalendarUnFocus),
                 ],

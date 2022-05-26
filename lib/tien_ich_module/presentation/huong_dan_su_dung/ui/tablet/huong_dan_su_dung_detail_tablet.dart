@@ -219,7 +219,7 @@ class _HuongDanSuDungDetailTabletState
                           S.current.ban_van_con_cau_hoi,
                           style: textNormalCustom(
                             fontSize: 16.0,
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -292,7 +292,7 @@ Widget itemPhoneMailTablet(
             title,
             style: textNormalCustom(
               fontSize: 12.0,
-              color: titleColor,
+              color: color3D5586,
             ),
             textAlign: TextAlign.center,
           ),

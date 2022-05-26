@@ -207,7 +207,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           children: [
                             widget.type.getTextWidget(
                               cubit: cubit,
-                              textColor: titleColor,
+                              textColor: color3D5586,
                             ),
                             const Icon(
                               Icons.arrow_drop_down_sharp,
@@ -261,7 +261,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           fontWeight: FontWeight.w500,
                         ),
                         defaultTextStyle: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w500,
                         ),

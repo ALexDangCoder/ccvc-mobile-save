@@ -39,7 +39,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                 children: List.generate(
                   8,
                       (index) => const MySeparator(
-                    color: lineColor,
+                    color: colorECEEF7,
                     height: 2,
                   ),
                 ),

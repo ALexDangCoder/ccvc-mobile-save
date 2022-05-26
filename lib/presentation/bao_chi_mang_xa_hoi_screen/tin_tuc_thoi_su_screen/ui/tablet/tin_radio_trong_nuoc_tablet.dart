@@ -187,7 +187,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,

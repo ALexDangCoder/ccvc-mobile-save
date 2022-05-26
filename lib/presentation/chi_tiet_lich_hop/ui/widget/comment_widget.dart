@@ -69,7 +69,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   child: Text(
                     showRecoment ? 'Ẩn' : 'Hiện',
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: color3D5586,
                       fontSize: 14.0.textScale(),
                       fontWeight: FontWeight.w500,
                     ),
@@ -132,7 +132,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               child: Text(
                 nguoiTao,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w500,
                 ),
@@ -158,7 +158,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         Text(
           content,
           style: textNormalCustom(
-            color: titleColor,
+            color: color3D5586,
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w400,
           ),

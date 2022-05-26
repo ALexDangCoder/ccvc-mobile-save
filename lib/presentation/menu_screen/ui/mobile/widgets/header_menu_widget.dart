@@ -19,7 +19,7 @@ class HeaderMenuMobileWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: lineColor),
+          bottom: BorderSide(color: colorECEEF7),
         ),
       ),
       child: StreamBuilder<UserInformationModel>(
@@ -83,7 +83,7 @@ class HeaderMenuMobileWidget extends StatelessWidget {
                 ),
                 const Icon(
                   Icons.navigate_next,
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                 )
               ],
             );

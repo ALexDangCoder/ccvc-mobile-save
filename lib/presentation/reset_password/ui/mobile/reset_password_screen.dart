@@ -31,13 +31,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 const SizedBox(height: 30.0),
                 Text(
                   S.current.nhap_ma_xac_minh,
-                  style: textNormalCustom(color: titleColor, fontSize: 16.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 16.0),
                 ),
                 const SizedBox(height: 16.0),
                 Text(
                   S.current.ma_xac_minh_cua_ban,
                   style: textNormalCustom(
-                    color: titleColor,
+                    color: color3D5586,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -59,18 +59,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       shape: PinCodeFieldShape.underline,
                       fieldHeight: 50,
                       fieldWidth: 32,
-                      inactiveColor: unselectLabelColor,
+                      inactiveColor: colorA2AEBD,
                       //gach chan khi khong duoc chon
                       activeFillColor: backgroundColorApp,
                       //mau khi da dien so
-                      activeColor: unselectLabelColor,
+                      activeColor: colorA2AEBD,
                       //gach chan
-                      selectedColor: unselectLabelColor,
+                      selectedColor: colorA2AEBD,
                       // gach chan khi duoc chon
                       selectedFillColor: backgroundColorApp,
                       //chon mau khi duoc chon
                       errorBorderColor: errorBorderColor,
-                      disabledColor: unselectLabelColor,
+                      disabledColor: colorA2AEBD,
                       inactiveFillColor: backgroundColorApp
                       //mau khi khong chon mac dinh mau vang
                       ,
@@ -97,7 +97,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     Text(
                       S.current.ban_khong_nhan_duoc_ma,
                       style: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontWeight: FontWeight.w400,
                       ),
                     ),

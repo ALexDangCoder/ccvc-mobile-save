@@ -186,7 +186,7 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,

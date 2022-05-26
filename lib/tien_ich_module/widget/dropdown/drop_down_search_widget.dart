@@ -58,7 +58,7 @@ class _DropDownSearchState extends State<DropDownSearch> {
                 select,
                 style: tokenDetailAmount(
                   fontSize: 14.0.textScale(),
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
       ),

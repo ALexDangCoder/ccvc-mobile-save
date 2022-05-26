@@ -75,7 +75,7 @@ class ItemMenuNhiemVuWidgetTablet extends StatelessWidget {
                 child: Text(
                   name,
                   style: textNormalCustom(
-                    color: isSelect ? backgroundColorApp : titleColor,
+                    color: isSelect ? backgroundColorApp : color3D5586,
                     fontWeight: FontWeight.w400,
                     fontSize: 16.0.textScale(space: 4),
                   ),

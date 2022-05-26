@@ -51,7 +51,7 @@ class RowDataWidget extends StatelessWidget {
                 )
               : Text(
                   value,
-                  style: textNormal(titleColor, 14.0.textScale()),
+                  style: textNormal(color3D5586, 14.0.textScale()),
                 ),
         )
       ],

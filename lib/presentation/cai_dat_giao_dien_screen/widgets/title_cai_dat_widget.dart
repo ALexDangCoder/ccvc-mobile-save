@@ -24,7 +24,7 @@ class TitleCaiDatWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textNormalCustom(fontSize: 16, color: titleColor),
+                style: textNormalCustom(fontSize: 16, color: color3D5586),
               ),
               const SizedBox(
                 height: 20,
@@ -40,7 +40,7 @@ class TitleCaiDatWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textNormalCustom(fontSize: 18, color: titleColor),
+                style: textNormalCustom(fontSize: 18, color: color3D5586),
               ),
               const SizedBox(
                 height: 24,

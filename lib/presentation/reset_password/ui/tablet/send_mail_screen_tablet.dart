@@ -40,14 +40,14 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
                   const SizedBox(height: 80.0),
                   Text(
                     S.current.nhan_ma_xac_minh,
-                    style: textNormalCustom(color: titleColor, fontSize: 20.0),
+                    style: textNormalCustom(color: color3D5586, fontSize: 20.0),
                   ),
                   const SizedBox(height: 40.0),
                   Text(
                     S.current.de_nhan_ma_xac_minh,
                     style: textNormalCustom(
                       fontSize: 16.0,
-                      color: titleColor,
+                      color: color3D5586,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

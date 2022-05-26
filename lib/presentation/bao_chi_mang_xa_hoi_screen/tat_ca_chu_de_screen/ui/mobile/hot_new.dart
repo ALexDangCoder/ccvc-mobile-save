@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/presentation/webview/web_view_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/cupertino.dart';
@@ -77,7 +78,7 @@ class HotNews extends StatelessWidget {
             Text(
               date,
               style: textNormalCustom(
-                color: unselectedLabelColor,
+                color: AppTheme.getInstance().unselectedColor(),
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
               ),
@@ -90,7 +91,7 @@ class HotNews extends StatelessWidget {
         Text(
           content,
           style: textNormalCustom(
-            color: unselectedLabelColor,
+            color: AppTheme.getInstance().unselectedColor(),
             fontWeight: FontWeight.w400,
             fontSize: 14,
           ),

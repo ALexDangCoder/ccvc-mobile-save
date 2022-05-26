@@ -195,7 +195,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
                                         vertical: 16),
                                     decoration: const BoxDecoration(
                                       border: Border(
-                                        bottom: BorderSide(color: lineColor),
+                                        bottom: BorderSide(color: colorECEEF7),
                                       ),
                                     ),
                                     child: Text(
@@ -310,7 +310,7 @@ class _MenuTabletScreenState extends State<MenuTabletScreen> {
               padding: EdgeInsets.only(top: 10.h),
               child: Text(
                 type.getItem().title,
-                style: textNormalCustom(fontSize: 18, color: titleColor),
+                style: textNormalCustom(fontSize: 18, color: color3D5586),
                 textAlign: TextAlign.center,
               ),
             )

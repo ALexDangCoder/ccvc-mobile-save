@@ -69,7 +69,7 @@ class HotNewsTablet extends StatelessWidget {
             Text(
               date,
               style: textNormalCustom(
-                color: unselectedLabelColor,
+                color: color667793,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
               ),
@@ -82,7 +82,7 @@ class HotNewsTablet extends StatelessWidget {
         Text(
           content,
           style: textNormalCustom(
-            color: unselectedLabelColor,
+            color: color667793,
             fontWeight: FontWeight.w400,
             fontSize: 14.0.textScale(),
           ),

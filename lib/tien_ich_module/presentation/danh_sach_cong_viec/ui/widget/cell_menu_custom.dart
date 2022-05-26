@@ -62,7 +62,7 @@ class CellMenuCustom extends StatelessWidget {
               Text(
                 name,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontWeight: FontWeight.w400,
                   fontSize: 16.0.textScale(space: 4),
                 ),

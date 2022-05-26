@@ -161,7 +161,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                               Flexible(
                                 child: Text(
                                   widget.listSelect[index],
-                                  style: textNormal(titleColor, 16),
+                                  style: textNormal(color3D5586, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -221,7 +221,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),

@@ -138,7 +138,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                             '${widget.row.value}',
                             style: textNormalCustom(
                               fontSize: 14,
-                              color: titleColor,
+                              color: color3D5586,
                             ),
                           ),
                         ),
@@ -183,7 +183,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                                 style: textNormalCustom(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
@@ -200,7 +200,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                                 '${widget.row.value}',
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                             )
@@ -218,7 +218,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                               '${widget.row.value}',
                               style: textNormalCustom(
                                 fontSize: 14,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                             ),
                           ),

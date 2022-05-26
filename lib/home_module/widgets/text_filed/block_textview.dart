@@ -73,7 +73,7 @@ class _BlockTextViewState extends State<BlockTextView> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             style: tokenDetailAmount(
               fontSize: 14.0.textScale(),
-              color: titleColor,
+              color: color3D5586,
             ),
             decoration: InputDecoration(
               hintText: widget.hintText,

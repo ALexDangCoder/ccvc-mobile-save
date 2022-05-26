@@ -44,7 +44,7 @@ class _LichHopTheoThangState extends State<LichHopTheoThang> {
                       ),
                       viewHeaderStyle: ViewHeaderStyle(
                         dayTextStyle: textNormalCustom(
-                            fontSize: 13, color: unselectLabelColor),
+                            fontSize: 13, color: colorA2AEBD),
                       ),
                       monthViewSettings: MonthViewSettings(
                         showTrailingAndLeadingDates: false,

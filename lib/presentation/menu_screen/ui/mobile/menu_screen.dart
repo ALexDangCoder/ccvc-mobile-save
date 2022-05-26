@@ -101,7 +101,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
                               border: Border(
-                                bottom: BorderSide(color: lineColor),
+                                bottom: BorderSide(color: colorECEEF7),
                               ),
                             ),
                             child: const ButtonQuanLyMobileWidget()),

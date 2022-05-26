@@ -281,7 +281,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                     '',
                     style: tokenDetailAmount(
                       fontSize: 14.0.textScale(),
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
           ),

@@ -141,7 +141,7 @@ class ItemInTableTablet extends StatelessWidget {
               Text(
                 index,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: AppTheme.getInstance().titleColor(),
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
@@ -152,7 +152,7 @@ class ItemInTableTablet extends StatelessWidget {
               Text(
                 content,
                 style: textNormalCustom(
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),

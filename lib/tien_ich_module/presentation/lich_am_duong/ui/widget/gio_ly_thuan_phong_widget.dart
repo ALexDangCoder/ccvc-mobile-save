@@ -25,7 +25,7 @@ class GioLyThuanPhongWidget extends StatelessWidget {
             S.current.gio_ly_thuan_phong,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -63,7 +63,7 @@ Widget titleGioLyThuanPhong(String title, String values) {
         Text(
           values,
           style: textNormalCustom(
-            color:  titleColor,
+            color:  color3D5586,
             fontWeight: FontWeight.w400,
             fontSize: 14.0.textScale(),
           ),

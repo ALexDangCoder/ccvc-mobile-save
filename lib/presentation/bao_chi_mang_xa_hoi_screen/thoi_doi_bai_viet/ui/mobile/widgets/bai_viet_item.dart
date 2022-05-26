@@ -143,7 +143,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
             child: Text(
               widget.baiVietModel.title,
               style: textNormalCustom(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

@@ -92,7 +92,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 0
                                           ? backgroundColorApp
-                                          : titleColor,
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),
@@ -128,7 +128,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 1
                                           ? backgroundColorApp
-                                          : titleColor,
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),
@@ -164,7 +164,7 @@ class _WidgetChooseDayWeekMonthState extends State<WidgetChooseDayWeekMonth> {
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 2
                                           ? backgroundColorApp
-                                          : titleColor,
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),

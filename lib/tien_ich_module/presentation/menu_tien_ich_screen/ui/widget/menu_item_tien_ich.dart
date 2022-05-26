@@ -47,7 +47,7 @@ class MenuItemTienIch extends StatelessWidget {
                   ),
                   const Icon(
                     Icons.navigate_next,
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                   )
                 ],
               ),

@@ -49,7 +49,7 @@ class ItemThongBaoTablet extends StatelessWidget {
                   Text(
                     title,
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: color3D5586,
                       fontSize: 18.0,
                       fontWeight: FontWeight.w500,
                     ),

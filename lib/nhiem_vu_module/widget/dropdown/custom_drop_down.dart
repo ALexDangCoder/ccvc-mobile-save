@@ -71,7 +71,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                             widget.value ?? '',
                             style: tokenDetailAmount(
                               fontSize: 14.0.textScale(),
-                              color: titleColor,
+                              color: color3D5586,
                             ),
                           ),
                         )
@@ -109,7 +109,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                       value,
                                       style: tokenDetailAmount(
                                         fontSize: 14.0.textScale(),
-                                        color: titleColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   );
@@ -121,7 +121,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                       S.current.danh_sach_rong,
                                       style: tokenDetailAmount(
                                         fontSize: 14.0.textScale(),
-                                        color: titleColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   )

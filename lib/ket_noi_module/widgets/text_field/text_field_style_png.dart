@@ -89,7 +89,7 @@ class _TextFieldStylePNGState extends State<TextFieldStylePNG> {
                 EdgeInsets.symmetric(vertical: widget.maxLine == 1 ? 2 : 0),
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: lineColor),
+                bottom: BorderSide(color: colorECEEF7),
               ),
             ),
             child: textFromField(),
@@ -135,7 +135,7 @@ class _TextFieldStylePNGState extends State<TextFieldStylePNG> {
             widget.onTap!();
           }
         },
-        style: textNormal(titleColor, 16),
+        style: textNormal(color3D5586, 16),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
           hintText: widget.hintText,

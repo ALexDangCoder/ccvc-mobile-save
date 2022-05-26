@@ -50,7 +50,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                       child: Text(
                         widget.object.tenNguoiChoYKien ?? '',
                         style: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w500,
                         ),
@@ -84,7 +84,7 @@ class _YKienXuLyPAKNWidgetState extends State<YKienXuLyPAKNWidget> {
                 Text(
                   widget.object.noiDung ?? '',
                   style: textNormalCustom(
-                    color: titleColor,
+                    color: color3D5586,
                     fontSize: 14.0.textScale(),
                     fontWeight: FontWeight.w400,
                   ),

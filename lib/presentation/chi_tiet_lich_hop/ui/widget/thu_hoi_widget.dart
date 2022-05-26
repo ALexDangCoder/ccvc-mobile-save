@@ -272,7 +272,7 @@ class _DropDownSearchThuHoiState extends State<DropDownSearchThuHoi> {
                     '',
                     style: tokenDetailAmount(
                       fontSize: 14.0.textScale(),
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
           ),

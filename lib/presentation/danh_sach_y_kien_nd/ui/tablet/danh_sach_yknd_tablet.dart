@@ -63,7 +63,7 @@ class _DanhSachYKNDTabletState extends State<DanhSachYKNDTablet>
                       hintStyle: textNormalCustom(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w400,
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                       ),
                     ),
                   )

@@ -275,7 +275,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         child: Text(
                           S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
                           style:
-                              textNormalCustom(color: titleColor, fontSize: 16),
+                              textNormalCustom(color: color3D5586, fontSize: 16),
                         ),
                       ),
                       StateSelectBieuDoTrangThaiWidget(
@@ -587,7 +587,7 @@ class _StatusWidgetState extends State<StatusWidget> {
                           scale: scale,
                           dashCountRow: countRangeChart.floor(),
                           height: height,
-                          color: lineColor,
+                          color: colorECEEF7,
                         );
                       },
                     ),

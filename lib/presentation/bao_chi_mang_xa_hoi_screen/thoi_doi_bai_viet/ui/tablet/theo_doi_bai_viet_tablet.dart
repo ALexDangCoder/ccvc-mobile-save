@@ -36,7 +36,7 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet> with Automa
               S.current.nhap_linK_bao_cao,
               style: textNormalCustom(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
                 fontWeight: FontWeight.w400,
               ),
             ),

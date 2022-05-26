@@ -111,7 +111,7 @@ class _TitleWidgetState extends State<TitleWidget> {
                 top: 5.0.textScale(),
               ),
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: lineColor)),
+                border: Border(bottom: BorderSide(color: colorECEEF7)),
               ),
             )
           else

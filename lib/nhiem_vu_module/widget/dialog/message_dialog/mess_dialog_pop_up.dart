@@ -92,7 +92,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                       Text(
                         widget.title,
                         style:
-                            textNormalCustom(fontSize: 18, color: titleColor),
+                            textNormalCustom(fontSize: 18, color: color3D5586),
                       )
                     ],
                   ),

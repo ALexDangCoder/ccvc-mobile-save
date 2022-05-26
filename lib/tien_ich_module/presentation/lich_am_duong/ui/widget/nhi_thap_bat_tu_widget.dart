@@ -25,7 +25,7 @@ class ThapNhiBatTuWidget extends StatelessWidget {
             S.current.theo_nhi_thap_bat_tu,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),

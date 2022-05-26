@@ -58,7 +58,7 @@ class HeaderChiTiet extends StatelessWidget {
                                 TextSpan(
                                   text: e.key,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14.0.textScale(),
                                   ),

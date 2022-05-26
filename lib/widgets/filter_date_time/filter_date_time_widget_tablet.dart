@@ -169,7 +169,7 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                       children: [
                         Text(
                           currentEndDate.toStringWithListFormat,
-                          style: textNormal(titleColor, 14.0),
+                          style: textNormal(color3D5586, 14.0),
                           textAlign: TextAlign.center,
                         ),
                         SvgPicture.asset(ImageAssets.icCalendarUnFocus),
@@ -218,7 +218,7 @@ class _FilterDateTimeWidgetTabletState extends State<FilterDateTimeWidgetTablet>
                 filled: true,
                 hintText: widget.hintText ??S.current.tiem_kiem,
                 hintStyle: textNormal(
-                  sideTextInactiveColor,
+                  AppTheme.getInstance().sideTextInactiveColor(),
                   14,
                 ),
                 enabledBorder: const UnderlineInputBorder(

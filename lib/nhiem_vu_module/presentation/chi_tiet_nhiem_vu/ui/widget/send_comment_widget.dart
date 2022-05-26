@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -47,7 +48,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
                   maxLines: 3,
                   style: tokenDetailAmount(
                     fontSize: 14.0.textScale(),
-                    color: sideTextInactiveColor,
+                    color: AppTheme.getInstance().sideTextInactiveColor(),
                   ),
                   decoration: InputDecoration(
                     fillColor: backgroundColorApp,
@@ -74,7 +75,7 @@ class _SendCommentWidgetState extends State<SendCommentWidget> {
                     ),
                     hintText: S.current.nhap_y_kien_cua_ban,
                     hintStyle: textNormalCustom(
-                      color: sideTextInactiveColor,
+                      color: AppTheme.getInstance().sideTextInactiveColor(),
                       fontWeight: FontWeight.w400,
                       fontSize: 14.0.textScale(),
                     ),

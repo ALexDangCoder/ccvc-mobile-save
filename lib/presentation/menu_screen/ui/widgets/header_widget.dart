@@ -90,7 +90,7 @@ class HeaderMenuWidget extends StatelessWidget {
               const Expanded(child: SizedBox()),
               const Icon(
                 Icons.navigate_next,
-                color: unselectLabelColor,
+                color: colorA2AEBD,
               )
             ],
           );

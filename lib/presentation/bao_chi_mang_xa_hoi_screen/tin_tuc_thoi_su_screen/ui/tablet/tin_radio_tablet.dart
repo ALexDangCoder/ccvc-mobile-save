@@ -187,7 +187,7 @@ class _TinRadioTabletScreenState extends State<TinRadioTabletScreen> {
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,

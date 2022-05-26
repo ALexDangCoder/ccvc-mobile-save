@@ -96,7 +96,7 @@ class ItemTinRadioTablet extends StatelessWidget {
                                 style: textNormalCustom(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                             ),

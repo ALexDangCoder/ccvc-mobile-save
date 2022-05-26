@@ -37,7 +37,7 @@ class GioHacDaoWidget extends StatelessWidget {
               S.current.gio_hac_dao_gio_xau,
               style: textNormalCustom(
                 fontSize: 14.0,
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
           ],

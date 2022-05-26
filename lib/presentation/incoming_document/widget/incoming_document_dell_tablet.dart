@@ -99,7 +99,7 @@ class IncomingDocumentCellTablet extends StatelessWidget {
                                 child: Text(
                                   userName,
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w400,
                                   ),

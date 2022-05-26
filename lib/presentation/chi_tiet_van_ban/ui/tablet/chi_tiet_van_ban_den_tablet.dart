@@ -37,7 +37,7 @@ class ChiTietVanBanDenTablet extends StatelessWidget {
               decoration: const  BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                   ),
                 ),
               ),

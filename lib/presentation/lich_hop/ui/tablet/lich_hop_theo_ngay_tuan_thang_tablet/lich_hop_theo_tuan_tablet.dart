@@ -43,7 +43,7 @@ class _LichHopTheoTuanTabletState extends State<LichHopTheoTuanTablet> {
                     ),
                     viewHeaderStyle: ViewHeaderStyle(
                       dayTextStyle: textNormalCustom(
-                          fontSize: 13, color: unselectLabelColor),
+                          fontSize: 13, color: colorA2AEBD),
                     ),
                     monthViewSettings: const MonthViewSettings(
                       appointmentDisplayMode:

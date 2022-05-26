@@ -88,7 +88,7 @@ class ContainerState extends StatelessWidget {
           Text(
             name,
             style: textNormalCustom(
-              color: isCheck?backgroundColorApp:unselectedLabelColor,
+              color: isCheck?backgroundColorApp:color667793,
               fontSize: 14.0.textScale(),
               fontWeight: FontWeight.w500,
             ),

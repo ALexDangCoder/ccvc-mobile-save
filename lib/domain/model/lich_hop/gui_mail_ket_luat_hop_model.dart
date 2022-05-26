@@ -1,4 +1,5 @@
-class GuiMailKetLuatHopModel{
+class GuiMailKetLuatHopModel {
   String? code;
+
   GuiMailKetLuatHopModel({this.code});
 }

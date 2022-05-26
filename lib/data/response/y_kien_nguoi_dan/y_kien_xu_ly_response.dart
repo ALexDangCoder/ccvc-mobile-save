@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/result_xin_y_kien_model.dart';
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'y_kien_xu_ly_response.g.dart';

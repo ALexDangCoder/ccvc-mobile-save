@@ -112,48 +112,48 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
           const SizedBox(
             height: 40,
           ),
-          if(Platform.isAndroid)
+          if (Platform.isAndroid)
             Container(
-            margin: const EdgeInsets.symmetric(horizontal: 17),
-            child: Row(
-              children: [
-                Expanded(
-                  child: speech.isListening
-                      ? VoiceWidget(
-                          cubit: cubit,
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (!_hasSpeech) {
-                      return;
-                    }
-                    !speech.isListening ? startListening() : stopListening();
-                    cubit.isVoiceSubject.sink.add(speech.isListening);
-                  },
-                  child: SvgPicture.asset(
-                    ImageAssets.icVoice,
-                    color: AppTheme.getInstance().colorField(),
+              margin: const EdgeInsets.symmetric(horizontal: 17),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: speech.isListening
+                        ? VoiceWidget(
+                            cubit: cubit,
+                          )
+                        : const SizedBox.shrink(),
                   ),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Expanded(
-                  child: speech.isListening
-                      ? VoiceWidget(
-                          cubit: cubit,
-                        )
-                      : const SizedBox.shrink(),
-                ),
-              ],
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (!_hasSpeech) {
+                        return;
+                      }
+                      !speech.isListening ? startListening() : stopListening();
+                      cubit.isVoiceSubject.sink.add(speech.isListening);
+                    },
+                    child: SvgPicture.asset(
+                      ImageAssets.icVoice,
+                      color: AppTheme.getInstance().colorField(),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Expanded(
+                    child: speech.isListening
+                        ? VoiceWidget(
+                            cubit: cubit,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          if(Platform.isIOS)
+          if (Platform.isIOS)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 17),
               child: Row(
@@ -161,8 +161,8 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                   Expanded(
                     child: isListening
                         ? VoiceWidget(
-                      cubit: cubit,
-                    )
+                            cubit: cubit,
+                          )
                         : const SizedBox.shrink(),
                   ),
                   const SizedBox(
@@ -187,8 +187,8 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
                   Expanded(
                     child: isListening
                         ? VoiceWidget(
-                      cubit: cubit,
-                    )
+                            cubit: cubit,
+                          )
                         : const SizedBox.shrink(),
                   ),
                 ],

@@ -150,7 +150,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                             children: [
                               Text(
                                 currentEndDate.toStringWithListFormat,
-                                style: textNormal(titleColor, 14.0),
+                                style: textNormal(color3D5586, 14.0),
                               ),
                               SvgPicture.asset(ImageAssets.icCalendarUnFocus),
                             ],
@@ -236,7 +236,7 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                           children: [
                             Text(
                               currentEndDate.toStringWithListFormat,
-                              style: textNormal(titleColor, 14.0),
+                              style: textNormal(color3D5586, 14.0),
                             ),
                             spaceW20,
                             ImageAssets.svgAssets(

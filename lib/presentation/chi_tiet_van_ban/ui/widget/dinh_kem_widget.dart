@@ -80,10 +80,9 @@ class _AttackButtonWidgetState extends State<AttackButtonWidget> {
                 },
                 child: Text(
                   'Đính kèm',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(color: Colors.white, fontSize: 14.0.textScale(space: 2.0)),
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                      color: Colors.white,
+                      fontSize: 14.0.textScale(space: 2.0)),
                 ),
               ),
             ),

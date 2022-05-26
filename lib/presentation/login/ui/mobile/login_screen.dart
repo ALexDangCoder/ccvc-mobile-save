@@ -235,7 +235,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           '${S.current.quen_mat_khau}?',
                           style: textNormalCustom(
-                              color: AppTheme.getInstance().colorField(),),
+                            color: AppTheme.getInstance().colorField(),
+                          ),
                         ),
                       ),
                       const SizedBox(

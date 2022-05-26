@@ -21,11 +21,14 @@ class ThongKeTheoThoiGianResponse {
 
   List<LineChartData> toDomain() {
     return thoiGianData
-        .map((e) => LineChartData(
+        .map(
+          (e) => LineChartData(
             date: DateFormat('yyyy/MM/dd HH:mm:ss')
                 .parse(e.date ?? '')
                 .toStringWithListFormat,
-            count: e.count ?? 0,),)
+            count: e.count ?? 0,
+          ),
+        )
         .toList();
   }
 }

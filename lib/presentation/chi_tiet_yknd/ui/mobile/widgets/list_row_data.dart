@@ -40,21 +40,26 @@ class ListItemRow extends StatelessWidget {
               flex: 7,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: content?.map((e) =>
-                    Text(
-                      e,
-                      style: textNormalCustom(
-                        fontSize: 14.0.textScale(),
-                        fontWeight: FontWeight.w400,
-                        color: isFile ? numberOfCalenders : titleCalenderWork,
-                      ),
-                    ),
-                ).toList()??[],
+                children: content
+                        ?.map(
+                          (e) => Text(
+                            e,
+                            style: textNormalCustom(
+                              fontSize: 14.0.textScale(),
+                              fontWeight: FontWeight.w400,
+                              color: isFile
+                                  ? numberOfCalenders
+                                  : titleCalenderWork,
+                            ),
+                          ),
+                        )
+                        .toList() ??
+                    [],
               ),
             ),
           ],
         ),
-         SizedBox(
+        SizedBox(
           height: 10.0.textScale(),
         ),
       ],

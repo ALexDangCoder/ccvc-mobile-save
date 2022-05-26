@@ -16,6 +16,6 @@ class ThemYKienResponse {
   Map<String, dynamic> toJson() => _$ThemYKienResponseToJson(this);
 
   ThemYKiemModel toModel() => ThemYKiemModel(
-    code: code,
-  );
+        code: code,
+      );
 }

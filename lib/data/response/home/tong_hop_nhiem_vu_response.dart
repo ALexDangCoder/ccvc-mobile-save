@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/home/tong_hop_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
@@ -8,6 +7,7 @@ class TongHopNhiemVuResponse {
   dynamic validationResult;
   bool? isSuccess;
   Map<String, Data> mapData = {};
+
   TongHopNhiemVuResponse(
       {this.messages, this.data, this.validationResult, this.isSuccess});
 
@@ -24,6 +24,7 @@ class TongHopNhiemVuResponse {
     validationResult = json['ValidationResult'];
     isSuccess = json['IsSuccess'];
   }
+
   List<TongHopNhiemVuModel> toDomain() {
     return [
       mapData[NhiemVuStatus.TONG_SO_NHIEM_VU]?.toDomain() ??
@@ -54,6 +55,7 @@ class Data {
     code = json['Code'];
     value = json['Value'];
   }
+
   TongHopNhiemVuModel toDomain() => TongHopNhiemVuModel(
         name: name ?? '',
         code: code ?? '',

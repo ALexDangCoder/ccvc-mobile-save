@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -37,7 +36,7 @@ class _CustomRadioButtonCheckState extends State<CustomRadioButtonCheck> {
             Text(
               widget.name ?? '',
               style: tokenDetailAmount(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
               ),
             ),

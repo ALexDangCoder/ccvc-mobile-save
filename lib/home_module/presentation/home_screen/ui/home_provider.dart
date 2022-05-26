@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
@@ -6,6 +5,7 @@ import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 class HomeProvider extends InheritedWidget {
   final HomeCubit homeCubit;
   final ScrollController controller;
+
   const HomeProvider({
     Key? key,
     required this.homeCubit,

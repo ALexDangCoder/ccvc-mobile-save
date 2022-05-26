@@ -6,4 +6,3 @@ const DUMMY_DATA = false;
 const APP_CODE = 'APPDIEUHANH';
 DeviceType APP_DEVICE = DeviceType.MOBILE;
 AppBackGround? APP_BACKGROUND;
-

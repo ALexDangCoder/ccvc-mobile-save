@@ -26,12 +26,11 @@ class _ItemDatNuocWidgetState extends State<ItemDatNuocWidget> {
           onChange: (value) {
             widget.taoLichLamViecCubit.datNuocSelectModel?.name =
                 data[value].name;
-            widget.taoLichLamViecCubit.datNuocSelectModel?.id =
-                data[value].id;
+            widget.taoLichLamViecCubit.datNuocSelectModel?.id = data[value].id;
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.name ?? '').toList(),
-          value: widget.taoLichLamViecCubit.datNuocSelectModel?.name??'',
+          value: widget.taoLichLamViecCubit.datNuocSelectModel?.name ?? '',
           title: S.current.quoc_gia,
         );
       },

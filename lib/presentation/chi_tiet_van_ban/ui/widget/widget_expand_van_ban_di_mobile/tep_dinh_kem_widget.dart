@@ -48,7 +48,7 @@ class TepDinhKemMobile extends StatelessWidget {
                   stream: cubit.listPhieuTrinh.stream,
                   builder: (context, snapshot) {
                     final _list = snapshot.data ?? [];
-                      return cellListFile(S.current.phieu_trinh, _list);
+                    return cellListFile(S.current.phieu_trinh, _list);
                   },
                 ),
                 StreamBuilder<List<FileDinhKemVanBanDiModel>>(
@@ -62,7 +62,8 @@ class TepDinhKemMobile extends StatelessWidget {
                   stream: cubit.listVBBHKemDuTHao.stream,
                   builder: (context, snapshot) {
                     final _list = snapshot.data ?? [];
-                    return cellListFile(S.current.van_ban_ban_hanh_kem_theo_du_an, _list);
+                    return cellListFile(
+                        S.current.van_ban_ban_hanh_kem_theo_du_an, _list);
                   },
                 ),
                 StreamBuilder<List<FileDinhKemVanBanDiModel>>(

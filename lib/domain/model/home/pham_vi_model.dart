@@ -5,6 +5,7 @@ class PhamViModel {
   final String ngaySinh;
   final bool isCurrentActive;
   final String userCanBoDepartmentId;
+
   PhamViModel(
       {required this.chucVu,
       required this.chucVuId,
@@ -12,5 +13,6 @@ class PhamViModel {
       required this.isCurrentActive,
       required this.donVi,
       required this.userCanBoDepartmentId});
+
   String get phamVi => '$chucVu - $donVi';
 }

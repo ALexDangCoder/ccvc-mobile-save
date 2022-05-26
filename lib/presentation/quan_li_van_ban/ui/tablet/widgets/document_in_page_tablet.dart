@@ -17,7 +17,8 @@ import 'package:flutter/material.dart';
 class DocumentInPageTablet extends StatefulWidget {
   final QLVBCCubit qlvbCubit;
 
-  const DocumentInPageTablet({Key? key, required this.qlvbCubit}) : super(key: key);
+  const DocumentInPageTablet({Key? key, required this.qlvbCubit})
+      : super(key: key);
 
   @override
   State<DocumentInPageTablet> createState() => _DocumentInPageTabletState();
@@ -63,7 +64,7 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                               : value;
                       widget.qlvbCubit.listDataDanhSachVBDen();
                     },
-                    onStatusTap: (key){
+                    onStatusTap: (key) {
                       widget.qlvbCubit.documentInStatusCode = '';
                       widget.qlvbCubit.documentInSubStatusCode = key;
                       widget.qlvbCubit.listDataDanhSachVBDen();
@@ -112,9 +113,9 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             ChiTietVanBanDenTablet(
-                                              processId: listData[index].iD ?? '',
-                                              taskId: listData[index].taskId ?? '',
-                                            ),
+                                          processId: listData[index].iD ?? '',
+                                          taskId: listData[index].taskId ?? '',
+                                        ),
                                       ),
                                     );
                                   },

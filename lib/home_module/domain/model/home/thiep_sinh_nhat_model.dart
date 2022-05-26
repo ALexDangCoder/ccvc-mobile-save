@@ -1,3 +1,1 @@
-class ThiepSinhNhatModel{
-
-}
+class ThiepSinhNhatModel {}

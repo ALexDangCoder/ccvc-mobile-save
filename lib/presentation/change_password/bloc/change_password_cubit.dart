@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_state.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -23,7 +22,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
   String message = '';
   bool? isSuccess;
   final toast = FToast();
-  BehaviorSubject<String> thongBao=BehaviorSubject();
+  BehaviorSubject<String> thongBao = BehaviorSubject();
 
   void closeDialog() {
     showContent();
@@ -47,9 +46,9 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
       success: (res) {
         model = res;
         changePassSubject.sink.add(model);
-        isSuccess=model.isSuccess??false;
+        isSuccess = model.isSuccess ?? false;
         message = model.messages?.first ?? '';
-        if(model.isSuccess==false){
+        if (model.isSuccess == false) {
           thongBao.sink.add(S.current.mat_khau_hien_tai_chua_dung);
           // toast.showToast(
           //   child: ShowToast(
@@ -60,8 +59,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
         }
         showContent();
       },
-      error: (err) {
-      },
+      error: (err) {},
     );
   }
 }

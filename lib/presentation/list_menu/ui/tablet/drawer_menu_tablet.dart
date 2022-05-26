@@ -86,8 +86,7 @@ class _BaseMenuPhoneState extends State<BaseMenuTablet> {
                                 shrinkWrap: true,
                                 itemCount: _cubit.menuItems.length,
                                 itemBuilder: (context, index) {
-                                  return
-                                    ItemDropDownMenuTablet(
+                                  return ItemDropDownMenuTablet(
                                     image: _cubit.img[index],
                                     title: _cubit.menuItems[index].menuTitle,
                                     cubit: _cubit,

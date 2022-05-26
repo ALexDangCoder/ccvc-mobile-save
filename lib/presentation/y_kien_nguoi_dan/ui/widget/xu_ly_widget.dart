@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:flutter/material.dart';
+
 class XuLyWidget extends StatefulWidget {
   const XuLyWidget({Key? key}) : super(key: key);
 

@@ -1,12 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/y_kien_cuoc_hop_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/send_comment_widget_lich_hop.dart';
-import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +66,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   child: Text(
                     showRecoment ? 'Ẩn' : 'Hiện',
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: color3D5586,
                       fontSize: 14.0.textScale(),
                       fontWeight: FontWeight.w500,
                     ),
@@ -132,7 +129,7 @@ class _CommentWidgetState extends State<CommentWidget> {
               child: Text(
                 nguoiTao,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w500,
                 ),
@@ -158,7 +155,7 @@ class _CommentWidgetState extends State<CommentWidget> {
         Text(
           content,
           style: textNormalCustom(
-            color: titleColor,
+            color: color3D5586,
             fontSize: 14.0.textScale(),
             fontWeight: FontWeight.w400,
           ),

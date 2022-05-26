@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 class GioHacDaoWidget extends StatelessWidget {
   final List<GioHacDao> listGioHacDao;
 
-
   const GioHacDaoWidget({
     Key? key,
     required this.listGioHacDao,
@@ -37,7 +36,7 @@ class GioHacDaoWidget extends StatelessWidget {
               S.current.gio_hac_dao_gio_xau,
               style: textNormalCustom(
                 fontSize: 14.0,
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
           ],
@@ -67,4 +66,3 @@ class GioHacDaoWidget extends StatelessWidget {
     );
   }
 }
-

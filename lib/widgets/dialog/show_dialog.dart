@@ -109,7 +109,6 @@ Future<T?> showDiaLog<T>(
                         onPressed: () {
                           Navigator.pop(context);
                           funcBtnRight();
-
                         },
                       ),
                     ),
@@ -127,7 +126,6 @@ Future<T?> showDiaLog<T>(
                         onPressed: () {
                           Navigator.pop(context, true);
                           funcBtnRight();
-
                         },
                       ),
                     ),

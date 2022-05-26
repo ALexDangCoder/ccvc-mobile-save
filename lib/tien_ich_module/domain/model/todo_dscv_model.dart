@@ -5,15 +5,15 @@ class TodoListModelTwo {
   TodoListModelTwo(
       {required this.listTodoImportant, required this.listTodoDone});
 
-  factory TodoListModelTwo.formList(List<TodoDSCVModel> data ){
-    final List <TodoDSCVModel> important = [];
-    final List <TodoDSCVModel> done = [];
-    for (final TodoDSCVModel e in data ){
-        if (e.inUsed  ?? true) {
-          important.add(e);
-        }else {
-          done.add(e);
-        }
+  factory TodoListModelTwo.formList(List<TodoDSCVModel> data) {
+    final List<TodoDSCVModel> important = [];
+    final List<TodoDSCVModel> done = [];
+    for (final TodoDSCVModel e in data) {
+      if (e.inUsed ?? true) {
+        important.add(e);
+      } else {
+        done.add(e);
+      }
     }
     return TodoListModelTwo(listTodoImportant: important, listTodoDone: done);
   }

@@ -128,6 +128,7 @@ class DoubleButtonBottom extends StatelessWidget {
       ),
     );
   }
+
   Widget buttonTablet({
     required Function onTap,
     required String title,

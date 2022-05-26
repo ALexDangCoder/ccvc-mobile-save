@@ -198,7 +198,7 @@ class _WidgetDonViState extends State<WidgetDonVi> {
       inactiveIcon: SvgPicture.asset(ImageAssets.icX),
       activeIcon: SvgPicture.asset(ImageAssets.icV),
       inactiveColor: borderColor,
-      activeColor:  AppTheme.getInstance().colorField(),
+      activeColor: AppTheme.getInstance().colorField(),
       value: value,
       onToggle: onToggle,
     );

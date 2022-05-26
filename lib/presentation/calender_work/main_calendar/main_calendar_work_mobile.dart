@@ -25,7 +25,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CalenderWorkDayMobile extends StatefulWidget {
   final bool isBack;
-  const CalenderWorkDayMobile({Key? key,this.isBack = false}) : super(key: key);
+
+  const CalenderWorkDayMobile({Key? key, this.isBack = false})
+      : super(key: key);
 
   @override
   _CalenderWorkDayMobileState createState() => _CalenderWorkDayMobileState();
@@ -61,17 +63,20 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
               title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                   ? cubit.titleAppbar
                   : snapshot.data?.getTitle() ??
-                  TypeCalendarMenu.LichCuaToi.getTitle(),
+                      TypeCalendarMenu.LichCuaToi.getTitle(),
               leadingIcon: Row(
                 children: [
-                 if (widget.isBack) IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: SvgPicture.asset(
-                      ImageAssets.icBack,
-                    ),
-                  ) else const SizedBox(),
+                  if (widget.isBack)
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: SvgPicture.asset(
+                        ImageAssets.icBack,
+                      ),
+                    )
+                  else
+                    const SizedBox(),
                   IconButton(
                     onPressed: () {
                       setState(() {});
@@ -120,7 +125,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                             },
                             cubit: cubitMenu,
                             streamDashBoard:
-                            cubit.lichLamViecDashBroadSubject.stream,
+                                cubit.lichLamViecDashBroadSubject.stream,
                             title: S.current.lich_lam_viec,
                           ),
                           thenValue: (value) {
@@ -193,7 +198,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                 ),
                 Column(
                   children: [
-                    if (cubit.isCheck)...[
+                    if (cubit.isCheck) ...[
                       BlocBuilder(
                         bloc: cubit,
                         builder: (context, state) {
@@ -288,7 +293,7 @@ Widget itemCalendarWorkIscheck(CalenderCubit cubit) {
                   image: ImageAssets.icTongSoLichLamviec,
                   typeName: S.current.tong_so_lich_lam_viec,
                   numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                      .countScheduleCaNhan ??
+                          .countScheduleCaNhan ??
                       0,
                 );
               },
@@ -345,7 +350,7 @@ Widget itemCalendarWorkDefault(CalenderCubit cubit) {
                     image: ImageAssets.icTongSoLichLamviec,
                     typeName: S.current.tong_so_lich_lam_viec,
                     numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                        .countScheduleCaNhan ??
+                            .countScheduleCaNhan ??
                         0,
                   );
                 },

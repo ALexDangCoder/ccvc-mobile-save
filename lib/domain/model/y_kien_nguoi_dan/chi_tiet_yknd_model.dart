@@ -191,8 +191,10 @@ class DataRowChiTietKienNghi {
 class ListRowYKND {
   final String title;
   final List<String>? content;
+  final List<String>? urlDownload;
+  final List<String>? nameFile;
 
-  ListRowYKND({required this.title, this.content});
+  ListRowYKND({required this.title, this.content, this.urlDownload, this.nameFile});
 }
 
 class NguoiPhanAnhModel {

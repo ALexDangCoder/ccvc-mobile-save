@@ -31,7 +31,6 @@ class TaoMoiBanGhiResponse extends Equatable {
   factory TaoMoiBanGhiResponse.fromJson(Map<String, dynamic> json) =>
       _$TaoMoiBanGhiResponseFromJson(json);
 
-
   Map<String, dynamic> toJson() => _$TaoMoiBanGhiResponseToJson(this);
 
   @override

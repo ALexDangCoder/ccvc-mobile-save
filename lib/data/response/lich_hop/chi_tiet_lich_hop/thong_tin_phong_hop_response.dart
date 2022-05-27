@@ -56,6 +56,7 @@ class Data {
     tenTrangThai = json['tenTrangThai'];
     trangThaiChuanBi = json['trangThaiChuanBi'];
   }
+
   ThongTinPhongHopModel toDomain() => ThongTinPhongHopModel(
         id: id ?? '',
         trangThai: trangThai ?? 0,

@@ -129,7 +129,9 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                       context,
                       title: '',
                       textOption: false,
-                      child:  SuaLichCongTacTrongNuocPhone(cubit: chiTietLichLamViecCubit,),
+                      child: SuaLichCongTacTrongNuocPhone(
+                        cubit: chiTietLichLamViecCubit,
+                      ),
                     );
                   },
                 ),

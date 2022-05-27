@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -77,7 +78,7 @@ class _SendCommentWidgetLichHopState extends State<SendCommentWidgetLichHop> {
                     ),
                     hintText: S.current.nhap_y_kien_cua_ban,
                     hintStyle: textNormalCustom(
-                      color: sideTextInactiveColor,
+                      color: AppTheme.getInstance().sideTextInactiveColor(),
                       fontWeight: FontWeight.w400,
                       fontSize: 14.0.textScale(),
                     ),

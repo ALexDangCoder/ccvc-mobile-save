@@ -76,7 +76,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                       Text(
                         widget.name ?? '',
                         style:
-                            textNormalCustom(fontSize: 16, color: titleColor),
+                            textNormalCustom(fontSize: 16, color: color3D5586),
                       ),
                       spaceH6,
                       Row(
@@ -150,7 +150,7 @@ class _CellListCaNhanFixState extends State<CellListCaNhanFix> {
                       Text(
                         widget.name ?? '',
                         style:
-                            textNormalCustom(fontSize: 16, color: titleColor),
+                            textNormalCustom(fontSize: 16, color: color3D5586),
                       ),
                       spaceH6,
                       Row(

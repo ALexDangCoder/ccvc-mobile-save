@@ -10,7 +10,6 @@ class ChiTietHeaderYKNDMobile extends StatelessWidget {
   const ChiTietHeaderYKNDMobile({Key? key, required this.cubit})
       : super(key: key);
 
-
   Widget build(BuildContext context) {
     return StreamBuilder<ChiTietYKNDModel>(
       stream: cubit.chiTietYKNDSubject.stream,
@@ -20,7 +19,7 @@ class ChiTietHeaderYKNDMobile extends StatelessWidget {
             children: [
               Column(
                 children: snapshot.data!.toListHeader().map(
-                      (row) {
+                  (row) {
                     return DetailDocumentRow(
                       row: row,
                     );

@@ -1,9 +1,9 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 enum BaoCaoStatus { TRUNG_BINH, DAT, KHONG_DAT }
+
 const _TRUNG_BINH = 'trung-binh';
 const _DAT = 'dat';
 const _KHONG_DAT = 'khong-dat';
@@ -34,6 +34,7 @@ class BaoCaoModel {
   List<FileModel> listFile = [];
   String reportStatusCode;
   String id;
+
   BaoCaoModel({
     this.status = BaoCaoStatus.TRUNG_BINH,
     required this.content,
@@ -43,6 +44,7 @@ class BaoCaoModel {
   }) {
     status = fromEnum();
   }
+
   BaoCaoStatus fromEnum() {
     {
       switch (reportStatusCode) {
@@ -61,5 +63,6 @@ class BaoCaoModel {
 class FileModel {
   String? id;
   String? name;
+
   FileModel({this.id, this.name});
 }

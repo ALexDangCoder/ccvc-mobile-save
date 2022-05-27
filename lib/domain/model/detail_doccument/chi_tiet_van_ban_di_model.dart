@@ -108,8 +108,9 @@ class ChiTietVanBanDiModel {
     this.isScan,
     this.isCanCopy,
   });
-  List<List<DocumentDetailRow> > toListRowHeadTablet() {
-    return  [
+
+  List<List<DocumentDetailRow>> toListRowHeadTablet() {
+    return [
       <DocumentDetailRow>[
         DocumentDetailRow(
           S.current.loai_van_ban_di,
@@ -164,7 +165,6 @@ class ChiTietVanBanDiModel {
           S.current.ky_hieu,
           fileNotation ?? '',
           TypeDocumentDetailRow.text,
-
         ),
         DocumentDetailRow(
           S.current.so_ban,
@@ -173,7 +173,6 @@ class ChiTietVanBanDiModel {
         ),
       ],
     ];
-
   }
 
   List<DocumentDetailRow> toListRowHead() {
@@ -279,12 +278,12 @@ class VanBanChiDaoModel {
         ),
         DocumentDetailRow(
           S.current.noi_dung,
-          noiDung ,
+          noiDung,
           TypeDocumentDetailRow.text,
         ),
         DocumentDetailRow(
           S.current.ngay_han_xu_ly,
-          ngayXuLy ,
+          ngayXuLy,
           TypeDocumentDetailRow.text,
         ),
       ];
@@ -308,38 +307,39 @@ class VanBanDenModel {
     this.trichYeu,
     this.files,
   });
+
   List<DocumentDetailRow> toListRowView() => [
-    DocumentDetailRow(
-      S.current.so_ky_hieu,
-      soKyHieu ?? '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.trich_yeu,
-      trichYeu ?? '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.don_vi_ban_hanh,
-      donViBanHanh ?? '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.ngay_ban_hanh,
-      '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.ngay_han_xu_ly,
-      '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.file_dinh_kem,
-      files ?? [],
-      TypeDocumentDetailRow.fileVanBanDi,
-    ),
-  ];
+        DocumentDetailRow(
+          S.current.so_ky_hieu,
+          soKyHieu ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.trich_yeu,
+          trichYeu ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.don_vi_ban_hanh,
+          donViBanHanh ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_ban_hanh,
+          '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_han_xu_ly,
+          '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.file_dinh_kem,
+          files ?? [],
+          TypeDocumentDetailRow.fileVanBanDi,
+        ),
+      ];
 }
 
 class NguoiKyDuyetModel {

@@ -1,5 +1,3 @@
-
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/phone/chi_tiet_nhiem_vu_phone_screen.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_mobile.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +17,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class NhiemVuWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const NhiemVuWidget({Key? key, required this.homeItemType}) : super(key: key);
 
   @override
@@ -27,6 +26,7 @@ class NhiemVuWidget extends StatefulWidget {
 
 class _NhiemVuWidgetState extends State<NhiemVuWidget> {
   final NhiemVuCubit _nhiemVuCubit = NhiemVuCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -87,7 +87,6 @@ class _NhiemVuWidgetState extends State<NhiemVuWidget> {
                     SelectKey.DON_VI,
                   ],
                 ),
-
               ],
             );
           }),

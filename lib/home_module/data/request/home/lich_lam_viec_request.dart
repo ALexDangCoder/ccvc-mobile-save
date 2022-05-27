@@ -4,7 +4,13 @@ class LichLamViecRequest {
   bool? isTatCa;
   bool? isLichDuocMoi;
   bool? isLichCuaToi;
-  LichLamViecRequest({this.dateFrom, this.dateTo, this.isTatCa,this.isLichDuocMoi,this.isLichCuaToi});
+
+  LichLamViecRequest(
+      {this.dateFrom,
+      this.dateTo,
+      this.isTatCa,
+      this.isLichDuocMoi,
+      this.isLichCuaToi});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

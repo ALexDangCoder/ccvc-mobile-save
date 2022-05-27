@@ -6,7 +6,6 @@ import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-
 class DialogUtils {
   static Future<void> showDialogDelete(
     BuildContext context, {

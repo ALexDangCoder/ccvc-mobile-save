@@ -7,7 +7,7 @@ import 'package:path/path.dart' as p;
 
 const String TYPE_OF_FILE = 'type';
 const String PATH_OF_FILE = 'path';
-const String  NAME_OF_FILE = 'name';
+const String NAME_OF_FILE = 'name';
 const String SIZE_OF_FILE = 'size';
 const String EXTENSION_OF_FILE = 'extension';
 const String VALID_FORMAT_OF_FILE = 'valid_format';
@@ -27,7 +27,7 @@ Future<Map<String, dynamic>> pickMediaFile({
   bool _validFormat = true;
   int _fileSize = 0;
   final FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type:  FileType.custom,
+    type: FileType.custom,
     allowedExtensions: allowedExtensions,
   );
   if (result != null) {

@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
@@ -13,4 +12,3 @@ extension SizeDouble on double {
     return APP_DEVICE == DeviceType.MOBILE ? this : this + space;
   }
 }
-

@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -18,6 +17,7 @@ class SelectOnlyExpand extends StatefulWidget {
   final bool isShowValue;
   final Widget? customValue;
   final Function(int)? onChange;
+
   const SelectOnlyExpand({
     Key? key,
     this.initExpand = false,
@@ -39,6 +39,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
   final BehaviorSubject<int> selectBloc = BehaviorSubject<int>();
   String valueSelect = '';
   late AnimationController? expandController;
+
   @override
   void initState() {
     super.initState();
@@ -115,7 +116,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                           Flexible(
                             child: Text(
                               widget.listSelect[index],
-                              style: textNormal(titleColor, 16),
+                              style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -170,7 +171,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),
@@ -191,7 +192,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             return screenDevice(
                                 mobileScreen: Text(
                                   valueSelect,
-                                  style: textNormal(titleColor, 16),
+                                  style: textNormal(color3D5586, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 tabletScreen: Align(
@@ -200,7 +201,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                                       padding: const EdgeInsets.only(right: 26),
                                       child: Text(
                                         valueSelect,
-                                        style: textNormal(titleColor, 16),
+                                        style: textNormal(color3D5586, 16),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     )));

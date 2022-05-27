@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:readmore/readmore.dart';
 
-
 class TinRadioTabletScreen extends StatefulWidget {
   final String title;
   final List<TinTucRadioModel> listBanTin;
@@ -187,24 +186,24 @@ class _TinRadioTabletScreenState extends State<TinRadioTabletScreen> {
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,
                         ),
-                          Expanded(
-                            child: ListViewLoadMore(
-                              cubit: widget.tinTucThoiSuBloc,
-                              isListView: true,
-                              callApi: (page) => {
-                                callApi(
-                                  page,
-                                )
-                              },
-                              viewItem: (value, index) => itemTinTucThoiSu(
-                                  value as TinTucRadioModel, index ?? 0),
-                            ),
-                          )
+                        Expanded(
+                          child: ListViewLoadMore(
+                            cubit: widget.tinTucThoiSuBloc,
+                            isListView: true,
+                            callApi: (page) => {
+                              callApi(
+                                page,
+                              )
+                            },
+                            viewItem: (value, index) => itemTinTucThoiSu(
+                                value as TinTucRadioModel, index ?? 0),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -233,7 +232,8 @@ class _TinRadioTabletScreenState extends State<TinRadioTabletScreen> {
                               'radio chính thức của UBND tỉnh Đồng NaiKênh radio chính'
                               ' thức của UBND tỉnh Đồng Nai',
                               trimLines: 6,
-                              colorClickableText: AppTheme.getInstance().colorField(),
+                              colorClickableText:
+                                  AppTheme.getInstance().colorField(),
                               trimMode: TrimMode.Line,
                               style: textNormalCustom(
                                 color: infoColor,
@@ -280,7 +280,7 @@ class _TinRadioTabletScreenState extends State<TinRadioTabletScreen> {
           showBottomSheetCustom(
             context,
             title: S.current.ban_tin_trua_ngay,
-            child:  BanTinBtnSheetTablet(
+            child: BanTinBtnSheetTablet(
               listTinTuc: widget.tinTucThoiSuBloc.listTinTuc,
               index: index,
             ),

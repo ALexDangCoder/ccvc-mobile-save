@@ -1,7 +1,7 @@
+import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_cap_nhat_thth.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
 
 part 'lich_su_cap_nhat_thth_response.g.dart';
 
@@ -71,15 +71,15 @@ class LichSuCapNhatTHTHModelResponse extends Equatable {
   Map<String, dynamic> toJson() => _$LichSuCapNhatTHTHModelResponseToJson(this);
 
   LichSuCapNhatTHTHModel toModel() => LichSuCapNhatTHTHModel(
-    id:id,
-    nguoiCapNhat:nguoiCapNhat,
-    donViCapNhat:donViCapNhat,
-    thoiGian:thoiGian,
-    noiDungCapNhat:noiDungCapNhat,
-    trangThai:trangThai,
-    trangThaiId:trangThaiId,
-    fileDinhKems: fileDinhKems?.map((e) => e.toModel()).toList() ?? [],
-  );
+        id: id,
+        nguoiCapNhat: nguoiCapNhat,
+        donViCapNhat: donViCapNhat,
+        thoiGian: thoiGian,
+        noiDungCapNhat: noiDungCapNhat,
+        trangThai: trangThai,
+        trangThaiId: trangThaiId,
+        fileDinhKems: fileDinhKems?.map((e) => e.toModel()).toList() ?? [],
+      );
 
   @override
   List<Object?> get props => [];

@@ -56,7 +56,6 @@ class PieChart extends StatelessWidget {
                 : SfCircularChart(
                     enableMultiSelection: false,
                     margin: EdgeInsets.zero,
-
                     onDataLabelTapped: (value) {
                       if (onTap != null) {
                         final key = chartData[value.pointIndex];
@@ -162,6 +161,7 @@ class PieChart extends StatelessWidget {
 
 class ChartData {
   ChartData(this.title, this.value, this.color, [this.key]);
+
   final SelectKey? key;
   final String title;
   final double value;

@@ -473,11 +473,11 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     List<TreeDonViDanhBA> matches = listTreeDanhBa
         .where(
           (x) => x.tenDonVi
-          .toLowerCase()
-          .vietNameseParse()
-          .trim()
-          .contains(keyword.toLowerCase().vietNameseParse().trim()),
-    )
+              .toLowerCase()
+              .vietNameseParse()
+              .trim()
+              .contains(keyword.toLowerCase().vietNameseParse().trim()),
+        )
         .toList();
 
     void GetParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {

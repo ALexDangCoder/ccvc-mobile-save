@@ -13,12 +13,12 @@ class PopupChoiceTimeTablet extends StatefulWidget {
   final String initEndDate;
   final Function(String startDate, String endDate) onChoiceTime;
 
-  const PopupChoiceTimeTablet(
-      {Key? key,
-        required this.onChoiceTime,
-        required this.initStartDate,
-        required this.initEndDate,})
-      : super(key: key);
+  const PopupChoiceTimeTablet({
+    Key? key,
+    required this.onChoiceTime,
+    required this.initStartDate,
+    required this.initEndDate,
+  }) : super(key: key);
 
   @override
   _PopupChoiceTimeTabletState createState() => _PopupChoiceTimeTabletState();
@@ -31,15 +31,15 @@ class _PopupChoiceTimeTabletState extends State<PopupChoiceTimeTablet> {
   @override
   void initState() {
     super.initState();
-    startDate=widget.initStartDate;
-    endDate=widget.initEndDate;
+    startDate = widget.initStartDate;
+    endDate = widget.initEndDate;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 400,
-      padding: const EdgeInsets.only(top: 24,left: 24,right: 24),
+      padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
       ),

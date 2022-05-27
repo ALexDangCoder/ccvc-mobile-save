@@ -8,14 +8,13 @@ class YkienCuocHopModel {
   String? scheduleId;
   List<YkienCuocHopModel>? traLoiYKien;
 
-  YkienCuocHopModel({
-    this.id,
-    this.content,
-    this.ChucVu,
-    this.nguoiTaoId,
-    this.nguoiTao,
-    this.ngayTao,
-    this.traLoiYKien,
-    this.scheduleId
-  });
+  YkienCuocHopModel(
+      {this.id,
+      this.content,
+      this.ChucVu,
+      this.nguoiTaoId,
+      this.nguoiTao,
+      this.ngayTao,
+      this.traLoiYKien,
+      this.scheduleId});
 }

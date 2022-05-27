@@ -14,16 +14,14 @@ class DashBoardTatCaChuDeResponse {
 
   DashBoardTatCaChuDeResponse(this.sourceId, this.sourceTitle, this.total);
 
-  factory DashBoardTatCaChuDeResponse.fromJson(
-          Map<String, dynamic> json) =>
+  factory DashBoardTatCaChuDeResponse.fromJson(Map<String, dynamic> json) =>
       _$DashBoardTatCaChuDeResponseFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DashBoardTatCaChuDeResponseToJson(this);
+  Map<String, dynamic> toJson() => _$DashBoardTatCaChuDeResponseToJson(this);
 
   DashBoardItemTatCaChuDeModel toDomain() => DashBoardItemTatCaChuDeModel(
-        sourceId: sourceId??0,
-        sourceTitle: sourceTitle??'',
-        total: total??0,
+        sourceId: sourceId ?? 0,
+        sourceTitle: sourceTitle ?? '',
+        total: total ?? 0,
       );
 }

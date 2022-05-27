@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class ThongTinCuocHopWidget extends StatelessWidget {
   final DetailMeetCalenderCubit cubit;
+
   const ThongTinCuocHopWidget({Key? key, required this.cubit})
       : super(key: key);
 

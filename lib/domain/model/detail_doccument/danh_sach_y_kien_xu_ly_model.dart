@@ -25,8 +25,8 @@ class DanhSachYKienXuLy {
   String? ngaySua;
   String? hashValue;
   String? hashAlg;
-  bool?   isSign;
-  bool?   issuer;
+  bool? isSign;
+  bool? issuer;
   String? signerInfos;
   String? serialNumber;
   String? tenNhanVien;
@@ -58,6 +58,7 @@ class DanhSachYKienXuLy {
     this.avatar,
     this.yKienXuLyFileDinhKem,
   });
+
   DanhSachYKienXuLy.empty();
 }
 

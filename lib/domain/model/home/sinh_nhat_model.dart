@@ -10,14 +10,17 @@ class SinhNhatUserModel {
   final String gioiTinh;
   final String email;
   GioiTinh gioiTinhEnum = GioiTinh.Nam;
-  SinhNhatUserModel(
-      {this.canBoId = '',
-      this.ngaySinh = '',
-      this.tenCanBo = '',
-      this.gioiTinh = '',
-      this.email = '',}) {
+
+  SinhNhatUserModel({
+    this.canBoId = '',
+    this.ngaySinh = '',
+    this.tenCanBo = '',
+    this.gioiTinh = '',
+    this.email = '',
+  }) {
     gioiTinhEnum = fromEnum();
   }
+
   String title() {
     String title = '';
     if (gioiTinhEnum == GioiTinh.Nam) {

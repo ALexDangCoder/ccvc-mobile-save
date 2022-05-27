@@ -19,7 +19,7 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
 
   Future<void> themThanhPhanThamGia() async {
     final result =
-    await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
+        await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
     result.when(
       success: (res) {
         getDanhSachCuocHopTPTH();
@@ -75,7 +75,7 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
     }
 
     final value =
-    dataThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
+        dataThanhPhanThamGia.where((element) => isListCanBo(element)).toList();
     thanhPhanThamGia.sink.add(value);
   }
 

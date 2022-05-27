@@ -35,7 +35,7 @@ class WidgetItemRowCongViec extends StatelessWidget {
                 row.value,
                 style: textDetailHDSD(
                   fontSize: 14.0.textScale(),
-                  color: titleColor,
+                  color: color3D5586,
                   textHeight: 1.7,
                 ),
                 maxLines: 3,

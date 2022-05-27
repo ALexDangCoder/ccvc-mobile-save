@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'chi_tiet_cong_viec_nhiem_vu_response.g.dart';
 
 @JsonSerializable()
@@ -54,6 +55,7 @@ class ChiTietCongViecNhiemVuModelResponse extends Equatable {
   String? mucDoCongViec;
   @JsonKey(name: 'DanhSachCVLQ')
   List<String>? danhSachCVLQ;
+
   ChiTietCongViecNhiemVuModelResponse({
     this.hanXuLy,
     this.tenDonViThucHien,
@@ -76,18 +78,18 @@ class ChiTietCongViecNhiemVuModelResponse extends Equatable {
       _$ChiTietCongViecNhiemVuModelResponseToJson(this);
 
   ChiTietCongViecNhiemVuModel toModel() => ChiTietCongViecNhiemVuModel(
-    hanXuLy:hanXuLy,
-    tenDonViThucHien:tenDonViThucHien,
-    tenNguoiThucHien:tenNguoiThucHien,
-    donViCaNhanThucHien:'$donViCaNhanThucHien -',
-    noiDung:noiDung,
-    tenNguoiGiao:tenNguoiGiao,
-    tenDonViGiaoViec:tenDonViGiaoViec,
-    maTrangThai:maTrangThai,
-    trangThai:trangThai,
-    mucDoCongViec:mucDoCongViec,
-    danhSachCVLQ: danhSachCVLQ,
-  );
+        hanXuLy: hanXuLy,
+        tenDonViThucHien: tenDonViThucHien,
+        tenNguoiThucHien: tenNguoiThucHien,
+        donViCaNhanThucHien: '$donViCaNhanThucHien -',
+        noiDung: noiDung,
+        tenNguoiGiao: tenNguoiGiao,
+        tenDonViGiaoViec: tenDonViGiaoViec,
+        maTrangThai: maTrangThai,
+        trangThai: trangThai,
+        mucDoCongViec: mucDoCongViec,
+        danhSachCVLQ: danhSachCVLQ,
+      );
 
   //todo convert to Model to use
   @override

@@ -88,43 +88,45 @@ abstract class BaoChiMangXaHoiService {
     @Query('toDate') String toDate,
     @Query('treeNode') int treeNode,
   );
+
   @GET(ApiConstants.TIN_TONG_HOP_BAO_CAO_BCMXH)
   Future<String> tinTongHop(
-      @Query('fromDate') String fromDate,
-      @Query('toDate') String toDate,
-      );
+    @Query('fromDate') String fromDate,
+    @Query('toDate') String toDate,
+  );
 
   @GET(ApiConstants.BAO_CAO_THEO_NGUON_BCMXH)
   Future<TyLeNguonResponse> baoCaoTheoNguon(
-      @Query('fromDate') String fromDate,
-      @Query('toDate') String toDate,
-      @Query('treeNode') int treeNode,
-      );
+    @Query('fromDate') String fromDate,
+    @Query('toDate') String toDate,
+    @Query('treeNode') int treeNode,
+  );
+
   @GET(ApiConstants.BAO_CAO_THEO_SAC_THAI)
   Future<SacThaiResponse> baoCaoTheoSacThai(
-      @Query('fromDate') String fromDate,
-      @Query('toDate') String toDate,
-      @Query('treeNode') int treeNode,
-      );
+    @Query('fromDate') String fromDate,
+    @Query('toDate') String toDate,
+    @Query('treeNode') int treeNode,
+  );
 
   @POST(ApiConstants.BAO_CAO_THEO_THOI_GIAN)
   Future<List<ThongKeTheoThoiGianResponse>> baoCaoTheoThoiGian(
-      @Body() ThongKeTheoThoiGianRequest thoiGianRequest,
-      );
+    @Body() ThongKeTheoThoiGianRequest thoiGianRequest,
+  );
 
   @GET(ApiConstants.BAO_CAO_THEO_NGUON_LINE_CHART)
   Future<ThongKeTheoNguonResponse> baoCaoLineChart(
-      @Query('fromDate') String fromDate,
-      @Query('toDate') String toDate,
-      @Query('treeNodes[0][id]') int treeNodeID,
-      @Query('treeNodes[0][title]') String treeNodeTitle,
-      @Query('sourceId') int sourceId,
-      );
+    @Query('fromDate') String fromDate,
+    @Query('toDate') String toDate,
+    @Query('treeNodes[0][id]') int treeNodeID,
+    @Query('treeNodes[0][title]') String treeNodeTitle,
+    @Query('sourceId') int sourceId,
+  );
 
   @GET(ApiConstants.BAO_CAO_THEO_SAC_THAI_LINE_CHART)
   Future<ThongKeTheoSacThaiResponse> baoCaoTheoSacThaiLineChart(
-      @Query('fromDate') String fromDate,
-      @Query('toDate') String toDate,
-      @Query('treeNode') int treeNode,
-      );
+    @Query('fromDate') String fromDate,
+    @Query('toDate') String toDate,
+    @Query('treeNode') int treeNode,
+  );
 }

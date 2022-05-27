@@ -69,7 +69,8 @@ class CalendarHeader extends StatelessWidget {
                       StreamBuilder<DateTime>(
                         stream: cubitCalendar.moveTimeSubject.stream,
                         builder: (context, snapshot) {
-                          final data = snapshot.data ?? cubitCalendar.selectedDay;
+                          final data =
+                              snapshot.data ?? cubitCalendar.selectedDay;
 
                           return Text(
                             'Tháng ${data.month} - ${data.year}',
@@ -92,7 +93,7 @@ class CalendarHeader extends StatelessWidget {
               margin: headerStyle.leftChevronMargin,
               padding: headerStyle.leftChevronPadding,
             ),
-          typeCalendar.getTextWidget(cubit : cubitCalendar),
+          typeCalendar.getTextWidget(cubit: cubitCalendar),
           if (headerStyle.rightChevronVisible)
             CustomIconButton(
               icon: headerStyle.rightChevronIcon,

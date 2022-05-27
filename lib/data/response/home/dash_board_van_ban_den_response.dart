@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 
@@ -26,6 +25,7 @@ class DashBoardVBDenResponse {
     validationResult = json['ValidationResult'];
     isSuccess = json['IsSuccess'];
   }
+
   DocumentDashboardModel toDomain() {
     return DocumentDashboardModel()
       ..soLuongChoXuLy = getValue(DocumentState.CHO_XU_LY)

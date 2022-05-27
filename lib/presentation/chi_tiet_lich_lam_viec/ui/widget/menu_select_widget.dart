@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 
 class MenuSelectWidget extends StatefulWidget {
   final List<CellPopPupMenu> listSelect;
+
   const MenuSelectWidget({Key? key, required this.listSelect})
       : super(key: key);
 
@@ -17,6 +18,7 @@ class MenuSelectWidget extends StatefulWidget {
 class _MenuSelectWidgetState extends State<MenuSelectWidget>
     with SingleTickerProviderStateMixin {
   final GlobalKey _key = GlobalKey();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -61,6 +63,7 @@ class DialogSelectWidget extends StatefulWidget {
   final Offset offset;
   final Function() onDismis;
   final List<CellPopPupMenu> listSelect;
+
   const DialogSelectWidget({
     Key? key,
     required this.offset,
@@ -197,5 +200,7 @@ class CellPopPupMenu {
   final String urlImage;
   final String text;
   final Function() onTap;
-  CellPopPupMenu({required this.urlImage, required this.text, required this.onTap});
+
+  CellPopPupMenu(
+      {required this.urlImage, required this.text, required this.onTap});
 }

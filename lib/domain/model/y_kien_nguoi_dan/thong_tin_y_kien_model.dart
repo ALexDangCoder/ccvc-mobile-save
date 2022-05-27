@@ -8,13 +8,14 @@ class ThongTinYKienModel {
   int? choXuLy = 0;
   int? tongSoPakn = 0;
 
-  ThongTinYKienModel(
-      {this.choBoXungThongTin,
-      this.choChoYKien,
-      this.choDuyet,
-      this.choPhanCongXuLy,
-      this.choTiepNhan,
-      this.choTiepNhanXuLy,
-      this.choXuLy,
-      this.tongSoPakn,});
+  ThongTinYKienModel({
+    this.choBoXungThongTin,
+    this.choChoYKien,
+    this.choDuyet,
+    this.choPhanCongXuLy,
+    this.choTiepNhan,
+    this.choTiepNhanXuLy,
+    this.choXuLy,
+    this.tongSoPakn,
+  });
 }

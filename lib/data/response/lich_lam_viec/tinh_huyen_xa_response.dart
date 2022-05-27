@@ -394,12 +394,12 @@ class DataDatNuocSelectModelResponse extends Equatable {
   Map<String, dynamic> toJson() => _$DataDatNuocSelectModelResponseToJson(this);
 
   DataDatNuocSelectModel toModel() => DataDatNuocSelectModel(
-    items:items?.map((e) => e.toModel()).toList(),
-    pageIndex:pageIndex,
-    pageSize:pageSize,
-    totalCount:totalCount,
-    totalPage:totalPage,
-  );
+        items: items?.map((e) => e.toModel()).toList(),
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        totalCount: totalCount,
+        totalPage: totalPage,
+      );
 
   //todo convert to Model to use
   @override
@@ -425,11 +425,12 @@ class DatNuocSelectModelResponse extends Equatable {
       _$DatNuocSelectModelResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DatNuocSelectModelResponseToJson(this);
-  DatNuocSelectModel toModel()=>DatNuocSelectModel(
-    id:id,
-    name:name,
-    totalItems:totalItems,
-  );
+
+  DatNuocSelectModel toModel() => DatNuocSelectModel(
+        id: id,
+        name: name,
+        totalItems: totalItems,
+      );
 
   //todo convert to Model to use
   @override

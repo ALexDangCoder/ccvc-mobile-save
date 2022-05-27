@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FollowKeyBoardWidget extends StatefulWidget {
   final Widget child;
   final Widget? bottomWidget;
+
   const FollowKeyBoardWidget({
     Key? key,
     this.bottomWidget,
@@ -19,6 +19,7 @@ class _FollowKeyBoardWidgetState extends State<FollowKeyBoardWidget> {
   EdgeInsets _viewInsert = EdgeInsets.zero;
 
   double mouseRegion = 0;
+
   @override
   void initState() {
     // TODO: implement initState

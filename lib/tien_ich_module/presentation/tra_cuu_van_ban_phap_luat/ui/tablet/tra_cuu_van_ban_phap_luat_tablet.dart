@@ -66,7 +66,9 @@ class _TraCuuVanBanPhapLuatTabletState
         )
       },
       viewItem: (value, index) => WidgetTraCuuVanBanPhapLuatTablet(
-          data: value as TraCuuVanBanPhapLuatModel, index: index ?? 0,),
+        data: value as TraCuuVanBanPhapLuatModel,
+        index: index ?? 0,
+      ),
     );
   }
 }

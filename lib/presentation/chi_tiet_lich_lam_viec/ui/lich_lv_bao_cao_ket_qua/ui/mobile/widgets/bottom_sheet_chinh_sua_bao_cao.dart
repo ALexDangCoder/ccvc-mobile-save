@@ -20,6 +20,7 @@ import 'package:flutter_svg/svg.dart';
 class ChinhSuaBaoCaoBottomSheet extends StatefulWidget {
   final BaoCaoModel baoCaoModel;
   final ChiTietLichLamViecCubit cubit;
+
   const ChinhSuaBaoCaoBottomSheet(
       {Key? key, required this.baoCaoModel, required this.cubit})
       : super(key: key);
@@ -33,6 +34,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<ChinhSuaBaoCaoBottomSheet> {
   late TextEditingController controller;
   GlobalKey<FormState> globalKey = GlobalKey();
   final BaoCaoKetQuaCubit cubit = BaoCaoKetQuaCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -120,7 +122,6 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<ChinhSuaBaoCaoBottomSheet> {
                     .map((e) => e.displayName ?? '')
                     .toList(),
                 onSelectItem: (value) {
-
                   cubit
                       .selectReport(widget.cubit.listTinhTrang[value].id ?? '');
                 },

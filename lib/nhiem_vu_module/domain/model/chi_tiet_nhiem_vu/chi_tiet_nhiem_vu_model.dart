@@ -1,6 +1,6 @@
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_header.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class ChiTietNhiemVuModel {
   String? id;
@@ -55,32 +55,32 @@ class ChiTietNhiemVuModel {
     final List<ChiTietHeaderRow> list = [
       ChiTietHeaderRow(
         key: S.current.loai_nhiem_vu,
-        value: processTypeName??'',
+        value: processTypeName ?? '',
         isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.so_nhiem_vu,
-        value: processCode??'',
+        value: processCode ?? '',
         isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.tinh_hinh_thuc_hien,
-        value: statusCode??'',
+        value: statusCode ?? '',
         isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.han_xu_ly,
-        value: hanXuLy??'',
+        value: hanXuLy ?? '',
         isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.nguoi_giao,
-        value: nguoiGiao??'',
+        value: nguoiGiao ?? '',
         isNote: false,
       ),
       ChiTietHeaderRow(
         key: S.current.noi_dung,
-        value: processContent?.parseHtml()??'',
+        value: processContent?.parseHtml() ?? '',
         isNote: false,
       ),
     ];

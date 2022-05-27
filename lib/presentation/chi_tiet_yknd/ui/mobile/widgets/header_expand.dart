@@ -30,7 +30,7 @@ class _HeaderExpanedState extends State<HeaderExpaned> {
             widget.title,
             style: textNormalCustom(
               fontWeight: FontWeight.w400,
-              color: titleColor,
+              color: color3D5586,
               fontSize: 16,
             ),
           ),

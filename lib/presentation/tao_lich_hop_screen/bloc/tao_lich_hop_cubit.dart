@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
@@ -44,22 +43,25 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     final result = await hopRp
         .getLoaiHop(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     result.when(
-        success: (res) {
-          if (res.isNotEmpty) {
-            selectLoaiHop = res.first;
-          }
-          _loaiLich.sink.add(res);
-        },
-        error: (err) {},);
+      success: (res) {
+        if (res.isNotEmpty) {
+          selectLoaiHop = res.first;
+        }
+        _loaiLich.sink.add(res);
+      },
+      error: (err) {},
+    );
   }
 
   Future<void> getChuongTrinhHop(String id) async {
     final result = await hopRp.getChuongTrinhHop(id);
 
-    result.when(success: (value) {
-      chuongTrinhHopSubject.add(value);
-
-    }, error: (error) {},);
+    result.when(
+      success: (value) {
+        chuongTrinhHopSubject.add(value);
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> _getPhamVi() async {

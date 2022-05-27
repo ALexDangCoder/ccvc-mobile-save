@@ -243,8 +243,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                         ? stopListening
                                         : startListening,
                                     child: Container(
-                                      padding: const EdgeInsets.all(3
-                                      ),
+                                      padding: const EdgeInsets.all(3),
                                       child: SvgPicture.asset(
                                         ImageAssets.icVoiceMini,
                                         color: speech.isListening
@@ -314,21 +313,22 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                         ],
                       ),
                       child: StreamBuilder<String>(
-                          stream: cubit.textTranslateStream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? '';
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    data,
-                                    style: textNormal(infoColor, 16),
-                                  ),
+                        stream: cubit.textTranslateStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? '';
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  data,
+                                  style: textNormal(infoColor, 16),
                                 ),
-                              ],
-                            );
-                          },),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],

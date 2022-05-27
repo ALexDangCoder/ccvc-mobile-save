@@ -37,6 +37,7 @@ class Data {
   String? nguoiTao;
   String? ngayTao;
   String? nguoiTaoId;
+
   Data({
     this.id,
     this.scheduleId,
@@ -54,6 +55,7 @@ class Data {
     ngayTao = json['ngayTao'];
     nguoiTaoId = json['nguoiTaoId'];
   }
+
   YKienModel toDomain() => YKienModel(
       time: ngayTao ?? DateTime.now().toString(),
       fileName: '',

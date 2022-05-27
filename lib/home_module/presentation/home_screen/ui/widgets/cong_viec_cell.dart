@@ -16,6 +16,7 @@ class CongViecCell extends StatefulWidget {
   final Function() onClose;
   final TodoModel todoModel;
   final Function(TextEditingController)? onChange;
+
   const CongViecCell({
     Key? key,
     required this.text,
@@ -35,6 +36,7 @@ class CongViecCell extends StatefulWidget {
 class _CongViecCellState extends State<CongViecCell> {
   final FocusNode focusNode = FocusNode();
   final TextEditingController textEditingController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -59,7 +61,8 @@ class _CongViecCellState extends State<CongViecCell> {
             width: 18,
             height: 18,
             child: Checkbox(
-              checkColor: Colors.white, // color of tick Mark
+              checkColor: Colors.white,
+              // color of tick Mark
               activeColor: AppTheme.getInstance().colorSelect(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(3),
@@ -79,7 +82,6 @@ class _CongViecCellState extends State<CongViecCell> {
             child: !widget.enabled
                 ? Container(
                     padding: const EdgeInsets.symmetric(vertical: 20),
-
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -92,19 +94,18 @@ class _CongViecCellState extends State<CongViecCell> {
                     ),
                   )
                 : Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: TextFormField(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: TextFormField(
                       focusNode: focusNode,
                       controller: textEditingController,
                       enabled: widget.enabled,
                       style: textNormal(infoColor, 14),
-
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(vertical: 20),
                       ),
                     ),
-                ),
+                  ),
           ),
           Row(
             children: [

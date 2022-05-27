@@ -58,7 +58,8 @@ class ItemDropDownMenuState extends State<ItemDropDownMenu> {
                     ),
                   ),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 1, horizontal: 5),
                     child: Text(
                       widget.cubit.menuItems[widget.index].badgeNumber
                           .toString(),

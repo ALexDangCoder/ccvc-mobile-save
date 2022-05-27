@@ -24,6 +24,7 @@ class CustomSelectDate extends StatefulWidget {
   final bool isObligatory;
   final double? paddings;
   final DateTime? initDateTime;
+
   const CustomSelectDate(
       {Key? key,
       this.value,

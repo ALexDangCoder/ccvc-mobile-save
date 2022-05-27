@@ -184,7 +184,7 @@ class _CreatTodoOrUpdateVer2WidgetState
                   height: 20,
                 ),
                 ButtonSelectFile(
-                  title: 'Thêm tài liệu đính kèm',
+                  title: S.current.them_tai_lieu_dinh_kem,
                   onChange: (files) {},
                 ),
                 ItemTextFieldWidgetDSNV(

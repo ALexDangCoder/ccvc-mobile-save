@@ -988,7 +988,8 @@
   "mat_khau_cua_ban_da_duoc_gui_den_sdt": "Mật khẩu của bạn đã được gửi đến SĐT",
   "sdt_ban_nhap_khong_khop_voi_sdt_da_dang_ky": "SĐT bạn nhập không khớp với SĐT bạn đã đăng ký!",
   "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại.",
-  "khong_co_thong_tin": "Không có thông tin, tin tức"
+  "khong_co_thong_tin": "Không có thông tin, tin tức",
+  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm"
 }
 
 

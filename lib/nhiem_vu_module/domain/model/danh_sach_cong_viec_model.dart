@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,7 @@ extension CheckColor on String {
       case NhiemVuLowerCase.THU_HOI:
         return Colors.red;
       case NhiemVuLowerCase.CHO_PHAN_XU_LY:
-        return choXuLyColor;
+        return color5A8DEE;
       case NhiemVuLowerCase.CHUA_THUC_HIEN:
         return choVaoSoColor;
       case NhiemVuLowerCase.DANG_THUC_HIEN:
@@ -124,6 +125,21 @@ extension CheckColor on String {
         return Colors.red;
     }
   }
+
+
+  Color statusCharLoaiDSNV() {
+    switch (this) {
+      case NhiemVuLowerCase.NHIEM_VU_DON_VI:
+        return AppTheme.getInstance().nhiemDonViColor();
+      case NhiemVuLowerCase.NHIEM_VU_CP_CPCP:
+        return AppTheme.getInstance().choXuLyColor();
+      case NhiemVuLowerCase.NHIEM_VU_UBND_TINH:
+        return color0A45B9;
+      default:
+        return AppTheme.getInstance().mainColor();
+    }
+  }
+
 
   Color status() {
     switch (this) {

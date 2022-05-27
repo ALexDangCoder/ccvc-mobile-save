@@ -12,7 +12,6 @@ class BieuDoTrangThaiTheoLoaiMobile extends StatefulWidget {
   final List<ChartData> chartData;
   final Function(String) ontap;
 
-
   const BieuDoTrangThaiTheoLoaiMobile({
     Key? key,
     required this.cubit,
@@ -21,10 +20,12 @@ class BieuDoTrangThaiTheoLoaiMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BieuDoTrangThaiTheoLoaiMobileState createState() => _BieuDoTrangThaiTheoLoaiMobileState();
+  _BieuDoTrangThaiTheoLoaiMobileState createState() =>
+      _BieuDoTrangThaiTheoLoaiMobileState();
 }
 
-class _BieuDoTrangThaiTheoLoaiMobileState extends State<BieuDoTrangThaiTheoLoaiMobile> {
+class _BieuDoTrangThaiTheoLoaiMobileState
+    extends State<BieuDoTrangThaiTheoLoaiMobile> {
   @override
   void initState() {
     super.initState();
@@ -35,7 +36,6 @@ class _BieuDoTrangThaiTheoLoaiMobileState extends State<BieuDoTrangThaiTheoLoaiM
     return Container(
       color: Colors.transparent,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: PieChart(
@@ -50,17 +50,18 @@ class _BieuDoTrangThaiTheoLoaiMobileState extends State<BieuDoTrangThaiTheoLoaiM
               },
             ),
           ),
-          Expanded(child:
-          Column(
+          Expanded(
+              child: Column(
             children: [
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget.chartData.length,
-                itemBuilder: (context,index){
-                  final result =widget.chartData[index];
+                itemBuilder: (context, index) {
+                  final result = widget.chartData[index];
                   return GestureDetector(
                     onTap: () {
-                      widget.ontap(widget.cubit.chartData[index].title.split(' ')
+                      widget.ontap(widget.chartData[index].title
+                          .split(' ')
                           .join('_')
                           .toUpperCase()
                           .vietNameseParse());

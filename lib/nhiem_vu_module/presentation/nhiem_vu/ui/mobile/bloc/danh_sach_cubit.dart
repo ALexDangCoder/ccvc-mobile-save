@@ -317,7 +317,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required List<String> mangTrangThai,
     required Map<String, String> ngayTaoNhiemVu,
     required int size,
-     int? trangThaiHanXuLy,
+    int? trangThaiHanXuLy,
   }) async {
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
@@ -329,9 +329,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       mangTrangThai: mangTrangThai,
       ngayTaoNhiemVu: ngayTaoNhiemVu,
       size: size,
-          trangThaiHanXuLy: trangThaiHanXuLy,
+      trangThaiHanXuLy: trangThaiHanXuLy,
     );
-     showLoading();
+    showLoading();
     loadMorePage = index ?? 1;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
@@ -350,8 +350,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
           emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
         }
       },
-      error: (error) {
-      },
+      error: (error) {},
     );
   }
 
@@ -384,7 +383,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
             //   showEmpty();
-           // emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
+            // emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
           } else {
             showContent();
             emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.pageData));
@@ -414,6 +413,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         loaiNhiemVuSuject.sink.add(res.data?.trangThaiXuLy ?? []);
+        for (final LoaiNhiemVuComomModel value in res.data?.loaiNhiemVu ?? []) {
+          chartDataTheoLoai.add(
+            ChartData(
+              value.text.toString(),
+              (value.value ?? 0).toDouble(),
+              value.giaTri.toString().statusCharLoaiDSNV(),
+            ),
+          );
+        }
 
         chartData = (res.data?.trangThai ?? [])
             .map(
@@ -538,6 +546,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       },
     );
   }
+
   final List<ChartData> chartDataNhiemVuCANHAN = [
     ChartData(
       S.current.chua_thuc_hien,
@@ -555,23 +564,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       daXuLyColor,
     ),
   ];
-  final List<ChartData> chartDataTheoLoai = [
-    ChartData(
-    'Nhiệm vụ CP/VPVP',
-      12,
-      choXuLyColor,
-    ),
-    ChartData(
-      'Nhiệm vụ Bộ',
-      12,
-      nhiemVuBoColor,
-    ),
-    ChartData(
-      'Nhiệm vụ đơn vị',
-      14,
-      nhiemDonViColor,
-    ),
-  ];
+  final List<ChartData> chartDataTheoLoai = [];
 
   final List<ChartData> chartDataNhiemVu = [
     ChartData(
@@ -597,9 +590,10 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   ];
 
   void initTimeRange() {
-    final dataDateTime =
-        DateTime.now();
-    ngayDauTien = DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30).formatApi;
+    final dataDateTime = DateTime.now();
+    ngayDauTien =
+        DateTime(dataDateTime.year, dataDateTime.month, dataDateTime.day - 30)
+            .formatApi;
     ngayKetThuc = dataDateTime.formatApi;
   }
 }

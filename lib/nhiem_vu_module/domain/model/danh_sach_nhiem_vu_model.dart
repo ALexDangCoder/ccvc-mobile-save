@@ -162,7 +162,7 @@ extension CheckColor on String {
       case 'DA_HOAN_THANH':
         return daXuLyColor;
       case 'CHO_PHAN_XU_LY':
-        return choXuLyColor;
+        return color5A8DEE;
       case 'TRA_LAI':
         return statusCalenderRed;
       default:

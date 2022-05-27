@@ -135,7 +135,7 @@ Widget getStatus(StatusNV status) {
     case StatusNV.CHO_PHAN_XU_LY:
       return statusChiTietNhiemVu(
         name: S.current.cho_phan_xu_ly,
-        background: choXuLyColor,
+        background: color5A8DEE,
       );
     case StatusNV.TRA_LAI:
       return statusChiTietNhiemVu(

@@ -96,7 +96,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -158,7 +158,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                       child: Text(
                         e.ten ?? '',
                         style: textNormalCustom(
-                          color: choXuLyColor,
+                          color: color5A8DEE,
                           fontWeight: FontWeight.w400,
                           fontSize: 14.0.textScale(),
                         ),
@@ -226,7 +226,7 @@ extension StatusChiTietVanBan on StatusVanBan {
       case StatusVanBan.CHO_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
           changeTextColor: changeTextColor,
         );
       case StatusVanBan.DANG_XU_LY:

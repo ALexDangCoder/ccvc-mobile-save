@@ -76,7 +76,7 @@ extension PhatBieu on DetailMeetCalenderCubit {
   Color bgrColorButton(int vl) {
     switch (vl) {
       case DANHSACHPHATBIEU:
-        return choXuLyColor;
+        return color5A8DEE;
       case CHODUYET:
         return itemWidgetNotUse;
       case DADUYET:

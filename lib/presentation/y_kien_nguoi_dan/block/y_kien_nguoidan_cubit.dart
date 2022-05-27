@@ -142,13 +142,13 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ChartData(S.current.he_thong_quan_ly_van_ban, 5, itemWidgetNotUse),
   ];
   List<ChartData> chartColorPhanLoaiYKND = [
-    ChartData(S.current.dang_xu_ly, 30, choXuLyColor),
+    ChartData(S.current.dang_xu_ly, 30, color5A8DEE),
     ChartData(S.current.da_hoan_thanh, 12, daXuLyColor),
     ChartData(S.current.chua_thuc_hien, 14, choVaoSoColor),
   ];
 
   List<ChartData> chartPhanLoaiYKND = [
-    ChartData(S.current.dang_xu_ly, 30, choXuLyColor),
+    ChartData(S.current.dang_xu_ly, 30, color5A8DEE),
     ChartData(S.current.da_hoan_thanh, 12, daXuLyColor),
     ChartData(S.current.chua_thuc_hien, 14, choVaoSoColor),
   ];

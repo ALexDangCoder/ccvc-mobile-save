@@ -138,7 +138,7 @@ class _SituationOfHandlingPeopleWidgetState
                                   ChartData(
                                     S.current.cho_xu_ly,
                                     12,
-                                    choXuLyColor,
+                                    color5A8DEE,
                                     SelectKey.CHO_XU_LY,
                                   ),
                                   ChartData(

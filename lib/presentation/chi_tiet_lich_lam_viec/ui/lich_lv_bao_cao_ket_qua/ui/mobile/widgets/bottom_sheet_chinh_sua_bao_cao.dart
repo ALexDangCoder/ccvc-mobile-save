@@ -208,7 +208,7 @@ class _ChinhSuaBaoCaoBottomSheetState extends State<ChinhSuaBaoCaoBottomSheet> {
             child: Text(
               name,
               style: textNormalCustom(
-                color: choXuLyColor,
+                color: color5A8DEE,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0.textScale(),
               ),

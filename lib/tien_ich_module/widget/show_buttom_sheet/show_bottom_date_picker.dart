@@ -71,7 +71,9 @@ class CupertinoRoundedDatePickerWidget {
                   },
                   child: Text(
                     S.current.today,
-                    style: textNormalCustom(color: AppTheme.getInstance().colorField(), fontSize: 18),
+                    style: textNormalCustom(
+                        color: AppTheme.getInstance().colorField(),
+                        fontSize: 18),
                   ),
                 ),
               ),
@@ -125,7 +127,7 @@ Widget lineContainer() {
     width: 48,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      color: lineColor,
+      color: colorECEEF7,
     ),
   );
 }

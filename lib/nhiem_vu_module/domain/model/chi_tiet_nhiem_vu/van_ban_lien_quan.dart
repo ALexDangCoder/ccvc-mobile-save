@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -41,22 +40,22 @@ class VanBanLienQuanNhiemVuModel {
     final List<RowDataExpandModel> list = [
       RowDataExpandModel(
         key: S.current.so_ky_hieu,
-        value: soVanBan??'',
+        value: soVanBan ?? '',
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
         key: S.current.ngay_vb,
-        value: ngayVanBan??'',
+        value: ngayVanBan ?? '',
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
         key: S.current.trich_yeu,
-        value: trichYeu??'',
+        value: trichYeu ?? '',
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
         key: S.current.file_dinh_kem,
-        value: file??[],
+        value: file ?? [],
         type: TypeDataNV.file,
       ),
     ];

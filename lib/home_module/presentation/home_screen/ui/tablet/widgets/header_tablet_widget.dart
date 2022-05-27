@@ -7,7 +7,6 @@ import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/home_icon_tablet.dart';
 import '/home_module/presentation/home_screen/ui/widgets/clock_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/info_user_widget.dart';
-import '/home_module/presentation/home_screen/ui/widgets/mequee_widget.dart';
 import '/home_module/utils/constants/image_asset.dart';
 
 class HeaderTabletWidget extends StatelessWidget {
@@ -24,7 +23,7 @@ class HeaderTabletWidget extends StatelessWidget {
           Transform.translate(
             offset: const Offset(0, -63),
             child: Container(
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(headerUrlIcon()),
                   fit: BoxFit.fill,
@@ -64,7 +63,10 @@ class HeaderTabletWidget extends StatelessWidget {
                       StreamBuilder<DateModel>(
                         initialData: DateModel(),
                         stream:
-                            HomeProvider.of(context).homeCubit.getDateStream,
+                        HomeProvider
+                            .of(context)
+                            .homeCubit
+                            .getDateStream,
                         builder: (context, snapshot) {
                           final data = snapshot.data ?? DateModel();
                           return Column(

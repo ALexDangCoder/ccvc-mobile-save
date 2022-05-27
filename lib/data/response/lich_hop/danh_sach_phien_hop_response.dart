@@ -6,7 +6,7 @@ part 'danh_sach_phien_hop_response.g.dart';
 @JsonSerializable()
 class DanhSachPhienHopResponse {
   @JsonKey(name: 'data')
-  List<PhienHopData>?listPhienHop;
+  List<PhienHopData>? listPhienHop;
 
   DanhSachPhienHopResponse(this.listPhienHop);
 
@@ -16,17 +16,18 @@ class DanhSachPhienHopResponse {
   Map<String, dynamic> toJson() => _$DanhSachPhienHopResponseToJson(this);
 
   DanhSachPhienHopModel toModel() => DanhSachPhienHopModel(
-   danhSachPhienHop: listPhienHop?.map((e) => e.toModel()).toList()??[],
-  );
+        danhSachPhienHop: listPhienHop?.map((e) => e.toModel()).toList() ?? [],
+      );
 }
-@JsonSerializable()
-class PhienHopData{
-  @JsonKey(name: 'key')
-  String?key;
-  @JsonKey(name: 'value')
-  String?value;
 
-  PhienHopData(this.key,this.value);
+@JsonSerializable()
+class PhienHopData {
+  @JsonKey(name: 'key')
+  String? key;
+  @JsonKey(name: 'value')
+  String? value;
+
+  PhienHopData(this.key, this.value);
 
   factory PhienHopData.fromJson(Map<String, dynamic> json) =>
       _$PhienHopDataFromJson(json);
@@ -34,7 +35,7 @@ class PhienHopData{
   Map<String, dynamic> toJson() => _$PhienHopDataToJson(this);
 
   PhienhopModel toModel() => PhienhopModel(
-    key: key,
-    value: value,
-  );
+        key: key,
+        value: value,
+      );
 }

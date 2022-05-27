@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ItemSearch extends StatelessWidget {
@@ -19,8 +20,8 @@ class ItemSearch extends StatelessWidget {
             Container(
               width: 8,
               height: 8,
-              decoration: const BoxDecoration(
-                color: sideTextInactiveColor,
+              decoration: BoxDecoration(
+                color: AppTheme.getInstance().sideTextInactiveColor(),
                 shape: BoxShape.circle,
               ),
             ),

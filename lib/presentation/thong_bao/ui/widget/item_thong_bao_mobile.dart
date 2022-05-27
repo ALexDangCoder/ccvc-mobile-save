@@ -130,7 +130,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
               Container(
                 height: 1,
                 width: double.maxFinite,
-                color: lineColor,
+                color: colorECEEF7,
               )
             else
               Container()

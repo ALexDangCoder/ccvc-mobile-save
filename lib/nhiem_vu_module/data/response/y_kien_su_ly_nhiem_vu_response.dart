@@ -98,26 +98,28 @@ class YKienSuLyNhiemVuModelResponse extends Equatable {
       _$YKienSuLyNhiemVuModelResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$YKienSuLyNhiemVuModelResponseToJson(this);
-  YKienSuLyNhiemVuModel toModel()=>YKienSuLyNhiemVuModel(
-    id:id,
-    nhiemVuId:nhiemVuId,
-    noiDung:noiDung?.parseHtml(),
-    nguoiTaoId:nguoiTaoId,
-    ngayTao:ngayTao,
-    ngaySua:ngaySua,
-    hashValue:hashValue,
-    hashAlg:hashAlg,
-    isSign:isSign,
-    issuer:issuer,
-    signerInfos:signerInfos,
-    serialNumber:serialNumber,
-    tenNhanVien:tenNhanVien,
-    chucVu:chucVu,
-    phanXuLy:phanXuLy,
-    yKienXuLyFileDinhKem:yKienXuLyFileDinhKem?.map((e) => e.toModel()).toList(),
-    avatarCommon:avatarCommon,
-    avatar:avatar,
-  );
+
+  YKienSuLyNhiemVuModel toModel() => YKienSuLyNhiemVuModel(
+        id: id,
+        nhiemVuId: nhiemVuId,
+        noiDung: noiDung?.parseHtml(),
+        nguoiTaoId: nguoiTaoId,
+        ngayTao: ngayTao,
+        ngaySua: ngaySua,
+        hashValue: hashValue,
+        hashAlg: hashAlg,
+        isSign: isSign,
+        issuer: issuer,
+        signerInfos: signerInfos,
+        serialNumber: serialNumber,
+        tenNhanVien: tenNhanVien,
+        chucVu: chucVu,
+        phanXuLy: phanXuLy,
+        yKienXuLyFileDinhKem:
+            yKienXuLyFileDinhKem?.map((e) => e.toModel()).toList(),
+        avatarCommon: avatarCommon,
+        avatar: avatar,
+      );
 
   @override
   List<Object?> get props => [];

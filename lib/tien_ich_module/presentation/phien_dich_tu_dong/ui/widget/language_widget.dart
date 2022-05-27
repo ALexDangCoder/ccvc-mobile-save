@@ -67,11 +67,12 @@ extension GetLanguage on LANGUAGE {
           text: S.current.tieng_viet,
         );
 
-      case LANGUAGE.en: return LanguageWidget(
-        image: ImageAssets.icEn,
-        reverse: true,
-        text: S.current.english,
-      );
+      case LANGUAGE.en:
+        return LanguageWidget(
+          image: ImageAssets.icEn,
+          reverse: true,
+          text: S.current.english,
+        );
     }
   }
 
@@ -84,11 +85,12 @@ extension GetLanguage on LANGUAGE {
           text: S.current.tieng_viet,
         );
 
-      case LANGUAGE.vn: return LanguageWidget(
-        image: ImageAssets.icEn,
-        reverse: false,
-        text: S.current.english,
-      );
+      case LANGUAGE.vn:
+        return LanguageWidget(
+          image: ImageAssets.icEn,
+          reverse: false,
+          text: S.current.english,
+        );
     }
   }
 }

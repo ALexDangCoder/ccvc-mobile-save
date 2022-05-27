@@ -95,7 +95,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                                     widget.title ?? S.current.danh_sach_rong,
                                     style: tokenDetailAmount(
                                       fontSize: 12.0.textScale(),
-                                      color: titleColor,
+                                      color: color3D5586,
                                     ),
                                   ),
                                 ),
@@ -135,7 +135,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                                         S.current.danh_sach_rong,
                                         style: tokenDetailAmount(
                                           fontSize: 12.0.textScale(),
-                                          color: titleColor,
+                                          color: color3D5586,
                                         ),
                                       ),
                                     )
@@ -168,7 +168,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                                             child: Text(
                                               itemTitle,
                                               style: TextStyle(
-                                                color: titleColor,
+                                                color: color3D5586,
                                                 fontWeight: selectedItems
                                                         .contains(itemTitle)
                                                     ? FontWeight.w400
@@ -225,7 +225,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
             content,
             style: tokenDetailAmount(
               fontSize: 14.0.textScale(),
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -284,7 +284,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                   widget.title ?? S.current.danh_sach_rong,
                   style: tokenDetailAmount(
                     fontSize: 14.0.textScale(),
-                    color: titleColor,
+                    color: color3D5586,
                   ),
                 ),
               ),
@@ -310,7 +310,7 @@ class _CustomSelectItemsTabletState extends State<CustomSelectItemsTablet> {
                           widget.title ?? S.current.danh_sach_rong,
                           style: tokenDetailAmount(
                             fontSize: 14.0.textScale(),
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                         ),
                 ),

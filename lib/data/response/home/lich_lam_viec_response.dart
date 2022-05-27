@@ -45,6 +45,7 @@ class Data {
     totalCount = json['totalCount'];
     totalPage = json['totalPage'];
   }
+
   List<CalendarMeetingModel> toDomain() {
     return items?.map((e) => e.toDomain()).toList() ?? [];
   }
@@ -113,6 +114,7 @@ class Items {
         ? CreateBy.fromJson(json['canBoChuTri'])
         : null;
   }
+
   CalendarMeetingModel toDomain() {
     return CalendarMeetingModel(
       nguoiChuTri: canBoChuTri?.hoTen ?? '',

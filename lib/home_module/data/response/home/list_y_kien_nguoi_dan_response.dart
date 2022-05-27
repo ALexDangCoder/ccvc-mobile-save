@@ -1,7 +1,5 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
-import '/home_module/domain/model/home/document_model.dart';
-
 class ListYKienNguoiDanResponse {
   List<DanhSachKetQua>? danhSachKetQua;
   String? noiDungThongDiep;

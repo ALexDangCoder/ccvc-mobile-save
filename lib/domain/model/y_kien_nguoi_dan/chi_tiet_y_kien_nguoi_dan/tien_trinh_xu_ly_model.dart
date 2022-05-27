@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tai_lieu_cuoc_hop_widget.dart';
+
 
 class TienTrinhXuLyModel {
   String id;
@@ -24,7 +24,7 @@ class TienTrinhXuLyModel {
     required this.ngayKetThuc,
     required this.taiKhoanThaoTac,
     required this.donViThaoTac,
-     required this.taiLieus,
+    required this.taiLieus,
   });
 }
 

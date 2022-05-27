@@ -5,12 +5,8 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/widget/expand_only_nhiem_vu.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/bloc/chi_tiet_y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/widget_expand_yknd_mobile/y_kien_xu_ly_pakn_widget_expand.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/chi_tiet_header_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/item_row.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/ket_qua_xu_ly_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/thong_tin_nguoi_phan_anh_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/thong_tin_xu_ly_phan_anh_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/widget/tien_trinh_xu_Ly_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +135,6 @@ class _ChiTietVanBanTabletScreenState extends State<ChiTietVanBanTabletScreen> {
                                       const SizedBox(
                                         height: 20,
                                       ),
-
                                     ],
                                   ),
                                 ),

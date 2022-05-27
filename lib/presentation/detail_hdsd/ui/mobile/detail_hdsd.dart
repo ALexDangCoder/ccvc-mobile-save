@@ -48,7 +48,7 @@ class _DetailHDSDScreenState extends State<DetailHDSDScreen> {
                   padding: const EdgeInsets.only(top: 16),
                   child: Text(
                     cubit.listHDSD[index],
-                    style: textDetailHDSD(color: titleColor, fontSize: 16),
+                    style: textDetailHDSD(color: color3D5586, fontSize: 16),
                   ),
                 );
               },

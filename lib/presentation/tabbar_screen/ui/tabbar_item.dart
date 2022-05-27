@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
 
-
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/danh_sach_bao_cao_dang_girdview.dart';
@@ -35,6 +34,7 @@ List<TabBarType> getTabListItem() {
 class TabBarItem {
   Widget icon;
   String text;
+
   TabBarItem({required this.icon, required this.text});
 }
 
@@ -77,7 +77,7 @@ extension TabbarEnum on TabBarType {
         );
 
       case TabBarType.menu:
-        final cubit  = MenuCubit();
+        final cubit = MenuCubit();
         return ProviderWidget<MenuCubit>(
           cubit: cubit,
           child: screenDevice(
@@ -85,7 +85,9 @@ extension TabbarEnum on TabBarType {
               tabletScreen: Navigator(
                 onGenerateRoute: (setting) {
                   return MaterialPageRoute(
-                    builder: (_) =>  MenuTabletScreen(menuCubit: cubit,),
+                    builder: (_) => MenuTabletScreen(
+                      menuCubit: cubit,
+                    ),
                   );
                 },
               )),

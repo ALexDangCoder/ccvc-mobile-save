@@ -42,8 +42,8 @@ class _LichHopTheoThangTabletState extends State<LichHopTheoThangTablet> {
                         snapshot.data ?? DanhSachLichHopModel.empty(),
                       ),
                       viewHeaderStyle: ViewHeaderStyle(
-                        dayTextStyle: textNormalCustom(
-                            fontSize: 13, color: unselectLabelColor),
+                        dayTextStyle:
+                            textNormalCustom(fontSize: 13, color: colorA2AEBD),
                       ),
                       monthViewSettings: MonthViewSettings(
                         showTrailingAndLeadingDates: false,

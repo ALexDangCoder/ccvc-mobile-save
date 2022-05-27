@@ -45,4 +45,3 @@ class XemKetLuanHopModel {
     required this.title,
   });
 }
-

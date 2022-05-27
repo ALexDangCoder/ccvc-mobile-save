@@ -52,6 +52,7 @@ class TongHopNhiemVuModel {
   final String name;
   final int value;
   TongHopNhiemVuType tongHopNhiemVuModel = TongHopNhiemVuType.tongSoNV;
+
   TongHopNhiemVuModel({
     this.code = '',
     this.name = '',
@@ -59,6 +60,7 @@ class TongHopNhiemVuModel {
   }) {
     tongHopNhiemVuModel = fromEnum();
   }
+
   TongHopNhiemVuType fromEnum() {
     switch (code) {
       case NhiemVuStatus.TONG_SO_NHIEM_VU:

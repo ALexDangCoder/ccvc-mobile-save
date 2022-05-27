@@ -22,6 +22,7 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
   WidgetManageCubit cubit = WidgetManageCubit();
   HomeCubit homeCubit = HomeCubit();
   ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -55,6 +56,7 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                         final data = snapshot.data ?? <WidgetModel>[];
                         if (data.isNotEmpty) {
                           return Column(
+<<<<<<< HEAD
                             children: [
                               Column(
                                 children: List.generate(data.length, (index) {
@@ -75,6 +77,17 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                                 child: const MarqueeWidget(),
                               ),
                             ],
+=======
+                            children: List.generate(data.length, (index) {
+                              final type = data[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child:
+                                    type.widgetType?.getItemsTabletPreview() ??
+                                        const SizedBox(),
+                              );
+                            }),
+>>>>>>> 664fa7d2053888de474de5ee85d883d00bbe74ed
                           );
                         }
                         return const SizedBox();
@@ -83,10 +96,12 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                   ),
                 ],
               ),
-              Positioned.fill(child: Container(
-                width: double.maxFinite,
-                color: Colors.transparent,
-              ),),
+              Positioned.fill(
+                child: Container(
+                  width: double.maxFinite,
+                  color: Colors.transparent,
+                ),
+              ),
             ],
           ),
         ),

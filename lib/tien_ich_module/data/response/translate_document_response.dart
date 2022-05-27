@@ -28,7 +28,6 @@ class TranslateResponse {
       _$TranslateResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$TranslateResponseToJson(this);
-
 }
 
 @JsonSerializable()
@@ -43,7 +42,7 @@ class TranslatedTextResponse {
 
   Map<String, dynamic> toJson() => _$TranslatedTextResponseToJson(this);
 
-  String resToString(){
+  String resToString() {
     return translatedText ?? '';
   }
 }

@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 class PageViewWidget extends StatefulWidget {
   final List<String> listImage;
   final Function(int) onSelect;
- final double viewportFraction;
-  const PageViewWidget({
-    Key? key,
-    required this.listImage,
-    required this.onSelect,
-    this.viewportFraction = 0.6
-  }) : super(key: key);
+  final double viewportFraction;
+
+  const PageViewWidget(
+      {Key? key,
+      required this.listImage,
+      required this.onSelect,
+      this.viewportFraction = 0.6})
+      : super(key: key);
 
   @override
   _PageViewWidgetState createState() => _PageViewWidgetState();
@@ -20,6 +21,7 @@ class PageViewWidget extends StatefulWidget {
 class _PageViewWidgetState extends State<PageViewWidget> {
   CarouselController controller = CarouselController();
   int indexSelect = 0;
+
   @override
   void initState() {
     super.initState();

@@ -17,7 +17,7 @@ class GuiLoiChucResponse {
     code = json['code'];
     message = json['message'];
   }
-MessageModel toDomain()=>MessageModel(succeeded: succeeded ?? false,message: message ?? '');
+
+  MessageModel toDomain() =>
+      MessageModel(succeeded: succeeded ?? false, message: message ?? '');
 }
-
-

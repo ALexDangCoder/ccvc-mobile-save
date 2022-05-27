@@ -12,16 +12,15 @@ class GuiLoiChucRequest {
 
   GuiLoiChucRequest(
       {this.nguoiGuiId,
-        this.tenNguoiGui,
-        this.chucVu,
-        this.donVi,
-        this.nguoiNhanId,
-        this.tenNguoiNhan,
-        this.emailNguoiNhan,
-        this.content,
-        this.cardId,
-        this.isDeleted});
-
+      this.tenNguoiGui,
+      this.chucVu,
+      this.donVi,
+      this.nguoiNhanId,
+      this.tenNguoiNhan,
+      this.emailNguoiNhan,
+      this.content,
+      this.cardId,
+      this.isDeleted});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

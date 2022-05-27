@@ -45,7 +45,7 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
               ),
               child: Text(
                 snapshot.data ?? '',
-                style: textNormal(titleColor, 14),
+                style: textNormal(color3D5586, 14),
                 overflow: TextOverflow.ellipsis,
               ),
             );
@@ -165,7 +165,6 @@ class _NodeWidgetState extends State<NodeWidget> {
                         setState(() {
                           isExpand = !isExpand;
                         });
-
                       } else {
                         widget.cubit.getValueTree(
                           nodeHSCV: widget.node ??
@@ -200,7 +199,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                                   child: idDonviCha != ''
                                       ? Text(
                                           widget.node?.value.tenDonVi ?? '',
-                                          style: textNormal(titleColor, 14),
+                                          style: textNormal(color3D5586, 14),
                                         )
                                       : const SizedBox(),
                                 ),

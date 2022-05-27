@@ -11,11 +11,12 @@ class DashBoardTatCaChuDeRequest {
   String fromDate;
   String toDate;
 
-  DashBoardTatCaChuDeRequest(
-      {required this.pageIndex,
-      required this.pageSize,
-      required this.total,
-      required this.hasNextPage,
-      required this.fromDate,
-      required this.toDate,});
+  DashBoardTatCaChuDeRequest({
+    required this.pageIndex,
+    required this.pageSize,
+    required this.total,
+    required this.hasNextPage,
+    required this.fromDate,
+    required this.toDate,
+  });
 }

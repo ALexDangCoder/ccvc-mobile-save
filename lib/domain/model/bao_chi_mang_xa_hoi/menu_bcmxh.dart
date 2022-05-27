@@ -4,11 +4,12 @@ class ListMenuItemModel {
   String title;
   List<MenuItemModel> subMenu;
 
-  ListMenuItemModel(
-      {required this.id,
-      required this.title,
-      required this.nodeid,
-      required this.subMenu,});
+  ListMenuItemModel({
+    required this.id,
+    required this.title,
+    required this.nodeid,
+    required this.subMenu,
+  });
 }
 
 class MenuItemModel {
@@ -18,8 +19,13 @@ class MenuItemModel {
 
   MenuItemModel({required this.id, required this.nodeId, required this.title});
 }
-class MenuData{
+
+class MenuData {
   int nodeId;
   String title;
-  MenuData({required this.nodeId, required this.title,});
+
+  MenuData({
+    required this.nodeId,
+    required this.title,
+  });
 }

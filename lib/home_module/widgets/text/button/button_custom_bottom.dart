@@ -37,15 +37,18 @@ class _ButtonCustomBottomState extends State<ButtonCustomBottom> {
               height: 40.0.textScale(space: 16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0.textScale(space: 4.0)),
-                color: widget.isColorBlue ? AppTheme.getInstance().colorField() : AppTheme.getInstance().colorField().withOpacity(0.1),
+                color: widget.isColorBlue
+                    ? AppTheme.getInstance().colorField()
+                    : AppTheme.getInstance().colorField().withOpacity(0.1),
               ),
               child: Center(
                 child: Text(
                   widget.title,
                   style: textNormalCustom(
                     fontSize: widget.size ?? 14.0.textScale(space: 4.0),
-                    color:
-                        widget.isColorBlue ? backgroundColorApp : AppTheme.getInstance().colorField(),
+                    color: widget.isColorBlue
+                        ? backgroundColorApp
+                        : AppTheme.getInstance().colorField(),
                   ),
                 ),
               ),

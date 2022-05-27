@@ -16,14 +16,17 @@ class ThemDonViCubit extends BaseCubit<ThemDonViState> {
   ///
   final BehaviorSubject<List<Node<DonViModel>>> _getTree =
       BehaviorSubject<List<Node<DonViModel>>>();
+
   Stream<List<Node<DonViModel>>> get getTree => _getTree.stream;
 
   final BehaviorSubject<List<Node<DonViModel>>> _selectDonVi =
       BehaviorSubject<List<Node<DonViModel>>>();
+
   Stream<List<Node<DonViModel>>> get selectDonVi => _selectDonVi.stream;
 
   final BehaviorSubject<Node<DonViModel>> _selectOnlyDonVi =
       BehaviorSubject<Node<DonViModel>>();
+
   Stream<Node<DonViModel>> get selectOnlyDonVi => _selectOnlyDonVi.stream;
 
   void getTreeDonVi(List<Node<DonViModel>> tree) {

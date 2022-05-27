@@ -121,7 +121,7 @@ TextStyle textNormalCustom({
   );
 }
 
-TextStyle titleAppbar({Color color = titleColor, double fontSize = 18}) {
+TextStyle titleAppbar({Color color = color3D5586, double fontSize = 18}) {
   return GoogleFonts.roboto(
     color: color,
     fontWeight: FontWeight.w500,

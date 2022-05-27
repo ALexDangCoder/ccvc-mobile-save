@@ -25,6 +25,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ThemCanBoWidget extends StatefulWidget {
   final Function(List<DonViModel>) onChange;
   final ThanhPhanThamGiaCubit cubit;
+
   const ThemCanBoWidget({
     Key? key,
     required this.onChange,
@@ -84,6 +85,7 @@ class _ThemDonViScreenState extends State<ThemCanBoWidget> {
 
 class ThemCanBoScreen extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
+
   const ThemCanBoScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -92,6 +94,7 @@ class ThemCanBoScreen extends StatefulWidget {
 
 class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
   final ThemCanBoCubit _themCanBoCubit = ThemCanBoCubit();
+
   @override
   void initState() {
     // TODO: implement initState

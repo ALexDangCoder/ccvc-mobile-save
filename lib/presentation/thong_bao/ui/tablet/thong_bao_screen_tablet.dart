@@ -53,7 +53,7 @@ class _ThongBaoScreenTabletState extends State<ThongBaoScreenTablet> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_sharp,
-            color: unselectLabelColor,
+            color: colorA2AEBD,
           ),
           onPressed: () {
             Navigator.pop(context);

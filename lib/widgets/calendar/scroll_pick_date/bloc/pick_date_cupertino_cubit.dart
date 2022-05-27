@@ -16,7 +16,7 @@ class PicKDateCupertinoCubit extends BaseCubit<PickDateCupertinoState> {
   );
 
   BehaviorSubject<DateTime> taoLichHopSubject =
-  BehaviorSubject.seeded(DateTime.now());
+      BehaviorSubject.seeded(DateTime.now());
 
   Stream<DateTime> get taoLichHopStream => taoLichHopSubject.stream;
 

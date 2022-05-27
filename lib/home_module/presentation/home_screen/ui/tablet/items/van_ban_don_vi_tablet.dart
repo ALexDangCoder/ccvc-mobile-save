@@ -14,6 +14,7 @@ import '/home_module/widgets/chart/base_pie_chart.dart';
 
 class VanBanDonViTablet extends StatefulWidget {
   final WidgetType homeItemType;
+
   const VanBanDonViTablet({
     required this.homeItemType,
     Key? key,
@@ -24,8 +25,9 @@ class VanBanDonViTablet extends StatefulWidget {
 }
 
 class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
-   late HomeCubit cubit;
+  late HomeCubit cubit;
   final VanBanDonViCubit _vanBanDonViCubit = VanBanDonViCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -41,7 +43,7 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-     cubit = HomeProvider.of(context).homeCubit;
+    cubit = HomeProvider.of(context).homeCubit;
   }
 
   @override
@@ -203,21 +205,21 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
             children: listData
                 .map(
                   (e) => Expanded(
-                flex: e.value.toInt(),
-                child: Container(
-                  color: e.color,
-                  child: Center(
-                    child: Text(
-                      e.value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
+                    flex: e.value.toInt(),
+                    child: Container(
+                      color: e.color,
+                      child: Center(
+                        child: Text(
+                          e.value.toInt().toString(),
+                          style: textNormal(
+                            backgroundColorApp,
+                            14.0.textScale(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            )
+                )
                 .toList(),
           ),
         ),

@@ -19,6 +19,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class WorkListWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const WorkListWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -29,6 +30,7 @@ class WorkListWidget extends StatefulWidget {
 class _WorkListWidgetState extends State<WorkListWidget> {
   late HomeCubit cubit;
   DanhSachCongViecCubit danhSachCVCubit = DanhSachCongViecCubit();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -196,6 +198,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
 
 class AddToDoWidget extends StatefulWidget {
   final Function(String) onTap;
+
   const AddToDoWidget({Key? key, required this.onTap}) : super(key: key);
 
   @override
@@ -206,6 +209,7 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
   bool isAdd = false;
   TextEditingController controller = TextEditingController();
   FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -226,8 +230,11 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
                 width: 18,
                 height: 18,
                 child: Checkbox(
-                  checkColor: Colors.white, // color of tick Mark
-                  activeColor: !isAdd ? sideTextInactiveColor : AppTheme.getInstance().colorSelect(),
+                  checkColor: Colors.white,
+                  // color of tick Mark
+                  activeColor: !isAdd
+                      ? sideTextInactiveColor
+                      : AppTheme.getInstance().colorSelect(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(3),
                   ),

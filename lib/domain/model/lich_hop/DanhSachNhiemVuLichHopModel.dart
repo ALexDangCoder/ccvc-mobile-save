@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/vb_giao_nhiem_vu_widget.dart';
-
 class DanhSachLoaiNhiemVuLichHopModel {
   String? id;
   String? ma;

@@ -9,13 +9,13 @@ class TrangThaiLvModel {
   String? id;
 
   TrangThaiLvModel({
-     this.displayName,
-     this.code,
-     this.type,
-     this.createdAt,
-     this.createdBy,
-     this.updatedAt,
-     this.updatedBy,
-     this.id,
+    this.displayName,
+    this.code,
+    this.type,
+    this.createdAt,
+    this.createdBy,
+    this.updatedAt,
+    this.updatedBy,
+    this.id,
   });
 }

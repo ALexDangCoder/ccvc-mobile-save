@@ -64,7 +64,7 @@ class _DanhSachYKNDState extends State<DanhSachYKND> {
                       hintStyle: textNormalCustom(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                       ),
                     ),
                   )

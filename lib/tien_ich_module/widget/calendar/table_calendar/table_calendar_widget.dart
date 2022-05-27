@@ -161,7 +161,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     decoration: const BoxDecoration(
                       border: Border(
                         top: BorderSide(
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                       ),
                     ),
@@ -196,12 +196,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           fontWeight: FontWeight.w500,
                         ),
                         defaultTextStyle: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
                         outsideTextStyle: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
@@ -270,12 +270,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         fontWeight: FontWeight.w400,
                       ),
                       defaultTextStyle: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w400,
                       ),
                       outsideTextStyle: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w400,
                       ),
@@ -318,7 +318,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       ),
                       titleTextStyle: textNormalCustom(
                         fontSize: 16.0,
-                        color: titleColor,
+                        color: color3D5586,
                       ),
                       titleTextFormatter: (date, locale) =>
                           date.toStringMonth_Year,

@@ -101,7 +101,8 @@ String getCodeFromTitlePieChart(String title) {
 
 List<String> statusSearchDocumentInCode(String code) {
   if (code == '') return [];
-  if (code == DocumentState.CHO_XU_LY) return [DocumentState.CHO_XU_LY, DocumentState.CHO_PHAN_XU_LY];
+  if (code == DocumentState.CHO_XU_LY)
+    return [DocumentState.CHO_XU_LY, DocumentState.CHO_PHAN_XU_LY];
   return [code];
 }
 

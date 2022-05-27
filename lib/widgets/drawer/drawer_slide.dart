@@ -23,34 +23,34 @@ class DrawerSlide {
           final tween = Tween(end: end, begin: begin);
           final offsetAnimation = animation.drive(tween);
 
-          if(isLeft) {
+          if (isLeft) {
             return Stack(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 6,
-                    child: Container(
-                      color: Colors.black12,
-                      child: SlideTransition(
-                        position: offsetAnimation,
-                        child: screen,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 6,
+                      child: Container(
+                        color: Colors.black12,
+                        child: SlideTransition(
+                          position: offsetAnimation,
+                          child: screen,
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: GestureDetector(
-                      child: Container(color: Colors.black12),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                    Expanded(
+                      flex: 4,
+                      child: GestureDetector(
+                        child: Container(color: Colors.black12),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              )
-            ],
-          );
+                  ],
+                )
+              ],
+            );
           } else {
             return Stack(
               children: [
@@ -83,7 +83,6 @@ class DrawerSlide {
         },
         opaque: false,
       ),
-    ).then((value) {
-    });
+    ).then((value) {});
   }
 }

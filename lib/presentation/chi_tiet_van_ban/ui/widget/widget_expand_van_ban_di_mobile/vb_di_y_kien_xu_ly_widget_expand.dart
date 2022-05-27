@@ -49,11 +49,11 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
           child: Column(
             children: [
               Container(
-                margin:  EdgeInsets.only(
+                margin: EdgeInsets.only(
                   bottom: 6,
-                  left: widget.isTablet ? 42: 16,
-                  right: widget.isTablet ? 42: 16,
-                  top: widget.isTablet ? 32: 8,
+                  left: widget.isTablet ? 42 : 16,
+                  right: widget.isTablet ? 42 : 16,
+                  top: widget.isTablet ? 32 : 8,
                 ),
                 child: const WidgetComments(),
               ),

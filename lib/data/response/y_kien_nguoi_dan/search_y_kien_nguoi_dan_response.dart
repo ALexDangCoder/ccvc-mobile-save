@@ -15,9 +15,9 @@ class SearchYKienNguoiDanResponse {
 
   Map<String, dynamic> toJson() => _$SearchYKienNguoiDanResponseToJson(this);
 
-  // DanhSachYKienNguoiDan toDomain() => DanhSachYKienNguoiDan(
-  //   listYKienNguoiDan:
-  //   listDanhSachYKien?.map((e) => e.toDomain()).toList() ?? [],);
+// DanhSachYKienNguoiDan toDomain() => DanhSachYKienNguoiDan(
+//   listYKienNguoiDan:
+//   listDanhSachYKien?.map((e) => e.toDomain()).toList() ?? [],);
 }
 
 @JsonSerializable()
@@ -36,13 +36,13 @@ class YKienNguoiDanData {
   String? taskId;
 
   YKienNguoiDanData(
-      this.id,
-      this.tieuDe,
-      this.ngayNhan,
-      this.tenNguoiPhanAnh,
-      this.soNgayToiHan,
-      this.taskId,
-      );
+    this.id,
+    this.tieuDe,
+    this.ngayNhan,
+    this.tenNguoiPhanAnh,
+    this.soNgayToiHan,
+    this.taskId,
+  );
 
   factory YKienNguoiDanData.fromJson(Map<String, dynamic> json) =>
       _$YKienNguoiDanDataFromJson(json);
@@ -50,11 +50,11 @@ class YKienNguoiDanData {
   Map<String, dynamic> toJson() => _$YKienNguoiDanDataToJson(this);
 
   YKienNguoiDanModel toDomain() => YKienNguoiDanModel(
-    id: id ?? '',
-    tieuDe: tieuDe ?? '',
-    ngayNhan: ngayNhan ?? '',
-    tenNguoiPhanAnh: tenNguoiPhanAnh??'',
-    soNgayToiHan: soNgayToiHan ?? 0,
-    taskID: taskId??'',
-  );
+        id: id ?? '',
+        tieuDe: tieuDe ?? '',
+        ngayNhan: ngayNhan ?? '',
+        tenNguoiPhanAnh: tenNguoiPhanAnh ?? '',
+        soNgayToiHan: soNgayToiHan ?? 0,
+        taskID: taskId ?? '',
+      );
 }

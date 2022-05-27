@@ -15,7 +15,7 @@ class DragItemList extends StatefulWidget {
   final Widget headerList;
   final Widget footerList;
   final bool isScroll;
-
+  final bool paddingTablet;
   const DragItemList({
     required this.listWidget,
     required this.widgetManageCubit,
@@ -23,6 +23,7 @@ class DragItemList extends StatefulWidget {
     required this.footerList,
     this.isScroll = false,
     required this.isUsing,
+    this.paddingTablet=false,
     Key? key,
   }) : super(key: key);
 
@@ -48,7 +49,7 @@ class _DragItemListState extends State<DragItemList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding:EdgeInsets.symmetric(horizontal: widget.paddingTablet? 0:16),
       child: CustomReorderableListView.builder(
         shrinkWrap: true,
         physics: widget.isScroll

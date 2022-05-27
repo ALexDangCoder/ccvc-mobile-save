@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 
 class ChonPhongHopScreen extends StatefulWidget {
   final Function(ChonPhongHopModel) onChange;
+
   const ChonPhongHopScreen({Key? key, required this.onChange})
       : super(key: key);
 
@@ -27,6 +28,7 @@ class ChonPhongHopScreen extends StatefulWidget {
 
 class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
   final ChonPhongHopCubit _cubit = ChonPhongHopCubit();
+
   @override
   Widget build(BuildContext context) {
     return SolidButton(
@@ -70,8 +72,10 @@ class _ChonPhongHopWidgetState extends State<ChonPhongHopScreen> {
 
 class _ChonPhongHopScreen extends StatefulWidget {
   final ChonPhongHopCubit chonPhongHopCubit;
+
   const _ChonPhongHopScreen({Key? key, required this.chonPhongHopCubit})
       : super(key: key);
+
   @override
   __ChonPhongHopScreenState createState() => __ChonPhongHopScreenState();
 }
@@ -80,6 +84,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   final TextEditingController controller = TextEditingController();
   ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
   final _key = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();

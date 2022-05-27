@@ -24,5 +24,4 @@ class DataTheoDoiVanBanResponse {
       _$DataTheoDoiVanBanResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataTheoDoiVanBanResponseToJson(this);
-
 }

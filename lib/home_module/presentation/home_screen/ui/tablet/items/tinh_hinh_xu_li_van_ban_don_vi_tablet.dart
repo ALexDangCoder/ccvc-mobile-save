@@ -4,14 +4,12 @@ import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provide
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/home_module/widgets/text/views/loading_only.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/config/resources/color.dart';
 import '/home_module/config/resources/styles.dart';
-import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
 import '/home_module/widgets/chart/base_pie_chart.dart';
 
 class VanBanDonViTablet extends StatefulWidget {
@@ -95,7 +93,7 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
                 width: 63,
               ),
               Expanded(
-                child:titleChart(
+                child: titleChart(
                   S.current.document_incoming,
                   Column(
                     children: [
@@ -153,44 +151,44 @@ class _VanBanDonViTabletState extends State<VanBanDonViTablet> {
                 ),
               ),
               Expanded(
-               child:titleChart(
-                    S.current.document_out_going,
-                    PieChart(
-                      chartData: [
-                        ChartData(
-                          S.current.cho_trinh_ky,
-                          30,
-                          choTrinhKyColor,
-                          SelectKey.CHO_TRINH_KY,
-                        ),
-                        ChartData(
-                          S.current.cho_xu_ly,
-                          12,
-                          choXuLyColor,
-                          SelectKey.CHO_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.da_xu_ly,
-                          14,
-                          daXuLyColor,
-                          SelectKey.DA_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.cho_cap_so,
-                          14,
-                          choCapSoColor,
-                          SelectKey.CHO_CAP_SO,
-                        ),
-                        ChartData(
-                          S.current.cho_ban_hanh,
-                          14,
-                          choBanHanhColor,
-                          SelectKey.CHO_BAN_HANH,
-                        )
-                      ],
-                      onTap: (value, key) {},
-                    ),
+                child: titleChart(
+                  S.current.document_out_going,
+                  PieChart(
+                    chartData: [
+                      ChartData(
+                        S.current.cho_trinh_ky,
+                        30,
+                        choTrinhKyColor,
+                        SelectKey.CHO_TRINH_KY,
+                      ),
+                      ChartData(
+                        S.current.cho_xu_ly,
+                        12,
+                        choXuLyColor,
+                        SelectKey.CHO_XU_LY,
+                      ),
+                      ChartData(
+                        S.current.da_xu_ly,
+                        14,
+                        daXuLyColor,
+                        SelectKey.DA_XU_LY,
+                      ),
+                      ChartData(
+                        S.current.cho_cap_so,
+                        14,
+                        choCapSoColor,
+                        SelectKey.CHO_CAP_SO,
+                      ),
+                      ChartData(
+                        S.current.cho_ban_hanh,
+                        14,
+                        choBanHanhColor,
+                        SelectKey.CHO_BAN_HANH,
+                      )
+                    ],
+                    onTap: (value, key) {},
                   ),
+                ),
               ),
             ],
           ),

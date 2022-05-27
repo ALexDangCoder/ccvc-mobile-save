@@ -20,6 +20,7 @@ import '/presentation/webview/web_view_screen.dart';
 
 class PressSocialNetWork extends StatefulWidget {
   final WidgetType homeItemType;
+
   const PressSocialNetWork({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -31,6 +32,7 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
   late HomeCubit cubit;
   final BaoChiMangXaHoiCubit _xaHoiCubit = BaoChiMangXaHoiCubit();
   final ScrollController scrollController = ScrollController();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -85,7 +87,10 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   children: [
-                    SvgPicture.asset(ImageAssets.icTag,color: AppTheme.getInstance().colorSelect(),),
+                    SvgPicture.asset(
+                      ImageAssets.icTag,
+                      color: AppTheme.getInstance().colorSelect(),
+                    ),
                     const SizedBox(
                       width: 9,
                     ),
@@ -202,7 +207,9 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                         decoration: BoxDecoration(
                           color: result == _xaHoiCubit.tagKey
                               ? AppTheme.getInstance().colorSelect()
-                              : AppTheme.getInstance().colorSelect().withOpacity(0.1),
+                              : AppTheme.getInstance()
+                                  .colorSelect()
+                                  .withOpacity(0.1),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(6)),
                         ),
@@ -235,9 +242,10 @@ class _PressSocialNetWorkState extends State<PressSocialNetWork> {
                                             child: SvgPicture.asset(
                                               ImageAssets.icClose,
                                               color:
-                                              result == _xaHoiCubit.tagKey
-                                                  ? dfBtnTxtColor
-                                                  : AppTheme.getInstance().colorSelect(),
+                                                  result == _xaHoiCubit.tagKey
+                                                      ? dfBtnTxtColor
+                                                      : AppTheme.getInstance()
+                                                          .colorSelect(),
                                             ),
                                           ),
                                         ),

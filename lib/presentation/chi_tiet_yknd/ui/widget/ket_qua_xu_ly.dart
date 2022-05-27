@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 class KetQuaXuLyScreen extends StatefulWidget {
   final ChiTietYKienNguoiDanCubit cubit;
 
-  const KetQuaXuLyScreen(
-      {Key? key,required this.cubit,})
-      : super(key: key);
+  const KetQuaXuLyScreen({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
   @override
   _KetQuaXuLyScreenState createState() => _KetQuaXuLyScreenState();
@@ -19,17 +20,17 @@ class KetQuaXuLyScreen extends StatefulWidget {
 class _KetQuaXuLyScreenState extends State<KetQuaXuLyScreen> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder <List<List<ListRowYKND>>>(
+    return StreamBuilder<List<List<ListRowYKND>>>(
       stream: widget.cubit.ketQuaXuLyRowData,
-      builder: (context, snapshot){
-        final data= snapshot.data??[];
-        if(data.isNotEmpty){
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        if (data.isNotEmpty) {
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: data.length,
-            itemBuilder: (context, indexItem){
-              return  Container(
+            itemBuilder: (context, indexItem) {
+              return Container(
                 padding: const EdgeInsets.only(left: 16, top: 16),
                 margin: const EdgeInsets.only(top: 16),
                 decoration: BoxDecoration(
@@ -49,18 +50,15 @@ class _KetQuaXuLyScreenState extends State<KetQuaXuLyScreen> {
                   },
                 ),
               );
-            } ,
+            },
           );
-        }
-        else{
+        } else {
           return const Padding(
             padding: EdgeInsets.only(top: 16.0),
             child: NodataWidget(),
           );
         }
-
       },
-
     );
   }
 }

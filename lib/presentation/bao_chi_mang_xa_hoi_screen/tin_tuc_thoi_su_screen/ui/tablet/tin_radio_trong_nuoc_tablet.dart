@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:readmore/readmore.dart';
 
-
 class TinRadioTrongNuocTabletScreen extends StatefulWidget {
   final String title;
   final List<TinTucRadioModel> listBanTin;
@@ -34,10 +33,12 @@ class TinRadioTrongNuocTabletScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TinRadioTrongNuocTabletScreenState createState() => _TinRadioTrongNuocTabletScreenState();
+  _TinRadioTrongNuocTabletScreenState createState() =>
+      _TinRadioTrongNuocTabletScreenState();
 }
 
-class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletScreen> {
+class _TinRadioTrongNuocTabletScreenState
+    extends State<TinRadioTrongNuocTabletScreen> {
   late List<TinTucRadioModel> listTinTuc;
 
   @override
@@ -187,26 +188,25 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,
                         ),
-
-                          Expanded(
-                            child: ListViewLoadMore(
-                              cubit: widget.tinTucThoiSuBloc,
-                              isListView: true,
-                              callApi: (page) => {
-                                callApiTrongNuoc(
-                                  page,
-                                )
-                              },
-                              viewItem: (value, index) =>
-                                  itemTinTucThoiSuTrongNuoc(
-                                      value as TinTucRadioModel, index ?? 0),
-                            ),
-                          )
+                        Expanded(
+                          child: ListViewLoadMore(
+                            cubit: widget.tinTucThoiSuBloc,
+                            isListView: true,
+                            callApi: (page) => {
+                              callApiTrongNuoc(
+                                page,
+                              )
+                            },
+                            viewItem: (value, index) =>
+                                itemTinTucThoiSuTrongNuoc(
+                                    value as TinTucRadioModel, index ?? 0),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -225,17 +225,18 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                           child: SingleChildScrollView(
                             child: ReadMoreText(
                               'Kênh radio chính thức của UBND tỉnh Đồng Nai. '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
-                                  'radio chính thức của UBND tỉnh Đồng NaiKênh radio chính'
-                                  ' thức của UBND tỉnh Đồng Nai',
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
+                              'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
+                              'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
+                              'radio chính thức của UBND tỉnh Đồng NaiKênh radio chính'
+                              ' thức của UBND tỉnh Đồng Nai',
                               trimLines: 6,
-                              colorClickableText: AppTheme.getInstance().colorField(),
+                              colorClickableText:
+                                  AppTheme.getInstance().colorField(),
                               trimMode: TrimMode.Line,
                               style: textNormalCustom(
                                 color: infoColor,
@@ -249,7 +250,6 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
-
                             ),
                           ),
                         ),
@@ -264,6 +264,7 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
       ),
     );
   }
+
   void callApiTrongNuoc(int page) {
     widget.tinTucThoiSuBloc
         .getListTinTucRadioTrongNuoc(page, ApiConstants.DEFAULT_PAGE_SIZE);
@@ -273,17 +274,17 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
     return Container(
       margin: const EdgeInsets.only(bottom: 20.0),
       child: ItemTinRadioTrongNuocTablet(
-        data.urlImage?[0]??'',
+        data.urlImage?[0] ?? '',
         data.title,
         DateTime.parse(
-            data.publishedTime.replaceAll('/', '-').replaceAll(' ', 'T'))
+                data.publishedTime.replaceAll('/', '-').replaceAll(' ', 'T'))
             .formatApiSSAM,
         url: data.url,
         clickItem: () {
           showBottomSheetCustom(
             context,
             title: S.current.ban_tin_trua_ngay,
-            child:  BanTinBtnSheetTablet(
+            child: BanTinBtnSheetTablet(
               listTinTuc: widget.tinTucThoiSuBloc.listTinTucTrongNuoc,
               index: index,
             ),
@@ -292,6 +293,4 @@ class _TinRadioTrongNuocTabletScreenState extends State<TinRadioTrongNuocTabletS
       ),
     );
   }
-
-
 }

@@ -174,8 +174,8 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                               onPressed: () async {
                                                 Navigator.pop(context);
                                                 final Map<String, dynamic>
-                                                mediaMapImage =
-                                                await pickImage(
+                                                    mediaMapImage =
+                                                    await pickImage(
                                                   fromCamera: true,
                                                 );
                                                 addDataListPick(
@@ -191,8 +191,8 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                               onPressed: () async {
                                                 Navigator.pop(context);
                                                 final Map<String, dynamic>
-                                                mediaMapImage =
-                                                await pickImage();
+                                                    mediaMapImage =
+                                                    await pickImage();
                                                 addDataListPick(
                                                   mediaMapImage,
                                                   isMain
@@ -204,7 +204,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                             ),
                                           ],
                                           cancelButton:
-                                          CupertinoActionSheetAction(
+                                              CupertinoActionSheetAction(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
@@ -215,7 +215,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                     );
                                   } else {
                                     final Map<String, dynamic> mediaMapImage =
-                                    await pickImage(fromCamera: true);
+                                        await pickImage(fromCamera: true);
                                     addDataListPick(
                                       mediaMapImage,
                                       isMain
@@ -244,8 +244,8 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                               onPressed: () async {
                                                 Navigator.pop(context);
                                                 final Map<String, dynamic>
-                                                mediaMapImage =
-                                                await pickFile();
+                                                    mediaMapImage =
+                                                    await pickFile();
                                                 addDataListPick(
                                                   mediaMapImage,
                                                   isMain
@@ -257,7 +257,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                             ),
                                           ],
                                           cancelButton:
-                                          CupertinoActionSheetAction(
+                                              CupertinoActionSheetAction(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
@@ -268,7 +268,7 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                                     );
                                   } else {
                                     final Map<String, dynamic> mediaMapImage =
-                                    await pickFile();
+                                        await pickFile();
                                     addDataListPick(
                                       mediaMapImage,
                                       isMain

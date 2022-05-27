@@ -51,9 +51,7 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(
-                color: Colors.white
-              ),
+              decoration: BoxDecoration(color: Colors.white),
               child: Row(
                 children: [
                   FilterDateTimeWidget(

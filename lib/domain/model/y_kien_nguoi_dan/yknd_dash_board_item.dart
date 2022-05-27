@@ -9,4 +9,3 @@ class YKienNguoiDanDashBroadItem {
     required this.typeName,
   });
 }
-

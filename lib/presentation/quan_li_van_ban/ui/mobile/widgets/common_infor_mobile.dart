@@ -36,7 +36,6 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
   int selectedIndex = -1;
   String sKey = '';
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,9 +80,7 @@ class _CommonInformationMobileState extends State<CommonInformationMobile> {
               widget.onStatusTap(e);
               sKey = e;
               selectedIndex = -1;
-              setState(() {
-
-              });
+              setState(() {});
             },
             listData: [
               ChartData(

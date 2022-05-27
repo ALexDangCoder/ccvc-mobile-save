@@ -5,18 +5,19 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/document/luong_xu_ly_vb_di.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyVBDi/widgets/dot_animation.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+
 import 'bloc/xem_luong_xu_ly_cubit.dart';
 
 class XemLuongXuLyVbDi extends StatefulWidget {
   final String id;
+
   const XemLuongXuLyVbDi({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -25,6 +26,7 @@ class XemLuongXuLyVbDi extends StatefulWidget {
 
 class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
   XemLuongXuLyVBDICubit viewModel = XemLuongXuLyVBDICubit();
+
   @override
   void initState() {
     // TODO: implement initState

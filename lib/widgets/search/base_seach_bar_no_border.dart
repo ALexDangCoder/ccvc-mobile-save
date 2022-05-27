@@ -17,6 +17,7 @@ class BaseSearchBarNoBorder extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final String? hintText;
+
   @override
   Widget build(BuildContext context) {
     return TextField(

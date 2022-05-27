@@ -2,7 +2,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 
-enum StatusYKien {DANG_XU_LY,QUA_HAN}
+enum StatusYKien { DANG_XU_LY, QUA_HAN }
+
 extension DanhSachYKien on StatusYKien {
   StatusData getText() {
     switch (this) {
@@ -13,6 +14,7 @@ extension DanhSachYKien on StatusYKien {
     }
   }
 }
+
 class NguoiDanModel {
   final String? ngheNghiep;
   final String? ngayThang;
@@ -26,9 +28,10 @@ class NguoiDanModel {
     required this.statusData,
   });
 }
-class StatusData{
+
+class StatusData {
   String text;
   Color color;
-  StatusData({required this.text,required this.color});
 
+  StatusData({required this.text, required this.color});
 }

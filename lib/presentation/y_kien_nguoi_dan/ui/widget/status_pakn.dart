@@ -23,7 +23,7 @@ Widget statusWidget(List<ChartData> listData) {
                       width: 38,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: lineColor,
+                        color: colorECEEF7,
                       ),
                       // color: e.color,
                       child: Column(

@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/app_back_ground_extension.dart';
 
 const _MUA_XUAN = 'MUA_XUAN';
 const _MUA_HA = 'MUA_HA';

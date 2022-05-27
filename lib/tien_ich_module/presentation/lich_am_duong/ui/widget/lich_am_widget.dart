@@ -87,7 +87,7 @@ Widget titleLichAm(String title,
       style: textNormalCustom(
         fontSize: fontSize ?? 12.0,
         fontWeight: fontWeight ?? FontWeight.w400,
-        color: color ?? titleColor,
+        color: color ?? color3D5586,
       ),
     ),
   );

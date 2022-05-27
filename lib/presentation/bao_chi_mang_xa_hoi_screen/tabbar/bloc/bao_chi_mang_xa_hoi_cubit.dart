@@ -18,11 +18,13 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
       BehaviorSubject<List<ChuDeModel>>();
   final BehaviorSubject<List<ListMenuItemModel>> _dataMenu =
       BehaviorSubject<List<ListMenuItemModel>>();
-  final BehaviorSubject<bool>_changeItemMenu=BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> _changeItemMenu = BehaviorSubject.seeded(false);
+
   Stream<bool> get changeItemMenu => _changeItemMenu.stream;
 
-  final BehaviorSubject<int>_selectColorItem=BehaviorSubject<int>();
-  Stream<int> get  indexSelectItem => _selectColorItem.stream;
+  final BehaviorSubject<int> _selectColorItem = BehaviorSubject<int>();
+
+  Stream<int> get indexSelectItem => _selectColorItem.stream;
 
   int topic = 848;
 
@@ -64,10 +66,11 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
     );
   }
 
-  void changeScreenMenu( ) {
+  void changeScreenMenu() {
     _changeItemMenu.sink.add(true);
   }
-  void slectColorItem(int index ) {
+
+  void slectColorItem(int index) {
     _selectColorItem.sink.add(index);
   }
 

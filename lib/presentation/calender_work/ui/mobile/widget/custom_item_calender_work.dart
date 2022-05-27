@@ -25,7 +25,7 @@ class CustomItemCalenderWork extends StatelessWidget {
         width: 274,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
-           color: backgroundItemCalender,
+          color: backgroundItemCalender,
         ),
         child: Row(
           children: [

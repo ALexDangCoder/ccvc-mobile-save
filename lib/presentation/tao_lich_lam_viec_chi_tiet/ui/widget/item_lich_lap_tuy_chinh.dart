@@ -2,11 +2,8 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_lam_viec/lich_lap_model.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
 
 class LichLapTuyChinh extends StatefulWidget {
   final TaoLichLamViecCubit taoLichLamViecCubit;
@@ -20,6 +17,7 @@ class LichLapTuyChinh extends StatefulWidget {
 
 class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
   late List<DayOffWeek> listDayOffWeek;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -38,7 +36,7 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30.0,right: 14.0,top: 14.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 14.0, top: 14.0),
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,7 +55,8 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
                       b.sort();
                       widget.taoLichLamViecCubit.lichLapItem1 = b;
                     },
-                    child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+                    child:
+                        itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
                   ))
               .toList(),
         ),
@@ -65,11 +64,15 @@ class _LichLapTuyChinhState extends State<LichLapTuyChinh> {
     );
   }
 }
+
 class SuaLichLapTuyChinh extends StatefulWidget {
   final TaoLichLamViecCubit taoLichLamViecCubit;
   final List<int> initDataTuyChinh;
 
-   SuaLichLapTuyChinh({Key? key, required this.taoLichLamViecCubit,  required this.initDataTuyChinh})
+  SuaLichLapTuyChinh(
+      {Key? key,
+      required this.taoLichLamViecCubit,
+      required this.initDataTuyChinh})
       : super(key: key);
 
   @override
@@ -104,27 +107,28 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30.0,right: 14.0,top: 14.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 14.0, top: 14.0),
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: listDayOffWeek
               .map((e) => GestureDetector(
-            onTap: () {
-              e.isChoose = !(e.isChoose ?? false);
-              setState(() {});
-              final a = widget.taoLichLamViecCubit.lichLapItem
-                  .add(e.index ?? 0);
-              if (!a) {
-                widget.taoLichLamViecCubit.lichLapItem
-                    .remove(e.index ?? 0);
-              }
-              final b = widget.taoLichLamViecCubit.lichLapItem.toList();
-              b.sort();
-              widget.taoLichLamViecCubit.lichLapItem1 = b;
-            },
-            child: itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
-          ))
+                    onTap: () {
+                      e.isChoose = !(e.isChoose ?? false);
+                      setState(() {});
+                      final a = widget.taoLichLamViecCubit.lichLapItem
+                          .add(e.index ?? 0);
+                      if (!a) {
+                        widget.taoLichLamViecCubit.lichLapItem
+                            .remove(e.index ?? 0);
+                      }
+                      final b = widget.taoLichLamViecCubit.lichLapItem.toList();
+                      b.sort();
+                      widget.taoLichLamViecCubit.lichLapItem1 = b;
+                    },
+                    child:
+                        itemLichLapTuyChinh(e.isChoose ?? false, e.name ?? ''),
+                  ))
               .toList(),
         ),
       ),
@@ -134,7 +138,7 @@ class _SuaLichLapTuyChinhState extends State<SuaLichLapTuyChinh> {
 
 Widget itemLichLapTuyChinh(bool isCheck, String title) {
   return Container(
-     // margin: EdgeInsets.only(left: 14.0),
+      // margin: EdgeInsets.only(left: 14.0),
       height: 32.0,
       width: 32.0,
       decoration: BoxDecoration(

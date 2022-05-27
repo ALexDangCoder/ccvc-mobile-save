@@ -293,7 +293,6 @@ class ChiTietVanBanDenModel {
           donViBanHanh ?? '',
           TypeDocumentDetailRow.text,
         ),
-
         DocumentDetailRow(
           S.current.do_khan,
           doKhan ?? '',

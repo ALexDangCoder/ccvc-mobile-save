@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'update_list_widget_response.g.dart';
 
 @JsonSerializable()
-class  UpdateListWidgetResponse {
+class UpdateListWidgetResponse {
   @JsonKey(name: 'data')
   String stringListWidget;
 
@@ -87,7 +88,8 @@ class WidgetData {
   @JsonKey(name: 'minW')
   int? minW;
   @JsonKey(name: 'props')
-  Map<String,dynamic>? props;
+  Map<String, dynamic>? props;
+
   WidgetData(this.id, this.name, this.component);
 
   factory WidgetData.fromJson(Map<String, dynamic> json) =>
@@ -96,35 +98,35 @@ class WidgetData {
   Map<String, dynamic> toJson() => _$WidgetDataToJson(this);
 
   WidgetModel toDomain() => WidgetModel(
-    id: id ?? '',
-    name: name ?? '',
-    component: component??'',
-    widgetTypeId: widgetTypeId,
-    description: description,
-    code: code,
-    width: width ?? 0,
-    height: height ?? 0,
-    minWidth: minWidth ?? 0,
-    minHeight: minHeight ?? 0,
-    maxHeight: maxHeight ?? 0,
-    maxWidth: maxWidth ?? 0,
-    static: static ?? false,
-    isResizable: isResizable ?? false,
-    thumbnail: thumbnail ?? '',
-    appId: appId ?? '',
-    order: order ?? 0,
-    isShowing: isShowing ?? false,
-    x: x ?? 0,
-    y: y ?? 0,
-    i: i ?? 0,
-    enable: enable ?? false,
-    moved: moved ?? false,
-    w: w ?? 0,
-    h: h ?? 0,
-    maxH: maxH ?? 0,
-    maxW: maxW ?? 0,
-    minH: minH ?? 0,
-    minW: minW ?? 0,
-    props: props,
-  );
+        id: id ?? '',
+        name: name ?? '',
+        component: component ?? '',
+        widgetTypeId: widgetTypeId,
+        description: description,
+        code: code,
+        width: width ?? 0,
+        height: height ?? 0,
+        minWidth: minWidth ?? 0,
+        minHeight: minHeight ?? 0,
+        maxHeight: maxHeight ?? 0,
+        maxWidth: maxWidth ?? 0,
+        static: static ?? false,
+        isResizable: isResizable ?? false,
+        thumbnail: thumbnail ?? '',
+        appId: appId ?? '',
+        order: order ?? 0,
+        isShowing: isShowing ?? false,
+        x: x ?? 0,
+        y: y ?? 0,
+        i: i ?? 0,
+        enable: enable ?? false,
+        moved: moved ?? false,
+        w: w ?? 0,
+        h: h ?? 0,
+        maxH: maxH ?? 0,
+        maxW: maxW ?? 0,
+        minH: minH ?? 0,
+        minW: minW ?? 0,
+        props: props,
+      );
 }

@@ -73,7 +73,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           hintText: widget.textHint,
           hintStyle: textNormalCustom(
             fontSize: 14.0.textScale(),
-            color: unselectedLabelColor,
+            color: color667793,
             fontWeight: FontWeight.w400,
           ),
           errorBorder: const OutlineInputBorder(

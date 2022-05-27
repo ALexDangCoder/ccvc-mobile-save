@@ -105,7 +105,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                       '${S.current.tiet_khi}:',
                       tietKhi,
                       fontWeight: FontWeight.w400,
-                      color: unselectLabelColor,
+                      color: color3D5586,
                     ),
                   ),
                 ],
@@ -113,33 +113,6 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
             ),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 24.0),
-        //   child: Row(
-        //     children: [
-        //       Padding(
-        //         padding: const EdgeInsets.only(bottom: 12),
-        //         child: Container(
-        //           height: 10.0.textScale(),
-        //           width: 10.0.textScale(),
-        //           decoration: const BoxDecoration(
-        //             color: daXuLyColor,
-        //             shape: BoxShape.circle,
-        //           ),
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         width: 10.0,
-        //       ),
-        //       // titleNgayBachKy(
-        //       //   '${S.current.ngay}: ',
-        //       //   ngayAmLichStr,
-        //       //   fontWeight: FontWeight.w400,
-        //       //   color: titleColor,
-        //       // ),
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }

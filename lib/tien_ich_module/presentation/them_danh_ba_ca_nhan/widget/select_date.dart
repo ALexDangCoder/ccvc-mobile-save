@@ -1,9 +1,9 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/dialog_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_popup.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
@@ -158,14 +158,20 @@ class _CustomDropDownState extends State<SelectDate> {
                         onDateTimeChanged: (value) {
                           dateSelect = value.toString();
                           final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss')
-                              .parse(dateSelect)
+                              .parse(
+                                dateSelect,
+                              )
                               .formatApiDanhBa;
                           dateSelect = dateFormat;
 
-                          widget.onSelectDate(dateSelect);
+                          widget.onSelectDate(
+                            dateSelect,
+                          );
                         },
                         textStyleDate: titleAppbar(),
-                        initialDateTime: DateTime.parse(dateSelect),
+                        initialDateTime: DateTime.parse(
+                          dateSelect,
+                        ),
                       ),
                     ),
                     Container(
@@ -178,7 +184,9 @@ class _CustomDropDownState extends State<SelectDate> {
                         title1: S.current.dong,
                         onPressed2: () {
                           setState(() {
-                            widget.onSelectDate(dateSelect);
+                            widget.onSelectDate(
+                              dateSelect,
+                            );
                           });
                           Navigator.pop(context);
                         },
@@ -212,7 +220,7 @@ class _CustomDropDownState extends State<SelectDate> {
                         ),
                         child: widget.value == null
                             ? Text(
-                                widget.hintText ?? S.current.vuiLongChon,
+                                widget.value ?? S.current.vuiLongChon,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
                                   color: color3D5586,

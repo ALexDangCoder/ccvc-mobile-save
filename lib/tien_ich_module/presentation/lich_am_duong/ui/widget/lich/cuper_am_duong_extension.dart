@@ -1,11 +1,12 @@
-import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/date_picker_widget.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/build_picker.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_rounded_date_picker/src/era_mode.dart';
+import 'package:intl/intl.dart';
+import 'package:lunar_calendar_converter_new/lunar_solar_converter.dart';
 
-extension CupertinoDataPicker on CupertinoDatePickerDateState {
+extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
   Widget buildDayPicker(
     double offAxisFraction,
     TransitionBuilder itemPositioningBuilder,
@@ -46,7 +47,9 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
   }
 
   String _getDayOfWeek(int index) {
-    return localizations.datePickerDayOfMonth(index + 1);
+    final days = DateTime(selectedYear, selectedMonth, index + 1);
+    final day = DateFormat('EEEE').format(days);
+    return '$day, ${localizations.datePickerDayOfMonth(index + 1)}';
   }
 
   Widget buildMonthPicker(
@@ -60,7 +63,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       children: List<Widget>.generate(12, (int index) {
         return itemPositioningBuilder(
           context,
-          Text('${S.current.thang } ${index + 1}', style: widget.textStyleDate),
+          Text('${index + 1}', style: widget.textStyleDate),
         );
       }),
       onSelectItem: (index) {
@@ -75,74 +78,74 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     );
   }
 
-  // Widget buildLunar(
-  //   double offAxisFraction,
-  //   TransitionBuilder itemPositioningBuilder,
-  // ) {
-  //   int counter = 0;
-  //   return BuildPicker(
-  //     looping: false,
-  //     offAxisFraction: offAxisFraction,
-  //     controller: lunarController,
-  //     backgroundColor: widget.background,
-  //     onSelectItem: (index) {
-  //       counter++;
-  //       if (index == 0) {
-  //         final solar = Solar(
-  //           solarDay: selectedDay,
-  //           solarMonth: selectedMonth,
-  //           solarYear: selectedYear,
-  //         );
-  //         final lunar = LunarSolarConverter.solarToLunar(solar);
-  //         dayController.animateToItem(
-  //           (lunar.lunarDay ?? 1) - 1,
-  //           duration: const Duration(milliseconds: 200),
-  //           curve: Curves.bounceIn,
-  //         );
-  //         monthController.animateToItem(
-  //           (lunar.lunarMonth ?? 1) - 1,
-  //           duration: const Duration(milliseconds: 200),
-  //           curve: Curves.bounceIn,
-  //         );
-  //         yearController.animateToItem(
-  //           lunar.lunarYear ?? 0,
-  //           duration: const Duration(milliseconds: 200),
-  //           curve: Curves.bounceIn,
-  //         );
-  //       } else {
-  //         final solar = Lunar(
-  //           lunarDay: selectedDay,
-  //           lunarMonth: selectedMonth,
-  //           lunarYear: selectedYear,
-  //         );
-  //         final solars = LunarSolarConverter.lunarToSolar(solar);
-  //         if (counter == 1) {
-  //           dayController.animateToItem(
-  //             (solars.solarDay ?? 1) - 1,
-  //             duration: const Duration(milliseconds: 200),
-  //             curve: Curves.bounceIn,
-  //           );
-  //           monthController.animateToItem(
-  //             (solars.solarMonth ?? 1) - 1,
-  //             duration: const Duration(milliseconds: 200),
-  //             curve: Curves.bounceIn,
-  //           );
-  //           yearController.animateToItem(
-  //             solars.solarYear ?? 0,
-  //             duration: const Duration(milliseconds: 200),
-  //             curve: Curves.bounceIn,
-  //           );
-  //         }
-  //       }
-  //     },
-  //     children: List<Widget>.generate(2, (int index) {
-  //       return itemPositioningBuilder(
-  //         context,
-  //         Text(index == 0 ? 'Âm' : 'Dương', style: widget.textStyleDate),
-  //       );
-  //     }),
-  //   );
-  // }
+  Widget buildLunar(
+    double offAxisFraction,
+    TransitionBuilder itemPositioningBuilder,
+  ) {
+    int counter = 0;
+    return BuildPicker(
+      looping: false,
+      offAxisFraction: offAxisFraction,
+      controller: lunarController,
+      backgroundColor: widget.background,
+      onSelectItem: (index) {
+        counter++;
+        if (index == 0) {
+          final solar = Solar(
+            solarDay: selectedDay,
+            solarMonth: selectedMonth,
+            solarYear: selectedYear,
+          );
+          final lunar = LunarSolarConverter.solarToLunar(solar);
+          dayController.animateToItem(
+            (lunar.lunarDay ?? 1) - 1,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.bounceIn,
+          );
+          monthController.animateToItem(
+            (lunar.lunarMonth ?? 1) - 1,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.bounceIn,
+          );
+          yearController.animateToItem(
+            lunar.lunarYear ?? 0,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.bounceIn,
+          );
+        } else {
+          final solar = Lunar(
+            lunarDay: selectedDay,
+            lunarMonth: selectedMonth,
+            lunarYear: selectedYear,
+          );
+          final solars = LunarSolarConverter.lunarToSolar(solar);
+          if (counter == 1) {
+            dayController.animateToItem(
+              (solars.solarDay ?? 1) - 1,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.bounceIn,
+            );
+            monthController.animateToItem(
+              (solars.solarMonth ?? 1) - 1,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.bounceIn,
+            );
+            yearController.animateToItem(
+              solars.solarYear ?? 0,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.bounceIn,
+            );
+          }
+        }
+      },
+      children: List<Widget>.generate(2, (int index) {
+        return itemPositioningBuilder(
+          context,
+          Text(index == 0 ? 'Âm' : 'Dương', style: widget.textStyleDate),
+        );
+      }),
+    );
+  }
 
   Widget buildYearPicker(
     double offAxisFraction,
@@ -191,13 +194,15 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     );
   }
 
-  void addPickerCell(
+  void addPickerCellAmDuong(
     List<ColumnBuilder> pickerBuilders,
     List<double> columnWidths,
     List<Widget> pickers,
   ) {
-    pickerBuilders.addAll([buildDayPicker, buildMonthPicker, buildYearPicker]);
+    pickerBuilders.addAll(
+        [buildLunar, buildDayPicker, buildMonthPicker, buildYearPicker]);
     columnWidths.addAll([
+      estimatedColumnWidths[PickerColumnType.lunar.index]!,
       estimatedColumnWidths[PickerColumnType.dayOfMonth.index]!,
       estimatedColumnWidths[PickerColumnType.month.index]!,
       estimatedColumnWidths[PickerColumnType.year.index]!

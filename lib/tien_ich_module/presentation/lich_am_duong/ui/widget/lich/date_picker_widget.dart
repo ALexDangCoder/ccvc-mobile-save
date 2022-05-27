@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cuper_date_picker_extension.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/cuper_am_duong_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -86,12 +86,12 @@ class _DatePickerLayoutDelegate extends MultiChildLayoutDelegate {
   }
 }
 
-enum PickerColumnType { dayOfMonth, month, year }
+enum PickerColumnType { dayOfMonth, month, year, lunar }
 
-class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
+class FlutterRoundedCupertinoDatePickerWidgetAmDuong extends StatefulWidget {
   final TextStyle textStyleDate;
 
-  FlutterRoundedCupertinoDatePickerWidget({
+  FlutterRoundedCupertinoDatePickerWidgetAmDuong({
     Key? key,
     this.mode = CupertinoDatePickerMode.dateAndTime,
     required this.onDateTimeChanged,
@@ -137,7 +137,7 @@ class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return CupertinoDatePickerDateState();
+    return CupertinoDatePickerDateAmDuongState();
   }
 
   static double _getColumnWidth(
@@ -151,7 +151,8 @@ class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
       case PickerColumnType.dayOfMonth:
         for (int i = 1; i <= 31; i++) {
           final String dayOfMonth = localizations.datePickerDayOfMonth(i);
-          if (longestText.length < dayOfMonth.length) longestText = dayOfMonth;
+          if (longestText.length < dayOfMonth.length)
+            longestText = 'tHUES 5' + dayOfMonth;
         }
         break;
       case PickerColumnType.month:
@@ -164,6 +165,9 @@ class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
         break;
       case PickerColumnType.year:
         longestText = localizations.datePickerYear(2018);
+        break;
+      case PickerColumnType.lunar:
+        longestText = 'Dương';
         break;
     }
 
@@ -185,8 +189,8 @@ typedef ColumnBuilder = Widget Function(
   TransitionBuilder itemPositioningBuilder,
 );
 
-class CupertinoDatePickerDateState
-    extends State<FlutterRoundedCupertinoDatePickerWidget> {
+class CupertinoDatePickerDateAmDuongState
+    extends State<FlutterRoundedCupertinoDatePickerWidgetAmDuong> {
   late int textDirectionFactor;
   late CupertinoLocalizations localizations;
 
@@ -221,7 +225,7 @@ class CupertinoDatePickerDateState
 
   @override
   void didUpdateWidget(
-    covariant FlutterRoundedCupertinoDatePickerWidget oldWidget,
+    covariant FlutterRoundedCupertinoDatePickerWidgetAmDuong oldWidget,
   ) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
@@ -258,20 +262,27 @@ class CupertinoDatePickerDateState
     alignCenterRight =
         textDirectionFactor == 1 ? Alignment.centerRight : Alignment.centerLeft;
 
+    estimatedColumnWidths[PickerColumnType.lunar.index] =
+        FlutterRoundedCupertinoDatePickerWidgetAmDuong._getColumnWidth(
+      PickerColumnType.lunar,
+      localizations,
+      context,
+    );
+
     estimatedColumnWidths[PickerColumnType.dayOfMonth.index] =
-        FlutterRoundedCupertinoDatePickerWidget._getColumnWidth(
+        FlutterRoundedCupertinoDatePickerWidgetAmDuong._getColumnWidth(
       PickerColumnType.dayOfMonth,
       localizations,
       context,
     );
     estimatedColumnWidths[PickerColumnType.month.index] =
-        FlutterRoundedCupertinoDatePickerWidget._getColumnWidth(
+        FlutterRoundedCupertinoDatePickerWidgetAmDuong._getColumnWidth(
       PickerColumnType.month,
       localizations,
       context,
     );
     estimatedColumnWidths[PickerColumnType.year.index] =
-        FlutterRoundedCupertinoDatePickerWidget._getColumnWidth(
+        FlutterRoundedCupertinoDatePickerWidgetAmDuong._getColumnWidth(
       PickerColumnType.year,
       localizations,
       context,
@@ -303,7 +314,7 @@ class CupertinoDatePickerDateState
     final List<ColumnBuilder> pickerBuilders = <ColumnBuilder>[];
     final List<double> columnWidths = <double>[];
     final List<Widget> pickers = <Widget>[];
-    addPickerCell(pickerBuilders, columnWidths, pickers);
+    addPickerCellAmDuong(pickerBuilders, columnWidths, pickers);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(

@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
@@ -15,17 +17,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class AvatarDanhBa extends StatefulWidget {
+class SuaAvatarDanhBa extends StatefulWidget {
   final FToast toast;
-  final  DanhBaDienTuCubit cubit;
-  const AvatarDanhBa({Key? key, required this.toast , required this.cubit}) : super(key: key);
+  final DanhBaDienTuCubit cubit;
+  final Items item;
+
+  const SuaAvatarDanhBa({
+    Key? key,
+    required this.toast,
+    required this.cubit,
+    required this.item,
+  }) : super(key: key);
 
   @override
-  State<AvatarDanhBa> createState() => _AvatarDanhBaState();
+  State<SuaAvatarDanhBa> createState() => _SuaAvatarDanhBaState();
 }
 
-class _AvatarDanhBaState extends State<AvatarDanhBa> {
-
+class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
   @override
   Widget build(BuildContext context) {
     return screenDevice(
@@ -112,23 +120,31 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 16),
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(ImageAssets.icImage),
-                                spaceH6,
-                                Text(
-                                  S.current.them,
-                                  style: tokenDetailAmount(
-                                    fontSize: 14,
-                                    color: AppTheme.getInstance().colorField(),
+                        borderRadius: BorderRadius.circular(12),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.item.anhDaiDienFilePath ?? '',
+                          fit: BoxFit.cover,
+                          errorWidget: (_, __, ___) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(ImageAssets.icImage),
+                                  spaceH6,
+                                  Text(
+                                    S.current.them,
+                                    style: tokenDetailAmount(
+                                      fontSize: 14,
+                                      color:
+                                          AppTheme.getInstance().colorField(),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ));
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
                     } else {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(12),
@@ -137,8 +153,6 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                           fit: BoxFit.cover,
                         ),
                       );
-
-                      //Image.file(File(_data));
                     }
                   },
                 ),

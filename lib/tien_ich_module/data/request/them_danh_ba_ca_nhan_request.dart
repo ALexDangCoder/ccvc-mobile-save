@@ -12,9 +12,9 @@ class ThemDanhBaCaNhanRequest {
   bool? gioiTinh;
   String? ngaySinh;
   String? cmtnd;
-  String? anhDaiDienFilePath;
-  String? anhChuKyFilePath;
-  String? anhChuKyNhayFilePath;
+  String? anhDaiDien_FilePath;
+  String? anhChuKy_FilePath;
+  String? anhChuKyNhay_FilePath;
   String? diaChi;
   bool? isDeleted;
   int? thuTu;
@@ -29,9 +29,9 @@ class ThemDanhBaCaNhanRequest {
     required this.gioiTinh,
     required this.ngaySinh,
     required this.cmtnd,
-    required this.anhDaiDienFilePath,
-    required this.anhChuKyFilePath,
-    required this.anhChuKyNhayFilePath,
+    required this.anhDaiDien_FilePath,
+    required this.anhChuKy_FilePath,
+    required this.anhChuKyNhay_FilePath,
     required this.diaChi,
     required this.isDeleted,
     required this.thuTu,

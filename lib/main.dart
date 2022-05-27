@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/strings.dart';
@@ -24,6 +26,9 @@ import 'package:hive/hive.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
+Future<void> _messageHandler(RemoteMessage message) async {
+  print('background message ${message.notification!.body}');
+}
 Future<void> mainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -34,7 +39,10 @@ Future<void> mainApp() async {
     badge: true,
     sound: true,
   );
+
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
+  FirebaseMessaging.onBackgroundMessage(_messageHandler);
+
   final appDocumentDirectory =
       await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
@@ -60,6 +68,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  Future<void> getTokken()async {
+    final fcmTokken = await FirebaseMessaging.instance.getToken();
+    print('$fcmTokken ??????????????');
+  }
 
   @override
   void initState() {
@@ -67,8 +81,17 @@ class _MyAppState extends State<MyApp> {
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
+    getTokken();
+    messaging.getToken().then((value) => {
+    print('$value ????????????????')
+    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
 
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
     });
   }
 

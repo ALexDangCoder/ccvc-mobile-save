@@ -14,6 +14,5 @@ class AppTheme {
       case AppMode.VANG:
        return YellowApp();
     }
-
   }
 }

@@ -59,11 +59,8 @@ class _DanhSachCongViecTienIchTabletState
               showDiaLogTablet(
                 context,
                 title: S.current.them_cong_viec,
-                child: AddToDoWidgetTienIch(
-                  onTap: (value) {
-                    cubit.addTodo();
-                    Navigator.pop(context);
-                  },
+                child: CreatTodoOrUpdateVer2Widget(
+                  cubit: cubit,
                 ),
                 isBottomShow: false,
                 funcBtnOk: () {},

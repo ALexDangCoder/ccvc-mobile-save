@@ -66,7 +66,10 @@ extension MenuTypeItem on MenuType {
     switch (this) {
       case MenuType.lichLamViec:
         return MenuCellType(
-          url: ImageAssets.itemMenuLichLamViec,
+          url: urlIconScreen(
+            iconTablet: ImageAssets.itemMenuLichLamViecTablet,
+            iconMobile: ImageAssets.itemMenuLichLamViec,
+          ),
           title: S.current.lich_lam_viec,
         );
       case MenuType.hop:
@@ -111,12 +114,18 @@ extension MenuTypeItem on MenuType {
         );
       case MenuType.baoCao:
         return MenuCellType(
-          url: ImageAssets.itemMenuBaoCao,
+          url: urlIconScreen(
+            iconTablet: ImageAssets.itemMenuBaoCaoTablet,
+            iconMobile: ImageAssets.itemMenuBaoCao,
+          ),
           title: S.current.bac_cao,
         );
       case MenuType.tuongTacNoiBo:
         return MenuCellType(
-          url: ImageAssets.itemMenuTuongTacBoiBo,
+          url: urlIconScreen(
+            iconTablet: ImageAssets.itemMenuTuongTacBoiBoTablet,
+            iconMobile: ImageAssets.itemMenuTuongTacBoiBo,
+          ),
           title: S.current.tuong_tac_noi_bo,
         );
       case MenuType.baoChiMangXaHoi:

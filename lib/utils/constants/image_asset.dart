@@ -288,7 +288,7 @@ class ImageAssets {
       '$baseImg/ic_hanh_chinh_cong_tablet.svg';
   static const String icTuongTacNoiBoTablet =
       '$baseImg/ic_tuong_tac_noi_bo_tablet.svg';
-  static const String icYKienNguoiDanTablet = '$baseImg/ic_y_kien_nguoi_dan_tablet.svg';
+  static const String icYKienNguoiDanTablet = '$baseImg/item_pakn_menu_tablet.svg';
   static const String icQuanLyVanBanTablet =
       '$baseImg/ic_quan_ly_van_ban_tablet.svg';
   static const String icBaoChiTablet = '$baseImg/ic_bao_chi_tablet.svg';
@@ -518,8 +518,11 @@ class ImageAssets {
   static const String icWarningPopUp= '$baseImg/ic_warning_popup.svg';
   static const String itemMenuDiemDanh= '$baseImg/item_diemdanh_menu.svg';
   static const String itemMenuTuongTacBoiBo= '$baseImg/item_tuongtacnoibo_menu.svg';
+  static const String itemMenuTuongTacBoiBoTablet= '$baseImg/item_tuongtacnoibo_menu_tablet.svg';
   static const String itemMenuLichLamViec= '$baseImg/item_lichlamviec_menu.svg';
+  static const String itemMenuLichLamViecTablet= '$baseImg/item_lichlamviec_menu_tablet.svg';
   static const String itemMenuBaoCao= '$baseImg/item_bao_cao_menu.svg';
+  static const String itemMenuBaoCaoTablet= '$baseImg/item_baocao_menu_tablet.svg';
 
 
 

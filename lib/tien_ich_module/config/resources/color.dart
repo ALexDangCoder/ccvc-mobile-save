@@ -710,4 +710,3 @@ class YellowApp extends AppColor {
     return yellowColor;
   }
 }
-

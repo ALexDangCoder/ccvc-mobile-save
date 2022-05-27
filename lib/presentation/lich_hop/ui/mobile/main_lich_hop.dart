@@ -546,10 +546,10 @@ class _MainLichHopState extends State<MainLichHop> {
                                 ),
                               );
                             },
-                            backgroundColor: AppTheme.getInstance().colorField(),
+                            backgroundColor:
+                                AppTheme.getInstance().colorField(),
                             child: SvgPicture.asset(
                               ImageAssets.icAddCalenderWhite,
-
                             ),
                           ),
                         ),

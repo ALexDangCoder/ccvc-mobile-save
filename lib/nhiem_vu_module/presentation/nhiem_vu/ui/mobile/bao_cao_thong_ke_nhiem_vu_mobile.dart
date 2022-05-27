@@ -1,5 +1,5 @@
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/menu/nhiem_vu_menu_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
@@ -13,13 +13,18 @@ import 'bloc/danh_sach_cubit.dart';
 class BaoCaoThongKeNhiemVuMobile extends StatefulWidget {
   final DanhSachCubit danhSachCubit;
   final NhiemVuCubit nhiemVuCubit;
-  const BaoCaoThongKeNhiemVuMobile({Key? key, required this.danhSachCubit, required this.nhiemVuCubit}) : super(key: key);
+
+  const BaoCaoThongKeNhiemVuMobile(
+      {Key? key, required this.danhSachCubit, required this.nhiemVuCubit})
+      : super(key: key);
 
   @override
-  _BaoCaoThongKeNhiemVuMobileState createState() => _BaoCaoThongKeNhiemVuMobileState();
+  _BaoCaoThongKeNhiemVuMobileState createState() =>
+      _BaoCaoThongKeNhiemVuMobileState();
 }
 
-class _BaoCaoThongKeNhiemVuMobileState extends State<BaoCaoThongKeNhiemVuMobile> {
+class _BaoCaoThongKeNhiemVuMobileState
+    extends State<BaoCaoThongKeNhiemVuMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +40,7 @@ class _BaoCaoThongKeNhiemVuMobileState extends State<BaoCaoThongKeNhiemVuMobile>
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-
-            },
+            onTap: () {},
             child: const Icon(
               Icons.search,
               color: textBodyTime,
@@ -48,7 +51,7 @@ class _BaoCaoThongKeNhiemVuMobileState extends State<BaoCaoThongKeNhiemVuMobile>
               DrawerSlide.navigatorSlide(
                 context: context,
                 screen: NhiemVuMenuMobile(
-                  cubit:  widget.nhiemVuCubit,
+                  cubit: widget.nhiemVuCubit,
                 ),
               );
             },

@@ -8,7 +8,9 @@ import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.da
 
 class ThanhPhanThamGiaImpl extends ThanhPhanThamGiaReponsitory {
   final ThanhPhanThamGiaService _service;
+
   ThanhPhanThamGiaImpl(this._service);
+
   @override
   Future<Result<List<Node<DonViModel>>>> getTreeDonVi({bool getAll = true}) {
     return runCatchingAsync<TreeDonViThamGiaResponse, List<Node<DonViModel>>>(

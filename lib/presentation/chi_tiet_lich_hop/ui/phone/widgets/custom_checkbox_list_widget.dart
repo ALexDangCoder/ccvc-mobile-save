@@ -164,7 +164,7 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                                     widget.dataNguoiThamGia[index].tenCoQuan,
                                   ),
                                   style:
-                                      textNormal(titleColor, 14.0.textScale()),
+                                      textNormal(color3D5586, 14.0.textScale()),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -204,7 +204,7 @@ class _ExpandedSectionState extends State<CustomCheckBoxList>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),

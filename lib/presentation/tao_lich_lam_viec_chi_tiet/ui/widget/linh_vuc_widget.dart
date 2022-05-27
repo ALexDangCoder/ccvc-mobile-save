@@ -24,8 +24,7 @@ class _LinhVucWidgetState extends State<LinhVucWidget> {
         final data = snapshot.data ?? <LoaiSelectModel>[];
         return SelectOnlyExpand(
           onChange: (value) {
-            widget.taoLichLamViecCubit
-                .selectLinhVuc?.id = data[value].id;
+            widget.taoLichLamViecCubit.selectLinhVuc?.id = data[value].id;
           },
           urlIcon: ImageAssets.icWork,
           listSelect: data.map((e) => e.name).toList(),

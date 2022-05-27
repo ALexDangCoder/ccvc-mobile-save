@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/preview_widget_item.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
+
 class PrevViewWidget extends StatefulWidget {
   final WidgetManageCubit cubit;
 
@@ -80,10 +81,10 @@ class _PrevViewWidgetState extends State<PrevViewWidget> {
                 ],
               ),
               Positioned.fill(
-                  child: Container(
-                    width: double.maxFinite,
-                    color: Colors.transparent,
-                  ),
+                child: Container(
+                  width: double.maxFinite,
+                  color: Colors.transparent,
+                ),
               )
             ],
           ),

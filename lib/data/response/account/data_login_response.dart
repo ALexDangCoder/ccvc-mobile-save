@@ -18,7 +18,9 @@ class DataLoginResponse extends Equatable {
   String? accessToken;
   @JsonKey(name: 'refreshToken')
   String? refreshToken;
+
   DataLoginResponse();
+
   factory DataLoginResponse.fromJson(Map<String, dynamic> json) =>
       _$DataLoginResponseFromJson(json);
 
@@ -31,6 +33,7 @@ class DataLoginResponse extends Equatable {
         accessToken: accessToken,
         refreshToken: refreshToken,
       );
+
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
@@ -66,6 +69,7 @@ class UserInformationResponse {
   String? ngaySinh;
   @JsonKey(name: 'soDienThoai')
   String? soDienThoai;
+
   UserInformation toDomain() => UserInformation(
         id: id,
         hoTen: hoTen,
@@ -81,7 +85,9 @@ class UserInformationResponse {
         ngaySinh: ngaySinh,
         soDienThoai: soDienThoai,
       );
+
   UserInformationResponse();
+
   factory UserInformationResponse.fromJson(Map<String, dynamic> json) =>
       _$UserInformationResponseFromJson(json);
 
@@ -98,9 +104,12 @@ class DonViGocResponse {
   String? chucVuId;
   @JsonKey(name: 'chucVu')
   String? chucVu;
+
   DonViGocResponse();
+
   DonViGoc toDomain() =>
       DonViGoc(id: id, tenDonVi: tenDonVi, chucVu: chucVu, chucVuId: chucVuId);
+
   factory DonViGocResponse.fromJson(Map<String, dynamic> json) =>
       _$DonViGocResponseFromJson(json);
 }
@@ -115,13 +124,16 @@ class DonViTrucThuocResponse {
   String? chucVuId;
   @JsonKey(name: 'chucVu')
   String? chucVu;
+
   DonViTrucThuoc toDomain() => DonViTrucThuoc(
         id: id,
         tenDonVi: tenDonVi,
         chucVu: chucVu,
         chucVuId: chucVuId,
       );
+
   DonViTrucThuocResponse();
+
   factory DonViTrucThuocResponse.fromJson(Map<String, dynamic> json) =>
       _$DonViTrucThuocResponseFromJson(json);
 }

@@ -24,7 +24,7 @@ class _MenuYKIenNguoiDanTabletState extends State<MenuYKIenNguoiDanTablet> {
     return Scaffold(
       appBar: BaseAppBar(
         title: S.current.menu,
-        leadingIcon:IconButton(
+        leadingIcon: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },

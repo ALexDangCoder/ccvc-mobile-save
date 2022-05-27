@@ -59,7 +59,9 @@ class LineData {
   Map<String, dynamic> toJson() => _$LineDataToJson(this);
 
   LineChartData toDomain() => LineChartData(
-        date:DateFormat('yyyy/MM/dd HH:mm:ss').parse(date??'').toStringWithListFormat,
+        date: DateFormat('yyyy/MM/dd HH:mm:ss')
+            .parse(date ?? '')
+            .toStringWithListFormat,
         count: value ?? 0,
       );
 }

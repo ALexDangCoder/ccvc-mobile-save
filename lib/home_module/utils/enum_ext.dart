@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 
 import '/generated/l10n.dart';
@@ -140,7 +139,7 @@ extension DocumentStatusEx on DocumentStatus {
       case DocumentStatus.DANG_THUC_HIEN:
         return AqiColor;
       case DocumentStatus.TRONG_HAN:
-      return choTrinhKyColor;
+        return choTrinhKyColor;
     }
   }
 }

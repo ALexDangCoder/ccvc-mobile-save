@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/danh_sach/danh_sach_nhiem_vu_mobile.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -15,6 +14,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class SummaryOfTaskWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const SummaryOfTaskWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -25,6 +25,7 @@ class SummaryOfTaskWidget extends StatefulWidget {
 class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
   late HomeCubit cubit;
   final TongHopNhiemVuCubit _nhiemVuCubit = TongHopNhiemVuCubit();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -84,9 +85,9 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
             stream: _nhiemVuCubit.getTonghopNhiemVu,
             builder: (context, snapshot) {
               final data = snapshot.data ?? <TongHopNhiemVuModel>[];
-              if(data.isEmpty){
+              if (data.isEmpty) {
                 return const Padding(
-                  padding:  EdgeInsets.symmetric(vertical: 100),
+                  padding: EdgeInsets.symmetric(vertical: 100),
                   child: NodataWidget(),
                 );
               }

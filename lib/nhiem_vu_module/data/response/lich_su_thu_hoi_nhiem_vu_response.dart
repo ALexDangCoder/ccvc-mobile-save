@@ -63,13 +63,13 @@ class LichSuThuHoiNhiemVuModelResponse extends Equatable {
       _$LichSuThuHoiNhiemVuModelResponseToJson(this);
 
   LichSuThuHoiNhiemVuModel toModel() => LichSuThuHoiNhiemVuModel(
-    nguoiTaoXuLy:nguoiTaoXuLy,
-    donViTaoXuLy:donViTaoXuLy,
-    thoiGianTao:thoiGianTao,
-    noiDung:noiDung,
-    nguoiXuLy:nguoiXuLy,
-    donViXuLy:donViXuLy,
-  );
+        nguoiTaoXuLy: nguoiTaoXuLy,
+        donViTaoXuLy: donViTaoXuLy,
+        thoiGianTao: thoiGianTao,
+        noiDung: noiDung,
+        nguoiXuLy: nguoiXuLy,
+        donViXuLy: donViXuLy,
+      );
 
   //todo convert to Model to use
   @override

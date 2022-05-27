@@ -1,9 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/widgets/han_xu_ly_widget.dart';
-import 'package:ccvc_mobile/home_module/widgets/chart/base_pie_chart.dart';
-import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/pre_container_widget.dart';
 import 'package:flutter/material.dart';
 
 class PreTinhHinhXuLyVanBan extends StatelessWidget {

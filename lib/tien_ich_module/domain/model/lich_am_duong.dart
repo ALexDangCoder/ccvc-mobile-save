@@ -1,17 +1,17 @@
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 
-const String IC_CHUOT='Tý';
-const String IC_SUU='Sửu';
-const String IC_DAN='Dần';
-const String IC_MAO='Mão';
-const String IC_THIN='Thìn';
-const String IC_TY='Tỵ';
-const String IC_NGO='Ngọ';
-const String IC_MUI='Mùi';
-const String IC_THAN='Thân';
-const String IC_DAU='Dậu';
-const String IC_TUAT='Tuất';
-const String IC_HOI='Hợi';
+const String IC_CHUOT = 'Tý';
+const String IC_SUU = 'Sửu';
+const String IC_DAN = 'Dần';
+const String IC_MAO = 'Mão';
+const String IC_THIN = 'Thìn';
+const String IC_TY = 'Tỵ';
+const String IC_NGO = 'Ngọ';
+const String IC_MUI = 'Mùi';
+const String IC_THAN = 'Thân';
+const String IC_DAU = 'Dậu';
+const String IC_TUAT = 'Tuất';
+const String IC_HOI = 'Hợi';
 
 class LichAmDuong {
   List<GioHoangDao>? gioHoangDao;
@@ -61,8 +61,9 @@ class GioHoangDao {
     this.ten,
     this.gio,
   });
-  String  toIcon(){
-    switch(ten?.trim()){
+
+  String toIcon() {
+    switch (ten?.trim()) {
       case IC_CHUOT:
         return ImageAssets.icChuot;
       case IC_SUU:
@@ -90,7 +91,6 @@ class GioHoangDao {
     }
     return ImageAssets.icChuot;
   }
-
 }
 
 class GioHacDao {
@@ -101,8 +101,9 @@ class GioHacDao {
     this.ten,
     this.gio,
   });
-  String  toIcon(){
-    switch(ten?.trim()){
+
+  String toIcon() {
+    switch (ten?.trim()) {
       case IC_CHUOT:
         return ImageAssets.icChuot;
       case IC_SUU:
@@ -206,8 +207,9 @@ class TuoiXungTheoNgay {
     this.nguHanh,
     this.chi,
   });
-  String  toIcon(){
-    switch(chi?.trim()){
+
+  String toIcon() {
+    switch (chi?.trim()) {
       case IC_CHUOT:
         return ImageAssets.icChuot;
       case IC_SUU:
@@ -247,8 +249,9 @@ class TuoiXungTheoThang {
     this.nguHanh,
     this.chi,
   });
-  String  toIcon(){
-    switch(chi?.trim()){
+
+  String toIcon() {
+    switch (chi?.trim()) {
       case IC_CHUOT:
         return ImageAssets.icChuot;
       case IC_SUU:
@@ -276,8 +279,6 @@ class TuoiXungTheoThang {
     }
     return ImageAssets.icChuot;
   }
-
-
 }
 
 class NgayBachKy {

@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
 
 class TinhHuongKhanCapResponse {
@@ -40,6 +38,7 @@ class Data {
     linkOrContent = json['linkOrContent'];
     isLink = json['isLink'];
   }
+
   TinBuonModel toDomain() => TinBuonModel(
         id: id ?? '',
         isLink: isLink ?? false,

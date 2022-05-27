@@ -55,7 +55,10 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
       child: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
-        error: AppException('1', ''),
+        error: AppException(
+          S.current.error,
+          S.current.error,
+        ),
         stream: loginCubit.stateStream,
         child: BlocListener<LoginCubit, LoginState>(
           bloc: loginCubit,
@@ -112,8 +115,9 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                   ),
                                   Text(
                                     S.current.wellcom_login,
-                                    style:
-                                        textNormal(AqiColor, 16.0.textScale()),
+                                    style: textNormal(
+                                        textBodyTime,
+                                        16.0.textScale()),
                                   )
                                 ],
                               ),
@@ -160,13 +164,15 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 return loginCubit.isHideClearData = true;
                               },
                               validator: (value) {
-                                 if ((value ?? '').contains('@')) {
-                                   if((value ?? '').contains('@', value!.indexOf('@')+1)) {
-                                   }else{
-                                     return value.checkEmailBoolean();
-                                   }
+                                if ((value ?? '').contains('@')) {
+                                  if ((value ?? '')
+                                      .contains('@', value!.indexOf('@') + 1)) {
+                                  } else {
+                                    return value.checkEmailBoolean();
+                                  }
                                 } else {
-                                  return (value ?? '').checkTruongNull('Tài khoản!');
+                                  return (value ?? '')
+                                      .checkTruongNull('Tài khoản!');
                                 }
                               },
                             ),
@@ -218,7 +224,8 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                 return loginCubit.isHideEye1 = true;
                               },
                               validator: (value) {
-                                return (value ?? '').checkTruongNull('Mật khẩu!');
+                                return (value ?? '')
+                                    .checkTruongNull('Mật khẩu!');
                               },
                             ),
                             const SizedBox(
@@ -227,18 +234,19 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                             StreamBuilder<String>(
                                 stream: loginCubit.thongBao,
                                 builder: (context, snapshot) {
-                                  final data=snapshot.data??'';
-                                  if(data.isNotEmpty){
+                                  final data = snapshot.data ?? '';
+                                  if (data.isNotEmpty) {
                                     return Padding(
-                                      padding: const EdgeInsets.only(bottom: 24.0),
-                                      child: WidgetTextError(text: data,),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 24.0),
+                                      child: WidgetTextError(
+                                        text: data,
+                                      ),
                                     );
-                                  }else{
+                                  } else {
                                     return const SizedBox();
                                   }
-
-                                }
-                            ),
+                                }),
                             GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(
@@ -250,7 +258,8 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               },
                               child: Text(
                                 '${S.current.quen_mat_khau}?',
-                                style: textNormalCustom(color: AppTheme.getInstance().colorField()),
+                                style: textNormalCustom(
+                                    color: AppTheme.getInstance().colorField()),
                               ),
                             ),
                             const SizedBox(
@@ -262,8 +271,10 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                               onPressed: () async {
                                 if (keyGroup.currentState!.validator()) {
                                   await loginCubit.loginAndSaveinfo(
-                                    passWord: textPasswordController.text.trim(),
-                                    userName: textTaiKhoanController.text.trim(),
+                                    passWord:
+                                        textPasswordController.text.trim(),
+                                    userName:
+                                        textTaiKhoanController.text.trim(),
                                     appCode: APP_CODE,
                                   );
                                 }
@@ -279,7 +290,7 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Visibility(
-                                        visible:isAndroid??true,
+                                        visible: isAndroid ?? true,
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -292,18 +303,22 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
-                                              color: buttonColor.withOpacity(0.1),
+                                              color: AppTheme.getInstance()
+                                                  .colorField()
+                                                  .withOpacity(0.1),
                                             ),
                                             child: Center(
                                               child: SvgPicture.asset(
                                                 ImageAssets.icFingerprint,
+                                                color: AppTheme.getInstance()
+                                                    .colorField(),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
                                       Visibility(
-                                        visible: isIOS??true,
+                                        visible: isIOS ?? true,
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -316,11 +331,15 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
-                                              color: buttonColor.withOpacity(0.1),
+                                              color: AppTheme.getInstance()
+                                                  .colorField()
+                                                  .withOpacity(0.1),
                                             ),
                                             child: Center(
                                               child: SvgPicture.asset(
                                                 ImageAssets.icFaceId,
+                                                color: AppTheme.getInstance()
+                                                    .colorField(),
                                               ),
                                             ),
                                           ),

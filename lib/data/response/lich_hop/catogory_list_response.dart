@@ -69,6 +69,7 @@ class Items {
     order = json['order'];
     type = json['type'];
   }
+
   LoaiSelectModel toDomain() => LoaiSelectModel(
         totalItems: totalItems ?? 0,
         id: id ?? '',

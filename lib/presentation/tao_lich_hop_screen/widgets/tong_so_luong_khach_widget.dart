@@ -14,6 +14,7 @@ class TongSoLuongKhachWidget extends StatefulWidget {
 
 class _TongSoLuongKhachWidgetState extends State<TongSoLuongKhachWidget> {
   final _key = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -41,7 +42,7 @@ class _TongSoLuongKhachWidgetState extends State<TongSoLuongKhachWidget> {
     return Form(
       key: _key,
       child: TextFormField(
-        style: textNormal(titleColor, 14.0.textScale()),
+        style: textNormal(color3D5586, 14.0.textScale()),
         onChanged: (value) {
           _key.currentState?.validate();
           onChange(value);

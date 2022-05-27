@@ -131,6 +131,7 @@ extension CheckValidate on String {
       return '${S.current.sai_dinh_dang_truong} $name';
     }
   }
+
   bool? checkSdtDinhDangTruong() {
     final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
     if (isCheckSdt) {
@@ -139,6 +140,7 @@ extension CheckValidate on String {
       return false;
     }
   }
+
   bool? checkEmailBooleanDinhDangTruong() {
     final isCheck = RegExp(
       r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$',
@@ -194,7 +196,6 @@ extension CheckValidate on String {
     }
     return null;
   }
-
 
   String? checkNulls() {
     if (trim().isEmpty) {

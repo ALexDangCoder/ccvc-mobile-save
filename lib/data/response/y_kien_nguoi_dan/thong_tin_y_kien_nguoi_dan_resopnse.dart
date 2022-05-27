@@ -39,13 +39,13 @@ class ThongTinYKienNguoiDanResponse {
   Map<String, dynamic> toJson() => _$ThongTinYKienNguoiDanResponseToJson(this);
 
   ThongTinYKienModel toDomain() => ThongTinYKienModel(
-    choBoXungThongTin:choBoXungThongTin,
-    choChoYKien: choChoYKien,
-    choDuyet: choDuyet,
-    choPhanCongXuLy: choPhanCongXuLy,
-    choTiepNhan: choTiepNhan,
-    choTiepNhanXuLy: choTiepNhanXuLy,
-    choXuLy: choXuLy,
-    tongSoPakn: tongSoPakn,
-  );
+        choBoXungThongTin: choBoXungThongTin,
+        choChoYKien: choChoYKien,
+        choDuyet: choDuyet,
+        choPhanCongXuLy: choPhanCongXuLy,
+        choTiepNhan: choTiepNhan,
+        choTiepNhanXuLy: choTiepNhanXuLy,
+        choXuLy: choXuLy,
+        tongSoPakn: tongSoPakn,
+      );
 }

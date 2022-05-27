@@ -43,7 +43,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   bool isCheck = false;
   late String startDate;
   late String endDate;
-  DateTime initStartDate=DateTime.now();
+  DateTime initStartDate = DateTime.now();
   String donViId = '';
   String userId = '';
   String trangThai = '';
@@ -54,9 +54,9 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   bool canLoadMoreList = true;
   bool refresh = false;
   bool isSearching = false;
-  String tuKhoa='';
+  String tuKhoa = '';
   Debouncer debouncer = Debouncer();
-  bool isEmptyData=false;
+  bool isEmptyData = false;
 
   static const int TRONGHAN = 1;
   static const int DENHAN = 2;
@@ -130,7 +130,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   List<ChartData> chartYKienNduoiDan = [
     ChartData(S.current.cong_dvc_quoc_gia, 10, choTrinhKyColor),
     ChartData(S.current.thu_dien_tu, 10, labelColor),
-    ChartData(S.current.thu_dien_tu_hai, 10, unselectLabelColor),
+    ChartData(S.current.thu_dien_tu_hai, 10, colorA2AEBD),
     ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, itemWidgetUsing),
     ChartData(S.current.he_thong_quan_ly_van_ban, 5, itemWidgetNotUse),
   ];
@@ -138,7 +138,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     ChartData(S.current.thu_dien_tu, 10, labelColor),
     ChartData(S.current.cong_dvc_quoc_gia, 10, numberOfCalenders),
     ChartData(S.current.ung_dung_chi_dao_dieu_hanh, 5, itemWidgetUsing),
-    ChartData(S.current.thu_dien_tu_hai, 10, unselectLabelColor),
+    ChartData(S.current.thu_dien_tu_hai, 10, colorA2AEBD),
     ChartData(S.current.he_thong_quan_ly_van_ban, 5, itemWidgetNotUse),
   ];
   List<ChartData> chartColorPhanLoaiYKND = [
@@ -160,7 +160,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
   List<ItemIndicator> listIndicator = [
     ItemIndicator(color: numberOfCalenders, title: S.current.cong_dvc_quoc_gia),
     ItemIndicator(color: labelColor, title: S.current.thu_dien_tu),
-    ItemIndicator(color: unselectLabelColor, title: S.current.thu_dien_tu_hai),
+    ItemIndicator(color: colorA2AEBD, title: S.current.thu_dien_tu_hai),
     ItemIndicator(
       color: itemWidgetUsing,
       title: S.current.ung_dung_chi_dao_dieu_hanh,
@@ -416,8 +416,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
         if (listDanhSachKetQuaPakn.hasValue) {
           listDanhSachKetQuaPakn.sink
               .add(listDanhSachKetQuaPakn.value + success);
-          canLoadMoreList =
-              success.length >= pageSizeDSPAKN;
+          canLoadMoreList = success.length >= pageSizeDSPAKN;
           loadMore = false;
           refresh = false;
         } else {
@@ -510,7 +509,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
           ChartData(
             res.listPhanLoai[3].tenNguon,
             res.listPhanLoai[3].soLuong.toDouble(),
-            unselectLabelColor,
+            colorA2AEBD,
           ),
         );
         listChartPhanLoai.add(
@@ -659,8 +658,7 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   void initTimeRange() {
     final DateTime date = DateTime.now();
-    initStartDate =
-        DateTime(date.year, date.month, date.day - 30);
+    initStartDate = DateTime(date.year, date.month, date.day - 30);
     startDate =
         DateTime(date.year, date.month, date.day - 30).toStringWithListFormat;
     endDate = DateTime.now().toStringWithListFormat;

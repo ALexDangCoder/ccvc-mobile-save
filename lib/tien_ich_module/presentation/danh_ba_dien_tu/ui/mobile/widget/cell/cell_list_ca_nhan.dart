@@ -75,14 +75,14 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                   children: [
                     Text(
                       widget.item.hoTen ?? '',
-                      style: textNormalCustom(fontSize: 16, color: titleColor),
+                      style: textNormalCustom(fontSize: 16, color: color3D5586),
                     ),
                     spaceH6,
                     Text(
                       S.current.nhan_vien,
                       style: tokenDetailAmount(
                         fontSize: 14,
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                       ),
                     ),
                     spaceH12,
@@ -226,7 +226,7 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                   children: [
                     Text(
                       widget.item.hoTen ?? '',
-                      style: textNormalCustom(fontSize: 16, color: titleColor),
+                      style: textNormalCustom(fontSize: 16, color: color3D5586),
                     ),
                     spaceH24,
                     Row(

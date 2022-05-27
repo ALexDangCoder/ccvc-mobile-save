@@ -88,7 +88,7 @@ class _KetNoiMenuState extends State<KetNoiMenu> {
         Text(
           menu,
           style: textNormalCustom(
-            color: titleColor,
+            color: color3D5586,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

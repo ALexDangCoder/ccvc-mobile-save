@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/bao_cao_thong_ke_yknd_request/bao_cao_yknd_request.dart';
-import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/location_address_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
@@ -125,7 +123,7 @@ mixin YKienNguoiDanRepository {
   );
 
   Future<Result<ResultXinYKienNguoiDan>> postChoYKienYKienXuLy(
-   // String nguoiChoYKien,
+    // String nguoiChoYKien,
     String kienNghiId,
     String noiDung,
     List<File> file,

@@ -10,6 +10,7 @@ import 'package:rxdart/rxdart.dart';
 class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   final List<DonViModel> listSelectCanBo = [];
   List<DonViModel> listCanBo = [];
+
   ThanhPhanThamGiaReponsitory get thanhPhanThamGiaRp => Get.find();
   final BehaviorSubject<List<DonViModel>> _getCanbo =
       BehaviorSubject<List<DonViModel>>();
@@ -17,6 +18,7 @@ class ThemCanBoCubit extends BaseCubit<ThemCanBoState> {
   Stream<List<DonViModel>> get getCanbo => _getCanbo.stream;
 
   ThemCanBoCubit() : super(MainStateInitial());
+
   Future<void> getCanBo(DonViModel donViModel) async {
     emit(Loading());
     final result = await thanhPhanThamGiaRp.getSeachCanBo(

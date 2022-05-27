@@ -88,8 +88,8 @@ const EN_CODE = 'en';
 const VI_CODE = 'vi';
 const VI_LANG = 'vn';
 
-const EN_US_VOICE  = 'en_US';
-const VI_VN_VOICE  = 'vi_VN';
+const EN_US_VOICE = 'en_US';
+const VI_VN_VOICE = 'vi_VN';
 
 const EMAIL_REGEX =
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";

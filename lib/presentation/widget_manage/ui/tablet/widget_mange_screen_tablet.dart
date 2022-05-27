@@ -63,7 +63,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
               widgetManageCubit.resetListWidget();
             },
           ),
-          const SizedBox(width: 30,),
+          const SizedBox(
+            width: 30,
+          ),
         ],
       ),
       body: StateStreamLayout(
@@ -150,7 +152,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                           },
                         ),
                         const SizedBox(
-                          height:8,
+                          height: 8,
                         ),
                         Text(
                           S.current.not_use,

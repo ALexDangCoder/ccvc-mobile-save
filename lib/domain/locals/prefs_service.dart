@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:ccvc_mobile/domain/model/app_theme_model.dart';
@@ -29,6 +28,7 @@ class PrefsService {
   static String getToken() {
     return _prefsInstance?.getString(_PREF_TOKEN) ?? '';
   }
+
   static String getLoginUserName() {
     return _prefsInstance?.getString(_PREF_LOGIN_USERNAME) ?? '';
   }
@@ -36,7 +36,6 @@ class PrefsService {
   static String getLoginPassWord() {
     return _prefsInstance?.getString(_PREF_LOGIN_PASSWORD) ?? '';
   }
-
 
   static Future<bool> saveLoginUserName(String userName) async {
     final prefs = await _instance;
@@ -68,7 +67,6 @@ class PrefsService {
     return prefs.setString(_PREF_LANGUAGE, code);
   }
 
-
   static String getLanguage() {
     return _prefsInstance?.getString(_PREF_LANGUAGE) ?? VI_CODE;
   }
@@ -77,16 +75,18 @@ class PrefsService {
     await _prefsInstance?.clear();
     return;
   }
+
   static Future<bool> setAppTheme(AppThemModel appThemModel) async {
     final prefs = await _instance;
     return prefs.setString(_PREF_APP_THEME, json.encode(appThemModel.toJson()));
   }
-  static AppThemModel getAppTheme(){
+
+  static AppThemModel getAppTheme() {
     final result = _prefsInstance?.getString(_PREF_APP_THEME);
-    if(result == null){
+    if (result == null) {
       return AppThemModel();
     }
-    final jsonDecode =  json.decode(result) as Map<String,dynamic>;
-     return AppThemModel.fromJson(jsonDecode);
+    final jsonDecode = json.decode(result) as Map<String, dynamic>;
+    return AppThemModel.fromJson(jsonDecode);
   }
 }

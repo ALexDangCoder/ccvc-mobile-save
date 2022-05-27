@@ -5,8 +5,6 @@ abstract class LoginState extends Equatable {
 }
 
 class LoginStateIntial extends LoginState {
-
-
   @override
   List<Object?> get props => [];
 }
@@ -22,7 +20,9 @@ class LoginError extends LoginState {
 
 class LoginSuccess extends LoginState {
   final String token;
+
   LoginSuccess({required this.token});
+
   @override
   List<Object?> get props => [token];
 }

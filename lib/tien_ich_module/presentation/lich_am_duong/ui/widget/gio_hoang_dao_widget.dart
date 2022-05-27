@@ -43,7 +43,7 @@ class GioHoangDaoWidget extends StatelessWidget {
               S.current.gio_hoang_dao_gio_tot,
               style: textNormalCustom(
                 fontSize: 14.0,
-                color: titleColor,
+                color: color3D5586,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -100,7 +100,7 @@ Widget titleWidget(String title, String value) {
         value,
         style: textNormalCustom(
           fontSize: 12.0.textScale(),
-          color: titleColor,
+          color: color3D5586,
         ),
       ),
     ],
@@ -128,7 +128,7 @@ Widget icon12ConGiap(String url, String ten, String gio) {
               ten,
               style: textNormalCustom(
                 fontSize: 12.0.textScale(),
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
             const SizedBox(

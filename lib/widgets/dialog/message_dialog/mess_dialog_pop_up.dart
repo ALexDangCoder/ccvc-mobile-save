@@ -106,7 +106,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                         textAlign: TextAlign.center,
                         style: textNormalCustom(
                             fontSize: widget.fontSize,
-                            color: titleColor,
+                            color: color3D5586,
                             fontWeight: widget.fontWeight),
                       ),
                       if (widget.showTitle2 ?? false)
@@ -115,8 +115,8 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                           child: Text(
                             widget.title2 ?? '',
                             textAlign: TextAlign.center,
-                            style:
-                                textNormalCustom(fontSize: 18, color: labelColor),
+                            style: textNormalCustom(
+                                fontSize: 18, color: labelColor),
                           ),
                         )
                       else

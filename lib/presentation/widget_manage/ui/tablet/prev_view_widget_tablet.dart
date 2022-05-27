@@ -22,6 +22,7 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
   WidgetManageCubit cubit = WidgetManageCubit();
   HomeCubit homeCubit = HomeCubit();
   ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -83,10 +84,12 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                   ),
                 ],
               ),
-              Positioned.fill(child: Container(
-                width: double.maxFinite,
-                color: Colors.transparent,
-              ),),
+              Positioned.fill(
+                child: Container(
+                  width: double.maxFinite,
+                  color: Colors.transparent,
+                ),
+              ),
             ],
           ),
         ),

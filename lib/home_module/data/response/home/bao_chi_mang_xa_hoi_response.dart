@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/press_network_model.dart';
 
 class BaoChiMangXaHoiResponse {
@@ -31,6 +29,7 @@ class BaoChiMangXaHoiResponse {
     hasPreviousPage = json['hasPreviousPage'];
     hasNextPage = json['hasNextPage'];
   }
+
   List<PressNetWorkModel> toDomain() {
     pageData?.sort((a, b) {
       var aDate = DateTime.parse(a.publishedTime ?? DateTime.now().toString())
@@ -111,6 +110,7 @@ class PageData {
     replyCount = json['replyCount'];
     viewCount = json['viewCount'];
   }
+
   PressNetWorkModel toDomain() => PressNetWorkModel(
         avatar: avartar ?? '',
         title: title ?? '',

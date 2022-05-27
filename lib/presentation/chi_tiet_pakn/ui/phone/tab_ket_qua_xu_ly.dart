@@ -20,12 +20,12 @@ class TabKetQuaXuLy extends StatefulWidget {
   final ChiTietPaknCubit cubit;
   final String id;
   final String taskId;
+
   @override
   State<TabKetQuaXuLy> createState() => _TabKetQuaXuLyState();
 }
 
 class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -45,16 +45,16 @@ class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
   }
 
   Widget _content() {
-    return StreamBuilder <List<List<ListRowYKND>>>(
+    return StreamBuilder<List<List<ListRowYKND>>>(
       stream: widget.cubit.ketQuaXuLyRowData,
-      builder: (context, snapshot){
-        final data= snapshot.data??[];
-        if(data.isNotEmpty){
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        if (data.isNotEmpty) {
           return ListView.builder(
             shrinkWrap: true,
             itemCount: data.length,
-            itemBuilder: (context, indexItem){
-              return  Container(
+            itemBuilder: (context, indexItem) {
+              return Container(
                 padding: const EdgeInsets.only(left: 16, top: 16),
                 margin: const EdgeInsets.only(top: 16, bottom: 16),
                 decoration: BoxDecoration(
@@ -74,18 +74,15 @@ class _TabKetQuaXuLyState extends State<TabKetQuaXuLy> {
                   },
                 ),
               );
-            } ,
+            },
           );
-        }
-        else{
+        } else {
           return const Padding(
             padding: EdgeInsets.only(top: 16.0),
             child: NodataWidget(),
           );
         }
-
       },
-
     );
   }
 

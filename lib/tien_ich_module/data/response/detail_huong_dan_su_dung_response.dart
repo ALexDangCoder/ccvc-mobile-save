@@ -25,7 +25,6 @@ class DataDetailHuongDanSuDungResponse extends Equatable {
     this.message,
   });
 
-
   factory DataDetailHuongDanSuDungResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DataDetailHuongDanSuDungResponseFromJson(json);
@@ -80,21 +79,20 @@ class DetailHuongDanSuDungResponse extends Equatable {
     this.updatedBy,
   });
 
-  DetailHuongDanSuDung toModel()=>DetailHuongDanSuDung(
-    content:content,
-    topic:topic,
-    type:type,
-    id:id,
-    title:title,
-    order:order,
-    inUsed:inUsed,
-    isDeleted:isDeleted,
-    createdOn:createdOn,
-    createdBy:createdBy,
-    updatedOn:updatedOn,
-    updatedBy:updatedBy,
-  );
-
+  DetailHuongDanSuDung toModel() => DetailHuongDanSuDung(
+        content: content,
+        topic: topic,
+        type: type,
+        id: id,
+        title: title,
+        order: order,
+        inUsed: inUsed,
+        isDeleted: isDeleted,
+        createdOn: createdOn,
+        createdBy: createdBy,
+        updatedOn: updatedOn,
+        updatedBy: updatedBy,
+      );
 
   factory DetailHuongDanSuDungResponse.fromJson(Map<String, dynamic> json) =>
       _$DetailHuongDanSuDungResponseFromJson(json);

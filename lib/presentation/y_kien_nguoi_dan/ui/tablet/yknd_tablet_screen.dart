@@ -15,7 +15,6 @@ class YKienNguoiDanTablet extends StatefulWidget {
 class _YKienNguoiDanTabletState extends State<YKienNguoiDanTablet> {
   YKienNguoiDanCubitt cubit = YKienNguoiDanCubitt();
 
-
   @override
   void initState() {
     super.initState();

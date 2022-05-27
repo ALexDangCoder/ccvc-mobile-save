@@ -55,11 +55,17 @@ class _DocumentInPageState extends State<DocumentOutPage>
                     child: CommonInformationMobile(
                       chartData: widget.qlvbCubit.chartDataVbDi,
                       onPieTap: (value) {
+                        widget.qlvbCubit.documentInSubStatusCode = '';
                         widget.qlvbCubit.documentOutStatusCode =
-                        widget.qlvbCubit.documentOutStatusCode == value
-                            ? ''
-                            : value;
+                            widget.qlvbCubit.documentOutStatusCode == value
+                                ? ''
+                                : value;
                         widget.qlvbCubit.listDataDanhSachVBDi();
+                      },
+                      onStatusTap: (key) {
+                        widget.qlvbCubit.documentInStatusCode = '';
+                        widget.qlvbCubit.documentInSubStatusCode = key;
+                        widget.qlvbCubit.listDataDanhSachVBDen();
                       },
                     ),
                   );
@@ -89,57 +95,57 @@ class _DocumentInPageState extends State<DocumentOutPage>
                     final List<VanBanModel> listData = snapshot.data ?? [];
                     return listData.isNotEmpty
                         ? ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: listData.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: 16,
-                            top: (index == 0) ? 16 : 0,
-                          ),
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ChiTietVanBanDiMobile(
-                                        id: listData[index].iD ?? '',
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: listData.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 16,
+                                  top: (index == 0) ? 16 : 0,
+                                ),
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChiTietVanBanDiMobile(
+                                          id: listData[index].iD ?? '',
+                                        ),
                                       ),
+                                    );
+                                  },
+                                  child: ContainerInfoWidget(
+                                    title:
+                                        listData[index].trichYeu?.parseHtml() ??
+                                            '',
+                                    listData: [
+                                      InfoData(
+                                        key: S.current.dv_soan_thao,
+                                        value:
+                                            listData[index].donViSoanThao ?? '',
+                                        urlIcon: ImageAssets.icLocation,
+                                      ),
+                                      InfoData(
+                                        key: S.current.nguoi_soan_thao,
+                                        value:
+                                            listData[index].nguoiSoanThao ?? '',
+                                        urlIcon: ImageAssets.imgAcount,
+                                      ),
+                                    ],
+                                    status: listData[index].doKhan ?? '',
+                                    colorStatus: getColorFromPriorityCode(
+                                      listData[index].priorityCode ?? '',
+                                    ),
+                                  ),
                                 ),
                               );
                             },
-                            child: ContainerInfoWidget(
-                              title:
-                              listData[index].trichYeu?.parseHtml() ??
-                                  '',
-                              listData: [
-                                InfoData(
-                                  key: S.current.dv_soan_thao,
-                                  value:
-                                  listData[index].donViSoanThao ?? '',
-                                  urlIcon: ImageAssets.icLocation,
-                                ),
-                                InfoData(
-                                  key: S.current.nguoi_soan_thao,
-                                  value:
-                                  listData[index].nguoiSoanThao ?? '',
-                                  urlIcon: ImageAssets.imgAcount,
-                                ),
-                              ],
-                              status: listData[index].doKhan ?? '',
-                              colorStatus: getColorFromPriorityCode(
-                                listData[index].priorityCode ?? '',
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    )
+                          )
                         : const Padding(
-                        padding: EdgeInsets.all(16), child: NodataWidget());
+                            padding: EdgeInsets.all(16), child: NodataWidget());
                   },
                 ),
               ],

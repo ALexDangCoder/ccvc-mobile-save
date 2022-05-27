@@ -29,7 +29,7 @@ class _CreateNewPassWordScreenState extends State<CreateNewPassWordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -40,7 +40,7 @@ class _CreateNewPassWordScreenState extends State<CreateNewPassWordScreen> {
                 const SizedBox(height: 80.0),
                 Text(
                   S.current.tao_mk_moi_cho,
-                  style: textNormalCustom(color: titleColor, fontSize: 16.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 16.0),
                 ),
                 const SizedBox(height: 5.0),
                 Text(

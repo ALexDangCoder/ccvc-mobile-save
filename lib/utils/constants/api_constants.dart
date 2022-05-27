@@ -57,7 +57,7 @@ class ApiConstants {
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
   static const UPLOAD_FILE = '/api/CanBo/upload';
-
+  static const UPLOAD_FILE_COMMON = '/qlvb/api/Common/UploadMultiFile';
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';
@@ -173,12 +173,15 @@ class ApiConstants {
   static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
   static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
   static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
-  static const THEO_DOI_VAN_BAN_DA_BAN_HANH = '/qlvb/api/van-ban-di/{myId}/lich-su-theo-doi-van-ban';
+  static const THEO_DOI_VAN_BAN_DA_BAN_HANH =
+      '/qlvb/api/van-ban-di/{myId}/lich-su-theo-doi-van-ban';
   static const XEM_KET_LUAN_HOP = '/vpdt/api/ScheduleReport/xem-ket-luan';
   static const LICH_SU_VAN_BAN_DEN = '/qlvb/api/vanban/lich-su-by-type';
   static const LIST_PERMISSION = '/api/auth/list-permission';
   static const GET_DANH_SACH_Y_KIEN =
       '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/danh-sach-y-kien';
+  static const GET_LICH_SU_XIN_Y_KIEN =
+      '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/lich-su-xin-y-kien';
   static const BAO_CAO_THONG_KE = '/api/NewsNetViews/dashboard_statistical';
   static const MENU_BCMXH = '/api/NewsNetViews/menu-items?';
   static const Tin_TUC_THOI_SU = '/api/NewsNetViews/tin_tuc_thoi_su?';
@@ -249,6 +252,8 @@ class ApiConstants {
   static const POST_CHO_Y_KIEN_XU_LY = '/PAKN/api/TaskYKien/ChoYKien';
   static const GET_LOCATION_ADDRESS = '/pakn/api/location';
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
+  static const CREATE_DEVICE = '/api/DeviceNotification/create-device';
+  static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
 }
 
 class ImageConstants {

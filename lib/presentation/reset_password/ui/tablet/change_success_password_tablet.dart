@@ -21,7 +21,7 @@ class _ChangeSuccessPasswordTabletState
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
@@ -31,7 +31,7 @@ class _ChangeSuccessPasswordTabletState
                 const SizedBox(height: 80.0),
                 Text(
                   S.current.doi_lai_mat_khau_thanh_cong,
-                  style: textNormalCustom(color: titleColor, fontSize: 20.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 20.0),
                 ),
                 const SizedBox(height: 60.0),
                 Center(
@@ -46,7 +46,7 @@ class _ChangeSuccessPasswordTabletState
                     textAlign: TextAlign.center,
                     style: textNormalCustom(
                       fontSize: 16.0,
-                      color: unselectedLabelColor,
+                      color: color667793,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

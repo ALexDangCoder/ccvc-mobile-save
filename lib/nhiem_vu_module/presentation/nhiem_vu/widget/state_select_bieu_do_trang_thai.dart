@@ -1,10 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/dash_board_lich_hop.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/trang_thai_bieu_do_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/item_select_bieu_do.dart';
-import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/menu/item_state_lich_duoc_moi.dart';
-import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +16,8 @@ class StateSelectBieuDoTrangThaiWidget extends StatefulWidget {
       _StateSelectBieuDoTrangThaiWidgetState();
 }
 
-class _StateSelectBieuDoTrangThaiWidgetState extends State<StateSelectBieuDoTrangThaiWidget>
+class _StateSelectBieuDoTrangThaiWidgetState
+    extends State<StateSelectBieuDoTrangThaiWidget>
     with SingleTickerProviderStateMixin {
   final GlobalKey _key = GlobalKey();
 
@@ -35,8 +33,12 @@ class _StateSelectBieuDoTrangThaiWidgetState extends State<StateSelectBieuDoTran
       onTap: () {
         showSelect(context);
       },
-      child: Container( key: _key,
-      child: const Icon(Icons.more_vert,color:textBodyTime ,),
+      child: Container(
+        key: _key,
+        child: const Icon(
+          Icons.more_vert,
+          color: textBodyTime,
+        ),
       ),
     );
   }
@@ -143,14 +145,12 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
                       top: 20,
                     ),
                     child: StreamBuilder<List<ItemSellectBieuDo>>(
-                      stream: widget.cubit.selectBieuDoModelSubject,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ??[];
-                        return Column(
-                          children: data.map((e) => getState(e)).toList()
-                        );
-                      }
-                    ),
+                        stream: widget.cubit.selectBieuDoModelSubject,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return Column(
+                              children: data.map((e) => getState(e)).toList());
+                        }),
                   ),
                 ),
               ),
@@ -164,12 +164,12 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
   Widget getState(ItemSellectBieuDo data) {
     return GestureDetector(
       onTap: () {
-        final newData =  widget.cubit.selectBieuDoModelSubject.valueOrNull ?? [];
-        for (final ItemSellectBieuDo e in newData){
+        final newData = widget.cubit.selectBieuDoModelSubject.valueOrNull ?? [];
+        for (final ItemSellectBieuDo e in newData) {
           e.isCheck = false;
         }
-        for (final ItemSellectBieuDo e in newData){
-          if (e.bieuDo == data.bieuDo ){
+        for (final ItemSellectBieuDo e in newData) {
+          if (e.bieuDo == data.bieuDo) {
             e.isCheck = true;
           }
         }

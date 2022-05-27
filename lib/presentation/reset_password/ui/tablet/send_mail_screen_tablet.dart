@@ -28,7 +28,7 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
     return Scaffold(
       backgroundColor: bgQLVBTablet,
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
@@ -40,14 +40,14 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
                   const SizedBox(height: 80.0),
                   Text(
                     S.current.nhan_ma_xac_minh,
-                    style: textNormalCustom(color: titleColor, fontSize: 20.0),
+                    style: textNormalCustom(color: color3D5586, fontSize: 20.0),
                   ),
                   const SizedBox(height: 40.0),
                   Text(
                     S.current.de_nhan_ma_xac_minh,
                     style: textNormalCustom(
                       fontSize: 16.0,
-                      color: titleColor,
+                      color: color3D5586,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -60,10 +60,24 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
                       width: 20,
                       height: 20,
                       child: Center(
-                        child: SvgPicture.asset(ImageAssets.ic_email),),
+                        child: SvgPicture.asset(ImageAssets.ic_email),
+                      ),
                     ),
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      final isCheckSdt =
+                          (value ?? '').checkSdtDinhDangTruong() ?? false;
+                      final isCheckEmail =
+                          (value ?? '').checkEmailBooleanDinhDangTruong() ??
+                              false;
+                      if ((value ?? '').isNotEmpty) {
+                        if (isCheckSdt || isCheckEmail) {
+                        } else {
+                          return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                        }
+                      } else {
+                        return (value ?? '').checkTruongNull(
+                            '${S.current.email}/${S.current.so_dien_thoai}');
+                      }
                     },
                   ),
                   const SizedBox(height: 36.0),

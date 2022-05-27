@@ -19,6 +19,7 @@ class ListPhamViResponse {
     statusCode = json['statusCode'];
     succeeded = json['succeeded'];
   }
+
   List<PhamViModel> toDomain() {
     return data?.map((e) => e.toDomain()).toList() ?? [];
   }

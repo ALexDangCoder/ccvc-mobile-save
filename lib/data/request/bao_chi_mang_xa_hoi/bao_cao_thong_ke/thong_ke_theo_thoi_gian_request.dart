@@ -11,6 +11,7 @@ class TreeNode {
     required this.title,
     required this.id,
   });
+
   factory TreeNode.fromJson(Map<String, dynamic> json) =>
       _$TreeNodeFromJson(json);
 
@@ -30,10 +31,9 @@ class ThongKeTheoThoiGianRequest {
     required this.fromDate,
     required this.toDate,
   });
+
   factory ThongKeTheoThoiGianRequest.fromJson(Map<String, dynamic> json) =>
       _$ThongKeTheoThoiGianRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThongKeTheoThoiGianRequestToJson(this);
 }
-
-

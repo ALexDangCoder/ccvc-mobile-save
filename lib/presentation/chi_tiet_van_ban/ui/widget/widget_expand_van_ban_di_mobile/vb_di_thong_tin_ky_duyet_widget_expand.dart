@@ -12,11 +12,13 @@ import 'package:flutter/material.dart';
 class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
   final CommonDetailDocumentGoCubit cubit;
   final String idDocument;
+  final bool isTablet;
 
   const VBDiThongTinKyDuyetExpandWidgetMobile({
     Key? key,
     required this.cubit,
     required this.idDocument,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -45,11 +47,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                       ? [
                           buttonStream(context),
                           spaceH8,
-                          ...data
-                              .map(
-                                (e) => itemDetail(e),
-                              )
-                              .toList()
+                          ...listDataWidget(data)
                         ]
                       : [
                           buttonStream(context),
@@ -67,9 +65,48 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
     );
   }
 
+  List<Widget> listDataWidget(List<NguoiKyDuyetModel> data) {
+    if (!isTablet) {
+      return data
+          .map(
+            (e) => itemDetail(e),
+          )
+          .toList();
+    } else {
+      final columnLeft = <Widget>[];
+      final columnRight = <Widget>[];
+      for (int i = 0; i < data.length; i++) {
+        if (i % 2 == 0) {
+          columnLeft.add(itemDetail(data[i]));
+        } else {
+          columnRight.add(itemDetail(data[i]));
+        }
+      }
+      return <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: columnLeft,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: columnRight,
+              ),
+            ),
+          ],
+        )
+      ];
+    }
+  }
+
   Widget itemDetail(NguoiKyDuyetModel item) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
           const CircleAvatar(
@@ -92,7 +129,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                           style: textNormalCustom(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                         ),
                         TextSpan(
@@ -100,15 +137,15 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                           style: textNormalCustom(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                         ),
                         TextSpan(
-                          text: '${item.donViNguoiKy ?? ''} - ',
+                          text: item.donViNguoiKy ?? '',
                           style: textNormalCustom(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
-                            color: titleColor,
+                            color: color3D5586,
                           ),
                         ),
                       ],
@@ -147,6 +184,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
             );
           },
           child: Container(
+            width: isTablet ? 250 : null,
             color: borderColor,
             padding: const EdgeInsets.symmetric(
               horizontal: 30,

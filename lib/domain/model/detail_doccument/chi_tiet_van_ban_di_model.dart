@@ -109,6 +109,72 @@ class ChiTietVanBanDiModel {
     this.isCanCopy,
   });
 
+  List<List<DocumentDetailRow>> toListRowHeadTablet() {
+    return [
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.loai_van_ban_di,
+          vanBanBanhanh(),
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.nguoi_soan_thao,
+          tenNguoiSoanThao ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_ban_hanh,
+          ngayBanHanh ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.do_khan,
+          doKhan ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.ma_pakn,
+          maPAKN ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.loai_van_ban,
+          processType ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_han_xl,
+          dueDate ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.trang_thai,
+          '',
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.dv_soan_thao,
+          donViSoanThao ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ky_hieu,
+          fileNotation ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.so_ban,
+          issuedAmount ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+    ];
+  }
+
   List<DocumentDetailRow> toListRowHead() {
     final List<DocumentDetailRow> list = [
       DocumentDetailRow(
@@ -139,16 +205,6 @@ class ChiTietVanBanDiModel {
       DocumentDetailRow(
         S.current.ky_hieu,
         fileNotation ?? '',
-        TypeDocumentDetailRow.text,
-      ),
-      DocumentDetailRow(
-        S.current.so_di,
-        '',
-        TypeDocumentDetailRow.text,
-      ),
-      DocumentDetailRow(
-        S.current.so_phu,
-        '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -222,12 +278,12 @@ class VanBanChiDaoModel {
         ),
         DocumentDetailRow(
           S.current.noi_dung,
-          noiDung ,
+          noiDung,
           TypeDocumentDetailRow.text,
         ),
         DocumentDetailRow(
           S.current.ngay_han_xu_ly,
-          ngayXuLy ,
+          ngayXuLy,
           TypeDocumentDetailRow.text,
         ),
       ];
@@ -251,38 +307,39 @@ class VanBanDenModel {
     this.trichYeu,
     this.files,
   });
+
   List<DocumentDetailRow> toListRowView() => [
-    DocumentDetailRow(
-      S.current.so_ky_hieu,
-      soKyHieu ?? '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.trich_yeu,
-      trichYeu ?? '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.don_vi_ban_hanh,
-      donViBanHanh ?? '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.ngay_ban_hanh,
-      '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.ngay_han_xu_ly,
-      '',
-      TypeDocumentDetailRow.text,
-    ),
-    DocumentDetailRow(
-      S.current.file_dinh_kem,
-      files ?? [],
-      TypeDocumentDetailRow.fileVanBanDi,
-    ),
-  ];
+        DocumentDetailRow(
+          S.current.so_ky_hieu,
+          soKyHieu ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.trich_yeu,
+          trichYeu ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.don_vi_ban_hanh,
+          donViBanHanh ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_ban_hanh,
+          '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_han_xu_ly,
+          '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.file_dinh_kem,
+          files ?? [],
+          TypeDocumentDetailRow.fileVanBanDi,
+        ),
+      ];
 }
 
 class NguoiKyDuyetModel {

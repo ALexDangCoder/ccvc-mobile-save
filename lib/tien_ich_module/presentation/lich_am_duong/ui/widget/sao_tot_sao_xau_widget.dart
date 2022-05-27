@@ -27,7 +27,7 @@ class SaoTotSaoXauWidget extends StatelessWidget {
             S.current.sao_tot_sao_xau,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -49,7 +49,7 @@ class SaoTotSaoXauWidget extends StatelessWidget {
             return titleNgayBachKy(
               listSaoTot[index].tenSao ?? '',
               listSaoTot[index].thongTin ?? '',
-              color:titleColor,
+              color: color3D5586,
               isLine: true,
             );
           },
@@ -72,12 +72,11 @@ class SaoTotSaoXauWidget extends StatelessWidget {
             return titleNgayBachKy(
               listSaoXau[index].tenSao ?? '',
               listSaoXau[index].thongTin ?? '',
-              color:titleColor,
+              color: color3D5586,
               isLine: true,
             );
           },
         ),
-
       ],
     );
   }

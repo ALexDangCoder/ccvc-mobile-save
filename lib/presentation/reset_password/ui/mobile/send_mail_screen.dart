@@ -20,11 +20,12 @@ class _SendMailScreenState extends State<SendMailScreen> {
   ChangePasswordCubit cubit = ChangePasswordCubit();
   TextEditingController emailController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -38,15 +39,29 @@ class _SendMailScreenState extends State<SendMailScreen> {
                   const SizedBox(height: 20.0),
                   TextFieldValidator(
                     controller: emailController,
-                    hintText: S.current.email,
-                   prefixIcon: SizedBox(
-                     width: 20,
-                     height: 20,
-                     child: Center(
-                         child: SvgPicture.asset(ImageAssets.ic_email),),
-                   ),
+                    hintText: '${S.current.email}/${S.current.so_dien_thoai}',
+                    prefixIcon: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Center(
+                        child: SvgPicture.asset(ImageAssets.ic_email),
+                      ),
+                    ),
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      final isCheckSdt =
+                          (value ?? '').checkSdtDinhDangTruong() ?? false;
+                      final isCheckEmail =
+                          (value ?? '').checkEmailBooleanDinhDangTruong() ??
+                              false;
+                      if ((value ?? '').isNotEmpty) {
+                        if (isCheckSdt || isCheckEmail) {
+                        } else {
+                          return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                        }
+                      } else {
+                        return (value ?? '').checkTruongNull(
+                            '${S.current.email}/${S.current.so_dien_thoai}');
+                      }
                     },
                   ),
                   const SizedBox(height: 20.0),

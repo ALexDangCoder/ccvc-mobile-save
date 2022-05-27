@@ -31,7 +31,7 @@ class DocumentModel {
     switch (code) {
       case HOAN_THANH:
         return DocumentStatus.HOAN_THANH;
-      case QUA_HAN:
+      case QUA_HAN_STRING:
         return DocumentStatus.QUA_HAN;
       case CHO_TIEP_NHAN:
         return DocumentStatus.CHO_TIEP_NHAN;

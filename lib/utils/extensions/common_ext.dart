@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/ket_noi_module/config/resources/color.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
@@ -52,9 +52,9 @@ String getNameFromStatus(int statusCode) {
   switch (statusCode) {
     case 0:
       return 'Đã hoàn thành';
-    case 1:
-      return 'Đến hạn';
     case 2:
+      return 'Đến hạn';
+    case 1:
       return 'Quá hạn';
     case 3:
       return 'Trong hạn';
@@ -69,9 +69,9 @@ String getNameFromStatus(int statusCode) {
 
 Color getColorFromStatus(int statusCode) {
   switch (statusCode) {
-    case 1:
-      return daXuLyColor;
     case 2:
+      return choVaoSoColor;
+    case 1:
       return statusCalenderRed;
     case 3:
       return choXuLyColor;
@@ -82,13 +82,13 @@ Color getColorFromStatus(int statusCode) {
 
 Color getColorFromPriorityCode(String code) {
   switch (code) {
-    case "BinhThuong":
+    case DocumentState.BINH_THUONG:
       return daXuLyColor;
-    case "Khan":
+    case DocumentState.KHAN:
       return choVaoSoColor;
-    case "ThuongKhan":
+    case DocumentState.THUONG_KHAN:
       return thuongKhanColor;
-    case "HoaToc":
+    case DocumentState.HOA_TOC:
       return statusCalenderRed;
     default:
       return titleColor;
@@ -101,13 +101,21 @@ String getCodeFromTitlePieChart(String title) {
 
 List<String> statusSearchDocumentInCode(String code) {
   if (code == '') return [];
-  if (code == CHO_XU_LY) return [CHO_XU_LY, CHO_PHAN_XU_LY];
+  if (code == DocumentState.CHO_XU_LY)
+    return [DocumentState.CHO_XU_LY, DocumentState.CHO_PHAN_XU_LY];
   return [code];
 }
 
 List<int>? statusSearchDocumentOutCode(String code) {
-  if (code == 'DA_XU_LY') return [];
-  if (code == 'CHO_TRINH_KY') return [1];
-  if (code == 'CHO_XU_LY') return [2];
+  if (code == DocumentState.DA_XU_LY) return [];
+  if (code == DocumentState.CHO_TRINH_KY) return [1];
+  if (code == DocumentState.CHO_XU_LY) return [2];
+  return null;
+}
+
+int? statusSearchDocumentInSubCode(String code) {
+  if (code == DocumentState.QUA_HAN) return 1;
+  if (code == DocumentState.DEN_HAN) return 2;
+  if (code == DocumentState.TRONG_HAN) return 3;
   return null;
 }

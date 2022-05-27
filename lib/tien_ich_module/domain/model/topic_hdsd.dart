@@ -31,9 +31,10 @@ enum TypeIconHDSD {
   menu_tienich,
   menu_danhba,
 }
-extension IconTypeItem on TypeIconHDSD{
-  String getIconHDSD(){
-    switch(this){
+
+extension IconTypeItem on TypeIconHDSD {
+  String getIconHDSD() {
+    switch (this) {
       case TypeIconHDSD.menu_baocao:
         return ImageAssets.icBaoCao;
       case TypeIconHDSD.menu_lichlamviec:
@@ -64,15 +65,14 @@ extension IconTypeItem on TypeIconHDSD{
   }
 }
 
-
 class TopicHDSD {
   String? maTopic;
   String? icon;
   String? id;
   String? title;
-  int?    order;
-  bool?   inUsed;
-  bool?   isDeleted;
+  int? order;
+  bool? inUsed;
+  bool? isDeleted;
   String? createdOn;
   String? createdBy;
   String? updatedOn;
@@ -91,8 +91,9 @@ class TopicHDSD {
     this.updatedOn,
     this.updatedBy,
   });
-  String  toIcon(){
-    switch(icon){
+
+  String toIcon() {
+    switch (icon) {
       case MENU_BAOCAO:
         return ImageAssets.icBaoCao;
       case MENU_LICHLAMVIEC:
@@ -119,11 +120,12 @@ class TopicHDSD {
         return ImageAssets.icTienIch;
       case MENU_DANHBA:
         return ImageAssets.icDanhBaDienTuHdsd;
+    }
+    return '';
   }
-  return '';
-  }
-  String  toIconTablet(){
-    switch(icon){
+
+  String toIconTablet() {
+    switch (icon) {
       case MENU_BAOCAO:
         return ImageAssets.icBaoCao;
       case MENU_LICHLAMVIEC:

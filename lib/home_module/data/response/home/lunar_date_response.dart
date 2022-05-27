@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/date_model.dart';
 
 class LunarDateResponse {
@@ -38,6 +36,7 @@ class ResultObj {
     lunarDateArray = json['lunarDateArray'].cast<String>();
     currentDate = json['currentDate'];
   }
+
   DateModel toDomain() => DateModel(
         dateMore: dateMore ?? '',
         lunarDate:

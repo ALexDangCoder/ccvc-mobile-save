@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/request/thong_bao/device_request.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
@@ -6,9 +7,9 @@ import 'package:ccvc_mobile/data/response/thong_bao/setting_notify_response.dart
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_quan_trong_response.dart';
 import 'package:ccvc_mobile/data/response/thong_bao/thong_bao_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
-import 'package:dio/dio.dart';
 
 part 'thong_bao_service.g.dart';
 
@@ -54,4 +55,10 @@ abstract class ThongBaoService {
   Future<TaoLichLamViecResponse> deleteNotify(
     @Query('notiId') String notiId,
   );
+
+  @POST(ApiConstants.CREATE_DEVICE)
+  Future<TaoBaoCaoKetQuaResponse> createDevice(@Body() DeviceRequest body);
+
+  @POST(ApiConstants.UPDATE_DEVICE)
+  Future<TaoBaoCaoKetQuaResponse> updateDevice(@Body() DeviceRequest body);
 }

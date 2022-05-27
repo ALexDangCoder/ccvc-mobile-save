@@ -1,6 +1,5 @@
-import '/home_module/utils/extensions/date_time_extension.dart';
-
 import '/home_module/utils/constants/app_constants.dart';
+import '/home_module/utils/extensions/date_time_extension.dart';
 
 class YKienNguoiDanModel {
   final String id;
@@ -23,6 +22,7 @@ class YKienNguoiDanModel {
       this.id = '',
       this.taskId = '',
       this.soNgayDenHan = 0});
+
   String get hanXuLyCover {
     try {
       return DateTime.parse(hanXuLy).toStringWithListFormat;

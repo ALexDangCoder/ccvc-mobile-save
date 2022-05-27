@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/sua_danh_sach_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/them_danh_ba_ca_nhan_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
@@ -24,8 +25,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 
   /// tree danh ba by tung
   TienIchRepository get tienIchRepTree => Get.find();
-  BehaviorSubject<Tree> listTreeDanhBaSubject = BehaviorSubject<Tree>();
-  Tree dataTypeTree = Tree();
+  BehaviorSubject<treeDanhBaDienTu> listTreeDanhBaSubject =
+      BehaviorSubject<treeDanhBaDienTu>();
+  treeDanhBaDienTu dataTypeTree = treeDanhBaDienTu();
 
   List<TreeDonViDanhBA> listTreeDanhBa = [];
 
@@ -52,6 +54,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   String email = '';
   bool gioiTinh = true;
   String ngaySinh = '';
+  String dateDanhSach = DateTime.now().formatApiDanhBa;
   String cmtnd = '';
   String anhDaiDienFilePath = '';
   String anhChuKyFilePath = '';
@@ -64,7 +67,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 
   String search = '';
   BehaviorSubject<File> saveFile = BehaviorSubject();
-  final BehaviorSubject<String> anhDanhBaCaNhan = BehaviorSubject();
+  final BehaviorSubject<ModelAnh> anhDanhBaCaNhan = BehaviorSubject();
 
   String subString(String? name) {
     if (name != null) {
@@ -84,13 +87,20 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     getListDanhBaCaNhan(pageIndex: pageIndex, pageSize: pageSize);
   }
 
-  void callApiDanhBaToChuc({int? pageIndexTung, String? keyWork, String? id}) {
-    getListDanhBaToChuc(
-      pageIndex: pageIndexTung ?? pageIndex,
-      pageSize: pageSize,
-      filterBy: keyWork ?? '',
-      idDonVi: id ?? this.id,
-    );
+  void callApiDanhBaToChuc(
+      {int? pageIndexTung,
+      int? pageSizeTung,
+      String? keyWork,
+      String? id,
+      bool? callApi}) {
+    if (callApi ?? true) {
+      getListDanhBaToChuc(
+        pageIndex: pageIndexTung ?? pageIndex,
+        pageSize: pageSizeTung ?? pageSize,
+        filterBy: keyWork ?? '',
+        idDonVi: id ?? this.id,
+      );
+    }
   }
 
   void searchListDanhSach(String keyword) {
@@ -223,6 +233,18 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     );
   }
 
+  String pathAnh = '';
+
+  Future<void> uploadFiles(String path) async {
+    final result = await tienIchRepTree.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnh = res.data?.filePathFull ?? '';
+      },
+      error: (error) {},
+    );
+  }
+
   Future<bool> postDanhSach({
     required String hoTen,
     required String phoneDiDong,
@@ -251,9 +273,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       gioiTinh: gioiTinh,
       ngaySinh: ngaySinh,
       cmtnd: cmtnd,
-      anhDaiDienFilePath: anhDaiDienFilePath,
-      anhChuKyFilePath: anhChuKyFilePath,
-      anhChuKyNhayFilePath: anhChuKyNhayFilePath,
+      anhDaiDien_FilePath: anhDaiDienFilePath,
+      anhChuKy_FilePath: anhChuKyFilePath,
+      anhChuKyNhay_FilePath: anhChuKyNhayFilePath,
       diaChi: diaChi,
       isDeleted: isDeleted,
       thuTu: thuTu,
@@ -313,9 +335,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       gioiTinh: gioiTinh,
       ngaySinh: ngaySinh,
       cmtnd: cmtnd,
-      anhDaiDienFilePath: anhDaiDienFilePath,
-      anhChuKyFilePath: anhChuKyFilePath,
-      anhChuKyNhayFilePath: anhChuKyNhayFilePath,
+      anhDaiDien_FilePath: anhDaiDienFilePath,
+      anhChuKy_FilePath: anhChuKyFilePath,
+      anhChuKyNhay_FilePath: anhChuKyNhayFilePath,
       diaChi: diaChi,
       isDeleted: isDeleted,
       thuTu: thuTu,
@@ -336,7 +358,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       },
       error: (error) {
         MessageConfig.show(
-            title: S.current.thay_doi_that_bai, messState: MessState.error);
+          title: S.current.thay_doi_that_bai,
+          messState: MessState.error,
+        );
         isCheckSuccess = false;
       },
     );
@@ -358,7 +382,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       },
       error: (error) {
         MessageConfig.show(
-            title: S.current.xoa_that_bai, messState: MessState.error);
+          title: S.current.xoa_that_bai,
+          messState: MessState.error,
+        );
         isCheckSuccess = false;
       },
     );
@@ -380,11 +406,13 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 }
 
 extension TreeDanhBa on DanhBaDienTuCubit {
-  Future<void> getTree() async {
-    final result = await tienIchRepTree.TreeDanhBa(3);
+  Future<void> getTree({int? soCap, String? idDonViCha}) async {
+    final result =
+        await tienIchRepTree.treeDanhBa(soCap ?? 0, idDonViCha ?? '');
     result.when(
       success: (res) {
-        final Tree ans = Tree();
+        showContent();
+        final ans = treeDanhBaDienTu();
         listTreeDanhBa = res;
 
         for (final e in listTreeDanhBa) {
@@ -395,7 +423,9 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         dataTypeTree = ans;
         listTreeDanhBaSubject.add(ans);
       },
-      error: (error) {},
+      error: (error) {
+        showError();
+      },
     );
   }
 
@@ -405,18 +435,18 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     }
   }
 
-  void getValueTree({required String donVi, required String id}) {
-    tenDonVi.sink.add(donVi);
-    idDonVi.sink.add(id);
+  void getValueTree({required NodeHSCV nodeHSCV}) {
+    tenDonVi.sink.add(nodeHSCV.value.tenDonVi);
+    idDonVi.sink.add(nodeHSCV.value.id);
   }
 
   void searchTree(String text) {
-    final List<TreeDonViDanhBA> listdf = listTreeDanhBa;
     final searchTxt = text.toLowerCase().vietNameseParse();
     bool isListCanBo(TreeDonViDanhBA tree) {
       return tree.tenDonVi.toLowerCase().vietNameseParse().contains(searchTxt);
     }
 
+    ///hàm tim node cha
     List<TreeDonViDanhBA> result = [];
     void findDonViCha(List<TreeDonViDanhBA> listAll, TreeDonViDanhBA node) {
       final parentsNode =
@@ -430,9 +460,11 @@ extension TreeDanhBa on DanhBaDienTuCubit {
       }
     }
 
-    final vlAfterSearch =
-        listdf.where((element) => isListCanBo(element)).toList();
+    /// các object sau khi tìm
+    final List<TreeDonViDanhBA> vlAfterSearch =
+        listTreeDanhBa.where((element) => isListCanBo(element)).toList();
 
+    /// tìm các node cha của list đã tìm
     if (vlAfterSearch.isNotEmpty) {
       for (var x = 0; x <= vlAfterSearch.length; x++) {
         if (!(result.map((e) => e.id)).contains(vlAfterSearch[x].id)) {
@@ -440,33 +472,55 @@ extension TreeDanhBa on DanhBaDienTuCubit {
         }
         findDonViCha(listTreeDanhBa, vlAfterSearch[x]);
       }
-    } else {
-      result = listTreeDanhBa;
     }
 
-    final ans = Tree();
+    final ans = treeDanhBaDienTu();
     ans.initTree(listNode: result);
     listTreeDanhBaSubject.add(ans);
   }
 
-  TreeDonViDanhBA initOnchange() {
-    final List<TreeDonViDanhBA> list = [];
-    TreeDonViDanhBA goc = TreeDonViDanhBA.Emty();
-    for (final e in listTreeDanhBa) {
-      if (e.iDDonViCha == '') {
-        goc = e;
+  void searchTree2(String keyword) {
+    final ans = treeDanhBaDienTu();
+    if (keyword.isEmpty) {
+      ans.initTree(listNode: listTreeDanhBa);
+      listTreeDanhBaSubject.add(ans);
+      return;
+    }
+    List<TreeDonViDanhBA> result = [];
+
+    List<TreeDonViDanhBA> matches = listTreeDanhBa
+        .where(
+          (x) => x.tenDonVi
+              .toLowerCase()
+              .vietNameseParse()
+              .trim()
+              .contains(keyword.toLowerCase().vietNameseParse().trim()),
+        )
+        .toList();
+
+    void GetParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {
+      var parent = treeAlls.where((x) => x.id == node.iDDonViCha).first;
+      if (!result.contains(parent)) {
+        result.add(parent);
+      }
+      if (parent.iDDonViCha.isNotEmpty) {
+        GetParent(treeAlls, parent);
       }
     }
-    for (final e in listTreeDanhBa) {
-      if (e.iDDonViCha == goc.id) {
-        list.add(e);
-      }
+
+    for (final e in matches) {
+      result.add(e);
+      GetParent(listTreeDanhBa, e);
     }
-    if (list.isEmpty) {
-      return TreeDonViDanhBA.Emty();
-    } else {
-      idDonVi.sink.add(list[0].id);
-      return list[0];
-    }
+
+    ans.initTree(listNode: result);
+    listTreeDanhBaSubject.add(ans);
+  }
+
+  TreeDonViDanhBA init() {
+    showLoading();
+    idDonVi.sink.add(listTreeDanhBa[0].id);
+    tenDonVi.sink.add(listTreeDanhBa[0].tenDonVi);
+    return listTreeDanhBa[0];
   }
 }

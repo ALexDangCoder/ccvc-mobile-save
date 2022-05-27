@@ -31,6 +31,9 @@ const int NCVM = 5;
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
+  String dateChange = '';
+  String? noteChange;
+  String? titleChange;
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -63,8 +66,10 @@ class DanhSachCongViecTienIchCubit
 
   BehaviorSubject<bool> enabled = BehaviorSubject.seeded(true);
 
-  final BehaviorSubject<List<NguoiThucHienModel>> nguoiThucHien =
+  final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
+
+  BehaviorSubject<NguoiThucHienModel> nguoiThucHienSubject = BehaviorSubject();
 
   BehaviorSubject<List<NhomCVMoiModel>> nhomCVMoiSubject =
       BehaviorSubject<List<NhomCVMoiModel>>();
@@ -163,7 +168,7 @@ class DanhSachCongViecTienIchCubit
     result.when(
       success: (res) {
         showContent();
-        nguoiThucHien.sink.add(res.items);
+        listNguoiThucHienSubject.sink.add(res.items);
         dataListNguoiThucHienModelDefault = res;
       },
       error: (err) {
@@ -250,36 +255,41 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// them moi cong viec
-  Future<void> addTodo(String label) async {
-    if (label.trim().isEmpty) {
-      return;
-    }
-    showLoading();
-    final result = await tienIchRep.createTodo(
-      CreateToDoRequest(
-        groupId: statusDSCV.value == NCVM ? groupId : null,
-        label: label,
-        isTicked: false,
-        important: false,
-        inUsed: true,
-      ),
-    );
-    result.when(
-      success: (res) {
-        showContent();
-        final data = listDSCV.value;
-        data.insert(
-          0,
-          res,
-        );
-        listDSCV.sink.add(data);
 
-        closeDialog();
-      },
-      error: (err) {
-        showError();
-      },
-    );
+  Future<void> addTodo() async {
+    if (titleChange != '') {
+      showLoading();
+      final result = await tienIchRep.createTodo(
+        CreateToDoRequest(
+          groupId: statusDSCV.value == NCVM ? groupId : null,
+          label: titleChange,
+          isTicked: false,
+          important: false,
+          inUsed: true,
+          finishDay: dateChange == '' ? null : dateChange,
+          note: noteChange == '' ? null : noteChange,
+          performer: nguoiThucHienSubject.value.id == ''
+              ? null
+              : nguoiThucHienSubject.value.id,
+        ),
+      );
+      result.when(
+        success: (res) {
+          showContent();
+          final data = listDSCV.value;
+          data.insert(
+            0,
+            res,
+          );
+          listDSCV.sink.add(data);
+          callAndFillApiAutu();
+          closeDialog();
+        },
+        error: (err) {
+          showError();
+        },
+      );
+    }
   }
 
   /// them nhóm công việc
@@ -355,20 +365,9 @@ class DanhSachCongViecTienIchCubit
     return false;
   }
 
-  String dateChange = '';
-
-  String? noteChange;
-
-  String? titleChange;
-
   String person = '';
 
-  void getPersontodo({required String person}) {
-    this.person = person;
-  }
-
   ///chinh sưa và update công việc
-
   Future<void> editWork({
     bool? isTicked,
     bool? important,
@@ -400,8 +399,8 @@ class DanhSachCongViecTienIchCubit
         final data = listDSCV.value;
         if (isTicked != null) {
           data.insert(0, res);
-          listDSCV.sink.add(data);
           data.remove(todo);
+          listDSCV.sink.add(data);
         }
         if (important != null) {
           data.insert(data.indexOf(todo), res);
@@ -411,9 +410,7 @@ class DanhSachCongViecTienIchCubit
           data.remove(todo);
           listDSCV.sink.add(data);
         }
-        if (isDeleted != null) {
-          data.remove(todo);
-        }
+        if (isDeleted != null) {}
         callAndFillApiAutu();
       },
       error: (err) {},
@@ -432,17 +429,39 @@ class DanhSachCongViecTienIchCubit
     final vl = dataListNguoiThucHienModelDefault.items
         .where((element) => isListCanBo(element))
         .toList();
-    nguoiThucHien.sink.add(vl);
+    listNguoiThucHienSubject.sink.add(vl);
   }
 
   /// tim nguoi thuc hien theo id
   String convertIdToPerson(String vl) {
-    String personWithId = '';
     for (final e in dataListNguoiThucHienModelDefault.items) {
       if (e.id == vl) {
-        personWithId = e.data();
+        return e.data();
       }
     }
-    return personWithId;
+    return '';
+  }
+
+  ///init data nguoi thuc hien
+  void initDataNguoiTHucHienTextFild(TodoDSCVModel todo) {
+    if (todo.performer == '' || todo.performer == null) {
+      nguoiThucHienSubject.add(
+        NguoiThucHienModel(
+          id: '',
+          hoten: S.current.tim_theo_nguoi,
+          donVi: [],
+          chucVu: [],
+        ),
+      );
+    } else {
+      nguoiThucHienSubject.add(
+        NguoiThucHienModel(
+          id: '',
+          hoten: convertIdToPerson(todo.performer ?? ''),
+          donVi: [],
+          chucVu: [],
+        ),
+      );
+    }
   }
 }

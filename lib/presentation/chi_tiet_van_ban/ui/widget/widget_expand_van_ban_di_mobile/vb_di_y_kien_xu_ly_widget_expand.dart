@@ -5,21 +5,22 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
-import '../comment_widget.dart';
-
 class VBDiYKienXuLyExpandWidget extends StatefulWidget {
   final CommonDetailDocumentGoCubit cubit;
   final String idDocument;
+  final bool isTablet;
 
   const VBDiYKienXuLyExpandWidget({
     Key? key,
     required this.cubit,
     required this.idDocument,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -48,11 +49,11 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(
+                margin: EdgeInsets.only(
                   bottom: 6,
-                  left: 16,
-                  right: 16,
-                  top: 3,
+                  left: widget.isTablet ? 42 : 16,
+                  right: widget.isTablet ? 42 : 16,
+                  top: widget.isTablet ? 32 : 8,
                 ),
                 child: const WidgetComments(),
               ),
@@ -109,7 +110,7 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
   Widget _itemViewDetail({
     required int index,
     required DanhSachChoYKien data,
-    bool showChild = true,
+    // bool showChild = true,
   }) {
     return Container(
       decoration: const BoxDecoration(
@@ -129,26 +130,22 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                 ),
               ),
               spaceW13,
+              Text(
+                data.tenCanBo ?? '',
+                style: textNormalCustom(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: AppTheme.getInstance().titleColor(),
+                ), //infoColor
+              ),
+              spaceW13,
               Expanded(
                 child: Text(
-                  data.tenCanBo ?? '',
+                  data.ngayTao ?? '',
                   style: textNormalCustom(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: AppTheme.getInstance().titleColor(),
-                  ), //infoColor
-                ),
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    data.ngayTao ?? '',
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12,
-                      color: infoColor,
-                    ),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: infoColor,
                   ),
                 ),
               ),

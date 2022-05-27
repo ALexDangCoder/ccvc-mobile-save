@@ -24,10 +24,12 @@ class BieuDoNhiemVuDonViRowTablet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BieuDoNhiemVuDonViRowTabletState createState() => _BieuDoNhiemVuDonViRowTabletState();
+  _BieuDoNhiemVuDonViRowTabletState createState() =>
+      _BieuDoNhiemVuDonViRowTabletState();
 }
 
-class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTablet> {
+class _BieuDoNhiemVuDonViRowTabletState
+    extends State<BieuDoNhiemVuDonViRowTablet> {
   @override
   void initState() {
     super.initState();
@@ -72,20 +74,20 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
                       children: data
                           .map(
                             (e) => Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: BoxStatusVanBan(
-                              value: e.value ?? 0,
-                              onTap: () {
-                                widget
-                                    .onTapStatusBox((e.giaTri ?? '').statusBox());
-                              },
-                              color: (e.giaTri ?? '').status(),
-                              statusName: e.text ?? '',
+                              child: Container(
+                                padding: const EdgeInsets.only(right: 16),
+                                child: BoxStatusVanBan(
+                                  value: e.value ?? 0,
+                                  onTap: () {
+                                    widget.onTapStatusBox(
+                                        (e.giaTri ?? '').statusBox());
+                                  },
+                                  color: (e.giaTri ?? '').status(),
+                                  statusName: e.text ?? '',
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )
+                          )
                           .toList(),
                     );
                   },
@@ -99,10 +101,11 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
                   mainAxisSpacing: 10.0.textScale(space: 4),
                   crossAxisSpacing: 10,
                   children: List.generate(widget.chartData.length, (index) {
-                    final result =widget. chartData[index];
+                    final result = widget.chartData[index];
                     return GestureDetector(
                       onTap: () {
-                        widget.ontap(widget.cubit.chartData[index].title.split(' ')
+                        widget.ontap(widget.cubit.chartData[index].title
+                            .split(' ')
                             .join('_')
                             .toUpperCase()
                             .vietNameseParse());
@@ -123,10 +126,7 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
                           Flexible(
                             child: FittedBox(
                               child: Text(
-                                '${result.title.split(' ')
-                                    .join('_')
-                                    .toUpperCase()
-                                    .vietNameseParse().titleTrangThai()} (${result.value.toInt()})',
+                                '${result.title.split(' ').join('_').toUpperCase().vietNameseParse().titleTrangThai()} (${result.value.toInt()})',
                                 style: textNormal(
                                   infoColor,
                                   14.0.textScale(),
@@ -142,7 +142,6 @@ class _BieuDoNhiemVuDonViRowTabletState extends State<BieuDoNhiemVuDonViRowTable
               ],
             ),
           ),
-
         ],
       ),
     );

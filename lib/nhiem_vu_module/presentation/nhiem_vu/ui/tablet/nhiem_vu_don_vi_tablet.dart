@@ -1,6 +1,6 @@
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/trang_thai_bieu_do_don_vi.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
@@ -8,7 +8,6 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/nhiem_vu_don_vi_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/widget/bieu_do_don_vi_row_tablet.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/widget/bieu_do_don_vi_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/bieu_do_trang_thai_theo_loai.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/nhiem_vu_item_tablet_new.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/state_select_bieu_do_trang_thai.dart';
@@ -41,29 +40,14 @@ class NhiemVuDonViTablet extends StatefulWidget {
 
 class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
   TextEditingController textcontroller = TextEditingController();
-  late Function(int page) callBack;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     widget.danhSachCubit.callApiDonVi(false);
-    widget.danhSachCubit.mangTrangThai='';
-    callBack = (page) {
-      widget.danhSachCubit.postDanhSachNhiemVu(
-        index: page,
-        isNhiemVuCaNhan: widget.isCheck,
-        isSortByHanXuLy: true,
-        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-        ngayTaoNhiemVu: {
-          'FromDate': widget.danhSachCubit.ngayDauTien,
-          'ToDate': widget.danhSachCubit.ngayKetThuc
-        },
-        size: widget.danhSachCubit.pageSize,
-        keySearch: widget.danhSachCubit.keySearch,
-        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-      );
-    };
+    widget.danhSachCubit.mangTrangThai = '';
+    widget.danhSachCubit.keySearch = '';
   }
 
   @override
@@ -86,6 +70,19 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                 setState(() {});
                 widget.danhSachCubit.keySearch = text;
                 widget.danhSachCubit.mangTrangThai = '';
+                widget.danhSachCubit.postDanhSachNhiemVu(
+                  index: 0,
+                  isNhiemVuCaNhan: widget.isCheck,
+                  isSortByHanXuLy: true,
+                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                  ngayTaoNhiemVu: {
+                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                    'ToDate': widget.danhSachCubit.ngayKetThuc
+                  },
+                  size: widget.danhSachCubit.pageSize,
+                  keySearch: widget.danhSachCubit.keySearch,
+                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                );
               });
             },
           ),
@@ -157,14 +154,20 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                         index: 0,
                                         isNhiemVuCaNhan: widget.isCheck,
                                         isSortByHanXuLy: true,
-                                        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                        mangTrangThai: [
+                                          widget.danhSachCubit.mangTrangThai
+                                        ],
                                         ngayTaoNhiemVu: {
-                                          'FromDate': widget.danhSachCubit.ngayDauTien,
-                                          'ToDate': widget.danhSachCubit.ngayKetThuc
+                                          'FromDate':
+                                              widget.danhSachCubit.ngayDauTien,
+                                          'ToDate':
+                                              widget.danhSachCubit.ngayKetThuc
                                         },
                                         size: widget.danhSachCubit.pageSize,
-                                        keySearch: widget.danhSachCubit.keySearch,
-                                        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                        keySearch:
+                                            widget.danhSachCubit.keySearch,
+                                        trangThaiHanXuLy: widget
+                                            .danhSachCubit.trangThaiHanXuLy,
                                       );
                                     });
                                   },
@@ -177,14 +180,20 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                         index: 0,
                                         isNhiemVuCaNhan: widget.isCheck,
                                         isSortByHanXuLy: true,
-                                        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                        mangTrangThai: [
+                                          widget.danhSachCubit.mangTrangThai
+                                        ],
                                         ngayTaoNhiemVu: {
-                                          'FromDate': widget.danhSachCubit.ngayDauTien,
-                                          'ToDate': widget.danhSachCubit.ngayKetThuc
+                                          'FromDate':
+                                              widget.danhSachCubit.ngayDauTien,
+                                          'ToDate':
+                                              widget.danhSachCubit.ngayKetThuc
                                         },
                                         size: widget.danhSachCubit.pageSize,
-                                        keySearch: widget.danhSachCubit.keySearch,
-                                        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                        keySearch:
+                                            widget.danhSachCubit.keySearch,
+                                        trangThaiHanXuLy: widget
+                                            .danhSachCubit.trangThaiHanXuLy,
                                       );
                                     });
                                   },
@@ -203,18 +212,15 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                               ontap: (value) {
                                 widget.danhSachCubit.mangTrangThai = value;
                                 widget.danhSachCubit.trangThaiHanXuLy = null;
-                                setState(() {
-                                  callBack;
-                                });
+                                setState(() {});
                               },
                             ),
                           );
                         } else {
                           return StatusWidgetTablet(
-                            listData:widget.danhSachCubit.listData ,
+                            listData: widget.danhSachCubit.listData,
                             listStatusData: widget.danhSachCubit.listStatusData,
-                            title:
-                              widget.danhSachCubit.titleNhiemVu,
+                            title: widget.danhSachCubit.titleNhiemVu,
                           );
                         }
                       })),
@@ -334,7 +340,7 @@ class _StatusWidgetTabletState extends State<StatusWidgetTablet> {
                               textAlign: TextAlign.right,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style:  textNormal(
+                              style: textNormal(
                                 infoColor,
                                 14.0.textScale(),
                               ),
@@ -418,10 +424,13 @@ class _StatusWidgetTabletState extends State<StatusWidgetTablet> {
                                             const SizedBox(
                                               width: 6,
                                             ),
-                                            Text(sumRowChart.toString(), style:  textNormal(
-                                              infoColor,
-                                              14.0,
-                                            ),),
+                                            Text(
+                                              sumRowChart.toString(),
+                                              style: textNormal(
+                                                infoColor,
+                                                14.0,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -449,7 +458,7 @@ class _StatusWidgetTabletState extends State<StatusWidgetTablet> {
             height: 100,
             child: ListView.builder(
               shrinkWrap: true,
-               scrollDirection: Axis.horizontal,
+              scrollDirection: Axis.horizontal,
               itemCount: widget.listStatusData.length,
               itemBuilder: (context, index) {
                 return Padding(

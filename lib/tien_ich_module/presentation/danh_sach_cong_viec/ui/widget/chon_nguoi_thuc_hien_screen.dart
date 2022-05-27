@@ -48,7 +48,7 @@ class _DanhSachCongViecTienIchMobileState
                 ),
               ),
               StreamBuilder<List<NguoiThucHienModel>>(
-                stream: widget.cubit.nguoiThucHien.stream,
+                stream: widget.cubit.listNguoiThucHienSubject.stream,
                 builder: (context, snapshot) {
                   final data = snapshot.data ?? [];
                   if (data.isNotEmpty) {
@@ -60,11 +60,8 @@ class _DanhSachCongViecTienIchMobileState
                         final todo = data[index];
                         return GestureDetector(
                           onTap: () {
-                            widget.cubit.getPersontodo(
-                              person: todo.data(),
-                            );
+                            widget.cubit.nguoiThucHienSubject.sink.add(todo);
                             widget.cubit.toDoListRequest.performer = todo.id;
-                            widget.cubit.enabled.sink.add(true);
                             Navigator.pop(context);
                           },
                           child: Container(

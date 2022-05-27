@@ -43,12 +43,12 @@ class Data {
   String? id;
   String? tenDonVi;
 
-
   Data({this.id, this.tenDonVi});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     tenDonVi = json['tenDonVi'];
   }
+
   DonViModel toDomain() => DonViModel(id: id ?? '', name: tenDonVi ?? '');
 }

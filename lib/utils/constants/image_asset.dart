@@ -39,9 +39,7 @@ class ImageAssets {
   static const String icInformation = '$baseImg/ic_information.svg';
   static const String icLocation = '$baseImg/ic_location.svg';
   static const String icTimeH = '$baseImg/ic_time_h.svg';
-  static const String icNoDataNhiemVu= '$baseImg/ic_no_data_nhiem_vu.svg';
-
-
+  static const String icNoDataNhiemVu = '$baseImg/ic_no_data_nhiem_vu.svg';
 
   static const String icHeaderMenuTetNguyenDan =
       '$baseImg/background_tet_nguyen_dan.png';
@@ -221,7 +219,7 @@ class ImageAssets {
 
   static const String icDongNai = '$baseImg/ic_default_chu_de.png';
 
-  static const String icYKienNguoiDan = '$baseImg/ic_y_kien_nguoi_dan.svg';
+  static const String icYKienNguoiDan = '$baseImg/item_pakn_menu.svg';
   static const String icQuanLyVanBan = '$baseImg/ic_quan_ly_van_ban.svg';
   static const String icBaoChiMangXaHoi = '$baseImg/ic_bao_chi_mang_xa_hoi.svg';
   static const String icKetNoi = '$baseImg/ic_ket_noi.svg';
@@ -288,7 +286,7 @@ class ImageAssets {
       '$baseImg/ic_hanh_chinh_cong_tablet.svg';
   static const String icTuongTacNoiBoTablet =
       '$baseImg/ic_tuong_tac_noi_bo_tablet.svg';
-  static const String icYKienNguoiDanTablet = '$baseImg/ic_y_kien_nguoi_dan_tablet.svg';
+  static const String icYKienNguoiDanTablet = '$baseImg/item_pakn_menu_tablet.svg';
   static const String icQuanLyVanBanTablet =
       '$baseImg/ic_quan_ly_van_ban_tablet.svg';
   static const String icBaoChiTablet = '$baseImg/ic_bao_chi_tablet.svg';
@@ -423,6 +421,27 @@ class ImageAssets {
   ///SvgImage
   static const String icStar = '$baseImg/ic_start.png';
 
+  static const String preTinhHinhXuLyVaNBanMobile =
+      '$baseImg/tinh_hinh_xu_ly_van_ban_mobile.svg';
+  static const String preVanBanMobile = '$baseImg/van_ban_mobile.svg';
+  static const String preTongHopNhiemVu =
+      '$baseImg/tong_hop_nhiem_vu_mobile.svg';
+  static const String preNhiemVu = '$baseImg/nhiem_vu_mobile.svg';
+  static const String preTinhHinhPAKNCaNhan =
+      '$baseImg/tinh_hinh_xu_ly_pakn_ca_nhan_mobile.svg';
+  static const String preTinhHinhPAKNDonVi =
+      '$baseImg/tinh_hinh_pakn_don_vi_mobile.svg';
+  static const String preDanhSachPAKN = '$baseImg/danh_sach_pakn_mobile.svg';
+  static const String preLichLamViec = '$baseImg/lich_lam_viec_mobile.svg';
+  static const String preLichHop = '$baseImg/lich_hop_mobile.svg';
+  static const String preBXMXH = '$baseImg/bcmxh_mobile.svg';
+  static const String preDanhSachCongViec =
+      '$baseImg/danh_sach_cong_viec_mobile.svg';
+  static const String preSuKienTrongNgay =
+      '$baseImg/su_kien_trrong_ngay_mobile.svg';
+  static const String preSinhNhat = '$baseImg/sinh_nhat_mobile.svg';
+  static const String preHeaderNhiemVu = '$baseImg/header_nhiem_vu.svg';
+
   static const String bgAppBarTablet = '$baseImg/bg_app_bar.png';
   static const String imgHeaderTablet = '$baseImg/ic_header_tablet.png';
   static const String imgHeaderMenuTablet = '$baseImg/ic_header_menu_ipad.png';
@@ -442,8 +461,7 @@ class ImageAssets {
   static const String icDonViNhiemVu = '$baseImg/ic_don_vi_nhiem_vu.svg';
   static const String icTaoLichLamViecThanhCong =
       '$baseImg/tao_lich_lam_viec_thanh_cong.svg';
-  static const String icHoiChamTron =
-      '$baseImg/ic_hoi_cham_tron.svg';
+  static const String icHoiChamTron = '$baseImg/ic_hoi_cham_tron.svg';
 
   static const String icHeaderMenuBlueTablet =
       '$baseImg/background_menu_blue_tablet.png';
@@ -494,8 +512,17 @@ class ImageAssets {
   static const String icThongKe= '$baseImg/ic_thong_ke.svg';
   static const String ic_copy= '$baseImg/ic_copy.svg';
   static const String icInfo= '$baseImg/ic_qlvb_info.svg';
-
-
+  static const String icEmailPopup= '$baseImg/ic_email_popup.svg';
+  static const String icSendPhonePopUp= '$baseImg/ic_sendphone_popup.svg';
+  static const String icUserNotExits= '$baseImg/ic_user_not_exits.svg';
+  static const String icWarningPopUp= '$baseImg/ic_warning_popup.svg';
+  static const String itemMenuDiemDanh= '$baseImg/item_diemdanh_menu.svg';
+  static const String itemMenuTuongTacBoiBo= '$baseImg/item_tuongtacnoibo_menu.svg';
+  static const String itemMenuTuongTacBoiBoTablet= '$baseImg/item_tuongtacnoibo_menu_tablet.svg';
+  static const String itemMenuLichLamViec= '$baseImg/item_lichlamviec_menu.svg';
+  static const String itemMenuLichLamViecTablet= '$baseImg/item_lichlamviec_menu_tablet.svg';
+  static const String itemMenuBaoCao= '$baseImg/item_bao_cao_menu.svg';
+  static const String itemMenuBaoCaoTablet= '$baseImg/item_baocao_menu_tablet.svg';
 
   static SvgPicture svgAssets(
     String name, {

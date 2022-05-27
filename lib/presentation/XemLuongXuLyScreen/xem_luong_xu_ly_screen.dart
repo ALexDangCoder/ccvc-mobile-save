@@ -6,15 +6,16 @@ import 'package:ccvc_mobile/domain/model/luong_xu_ly/don_vi_xu_ly_vb_den.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_close.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
-import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/bloc/xem_luong_xu_ly_cubit.dart';
-import 'package:flutter/material.dart';
+import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:flutter/material.dart';
+
 class XemLuongXuLyScreen extends StatefulWidget {
   final String id;
+
   const XemLuongXuLyScreen({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -28,7 +29,7 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    viewModel.xemLuongXuLyVbDen('affc2d0e-b51e-4a42-b45b-7d64693737f2');
+    viewModel.xemLuongXuLyVbDen(widget.id);
   }
 
   @override
@@ -59,12 +60,12 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                     Container(
                                       height: 190,
                                       width: 200,
-                                      margin:  const EdgeInsets.only(top: 0),
+                                      margin: const EdgeInsets.only(top: 0),
                                       decoration: BoxDecoration(
                                           color: donViLuongModel.vaiTroColor(),
                                           border: Border.all(
-                                              color:
-                                                  donViLuongModel.vaiTroColor()),
+                                              color: donViLuongModel
+                                                  .vaiTroColor()),
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(100))),
                                     ),
@@ -95,9 +96,11 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                                   width: 48,
                                                   height: 48,
                                                   clipBehavior: Clip.antiAlias,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Colors.red),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors.red),
                                                   child: CachedNetworkImage(
                                                     imageUrl: '',
                                                     fit: BoxFit.cover,
@@ -140,7 +143,8 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                                       color: donViLuongModel
                                                           .getColor(),
                                                       borderRadius:
-                                                          const BorderRadius.all(
+                                                          const BorderRadius
+                                                              .all(
                                                         Radius.circular(
                                                           30,
                                                         ),
@@ -215,13 +219,15 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
-                                                color: donViLuongModel.getColor(),
+                                                color:
+                                                    donViLuongModel.getColor(),
                                                 borderRadius:
                                                     const BorderRadius.all(
                                                   Radius.circular(30),
                                                 ),
                                               ),
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 5,
                                                 horizontal: 11,
                                               ),
@@ -353,7 +359,6 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
     required String title,
     BoxShape boxShape = BoxShape.circle,
   }) {
-
     return Row(
       children: [
         Container(

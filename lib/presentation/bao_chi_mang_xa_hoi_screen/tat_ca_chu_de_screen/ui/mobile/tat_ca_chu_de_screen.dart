@@ -35,12 +35,13 @@ class TatCaChuDeScreen extends StatefulWidget {
 class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
-  ChuDeCubit chuDeCubit = ChuDeCubit();
+  late ChuDeCubit chuDeCubit;
   String defaultTime = ChuDeCubit.HOM_NAY;
 
   @override
   void initState() {
     super.initState();
+    chuDeCubit = ChuDeCubit();
     chuDeCubit.callApi();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -136,7 +137,8 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                 retry: () {
                   chuDeCubit.callApi();
                 },
-                error: AppException(S.current.error, S.current.something_went_wrong),
+                error: AppException(
+                    S.current.error, S.current.something_went_wrong),
                 stream: chuDeCubit.stateStream,
                 child: RefreshIndicator(
                   onRefresh: () async {
@@ -229,7 +231,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 16,
-                                        color: titleColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                     const SizedBox(
@@ -239,15 +241,17 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                       chuDeCubit.hotNewData.avartar ?? '',
                                       chuDeCubit.hotNewData.title ?? '',
                                       DateTime.parse(
-                                        chuDeCubit.hotNewData.publishedTime ?? '',
+                                        chuDeCubit.hotNewData.publishedTime ??
+                                            '',
                                       ).formatApiSSAM,
                                       chuDeCubit.hotNewData.contents ?? '',
                                       chuDeCubit.hotNewData.url ?? '',
                                     ),
-                                    const SizedBox(
+                                    SizedBox(
                                       height: 16,
                                       child: Divider(
-                                        color: lineColor,
+                                        color:
+                                            AppTheme.getInstance().lineColor(),
                                         height: 1,
                                       ),
                                     ),
@@ -259,10 +263,11 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                           const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         if (index ==
-                                            chuDeCubit.listChuDeLoadMore.length -
+                                            chuDeCubit
+                                                    .listChuDeLoadMore.length -
                                                 1) {
-                                          if (chuDeCubit
-                                                      .listChuDeLoadMore.length +
+                                          if (chuDeCubit.listChuDeLoadMore
+                                                      .length +
                                                   1 ==
                                               chuDeCubit.totalItem) {
                                             return const SizedBox();
@@ -281,15 +286,17 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                               listChuDe[index].avartar ?? '',
                                               listChuDe[index].title ?? '',
                                               DateTime.parse(
-                                                listChuDe[index].publishedTime ??
+                                                listChuDe[index]
+                                                        .publishedTime ??
                                                     '',
                                               ).formatApiSSAM,
                                               listChuDe[index].url ?? '',
                                             ),
-                                            const SizedBox(
+                                            SizedBox(
                                               height: 16,
                                               child: Divider(
-                                                color: lineColor,
+                                                color: AppTheme.getInstance()
+                                                    .lineColor(),
                                                 height: 1,
                                               ),
                                             ),

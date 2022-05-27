@@ -14,8 +14,13 @@ import 'bloc/detail_row_cubit.dart';
 
 class DetailDocumentRow extends StatefulWidget {
   final DocumentDetailRow row;
+  final bool isTablet;
 
-  const DetailDocumentRow({Key? key, required this.row}) : super(key: key);
+  const DetailDocumentRow({
+    Key? key,
+    required this.row,
+    this.isTablet = false,
+  }) : super(key: key);
 
   @override
   State<DetailDocumentRow> createState() => _DetailDocumentRowState();
@@ -34,7 +39,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
             data = widget.row.value as List<FileDinhKems>;
           } catch (_) {}
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
                 Expanded(
@@ -49,7 +54,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
+                  flex: widget.isTablet ? 26 : 6,
                   child: Wrap(
                     children: data
                         .map(
@@ -98,7 +103,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
       case TypeDocumentDetailRow.status:
         {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -115,7 +120,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
+                  flex: widget.isTablet ? 26 : 6,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -133,7 +138,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                             '${widget.row.value}',
                             style: textNormalCustom(
                               fontSize: 14,
-                              color: titleColor,
+                              color: color3D5586,
                             ),
                           ),
                         ),
@@ -149,7 +154,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
       case TypeDocumentDetailRow.text:
         {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -165,7 +170,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                   ),
                 ),
                 Expanded(
-                  flex: 6,
+                  flex: widget.isTablet ? 26 : 6,
                   child: widget.row.type == TypeDocumentDetailRow.text
                       ? cubit.isCheckLine
                           ? GestureDetector(
@@ -178,7 +183,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                                 style: textNormalCustom(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
@@ -195,7 +200,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                                 '${widget.row.value}',
                                 style: textNormalCustom(
                                   fontSize: 14,
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                             )
@@ -213,7 +218,7 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                               '${widget.row.value}',
                               style: textNormalCustom(
                                 fontSize: 14,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                             ),
                           ),

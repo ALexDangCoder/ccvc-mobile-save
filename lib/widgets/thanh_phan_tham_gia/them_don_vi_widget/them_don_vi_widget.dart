@@ -23,6 +23,7 @@ class ThemDonViWidget extends StatefulWidget {
   final List<DonViModel> listSelectNode;
 
   final ThanhPhanThamGiaCubit cubit;
+
   const ThemDonViWidget({
     Key? key,
     required this.onChange,
@@ -36,6 +37,7 @@ class ThemDonViWidget extends StatefulWidget {
 
 class _ThemDonViScreenState extends State<ThemDonViWidget> {
   final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -101,6 +103,7 @@ class _ThemDonViScreenState extends State<ThemDonViWidget> {
 
 class TreeDonVi extends StatelessWidget {
   final ThemDonViCubit themDonViCubit;
+
   const TreeDonVi({Key? key, required this.themDonViCubit}) : super(key: key);
 
   @override

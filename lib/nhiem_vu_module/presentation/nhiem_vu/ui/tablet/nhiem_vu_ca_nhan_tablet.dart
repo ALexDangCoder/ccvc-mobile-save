@@ -1,6 +1,6 @@
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
@@ -32,30 +32,14 @@ class NhiemVuCaNhanTablet extends StatefulWidget {
 
 class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
   TextEditingController textcontroller = TextEditingController();
-  late Function(int page) callBack;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     widget.danhSachCubit.callApi(true);
-    widget.danhSachCubit.mangTrangThai='';
-    callBack = (page) {
-      widget.danhSachCubit.postDanhSachNhiemVu(
-        index: page,
-        isNhiemVuCaNhan: widget.isCheck,
-        isSortByHanXuLy: true,
-        mangTrangThai: [widget.danhSachCubit.mangTrangThai],
-        ngayTaoNhiemVu: {
-          'FromDate': widget.danhSachCubit.ngayDauTien,
-          'ToDate': widget.danhSachCubit.ngayKetThuc
-        },
-        size: widget.danhSachCubit.pageSize,
-        keySearch: widget.danhSachCubit.keySearch,
-        trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
-      );
-    };
-    print('init');
+    widget.danhSachCubit.mangTrangThai = '';
+    widget.danhSachCubit.keySearch = '';
   }
 
   @override
@@ -65,7 +49,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
       body: ComplexLoadMore(
         childrenView: [
           FilterDateTimeWidgetTablet(
-            initStartDate:DateTime.parse(widget.danhSachCubit.ngayDauTien) ,
+            initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
             context: context,
             onChooseDateFilter: (startDate, endDate) {
               widget.danhSachCubit.ngayDauTien = startDate.formatApi;
@@ -78,6 +62,19 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                 setState(() {});
                 widget.danhSachCubit.keySearch = text;
                 widget.danhSachCubit.mangTrangThai = '';
+                widget.danhSachCubit.postDanhSachNhiemVu(
+                  index: 0,
+                  isNhiemVuCaNhan: widget.isCheck,
+                  isSortByHanXuLy: true,
+                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                  ngayTaoNhiemVu: {
+                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                    'ToDate': widget.danhSachCubit.ngayKetThuc
+                  },
+                  size: widget.danhSachCubit.pageSize,
+                  keySearch: widget.danhSachCubit.keySearch,
+                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                );
               });
             },
           ),
@@ -140,14 +137,18 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                   index: 0,
                                   isNhiemVuCaNhan: widget.isCheck,
                                   isSortByHanXuLy: true,
-                                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                  mangTrangThai: [
+                                    widget.danhSachCubit.mangTrangThai
+                                  ],
                                   ngayTaoNhiemVu: {
-                                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                                    'FromDate':
+                                        widget.danhSachCubit.ngayDauTien,
                                     'ToDate': widget.danhSachCubit.ngayKetThuc
                                   },
                                   size: widget.danhSachCubit.pageSize,
                                   keySearch: widget.danhSachCubit.keySearch,
-                                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                  trangThaiHanXuLy:
+                                      widget.danhSachCubit.trangThaiHanXuLy,
                                 );
                               });
                             },
@@ -160,14 +161,18 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                   index: 0,
                                   isNhiemVuCaNhan: widget.isCheck,
                                   isSortByHanXuLy: true,
-                                  mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                                  mangTrangThai: [
+                                    widget.danhSachCubit.mangTrangThai
+                                  ],
                                   ngayTaoNhiemVu: {
-                                    'FromDate': widget.danhSachCubit.ngayDauTien,
+                                    'FromDate':
+                                        widget.danhSachCubit.ngayDauTien,
                                     'ToDate': widget.danhSachCubit.ngayKetThuc
                                   },
                                   size: widget.danhSachCubit.pageSize,
                                   keySearch: widget.danhSachCubit.keySearch,
-                                  trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                                  trangThaiHanXuLy:
+                                      widget.danhSachCubit.trangThaiHanXuLy,
                                 );
                               });
                             },

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 
 import '/generated/l10n.dart';
@@ -70,6 +69,8 @@ extension SelectKeyExt on SelectKey {
         return S.current.da_xu_ly;
       case SelectKey.LICH_CHO_XAC_NHAN:
         return S.current.lich_cho_xac_nhan;
+      case SelectKey.LICH_CUA_TOI:
+        return S.current.lich_cua_toi;
     }
   }
 }
@@ -138,7 +139,7 @@ extension DocumentStatusEx on DocumentStatus {
       case DocumentStatus.DANG_THUC_HIEN:
         return AqiColor;
       case DocumentStatus.TRONG_HAN:
-      return choTrinhKyColor;
+        return choTrinhKyColor;
     }
   }
 }

@@ -9,13 +9,15 @@ class ExpandOnlyWidgetAutoShow extends StatefulWidget {
   final bool isShowIcon;
   final AnimationController? initController;
   final bool changeBool;
+
   const ExpandOnlyWidgetAutoShow({
     Key? key,
     this.initExpand = true,
     required this.child,
     required this.header,
     this.isShowIcon = true,
-    this.initController, this.changeBool = true,
+    this.initController,
+    this.changeBool = true,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class _ExpandedSectionState extends State<ExpandOnlyWidgetAutoShow>
   bool isExpanded = true;
   GroupProvider? groupProvider;
   final key = UniqueKey();
+
   @override
   void initState() {
     super.initState();
@@ -111,13 +114,13 @@ class _ExpandedSectionState extends State<ExpandOnlyWidgetAutoShow>
                   builder: (context, _) {
                     return expandController.value == 0
                         ? const Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      color: AqiColor,
-                    )
+                            Icons.keyboard_arrow_down_outlined,
+                            color: AqiColor,
+                          )
                         : const Icon(
-                      Icons.keyboard_arrow_up_rounded,
-                      color: AqiColor,
-                    );
+                            Icons.keyboard_arrow_up_rounded,
+                            color: AqiColor,
+                          );
                   },
                 )
               else

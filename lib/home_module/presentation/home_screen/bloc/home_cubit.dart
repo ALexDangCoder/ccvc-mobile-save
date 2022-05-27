@@ -3,10 +3,11 @@ import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
-import 'package:ccvc_mobile/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart' as HiveLc;
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ import '/home_module/data/request/home/lich_hop_request.dart';
 import '/home_module/data/request/home/lich_lam_viec_request.dart';
 import '/home_module/data/request/home/nhiem_vu_request.dart';
 import '/home_module/data/request/home/to_do_list_request.dart';
-import '/home_module/domain/locals/hive_local.dart';
+
 import '/home_module/domain/model/home/WidgetType.dart';
 import '/home_module/domain/model/home/calendar_metting_model.dart';
 import '/home_module/domain/model/home/date_model.dart';
@@ -41,11 +42,13 @@ class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
 
   HomeRepository get homeRep => Get.find();
+
   AccountRepository get accountRp => Get.find();
-  DataUser? dataUser = HiveLocal.getDataUser();
+  DataUser? dataUser = HiveLc.HiveLocal.getDataUser();
   String id = '';
   final BehaviorSubject<UserInformationModel> _getInforUser =
       BehaviorSubject<UserInformationModel>();
+
   Stream<UserInformationModel> get getInforUser => _getInforUser.stream;
   final BehaviorSubject<List<WidgetModel>> _getConfigWidget =
       BehaviorSubject<List<WidgetModel>>();
@@ -53,9 +56,11 @@ class HomeCubit extends BaseCubit<HomeState> {
       BehaviorSubject<WidgetType?>();
   final BehaviorSubject<List<TinBuonModel>> _tinhHuongKhanCap =
       BehaviorSubject<List<TinBuonModel>>();
+
   // final BehaviorSubject<DataUser> _userInformation =
   //     BehaviorSubject<DataUser>();
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
+
   // final BehaviorSubject<DataUser> _getUserInformation =
   //     BehaviorSubject<DataUser>();
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
@@ -124,7 +129,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     final result = await accountRp.getInfo(id);
     result.when(
       success: (res) {
-        final dataUser = HiveLocal.getDataUser();
+        final dataUser = HiveLc.HiveLocal.getDataUser();
 
         _getInforUser.sink.add(
           UserInformationModel(
@@ -172,11 +177,11 @@ class HomeCubit extends BaseCubit<HomeState> {
   // Stream<DataUser> get getUserInformation => _getUserInformation.stream;
 
   Stream<List<WidgetModel>> get getConfigWidget => _getConfigWidget.stream;
+
   //
   // Stream<DataUser> get userInformation => _userInformation;
 
-  Stream<List<TinBuonModel>> get tinhHuongKhanCap =>
-      _tinhHuongKhanCap.stream;
+  Stream<List<TinBuonModel>> get tinhHuongKhanCap => _tinhHuongKhanCap.stream;
 
   Stream<WidgetType?> get showDialogSetting => _showDialogSetting.stream;
 
@@ -215,7 +220,7 @@ class BaoChiMangXaHoiCubit extends HomeCubit with SelectKeyDialog {
   String nameUser = '';
 
   BaoChiMangXaHoiCubit() {
-    final dataUser = HiveLocal.getDataUser();
+    final dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       nameUser = dataUser.userInformation?.hoTen ?? '';
     }
@@ -317,7 +322,7 @@ class DanhSachCongViecCubit extends HomeCubit {
   String id = '';
 
   DanhSachCongViecCubit() {
-    id = HiveLocal.getDataUser()?.userInformation?.id ?? '';
+    id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
   }
 
   Stream<TodoListModel> get getTodoList => _getTodoList.stream;
@@ -519,8 +524,8 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
     }
     final result = await homeRep.getTongHopNhiemVu(
       isCaNhan,
-      startDate.toString(),
-      endDate.toString(),
+      '',
+      '',
     );
     showContent();
     result.when(
@@ -905,8 +910,12 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
 class VanBanCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<DocumentModel>> _getDanhSachVb =
       BehaviorSubject<List<DocumentModel>>();
+  List<SelectKey> listKey = [];
 
-  VanBanCubit() {}
+  VanBanCubit() {
+    listKey = listSelectKey();
+    selectKey = listKey.first;
+  }
 
   Stream<List<DocumentModel>> get getDanhSachVb => _getDanhSachVb.stream;
   int trangThaiFilter = 0;
@@ -1042,10 +1051,28 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
 
       selectKeyDialog.sink.add(true);
       selectTrangThaiVanBan(
-        this.selectKey ?? SelectKey.CHO_VAO_SO,
+        this.selectKey ?? listKey.first,
         filterTime: true,
       );
     }
+  }
+
+  List<SelectKey> listSelectKey() {
+    final List<SelectKey> list = [];
+    if (HiveLc.HiveLocal.checkPermissionApp(
+        permissionTxt: PermissionConst.VB_DEN_VAO_SO_VAN_BAN_BANG_TAY,
+        permissionType: HiveLc.PermissionType.QLVB)) {
+      list.add(SelectKey.CHO_VAO_SO);
+    }
+    list.addAll([
+      SelectKey.CHO_XU_LY_VB_DEN,
+      SelectKey.CHO_CHO_Y_KIEN_VB_DEN,
+      SelectKey.CHO_TRINH_KY,
+      SelectKey.CHO_XU_LY_VB_DI,
+      SelectKey.CHO_CAP_SO,
+      SelectKey.CHO_BAN_HANH
+    ]);
+    return list;
   }
 }
 
@@ -1062,7 +1089,7 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
   List<SelectKey> selectKeyPermission = [];
 
   YKienNguoiDanCubit() {
-    dataUser = HiveLocal.getDataUser();
+    dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
       userId = dataUser?.userId ?? '';
@@ -1159,26 +1186,27 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
 
   List<SelectKey> _permissionKeyCheck() {
     final listSelect = <SelectKey>[];
-    if (HiveLocal.checkPermissionApp(
+    if (HiveLc.HiveLocal.checkPermissionApp(
         permissionTxt: 'TiepNhanPAKNChoTiepNhanXem')) {
       listSelect.add(SelectKey.CHO_TIEP_NHAN);
     }
-    if (HiveLocal.checkPermissionApp(permissionTxt: 'PhanXuLyXem')) {
+    if (HiveLc.HiveLocal.checkPermissionApp(permissionTxt: 'PhanXuLyXem')) {
       listSelect.add(SelectKey.CHO_PHAN_XU_LY);
     }
-    if (HiveLocal.checkPermissionApp(
+    if (HiveLc.HiveLocal.checkPermissionApp(
         permissionTxt: 'TiepNhanPAKNChoDuyetxem')) {
       listSelect.add(SelectKey.CHO_DUYET_XU_LY);
     }
-    if (HiveLocal.checkPermissionApp(
+    if (HiveLc.HiveLocal.checkPermissionApp(
         permissionTxt: 'XuLyPAKNChoTiepNhanXuLyCapNhat')) {
       listSelect.add(SelectKey.CHO_DUYET_TIEP_NHAN);
     }
-    if (HiveLocal.checkPermissionApp(
+    if (HiveLc.HiveLocal.checkPermissionApp(
         permissionTxt: 'XuLyPAKNChoPhanCongXuLyCapNhat')) {
       listSelect.add(SelectKey.CHO_PHAN_CONG_XU_LY);
     }
-    if (HiveLocal.checkPermissionApp(permissionTxt: 'XuLyPAKNCanXuLyXem')) {
+    if (HiveLc.HiveLocal.checkPermissionApp(
+        permissionTxt: 'XuLyPAKNCanXuLyXem')) {
       listSelect.add(SelectKey.CHO_XU_LY);
       listSelect.add(SelectKey.DANG_XU_LY);
     }
@@ -1196,12 +1224,13 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
 
   Stream<List<CalendarMeetingModel>> get getListLichLamViec =>
       _getListLichLamViec.stream;
-  final userId = HiveLocal.getDataUser()?.userId ?? '';
-  SelectKey selectKey = SelectKey.LICH_HOP_CUA_TOI;
+  final userId = HiveLc.HiveLocal.getDataUser()?.userId ?? '';
+  SelectKey selectKey = SelectKey.LICH_CUA_TOI;
+
   void setChangeKey(SelectKey key) {
     selectKey = key;
     switch (key) {
-      case SelectKey.LICH_HOP_CUA_TOI:
+      case SelectKey.LICH_CUA_TOI:
         final data = LichLamViecRequest(
           dateFrom: startDate.formatApi,
           dateTo: endDate.formatApi,
@@ -1234,19 +1263,15 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
     result.when(
       success: (res) {
         final listResult = <CalendarMeetingModel>[];
-        if (isMobile()) {
-          int index = 0;
-          for (final vl in res) {
-            listResult.add(vl);
-            index++;
-            if (index >= 20) {
-              break;
-            }
+        int index = 0;
+        for (final vl in res) {
+          listResult.add(vl);
+          index++;
+          if (index >= 20) {
+            break;
           }
-          _getListLichLamViec.sink.add(listResult);
-        } else {
-          _getListLichLamViec.sink.add(res);
         }
+        _getListLichLamViec.sink.add(listResult);
       },
       error: (err) {},
     );
@@ -1280,7 +1305,7 @@ class LichHopCubit extends HomeCubit with SelectKeyDialog {
   bool isLichDuocMoi = false;
   bool isDuyetLich = false;
   bool isChoXacNhan = false;
-  final userId = HiveLocal.getDataUser()?.userId ?? '';
+  final userId = HiveLc.HiveLocal.getDataUser()?.userId ?? '';
 
   Future<void> callApi() async {
     showLoading();
@@ -1446,7 +1471,7 @@ class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {
       _getTinhHinhXuLy.stream;
 
   TinhHinhXuLyYKienCubit() {
-    final dataUser = HiveLocal.getDataUser();
+    final dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser.userInformation?.donViTrucThuoc?.id ?? '';
     }

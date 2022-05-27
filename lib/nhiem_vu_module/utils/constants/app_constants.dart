@@ -1,4 +1,3 @@
-
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -71,6 +70,9 @@ const String CHO_TIEP_NHAN = 'CHO_TIEP_NHAN';
 const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+const String CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
+const String DA_HOAN_THANH = 'DA_HOAN_THANH';
+const String DANG_THUC_HIEN = 'DANG_THUC_HIEN';
 
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
@@ -163,4 +165,16 @@ class DateFormatApp {
   static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+}
+
+class NhiemVuLowerCase {
+  static const String THU_HOI = 'thu-hoi';
+  static const String CHO_PHAN_XU_LY = 'cho-phan-xu-ly';
+  static const String CHUA_THUC_HIEN = 'chua-thuc-hien';
+  static const String DANG_THUC_HIEN = 'dang-thuc-hien';
+  static const String DA_HOAN_THANH = 'da-hoan-thanh';
+  static const String TRA_LAI = 'tra-lai';
+  static const String QUA_HAN = 'qua-han';
+  static const String DEN_HAN = 'den-han';
+  static const String TRONG_HAN = 'trong-han';
 }

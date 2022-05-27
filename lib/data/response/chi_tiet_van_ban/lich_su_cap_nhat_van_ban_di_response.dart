@@ -33,11 +33,11 @@ class DataLichSuCapNhatVanBanDiResponse extends Equatable {
       _$DataLichSuCapNhatVanBanDiResponseToJson(this);
 
   DataLichSuCapNhatVanBanDi toModel() => DataLichSuCapNhatVanBanDi(
-    messages: messages,
-    data: data?.map((e) => e.toModel()).toList() ?? [],
-    validationResult: validationResult,
-    isSuccess: isSuccess,
-  );
+        messages: messages,
+        data: data?.map((e) => e.toModel()).toList() ?? [],
+        validationResult: validationResult,
+        isSuccess: isSuccess,
+      );
 
   //todo convert to Model to use
   @override
@@ -74,13 +74,13 @@ class LichSuCapNhatVanBanDiResponse extends Equatable {
   Map<String, dynamic> toJson() => _$LichSuCapNhatVanBanDiResponseToJson(this);
 
   LichSuCapNhatVanBanDi toModel() => LichSuCapNhatVanBanDi(
-    nguoiCapNhat: nguoiCapNhat,
-    donViCapNhat: donViCapNhat,
-    trangThai: trangThai,
-    thoiGian: DateTime.parse(thoiGian ?? '').formatApiLichSu,
-    noiDungCapNhat: noiDungCapNhat?.parseHtml(),
-    files: files?.map((e) => e.toModel()).toList() ?? [],
-  );
+        nguoiCapNhat: nguoiCapNhat,
+        donViCapNhat: donViCapNhat,
+        trangThai: trangThai,
+        thoiGian: DateTime.parse(thoiGian ?? '').formatApiLichSu,
+        noiDungCapNhat: noiDungCapNhat?.parseHtml(),
+        files: files?.map((e) => e.toModel()).toList() ?? [],
+      );
 
   //todo convert to Model to use
   @override

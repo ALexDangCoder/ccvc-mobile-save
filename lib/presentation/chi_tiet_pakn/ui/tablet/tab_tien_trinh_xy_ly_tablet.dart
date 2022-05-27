@@ -18,6 +18,7 @@ class TabTienTrinhXuLyTablet extends StatefulWidget {
   }) : super(key: key);
   final ChiTietPaknCubit cubit;
   final String id;
+
   @override
   State<TabTienTrinhXuLyTablet> createState() => _TabTienTrinhXuLyTabletState();
 }
@@ -42,22 +43,23 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
   }
 
   Widget _content() {
-    return StreamBuilder <List<List<ListRowYKND>>>(
+    return StreamBuilder<List<List<ListRowYKND>>>(
       stream: widget.cubit.tienTrinhXuLyRowData,
-      builder: (context, snapshot){
-        final data= snapshot.data??[];
-        if(data.isNotEmpty){
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        if (data.isNotEmpty) {
           return Padding(
-            padding: const EdgeInsets.only(top: 28.0,left: 14.0,right: 14.0),
+            padding: const EdgeInsets.only(top: 28.0, left: 14.0, right: 14.0),
             child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: data.length,
-              itemBuilder: (context, indexItem){
-                return  Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  margin: const EdgeInsets.only(bottom: 28, left: 16, right: 16),
-                  decoration:  BoxDecoration(
+              itemBuilder: (context, indexItem) {
+                return Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                  margin:
+                      const EdgeInsets.only(bottom: 28, left: 16, right: 16),
+                  decoration: BoxDecoration(
                     color: bgTabletItem,
                     border: Border.all(color: cellColorborder),
                     borderRadius: BorderRadius.all(Radius.circular(6)),
@@ -81,15 +83,13 @@ class _TabTienTrinhXuLyTabletState extends State<TabTienTrinhXuLyTablet> {
                     },
                   ),
                 );
-              } ,
+              },
             ),
           );
-        }
-        else{
+        } else {
           return const NodataWidget();
         }
       },
-
     );
   }
 

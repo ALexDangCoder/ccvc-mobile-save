@@ -24,6 +24,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class YeuCauThemThietBiWidget extends StatefulWidget {
   final ChonPhongHopCubit chonPhongHopCubit;
   final Function() onClose;
+
   const YeuCauThemThietBiWidget({
     Key? key,
     required this.chonPhongHopCubit,
@@ -163,7 +164,7 @@ class _YeuCauThemThietBiWidgetState extends State<YeuCauThemThietBiWidget> {
             padding: const EdgeInsets.only(right: 16),
             child: Text(
               value,
-              style: textNormal(titleColor, 14.0.textScale()),
+              style: textNormal(color3D5586, 14.0.textScale()),
             ),
           ),
         )
@@ -184,6 +185,7 @@ class _ThemThietBiScreenState extends State<ThemThietBiScreen> {
   TextEditingController soLuong = TextEditingController();
   final _key = GlobalKey<FormGroupState>();
   EdgeInsets _viewInsert = EdgeInsets.zero;
+
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);

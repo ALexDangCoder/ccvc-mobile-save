@@ -12,7 +12,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -244,11 +243,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                         ? stopListening
                                         : startListening,
                                     child: Container(
-                                      padding: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 20,
-                                      ),
+                                      padding: const EdgeInsets.all(3),
                                       child: SvgPicture.asset(
                                         ImageAssets.icVoiceMini,
                                         color: speech.isListening
@@ -265,10 +260,8 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                         ? stopListening
                                         : startListening,
                                     child: Container(
-                                      padding: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 20,
+                                      padding: const EdgeInsets.all(
+                                        3,
                                       ),
                                       child: SvgPicture.asset(
                                         ImageAssets.icVoiceMini,
@@ -320,46 +313,22 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                         ],
                       ),
                       child: StreamBuilder<String>(
-                          stream: cubit.textTranslateStream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? '';
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    data,
-                                    style: textNormal(infoColor, 16),
-                                  ),
+                        stream: cubit.textTranslateStream,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? '';
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  data,
+                                  style: textNormal(infoColor, 16),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (data.isEmpty) {
-                                      return;
-                                    }
-                                    Clipboard.setData(
-                                      ClipboardData(
-                                        text: cubit.textTranslateSubject.value,
-                                      ),
-                                    ).then(
-                                      (value) => ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            S.current.copy_success,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  child: SvgPicture.asset(
-                                    ImageAssets.ic_copy,
-                                    color: toDayColor,
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -394,7 +363,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
             ),
             btn(
               onTap: () {
-                cubit.readFile(textEditingController);
+                cubit.translateFile(textEditingController);
               },
             ),
           ],

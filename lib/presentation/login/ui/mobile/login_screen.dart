@@ -55,7 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
       child: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
-        error: AppException('1', ''),
+        error: AppException(
+          S.current.error,
+          S.current.error,
+        ),
         stream: loginCubit.stateStream,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
@@ -103,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             Text(
                               S.current.wellcom_login,
-                              style: textNormal(AqiColor, 14),
+                              style: textNormal(
+                                  textBodyTime,
+                                  14),
                             )
                           ],
                         ),
@@ -149,8 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         validator: (value) {
                           if ((value ?? '').contains('@')) {
-                            if((value ?? '').contains('@', value!.indexOf('@')+1)) {
-                            }else{
+                            if ((value ?? '')
+                                .contains('@', value!.indexOf('@') + 1)) {
+                            } else {
                               return value.checkEmailBoolean();
                             }
                           } else {
@@ -211,17 +217,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       StreamBuilder<String>(
                           stream: loginCubit.thongBao,
                           builder: (context, snapshot) {
-                            final data=snapshot.data??'';
-                            if(data.isNotEmpty){
+                            final data = snapshot.data ?? '';
+                            if (data.isNotEmpty) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16.0),
-                                child: WidgetTextError(text: data,),
+                                child: WidgetTextError(
+                                  text: data,
+                                ),
                               );
-                            }else{
+                            } else {
                               return const SizedBox();
                             }
-                          }
-                      ),
+                          }),
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
@@ -232,7 +239,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           '${S.current.quen_mat_khau}?',
-                          style: textNormalCustom(color: AppTheme.getInstance().colorField()),
+                          style: textNormalCustom(
+                            color: AppTheme.getInstance().colorField(),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -266,7 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Visibility(
-                                  visible:isAndroid??true,
+                                  visible: isAndroid ?? true,
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
@@ -277,18 +286,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: 48,
                                       width: 48,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12.0),
-                                        color: buttonColor.withOpacity(0.1),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        color: AppTheme.getInstance()
+                                            .colorField()
+                                            .withOpacity(0.1),
                                       ),
                                       child: Center(
                                         child: SvgPicture.asset(
-                                            ImageAssets.icFingerprint),
+                                          ImageAssets.icFingerprint,
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 Visibility(
-                                  visible: isIOS??true,
+                                  visible: isIOS ?? true,
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
@@ -299,12 +314,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       height: 48,
                                       width: 48,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12.0),
-                                        color: buttonColor.withOpacity(0.1),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        color: AppTheme.getInstance()
+                                            .colorField()
+                                            .withOpacity(0.1),
                                       ),
                                       child: Center(
                                         child: SvgPicture.asset(
-                                            ImageAssets.icFaceId),
+                                          ImageAssets.icFaceId,
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
+                                        ),
                                       ),
                                     ),
                                   ),

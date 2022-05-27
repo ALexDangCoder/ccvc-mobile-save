@@ -30,7 +30,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
           widget.title,
           style: tokenDetailAmount(
             fontSize: 16,
-            color: titleColor,
+            color: color3D5586,
           ),
         ),
         Expanded(
@@ -39,7 +39,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
               S.current.Nam,
               style: tokenDetailAmount(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
             //bgDropDown
@@ -62,7 +62,7 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
               S.current.Nu,
               style: tokenDetailAmount(
                 fontSize: 14,
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
             leading: Radio(

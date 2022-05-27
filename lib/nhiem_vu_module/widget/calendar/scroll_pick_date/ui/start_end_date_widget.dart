@@ -37,7 +37,8 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
           return Column(
             children: [
               IsCaNgayWidget(
-                isMargin: widget.icMargin, isCheck: (bool value) {  },
+                isMargin: widget.icMargin,
+                isCheck: (bool value) {},
               ),
               SizedBox(
                 height: 16.0.textScale(),
@@ -63,30 +64,30 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
                 height: 16.0.textScale(),
               ),
               StreamBuilder<DateTime>(
-                  stream: StartEndDateInherited.of(context)
-                      .picKDateCupertinoCubit
-                      .startDateStream,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? DateTime.now();
+                stream: StartEndDateInherited.of(context)
+                    .picKDateCupertinoCubit
+                    .startDateStream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? DateTime.now();
                   return PicKDateCupertino(
-                      key: UniqueKey(),
-                      isUnderLine: true,
-                      minimumDate: data,
-                      maximumDate:
-                          DateTime(data.year + 5, data.month, data.day),
-                      mode: dataBool
-                          ? CupertinoDatePickerMode.date
-                          : CupertinoDatePickerMode.dateAndTime,
-                      onDateTimeChanged: (DateTime value) {
-                        picKDateCupertinoCubit.listeningEndDataTime(
-                          value,
-                        );
-                        widget.onEndDateTimeChanged(value);
-                      },
-                      title: S.current.ket_thuc,
-                      startOfEnd: StartOfEnd.END,
-                    );
-                  },)
+                    key: UniqueKey(),
+                    isUnderLine: true,
+                    minimumDate: data,
+                    maximumDate: DateTime(data.year + 5, data.month, data.day),
+                    mode: dataBool
+                        ? CupertinoDatePickerMode.date
+                        : CupertinoDatePickerMode.dateAndTime,
+                    onDateTimeChanged: (DateTime value) {
+                      picKDateCupertinoCubit.listeningEndDataTime(
+                        value,
+                      );
+                      widget.onEndDateTimeChanged(value);
+                    },
+                    title: S.current.ket_thuc,
+                    startOfEnd: StartOfEnd.END,
+                  );
+                },
+              )
             ],
           );
         },

@@ -4,13 +4,15 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
+import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/prev_view_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/prev_view_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/drag_item_list.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/item_not%20_use.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -25,6 +27,7 @@ class WidgetManageScreenTablet extends StatefulWidget {
 
 class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
   WidgetManageCubit widgetManageCubit = WidgetManageCubit();
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -36,8 +39,34 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgWidgets,
-      appBar: AppBarDefaultBack(
-        S.current.widget_manage,
+      appBar: BaseAppBar(
+        title: S.current.widget_manage,
+        leadingIcon: IconButton(
+          onPressed: () => {Navigator.pop(context)},
+          icon: SvgPicture.asset(
+            ImageAssets.icBack,
+          ),
+        ),
+        actions: [
+          GestureDetector(
+            child: Center(
+              child: Text(
+                S.current.mac_dinh,
+                style: textNormalCustom(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: AppTheme.getInstance().colorField(),
+                ),
+              ),
+            ),
+            onTap: () {
+              widgetManageCubit.resetListWidget();
+            },
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+        ],
       ),
       body: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
@@ -48,9 +77,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
         ),
         stream: widgetManageCubit.stateStream,
         child: RefreshIndicator(
-          onRefresh: () async {
-            await widgetManageCubit.onRefreshData();
-          },
+            onRefresh: () async {
+              await widgetManageCubit.onRefreshData();
+            },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
@@ -73,38 +102,17 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                           height: 20,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(ImageAssets.ic_hoicham),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  S.current.keep_drop,
-                                  style: textNormal(
-                                    textTitle,
-                                    14.0.textScale(),
-                                  ),
-                                ),
-                              ],
+                            SvgPicture.asset(ImageAssets.ic_hoicham),
+                            const SizedBox(
+                              width: 8,
                             ),
-                            GestureDetector(
-                              child: Center(
-                                child: Text(
-                                  S.current.mac_dinh,
-                                  style: textNormalCustom(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color:
-                                        AppTheme.getInstance().colorField(),
-                                  ),
-                                ),
+                            Text(
+                              S.current.keep_drop,
+                              style: textNormal(
+                                textTitle,
+                                14.0.textScale(),
                               ),
-                              onTap: () {
-                                widgetManageCubit.resetListWidget();
-                              },
                             ),
                           ],
                         ),
@@ -119,7 +127,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                           ),
                         ),
                         const SizedBox(
-                          height: 16,
+                          height: 24,
                         ),
                         StreamBuilder<List<WidgetModel>>(
                           stream: widgetManageCubit.listWidgetUsing,
@@ -128,9 +136,13 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                             if (data.isNotEmpty) {
                               final List<WidgetModel> listWidgetUsing = data;
                               return DragItemList(
+                                paddingTablet: true,
+                                headerList: const SizedBox(),
+                                footerList: const SizedBox(),
                                 listWidget: listWidgetUsing,
                                 widgetManageCubit: widgetManageCubit,
                                 isUsing: true,
+                                isScroll: true,
                               );
                             } else {
                               return Center(
@@ -140,7 +152,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                           },
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 8,
                         ),
                         Text(
                           S.current.not_use,
@@ -159,9 +171,13 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                             if (data.isNotEmpty) {
                               final List<WidgetModel> listWidgetNotUse = data;
                               return DragItemList(
+                                paddingTablet: true,
+                                headerList: const SizedBox(),
+                                footerList: const SizedBox(),
                                 listWidget: listWidgetNotUse,
                                 widgetManageCubit: widgetManageCubit,
                                 isUsing: false,
+                                isScroll: true,
                               );
                             } else {
                               return Center(

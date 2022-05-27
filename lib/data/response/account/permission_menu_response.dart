@@ -64,6 +64,7 @@ class Data {
 
     selected = json['selected'];
   }
+
   PermissionMenuModel toDomain() =>
       PermissionMenuModel(code: code ?? '', id: id ?? '');
 }

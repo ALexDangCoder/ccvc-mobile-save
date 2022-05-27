@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ class DoubleButtonBottom extends StatelessWidget {
   final Function onPressed1;
   final Function onPressed2;
   final bool isTablet;
+
   const DoubleButtonBottom({
     Key? key,
     required this.title1,
@@ -56,15 +56,14 @@ class DoubleButtonBottom extends StatelessWidget {
                   onTap: () {
                     onPressed1();
                     // AppTheme.getInstance().colorSelect()
-
                   },
-
                   child: Container(
                     height: 40.0.textScale(space: 16.0),
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: AppTheme.getInstance().colorSelect().withOpacity(0.1),
+                      color:
+                          AppTheme.getInstance().colorSelect().withOpacity(0.1),
                     ),
                     child: Center(
                       child: Text(
@@ -128,7 +127,9 @@ class DoubleButtonBottom extends StatelessWidget {
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorSelect()
+                  : backgroundColorApp,
             ),
           ),
         ),

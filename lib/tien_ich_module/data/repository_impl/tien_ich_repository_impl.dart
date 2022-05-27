@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -11,6 +12,7 @@ import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/lich_am_duong_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/list_nguoi_thuc_hien_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/post_anh_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/todo_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/topic_hdsd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tra_cuu_van_ban_phap_luat_response.dart';
@@ -23,6 +25,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/detail_huong_dan_su_dun
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/post_anh_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/topic_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/tra_cuu_van_ban_phap_luat_model.dart';
@@ -117,9 +120,10 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<List<TreeDonViDanhBA>>> TreeDanhBa(int soCap) {
+  Future<Result<List<TreeDonViDanhBA>>> treeDanhBa(
+      int soCap, String idDonViCha) {
     return runCatchingAsync<TreeDanhBaResponse, List<TreeDonViDanhBA>>(
-      () => _tienIchServiceCommon.TreeDanhBa(soCap),
+      () => _tienIchServiceCommon.treeDanhBa(soCap, idDonViCha),
       (response) => response.toModel(),
     );
   }
@@ -223,5 +227,37 @@ class TienIchRepositoryImpl implements TienIchRepository {
         return '';
       }
     });
+  }
+
+  @override
+  Future<Result<String>> translateFile(
+      File file, String target, String source) {
+    return runCatchingAsync<String, String>(
+        () => _tienIchService.translateFile(
+              file,
+              target,
+              source,
+            ), (response) {
+      try {
+        return DataTranslateResponse.fromJson(json.decode(response))
+                .data
+                ?.translations
+                ?.first
+                .translatedText ??
+            '';
+      } catch (e) {
+        return '';
+      }
+    });
+  }
+
+  @override
+  Future<Result<PostAnhModel>> uploadFile(File files) {
+    return runCatchingAsync<PostAnhResponse, PostAnhModel>(
+      () => _tienIchService.uploadFile(
+        files,
+      ),
+      (res) => res.toMoDel(),
+    );
   }
 }

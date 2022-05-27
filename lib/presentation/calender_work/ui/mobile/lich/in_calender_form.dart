@@ -23,6 +23,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    widget.cubit.stateCalendarSubject.listen((value) {});
   }
 
   @override

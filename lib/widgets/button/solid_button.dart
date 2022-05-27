@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/config/app_config.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -29,7 +28,7 @@ class SolidButton extends StatelessWidget {
             ? const EdgeInsets.only(right: 18, left: 12, top: 6, bottom: 6)
             : const EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 20),
         decoration: BoxDecoration(
-          color:  AppTheme.getInstance().colorField().withOpacity(0.1),
+          color: AppTheme.getInstance().colorField().withOpacity(0.1),
           borderRadius: const BorderRadius.all(Radius.circular(4)),
         ),
         child: Row(
@@ -46,7 +45,8 @@ class SolidButton extends StatelessWidget {
             ),
             Text(
               text,
-              style: textNormalCustom(color:  AppTheme.getInstance().colorField(), fontSize: 14),
+              style: textNormalCustom(
+                  color: AppTheme.getInstance().colorField(), fontSize: 14),
             )
           ],
         ),

@@ -11,11 +11,13 @@ import 'package:flutter/material.dart';
 class TheoDoiVanBanMobile extends StatelessWidget {
   final CommonDetailDocumentGoCubit cubit;
   final String id;
+  final bool isTablet;
 
   const TheoDoiVanBanMobile({
     Key? key,
     required this.cubit,
     required this.id,
+    this.isTablet = false,
   }) : super(key: key);
 
   @override
@@ -93,7 +95,7 @@ class TheoDoiVanBanMobile extends StatelessWidget {
           ),
           spaceW12,
           Expanded(
-            flex: 7,
+            flex: isTablet ? 10 : 7,
             child: Wrap(
               spacing: 4,
               runSpacing: 4,
@@ -123,7 +125,7 @@ class TheoDoiVanBanMobile extends StatelessWidget {
           style: textNormalCustom(
             fontSize: 14,
             fontWeight: FontWeight.w400,
-            color: titleColor,
+            color: color3D5586,
           ),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
@@ -135,7 +137,7 @@ class TheoDoiVanBanMobile extends StatelessWidget {
         style: textNormalCustom(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          color: titleColor,
+          color: color3D5586,
         ),
         maxLines: 3,
         overflow: TextOverflow.ellipsis,

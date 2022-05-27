@@ -5,7 +5,6 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/ngay_bach_ky_widget.dart';
 import 'package:flutter/material.dart';
 
-
 class ThapNhiBatTuWidget extends StatelessWidget {
   final ThapNhiBatTu thapNhiBatTu;
 
@@ -25,7 +24,7 @@ class ThapNhiBatTuWidget extends StatelessWidget {
             S.current.theo_nhi_thap_bat_tu,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -34,8 +33,11 @@ class ThapNhiBatTuWidget extends StatelessWidget {
           thapNhiBatTu.totXau ?? '',
           color: colorNenLam,
         ),
-        titleNgayBachKy('${S.current.nen_lam}: ', thapNhiBatTu.nenLam ?? '',
-            color: colorNenLam,),
+        titleNgayBachKy(
+          '${S.current.nen_lam}: ',
+          thapNhiBatTu.nenLam ?? '',
+          color: colorNenLam,
+        ),
         titleNgayBachKy(
           '${S.current.kieng_cu}: ',
           thapNhiBatTu.kieng ?? '',

@@ -132,7 +132,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
-          color: titleColor,
+          color: color3D5586,
         ),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
@@ -177,7 +177,6 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
       ),
     );
   }
-
 }
 
 class AppCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
@@ -260,5 +259,4 @@ class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
     delegate.bringIntoView(delegate.textEditingValue.selection.extent);
     delegate.hideToolbar();
   }
-
 }

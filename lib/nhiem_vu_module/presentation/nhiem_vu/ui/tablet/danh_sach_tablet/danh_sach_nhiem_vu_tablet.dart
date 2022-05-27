@@ -1,5 +1,5 @@
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
@@ -20,14 +20,15 @@ class DanhSachNhiemVuTablet extends StatefulWidget {
   final String ngayKetThuc;
   final List<String> mangTrangThai;
   final int? trangThaiHanXuLy;
-  const DanhSachNhiemVuTablet({
-    Key? key,
-    required this.isCheck,
-    required this.ngayBatDau,
-    required this.ngayKetThuc,
-    required this.mangTrangThai,
-    this.trangThaiHanXuLy
-  }) : super(key: key);
+
+  const DanhSachNhiemVuTablet(
+      {Key? key,
+      required this.isCheck,
+      required this.ngayBatDau,
+      required this.ngayKetThuc,
+      required this.mangTrangThai,
+      this.trangThaiHanXuLy})
+      : super(key: key);
 
   @override
   _DanhSachNhiemVuTabletState createState() => _DanhSachNhiemVuTabletState();

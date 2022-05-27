@@ -202,8 +202,11 @@ class TableCalendarPhone<T> extends StatefulWidget {
   final void Function(PageController pageController)? onCalendarCreated;
 
   /// Creates a `TableCalendar` widget.
+  final bool isCheckLuner;
+
   TableCalendarPhone({
     Key? key,
+    this.isCheckLuner = false,
     required DateTime focusedDay,
     required DateTime firstDay,
     required DateTime lastDay,
@@ -610,6 +613,7 @@ class _TableCalendarPhoneState<T> extends State<TableCalendarPhone<T>> {
           isWeekend: isWeekend,
           isHoliday: widget.holidayPredicate?.call(day) ?? false,
           locale: widget.locale,
+          isCheckLunar: widget.isCheckLuner,
         );
 
         children.add(content);

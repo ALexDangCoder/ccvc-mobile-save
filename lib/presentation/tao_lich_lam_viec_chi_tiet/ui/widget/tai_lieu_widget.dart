@@ -37,7 +37,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
                   style: textNormalCustom(
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0.textScale(),
-                    color: unselectedLabelColor,
+                    color: color667793,
                   ),
                 ),
                 if (isExpand)

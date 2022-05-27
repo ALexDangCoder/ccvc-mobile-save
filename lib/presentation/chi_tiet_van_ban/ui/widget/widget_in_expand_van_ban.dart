@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class WidgetInExpandVanBan extends StatelessWidget {
   final List<DocumentDetailRow> row;
+  final int flexValue;
 
   const WidgetInExpandVanBan({
     Key? key,
     required this.row,
+    this.flexValue = 5,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,7 @@ class WidgetInExpandVanBan extends StatelessWidget {
                         width: 14.0.textScale(),
                       ),
                       Expanded(
-                        flex: 5,
+                        flex: flexValue,
                         child: e.type.getWidgetVanBan(row: e),
                       ),
                     ],

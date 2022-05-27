@@ -57,7 +57,7 @@ extension DateFormatString on DateTime {
   }
 
   String get formatApiSSAM {
-    return DateFormat('yyyy/MM/dd ').format(this) + toStringWithAMPMJMS;
+    return DateFormat('dd/MM/yyyy ').format(this) + toStringWithAMPMJMS;
   }
 
   String get formatApiDetailSSAM {

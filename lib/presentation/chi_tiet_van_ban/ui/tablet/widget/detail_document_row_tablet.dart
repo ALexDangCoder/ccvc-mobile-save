@@ -40,7 +40,9 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                   ),
                 ),
               ),
-              const SizedBox(width: 5.0,),
+              const SizedBox(
+                width: 5.0,
+              ),
               Expanded(
                 flex: 6,
                 child: widget.row.type == TypeDocumentDetailRow.text
@@ -55,7 +57,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               style: textNormalCustom(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
@@ -73,7 +75,7 @@ class _DetailDocumentRowTabletState extends State<DetailDocumentRowTablet> {
                               style: textNormalCustom(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
-                                color: titleColor,
+                                color: color3D5586,
                               ),
                             ),
                           )

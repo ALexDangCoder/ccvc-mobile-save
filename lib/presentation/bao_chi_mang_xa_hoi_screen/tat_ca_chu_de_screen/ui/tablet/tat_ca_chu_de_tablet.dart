@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/bao_cao_thong_ke.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/dashboard_item.dart';
@@ -28,9 +30,10 @@ class TatCaChuDeScreenTablet extends StatefulWidget {
   State<TatCaChuDeScreenTablet> createState() => _TatCaChuDeScreenTabletState();
 }
 
-class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with AutomaticKeepAliveClientMixin {
+class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
+    with AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
-  ChooseTimeCubit chooseTimeCubit=ChooseTimeCubit();
+  ChooseTimeCubit chooseTimeCubit = ChooseTimeCubit();
   ChuDeCubit chuDeCubit = ChuDeCubit();
 
   @override
@@ -67,6 +70,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                 ChooseTimeScreen(
                   baseChooseTimeCubit: chooseTimeCubit,
                   today: DateTime.now(),
+                  chuDeCubit: chuDeCubit,
                 ),
                 Container(
                   color: bgCalenderColor,
@@ -136,10 +140,10 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                       ),
                       Text(
                         S.current.tin_noi_bat,
-                        style: const TextStyle(
+                        style: textNormalCustom(
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
-                          color: titleColor,
+                          color: AppTheme.getInstance().titleColor(),
                         ),
                       ),
                       const SizedBox(
@@ -165,10 +169,10 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                                     hotNew.url ?? '',
                                   ),
                                 ),
-                                const SizedBox(
+                                SizedBox(
                                   width: 28,
                                   child: Divider(
-                                    color: lineColor,
+                                    color: AppTheme.getInstance().lineColor(),
                                     height: 1,
                                   ),
                                 ),
@@ -195,10 +199,11 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet> with Au
                                             ).formatApiSSAM,
                                             listChuDe[index].url ?? '',
                                           ),
-                                          const Padding(
-                                            padding: EdgeInsets.all(16.0),
+                                          Padding(
+                                            padding: const EdgeInsets.all(16.0),
                                             child: Divider(
-                                              color: lineColor,
+                                              color: AppTheme.getInstance()
+                                                  .lineColor(),
                                               height: 1,
                                             ),
                                           ),

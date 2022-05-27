@@ -1,5 +1,3 @@
-
-
 enum AppMode { MAC_DINH, XANH, HONG, VANG }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -7,8 +5,6 @@ enum ServerType { DEV, QA, STAGING, PRODUCT }
 enum LoadingType { REFRESH, LOAD_MORE }
 
 enum CompleteType { SUCCESS, ERROR }
-
-
 
 enum AuthMode { LOGIN, REGISTER }
 
@@ -87,18 +83,20 @@ enum PageTransitionType {
   RIGHT_TO_LEFT_WITH_FADE,
 }
 
+const String DEVICE_ID = '';
+const String DEVICE_ANDROID = 'ANDROID';
+const String DEVICE_IOS = 'IOS';
 const String CAP_NHAT_TINH_HINH_THUC_HIEN = 'CAP_NHAT_TINH_HINH_THUC_HIEN';
 const String TRA_LAI = 'TRA_LAI';
 const String THU_HOI = 'THU_HOI';
 const String LIEN_THONG = 'LIEN_THONG';
 
 const String HOAN_THANH = 'HOAN_THANH';
-const String DEN_HAN = 'DEN_HAN';
-const String QUA_HAN = 'QUA_HAN';
+
 const String CHO_TIEP_NHAN = 'CHO_TIEP_NHAN';
 const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
-const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+const String QUA_HAN_STRING = 'QUA_HAN';
 
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
@@ -107,8 +105,10 @@ const String ERASE_WALLET = 'earse_wallet';
 const String SUCCESS = 'success';
 const String FAIL = 'fail';
 
-const String STATUS_TRANSACTION_FAIL = '0';
-const String STATUS_TRANSACTION_SUCCESS = '1';
+const String CHO_TRINH_KY_STRING = 'CHO_TRINH_KY';
+const String CHO_XU_LY_STRING = 'CHO_XU_LY';
+const String DA_XU_LY_STRING = 'DA_XU_LY';
+
 const double kHeightKeyBoard = 160;
 const String TRANSACTION_TOKEN = '0';
 const String TRANSACTION_NFT = '1';
@@ -128,10 +128,13 @@ const _dtFormat3 = 'dd/MM hh:mm a';
 const _dtFormat4 = 'yyyy-MM-dd';
 const _dtFormat5 = 'MMM dd, yyyy';
 const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
+const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
+const _dtFormat8 = 'd/MM/yyyy';
 
-const String DO_MAIN_DOWLOAD_FILE='http://api-qlvb-nv.dongnai.edsolabs.vn';
-const String DO_MAIN_DOWLOAD_FILE_NHIEM_VU='https://api-qlvb-nv-ccvc-uat.chinhquyendientu.vn';
-const String DO_MAIN_LICH_AM_DUONG='https://api-and-uat.chinhquyendientu.vn';
+const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
+const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
+const String AVATAR_DEFAULT =
+    'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -140,6 +143,8 @@ class DateTimeFormat {
   static const DOB_FORMAT = _dtFormat4;
   static const CREATE_BLOG_FORMAT = _dtFormat5;
   static const DATE_MM_DD_YYYY = _dtFormat6;
+  static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
+  static const DATE_DD_MM_YYYY = _dtFormat8;
 }
 
 class ThongBaoTypeConstant {
@@ -170,6 +175,15 @@ class DocumentState {
   static const String DANG_XU_LY = 'DANG_XU_LY';
   static const String DA_XU_LY = 'DA_XU_LY';
   static const String CHO_VAO_SO = 'CHO_VAO_SO';
+  static const String CHO_TRINH_KY = 'CHO_TRINH_KY';
+  static const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+  static const String DEN_HAN = 'DEN_HAN';
+  static const String QUA_HAN = 'QUA_HAN';
+  static const String TRONG_HAN = 'TRONG_HAN';
+  static const String BINH_THUONG = 'BinhThuong';
+  static const String KHAN = 'Khan';
+  static const String THUONG_KHAN = 'ThuongKhan';
+  static const String HOA_TOC = 'HoaToc';
 }
 
 class SelectKeyPath {
@@ -199,22 +213,28 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
+
 class StatusYKND {
   static const String CHUA_THUC_HIEN_YKND = '1';
   static const String DA_HOAN_THANH_YKND = '8';
-  static const String DANG_THUC_HIEN_YKND = '2,3,4,5,6,7,9,12,13,14,15,16,18,20,21,22';
+  static const String DANG_THUC_HIEN_YKND =
+      '2,3,4,5,6,7,9,12,13,14,15,16,18,20,21,22';
   static const String QUA_HAN_YKND = '3';
   static const String DEN_HAN_YKND = '2';
   static const String TRONG_HAN_YKND = '1';
 }
-class MenuItemConst{
+
+class MenuItemConst {
   static const HOP = 'hop';
   static const QUAN_LY_NHIEM_VU = 'quanlynhiemvu';
-  static const HANH_CHINH_CONG  = 'hanh-chinh-cong';
+  static const HANH_CHINH_CONG = 'hanh-chinh-cong';
   static const Y_KIEN_NGUOI_DAN = 'y-kien-nguoi-dan';
   static const QUAN_LY_VA_BAN = 'quan-ly-van-ban';
   static const BAO_CHI_MANG_XA_HOI = 'bao-chi-mang-xa-hoi';
   static const KET_NOI = 'ket-noi';
   static const TIEN_ICH = 'tien-ich';
-
+  static const TUONG_TAC_NOI_BO = 'tuong-tac-noi-bo';
+  static const LICH_LAM_VIEC = 'lichlamviec';
+  static const BAO_CAO = 'bao-cao';
 }
+

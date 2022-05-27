@@ -43,7 +43,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     _cubit.phuongThucNhanStream.listen((event) {
       widget.phuongThucNhan(event);
     });
-    _cubit.addPeopleThamGia(widget.listPeopleInit??[]);
+    _cubit.addPeopleThamGia(widget.listPeopleInit ?? []);
   }
 
   @override

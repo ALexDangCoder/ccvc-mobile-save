@@ -76,7 +76,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                   ...?data.vanBanDenResponses
                       ?.map(
                         (e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16 ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: WidgetInExpandVanBan(
                             row: e.toListRowView(),
                           ),
@@ -94,7 +94,7 @@ class _WidgetHeadChiTietVanBanDiState extends State<WidgetHeadChiTietVanBanDi>
                   ...?data.vanBanChiDaoResponses
                       ?.map(
                         (e) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16 ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: WidgetInExpandVanBan(
                             row: e.toListRowView(),
                           ),

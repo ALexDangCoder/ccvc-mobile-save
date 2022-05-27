@@ -18,6 +18,7 @@ class TabTienTrinhXuLy extends StatefulWidget {
   }) : super(key: key);
   final ChiTietPaknCubit cubit;
   final String id;
+
   @override
   State<TabTienTrinhXuLy> createState() => _TabTienTrinhXuLyState();
 }
@@ -42,21 +43,22 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
   }
 
   Widget _content() {
-    return StreamBuilder <List<List<ListRowYKND>>>(
+    return StreamBuilder<List<List<ListRowYKND>>>(
       stream: widget.cubit.tienTrinhXuLyRowData,
-      builder: (context, snapshot){
-        final data= snapshot.data??[];
-        if(data.isNotEmpty){
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? [];
+        if (data.isNotEmpty) {
           return Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: data.length,
-              itemBuilder: (context, indexItem){
-                return  Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  margin: const EdgeInsets.only(bottom: 10, left: 16, right: 16),
+              itemBuilder: (context, indexItem) {
+                return Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                  margin:
+                      const EdgeInsets.only(bottom: 10, left: 16, right: 16),
                   decoration: const BoxDecoration(
                     color: containerColorTab,
                     borderRadius: BorderRadius.all(Radius.circular(6)),
@@ -73,15 +75,13 @@ class _TabTienTrinhXuLyState extends State<TabTienTrinhXuLy> {
                     },
                   ),
                 );
-              } ,
+              },
             ),
           );
-        }
-        else{
+        } else {
           return const NodataWidget();
         }
       },
-
     );
   }
 

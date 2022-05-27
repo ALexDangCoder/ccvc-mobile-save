@@ -108,7 +108,7 @@ class _ChiTietNhiemVuTabletScreenState extends State<ChiTietNhiemVuTabletScreen>
                 labelColor: textDefault,
                 unselectedLabelColor: infoColor,
                 indicatorColor: textDefault,
-                labelStyle:  TextStyle(
+                labelStyle: TextStyle(
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w700,
                 ),

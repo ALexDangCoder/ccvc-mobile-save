@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calendar_work_mobile.dart';
@@ -21,6 +20,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class CalendarWorkWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const CalendarWorkWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -30,11 +30,12 @@ class CalendarWorkWidget extends StatefulWidget {
 
 class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
   final LichLamViecCubit _lamViecCubit = LichLamViecCubit();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _lamViecCubit.setChangeKey(SelectKey.LICH_HOP_CUA_TOI);
+    _lamViecCubit.setChangeKey(SelectKey.LICH_CUA_TOI);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         _lamViecCubit.setChangeKey(_lamViecCubit.selectKey);
@@ -51,7 +52,9 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CalenderWorkDayMobile(isBack: true,),
+            builder: (context) => const CalenderWorkDayMobile(
+              isBack: true,
+            ),
           ),
         );
       },
@@ -60,10 +63,7 @@ class _CalendarWorkWidgetState extends State<CalendarWorkWidget> {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _lamViecCubit,
-      listSelect: const [
-        SelectKey.LICH_HOP_CUA_TOI,
-        SelectKey.LICH_CHO_XAC_NHAN
-      ],
+      listSelect: const [SelectKey.LICH_CUA_TOI, SelectKey.LICH_CHO_XAC_NHAN],
       onChangeKey: (value) {
         _lamViecCubit.setChangeKey(value);
       },

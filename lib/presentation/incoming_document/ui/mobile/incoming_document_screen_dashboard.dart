@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/widget/incoming_document_cell.dart';
@@ -25,9 +24,9 @@ class IncomingDocumentScreenDashBoard extends StatefulWidget {
     required this.title,
     required this.startDate,
     required this.endDate,
-     this.isDanhSachChoTrinhKy=false,
-     this.isDanhSachDaXuLy=false,
-     this.isDanhSachChoXuLy=false,
+    this.isDanhSachChoTrinhKy = false,
+    this.isDanhSachDaXuLy = false,
+    this.isDanhSachChoXuLy = false,
     required this.trangThaiFilter,
   }) : super(key: key);
 
@@ -79,8 +78,6 @@ class _IncomingDocumentScreenDashBoardState
       isDanhSachChoXuLy: isDanhSachChoXuLy,
       isDanhSachDaXuLy: isDanhSachDaXuLy,
       isDanhSachChoTrinhKy: isDanhSachChoTrinhKy,
-
-
       trangThaiFilter: trangThaiFilter,
     );
   }
@@ -94,9 +91,9 @@ class _IncomingDocumentScreenDashBoardState
           page,
           widget.startDate,
           widget.endDate,
-          widget.isDanhSachChoTrinhKy??false,
-          widget.isDanhSachDaXuLy??false,
-          widget.isDanhSachChoXuLy??false,
+          widget.isDanhSachChoTrinhKy ?? false,
+          widget.isDanhSachDaXuLy ?? false,
+          widget.isDanhSachChoXuLy ?? false,
           widget.trangThaiFilter,
         )
       },

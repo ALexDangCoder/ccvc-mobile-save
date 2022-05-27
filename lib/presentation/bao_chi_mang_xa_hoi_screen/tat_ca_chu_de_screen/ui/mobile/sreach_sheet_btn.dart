@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/tat_ca_chu_de/tin_tuc_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_de_screen/bloc/chu_de_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/phat_ban_tin/bloc/phat_ban_tin_bloc.dart';
@@ -31,7 +32,19 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
   @override
   void initState() {
     _debounce = Debouncer(milliseconds: 500);
+    widget.cubit.addNull();
+    widget.cubit.search(
+      widget.cubit.getDateMonth(),
+      DateTime.now().formatApiEndDay,
+      '',
+    );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.cubit.clear();
+    super.dispose();
   }
 
   @override
@@ -57,7 +70,7 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
           ),
           Expanded(
             child: StateStreamLayout(
-              textEmpty: S.current.khong_co_du_lieu,
+              textEmpty: S.current.khong_co_thong_tin,
               retry: () {
                 widget.cubit.search(
                   widget.cubit.getDateMonth(),
@@ -77,28 +90,37 @@ class _SearchBanTinBtnSheetState extends State<SearchBanTinBtnSheet> {
                     height: 20,
                   ),
                   Expanded(
-                    child: StreamBuilder<List<TinTucData>>(
+                    child: StreamBuilder<List<TinTucData>?>(
                       stream: widget.cubit.listDataSearch,
                       builder: (context, snapshot) {
                         final data = snapshot.data ?? [];
-                        return ListView.builder(
-                          itemCount: data.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return ItemSearch(
-                              title: data[index].title,
-                              onClick: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WebViewScreen(
-                                        url: data[index].url, title: ''),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        );
+                        return snapshot.data != null
+                            ? data.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: data.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return ItemSearch(
+                                        title: data[index].title,
+                                        onClick: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  WebViewScreen(
+                                                url: data[index].url,
+                                                title: '',
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  )
+                                : NodataWidget(
+                                    title: S.current.khong_co_thong_tin,
+                                  )
+                            : const SizedBox.shrink();
                       },
                     ),
                   ),

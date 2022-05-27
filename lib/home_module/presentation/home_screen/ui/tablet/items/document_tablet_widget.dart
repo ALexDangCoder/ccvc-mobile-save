@@ -1,6 +1,7 @@
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_di_tablet.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
+import 'package:ccvc_mobile/presentation/incoming_document/ui/tablet/incoming_document_tablet.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -11,8 +12,6 @@ import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
-import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/utils/enum_ext.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
@@ -20,6 +19,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class DocumentTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const DocumentTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -29,14 +29,17 @@ class DocumentTabletWidget extends StatefulWidget {
 
 class _DocumentWidgetState extends State<DocumentTabletWidget> {
   final VanBanCubit _vanBanCubit = VanBanCubit();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _vanBanCubit.selectTrangThaiVanBan(
+        _vanBanCubit.selectKey ?? _vanBanCubit.listKey.first);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         _vanBanCubit.selectTrangThaiVanBan(
-          _vanBanCubit.selectKey ?? SelectKey.CHO_VAO_SO,
+          _vanBanCubit.selectKey ?? _vanBanCubit.listKey.first,
         );
       });
     });
@@ -51,43 +54,27 @@ class _DocumentWidgetState extends State<DocumentTabletWidget> {
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
-      selectKeyDialog: _vanBanCubit,
-      listSelect: const [
-        SelectKey.CHO_VAO_SO,
-        SelectKey.CHO_XU_LY_VB_DI,
-        SelectKey.CHO_XU_LY_VB_DEN,
-        SelectKey.CHO_TRINH_KY,
-        SelectKey.CHO_CHO_Y_KIEN_VB_DEN,
-        SelectKey.CHO_CAP_SO,
-        SelectKey.CHO_BAN_HANH
-      ],
+      onTapTitle: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => IncomingDocumentScreenTablet(
+              startDate: '',
+              title: S.current.danh_sach_van_ban_den,
+              endDate: '',
+              type: TypeScreen.VAN_BAN_DEN,
+              maTrangThai: [],
+            ),
+          ),
+        );
+      },
+      listSelect: _vanBanCubit.listKey,
       onChangeKey: (value) {
         if (_vanBanCubit.selectKey == value) {
           return;
         }
         _vanBanCubit.selectTrangThaiVanBan(value);
       },
-      dialogSelect: StreamBuilder<Object>(
-          stream: _vanBanCubit.selectKeyDialog,
-          builder: (context, snapshot) {
-            return DialogSettingWidget(
-              type: widget.homeItemType,
-              listSelectKey: <DialogData>[
-                DialogData(
-                  initValue: _vanBanCubit.selectKeyTime,
-                  onSelect: (value, startDate, endDate) {
-                    _vanBanCubit.selectDate(
-                        selectKey: value,
-                        startDate: startDate,
-                        endDate: endDate);
-                  },
-                  title: S.current.time,
-                    startDate: _vanBanCubit.startDate,
-                    endDate: _vanBanCubit.endDate
-                )
-              ],
-            );
-          }),
       child: LoadingOnly(
         stream: _vanBanCubit.stateStream,
         child: StreamBuilder<List<DocumentModel>>(
@@ -96,8 +83,8 @@ class _DocumentWidgetState extends State<DocumentTabletWidget> {
               final data = snapshot.data ?? <DocumentModel>[];
               if (data.isEmpty) {
                 return const Padding(
-                  padding:  EdgeInsets.symmetric(vertical: 100),
-                  child:  NodataWidget(),
+                  padding: EdgeInsets.symmetric(vertical: 100),
+                  child: NodataWidget(),
                 );
               }
               return ScrollBarWidget(

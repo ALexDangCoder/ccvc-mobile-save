@@ -34,5 +34,9 @@ class TinTongHopModel {
   double share;
   double comment;
 
-  TinTongHopModel({required this.reach, required this.like, required this.share, required this.comment});
+  TinTongHopModel(
+      {required this.reach,
+      required this.like,
+      required this.share,
+      required this.comment});
 }

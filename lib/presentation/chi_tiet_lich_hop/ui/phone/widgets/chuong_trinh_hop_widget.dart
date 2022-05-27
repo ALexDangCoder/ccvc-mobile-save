@@ -3,6 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/list_phien_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chuong_trinh_hop_ex.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/sua_phien_hop.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -44,11 +46,6 @@ class ChuongTrinhHopWidget extends StatefulWidget {
 
 class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: ExpandOnlyWidget(
@@ -69,21 +66,21 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if(widget.cubit.isBtnThemPhienHop())
-            SolidButton(
-              onTap: () {
-                showBottomSheetCustom(
-                  context,
-                  child: ThemPhienHopScreen(
-                    id: widget.id,
-                    cubit: widget.cubit,
-                  ),
-                  title: S.current.them_phien_hop,
-                );
-              },
-              text: S.current.them_phien_hop,
-              urlIcon: ImageAssets.icAddButtonCalenderTablet,
-            ),
+            if (widget.cubit.isBtnThemPhienHop())
+              SolidButton(
+                onTap: () {
+                  showBottomSheetCustom(
+                    context,
+                    child: ThemPhienHopScreen(
+                      id: widget.id,
+                      cubit: widget.cubit,
+                    ),
+                    title: S.current.them_phien_hop,
+                  );
+                },
+                text: S.current.them_phien_hop,
+                urlIcon: ImageAssets.icAddButtonCalenderTablet,
+              ),
             const SizedBox(
               height: 24,
             ),
@@ -99,7 +96,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return CellDetailMeet(
+                    return cellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
                       id: widget.id,
@@ -146,7 +143,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return CellDetailMeet(
+                    return cellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
                       id: widget.id,
@@ -162,7 +159,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
     );
   }
 
-  Widget CellDetailMeet({
+  Widget cellDetailMeet({
     required ListPhienHopModel listPhienHopModel,
     required BuildContext context,
     required String id,

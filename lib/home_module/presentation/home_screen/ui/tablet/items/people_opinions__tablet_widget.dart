@@ -1,11 +1,8 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/chi_tiet_yknd_screen.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/tablet/chi_tiet_yknd_tablet.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/domain/model/home/WidgetType.dart';
-import '/home_module/domain/model/home/document_model.dart';
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
@@ -19,6 +16,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class PeopleOpinionsTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const PeopleOpinionsTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -28,6 +26,7 @@ class PeopleOpinionsTabletWidget extends StatefulWidget {
 
 class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
   final YKienNguoiDanCubit _danCubit = YKienNguoiDanCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,7 +43,7 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
       maxHeight: 415,
-      title: S.current.people_opinions,
+      title: S.current.danh_sach_pakn,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
@@ -95,15 +94,15 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChiTietVanBanTabletScreen(
-                              iD: result.id,
-                              taskID: result.taskId,
-                            ),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ChiTietVanBanTabletScreen(
+                        //       iD: result.id,
+                        //       taskID: result.taskId,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: ContainerInfoWidget(
                         title: result.title,
@@ -112,18 +111,13 @@ class _PeopleOpinionsState extends State<PeopleOpinionsTabletWidget> {
                         listData: [
                           InfoData(
                             urlIcon: ImageAssets.icSoKyHieu,
-                            key: S.current.so,
+                            key: S.current.so_ky_hieu,
                             value: result.kyHieu,
                           ),
                           InfoData(
                             urlIcon: ImageAssets.icAddress,
                             key: S.current.ten_ca_nhan_to_chuc,
                             value: result.noiGui,
-                          ),
-                          InfoData(
-                            urlIcon: ImageAssets.icTime,
-                            key: S.current.han_xu_ly,
-                            value: result.hanXuLyCover,
                           ),
                         ],
                       ),

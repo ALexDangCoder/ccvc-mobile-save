@@ -39,13 +39,15 @@ class CaiDatGiaoDienMobileScreen extends StatefulWidget {
 
 class _CaiDatGiaoDienMobileScreenState
     extends State<CaiDatGiaoDienMobileScreen> {
-  late CaiDatGiaoDienCubit cubit ;
+  late CaiDatGiaoDienCubit cubit;
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     cubit = ProviderWidget.of<CaiDatGiaoDienCubit>(context).cubit;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

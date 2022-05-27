@@ -16,7 +16,6 @@ import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.d
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_with_two_leading.dart';
-import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_calendar_cubit.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -26,7 +25,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CalenderWorkDayMobile extends StatefulWidget {
   final bool isBack;
-  const CalenderWorkDayMobile({Key? key,this.isBack = false}) : super(key: key);
+
+  const CalenderWorkDayMobile({Key? key, this.isBack = false})
+      : super(key: key);
 
   @override
   _CalenderWorkDayMobileState createState() => _CalenderWorkDayMobileState();
@@ -62,17 +63,20 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
               title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                   ? cubit.titleAppbar
                   : snapshot.data?.getTitle() ??
-                  TypeCalendarMenu.LichCuaToi.getTitle(),
+                      TypeCalendarMenu.LichCuaToi.getTitle(),
               leadingIcon: Row(
                 children: [
-                 if (widget.isBack) IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: SvgPicture.asset(
-                      ImageAssets.icBack,
-                    ),
-                  ) else const SizedBox(),
+                  if (widget.isBack)
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: SvgPicture.asset(
+                        ImageAssets.icBack,
+                      ),
+                    )
+                  else
+                    const SizedBox(),
                   IconButton(
                     onPressed: () {
                       setState(() {});
@@ -121,7 +125,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                             },
                             cubit: cubitMenu,
                             streamDashBoard:
-                            cubit.lichLamViecDashBroadSubject.stream,
+                                cubit.lichLamViecDashBroadSubject.stream,
                             title: S.current.lich_lam_viec,
                           ),
                           thenValue: (value) {
@@ -194,7 +198,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                 ),
                 Column(
                   children: [
-                    if (cubit.isCheck)...[
+                    if (cubit.isCheck) ...[
                       BlocBuilder(
                         bloc: cubit,
                         builder: (context, state) {
@@ -289,7 +293,7 @@ Widget itemCalendarWorkIscheck(CalenderCubit cubit) {
                   image: ImageAssets.icTongSoLichLamviec,
                   typeName: S.current.tong_so_lich_lam_viec,
                   numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                      .countScheduleCaNhan ??
+                          .countScheduleCaNhan ??
                       0,
                 );
               },
@@ -346,7 +350,7 @@ Widget itemCalendarWorkDefault(CalenderCubit cubit) {
                     image: ImageAssets.icTongSoLichLamviec,
                     typeName: S.current.tong_so_lich_lam_viec,
                     numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                        .countScheduleCaNhan ??
+                            .countScheduleCaNhan ??
                         0,
                   );
                 },

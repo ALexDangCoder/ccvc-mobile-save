@@ -2,7 +2,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/chon_anh.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/sua_anh_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/select_date.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
@@ -13,7 +13,9 @@ import 'package:ccvc_mobile/tien_ich_module/widget/radio_button/custom_radio_but
 import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/text_form_field_them_moi.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SuaDanhBaCaNhan extends StatefulWidget {
   final Items item;
@@ -43,6 +45,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
   TextEditingController sdtCoquanController = TextEditingController();
   bool gioiTinh = false;
   String ngaySinh = '';
+  final toast = FToast();
 
   @override
   void initState() {
@@ -56,6 +59,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
     sdtCoquanController.text = widget.item.phoneCoQuan ?? '';
     sdtRiengController.text = widget.item.phoneNhaRieng ?? '';
     ngaySinh = widget.item.ngaySinh ?? '';
+    toast.init(context);
   }
 
   @override
@@ -69,7 +73,11 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
               child: Column(
                 children: [
                   spaceH24,
-                  const AvatarDanhBa(),
+                  SuaAvatarDanhBa(
+                    toast: toast,
+                    cubit: widget.cubit,
+                    item: widget.item,
+                  ),
                   TextFieldStyle(
                     controller: hoTenController,
                     urlIcon: ImageAssets.icEditDb,
@@ -134,6 +142,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       return (value ?? '').checkSdtRequire();
                     },
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     controller: sdtCoquanController,
@@ -146,6 +155,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     validator: (value) {
                       return (value ?? '').checkSdtRequire();
                     },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     controller: sdtRiengController,
@@ -157,6 +167,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                     validator: (value) {
                       return (value ?? '').checkSdtRequire();
                     },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   spaceH16,
                   CustomRadioButton(
@@ -187,7 +198,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                           gioiTinh: gioiTinh,
                           ngaySinh: ngaySinh,
                           cmtnd: cmtndController.text,
-                          anhDaiDienFilePath: widget.cubit.anhDaiDienFilePath,
+                          anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
                               widget.cubit.anhChuKyNhayFilePath,
@@ -228,7 +239,11 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
               child: Column(
                 children: [
                   spaceH24,
-                  const AvatarDanhBa(),
+                  SuaAvatarDanhBa(
+                    toast: toast,
+                    cubit: widget.cubit,
+                    item: widget.item,
+                  ),
                   TextFieldStyle(
                     controller: hoTenController,
                     urlIcon: ImageAssets.icEditDb,
@@ -297,6 +312,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       return (value ?? '').checkSdtRequire();
                     },
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     controller: sdtCoquanController,
@@ -309,6 +325,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       return (value ?? '').checkSdtRequire();
                     },
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     controller: sdtRiengController,
@@ -321,6 +338,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       return (value ?? '').checkSdtRequire();
                     },
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     controller: diaDiemController,
@@ -345,7 +363,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                           gioiTinh: gioiTinh,
                           ngaySinh: ngaySinh,
                           cmtnd: cmtndController.text,
-                          anhDaiDienFilePath: widget.cubit.anhDaiDienFilePath,
+                          anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
                               widget.cubit.anhChuKyNhayFilePath,

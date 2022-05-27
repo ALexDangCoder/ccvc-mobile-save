@@ -25,7 +25,9 @@ class CalendarMeetingModel {
   final bool isHopTrucTuyen;
   final int trangThaiTheoUser;
   final String typeSchedule;
+  final int trangThaiHanXuLy;
   ScreenTypeMetting screenTypeMetting = ScreenTypeMetting.LICH_LAM_VIEC;
+
   CalendarMeetingModel({
     this.title = '',
     this.time = '',
@@ -44,6 +46,7 @@ class CalendarMeetingModel {
     this.trangThaiTheoUser = 0,
     this.nguoiChuTriId = '',
     this.typeSchedule = '',
+    this.trangThaiHanXuLy = -1,
   }) {
     codeStatus = fromEnum();
     screenTypeMetting = enumScreen();
@@ -94,6 +97,17 @@ class CalendarMeetingModel {
         return DocumentStatus.CHO_XAC_NHAN;
       case _THAM_GIA:
         return DocumentStatus.THAM_GIA;
+    }
+  }
+
+  DocumentStatus? get trangThaiHanXuLyEnum {
+    switch (trangThaiHanXuLy) {
+      case 0:
+        return DocumentStatus.DEN_HAN;
+      case 1:
+        return DocumentStatus.TRONG_HAN;
+      case 2:
+        return DocumentStatus.QUA_HAN;
     }
   }
 }

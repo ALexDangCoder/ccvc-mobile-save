@@ -4,6 +4,7 @@ class YKienModel {
   String imgAvatar = '';
   String fileName = '';
   String content;
+
   YKienModel({
     required this.time,
     required this.fileName,

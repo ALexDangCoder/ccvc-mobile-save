@@ -16,13 +16,17 @@ class TrongNuocResponse {
   @JsonKey(name: 'message')
   String? message;
 
-  TrongNuocResponse(this.data,
-      this.statusCode,
-      this.succeeded,
-      this.code,
-      this.message,);
+  TrongNuocResponse(
+    this.data,
+    this.statusCode,
+    this.succeeded,
+    this.code,
+    this.message,
+  );
 
-  factory TrongNuocResponse.fromJson(Map<String, dynamic> json,) =>
+  factory TrongNuocResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$TrongNuocResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$TrongNuocResponseToJson(this);
@@ -45,27 +49,31 @@ class DataTrongNuocResponse {
   @JsonKey(name: 'totalPages')
   int? totalPages;
 
-  DataTrongNuocResponse({required this.hasNextPage,
-    required this.hasPreviousPage,
-    required this.pageData,
-    required this.pageIndex,
-    required this.totalIndex,
-    required this.totalItems,
-    required this.totalPages});
+  DataTrongNuocResponse(
+      {required this.hasNextPage,
+      required this.hasPreviousPage,
+      required this.pageData,
+      required this.pageIndex,
+      required this.totalIndex,
+      required this.totalItems,
+      required this.totalPages});
 
-  factory DataTrongNuocResponse.fromJson(Map<String, dynamic> json,) =>
+  factory DataTrongNuocResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$DataTrongNuocResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataTrongNuocResponseToJson(this);
 
-  TrongNuocModel toModel() =>
-      TrongNuocModel(hasNextPage: hasNextPage,
-          hasPreviousPage: hasPreviousPage,
-          pageData: pageData?.map((e) => e.toModel()).toList() ?? [],
-          pageIndex: pageIndex,
-          totalIndex: totalIndex,
-          totalItems: totalItems,
-          totalPages: totalPages,);
+  TrongNuocModel toModel() => TrongNuocModel(
+        hasNextPage: hasNextPage,
+        hasPreviousPage: hasPreviousPage,
+        pageData: pageData?.map((e) => e.toModel()).toList() ?? [],
+        pageIndex: pageIndex,
+        totalIndex: totalIndex,
+        totalItems: totalItems,
+        totalPages: totalPages,
+      );
 }
 
 @JsonSerializable()
@@ -89,23 +97,25 @@ class ItemTrongNuocResponse {
   @JsonKey(name: 'tenCoQuanLienHe')
   String? tenCoQuanLienHe;
 
-  ItemTrongNuocResponse({required this.category,
-    required this.categoryTitle,
-    required this.diaChi,
-    required this.email,
-    required this.fax,
-    required this.id,
-    required this.imageUrlPath,
-    required this.sdt,
-    required this.tenCoQuanLienHe});
+  ItemTrongNuocResponse(
+      {required this.category,
+      required this.categoryTitle,
+      required this.diaChi,
+      required this.email,
+      required this.fax,
+      required this.id,
+      required this.imageUrlPath,
+      required this.sdt,
+      required this.tenCoQuanLienHe});
 
-  factory ItemTrongNuocResponse.fromJson(Map<String, dynamic> json,) =>
+  factory ItemTrongNuocResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$ItemTrongNuocResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemTrongNuocResponseToJson(this);
 
-  ItemTrongNuocModel toModel() =>
-      ItemTrongNuocModel(
+  ItemTrongNuocModel toModel() => ItemTrongNuocModel(
         category: category,
         categoryTitle: categoryTitle,
         diaChi: diaChi,
@@ -114,5 +124,6 @@ class ItemTrongNuocResponse {
         id: id,
         imageUrlPath: imageUrlPath,
         sdt: sdt,
-        tenCoQuanLienHe: tenCoQuanLienHe,);
+        tenCoQuanLienHe: tenCoQuanLienHe,
+      );
 }

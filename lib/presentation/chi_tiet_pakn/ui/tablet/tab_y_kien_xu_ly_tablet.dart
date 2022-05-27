@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -14,7 +17,9 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/map_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -60,6 +65,9 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
       if (_extensionName == 'VIDEO' ||
           _extensionName == 'MP3' ||
           _extensionName == 'MP4' ||
+          _extensionName == 'APK' ||
+          _extensionName == 'IPA' ||
+          _extensionName == 'DEB' ||
           _extensionName == 'GIF') {
         MessageConfig.show(
           title: S.current.file_khong_hop_le,
@@ -146,29 +154,41 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                         cubit.isLoading = false;
                         await widget.cubit.refreshPosts();
                       },
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: cubit.listYKienXuLy.length,
-                        itemBuilder: (context, index) {
-                          return _itemViewDetail(
-                            sizeImage: 32,
-                            list: [],
-                            //todo list
-                            index: index,
-                            avatar: '',
-                            //todo avatar
-                            time: cubit.listYKienXuLy[index].ngayTao,
-                            name: cubit.listYKienXuLy[index].tenNguoiChoYKien ??
-                                '',
-                            indexMain: index,
-                            file: cubit.listYKienXuLy[index].dSFile ?? [],
-                            isViewData:
-                                cubit.listYKienXuLy[index].dSFile?.isNotEmpty ??
-                                    false,
-                            noiDung: cubit.listYKienXuLy[index].noiDung ?? '',
-                          );
-                        },
-                      ),
+                      child: state is ChiTietPaknSuccess
+                          ? cubit.listYKienXuLy.isNotEmpty
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: cubit.listYKienXuLy.length,
+                                  itemBuilder: (context, index) {
+                                    return _itemViewDetail(
+                                      sizeImage: 32,
+                                      list: [],
+                                      //todo list
+                                      index: index,
+                                      avatar: cubit.listYKienXuLy[index]
+                                              .anhDaiDienNguoiCho ??
+                                          '',
+                                      time: cubit.listYKienXuLy[index].ngayTao,
+                                      name: cubit.listYKienXuLy[index]
+                                              .tenNguoiChoYKien ??
+                                          '',
+                                      indexMain: index,
+                                      file: cubit.listYKienXuLy[index].dSFile ??
+                                          [],
+                                      isViewData: cubit.listYKienXuLy[index]
+                                              .dSFile?.isNotEmpty ??
+                                          false,
+                                      noiDung:
+                                          cubit.listYKienXuLy[index].noiDung ??
+                                              '',
+                                    );
+                                  },
+                                )
+                              : const Padding(
+                                  padding: EdgeInsets.only(top: 16.0),
+                                  child: NodataWidget(),
+                                )
+                          : const SizedBox.shrink(),
                     ),
                   ),
                 ),
@@ -242,9 +262,7 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                   shape: BoxShape.circle,
                 ),
                 child: Image.network(
-                  avatar.isNotEmpty
-                      ? avatar
-                      : 'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png',
+                  avatar.isNotEmpty ? avatar : AVATAR_DEFAULT,
                   width: sizeImage,
                   height: sizeImage,
                   fit: BoxFit.cover,
@@ -324,8 +342,8 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                             await Permission.manageExternalStorage.request();
                           }
                           await saveFile(
-                            dataSnb.ten ?? '',
-                            dataSnb.duongDan,
+                            dataSnb.ten.toString(),
+                            dataSnb.duongDan.toString(),
                           )
                               .then(
                                 (value) => MessageConfig.show(
@@ -475,14 +493,65 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    final Map<String, dynamic> mediaMapImage =
-                                        await pickImage(fromCamera: true);
-                                    addDataListPick(
-                                      mediaMapImage,
-                                      isMain
-                                          ? PickImage.PICK_MAIN
-                                          : PickImage.PICK_Y_KIEN,
-                                    );
+                                    if (Platform.isIOS) {
+                                      unawaited(
+                                        showCupertinoModalPopup(
+                                          context: context,
+                                          builder: (_) => CupertinoActionSheet(
+                                            actions: [
+                                              CupertinoActionSheetAction(
+                                                onPressed: () async {
+                                                  Navigator.pop(context);
+                                                  final Map<String, dynamic>
+                                                      mediaMapImage =
+                                                      await pickImage(
+                                                    fromCamera: true,
+                                                  );
+                                                  addDataListPick(
+                                                    mediaMapImage,
+                                                    isMain
+                                                        ? PickImage.PICK_MAIN
+                                                        : PickImage.PICK_Y_KIEN,
+                                                  );
+                                                },
+                                                child: Text(S.current.may_anh),
+                                              ),
+                                              CupertinoActionSheetAction(
+                                                onPressed: () async {
+                                                  Navigator.pop(context);
+                                                  final Map<String, dynamic>
+                                                      mediaMapImage =
+                                                      await pickImage();
+                                                  addDataListPick(
+                                                    mediaMapImage,
+                                                    isMain
+                                                        ? PickImage.PICK_MAIN
+                                                        : PickImage.PICK_Y_KIEN,
+                                                  );
+                                                },
+                                                child: Text(S.current.thu_vien),
+                                              ),
+                                            ],
+                                            cancelButton:
+                                                CupertinoActionSheetAction(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(S.current.cancel),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      final Map<String, dynamic> mediaMapImage =
+                                          await pickImage(fromCamera: true);
+                                      addDataListPick(
+                                        mediaMapImage,
+                                        isMain
+                                            ? PickImage.PICK_MAIN
+                                            : PickImage.PICK_Y_KIEN,
+                                      );
+                                    }
                                   },
                                   child: SvgPicture.asset(
                                     ImageAssets.ic_cam,
@@ -578,7 +647,6 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                       }
                     }
                   } else {
-                    //todo
                     if (widget.cubit.listPickFileMain.isNotEmpty) {
                       for (final PickImageFileModel value
                           in widget.cubit.listPickFileMain) {
@@ -597,18 +665,18 @@ class _TabYKienXuLyTabletState extends State<TabYKienXuLyTablet> {
                           file: widget.cubit.listFileMain,
                         );
                         if (result.isNotEmpty) {
-                          MessageConfig.show(
-                            title: S.current.tao_y_kien_xu_ly_thanh_cong,
-                          );
+                          // MessageConfig.show(
+                          //   title: S.current.tao_y_kien_xu_ly_thanh_cong,
+                          // );
                           _nhapYMainController.text = '';
                           widget.cubit.listFileMain.clear();
                           widget.cubit.listPickFileMain.clear();
                           setState(() {});
                         } else {
-                          MessageConfig.show(
-                            title: S.current.tao_y_kien_xu_ly_that_bai,
-                            messState: MessState.error,
-                          );
+                          // MessageConfig.show(
+                          //   title: S.current.tao_y_kien_xu_ly_that_bai,
+                          //   messState: MessState.error,
+                          // );
                         }
                       }
                     } else {

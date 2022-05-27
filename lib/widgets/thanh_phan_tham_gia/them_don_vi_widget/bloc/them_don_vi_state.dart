@@ -8,6 +8,7 @@ class SearchInit extends ThemDonViState {
   @override
   List<Object> get props => [];
 }
+
 class MainStateInitial extends ThemDonViState {
   @override
   List<Object> get props => [];

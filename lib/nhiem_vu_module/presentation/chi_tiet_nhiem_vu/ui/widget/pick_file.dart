@@ -13,7 +13,6 @@ const String VALID_FORMAT_OF_FILE = 'valid_format';
 const String NAME_OF_FILE = 'name';
 const String FILE_RESULT = 'file_result';
 
-
 Future<Map<String, dynamic>> pickFile() async {
   String _filePath = '';
   String _fileExtension = '';
@@ -21,7 +20,13 @@ Future<Map<String, dynamic>> pickFile() async {
   String _fileName = '';
   final FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
-    allowedExtensions: ['jpg', 'pdf', 'doc','xls','xlsx',],
+    allowedExtensions: [
+      'jpg',
+      'pdf',
+      'doc',
+      'xls',
+      'xlsx',
+    ],
   );
   if (result != null) {
     _fileExtension = (result.files.single.extension ?? '').toUpperCase();
@@ -60,7 +65,7 @@ Future<Map<String, dynamic>> pickImage({bool fromCamera = false}) async {
         File(newImage.path).readAsBytesSync().lengthInBytes;
     _resultMap[PATH_OF_FILE] = newImage.path;
     _resultMap[NAME_OF_FILE] = p.basename(p.basename(newImage.path));
-    _resultMap[FILE_RESULT] = newImage;
+    _resultMap[FILE_RESULT] = [File(newImage.path)];
     return _resultMap;
   } on PlatformException catch (e) {
     throw 'Cant upload image $e';

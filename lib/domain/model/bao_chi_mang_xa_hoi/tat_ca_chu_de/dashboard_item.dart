@@ -30,7 +30,8 @@ class ItemInfomationModel {
 }
 
 class DashBoardModel {
-  List<ItemInfomationModel>listItemDashBoard;
+  List<ItemInfomationModel> listItemDashBoard;
+
   DashBoardModel({required this.listItemDashBoard});
 }
 
@@ -50,4 +51,3 @@ List<Color> listColorsItemDashBoard = [
   textColorBlog,
   textColorNguonKhac,
 ];
-

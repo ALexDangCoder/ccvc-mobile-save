@@ -238,7 +238,7 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                             ),
                             Text(
                               S.current.keep_drop,
-                              style: const TextStyle(color: textTitle),
+                              style:textNormalCustom(color: textTitle),
                             ),
                           ],
                         ),

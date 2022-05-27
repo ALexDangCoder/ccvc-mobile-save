@@ -1,11 +1,13 @@
 import 'dart:developer';
 
-import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
-import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
-import 'package:ccvc_mobile/home_module/widgets/text/views/loading_only.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
+
+import '/home_module/domain/model/home/WidgetType.dart';
+import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
+import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
+import '/home_module/presentation/home_screen/ui/home_provider.dart';
+import '/home_module/widgets/text/text/no_data_widget.dart';
+import '/home_module/widgets/text/views/loading_only.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -31,15 +33,16 @@ class PhanAnhKienNghiDonViWidget extends StatefulWidget {
 class _PhanAnhKienNghiDonViWidgetState
     extends State<PhanAnhKienNghiDonViWidget> {
   late HomeCubit cubit;
-  final TinhHinhXuLyYKienCubit _phanAnhKienNghiCubit = TinhHinhXuLyYKienCubit();
+  final TinhHinhXuLyPAKNCubit _phanAnhKienNghiCubit = TinhHinhXuLyPAKNCubit();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _phanAnhKienNghiCubit.callApi();
+    _phanAnhKienNghiCubit.callApi(true);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
+        _phanAnhKienNghiCubit.callApi(true);
         // _vanBanDonViCubit.getDocument();
       });
     });
@@ -63,7 +66,7 @@ class _PhanAnhKienNghiDonViWidgetState
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ContainerBackgroundWidget(
-       minHeight: 0,
+        minHeight: 0,
         isShowSubTitle: false,
         title: S.current.phan_anh_kien_nghi_don_vi,
         onTapIcon: () {
@@ -72,26 +75,28 @@ class _PhanAnhKienNghiDonViWidgetState
         selectKeyDialog: _phanAnhKienNghiCubit,
         child: LoadingOnly(
           stream: _phanAnhKienNghiCubit.stateStream,
-          child: StreamBuilder<List<TinhHinhYKienModel>>(
+          child: StreamBuilder<DocumentDashboardModel>(
               stream: _phanAnhKienNghiCubit.getTinhHinhXuLy,
               builder: (context, snapshot) {
-
-                final data = snapshot.data ?? <TinhHinhYKienModel>[];
-                if(data.isEmpty){
-                  return const Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 50),
-                    child: NodataWidget(),
-                  );
-                }
+                final data = snapshot.data ?? DocumentDashboardModel();
                 return statusBarWidget(
-                  List.generate(
-                    data.length,
-                    (index) => ChartData(
-                      data[index].status,
-                      data[index].soLuong.toDouble(),
-                      TinhHinhYKienModel.listColor[index],
+                  [
+                    ChartData(
+                      S.current.dang_xu_ly,
+                      data.soLuongDangXuLy.toDouble(),
+                      choVaoSoColor,
                     ),
-                  ),
+                    ChartData(
+                      S.current.da_qua_han,
+                      data.soLuongQuaHan.toDouble(),
+                      statusCalenderRed,
+                    ),
+                    ChartData(
+                      S.current.da_hoan_thanh,
+                      data.soLuongDaHoanThanh.toDouble(),
+                      itemWidgetUsing,
+                    )
+                  ],
                 );
               }),
         ),

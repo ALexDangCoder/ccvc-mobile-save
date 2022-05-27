@@ -1,5 +1,7 @@
-import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
-import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
+import '/home_module/data/request/account/gui_loi_chuc_request.dart';
+import '/home_module/data/response/home/danh_sach_thiep_response.dart';
+import '/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
+import '/home_module/data/response/home/gui_loi_chuc_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -37,6 +39,11 @@ abstract class HomeServiceGateWay {
   @factoryMethod
   factory HomeServiceGateWay(Dio dio, {String baseUrl}) = _HomeServiceGateWay;
 
+  
+  @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
+  Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(@Query('isDonVi') bool isDonVi);
+  
+  
   @POST(ApiConstants.GET_PHAM_VI)
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
@@ -67,12 +74,12 @@ abstract class HomeServiceGateWay {
     @Body() SearchVBRequest searchVBRequest,
   );
 
-  @GET(ApiConstants.TONG_HOP_NHIEM_VU)
+  @POST(ApiConstants.TONG_HOP_NHIEM_VU)
   @FormUrlEncoded()
   Future<TongHopNhiemVuResponse> getTongHopNhiemVu(
-    @Query('isCaNhan') bool isCaNhan,
-    @Query('ngayDauTien') String ngayDauTien,
-    @Query('ngayCuoiCung') String ngayCuoiCung,
+    @Query('UserId') String userId,
+    @Query('CanBoId') String canBoId,
+    @Query('DonViId') String donViId,
   );
 
   @POST(ApiConstants.NHIEM_VU_GET_ALL)
@@ -173,5 +180,7 @@ abstract class HomeServiceCCVC {
 
   @GET(ApiConstants.GET_TIN_BUON)
   Future<TinhHuongKhanCapResponse> getTinBuon();
+  @GET(ApiConstants.GET_LIST_THONG_TIN_THIEP)
+  Future<DanhSachThiepResponse> getDanhSachThiep(@Query('pageIndex') int pageIndex,@Query('pageSize') int pageSize);
 
 }

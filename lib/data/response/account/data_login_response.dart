@@ -80,6 +80,7 @@ class UserInformationResponse {
         gioiTinh: gioiTinh,
         ngaySinh: ngaySinh,
         soDienThoai: soDienThoai,
+    canBoDepartmentId: canBoDepartmentId ?? '',
       );
   UserInformationResponse();
   factory UserInformationResponse.fromJson(Map<String, dynamic> json) =>

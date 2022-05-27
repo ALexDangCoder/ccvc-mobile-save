@@ -1,7 +1,10 @@
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/danh_sach_thiep_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
@@ -124,18 +127,18 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<TongHopNhiemVuModel>>> getTongHopNhiemVu(
-    bool isCaNhan,
-    String ngayDauTien,
-    String ngayCuoiCung,
+  Future<Result<DocumentDashboardModel>> getTongHopNhiemVu(
+    String userId,
+    String canBoId,
+    String donViId,
   ) {
-    return runCatchingAsync<TongHopNhiemVuResponse, List<TongHopNhiemVuModel>>(
+    return runCatchingAsync<TongHopNhiemVuResponse, DocumentDashboardModel>(
       () => _homeServiceGateWay.getTongHopNhiemVu(
-        isCaNhan,
-        ngayDauTien,
-        ngayCuoiCung,
+        userId,
+        canBoId,
+        donViId,
       ),
-      (res) => res.toDomain(),
+      (res) => res.data?.toDomain() ?? DocumentDashboardModel(),
     );
   }
 
@@ -285,5 +288,22 @@ class HomeImpl extends HomeRepository {
     return runCatchingAsync<GuiLoiChucResponse, MessageModel>(
         () => _homeServiceCCVC.guiLoiChuc(guiLoiChucRequest),
         (res) => res.toDomain());
+  }
+
+  @override
+  Future<Result<List<ThiepSinhNhatModel>>> listThiepMoi() {
+    return runCatchingAsync<DanhSachThiepResponse, List<ThiepSinhNhatModel>>(
+      () => _homeServiceCCVC.getDanhSachThiep(1, 100),
+      (res) => res.data?.pageData?.map((e) => e.toDomain()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
+      bool isDonVi) {
+    return runCatchingAsync<DashboardTinhHinhPAKNResponse,
+            DocumentDashboardModel>(
+        () => _homeServiceGateWay.getDashboardTinhHinhPAKN(isDonVi),
+        (res) => res.data?.toDomain() ?? DocumentDashboardModel());
   }
 }

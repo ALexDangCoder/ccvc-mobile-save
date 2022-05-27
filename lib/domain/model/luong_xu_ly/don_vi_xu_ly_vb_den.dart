@@ -84,5 +84,8 @@ class DonViLuongModel  {
     }
     return Colors.black;
   }
+  bool isRoot(){
+    return vaiTro == 'ROOT';
+  }
 
 }

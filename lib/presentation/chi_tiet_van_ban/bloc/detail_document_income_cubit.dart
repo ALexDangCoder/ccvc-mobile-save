@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
@@ -6,7 +7,9 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:get/get.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'detai_doccument_state.dart';
@@ -85,18 +88,75 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
   List<DanhSachYKienXuLy> listComment = [];
 
-  Future<void> getDanhSachYKienXuLy(String vanBanId) async {
+  Future<void> getListCommend(String id) async {
+    listComment.clear();
     showLoading();
+    final Queue queue = Queue(parallel: 2);
+    unawaited(queue.add(() => getDanhSachYKienXuLy(id)));
+    unawaited(queue.add(() => getLichSuXinYKien(id)));
+    await queue.onComplete.whenComplete(() {
+      showContent();
+    });
+  }
+
+  Future<void> comment(
+    String comment,
+    List<PickImageFileModel> listFile,
+  ) async {
+    final listIdFile = await postListFile(listFile);
+    await postComment(comment, listIdFile);
+  }
+
+  Future<void> postComment(String comment, List<String> listIdFile) async {}
+
+  Future<List<String>> postListFile(List<PickImageFileModel> listPath) async {
+    final List<String> idFileUpload = [];
+    final Queue queue = Queue(parallel: listPath.length);
+    for (final element in listPath) {
+      unawaited(
+        queue.add(
+          () => uploadFile(element.path ?? '' , idFileUpload),
+        ),
+      );
+    }
+    await queue.onComplete;
+    return idFileUpload;
+  }
+
+  Future<void> uploadFile(String path,  List<String> idFileUpload) async {
+    final result = await _qLVBRepo.postFile(
+      path: File(path),
+    );
+    result.when(
+      success: (data) {
+        if (data != 'false') {
+          idFileUpload.add(data);
+        }
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getDanhSachYKienXuLy(String vanBanId) async {
     final result = await _qLVBRepo.getDataDanhSachYKien(vanBanId);
     result.when(
       success: (res) {
-        showContent();
-        listComment = res.data ?? [];
-        danhSachYKienXuLySubject.add(res.data ?? []);
+        listComment.addAll(res.data ?? []);
+        danhSachYKienXuLySubject.add(listComment);
       },
-      error: (error) {
-        showError();
+      error: (error) {},
+    );
+  }
+
+  Future<void> getLichSuXinYKien(String vanBanId) async {
+    showLoading();
+    final result = await _qLVBRepo.getLichSuXinYKien(vanBanId);
+    result.when(
+      success: (res) {
+        listComment.addAll(res.data ?? []);
+        danhSachYKienXuLySubject.add(listComment);
       },
+      error: (error) {},
     );
   }
 }

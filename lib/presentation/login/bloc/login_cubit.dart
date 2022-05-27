@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/device_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -82,22 +84,16 @@ class LoginCubit extends BaseCubit<LoginState> {
         createDevice();
       },
       error: (err) {
+        if(err is NoNetworkException){
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }else
         if (err.code == 401) {
           thongBao.sink.add(S.current.sai_tai_khoan_hoac_mat_khau);
-          // toast.showToast(
-          //   child: ShowToast(
-          //     text: S.current.sai_tai_khoan_hoac_mat_khau,
-          //   ),
-          //   gravity: ToastGravity.BOTTOM,
-          // );
         } else {
           thongBao.sink.add(S.current.dang_nhap_khong_thanh_cong);
-          // toast.showToast(
-          //   child: ShowToast(
-          //     text: S.current.dang_nhap_khong_thanh_cong,
-          //   ),
-          //   gravity: ToastGravity.BOTTOM,
-          // );
         }
         emit(LoginError(err.message));
         showContent();

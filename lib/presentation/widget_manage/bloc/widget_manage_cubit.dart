@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage__state
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/subjects.dart';
 
 import '/home_module/domain/model/home/WidgetType.dart';
@@ -40,7 +41,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetTypeConstant.TONG_HOP_HCC,
   ];
 
-  void _getListWidgetUsing() {
+  Future<void> _getListWidgetUsing() async {
     if (APP_DEVICE == DeviceType.TABLET) {
       listUsing = keyHomeTablet.currentState?.homeCubit.getListWidget ?? [];
     } else {
@@ -54,10 +55,14 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     }
   }
 
-  void loadApi() {
-    _getListWidgetUsing();
-    _getListWidgetNotUse();
-    setFullParaNotUse();
+  Future<void>loadApi() async{
+    final queue = Queue(parallel: 3);
+    await queue.add(() => _getListWidgetUsing());
+    await queue.add(() => setFullParaNotUse());
+    await queue.add(() => _getListWidgetNotUse());
+    await queue.onComplete;
+    showContent();
+    queue.dispose();
   }
 
   void insertItemUsing(
@@ -114,7 +119,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   Future<void> _getListWidgetNotUse() async {
     listNotUse.clear();
-    showLoading();
     final result = await _qlWidgetRepo.getListWidget();
     result.when(
       success: (res) {
@@ -130,7 +134,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
           }
         }
         _listWidgetNotUse.sink.add(listNotUse);
-        showContent();
       },
       error: (err) {
         return;

@@ -1,8 +1,10 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_state.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -50,16 +52,18 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
         message = model.messages?.first ?? '';
         if (model.isSuccess == false) {
           thongBao.sink.add(S.current.mat_khau_hien_tai_chua_dung);
-          // toast.showToast(
-          //   child: ShowToast(
-          //     text: S.current.mat_khau_hien_tai_chua_dung,
-          //   ),
-          //   gravity: ToastGravity.BOTTOM,
-          // );
         }
         showContent();
       },
-      error: (err) {},
+      error: (err) {
+        if (err is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        }
+        showContent();
+      },
     );
   }
 }

@@ -4,6 +4,23 @@ import 'package:json_annotation/json_annotation.dart';
 part 'up_load_anh_response.g.dart';
 
 @JsonSerializable()
+class PostFileResponse  {
+  @JsonKey(name: 'IsSuccess')
+  bool? isSuccess;
+  @JsonKey(name: 'Data')
+  dynamic data;
+
+  PostFileResponse(this.isSuccess,this.data,);
+
+  factory PostFileResponse.fromJson(Map<String, dynamic> json) =>
+      _$PostFileResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$PostFileResponseToJson(this);
+
+}
+
+
+
+@JsonSerializable()
 class UpLoadAnhResponse {
   @JsonKey(name: 'data')
   DataUpLoadAnhResponse? data;

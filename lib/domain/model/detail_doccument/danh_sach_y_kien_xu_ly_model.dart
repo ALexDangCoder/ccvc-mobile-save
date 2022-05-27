@@ -14,21 +14,55 @@ class DataDanhSachYKienXuLy {
   });
 }
 
+class TraLoiYKien {
+  String id;
+  String taskXinYKienId;
+  String nguoiTraLoiId;
+  String hoTenNguoiTraLoi;
+  String donViNguoiTraLoi;
+  String chucVuNguoiTraLoi;
+  String noiDungTraLoi;
+  String thoiGianTraLoi;
+  String thoiGianTraLoiStr;
+  bool isDaTraLoi;
+  List<YKienXuLyFileDinhKem>? lstFileDinhKemTraLoi;
+  bool isSign;
+  bool issuer;
+  String avatarCommon;
+  String avatar;
+
+  TraLoiYKien({
+    this.id = '',
+    this.taskXinYKienId = '',
+    this.nguoiTraLoiId = '',
+    this.hoTenNguoiTraLoi = '',
+    this.donViNguoiTraLoi = '',
+    this.chucVuNguoiTraLoi = '',
+    this.noiDungTraLoi = '',
+    this.thoiGianTraLoi = '',
+    this.thoiGianTraLoiStr = '',
+    this.isDaTraLoi = false,
+    this.lstFileDinhKemTraLoi,
+    this.isSign = false,
+    this.issuer = false,
+    this.avatarCommon = '',
+    this.avatar = '',
+  });
+}
+
 class DanhSachYKienXuLy {
   String? id;
   String? vanBanId;
-  bool isInput = false;
   String? taskId;
   String? noiDung;
   String? nguoiTaoId;
   String? ngayTao;
   String? ngaySua;
   String? hashValue;
-  String? hashAlg;
+  List<TraLoiYKien>? listTraloiYKien;
   bool? isSign;
+  bool canRelay = false;
   bool? issuer;
-  String? signerInfos;
-  String? serialNumber;
   String? tenNhanVien;
   String? chucVu;
   String? phanXuLy;
@@ -37,7 +71,7 @@ class DanhSachYKienXuLy {
   List<YKienXuLyFileDinhKem>? yKienXuLyFileDinhKem;
 
   DanhSachYKienXuLy({
-    this.isInput = false,
+    this.listTraloiYKien,
     this.id,
     this.vanBanId,
     this.taskId,
@@ -46,11 +80,9 @@ class DanhSachYKienXuLy {
     this.ngayTao,
     this.ngaySua,
     this.hashValue,
-    this.hashAlg,
     this.isSign,
+    this.canRelay = false,
     this.issuer,
-    this.signerInfos,
-    this.serialNumber,
     this.tenNhanVien,
     this.chucVu,
     this.phanXuLy,

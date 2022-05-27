@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,25 +9,25 @@ class ItemListBangTin extends StatelessWidget {
   bool isCheck;
   Function() onclick;
 
-  ItemListBangTin(
-      {Key? key,
-      required this.tin,
-      required this.isCheck,
-      required this.onclick,})
-      : super(key: key);
+  ItemListBangTin({
+    Key? key,
+    required this.tin,
+    required this.isCheck,
+    required this.onclick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           onclick();
         },
         child: Row(
           children: [
             if (isCheck)
-               Icon(
+              Icon(
                 Icons.double_arrow,
                 color: AppTheme.getInstance().colorField(),
                 size: 14,
@@ -42,7 +41,9 @@ class ItemListBangTin extends StatelessWidget {
             ),
             Icon(
               Icons.brightness_1,
-              color: isCheck ? AppTheme.getInstance().colorField() : sideTextInactiveColor,
+              color: isCheck
+                  ? AppTheme.getInstance().colorField()
+                  : AppTheme.getInstance().sideTextInactiveColor(),
               size: 8,
             ),
             const SizedBox(
@@ -54,7 +55,9 @@ class ItemListBangTin extends StatelessWidget {
                 style: textNormalCustom(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  color: isCheck ? AppTheme.getInstance().colorField() : infoColor,
+                  color: isCheck
+                      ? AppTheme.getInstance().colorField()
+                      : AppTheme.getInstance().sideTextInactiveColor(),
                 ),
               ),
             )

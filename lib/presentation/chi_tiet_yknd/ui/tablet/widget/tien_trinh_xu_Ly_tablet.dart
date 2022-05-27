@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 class TienTrinhXuLyScreenTablet extends StatefulWidget {
   final List<DataRowChiTietKienNghi> listRow;
 
-  const TienTrinhXuLyScreenTablet({Key? key, required this.listRow}) : super(key: key);
+  const TienTrinhXuLyScreenTablet({Key? key, required this.listRow})
+      : super(key: key);
 
   @override
-  _TienTrinhXuLyScreenTabletState createState() => _TienTrinhXuLyScreenTabletState();
+  _TienTrinhXuLyScreenTabletState createState() =>
+      _TienTrinhXuLyScreenTabletState();
 }
 
 class _TienTrinhXuLyScreenTabletState extends State<TienTrinhXuLyScreenTablet> {

@@ -24,18 +24,17 @@ class DataDanhSachYKienXuLyResponse extends Equatable {
     this.isSuccess,
   });
 
-  factory DataDanhSachYKienXuLyResponse.fromJson(
-          Map<String, dynamic> json) =>
+  factory DataDanhSachYKienXuLyResponse.fromJson(Map<String, dynamic> json) =>
       _$DataDanhSachYKienXuLyResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataDanhSachYKienXuLyResponseToJson(this);
 
   DataDanhSachYKienXuLy toModel() => DataDanhSachYKienXuLy(
-    messages: messages,
-    data: data?.map((e) => e.toModel()).toList()??[],
-    validationResult: validationResult,
-    isSuccess: isSuccess,
-  );
+        messages: messages,
+        data: data?.map((e) => e.toModel()).toList() ?? [],
+        validationResult: validationResult,
+        isSuccess: isSuccess,
+      );
 
   //todo convert to Model to use
   @override

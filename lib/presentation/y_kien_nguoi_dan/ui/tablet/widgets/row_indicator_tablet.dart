@@ -27,7 +27,7 @@ class RowIndicatorTablet extends StatelessWidget {
         child: GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 10.0.textScale(space: 4),
             crossAxisSpacing: 10,
@@ -36,7 +36,7 @@ class RowIndicatorTablet extends StatelessWidget {
           ),
           itemCount: chartData.length,
           itemBuilder: (context, index) {
-            final result= chartData[index];
+            final result = chartData[index];
             return GestureDetector(
               onTap: () {},
               child: Row(

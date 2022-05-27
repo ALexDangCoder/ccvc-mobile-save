@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,6 +11,7 @@ class NhiemVuWidget extends StatelessWidget {
   final String title;
   final String value;
   final TongHopNhiemVuType type;
+
   const NhiemVuWidget({
     Key? key,
     this.value = '0',

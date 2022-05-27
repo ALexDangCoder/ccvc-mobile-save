@@ -129,7 +129,7 @@ class _ExpandedSectionState extends State<CustomSelectMutil>
                               Flexible(
                                 child: Text(
                                   widget.dataLoaiBaiViet[index].title ?? '',
-                                  style: textNormal(titleColor, 16),
+                                  style: textNormal(color3D5586, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -137,15 +137,17 @@ class _ExpandedSectionState extends State<CustomSelectMutil>
                                 stream: selectBloc.stream,
                                 builder: (context, snapshot) {
                                   final data = snapshot.data ?? [0];
-                                return  CustomCheckBox(
+                                  return CustomCheckBox(
                                     title: '',
                                     onChange: (isCheck) {
                                       setState(() {});
-                                      if (valueSelect
-                                          .contains(widget.dataLoaiBaiViet[index])) {
-                                        valueSelect.remove(widget.dataLoaiBaiViet[index]);
+                                      if (valueSelect.contains(
+                                          widget.dataLoaiBaiViet[index])) {
+                                        valueSelect.remove(
+                                            widget.dataLoaiBaiViet[index]);
                                       } else {
-                                        valueSelect.add(widget.dataLoaiBaiViet[index]);
+                                        valueSelect
+                                            .add(widget.dataLoaiBaiViet[index]);
                                       }
                                       if (addIndex.contains(index)) {
                                         addIndex.remove(index);
@@ -217,7 +219,7 @@ class _ExpandedSectionState extends State<CustomSelectMutil>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),

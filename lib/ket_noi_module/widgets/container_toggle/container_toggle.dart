@@ -20,7 +20,7 @@ class ContainerToggleWidget extends StatelessWidget {
       margin: const EdgeInsets.only(left: 29),
       decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: lineColor),
+          bottom: BorderSide(color: colorECEEF7),
         ),
       ),
       child: Row(

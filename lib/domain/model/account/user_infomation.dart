@@ -32,6 +32,7 @@ class UserInformation {
   String? ngaySinh;
   @HiveField(13)
   String? soDienThoai;
+
   UserInformation(
       {this.id,
       this.canBoDepartmentId,
@@ -48,6 +49,7 @@ class UserInformation {
       this.ngaySinh,
       this.soDienThoai});
 }
+
 @HiveType(typeId: 2)
 class DonViGoc {
   @HiveField(0)
@@ -60,8 +62,8 @@ class DonViGoc {
   String? chucVu;
 
   DonViGoc({this.id, this.tenDonVi, this.chucVuId, this.chucVu});
-
 }
+
 @HiveType(typeId: 3)
 class DonViTrucThuoc {
   @HiveField(0)
@@ -72,5 +74,6 @@ class DonViTrucThuoc {
   String? chucVuId;
   @HiveField(3)
   String? chucVu;
+
   DonViTrucThuoc({this.id, this.tenDonVi, this.chucVuId, this.chucVu});
 }

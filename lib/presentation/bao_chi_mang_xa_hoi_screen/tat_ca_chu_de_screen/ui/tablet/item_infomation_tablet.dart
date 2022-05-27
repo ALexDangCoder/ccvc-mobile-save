@@ -17,7 +17,7 @@ class ItemInfomationTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         border: Border.all(color: cellColorborder),
         borderRadius: BorderRadius.circular(12),
         color: backgroundColorApp,
@@ -44,7 +44,7 @@ class ItemInfomationTablet extends StatelessWidget {
               Text(
                 infomationModel.title,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: color3D5586,
                   fontWeight: FontWeight.w400,
                   fontSize: 14.0.textScale(),
                 ),
@@ -67,4 +67,3 @@ class ItemInfomationTablet extends StatelessWidget {
     );
   }
 }
-

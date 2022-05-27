@@ -43,7 +43,7 @@ class RowColunmTabletWidget extends StatelessWidget {
                   visible: titleLeft.isNotEmpty,
                   child: Text(
                     titleLeft,
-                    style: textNormalCustom(fontSize: 18, color: titleColor),
+                    style: textNormalCustom(fontSize: 18, color: color3D5586),
                   ),
                 ),
                 widgetLeft
@@ -61,7 +61,7 @@ class RowColunmTabletWidget extends StatelessWidget {
                   visible: titleRight.isNotEmpty,
                   child: Text(
                     titleRight,
-                    style: textNormalCustom(fontSize: 18, color: titleColor),
+                    style: textNormalCustom(fontSize: 18, color: color3D5586),
                   ),
                 ),
                 widgetRight

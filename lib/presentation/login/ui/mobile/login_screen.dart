@@ -55,7 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
       child: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
-        error: AppException('1', ''),
+        error: AppException(
+          S.current.error,
+          S.current.error,
+        ),
         stream: loginCubit.stateStream,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
@@ -103,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             Text(
                               S.current.wellcom_login,
-                              style: textNormal(AqiColor, 14),
+                              style: textNormal(
+                                  textBodyTime,
+                                  14),
                             )
                           ],
                         ),
@@ -235,7 +240,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           '${S.current.quen_mat_khau}?',
                           style: textNormalCustom(
-                              color: AppTheme.getInstance().colorField(),),
+                            color: AppTheme.getInstance().colorField(),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -282,11 +288,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        color: buttonColor.withOpacity(0.1),
+                                        color: AppTheme.getInstance()
+                                            .colorField()
+                                            .withOpacity(0.1),
                                       ),
                                       child: Center(
                                         child: SvgPicture.asset(
-                                            ImageAssets.icFingerprint),
+                                          ImageAssets.icFingerprint,
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -305,11 +316,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        color: buttonColor.withOpacity(0.1),
+                                        color: AppTheme.getInstance()
+                                            .colorField()
+                                            .withOpacity(0.1),
                                       ),
                                       child: Center(
                                         child: SvgPicture.asset(
-                                            ImageAssets.icFaceId),
+                                          ImageAssets.icFaceId,
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
+                                        ),
                                       ),
                                     ),
                                   ),

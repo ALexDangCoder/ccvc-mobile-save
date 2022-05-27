@@ -20,7 +20,6 @@ class SelectOnlyWidget extends StatefulWidget {
 
 class _SelectOnlyWidgetState extends State<SelectOnlyWidget>
     with SingleTickerProviderStateMixin {
-
   @override
   Widget build(BuildContext context) {
     return Container(

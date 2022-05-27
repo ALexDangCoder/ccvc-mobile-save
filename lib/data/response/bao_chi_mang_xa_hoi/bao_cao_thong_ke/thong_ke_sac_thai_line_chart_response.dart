@@ -21,28 +21,36 @@ class ThongKeTheoSacThaiResponse {
   Map<String, dynamic> toJson() => _$ThongKeTheoSacThaiResponseToJson(this);
 
   SacThaiLineChartModel toDomain() {
-    return  SacThaiLineChartModel(
+    return SacThaiLineChartModel(
       trungLap: listSacThai
           .map(
             (e) => LineChartData(
-          date:  DateFormat('yyyy/MM/dd HH:mm:ss').parse(e.date??'').toStringWithListFormat,
-          count: e.trungLap ?? 0,
-        ),
-      )
+              date: DateFormat('yyyy/MM/dd HH:mm:ss')
+                  .parse(e.date ?? '')
+                  .toStringWithListFormat,
+              count: e.trungLap ?? 0,
+            ),
+          )
           .toList(),
       tichCuc: listSacThai
           .map(
             (e) => LineChartData(
-          date: DateFormat('yyyy/MM/dd HH:mm:ss').parse(e.date??'').toStringWithListFormat,
-          count: e.tichCuc ?? 0,),
-      )
+              date: DateFormat('yyyy/MM/dd HH:mm:ss')
+                  .parse(e.date ?? '')
+                  .toStringWithListFormat,
+              count: e.tichCuc ?? 0,
+            ),
+          )
           .toList(),
       tieuCuc: listSacThai
           .map(
             (e) => LineChartData(
-          date: DateFormat('yyyy/MM/dd HH:mm:ss').parse(e.date??'').toStringWithListFormat,
-          count: e.tieuCuc ?? 0,),
-      )
+              date: DateFormat('yyyy/MM/dd HH:mm:ss')
+                  .parse(e.date ?? '')
+                  .toStringWithListFormat,
+              count: e.tieuCuc ?? 0,
+            ),
+          )
           .toList(),
     );
   }

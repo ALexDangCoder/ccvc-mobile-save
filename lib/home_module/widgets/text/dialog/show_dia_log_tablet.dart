@@ -109,9 +109,9 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                       },
                       title: btnLeftTxt,
                     ),
-                   const SizedBox(
-                     width: 20,
-                   ),
+                    const SizedBox(
+                      width: 20,
+                    ),
                     button(
                       onTap: () {
                         funcBtnOk();

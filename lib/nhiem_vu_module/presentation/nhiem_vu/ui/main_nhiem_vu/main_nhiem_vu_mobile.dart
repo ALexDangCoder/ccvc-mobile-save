@@ -23,7 +23,7 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
   @override
   void initState() {
     cubit = NhiemVuCubit();
-    danhSachCubit=DanhSachCubit();
+    danhSachCubit = DanhSachCubit();
     cubit.emit(NhiemVuCaNhan());
     title = S.current.nhiem_vu_ca_nhan;
     super.initState();
@@ -36,36 +36,35 @@ class _MainNhieVuMobileState extends State<MainNhieVuMobile> {
       builder: (context, state) {
         if (state is NhiemVuCaNhan) {
           title = S.current.nhiem_vu_ca_nhan;
-        } else if(state is NhiemVuDonVi) {
+        } else if (state is NhiemVuDonVi) {
           title = S.current.nhiem_vu_don_vi;
-        }else{
+        } else {
           title = S.current.bao_cao_thong_ke;
         }
 
         return BlocBuilder<NhiemVuCubit, NhiemVuState>(
-                bloc: cubit,
-                builder: (context, state) {
-                  if (state is NhiemVuCaNhan) {
-                    return  NhiemVuCaNhanMobile(
-                      isCheck: true,
-                      danhSachCubit: danhSachCubit,
-                      nhiemVuCubit: cubit,
-                    );
-                  } else if(state is NhiemVuDonVi) {
-                    return  NhiemVuDonViMobile(
-                      isCheck: false,
-                      danhSachCubit: danhSachCubit,
-                      nhiemVuCubit: cubit,
-                    );
-                  }else{
-                    return  BaoCaoThongKeNhiemVuMobile(
-                      danhSachCubit: danhSachCubit,
-                      nhiemVuCubit: cubit,
-                    );
-                  }
-                },
-
-            );
+          bloc: cubit,
+          builder: (context, state) {
+            if (state is NhiemVuCaNhan) {
+              return NhiemVuCaNhanMobile(
+                isCheck: true,
+                danhSachCubit: danhSachCubit,
+                nhiemVuCubit: cubit,
+              );
+            } else if (state is NhiemVuDonVi) {
+              return NhiemVuDonViMobile(
+                isCheck: false,
+                danhSachCubit: danhSachCubit,
+                nhiemVuCubit: cubit,
+              );
+            } else {
+              return BaoCaoThongKeNhiemVuMobile(
+                danhSachCubit: danhSachCubit,
+                nhiemVuCubit: cubit,
+              );
+            }
+          },
+        );
       },
     );
   }

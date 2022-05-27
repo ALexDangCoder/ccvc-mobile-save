@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -10,7 +9,8 @@ import 'package:flutter/material.dart';
 class BottomTabBarWidget extends StatelessWidget {
   final int selectItemIndex;
   final Function(TabBarType) onChange;
- final Function(TabBarType) onDoubleTap;
+  final Function(TabBarType) onDoubleTap;
+
   const BottomTabBarWidget({
     Key? key,
     required this.selectItemIndex,
@@ -36,9 +36,8 @@ class BottomTabBarWidget extends StatelessWidget {
               return Expanded(
                 child: GestureDetector(
                   onTap: () {
-                   onChange(tab);
+                    onChange(tab);
                   },
-
                   child: tabBarItem(
                     context: context,
                     item: tab,
@@ -57,7 +56,7 @@ class BottomTabBarWidget extends StatelessWidget {
                 onTap: () {
                   onChange(tab);
                 },
-                onDoubleTap: (){
+                onDoubleTap: () {
                   onDoubleTap(tab);
                 },
                 child: tabBarItem(

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import '/home_module//utils/extensions/string_extension.dart';
 import '/home_module/domain/model/home/document_model.dart';
@@ -55,6 +54,7 @@ class PageData {
   String? doKhan;
   String? codeDoKhan;
   String? taskId;
+
   PageData({
     this.id,
     this.soKyHieu,
@@ -163,6 +163,7 @@ class PageDataDSSearch {
     codeDoKhan = json['CodeDoKhan'];
     doKhan = json['DoKhan'];
   }
+
   DocumentModel toDomain() => DocumentModel(
         kyHieu: soKyHieu ?? '',
         noiGui: donViBanHanh ?? '',

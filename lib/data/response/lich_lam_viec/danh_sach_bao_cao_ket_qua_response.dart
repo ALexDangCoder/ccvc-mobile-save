@@ -86,11 +86,12 @@ class Data {
       files = file;
     }
   }
+
   BaoCaoModel toDomain() => BaoCaoModel(
         content: content?.parseHtml() ?? '',
         listFile: files?.map((e) => e.toDomain()).toList() ?? [],
         id: id ?? '',
-    reportStatusCode: reportStatusCode ?? '',
+        reportStatusCode: reportStatusCode ?? '',
       );
 }
 
@@ -100,6 +101,7 @@ class Files {
   String? extension;
   String? path;
   String? entityId;
+
   Files.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
     name = json['Name'];
@@ -107,5 +109,6 @@ class Files {
     path = json['Path'];
     extension = json['EntityId'];
   }
+
   FileModel toDomain() => FileModel(id: id ?? '', name: name ?? '');
 }

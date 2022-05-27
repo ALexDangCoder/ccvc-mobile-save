@@ -11,4 +11,3 @@ class PickImageFileModel {
     this.extension,
   });
 }
-

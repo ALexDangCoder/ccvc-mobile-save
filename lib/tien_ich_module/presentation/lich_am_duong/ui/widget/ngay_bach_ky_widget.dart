@@ -24,7 +24,7 @@ class NgayBachKyWidget extends StatelessWidget {
             S.current.ngay_back_ky,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -63,7 +63,7 @@ Widget titleNgayBachKy(String title, String value,
             text: value,
             style: textNormalCustom(
               fontWeight: FontWeight.w400,
-              color: titleColor,
+              color: color3D5586,
               fontSize: 14.0.textScale(),
             ),
           ),

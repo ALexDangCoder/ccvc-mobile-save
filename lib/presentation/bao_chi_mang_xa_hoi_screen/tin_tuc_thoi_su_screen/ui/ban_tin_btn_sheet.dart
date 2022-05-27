@@ -76,7 +76,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
             style: textNormalCustom(
               fontWeight: FontWeight.w500,
               fontSize: 18,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
           const SizedBox(
@@ -101,7 +101,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
               Row(
                 children: [
                   IconButton(
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                     onPressed: () {
                       phatBanTinBloc.setIndexRadio(
                         phatBanTinBloc.getIndexRadio() - 1,
@@ -139,7 +139,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                     },
                   ),
                   IconButton(
-                    color: unselectLabelColor,
+                    color: colorA2AEBD,
                     onPressed: () {
                       phatBanTinBloc.setIndexRadio(
                         phatBanTinBloc.getIndexRadio() + 1,
@@ -164,7 +164,7 @@ class _BanTinBtnSheetState extends State<BanTinBtnSheet> {
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.volume_up),
-                            color: unselectLabelColor,
+                            color: colorA2AEBD,
                           ),
                           SizedBox(
                             width: 60,

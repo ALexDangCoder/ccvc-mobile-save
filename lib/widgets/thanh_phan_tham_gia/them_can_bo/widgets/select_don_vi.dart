@@ -21,6 +21,7 @@ class SelectDonVi extends StatefulWidget {
   final String? title;
   final String? hintText;
   final ThanhPhanThamGiaCubit cubit;
+
   const SelectDonVi({
     Key? key,
     required this.onChange,
@@ -35,13 +36,14 @@ class SelectDonVi extends StatefulWidget {
 
 class _SelectDonViState extends State<SelectDonVi> {
   final ThemDonViCubit _themDonViCubit = ThemDonViCubit();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   widget.cubit.getTreeDonVi.listen((event) {
-     _themDonViCubit.getTreeDonVi(event);
-   });
+    widget.cubit.getTreeDonVi.listen((event) {
+      _themDonViCubit.getTreeDonVi(event);
+    });
   }
 
   @override
@@ -133,6 +135,7 @@ class _SelectDonViState extends State<SelectDonVi> {
 
 class TreeDonVi extends StatelessWidget {
   final ThemDonViCubit themDonViCubit;
+
   const TreeDonVi({Key? key, required this.themDonViCubit}) : super(key: key);
 
   @override

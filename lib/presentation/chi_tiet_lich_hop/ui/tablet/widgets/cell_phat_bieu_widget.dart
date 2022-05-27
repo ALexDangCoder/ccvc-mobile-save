@@ -160,7 +160,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                           '${widget.index}.',
                           style: textNormalCustom(
                             fontSize: 16,
-                            color: unselectedLabelColor,
+                            color: color667793,
                           ),
                         );
                       },
@@ -179,7 +179,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                     '${widget.infoModel.tthoiGian}',
                     style: textNormalCustom(
                       fontSize: 14,
-                      color: unselectedLabelColor,
+                      color: color667793,
                     ),
                   ),
                 ],
@@ -190,7 +190,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                   '${widget.infoModel.nguoiPhatBieu}:',
                   style: textNormalCustom(
                     fontSize: 14,
-                    color: unselectedLabelColor,
+                    color: color667793,
                   ),
                 ),
               ),
@@ -200,7 +200,7 @@ class _CellPhatBieuState extends State<CellPhatBieu> {
                   '${widget.infoModel.ndPhatBieu}:',
                   style: textNormalCustom(
                     fontSize: 14,
-                    color: unselectedLabelColor,
+                    color: color667793,
                   ),
                 ),
               ),

@@ -108,7 +108,8 @@ abstract class HomeServiceGateWay {
   Future<LichHopResponse> getLichHop(@Body() LichHopRequest lichHopRequest);
 
   @POST(ApiConstants.DANH_SACH_CONG_VIEC)
-  Future<DanhSachCongViecResponse> getDanhSachCongViec(@Body() DanhSachCongViecRequest request);
+  Future<DanhSachCongViecResponse> getDanhSachCongViec(
+      @Body() DanhSachCongViecRequest request);
 }
 
 @RestApi()
@@ -167,5 +168,4 @@ abstract class HomeServiceCCVC {
   @GET(ApiConstants.GET_DASHBOARD_WIDGET)
   @FormUrlEncoded()
   Future<DashBoardResponse> getDashBoard();
-
 }

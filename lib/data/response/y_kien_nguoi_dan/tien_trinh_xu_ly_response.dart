@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/tien_trinh_xu_ly_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,13 +8,14 @@ class TienTrinhXuLyResponse {
   @JsonKey(name: 'DanhSachKetQua')
   List<TienTrinhXuLyData> tienTrinhXuLyData;
 
-  TienTrinhXuLyResponse(this.tienTrinhXuLyData,);
+  TienTrinhXuLyResponse(
+    this.tienTrinhXuLyData,
+  );
 
   factory TienTrinhXuLyResponse.fromJson(Map<String, dynamic> json) =>
       _$TienTrinhXuLyResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$TienTrinhXuLyResponseToJson(this);
-
 }
 
 @JsonSerializable()
@@ -43,29 +43,26 @@ class TienTrinhXuLyData {
   @JsonKey(name: 'TaiLieus')
   List<TaiLieuData>? taiLieus;
 
-
   TienTrinhXuLyData(
-      this.id,
-      this.paknId,
-      this.noiDungXuLy,
-      this.trangThaiXuLy,
-      this.trangThaiBatDauId,
-      this.trangThaiChuyenDenId,
-      this.ngayBatDau,
-      this.ngayKetThuc,
-      this.taiKhoanThaoTac,
-      this.donViThaoTac,
-      this.taiLieus,
-      );
-
+    this.id,
+    this.paknId,
+    this.noiDungXuLy,
+    this.trangThaiXuLy,
+    this.trangThaiBatDauId,
+    this.trangThaiChuyenDenId,
+    this.ngayBatDau,
+    this.ngayKetThuc,
+    this.taiKhoanThaoTac,
+    this.donViThaoTac,
+    this.taiLieus,
+  );
 
   factory TienTrinhXuLyData.fromJson(Map<String, dynamic> json) =>
       _$TienTrinhXuLyDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$TienTrinhXuLyDataToJson(this);
 
-  TienTrinhXuLyModel toDomain() =>
-      TienTrinhXuLyModel(
+  TienTrinhXuLyModel toDomain() => TienTrinhXuLyModel(
         id: id ?? '',
         paknId: paknId ?? '',
         noiDungXuLy: noiDungXuLy ?? '',
@@ -76,11 +73,9 @@ class TienTrinhXuLyData {
         ngayKetThuc: ngayKetThuc ?? '',
         taiKhoanThaoTac: taiKhoanThaoTac ?? '',
         donViThaoTac: donViThaoTac ?? '',
-        taiLieus: taiLieus?.map((e) => e.toDomain()).toList()??[],
+        taiLieus: taiLieus?.map((e) => e.toDomain()).toList() ?? [],
       );
-
-  }
-
+}
 
 @JsonSerializable()
 class TaiLieuData {
@@ -109,18 +104,27 @@ class TaiLieuData {
   @JsonKey(name: 'ThoiGianCapNhat')
   String? thoiGianCapNhat;
 
-
-  TaiLieuData(this.kienNghiId, this.ten, this.duongDan, this.kieu,
-      this.thutu, this.kichThuoc, this.noiDungKichThuoc, this.ext,
-      this.kieuDinhKem, this.id, this.thoiGianTaoMoi, this.thoiGianCapNhat,);
+  TaiLieuData(
+    this.kienNghiId,
+    this.ten,
+    this.duongDan,
+    this.kieu,
+    this.thutu,
+    this.kichThuoc,
+    this.noiDungKichThuoc,
+    this.ext,
+    this.kieuDinhKem,
+    this.id,
+    this.thoiGianTaoMoi,
+    this.thoiGianCapNhat,
+  );
 
   factory TaiLieuData.fromJson(Map<String, dynamic> json) =>
       _$TaiLieuDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$TaiLieuDataToJson(this);
 
-  TaiLieuTienTrinhXuLyModel toDomain() =>
-      TaiLieuTienTrinhXuLyModel(
+  TaiLieuTienTrinhXuLyModel toDomain() => TaiLieuTienTrinhXuLyModel(
         kienNghiId: kienNghiId ?? '',
         ten: ten ?? '',
         duongDan: duongDan ?? '',

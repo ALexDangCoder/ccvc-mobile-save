@@ -7,6 +7,7 @@ class TitleChildWidget extends StatelessWidget {
   final Widget child;
   final double paddingTop;
   final double sizeTitle;
+
   const TitleChildWidget({
     Key? key,
     required this.title,

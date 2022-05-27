@@ -258,7 +258,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         );
       },
       error: (error) {
-       // if(error is NoNetworkException){
+        // if(error is NoNetworkException){
         //   MessageConfig.show(
         //     title: S.current.no_internet,
         //     messState: MessState.error,

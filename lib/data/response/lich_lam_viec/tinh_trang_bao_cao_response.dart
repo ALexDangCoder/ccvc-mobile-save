@@ -54,6 +54,7 @@ class Data {
     updatedBy = json['updatedBy'];
     id = json['id'];
   }
+
   TinhTrangBaoCaoModel toDomain() =>
       TinhTrangBaoCaoModel(id: id, displayName: displayName);
 }

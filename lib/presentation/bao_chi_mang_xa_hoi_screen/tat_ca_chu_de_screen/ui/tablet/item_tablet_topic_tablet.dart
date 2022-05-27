@@ -32,7 +32,7 @@ class ItemTableTopicTablet extends StatelessWidget {
             boxShadow: const [
               BoxShadow(
                 color: Colors.transparent,
-                offset:  Offset(1, 1), // changes position of shadow
+                offset: Offset(1, 1), // changes position of shadow
               ),
             ],
             borderRadius: BorderRadius.circular(12),
@@ -51,7 +51,9 @@ class ItemTableTopicTablet extends StatelessWidget {
                   color: fontColorTablet2,
                 ),
               ),
-              const SizedBox(height: 24,),
+              const SizedBox(
+                height: 24,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -61,7 +63,9 @@ class ItemTableTopicTablet extends StatelessWidget {
                       ImageAssets.ic_circle_fb,
                     ),
                   ),
-                  const SizedBox(width: 24,),
+                  const SizedBox(
+                    width: 24,
+                  ),
                   Expanded(
                     child: ItemInTableTablet(
                       '${dataItem.likeCount}',
@@ -71,7 +75,9 @@ class ItemTableTopicTablet extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 24,),
+              const SizedBox(
+                height: 24,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -81,7 +87,9 @@ class ItemTableTopicTablet extends StatelessWidget {
                       ImageAssets.ic_circle_share,
                     ),
                   ),
-                  const SizedBox(width: 24,),
+                  const SizedBox(
+                    width: 24,
+                  ),
                   Expanded(
                     child: ItemInTableTablet(
                       '${dataItem.commentCount}',
@@ -91,7 +99,9 @@ class ItemTableTopicTablet extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16,),
+              const SizedBox(
+                height: 16,
+              ),
               GestureDetector(
                 onTap: () {},
                 child: Padding(
@@ -127,7 +137,7 @@ class ItemInTableTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-       padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: greyHide,
         borderRadius: BorderRadius.circular(10),
@@ -141,7 +151,7 @@ class ItemInTableTablet extends StatelessWidget {
               Text(
                 index,
                 style: textNormalCustom(
-                  color: titleColor,
+                  color: AppTheme.getInstance().titleColor(),
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
@@ -152,7 +162,7 @@ class ItemInTableTablet extends StatelessWidget {
               Text(
                 content,
                 style: textNormalCustom(
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),
@@ -166,7 +176,6 @@ class ItemInTableTablet extends StatelessWidget {
               child: SvgPicture.asset(icon),
             ),
           ),
-
         ],
       ),
     );

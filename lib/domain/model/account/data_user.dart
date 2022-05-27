@@ -9,9 +9,9 @@ class DataLogin {
   int? statusCode;
 
   DataLogin({
-   required this.dataUser,
-    required  this.succeeded,
-    required  this.statusCode,
+    required this.dataUser,
+    required this.succeeded,
+    required this.statusCode,
   });
 }
 

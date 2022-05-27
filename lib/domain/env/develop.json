@@ -1,5 +1,4 @@
 {
-
   "type": "develop",
   "base_url_gate_way": "http://apigw-mpi-dev.edsolabs.vn",
   "base_url_common": "http://api-mpi-common-dev.edsolabs.vn",

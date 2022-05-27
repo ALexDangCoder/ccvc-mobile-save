@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 class ItemXaWidget extends StatefulWidget {
   final TaoLichLamViecCubit taoLichLamViecCubit;
 
-  ItemXaWidget({Key? key, required this.taoLichLamViecCubit})
-      : super(key: key);
+  ItemXaWidget({Key? key, required this.taoLichLamViecCubit}) : super(key: key);
 
   @override
   _ItemXaWidgetState createState() => _ItemXaWidgetState();
@@ -26,12 +25,11 @@ class _ItemXaWidgetState extends State<ItemXaWidget> {
           onChange: (value) {
             widget.taoLichLamViecCubit.xaSelectModel?.tenXaPhuong =
                 data[value].tenXaPhuong;
-            widget.taoLichLamViecCubit.xaSelectModel?.id =
-                data[value].id;
+            widget.taoLichLamViecCubit.xaSelectModel?.id = data[value].id;
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenXaPhuong ?? '').toList(),
-          value: widget.taoLichLamViecCubit.xaSelectModel?.tenXaPhuong??'',
+          value: widget.taoLichLamViecCubit.xaSelectModel?.tenXaPhuong ?? '',
           title: S.current.xa,
         );
       },

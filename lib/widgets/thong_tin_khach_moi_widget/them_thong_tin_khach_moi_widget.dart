@@ -151,7 +151,7 @@ class _ThemDonViPhoiHopKhacScreenState
                     email: _emailController.text,
                     sdt: _sdtController.text,
                     tenCoQuan: _tenDonViController.text,
-                    vaiTroThamGia:5,
+                    vaiTroThamGia: 5,
                     dauMoiLienHe: '',
                     tenCanBo: _hoTenController.text,
                   ),

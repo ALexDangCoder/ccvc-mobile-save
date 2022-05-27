@@ -16,8 +16,8 @@ class DashBoashTinhHinhXuLyResponse {
   Map<String, dynamic> toJson() => _$DashBoashTinhHinhXuLyResponseToJson(this);
 
   DashboardTinhHinhXuLuModel toDomain() => DashboardTinhHinhXuLuModel(
-    tinhHinhXuLyModel: danhSachKetQua.toDomain(),
-  );
+        tinhHinhXuLyModel: danhSachKetQua.toDomain(),
+      );
 }
 
 @JsonSerializable()
@@ -27,7 +27,7 @@ class DanhSachKetQuaData {
   @JsonKey(name: 'tinhTrang')
   List<TinhHinhData> listTrangThai;
 
-  DanhSachKetQuaData(this.listTinhHinh,this.listTrangThai);
+  DanhSachKetQuaData(this.listTinhHinh, this.listTrangThai);
 
   factory DanhSachKetQuaData.fromJson(Map<String, dynamic> json) =>
       _$DanhSachKetQuaDataFromJson(json);
@@ -35,9 +35,9 @@ class DanhSachKetQuaData {
   Map<String, dynamic> toJson() => _$DanhSachKetQuaDataToJson(this);
 
   TinhHinhXuLyModel toDomain() => TinhHinhXuLyModel(
-      listTinhHinh: listTinhHinh.map((e) => e.toDomain()).toList(),
-      listTrangThai: listTrangThai.map((e) => e.toDomain()).toList(),
-  );
+        listTinhHinh: listTinhHinh.map((e) => e.toDomain()).toList(),
+        listTrangThai: listTrangThai.map((e) => e.toDomain()).toList(),
+      );
 }
 
 @JsonSerializable()
@@ -55,9 +55,7 @@ class TinhHinhData {
   Map<String, dynamic> toJson() => _$TinhHinhDataToJson(this);
 
   TinhHinhModel toDomain() => TinhHinhModel(
-    soLuong: soLuong ?? 0,
-    status: status ?? '',
-  );
+        soLuong: soLuong ?? 0,
+        status: status ?? '',
+      );
 }
-
-

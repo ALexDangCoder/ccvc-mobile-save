@@ -1,14 +1,10 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-
 import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/widget_mange_screen.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/widget_mange_screen_tablet.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,7 +27,7 @@ class ButtonQuanLyMobileWidget extends StatelessWidget {
       child: Container(
           height: 32,
           width: 144,
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(4.5)),
             color: AppTheme.getInstance().colorField(),
           ),

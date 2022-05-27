@@ -1,9 +1,8 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_ban_lien_quan.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/type_data_row.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DanhSachCongViecChiTietNhiemVuModel {
   int? stt;
@@ -140,6 +139,7 @@ class DanhSachCongViecChiTietNhiemVuModel {
 
     return listData;
   }
+
   List<RowDataExpandModel> listLSGV() {
     List<RowDataExpandModel> listData = [
       RowDataExpandModel(
@@ -191,7 +191,7 @@ class DanhSachCongViecChiTietNhiemVuModel {
       ),
       RowDataExpandModel(
         key: S.current.tinh_hinh_thuc_hien,
-        value:  noiDungCongViec?.parseHtml() ?? '',
+        value: noiDungCongViec?.parseHtml() ?? '',
         type: TypeDataNV.text,
       ),
       RowDataExpandModel(
@@ -201,7 +201,7 @@ class DanhSachCongViecChiTietNhiemVuModel {
       ),
       RowDataExpandModel(
         key: S.current.file_dinh_kem,
-        value: file??[],
+        value: file ?? [],
         type: TypeDataNV.file,
       ),
       RowDataExpandModel(
@@ -213,5 +213,4 @@ class DanhSachCongViecChiTietNhiemVuModel {
 
     return listData;
   }
-
 }

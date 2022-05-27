@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -15,6 +14,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class EventOfDayTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const EventOfDayTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -24,6 +24,7 @@ class EventOfDayTabletWidget extends StatefulWidget {
 
 class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
   final SuKienTrongNgayCubit _suKienTrongNgayCubit = SuKienTrongNgayCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -53,17 +54,16 @@ class _EventOfDayWidgetState extends State<EventOfDayTabletWidget> {
               type: widget.homeItemType,
               listSelectKey: <DialogData>[
                 DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _suKienTrongNgayCubit.selectDate(
-                        selectKey: value,
-                        startDate: startDate,
-                        endDate: endDate);
-                  },
-                  initValue: _suKienTrongNgayCubit.selectKeyTime,
-                  title: S.current.time,
+                    onSelect: (value, startDate, endDate) {
+                      _suKienTrongNgayCubit.selectDate(
+                          selectKey: value,
+                          startDate: startDate,
+                          endDate: endDate);
+                    },
+                    initValue: _suKienTrongNgayCubit.selectKeyTime,
+                    title: S.current.time,
                     startDate: _suKienTrongNgayCubit.startDate,
-                    endDate: _suKienTrongNgayCubit.endDate
-                )
+                    endDate: _suKienTrongNgayCubit.endDate)
               ],
             );
           }),

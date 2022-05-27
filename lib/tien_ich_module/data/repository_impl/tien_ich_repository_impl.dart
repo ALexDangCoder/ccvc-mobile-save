@@ -228,19 +228,20 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<String>> translateFile(File file, String target, String source) {
+  Future<Result<String>> translateFile(
+      File file, String target, String source) {
     return runCatchingAsync<String, String>(
-            () => _tienIchService.translateFile(
-          file,
-          target,
-          source,
-        ), (response) {
+        () => _tienIchService.translateFile(
+              file,
+              target,
+              source,
+            ), (response) {
       try {
         return DataTranslateResponse.fromJson(json.decode(response))
-            .data
-            ?.translations
-            ?.first
-            .translatedText ??
+                .data
+                ?.translations
+                ?.first
+                .translatedText ??
             '';
       } catch (e) {
         return '';

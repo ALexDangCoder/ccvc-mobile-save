@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -27,7 +26,7 @@ class TaoLichLamViecResponse extends Equatable {
   Map<String, dynamic> toJson() => _$TaoLichLamViecResponseToJson(this);
 
   MessageModel toDomain() {
-   return MessageModel(code: code ?? '', succeeded: succeeded ?? false);
+    return MessageModel(code: code ?? '', succeeded: succeeded ?? false);
   }
 
   //todo convert to Model to use

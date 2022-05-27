@@ -51,6 +51,7 @@ class ModalProgressHUD extends StatefulWidget {
 
 class _ModalProgressHUDState extends State<ModalProgressHUD> {
   Size size = const Size(0, 0);
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -72,6 +73,7 @@ class _ModalProgressHUDState extends State<ModalProgressHUD> {
   }
 
   final BehaviorSubject<bool> _isAsyncCall = BehaviorSubject();
+
   @override
   void dispose() {
     // TODO: implement dispose

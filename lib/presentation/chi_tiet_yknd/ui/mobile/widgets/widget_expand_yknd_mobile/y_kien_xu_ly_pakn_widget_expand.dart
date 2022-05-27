@@ -7,7 +7,6 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class YKienXuLyPAKNWidgetExpand extends StatelessWidget {
   final ChiTietYKienNguoiDanCubit cubit;
 

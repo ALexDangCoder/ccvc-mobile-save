@@ -68,9 +68,12 @@ mixin QLVBRepository {
 
   Future<Result<DataLichSuVanBanModel>> getDataLichSuVanBanDen(
       String processId, String type);
+
   Future<Result<List<dynamic>>> getTheoDoiVanBan(String id);
 
   Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(String vanBanId);
+
+  Future<Result<DataDanhSachYKienXuLy>> getLichSuXinYKien(String vanBanId);
 
   Future<Result<DataLichSuThuHoiVanBanDi>> getLichSuThuHoiVanBanDi(
       String id, String vanBanId);

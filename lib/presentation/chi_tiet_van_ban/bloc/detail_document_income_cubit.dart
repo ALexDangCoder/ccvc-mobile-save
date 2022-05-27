@@ -2,20 +2,10 @@ import 'dart:async';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/detail_document.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/history_detail_document.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_cap_nhat_van_ban_di_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_huy_duyet_van_ban_di.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_ky_duyet_van_ban_di_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_tra_lai_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
-import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -23,9 +13,10 @@ import 'package:rxdart/rxdart.dart';
 import 'detai_doccument_state.dart';
 
 class CommonDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  CommonDetailDocumentCubit() : super(DetailDocumentInitial()){
+  CommonDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<ChiTietVanBanDenModel> chiTietVanBanDenSubject =
@@ -53,9 +44,10 @@ class CommonDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 }
 
 class DeliveryNoticeDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  DeliveryNoticeDetailDocumentCubit() : super(DetailDocumentInitial()){
+  DeliveryNoticeDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<ThongTinGuiNhanModel>> thongTinGuiNhanSubject =
@@ -80,9 +72,10 @@ class DeliveryNoticeDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 }
 
 class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  CommentsDetailDocumentCubit() : super(DetailDocumentInitial()){
+  CommentsDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<DanhSachYKienXuLy>> danhSachYKienXuLySubject =
@@ -93,26 +86,46 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
   List<DanhSachYKienXuLy> listComment = [];
 
-  Future<void> getDanhSachYKienXuLy(String vanBanId) async {
+  Future<void> getListCommend(String id) async {
+    listComment.clear();
     showLoading();
+    final Queue queue = Queue(parallel: 2);
+    unawaited(queue.add(() => getDanhSachYKienXuLy(id)));
+    unawaited(queue.add(() => getLichSuXinYKien(id)));
+    await queue.onComplete.whenComplete(() {
+      showContent();
+    });
+  }
+
+  Future<void> getDanhSachYKienXuLy(String vanBanId) async {
     final result = await _qLVBRepo.getDataDanhSachYKien(vanBanId);
     result.when(
       success: (res) {
-        showContent();
-        listComment = res.data ?? [];
-        danhSachYKienXuLySubject.add(res.data ?? []);
+        listComment.addAll(res.data ?? []);
+        danhSachYKienXuLySubject.add(listComment);
       },
-      error: (error) {
-        showError();
+      error: (error) {},
+    );
+  }
+
+  Future<void> getLichSuXinYKien(String vanBanId) async {
+    showLoading();
+    final result = await _qLVBRepo.getLichSuXinYKien(vanBanId);
+    result.when(
+      success: (res) {
+        listComment.addAll(res.data ?? []);
+        danhSachYKienXuLySubject.add(listComment);
       },
+      error: (error) {},
     );
   }
 }
 
 class HistoryUpdateDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  HistoryUpdateDetailDocumentCubit() : super(DetailDocumentInitial()){
+  HistoryUpdateDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuCapNhatXuLySubject =
@@ -140,16 +153,15 @@ class HistoryUpdateDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 }
 
 class TrackTextDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  TrackTextDetailDocumentCubit() : super(DetailDocumentInitial()){
+  TrackTextDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
-  BehaviorSubject<List<dynamic>> theoDoiVanBanSubject =
-      BehaviorSubject();
+  BehaviorSubject<List<dynamic>> theoDoiVanBanSubject = BehaviorSubject();
 
-  Stream<List<dynamic>> get theoDoiVanBanStream =>
-      theoDoiVanBanSubject.stream;
+  Stream<List<dynamic>> get theoDoiVanBanStream => theoDoiVanBanSubject.stream;
 
   Future<void> getTheoDoiVanBan(
     String id,
@@ -170,22 +182,22 @@ class TrackTextDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
 class HistoryGiveBackDetailDocumentCubit
     extends BaseCubit<DetailDocumentState> {
-  HistoryGiveBackDetailDocumentCubit() : super(DetailDocumentInitial()){
+  HistoryGiveBackDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuThuHoiSubject =
-  BehaviorSubject();
+      BehaviorSubject();
 
   Stream<List<LichSuVanBanModel>> get lichSuThuHoiStream =>
       lichSuThuHoiSubject.stream;
 
-
   Future<void> getLichSuVanBanLichSuThuHoi(
-      String processId,
-      String type,
-      ) async {
+    String processId,
+    String type,
+  ) async {
     showLoading();
     final result = await _qLVBRepo.getDataLichSuVanBanDen(processId, type);
     result.when(
@@ -198,13 +210,13 @@ class HistoryGiveBackDetailDocumentCubit
       },
     );
   }
-
 }
 
 class HistoryRecallDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
-  HistoryRecallDetailDocumentCubit() : super(DetailDocumentInitial()){
+  HistoryRecallDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuTraLaiSubject =
@@ -233,22 +245,22 @@ class HistoryRecallDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
 class RelatedDocumentsDetailDocumentCubit
     extends BaseCubit<DetailDocumentState> {
-  RelatedDocumentsDetailDocumentCubit() : super(DetailDocumentInitial()){
+  RelatedDocumentsDetailDocumentCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   BehaviorSubject<List<LichSuVanBanModel>> lichSuVanBanLienThongSubject =
-  BehaviorSubject();
+      BehaviorSubject();
 
   Stream<List<LichSuVanBanModel>> get lichSuVanBanLienThongStream =>
       lichSuVanBanLienThongSubject.stream;
 
-
   Future<void> getLichSuVanBanLichSuLienThong(
-      String processId,
-      String type,
-      ) async {
+    String processId,
+    String type,
+  ) async {
     showLoading();
     final result = await _qLVBRepo.getDataLichSuVanBanDen(processId, type);
     result.when(
@@ -262,4 +274,3 @@ class RelatedDocumentsDetailDocumentCubit
     );
   }
 }
-

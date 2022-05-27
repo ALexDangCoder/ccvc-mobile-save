@@ -1002,5 +1002,6 @@
   "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại.",
   "tuong_tac_noi_bo": "Tương tác nội bộ",
   "bao_cao": "Báo cáo",
-  "phan_anh_kien_nghi": "Phản ánh kiến nghị"
+  "phan_anh_kien_nghi": "Phản ánh kiến nghị",
+  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm"
 }

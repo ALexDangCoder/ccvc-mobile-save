@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
+
 class TodoListModelTwo {
   final List<TodoDSCVModel> listTodoImportant;
   final List<TodoDSCVModel> listTodoDone;
@@ -34,18 +36,19 @@ class TodoDSCVModel {
   String? performer;
   String? groupId;
 
-  TodoDSCVModel(
-      {this.id,
-      this.label,
-      this.isTicked,
-      this.important,
-      this.inUsed,
-      this.isDeleted,
-      this.createdOn,
-      this.createdBy,
-      this.updatedOn,
-      this.updatedBy,
-      this.note,
-      this.performer,
-      this.groupId});
+  TodoDSCVModel({
+    this.id,
+    this.label,
+    this.isTicked,
+    this.important,
+    this.inUsed,
+    this.isDeleted,
+    this.createdOn,
+    this.createdBy,
+    this.updatedOn,
+    this.updatedBy,
+    this.note,
+    this.performer,
+    this.groupId,
+  });
 }

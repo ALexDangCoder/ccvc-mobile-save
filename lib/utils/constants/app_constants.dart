@@ -233,4 +233,8 @@ class MenuItemConst {
   static const BAO_CHI_MANG_XA_HOI = 'bao-chi-mang-xa-hoi';
   static const KET_NOI = 'ket-noi';
   static const TIEN_ICH = 'tien-ich';
+  static const TUONG_TAC_NOI_BO = 'tuong-tac-noi-bo';
+  static const LICH_LAM_VIEC = 'lichlamviec';
+  static const BAO_CAO = 'bao-cao';
 }
+

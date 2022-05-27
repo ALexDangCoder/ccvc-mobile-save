@@ -25,11 +25,14 @@ import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/material.dart';
 
 final listFeature = [
+  MenuType.lichLamViec,
   MenuType.hop,
+  MenuType.quanLyVanBan,
   MenuType.quanLyNhiemVu,
   MenuType.hanhChinhCong,
   MenuType.yKienNguoiDan,
-  MenuType.quanLyVanBan,
+  MenuType.baoCao,
+  MenuType.tuongTacNoiBo,
   MenuType.baoChiMangXaHoi,
   MenuType.ketNoi,
   MenuType.tienIch,
@@ -52,12 +55,23 @@ enum MenuType {
   chuyenPhamVi,
   caiDatGiaoDien,
   hoiDap,
-  doiMatKhau
+  doiMatKhau,
+  tuongTacNoiBo,
+  lichLamViec,
+  baoCao,
 }
 
 extension MenuTypeItem on MenuType {
   MenuCellType getItem() {
     switch (this) {
+      case MenuType.lichLamViec:
+        return MenuCellType(
+          url: urlIconScreen(
+            iconTablet: ImageAssets.itemMenuLichLamViecTablet,
+            iconMobile: ImageAssets.itemMenuLichLamViec,
+          ),
+          title: S.current.lich_lam_viec,
+        );
       case MenuType.hop:
         return MenuCellType(
           url: urlIconScreen(
@@ -65,6 +79,14 @@ extension MenuTypeItem on MenuType {
             iconMobile: ImageAssets.icCamera,
           ),
           title: S.current.hop,
+        );
+      case MenuType.quanLyVanBan:
+        return MenuCellType(
+          url: urlIconScreen(
+            iconTablet: ImageAssets.icQuanLyVanBanTablet,
+            iconMobile: ImageAssets.icQuanLyVanBan,
+          ),
+          title: S.current.quan_ly_van_ban,
         );
       case MenuType.quanLyNhiemVu:
         return MenuCellType(
@@ -88,15 +110,23 @@ extension MenuTypeItem on MenuType {
             iconTablet: ImageAssets.icYKienNguoiDanTablet,
             iconMobile: ImageAssets.icYKienNguoiDan,
           ),
-          title: S.current.y_kien_nguoi_dan,
+          title: S.current.phan_anh_kien_nghi,
         );
-      case MenuType.quanLyVanBan:
+      case MenuType.baoCao:
         return MenuCellType(
           url: urlIconScreen(
-            iconTablet: ImageAssets.icQuanLyVanBanTablet,
-            iconMobile: ImageAssets.icQuanLyVanBan,
+            iconTablet: ImageAssets.itemMenuBaoCaoTablet,
+            iconMobile: ImageAssets.itemMenuBaoCao,
           ),
-          title: S.current.quan_ly_van_ban,
+          title: S.current.bac_cao,
+        );
+      case MenuType.tuongTacNoiBo:
+        return MenuCellType(
+          url: urlIconScreen(
+            iconTablet: ImageAssets.itemMenuTuongTacBoiBoTablet,
+            iconMobile: ImageAssets.itemMenuTuongTacBoiBo,
+          ),
+          title: S.current.tuong_tac_noi_bo,
         );
       case MenuType.baoChiMangXaHoi:
         return MenuCellType(
@@ -214,6 +244,18 @@ extension GetScreen on MenuType {
         return screenDevice(
           mobileScreen: const ChangePassWordScreen(),
           tabletScreen: const ChangePassWordScreenTablet(),
+        );
+      case MenuType.tuongTacNoiBo:
+        return const Scaffold(
+          backgroundColor: Colors.red,
+        );
+      case MenuType.lichLamViec:
+        return const Scaffold(
+          backgroundColor: Colors.red,
+        );
+      case MenuType.baoCao:
+        return const Scaffold(
+          backgroundColor: Colors.red,
         );
     }
   }

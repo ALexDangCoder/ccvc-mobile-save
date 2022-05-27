@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
@@ -67,7 +69,11 @@ mixin QLVBRepository {
   Future<Result<DataThongTinGuiNhanModel>> getDataThongTinGuiNhan(String id);
 
   Future<Result<DataLichSuVanBanModel>> getDataLichSuVanBanDen(
-      String processId, String type);
+    String processId,
+    String type,
+  );
+
+  Future<Result<String>> postFile({required File path});
 
   Future<Result<List<dynamic>>> getTheoDoiVanBan(String id);
 

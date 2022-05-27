@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_den_response.dart';
@@ -18,6 +20,7 @@ import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_den_r
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_di_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_den_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_di_response.dart';
+import 'package:ccvc_mobile/data/response/up_load_anh/up_load_anh_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -94,6 +97,12 @@ abstract class QuanLyVanBanClient {
     @Query('processId') String processId,
     @Query('type') String type,
   );
+
+  @POST(ApiConstants.UPLOAD_FILE_COMMON)
+  @MultiPart()
+  Future<PostFileResponse> postFile(
+      @Part() List<File> path,
+      );
 
   @GET(ApiConstants.GET_DANH_SACH_Y_KIEN)
   Future<DataDanhSachYKienXuLyResponse> getDataDanhSachYKien(

@@ -65,7 +65,11 @@ class _YKienXuLyExpandWidgetMobileState
                     right: 16,
                     top: 3,
                   ),
-                  child: const WidgetComments(),
+                  child: WidgetComments(
+                    onSend: (comment, listData) {
+                      widget.cubit.comment(comment,listData);
+                    },
+                  ),
                 ),
                 StreamBuilder<List<DanhSachYKienXuLy>>(
                   stream: widget.cubit.danhSachYKienXuLyStream,
@@ -97,16 +101,17 @@ class _YKienXuLyExpandWidgetMobileState
                               right: 16,
                             ),
                             child: _itemCommend(
-                                id: data[index].id ?? '',
-                                avatar: data[index].avatar ?? '',
-                                tenNhanVien: data[index].tenNhanVien ?? '',
-                                ngayTao: data[index].ngayTao ?? '',
-                                noiDung: data[index].noiDung ?? '',
-                                fileDinhKem:
-                                    data[index].yKienXuLyFileDinhKem ?? [],
-                                listTraLoi: data[index].listTraloiYKien ?? [],
-                                canRelay: data[index].canRelay,
-                                index: index),
+                              id: data[index].id ?? '',
+                              avatar: data[index].avatar ?? '',
+                              tenNhanVien: data[index].tenNhanVien ?? '',
+                              ngayTao: data[index].ngayTao ?? '',
+                              noiDung: data[index].noiDung ?? '',
+                              fileDinhKem:
+                                  data[index].yKienXuLyFileDinhKem ?? [],
+                              listTraLoi: data[index].listTraloiYKien ?? [],
+                              canRelay: data[index].canRelay,
+                              index: index,
+                            ),
                           );
                         },
                       );
@@ -136,129 +141,174 @@ class _YKienXuLyExpandWidgetMobileState
     required List<TraLoiYKien> listTraLoi,
     bool canRelay = false,
   }) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          indexActiveRelay = index;
-        });
-      },
-      child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(
-                    '$DO_MAIN_DOWLOAD_FILE$avatar',
-                  ),
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(
+                  '$DO_MAIN_DOWLOAD_FILE$avatar',
                 ),
-                spaceW13,
-                Expanded(
-                  child: Text(
-                    tenNhanVien,
-                    style: textNormalCustom(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppTheme.getInstance().titleColor(),
-                    ), //infoColor
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      ngayTao,
-                      style: textNormalCustom(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                        color: infoColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            spaceH12,
-            Text(
-              noiDung,
-              style: textNormalCustom(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppTheme.getInstance().titleColor(),
-              ), //infoColor
-            ),
-            spaceH10,
-            Text(
-              S.current.van_ban_dinh_kem,
-              style: textNormalCustom(
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                color: AppTheme.getInstance().titleColor(),
-              ), //infoColor
-            ),
-            spaceH6,
-            Wrap(
-              children: fileDinhKem
-                  .map(
-                    (e) => GestureDetector(
-                      onTap: () {
-                        handleSaveFile(
-                          url:
-                              '$DO_MAIN_DOWLOAD_FILE${e.fileDinhKem?.duongDan ?? ''}',
-                          name: e.fileDinhKem?.ten ?? '',
-                        );
-                      },
-                      child: Text(
-                        '${e.fileDinhKem?.ten ?? ''} ;',
-                        style: textNormalCustom(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: textColorMangXaHoi,
-                        ), //infoColor
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            if (listTraLoi.isNotEmpty) ...[
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: listTraLoi.length,
-                shrinkWrap: true,
-                itemBuilder: (context, i) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 32, top: 24),
-                    child: _itemCommend(
-                      avatar: listTraLoi[i].avatar,
-                      tenNhanVien: listTraLoi[i].hoTenNguoiTraLoi,
-                      ngayTao:listTraLoi[i].thoiGianTraLoi,
-                      noiDung: listTraLoi[i].noiDungTraLoi,
-                      fileDinhKem: listTraLoi[i].lstFileDinhKemTraLoi ?? [],
-                      listTraLoi: [],
-                    ),
-                  );
-                },
               ),
-              spaceH24
-            ] else
-              spaceH24,
-            if (canRelay && indexActiveRelay == index)
-              WidgetComments(
-                onTab: () {},
-                focus: true,
-                onSend: (comment, listData) {},
-              )
-          ],
-        ),
+              spaceW13,
+              Expanded(
+                child: Text(
+                  tenNhanVien,
+                  style: textNormalCustom(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppTheme.getInstance().titleColor(),
+                  ), //infoColor
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    ngayTao,
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: infoColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          spaceH12,
+          Text(
+            noiDung,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              color: AppTheme.getInstance().titleColor(),
+            ), //infoColor
+          ),
+          spaceH10,
+          Text(
+            S.current.van_ban_dinh_kem,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: AppTheme.getInstance().titleColor(),
+            ), //infoColor
+          ),
+          spaceH6,
+          Row(
+            children: [
+              _listFile(fileDinhKem),
+              spaceW13,
+              _relayButton(canRelay, index)
+            ],
+          ),
+          _listRelayIcon(listTraLoi),
+          spaceH12,
+          if (canRelay && indexActiveRelay == index)
+            WidgetComments(
+              focus: true,
+              onSend: (comment, listData) {
+                widget.cubit.comment(comment,listData);
+              },
+            )
+        ],
       ),
     );
+  }
+
+  Widget _listRelayIcon(List<TraLoiYKien> listTraLoi) {
+    if (listTraLoi.isNotEmpty) {
+      return ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: listTraLoi.length,
+        shrinkWrap: true,
+        itemBuilder: (context, i) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 32, top: 12),
+            child: _itemCommend(
+              avatar: listTraLoi[i].avatar,
+              tenNhanVien: listTraLoi[i].hoTenNguoiTraLoi,
+              ngayTao: listTraLoi[i].thoiGianTraLoiStr,
+              noiDung: listTraLoi[i].noiDungTraLoi,
+              fileDinhKem: listTraLoi[i].lstFileDinhKemTraLoi ?? [],
+              listTraLoi: [],
+            ),
+          );
+        },
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget _listFile(List<YKienXuLyFileDinhKem> data) {
+    if (data.isNotEmpty) {
+      return Column(
+        children: data
+            .map(
+              (e) => GestureDetector(
+                onTap: () {
+                  handleSaveFile(
+                    url:
+                        '$DO_MAIN_DOWLOAD_FILE${e.fileDinhKem?.duongDan ?? ''}',
+                    name: e.fileDinhKem?.ten ?? '',
+                  );
+                },
+                child: Text(
+                  e.fileDinhKem?.ten ?? '',
+                  style: textNormalCustom(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: textColorMangXaHoi,
+                  ), //infoColor
+                ),
+              ),
+            )
+            .toList(),
+      );
+    } else {
+      return SizedBox(
+        child: Text(
+          S.current.khong_co_tep_nao,
+          style: textNormal(
+            textBodyTime,
+            14,
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget _relayButton(bool canRelay, int? index) {
+    if (canRelay) {
+      return Expanded(
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              indexActiveRelay = index;
+            });
+          },
+          child: Text(
+            S.current.phan_hoi,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: textColorMangXaHoi,
+            ), //infoColor
+          ),
+        ),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   @override

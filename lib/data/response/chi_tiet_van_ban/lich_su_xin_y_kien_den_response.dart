@@ -125,7 +125,9 @@ class DanhSachXinYkienResponse {
         issuer: issuer,
         canRelay: listTraLoiYKien
                 ?.where(
-                  (element) => element.id == HiveLocal.getDataUser()?.userId,
+                  (element) =>
+                      element.nguoiTraLoiId ==
+                      HiveLocal.getDataUser()?.userInformation?.id,
                 )
                 .toList()
                 .isNotEmpty ??
@@ -155,7 +157,7 @@ class ListTraLoiYKien {
   String? noiDungTraLoi;
   @JsonKey(name: 'ThoiGianTraLoi')
   String? thoiGianTraLoi;
-  @JsonKey(name: 'ThoiGianTraLoiStr')
+  @JsonKey(name: 'ThoiGianTraLoi_Str')
   String? thoiGianTraLoiStr;
   @JsonKey(name: 'isDaTraLoi')
   bool? isDaTraLoi;

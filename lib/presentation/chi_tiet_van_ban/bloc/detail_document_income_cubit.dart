@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
@@ -6,6 +7,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -95,6 +97,44 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
     await queue.onComplete.whenComplete(() {
       showContent();
     });
+  }
+
+  Future<void> comment(
+    String comment,
+    List<PickImageFileModel> listFile,
+  ) async {
+    final listIdFile = await postListFile(listFile);
+    await postComment(comment, listIdFile);
+  }
+
+  Future<void> postComment(String comment, List<String> listIdFile) async {}
+
+  Future<List<String>> postListFile(List<PickImageFileModel> listPath) async {
+    final List<String> idFileUpload = [];
+    final Queue queue = Queue(parallel: listPath.length);
+    for (final element in listPath) {
+      unawaited(
+        queue.add(
+          () => uploadFile(element.path ?? '' , idFileUpload),
+        ),
+      );
+    }
+    await queue.onComplete;
+    return idFileUpload;
+  }
+
+  Future<void> uploadFile(String path,  List<String> idFileUpload) async {
+    final result = await _qLVBRepo.postFile(
+      path: File(path),
+    );
+    result.when(
+      success: (data) {
+        if (data != 'false') {
+          idFileUpload.add(data);
+        }
+      },
+      error: (error) {},
+    );
   }
 
   Future<void> getDanhSachYKienXuLy(String vanBanId) async {

@@ -57,6 +57,7 @@ class ApiConstants {
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
   static const UPLOAD_FILE = '/api/CanBo/upload';
+  static const UPLOAD_FILE_COMMON = '/qlvb/api/Common/UploadMultiFile';
 
 
   static const LICH_LAM_VIEC_DASHBOARD =

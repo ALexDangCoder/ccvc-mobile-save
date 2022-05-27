@@ -32,36 +32,9 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
           padding: const EdgeInsets.only(top: 16),
           child: Column(
             children: [
-              ButtonSelectFile(
-                title: S.current.them_tai_lieu_cuoc_hop,
-                onChange: (List<File> files) {},
-              ),
+              selectFile(),
               const SizedBox(height: 16),
-              StreamBuilder<ChiTietLichHopModel>(
-                stream: widget.cubit.chiTietLichLamViecSubject,
-                builder: (context, snapshot) {
-                  final data =
-                      snapshot.data?.fileData?.map((e) => e.name).toList() ??
-                          [];
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: ListFileFromAPI(
-                            data: data[index] ?? '',
-                            onTap: () {},
-                          ),
-                        );
-                      },
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
+              listFileFromApi(),
             ],
           ),
         ),
@@ -70,37 +43,41 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
         padding: const EdgeInsets.only(top: 60, left: 13.5),
         child: Column(
           children: [
-            ButtonSelectFile(
-              title: S.current.them_tai_lieu_cuoc_hop,
-              onChange: (files) {},
-            ),
+            selectFile(),
             const SizedBox(height: 16),
-            StreamBuilder<ChiTietLichHopModel>(
-              stream: widget.cubit.chiTietLichLamViecSubject,
-              builder: (context, snapshot) {
-                final data =
-                    snapshot.data?.fileData!.map((e) => e.name).toList() ?? [];
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: ListFileFromAPI(
-                        data: data[index] ?? '',
-                        onTap: () {},
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+            listFileFromApi()
           ],
         ),
       ),
     );
   }
+
+  Widget selectFile() => ButtonSelectFile(
+        title: S.current.them_tai_lieu_cuoc_hop,
+        onChange: (List<File> files) {},
+      );
+
+  Widget listFileFromApi() => StreamBuilder<ChiTietLichHopModel>(
+        stream: widget.cubit.chiTietLichLamViecSubject,
+        builder: (context, snapshot) {
+          final data =
+              snapshot.data?.fileData!.map((e) => e.name).toList() ?? [];
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: ListFileFromAPI(
+                  data: data[index] ?? '',
+                  onTap: () {},
+                ),
+              );
+            },
+          );
+        },
+      );
 }
 
 class ListFileFromAPI extends StatelessWidget {
@@ -112,26 +89,34 @@ class ListFileFromAPI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Text(
-            data,
-            style: textNormalCustom(
-              color: choXuLyColor,
-              fontWeight: FontWeight.w400,
-              fontSize: 14.0.textScale(),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: bgDropDown.withOpacity(0.1),
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
+        border: Border.all(color: bgDropDown),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              data,
+              style: textNormalCustom(
+                color: choXuLyColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.0.textScale(),
+              ),
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            onTap();
-          },
-          child: SvgPicture.asset(ImageAssets.icDelete),
-        ),
-      ],
+          GestureDetector(
+            onTap: () {
+              onTap();
+            },
+            child: SvgPicture.asset(ImageAssets.icDelete),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
@@ -45,51 +46,52 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
     cubit = DetailMeetCalenderCubit();
     cubit.id = widget.id;
     cubit.initData(id: widget.id);
+    // cubit.initDataButton();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: BaseAppBar(
-        leadingIcon: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SvgPicture.asset(ImageAssets.icBack),
-        ),
-        title: S.current.chi_tiet_lich_hop,
-        actions: [
-          StreamBuilder<List<PERMISSION_DETAIL>>(
-              stream: cubit.listButtonSubject.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                return MenuSelectWidget(
-                  listSelect: data
-                      .map(
-                        (e) => e.getMenuLichHop(
-                          context,
-                          cubit,
-                          widget.id,
-                        ),
-                      )
-                      .toList(),
-                );
-              }),
-          const SizedBox(
-            width: 16,
-          )
-        ],
+    return StateStreamLayout(
+      textEmpty: S.current.khong_co_du_lieu,
+      retry: () {},
+      error: AppException(
+        S.current.error,
+        S.current.error,
       ),
-      body: ProviderWidget<DetailMeetCalenderCubit>(
-        cubit: cubit,
-        child: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException(
-            S.current.error,
-            S.current.error,
+      stream: cubit.stateStream,
+      child: Scaffold(
+        appBar: BaseAppBar(
+          leadingIcon: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset(ImageAssets.icBack),
           ),
-          stream: cubit.stateStream,
+          title: S.current.chi_tiet_lich_hop,
+          actions: [
+            StreamBuilder<List<PERMISSION_DETAIL>>(
+                stream: cubit.listButtonSubject.stream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? [];
+                  return MenuSelectWidget(
+                    listSelect: data
+                        .map(
+                          (e) => e.getMenuLichHop(
+                            context,
+                            cubit,
+                            widget.id,
+                          ),
+                        )
+                        .toList(),
+                  );
+                }),
+            const SizedBox(
+              width: 16,
+            )
+          ],
+        ),
+        body: ProviderWidget<DetailMeetCalenderCubit>(
+          cubit: cubit,
           child: DetailMeetCalendarInherited(
             cubit: cubit,
             child: ExpandGroup(
@@ -102,7 +104,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   child: ListView(
                     children: [
                       StreamBuilder<ChiTietLichHopModel>(
-                        stream: cubit.chiTietLichLamViecSubject,
+                        stream: cubit.chiTietLichLamViecSubject.stream,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return Container();

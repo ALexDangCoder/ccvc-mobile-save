@@ -41,8 +41,6 @@ abstract class HomeServiceGateWay {
   @FormUrlEncoded()
   Future<PhamViResponse> getPhamVi();
 
-  @GET(ApiConstants.GET_TIN_BUON)
-  Future<TinhHuongKhanCapResponse> getTinBuon();
   @GET(ApiConstants.GET_DASHBOARD_VB_DEN)
   @FormUrlEncoded()
   Future<DashBoardVBDenResponse> getDashBoardVBDen(
@@ -172,5 +170,8 @@ abstract class HomeServiceCCVC {
 
   @POST(ApiConstants.GUI_LOI_CHUC)
   Future<GuiLoiChucResponse> guiLoiChuc(@Body() GuiLoiChucRequest guiLoiChucRequest);
+
+  @GET(ApiConstants.GET_TIN_BUON)
+  Future<TinhHuongKhanCapResponse> getTinBuon();
 
 }

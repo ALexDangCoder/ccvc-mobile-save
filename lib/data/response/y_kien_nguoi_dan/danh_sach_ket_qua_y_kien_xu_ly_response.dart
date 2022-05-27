@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'danh_sach_ket_qua_y_kien_xu_ly_response.g.dart';
@@ -66,21 +68,26 @@ class YKienXuLyYKNDModelResponse extends Equatable {
   String? tenNguoiXinYKien;
   @JsonKey(name: 'DSFile')
   String? dSFile;
+  @JsonKey(name: 'AnhDaiDienNguoiCho')
+  String? anhDaiDienNguoiCho;
+  @JsonKey(name: 'AnhDaiDienNguoiXin')
+  String? anhDaiDienNguoiXin;
 
-  YKienXuLyYKNDModelResponse({
-    this.id,
-    this.kienNghiId,
-    this.nguoiXinYKien,
-    this.nguoiChoYKien,
-    this.daChoYKien,
-    this.noiDung,
-    this.ngayTao,
-    this.ngaySua,
-    this.type,
-    this.tenNguoiChoYKien,
-    this.tenNguoiXinYKien,
-    this.dSFile,
-  });
+  YKienXuLyYKNDModelResponse(
+      {this.id,
+      this.kienNghiId,
+      this.nguoiXinYKien,
+      this.nguoiChoYKien,
+      this.daChoYKien,
+      this.noiDung,
+      this.ngayTao,
+      this.ngaySua,
+      this.type,
+      this.tenNguoiChoYKien,
+      this.tenNguoiXinYKien,
+      this.dSFile,
+      this.anhDaiDienNguoiCho,
+      this.anhDaiDienNguoiXin});
 
   factory YKienXuLyYKNDModelResponse.fromJson(Map<String, dynamic> json) =>
       _$YKienXuLyYKNDModelResponseFromJson(json);
@@ -94,8 +101,12 @@ class YKienXuLyYKNDModelResponse extends Equatable {
         nguoiChoYKien: nguoiChoYKien,
         daChoYKien: daChoYKien,
         noiDung: noiDung?.parseHtml(),
-        ngayTao: ngayTao == null ? '' : DateTime.parse(ngayTao!).formatApiSS,
-        ngaySua: ngaySua == null ? '' : DateTime.parse(ngaySua!).formatApiSS,
+        ngayTao: ngayTao == null
+            ? ''
+            : DateTime.parse(ngayTao!).formatApiListBieuQuyet,
+        ngaySua: ngaySua == null
+            ? ''
+            : DateTime.parse(ngaySua!).formatApiListBieuQuyet,
         type: type,
         tenNguoiChoYKien: tenNguoiChoYKien,
         tenNguoiXinYKien: tenNguoiXinYKien,
@@ -104,6 +115,8 @@ class YKienXuLyYKNDModelResponse extends Equatable {
             : (jsonDecode(dSFile ?? '') as List<dynamic>)
                 .map((e) => FileResponse.fromJson(e).toModel())
                 .toList(),
+        anhDaiDienNguoiCho: anhDaiDienNguoiCho,
+        anhDaiDienNguoiXin: anhDaiDienNguoiXin,
       );
 
   //todo convert to Model to use
@@ -152,7 +165,7 @@ class FileResponse extends Equatable {
   FileModel toModel() => FileModel(
         id,
         ten,
-        duongDan,
+        '${Get.find<AppConstants>().baseUrlPAKN}/$duongDan',
         dungLuong,
         daKySo,
         daGanQR,

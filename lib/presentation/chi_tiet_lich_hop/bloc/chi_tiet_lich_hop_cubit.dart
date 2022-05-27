@@ -87,6 +87,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<CanBoModel> dataThanhPhanThamGia = [];
   List<String?> data = [];
   List<String> selectPhatBieu = [];
+  String id = '';
+  List<LoaiSelectModel> listLoaiHop = [];
+  String? ngaySinhs;
+  String chonNgay = '';
+  List<File>? listFile = [];
 
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
@@ -185,18 +190,15 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<DanhSachNhiemVuLichHopModel>>
       danhSachNhiemVuLichHopSubject = BehaviorSubject();
+  BehaviorSubject<List<DanhSachNguoiThamGiaModel>> nguoiThamGiaSubject =
+      BehaviorSubject();
+  List<DanhSachNguoiThamGiaModel> listData = [];
 
   List<String> cacLuaChonBieuQuyet = [];
 
   List<NguoiChutriModel> dataThuKyOrThuHoiDeFault = [];
 
   List<NguoiChutriModel> dataThuHoi = [];
-
-  String id = '';
-  List<LoaiSelectModel> listLoaiHop = [];
-  String? ngaySinhs;
-  String chonNgay = '';
-  List<File>? listFile = [];
 
   TimerData start = TimerData(hour: 0, minutes: 0);
   TimerData end = TimerData(hour: 0, minutes: 0);
@@ -223,7 +225,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
 
     ///Biểu quyết
-
+    unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: id)));
     unawaited(queue.add(() => callApi(id)));
     // unawaited(queue.add(() => getDanhSachBieuQuyetLichHop(id)));
 
@@ -251,33 +253,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     queue.dispose();
   }
 
-  TimerData subStringTime(String time) {
-    final DateFormat dateFormat = DateFormat('yyyy-MM-ddTHH:mm:ss');
-    final dateTime = dateFormat.parse(time);
-    return TimerData(hour: dateTime.hour, minutes: dateTime.minute);
-  }
-
-
-
-  String chonNgayStr(String date) {
-    final DateFormat paserDate = DateFormat('yyyy-MM-ddTHH:mm:ss');
-    final paserDates = paserDate.parse(date).formatApiFix;
-    return paserDates;
-  }
-
-  String plus(String? date, TimerData time) {
-    final DateFormat dateFormat = DateFormat('yyyy-MM-dd 00:00:00');
-    final dateTime = dateFormat.parse(date ?? chonNgayStr(chonNgay));
-    final times = DateTime(
-      dateTime.year,
-      dateTime.month,
-      dateTime.day,
-      time.hour,
-      time.minutes,
-    );
-    return times.formatApiSuaPhienHop;
-  }
-
   String plusTaoBieuQuyet(String date, TimerData time) {
     final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
     final dateTime = dateFormat.parse(date);
@@ -291,12 +266,6 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
     return times.formatApiTaoBieuQuyet;
   }
-
-
-
-  BehaviorSubject<List<DanhSachNguoiThamGiaModel>> nguoiThamGiaSubject =
-      BehaviorSubject();
-  List<DanhSachNguoiThamGiaModel> listData = [];
 
   Future<void> getDanhSachNTGChuongTrinhHop({
     required String id,
@@ -326,95 +295,9 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
   }
 
-  Future<void> postThemBieuQuyetHop(String id, String noidung) async {
-    await themBieuQuyetHop(
-      dateStart: date,
-      thoiGianBatDau: plusTaoBieuQuyet(
-        date,
-        start,
-      ),
-      thoiGianKetThuc: plusTaoBieuQuyet(
-        date,
-        end,
-      ),
-      loaiBieuQuyet: loaiBieuQ,
-      danhSachLuaChon: listLuaChon
-          .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))
-          .toList(),
-      noiDung: noidung,
-      lichHopId: id,
-      trangThai: 0,
-      quyenBieuQuyet: true,
-      danhSachThanhPhanThamGia: listDanhSach
-          .map(
-            (e) => DanhSachThanhPhanThamGia(
-              canBoId: e.canBoId,
-              donViId: e.donViId,
-              idPhienhopCanbo: e.id,
-            ),
-          )
-          .toList(),
-    );
-  }
 
-  Future<void> themBieuQuyetHop({
-    required String? dateStart,
-    required String? thoiGianBatDau,
-    required String? thoiGianKetThuc,
-    required bool? loaiBieuQuyet,
-    required List<DanhSachLuaChon>? danhSachLuaChon,
-    required String? noiDung,
-    required String? lichHopId,
-    required int? trangThai,
-    required bool? quyenBieuQuyet,
-    required List<DanhSachThanhPhanThamGia>? danhSachThanhPhanThamGia,
-  }) async {
-    showLoading();
-    final BieuQuyetRequest bieuQuyetRequest = BieuQuyetRequest(
-      dateStart: dateStart,
-      thoiGianBatDau: thoiGianBatDau,
-      thoiGianKetThuc: thoiGianKetThuc,
-      loaiBieuQuyet: loaiBieuQuyet,
-      danhSachLuaChon: danhSachLuaChon,
-      noiDung: noiDung,
-      lichHopId: lichHopId,
-      trangThai: trangThai,
-      quyenBieuQuyet: quyenBieuQuyet,
-      danhSachThanhPhanThamGia: danhSachThanhPhanThamGia,
-    );
-    final result = await hopRp.themBieuQuyet(bieuQuyetRequest);
-    result.when(
-      success: (res) {},
-      error: (err) {
-        return;
-      },
-    );
-  }
 
-  void getTimeHour({required TimerData startT, required TimerData endT}) {
-    final int hourStart = startT.hour;
-    final int minuteStart = startT.minutes;
-    final int hourEnd = endT.hour;
-    final int minuteEnd = endT.minutes;
-    String hStart = hourStart.toString();
-    String mStart = minuteStart.toString();
-    String hEnd = hourEnd.toString();
-    String mEnd = minuteEnd.toString();
-    if (hourStart < 10) {
-      hStart = '0$hStart';
-    }
-    if (minuteStart < 10) {
-      mStart = '0$mStart';
-    }
-    if (hourEnd < 10) {
-      hEnd = '0$hEnd';
-    }
-    if (minuteEnd < 10) {
-      mEnd = '0$mEnd';
-    }
-    startTime = '$hStart:$mStart';
-    endTime = '$hEnd:$mEnd';
-  }
+
 
   BehaviorSubject<List<CanBoModel>> thanhPhanThamGia =
       BehaviorSubject<List<CanBoModel>>();
@@ -449,5 +332,3 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   void dispose() {}
 }
-
-

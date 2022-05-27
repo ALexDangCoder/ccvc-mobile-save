@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -30,6 +31,12 @@ class CellListCaNhan extends StatefulWidget {
 
 class _CellListCaNhanState extends State<CellListCaNhan> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: Container(
@@ -52,17 +59,42 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                     Container(
                       height: 56,
                       width: 56,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: colorLineSearch.withOpacity(0.3)),
                         shape: BoxShape.circle,
-                        color: choTrinhKyColor,
+                        color: Colors.transparent,
+                        boxShadow: [
+                          BoxShadow(
+                            color: bgImage.withOpacity(0.1),
+                            blurRadius: 7,
+                          ),
+                        ],
                       ),
-                      child: Center(
-                        child: Text(
-                          widget.cubit.subString(widget.item.hoTen ?? ''),
-                          style: titleText(fontSize: 24),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.item.anhDaiDienFilePath ?? '',
+                          errorWidget: (_, __, ___) {
+                            return Container(
+                              height: 56,
+                              width: 56,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: choTrinhKyColor,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  widget.cubit
+                                      .subString(widget.item.hoTen ?? ''),
+                                  style: titleText(fontSize: 24),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    )
+                    ),
                     // SvgPicture.asset(ImageAssets.icTron),
                   ],
                 ),
@@ -203,18 +235,42 @@ class _CellListCaNhanState extends State<CellListCaNhan> {
                     Container(
                       height: 56,
                       width: 56,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: colorLineSearch.withOpacity(0.3)),
                         shape: BoxShape.circle,
-                        color: choTrinhKyColor,
+                        color: Colors.transparent,
+                        boxShadow: [
+                          BoxShadow(
+                            color: bgImage.withOpacity(0.1),
+                            blurRadius: 7,
+                          ),
+                        ],
                       ),
-                      child: Center(
-                        child: Text(
-                          widget.cubit.subString(widget.item.hoTen ?? ''),
-                          style: titleText(fontSize: 24),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.item.anhDaiDienFilePath ?? '',
+                          errorWidget: (_, __, ___) {
+                            return Container(
+                              height: 56,
+                              width: 56,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: choTrinhKyColor,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  widget.cubit
+                                      .subString(widget.item.hoTen ?? ''),
+                                  style: titleText(fontSize: 24),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    )
-                    // SvgPicture.asset(ImageAssets.icTron),
+                    ),
                   ],
                 ),
               ),

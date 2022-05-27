@@ -22,6 +22,8 @@ class ApiConstants {
   static const SUA_TEN_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/update';
   static const XOA_NHOM_CONG_VIEC_MOI = '/api/TodoListGroup/delete';
   static const TRANSLATE_DOCUMENT = '/appdieuhanh/api/Common/dich_van_ban';
+  static const POST_FILE = '/api/common/uploadfile';
+  static const TRANSLATE_FILE = '/api/Common/dich_tai_lieu';
   static const CHUYEN_VB_SANG_GIONG_NOI =
       '/api/TichHop/chuyen-vanban-sang-giongnoi';
 }

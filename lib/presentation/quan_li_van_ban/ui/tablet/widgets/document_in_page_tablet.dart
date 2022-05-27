@@ -4,7 +4,7 @@ import 'package:ccvc_mobile/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/quan_ly_van_ban/van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_den_mobile.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -99,25 +99,25 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                             shrinkWrap: true,
                             itemCount: listData.length,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ChiTietVanBanDenMobile(
-                                        processId: listData[index].iD ?? '',
-                                        taskId: listData[index].taskId ?? '',
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 16,
+                                  top: (index == 0) ? 16 : 0,
+                                ),
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChiTietVanBanDenTablet(
+                                              processId: listData[index].iD ?? '',
+                                              taskId: listData[index].taskId ?? '',
+                                            ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 16,
-                                    top: (index == 0) ? 16 : 0,
-                                  ),
+                                    );
+                                  },
                                   child: ContainerInfoWidget(
                                     title:
                                         listData[index].trichYeu?.parseHtml() ??

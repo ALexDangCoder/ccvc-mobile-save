@@ -78,11 +78,11 @@ class ItemsResponse {
   String? ngaySinh;
   @JsonKey(name: 'cmtnd')
   String? cmtnd;
-  @JsonKey(name: 'anhDaiDienFilePath')
+  @JsonKey(name: 'anhDaiDien_FilePath')
   String? anhDaiDienFilePath;
-  @JsonKey(name: 'anhChuKyFilePath')
+  @JsonKey(name: 'anhChuKy_FilePath')
   String? anhChuKyFilePath;
-  @JsonKey(name: 'anhChuKyNhayFilePath')
+  @JsonKey(name: 'anhChuKyNhay_FilePath')
   String? anhChuKyNhayFilePath;
   @JsonKey(name: 'diaChi')
   String? diaChi;

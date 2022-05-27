@@ -63,20 +63,21 @@ class _LichSuVanBanLienThongWidgetExpandTabletState
                     final data = snapshot.data ?? [];
                     return data.isNotEmpty
                         ? SingleChildScrollView(
-                      child: Column(
-                        children: data
-                            .map(
-                              (e) => WidgetInExpandVanBan(
-                            row: e.toListRowLichSuVanBanLienThong(),
-                          ),
-                        )
-                            .toList(),
-                      ),
-                    )
+                            child: Column(
+                              children: data
+                                  .map(
+                                    (e) => WidgetInExpandVanBan(
+                                      flexValue: 8,
+                                      row: e.toListRowLichSuVanBanLienThong(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          )
                         : const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: NodataWidget(),
-                    );
+                            padding: EdgeInsets.only(top: 16.0),
+                            child: NodataWidget(),
+                          );
                   },
                 ),
               ),

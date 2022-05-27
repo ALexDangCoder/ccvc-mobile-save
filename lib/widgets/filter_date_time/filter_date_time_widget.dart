@@ -21,7 +21,7 @@ class FilterDateTimeWidget extends StatefulWidget {
     required this.context,
     this.currentStartDate,
     this.currentEndDate,
-    required this.isMobile,
+    this.isMobile = true,
     this.initStartDate,
     this.initEndDate,
   }) : super(key: key) {}
@@ -75,10 +75,10 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
         padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: widget.isMobile
-                  ? Column(
+          children: widget.isMobile
+              ? [
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
@@ -119,58 +119,13 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                           ),
                         )
                       ],
-                    )
-                  : Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Text(
-                            S.current.tu_ngay,
-                            style: textNormal(titleItemEdit, 14.0),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 16.0,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            _showDatePicker(
-                              initialDate: currentStartDate,
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12.0,
-                              horizontal: 16.0,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: cellColorborder),
-                              borderRadius: BorderRadius.circular(4.0),
-                              color: backgroundColorApp,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  currentStartDate.toStringWithListFormat,
-                                  style: textNormal(textBodyTime, 14.0),
-                                ),
-                                SvgPicture.asset(
-                                  ImageAssets.icCalendarUnFocus,
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
                     ),
-            ),
-            const SizedBox(
-              width: 16.0,
-            ),
-            Expanded(
-              child: widget.isMobile
-                  ? Column(
+                  ),
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
@@ -202,20 +157,29 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                           ),
                         )
                       ],
-                    )
-                  : Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            S.current.den_ngay,
-                            style: textNormal(titleItemEdit, 14.0),
-                          ),
+                    ),
+                  ),
+                ]
+              : [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          S.current.tu_ngay,
+                          style: textNormal(titleItemEdit, 14.0),
                         ),
-                        const SizedBox(
-                          width: 16.0,
-                        ),
-                        Container(
+                      ),
+                      const SizedBox(
+                        width: 16.0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _showDatePicker(
+                            initialDate: currentStartDate,
+                          );
+                        },
+                        child: Container(
                           padding: const EdgeInsets.symmetric(
                             vertical: 12.0,
                             horizontal: 16.0,
@@ -223,23 +187,69 @@ class _FilterDateTimeWidgetState extends State<FilterDateTimeWidget>
                           decoration: BoxDecoration(
                             border: Border.all(color: cellColorborder),
                             borderRadius: BorderRadius.circular(4.0),
-                            color: blueFilterDateWidget,
+                            color: backgroundColorApp,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                currentEndDate.toStringWithListFormat,
-                                style: textNormal(titleColor, 14.0),
+                                currentStartDate.toStringWithListFormat,
+                                style: textNormal(textBodyTime, 14.0),
                               ),
-                              SvgPicture.asset(ImageAssets.icCalendarUnFocus),
+                              spaceW20,
+                              ImageAssets.svgAssets(
+                                ImageAssets.icCalendarUnFocus,
+                                width: 24,
+                                fit: BoxFit.fill,
+                              ),
                             ],
                           ),
-                        )
-                      ],
-                    ),
-            ),
-          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  spaceW25,
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          S.current.den_ngay,
+                          style: textNormal(titleItemEdit, 14.0),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 16.0,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12.0,
+                          horizontal: 16.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: cellColorborder),
+                          borderRadius: BorderRadius.circular(4.0),
+                          color: blueFilterDateWidget,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              currentEndDate.toStringWithListFormat,
+                              style: textNormal(titleColor, 14.0),
+                            ),
+                            spaceW20,
+                            ImageAssets.svgAssets(
+                              ImageAssets.icCalendarUnFocus,
+                              width: 24,
+                              fit: BoxFit.fill,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ],
         ),
       ),
     );

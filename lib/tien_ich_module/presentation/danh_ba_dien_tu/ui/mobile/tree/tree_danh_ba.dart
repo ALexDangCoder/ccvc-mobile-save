@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/dropdow_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc_tree/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/tree.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -30,101 +29,89 @@ class _DanhBaScreenState extends State<DanhBaWidget> {
   @override
   void initState() {
     // TODO: implement initState
-    widget.cubit.getTree().then(
-          (value) => widget.onChange(widget.cubit.initOnchange()),
-        );
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DropdownWidgetTablet(
-            title: StreamBuilder<String>(
-              stream: widget.cubit.tenDonVi.stream,
-              builder: (context, snapshot) {
-                return Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.7,
-                  ),
-                  child: Text(
-                    snapshot.data.toString(),
-                    style: textNormal(titleColor, 14),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-              },
-            ),
-            child: SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.only(top: 11),
-                decoration: BoxDecoration(
-                  border: Border.all(color: borderColor),
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
-                ),
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.4,
-                ),
-                child: Column(
-                  children: [
-                    BaseSearchBarNoBorder(
-                      hintText: S.current.nhap_don_vi,
-                      onChange: (vl) {
-                        widget.cubit.searchTree(vl);
-                      },
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: borderSide(),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: StreamBuilder(
-                        stream: widget.cubit.listTreeDanhBaSubject.stream,
-                        builder: (context, snapshot) {
-                          if (widget.cubit.listTreeDanhBa.isEmpty) {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: NodataWidget(),
-                            );
-                          } else {
-                            return Scrollbar(
-                              child: Container(
-                                constraints: const BoxConstraints(
-                                  maxHeight: 300,
-                                ),
-                                color: Colors.white,
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      child: NodeWidget(
-                                        onChange: (vl) {
-                                          widget.onChange(vl);
-                                        },
-                                        key: UniqueKey(),
-                                        node: widget.cubit.getRoot(),
-                                        cubit: widget.cubit,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
+      child: DropdownWidgetTablet(
+        title: StreamBuilder<String>(
+          stream: widget.cubit.tenDonVi.stream,
+          builder: (context, snapshot) {
+            return Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.5,
               ),
+              child: Text(
+                snapshot.data ?? '',
+                style: textNormal(titleColor, 14),
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
+          },
+        ),
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(top: 11),
+            decoration: BoxDecoration(
+              border: Border.all(color: borderColor),
+              borderRadius: const BorderRadius.all(Radius.circular(6)),
+            ),
+            child: Column(
+              children: [
+                BaseSearchBarNoBorder(
+                  hintText: S.current.nhap_don_vi,
+                  onChange: (vl) {
+                    widget.cubit.searchTree2(vl);
+                  },
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: borderSide(),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: StreamBuilder(
+                    stream: widget.cubit.listTreeDanhBaSubject.stream,
+                    builder: (context, snapshot) {
+                      if (widget.cubit.listTreeDanhBa.isEmpty) {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: NodataWidget(),
+                        );
+                      } else {
+                        return Scrollbar(
+                          child: Container(
+                            constraints: const BoxConstraints(
+                              maxHeight: 300,
+                            ),
+                            color: Colors.white,
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: NodeWidget(
+                                    onChange: (vl) {
+                                      widget.onChange(vl);
+                                    },
+                                    key: UniqueKey(),
+                                    node: widget.cubit.getRoot(),
+                                    cubit: widget.cubit,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                )
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -160,10 +147,10 @@ class _NodeWidgetState extends State<NodeWidget> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double widthSize = size.width;
-    return StreamBuilder<Tree>(
+    return StreamBuilder<dynamic>(
       stream: widget.cubit.listTreeDanhBaSubject.stream,
-      builder: (BuildContext context, AsyncSnapshot<Tree> snapshot) {
-        final hasChild = widget.node?.isHasChild ?? false;
+      builder: (context, snapshot) {
+        final hasChild = widget.node?.value.hasDonViCon ?? false;
         final idDonviCha = widget.node?.value.iDDonViCha;
         if (widget.node != null) {
           return SingleChildScrollView(
@@ -178,10 +165,14 @@ class _NodeWidgetState extends State<NodeWidget> {
                         setState(() {
                           isExpand = !isExpand;
                         });
+
                       } else {
                         widget.cubit.getValueTree(
-                          id: widget.node?.value.id ?? '',
-                          donVi: widget.node?.value.tenDonVi ?? '',
+                          nodeHSCV: widget.node ??
+                              NodeHSCV(
+                                iDDonViCha: '',
+                                value: TreeDonViDanhBA.Emty(),
+                              ),
                         );
                         widget.onChange(
                           widget.node?.value ?? TreeDonViDanhBA.Emty(),
@@ -275,14 +266,12 @@ class _NodeWidgetState extends State<NodeWidget> {
                     },
                   )
                 else
-                  Container(),
+                  const SizedBox(),
               ],
             ),
           );
         } else {
-          return const SizedBox(
-            height: 0,
-          );
+          return const SizedBox();
         }
       },
     );

@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
@@ -8,6 +9,7 @@ import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/lich_am_duong_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/list_nguoi_thuc_hien_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/post_anh_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/todo_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/topic_hdsd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tra_cuu_van_ban_phap_luat_response.dart';
@@ -106,6 +108,20 @@ abstract class TienIchService {
     @Field('text') String text,
     @Field('voiceTone') String voiceTone,
   );
+
+  @POST(ApiConstants.TRANSLATE_FILE)
+  @MultiPart()
+  Future<String> translateFile(
+    @Part() File file,
+    @Part() String target,
+    @Part() String source,
+  );
+
+  @POST(ApiConstants.POST_FILE)
+  @MultiPart()
+  Future<PostAnhResponse> uploadFile(
+    @Part() File fileUpload,
+  );
 }
 
 @RestApi()
@@ -135,8 +151,9 @@ abstract class TienIchServiceCommon {
 
   @GET(ApiConstants.TREE_DANH_BA)
   @FormUrlEncoded()
-  Future<TreeDanhBaResponse> TreeDanhBa(
+  Future<TreeDanhBaResponse> treeDanhBa(
     @Query('soCap') int soCap,
+    @Query('idDonViCha') String idDonViCha,
   );
 }
 
@@ -145,7 +162,6 @@ abstract class TienIchServiceGateWay {
   @factoryMethod
   factory TienIchServiceGateWay(Dio dio, {String baseUrl}) =
       _TienIchServiceGateWay;
-
 
   @POST(ApiConstants.TRANSLATE_DOCUMENT)
   @MultiPart()

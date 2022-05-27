@@ -28,7 +28,7 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
     return Scaffold(
       backgroundColor: bgQLVBTablet,
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
@@ -63,7 +63,17 @@ class _SendMailScreenTabletState extends State<SendMailScreenTablet> {
                         child: SvgPicture.asset(ImageAssets.ic_email),),
                     ),
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      final   isCheckSdt=(value ?? '').checkSdtDinhDangTruong() ?? false;
+                      final   isCheckEmail=(value ?? '').checkEmailBooleanDinhDangTruong() ?? false;
+                      if((value ?? '').isNotEmpty){
+                        if(isCheckSdt || isCheckEmail){
+
+                        }else{
+                          return'${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                        }
+                      }else{
+                        return (value ?? '').checkTruongNull('${S.current.email}/${S.current.so_dien_thoai}');
+                      }
                     },
                   ),
                   const SizedBox(height: 36.0),

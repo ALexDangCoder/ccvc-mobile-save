@@ -188,7 +188,8 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                       YKienCuocHopWidget(
                         id: widget.id,
                         cubit: cubit,
-                      )
+                      ),
+
                     ],
                   ),
                 ),

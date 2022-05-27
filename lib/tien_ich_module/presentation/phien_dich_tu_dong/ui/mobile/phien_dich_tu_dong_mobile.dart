@@ -220,8 +220,10 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                             color: Colors.white,
                           ),
                         ),
+                        counterText: '',
                       ),
                       maxLines: null,
+                      maxLength: 5000,
                     ),
                   ),
                   //mic

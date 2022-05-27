@@ -11,6 +11,7 @@ class SacThaiResponse {
   int? tichCuc;
   @JsonKey(name: 'TieuCuc')
   int? tieuCuc;
+
   SacThaiResponse(
     this.trungLap,
     this.tichCuc,

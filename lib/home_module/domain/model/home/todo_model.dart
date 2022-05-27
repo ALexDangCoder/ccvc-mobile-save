@@ -5,7 +5,6 @@ class TodoListModel {
   TodoListModel({required this.listTodoImportant, required this.listTodoDone});
 }
 
-
 class TodoModel {
   String? id;
   String? label;
@@ -18,6 +17,7 @@ class TodoModel {
   String? updatedOn;
   String? updatedBy;
   String? note;
+
   TodoModel({
     this.id,
     this.label,
@@ -31,6 +31,4 @@ class TodoModel {
     this.updatedBy,
     this.note,
   });
-
-
 }

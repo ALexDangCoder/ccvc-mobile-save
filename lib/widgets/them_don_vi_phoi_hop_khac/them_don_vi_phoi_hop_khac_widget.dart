@@ -151,7 +151,7 @@ class ItemThanhPhanWidget extends StatelessWidget {
                     flex: 6,
                     child: Text(
                       data.noidung,
-                      style: textNormal(titleColor, 14.0.textScale()),
+                      style: textNormal(color3D5586, 14.0.textScale()),
                     ),
                   )
                 ],
@@ -187,7 +187,7 @@ class ItemThanhPhanWidget extends StatelessWidget {
           flex: 6,
           child: Text(
             value,
-            style: textNormal(titleColor, 14.0.textScale()),
+            style: textNormal(color3D5586, 14.0.textScale()),
           ),
         )
       ],

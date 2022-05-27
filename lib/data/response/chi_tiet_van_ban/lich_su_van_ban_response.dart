@@ -27,12 +27,12 @@ class DataLichSuVanBanResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$DataLichSuVanBanResponseToJson(this);
 
-  DataLichSuVanBanModel toModel()=>DataLichSuVanBanModel(
-    messages: messages,
-    data: data?.map((e) => e.toModel()).toList() ?? [],
-    validationResult: validationResult,
-    isSuccess: isSuccess,
-  );
+  DataLichSuVanBanModel toModel() => DataLichSuVanBanModel(
+        messages: messages,
+        data: data?.map((e) => e.toModel()).toList() ?? [],
+        validationResult: validationResult,
+        isSuccess: isSuccess,
+      );
 
   //todo convert to Model to use
   @override
@@ -73,16 +73,17 @@ class LichSuVanBanResponse extends Equatable {
       _$LichSuVanBanResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$LichSuVanBanResponseToJson(this);
-  LichSuVanBanModel toModel()=>LichSuVanBanModel(
-      nguoiTaoXuLy:nguoiTaoXuLy,
-      donViTaoXuLy:donViTaoXuLy,
-      thoiGianTao:thoiGianTao,
-      noiDung:noiDung,
-      nguoiXuLy:nguoiXuLy,
-      donViXuLy:donViXuLy,
-    fileDinhKems:fileDinhKems?.map((e) => e.toModel()).toList()??[],
-    hoatDong:hoatDong,
-  );
+
+  LichSuVanBanModel toModel() => LichSuVanBanModel(
+        nguoiTaoXuLy: nguoiTaoXuLy,
+        donViTaoXuLy: donViTaoXuLy,
+        thoiGianTao: thoiGianTao,
+        noiDung: noiDung,
+        nguoiXuLy: nguoiXuLy,
+        donViXuLy: donViXuLy,
+        fileDinhKems: fileDinhKems?.map((e) => e.toModel()).toList() ?? [],
+        hoatDong: hoatDong,
+      );
 
   @override
   List<Object?> get props => [];
@@ -140,22 +141,24 @@ class FileDinhKemsResponse extends Equatable {
       _$FileDinhKemsResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$FileDinhKemsResponseToJson(this);
-  FileDinhKems toModel()=>FileDinhKems(
-      id: id,
-      idFileGoc: idFileGoc,
-      processId: processId,
-      ten: ten,
-      duongDan: duongDan,
-      duoiMoRong: duoiMoRong,
-      dungLuong: dungLuong,
-      kieuDinhKem: kieuDinhKem,
-      isSign: isSign,
-      qrCreated: qrCreated,
-      index: index,
-      nguoiTaoId: nguoiTaoId,
-      nguoiTao: nguoiTao,
-      pathIOC: pathIOC,
-  );
+
+  FileDinhKems toModel() => FileDinhKems(
+        id: id,
+        idFileGoc: idFileGoc,
+        processId: processId,
+        ten: ten,
+        duongDan: duongDan,
+        duoiMoRong: duoiMoRong,
+        dungLuong: dungLuong,
+        kieuDinhKem: kieuDinhKem,
+        isSign: isSign,
+        qrCreated: qrCreated,
+        index: index,
+        nguoiTaoId: nguoiTaoId,
+        nguoiTao: nguoiTao,
+        pathIOC: pathIOC,
+      );
+
   @override
   List<Object?> get props => [];
 }

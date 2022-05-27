@@ -312,7 +312,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
               snapshot.data ?? '',
               style: tokenDetailAmount(
                 fontSize: 14.0.textScale(),
-                color: titleColor,
+                color: color3D5586,
               ),
             );
           },

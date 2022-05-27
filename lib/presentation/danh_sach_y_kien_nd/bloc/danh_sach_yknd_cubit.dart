@@ -75,7 +75,7 @@ class DanhSachYKienNguoiDanCubit extends BaseCubit<BaseState> {
   Future<void> searchDanhSachYKienNguoiDan({
     required String tuNgay,
     required String denNgay,
-    String trangThai='',
+    String trangThai = '',
     required int pageSize,
     required int pageNumber,
   }) async {

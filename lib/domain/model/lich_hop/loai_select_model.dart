@@ -4,6 +4,7 @@ class LoaiSelectModel {
   String name;
   int order;
   int type;
+
   LoaiSelectModel({
     this.totalItems = 0,
     this.id = '',

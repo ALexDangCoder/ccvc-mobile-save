@@ -53,7 +53,6 @@ class NguoiDangTheoDoiData {
   @JsonKey(name: 'userId')
   String? userId;
 
-
   NguoiDangTheoDoiData(this.chucVu, this.color, this.donViId, this.hoTen,
       this.id, this.soBanGhi, this.tenDonVi, this.type, this.userId);
 

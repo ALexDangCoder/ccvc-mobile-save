@@ -27,6 +27,7 @@ class ToDoListResponse {
     code = json['code'];
     message = json['message'];
   }
+
   TodoListModel toDomain() {
     final List<Data> listImportant = data
             ?.where(
@@ -118,6 +119,7 @@ class Data {
     note = json['note'];
     performer = json['performer'];
   }
+
   TodoModel toDomain() => TodoModel(
         id: id,
         label: label,

@@ -187,7 +187,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                                   '${snapshot.data?.tietKhi}',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                             ],

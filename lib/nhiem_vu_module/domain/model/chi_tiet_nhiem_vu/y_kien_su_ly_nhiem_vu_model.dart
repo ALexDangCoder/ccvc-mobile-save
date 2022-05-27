@@ -1,6 +1,4 @@
-
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
-import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 
 class YKienSuLyNhiemVuModel {
   String? id;

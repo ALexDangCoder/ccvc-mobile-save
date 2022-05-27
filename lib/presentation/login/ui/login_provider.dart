@@ -12,7 +12,7 @@ class LoginProvider extends InheritedWidget {
 
   static LoginProvider of(BuildContext context) {
     final LoginProvider? result =
-    context.dependOnInheritedWidgetOfExactType<LoginProvider>();
+        context.dependOnInheritedWidgetOfExactType<LoginProvider>();
     assert(result != null, 'No element');
     return result!;
   }

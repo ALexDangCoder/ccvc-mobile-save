@@ -2,10 +2,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_state.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/widget_item_menu_nhiem_vu_tablet.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
-
-
-import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,7 +21,7 @@ class _NhiemVuMenuTabletState extends State<NhiemVuMenuTablet> {
     return Scaffold(
       appBar: BaseAppBar(
         title: S.current.menu,
-        leadingIcon:  IconButton(
+        leadingIcon: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
@@ -46,7 +43,8 @@ class _NhiemVuMenuTabletState extends State<NhiemVuMenuTablet> {
                 number: 20,
                 name: S.current.nhiem_vu_ca_nhan,
                 onTap: () {
-                  widget.cubit.selectTypeNhiemVuSubject.add([true,false, false]);
+                  widget.cubit.selectTypeNhiemVuSubject
+                      .add([true, false, false]);
                   widget.cubit.emit(NhiemVuCaNhan());
                   Navigator.pop(context);
                 },
@@ -61,7 +59,8 @@ class _NhiemVuMenuTabletState extends State<NhiemVuMenuTablet> {
                 name: S.current.nhiem_vu_don_vi,
                 number: 20,
                 onTap: () {
-                  widget.cubit.selectTypeNhiemVuSubject.add([false, true,false]);
+                  widget.cubit.selectTypeNhiemVuSubject
+                      .add([false, true, false]);
                   widget.cubit.emit(NhiemVuDonVi());
                   Navigator.pop(context);
                 },
@@ -76,7 +75,8 @@ class _NhiemVuMenuTabletState extends State<NhiemVuMenuTablet> {
                 name: S.current.bao_cao_thong_ke,
                 number: 20,
                 onTap: () {
-                  widget.cubit.selectTypeNhiemVuSubject.add([false,false, true]);
+                  widget.cubit.selectTypeNhiemVuSubject
+                      .add([false, false, true]);
                   widget.cubit.emit(BaoCaoThongKe());
                   Navigator.pop(context);
                 },

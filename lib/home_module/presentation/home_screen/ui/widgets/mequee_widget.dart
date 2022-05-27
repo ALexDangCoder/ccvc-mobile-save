@@ -7,8 +7,6 @@ import '/home_module/config/resources/color.dart';
 import '/home_module/config/resources/styles.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
-import '/home_module/utils/constants/image_asset.dart';
-import '/presentation/webview/web_view_screen.dart';
 
 class MarqueeWidget extends StatelessWidget {
   const MarqueeWidget({Key? key}) : super(key: key);
@@ -23,8 +21,6 @@ class MarqueeWidget extends StatelessWidget {
           return SizedBox(
             height: 30,
             child: MarqueeContinuous(
-
-
               child: Row(
                 children: List.generate(data.length, (index) {
                   final result = data[index];
@@ -36,9 +32,8 @@ class MarqueeWidget extends StatelessWidget {
                           height: 6.0.textScale(),
                           width: 6.0.textScale(),
                           decoration: BoxDecoration(
-                            color: index % 2 == 0
-                                ? specialPriceColor
-                                : textTitle,
+                            color:
+                                index % 2 == 0 ? specialPriceColor : textTitle,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -48,9 +43,8 @@ class MarqueeWidget extends StatelessWidget {
                         Text(
                           result.title,
                           style: textNormalCustom(
-                            color: index % 2 == 0
-                                ? specialPriceColor
-                                : textTitle,
+                            color:
+                                index % 2 == 0 ? specialPriceColor : textTitle,
                             fontSize: 14.0.textScale(),
                           ),
                         )
@@ -75,11 +69,11 @@ class MarqueeContinuous extends StatefulWidget {
   final Duration duration;
   final double stepOffset;
 
- const MarqueeContinuous(
+  const MarqueeContinuous(
       {Key? key,
-       required this.child,
-        this.duration = const Duration(seconds: 3),
-        this.stepOffset = 50.0})
+      required this.child,
+      this.duration = const Duration(seconds: 3),
+      this.stepOffset = 50.0})
       : super(key: key);
 
   @override

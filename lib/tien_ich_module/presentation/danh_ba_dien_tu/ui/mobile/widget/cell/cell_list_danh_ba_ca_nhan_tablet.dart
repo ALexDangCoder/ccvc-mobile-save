@@ -77,7 +77,7 @@ class _CellListDanhBaToChucTabletState
               children: [
                 Text(
                   widget.item.hoTen ?? '',
-                  style: textNormalCustom(fontSize: 16, color: titleColor),
+                  style: textNormalCustom(fontSize: 16, color: color3D5586),
                 ),
                 spaceH26,
                 Row(
@@ -88,7 +88,7 @@ class _CellListDanhBaToChucTabletState
                       S.current.nhan_vien,
                       style: tokenDetailAmount(
                         fontSize: 16,
-                        color: titleColor,
+                        color: color3D5586,
                       ),
                     )
                   ],
@@ -105,7 +105,7 @@ class _CellListDanhBaToChucTabletState
                           '',
                       style: tokenDetailAmount(
                         fontSize: 16,
-                        color: titleColor,
+                        color: color3D5586,
                       ),
                     )
                   ],
@@ -122,7 +122,7 @@ class _CellListDanhBaToChucTabletState
                         overflow: TextOverflow.ellipsis,
                         style: tokenDetailAmount(
                           fontSize: 16,
-                          color: titleColor,
+                          color: color3D5586,
                         ),
                       ),
                     )

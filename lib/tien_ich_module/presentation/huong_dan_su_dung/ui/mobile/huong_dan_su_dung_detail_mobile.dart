@@ -137,7 +137,8 @@ class _HuongDanSuDungDetailMobileState
                                                   style: {
                                                     'body': Style(
                                                       color: titleColumn,
-                                                      fontSize: const FontSize(14.0),
+                                                      fontSize:
+                                                          const FontSize(14.0),
                                                     ),
                                                   },
                                                   data: addDomainImage(

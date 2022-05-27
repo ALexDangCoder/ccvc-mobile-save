@@ -246,7 +246,6 @@ class _TableCalendarBaseState extends State<TableCalendarBase>
               dayBuilder: widget.dayBuilder,
             ),
           ),
-
         );
       },
     );

@@ -7,7 +7,6 @@ class NguoiChuTriRequest {
   NguoiChuTriRequest(
       {this.isTaoHo, this.pageIndex, this.pageSize, this.userId});
 
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['isTaoHo'] = isTaoHo;

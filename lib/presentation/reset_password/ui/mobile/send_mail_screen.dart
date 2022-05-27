@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,7 @@ class _SendMailScreenState extends State<SendMailScreen> {
   ChangePasswordCubit cubit = ChangePasswordCubit();
   TextEditingController emailController = TextEditingController();
   final keyGroup = GlobalKey<FormGroupState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,23 +40,27 @@ class _SendMailScreenState extends State<SendMailScreen> {
                   TextFieldValidator(
                     controller: emailController,
                     hintText: '${S.current.email}/${S.current.so_dien_thoai}',
-                   prefixIcon: SizedBox(
-                     width: 20,
-                     height: 20,
-                     child: Center(
-                         child: SvgPicture.asset(ImageAssets.ic_email),),
-                   ),
+                    prefixIcon: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Center(
+                        child: SvgPicture.asset(ImageAssets.ic_email),
+                      ),
+                    ),
                     validator: (value) {
-                      final   isCheckSdt=(value ?? '').checkSdtDinhDangTruong() ?? false;
-                      final   isCheckEmail=(value ?? '').checkEmailBooleanDinhDangTruong() ?? false;
-                      if((value ?? '').isNotEmpty){
-                        if(isCheckSdt || isCheckEmail){
-
-                        }else{
-                          return'${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                      final isCheckSdt =
+                          (value ?? '').checkSdtDinhDangTruong() ?? false;
+                      final isCheckEmail =
+                          (value ?? '').checkEmailBooleanDinhDangTruong() ??
+                              false;
+                      if ((value ?? '').isNotEmpty) {
+                        if (isCheckSdt || isCheckEmail) {
+                        } else {
+                          return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
                         }
-                      }else{
-                        return (value ?? '').checkTruongNull('${S.current.email}/${S.current.so_dien_thoai}');
+                      } else {
+                        return (value ?? '').checkTruongNull(
+                            '${S.current.email}/${S.current.so_dien_thoai}');
                       }
                     },
                   ),

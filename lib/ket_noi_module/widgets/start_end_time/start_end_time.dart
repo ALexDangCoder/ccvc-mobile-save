@@ -37,7 +37,8 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
           return Column(
             children: [
               IsCaNgayWidget(
-                isMargin: widget.icMargin, isCheck: (bool value) {  },
+                isMargin: widget.icMargin,
+                isCheck: (bool value) {},
               ),
               SizedBox(
                 height: 16.0.textScale(),

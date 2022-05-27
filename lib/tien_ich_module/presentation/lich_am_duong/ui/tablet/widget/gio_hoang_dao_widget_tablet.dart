@@ -49,7 +49,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                 S.current.gio_hoang_dao_gio_tot,
                 style: textNormalCustom(
                   fontSize: 14.0.textScale(),
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
             ],

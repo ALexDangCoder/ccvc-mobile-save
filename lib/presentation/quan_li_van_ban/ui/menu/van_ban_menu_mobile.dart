@@ -57,7 +57,6 @@ class _VanBanMenuMobileState extends State<VanBanMenuMobile> {
                       onTap: () {
                         widget.cubit.selectTypeVanBanSubject.add(
                           [false, true],
-
                         );
                         widget.cubit.emit(BaoCaoThongKe());
                         Navigator.pop(context);
@@ -66,7 +65,6 @@ class _VanBanMenuMobileState extends State<VanBanMenuMobile> {
                     ),
                   ],
                 );
-
               },
             ),
           ),
@@ -88,7 +86,7 @@ class _VanBanMenuMobileState extends State<VanBanMenuMobile> {
         Text(
           menu,
           style: textNormalCustom(
-            color: titleColor,
+            color: color3D5586,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

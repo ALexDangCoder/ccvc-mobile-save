@@ -73,9 +73,9 @@ const bgTabletColor = Color(0xffF9FAFF);
 
 const unFocusColor = Color(0xffF2F0FF);
 
-const pinkColor  = Color(0xffFB7897);
+const pinkColor = Color(0xffFB7897);
 
-const textTitleColumn  = Color(0xff667793);
+const textTitleColumn = Color(0xff667793);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
@@ -106,7 +106,7 @@ class DefaultApp extends AppColor {
 class BlueApp extends AppColor {
   @override
   Color colorSelect() {
-     return numberOfCalenders;
+    return numberOfCalenders;
   }
 }
 

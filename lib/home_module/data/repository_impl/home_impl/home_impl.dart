@@ -47,6 +47,7 @@ import '/home_module/domain/repository/home_repository/home_repository.dart';
 class HomeImpl extends HomeRepository {
   final HomeServiceGateWay _homeServiceGateWay;
   final HomeServiceCCVC _homeServiceCCVC;
+
   HomeImpl(this._homeServiceGateWay, this._homeServiceCCVC);
 
   @override

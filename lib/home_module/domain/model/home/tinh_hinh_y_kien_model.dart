@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 import '/home_module//config/resources/color.dart';
@@ -9,7 +7,8 @@ class TinhHinhYKienModel {
   final int soLuong;
 
   TinhHinhYKienModel({this.soLuong = 0, this.status = ''});
-  static List<Color> listColor =[
+
+  static List<Color> listColor = [
     choVaoSoColor,
     statusCalenderRed,
     itemWidgetUsing

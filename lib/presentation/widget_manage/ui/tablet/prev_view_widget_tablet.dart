@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/home_provider.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/mequee_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/preview_widget_item.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
@@ -21,6 +22,7 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
   WidgetManageCubit cubit = WidgetManageCubit();
   HomeCubit homeCubit = HomeCubit();
   ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -54,14 +56,26 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                         final data = snapshot.data ?? <WidgetModel>[];
                         if (data.isNotEmpty) {
                           return Column(
-                            children: List.generate(data.length, (index) {
-                              final type = data[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: type.widgetType?.getItemsTabletPreview() ??
-                                    const SizedBox(),
-                              );
-                            }),
+                            children: [
+                              Column(
+                                children: List.generate(data.length, (index) {
+                                  final type = data[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 8),
+                                    child: type.widgetType?.getItemsTabletPreview() ??
+                                        const SizedBox(),
+                                  );
+                                }),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Container(
+                                color: backgroundColorApp,
+                                padding: const EdgeInsets.symmetric(vertical: 25),
+                                child: const MarqueeWidget(),
+                              ),
+                            ],
                           );
                         }
                         return const SizedBox();
@@ -70,10 +84,12 @@ class _PrevViewWidgetTabletState extends State<PrevViewWidgetTablet>
                   ),
                 ],
               ),
-              Positioned.fill(child: Container(
-                width: double.maxFinite,
-                color: Colors.transparent,
-              ),),
+              Positioned.fill(
+                child: Container(
+                  width: double.maxFinite,
+                  color: Colors.transparent,
+                ),
+              ),
             ],
           ),
         ),

@@ -9,8 +9,8 @@ class DetailHuongDanSuDung {
   String? id;
   String? title;
   String? order;
-  bool?   inUsed;
-  bool?   isDeleted;
+  bool? inUsed;
+  bool? isDeleted;
   String? createdOn;
   String? createdBy;
   String? updatedOn;
@@ -31,7 +31,8 @@ class DetailHuongDanSuDung {
     this.updatedBy,
   });
 }
-String addDomainImage(String content){
+
+String addDomainImage(String content) {
   final appConstants = Get.find<AppConstants>();
   return content.replaceAll('src="/', 'src="${appConstants.baseUrlCCVC}/');
 }

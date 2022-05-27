@@ -124,7 +124,7 @@ Widget lineContainer() {
     width: 48,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      color: lineColor,
+      color: colorECEEF7,
     ),
   );
 }

@@ -42,7 +42,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   children: [
                     Text(
                       S.current.lap_den_ngay,
-                      style: textNormal(titleColor, 16.0),
+                      style: textNormal(color3D5586, 16.0),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -67,7 +67,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                           return Text(
                             widget.taoLichLamViecCubit.dateTimeLapDenNgay
                                 .toStringWithListFormat,
-                            style: textNormal(titleColor, 16.0),
+                            style: textNormal(color3D5586, 16.0),
                           );
                         },
                       ),
@@ -76,7 +76,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                 ),
                 const Divider(
                   thickness: 1,
-                  color: lineColor,
+                  color: colorECEEF7,
                 ),
               ],
             ),
@@ -90,7 +90,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                   children: [
                     Text(
                       S.current.lap_den_ngay,
-                      style: textNormal(titleColor, 16.0),
+                      style: textNormal(color3D5586, 16.0),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -116,7 +116,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                             widget.taoLichLamViecCubit.dateTimeLapDenNgay
                                 .toStringWithListFormat,
                             style: textNormal(
-                              titleColor,
+                              color3D5586,
                               16.0,
                             ),
                           );
@@ -127,7 +127,7 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                 ),
                 const Divider(
                   thickness: 1,
-                  color: lineColor,
+                  color: colorECEEF7,
                 ),
               ],
             ),

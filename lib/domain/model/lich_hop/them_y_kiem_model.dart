@@ -1,4 +1,5 @@
-class ThemYKiemModel{
+class ThemYKiemModel {
   String? code;
+
   ThemYKiemModel({this.code});
 }

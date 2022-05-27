@@ -1,11 +1,10 @@
-
-
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
 class CustomReorderableListView extends StatefulWidget {
   CustomReorderableListView({
     Key? key,
@@ -32,14 +31,14 @@ class CustomReorderableListView extends StatefulWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
-  }) : assert(scrollDirection != null),
+  })  : assert(scrollDirection != null),
         assert(onReorder != null),
         assert(children != null),
         assert(
-        itemExtent == null || prototypeItem == null,
+          itemExtent == null || prototypeItem == null,
         ),
         assert(
-        children.every((Widget w) => w.key != null),
+          children.every((Widget w) => w.key != null),
         ),
         assert(buildDefaultDragHandles != null),
         itemBuilder = ((BuildContext context, int index) => children[index]),
@@ -72,11 +71,11 @@ class CustomReorderableListView extends StatefulWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
-  }) : assert(scrollDirection != null),
+  })  : assert(scrollDirection != null),
         assert(itemCount >= 0),
         assert(onReorder != null),
         assert(
-        itemExtent == null || prototypeItem == null,
+          itemExtent == null || prototypeItem == null,
         ),
         assert(buildDefaultDragHandles != null),
         super(key: key);
@@ -107,31 +106,37 @@ class CustomReorderableListView extends StatefulWidget {
   final Widget? prototypeItem;
 
   @override
-  State<CustomReorderableListView> createState() => _CustomReorderableListViewState();
+  State<CustomReorderableListView> createState() =>
+      _CustomReorderableListViewState();
 }
 
 class _CustomReorderableListViewState extends State<CustomReorderableListView> {
   Widget _wrapWithSemantics(Widget child, int index) {
     void reorder(int startIndex, int endIndex) {
-      if (startIndex != endIndex)
-        widget.onReorder(startIndex, endIndex);
+      if (startIndex != endIndex) widget.onReorder(startIndex, endIndex);
     }
-    final Map<CustomSemanticsAction, VoidCallback> semanticsActions = <CustomSemanticsAction, VoidCallback>{};
+
+    final Map<CustomSemanticsAction, VoidCallback> semanticsActions =
+        <CustomSemanticsAction, VoidCallback>{};
     void moveToStart() => reorder(index, 0);
     void moveToEnd() => reorder(index, widget.itemCount);
     void moveBefore() => reorder(index, index - 1);
     void moveAfter() => reorder(index, index + 2);
 
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations =
+        MaterialLocalizations.of(context);
     if (index > 0) {
-      semanticsActions[CustomSemanticsAction(label: localizations.reorderItemToStart)] = moveToStart;
+      semanticsActions[
+              CustomSemanticsAction(label: localizations.reorderItemToStart)] =
+          moveToStart;
       String reorderItemBefore = localizations.reorderItemUp;
       if (widget.scrollDirection == Axis.horizontal) {
         reorderItemBefore = Directionality.of(context) == TextDirection.ltr
             ? localizations.reorderItemLeft
             : localizations.reorderItemRight;
       }
-      semanticsActions[CustomSemanticsAction(label: reorderItemBefore)] = moveBefore;
+      semanticsActions[CustomSemanticsAction(label: reorderItemBefore)] =
+          moveBefore;
     }
 
     if (index < widget.itemCount - 1) {
@@ -141,8 +146,11 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
             ? localizations.reorderItemRight
             : localizations.reorderItemLeft;
       }
-      semanticsActions[CustomSemanticsAction(label: reorderItemAfter)] = moveAfter;
-      semanticsActions[CustomSemanticsAction(label: localizations.reorderItemToEnd)] = moveToEnd;
+      semanticsActions[CustomSemanticsAction(label: reorderItemAfter)] =
+          moveAfter;
+      semanticsActions[
+              CustomSemanticsAction(label: localizations.reorderItemToEnd)] =
+          moveToEnd;
     }
     return MergeSemantics(
       child: Semantics(
@@ -164,7 +172,8 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
     }());
 
     final Widget itemWithSemantics = _wrapWithSemantics(item, index);
-    final Key itemGlobalKey = _ReorderableListViewChildGlobalKey(item.key!, this);
+    final Key itemGlobalKey =
+        _ReorderableListViewChildGlobalKey(item.key!, this);
 
     if (widget.buildDefaultDragHandles) {
       switch (Theme.of(context).platform) {
@@ -264,24 +273,48 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
       switch (widget.scrollDirection) {
         case Axis.horizontal:
           if (widget.reverse) {
-            headerPadding = EdgeInsets.fromLTRB(0, padding.top, padding.right, padding.bottom);
-            listPadding = EdgeInsets.fromLTRB(widget.footer != null ? 0 : padding.left, padding.top, widget.header != null ? 0 : padding.right, padding.bottom);
-            footerPadding = EdgeInsets.fromLTRB(padding.left, padding.top, 0, padding.bottom);
+            headerPadding = EdgeInsets.fromLTRB(
+                0, padding.top, padding.right, padding.bottom);
+            listPadding = EdgeInsets.fromLTRB(
+                widget.footer != null ? 0 : padding.left,
+                padding.top,
+                widget.header != null ? 0 : padding.right,
+                padding.bottom);
+            footerPadding = EdgeInsets.fromLTRB(
+                padding.left, padding.top, 0, padding.bottom);
           } else {
-            headerPadding = EdgeInsets.fromLTRB(padding.left, padding.top, 0, padding.bottom);
-            listPadding = EdgeInsets.fromLTRB(widget.header != null ? 0 : padding.left, padding.top, widget.footer != null ? 0 : padding.right, padding.bottom);
-            footerPadding = EdgeInsets.fromLTRB(0, padding.top, padding.right, padding.bottom);
+            headerPadding = EdgeInsets.fromLTRB(
+                padding.left, padding.top, 0, padding.bottom);
+            listPadding = EdgeInsets.fromLTRB(
+                widget.header != null ? 0 : padding.left,
+                padding.top,
+                widget.footer != null ? 0 : padding.right,
+                padding.bottom);
+            footerPadding = EdgeInsets.fromLTRB(
+                0, padding.top, padding.right, padding.bottom);
           }
           break;
         case Axis.vertical:
           if (widget.reverse) {
-            headerPadding = EdgeInsets.fromLTRB(padding.left, 0, padding.right, padding.bottom);
-            listPadding = EdgeInsets.fromLTRB(padding.left, widget.footer != null ? 0 : padding.top, padding.right, widget.header != null ? 0 : padding.bottom);
-            footerPadding = EdgeInsets.fromLTRB(padding.left, padding.top, padding.right, 0);
+            headerPadding = EdgeInsets.fromLTRB(
+                padding.left, 0, padding.right, padding.bottom);
+            listPadding = EdgeInsets.fromLTRB(
+                padding.left,
+                widget.footer != null ? 0 : padding.top,
+                padding.right,
+                widget.header != null ? 0 : padding.bottom);
+            footerPadding = EdgeInsets.fromLTRB(
+                padding.left, padding.top, padding.right, 0);
           } else {
-            headerPadding = EdgeInsets.fromLTRB(padding.left, padding.top, padding.right, 0);
-            listPadding = EdgeInsets.fromLTRB(padding.left, widget.header != null ? 0 : padding.top, padding.right, widget.footer != null ? 0 : padding.bottom);
-            footerPadding = EdgeInsets.fromLTRB(padding.left, 0, padding.right, padding.bottom);
+            headerPadding = EdgeInsets.fromLTRB(
+                padding.left, padding.top, padding.right, 0);
+            listPadding = EdgeInsets.fromLTRB(
+                padding.left,
+                widget.header != null ? 0 : padding.top,
+                padding.right,
+                widget.footer != null ? 0 : padding.bottom);
+            footerPadding = EdgeInsets.fromLTRB(
+                padding.left, 0, padding.right, padding.bottom);
           }
           break;
       }
@@ -326,20 +359,21 @@ class _CustomReorderableListViewState extends State<CustomReorderableListView> {
     );
   }
 }
+
 @optionalTypeArgs
 class _ReorderableListViewChildGlobalKey extends GlobalObjectKey {
-  const _ReorderableListViewChildGlobalKey(this.subKey, this.state) : super(subKey);
+  const _ReorderableListViewChildGlobalKey(this.subKey, this.state)
+      : super(subKey);
 
   final Key subKey;
   final State state;
 
   @override
   bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType)
-      return false;
-    return other is _ReorderableListViewChildGlobalKey
-        && other.subKey == subKey
-        && other.state == state;
+    if (other.runtimeType != runtimeType) return false;
+    return other is _ReorderableListViewChildGlobalKey &&
+        other.subKey == subKey &&
+        other.state == state;
   }
 
   @override

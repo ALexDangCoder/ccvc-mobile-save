@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/blo
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/addToDoWidget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_dscv_tien_tich.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chinh_sua_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/creat_todo_ver2_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/menu_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -57,11 +58,8 @@ class _DanhSachCongViecTienIchMobileState
             showBottomSheetCustom(
               context,
               title: S.current.them_cong_viec,
-              child: AddToDoWidgetTienIch(
-                onTap: (value) {
-                  cubit.addTodo(value);
-                  Navigator.pop(context);
-                },
+              child: CreatTodoOrUpdateVer2Widget(
+                cubit: cubit,
               ),
             );
           },
@@ -167,9 +165,10 @@ class _DanhSachCongViecTienIchMobileState
                                       showBottomSheetCustom(
                                         context,
                                         title: S.current.chinh_sua,
-                                        child: EditWidget(
+                                        child: CreatTodoOrUpdateVer2Widget(
                                           cubit: cubit,
                                           todo: todo,
+                                          isCreat: false,
                                         ),
                                       );
                                     },

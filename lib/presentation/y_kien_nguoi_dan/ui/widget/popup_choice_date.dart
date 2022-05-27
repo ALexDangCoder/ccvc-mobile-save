@@ -9,7 +9,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class PopupChoiceDate extends StatefulWidget {
   final Function(String startDate, String endDate) onChoiceTime;
-  const PopupChoiceDate({Key? key,required this.onChoiceTime}) : super(key: key);
+
+  const PopupChoiceDate({Key? key, required this.onChoiceTime})
+      : super(key: key);
 
   @override
   _PopupChoiceDateState createState() => _PopupChoiceDateState();
@@ -22,9 +24,10 @@ class _PopupChoiceDateState extends State<PopupChoiceDate> {
   @override
   void initState() {
     super.initState();
-    startDate=DateTime.now().toString();
-    endDate=DateTime.now().toString();
+    startDate = DateTime.now().toString();
+    endDate = DateTime.now().toString();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -67,9 +70,9 @@ class _PopupChoiceDateState extends State<PopupChoiceDate> {
                 key: UniqueKey(),
                 paddings: 10,
                 leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
-                value:startDate,
+                value: startDate,
                 onSelectDate: (dateTime) {
-                  startDate=dateTime;
+                  startDate = dateTime;
                 },
               ),
             ),
@@ -83,7 +86,7 @@ class _PopupChoiceDateState extends State<PopupChoiceDate> {
                 leadingIcon: SvgPicture.asset(ImageAssets.ic_Calendar_tui),
                 value: endDate,
                 onSelectDate: (dateTime) {
-                  endDate=dateTime;
+                  endDate = dateTime;
                 },
               ),
             )

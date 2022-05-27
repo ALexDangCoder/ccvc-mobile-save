@@ -7,6 +7,7 @@ class TitleCaiDatWidget extends StatelessWidget {
   final String title;
   final Widget child;
   final double bottomPadding;
+
   const TitleCaiDatWidget(
       {Key? key,
       required this.title,
@@ -24,7 +25,7 @@ class TitleCaiDatWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textNormalCustom(fontSize: 16, color: titleColor),
+                style: textNormalCustom(fontSize: 16, color: color3D5586),
               ),
               const SizedBox(
                 height: 20,
@@ -40,13 +41,13 @@ class TitleCaiDatWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textNormalCustom(fontSize: 18, color: titleColor),
+                style: textNormalCustom(fontSize: 18, color: color3D5586),
               ),
               const SizedBox(
                 height: 24,
               ),
               Container(
-                padding:  EdgeInsets.only(
+                padding: EdgeInsets.only(
                     top: 48, left: 48, right: 48, bottom: bottomPadding),
                 decoration: BoxDecoration(
                   color: backgroundRowColor,

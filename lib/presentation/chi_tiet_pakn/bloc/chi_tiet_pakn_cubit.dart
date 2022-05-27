@@ -215,7 +215,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             rowData.add(
               ListRowYKND(
                 title: S.current.trich_yeu,
-                content: [element.trichYeu],
+                content: [element.trichYeu.parseHtml()],
               ),
             );
             rowData.add(
@@ -229,9 +229,10 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
               ListRowYKND(
                 title: S.current.file_dinh_kem,
                 content: element.dSFile.map((e) => e.ten).toList(),
+                urlDownload: element.dSFile.map((e) => e.duongDan).toList(),
+                nameFile: element.dSFile.map((e) => e.ten).toList(),
               ),
             );
-
             listData.add(rowData);
             ketQuaXuLyRowData.sink.add(listData);
           }
@@ -258,7 +259,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         );
       },
       error: (error) {
-       // if(error is NoNetworkException){
+        // if(error is NoNetworkException){
         //   MessageConfig.show(
         //     title: S.current.no_internet,
         //     messState: MessState.error,

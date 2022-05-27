@@ -69,24 +69,24 @@ class ThanhPhanThamGiaData extends Equatable {
   @JsonKey(name: 'vaiTroThamGia')
   int? vaiTroThamGia;
 
-
-  ThanhPhanThamGiaData(
-      {required this.canBoId,
-        required this.createAt,
-        required this.dauMoiLienHe,
-        required this.donViId,
-        required this.email,
-        required this.ghiChu,
-        required this.id,
-        required this.isThamGiaBocBang,
-        required this.isThuKy,
-        required this.lichHopId,
-        required this.parentId,
-        required this.soDienThoai,
-        required this.tenCanBo,
-        required this.tenCoQuan,
-        required this.vaiTro,
-        required this.vaiTroThamGia,});
+  ThanhPhanThamGiaData({
+    required this.canBoId,
+    required this.createAt,
+    required this.dauMoiLienHe,
+    required this.donViId,
+    required this.email,
+    required this.ghiChu,
+    required this.id,
+    required this.isThamGiaBocBang,
+    required this.isThuKy,
+    required this.lichHopId,
+    required this.parentId,
+    required this.soDienThoai,
+    required this.tenCanBo,
+    required this.tenCoQuan,
+    required this.vaiTro,
+    required this.vaiTroThamGia,
+  });
 
   ThanhPhanThamGiaData.empty();
 
@@ -95,23 +95,23 @@ class ThanhPhanThamGiaData extends Equatable {
 
   Map<String, dynamic> toJson() => _$ThanhPhanThamGiaDataToJson(this);
 
-  CanBoModel toModel() =>
-      CanBoModel(
-          id: id,
-          lichHopId: lichHopId,
-          donViId: donViId,
-          canBoId: canBoId,
-          vaiTro: vaiTro,
-          tenCanBo: tenCanBo,
-          ghiChu: ghiChu,
-          parentId: parentId,
-          vaiTroThamGia: vaiTroThamGia,
-          email: email,
-          soDienThoai: soDienThoai,
-          tenCoQuan: tenCoQuan,
-          isThuKy: isThuKy,
-          isThamGiaBocBang: isThamGiaBocBang,
-          createAt: createAt,);
+  CanBoModel toModel() => CanBoModel(
+        id: id,
+        lichHopId: lichHopId,
+        donViId: donViId,
+        canBoId: canBoId,
+        vaiTro: vaiTro,
+        tenCanBo: tenCanBo,
+        ghiChu: ghiChu,
+        parentId: parentId,
+        vaiTroThamGia: vaiTroThamGia,
+        email: email,
+        soDienThoai: soDienThoai,
+        tenCoQuan: tenCoQuan,
+        isThuKy: isThuKy,
+        isThamGiaBocBang: isThamGiaBocBang,
+        createAt: createAt,
+      );
 
   @override
   // TODO: implement props

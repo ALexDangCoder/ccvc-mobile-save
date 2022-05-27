@@ -98,7 +98,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                         StartEndDateWidget(
                           icMargin: false,
                           onEndDateTimeChanged: (DateTime value) {},
-                          onStartDateTimeChanged: (DateTime value) {}, isCheck: (bool value) {  },
+                          onStartDateTimeChanged: (DateTime value) {},
+                          isCheck: (bool value) {},
                         ),
                         spaceH5,
                         SelectOnlyExpand(

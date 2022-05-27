@@ -5,7 +5,7 @@ class AnimationUtil {
 
   Duration isAnimation(
       {required bool status,
-        Duration duration = const Duration(milliseconds: 0)}) {
+      Duration duration = const Duration(milliseconds: 0)}) {
     if (status) {
       return duration;
     } else {
@@ -13,7 +13,6 @@ class AnimationUtil {
     }
   }
 }
-
 
 extension ReverseList on List<Widget> {
   List<Widget> isReverse(bool isReverse) {
@@ -24,4 +23,3 @@ extension ReverseList on List<Widget> {
     }
   }
 }
-

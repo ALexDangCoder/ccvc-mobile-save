@@ -14,9 +14,6 @@ class TinhHinhXuLyModel {
 class TinhHinhModel {
   int soLuong;
   String status;
+
   TinhHinhModel({required this.soLuong, required this.status});
-
 }
-
-
-

@@ -1,13 +1,12 @@
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'danh_sach_y_kien_xu_ly_response.g.dart';
 
 @JsonSerializable()
-class DataDanhSachYKienXuLyResponse extends Equatable {
+class DataDanhSachYKienXuLyResponse {
   @JsonKey(name: 'Messages')
   String? messages;
   @JsonKey(name: 'Data')
@@ -24,7 +23,9 @@ class DataDanhSachYKienXuLyResponse extends Equatable {
     this.isSuccess,
   });
 
-  factory DataDanhSachYKienXuLyResponse.fromJson(Map<String, dynamic> json) =>
+  factory DataDanhSachYKienXuLyResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$DataDanhSachYKienXuLyResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataDanhSachYKienXuLyResponseToJson(this);
@@ -36,13 +37,10 @@ class DataDanhSachYKienXuLyResponse extends Equatable {
         isSuccess: isSuccess,
       );
 
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class DanhSachYKienXuLyResponse extends Equatable {
+class DanhSachYKienXuLyResponse {
   @JsonKey(name: 'Id')
   String? id;
   @JsonKey(name: 'VanBanId')
@@ -118,11 +116,8 @@ class DanhSachYKienXuLyResponse extends Equatable {
         ngayTao: ngayTao,
         ngaySua: ngaySua,
         hashValue: hashValue,
-        hashAlg: hashAlg,
         isSign: isSign,
         issuer: issuer,
-        signerInfos: signerInfos,
-        serialNumber: serialNumber,
         tenNhanVien: tenNhanVien,
         chucVu: chucVu,
         phanXuLy: phanXuLy,
@@ -132,12 +127,10 @@ class DanhSachYKienXuLyResponse extends Equatable {
             yKienXuLyFileDinhKem?.map((e) => e.toModel()).toList() ?? [],
       );
 
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class YKienXuLyFileDinhKemResponse extends Equatable {
+class YKienXuLyFileDinhKemResponse{
   @JsonKey(name: 'Id')
   String? id;
   @JsonKey(name: 'YKienXuLyId')
@@ -173,7 +166,4 @@ class YKienXuLyFileDinhKemResponse extends Equatable {
         keyKySo: keyKySo,
         fileDinhKem: fileDinhKem?.toModel(),
       );
-
-  @override
-  List<Object?> get props => [];
 }

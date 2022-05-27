@@ -57,6 +57,7 @@ class ApiConstants {
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
   static const UPLOAD_FILE = '/api/CanBo/upload';
+  static const UPLOAD_FILE_COMMON = '/qlvb/api/Common/UploadMultiFile';
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';
@@ -179,6 +180,8 @@ class ApiConstants {
   static const LIST_PERMISSION = '/api/auth/list-permission';
   static const GET_DANH_SACH_Y_KIEN =
       '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/danh-sach-y-kien';
+  static const GET_LICH_SU_XIN_Y_KIEN =
+      '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/lich-su-xin-y-kien';
   static const BAO_CAO_THONG_KE = '/api/NewsNetViews/dashboard_statistical';
   static const MENU_BCMXH = '/api/NewsNetViews/menu-items?';
   static const Tin_TUC_THOI_SU = '/api/NewsNetViews/tin_tuc_thoi_su?';

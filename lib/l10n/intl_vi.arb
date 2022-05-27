@@ -238,7 +238,7 @@
   "lich_tiep_dan": "Lịch tiếp dân",
   "admin_tao": "Admin tạo",
   "loai_lich": "Loai lịch",
-  "nhac_lai": "Nhắc lại",
+  "nhac_lai": "Nhắc lịch",
   "mau_mac_dinh": "Màu mặc định",
   "linh_vuc": "Lĩnh vực",
   "thanh_phan_tham_gia": "Thành phần tham gia",
@@ -992,7 +992,10 @@
   "tuong_tac_noi_bo": "Tương tác nội bộ",
   "bao_cao": "Báo cáo",
   "phan_anh_kien_nghi": "Phản ánh kiến nghị",
-  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm"
+  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
+  "hinh_thuc_hop": "Hình thức họp",
+  "ky_thuat": "Kỹ thuật",
+  "ddmmyy": "DD/MM/YYYY"
 }
 
 

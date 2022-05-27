@@ -15,7 +15,7 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
-import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,6 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _cubit = ProviderWidget.of<TaoLichHopCubit>(context).cubit;
   }
@@ -53,16 +52,6 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                   TextFieldStyle(
                     urlIcon: ImageAssets.icEdit,
                     hintText: S.current.tieu_de,
-                  ),
-                  spaceH5,
-                  ContainerToggleWidget(
-                    title: S.current.hop_truc_tuyen,
-                    onChange: (value) {},
-                  ),
-                  spaceH5,
-                  ContainerToggleWidget(
-                    title: S.current.trong_don_vi,
-                    onChange: (value) {},
                   ),
                   spaceH5,
                   StreamBuilder<List<LoaiSelectModel>>(
@@ -90,11 +79,12 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                       );
                     },
                   ),
-                  StartEndDateWidget(
-                    icMargin: false,
-                    onEndDateTimeChanged: (DateTime value) {},
-                    onStartDateTimeChanged: (DateTime value) {},
-                    isCheck: (bool value) {},
+                  CupertinoTimePickerCustom(
+                    // icMargin: false,
+                    // onEndDateTimeChanged: (DateTime value) {},
+                    // onStartDateTimeChanged: (DateTime value) {},
+                    // onSwitchPressed: (bool value) {},
+                    // isCheckedSwitchBtn: false,
                   ),
                   spaceH5,
                   SelectOnlyExpand(
@@ -151,6 +141,35 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCuocGoi,
                     hintText: S.current.so_dien_thoai,
+                  ),
+                ],
+              ),
+            ),
+            spaceH24,
+            TitleChildWidget(
+              title: S.current.hinh_thuc_hop,
+              child: Column(
+                children: [
+                  ContainerToggleWidget(
+                    title: S.current.hop_truc_tuyen,
+                    onChange: (value) {},
+                  ),
+                  spaceH5,
+                  ContainerToggleWidget(
+                    title: S.current.trong_don_vi,
+                    onChange: (value) {},
+                  ),
+                ],
+              ),
+            ),
+            spaceH24,
+            TitleChildWidget(
+              title: S.current.ky_thuat,
+              child: Column(
+                children: [
+                  ContainerToggleWidget(
+                    title: S.current.duyet_ky_thuat,
+                    onChange: (value) {},
                   ),
                 ],
               ),

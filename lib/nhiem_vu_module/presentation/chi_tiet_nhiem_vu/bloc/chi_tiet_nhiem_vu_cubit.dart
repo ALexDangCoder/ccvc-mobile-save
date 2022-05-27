@@ -192,14 +192,13 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
   }
 
   void getListVanBanLienQuanNhiemVu(List<VanBanLienQuanNhiemVuModel> list) {
-    vanBanGiaoNhiemVuSubject.sink
-        .add(list.where((element) => element.hinhThucVanBan == 'lienquan').toList());
-    vanBanKhacNhiemVuSubject.sink
-        .add(list.where((element) => element.hinhThucVanBan == 'khac').toList());
+    vanBanGiaoNhiemVuSubject.sink.add(
+        list.where((element) => element.hinhThucVanBan == 'lienquan').toList());
+    vanBanKhacNhiemVuSubject.sink.add(
+        list.where((element) => element.hinhThucVanBan == 'khac').toList());
   }
 
   /// Xin ý kiến
-
 
   final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
   final List<PickImageFileModel> listPickFileMain = [];

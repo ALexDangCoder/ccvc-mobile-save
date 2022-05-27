@@ -1,4 +1,3 @@
-
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -167,18 +166,18 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
-class NhiemVuLowerCase{
-  static const String THU_HOI='thu-hoi';
-  static const String CHO_PHAN_XU_LY='cho-phan-xu-ly';
-  static const String CHUA_THUC_HIEN='chua-thuc-hien';
-  static const String DANG_THUC_HIEN='dang-thuc-hien';
-  static const String DA_HOAN_THANH='da-hoan-thanh';
-  static const String TRA_LAI='tra-lai';
-  static const String QUA_HAN='qua-han';
-  static const String DEN_HAN='den-han';
-  static const String TRONG_HAN='trong-han';
-  static const String NHIEM_VU_DON_VI='nhiem-vu-don-vi';
-  static const String NHIEM_VU_CP_CPCP='nhiem-vu-cp/vpcp';
-  static const String NHIEM_VU_UBND_TINH='nhiem-vu-ubnd-tinh';
 
+class NhiemVuLowerCase {
+  static const String THU_HOI = 'thu-hoi';
+  static const String CHO_PHAN_XU_LY = 'cho-phan-xu-ly';
+  static const String CHUA_THUC_HIEN = 'chua-thuc-hien';
+  static const String DANG_THUC_HIEN = 'dang-thuc-hien';
+  static const String DA_HOAN_THANH = 'da-hoan-thanh';
+  static const String TRA_LAI = 'tra-lai';
+  static const String QUA_HAN = 'qua-han';
+  static const String DEN_HAN = 'den-han';
+  static const String TRONG_HAN = 'trong-han';
+  static const String NHIEM_VU_DON_VI = 'nhiem-vu-don-vi';
+  static const String NHIEM_VU_CP_CPCP = 'nhiem-vu-cp/vpcp';
+  static const String NHIEM_VU_UBND_TINH = 'nhiem-vu-ubnd-tinh';
 }

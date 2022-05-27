@@ -15,6 +15,7 @@ class CustomSelectDateWidget extends StatefulWidget {
   final DateTime startDate;
   final DateTime endDate;
   final Function(DateTime startDate, DateTime endDate) onXacNhan;
+
   const CustomSelectDateWidget({
     Key? key,
     required this.endDate,
@@ -29,6 +30,7 @@ class CustomSelectDateWidget extends StatefulWidget {
 class _CustomSelectDateWidgetState extends State<CustomSelectDateWidget> {
   late DateTime startDate;
   late DateTime endDate;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -252,7 +254,9 @@ class _CustomSelectDateWidgetState extends State<CustomSelectDateWidget> {
           title,
           style: textNormalCustom(
             fontSize: 16,
-            color: isClose ? AppTheme.getInstance().colorSelect() : backgroundColorApp,
+            color: isClose
+                ? AppTheme.getInstance().colorSelect()
+                : backgroundColorApp,
           ),
         ),
       ),

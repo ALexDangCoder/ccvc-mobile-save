@@ -222,67 +222,68 @@ class _TreeDonViState extends State<TreeDonVi> {
           const SizedBox(
             height: 24,
           ),
-    screenDevice(mobileScreen:  Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: ButtonCustomBottom(
-            title: S.current.dong,
-            isColorBlue: false,
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          screenDevice(
+              mobileScreen: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: ButtonCustomBottom(
+                      title: S.current.dong,
+                      isColorBlue: false,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: ButtonCustomBottom(
+                      title: S.current.tim_kiem,
+                      isColorBlue: true,
+                      onPressed: () {
+                        widget.onSearch(startDate, endDate, donViID);
+                        Navigator.pop(context, false);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              tabletScreen: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 44,
+                    width: 142,
+                    child: ButtonCustomBottom(
+                      title: S.current.dong,
+                      isColorBlue: false,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  SizedBox(
+                    height: 44,
+                    width: 142,
+                    child: ButtonCustomBottom(
+                      title: S.current.tim_kiem,
+                      isColorBlue: true,
+                      onPressed: () {
+                        widget.onSearch(startDate, endDate, donViID);
+                        Navigator.pop(context, false);
+                      },
+                    ),
+                  ),
+                ],
+              )),
+          const SizedBox(
+            height: 32.0,
           ),
-        ),
-        const SizedBox(
-          width: 16,
-        ),
-        Expanded(
-          child: ButtonCustomBottom(
-            title: S.current.tim_kiem,
-            isColorBlue: true,
-            onPressed: () {
-              widget.onSearch(startDate, endDate, donViID);
-              Navigator.pop(context, false);
-            },
-          ),
-        ),
-      ],
-    ), tabletScreen: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-     SizedBox(
-            height: 44,
-            width: 142,
-            child: ButtonCustomBottom(
-              title: S.current.dong,
-              isColorBlue: false,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-
-        const SizedBox(
-          width: 16,
-        ),
-        SizedBox(
-            height: 44,
-            width: 142,
-            child: ButtonCustomBottom(
-              title: S.current.tim_kiem,
-              isColorBlue: true,
-              onPressed: () {
-                widget.onSearch(startDate, endDate, donViID);
-                Navigator.pop(context, false);
-              },
-
-          ),
-        ),
-      ],
-    )),
-          const SizedBox(height: 32.0,),
-
         ],
       ),
     );

@@ -88,9 +88,9 @@ class _PhanAnhKienNghiDonViTabletState
   Widget statusBarWidget(List<ChartData> listData) {
     final data = listData.map((e) => e.value).toList();
     final total = data.reduce((a, b) => a + b);
-    final listDataGirdView=[];
+    final listDataGirdView = [];
     listDataGirdView.addAll(listData);
-    listDataGirdView.insert(0,listDataGirdView.removeAt(1));
+    listDataGirdView.insert(0, listDataGirdView.removeAt(1));
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

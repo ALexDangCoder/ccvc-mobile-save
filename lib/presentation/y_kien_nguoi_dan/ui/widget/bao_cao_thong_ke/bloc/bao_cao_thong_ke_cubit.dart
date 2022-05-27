@@ -38,10 +38,9 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
       BehaviorSubject<List<YKNDByMonth>>();
 
   final BehaviorSubject<List<ChartData>> _statusChartData =
-  BehaviorSubject<List<ChartData>>();
+      BehaviorSubject<List<ChartData>>();
 
-  Stream<List<ChartData>> get statusChartData =>
-      _statusChartData.stream;
+  Stream<List<ChartData>> get statusChartData => _statusChartData.stream;
 
   Stream<List<YKNDByMonth>> get chartSoLuongYkNDByMonth =>
       _chartSoLuongYkNDByMonth.stream;
@@ -71,10 +70,10 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     S.current.dang_xu_ly,
     S.current.so_luong_y_kien,
   ];
-  final List<YKienNguoiDanDashBroadItem> listInitDataBaoCao=[
+  final List<YKienNguoiDanDashBroadItem> listInitDataBaoCao = [
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_tong_so_yknd,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.so_y_kien_tiep_nha,
     ),
     YKienNguoiDanDashBroadItem(
@@ -99,9 +98,9 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
   Future<void> callApi(
     String startDate,
-    String endDate,
-      {List<String>? listDonVi,}
-  ) async {
+    String endDate, {
+    List<String>? listDonVi,
+  }) async {
     final queue = Queue(parallel: 5);
 
     unawaited(

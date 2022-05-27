@@ -49,7 +49,7 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
                 S.current.gio_hoang_dao_gio_tot,
                 style: textNormalCustom(
                   fontSize: 14.0.textScale(),
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
             ],
@@ -86,84 +86,31 @@ class GioHoangDaoWidgetTablet extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        titleWidget(S.current.hanh, hanh),
-                        titleWidget(S.current.truc, truc),
-                        titleWidget(S.current.sao, sao),
-                      ],
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  titleWidget(S.current.hanh, hanh),
+                  spaceW56,
+                  titleWidget(S.current.truc, truc),
+                  spaceW56,
+                  titleWidget(S.current.sao, sao),
+                  spaceW56,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, right: 16),
+                    child: titleNgayBachKy(
+                      '${S.current.tiet_khi}:',
+                      tietKhi,
+                      fontWeight: FontWeight.w400,
+                      color: color3D5586,
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                width: 100,
-              ),
-              Expanded(
-                child: Column(),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 24.0, top: 24.0),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Container(
-                  height: 10.0.textScale(),
-                  width: 10.0.textScale(),
-                  decoration: const BoxDecoration(
-                    color: choTrinhKyColor,
-                    shape: BoxShape.circle,
                   ),
-                ),
+                ],
               ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              titleNgayBachKy(
-                '${S.current.tiet_khi}: ',
-                tietKhi,
-                fontWeight: FontWeight.w400,
-                color: titleColor,
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 24.0),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Container(
-                  height: 10.0.textScale(),
-                  width: 10.0.textScale(),
-                  decoration: const BoxDecoration(
-                    color: daXuLyColor,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              titleNgayBachKy(
-                '${S.current.ngay}: ',
-                ngayAmLichStr,
-                fontWeight: FontWeight.w400,
-                color: titleColor,
-              ),
-            ],
+            ),
           ),
         ),
       ],

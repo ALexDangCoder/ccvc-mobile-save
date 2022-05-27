@@ -19,6 +19,7 @@ class HiveLocal {
   static late Box<String> _tagKey;
   static late Box<PermissionApp> _listPermission;
   static const TAG_KEY = 'TAG_KEY';
+
   static Future<void> init() async {
     Hive.registerAdapter(DataUserAdapter());
     Hive.registerAdapter(UserInformationAdapter());
@@ -118,5 +119,4 @@ class HiveLocal {
   static Future<void> addTagList(List<String> tagList) async {
     await _tagKey.addAll(tagList);
   }
-
 }

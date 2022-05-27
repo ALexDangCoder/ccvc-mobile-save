@@ -48,24 +48,23 @@ class TinTucThoiSuData {
   @JsonKey(name: 'url')
   String? url;
 
-  TinTucThoiSuData(
-      {this.title,
-      this.content,
-      this.publishedTime,
-      this.audioUrl,
-      this.audioDuration,
-      this.domain,
-      this.urlImage,
-      this.url,
-      });
+  TinTucThoiSuData({
+    this.title,
+    this.content,
+    this.publishedTime,
+    this.audioUrl,
+    this.audioDuration,
+    this.domain,
+    this.urlImage,
+    this.url,
+  });
 
   factory TinTucThoiSuData.fromJson(Map<String, dynamic> json) =>
       _$TinTucThoiSuDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$TinTucThoiSuDataToJson(this);
 
-  TinTucRadioModel toDomain() =>
-      TinTucRadioModel(
+  TinTucRadioModel toDomain() => TinTucRadioModel(
         domain,
         urlImage,
         url,

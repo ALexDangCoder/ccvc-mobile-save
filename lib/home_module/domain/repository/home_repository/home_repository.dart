@@ -1,5 +1,3 @@
-
-
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
@@ -24,6 +22,7 @@ import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
 import '/home_module/domain/model/home/todo_model.dart';
 import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
+
 abstract class HomeRepository {
   Future<Result<PhamViModel>> getPhamVi();
 
@@ -77,6 +76,7 @@ abstract class HomeRepository {
     String toDate,
     String keyWord,
   );
+
   Future<Result<List<CalendarMeetingModel>>> getListLichLamViec(
       LichLamViecRequest lamViecRequest);
 
@@ -87,7 +87,9 @@ abstract class HomeRepository {
 
   Future<Result<List<SinhNhatUserModel>>> getSinhNhat(
       String dataFrom, String dateTo);
+
   Future<Result<List<CalendarMeetingModel>>> getDanhSachCongViec(
       DanhSachCongViecRequest request);
+
   Future<Result<MessageModel>> guiLoiChuc(GuiLoiChucRequest guiLoiChucRequest);
 }

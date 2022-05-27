@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/account/chuyen_pham_vi_request.dart';
@@ -8,13 +7,10 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/home/pham_vi_model.dart';
-
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/home_screen.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';
-
-import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_state.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/home_screen_tablet.dart';import 'package:ccvc_mobile/presentation/menu_screen/bloc/menu_state.dart';
 import 'package:ccvc_mobile/presentation/menu_screen/ui/menu_items.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
@@ -36,6 +32,7 @@ class MenuCubit extends BaseCubit<MenuState> {
   List<PhamViModel> listPhamVi = [];
   PhamViModel? selectPhamVi;
   bool isRefresh = false;
+
   Future<void> getUser() async {
     final queue = Queue();
     if (dataUser != null) {
@@ -59,7 +56,6 @@ class MenuCubit extends BaseCubit<MenuState> {
     unawaited(queue.add(() => getListPhamVi()));
     unawaited(queue.add(() => homeCubit!.getUserInFor()));
     await queue.onComplete;
-
   }
 
   Future<void> getUserRefresh() async {
@@ -68,7 +64,7 @@ class MenuCubit extends BaseCubit<MenuState> {
     final homeCubit = isMobile()
         ? keyHomeMobile.currentState?.homeCubit
         : keyHomeTablet.currentState?.homeCubit;
-   await  homeCubit!.getUserInFor();
+    await homeCubit!.getUserInFor();
     showContent();
   }
 

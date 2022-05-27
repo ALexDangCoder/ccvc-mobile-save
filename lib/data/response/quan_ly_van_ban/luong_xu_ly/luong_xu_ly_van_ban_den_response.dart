@@ -15,6 +15,7 @@ class LuongXuLyVanBanDenResponse {
 
     isSuccess = json['IsSuccess'];
   }
+
   NodePhanXuLy<DonViLuongModel>? toDomain() {
     if (data?.isNotEmpty ?? false) {
       final rootTree = data?.last ?? {};
@@ -61,6 +62,7 @@ class Item {
   String? avatarCommon;
   bool? isBaoCaoLanhDao;
   bool? isCaNhan;
+
   Item(
       {this.id,
       this.parentId,

@@ -11,7 +11,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum TypeScreen { TIN_RADIO, TIN_TRONG_NUOC,TIN_QUOC_TE }
+enum TypeScreen { TIN_RADIO, TIN_TRONG_NUOC, TIN_QUOC_TE }
 
 class TinTucThoiSuBloc extends BaseCubit<BaseState> {
   TinTucThoiSuBloc() : super(TinTucThoiSuStateInitial());
@@ -29,13 +29,12 @@ class TinTucThoiSuBloc extends BaseCubit<BaseState> {
 
   Stream<TinTucRadioResponseModel> get listTinTucRadio =>
       _listTinTucRadio.stream;
+
   Stream<TinTucRadioResponseModel> get listTinTucRadioTrongNuoc =>
       _listTinTucRadioTrongNuoc.stream;
 
   Stream<TinTucRadioResponseModel> get listTinTucRadioQuocTe =>
       _listTinTucRadioQuocTe.stream;
-
-
 
   Stream<int> get dropDownStream => dropDownSubject.stream;
 
@@ -100,6 +99,7 @@ class TinTucThoiSuBloc extends BaseCubit<BaseState> {
     );
     //showContent();
   }
+
   Future<void> getListTinTucRadioTrongNuoc(int page, int size) async {
     loadMorePage = page;
     final result = await _BCMXHRepo.getTinTucThoiSu(
@@ -135,6 +135,7 @@ class TinTucThoiSuBloc extends BaseCubit<BaseState> {
     );
     //showContent();
   }
+
   Future<void> getListTinTucRadioQuocTe(int page, int size) async {
     loadMorePage = page;
     final result = await _BCMXHRepo.getTinTucThoiSu(
@@ -170,5 +171,4 @@ class TinTucThoiSuBloc extends BaseCubit<BaseState> {
     );
     //showContent();
   }
-
 }

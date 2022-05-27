@@ -30,6 +30,7 @@ class DashBoardResponse {
     code = json['code'];
     message = json['message'];
   }
+
   List<WidgetModel> toDomain() {
     final Set<String> listComponent = {};
     final List<WidgetModel> listWidget = [];
@@ -57,6 +58,7 @@ class Data {
   String? appId;
   int? order;
   bool? isShowing;
+
   Data({
     this.id,
     this.name,
@@ -86,6 +88,7 @@ class Data {
     order = json['order'];
     isShowing = json['isShowing'];
   }
+
   WidgetModel toDomain() =>
       WidgetModel(id: id ?? '', name: name ?? '', component: component ?? '');
 }

@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 enum stateLDM { ChoXacNhan, ThamGia, TuChoi }
 
 extension StateLichHop on stateLDM {
-  bool? getListState (stateLDM state) {
+  bool? getListState(stateLDM state) {
     if (this == state) {
       return true;
     } else {

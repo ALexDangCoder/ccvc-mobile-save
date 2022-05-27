@@ -39,9 +39,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
-  //  cubit.callApi();
+    //  cubit.callApi();
     widget.cubit.getDanhSachPAKN();
-
   }
 
   @override
@@ -90,9 +89,10 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                       initStartDate: widget.cubit.initStartDate,
                       context: context,
                       onChooseDateFilter: (startDate, endDate) {
-                        widget.cubit.startDate = startDate.toStringWithListFormat;
+                        widget.cubit.startDate =
+                            startDate.toStringWithListFormat;
                         widget.cubit.endDate = endDate.toStringWithListFormat;
-                      //  widget.cubit.clearDSPAKN();
+                        //  widget.cubit.clearDSPAKN();
                         widget.cubit.getDanhSachPAKN();
                       },
                       controller: textcontroller,
@@ -161,8 +161,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                             child: Column(
                               children: [
                                 Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
                                   child: Text(
                                     S.current.danh_sach_pakn,
                                     style: textNormalCustom(
@@ -194,7 +194,8 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                           );
                         } else {
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -228,6 +229,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           )),
     );
   }
+
   Widget _itemDanhSachPAKN({required DanhSachKetQuaPAKNModel dsKetQuaPakn}) {
     return InkWell(
       onTap: () {
@@ -240,7 +242,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
         );
       },
       child: Container(
-        margin: const EdgeInsets.symmetric( vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 18,
@@ -271,7 +273,9 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   height: 16,
                   width: 16,
                 ),
-                const SizedBox(width: 16.0,),
+                const SizedBox(
+                  width: 16.0,
+                ),
                 Expanded(
                   flex: 8,
                   child: Text(
@@ -294,7 +298,9 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   height: 16,
                   width: 16,
                 ),
-                const SizedBox(width: 16.0,),
+                const SizedBox(
+                  width: 16.0,
+                ),
                 Expanded(
                   flex: 8,
                   child: Text(
@@ -316,7 +322,9 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   height: 16,
                   width: 16,
                 ),
-                const SizedBox(width: 16.0,),
+                const SizedBox(
+                  width: 16.0,
+                ),
                 Expanded(
                   flex: 8,
                   child: Text(
@@ -333,19 +341,21 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
             spaceH10,
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
-                const SizedBox(width: 32.0,),
+                const SizedBox(
+                  width: 32.0,
+                ),
                 Text(
                   statusTrangThai(dsKetQuaPakn.trangThai ?? 1).text,
                   style: textNormalCustom(
-                    color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1)
-                        .color,
+                    color: statusTrangThai(dsKetQuaPakn.trangThai ?? 1).color,
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
                   ),
                 ),
-                const SizedBox(width: 50.0,),
+                const SizedBox(
+                  width: 50.0,
+                ),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 3,
@@ -371,6 +381,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
       ),
     );
   }
+
   TextTrangThai statusTrangThai(int trangThai) {
     switch (trangThai) {
       case YKienNguoiDanCubitt.TRONGHAN:
@@ -382,7 +393,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
           return TextTrangThai(S.current.den_han, choVaoSoColor);
         }
       default:
-      //QUA HAN
+        //QUA HAN
         return TextTrangThai(S.current.qua_han, statusCalenderRed);
     }
   }

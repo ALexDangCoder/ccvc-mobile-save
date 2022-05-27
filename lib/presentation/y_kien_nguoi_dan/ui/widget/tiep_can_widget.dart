@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'bao_cao_thong_ke/status_widget.dart';
 import 'status_pakn.dart';
+
 class TiepCanWidget extends StatefulWidget {
   const TiepCanWidget({Key? key}) : super(key: key);
 
@@ -38,8 +39,8 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
                   8,
-                      (index) => const MySeparator(
-                    color: lineColor,
+                  (index) => const MySeparator(
+                    color: colorECEEF7,
                     height: 2,
                   ),
                 ),

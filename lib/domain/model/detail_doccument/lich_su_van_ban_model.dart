@@ -53,9 +53,9 @@ class LichSuVanBanModel {
       DocumentDetailRow(
         S.current.thoi_gian,
         thoiGianTao?.changeToNewPatternDate(
-          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-          DateTimeFormat.DATE_DD_MM_YYYY,
-        ) ??
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
             '',
         TypeDocumentDetailRow.text,
       ),
@@ -89,9 +89,9 @@ class LichSuVanBanModel {
       DocumentDetailRow(
         S.current.thoi_gian,
         thoiGianTao?.changeToNewPatternDate(
-          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-          DateTimeFormat.DATE_DD_MM_YYYY,
-        ) ??
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
             '',
         TypeDocumentDetailRow.text,
       ),
@@ -124,27 +124,25 @@ class LichSuVanBanModel {
       DocumentDetailRow(
         S.current.nguoi_thu_hoi,
         nguoiTaoXuLy,
-
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-      S.current.don_vi_thu_hoi,
-      noiDung,
-      TypeDocumentDetailRow.text,
+        S.current.don_vi_thu_hoi,
+        noiDung,
+        TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
         thoiGianTao?.changeToNewPatternDate(
-          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-          DateTimeFormat.DATE_DD_MM_YYYY,
-        ) ??
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
             '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.noi_dung_thu_hoi,
         donViTaoXuLy,
-
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -165,18 +163,17 @@ class LichSuVanBanModel {
     ];
     return list;
   }
+
   List<DocumentDetailRow> toListRowLichSuVanBanLienThong() {
     final List<DocumentDetailRow> list = [
       DocumentDetailRow(
         S.current.nguoi_thu_hoi,
         nguoiTaoXuLy,
-
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.noi_dung_thu_hoi,
         donViTaoXuLy,
-
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -187,9 +184,9 @@ class LichSuVanBanModel {
       DocumentDetailRow(
         S.current.thoi_gian,
         thoiGianTao?.changeToNewPatternDate(
-          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-          DateTimeFormat.DATE_DD_MM_YYYY,
-        ) ??
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
             '',
         TypeDocumentDetailRow.text,
       ),

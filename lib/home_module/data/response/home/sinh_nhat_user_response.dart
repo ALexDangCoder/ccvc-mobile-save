@@ -1,5 +1,3 @@
-
-
 import '/home_module/domain/model/home/sinh_nhat_model.dart';
 
 class SinhNhatUserResponse {
@@ -47,11 +45,12 @@ class Data {
     tenCanBo = json['tenCanBo'];
     email = json['email'];
   }
+
   SinhNhatUserModel toDomain() => SinhNhatUserModel(
         canBoId: canBoId ?? '',
         ngaySinh: ngaySinh ?? '',
         tenCanBo: (tenCanBo ?? '').trim(),
         gioiTinh: gioiTinh ?? '',
-    email: (email ?? '').trim(),
+        email: (email ?? '').trim(),
       );
 }

@@ -10,26 +10,26 @@ import 'package:rxdart/rxdart.dart';
 
 class CupertinoRoundedDatePickerWidgetDialog {
   static Future<dynamic> show(
-      BuildContext context, {
-        Locale? locale,
-        DateTime? initialDate,
-        DateTime? minimumDate,
-        DateTime? maximumDate,
-        int? minimumYear,
-        int? maximumYear,
-        Function(DateTime)? onTap,
-        int minuteInterval = 1,
-        bool use24hFormat = false,
-        CupertinoDatePickerMode initialDatePickerMode =
-            CupertinoDatePickerMode.date,
-        EraMode era = EraMode.CHRIST_YEAR,
-        double borderRadius = 16,
-        String? fontFamily,
-        Color background = Colors.white,
-        TextStyle? textStyle,
-        double maxHeight = 878,
-        double width = 592,
-      }) async {
+    BuildContext context, {
+    Locale? locale,
+    DateTime? initialDate,
+    DateTime? minimumDate,
+    DateTime? maximumDate,
+    int? minimumYear,
+    int? maximumYear,
+    Function(DateTime)? onTap,
+    int minuteInterval = 1,
+    bool use24hFormat = false,
+    CupertinoDatePickerMode initialDatePickerMode =
+        CupertinoDatePickerMode.date,
+    EraMode era = EraMode.CHRIST_YEAR,
+    double borderRadius = 16,
+    String? fontFamily,
+    Color background = Colors.white,
+    TextStyle? textStyle,
+    double maxHeight = 878,
+    double width = 592,
+  }) async {
     initialDate ??= DateTime.now();
     minimumDate ??= DateTime.now().subtract(const Duration(days: 7));
     maximumDate ??= DateTime.now().add(const Duration(days: 7));
@@ -39,19 +39,18 @@ class CupertinoRoundedDatePickerWidgetDialog {
     final BehaviorSubject<DateTime> dateTimeBloc = BehaviorSubject<DateTime>()
       ..sink.add(initialDate);
     return showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (_){
-      return Dialog(
-        backgroundColor: Colors.transparent,
-        clipBehavior: Clip.hardEdge,
-        child:
-           Container(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          clipBehavior: Clip.hardEdge,
+          child: Container(
             height: 400,
             width: 400,
             decoration: BoxDecoration(
-                color: background,
-              borderRadius: BorderRadius.circular(borderRadius)
+              color: background,
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -110,9 +109,9 @@ class CupertinoRoundedDatePickerWidgetDialog {
               ],
             ),
           ),
-
-      );
-    });
+        );
+      },
+    );
   }
 }
 
@@ -122,7 +121,7 @@ Widget lineContainer() {
     width: 48,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      color: lineColor,
+      color: colorECEEF7,
     ),
   );
 }

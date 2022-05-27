@@ -34,19 +34,20 @@ class TinTucThoiSuScreenTablet extends StatefulWidget {
       _TinTucThoiSuScreenTabletState();
 }
 
-class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> with AutomaticKeepAliveClientMixin{
+class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet>
+    with AutomaticKeepAliveClientMixin {
   dropDown? valueChoose = dropDown.tinRadio;
 
   @override
   void initState() {
     super.initState();
     widget.tinTucThoiSuBloc.listTinTuc.clear();
-    widget.tinTucThoiSuBloc
-        .getListTinTucRadio(ApiConstants.PAGE_BEGIN, ApiConstants.DEFAULT_PAGE_SIZE);
-    widget.tinTucThoiSuBloc
-        .getListTinTucRadioTrongNuoc(ApiConstants.PAGE_BEGIN, ApiConstants.DEFAULT_PAGE_SIZE);
-    widget.tinTucThoiSuBloc
-        .getListTinTucRadioQuocTe(ApiConstants.PAGE_BEGIN, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc.getListTinTucRadio(
+        ApiConstants.PAGE_BEGIN, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc.getListTinTucRadioTrongNuoc(
+        ApiConstants.PAGE_BEGIN, ApiConstants.DEFAULT_PAGE_SIZE);
+    widget.tinTucThoiSuBloc.getListTinTucRadioQuocTe(
+        ApiConstants.PAGE_BEGIN, ApiConstants.DEFAULT_PAGE_SIZE);
   }
 
   @override
@@ -89,12 +90,13 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
                       clickPLay: () {
                         showBottomSheetCustom(
                           context,
-                           title: S.current.ban_tin_trua_ngay,
-                          child:  BanTinBtnSheetTablet(
+                          title: S.current.ban_tin_trua_ngay,
+                          child: BanTinBtnSheetTablet(
                             listTinTuc: widget.tinTucThoiSuBloc.listTinTuc,
                           ),
                         );
-                      }, tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
+                      },
+                      tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
                     );
                   },
                 ),
@@ -114,22 +116,23 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
                     return BanTinItemTrongNuocTablet(
                       listTinTuc: widget.tinTucThoiSuBloc.listTinTucTrongNuoc,
                       clickXemThem: () {
-                        if(widget.tinTucThoiSuBloc.listTinTucTrongNuoc.isNotEmpty) {
+                        if (widget
+                            .tinTucThoiSuBloc.listTinTucTrongNuoc.isNotEmpty) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
                                   TinRadioTrongNuocTabletScreen(
-                                    title: S.current.tin_trong_nuoc,
-                                    listBanTin: widget.tinTucThoiSuBloc
-                                        .listTinTucTrongNuoc,
-                                    pContext: widget.pContext,
-                                    tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
-                                  ),
+                                title: S.current.tin_trong_nuoc,
+                                listBanTin:
+                                    widget.tinTucThoiSuBloc.listTinTucTrongNuoc,
+                                pContext: widget.pContext,
+                                tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
+                              ),
                             ),
                           );
                           widget.tinTucThoiSuBloc.listTinTucTrongNuoc.clear();
-                        }else{
+                        } else {
                           return Container();
                         }
                       },
@@ -139,11 +142,13 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
                         showBottomSheetCustom(
                           context,
                           title: S.current.ban_tin_trua_ngay,
-                          child:  BanTinBtnSheetTablet(
-                            listTinTuc: widget.tinTucThoiSuBloc.listTinTucTrongNuoc,
+                          child: BanTinBtnSheetTablet(
+                            listTinTuc:
+                                widget.tinTucThoiSuBloc.listTinTucTrongNuoc,
                           ),
                         );
-                      }, tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
+                      },
+                      tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
                     );
                   },
                 ),
@@ -163,23 +168,24 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
                     return BanTinItemQuocTeTablet(
                       listTinTuc: widget.tinTucThoiSuBloc.listTinTucQuocTe,
                       clickXemThem: () {
-                        if(widget.tinTucThoiSuBloc.listTinTucQuocTe.isNotEmpty){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TinRadioQuocTeTabletScreen(
-                              title: S.current.tin_quoc_te,
-                              listBanTin: widget.tinTucThoiSuBloc.listTinTucQuocTe,
-                              pContext:widget.pContext,
-                              tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
+                        if (widget
+                            .tinTucThoiSuBloc.listTinTucQuocTe.isNotEmpty) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TinRadioQuocTeTabletScreen(
+                                title: S.current.tin_quoc_te,
+                                listBanTin:
+                                    widget.tinTucThoiSuBloc.listTinTucQuocTe,
+                                pContext: widget.pContext,
+                                tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
+                              ),
                             ),
-                          ),
-                        );
-                        widget.tinTucThoiSuBloc.listTinTucQuocTe.clear();}
-                        else {
+                          );
+                          widget.tinTucThoiSuBloc.listTinTucQuocTe.clear();
+                        } else {
                           return Container();
                         }
-
                       },
                       title: S.current.tin_quoc_te,
                       description: S.current.tin_trong_nuoc_mieu_ta,
@@ -187,15 +193,19 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
                         showBottomSheetCustom(
                           context,
                           title: S.current.ban_tin_trua_ngay,
-                          child:  BanTinBtnSheetTablet(
-                            listTinTuc: widget.tinTucThoiSuBloc.listTinTucQuocTe,
+                          child: BanTinBtnSheetTablet(
+                            listTinTuc:
+                                widget.tinTucThoiSuBloc.listTinTucQuocTe,
                           ),
                         );
-                      }, tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
+                      },
+                      tinTucThoiSuBloc: widget.tinTucThoiSuBloc,
                     );
                   },
                 ),
-                const SizedBox(height: 28.0,),
+                const SizedBox(
+                  height: 28.0,
+                ),
               ],
             ),
           ),
@@ -207,5 +217,4 @@ class _TinTucThoiSuScreenTabletState extends State<TinTucThoiSuScreenTablet> wit
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-
 }

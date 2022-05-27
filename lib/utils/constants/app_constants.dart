@@ -1,5 +1,3 @@
-
-
 enum AppMode { MAC_DINH, XANH, HONG, VANG }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -7,8 +5,6 @@ enum ServerType { DEV, QA, STAGING, PRODUCT }
 enum LoadingType { REFRESH, LOAD_MORE }
 
 enum CompleteType { SUCCESS, ERROR }
-
-
 
 enum AuthMode { LOGIN, REGISTER }
 
@@ -86,6 +82,7 @@ enum PageTransitionType {
   BOTTOM_TO_TOP,
   RIGHT_TO_LEFT_WITH_FADE,
 }
+
 const String DEVICE_ID = '';
 const String DEVICE_ANDROID = 'ANDROID';
 const String DEVICE_IOS = 'IOS';
@@ -100,10 +97,6 @@ const String CHO_TIEP_NHAN = 'CHO_TIEP_NHAN';
 const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String QUA_HAN_STRING = 'QUA_HAN';
-
-
-
-
 
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
@@ -138,9 +131,10 @@ const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
 const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
 const _dtFormat8 = 'd/MM/yyyy';
 
-const String DO_MAIN_DOWLOAD_FILE='http://api-qlvb-nv.dongnai.edsolabs.vn';
-const String DO_MAIN_LICH_AM_DUONG='https://api-and-uat.chinhquyendientu.vn';
-const String AVATAR_DEFAULT ='http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
+const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
+const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
+const String AVATAR_DEFAULT =
+    'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
@@ -190,8 +184,6 @@ class DocumentState {
   static const String KHAN = 'Khan';
   static const String THUONG_KHAN = 'ThuongKhan';
   static const String HOA_TOC = 'HoaToc';
-
-
 }
 
 class SelectKeyPath {
@@ -221,21 +213,28 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
+
 class StatusYKND {
   static const String CHUA_THUC_HIEN_YKND = '1';
   static const String DA_HOAN_THANH_YKND = '8';
-  static const String DANG_THUC_HIEN_YKND = '2,3,4,5,6,7,9,12,13,14,15,16,18,20,21,22';
+  static const String DANG_THUC_HIEN_YKND =
+      '2,3,4,5,6,7,9,12,13,14,15,16,18,20,21,22';
   static const String QUA_HAN_YKND = '3';
   static const String DEN_HAN_YKND = '2';
   static const String TRONG_HAN_YKND = '1';
 }
-class MenuItemConst{
+
+class MenuItemConst {
   static const HOP = 'hop';
   static const QUAN_LY_NHIEM_VU = 'quanlynhiemvu';
-  static const HANH_CHINH_CONG  = 'hanh-chinh-cong';
+  static const HANH_CHINH_CONG = 'hanh-chinh-cong';
   static const Y_KIEN_NGUOI_DAN = 'y-kien-nguoi-dan';
   static const QUAN_LY_VA_BAN = 'quan-ly-van-ban';
   static const BAO_CHI_MANG_XA_HOI = 'bao-chi-mang-xa-hoi';
   static const KET_NOI = 'ket-noi';
   static const TIEN_ICH = 'tien-ich';
+  static const TUONG_TAC_NOI_BO = 'tuong-tac-noi-bo';
+  static const LICH_LAM_VIEC = 'lichlamviec';
+  static const BAO_CAO = 'bao-cao';
 }
+

@@ -65,7 +65,7 @@ class _ChiTietPKANTabletState extends State<ChiTietPKANTablet>
             indicatorColor: numberColorTablet,
             labelColor: numberColorTablet,
             labelStyle:
-            textNormalCustom(fontWeight: FontWeight.w700, fontSize: 14),
+                textNormalCustom(fontWeight: FontWeight.w700, fontSize: 14),
             unselectedLabelColor: dateColor,
             onTap: (index) {},
             tabs: [
@@ -106,8 +106,16 @@ class _ChiTietPKANTabletState extends State<ChiTietPKANTablet>
               controller: _tabController,
               // physics: const NeverScrollableScrollPhysics(),
               children: [
-                TabThongTinPAKNTablet(cubit: cubit, id: widget.iD, taskId: widget.taskID,),
-                TabThongTinNguoiPhanAnhTablet(cubit: cubit, id: widget.iD, taskId: widget.taskID,),
+                TabThongTinPAKNTablet(
+                  cubit: cubit,
+                  id: widget.iD,
+                  taskId: widget.taskID,
+                ),
+                TabThongTinNguoiPhanAnhTablet(
+                  cubit: cubit,
+                  id: widget.iD,
+                  taskId: widget.taskID,
+                ),
                 TabThongTinXuLyPAKNTablet(),
                 TabKetQuaXuLyTablet(
                   id: widget.iD,
@@ -119,7 +127,8 @@ class _ChiTietPKANTabletState extends State<ChiTietPKANTablet>
                   id: widget.iD,
                 ),
                 TabYKienXuLyTablet(
-                  cubit: cubit, id: widget.iD,
+                  cubit: cubit,
+                  id: widget.iD,
                 ),
               ],
             ),

@@ -161,11 +161,12 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                           color: color5A8DEE,
                           fontWeight: FontWeight.w400,
                           fontSize: 14.0.textScale(),
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList()],
+                    )
+                    .toList()
+              ],
             );
           } else {
             return const SizedBox.shrink();

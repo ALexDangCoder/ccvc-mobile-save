@@ -62,7 +62,7 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
   List<DataRowChiTietKienNghi> dataRowHeader = [];
   String yKienXuLy = '';
 
-  final List<ListRowYKND>listInitDataHeader=[
+  final List<ListRowYKND> listInitDataHeader = [
     ListRowYKND(title: S.current.tieu_de, content: []),
     ListRowYKND(title: S.current.noi_dung, content: []),
     ListRowYKND(title: S.current.nguon_pakn, content: []),
@@ -216,20 +216,46 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
         listRowHeaderData
             .add(ListRowYKND(title: S.current.tieu_de, content: [data.tieuDe]));
         listRowHeaderData.add(
-            ListRowYKND(title: S.current.noi_dung, content: [data.noiDung],),);
-        listRowHeaderData.add(ListRowYKND(
-            title: S.current.nguon_pakn, content: [data.tenNguonPAKN],),);
-        listRowHeaderData.add(ListRowYKND(
-            title: S.current.phan_loai_pakn, content: [data.phanLoaiPAKN],),);
-        listRowHeaderData.add(ListRowYKND(
-            title: S.current.ngay_phan_anh, content: [data.ngayPhanAnh],),);
+          ListRowYKND(
+            title: S.current.noi_dung,
+            content: [data.noiDung],
+          ),
+        );
         listRowHeaderData.add(
-            ListRowYKND(title: S.current.han_xu_ly, content: [data.hanXuLy],),);
-        listRowHeaderData.add(ListRowYKND(
-            title: S.current.lien_quan_quy_dinh, content: [data.tenLuat],),);
-        listRowHeaderData.add(ListRowYKND(
-            title: S.current.tai_lieu_dinh_kem_cong_dan,
-            content: listFileName),);
+          ListRowYKND(
+            title: S.current.nguon_pakn,
+            content: [data.tenNguonPAKN],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.phan_loai_pakn,
+            content: [data.phanLoaiPAKN],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.ngay_phan_anh,
+            content: [data.ngayPhanAnh],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.han_xu_ly,
+            content: [data.hanXuLy],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+            title: S.current.lien_quan_quy_dinh,
+            content: [data.tenLuat],
+          ),
+        );
+        listRowHeaderData.add(
+          ListRowYKND(
+              title: S.current.tai_lieu_dinh_kem_cong_dan,
+              content: listFileName),
+        );
         final NguoiPhanAnhModel nguoiPhanAnhModel = NguoiPhanAnhModel(
           doiTuong: data.doiTuongId,
           tenCaNhan: data.tenNguoiPhanAnh,
@@ -404,7 +430,7 @@ class ChiTietYKienNguoiDanCubit extends BaseCubit<ChiTietYKienNguoiDanState> {
             rowData.add(
               ListRowYKND(
                 title: S.current.file_dinh_kem,
-                content:element.dSFile.map((e) => e.ten).toList(),
+                content: element.dSFile.map((e) => e.ten).toList(),
               ),
             );
 

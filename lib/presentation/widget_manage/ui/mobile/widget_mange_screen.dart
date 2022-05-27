@@ -24,7 +24,6 @@ class WidgetManageScreen extends StatefulWidget {
 
 class _WidgetManageScreenState extends State<WidgetManageScreen> {
   WidgetManageCubit widgetManageCubit = WidgetManageCubit();
-  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -124,7 +123,9 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                             ),
                             Text(
                               S.current.keep_drop,
-                              style: const TextStyle(color: textTitle),
+                              style: textNormalCustom(
+                                color: textTitle,
+                              ),
                             ),
                           ],
                         ),
@@ -167,17 +168,18 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                           if (data.isNotEmpty) {
                             final List<WidgetModel> listWidgetNotUse = data;
                             return ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: data.length,
-                                itemBuilder: (context, index) {
-                                  return ItemWidgetNotUse(
-                                    widgetItem: listWidgetNotUse[index],
-                                    cubit: widgetManageCubit,
-                                    index: index,
-                                    contentWidget: listWidgetNotUse[index].name,
-                                  );
-                                },);
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return ItemWidgetNotUse(
+                                  widgetItem: listWidgetNotUse[index],
+                                  cubit: widgetManageCubit,
+                                  index: index,
+                                  contentWidget: listWidgetNotUse[index].name,
+                                );
+                              },
+                            );
                           } else {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 16),
@@ -213,8 +215,120 @@ class _WidgetManageScreenState extends State<WidgetManageScreen> {
                   isUsing: true,
                 );
               } else {
-                return Center(
-                  child: Text(S.current.no_data),
+                return DragItemList(
+                  headerList: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 12, 0, 12),
+                        height: 45,
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                          color: backgroundWidget,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(ImageAssets.icHoiChamTron),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            Text(
+                              S.current.keep_drop,
+                              style:textNormalCustom(color: textTitle),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        S.current.using,
+                        style: textNormalCustom(
+                          color: itemWidgetUsing,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Center(
+                        child: Text(S.current.no_data),
+                      ),
+                    ],
+                  ),
+                  footerList: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        S.current.not_use,
+                        style: textNormalCustom(
+                          color: itemWidgetNotUse,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      StreamBuilder<List<WidgetModel>>(
+                        stream: widgetManageCubit.listWidgetNotUse,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          if (data.isNotEmpty) {
+                            final List<WidgetModel> listWidgetNotUse = data;
+                            return ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return ItemWidgetNotUse(
+                                  widgetItem: listWidgetNotUse[index],
+                                  cubit: widgetManageCubit,
+                                  index: index,
+                                  contentWidget: listWidgetNotUse[index].name,
+                                );
+                              },
+                            );
+                          } else {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: Center(
+                                child: Text(S.current.no_data),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                      ButtonCustomBottom(
+                        border: 4.0,
+                        title: S.current.xem_truoc,
+                        isColorBlue: true,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => PrevViewWidget(
+                                cubit: widgetManageCubit,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                    ],
+                  ),
+                  listWidget: const [],
+                  widgetManageCubit: widgetManageCubit,
+                  isUsing: true,
                 );
               }
             },

@@ -111,7 +111,8 @@ abstract class HomeServiceGateWay {
   Future<LichHopResponse> getLichHop(@Body() LichHopRequest lichHopRequest);
 
   @POST(ApiConstants.DANH_SACH_CONG_VIEC)
-  Future<DanhSachCongViecResponse> getDanhSachCongViec(@Body() DanhSachCongViecRequest request);
+  Future<DanhSachCongViecResponse> getDanhSachCongViec(
+      @Body() DanhSachCongViecRequest request);
 }
 
 @RestApi()
@@ -163,15 +164,14 @@ abstract class HomeServiceCCVC {
   @FormUrlEncoded()
   Future<LunarDateResponse> getLunarDate(@Query('inputDate') String inputDate);
 
-
   @GET(ApiConstants.GET_DASHBOARD_WIDGET)
   @FormUrlEncoded()
   Future<DashBoardResponse> getDashBoard();
 
   @POST(ApiConstants.GUI_LOI_CHUC)
-  Future<GuiLoiChucResponse> guiLoiChuc(@Body() GuiLoiChucRequest guiLoiChucRequest);
+  Future<GuiLoiChucResponse> guiLoiChuc(
+      @Body() GuiLoiChucRequest guiLoiChucRequest);
 
   @GET(ApiConstants.GET_TIN_BUON)
   Future<TinhHuongKhanCapResponse> getTinBuon();
-
 }

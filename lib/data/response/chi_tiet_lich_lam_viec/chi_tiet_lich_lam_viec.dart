@@ -162,9 +162,10 @@ class DetailCalenderWorkResponseData {
         createBy: createBy?.toDomain() ?? CreateBy(),
         updateBy: updateBy?.toDomain() ?? UpdateBy(),
         canBoChuTri: canBoChuTri?.toDomain() ?? CreateBy(),
-        scheduleCoperatives: scheduleCoperatives?.map((e) => e.toModel()).toList()??[],
+        scheduleCoperatives:
+            scheduleCoperatives?.map((e) => e.toModel()).toList() ?? [],
         files: files?.map((e) => e.toDomain()).toList() ?? [],
-        scheduleReminder: scheduleReminder?.toModel()??ScheduleReminder(),
+        scheduleReminder: scheduleReminder?.toModel() ?? ScheduleReminder(),
         tinhId: tinhId,
         tenTinh: tenTinh,
         huyenId: huyenId,
@@ -398,50 +399,50 @@ class ScheduleCoperativesResponse {
   @JsonKey(name: 'parentId')
   String? parentId;
 
-
   ScheduleCoperativesResponse({
-      this.id,
-      this.donViId,
-      this.tenDonVi,
-      this.canBoId,
-      this.hoTen,
-      this.userName,
-      this.userId,
-      this.scheduleId,
-      this.isConfirm,
-      this.status,
-      this.confirmDate,
-      this.taskContent,
-      this.parentId,
+    this.id,
+    this.donViId,
+    this.tenDonVi,
+    this.canBoId,
+    this.hoTen,
+    this.userName,
+    this.userId,
+    this.scheduleId,
+    this.isConfirm,
+    this.status,
+    this.confirmDate,
+    this.taskContent,
+    this.parentId,
   });
 
   factory ScheduleCoperativesResponse.fromJson(Map<String, dynamic> json) =>
       _$ScheduleCoperativesResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ScheduleCoperativesResponseToJson(this);
-  DonViModel toModel()=>DonViModel(
-    id: id??'',
-    donViId: donViId??'',
-    tenDonVi: tenDonVi??'',
-    canBoId: canBoId??'',
-    name: hoTen??'',
-    userId: userId??'',
-    noidung: taskContent??'',
-  );
 
-  // ScheduleCoperatives toModel()=>ScheduleCoperatives(
-  //   id:id,
-  //   donViId:donViId,
-  //   tenDonVi:tenDonVi,
-  //   canBoId:canBoId,
-  //   hoTen:hoTen,
-  //   userName:userName,
-  //   userId:userId,
-  //   scheduleId:scheduleId,
-  //   isConfirm:isConfirm,
-  //   status:status,
-  //   confirmDate:confirmDate,
-  //   taskContent:taskContent,
-  //   parentId:parentId,
-  // );
+  DonViModel toModel() => DonViModel(
+        id: id ?? '',
+        donViId: donViId ?? '',
+        tenDonVi: tenDonVi ?? '',
+        canBoId: canBoId ?? '',
+        name: hoTen ?? '',
+        userId: userId ?? '',
+        noidung: taskContent ?? '',
+      );
+
+// ScheduleCoperatives toModel()=>ScheduleCoperatives(
+//   id:id,
+//   donViId:donViId,
+//   tenDonVi:tenDonVi,
+//   canBoId:canBoId,
+//   hoTen:hoTen,
+//   userName:userName,
+//   userId:userId,
+//   scheduleId:scheduleId,
+//   isConfirm:isConfirm,
+//   status:status,
+//   confirmDate:confirmDate,
+//   taskContent:taskContent,
+//   parentId:parentId,
+// );
 }

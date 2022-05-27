@@ -3,7 +3,7 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 
 String headerMenu() {
-  if(APP_BACKGROUND != null){
+  if (APP_BACKGROUND != null) {
     return _iconHeaderBackGround();
   }
   switch (APP_THEME) {
@@ -17,7 +17,8 @@ String headerMenu() {
       return ImageAssets.icHeaderMenuYellowTablet;
   }
 }
-String _iconHeaderBackGround(){
+
+String _iconHeaderBackGround() {
   switch (APP_BACKGROUND) {
     case AppBackGround.XUAN:
       return ImageAssets.headerMenuXuanTablet;
@@ -26,7 +27,6 @@ String _iconHeaderBackGround(){
 
     case AppBackGround.THU:
       return ImageAssets.headerMenuThuTablet;
-
 
     case AppBackGround.DONG:
       return ImageAssets.headerMenuDongTablet;

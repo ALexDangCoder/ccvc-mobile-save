@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/co_cau_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/to_chuc_boi_don_vi_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -46,10 +45,10 @@ class ToChucBoiDonViData {
   ToChucBoiDonViData(this.id, this.tenDonVi, this.quantities);
 
   ToChucBoiDonViModel toModel() => ToChucBoiDonViModel(
-    id: id,
-    tenDonVi: tenDonVi,
-    quantities: quantities,
-  );
+        id: id,
+        tenDonVi: tenDonVi,
+        quantities: quantities,
+      );
 
   factory ToChucBoiDonViData.fromJson(Map<String, dynamic> json) =>
       _$ToChucBoiDonViDataFromJson(json);

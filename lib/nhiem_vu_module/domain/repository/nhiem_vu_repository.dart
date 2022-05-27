@@ -91,17 +91,19 @@ mixin NhiemVuRepository {
     String id,
   );
 
-  Future<Result<NodePhanXuLy<DonViLuongNhiemVuModel>?>> getLuongXuLyVanBanDen(String id);
+  Future<Result<NodePhanXuLy<DonViLuongNhiemVuModel>?>> getLuongXuLyVanBanDen(
+      String id);
+
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuGiaoViec(
+    String nhiemVuId,
+  );
 
   Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>>
-  getLichSuGiaoViec(
-      String nhiemVuId,
-      );
-  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>>
-  getLichSuThayDoiTrangThai(
-      String nhiemVuId,
-      );
-  Future<Result<String>> postYKienXuLy({ required Map<String,dynamic> map});
-  Future<Result<String>> postFile({ required List<File> path});
+      getLichSuThayDoiTrangThai(
+    String nhiemVuId,
+  );
 
+  Future<Result<String>> postYKienXuLy({required Map<String, dynamic> map});
+
+  Future<Result<String>> postFile({required List<File> path});
 }

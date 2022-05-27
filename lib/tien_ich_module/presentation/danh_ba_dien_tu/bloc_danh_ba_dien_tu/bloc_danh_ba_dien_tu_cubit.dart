@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/sua_danh_sach_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/them_danh_ba_ca_nhan_request.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
@@ -53,6 +54,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   String email = '';
   bool gioiTinh = true;
   String ngaySinh = '';
+  String dateDanhSach = DateTime.now().formatApiDanhBa;
   String cmtnd = '';
   String anhDaiDienFilePath = '';
   String anhChuKyFilePath = '';
@@ -65,7 +67,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 
   String search = '';
   BehaviorSubject<File> saveFile = BehaviorSubject();
-  final BehaviorSubject<String> anhDanhBaCaNhan = BehaviorSubject();
+  final BehaviorSubject<ModelAnh> anhDanhBaCaNhan = BehaviorSubject();
 
   String subString(String? name) {
     if (name != null) {
@@ -231,6 +233,18 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     );
   }
 
+  String pathAnh = '';
+
+  Future<void> uploadFiles(String path) async {
+    final result = await tienIchRepTree.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnh = res.data?.filePathFull ?? '';
+      },
+      error: (error) {},
+    );
+  }
+
   Future<bool> postDanhSach({
     required String hoTen,
     required String phoneDiDong,
@@ -259,9 +273,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       gioiTinh: gioiTinh,
       ngaySinh: ngaySinh,
       cmtnd: cmtnd,
-      anhDaiDienFilePath: anhDaiDienFilePath,
-      anhChuKyFilePath: anhChuKyFilePath,
-      anhChuKyNhayFilePath: anhChuKyNhayFilePath,
+      anhDaiDien_FilePath: anhDaiDienFilePath,
+      anhChuKy_FilePath: anhChuKyFilePath,
+      anhChuKyNhay_FilePath: anhChuKyNhayFilePath,
       diaChi: diaChi,
       isDeleted: isDeleted,
       thuTu: thuTu,
@@ -321,9 +335,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       gioiTinh: gioiTinh,
       ngaySinh: ngaySinh,
       cmtnd: cmtnd,
-      anhDaiDienFilePath: anhDaiDienFilePath,
-      anhChuKyFilePath: anhChuKyFilePath,
-      anhChuKyNhayFilePath: anhChuKyNhayFilePath,
+      anhDaiDien_FilePath: anhDaiDienFilePath,
+      anhChuKy_FilePath: anhChuKyFilePath,
+      anhChuKyNhay_FilePath: anhChuKyNhayFilePath,
       diaChi: diaChi,
       isDeleted: isDeleted,
       thuTu: thuTu,
@@ -344,7 +358,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       },
       error: (error) {
         MessageConfig.show(
-            title: S.current.thay_doi_that_bai, messState: MessState.error);
+          title: S.current.thay_doi_that_bai,
+          messState: MessState.error,
+        );
         isCheckSuccess = false;
       },
     );
@@ -366,7 +382,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       },
       error: (error) {
         MessageConfig.show(
-            title: S.current.xoa_that_bai, messState: MessState.error);
+          title: S.current.xoa_that_bai,
+          messState: MessState.error,
+        );
         isCheckSuccess = false;
       },
     );
@@ -473,11 +491,11 @@ extension TreeDanhBa on DanhBaDienTuCubit {
     List<TreeDonViDanhBA> matches = listTreeDanhBa
         .where(
           (x) => x.tenDonVi
-          .toLowerCase()
-          .vietNameseParse()
-          .trim()
-          .contains(keyword.toLowerCase().vietNameseParse().trim()),
-    )
+              .toLowerCase()
+              .vietNameseParse()
+              .trim()
+              .contains(keyword.toLowerCase().vietNameseParse().trim()),
+        )
         .toList();
 
     void GetParent(List<TreeDonViDanhBA> treeAlls, TreeDonViDanhBA node) {

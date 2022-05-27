@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
@@ -11,7 +10,6 @@ import 'package:ccvc_mobile/domain/repository/y_kien_nguoi_dan/y_kien_nguoi_dan_
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -215,7 +213,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             rowData.add(
               ListRowYKND(
                 title: S.current.trich_yeu,
-                content: [element.trichYeu],
+                content: [element.trichYeu.parseHtml()],
               ),
             );
             rowData.add(
@@ -229,9 +227,10 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
               ListRowYKND(
                 title: S.current.file_dinh_kem,
                 content: element.dSFile.map((e) => e.ten).toList(),
+                urlDownload: element.dSFile.map((e) => e.duongDan).toList(),
+                nameFile: element.dSFile.map((e) => e.ten).toList(),
               ),
             );
-
             listData.add(rowData);
             ketQuaXuLyRowData.sink.add(listData);
           }
@@ -258,7 +257,7 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         );
       },
       error: (error) {
-       // if(error is NoNetworkException){
+        // if(error is NoNetworkException){
         //   MessageConfig.show(
         //     title: S.current.no_internet,
         //     messState: MessState.error,
@@ -461,9 +460,11 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
         chiTietYKNDSubject.sink.add(res.chiTietYKNDModel);
         final data = res.chiTietYKNDModel;
         final List<String> listFileName = [];
+        final List<String> listUrlFile = [];
         if (data.fileDinhKem.isNotEmpty) {
           for (final element in data.fileDinhKem) {
             listFileName.add(element.tenFile);
+            listUrlFile.add(element.duongDan);
           }
         }
         final List<ListRowYKND> listRowHeaderData = [];
@@ -505,10 +506,14 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
             content: [data.tenLuat],
           ),
         );
+
         listRowHeaderData.add(
           ListRowYKND(
               title: S.current.tai_lieu_dinh_kem_cong_dan,
-              content: listFileName),
+              content: listFileName,
+              nameFile: listFileName,
+              urlDownload: listUrlFile
+          ),
         );
         headerRowData.sink.add(listRowHeaderData);
       },

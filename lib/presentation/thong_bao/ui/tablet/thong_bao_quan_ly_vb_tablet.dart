@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-
 class ThongBaoQuanLyVBTablet extends StatefulWidget {
   final ThongBaoCubit cubit;
   final String title;

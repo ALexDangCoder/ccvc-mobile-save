@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:readmore/readmore.dart';
 
-
 class TinRadioQuocTeTabletScreen extends StatefulWidget {
   final String title;
   final List<TinTucRadioModel> listBanTin;
@@ -33,10 +32,12 @@ class TinRadioQuocTeTabletScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TinRadioQuocTeTabletScreenState createState() => _TinRadioQuocTeTabletScreenState();
+  _TinRadioQuocTeTabletScreenState createState() =>
+      _TinRadioQuocTeTabletScreenState();
 }
 
-class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen> {
+class _TinRadioQuocTeTabletScreenState
+    extends State<TinRadioQuocTeTabletScreen> {
   late List<TinTucRadioModel> listTinTuc;
 
   @override
@@ -186,25 +187,24 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                         ),
                         const Divider(
                           height: 2,
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                         const SizedBox(
                           height: 16,
                         ),
-                          Expanded(
-                            child: ListViewLoadMore(
-                              cubit: widget.tinTucThoiSuBloc,
-                              isListView: true,
-                              callApi: (page) => {
-                                callApiQuocTe(
-                                  page,
-                                )
-                              },
-                              viewItem: (value, index) =>
-                                  itemTinTucThoiSuQuocTe(
-                                      value as TinTucRadioModel, index ?? 0),
-                            ),
-                          )
+                        Expanded(
+                          child: ListViewLoadMore(
+                            cubit: widget.tinTucThoiSuBloc,
+                            isListView: true,
+                            callApi: (page) => {
+                              callApiQuocTe(
+                                page,
+                              )
+                            },
+                            viewItem: (value, index) => itemTinTucThoiSuQuocTe(
+                                value as TinTucRadioModel, index ?? 0),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -223,15 +223,15 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
                           child: SingleChildScrollView(
                             child: ReadMoreText(
                               'Kênh radio chính thức của UBND tỉnh Đồng Nai. '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng Nai '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
-                                  'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
-                                  'radio chính thức của UBND tỉnh Đồng NaiKênh radio chính'
-                                  ' thức của UBND tỉnh Đồng Nai',
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng Nai '
+                              'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
+                              'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
+                              'Kênh radio chính thức của UBND tỉnh Đồng NaiKênh '
+                              'radio chính thức của UBND tỉnh Đồng NaiKênh radio chính'
+                              ' thức của UBND tỉnh Đồng Nai',
                               trimLines: 6,
                               colorClickableText: labelColor,
                               trimMode: TrimMode.Line,
@@ -262,7 +262,6 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
     );
   }
 
-
   void callApiQuocTe(int page) {
     widget.tinTucThoiSuBloc
         .getListTinTucRadioQuocTe(page, ApiConstants.DEFAULT_PAGE_SIZE);
@@ -272,16 +271,16 @@ class _TinRadioQuocTeTabletScreenState extends State<TinRadioQuocTeTabletScreen>
     return Container(
       margin: const EdgeInsets.only(bottom: 20.0),
       child: ItemTinRadioTrongNuocTablet(
-        data.urlImage?[0]??'',
+        data.urlImage?[0] ?? '',
         data.title,
         DateTime.parse(
-            data.publishedTime.replaceAll('/', '-').replaceAll(' ', 'T'))
+                data.publishedTime.replaceAll('/', '-').replaceAll(' ', 'T'))
             .formatApiSSAM,
         clickItem: () {
           showBottomSheetCustom(
             widget.pContext,
             title: S.current.ban_tin_trua_ngay,
-            child:  BanTinBtnSheetTablet(
+            child: BanTinBtnSheetTablet(
               listTinTuc: widget.tinTucThoiSuBloc.listTinTucQuocTe,
               index: index,
             ),

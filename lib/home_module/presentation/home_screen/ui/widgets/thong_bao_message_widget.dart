@@ -8,6 +8,7 @@ import '/home_module/utils/constants/image_asset.dart';
 
 class ThongBaoWidget extends StatelessWidget {
   final int sum;
+
   const ThongBaoWidget({Key? key, this.sum = 0}) : super(key: key);
 
   @override

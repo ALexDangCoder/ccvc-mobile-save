@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
@@ -267,23 +267,10 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    // getDashBroashCongViecCaNhan(
-    //   ngayDauTien: ngayDauTien,
-    //   ngayCuoiCung: ngayKetThuc,
-    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callDataDanhSach(String start, String end, bool isCheckCaNhan) {
-    // postDanhSachCongViec(
-    //   hanXuLy: {'FromDate': start, 'ToDate': end},
-    //   index: pageIndex,
-    //   isCaNhan: isCheckCaNhan,
-    //   isSortByHanXuLy: true,
-    //   keySearch: keySearch,
-    //   mangTrangThai: [],
-    //   size: pageSize,
-    // );
     postDanhSachNhiemVu(
       index: pageIndex,
       isNhiemVuCaNhan: isCheckCaNhan,

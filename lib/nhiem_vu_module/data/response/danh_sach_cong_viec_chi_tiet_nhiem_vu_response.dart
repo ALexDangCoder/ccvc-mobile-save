@@ -261,10 +261,14 @@ class PostYKienResponse extends Equatable {
   @JsonKey(name: 'Data')
   dynamic data;
 
-  PostYKienResponse(this.isSuccess,this.data,);
+  PostYKienResponse(
+    this.isSuccess,
+    this.data,
+  );
 
   factory PostYKienResponse.fromJson(Map<String, dynamic> json) =>
       _$PostYKienResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$PostYKienResponseToJson(this);
 
   @override

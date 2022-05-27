@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/home/tinh_hinh_y_kien_model.dart';
 
 class YKienNguoiDanResponse {
@@ -19,6 +18,7 @@ class YKienNguoiDanResponse {
     noiDungThongDiep = json['NoiDungThongDiep'];
     maTraLoi = json['MaTraLoi'];
   }
+
   List<TinhHinhYKienModel> toDomain() {
     final data = <TinhHinhYKienModel>[];
     danhSachKetQua?.forEach((element) {
@@ -42,6 +42,7 @@ class DanhSachKetQua {
     phanTram = json['PhanTram'];
     tongSo = json['TongSo'];
   }
+
   TinhHinhYKienModel toDomain() =>
       TinhHinhYKienModel(soLuong: soLuong ?? 0, status: status ?? '');
 }

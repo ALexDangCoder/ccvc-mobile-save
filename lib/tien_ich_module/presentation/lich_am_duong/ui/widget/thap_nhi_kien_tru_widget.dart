@@ -24,7 +24,7 @@ class ThapNhiKienTruWidget extends StatelessWidget {
             S.current.thap_nhi_kien_tru,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),

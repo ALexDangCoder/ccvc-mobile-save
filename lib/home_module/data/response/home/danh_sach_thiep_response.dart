@@ -9,14 +9,12 @@ class DanhSachThiepResponse {
       {this.data, this.statusCode, this.succeeded, this.code, this.message});
 
   DanhSachThiepResponse.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     statusCode = json['statusCode'];
     succeeded = json['succeeded'];
     code = json['code'];
     message = json['message'];
   }
-
-
 }
 
 class Data {
@@ -29,11 +27,11 @@ class Data {
 
   Data(
       {this.pageIndex,
-        this.totalPages,
-        this.totalItems,
-        this.pageData,
-        this.hasPreviousPage,
-        this.hasNextPage});
+      this.totalPages,
+      this.totalItems,
+      this.pageData,
+      this.hasPreviousPage,
+      this.hasNextPage});
 
   Data.fromJson(Map<String, dynamic> json) {
     pageIndex = json['pageIndex'];
@@ -48,8 +46,6 @@ class Data {
     hasPreviousPage = json['hasPreviousPage'];
     hasNextPage = json['hasNextPage'];
   }
-
-
 }
 
 class PageData {
@@ -62,11 +58,11 @@ class PageData {
 
   PageData(
       {this.id,
-        this.tieuDe,
-        this.imgUrl,
-        this.order,
-        this.type,
-        this.isDeleted});
+      this.tieuDe,
+      this.imgUrl,
+      this.order,
+      this.type,
+      this.isDeleted});
 
   PageData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

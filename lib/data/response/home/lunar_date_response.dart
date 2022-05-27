@@ -36,6 +36,7 @@ class ResultObj {
     lunarDateArray = json['lunarDateArray'].cast<String>();
     currentDate = json['currentDate'];
   }
+
   DateModel toDomain() => DateModel(
         dateMore: dateMore ?? '',
         lunarDate:

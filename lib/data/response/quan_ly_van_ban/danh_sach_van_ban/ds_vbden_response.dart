@@ -42,17 +42,16 @@ class DataResponseVBDen {
         pageData: pageData
             .map(
               (e) => VanBanModel(
-                doKhan: e.doKhan,
-                loaiVanBan: e.loaiVanBan,
-                ngayDen: e.ngayDen,
-                iD: e.iD,
-                nguoiSoanThao: e.nguoiSoanThao,
-                taskId: e.taskId,
-                sender: e.NoiGui,
-                statusCode: e.TrangThaiXuLy,
-                number: e.SoKyHieu,
-                trichYeu: e.trichYeu
-              ),
+                  doKhan: e.doKhan,
+                  loaiVanBan: e.loaiVanBan,
+                  ngayDen: e.ngayDen,
+                  iD: e.iD,
+                  nguoiSoanThao: e.nguoiSoanThao,
+                  taskId: e.taskId,
+                  sender: e.NoiGui,
+                  statusCode: e.TrangThaiXuLy,
+                  number: e.SoKyHieu,
+                  trichYeu: e.trichYeu),
             )
             .toList(),
         currentPage: currentPage,

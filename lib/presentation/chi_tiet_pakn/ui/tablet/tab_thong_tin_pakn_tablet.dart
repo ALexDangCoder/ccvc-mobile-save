@@ -1,14 +1,14 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_pakn/widgets/row_title_ft_description.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_row_data.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TabThongTinPAKNTablet extends StatefulWidget {
   const TabThongTinPAKNTablet({
@@ -20,6 +20,7 @@ class TabThongTinPAKNTablet extends StatefulWidget {
   final ChiTietPaknCubit cubit;
   final String id;
   final String taskId;
+
   @override
   State<TabThongTinPAKNTablet> createState() => _TabThongTinPAKNTabletState();
 }
@@ -30,7 +31,6 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
     // TODO: implement initState
     super.initState();
     widget.cubit.getThongTinPAKN(widget.id, widget.taskId);
-
   }
 
   @override
@@ -46,7 +46,7 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
 
   Widget _content() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0,vertical: 13.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 13.0),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
@@ -68,7 +68,8 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
             final data = snapshot.data ?? [];
             if (data.isNotEmpty) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -77,6 +78,9 @@ class _TabThongTinPAKNTabletState extends State<TabThongTinPAKNTablet> {
                     return ListItemRow(
                       title: data[index].title,
                       content: data[index].content,
+                        nameFile: data[index].nameFile,
+                        urlFile: data[index].urlDownload,
+                        domainDownload: '${Get.find<AppConstants>().baseUrlPAKN}/'
                     );
                   },
                 ),

@@ -36,7 +36,7 @@ class RadioButton<T> extends StatelessWidget {
                   if (states.isEmpty) {
                     return radioUnfocusColor;
                   }
-                  return  AppTheme.getInstance().colorField();
+                  return AppTheme.getInstance().colorField();
                 }),
                 value: value,
                 groupValue: groupValue,

@@ -26,13 +26,15 @@ class ItemListNewsTablet extends StatelessWidget {
             child: Container(
               height: 80,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: image.isNotEmpty
-                        ? NetworkImage(image)
-                        : const AssetImage(ImageAssets.icDongNai) as ImageProvider,
-                    fit: BoxFit.fill,
-                  ),),
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: image.isNotEmpty
+                      ? NetworkImage(image)
+                      : const AssetImage(ImageAssets.icDongNai)
+                          as ImageProvider,
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
           ),
           const SizedBox(
@@ -47,7 +49,7 @@ class ItemListNewsTablet extends StatelessWidget {
                   child: Text(
                     title,
                     style: textNormalCustom(
-                      color: titleColor,
+                      color: color3D5586,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                     ),
@@ -76,7 +78,7 @@ class ItemListNewsTablet extends StatelessWidget {
                     Text(
                       date,
                       style: textNormalCustom(
-                        color: unselectedLabelColor,
+                        color: color667793,
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
                       ),

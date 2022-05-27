@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -17,19 +18,20 @@ class BlockTextView extends StatefulWidget {
   final bool isHideRequired;
   final bool useCustomTitle;
   final int maxLines;
-  const BlockTextView({
-    Key? key,
-    required this.formKey,
-    required this.contentController,
-    required this.title,
-    this.hintText,
-    this.validate,
-    this.isHideRequired = false,
-    this.isRequired = true,
-    this.isLimitCharacter = false,
-    this.useCustomTitle = false,
-    this.maxLines = 5
-  }) : super(key: key);
+
+  const BlockTextView(
+      {Key? key,
+      required this.formKey,
+      required this.contentController,
+      required this.title,
+      this.hintText,
+      this.validate,
+      this.isHideRequired = false,
+      this.isRequired = true,
+      this.isLimitCharacter = false,
+      this.useCustomTitle = false,
+      this.maxLines = 5})
+      : super(key: key);
 
   @override
   _BlockTextViewState createState() => _BlockTextViewState();
@@ -73,7 +75,7 @@ class _BlockTextViewState extends State<BlockTextView> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             style: tokenDetailAmount(
               fontSize: 14.0.textScale(),
-              color: titleColor,
+              color: color3D5586,
             ),
             decoration: InputDecoration(
               hintText: widget.hintText,

@@ -49,7 +49,7 @@ Future<Result<E>> runCatchingAsync<T, E>(
       return Result.error(
         AppException(
           S.current.error,
-        res,
+          res,
         ),
       );
     }

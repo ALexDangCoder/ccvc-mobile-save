@@ -4,12 +4,8 @@ class NhiemVuChiTietHopRequest {
   bool? isNhiemVuCaNhan;
   String? idCuocHop;
 
-  NhiemVuChiTietHopRequest({
-    this.size,
-    this.index,
-    this.isNhiemVuCaNhan,
-    this.idCuocHop
-  });
+  NhiemVuChiTietHopRequest(
+      {this.size, this.index, this.isNhiemVuCaNhan, this.idCuocHop});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

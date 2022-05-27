@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
@@ -63,7 +62,7 @@ class _PhanAnhKienNghiDonViWidgetState
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ContainerBackgroundWidget(
-       minHeight: 0,
+        minHeight: 0,
         isShowSubTitle: false,
         title: S.current.phan_anh_kien_nghi_don_vi,
         onTapIcon: () {
@@ -75,11 +74,10 @@ class _PhanAnhKienNghiDonViWidgetState
           child: StreamBuilder<List<TinhHinhYKienModel>>(
               stream: _phanAnhKienNghiCubit.getTinhHinhXuLy,
               builder: (context, snapshot) {
-
                 final data = snapshot.data ?? <TinhHinhYKienModel>[];
-                if(data.isEmpty){
+                if (data.isEmpty) {
                   return const Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 50),
+                    padding: EdgeInsets.symmetric(vertical: 50),
                     child: NodataWidget(),
                   );
                 }

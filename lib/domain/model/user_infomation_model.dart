@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 class UserInformationModel {
   String? id;
@@ -32,23 +32,21 @@ class UserInformationModel {
     this.ngaySinh,
     this.soDienThoai,
   });
-  bool isSinhNhat(){
-    if(ngaySinh == null && (ngaySinh?.isEmpty ?? true)){
+
+  bool isSinhNhat() {
+    if (ngaySinh == null && (ngaySinh?.isEmpty ?? true)) {
       return false;
-    }else{
+    } else {
+      try {
+        final DateTime dateNgaySinh = DateTime.parse(ngaySinh!);
 
-    try{
-      final DateTime dateNgaySinh = DateTime.parse(ngaySinh!);
-
-      final now = DateTime.now();
-      if(dateNgaySinh.day == now.day && dateNgaySinh.month == now.month) {
-        return true;
+        final now = DateTime.now();
+        if (dateNgaySinh.day == now.day && dateNgaySinh.month == now.month) {
+          return true;
+        }
+      } catch (e) {
+        return false;
       }
-    }catch(e){
-      return false;
-    }
-
-
     }
 
     return false;

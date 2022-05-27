@@ -11,6 +11,7 @@ class CanBoWidget extends StatefulWidget {
   final DonViModel canBoModel;
   final Function(bool) onCheckBox;
   final ThemCanBoCubit themCanBoCubit;
+
   const CanBoWidget({
     Key? key,
     required this.canBoModel,
@@ -48,15 +49,17 @@ class _CanBoWidgetState extends State<CanBoWidget> {
               Text(
                 widget.canBoModel.name,
                 style: textNormalCustom(
-                    color: titleColor, fontSize: 14.0.textScale(),),
+                  color: color3D5586,
+                  fontSize: 14.0.textScale(),
+                ),
               )
             ],
           ),
-           SizedBox(
+          SizedBox(
             height: 11.0.textScale(space: 11),
           ),
           rowInfo(key: S.current.ten_can_bo, value: widget.canBoModel.tenCanBo),
-           SizedBox(
+          SizedBox(
             height: 11.0.textScale(space: 9),
           ),
           rowInfo(key: S.current.chuc_vu, value: widget.canBoModel.chucVu)
@@ -79,7 +82,7 @@ class _CanBoWidgetState extends State<CanBoWidget> {
           flex: 6,
           child: Text(
             value,
-            style: textNormal(titleColor, 14.0.textScale()),
+            style: textNormal(color3D5586, 14.0.textScale()),
           ),
         )
       ],

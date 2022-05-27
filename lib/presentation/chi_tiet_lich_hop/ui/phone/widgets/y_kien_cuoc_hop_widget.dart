@@ -14,7 +14,8 @@ class YKienCuocHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
   final String id;
 
-  const YKienCuocHopWidget({Key? key, required this.id, required this.cubit}) : super(key: key);
+  const YKienCuocHopWidget({Key? key, required this.id, required this.cubit})
+      : super(key: key);
 
   @override
   _YKienCuocHopWidgetState createState() => _YKienCuocHopWidgetState();

@@ -4,11 +4,12 @@ class TheoDoiBaiVietModel {
   int totalItems;
   List<BaiVietModel> listBaiViet;
 
-  TheoDoiBaiVietModel(
-      {required this.pageIndex,
-      required this.listBaiViet,
-      required this.totalItems,
-      required this.totalPages,});
+  TheoDoiBaiVietModel({
+    required this.pageIndex,
+    required this.listBaiViet,
+    required this.totalItems,
+    required this.totalPages,
+  });
 }
 
 class BaiVietModel {

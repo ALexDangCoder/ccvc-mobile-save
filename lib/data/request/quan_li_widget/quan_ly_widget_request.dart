@@ -6,6 +6,7 @@ part 'quan_ly_widget_request.g.dart';
 class QuanLyWidgetRequest {
   @JsonKey(name: 'widgetConfigData')
   final String widgetConfigData;
+
   QuanLyWidgetRequest({
     required this.widgetConfigData,
   });

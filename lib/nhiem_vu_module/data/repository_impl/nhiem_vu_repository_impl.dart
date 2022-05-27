@@ -215,59 +215,54 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
   }
 
   @override
-
-  Future<Result<NodePhanXuLy<DonViLuongNhiemVuModel>?>> getLuongXuLyVanBanDen(String id) {
+  Future<Result<NodePhanXuLy<DonViLuongNhiemVuModel>?>> getLuongXuLyVanBanDen(
+      String id) {
     return runCatchingAsync<XemLuongXuLyNhiemVuResponse,
-        NodePhanXuLy<DonViLuongNhiemVuModel>?>(
-            () => nhiemVuService.getLuongXuLyNhiemVu(id),
-            (res) => res.toDomain());
+            NodePhanXuLy<DonViLuongNhiemVuModel>?>(
+        () => nhiemVuService.getLuongXuLyNhiemVu(id), (res) => res.toDomain());
   }
 
-  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuGiaoViec(String congViecID) {
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuGiaoViec(
+      String congViecID) {
     return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
         List<DanhSachCongViecChiTietNhiemVuModel>>(
-          () =>
-          nhiemVuService.getLichSuGiaoViec(congViecID),
-          (response) => response.data?.map((e) => e.toLichSuGiaoViec()).toList() ?? [],
+      () => nhiemVuService.getLichSuGiaoViec(congViecID),
+      (response) =>
+          response.data?.map((e) => e.toLichSuGiaoViec()).toList() ?? [],
     );
   }
 
   @override
-  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>> getLichSuThayDoiTrangThai(String congViecID) {
+  Future<Result<List<DanhSachCongViecChiTietNhiemVuModel>>>
+      getLichSuThayDoiTrangThai(String congViecID) {
     return runCatchingAsync<DataDanhSachCongViecChiTietNhiemVuModelResponse,
         List<DanhSachCongViecChiTietNhiemVuModel>>(
-          () =>
-          nhiemVuService.getLichSuTDTT(congViecID),
-          (response) => response.data?.map((e) => e.toLichSuTDTT()).toList() ?? [],
+      () => nhiemVuService.getLichSuTDTT(congViecID),
+      (response) => response.data?.map((e) => e.toLichSuTDTT()).toList() ?? [],
     );
-
   }
 
   @override
-  Future<Result<String>> postYKienXuLy({required Map<String,dynamic> map}) {
-    return runCatchingAsync<PostYKienResponse,
-        String>(
-          () =>
-          nhiemVuService.postYKienXULy(map),
-          (response) => response.isSuccess.toString(),
+  Future<Result<String>> postYKienXuLy({required Map<String, dynamic> map}) {
+    return runCatchingAsync<PostYKienResponse, String>(
+      () => nhiemVuService.postYKienXULy(map),
+      (response) => response.isSuccess.toString(),
     );
   }
 
   @override
   Future<Result<String>> postFile({required List<File> path}) {
-    return runCatchingAsync<PostYKienResponse,
-        String>(
-          () =>
-          nhiemVuService.postFile(path),
-          (response) {
-            if(response.isSuccess.toString() == 'true') {
-              final List<dynamic> list = response.data;
-              final Map<String,dynamic> map = list.first;
-              return map['Id'].toString();
-            } else {
-              return 'false';
-            }
-          },
+    return runCatchingAsync<PostYKienResponse, String>(
+      () => nhiemVuService.postFile(path),
+      (response) {
+        if (response.isSuccess.toString() == 'true') {
+          final List<dynamic> list = response.data;
+          final Map<String, dynamic> map = list.first;
+          return map['Id'].toString();
+        } else {
+          return 'false';
+        }
+      },
     );
   }
 }

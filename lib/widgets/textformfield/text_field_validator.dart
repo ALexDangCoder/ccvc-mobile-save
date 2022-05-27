@@ -132,7 +132,7 @@ class _TextFormFieldWidgetState extends State<TextFieldValidator> {
         },
         style: tokenDetailAmount(
           fontSize: 14.0.textScale(),
-          color: titleColor,
+          color: color3D5586,
         ),
         enabled: widget.isEnabled,
         decoration: InputDecoration(

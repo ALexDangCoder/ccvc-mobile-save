@@ -8,11 +8,15 @@ class ExpandOnlyHuongDanSuDung extends StatefulWidget {
   final String name;
   final Widget child;
   bool? isTablet;
- final Function onTap;
+  final Function onTap;
 
-  ExpandOnlyHuongDanSuDung(
-      {Key? key, required this.name, required this.child, this.isTablet, required this.onTap,})
-      : super(key: key);
+  ExpandOnlyHuongDanSuDung({
+    Key? key,
+    required this.name,
+    required this.child,
+    this.isTablet,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   _ExpandOnlyHuongDanSuDungState createState() =>

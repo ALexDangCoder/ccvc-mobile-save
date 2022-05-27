@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -69,7 +68,10 @@ class CaiDatMauTabletWidget extends StatelessWidget {
                 //   fit: BoxFit.fitWidth,
                 // ),
               ),
-              child: Image.asset(icon,fit:  BoxFit.fitWidth,),
+              child: Image.asset(
+                icon,
+                fit: BoxFit.fitWidth,
+              ),
             ),
             const SizedBox(
               height: 12,

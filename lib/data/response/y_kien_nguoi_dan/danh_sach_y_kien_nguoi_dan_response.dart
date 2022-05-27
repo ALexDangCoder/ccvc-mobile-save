@@ -16,8 +16,9 @@ class DanhSachYKienNguoiDanResponse {
   Map<String, dynamic> toJson() => _$DanhSachYKienNguoiDanResponseToJson(this);
 
   DanhSachYKienNguoiDan toDomain() => DanhSachYKienNguoiDan(
-      listYKienNguoiDan:
-          listDanhSachYKien?.map((e) => e.toDomain()).toList() ?? [],);
+        listYKienNguoiDan:
+            listDanhSachYKien?.map((e) => e.toDomain()).toList() ?? [],
+      );
 }
 
 @JsonSerializable()
@@ -53,8 +54,8 @@ class YKienNguoiDanData {
         id: id ?? '',
         tieuDe: tieuDe ?? '',
         ngayNhan: ngayNhan ?? '',
-        tenNguoiPhanAnh: tenNguoiPhanAnh??'',
+        tenNguoiPhanAnh: tenNguoiPhanAnh ?? '',
         soNgayToiHan: soNgayToiHan ?? 0,
-        taskID: taskId??'',
+        taskID: taskId ?? '',
       );
 }

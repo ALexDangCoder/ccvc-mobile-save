@@ -106,8 +106,16 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
               controller: _tabController,
               // physics: const NeverScrollableScrollPhysics(),
               children: [
-                TabThongTinPAKN(cubit: cubit, id: widget.iD, taskId: widget.taskID,),
-                TabThongTinNguoiPhanAnh(cubit: cubit, id: widget.iD, taskId: widget.taskID,),
+                TabThongTinPAKN(
+                  cubit: cubit,
+                  id: widget.iD,
+                  taskId: widget.taskID,
+                ),
+                TabThongTinNguoiPhanAnh(
+                  cubit: cubit,
+                  id: widget.iD,
+                  taskId: widget.taskID,
+                ),
                 TabThongTinXuLyPAKN(),
                 TabKetQuaXuLy(
                   id: widget.iD,
@@ -119,7 +127,8 @@ class _ChiTietPKANState extends State<ChiTietPKAN>
                   id: widget.iD,
                 ),
                 TabYKienXuLy(
-                  cubit: cubit, id: widget.iD,
+                  cubit: cubit,
+                  id: widget.iD,
                 ),
               ],
             ),

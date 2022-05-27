@@ -14,7 +14,6 @@ import 'package:ccvc_mobile/presentation/calender_work/ui/widget/widget_select_o
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/tablet/tao_lich_lam_viec_chi_tiet_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_tablet.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_calendar_cubit.dart';
 import 'package:ccvc_mobile/widgets/menu/menu_widget.dart';
@@ -25,6 +24,7 @@ import 'package:flutter_svg/svg.dart';
 
 class CalenderWorkDayTablet extends StatefulWidget {
   final bool isBack;
+
   const CalenderWorkDayTablet({Key? key, this.isBack = false})
       : super(key: key);
 

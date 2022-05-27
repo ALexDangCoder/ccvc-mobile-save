@@ -10,6 +10,7 @@ class LoaiBieuQuyetWidget extends StatefulWidget {
 
   const LoaiBieuQuyetWidget({Key? key, required this.onChange})
       : super(key: key);
+
   @override
   _LoaiBieuQuyetWidgetState createState() => _LoaiBieuQuyetWidgetState();
 }
@@ -31,12 +32,14 @@ class _LoaiPhongHopGroup extends StatefulWidget {
 
   const _LoaiPhongHopGroup({Key? key, required this.onChange})
       : super(key: key);
+
   @override
   __LoaiPhongHopGroupState createState() => __LoaiPhongHopGroupState();
 }
 
 class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
   LoaiPhongHopEnum selectLoaiPhong = LoaiPhongHopEnum.PHONG_HOP_THUONG;
+
   @override
   Widget build(BuildContext context) {
     return Column(

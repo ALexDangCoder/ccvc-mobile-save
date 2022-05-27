@@ -32,6 +32,7 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
   final SpeechToText speech = SpeechToText();
   ChuyenGiongNoiThanhVanBanCubit cubit = ChuyenGiongNoiThanhVanBanCubit();
   bool isListening = false;
+
   Future<void> initSpeechState() async {
     try {
       final hasSpeech = await speech.initialize();
@@ -109,51 +110,51 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
           const SizedBox(
             height: 40,
           ),
-          if(Platform.isAndroid)
+          if (Platform.isAndroid)
             Container(
-            margin: const EdgeInsets.symmetric(horizontal: 17),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 160),
-                  child: speech.isListening
-                      ? VoiceWidget(
-                    cubit: cubit,
-                  )
-                      : const SizedBox.shrink(),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (!_hasSpeech) {
-                      return;
-                    }
-                    !speech.isListening ? startListening() : stopListening();
-                    cubit.isVoiceSubject.sink.add(speech.isListening);
-                  },
-                  child: SvgPicture.asset(
-                    ImageAssets.icVoice,
-                    color: AppTheme.getInstance().colorField(),
+              margin: const EdgeInsets.symmetric(horizontal: 17),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 160),
+                    child: speech.isListening
+                        ? VoiceWidget(
+                            cubit: cubit,
+                          )
+                        : const SizedBox.shrink(),
                   ),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 160),
-                  child: speech.isListening
-                      ? VoiceWidget(
-                    cubit: cubit,
-                  )
-                      : const SizedBox.shrink(),
-                ),
-              ],
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (!_hasSpeech) {
+                        return;
+                      }
+                      !speech.isListening ? startListening() : stopListening();
+                      cubit.isVoiceSubject.sink.add(speech.isListening);
+                    },
+                    child: SvgPicture.asset(
+                      ImageAssets.icVoice,
+                      color: AppTheme.getInstance().colorField(),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 160),
+                    child: speech.isListening
+                        ? VoiceWidget(
+                            cubit: cubit,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          if(Platform.isIOS)
+          if (Platform.isIOS)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 17),
               child: Row(
@@ -163,8 +164,8 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
                     constraints: const BoxConstraints(maxWidth: 160),
                     child: isListening
                         ? VoiceWidget(
-                      cubit: cubit,
-                    )
+                            cubit: cubit,
+                          )
                         : const SizedBox.shrink(),
                   ),
                   const SizedBox(
@@ -190,8 +191,8 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
                     constraints: const BoxConstraints(maxWidth: 160),
                     child: isListening
                         ? VoiceWidget(
-                      cubit: cubit,
-                    )
+                            cubit: cubit,
+                          )
                         : const SizedBox.shrink(),
                   ),
                 ],

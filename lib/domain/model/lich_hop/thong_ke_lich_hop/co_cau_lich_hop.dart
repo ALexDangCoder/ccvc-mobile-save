@@ -13,7 +13,7 @@ class CoCauLichHopModel {
     required this.name,
     required this.quantities,
   }) {
-   final Random random = Random();
+    final Random random = Random();
     color = Color.fromRGBO(
       random.nextInt(255),
       random.nextInt(255),

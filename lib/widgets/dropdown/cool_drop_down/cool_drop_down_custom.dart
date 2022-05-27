@@ -351,9 +351,8 @@ class _CoolDropdownState extends State<CoolDropdown>
           openDropdown();
         },
         child: CompositedTransformTarget(
-link: layerLink,
+          link: layerLink,
           child: Container(
-
             width: double.infinity,
             height: widget.resultHeight,
             padding: widget.resultPadding,

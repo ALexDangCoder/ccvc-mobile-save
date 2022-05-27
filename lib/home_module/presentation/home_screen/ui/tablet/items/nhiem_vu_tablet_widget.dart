@@ -1,11 +1,10 @@
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/tablet/chi_tiet_nhiem_vu_tablet_screen.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/main_nhiem_vu/main_nhiem_vu_tablet.dart';
+import 'package:flutter/material.dart';
 
-import '/home_module/domain/model/home/calendar_metting_model.dart';
-import '/home_module/domain/model/home/WidgetType.dart';
 import '/generated/l10n.dart';
+import '/home_module/domain/model/home/WidgetType.dart';
+import '/home_module/domain/model/home/calendar_metting_model.dart';
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
-
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
@@ -16,10 +15,10 @@ import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/utils/enum_ext.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
-import 'package:flutter/material.dart';
 
 class NhiemVuTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const NhiemVuTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -29,6 +28,7 @@ class NhiemVuTabletWidget extends StatefulWidget {
 
 class _NhiemVuTabletWidgetState extends State<NhiemVuTabletWidget> {
   final NhiemVuCubit _nhiemVuCubit = NhiemVuCubit();
+
   @override
   void initState() {
     // TODO: implement initState

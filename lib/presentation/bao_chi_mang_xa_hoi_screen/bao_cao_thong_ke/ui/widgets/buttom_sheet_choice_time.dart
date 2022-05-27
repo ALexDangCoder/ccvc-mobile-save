@@ -13,12 +13,12 @@ class PopupChoiceTimeWidget extends StatefulWidget {
   final String initEndDate;
   final Function(String startDate, String endDate) onChoiceTime;
 
-  const PopupChoiceTimeWidget(
-      {Key? key,
-      required this.onChoiceTime,
-      required this.initStartDate,
-      required this.initEndDate,})
-      : super(key: key);
+  const PopupChoiceTimeWidget({
+    Key? key,
+    required this.onChoiceTime,
+    required this.initStartDate,
+    required this.initEndDate,
+  }) : super(key: key);
 
   @override
   _PopupChoiceDateState createState() => _PopupChoiceDateState();
@@ -31,8 +31,8 @@ class _PopupChoiceDateState extends State<PopupChoiceTimeWidget> {
   @override
   void initState() {
     super.initState();
-    startDate=widget.initStartDate;
-    endDate=widget.initEndDate;
+    startDate = widget.initStartDate;
+    endDate = widget.initEndDate;
   }
 
   @override

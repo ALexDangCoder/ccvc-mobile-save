@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TextFieldStyle extends StatefulWidget {
@@ -20,6 +21,7 @@ class TextFieldStyle extends StatefulWidget {
   final bool? obscureText;
   final Color? fillColor;
   final String urlIcon;
+  final List<TextInputFormatter>? inputFormatters;
 
   const TextFieldStyle({
     Key? key,
@@ -36,6 +38,7 @@ class TextFieldStyle extends StatefulWidget {
     this.onTap,
     this.obscureText,
     this.fillColor,
+    this.inputFormatters,
     required this.urlIcon,
   }) : super(key: key);
 
@@ -90,7 +93,7 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
                 EdgeInsets.symmetric(vertical: widget.maxLine == 1 ? 2 : 0),
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: lineColor),
+                bottom: BorderSide(color: colorECEEF7),
               ),
             ),
             child: textFromField(),
@@ -104,6 +107,7 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
     return Form(
       key: key,
       child: TextFormField(
+        inputFormatters: widget.inputFormatters,
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
         onChanged: (value) {
@@ -122,7 +126,7 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
             widget.onTap!();
           }
         },
-        style: textNormal(titleColor, 14),
+        style: textNormal(color3D5586, 14),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
           hintText: widget.hintText,

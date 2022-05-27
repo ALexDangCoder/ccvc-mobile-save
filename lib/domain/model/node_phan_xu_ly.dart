@@ -6,6 +6,7 @@ class NodePhanXuLy<T> {
   int level = 1;
   bool isExpand = false;
   bool isExpandSearch = false;
+
   // 3.
   List<NodePhanXuLy> children = [];
 
@@ -19,14 +20,11 @@ class NodePhanXuLy<T> {
       isExpand = true;
     }
   }
+
   // 4.
   NodePhanXuLy(T _value) {
     value = _value;
   }
-
-
-
-
 
   // 5.
   void addChild(NodePhanXuLy child) {

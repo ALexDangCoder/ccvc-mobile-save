@@ -10,6 +10,7 @@ import '/home_module/utils/enum_ext.dart';
 class SelectKeyRow extends StatefulWidget {
   final List<SelectKey> listSelect;
   final Function(SelectKey) onChange;
+
   const SelectKeyRow({
     Key? key,
     required this.listSelect,
@@ -22,6 +23,7 @@ class SelectKeyRow extends StatefulWidget {
 
 class _SelectKeyRowState extends State<SelectKeyRow> {
   int selectKey = 0;
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

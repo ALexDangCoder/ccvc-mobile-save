@@ -162,7 +162,8 @@ class SelectThuKyCell extends StatelessWidget {
                     } else {
                       cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = true;
                     }
-                    cubit.listNguoiCHuTriModel.sink.add(cubit.dataThuKyOrThuHoiDeFault);
+                    cubit.listNguoiCHuTriModel.sink
+                        .add(cubit.dataThuKyOrThuHoiDeFault);
                     log(cubit.listNguoiCHuTriModel.value.toString());
                   },
                 ),
@@ -281,7 +282,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                     '',
                     style: tokenDetailAmount(
                       fontSize: 14.0.textScale(),
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
           ),

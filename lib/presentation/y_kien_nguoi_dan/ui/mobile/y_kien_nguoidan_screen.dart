@@ -39,7 +39,6 @@ class _YKienNguoiDanScreenState extends State<YKienNguoiDanScreen> {
             cubit: cubit,
           );
         }
-
       },
     );
   }

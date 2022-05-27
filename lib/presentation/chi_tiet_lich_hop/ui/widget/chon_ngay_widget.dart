@@ -35,7 +35,7 @@ class PickDateWidget extends StatefulWidget {
 
 class _PickDateWidgetState extends State<PickDateWidget> {
   final PicKDateCupertinoCubit picKDateCupertinoCubit =
-  PicKDateCupertinoCubit();
+      PicKDateCupertinoCubit();
 
   @override
   Widget build(BuildContext context) {

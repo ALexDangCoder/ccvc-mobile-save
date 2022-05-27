@@ -40,7 +40,7 @@ class SoLuongByMonthData {
   Map<String, dynamic> toJson() => _$SoLuongByMonthDataToJson(this);
 
   YKNDByMonth toDomain() => YKNDByMonth(
-        month: month??0,
-        quantities: quantities??0,
+        month: month ?? 0,
+        quantities: quantities ?? 0,
       );
 }

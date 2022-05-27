@@ -22,6 +22,7 @@ class TableCalendarWidget extends StatefulWidget {
   final bool isCalendar;
   late bool? tablet;
   late bool? isFomatMonth;
+  final bool isCheckLunar;
   final LichAmDuongCubit cubit;
   final Function(DateTime day) selectDay;
   final Function(DateTime? start, DateTime? end, DateTime? focusedDay)
@@ -30,9 +31,12 @@ class TableCalendarWidget extends StatefulWidget {
   final Function(String value)? onSearch;
   final Type_Choose_Option_Day type;
   final List<DateTime>? eventsLoader;
+  final Function(BuildContext context)? onTap;
 
   TableCalendarWidget({
     Key? key,
+    this.onTap,
+    this.isCheckLunar = false,
     this.isCalendar = true,
     this.tablet = false,
     this.isFomatMonth = true,
@@ -161,7 +165,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     decoration: const BoxDecoration(
                       border: Border(
                         top: BorderSide(
-                          color: lineColor,
+                          color: colorECEEF7,
                         ),
                       ),
                     ),
@@ -196,12 +200,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           fontWeight: FontWeight.w500,
                         ),
                         defaultTextStyle: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
                         outsideTextStyle: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                         ),
@@ -234,6 +238,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       firstDay: DateTime.utc(2021, 8, 20),
                       lastDay: DateTime.utc(2030, 8, 20),
                       focusedDay: _selectedDay,
+                      isCheckLuner: widget.isCheckLunar,
                     ),
                   )
                 else
@@ -243,6 +248,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                             ?.where((element) => isSameDay(element, day))
                             .toList() ??
                         [],
+                    onTap: (contexts) {
+                      if (widget.onTap != null) {
+                        widget.onTap!(contexts);
+                      }
+                    },
+                    isCheckLunar: widget.isCheckLunar,
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     onDaySelected: _onDaySelect,
                     // rangeSelectionMode: _rangeSelectionMode,
@@ -270,12 +281,12 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                         fontWeight: FontWeight.w400,
                       ),
                       defaultTextStyle: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w400,
                       ),
                       outsideTextStyle: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 16.0,
                         fontWeight: FontWeight.w400,
                       ),
@@ -318,7 +329,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       ),
                       titleTextStyle: textNormalCustom(
                         fontSize: 16.0,
-                        color: titleColor,
+                        color: color3D5586,
                       ),
                       titleTextFormatter: (date, locale) =>
                           date.toStringMonth_Year,

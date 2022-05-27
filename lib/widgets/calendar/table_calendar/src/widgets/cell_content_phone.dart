@@ -1,8 +1,10 @@
 // Copyright 2019 Aleksander Woźniak
 // SPDX-License-Identifier: Apache-2.0
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:lunar_calendar_converter_new/lunar_solar_converter.dart';
 
 import '../customization/calendar_builders_phone.dart';
 import '../customization/calendar_style_phone.dart';
@@ -23,9 +25,11 @@ class CellContent extends StatelessWidget {
   final bool isWeekend;
   final CalendarStyle calendarStyle;
   final CalendarBuilders calendarBuilders;
+  final bool isCheckLunar;
 
   const CellContent({
     Key? key,
+    this.isCheckLunar = false,
     required this.day,
     required this.focusedDay,
     required this.calendarStyle,
@@ -64,8 +68,13 @@ class CellContent extends StatelessWidget {
     final margin = calendarStyle.cellMargin;
     final padding = calendarStyle.cellPadding;
     final alignment = calendarStyle.cellAlignment;
-    final duration = const Duration(milliseconds: 250);
-
+    const duration = Duration(milliseconds: 250);
+    final solar = Solar(
+      solarDay: day.day,
+      solarMonth: day.month,
+      solarYear: day.year,
+    );
+    final lunar = LunarSolarConverter.solarToLunar(solar);
     if (isDisabled) {
       cell = calendarBuilders.disabledBuilder?.call(context, day, focusedDay) ??
           AnimatedContainer(
@@ -84,7 +93,18 @@ class CellContent extends StatelessWidget {
             padding: padding,
             decoration: calendarStyle.selectedDecoration,
             alignment: alignment,
-            child: Text(text, style: calendarStyle.selectedTextStyle),
+            child: isCheckLunar
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(text, style: calendarStyle.selectedTextStyle),
+                      Text(
+                        lunar.lunarDay.toString(),
+                        style: calendarStyle.lunarTextStyle,
+                      ),
+                    ],
+                  )
+                : Text(text, style: calendarStyle.selectedTextStyle),
           );
     } else if (isRangeStart) {
       cell =
@@ -115,7 +135,20 @@ class CellContent extends StatelessWidget {
             padding: padding,
             decoration: calendarStyle.todayDecoration,
             alignment: alignment,
-            child: Text(text, style: calendarStyle.todayTextStyle),
+            child: isCheckLunar
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(text, style: calendarStyle.todayTextStyle),
+                        Text(
+                          lunar.lunarDay.toString(),
+                          style: calendarStyle.lunarTextStyle,
+                        ),
+                      ],
+                    ),
+                  )
+                : Text(text, style: calendarStyle.todayTextStyle),
           );
     } else if (isHoliday) {
       cell = calendarBuilders.holidayBuilder?.call(context, day, focusedDay) ??
@@ -158,12 +191,30 @@ class CellContent extends StatelessWidget {
                 ? calendarStyle.weekendDecoration
                 : calendarStyle.defaultDecoration,
             alignment: alignment,
-            child: Text(
-              text,
-              style: isWeekend
-                  ? calendarStyle.weekendTextStyle
-                  : calendarStyle.defaultTextStyle,
-            ),
+            child: isCheckLunar
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          text,
+                          style: isWeekend
+                              ? calendarStyle.weekendTextStyle
+                              : calendarStyle.defaultTextStyle,
+                        ),
+                        Text(
+                          lunar.lunarDay.toString(),
+                          style: calendarStyle.lunarTextStyle,
+                        ),
+                      ],
+                    ),
+                  )
+                : Text(
+                    text,
+                    style: isWeekend
+                        ? calendarStyle.weekendTextStyle
+                        : calendarStyle.defaultTextStyle,
+                  ),
           );
     }
 

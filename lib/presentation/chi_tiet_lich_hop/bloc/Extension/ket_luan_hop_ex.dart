@@ -44,7 +44,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         final List<DanhSachNhiemVuLichHopModel> danhSachNhiemVuLichHopModel =
-        [];
+            [];
         for (final e in res) {
           danhSachNhiemVuLichHopModel.add(
             DanhSachNhiemVuLichHopModel(
@@ -114,7 +114,7 @@ extension KetLuanHop on DetailMeetCalenderCubit {
   Future<void> postChonMauHop() async {
     showLoading();
     final ChonBienBanHopRequest chonBienBanHopRequest =
-    ChonBienBanHopRequest(1, 10);
+        ChonBienBanHopRequest(1, 10);
     final result = await hopRp.postChonMauBienBanHop(chonBienBanHopRequest);
 
     result.when(

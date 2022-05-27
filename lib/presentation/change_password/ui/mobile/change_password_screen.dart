@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../../main.dart';
 
 class ChangePassWordScreen extends StatefulWidget {
@@ -117,18 +118,18 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                       StreamBuilder<String>(
                           stream: cubit.thongBao,
                           builder: (context, snapshot) {
-                            final data=snapshot.data??'';
-                            if(data.isNotEmpty){
+                            final data = snapshot.data ?? '';
+                            if (data.isNotEmpty) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16.0),
-                                child: WidgetTextError(text: data,),
+                                child: WidgetTextError(
+                                  text: data,
+                                ),
                               );
-                            }else{
+                            } else {
                               return const SizedBox();
                             }
-
-                          }
-                      ),
+                          }),
                       TextFieldValidator(
                         maxLength: 32,
                         controller: matKhauMoiController,
@@ -176,7 +177,8 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                               value!.isNotEmpty) {
                             return S.current.khong_trung_mat_khau_moi;
                           } else {
-                            return (value ?? '').checkPassWordChangePass('Mật khẩu mới!');
+                            return (value ?? '')
+                                .checkPassWordChangePass('Mật khẩu mới!');
                           }
                         },
                       ),
@@ -241,7 +243,8 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                             await cubit
                                 .changePassWord(
                                     password: matKhauMoiController.text.trim(),
-                                    passwordOld: matKhauHienTaiController.text.trim(),
+                                    passwordOld:
+                                        matKhauHienTaiController.text.trim(),
                                     repeatPassword:
                                         nhapLaiMatKhauController.text.trim())
                                 .then((value) {

@@ -189,9 +189,10 @@ class _MainLichHopTabLetState extends State<MainLichHopTabLet> {
                           cubit.stateOptionDay = Type_Choose_Option_Day.MONTH;
 
                           cubit.postDSLHMonth();
-                        }, onChangeText: (String? value) {
+                        },
+                        onChangeText: (String? value) {
                           cubit.searchLichHop(value);
-                      },
+                        },
                       ),
                       BlocBuilder<LichHopCubit, LichHopState>(
                         bloc: cubit,

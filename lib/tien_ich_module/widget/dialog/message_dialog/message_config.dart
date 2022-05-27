@@ -7,6 +7,7 @@ enum MessState { error, success, customIcon }
 
 class MessageConfig {
   static BuildContext? _context;
+
   static void init(BuildContext context) {
     if (_context != null) {
       return;

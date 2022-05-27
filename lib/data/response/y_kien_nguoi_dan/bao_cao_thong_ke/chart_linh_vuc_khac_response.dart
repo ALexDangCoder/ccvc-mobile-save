@@ -18,7 +18,8 @@ class LinhVucKhacResponse {
   Map<String, dynamic> toJson() => _$LinhVucKhacResponseToJson(this);
 
   ChartLinhVucKhacModel toDomain() => ChartLinhVucKhacModel(
-      listChartData: listData?.map((e) => e.toDomain()).toList()??[],);
+        listChartData: listData?.map((e) => e.toDomain()).toList() ?? [],
+      );
 }
 
 @JsonSerializable()

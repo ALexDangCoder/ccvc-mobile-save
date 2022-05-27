@@ -13,6 +13,7 @@ import 'package:flutter_svg/svg.dart';
 
 class BaoCaoScreen extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
+
   const BaoCaoScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
@@ -20,14 +21,12 @@ class BaoCaoScreen extends StatefulWidget {
 }
 
 class _BaoCaoScreenState extends State<BaoCaoScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
       padding: const EdgeInsets.only(top: 20),
       child: LoadingOnly(
-
         stream: widget.cubit.stateStream,
         child: StreamBuilder<List<BaoCaoModel>>(
           stream: widget.cubit.listBaoCaoKetQua,

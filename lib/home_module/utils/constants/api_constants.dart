@@ -1,10 +1,7 @@
 class ApiConstants {
-
-
   static const String GET_PHAM_VI = '/common/auth/list-pham-vi';
   static const String GET_LUNAR_DATE = '/api/LunarDate/getLunarDate';
-  static const String GET_TIN_BUON =
-      '/api/DashBoardHome/tin-buon';
+  static const String GET_TIN_BUON = '/api/DashBoardHome/tin-buon';
   static const String GET_DASHBOARD_WIDGET =
       '/api/Widget/get-dashboard-widget-config?';
   static const String GET_DASHBOARD_VB_DEN =
@@ -24,6 +21,7 @@ class ApiConstants {
   static const TINH_HINH_XU_LY_TRANG_CHU =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-trang-chu?';
   static const DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn?';
+
   //
   static const TODO_LIST_CURRENT_USER = '/api/TodoList/get-current-user';
   static const TODO_LIST_UPDATE = '/api/TodoList/update';
@@ -35,7 +33,8 @@ class ApiConstants {
   static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay';
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat';
   static const GUI_LOI_CHUC = '/api/CmsCard/tao-loichuc-thiep';
-  static const GET_LIST_THONG_TIN_THIEP  = '/appdieuhanh/api/CmsCard/lay-danhsach-thongtin-thiep';
+  static const GET_LIST_THONG_TIN_THIEP =
+      '/appdieuhanh/api/CmsCard/lay-danhsach-thongtin-thiep';
 }
 
 class ImageConstants {

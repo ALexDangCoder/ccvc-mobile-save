@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/app_config.dart';
@@ -17,9 +16,13 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   final Color? backGroundColor;
   final List<Widget>? actions;
   final double elevation;
+  final bool isCheckTabBar;
+  final Widget? child;
 
   BaseAppBar({
     Key? key,
+    this.isCheckTabBar = false,
+    this.child,
     required this.title,
     this.leadingIcon,
     this.actions,
@@ -40,10 +43,12 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       elevation: APP_DEVICE == DeviceType.MOBILE ? elevation : 0.7,
       shadowColor: bgDropDown,
       automaticallyImplyLeading: false,
-      title: Text(
-        title,
-        style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
-      ),
+      title: isCheckTabBar
+          ? child ?? Container()
+          : Text(
+              title,
+              style: titleAppbar(fontSize: 18.0.textScale(space: 6.0)),
+            ),
       centerTitle: true,
       leading: leadingIcon,
       actions: actions,

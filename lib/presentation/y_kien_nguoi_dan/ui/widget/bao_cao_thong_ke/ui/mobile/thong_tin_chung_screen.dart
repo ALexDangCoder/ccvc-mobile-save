@@ -198,7 +198,6 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                 FilterDateTimeWidget(
                   initStartDate: widget.cubit.initStartDate,
                   context: context,
-                  isMobile: true,
                   onChooseDateFilter: (DateTime startDate, DateTime endDate) {
                     widget.cubit.startDate = startDate.toStringWithListFormat;
                     widget.cubit.endDate = endDate.toStringWithListFormat;

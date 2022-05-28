@@ -34,7 +34,6 @@ class _ChiTietPKANTabletState extends State<ChiTietPKANTablet>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     cubit = ChiTietPaknCubit();
     _tabController =

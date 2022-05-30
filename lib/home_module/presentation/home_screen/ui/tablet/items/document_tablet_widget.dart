@@ -29,7 +29,6 @@ class DocumentTabletWidget extends StatefulWidget {
 
 class _DocumentWidgetState extends State<DocumentTabletWidget> {
   final VanBanCubit _vanBanCubit = VanBanCubit();
-
   @override
   void initState() {
     // TODO: implement initState

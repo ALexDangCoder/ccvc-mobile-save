@@ -18,7 +18,6 @@ class SummaryOfTaskTabletWidget extends StatefulWidget {
 
   const SummaryOfTaskTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
-
   @override
   State<SummaryOfTaskTabletWidget> createState() => _SummaryOfTaskWidgetState();
 }

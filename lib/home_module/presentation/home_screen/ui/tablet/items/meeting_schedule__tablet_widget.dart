@@ -19,7 +19,6 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class MeetingScheduleTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
-
   const MeetingScheduleTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 

@@ -34,6 +34,7 @@ class _EventOfDayWidgetState extends State<EventOfDayWidget> {
         _suKienTrongNgayCubit.callApi();
       });
     });
+
   }
 
   @override

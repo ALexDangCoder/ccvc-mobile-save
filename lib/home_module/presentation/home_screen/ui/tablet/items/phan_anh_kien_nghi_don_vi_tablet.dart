@@ -12,7 +12,6 @@ import '/home_module/widgets/chart/base_pie_chart.dart';
 
 class PhanAnhKienNghiDonViTablet extends StatefulWidget {
   final WidgetType homeItemType;
-
   const PhanAnhKienNghiDonViTablet({
     required this.homeItemType,
     Key? key,

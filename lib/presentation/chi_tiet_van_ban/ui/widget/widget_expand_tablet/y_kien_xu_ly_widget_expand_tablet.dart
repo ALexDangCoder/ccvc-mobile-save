@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
@@ -10,6 +11,8 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 
 class YKienSuLyWidgetExpandTablet extends StatefulWidget {
   final CommentsDetailDocumentCubit cubit;
@@ -262,9 +265,10 @@ class _YKienSuLyWidgetExpandTabletState
             .map(
               (e) => GestureDetector(
             onTap: () {
+              final baseURL = Get.find<AppConstants>().baseUrlQLNV;
               handleSaveFile(
                 url:
-                '$DO_MAIN_DOWLOAD_FILE${e.fileDinhKem?.duongDan ?? ''}',
+                '$baseURL${e.fileDinhKem?.duongDan ?? ''}',
                 name: e.fileDinhKem?.ten ?? '',
               );
             },

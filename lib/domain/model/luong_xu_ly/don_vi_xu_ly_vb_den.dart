@@ -73,12 +73,12 @@ class DonViLuongModel  {
   }
   Color vaiTroColor(){
     final vaiTroParseVn = vaiTro?.vietNameseParse().toLowerCase();
-    switch(vaiTro){
-      case 'Chủ trì':
+    switch(vaiTroParseVn){
+      case 'chu tri':
         return nguoiChuTriColor;
-      case 'Phối hợp':
+      case 'phoi hop':
         return phoiHopColor;
-      case 'Nhận để biết':
+      case 'nhan de biet':
         return nhanDeBietColor;
 
     }

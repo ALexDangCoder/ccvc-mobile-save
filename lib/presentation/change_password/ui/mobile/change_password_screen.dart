@@ -242,11 +242,12 @@ class _ChangePassWordScreenState extends State<ChangePassWordScreen> {
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text.trim(),
-                                    passwordOld:
-                                        matKhauHienTaiController.text.trim(),
-                                    repeatPassword:
-                                        nhapLaiMatKhauController.text.trim())
+                              password: matKhauMoiController.text.trim(),
+                              passwordOld: matKhauHienTaiController.text.trim(),
+                              repeatPassword:
+                                  nhapLaiMatKhauController.text.trim(),
+                              context: context,
+                            )
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

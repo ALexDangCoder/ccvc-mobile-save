@@ -12,11 +12,14 @@ class LoginResponse {
   bool? succeeded;
   @JsonKey(name: 'statusCode')
   int? statusCode;
+  @JsonKey(name: 'message')
+  String? message;
 
   LoginResponse({
     this.data,
     this.succeeded,
     this.statusCode,
+    this.message,
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
@@ -28,5 +31,6 @@ class LoginResponse {
         dataUser: data?.toDomainDataUser(),
         succeeded: succeeded,
         statusCode: statusCode,
+        message: message,
       );
 }

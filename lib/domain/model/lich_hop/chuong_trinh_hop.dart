@@ -79,7 +79,7 @@ class CanBoModel {
       case 1:
         return daXuLyColor;
       case 2:
-        return choXuLyColor;
+        return color5A8DEE;
       case 4:
         return statusCalenderRed;
       default:

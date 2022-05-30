@@ -16,7 +16,7 @@ class ApiConstants {
   static const String GET_DANH_SACH_VAN_BAN_SEARCH =
       '/qlvb/api/van-ban-di/search';
   static const String TONG_HOP_NHIEM_VU =
-      '/qlvb/api/qlnv/ccvc/tong-hop-nhiem-vu';
+      '/qlvb/api/qlnv/nhiem-vu/get-tong-hop-nhiem-vu?';
   static const String NHIEM_VU_GET_ALL = '/qlvb/api/qlnv/nhiem-vu/get-all';
   static const TINH_HINH_XU_LY_TRANG_CHU =
       '/pakn/api/IocApi/thong-ke-tinh-hinh-xu-ly-trang-chu?';
@@ -33,11 +33,8 @@ class ApiConstants {
   static const SU_KIEN_TRONG_NGAY = '/api/DashBoardHome/su-kien-trong-ngay';
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat';
   static const GUI_LOI_CHUC = '/api/CmsCard/tao-loichuc-thiep';
-  static const GET_LIST_THONG_TIN_THIEP  = '/api/CmsCard/lay-danhsach-thongtin-thiep';
-  static const DOASHBOARD_TINH_HINH_XU_LY_PAKN = '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
-
-
-
+  static const GET_LIST_THONG_TIN_THIEP =
+      '/appdieuhanh/api/CmsCard/lay-danhsach-thongtin-thiep';
 }
 
 class ImageConstants {

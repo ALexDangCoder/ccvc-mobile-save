@@ -118,7 +118,7 @@ extension DocumentStatusEx on DocumentStatus {
       case DocumentStatus.THAM_GIA:
         return itemWidgetUsing;
       case DocumentStatus.CHO_PHAN_XU_LY:
-        return choXuLyColor;
+        return color5A8DEE;
       case DocumentStatus.HOA_TOC:
         return statusCalenderRed;
       case DocumentStatus.KHAN:

@@ -113,7 +113,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
           ChartData(
             S.current.cho_xu_ly,
             dataVbDi.soLuongChoXuLy?.toDouble() ?? 0,
-            choXuLyColor,
+            color5A8DEE,
           ),
         );
         chartDataVbDi.add(
@@ -147,7 +147,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
           ChartData(
             S.current.cho_xu_ly,
             dataVbDen.soLuongChoXuLy?.toDouble() ?? 0,
-            choXuLyColor,
+            color5A8DEE,
           ),
         );
         chartDataVbDen.add(

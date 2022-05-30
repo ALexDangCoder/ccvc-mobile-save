@@ -186,28 +186,23 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                 TuongTacThongKeResponseModel(
                                   danhSachTuongtacThongKe: [],
                                 );
-                            return SizedBox(
+                            return Container(
                               height: 240,
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
                                 itemCount: data.danhSachTuongtacThongKe.length,
                                 itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: index == 0
-                                        ? const EdgeInsets.only(
-                                            left: 16,
-                                          )
-                                        : EdgeInsets.zero,
-                                    child: ItemTableTopic(
-                                      chuDeCubit.listTitle[index],
-                                      '',
-                                      data
-                                          .danhSachTuongtacThongKe[index]
-                                          .dataTuongTacThongKeModel
-                                          .interactionStatistic,
-                                    ),
-                                  );
+                                  return index == 0
+                                      ? ItemTableTopic(
+                                        chuDeCubit.listTitle[index],
+                                        '',
+                                        data
+                                            .danhSachTuongtacThongKe[index]
+                                            .dataTuongTacThongKeModel
+                                            .interactionStatistic,
+                                      )
+                                      : const SizedBox.shrink();
                                 },
                               ),
                             );

@@ -238,6 +238,8 @@ class ApiConstants {
       '/api/NewsNetViews/thong_ke_theo_nguon';
   static const BAO_CAO_THEO_SAC_THAI_LINE_CHART =
       '/api/NewsNetViews/thong_ke_theo_sac_thai';
+  static const THEO_DOI_BAI_VIET =
+      '/api/NewsNetViews/theo_doi';
   static const CHANGE_PASS = '/api/auth/change-pass';
   static const THEM_Y_KIEN = '/vpdt/api/ScheduleOpinion/create';
   static const TIEN_TRINH_XU_LY = '/pakn/api/KienNghi/TienTrinhXulyPAKN';

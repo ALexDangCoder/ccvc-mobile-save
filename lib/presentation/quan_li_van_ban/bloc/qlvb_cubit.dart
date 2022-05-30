@@ -9,7 +9,6 @@ import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.da
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -74,20 +73,18 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     showSearchSubject.sink.add(!showSearchSubject.value);
   }
 
-  Debouncer debouncer = Debouncer();
-
   void callAPi() {
     showLoading();
     initTimeRange();
-    dataVBDen();
-    dataVBDi();
-    listDataDanhSachVBDen(initCall: true);
-    listDataDanhSachVBDi();
+    getDashBoardIncomeDocument();
+    getDashBoardOutcomeDocument();
+    getListIncomeDocument(initCall: true);
+    getListOutcomeDocument();
   }
 
   final QLVBRepository _qLVBRepo = Get.find();
 
-  Future<void> dataVBDi({
+  Future<void> getDashBoardOutcomeDocument({
     String? startDate,
     String? endDate,
   }) async {
@@ -131,7 +128,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     );
   }
 
-  Future<void> dataVBDen({
+  Future<void> getDashBoardIncomeDocument({
     String? startDate,
     String? endDate,
   }) async {
@@ -179,7 +176,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     );
   }
 
-  Future<void> listDataDanhSachVBDi({
+  Future<void> getListOutcomeDocument({
     String? startDate,
     String? endDate,
     bool initCall = false,
@@ -222,7 +219,7 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     );
   }
 
-  Future<void> listDataDanhSachVBDen({
+  Future<void> getListIncomeDocument({
     String? startDate,
     String? endDate,
     bool initCall = false,
@@ -257,58 +254,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
           showError();
         }
         return error;
-      },
-    );
-  }
-
-  Future<void> searchDataDanhSachVBDi({
-    required String startDate,
-    required String endDate,
-    String? keySearch,
-  }) async {
-    List<VanBanModel> listVbDi = [];
-    final result = await _qLVBRepo.getDanhSachVbDi(
-      startDate: startDate,
-      endDate: endDate,
-      index: index,
-      size: size,
-      keySearch: keySearch ?? '',
-    );
-    result.when(
-      success: (res) {
-        listVbDi = res.pageData ?? [];
-        _getDanhSachVBDi.sink.add(listVbDi);
-      },
-      error: (err) {
-        return err;
-      },
-    );
-  }
-
-  Future<void> searchDataDanhSachVBDen({
-    required String startDate,
-    required String endDate,
-    String? keySearch,
-  }) async {
-    List<VanBanModel> listVbDen = [];
-    final result = await _qLVBRepo.getDanhSachVbDen(
-      DanhSachVBRequest(
-        maTrangThai: maTrangThai,
-        index: 1,
-        isSortByDoKhan: true,
-        thoiGianStartFilter: startDate,
-        thoiGianEndFilter: endDate,
-        size: 10,
-        keySearch: keySearch ?? '',
-      ),
-    );
-    result.when(
-      success: (res) {
-        listVbDen = res.pageData ?? [];
-        _getDanhSachVBDen.sink.add(listVbDen);
-      },
-      error: (error) {
-        showError();
       },
     );
   }

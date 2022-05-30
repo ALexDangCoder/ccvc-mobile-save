@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/widgets/han_xu_ly_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/utils/enum_ext.dart';
@@ -131,13 +132,15 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                           data: [
                             ChartData(
                                 S.current.qua_han,
-                                data.soLuongQuaHan.toDouble(),
+                                data.soLuongQuaHan.toDouble() ,
                                 statusCalenderRed),
-                            ChartData(S.current.den_han,
-                                data.soLuongDenHan.toDouble(), yellowColor),
+                            ChartData(
+                                S.current.den_han,
+                                data.soLuongDenHan.toDouble() ,
+                                yellowColor),
                             ChartData(
                                 S.current.trong_han,
-                                data.soLuongTrongHan.toDouble(),
+                                data.soLuongTrongHan.toDouble() ,
                                 choTrinhKyColor)
                           ],
                         )
@@ -183,7 +186,7 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                             SelectKey.DA_XU_LY),
                         ChartData(
                             S.current.cho_cap_so,
-                            data.soLuongChoCapSo.toDouble(),
+                            data.soLuongChoCapSo.toDouble() ,
                             choCapSoColor,
                             SelectKey.CHO_CAP_SO),
                         ChartData(

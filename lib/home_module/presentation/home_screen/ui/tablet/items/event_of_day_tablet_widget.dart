@@ -14,6 +14,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class EventOfDayTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const EventOfDayTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 

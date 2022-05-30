@@ -39,7 +39,6 @@ import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/extensions/date_time_extension.dart';
 
 class HomeCubit extends BaseCubit<HomeState> {
-
   HomeCubit() : super(MainStateInitial());
 
   HomeRepository get homeRep => Get.find();
@@ -508,25 +507,33 @@ class DanhSachCongViecCubit extends HomeCubit {
 
 /// Tổng hợp nhiệm vụ
 class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<List<TongHopNhiemVuModel>> _getTongHopNhiemVu =
-      BehaviorSubject<List<TongHopNhiemVuModel>>();
+  final BehaviorSubject<DocumentDashboardModel> _getTongHopNhiemVu =
+      BehaviorSubject<DocumentDashboardModel>();
   List<String> mangTrangThai = [];
   int? trangThaiHanXuLy;
-
-  TongHopNhiemVuCubit() {}
+ String donViId = '';
+  String userId = '';
+ String canBoId = '';
+  TongHopNhiemVuCubit() {
+    dataUser = HiveLc.HiveLocal.getDataUser();
+    if (dataUser != null) {
+      donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
+      userId = dataUser?.userId ?? '';
+     canBoId =  dataUser?.userInformation?.canBoDepartmentId ?? '';
+    }
+  }
 
   Future<void> getDataTongHopNhiemVu() async {
     showLoading();
-    bool isCaNhan = false;
+    String  canBoIdDepartment = '';
     if (selectKeyDonVi == SelectKey.DON_VI) {
-      isCaNhan = false;
     } else {
-      isCaNhan = true;
+      canBoIdDepartment = canBoId;
     }
     final result = await homeRep.getTongHopNhiemVu(
-      isCaNhan,
-      '',
-      '',
+      userId,
+      canBoIdDepartment,
+      donViId,
     );
     showContent();
     result.when(
@@ -601,7 +608,7 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
     selectKeyDialog.sink.add(true);
   }
 
-  Stream<List<TongHopNhiemVuModel>> get getTonghopNhiemVu =>
+  Stream<DocumentDashboardModel> get getTonghopNhiemVu =>
       _getTongHopNhiemVu.stream;
 
   @override
@@ -1462,29 +1469,25 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
   }
 }
 
-///Tình hình xử lý ý kiến người dân
-class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<List<TinhHinhYKienModel>> _getTinhHinhXuLy =
-      BehaviorSubject<List<TinhHinhYKienModel>>();
+///Tình hình xử lý PAKN
+class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<DocumentDashboardModel> _getTinhHinhXuLy =
+      BehaviorSubject<DocumentDashboardModel>();
   String donViId = '';
 
-  Stream<List<TinhHinhYKienModel>> get getTinhHinhXuLy =>
+  Stream<DocumentDashboardModel> get getTinhHinhXuLy =>
       _getTinhHinhXuLy.stream;
 
-  TinhHinhXuLyYKienCubit() {
+  TinhHinhXuLyPAKNCubit() {
     final dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser.userInformation?.donViTrucThuoc?.id ?? '';
     }
   }
 
-  Future<void> callApi() async {
+  Future<void> callApi(bool isDonVi) async {
     showLoading();
-    final result = await homeRep.getTinhHinhYKienNguoiDan(
-      donViId,
-      '',
-      '',
-    );
+    final result = await homeRep.getDashboardTinhHinhXuLyPAKN(isDonVi);
     showContent();
     result.when(
       success: (res) {
@@ -1494,20 +1497,7 @@ class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {
     );
   }
 
-  @override
-  void selectDate({
-    required SelectKey selectKey,
-    required DateTime startDate,
-    required DateTime endDate,
-  }) {
-    if (selectKey != selectKeyTime || selectKey == SelectKey.TUY_CHON) {
-      selectKeyTime = selectKey;
-      this.startDate = startDate;
-      this.endDate = endDate;
-      selectKeyDialog.sink.add(true);
-      callApi();
-    }
-  }
+
 }
 
 /// Nhiệm vụ

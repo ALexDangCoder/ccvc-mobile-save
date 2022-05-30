@@ -14,7 +14,7 @@ class TheoDoiBaiVietResponse {
   @JsonKey(name: 'TotalPages')
   int? totalPages;
   @JsonKey(name: 'PageData')
-  List<PageData>? listData;
+  List<BaiVietResponse>? listData;
 
   TheoDoiBaiVietResponse(
     this.listData,
@@ -37,7 +37,7 @@ class TheoDoiBaiVietResponse {
 }
 
 @JsonSerializable()
-class PageData {
+class BaiVietResponse {
   @JsonKey(name: 'title')
   String? title;
   @JsonKey(name: 'image_sources')
@@ -51,7 +51,7 @@ class PageData {
   @JsonKey(name: 'icon_url')
   String? iconUrl;
 
-  PageData({
+  BaiVietResponse({
     this.title,
     this.imageSources,
     this.publishedTime,
@@ -60,10 +60,10 @@ class PageData {
     this.iconUrl,
   });
 
-  factory PageData.fromJson(Map<String, dynamic> json) =>
-      _$PageDataFromJson(json);
+  factory BaiVietResponse.fromJson(Map<String, dynamic> json) =>
+      _$BaiVietResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PageDataToJson(this);
+  Map<String, dynamic> toJson() => _$BaiVietResponseToJson(this);
 
   BaiVietModel toDomain() => BaiVietModel(
         title: title ?? '',

@@ -19,109 +19,90 @@ class ItemTableTopicTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.5,
-          clipBehavior: Clip.antiAlias,
-          margin: const EdgeInsets.only(right: 8),
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-          decoration: BoxDecoration(
-            color: backgroundColorApp,
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.transparent,
-                offset: Offset(1, 1), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: cellColorborder,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      clipBehavior: Clip.antiAlias,
+       //margin: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+      decoration: BoxDecoration(
+        color: backgroundColorApp,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.transparent,
+            offset: Offset(1, 1), // changes position of shadow
+          ),
+        ],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: cellColorborder,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: textNormalCustom(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+              color: fontColorTablet2,
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: textNormalCustom(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  color: fontColorTablet2,
-                ),
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ItemInTableTablet(
-                      '${dataItem.articleCount}',
-                      S.current.bai_viet,
-                      ImageAssets.ic_circle_fb,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 24,
-                  ),
-                  Expanded(
-                    child: ItemInTableTablet(
-                      '${dataItem.likeCount}',
-                      S.current.like,
-                      ImageAssets.ic_circle_like,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ItemInTableTablet(
-                      '${dataItem.shareCount}',
-                      S.current.share,
-                      ImageAssets.ic_circle_share,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 24,
-                  ),
-                  Expanded(
-                    child: ItemInTableTablet(
-                      '${dataItem.commentCount}',
-                      S.current.comment,
-                      ImageAssets.ic_circle_coment,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      S.current.bao_cao_chi_tiet,
-                      style: textNormalCustom(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: AppTheme.getInstance().colorField(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          const SizedBox(
+            height: 24,
           ),
-        ),
-      ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ItemInTableTablet(
+                    '${dataItem.articleCount}',
+                    S.current.bai_viet,
+                    ImageAssets.ic_circle_fb,
+                  ),
+                  spaceW24,
+                  ItemInTableTablet(
+                    '${dataItem.likeCount}',
+                    S.current.like,
+                    ImageAssets.ic_circle_like,
+                  ),
+                  spaceW24,
+                  ItemInTableTablet(
+                    '${dataItem.shareCount}',
+                    S.current.share,
+                    ImageAssets.ic_circle_share,
+                  ),
+                  spaceW24,
+                  ItemInTableTablet(
+                    '${dataItem.commentCount}',
+                    S.current.comment,
+                    ImageAssets.ic_circle_coment,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          spaceH24,
+          GestureDetector(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  S.current.bao_cao_chi_tiet,
+                  style: textNormalCustom(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.getInstance().colorField(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -143,7 +124,7 @@ class ItemInTableTablet extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,12 +150,11 @@ class ItemInTableTablet extends StatelessWidget {
               ),
             ],
           ),
-          Flexible(
-            child: SizedBox(
-              height: 56,
-              width: 56,
-              child: SvgPicture.asset(icon),
-            ),
+          spaceW48,
+          SizedBox(
+            height: 56,
+            width: 56,
+            child: SvgPicture.asset(icon),
           ),
         ],
       ),

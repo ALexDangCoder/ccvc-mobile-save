@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/dash_board_tat_ca_
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/list_chu_de_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/menu_response.dart';
 import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/search_tin_tuc_response.dart';
+import 'package:ccvc_mobile/data/response/bao_chi_mang_xa_hoi/theo_doi_bai_viet_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -128,5 +129,10 @@ abstract class BaoChiMangXaHoiService {
     @Query('fromDate') String fromDate,
     @Query('toDate') String toDate,
     @Query('treeNode') int treeNode,
+  );
+
+  @GET(ApiConstants.THEO_DOI_BAI_VIET)
+  Future<BaiVietResponse> followTopic(
+    @Query('url') String url,
   );
 }

@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,6 @@ import '/home_module/data/request/home/lich_hop_request.dart';
 import '/home_module/data/request/home/lich_lam_viec_request.dart';
 import '/home_module/data/request/home/nhiem_vu_request.dart';
 import '/home_module/data/request/home/to_do_list_request.dart';
-
 import '/home_module/domain/model/home/WidgetType.dart';
 import '/home_module/domain/model/home/calendar_metting_model.dart';
 import '/home_module/domain/model/home/date_model.dart';
@@ -29,7 +29,6 @@ import '/home_module/domain/model/home/document_model.dart';
 import '/home_module/domain/model/home/press_network_model.dart';
 import '/home_module/domain/model/home/sinh_nhat_model.dart';
 import '/home_module/domain/model/home/su_kien_model.dart';
-import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
 import '/home_module/domain/model/home/todo_model.dart';
 import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
@@ -511,21 +510,22 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<DocumentDashboardModel>();
   List<String> mangTrangThai = [];
   int? trangThaiHanXuLy;
- String donViId = '';
+  String donViId = '';
   String userId = '';
- String canBoId = '';
+  String canBoId = '';
+
   TongHopNhiemVuCubit() {
     dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
       userId = dataUser?.userId ?? '';
-     canBoId =  dataUser?.userInformation?.canBoDepartmentId ?? '';
+      canBoId = dataUser?.userInformation?.canBoDepartmentId ?? '';
     }
   }
 
   Future<void> getDataTongHopNhiemVu() async {
     showLoading();
-    String  canBoIdDepartment = '';
+    String canBoIdDepartment = '';
     if (selectKeyDonVi == SelectKey.DON_VI) {
     } else {
       canBoIdDepartment = canBoId;
@@ -620,20 +620,27 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
 
 /// Văn bản đơn vị
 class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDen =
-      BehaviorSubject<DocumentDashboardModel>();
-  final BehaviorSubject<DocumentDashboardModel> _getDocumentVBDi =
-      BehaviorSubject<DocumentDashboardModel>();
+  final BehaviorSubject<VanBanDonViModel> _getVanBanDonVi =
+      BehaviorSubject<VanBanDonViModel>();
+  List<String> mangTrangThai = [];
+  int? trangThaiHanXuLy;
+  String donViId = '';
+  String canBoId = '';
 
-  VanBanDonViCubit() {}
-  bool isDanhSachDaXuLy = false;
-  bool isDanhSachChoTrinhKy = true;
-  bool isDanhSachChoXuLy = true;
-  List<String> maTrangThaiVBDen = [];
-  List<int> trangThaiFilter = [];
+  VanBanDonViCubit() {
+    dataUser = HiveLc.HiveLocal.getDataUser();
+    if (dataUser != null) {
+      donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
+      canBoId = dataUser?.userInformation?.canBoDepartmentId ?? '';
+    }
+  }
 
   void getDocument() {
-    callApi(startDate.toString(), endDate.toString());
+    callApi(
+        canBoId: canBoId,
+        donViId: donViId,
+        startDate: '',
+        endDate: '',);
   }
 
   @override
@@ -646,55 +653,44 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
       selectKeyTime = selectKey;
       this.startDate = startDate;
       this.endDate = endDate;
-      callApi(startDate.toString(), endDate.toString());
+      // callApi(startDate.toString(), endDate.toString());
     }
     selectKeyDialog.sink.add(true);
   }
 
-  Future<void> callApi(String startDate, String endDate) async {
+  Future<void> callApi({
+    String canBoId = '',
+    required String donViId,
+    required String startDate,
+    required String endDate,
+  }) async {
     showLoading();
-    final queue = Queue(parallel: 2);
-    unawaited(
-      queue.add(
-        () => homeRep.getVBden(startDate, endDate).then(
-          (value) {
-            value.when(
-              success: (res) {
-                _getDocumentVBDen.sink.add(res);
-              },
-              error: (err) {},
-            );
-          },
-        ),
-      ),
+    String canBoIdDepartment = '';
+    if (selectKeyDonVi == SelectKey.DON_VI) {
+    } else {
+      canBoIdDepartment = canBoId;
+    }
+    final result = await homeRep.getTinhHinhXuLyVanBan(
+      canBoIdDepartment,
+      donViId,
+      startDate,
+      endDate,
     );
-    unawaited(
-      queue.add(
-        () => homeRep.getVBdi(startDate, endDate).then(
-          (value) {
-            value.when(
-              success: (res) {
-                _getDocumentVBDi.sink.add(res);
-              },
-              error: (err) {},
-            );
-          },
-        ),
-      ),
-    );
-    await queue.onComplete;
     showContent();
+    result.when(
+      success: (res) {
+        _getVanBanDonVi.sink.add(res);
+      },
+      error: (err) {
+      },
+    );
   }
 
-  Stream<DocumentDashboardModel> get getDocumentVBDi => _getDocumentVBDi.stream;
-
-  Stream<DocumentDashboardModel> get getDocumentVBDen =>
-      _getDocumentVBDen.stream;
+  Stream<VanBanDonViModel> get getVanBanDonVi => _getVanBanDonVi.stream;
 
   @override
   void dispose() {
-    _getDocumentVBDen.close();
-    _getDocumentVBDi.close();
+    _getVanBanDonVi.close();
   }
 }
 
@@ -1475,8 +1471,7 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
       BehaviorSubject<DocumentDashboardModel>();
   String donViId = '';
 
-  Stream<DocumentDashboardModel> get getTinhHinhXuLy =>
-      _getTinhHinhXuLy.stream;
+  Stream<DocumentDashboardModel> get getTinhHinhXuLy => _getTinhHinhXuLy.stream;
 
   TinhHinhXuLyPAKNCubit() {
     final dataUser = HiveLc.HiveLocal.getDataUser();
@@ -1496,8 +1491,6 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
       error: (err) {},
     );
   }
-
-
 }
 
 /// Nhiệm vụ

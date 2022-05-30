@@ -39,6 +39,7 @@ abstract class HomeServiceGateWay {
   @factoryMethod
   factory HomeServiceGateWay(Dio dio, {String baseUrl}) = _HomeServiceGateWay;
 
+
   
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
   Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(@Query('isDonVi') bool isDonVi);

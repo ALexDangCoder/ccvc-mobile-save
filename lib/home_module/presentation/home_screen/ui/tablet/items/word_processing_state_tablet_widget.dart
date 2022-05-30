@@ -120,15 +120,13 @@ class _WordProcessingStateWidgetState
                               data: [
                                 ChartData(
                                     S.current.qua_han,
-                                    data.soLuongQuaHan.toDouble() ,
+                                    data.soLuongQuaHan.toDouble(),
                                     statusCalenderRed),
-                                ChartData(
-                                    S.current.den_han,
-                                    data.soLuongDenHan.toDouble() ,
-                                    yellowColor),
+                                ChartData(S.current.den_han,
+                                    data.soLuongDenHan.toDouble(), yellowColor),
                                 ChartData(
                                     S.current.trong_han,
-                                    data.soLuongTrongHan.toDouble() ,
+                                    data.soLuongTrongHan.toDouble(),
                                     choTrinhKyColor)
                               ],
                               onTap: (index) {
@@ -175,12 +173,12 @@ class _WordProcessingStateWidgetState
                           chartData: [
                             ChartData(
                               S.current.cho_trinh_ky,
-                              data.soLuongChoTrinhKy.toDouble() ,
+                              data.soLuongChoTrinhKy.toDouble(),
                               choTrinhKyColor,
                             ),
                             ChartData(
                               S.current.cho_xu_ly,
-                              data.soLuongChoXuLy.toDouble() ,
+                              data.soLuongChoXuLy.toDouble(),
                               choXuLyColor,
                             ),
                             ChartData(
@@ -190,12 +188,12 @@ class _WordProcessingStateWidgetState
                             ),
                             ChartData(
                               S.current.cho_cap_so,
-                              data.soLuongChoCapSo.toDouble() ,
+                              data.soLuongChoCapSo.toDouble(),
                               choCapSoColor,
                             ),
                             ChartData(
                               S.current.cho_ban_hanh,
-                              data.soLuongChoBanHanh.toDouble() ,
+                              data.soLuongChoBanHanh.toDouble(),
                               choBanHanhColor,
                             )
                           ],

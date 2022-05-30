@@ -38,6 +38,7 @@ class _SituationOfHandlingPeopleWidgetState
     // TODO: implement initState
     super.initState();
     _yKienCubit.callApi(false);
+
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         _yKienCubit.callApi(false);

@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/widgets/han_xu_ly_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/utils/enum_ext.dart';
@@ -132,15 +131,13 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                           data: [
                             ChartData(
                                 S.current.qua_han,
-                                data.soLuongQuaHan.toDouble() ,
+                                data.soLuongQuaHan.toDouble(),
                                 statusCalenderRed),
-                            ChartData(
-                                S.current.den_han,
-                                data.soLuongDenHan.toDouble() ,
-                                yellowColor),
+                            ChartData(S.current.den_han,
+                                data.soLuongDenHan.toDouble(), yellowColor),
                             ChartData(
                                 S.current.trong_han,
-                                data.soLuongTrongHan.toDouble() ,
+                                data.soLuongTrongHan.toDouble(),
                                 choTrinhKyColor)
                           ],
                         )
@@ -171,27 +168,27 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                       chartData: [
                         ChartData(
                             S.current.cho_trinh_ky,
-                            data.soLuongChoTrinhKy.toDouble() ,
+                            data.soLuongChoTrinhKy.toDouble(),
                             choTrinhKyColor,
                             SelectKey.CHO_TRINH_KY),
                         ChartData(
                             S.current.cho_xu_ly,
-                            data.soLuongChoXuLy.toDouble() ,
+                            data.soLuongChoXuLy.toDouble(),
                             choXuLyColor,
                             SelectKey.CHO_XU_LY),
                         ChartData(
                             S.current.da_xu_ly,
-                            data.soLuongDaXuLy.toDouble() ,
+                            data.soLuongDaXuLy.toDouble(),
                             daXuLyColor,
                             SelectKey.DA_XU_LY),
                         ChartData(
                             S.current.cho_cap_so,
-                            data.soLuongChoCapSo.toDouble() ,
+                            data.soLuongChoCapSo.toDouble(),
                             choCapSoColor,
                             SelectKey.CHO_CAP_SO),
                         ChartData(
                             S.current.cho_ban_hanh,
-                            data.soLuongChoBanHanh.toDouble() ,
+                            data.soLuongChoBanHanh.toDouble(),
                             choBanHanhColor,
                             SelectKey.CHO_BAN_HANH)
                       ],

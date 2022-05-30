@@ -4,7 +4,8 @@ import 'dart:ui';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-class DonViLuongModel  {
+
+class DonViLuongModel {
   String? Id;
   String? parentId;
   String? ten;
@@ -23,31 +24,30 @@ class DonViLuongModel  {
   String? chucVu;
   int? level;
 
-  DonViLuongModel({
-    this.parentId,
-    this.ten,
-    this.tenNguoiTao,
-    this.maTrangThai,
-    this.trangThai,
-    this.tenDonVi,
-    this.vaiTro,
-    this.avatar,
-    this.avatarCommon,
-    this.isBaoCaoLanhDao,
-    this.taskId,
-    this.canBoTaoId,
-    this.type,
-    this.chucVu,
-    this.level,
-    this.isCaNhan
-  });
+  DonViLuongModel(
+      {this.parentId,
+      this.ten,
+      this.tenNguoiTao,
+      this.maTrangThai,
+      this.trangThai,
+      this.tenDonVi,
+      this.vaiTro,
+      this.avatar,
+      this.avatarCommon,
+      this.isBaoCaoLanhDao,
+      this.taskId,
+      this.canBoTaoId,
+      this.type,
+      this.chucVu,
+      this.level,
+      this.isCaNhan});
 
-
-  bool isCaNhanFunc(){
-    return isCaNhan !=null;
+  bool isCaNhanFunc() {
+    return isCaNhan != null;
   }
-  Color getColor(){
-    switch(maTrangThai){
+
+  Color getColor() {
+    switch (maTrangThai) {
       case 'DANG_XU_LY':
         return dangXuLyLuongColor;
       case 'CHO_PHAN_XU_LY':
@@ -65,27 +65,29 @@ class DonViLuongModel  {
     }
     return Colors.transparent;
   }
-  Color textColor(){
-    if(maTrangThai == 'TRA_LAI'){
+
+  Color textColor() {
+    if (maTrangThai == 'TRA_LAI') {
       return Colors.black;
     }
     return Colors.white;
   }
-  Color vaiTroColor(){
+
+  Color vaiTroColor() {
     final vaiTroParseVn = vaiTro?.vietNameseParse().toLowerCase();
-    switch(vaiTroParseVn){
+    switch (vaiTroParseVn) {
       case 'chu tri':
         return nguoiChuTriColor;
       case 'phoi hop':
         return phoiHopColor;
       case 'nhan de biet':
         return nhanDeBietColor;
-
     }
     return Colors.black;
   }
-  bool isRoot(){
+
+  bool isRoot() {
+
     return vaiTro == 'ROOT';
   }
-
 }

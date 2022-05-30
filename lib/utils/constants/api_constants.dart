@@ -58,6 +58,9 @@ class ApiConstants {
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
   static const UPLOAD_FILE = '/api/CanBo/upload';
   static const UPLOAD_FILE_COMMON = '/qlvb/api/Common/UploadMultiFile';
+  static const UPDATE_Y_KIEN_XU_LY = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/update-y-kien';
+  static const CHO_Y_KIEN = '/qlvb/api/xin-y-kien/cho-y-kien';
+  static const TRA_LOI_Y_KIEN_VAN_BAN_DEN = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/tra-loi-xin-y-kien';
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';

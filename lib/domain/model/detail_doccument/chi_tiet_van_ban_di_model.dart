@@ -515,6 +515,7 @@ class DanhSachChoYKien {
   bool? isCanXoa;
   bool? isCanSuaXinYKien;
   bool? isNguoiDangNhapCoTheTraLoi;
+  List<DanhSachChoYKien> traLoi;
 
   DanhSachChoYKien({
     this.id,
@@ -538,6 +539,7 @@ class DanhSachChoYKien {
     this.isCanXoa,
     this.isCanSuaXinYKien,
     this.isNguoiDangNhapCoTheTraLoi,
+    required this.traLoi,
   });
 }
 
@@ -545,12 +547,10 @@ class DanhSachFiles {
   String? ten;
   String? id;
   String? isSign;
-  String? duongDan;
 
   DanhSachFiles({
     this.ten,
     this.id,
     this.isSign,
-    this.duongDan,
   });
 }

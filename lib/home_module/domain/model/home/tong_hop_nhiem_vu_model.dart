@@ -1,7 +1,8 @@
+
+
 import '/generated/l10n.dart';
 import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/constants/image_asset.dart';
-
 enum TongHopNhiemVuType {
   choPhanXuLy,
   chuaThucHien,
@@ -19,7 +20,7 @@ extension TongHopNhiemVuEx on TongHopNhiemVuType {
       case TongHopNhiemVuType.dangThucHien:
         return S.current.dang_thuc_hien;
       case TongHopNhiemVuType.hoanThanhNhiemVu:
-        return S.current.hoan_thanh_nhiem_vu;
+       return S.current.hoan_thanh_nhiem_vu;
     }
   }
 
@@ -32,7 +33,7 @@ extension TongHopNhiemVuEx on TongHopNhiemVuType {
       case TongHopNhiemVuType.dangThucHien:
         return ImageAssets.icDangThucHienTrongHan;
       case TongHopNhiemVuType.hoanThanhNhiemVu:
-        return ImageAssets.icHoanThanhNhiemVu;
+       return ImageAssets.icHoanThanhNhiemVu;
     }
   }
 }
@@ -42,7 +43,6 @@ class TongHopNhiemVuModel {
   final String name;
   final int value;
   TongHopNhiemVuType tongHopNhiemVuModel = TongHopNhiemVuType.choPhanXuLy;
-
   TongHopNhiemVuModel({
     this.code = '',
     this.name = '',
@@ -50,7 +50,6 @@ class TongHopNhiemVuModel {
   }) {
     tongHopNhiemVuModel = fromEnum();
   }
-
   TongHopNhiemVuType fromEnum() {
     switch (code) {
       case NhiemVuStatus.CHO_PHAN_XU_LY:

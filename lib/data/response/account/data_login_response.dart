@@ -84,6 +84,7 @@ class UserInformationResponse {
         gioiTinh: gioiTinh,
         ngaySinh: ngaySinh,
         soDienThoai: soDienThoai,
+    canBoDepartmentId: canBoDepartmentId ?? '',
       );
 
   UserInformationResponse();

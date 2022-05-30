@@ -47,7 +47,6 @@ class _PhanAnhKienNghiDonViWidgetState
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
-
     super.didChangeDependencies();
     cubit = HomeProvider.of(context).homeCubit;
   }

@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -17,31 +16,29 @@ import '/home_module/widgets/chart/base_pie_chart.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
 
-class TinhHinhPAKNCuaCaNhanMobileWidget extends StatefulWidget {
+class SituationOfHandlingPeopleWidget extends StatefulWidget {
   final WidgetType homeItemType;
 
-  const TinhHinhPAKNCuaCaNhanMobileWidget(
-      {Key? key, required this.homeItemType})
+  const SituationOfHandlingPeopleWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
   @override
-  State<TinhHinhPAKNCuaCaNhanMobileWidget> createState() =>
+  State<SituationOfHandlingPeopleWidget> createState() =>
       _SituationOfHandlingPeopleWidgetState();
 }
 
 class _SituationOfHandlingPeopleWidgetState
-    extends State<TinhHinhPAKNCuaCaNhanMobileWidget> {
-  final TinhHinhXuLyPAKNCubit _yKienCubit = TinhHinhXuLyPAKNCubit();
+    extends State<SituationOfHandlingPeopleWidget> {
+  final TinhHinhXuLyYKienCubit _yKienCubit = TinhHinhXuLyYKienCubit();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _yKienCubit.callApi(false);
-
+    _yKienCubit.callApi();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        _yKienCubit.callApi(false);
+        _yKienCubit.callApi();
       });
     });
   }
@@ -58,11 +55,16 @@ class _SituationOfHandlingPeopleWidgetState
       selectKeyDialog: _yKienCubit,
       child: LoadingOnly(
         stream: _yKienCubit.stateStream,
-        child: StreamBuilder<DocumentDashboardModel>(
+        child: StreamBuilder<List<TinhHinhYKienModel>>(
             stream: _yKienCubit.getTinhHinhXuLy,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? DocumentDashboardModel();
-
+              final data = snapshot.data ?? <TinhHinhYKienModel>[];
+              if (data.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 100),
+                  child: NodataWidget(),
+                );
+              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,32 +96,32 @@ class _SituationOfHandlingPeopleWidgetState
                       ),
                       statusWidget([
                         ChartData(
-                          S.current.cho_tiep_nhan,
-                          data.soLuongChoTiepNhan.toDouble(),
+                          S.current.cho_trinh_ky,
+                          30,
                           choTrinhKyColor,
                           SelectKey.CHO_TRINH_KY,
                         ),
                         ChartData(
-                          S.current.phan_xu_ly,
-                          data.soLuongPhanXuLy.toDouble(),
-                          numberOfCalenders,
+                          S.current.cho_xu_ly,
+                          10,
+                          choXuLyColor,
                           SelectKey.CHO_XU_LY,
                         ),
                         ChartData(
-                          S.current.dang_xu_ly,
-                          data.soLuongDangXuLy.toDouble(),
+                          S.current.da_xu_ly,
+                          10,
                           daXuLyColor,
                           SelectKey.DA_XU_LY,
                         ),
                         ChartData(
-                          S.current.cho_duyet,
-                          data.soLuongChoDuyet.toDouble(),
+                          S.current.cho_cap_so,
+                          14,
                           choCapSoColor,
                           SelectKey.CHO_CAP_SO,
                         ),
                         ChartData(
-                          S.current.cho_bo_sung_thong_tin,
-                          data.soLuongChoBoSungThongTin.toDouble(),
+                          S.current.cho_ban_hanh,
+                          14,
                           choBanHanhColor,
                           SelectKey.CHO_BAN_HANH,
                         )
@@ -130,23 +132,22 @@ class _SituationOfHandlingPeopleWidgetState
                     height: 24,
                   ),
                   StatusWidget(
-                    showZeroValue: false,
                     listData: [
                       ChartData(
                         S.current.qua_han,
-                        data.soLuongQuaHan.toDouble(),
+                        14,
                         statusCalenderRed,
                         SelectKey.CHO_VAO_SO,
                       ),
                       ChartData(
                         S.current.den_han,
-                        data.soLuongDenHan.toDouble(),
+                        14,
                         yellowColor,
                         SelectKey.DANG_XU_LY,
                       ),
                       ChartData(
                         S.current.trong_han,
-                        data.soLuongTrongHan.toDouble(),
+                        14,
                         choTrinhKyColor,
                         SelectKey.DA_XU_LY,
                       ),
@@ -157,32 +158,32 @@ class _SituationOfHandlingPeopleWidgetState
                     chartData: [
                       ChartData(
                         S.current.cho_tiep_nhan_xu_ly,
-                        data.soLuongChoTiepNhanXuLy.toDouble(),
+                        14,
                         choTrinhKyColor,
                       ),
                       ChartData(
                         S.current.cho_xu_ly,
-                        data.soLuongChoXuLy.toDouble(),
+                        14,
                         numberOfCalenders,
                       ),
                       ChartData(
                         S.current.cho_phan_xu_ly,
-                        data.soLuongChoPhanXuLy.toDouble(),
+                        14,
                         radioFocusColor,
                       ),
                       ChartData(
                         S.current.cho_duyet,
-                        data.soLuongChoDuyet.toDouble(),
+                        14,
                         choCapSoColor,
                       ),
                       ChartData(
                         S.current.da_phan_cong,
-                        data.soLuongDaPhanCong.toDouble(),
+                        14,
                         choBanHanhColor,
                       ),
                       ChartData(
                         S.current.da_hoan_thanh,
-                        data.soLuongDaHoanThanh.toDouble(),
+                        14,
                         itemWidgetUsing,
                       ),
                     ],
@@ -237,56 +238,45 @@ Widget statusWidget(List<ChartData> listData) {
                     Container(
                       height: 260,
                       width: 38,
-                      alignment: Alignment.bottomCenter,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: lineColor,
                       ),
                       // color: e.color,
-                      child: e.value == 0
-                          ? FittedBox(
-                              child: Text(
-                                e.value.toInt().toString(),
-                                style: textNormal(
-                                  textTitleColumn,
-                                  14.0.textScale(),
-                                ),
-                              ),
-                            )
-                          : Column(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: (total - (e.value)).toInt(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Expanded(
-                                  flex: (total - (e.value)).toInt(),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      FittedBox(
-                                        child: Text(
-                                          e.value.toInt().toString(),
-                                          style: textNormal(
-                                            textTitleColumn,
-                                            14.0.textScale(),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 6,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: e.value.toInt(),
-                                  child: Container(
-                                    width: 38,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: e.color,
+                                FittedBox(
+                                  child: Text(
+                                    e.value.toInt().toString(),
+                                    style: textNormal(
+                                      textTitleColumn,
+                                      14.0.textScale(),
                                     ),
                                   ),
-                                )
+                                ),
+                                const SizedBox(
+                                  height: 6,
+                                ),
                               ],
                             ),
+                          ),
+                          Expanded(
+                            flex: e.value.toInt(),
+                            child: Container(
+                              width: 38,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: e.color,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),

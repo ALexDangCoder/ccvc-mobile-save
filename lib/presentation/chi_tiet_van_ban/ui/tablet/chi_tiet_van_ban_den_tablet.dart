@@ -68,6 +68,7 @@ class ChiTietVanBanDenTablet extends StatelessWidget {
                   YKienSuLyWidgetExpandTablet(
                     cubit: CommentsDetailDocumentCubit(),
                     processId: processId,
+                    taskId: taskId,
                   ),
                   ThongTinGuiNhanWidgetExpandTablet(
                     cubit: DeliveryNoticeDetailDocumentCubit(),

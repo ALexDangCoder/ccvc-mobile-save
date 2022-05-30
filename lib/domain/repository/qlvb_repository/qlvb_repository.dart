@@ -3,6 +3,8 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
@@ -35,7 +37,19 @@ mixin QLVBRepository {
   Future<Result<DanhSachVanBanModel>> getVanBanModel();
 
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDen(
-      DanhSachVBRequest danhSachVBRequest);
+    DanhSachVBRequest danhSachVBRequest,
+  );
+
+  Future<Result<bool>> updateComment(
+    UpdateCommentRequest comments,
+  );
+  Future<Result<bool>> giveComment(
+    GiveCommentRequest comments,
+  );
+
+  Future<Result<bool>> relayCommentDocumentIncome(
+    RelayCommentRequest relay,
+  );
 
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDi({
     required String startDate,

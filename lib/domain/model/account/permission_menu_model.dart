@@ -28,6 +28,12 @@ class PermissionMenuModel {
         return MenuType.ketNoi;
       case MenuItemConst.TIEN_ICH:
         return MenuType.tienIch;
+      case MenuItemConst.TUONG_TAC_NOI_BO:
+        return MenuType.tuongTacNoiBo;
+      case MenuItemConst.LICH_LAM_VIEC:
+        return MenuType.lichLamViec;
+      case MenuItemConst.BAO_CAO:
+        return MenuType.baoCao;
     }
   }
 }

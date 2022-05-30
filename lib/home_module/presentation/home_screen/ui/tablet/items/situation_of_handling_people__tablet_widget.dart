@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
@@ -135,7 +136,7 @@ class _SituationOfHandlingPeopleWidgetState
                                 ChartData(
                                   S.current.cho_xu_ly,
                                   12,
-                                  choXuLyColor,
+                                  AppTheme.getInstance().choXuLyColor(),
                                   SelectKey.CHO_XU_LY,
                                 ),
                                 ChartData(

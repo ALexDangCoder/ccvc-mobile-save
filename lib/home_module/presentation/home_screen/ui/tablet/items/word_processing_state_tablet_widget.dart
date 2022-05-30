@@ -120,15 +120,13 @@ class _WordProcessingStateWidgetState
                               data: [
                                 ChartData(
                                     S.current.qua_han,
-                                    data.soLuongQuaHan?.toDouble() ?? 0,
+                                    data.soLuongQuaHan.toDouble(),
                                     statusCalenderRed),
-                                ChartData(
-                                    S.current.den_han,
-                                    data.soLuongDenHan?.toDouble() ?? 0,
-                                    yellowColor),
+                                ChartData(S.current.den_han,
+                                    data.soLuongDenHan.toDouble(), yellowColor),
                                 ChartData(
                                     S.current.trong_han,
-                                    data.soLuongTrongHan?.toDouble() ?? 0,
+                                    data.soLuongTrongHan.toDouble(),
                                     choTrinhKyColor)
                               ],
                               onTap: (index) {
@@ -175,27 +173,27 @@ class _WordProcessingStateWidgetState
                           chartData: [
                             ChartData(
                               S.current.cho_trinh_ky,
-                              data.soLuongChoTrinhKy?.toDouble() ?? 0,
+                              data.soLuongChoTrinhKy.toDouble(),
                               choTrinhKyColor,
                             ),
                             ChartData(
                               S.current.cho_xu_ly,
-                              data.soLuongChoXuLy?.toDouble() ?? 0,
+                              data.soLuongChoXuLy.toDouble(),
                               choXuLyColor,
                             ),
                             ChartData(
                               S.current.da_xu_ly,
-                              data.soLuongDaXuLy?.toDouble() ?? 0,
+                              data.soLuongDaXuLy.toDouble(),
                               daXuLyColor,
                             ),
                             ChartData(
                               S.current.cho_cap_so,
-                              data.soLuongChoCapSo?.toDouble() ?? 0,
+                              data.soLuongChoCapSo.toDouble(),
                               choCapSoColor,
                             ),
                             ChartData(
                               S.current.cho_ban_hanh,
-                              data.soLuongChoBanHanh?.toDouble() ?? 0,
+                              data.soLuongChoBanHanh.toDouble(),
                               choBanHanhColor,
                             )
                           ],

@@ -56,7 +56,6 @@ class _PressSocialNetWorkState extends State<PressSocialNetWorkTabletWidget> {
       });
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(

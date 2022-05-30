@@ -20,7 +20,6 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class CalendarWorkTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
-
   const CalendarWorkTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 

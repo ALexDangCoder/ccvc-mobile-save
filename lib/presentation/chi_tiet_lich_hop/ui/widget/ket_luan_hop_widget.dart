@@ -312,7 +312,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                   data[index],
                   style: textDetailHDSD(
                     fontSize: 14.0.textScale(),
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                   ),
                 );
               },

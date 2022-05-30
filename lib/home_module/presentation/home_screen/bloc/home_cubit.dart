@@ -39,6 +39,7 @@ import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/extensions/date_time_extension.dart';
 
 class HomeCubit extends BaseCubit<HomeState> {
+
   HomeCubit() : super(MainStateInitial());
 
   HomeRepository get homeRep => Get.find();

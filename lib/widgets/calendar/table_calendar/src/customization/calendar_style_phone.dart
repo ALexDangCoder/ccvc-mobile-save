@@ -135,6 +135,7 @@ class CalendarStyle {
 
   /// TextStyle for day cells that do not match any other styles.
   final TextStyle defaultTextStyle;
+  final TextStyle lunarTextStyle;
 
   /// Decoration for day cells that do not match any other styles.
   final Decoration defaultDecoration;
@@ -147,6 +148,10 @@ class CalendarStyle {
 
   /// Creates a `CalendarStyle` used by `TableCalendar` widget.
   const CalendarStyle({
+    this.lunarTextStyle = const TextStyle(
+      fontSize: 10,
+      color: Color(0xFFA2AEBD),
+    ),
     this.isTodayHighlighted = true,
     this.canMarkersOverflow = true,
     this.outsideDaysVisible = true,
@@ -159,7 +164,7 @@ class CalendarStyle {
     this.markersAlignment = Alignment.bottomCenter,
     this.markersMaxCount = 1,
     this.cellMargin = const EdgeInsets.all(6.0),
-    this.cellPadding = const EdgeInsets.all(9.0),
+    this.cellPadding = const EdgeInsets.all(4.0),
     this.cellAlignment = Alignment.center,
     this.markersOffset = const PositionedOffset(),
     this.rangeHighlightColor = const Color(0xFFBBDDFF),

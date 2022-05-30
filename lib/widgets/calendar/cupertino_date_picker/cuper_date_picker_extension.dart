@@ -60,7 +60,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       children: List<Widget>.generate(12, (int index) {
         return itemPositioningBuilder(
           context,
-          Text('${S.current.thang} ${index + 1}', style: widget.textStyleDate),
+          Text('${S.current.thang } ${index + 1}', style: widget.textStyleDate),
         );
       }),
       onSelectItem: (index) {
@@ -83,44 +83,64 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
   //   return BuildPicker(
   //     looping: false,
   //     offAxisFraction: offAxisFraction,
-  //    // controller: lunarController,
+  //     controller: lunarController,
   //     backgroundColor: widget.background,
-  //     children: List<Widget>.generate(2, (int index) {
-  //       return itemPositioningBuilder(
-  //         context,
-  //         Text(index == 0 ? 'Duong' : 'Am', style: widget.textStyleDate),
-  //       );
-  //     }),
   //     onSelectItem: (index) {
   //       counter++;
   //       if (index == 0) {
-  //       } else {
   //         final solar = Solar(
   //           solarDay: selectedDay,
   //           solarMonth: selectedMonth,
   //           solarYear: selectedYear,
   //         );
   //         final lunar = LunarSolarConverter.solarToLunar(solar);
-  //
+  //         dayController.animateToItem(
+  //           (lunar.lunarDay ?? 1) - 1,
+  //           duration: const Duration(milliseconds: 200),
+  //           curve: Curves.bounceIn,
+  //         );
+  //         monthController.animateToItem(
+  //           (lunar.lunarMonth ?? 1) - 1,
+  //           duration: const Duration(milliseconds: 200),
+  //           curve: Curves.bounceIn,
+  //         );
+  //         yearController.animateToItem(
+  //           lunar.lunarYear ?? 0,
+  //           duration: const Duration(milliseconds: 200),
+  //           curve: Curves.bounceIn,
+  //         );
+  //       } else {
+  //         final solar = Lunar(
+  //           lunarDay: selectedDay,
+  //           lunarMonth: selectedMonth,
+  //           lunarYear: selectedYear,
+  //         );
+  //         final solars = LunarSolarConverter.lunarToSolar(solar);
   //         if (counter == 1) {
   //           dayController.animateToItem(
-  //             (lunar.lunarDay ?? 1) - 1,
+  //             (solars.solarDay ?? 1) - 1,
   //             duration: const Duration(milliseconds: 200),
   //             curve: Curves.bounceIn,
   //           );
   //           monthController.animateToItem(
-  //             (lunar.lunarMonth ?? 1) - 1,
+  //             (solars.solarMonth ?? 1) - 1,
   //             duration: const Duration(milliseconds: 200),
   //             curve: Curves.bounceIn,
   //           );
   //           yearController.animateToItem(
-  //             lunar.lunarYear ?? 0,
+  //             solars.solarYear ?? 0,
   //             duration: const Duration(milliseconds: 200),
   //             curve: Curves.bounceIn,
   //           );
   //         }
   //       }
   //     },
+  //     children: List<Widget>.generate(2, (int index) {
+  //       return itemPositioningBuilder(
+  //         context,
+  //         Text(index == 0 ? 'Âm' : 'Dương', style: widget.textStyleDate),
+  //       );
+  //     }),
   //   );
   // }
 
@@ -178,7 +198,6 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
   ) {
     pickerBuilders.addAll([buildDayPicker, buildMonthPicker, buildYearPicker]);
     columnWidths.addAll([
-      // estimatedColumnWidths[PickerColumnType.lunar.index]!,
       estimatedColumnWidths[PickerColumnType.dayOfMonth.index]!,
       estimatedColumnWidths[PickerColumnType.month.index]!,
       estimatedColumnWidths[PickerColumnType.year.index]!

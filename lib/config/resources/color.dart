@@ -71,7 +71,7 @@ const daXuLyLuongColor = Color(0xff42b432);
 const thuHoiLuongColor = Color(0xff9b7938);
 const traLaiLuongColor = Color(0xffe5f52f);
 
-const nguoiKyVanBanColor = Color(0xff00FF00);
+const nguoiKyVanBanColor = Color(0xff5694F2);
 const textDropDownColor = Color(0xff3D5586);
 const bgDropDown = Color(0xFFE2E8F0);
 const bgButtonDropDown = Color(0xff7966FF);
@@ -121,6 +121,8 @@ const xamColor = Color(0xffBAA59F);
 const color0A45B9 = Color(0xff0A45B9);
 const color1CE2BF = Color(0xff1CE2BF);
 const chuaThucHienColor = Color(0xffF2994A);
+const color81B2DF = Color(0xff81B2DF);
+const colorF2994A = Color(0xffF2994A);
 
 const bgTag = Color(0xffF2F0FF);
 

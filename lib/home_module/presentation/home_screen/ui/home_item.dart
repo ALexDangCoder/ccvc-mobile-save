@@ -49,7 +49,7 @@ extension ItemExtension on WidgetType {
           homeItemType: WidgetType.summaryOfTask,
         );
       case WidgetType.situationHandlingPeople:
-        return SituationOfHandlingPeopleWidget(
+        return TinhHinhPAKNCuaCaNhanMobileWidget(
           key: KeyKeepAlive._keySituationHandlingPeople,
           homeItemType: WidgetType.situationHandlingPeople,
         );
@@ -124,7 +124,7 @@ extension ItemExtension on WidgetType {
           homeItemType: WidgetType.summaryOfTask,
         );
       case WidgetType.situationHandlingPeople:
-        return SituationOfHandlingPeopleTabletWidget(
+        return TinhHinhPAKNCuaCaNhanTabletWidget(
           key: KeyKeepAlive._keySituationHandlingPeople,
           homeItemType: WidgetType.situationHandlingPeople,
         );

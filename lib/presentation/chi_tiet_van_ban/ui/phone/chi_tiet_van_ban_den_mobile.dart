@@ -67,6 +67,7 @@ class ChiTietVanBanDenMobile extends StatelessWidget {
                   YKienXuLyExpandWidgetMobile(
                     cubit: CommentsDetailDocumentCubit(),
                     processId: processId,
+                    taskId: taskId,
                   ),
                   ThongTinGuiNhanExpandWidgetMobile(
                     cubit: DeliveryNoticeDetailDocumentCubit(),

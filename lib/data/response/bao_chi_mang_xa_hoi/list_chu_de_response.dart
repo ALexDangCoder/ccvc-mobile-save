@@ -22,10 +22,10 @@ class ListChuDeResponse {
   Map<String, dynamic> toJson() => _$ListChuDeResponseToJson(this);
 
   ListChuDeModel toDomain() => ListChuDeModel(
-      getlistChuDe: listChuDe?.map((e) => e.toDomain()).toList() ?? [],
-      totalPages: totalPages,
-      totalItems: totalItems,
-  );
+        getlistChuDe: listChuDe?.map((e) => e.toDomain()).toList() ?? [],
+        totalPages: totalPages,
+        totalItems: totalItems,
+      );
 }
 
 @JsonSerializable()

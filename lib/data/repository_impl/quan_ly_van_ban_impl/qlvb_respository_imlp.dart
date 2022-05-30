@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_den_response.dart';
@@ -9,6 +11,7 @@ import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_ky_duyet_van_
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_thu_hoi_van_ban_di_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_tra_lai_van_ban_di_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_van_ban_response.dart';
+import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/lich_su_xin_y_kien_den_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/theo_doi_van_ban_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/thong_tin_gui_nhan_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/danh_sach_van_ban/ds_vbden_response.dart';
@@ -17,6 +20,7 @@ import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_den_r
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/dash_board/db_vb_di_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_den_response.dart';
 import 'package:ccvc_mobile/data/response/quan_ly_van_ban/luong_xu_ly/luong_xu_ly_van_ban_di_response.dart';
+import 'package:ccvc_mobile/data/response/up_load_anh/up_load_anh_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/quan_ly_van_ban/qlvb_service.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
@@ -190,11 +194,37 @@ class QLVBImlp implements QLVBRepository {
   }
 
   @override
+  Future<Result<String>> postFile({required File path}) {
+    return runCatchingAsync<PostFileResponse,
+        String>(
+          () =>
+          _quanLyVanBanClient.postFile([path]),
+          (response) {
+        if(response.isSuccess.toString() == 'true') {
+          final List<dynamic> list = response.data;
+          final Map<String,dynamic> map = list.first;
+          return map['Id'].toString();
+        } else {
+          return 'false';
+        }
+      },
+    );
+  }
+
+  @override
   Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(String vanBanId) {
     return runCatchingAsync<DataDanhSachYKienXuLyResponse,
             DataDanhSachYKienXuLy>(
         () => _quanLyVanBanClient.getDataDanhSachYKien(vanBanId),
         (response) => response.toModel());
+  }
+
+  @override
+  Future<Result<DataDanhSachYKienXuLy>> getLichSuXinYKien(String vanBanId) {
+    return runCatchingAsync<LichSuXinYKienDenResponse, DataDanhSachYKienXuLy>(
+      () => _quanLyVanBanClient.getLichSuXinYKien(vanBanId),
+      (response) => response.toModel(),
+    );
   }
 
   @override

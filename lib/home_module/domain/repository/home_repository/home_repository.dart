@@ -80,6 +80,7 @@ abstract class HomeRepository {
     String toDate,
     String keyWord,
   );
+
   Future<Result<List<CalendarMeetingModel>>> getListLichLamViec(
       LichLamViecRequest lamViecRequest);
 
@@ -90,6 +91,7 @@ abstract class HomeRepository {
 
   Future<Result<List<SinhNhatUserModel>>> getSinhNhat(
       String dataFrom, String dateTo);
+
   Future<Result<List<CalendarMeetingModel>>> getDanhSachCongViec(
       DanhSachCongViecRequest request);
 

@@ -1,6 +1,4 @@
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '/home_module/utils/constants/app_constants.dart';
 
@@ -34,7 +32,7 @@ class WidgetModel {
   int? minHeight;
   int? maxHeight;
   int? maxWidth;
-  Map<String,dynamic>? props={};
+  Map<String, dynamic>? props = {};
   bool? static;
   bool? isResizable;
   String? thumbnail;
@@ -89,7 +87,7 @@ class WidgetModel {
     this.widgetType,
   }) {
     widgetType = fromEnum();
-    imagePre=getStringImage();
+    imagePre = getStringImage();
   } //
 
   WidgetType? fromEnum() {
@@ -164,16 +162,16 @@ class Props {
     return data;
   }
 }
-  Map<String, dynamic> widgetModelToJson(WidgetModel instance){
-    String? setAppId;
-    if(instance.appId==''){
-      setAppId=null;
-    }
-    else{
-      setAppId=instance.appId;
-    }
-    return  <String, dynamic>{
-      'id': instance.id,
+
+Map<String, dynamic> widgetModelToJson(WidgetModel instance) {
+  String? setAppId;
+  if (instance.appId == '') {
+    setAppId = null;
+  } else {
+    setAppId = instance.appId;
+  }
+  return <String, dynamic>{
+    'id': instance.id,
     'name': instance.name,
     'widgetTypeId': instance.widgetTypeId,
     'description': instance.description,
@@ -202,7 +200,6 @@ class Props {
     'maxW': instance.maxW,
     'minH': instance.minH,
     'minW': instance.minW,
-    'props':instance.props
+    'props': instance.props
   };
-  }
-
+}

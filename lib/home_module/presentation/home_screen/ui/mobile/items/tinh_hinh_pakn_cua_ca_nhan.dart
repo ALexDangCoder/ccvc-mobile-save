@@ -55,27 +55,6 @@ class _SituationOfHandlingPeopleWidgetState
       },
       isShowSubTitle: false,
       selectKeyDialog: _yKienCubit,
-      // dialogSelect: StreamBuilder(
-      //     stream: _yKienCubit.selectKeyDialog,
-      //     builder: (context, snapshot) {
-      //       return DialogSettingWidget(
-      //         type: widget.homeItemType,
-      //         listSelectKey: <DialogData>[
-      //           DialogData(
-      //             onSelect: (value, startDate, endDate) {
-      //               _yKienCubit.selectDate(
-      //                   selectKey: value,
-      //                   startDate: startDate,
-      //                   endDate: endDate);
-      //             },
-      //             initValue: _yKienCubit.selectKeyTime,
-      //             title: S.current.time,
-      //             startDate: _yKienCubit.startDate,
-      //             endDate: _yKienCubit.endDate,
-      //           )
-      //         ],
-      //       );
-      //     }),
       child: LoadingOnly(
         stream: _yKienCubit.stateStream,
         child: StreamBuilder<DocumentDashboardModel>(

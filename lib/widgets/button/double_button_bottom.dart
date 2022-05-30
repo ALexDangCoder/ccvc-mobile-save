@@ -11,6 +11,7 @@ class DoubleButtonBottom extends StatelessWidget {
   final Function onPressed1;
   final Function onPressed2;
   final bool isTablet;
+
   const DoubleButtonBottom({
     Key? key,
     required this.title1,
@@ -57,7 +58,8 @@ class DoubleButtonBottom extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius:
                           BorderRadius.circular(4.0.textScale(space: 4.0)),
-                      color: AppTheme.getInstance().colorField().withOpacity(0.1),
+                      color:
+                          AppTheme.getInstance().colorField().withOpacity(0.1),
                     ),
                     child: Center(
                       child: Text(
@@ -123,7 +125,9 @@ class DoubleButtonBottom extends StatelessWidget {
             title,
             style: textNormalCustom(
               fontSize: 16,
-              color: isLeft ? AppTheme.getInstance().colorField() : backgroundColorApp,
+              color: isLeft
+                  ? AppTheme.getInstance().colorField()
+                  : backgroundColorApp,
             ),
           ),
         ),

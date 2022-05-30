@@ -63,6 +63,7 @@ class PageData {
     maTrangThai = json['MaTrangThai'];
     trangThaiId = json['TrangThaiId'];
   }
+
   CalendarMeetingModel toDomain() => CalendarMeetingModel(
         title: noiDungTheoDoi?.parseHtml() ?? '',
         loaiNhiemVu: loaiNhiemVu ?? '',

@@ -1,10 +1,10 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-class DonViLuongNhiemVuModel  {
+import 'package:flutter/material.dart';
+
+class DonViLuongNhiemVuModel {
   String? Id;
   String? parentId;
   String? ten;
@@ -23,7 +23,6 @@ class DonViLuongNhiemVuModel  {
   String? chucVu;
   int? level;
 
-
   DonViLuongNhiemVuModel({
     this.parentId,
     this.ten,
@@ -41,15 +40,14 @@ class DonViLuongNhiemVuModel  {
     this.chucVu,
     this.level,
     this.isCaNhan,
-
   });
 
-
-  bool isCaNhanFunc(){
-    return isCaNhan !=null;
+  bool isCaNhanFunc() {
+    return isCaNhan != null;
   }
-  Color getColor(){
-    switch(maTrangThai){
+
+  Color getColor() {
+    switch (maTrangThai) {
       case 'CHO_PHAN_XU_LY':
         return numberOfCalenders;
       case 'CHUA_THUC_HIEN':
@@ -62,20 +60,21 @@ class DonViLuongNhiemVuModel  {
         return pinkColor;
       case 'THU_HOI':
         return infoColor;
-
     }
     return Colors.transparent;
   }
-  Color textColor(){
-    if(maTrangThai == 'TRA_LAI'){
+
+  Color textColor() {
+    if (maTrangThai == 'TRA_LAI') {
       return Colors.black;
     }
     return Colors.white;
   }
-  Color vaiTroColor(){
+
+  Color vaiTroColor() {
     final vaiTroParseVn = vaiTro?.vietNameseParse().toLowerCase();
 
-    switch(vaiTroParseVn){
+    switch (vaiTroParseVn) {
       case 'chu tri':
         return nguoiChuTriColor;
       case 'phoi hop':
@@ -83,11 +82,11 @@ class DonViLuongNhiemVuModel  {
     }
     return Colors.black;
   }
+
   String get textChucVuDonVi {
-    if( chucVu?.isNotEmpty ?? false){
+    if (chucVu?.isNotEmpty ?? false) {
       return '$ten - $chucVu';
     }
     return '$ten';
   }
-
 }

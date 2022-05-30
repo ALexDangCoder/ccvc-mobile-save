@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -72,11 +71,11 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect = widget.listSelect[index];
-      }else{
+      } else {
         valueSelect = '';
       }
       selectBloc.sink.add(index);
-    }else{
+    } else {
       valueSelect = '';
     }
     setState(() {});
@@ -123,7 +122,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                           Flexible(
                             child: Text(
                               widget.listSelect[index],
-                              style: textNormal(titleColor, 16),
+                              style: textNormal(color3D5586, 16),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -138,7 +137,8 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                                             const EdgeInsets.only(right: 4),
                                         child: SvgPicture.asset(
                                           ImageAssets.icCheck,
-                                          color: AppTheme.getInstance().colorField(),
+                                          color: AppTheme.getInstance()
+                                              .colorField(),
                                         ),
                                       )
                                     : const SizedBox();
@@ -180,7 +180,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                 border: Border(
                   bottom: BorderSide(
                     color: expandController!.value == 0
-                        ? lineColor
+                        ? colorECEEF7
                         : Colors.transparent,
                   ),
                 ),
@@ -201,7 +201,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                             return screenDevice(
                                 mobileScreen: Text(
                                   valueSelect,
-                                  style: textNormal(titleColor, 16),
+                                  style: textNormal(color3D5586, 16),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 tabletScreen: Align(
@@ -210,7 +210,7 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
                                       padding: const EdgeInsets.only(right: 26),
                                       child: Text(
                                         valueSelect,
-                                        style: textNormal(titleColor, 16),
+                                        style: textNormal(color3D5586, 16),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     )));

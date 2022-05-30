@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_phan_xu_ly.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'lich_su_phan_xu_ly_nhiem_vu_response.g.dart';
 
 @JsonSerializable()
@@ -74,17 +75,17 @@ class LichSuPhanXuLyNhiemVuModelResponse extends Equatable {
       _$LichSuPhanXuLyNhiemVuModelResponseToJson(this);
 
   LichSuPhanXuLyNhiemVuModel toModel() => LichSuPhanXuLyNhiemVuModel(
-    id:id,
-    stt:stt,
-    nguoiGui:nguoiGui,
-    donViGui:donViGui,
-    thoiGian:thoiGian,
-    nguoiNhan:nguoiNhan,
-    donViNhan:donViNhan,
-    vaiTroXuLy:vaiTroXuLy,
-    trangThai:trangThai,
-    trangThaiId:trangThaiId,
-  );
+        id: id,
+        stt: stt,
+        nguoiGui: nguoiGui,
+        donViGui: donViGui,
+        thoiGian: thoiGian,
+        nguoiNhan: nguoiNhan,
+        donViNhan: donViNhan,
+        vaiTroXuLy: vaiTroXuLy,
+        trangThai: trangThai,
+        trangThaiId: trangThaiId,
+      );
 
   //todo convert to Model to use
   @override

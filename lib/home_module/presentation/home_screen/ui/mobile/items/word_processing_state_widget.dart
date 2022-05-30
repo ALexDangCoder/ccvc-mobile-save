@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:ccvc_mobile/domain/model/document/incoming_document.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/widgets/han_xu_ly_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/utils/enum_ext.dart';
@@ -17,7 +15,6 @@ import '/home_module/domain/model/home/document_dashboard_model.dart';
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/widgets/chart/base_pie_chart.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
@@ -38,6 +35,7 @@ class WordProcessingStateWidget extends StatefulWidget {
 class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
   late HomeCubit cubit;
   final TinhHinhXuLyCubit _xuLyCubit = TinhHinhXuLyCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -89,9 +87,11 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                       children: [
                         PieChart(
                           paddingTop: 0,
-                          chartData:List.generate(data.listVBDen().length, (index){
+                          chartData:
+                              List.generate(data.listVBDen().length, (index) {
                             final result = data.listVBDen()[index];
-                            return ChartData(result.key.getText(), result.value.toDouble(), result.color);
+                            return ChartData(result.key.getText(),
+                                result.value.toDouble(), result.color);
                           }),
                           onTap: (value, key) {
                             if (key != null) {
@@ -115,7 +115,7 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                           height: 26,
                         ),
                         HanXuLyWidget(
-                          onTap: (value){
+                          onTap: (value) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -125,7 +125,6 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                                   endDate: '',
                                   type: TypeScreen.VAN_BAN_DEN,
                                   maTrangThai: [],
-
                                 ),
                               ),
                             );

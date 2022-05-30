@@ -44,7 +44,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       S.current.tieu_de,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: unselectedLabelColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -73,7 +73,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       S.current.chu_de,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: unselectedLabelColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -102,7 +102,7 @@ class CustomHoiDapWidget extends StatelessWidget {
                       S.current.loai_hdsd,
                       style: textNormalCustom(
                         fontSize: 14.0,
-                        color: unselectedLabelColor,
+                        color: color667793,
                       ),
                     ),
                   ),
@@ -125,7 +125,10 @@ class CustomHoiDapWidget extends StatelessWidget {
                               onTap: () {
                                 onTapEdit();
                               },
-                              child: SvgPicture.asset(ImageAssets.icEditBlue,color: AppTheme.getInstance().colorField(),),
+                              child: SvgPicture.asset(
+                                ImageAssets.icEditBlue,
+                                color: AppTheme.getInstance().colorField(),
+                              ),
                             ),
                             const SizedBox(
                               width: 20.0,

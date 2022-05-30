@@ -50,7 +50,7 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: lineColor,
+                    color: colorECEEF7,
                   ),
                 ),
               ),

@@ -12,31 +12,30 @@ import 'package:rxdart/rxdart.dart';
 
 import 'detai_doccument_state.dart';
 
-
 class CommonDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
   CommonDetailDocumentGoCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
+
   final QLVBRepository _qLVBRepo = Get.find();
 
   //chi tiet van ban di
   BehaviorSubject<ChiTietVanBanDiModel> chiTietVanBanDiSubject =
-  BehaviorSubject();
-
+      BehaviorSubject();
 
   //nguoi ky duyet vb di
   BehaviorSubject<List<NguoiKyDuyetModel>> nguoiKyDuyetVanBanDiSubject =
-  BehaviorSubject();
+      BehaviorSubject();
 
   // tep dinh kem
   BehaviorSubject<List<FileDinhKemVanBanDiModel>> listPhieuTrinh =
-  BehaviorSubject();
+      BehaviorSubject();
   BehaviorSubject<List<FileDinhKemVanBanDiModel>> listDuThao =
-  BehaviorSubject();
+      BehaviorSubject();
   BehaviorSubject<List<FileDinhKemVanBanDiModel>> listVBBHKemDuTHao =
-  BehaviorSubject();
+      BehaviorSubject();
   BehaviorSubject<List<FileDinhKemVanBanDiModel>> listVBLienThong =
-  BehaviorSubject();
+      BehaviorSubject();
 
   Future<void> getChiTietVanBanDi(String id) async {
     showLoading();
@@ -69,9 +68,8 @@ class CommonDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
   }
 }
 
-
-
-class HistoryUpdateDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
+class HistoryUpdateDetailDocumentGoCubit
+    extends BaseCubit<DetailDocumentState> {
   HistoryUpdateDetailDocumentGoCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
@@ -80,12 +78,11 @@ class HistoryUpdateDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> 
 
   //lich su cap nhat vb di
   BehaviorSubject<List<LichSuCapNhatVanBanDi>> lichSuCapNhatVanBanDiSubject =
-  BehaviorSubject();
-
+      BehaviorSubject();
 
   Future<void> getLichSuCapNhatVanBanDi(
-      String id,
-      ) async {
+    String id,
+  ) async {
     showLoading();
     final result = await _qLVBRepo.getLichSuCapNhatVanBanDi(id, id);
     result.when(
@@ -100,7 +97,8 @@ class HistoryUpdateDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> 
   }
 }
 
-class HistoryGiveBackDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
+class HistoryGiveBackDetailDocumentGoCubit
+    extends BaseCubit<DetailDocumentState> {
   HistoryGiveBackDetailDocumentGoCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
@@ -109,11 +107,11 @@ class HistoryGiveBackDetailDocumentGoCubit extends BaseCubit<DetailDocumentState
 
   //lich su tra lai vb di
   BehaviorSubject<List<LichSuTraLaiVanBanDi>> lichSuTraLaiVanBanDiSubject =
-  BehaviorSubject();
+      BehaviorSubject();
 
   Future<void> getLichSuTraLaiVanBanDi(
-      String id,
-      ) async {
+    String id,
+  ) async {
     showLoading();
     final result = await _qLVBRepo.getLichSuTraLaiVanBanDi(id, id);
     result.when(
@@ -126,13 +124,10 @@ class HistoryGiveBackDetailDocumentGoCubit extends BaseCubit<DetailDocumentState
       },
     );
   }
-
-
 }
 
-
-
-class HistoryRecallDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
+class HistoryRecallDetailDocumentGoCubit
+    extends BaseCubit<DetailDocumentState> {
   HistoryRecallDetailDocumentGoCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
@@ -141,11 +136,11 @@ class HistoryRecallDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> 
 
   //lich su thu hoi vb di
   BehaviorSubject<List<LichSuThuHoiVanBanDi>> lichSuThuHoiVanBanDiSubject =
-  BehaviorSubject();
+      BehaviorSubject();
 
   Future<void> getLichSuThuHoiVanBanDi(
-      String id,
-      ) async {
+    String id,
+  ) async {
     showLoading();
     final result = await _qLVBRepo.getLichSuThuHoiVanBanDi(id, id);
     result.when(
@@ -160,22 +155,21 @@ class HistoryRecallDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> 
   }
 }
 
-class SignForApprovalDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
+class SignForApprovalDetailDocumentGoCubit
+    extends BaseCubit<DetailDocumentState> {
   SignForApprovalDetailDocumentGoCubit() : super(DetailDocumentInitial()) {
     showContent();
   }
 
   final QLVBRepository _qLVBRepo = Get.find();
 
-
   //lich su ky duyet vb di
   BehaviorSubject<List<LichSuKyDuyetVanBanDi>> lichSuKyDuyetVanBanDiSubject =
-  BehaviorSubject();
-
+      BehaviorSubject();
 
   Future<void> getLichSuKyDuyetVanBanDi(
-      String id,
-      ) async {
+    String id,
+  ) async {
     showLoading();
     final result = await _qLVBRepo.getLichSuKyDuyetVanBanDi(id, id);
     result.when(
@@ -188,9 +182,7 @@ class SignForApprovalDetailDocumentGoCubit extends BaseCubit<DetailDocumentState
       },
     );
   }
-
 }
-
 
 class UnsubscribeDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
   UnsubscribeDetailDocumentGoCubit() : super(DetailDocumentInitial()) {
@@ -201,14 +193,13 @@ class UnsubscribeDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
 
   //lich su huy duyet vb di
   BehaviorSubject<List<LichSuHuyDuyetVanBanDi>> lichSuHuyDuyetVanBanDiSubject =
-  BehaviorSubject();
-
+      BehaviorSubject();
 
   Future<void> getLichSuHuyDuyetVanBanDi(
-      String id,
-      ) async {
+    String id,
+  ) async {
     showLoading();
-    final result = await _qLVBRepo.getLichSuHuyDuyetVanBanDi(id , id);
+    final result = await _qLVBRepo.getLichSuHuyDuyetVanBanDi(id, id);
     result.when(
       success: (res) {
         showContent();

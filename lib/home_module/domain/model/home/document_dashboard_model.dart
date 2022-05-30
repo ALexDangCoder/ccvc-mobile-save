@@ -84,6 +84,7 @@ class DataRow {
   final SelectKey key;
   final Color color;
   final int value;
+
   DataRow(this.key, this.color, this.value);
 }
 

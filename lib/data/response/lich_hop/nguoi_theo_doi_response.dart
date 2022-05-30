@@ -24,7 +24,9 @@ class NguoiTheoDoiLHResponse {
     this.message,
   });
 
-  factory NguoiTheoDoiLHResponse.fromJson(Map<String, dynamic> json,) =>
+  factory NguoiTheoDoiLHResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$NguoiTheoDoiLHResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$NguoiTheoDoiLHResponseToJson(this);
@@ -51,14 +53,17 @@ class NguoiTheoDoiData {
     this.totalPage,
   });
 
-  NguoiTheoDoiModel toModel() =>
-      NguoiTheoDoiModel(data: items?.map((e) => e.toModel()).toList() ?? [],
-          pageIndex: pageIndex,
-          pageSize: pageSize,
-          totalCount: totalCount,
-          totalPage: totalPage,);
+  NguoiTheoDoiModel toModel() => NguoiTheoDoiModel(
+        data: items?.map((e) => e.toModel()).toList() ?? [],
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        totalCount: totalCount,
+        totalPage: totalPage,
+      );
 
-  factory NguoiTheoDoiData.fromJson(Map<String, dynamic> json,) =>
+  factory NguoiTheoDoiData.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$NguoiTheoDoiDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$NguoiTheoDoiDataToJson(this);
@@ -100,8 +105,7 @@ class Items {
     this.userTaoHoId,
   });
 
-  NguoiTheoDoiItem toModel() =>
-      NguoiTheoDoiItem(
+  NguoiTheoDoiItem toModel() => NguoiTheoDoiItem(
         canBoId: canBoId,
         chucVu: chucVu,
         chucVuId: chucVuId,
@@ -111,9 +115,12 @@ class Items {
         tenDonVi: tenDonVi,
         userId: userId,
         userName: userName,
-        userTaoHoId: userTaoHoId,);
+        userTaoHoId: userTaoHoId,
+      );
 
-  factory Items.fromJson(Map<String, dynamic> json,) =>
+  factory Items.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$ItemsFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemsToJson(this);

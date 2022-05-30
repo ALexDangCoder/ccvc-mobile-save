@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/lich_hop/bieu_quyet_hop_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,8 +11,8 @@ class ThemMoiBieuQuyetResponse {
   ThemMoiBieuQuyetResponse(this.data);
 
   factory ThemMoiBieuQuyetResponse.fromJson(
-      Map<String, dynamic> json,
-      ) =>
+    Map<String, dynamic> json,
+  ) =>
       _$ThemMoiBieuQuyetResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThemMoiBieuQuyetResponseToJson(this);
@@ -43,34 +42,35 @@ class ThemMoiBieuQuyetData {
   int? trangThai;
 
   ThemMoiBieuQuyetData(
-      this.id,
-      this.idLichHop,
-      this.loaiBieuQuyet,
-      this.noiDung,
-      this.quyenBieuQuyet,
-      this.thoiGianBatDau,
-      this.thoiGianCapNhat,
-      this.thoiGianKetThuc,
-      this.thoiGianTaoMoi,
-      this.trangThai,);
+    this.id,
+    this.idLichHop,
+    this.loaiBieuQuyet,
+    this.noiDung,
+    this.quyenBieuQuyet,
+    this.thoiGianBatDau,
+    this.thoiGianCapNhat,
+    this.thoiGianKetThuc,
+    this.thoiGianTaoMoi,
+    this.trangThai,
+  );
 
   factory ThemMoiBieuQuyetData.fromJson(
-      Map<String, dynamic> json,
-      ) =>
+    Map<String, dynamic> json,
+  ) =>
       _$ThemMoiBieuQuyetDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThemMoiBieuQuyetDataToJson(this);
 
   BieuQuyetModel todoMain() => BieuQuyetModel(
-    id: id,
-    idLichHop: idLichHop,
-    loaiBieuQuyet: loaiBieuQuyet,
-    noiDung: noiDung,
-    quyenBieuQuyet: quyenBieuQuyet,
-    thoiGianBatDau: thoiGianBatDau,
-    thoiGianCapNhat: thoiGianCapNhat,
-    thoiGianKetThuc: thoiGianKetThuc,
-    thoiGianTaoMoi: thoiGianTaoMoi,
-    trangThai: trangThai,
-  );
+        id: id,
+        idLichHop: idLichHop,
+        loaiBieuQuyet: loaiBieuQuyet,
+        noiDung: noiDung,
+        quyenBieuQuyet: quyenBieuQuyet,
+        thoiGianBatDau: thoiGianBatDau,
+        thoiGianCapNhat: thoiGianCapNhat,
+        thoiGianKetThuc: thoiGianKetThuc,
+        thoiGianTaoMoi: thoiGianTaoMoi,
+        trangThai: trangThai,
+      );
 }

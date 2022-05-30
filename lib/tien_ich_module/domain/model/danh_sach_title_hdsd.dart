@@ -14,6 +14,7 @@ class DataDanhSachTitleHDSD {
     this.hasPreviousPage,
     this.hasNextPage,
   });
+
   DataDanhSachTitleHDSD.empty();
 }
 
@@ -45,5 +46,6 @@ class DanhSachTitleHDSD {
     this.updatedBy,
     this.order,
   });
+
   DanhSachTitleHDSD.empty();
 }

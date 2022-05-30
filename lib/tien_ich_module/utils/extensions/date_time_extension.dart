@@ -20,21 +20,30 @@ extension DateFormatString on DateTime {
     final dateString = DateFormat('dd/MM/yyyy').format(this);
     return dateString;
   }
-  String get toStringDay{
+
+  String get toStringDay {
     final dateString = DateFormat('dd').format(this);
     return dateString;
   }
 
-  String get toStringMonthYear{
-    final dateString = 'Tháng ${DateFormat('M').format(this)} Năm ${DateFormat('yyyy').format(this)}';
+  String get toStringMonthYear {
+    final dateString =
+        'Tháng ${DateFormat('M').format(this)} Năm ${DateFormat('yyyy').format(this)}';
     return dateString;
   }
-  String get toStringMonth_Year{
-    final dateString = 'Tháng ${DateFormat('M').format(this)} - ${DateFormat('yyyy').format(this)}';
+
+  String get toStringMonth_Year {
+    final dateString =
+        'Tháng ${DateFormat('M').format(this)} - ${DateFormat('yyyy').format(this)}';
     return dateString;
   }
+
   String get formatApiLichSu {
     return DateFormat('dd/MM/yyyy | HH:mm:ss').format(this);
+  }
+
+  String get formatApiAmDuong {
+    return DateFormat('EEEE, dd MM, yyyy').format(this);
   }
 
   String get formatDayCalendar {

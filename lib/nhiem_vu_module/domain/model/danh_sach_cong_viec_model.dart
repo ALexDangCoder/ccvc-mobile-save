@@ -137,6 +137,7 @@ extension CheckColor on String {
         return Colors.red;
     }
   }
+
   int statusBox() {
     switch (this) {
       case NhiemVuLowerCase.QUA_HAN:
@@ -158,7 +159,7 @@ extension CheckColor on String {
         return S.current.da_thuc_hien;
       case DANG_THUC_HIEN:
         return S.current.dang_thuc_hien;
-        case CHO_PHAN_XU_LY:
+      case CHO_PHAN_XU_LY:
         return S.current.cho_phan_xu_ly;
       default:
         return '';

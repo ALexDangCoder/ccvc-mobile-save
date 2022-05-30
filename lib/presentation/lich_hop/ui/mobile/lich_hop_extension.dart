@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -20,7 +19,6 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/calendar_tablet/src/table_calendar_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'danh_sach_lich_hop/danh_sach_lich_hop.dart';
 import 'lich_hop_danh_sach_ngay_tuan_thang/lich_hop_theo_danh_sach_ngay.dart';
@@ -113,7 +111,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
             return Text(
               data.startEndWeek,
               style: textNormalCustom(
-                color:  AppTheme.getInstance().colorField(),
+                color: AppTheme.getInstance().colorField(),
                 fontSize: 14.0.textScale(),
                 fontWeight: FontWeight.w500,
               ),
@@ -134,7 +132,7 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
               return Text(
                 dataString,
                 style: textNormalCustom(
-                  color:  AppTheme.getInstance().colorField(),
+                  color: AppTheme.getInstance().colorField(),
                   fontSize: 14.0.textScale(),
                   fontWeight: FontWeight.w500,
                 ),

@@ -30,7 +30,6 @@ class DataDanhSachHDSDResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$DataDanhSachHDSDResponseToJson(this);
 
-
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -64,14 +63,15 @@ class PageDataDanhSachHDSDResponse extends Equatable {
       _$PageDataDanhSachHDSDResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PageDataDanhSachHDSDResponseToJson(this);
-  DataDanhSachTitleHDSD toModel()=>DataDanhSachTitleHDSD(
-    pageIndex:pageIndex,
-    totalPages:totalPages,
-    totalItems:totalItems,
-    pageData:pageData?.map((e) => e.toModel()).toList()??[],
-    hasPreviousPage:hasPreviousPage,
-    hasNextPage:hasNextPage,
-  );
+
+  DataDanhSachTitleHDSD toModel() => DataDanhSachTitleHDSD(
+        pageIndex: pageIndex,
+        totalPages: totalPages,
+        totalItems: totalItems,
+        pageData: pageData?.map((e) => e.toModel()).toList() ?? [],
+        hasPreviousPage: hasPreviousPage,
+        hasNextPage: hasNextPage,
+      );
 
   //todo convert to Model to use
   @override
@@ -125,20 +125,20 @@ class DanhSachHDSDResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$DanhSachHDSDResponseToJson(this);
 
-  DanhSachTitleHDSD toModel()=>DanhSachTitleHDSD(
-    id:id,
-    title:title,
-    topic:topic,
-    topicStr:topicStr,
-    type:type,
-    createdOn:createdOn,
-    createdBy:createdBy,
-    inUsed:inUsed,
-    isDeleted:isDeleted,
-    updatedOn:updatedOn,
-    updatedBy:updatedBy,
-    order:order,
-  );
+  DanhSachTitleHDSD toModel() => DanhSachTitleHDSD(
+        id: id,
+        title: title,
+        topic: topic,
+        topicStr: topicStr,
+        type: type,
+        createdOn: createdOn,
+        createdBy: createdBy,
+        inUsed: inUsed,
+        isDeleted: isDeleted,
+        updatedOn: updatedOn,
+        updatedBy: updatedBy,
+        order: order,
+      );
 
   //todo convert to Model to use
   @override

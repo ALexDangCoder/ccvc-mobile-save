@@ -4,11 +4,12 @@ class TinTucModel {
   int totalPages;
   List<TinTucData> listData;
 
-  TinTucModel(
-      {required this.pageIndex,
-      required this.totalItems,
-      required this.totalPages,
-      required this.listData,});
+  TinTucModel({
+    required this.pageIndex,
+    required this.totalItems,
+    required this.totalPages,
+    required this.listData,
+  });
 }
 
 class TinTucData {

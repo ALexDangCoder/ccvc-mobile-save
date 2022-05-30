@@ -6,13 +6,11 @@ import 'package:ccvc_mobile/home_module/domain/model/home/sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/bloc/chuc_sinh_nhat_bloc.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/bloc/chuc_sinh_nhat_state.dart';
-
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/widgets/page_view_transition.dart';
 import 'package:ccvc_mobile/home_module/widgets/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/home_module/widgets/text_filed/block_textview.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +18,7 @@ const kHeightKeyBoard = 150;
 
 class ThiepChucMungMobileScreen extends StatefulWidget {
   final SinhNhatUserModel sinhNhatUserModel;
+
   const ThiepChucMungMobileScreen({Key? key, required this.sinhNhatUserModel})
       : super(key: key);
 

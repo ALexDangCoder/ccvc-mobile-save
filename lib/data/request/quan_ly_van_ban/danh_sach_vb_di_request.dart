@@ -17,7 +17,7 @@ class DanhSachVBDiRequest {
   @JsonKey(name: 'IsDanhSachDaXuLy')
   final bool? isDanhSachDaXuLy;
   @JsonKey(name: 'TrangThaiFilter')
-  final List<int> ?trangThaiFilter;
+  final List<int>? trangThaiFilter;
   @JsonKey(name: 'Index')
   final int index;
   @JsonKey(name: 'Size')
@@ -25,18 +25,18 @@ class DanhSachVBDiRequest {
   @JsonKey(name: 'KeySearch')
   final String? keySearch;
 
-
   DanhSachVBDiRequest({
-      required this.thoiGianStartFilter,
-      required this.thoiGianEndFilter,
-       this.doKhan,
-       this.isDanhSachChoTrinhKy,
-       this.isDanhSachChoXuLy,
-       this.isDanhSachDaXuLy,
-       this.trangThaiFilter,
-      required this.index,
-      required this.size,
-      this.keySearch,});
+    required this.thoiGianStartFilter,
+    required this.thoiGianEndFilter,
+    this.doKhan,
+    this.isDanhSachChoTrinhKy,
+    this.isDanhSachChoXuLy,
+    this.isDanhSachDaXuLy,
+    this.trangThaiFilter,
+    required this.index,
+    required this.size,
+    this.keySearch,
+  });
 
   factory DanhSachVBDiRequest.fromJson(Map<String, dynamic> json) =>
       _$DanhSachVBDiRequestFromJson(json);

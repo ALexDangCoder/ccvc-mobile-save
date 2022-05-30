@@ -52,9 +52,9 @@ class LichSuThuHoiVanBanDi {
       DocumentDetailRow(
         S.current.thoi_gian,
         thoiGian?.changeToNewPatternDate(
-          DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
-          DateTimeFormat.DATE_DD_MM_YYYY,
-        ) ??
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
             '',
         TypeDocumentDetailRow.text,
       ),

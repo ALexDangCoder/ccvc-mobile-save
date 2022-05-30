@@ -10,26 +10,28 @@ class ItemListBangTinTablet extends StatelessWidget {
   bool isCheck;
   Function() onclick;
 
-  ItemListBangTinTablet(
-      {Key? key,
-        required this.tin,
-        required this.isCheck,
-        required this.onclick,})
-      : super(key: key);
+  ItemListBangTinTablet({
+    Key? key,
+    required this.tin,
+    required this.isCheck,
+    required this.onclick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:isCheck? AppTheme.getInstance().colorField().withOpacity(0.1):backgroundColorApp,
+      color: isCheck
+          ? AppTheme.getInstance().colorField().withOpacity(0.1)
+          : backgroundColorApp,
       // margin: const EdgeInsets.symmetric(vertical: 6),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           onclick();
         },
         child: Row(
           children: [
             if (isCheck)
-               Icon(
+              Icon(
                 Icons.double_arrow,
                 color: AppTheme.getInstance().colorField(),
                 size: 16,
@@ -43,7 +45,9 @@ class ItemListBangTinTablet extends StatelessWidget {
             ),
             Icon(
               Icons.brightness_1,
-              color: isCheck ? AppTheme.getInstance().colorField() : sideTextInactiveColor,
+              color: isCheck
+                  ? AppTheme.getInstance().colorField()
+                  : AppTheme.getInstance().sideTextInactiveColor(),
               size: 12,
             ),
             const SizedBox(
@@ -53,12 +57,13 @@ class ItemListBangTinTablet extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
-
                   tin,
                   style: textNormalCustom(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
-                    color: isCheck ? AppTheme.getInstance().colorField() : infoColor,
+                    color: isCheck
+                        ? AppTheme.getInstance().colorField()
+                        : infoColor,
                   ),
                   softWrap: true,
                   maxLines: 3,

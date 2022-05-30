@@ -12,19 +12,17 @@ import 'package:flutter_svg/svg.dart';
 
 class BaoCaoTabletScreen extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
-  const BaoCaoTabletScreen({Key? key,required this.cubit}) : super(key: key);
+
+  const BaoCaoTabletScreen({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _BaoCaoTabletScreenState createState() => _BaoCaoTabletScreenState();
 }
 
 class _BaoCaoTabletScreenState extends State<BaoCaoTabletScreen> {
-
-
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -66,9 +64,7 @@ class _BaoCaoTabletScreenState extends State<BaoCaoTabletScreen> {
                                 showDiaLog(
                                   context,
                                   showTablet: true,
-                                  funcBtnRight: () {
-
-                                  },
+                                  funcBtnRight: () {},
                                   icon: SvgPicture.asset(
                                     ImageAssets.ic_delete_baocao,
                                   ),

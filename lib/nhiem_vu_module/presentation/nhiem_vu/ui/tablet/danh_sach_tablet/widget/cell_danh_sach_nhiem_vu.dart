@@ -95,7 +95,7 @@ class CellDanhSachNhiemVuTablet extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: textNormalCustom(
-                                color: unselectedLabelColor,
+                                color: color667793,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16.0,
                               ),
@@ -107,7 +107,7 @@ class CellDanhSachNhiemVuTablet extends StatelessWidget {
                                 child: Text(
                                   data.tinhHinhThucHienNoiBo ?? '',
                                   style: textNormalCustom(
-                                    color: unselectedLabelColor,
+                                    color: color667793,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w400,
                                   ),

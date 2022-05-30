@@ -8,10 +8,13 @@ enum PermissionType { QLVB, PAKN, VPDT, QLNV }
 class HiveLocalHome {
   static const USER_INFO = 'USER_INFO';
   static const LIST_PERMISSION = 'LIST_PERMISSION';
+
   // static late Box<DataUser> _userBox;
   static late Box<String> _tagKey;
+
   // static late Box<PermissionApp> _listPermission;
   static const TAG_KEY = 'TAG_KEY';
+
   static Future<void> init() async {
     // Hive.registerAdapter(DataUserAdapter());
     // Hive.registerAdapter(UserInformationAdapter());

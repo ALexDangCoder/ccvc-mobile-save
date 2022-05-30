@@ -2,10 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'tinh_huyen_xa_request.g.dart';
+
 @JsonSerializable()
 class TinhSelectRequest extends Equatable {
   int? pageIndex;
   int? pageSize;
+
   TinhSelectRequest({
     this.pageIndex,
     this.pageSize,
@@ -42,6 +44,7 @@ class HuyenSelectRequest extends Equatable {
   @override
   List<Object?> get props => [];
 }
+
 @JsonSerializable()
 class XaSelectRequest extends Equatable {
   int? pageIndex;
@@ -63,6 +66,7 @@ class XaSelectRequest extends Equatable {
   @override
   List<Object?> get props => [];
 }
+
 @JsonSerializable()
 class DatNuocSelectRequest extends Equatable {
   int? pageIndex;

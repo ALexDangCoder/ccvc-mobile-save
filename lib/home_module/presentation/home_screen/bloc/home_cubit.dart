@@ -42,11 +42,13 @@ class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
 
   HomeRepository get homeRep => Get.find();
+
   AccountRepository get accountRp => Get.find();
   DataUser? dataUser = HiveLc.HiveLocal.getDataUser();
   String id = '';
   final BehaviorSubject<UserInformationModel> _getInforUser =
       BehaviorSubject<UserInformationModel>();
+
   Stream<UserInformationModel> get getInforUser => _getInforUser.stream;
   final BehaviorSubject<List<WidgetModel>> _getConfigWidget =
       BehaviorSubject<List<WidgetModel>>();
@@ -54,9 +56,11 @@ class HomeCubit extends BaseCubit<HomeState> {
       BehaviorSubject<WidgetType?>();
   final BehaviorSubject<List<TinBuonModel>> _tinhHuongKhanCap =
       BehaviorSubject<List<TinBuonModel>>();
+
   // final BehaviorSubject<DataUser> _userInformation =
   //     BehaviorSubject<DataUser>();
   final BehaviorSubject<bool> _showAddTag = BehaviorSubject<bool>();
+
   // final BehaviorSubject<DataUser> _getUserInformation =
   //     BehaviorSubject<DataUser>();
   final BehaviorSubject<DateModel> _getDate = BehaviorSubject<DateModel>();
@@ -173,6 +177,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   // Stream<DataUser> get getUserInformation => _getUserInformation.stream;
 
   Stream<List<WidgetModel>> get getConfigWidget => _getConfigWidget.stream;
+
   //
   // Stream<DataUser> get userInformation => _userInformation;
 
@@ -913,7 +918,8 @@ class TinhHinhXuLyCubit extends HomeCubit with SelectKeyDialog {
 class VanBanCubit extends HomeCubit with SelectKeyDialog {
   final BehaviorSubject<List<DocumentModel>> _getDanhSachVb =
       BehaviorSubject<List<DocumentModel>>();
- List<SelectKey> listKey = [];
+  List<SelectKey> listKey = [];
+
   VanBanCubit() {
     listKey = listSelectKey();
     selectKey = listKey.first;
@@ -1207,7 +1213,8 @@ class YKienNguoiDanCubit extends HomeCubit with SelectKeyDialog {
         permissionTxt: 'XuLyPAKNChoPhanCongXuLyCapNhat')) {
       listSelect.add(SelectKey.CHO_PHAN_CONG_XU_LY);
     }
-    if (HiveLc.HiveLocal.checkPermissionApp(permissionTxt: 'XuLyPAKNCanXuLyXem')) {
+    if (HiveLc.HiveLocal.checkPermissionApp(
+        permissionTxt: 'XuLyPAKNCanXuLyXem')) {
       listSelect.add(SelectKey.CHO_XU_LY);
       listSelect.add(SelectKey.DANG_XU_LY);
     }
@@ -1227,6 +1234,7 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
       _getListLichLamViec.stream;
   final userId = HiveLc.HiveLocal.getDataUser()?.userId ?? '';
   SelectKey selectKey = SelectKey.LICH_CUA_TOI;
+
   void setChangeKey(SelectKey key) {
     selectKey = key;
     switch (key) {
@@ -1263,16 +1271,15 @@ class LichLamViecCubit extends HomeCubit with SelectKeyDialog {
     result.when(
       success: (res) {
         final listResult = <CalendarMeetingModel>[];
-          int index = 0;
-          for (final vl in res) {
-            listResult.add(vl);
-            index++;
-            if (index >= 20) {
-              break;
-            }
+        int index = 0;
+        for (final vl in res) {
+          listResult.add(vl);
+          index++;
+          if (index >= 20) {
+            break;
           }
-          _getListLichLamViec.sink.add(listResult);
-
+        }
+        _getListLichLamViec.sink.add(listResult);
       },
       error: (err) {},
     );

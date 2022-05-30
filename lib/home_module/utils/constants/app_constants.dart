@@ -1,4 +1,3 @@
-
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -6,8 +5,6 @@ enum ServerType { DEV, QA, STAGING, PRODUCT }
 enum LoadingType { REFRESH, LOAD_MORE }
 
 enum CompleteType { SUCCESS, ERROR }
-
-
 
 enum AuthMode { LOGIN, REGISTER }
 
@@ -78,7 +75,6 @@ const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
 const String CHO_XU_LY = 'CHO_XU_LY';
-
 
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
@@ -170,7 +166,6 @@ class NhiemVuStatus {
   static const CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
   static const CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
   static const DANG_THUC_HIEN = 'DANG_THUC_HIEN';
-
 }
 
 class DateFormatApp {
@@ -181,6 +176,7 @@ class DateFormatApp {
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
 }
-class PermissionConst{
+
+class PermissionConst {
   static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }

@@ -42,8 +42,6 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
     });
   }
 
-
-
   void findGroupExpanded() {
     if (groupProvider != null) {
       groupProvider!.validator.addAll({key: widget.initExpand});
@@ -109,10 +107,26 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
             children: [
               Flexible(child: widget.header),
               if (widget.isShowIcon)
-                if(widget.isPadingIcon==true)
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: AnimatedBuilder(
+                if (widget.isPadingIcon == true)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: AnimatedBuilder(
+                      animation: expandController,
+                      builder: (context, _) {
+                        return expandController.value == 0
+                            ? const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AqiColor,
+                              )
+                            : const Icon(
+                                Icons.keyboard_arrow_up_rounded,
+                                color: AqiColor,
+                              );
+                      },
+                    ),
+                  )
+                else
+                  AnimatedBuilder(
                     animation: expandController,
                     builder: (context, _) {
                       return expandController.value == 0
@@ -124,22 +138,6 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
                               Icons.keyboard_arrow_up_rounded,
                               color: AqiColor,
                             );
-                    },
-                  ),
-                )
-                  else
-                  AnimatedBuilder(
-                    animation: expandController,
-                    builder: (context, _) {
-                      return expandController.value == 0
-                          ? const Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        color: AqiColor,
-                      )
-                          : const Icon(
-                        Icons.keyboard_arrow_up_rounded,
-                        color: AqiColor,
-                      );
                     },
                   )
               else

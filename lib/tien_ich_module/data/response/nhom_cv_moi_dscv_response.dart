@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -64,8 +63,6 @@ class ThemNhomCVMoiDSCVResponse extends Equatable {
       _$ThemNhomCVMoiDSCVResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThemNhomCVMoiDSCVResponseToJson(this);
-
-
 
   //todo convert to Model to use
   @override

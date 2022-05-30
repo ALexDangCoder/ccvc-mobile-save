@@ -3,6 +3,7 @@ import 'package:rxdart/rxdart.dart';
 
 class ExpandGroup extends StatefulWidget {
   final Widget child;
+
   const ExpandGroup({Key? key, required this.child}) : super(key: key);
 
   @override
@@ -12,6 +13,7 @@ class ExpandGroup extends StatefulWidget {
 class _ExpandGroupState extends State<ExpandGroup> {
   final Map<UniqueKey, bool> validator = {};
   final _expand = BehaviorSubject<bool>();
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -36,6 +38,7 @@ class GroupProvider extends InheritedWidget {
   final Map<UniqueKey, bool> validator;
   final Stream<bool> stream;
   final Function() onChange;
+
   const GroupProvider({
     Key? key,
     required this.validator,
@@ -43,6 +46,7 @@ class GroupProvider extends InheritedWidget {
     required Widget child,
     required this.onChange,
   }) : super(key: key, child: child);
+
   void expand(UniqueKey keyExpand) {
     validator.forEach((key, value) {
       if (value == true && key != keyExpand) {
@@ -50,7 +54,7 @@ class GroupProvider extends InheritedWidget {
       }
     });
 
-      validator[keyExpand] = !(validator[keyExpand] ?? false);
+    validator[keyExpand] = !(validator[keyExpand] ?? false);
 
     onChange();
   }

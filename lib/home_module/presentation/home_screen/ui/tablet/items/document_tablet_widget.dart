@@ -1,4 +1,3 @@
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_di_tablet.dart';
 import 'package:ccvc_mobile/presentation/incoming_document/bloc/incoming_document_cubit.dart';
@@ -13,8 +12,6 @@ import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/scroll_bar_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
-import '/home_module/utils/constants/app_constants.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/utils/enum_ext.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
@@ -22,6 +19,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class DocumentTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const DocumentTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -31,6 +29,7 @@ class DocumentTabletWidget extends StatefulWidget {
 
 class _DocumentWidgetState extends State<DocumentTabletWidget> {
   final VanBanCubit _vanBanCubit = VanBanCubit();
+
   @override
   void initState() {
     // TODO: implement initState

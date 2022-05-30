@@ -146,26 +146,28 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             final data = row.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[...data
-                  .map(
-                    (e) => GestureDetector(
-                      onTap: () async {
-                        await handleSaveFile(
-                          url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                          name: e.ten ?? '',
-                        );
-                      },
-                      child: Text(
-                        e.ten ?? '',
-                        style: textNormalCustom(
-                          color: choXuLyColor,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0.textScale(),
+              children: <Widget>[
+                ...data
+                    .map(
+                      (e) => GestureDetector(
+                        onTap: () async {
+                          await handleSaveFile(
+                            url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
+                            name: e.ten ?? '',
+                          );
+                        },
+                        child: Text(
+                          e.ten ?? '',
+                          style: textNormalCustom(
+                            color: choXuLyColor,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.0.textScale(),
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList()],
+                    )
+                    .toList()
+              ],
             );
           } else {
             return const SizedBox.shrink();

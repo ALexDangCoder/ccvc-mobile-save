@@ -51,10 +51,12 @@ class GioHoangDaoResponse extends Equatable {
       _$GioHoangDaoResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$GioHoangDaoResponseToJson(this);
-  GioHoangDao toModel()=>GioHoangDao(
-    ten:ten,
-    gio:gio,
-  );
+
+  GioHoangDao toModel() => GioHoangDao(
+        ten: ten,
+        gio: gio,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -76,10 +78,12 @@ class GioHacDaoResponse extends Equatable {
       _$GioHacDaoResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$GioHacDaoResponseToJson(this);
-  GioHacDao toModel()=> GioHacDao(
-    ten:ten,
-    gio:gio,
-  );
+
+  GioHacDao toModel() => GioHacDao(
+        ten: ten,
+        gio: gio,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -147,25 +151,26 @@ class LichAmDuongResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$LichAmDuongResponseToJson(this);
 
-  LichAmDuong toModel()=>LichAmDuong(
-    gioHoangDao:gioHoangDao?.map((e) => e.toModel()).toList(),
-    gioHacDao:gioHacDao?.map((e) => e.toModel()).toList(),
-    ngayAmLich:ngayAmLich?.toModel(),
-    ngayAmLicgStr:ngayAmLicgStr,
-    tietKhi:tietKhi,
-    nguHanh:nguHanh?.toModel(),
-    truc:truc,
-    chiTietTruc:chiTietTruc?.map((e) => e.toModel()).toList(),
-    thu:thu,
-    tuoiXungTheoNgay:tuoiXungTheoNgay?.map((e) => e.toModel()).toList(),
-    tuoiXungTheoThang:tuoiXungTheoThang?.map((e) => e.toModel()).toList(),
-    ngayBachKy:ngayBachKy?.map((e) => e.toModel()).toList(),
-    thapNhiBatTu:thapNhiBatTu?.toModel(),
-    thapNhiKienTru:thapNhiKienTru?.toModel(),
-    saoTot:saoTot?.map((e) => e.toModel()).toList(),
-    saoXau:saoXau?.map((e) => e.toModel()).toList(),
-    gioLyThuanPhong:gioLyThuanPhong?.map((e) => e.toModel()).toList(),
-  );
+  LichAmDuong toModel() => LichAmDuong(
+        gioHoangDao: gioHoangDao?.map((e) => e.toModel()).toList(),
+        gioHacDao: gioHacDao?.map((e) => e.toModel()).toList(),
+        ngayAmLich: ngayAmLich?.toModel(),
+        ngayAmLicgStr: ngayAmLicgStr,
+        tietKhi: tietKhi,
+        nguHanh: nguHanh?.toModel(),
+        truc: truc,
+        chiTietTruc: chiTietTruc?.map((e) => e.toModel()).toList(),
+        thu: thu,
+        tuoiXungTheoNgay: tuoiXungTheoNgay?.map((e) => e.toModel()).toList(),
+        tuoiXungTheoThang: tuoiXungTheoThang?.map((e) => e.toModel()).toList(),
+        ngayBachKy: ngayBachKy?.map((e) => e.toModel()).toList(),
+        thapNhiBatTu: thapNhiBatTu?.toModel(),
+        thapNhiKienTru: thapNhiKienTru?.toModel(),
+        saoTot: saoTot?.map((e) => e.toModel()).toList(),
+        saoXau: saoXau?.map((e) => e.toModel()).toList(),
+        gioLyThuanPhong: gioLyThuanPhong?.map((e) => e.toModel()).toList(),
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -227,23 +232,24 @@ class NgayAmLichResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$NgayAmLichResponseToJson(this);
 
-  NgayAmLich toModel()=>NgayAmLich(
-    year:year,
-    month:month,
-    isLeapMonth:isLeapMonth,
-    day:day,
-    solarDate:solarDate,
-    isTermBeginThisDay:isTermBeginThisDay,
-    solarTermIndex:solarTermIndex,
-    yearName:yearName,
-    monthName:monthName,
-    monthShortName:monthShortName,
-    monthLongName:monthLongName,
-    monthFullName:monthFullName,
-    dayName:dayName,
-    solarTerm:solarTerm,
-    fullDayInfo:fullDayInfo,
-  );
+  NgayAmLich toModel() => NgayAmLich(
+        year: year,
+        month: month,
+        isLeapMonth: isLeapMonth,
+        day: day,
+        solarDate: solarDate,
+        isTermBeginThisDay: isTermBeginThisDay,
+        solarTermIndex: solarTermIndex,
+        yearName: yearName,
+        monthName: monthName,
+        monthShortName: monthShortName,
+        monthLongName: monthLongName,
+        monthFullName: monthFullName,
+        dayName: dayName,
+        solarTerm: solarTerm,
+        fullDayInfo: fullDayInfo,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -274,13 +280,15 @@ class NguHanhResponse extends Equatable {
       _$NguHanhResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$NguHanhResponseToJson(this);
-  NguHanh toModel()=>NguHanh(
-    hanh:hanh,
-    sao:sao,
-    truc:truc,
-    mota:mota,
-    kieuNgay:kieuNgay,
-  );
+
+  NguHanh toModel() => NguHanh(
+        hanh: hanh,
+        sao: sao,
+        truc: truc,
+        mota: mota,
+        kieuNgay: kieuNgay,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -305,11 +313,13 @@ class ChiTietTrucResponse extends Equatable {
       _$ChiTietTrucResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChiTietTrucResponseToJson(this);
-  ChiTietTruc toModel()=>ChiTietTruc(
-    nenLam:nenLam,
-    khongNenLam:khongNenLam,
-    thongTinThem:thongTinThem,
-  );
+
+  ChiTietTruc toModel() => ChiTietTruc(
+        nenLam: nenLam,
+        khongNenLam: khongNenLam,
+        thongTinThem: thongTinThem,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -335,11 +345,12 @@ class TuoiXungTheoNgayResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$TuoiXungTheoNgayResponseToJson(this);
 
-  TuoiXungTheoNgay toModel()=>TuoiXungTheoNgay(
-    tenTuoi:tenTuoi,
-    nguHanh:nguHanh,
-    chi:chi,
-  );
+  TuoiXungTheoNgay toModel() => TuoiXungTheoNgay(
+        tenTuoi: tenTuoi,
+        nguHanh: nguHanh,
+        chi: chi,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -364,11 +375,12 @@ class TuoiXungTheoThangResponse extends Equatable {
       _$TuoiXungTheoThangResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$TuoiXungTheoThangResponseToJson(this);
-  TuoiXungTheoThang toModel()=>TuoiXungTheoThang(
-    tenTuoi:tenTuoi,
-    nguHanh:nguHanh,
-    chi:chi,
-  );
+
+  TuoiXungTheoThang toModel() => TuoiXungTheoThang(
+        tenTuoi: tenTuoi,
+        nguHanh: nguHanh,
+        chi: chi,
+      );
 
   //todo convert to Model to use
   @override
@@ -389,11 +401,12 @@ class NgayBachKyResponse extends Equatable {
     this.moTa,
     this.totXau,
   });
-  NgayBachKy toModel()=>NgayBachKy(
-    ten:ten,
-    moTa:moTa,
-    totXau:totXau,
-  );
+
+  NgayBachKy toModel() => NgayBachKy(
+        ten: ten,
+        moTa: moTa,
+        totXau: totXau,
+      );
 
   factory NgayBachKyResponse.fromJson(Map<String, dynamic> json) =>
       _$NgayBachKyResponseFromJson(json);
@@ -431,13 +444,14 @@ class ThapNhiBatTuResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$ThapNhiBatTuResponseToJson(this);
 
-  ThapNhiBatTu toModel()=>ThapNhiBatTu(
-    tinhMoc:tinhMoc,
-    totXau:totXau,
-    nenLam:nenLam,
-    kieng:kieng,
-    ngoaiLe:ngoaiLe,
-  );
+  ThapNhiBatTu toModel() => ThapNhiBatTu(
+        tinhMoc: tinhMoc,
+        totXau: totXau,
+        nenLam: nenLam,
+        kieng: kieng,
+        ngoaiLe: ngoaiLe,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -462,11 +476,13 @@ class ThapNhiKienTruResponse extends Equatable {
       _$ThapNhiKienTruResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThapNhiKienTruResponseToJson(this);
-  ThapNhiKienTru toModel()=>ThapNhiKienTru(
-    truc:truc,
-    nenLam:nenLam,
-    khongNenLam:khongNenLam,
-  );
+
+  ThapNhiKienTru toModel() => ThapNhiKienTru(
+        truc: truc,
+        nenLam: nenLam,
+        khongNenLam: khongNenLam,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -488,10 +504,12 @@ class SaoTotResponse extends Equatable {
       _$SaoTotResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SaoTotResponseToJson(this);
-  SaoTot toModel()=>SaoTot(
-    tenSao:tenSao,
-    thongTin:thongTin,
-  );
+
+  SaoTot toModel() => SaoTot(
+        tenSao: tenSao,
+        thongTin: thongTin,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];
@@ -513,10 +531,11 @@ class SaoXauResponse extends Equatable {
       _$SaoXauResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SaoXauResponseToJson(this);
-  SaoXau toModel()=>SaoXau(
-    tenSao:tenSao,
-    thongTin:thongTin,
-  );
+
+  SaoXau toModel() => SaoXau(
+        tenSao: tenSao,
+        thongTin: thongTin,
+      );
 
   //todo convert to Model to use
   @override
@@ -539,10 +558,12 @@ class GioLyThuanPhongResponse extends Equatable {
       _$GioLyThuanPhongResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$GioLyThuanPhongResponseToJson(this);
-  GioLyThuanPhong toModel()=>GioLyThuanPhong(
-    ten:ten,
-    moTa:moTa,
-  );
+
+  GioLyThuanPhong toModel() => GioLyThuanPhong(
+        ten: ten,
+        moTa: moTa,
+      );
+
   //todo convert to Model to use
   @override
   List<Object?> get props => [];

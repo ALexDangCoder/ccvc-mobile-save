@@ -263,9 +263,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                   shape: BoxShape.circle,
                 ),
                 child: Image.network(
-                  avatar.isNotEmpty
-                      ? avatar
-                      : AVATAR_DEFAULT,
+                  avatar.isNotEmpty ? avatar : AVATAR_DEFAULT,
                   width: sizeImage,
                   height: sizeImage,
                   fit: BoxFit.cover,

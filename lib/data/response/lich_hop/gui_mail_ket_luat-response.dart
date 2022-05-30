@@ -16,6 +16,6 @@ class GuiMailKetLuanHopResponse {
   Map<String, dynamic> toJson() => _$GuiMailKetLuanHopResponseToJson(this);
 
   GuiMailKetLuatHopModel toModel() => GuiMailKetLuatHopModel(
-    code: code,
-  );
+        code: code,
+      );
 }

@@ -6,12 +6,14 @@ import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_hoang_dao_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/date_picker_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich_am_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/provider_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/calendar/table_calendar/table_calendar_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_date_picker.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class LichAmDuongMobile extends StatefulWidget {
 
 class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
   late LichAmDuongCubit cubit;
+  bool isCheckOnTap = true;
 
   @override
   void initState() {
@@ -38,21 +41,12 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
+        isCheckTabBar: true,
         actions: [
           IconButton(
             onPressed: () {
-              CupertinoRoundedDatePickerWidget.show(
-                context,
-                minimumYear: 1990,
-                maximumYear: 2060,
-                initialDate: DateTime.now(),
-                onTap: (dateTime) async {
-                  await cubit.getLichAmDuong(dateTime.formatApiDDMMYYYY);
-                  cubit.selectTime = dateTime;
-                  cubit.changeDateTimeSubject.add(dateTime);
-                  Navigator.pop(context);
-                },
-              );
+              isCheckOnTap = !isCheckOnTap;
+              setState(() {});
             },
             icon: Container(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -67,6 +61,70 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
           onPressed: () => {Navigator.pop(context)},
           icon: SvgPicture.asset(
             ImageAssets.icBack,
+          ),
+        ),
+        child: GestureDetector(
+          onTap: () {
+            showBottomSheetCustom(
+              context,
+              title: S.current.chon_ngay,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 300,
+                    child: FlutterRoundedCupertinoDatePickerWidgetAmDuong(
+                      onDateTimeChanged: (value) {
+                        cubit.time = value;
+                      },
+                      textStyleDate: titleAppbar(),
+                      initialDateTime: DateTime.now(),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 24,
+                      bottom: 32,
+                    ),
+                    child: DoubleButtonBottom(
+                      title2: S.current.chon,
+                      title1: S.current.dong,
+                      onPressed2: () async {
+                        await cubit.getLichAmDuong(
+                          cubit.time.formatApiDDMMYYYY,
+                        );
+                        cubit.selectTime = cubit.time;
+                        cubit.changeDateTimeSubject.add(cubit.time);
+                        Navigator.pop(context);
+                      },
+                      onPressed1: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${S.current.thang} ${DateTime.now().month} ',
+                style: textNormalCustom(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w500,
+                  color: textTitle,
+                ),
+              ),
+              Text(
+                '- ${DateTime.now().year}',
+                style: textNormalCustom(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w500,
+                  color: textTitle,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -117,8 +175,8 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                               Text(
                                 '${S.current.tiet_khi}:',
                                 style: textNormalCustom(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
                                   color: AqiColor,
                                 ),
                               ),
@@ -129,7 +187,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                                   '${snapshot.data?.tietKhi}',
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w400,
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                             ],
@@ -144,6 +202,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                 stream: cubit.changeDateTimeSubject.stream,
                 builder: (context, snapshot) {
                   return TableCalendarWidget(
+                    isFomatMonth: isCheckOnTap,
                     onChange: (DateTime start, DateTime end, selectDay) {
                       cubit.startDate = start.formatApiDDMMYYYY;
                       cubit.getLichAmDuong(cubit.startDate);
@@ -156,6 +215,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                     ) {},
                     selectDay: (day) => cubit.selectDay(day),
                     cubit: cubit,
+                    isCheckLunar: true,
                   );
                 },
               ),

@@ -14,6 +14,7 @@ import '/home_module/widgets/chart/base_pie_chart.dart';
 
 class VanBanDonViWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const VanBanDonViWidget({
     required this.homeItemType,
     Key? key,
@@ -24,8 +25,9 @@ class VanBanDonViWidget extends StatefulWidget {
 }
 
 class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
-   // late HomeCubit cubit;
-   final VanBanDonViCubit _vanBanDonViCubit = VanBanDonViCubit();
+  // late HomeCubit cubit;
+  final VanBanDonViCubit _vanBanDonViCubit = VanBanDonViCubit();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -41,7 +43,7 @@ class _VanBanDonViWidgetState extends State<VanBanDonViWidget> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-     // cubit = HomeProvider.of(context).homeCubit;
+    // cubit = HomeProvider.of(context).homeCubit;
   }
 
   @override

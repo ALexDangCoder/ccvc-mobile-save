@@ -42,11 +42,13 @@ class PreContainerWidget extends StatelessWidget {
                   SvgPicture.asset(ImageAssets.ic_three_dot_doc),
               ],
             ),
-
           ),
-          if (showSubTitle) const SizedBox() else Container(
-            margin: EdgeInsets.only(top: 6, bottom: 20),
-          ),
+          if (showSubTitle)
+            const SizedBox()
+          else
+            Container(
+              margin: EdgeInsets.only(top: 6, bottom: 20),
+            ),
           child,
         ],
       ),

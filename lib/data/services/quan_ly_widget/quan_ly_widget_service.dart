@@ -1,5 +1,3 @@
-
-import 'package:ccvc_mobile/data/request/quan_li_widget/quan_ly_widget_request.dart';
 import 'package:ccvc_mobile/data/response/quan_li_widget/quan_li_widget_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
@@ -23,5 +21,6 @@ abstract class QuanLyWidgetClient {
   // Future<String> updateListWidget( @Body() QuanLyWidgetRequest widgetRequest);
 
   @PUT(ApiConstants.UPDATE_LIST_WIDGET)
-  Future<String> updateListWidget(@Field('widgetConfigData') String widgetRequest);
+  Future<String> updateListWidget(
+      @Field('widgetConfigData') String widgetRequest);
 }

@@ -12,7 +12,6 @@ class ThemYKienRequest {
   ThemYKienRequest(
       {this.content, this.phienHopId, this.scheduleOpinionId, this.scheduleId});
 
-
   factory ThemYKienRequest.fromJson(Map<String, dynamic> json) =>
       _$ThemYKienRequestFromJson(json);
 

@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -13,6 +12,7 @@ import '/home_module/utils/constants/image_asset.dart';
 
 class InfoUserWidget extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
+
   const InfoUserWidget({
     Key? key,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
@@ -36,7 +36,7 @@ class InfoUserWidget extends StatelessWidget {
                     text: TextSpan(
                       text: '${S.current.hello}, ',
                       style: textNormal(
-                       textTitle,
+                        textTitle,
                         16.0.textScale(),
                       ),
                       children: <TextSpan>[

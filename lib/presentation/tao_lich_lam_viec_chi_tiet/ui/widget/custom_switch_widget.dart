@@ -22,17 +22,22 @@ class CustomSwitchWidget extends StatefulWidget {
 
 class _CustomSwitchWidgetState extends State<CustomSwitchWidget> {
   late bool value;
+
   @override
   void initState() {
     super.initState();
     value = widget.value;
   }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(S.current.cong_khai_lich,style: textNormal(titleColumn, 16.0.textScale()),),
+        Text(
+          S.current.cong_khai_lich,
+          style: textNormal(titleColumn, 16.0.textScale()),
+        ),
         FlutterSwitchWidget(
           height: 24,
           width: 42,
@@ -42,7 +47,7 @@ class _CustomSwitchWidgetState extends State<CustomSwitchWidget> {
           inactiveColor: borderColor,
           activeColor: AppTheme.getInstance().colorField(),
           value: value,
-          onToggle: (v){
+          onToggle: (v) {
             setState(() {
               value = v;
             });

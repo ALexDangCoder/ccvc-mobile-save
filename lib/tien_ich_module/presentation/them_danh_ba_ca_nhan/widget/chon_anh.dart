@@ -1,28 +1,30 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AvatarDanhBa extends StatefulWidget {
-  const AvatarDanhBa({
-    Key? key,
-  }) : super(key: key);
+  final FToast toast;
+  final  DanhBaDienTuCubit cubit;
+  const AvatarDanhBa({Key? key, required this.toast , required this.cubit}) : super(key: key);
 
   @override
   State<AvatarDanhBa> createState() => _AvatarDanhBaState();
 }
 
 class _AvatarDanhBaState extends State<AvatarDanhBa> {
-  final DanhBaDienTuCubit cubit = DanhBaDienTuCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +36,8 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
             context,
             S.current.anh_dai_dien,
             () async {
-              await upLoadImg(context, 1);
+              await upLoadImg(context, 1, widget.toast);
             },
-            '',
-            true,
           ),
         ],
       ),
@@ -48,7 +48,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
             context,
             S.current.anh_dai_dien,
             () async {
-              await upLoadImg(context, 1);
+              await upLoadImg(context, 1, widget.toast);
             },
             '',
             true,
@@ -58,15 +58,32 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
     );
   }
 
-  Future<void> upLoadImg(BuildContext context, int loai) async {
-    final _path = await cubit.pickAvatar();
-    if (_path.isNotEmpty) {
-      cubit.anhDanhBaCaNhan.sink.add(_path);
+  Future<void> upLoadImg(
+    BuildContext context,
+    int loai,
+    FToast toast,
+  ) async {
+    final _path = await widget.cubit.pickAvatar();
+    if (_path.path.isNotEmpty) {
+      if (_path.size > 15000000) {
+        toast.showToast(
+          child: ShowToast(
+            text: S.current.dung_luong_toi_da,
+          ),
+          gravity: ToastGravity.BOTTOM,
+        );
+      } else {
+        widget.cubit.anhDanhBaCaNhan.sink.add(_path);
+        await widget.cubit.uploadFiles(_path.path);
+      }
     } else {}
   }
 
-  Widget pickAnhDaiDien(BuildContext context, String text, Function() onTap,
-      String url, bool isAvatarUser) {
+  Widget pickAnhDaiDien(
+    BuildContext context,
+    String text,
+    Function() onTap,
+  ) {
     return Column(
       children: [
         GestureDetector(
@@ -90,53 +107,33 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                     ),
                   ],
                 ),
-                child: StreamBuilder<String>(
-                  stream: cubit.anhDanhBaCaNhan,
+                child: StreamBuilder<ModelAnh>(
+                  stream: widget.cubit.anhDanhBaCaNhan,
                   builder: (context, snapshot) {
-                    final _data = snapshot.data ?? '';
-                    if (_data.isEmpty) {
+                    if (!snapshot.hasData) {
                       return ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: isAvatarUser
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset(ImageAssets.icImage),
-                                    spaceH6,
-                                    Text(
-                                      S.current.them,
-                                      style: tokenDetailAmount(
-                                        fontSize: 14,
-                                        color: AqiColor,
-                                      ),
-                                    ),
-                                  ],
+                          borderRadius: BorderRadius.circular(12),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(ImageAssets.icImage),
+                                spaceH6,
+                                Text(
+                                  S.current.them,
+                                  style: tokenDetailAmount(
+                                    fontSize: 14,
+                                    color: AppTheme.getInstance().colorField(),
+                                  ),
                                 ),
-                              )
-                            : CachedNetworkImage(
-                                imageUrl:
-                                    'https://vcdn-vnexpress.vnecdn.net/2021/11/20/Co-Moon-Nguyen-6518-1637375803.jpg',
-                                imageBuilder: (context, imageProvider) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(2.0),
-                                      ),
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: imageProvider,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                      );
+                              ],
+                            ),
+                          ));
                     } else {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image.file(
-                          File(_data),
+                          File(snapshot.data?.path ?? ''),
                           fit: BoxFit.cover,
                         ),
                       );
@@ -176,11 +173,10 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                   ),
                 ],
               ),
-              child: StreamBuilder<String>(
-                stream: cubit.anhDanhBaCaNhan,
+              child: StreamBuilder<ModelAnh>(
+                stream: widget.cubit.anhDanhBaCaNhan,
                 builder: (context, snapshot) {
-                  final _data = snapshot.data ?? '';
-                  if (_data.isEmpty) {
+                  if (!snapshot.hasData) {
                     return ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Column(
@@ -201,7 +197,7 @@ class _AvatarDanhBaState extends State<AvatarDanhBa> {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.file(
-                        File(_data),
+                        File(snapshot.data?.path ?? ''),
                         fit: BoxFit.cover,
                       ),
                     );

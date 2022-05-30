@@ -20,6 +20,7 @@ import '/presentation/webview/web_view_screen.dart';
 
 class PressSocialNetWork extends StatefulWidget {
   final WidgetType homeItemType;
+
   const PressSocialNetWork({Key? key, required this.homeItemType})
       : super(key: key);
 

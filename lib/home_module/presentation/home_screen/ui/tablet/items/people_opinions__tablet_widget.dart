@@ -16,6 +16,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class PeopleOpinionsTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const PeopleOpinionsTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 

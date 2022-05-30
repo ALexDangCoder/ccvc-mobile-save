@@ -1,9 +1,8 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:flutter/material.dart';
 
 class DonViLuongModel {
   String? Id;
@@ -75,19 +74,14 @@ class DonViLuongModel {
 
   Color vaiTroColor() {
     final vaiTroParseVn = vaiTro?.vietNameseParse().toLowerCase();
-    switch (vaiTroParseVn) {
-      case 'chu tri':
+    switch (vaiTro) {
+      case 'Chủ trì':
         return nguoiChuTriColor;
-      case 'phoi hop':
+      case 'Phối hợp':
         return phoiHopColor;
-      case 'nhan de biet':
+      case 'Nhận để biết':
         return nhanDeBietColor;
     }
     return Colors.black;
-  }
-
-  bool isRoot() {
-
-    return vaiTro == 'ROOT';
   }
 }

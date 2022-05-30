@@ -14,6 +14,7 @@ import '/home_module/widgets/chart/base_pie_chart.dart';
 
 class VanBanDonViWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const VanBanDonViWidget({
     required this.homeItemType,
     Key? key,

@@ -96,7 +96,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -146,22 +146,21 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             final data = row.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ...data
-                    .map(
-                      (e) => GestureDetector(
-                        onTap: () async {
-                          await handleSaveFile(
-                            url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                            name: e.ten ?? '',
-                          );
-                        },
-                        child: Text(
-                          e.ten ?? '',
-                          style: textNormalCustom(
-                            color: choXuLyColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0.textScale(),
+              children: <Widget>[...data
+                  .map(
+                    (e) => GestureDetector(
+                      onTap: () async {
+                        await handleSaveFile(
+                          url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
+                          name: e.ten ?? '',
+                        );
+                      },
+                      child: Text(
+                        e.ten ?? '',
+                        style: textNormalCustom(
+                          color: color5A8DEE,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
                           ),
                         ),
                       ),
@@ -228,7 +227,7 @@ extension StatusChiTietVanBan on StatusVanBan {
       case StatusVanBan.CHO_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
           changeTextColor: changeTextColor,
         );
       case StatusVanBan.DANG_XU_LY:

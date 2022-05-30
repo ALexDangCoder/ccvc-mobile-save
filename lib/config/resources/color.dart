@@ -87,7 +87,7 @@ const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const shadowColor = Color(0xff6262eb);
-const choXuLyColor = Color(0xff5A8DEE);
+const color5A8DEE = Color(0xff5A8DEE);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -118,8 +118,8 @@ const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
 const xamColor = Color(0xffBAA59F);
-const nhiemVuBoColor = Color(0xff0A45B9);
-const nhiemDonViColor = Color(0xff1CE2BF);
+const color0A45B9 = Color(0xff0A45B9);
+const color1CE2BF = Color(0xff1CE2BF);
 const chuaThucHienColor = Color(0xffF2994A);
 
 const bgTag = Color(0xffF2F0FF);
@@ -200,6 +200,12 @@ const enableButton = Color(0xFF2A30CB);
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
   Color unselectColor();
+
+  Color choXuLyColor();
+
+  Color nhiemDonViColor();
+
+  Color nhiemVuBoColor();
 
   Color primaryColor();
 
@@ -359,12 +365,42 @@ class DefaultApp extends AppColor {
   Color textBodyTimeColor() {
     return textBodyTime;
   }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
 }
 
 class BlueApp extends AppColor {
   @override
   Color unselectColor() {
     return colorA2AEBD;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
   }
 
   @override
@@ -446,6 +482,7 @@ class BlueApp extends AppColor {
   Color buttonUnfocus() {
     return AqiColor;
   }
+
 
   @override
   Color colorField() {
@@ -476,9 +513,25 @@ class BlueApp extends AppColor {
   Color textBodyTimeColor() {
     return textBodyTime;
   }
+
 }
 
 class PinkApp extends AppColor {
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
   @override
   Color unselectColor() {
     return colorA2AEBD;
@@ -566,6 +619,7 @@ class PinkApp extends AppColor {
 
   @override
   Color colorField() {
+
     return pinkColor;
   }
 
@@ -597,6 +651,21 @@ class PinkApp extends AppColor {
 }
 
 class YellowApp extends AppColor {
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
   @override
   Color unselectColor() {
     return colorA2AEBD;

@@ -507,33 +507,25 @@ class DanhSachCongViecCubit extends HomeCubit {
 
 /// Tổng hợp nhiệm vụ
 class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<DocumentDashboardModel> _getTongHopNhiemVu =
-      BehaviorSubject<DocumentDashboardModel>();
+  final BehaviorSubject<List<TongHopNhiemVuModel>> _getTongHopNhiemVu =
+      BehaviorSubject<List<TongHopNhiemVuModel>>();
   List<String> mangTrangThai = [];
   int? trangThaiHanXuLy;
- String donViId = '';
-  String userId = '';
- String canBoId = '';
-  TongHopNhiemVuCubit() {
-    dataUser = HiveLc.HiveLocal.getDataUser();
-    if (dataUser != null) {
-      donViId = dataUser?.userInformation?.donViTrucThuoc?.id ?? '';
-      userId = dataUser?.userId ?? '';
-     canBoId =  dataUser?.userInformation?.canBoDepartmentId ?? '';
-    }
-  }
+
+  TongHopNhiemVuCubit() {}
 
   Future<void> getDataTongHopNhiemVu() async {
     showLoading();
-    String  canBoIdDepartment = '';
+    bool isCaNhan = false;
     if (selectKeyDonVi == SelectKey.DON_VI) {
+      isCaNhan = false;
     } else {
-      canBoIdDepartment = canBoId;
+      isCaNhan = true;
     }
     final result = await homeRep.getTongHopNhiemVu(
-      userId,
-      canBoIdDepartment,
-      donViId,
+      isCaNhan,
+      '',
+      '',
     );
     showContent();
     result.when(
@@ -608,7 +600,7 @@ class TongHopNhiemVuCubit extends HomeCubit with SelectKeyDialog {
     selectKeyDialog.sink.add(true);
   }
 
-  Stream<DocumentDashboardModel> get getTonghopNhiemVu =>
+  Stream<List<TongHopNhiemVuModel>> get getTonghopNhiemVu =>
       _getTongHopNhiemVu.stream;
 
   @override
@@ -1469,25 +1461,29 @@ class SuKienTrongNgayCubit extends HomeCubit with SelectKeyDialog {
   }
 }
 
-///Tình hình xử lý PAKN
-class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
-  final BehaviorSubject<DocumentDashboardModel> _getTinhHinhXuLy =
-      BehaviorSubject<DocumentDashboardModel>();
+///Tình hình xử lý ý kiến người dân
+class TinhHinhXuLyYKienCubit extends HomeCubit with SelectKeyDialog {
+  final BehaviorSubject<List<TinhHinhYKienModel>> _getTinhHinhXuLy =
+      BehaviorSubject<List<TinhHinhYKienModel>>();
   String donViId = '';
 
-  Stream<DocumentDashboardModel> get getTinhHinhXuLy =>
+  Stream<List<TinhHinhYKienModel>> get getTinhHinhXuLy =>
       _getTinhHinhXuLy.stream;
 
-  TinhHinhXuLyPAKNCubit() {
+  TinhHinhXuLyYKienCubit() {
     final dataUser = HiveLc.HiveLocal.getDataUser();
     if (dataUser != null) {
       donViId = dataUser.userInformation?.donViTrucThuoc?.id ?? '';
     }
   }
 
-  Future<void> callApi(bool isDonVi) async {
+  Future<void> callApi() async {
     showLoading();
-    final result = await homeRep.getDashboardTinhHinhXuLyPAKN(isDonVi);
+    final result = await homeRep.getTinhHinhYKienNguoiDan(
+      donViId,
+      '',
+      '',
+    );
     showContent();
     result.when(
       success: (res) {
@@ -1497,7 +1493,20 @@ class TinhHinhXuLyPAKNCubit extends HomeCubit with SelectKeyDialog {
     );
   }
 
-
+  @override
+  void selectDate({
+    required SelectKey selectKey,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    if (selectKey != selectKeyTime || selectKey == SelectKey.TUY_CHON) {
+      selectKeyTime = selectKey;
+      this.startDate = startDate;
+      this.endDate = endDate;
+      selectKeyDialog.sink.add(true);
+      callApi();
+    }
+  }
 }
 
 /// Nhiệm vụ

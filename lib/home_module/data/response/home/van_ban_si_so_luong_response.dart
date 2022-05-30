@@ -70,9 +70,9 @@ class Data {
   }
 
   DocumentDashboardModel toDomain() => DocumentDashboardModel(
-      soLuongChoTrinhKy: soLuongChoTrinhKy ?? 0,
-      soLuongChoXuLy: soLuongChoXuLy ?? 0,
-      soLuongDaXuLy: soLuongDaXuLy ?? 0,
-      soLuongChoCapSo: soLuongChoCapSo ?? 0,
-      soLuongChoBanHanh: soLuongChoBanHanh??0);
+      soLuongChoTrinhKy: soLuongChoTrinhKy,
+      soLuongChoXuLy: soLuongChoXuLy,
+      soLuongDaXuLy: soLuongDaXuLy,
+      soLuongChoCapSo: soLuongChoCapSo,
+      soLuongChoBanHanh: soLuongChoBanHanh);
 }

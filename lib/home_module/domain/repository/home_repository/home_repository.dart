@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
@@ -45,11 +44,8 @@ abstract class HomeRepository {
   Future<Result<List<DocumentModel>>> searchDanhSachVanBan(
       SearchVBRequest searchVBRequest);
 
-  Future<Result<DocumentDashboardModel>> getTongHopNhiemVu(
-    String userId,
-    String canBoId,
-    String donViId,
-  );
+  Future<Result<List<TongHopNhiemVuModel>>> getTongHopNhiemVu(
+      bool isCaNhan, String ngayDauTien, String ngayCuoiCung);
 
   Future<Result<List<CalendarMeetingModel>>> getNhiemVu(
       NhiemVuRequest nhiemVuRequest);
@@ -96,7 +92,4 @@ abstract class HomeRepository {
       DanhSachCongViecRequest request);
 
   Future<Result<MessageModel>> guiLoiChuc(GuiLoiChucRequest guiLoiChucRequest);
-  Future<Result<List<ThiepSinhNhatModel>>> listThiepMoi();
-  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
-      bool isDonVi);
 }

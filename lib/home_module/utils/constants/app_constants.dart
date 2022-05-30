@@ -132,8 +132,6 @@ class WidgetTypeConstant {
   static const String SINH_NHAT = 'SinhNhat';
   static const String TINH_HINH_XU_LY_Y_KIEN = 'TinhHinhXuLyYKienNguoiDan';
   static const String NHIEM_VU = 'NhienVuWidGet';
-  static const String TINH_HINH_XU_LY_PAKN_CA_NHAN ='TinhHinhXuLyPAKNCaNhan';
-  static const String PHAN_ANH_KIEN_NGHI_DON_VI = 'PhanAnhKienNghiDonVi';
 }
 
 class DocumentState {

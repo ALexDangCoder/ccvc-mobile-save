@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/sinh_nhat_model.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/bloc/chuc_sinh_nhat_bloc.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/bloc/chuc_sinh_nhat_state.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/widgets/page_view_transition.dart';
@@ -30,12 +27,7 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungMobileScreen> {
   final controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final cubit = ChucSinhNhatCubit();
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    cubit.getListThiepMoi();
-  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
@@ -63,19 +55,16 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungMobileScreen> {
                       SizedBox(
                           width: double.infinity,
                           height: 320,
-                          child: StreamBuilder<List<ThiepSinhNhatModel>>(
-                              stream: cubit.getListThiep,
-                              builder: (context, snapshot) {
-                                final data =
-                                    snapshot.data ?? <ThiepSinhNhatModel>[];
-                                return PageViewWidget(
-                                  listImage: List.generate(data.length,
-                                      (index) => data[index].urlImgBase),
-                                  onSelect: (index) {
-                                    cubit.cardId = data[index].id;
-                                  },
-                                );
-                              })),
+                          child: PageViewWidget(
+                            listImage: [
+                              'https://ccvc-uat.chinhquyendientu.vn/img/thiep-1.fecb24e1.png',
+                              'https://ccvc-uat.chinhquyendientu.vn/img/thiep-2.795a7971.png',
+                              'https://ccvc-uat.chinhquyendientu.vn/img/thiep-3.ab60d036.png',
+                              'https://ccvc-uat.chinhquyendientu.vn/img/thiep-4.05a66da6.png',
+                              'https://ccvc-uat.chinhquyendientu.vn/img/thiep-5.962434c7.png'
+                            ],
+                            onSelect: (index) {},
+                          )),
                       const SizedBox(
                         height: 32,
                       ),

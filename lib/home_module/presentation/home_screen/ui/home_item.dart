@@ -13,7 +13,7 @@ import '/home_module/presentation/home_screen/ui/mobile/items/nhiem_vu_widget.da
 import '/home_module/presentation/home_screen/ui/mobile/items/people_opinions_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/press_social_net_word_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/sinh_nhat_widget.dart';
-import '/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_pakn_cua_ca_nhan.dart';
+import '/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/summary_of_task_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/word_processing_state_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/work_list_widget.dart';
@@ -25,7 +25,7 @@ import '/home_module/presentation/home_screen/ui/tablet/items/nhiem_vu_tablet_wi
 import '/home_module/presentation/home_screen/ui/tablet/items/people_opinions__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/press_social_net_word__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/sinh_nhat__tablet_widget.dart';
-import '/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_pakn_cua_ca_nhan_tablet.dart';
+import '/home_module/presentation/home_screen/ui/tablet/items/situation_of_handling_people__tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/summary_of_task_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/word_processing_state_tablet_widget.dart';
 import '/home_module/presentation/home_screen/ui/tablet/items/work_list_tablet_widget.dart';
@@ -49,7 +49,7 @@ extension ItemExtension on WidgetType {
           homeItemType: WidgetType.summaryOfTask,
         );
       case WidgetType.situationHandlingPeople:
-        return TinhHinhPAKNCuaCaNhanMobileWidget(
+        return SituationOfHandlingPeopleWidget(
           key: KeyKeepAlive._keySituationHandlingPeople,
           homeItemType: WidgetType.situationHandlingPeople,
         );
@@ -124,7 +124,7 @@ extension ItemExtension on WidgetType {
           homeItemType: WidgetType.summaryOfTask,
         );
       case WidgetType.situationHandlingPeople:
-        return TinhHinhPAKNCuaCaNhanTabletWidget(
+        return SituationOfHandlingPeopleTabletWidget(
           key: KeyKeepAlive._keySituationHandlingPeople,
           homeItemType: WidgetType.situationHandlingPeople,
         );

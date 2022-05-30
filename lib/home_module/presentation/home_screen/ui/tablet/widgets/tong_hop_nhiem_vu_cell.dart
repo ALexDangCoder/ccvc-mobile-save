@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TongHopNhiemVuCell extends StatefulWidget {
+  final int count;
+  final Widget Function(BuildContext, int) builder;
 
-  final List<Widget> childs;
   const TongHopNhiemVuCell(
-      {Key? key, required this.childs})
+      {Key? key, required this.builder, required this.count})
       : super(key: key);
 
   @override
@@ -17,13 +18,9 @@ class _TongHopNhiemVuCellState extends State<TongHopNhiemVuCell> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        widget.childs.length,
-        (index) => SizedBox(
-          width: 163,
-          height: 200,
-          child: widget.childs[index],
-        ),
-      ),
+          widget.count,
+          (index) => SizedBox(
+              width: 163, height: 200, child: widget.builder(context, index))),
     );
   }
 }

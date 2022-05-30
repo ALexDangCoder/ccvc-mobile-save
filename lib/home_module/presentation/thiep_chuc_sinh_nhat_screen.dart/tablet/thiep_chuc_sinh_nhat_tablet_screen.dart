@@ -2,7 +2,6 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/sinh_nhat_model.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/bloc/chuc_sinh_nhat_bloc.dart';
 import 'package:ccvc_mobile/home_module/presentation/thiep_chuc_sinh_nhat_screen.dart/bloc/chuc_sinh_nhat_state.dart';
 
@@ -56,18 +55,16 @@ class _ThiepChucMungScreenState extends State<ThiepChucMungTabletScreen> {
                 SizedBox(
                     width: double.infinity,
                     height: 348,
-                    child: StreamBuilder<List<ThiepSinhNhatModel>>(
-                      stream: cubit.getListThiep,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? <ThiepSinhNhatModel>[];
-                        return PageViewWidget(
-                          viewportFraction: 0.321,
-                          listImage: List.generate(data.length, (index) => data[index].urlImgBase),
-                          onSelect: (index) {
-                            cubit.cardId = data[index].id;
-                          },
-                        );
-                      }
+                    child: PageViewWidget(
+                      viewportFraction: 0.321,
+                      listImage: [
+                        'https://ccvc-uat.chinhquyendientu.vn/img/thiep-1.fecb24e1.png',
+                        'https://ccvc-uat.chinhquyendientu.vn/img/thiep-2.795a7971.png',
+                        'https://ccvc-uat.chinhquyendientu.vn/img/thiep-3.ab60d036.png',
+                        'https://ccvc-uat.chinhquyendientu.vn/img/thiep-4.05a66da6.png',
+                        'https://ccvc-uat.chinhquyendientu.vn/img/thiep-5.962434c7.png'
+                      ],
+                      onSelect: (index) {},
                     )),
                 const SizedBox(
                   height: 48,

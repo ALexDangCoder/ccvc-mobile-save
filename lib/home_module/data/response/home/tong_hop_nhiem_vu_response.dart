@@ -1,50 +1,69 @@
-import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
+import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
+import '/home_module/utils/constants/app_constants.dart';
 
 class TongHopNhiemVuResponse {
-
-  Data? data;
-  int? statusCode;
+  dynamic messages;
+  List<Data>? data;
+  dynamic validationResult;
   bool? isSuccess;
+  Map<String, Data> mapData = {};
 
   TongHopNhiemVuResponse(
-      { this.data, this.statusCode, this.isSuccess});
+      {this.messages, this.data, this.validationResult, this.isSuccess});
 
   TongHopNhiemVuResponse.fromJson(Map<String, dynamic> json) {
-
-    data = json['Data'] != null ?  Data.fromJson(json['Data']) : null;
-    statusCode = json['StatusCode'];
+    messages = json['Messages'];
+    if (json['Data'] != null) {
+      data = <Data>[];
+      json['Data'].forEach((v) {
+        final result = Data.fromJson(v);
+        mapData.addAll({result.code ?? '': result});
+        data!.add(result);
+      });
+    }
+    validationResult = json['ValidationResult'];
     isSuccess = json['IsSuccess'];
   }
 
-
+  List<TongHopNhiemVuModel> toDomain() {
+    return [
+      Data(name: '', code: NhiemVuStatus.CHO_PHAN_XU_LY, value: 10).toDomain(),
+      Data(name: '', code: NhiemVuStatus.CHUA_THUC_HIEN, value: 20).toDomain(),
+      Data(name: '', code: NhiemVuStatus.DANG_THUC_HIEN, value: 30).toDomain(),
+      Data(name: '', code: NhiemVuStatus.HOAN_THANH_NHIEM_VU, value: 40)
+          .toDomain(),
+      // mapData[NhiemVuStatus.TONG_SO_NHIEM_VU]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.HOAN_THANH_NHIEM_VU]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.NHIEM_VU_DANG_THUC_HIEN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.HOAN_THANH_QUA_HAN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.DANG_THUC_HIEN_TRONG_HAN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+      // mapData[NhiemVuStatus.DANG_THUC_HIEN_QUA_HAN]?.toDomain() ??
+      //     TongHopNhiemVuModel(),
+    ];
+  }
 }
 
 class Data {
-  int? choPhanXuLy;
-  int? chuaThucHien;
-  int? dangThucHien;
-  int? hoanThanhNhiemVu;
+  String? name;
+  String? code;
+  int? value;
 
-  Data(
-      {this.choPhanXuLy,
-        this.chuaThucHien,
-        this.dangThucHien,
-        this.hoanThanhNhiemVu});
+  Data({this.name, this.code, this.value});
 
   Data.fromJson(Map<String, dynamic> json) {
-    choPhanXuLy = json['ChoPhanXuLy'];
-    chuaThucHien = json['ChuaThucHien'];
-    dangThucHien = json['DangThucHien'];
-    hoanThanhNhiemVu = json['HoanThanhNhiemVu'];
+    name = json['Name'];
+    code = json['Code'];
+    value = json['Value'];
   }
 
-  DocumentDashboardModel toDomain() =>DocumentDashboardModel(
-
-    soLuongChoPhanXuLy: choPhanXuLy ??0,
-    soLuongChuaThucHien: chuaThucHien ?? 0,
-    soLuongDangThucHien: dangThucHien ?? 0,
-    soLuongHoanThanhNhiemVu: hoanThanhNhiemVu ?? 0,
-
-
-  );
+  TongHopNhiemVuModel toDomain() => TongHopNhiemVuModel(
+        name: name ?? '',
+        code: code ?? '',
+        value: value ?? 0,
+      );
 }

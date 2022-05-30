@@ -62,19 +62,19 @@ class ItemTableTopicTablet extends StatelessWidget {
                     S.current.bai_viet,
                     ImageAssets.ic_circle_fb,
                   ),
-                  spaceW24,
+                  spaceW23,
                   ItemInTableTablet(
                     '${dataItem.likeCount}',
                     S.current.like,
                     ImageAssets.ic_circle_like,
                   ),
-                  spaceW24,
+                  spaceW23,
                   ItemInTableTablet(
                     '${dataItem.shareCount}',
                     S.current.share,
                     ImageAssets.ic_circle_share,
                   ),
-                  spaceW24,
+                  spaceW23,
                   ItemInTableTablet(
                     '${dataItem.commentCount}',
                     S.current.comment,
@@ -150,7 +150,7 @@ class ItemInTableTablet extends StatelessWidget {
               ),
             ],
           ),
-          spaceW48,
+          spaceW40,
           SizedBox(
             height: 56,
             width: 56,

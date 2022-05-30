@@ -23,7 +23,7 @@ class ItemTableTopicTablet extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       clipBehavior: Clip.antiAlias,
        //margin: const EdgeInsets.only(right: 8),
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+      padding: const EdgeInsets.fromLTRB(24, 24, 0, 0),
       decoration: BoxDecoration(
         color: backgroundColorApp,
         boxShadow: const [

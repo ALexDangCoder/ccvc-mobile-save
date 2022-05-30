@@ -5,7 +5,7 @@ import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/search_bar.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/search_bar.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_in_page_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/tablet/widgets/document_out_page_tablet.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -61,10 +61,10 @@ class _QLVBScreenTabletState extends State<QLVBScreenTablet>
                     onChooseDateFilter: (startDate, endDate) {
                       qlvbCubit.startDate = startDate.formatApi;
                       qlvbCubit.endDate = endDate.formatApi;
-                      qlvbCubit.dataVBDen();
-                      qlvbCubit.dataVBDi();
-                      qlvbCubit.listDataDanhSachVBDen();
-                      qlvbCubit.listDataDanhSachVBDi();
+                      qlvbCubit.getDashBoardIncomeDocument();
+                      qlvbCubit.getDashBoardOutcomeDocument();
+                      qlvbCubit.getListIncomeDocument();
+                      qlvbCubit.getListOutcomeDocument();
                     },
                   ),
                   Expanded(

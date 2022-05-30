@@ -25,7 +25,6 @@ class PickImageFileModel {
 class WidgetComments extends StatefulWidget {
   final void Function()? onTab;
   final bool focus;
-  final TextEditingController? controller;
 
   final void Function(String, List<PickImageFileModel>)? onSend;
   final int maxSizeMB;
@@ -33,7 +32,6 @@ class WidgetComments extends StatefulWidget {
   const WidgetComments({
     Key? key,
     this.onTab,
-    this.controller,
     this.onSend,
     this.focus = false,
     this.maxSizeMB = 30,
@@ -45,6 +43,7 @@ class WidgetComments extends StatefulWidget {
 
 class _WidgetCommentsState extends State<WidgetComments> {
   late FocusNode _focusNode;
+  late  TextEditingController controller;
 
   final Set<PickImageFileModel> listFile = {};
   String comment = '';
@@ -52,12 +51,22 @@ class _WidgetCommentsState extends State<WidgetComments> {
   @override
   void initState() {
     _focusNode = FocusNode();
+    controller = TextEditingController();
     if (widget.focus) {
       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         FocusScope.of(context).requestFocus(_focusNode);
       });
     }
     super.initState();
+  }
+
+  void removeData (){
+    setState(() {
+      comment= '';
+      controller.text ='';
+      listFile.clear();
+      _focusNode.unfocus();
+    });
   }
 
   PickImageFileModel? addDataListPick(Map<String, dynamic> mediaMap) {
@@ -109,7 +118,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
                   ),
                   child: TextFormField(
                     focusNode: _focusNode,
-                    controller: widget.controller,
+                    controller: controller,
                     maxLines: 999,
                     minLines: 1,
                     keyboardType: TextInputType.multiline,
@@ -201,6 +210,7 @@ class _WidgetCommentsState extends State<WidgetComments> {
             } else {
               if (widget.onSend != null) {
                 widget.onSend!(comment, listFile.toList());
+                removeData();
               }
             }
           },

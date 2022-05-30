@@ -116,20 +116,16 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
                             height: 270,
                             child: ListView.builder(
                               shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
                               itemCount: data.danhSachTuongtacThongKe.length,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 28),
-                                  child: ItemTableTopicTablet(
-                                    chuDeCubit.listTitle[index],
-                                    '',
-                                    data
-                                        .danhSachTuongtacThongKe[index]
-                                        .dataTuongTacThongKeModel
-                                        .interactionStatistic,
-                                  ),
-                                );
+                                return index == 0 ? ItemTableTopicTablet(
+                                  chuDeCubit.listTitle[index],
+                                  '',
+                                  data
+                                      .danhSachTuongtacThongKe[index]
+                                      .dataTuongTacThongKeModel
+                                      .interactionStatistic,
+                                ) : const SizedBox.shrink();
                               },
                             ),
                           );

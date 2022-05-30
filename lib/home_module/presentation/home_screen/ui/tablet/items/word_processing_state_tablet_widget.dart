@@ -120,10 +120,12 @@ class _WordProcessingStateWidgetState
                               data: [
                                 ChartData(
                                     S.current.qua_han,
-                                    data.soLuongQuaHan.toDouble(),
+                                    data.soLuongQuaHan.toDouble() ,
                                     statusCalenderRed),
-                                ChartData(S.current.den_han,
-                                    data.soLuongDenHan.toDouble(), yellowColor),
+                                ChartData(
+                                    S.current.den_han,
+                                    data.soLuongDenHan.toDouble() ,
+                                    yellowColor),
                                 ChartData(
                                     S.current.trong_han,
                                     data.soLuongTrongHan.toDouble(),
@@ -173,7 +175,7 @@ class _WordProcessingStateWidgetState
                           chartData: [
                             ChartData(
                               S.current.cho_trinh_ky,
-                              data.soLuongChoTrinhKy.toDouble(),
+                              data.soLuongChoTrinhKy.toDouble() ,
                               choTrinhKyColor,
                             ),
                             ChartData(
@@ -188,7 +190,7 @@ class _WordProcessingStateWidgetState
                             ),
                             ChartData(
                               S.current.cho_cap_so,
-                              data.soLuongChoCapSo.toDouble(),
+                              data.soLuongChoCapSo.toDouble() ,
                               choCapSoColor,
                             ),
                             ChartData(

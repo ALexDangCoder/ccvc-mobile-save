@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_cap_nhat_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_huy_duyet_van_ban_di.dart';
@@ -6,8 +10,12 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_ky_duyet_van_b
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_tra_lai_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'detai_doccument_state.dart';
@@ -65,6 +73,100 @@ class CommonDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
         listVBLienThong.sink.add([vl]);
       }
     }
+  }
+
+  Future<void> comment({
+    required String comment,
+    required List<PickImageFileModel> listData,
+    required String processId,
+    String? idParent,
+  }) async {
+    showLoading();
+    final listIdFile = await postListFile(listData);
+    final isSuccess = await postComment(
+      comment,
+      listIdFile,
+      processId,
+      idParent,
+    );
+    showContent();
+    if (isSuccess) {
+      showSuccessComment();
+      showLoading();
+      await getChiTietVanBanDi(processId);
+      showContent();
+    } else {
+      showFailComment();
+    }
+  }
+
+  Future<bool> postComment(
+    String comment,
+    List<String> listIdFile,
+    String documentId,
+    String? idParent,
+  ) async {
+    bool dataReturn = false;
+    final request = GiveCommentRequest(
+      files: listIdFile,
+      idProcess: documentId,
+      noiDung: comment,
+    );
+    if (idParent == null){
+      request.hashValue = 'SHA256';
+    }else{
+      request.idParent = idParent;
+    }
+    final result = await _qLVBRepo.giveComment(request);
+    result.when(
+      success: (isSuccess) {
+        dataReturn = isSuccess;
+      },
+      error: (e) {},
+    );
+    return dataReturn;
+  }
+
+  Future<List<String>> postListFile(List<PickImageFileModel> listPath) async {
+    if (listPath.isEmpty) return [];
+    final List<String> idFileUpload = [];
+    final Queue queue = Queue(parallel: listPath.length);
+    for (final element in listPath) {
+      unawaited(
+        queue.add(
+          () => uploadFile(element.path ?? '', idFileUpload),
+        ),
+      );
+    }
+    await queue.onComplete;
+    return idFileUpload;
+  }
+
+  Future<void> uploadFile(String path, List<String> idFileUpload) async {
+    final result = await _qLVBRepo.postFile(
+      path: File(path),
+    );
+    result.when(
+      success: (data) {
+        if (data != 'false') {
+          idFileUpload.add(data);
+        }
+      },
+      error: (error) {},
+    );
+  }
+
+  void showSuccessComment() {
+    MessageConfig.show(
+      title: S.current.cho_y_kien_thanh_cong,
+    );
+  }
+
+  void showFailComment() {
+    MessageConfig.show(
+      title: S.current.cho_y_kien_that_bai,
+      messState: MessState.error,
+    );
   }
 }
 

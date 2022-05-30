@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/phone/chi_tiet_van_ban_di_mobile.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/common_info.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -52,7 +52,7 @@ class _DocumentInPageState extends State<DocumentOutPage>
                 builder: (context, snapshot) {
                   return Container(
                     padding: const EdgeInsets.all(16.0),
-                    child: CommonInformationMobile(
+                    child: CommonInformationDocumentManagement(
                       chartData: widget.qlvbCubit.chartDataVbDi,
                       onPieTap: (value) {
                         widget.qlvbCubit.documentInSubStatusCode = '';
@@ -60,12 +60,12 @@ class _DocumentInPageState extends State<DocumentOutPage>
                             widget.qlvbCubit.documentOutStatusCode == value
                                 ? ''
                                 : value;
-                        widget.qlvbCubit.listDataDanhSachVBDi();
+                        widget.qlvbCubit.getListOutcomeDocument();
                       },
                       onStatusTap: (key) {
                         widget.qlvbCubit.documentInStatusCode = '';
                         widget.qlvbCubit.documentInSubStatusCode = key;
-                        widget.qlvbCubit.listDataDanhSachVBDen();
+                        widget.qlvbCubit.getListIncomeDocument();
                       },
                     ),
                   );

@@ -67,7 +67,7 @@ class ChartByMonthWidget extends StatelessWidget {
             ),
             series: <ChartSeries<StatisticByMonthModel, int>>[
               StackedLineSeries<StatisticByMonthModel, int>(
-                color: choXuLyColor,
+                color: color5A8DEE,
                 dataSource: dataByMonth,
                 xValueMapper: (StatisticByMonthModel sales, _) => sales.month,
                 yValueMapper: (StatisticByMonthModel sales, _) =>
@@ -83,7 +83,7 @@ class ChartByMonthWidget extends StatelessWidget {
                 ),
                 markerSettings: const MarkerSettings(
                   isVisible: true,
-                  color: choXuLyColor,
+                  color: color5A8DEE,
                 ),
               )
             ],

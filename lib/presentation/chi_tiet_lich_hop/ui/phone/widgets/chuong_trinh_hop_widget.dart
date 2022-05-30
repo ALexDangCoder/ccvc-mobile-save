@@ -347,7 +347,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                             data[index] ?? S.current.khong_co_tep_nao,
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
-                              color: choXuLyColor,
+                              color: color5A8DEE,
                             ),
                           );
                         },
@@ -533,7 +533,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                             data[index] ?? S.current.khong_co_tep_nao,
                             style: textDetailHDSD(
                               fontSize: 14.0.textScale(),
-                              color: choXuLyColor,
+                              color: color5A8DEE,
                             ),
                           );
                         },

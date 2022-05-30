@@ -16,11 +16,13 @@ import '../comment_widget.dart';
 class YKienXuLyExpandWidgetMobile extends StatefulWidget {
   final CommentsDetailDocumentCubit cubit;
   final String processId;
+  final String taskId;
 
   const YKienXuLyExpandWidgetMobile({
     Key? key,
     required this.cubit,
     required this.processId,
+    required this.taskId,
   }) : super(key: key);
 
   @override
@@ -67,7 +69,12 @@ class _YKienXuLyExpandWidgetMobileState
                   ),
                   child: WidgetComments(
                     onSend: (comment, listData) {
-                      widget.cubit.comment(comment,listData);
+                      widget.cubit.comment(
+                        comment,
+                        listData,
+                        widget.processId,
+                        widget.taskId,
+                      );
                     },
                   ),
                 ),
@@ -205,7 +212,7 @@ class _YKienXuLyExpandWidgetMobileState
           spaceH6,
           Row(
             children: [
-              _listFile(fileDinhKem),
+              Expanded(child: _listFile(fileDinhKem)),
               spaceW13,
               _relayButton(canRelay, index)
             ],
@@ -216,7 +223,12 @@ class _YKienXuLyExpandWidgetMobileState
             WidgetComments(
               focus: true,
               onSend: (comment, listData) {
-                widget.cubit.comment(comment,listData);
+                widget.cubit.relay(
+                  comment,
+                  listData,
+                  widget.processId,
+                  widget.taskId,
+                );
               },
             )
         ],
@@ -252,6 +264,7 @@ class _YKienXuLyExpandWidgetMobileState
   Widget _listFile(List<YKienXuLyFileDinhKem> data) {
     if (data.isNotEmpty) {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: data
             .map(
               (e) => GestureDetector(
@@ -262,13 +275,15 @@ class _YKienXuLyExpandWidgetMobileState
                     name: e.fileDinhKem?.ten ?? '',
                   );
                 },
-                child: Text(
-                  e.fileDinhKem?.ten ?? '',
-                  style: textNormalCustom(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    color: textColorMangXaHoi,
-                  ), //infoColor
+                child: SizedBox(
+                  child: Text(
+                    e.fileDinhKem?.ten ?? '',
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: textColorMangXaHoi,
+                    ), //infoColor
+                  ),
                 ),
               ),
             )

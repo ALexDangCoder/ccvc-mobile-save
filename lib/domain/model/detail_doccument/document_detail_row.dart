@@ -1,18 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import 'lich_su_van_ban_model.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 
 const QUA_HAN = 'QUA_HAN';
 const CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
@@ -72,31 +70,15 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                 .map(
                   (e) => GestureDetector(
                     onTap: () async {
-                      final status = await Permission.storage.status;
-                      if (!status.isGranted) {
-                        await Permission.storage.request();
-                        await Permission.manageExternalStorage.request();
-                      }
-                      await saveFile(
-                        e.ten ?? '',
-                        e.pathIOC,
-                      )
-                          .then(
-                            (value) => MessageConfig.show(
-                              title: S.current.tai_file_thanh_cong,
-                            ),
-                          )
-                          .onError(
-                            (error, stackTrace) => MessageConfig.show(
-                              title: S.current.tai_file_that_bai,
-                              messState: MessState.error,
-                            ),
-                          );
+                      await handleSaveFile(
+                        name: e.ten ?? '',
+                        url: e.pathIOC ?? '',
+                      );
                     },
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -146,22 +128,22 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             final data = row.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ...data
-                    .map(
-                      (e) => GestureDetector(
-                        onTap: () async {
-                          await handleSaveFile(
-                            url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                            name: e.ten ?? '',
-                          );
-                        },
-                        child: Text(
-                          e.ten ?? '',
-                          style: textNormalCustom(
-                            color: choXuLyColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0.textScale(),
+              children: <Widget>[...data
+                  .map(
+                    (e) => GestureDetector(
+                      onTap: () async {
+                        final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+                        await handleSaveFile(
+                          url: '$baseURL${e.duongDan}',
+                          name: e.ten ?? '',
+                        );
+                      },
+                      child: Text(
+                        e.ten ?? '',
+                        style: textNormalCustom(
+                          color: color5A8DEE,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
                           ),
                         ),
                       ),
@@ -228,7 +210,7 @@ extension StatusChiTietVanBan on StatusVanBan {
       case StatusVanBan.CHO_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
           changeTextColor: changeTextColor,
         );
       case StatusVanBan.DANG_XU_LY:

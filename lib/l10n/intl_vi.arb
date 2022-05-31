@@ -995,7 +995,9 @@
   "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
   "hinh_thuc_hop": "Hình thức họp",
   "ky_thuat": "Kỹ thuật",
-  "ddmmyy": "DD/MM/YYYY"
+  "ddmmyy": "DD/MM/YYYY",
+  "phan_xu_ly" : "Phân xử lý"
+
 }
 
 

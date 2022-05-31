@@ -60,7 +60,7 @@ extension TypeData on TypeDataNV {
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -123,7 +123,7 @@ extension StatusChiTietNV on StatusNV {
       case StatusNV.CHO_PHAN_XU_LY:
         return statusChiTietNhiemVu(
           name: S.current.cho_phan_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
         );
       case StatusNV.TRA_LAI:
         return statusChiTietNhiemVu(

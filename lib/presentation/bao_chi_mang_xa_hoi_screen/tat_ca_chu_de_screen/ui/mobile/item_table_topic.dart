@@ -21,9 +21,8 @@ class ItemTableTopic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width,
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         border: Border.all(

@@ -55,7 +55,7 @@ class _TiepCanWidgetState extends State<TiepCanWidget> {
               ChartData(
                 S.current.cho_xu_ly,
                 12,
-                choXuLyColor,
+                color5A8DEE,
               ),
               ChartData(
                 S.current.da_xu_ly,

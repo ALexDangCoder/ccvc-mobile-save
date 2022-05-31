@@ -39,78 +39,79 @@ class CupertinoRoundedDatePickerWidgetDialog {
     final BehaviorSubject<DateTime> dateTimeBloc = BehaviorSubject<DateTime>()
       ..sink.add(initialDate);
     return showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (_) {
-          return Dialog(
-            backgroundColor: Colors.transparent,
-            clipBehavior: Clip.hardEdge,
-            child: Container(
-              height: 400,
-              width: 400,
-              decoration: BoxDecoration(
-                  color: background,
-                  borderRadius: BorderRadius.circular(borderRadius)),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 22,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: GestureDetector(
-                      onTap: () {
-                        dateTimeBloc.sink.add(DateTime.now());
-                      },
-                      child: Text(
-                        S.current.today,
-                        style:
-                            textNormalCustom(color: buttonColor, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: StreamBuilder<DateTime>(
-                      stream: dateTimeBloc.stream,
-                      builder: (context, snapshot) {
-                        return FlutterRoundedCupertinoDatePickerWidget(
-                          use24hFormat: use24hFormat,
-                          onDateTimeChanged: (dateTime) {
-                            dateSelect = dateTime;
-                          },
-                          era: era,
-                          background: Colors.transparent,
-                          textStyleDate: textStyle ?? const TextStyle(),
-                          borderRadius: borderRadius,
-                          fontFamily: fontFamily,
-                          initialDateTime: snapshot.data,
-                          mode: initialDatePickerMode,
-                          minuteInterval: minuteInterval,
-                          minimumDate: minimumDate,
-                          maximumDate: maximumDate,
-                          maximumYear: maximumYear,
-                          minimumYear: minimumYear!,
-                        );
-                      },
-                    ),
-                  ),
-                  ButtonBottom(
-                    onPressed: () {
-                      if (onTap != null) {
-                        onTap(dateSelect);
-                      }
-                    },
-                    text: S.current.chon_ngay,
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  )
-                ],
-              ),
+      barrierDismissible: true,
+      context: context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          clipBehavior: Clip.hardEdge,
+          child: Container(
+            height: 400,
+            width: 400,
+            decoration: BoxDecoration(
+              color: background,
+              borderRadius: BorderRadius.circular(borderRadius),
             ),
-          );
-        });
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 22,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      dateTimeBloc.sink.add(DateTime.now());
+                    },
+                    child: Text(
+                      S.current.today,
+                      style: textNormalCustom(color: buttonColor, fontSize: 18),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: StreamBuilder<DateTime>(
+                    stream: dateTimeBloc.stream,
+                    builder: (context, snapshot) {
+                      return FlutterRoundedCupertinoDatePickerWidget(
+                        use24hFormat: use24hFormat,
+                        onDateTimeChanged: (dateTime) {
+                          dateSelect = dateTime;
+                        },
+                        era: era,
+                        background: Colors.transparent,
+                        textStyleDate: textStyle ?? const TextStyle(),
+                        borderRadius: borderRadius,
+                        fontFamily: fontFamily,
+                        initialDateTime: snapshot.data,
+                        mode: initialDatePickerMode,
+                        minuteInterval: minuteInterval,
+                        minimumDate: minimumDate,
+                        maximumDate: maximumDate,
+                        maximumYear: maximumYear,
+                        minimumYear: minimumYear!,
+                      );
+                    },
+                  ),
+                ),
+                ButtonBottom(
+                  onPressed: () {
+                    if (onTap != null) {
+                      onTap(dateSelect);
+                    }
+                  },
+                  text: S.current.chon_ngay,
+                ),
+                const SizedBox(
+                  height: 32,
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

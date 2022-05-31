@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/bloc/chi_tiet_pakn_cubit.dart';
@@ -6,6 +7,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_yknd/ui/mobile/widgets/list_ro
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TabThongTinPAKN extends StatefulWidget {
   const TabThongTinPAKN({
@@ -57,6 +59,9 @@ class _TabThongTinPAKNState extends State<TabThongTinPAKN> {
                 return ListItemRow(
                   title: data[index].title,
                   content: data[index].content,
+                  nameFile: data[index].nameFile,
+                  urlFile: data[index].urlDownload,
+                  domainDownload: '${Get.find<AppConstants>().baseUrlPAKN}/',
                 );
               },
             ),

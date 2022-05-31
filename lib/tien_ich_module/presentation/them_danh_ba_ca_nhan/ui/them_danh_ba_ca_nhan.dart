@@ -14,7 +14,9 @@ import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/text_form_field
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class ThemDanhBaCaNhan extends StatefulWidget {
@@ -28,6 +30,13 @@ class ThemDanhBaCaNhan extends StatefulWidget {
 
 class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
   final keyGroup = GlobalKey<FormGroupState>();
+  final toast = FToast();
+
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +49,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
               child: Column(
                 children: [
                   spaceH24,
-                  const AvatarDanhBa(),
+                  AvatarDanhBa(
+                    toast: toast,
+                    cubit: widget.cubit,
+                  ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icEditDb,
                     hintText: S.current.ho_ten_cb,
@@ -68,7 +80,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                         .parse(widget.cubit.times)
                         .formatApiDanhBa,
                     onSelectDate: (dateTime) {
-                      widget.cubit.ngaySinh = dateTime;
+                      widget.cubit.dateDanhSach = dateTime;
                     },
                   ),
                   TextFieldStyle(
@@ -99,6 +111,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     validator: (value) {
                       return (value ?? '').checkSdtRequire();
                     },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icPhoneCp,
@@ -110,6 +123,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     validator: (value) {
                       return (value ?? '').checkSdtRequire();
                     },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCallDb,
@@ -121,6 +135,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     validator: (value) {
                       return (value ?? '').checkSdtRequire();
                     },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   spaceH16,
                   CustomRadioButton(
@@ -144,12 +159,12 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                           phoneNhaRieng: widget.cubit.phoneNhaRieng,
                           email: widget.cubit.email,
                           gioiTinh: widget.cubit.gioiTinh,
-                          ngaySinh: widget.cubit.ngaySinh,
+                          ngaySinh: widget.cubit.dateDanhSach,
                           cmtnd: widget.cubit.cmtnd,
-                          anhDaiDienFilePath: widget.cubit.anhDaiDienFilePath,
+                          anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
-                              widget.cubit.anhChuKyNhayFilePath,
+                          widget.cubit.anhChuKyNhayFilePath,
                           diaChi: widget.cubit.diaChi,
                           isDeleted: widget.cubit.isDeleted,
                           thuTu: widget.cubit.thuTu ?? 0,
@@ -183,7 +198,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
               child: Column(
                 children: [
                   spaceH24,
-                  const AvatarDanhBa(),
+                  AvatarDanhBa(
+                    toast: toast,
+                    cubit: widget.cubit,
+                  ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icEditDb,
                     hintText: S.current.ho_ten_cb,
@@ -204,7 +222,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                         .parse(widget.cubit.times)
                         .formatApiDanhBa,
                     onSelectDate: (dateTime) {
-                      widget.cubit.ngaySinh = dateTime;
+                      widget.cubit.dateDanhSach = dateTime;
                     },
                     isTablet: true,
                   ),
@@ -246,6 +264,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       return (value ?? '').checkSdtRequire();
                     },
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icPhoneCp,
@@ -253,7 +272,11 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.phoneCoQuan = value;
                     },
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCallDb,
@@ -261,7 +284,11 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.phoneNhaRieng = value;
                     },
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icLocation,
@@ -282,12 +309,12 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                           phoneNhaRieng: widget.cubit.phoneNhaRieng,
                           email: widget.cubit.email,
                           gioiTinh: widget.cubit.gioiTinh,
-                          ngaySinh: widget.cubit.ngaySinh,
+                          ngaySinh: widget.cubit.dateDanhSach,
                           cmtnd: widget.cubit.cmtnd,
-                          anhDaiDienFilePath: widget.cubit.anhDaiDienFilePath,
+                          anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
-                              widget.cubit.anhChuKyNhayFilePath,
+                          widget.cubit.anhChuKyNhayFilePath,
                           diaChi: widget.cubit.diaChi,
                           isDeleted: widget.cubit.isDeleted,
                           thuTu: widget.cubit.thuTu ?? 0,

@@ -92,15 +92,17 @@ Widget titleWidget(String title, String value) {
       Text(
         '$title: ',
         style: textNormalCustom(
-          fontSize: 12.0.textScale(),
+          fontSize: 14.0.textScale(),
           color: AqiColor,
+          fontWeight: FontWeight.w400,
         ),
       ),
       Text(
         value,
         style: textNormalCustom(
-          fontSize: 12.0.textScale(),
+          fontSize: 14.0.textScale(),
           color: color3D5586,
+          fontWeight: FontWeight.w400,
         ),
       ),
     ],

@@ -140,6 +140,11 @@ abstract class NhiemVuService {
   Future<PostYKienResponse> postYKienXULy(
     @Body() Map<String, dynamic> map,
   );
+  @GET(ApiConstants.DOWNLOAD_FILE)
+  Future<PostYKienResponse> downloadFile(
+      @Query('fileId') String fileId,
+      @Query('token') String token,
+      );
 
   @POST(ApiConstants.UPLOAD_FILE)
   @MultiPart()

@@ -65,7 +65,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
           } else {
             MessageConfig.show(
               messState: MessState.customIcon,
-              title: err.message,
+              title: S.current.tai_khoan_hien_khong_ton_tai,
               urlIcon: ImageAssets.icUserNotExits,
             );
             Navigator.pop(context);

@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
             title: S.current.no_internet,
             messState: MessState.error,
           );
-        } else if (err.code == 400) {
+        } else if (err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
           if (err.message.contains(S.current.sai_tai_khoan_hoac_mat_khau)) {
             thongBao.sink.add(err.message);
           } else {

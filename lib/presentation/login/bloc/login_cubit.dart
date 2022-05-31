@@ -91,9 +91,9 @@ class LoginCubit extends BaseCubit<LoginState> {
             title: S.current.no_internet,
             messState: MessState.error,
           );
-        } else if (err.code == 401) {
+        } else if (err.code == StatusCodeConst.STATUS_UNAUTHORIZED) {
           thongBao.sink.add(S.current.sai_tai_khoan_hoac_mat_khau);
-        } else if (err.code == 400) {
+        } else if (err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
           if (err.message.contains(S.current.sai_tai_khoan_hoac_mat_khau)) {
             thongBao.sink.add(err.message);
           } else {

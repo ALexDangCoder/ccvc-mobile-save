@@ -4,7 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<bool> saveFile(String _fileName, dynamic data, {bool? http}) async {
+Future<bool> saveFile(
+  String _fileName,
+  dynamic data, {
+  bool? http,
+  Map<String, dynamic>? query,
+}) async {
   bool success = false;
   if (http == true) {
     final HttpClient httpClient = HttpClient();
@@ -15,12 +20,12 @@ Future<bool> saveFile(String _fileName, dynamic data, {bool? http}) async {
     final responses = await request.close();
     if (responses.statusCode == 200) {
       final bytes = await consolidateHttpClientResponseBytes(responses);
-      if(Platform.isAndroid){
+      if (Platform.isAndroid) {
         try {
           filePath = '$dir/$_fileName';
           file = File(filePath);
           await file.writeAsBytes(bytes);
-        } catch(e){
+        } catch (e) {
           final tempDir = await getExternalStorageDirectory();
           file = File(tempDir?.path ?? '');
           await file.writeAsBytes(bytes);
@@ -38,6 +43,7 @@ Future<bool> saveFile(String _fileName, dynamic data, {bool? http}) async {
     final response = await Dio()
         .get(
           data,
+          queryParameters: query,
           options: Options(
             responseType: ResponseType.bytes,
             followRedirects: false,

@@ -3,9 +3,14 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> saveFile(String _fileName, dynamic data) async {
+Future<void> saveFile(
+  String _fileName,
+  dynamic data, {
+  Map<String, dynamic>? query,
+}) async {
   final response = await Dio().get(
     data,
+    queryParameters: query,
     options: Options(
       responseType: ResponseType.bytes,
       followRedirects: false,

@@ -9,6 +9,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/nhiem_vu_don_vi_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/widget/bieu_do_don_vi_row_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/bieu_do_trang_thai_theo_loai.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/bieu_do_trang_thai_theo_loai_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/nhiem_vu_item_tablet_new.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/state_select_bieu_do_trang_thai.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -206,7 +207,7 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                           return Container(
                             padding:
                                 const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                            child: BieuDoTrangThaiTheoLoaiMobile(
+                            child: BieuDoTrangThaiTheoLoaiTablet(
                               chartData: widget.danhSachCubit.chartDataTheoLoai,
                               cubit: widget.danhSachCubit,
                               ontap: (value) {

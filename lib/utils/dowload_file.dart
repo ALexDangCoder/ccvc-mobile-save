@@ -51,7 +51,7 @@ Future<bool> saveFile(
           ),
         )
         .catchError((error) {});
-    final dynamic dataSave = response;
+    final dynamic dataSave = response.data;
     if (Platform.isAndroid) {
       try {
         const String dir = '/storage/emulated/0/Download';

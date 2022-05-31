@@ -1,14 +1,19 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
-import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
+import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_state.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../../main.dart';
 
 class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
   ChangePasswordCubit() : super(ChangePassWordStateIntial());
@@ -30,13 +35,11 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
     showContent();
   }
 
-  BehaviorSubject<ChangePassModel> changePassSubject = BehaviorSubject();
-  ChangePassModel model = ChangePassModel();
-
   Future<void> changePassWord({
     required String passwordOld,
     required String password,
     required String repeatPassword,
+    required BuildContext context,
   }) async {
     showLoading();
     final result = await _loginRepo.changePass(
@@ -46,21 +49,31 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
     );
     result.when(
       success: (res) {
-        model = res;
-        changePassSubject.sink.add(model);
-        isSuccess = model.isSuccess ?? false;
-        message = model.messages?.first ?? '';
-        if (model.isSuccess == false) {
-          thongBao.sink.add(S.current.mat_khau_hien_tai_chua_dung);
-        }
+        isSuccess = true;
         showContent();
       },
       error: (err) {
+        thongBao.sink.add('');
         if (err is NoNetworkException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
           );
+        } else if (err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
+          if (err.message.contains(S.current.sai_tai_khoan_hoac_mat_khau)) {
+            thongBao.sink.add(err.message);
+          } else {
+            MessageConfig.show(
+              messState: MessState.customIcon,
+              title: S.current.tai_khoan_hien_khong_ton_tai,
+              urlIcon: ImageAssets.icUserNotExits,
+            );
+            Navigator.pop(context);
+            AppStateCt.of(context).appState.setToken('');
+            HiveLocal.clearData();
+          }
+        } else {
+          thongBao.sink.add(err.message);
         }
         showContent();
       },

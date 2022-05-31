@@ -15,9 +15,21 @@ Future<bool> saveFile(String _fileName, dynamic data, {bool? http}) async {
     final responses = await request.close();
     if (responses.statusCode == 200) {
       final bytes = await consolidateHttpClientResponseBytes(responses);
-      filePath = '$dir/$_fileName';
-      file = File(filePath);
-      await file.writeAsBytes(bytes);
+      if(Platform.isAndroid){
+        try {
+          filePath = '$dir/$_fileName';
+          file = File(filePath);
+          await file.writeAsBytes(bytes);
+        } catch(e){
+          final tempDir = await getExternalStorageDirectory();
+          file = File(tempDir?.path ?? '');
+          await file.writeAsBytes(bytes);
+        }
+      } else {
+        final tempDir = await getApplicationDocumentsDirectory();
+        file = File(tempDir.path);
+        await file.writeAsBytes(bytes);
+      }
       success = true;
     } else {
       success = false;

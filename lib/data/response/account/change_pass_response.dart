@@ -7,14 +7,11 @@ part 'change_pass_response.g.dart';
 class ChangePassResponse {
   @JsonKey(name: 'messages')
   List<String>? messages;
-  @JsonKey(name: 'data')
-  bool? data;
   @JsonKey(name: 'isSuccess')
   bool? isSuccess;
 
   ChangePassResponse({
     this.messages,
-    this.data,
     this.isSuccess,
   });
 
@@ -25,7 +22,6 @@ class ChangePassResponse {
 
   ChangePassModel toModel() => ChangePassModel(
         messages: messages,
-        data: data,
         isSuccess: isSuccess,
       );
 }

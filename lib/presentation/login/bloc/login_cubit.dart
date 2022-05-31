@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -84,14 +85,24 @@ class LoginCubit extends BaseCubit<LoginState> {
         createDevice();
       },
       error: (err) {
-        if(err is NoNetworkException){
+        thongBao.sink.add('');
+        if (err is NoNetworkException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
           );
-        }else
-        if (err.code == 401) {
+        } else if (err.code == StatusCodeConst.STATUS_UNAUTHORIZED) {
           thongBao.sink.add(S.current.sai_tai_khoan_hoac_mat_khau);
+        } else if (err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
+          if (err.message.contains(S.current.sai_tai_khoan_hoac_mat_khau)) {
+            thongBao.sink.add(err.message);
+          } else {
+            MessageConfig.show(
+              messState: MessState.customIcon,
+              title: err.message,
+              urlIcon: ImageAssets.icUserNotExits,
+            );
+          }
         } else {
           thongBao.sink.add(S.current.dang_nhap_khong_thanh_cong);
         }

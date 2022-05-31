@@ -1004,5 +1004,8 @@
   "bao_cao": "Báo cáo",
   "phan_anh_kien_nghi": "Phản ánh kiến nghị",
   "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
-  "phan_xu_ly" : "Phân xử lý"
+  "phan_xu_ly" : "Phân xử lý",
+  "boc_bang" : "Bóc băng",
+  "dich_truc_tuyen" : "Dịch trực tuyến",
+  "them_file_boc_bang" : "Thêm file bóc băng"
 }

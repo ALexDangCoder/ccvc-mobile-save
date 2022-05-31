@@ -80,8 +80,10 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
     showLoading();
     result.when(success: (res) {
       showContent();
-      list.insert(0, res);
-      emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
+      if(res != null){
+        list.insert(0, res);
+        emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
+      }
     }, error: (error) {
       MessageConfig.show(
         title: error.message,

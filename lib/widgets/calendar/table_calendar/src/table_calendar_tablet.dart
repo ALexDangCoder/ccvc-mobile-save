@@ -3,6 +3,7 @@
 
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -200,14 +201,18 @@ class TableCalendarTablet<T> extends StatefulWidget {
 
   /// Called when the calendar is created. Exposes its PageController.
   final void Function(PageController pageController)? onCalendarCreated;
+  final bool isCheckLunar;
+  final Function(BuildContext contexts)? onTap;
 
   /// Creates a `TableCalendar` widget.
   TableCalendarTablet({
     Key? key,
+    this.isCheckLunar = false,
     required DateTime focusedDay,
     required DateTime firstDay,
     required DateTime lastDay,
     DateTime? currentDay,
+    this.onTap,
     this.locale,
     this.rangeStartDay,
     this.rangeEndDay,
@@ -453,7 +458,12 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
                 focusedMonth: value,
                 onLeftChevronTap: _onLeftChevronTap,
                 onRightChevronTap: _onRightChevronTap,
-                onHeaderTap: () => widget.onHeaderTapped?.call(value),
+                onHeaderTap: () {
+                  if (widget.onTap != null) {
+                    widget.onTap!(context);
+                  }
+                  widget.onHeaderTapped?.call(value);
+                },
                 onHeaderLongPress: () =>
                     widget.onHeaderLongPressed?.call(value),
                 headerStyle: widget.headerStyle,
@@ -610,6 +620,7 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
           isWeekend: isWeekend,
           isHoliday: widget.holidayPredicate?.call(day) ?? false,
           locale: widget.locale,
+          isCheckLunar: widget.isCheckLunar,
         );
 
         children.add(content);

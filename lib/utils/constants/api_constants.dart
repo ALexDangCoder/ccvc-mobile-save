@@ -57,6 +57,10 @@ class ApiConstants {
   static const SINH_NHAT_DASHBOARD = '/api/DashBoardHome/sinh-nhat?';
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
   static const UPLOAD_FILE = '/api/CanBo/upload';
+  static const UPLOAD_FILE_COMMON = '/qlvb/api/Common/UploadMultiFile';
+  static const UPDATE_Y_KIEN_XU_LY = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/update-y-kien';
+  static const CHO_Y_KIEN = '/qlvb/api/xin-y-kien/cho-y-kien';
+  static const TRA_LOI_Y_KIEN_VAN_BAN_DEN = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/tra-loi-xin-y-kien';
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';
@@ -179,6 +183,8 @@ class ApiConstants {
   static const LIST_PERMISSION = '/api/auth/list-permission';
   static const GET_DANH_SACH_Y_KIEN =
       '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/danh-sach-y-kien';
+  static const GET_LICH_SU_XIN_Y_KIEN =
+      '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/lich-su-xin-y-kien';
   static const BAO_CAO_THONG_KE = '/api/NewsNetViews/dashboard_statistical';
   static const MENU_BCMXH = '/api/NewsNetViews/menu-items?';
   static const Tin_TUC_THOI_SU = '/api/NewsNetViews/tin_tuc_thoi_su?';
@@ -232,6 +238,8 @@ class ApiConstants {
       '/api/NewsNetViews/thong_ke_theo_nguon';
   static const BAO_CAO_THEO_SAC_THAI_LINE_CHART =
       '/api/NewsNetViews/thong_ke_theo_sac_thai';
+  static const THEO_DOI_BAI_VIET =
+      '/api/NewsNetViews/theo_doi';
   static const CHANGE_PASS = '/api/auth/change-pass';
   static const THEM_Y_KIEN = '/vpdt/api/ScheduleOpinion/create';
   static const TIEN_TRINH_XU_LY = '/pakn/api/KienNghi/TienTrinhXulyPAKN';

@@ -51,11 +51,6 @@ class _BieuDoNhiemVuDonViRowTabletState
                   isSubjectInfo: false,
                   chartData: data,
                   onTap: (int value) {
-                    print("ddddd");
-                    // widget.ontap(widget.cubit.chartData[value].title.split(' ')
-                    //     .join('_')
-                    //     .toUpperCase()
-                    //     .vietNameseParse());
                   },
                 );
               },

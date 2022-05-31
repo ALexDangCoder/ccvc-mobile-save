@@ -86,12 +86,7 @@ class _DatePickerLayoutDelegate extends MultiChildLayoutDelegate {
   }
 }
 
-enum PickerColumnType {
-  dayOfMonth,
-  month,
-  year,
-  // lunar
-}
+enum PickerColumnType { dayOfMonth, month, year }
 
 class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
   final TextStyle textStyleDate;
@@ -170,8 +165,6 @@ class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
       case PickerColumnType.year:
         longestText = localizations.datePickerYear(2018);
         break;
-      //case PickerColumnType.lunar:
-
     }
 
     final TextPainter painter = TextPainter(
@@ -209,7 +202,7 @@ class CupertinoDatePickerDateState
   late FixedExtentScrollController monthController;
   late FixedExtentScrollController yearController;
 
-  //late FixedExtentScrollController lunarController;
+  late FixedExtentScrollController lunarController;
 
   Map<int, double> estimatedColumnWidths = <int, double>{};
 
@@ -219,7 +212,7 @@ class CupertinoDatePickerDateState
     selectedDay = widget.initialDateTime.day;
     selectedMonth = widget.initialDateTime.month;
     selectedYear = widget.initialDateTime.year;
-    //lunarController = FixedExtentScrollController(initialItem: 0);
+    lunarController = FixedExtentScrollController();
     dayController = FixedExtentScrollController(initialItem: selectedDay - 1);
     monthController =
         FixedExtentScrollController(initialItem: selectedMonth - 1);
@@ -264,12 +257,7 @@ class CupertinoDatePickerDateState
         textDirectionFactor == 1 ? Alignment.centerLeft : Alignment.centerRight;
     alignCenterRight =
         textDirectionFactor == 1 ? Alignment.centerRight : Alignment.centerLeft;
-    // estimatedColumnWidths[PickerColumnType.lunar.index] =
-    //     FlutterRoundedCupertinoDatePickerWidget._getColumnWidth(
-    //       PickerColumnType.lunar,
-    //       localizations,
-    //       context,
-    //     );
+
     estimatedColumnWidths[PickerColumnType.dayOfMonth.index] =
         FlutterRoundedCupertinoDatePickerWidget._getColumnWidth(
       PickerColumnType.dayOfMonth,

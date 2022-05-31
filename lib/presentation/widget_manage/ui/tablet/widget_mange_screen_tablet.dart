@@ -6,8 +6,10 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/bloc/widget_manage_cubit.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/mobile/prev_view_widget.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/tablet/prev_view_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/drag_item_list.dart';
+import 'package:ccvc_mobile/presentation/widget_manage/ui/widgets/item_not%20_use.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -75,9 +77,9 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
         ),
         stream: widgetManageCubit.stateStream,
         child: RefreshIndicator(
-          onRefresh: () async {
-            await widgetManageCubit.onRefreshData();
-          },
+            onRefresh: () async {
+              await widgetManageCubit.onRefreshData();
+            },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
@@ -100,22 +102,17 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                           height: 20,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(ImageAssets.ic_hoicham),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  S.current.keep_drop,
-                                  style: textNormal(
-                                    textTitle,
-                                    14.0.textScale(),
-                                  ),
-                                ),
-                              ],
+                            SvgPicture.asset(ImageAssets.ic_hoicham),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              S.current.keep_drop,
+                              style: textNormal(
+                                textTitle,
+                                14.0.textScale(),
+                              ),
                             ),
                           ],
                         ),
@@ -139,6 +136,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                             if (data.isNotEmpty) {
                               final List<WidgetModel> listWidgetUsing = data;
                               return DragItemList(
+                                paddingTablet: true,
                                 headerList: const SizedBox(),
                                 footerList: const SizedBox(),
                                 listWidget: listWidgetUsing,
@@ -173,6 +171,7 @@ class _WidgetManageScreenTabletState extends State<WidgetManageScreenTablet> {
                             if (data.isNotEmpty) {
                               final List<WidgetModel> listWidgetNotUse = data;
                               return DragItemList(
+                                paddingTablet: true,
                                 headerList: const SizedBox(),
                                 footerList: const SizedBox(),
                                 listWidget: listWidgetNotUse,

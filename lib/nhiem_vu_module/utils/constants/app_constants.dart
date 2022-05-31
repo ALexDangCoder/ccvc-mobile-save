@@ -177,4 +177,7 @@ class NhiemVuLowerCase {
   static const String QUA_HAN = 'qua-han';
   static const String DEN_HAN = 'den-han';
   static const String TRONG_HAN = 'trong-han';
+  static const String NHIEM_VU_DON_VI = 'nhiem-vu-don-vi';
+  static const String NHIEM_VU_CP_CPCP = 'nhiem-vu-cp/vpcp';
+  static const String NHIEM_VU_UBND_TINH = 'nhiem-vu-ubnd-tinh';
 }

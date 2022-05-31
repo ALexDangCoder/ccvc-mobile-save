@@ -55,7 +55,10 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
       child: StateStreamLayout(
         textEmpty: S.current.khong_co_du_lieu,
         retry: () {},
-        error: AppException('1', ''),
+        error: AppException(
+          S.current.error,
+          S.current.error,
+        ),
         stream: loginCubit.stateStream,
         child: BlocListener<LoginCubit, LoginState>(
           bloc: loginCubit,
@@ -112,8 +115,9 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                   ),
                                   Text(
                                     S.current.wellcom_login,
-                                    style:
-                                        textNormal(AqiColor, 16.0.textScale()),
+                                    style: textNormal(
+                                        textBodyTime,
+                                        16.0.textScale()),
                                   )
                                 ],
                               ),
@@ -299,12 +303,15 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
-                                              color:
-                                                  buttonColor.withOpacity(0.1),
+                                              color: AppTheme.getInstance()
+                                                  .colorField()
+                                                  .withOpacity(0.1),
                                             ),
                                             child: Center(
                                               child: SvgPicture.asset(
                                                 ImageAssets.icFingerprint,
+                                                color: AppTheme.getInstance()
+                                                    .colorField(),
                                               ),
                                             ),
                                           ),
@@ -324,12 +331,15 @@ class _LoginTabletScreenState extends State<LoginTabletScreen> {
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
-                                              color:
-                                                  buttonColor.withOpacity(0.1),
+                                              color: AppTheme.getInstance()
+                                                  .colorField()
+                                                  .withOpacity(0.1),
                                             ),
                                             child: Center(
                                               child: SvgPicture.asset(
                                                 ImageAssets.icFaceId,
+                                                color: AppTheme.getInstance()
+                                                    .colorField(),
                                               ),
                                             ),
                                           ),

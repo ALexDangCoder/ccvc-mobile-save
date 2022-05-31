@@ -82,7 +82,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     ButtonStatePhatBieu(
       key: S.current.danh_sach_phat_bieu,
       value: 0,
-      color: choXuLyColor,
+      color: color5A8DEE,
     ),
     ButtonStatePhatBieu(
       key: S.current.cho_duyet,
@@ -148,6 +148,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   BehaviorSubject<ChiTietLichHopModel> chiTietLichLamViecSubject =
       BehaviorSubject();
 
+  ChiTietLichHopModel get getChiTietLichHopModel =>
+      chiTietLichLamViecSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>

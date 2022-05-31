@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
+ import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_model.dart';
@@ -77,7 +77,7 @@ class _ChiTietNhiemVuPhoneScreenState extends State<ChiTietNhiemVuPhoneScreen>
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: radioUnfocusColor,
+                        color: colorE2E8F0,
                       ),
                     ),
                   ),

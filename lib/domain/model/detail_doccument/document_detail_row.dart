@@ -1,15 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -99,7 +96,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -149,22 +146,22 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             final data = row.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ...data
-                    .map(
-                      (e) => GestureDetector(
-                        onTap: () async {
-                          await handleSaveFile(
-                            url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                            name: e.ten ?? '',
-                          );
-                        },
-                        child: Text(
-                          e.ten ?? '',
-                          style: textNormalCustom(
-                            color: choXuLyColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0.textScale(),
+              children: <Widget>[...data
+                  .map(
+                    (e) => GestureDetector(
+                      onTap: () async {
+                        final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+                        await handleSaveFile(
+                          url: '$baseURL${e.duongDan}',
+                          name: e.ten ?? '',
+                        );
+                      },
+                      child: Text(
+                        e.ten ?? '',
+                        style: textNormalCustom(
+                          color: color5A8DEE,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
                           ),
                         ),
                       ),
@@ -231,7 +228,7 @@ extension StatusChiTietVanBan on StatusVanBan {
       case StatusVanBan.CHO_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
           changeTextColor: changeTextColor,
         );
       case StatusVanBan.DANG_XU_LY:

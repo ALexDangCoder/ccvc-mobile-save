@@ -267,23 +267,10 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayDauTien: ngayDauTien,
       ngayCuoiCung: ngayKetThuc,
     );
-    // getDashBroashCongViecCaNhan(
-    //   ngayDauTien: ngayDauTien,
-    //   ngayCuoiCung: ngayKetThuc,
-    // );
     callDataDanhSach(ngayDauTien, ngayKetThuc, isCheckCaNhan);
   }
 
   void callDataDanhSach(String start, String end, bool isCheckCaNhan) {
-    // postDanhSachCongViec(
-    //   hanXuLy: {'FromDate': start, 'ToDate': end},
-    //   index: pageIndex,
-    //   isCaNhan: isCheckCaNhan,
-    //   isSortByHanXuLy: true,
-    //   keySearch: keySearch,
-    //   mangTrangThai: [],
-    //   size: pageSize,
-    // );
     postDanhSachNhiemVu(
       index: pageIndex,
       isNhiemVuCaNhan: isCheckCaNhan,
@@ -413,6 +400,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         loaiNhiemVuSuject.sink.add(res.data?.trangThaiXuLy ?? []);
+        for (final LoaiNhiemVuComomModel value in res.data?.loaiNhiemVu ?? []) {
+          chartDataTheoLoai.add(
+            ChartData(
+              value.text.toString(),
+              (value.value ?? 0).toDouble(),
+              value.giaTri.toString().statusCharLoaiDSNV(),
+            ),
+          );
+        }
 
         chartData = (res.data?.trangThai ?? [])
             .map(
@@ -555,23 +551,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       daXuLyColor,
     ),
   ];
-  final List<ChartData> chartDataTheoLoai = [
-    ChartData(
-      'Nhiệm vụ CP/VPVP',
-      12,
-      choXuLyColor,
-    ),
-    ChartData(
-      'Nhiệm vụ Bộ',
-      12,
-      nhiemVuBoColor,
-    ),
-    ChartData(
-      'Nhiệm vụ đơn vị',
-      14,
-      nhiemDonViColor,
-    ),
-  ];
+  final List<ChartData> chartDataTheoLoai = [];
 
   final List<ChartData> chartDataNhiemVu = [
     ChartData(

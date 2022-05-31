@@ -44,60 +44,9 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                StreamBuilder<KetLuanHopModel>(
-                  stream: widget.cubit.ketLuanHopSubject.stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data;
-                      return ItemKetLuanHopWidget(
-                        title:
-                            '${S.current.ket_luan_hop} (${data?.title ?? ''})',
-                        time: data?.thoiGian ?? '',
-                        trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                        tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-                        id: widget.id,
-                        cubit: widget.cubit,
-                        onTap: () {
-                          isShow = !isShow;
-                          setState(() {});
-                        },
-                        listFile: data?.file ?? [],
-                      );
-                    } else {
-                      return const SizedBox(
-                        height: 200,
-                        child: NodataWidget(),
-                      );
-                    }
-                  },
-                ),
-                StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
-                  stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final data = snapshot.data ?? [];
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return ItemDanhSachNhiemVu(
-                            hanXuLy: data[index].hanXuLy,
-                            loaiNV: data[index].loaiNhiemVu,
-                            ndTheoDoi: data[index].noiDungTheoDoi,
-                            soNhiemVu: data[index].soNhiemVu,
-                            tinhHinhThucHien: data[index].tinhHinhThucHienNoiBo,
-                            trangThaiNhiemVu: data[index].trangThai,
-                          );
-                        },
-                      );
-                    } else {
-                      return const SizedBox(
-                        height: 200,
-                        child: NodataWidget(),
-                      );
-                    }
-                  },
-                )
+                ketLuanHop(),
+                textKetLuanHopNhiemVu(),
+                listDanhSachNhiemVu()
               ],
             ),
           ],
@@ -111,61 +60,9 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  StreamBuilder<KetLuanHopModel>(
-                    stream: widget.cubit.ketLuanHopSubject.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final data = snapshot.data;
-                        return ItemKetLuanHopWidget(
-                          title:
-                              '${S.current.ket_luan_hop}(${data?.title ?? ''})',
-                          time: data?.thoiGian ?? '',
-                          trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
-                          tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
-                          id: widget.id,
-                          cubit: widget.cubit,
-                          onTap: () {
-                            isShow = !isShow;
-                            setState(() {});
-                          },
-                          listFile: data?.file ?? [],
-                        );
-                      } else {
-                        return const SizedBox(
-                          height: 200,
-                          child: NodataWidget(),
-                        );
-                      }
-                    },
-                  ),
-                  StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
-                    stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final data = snapshot.data ?? [];
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            return ItemDanhSachNhiemVu(
-                              hanXuLy: data[index].hanXuLy,
-                              loaiNV: data[index].loaiNhiemVu,
-                              ndTheoDoi: data[index].noiDungTheoDoi,
-                              soNhiemVu: data[index].soNhiemVu,
-                              tinhHinhThucHien:
-                                  data[index].tinhHinhThucHienNoiBo,
-                              trangThaiNhiemVu: data[index].trangThai,
-                            );
-                          },
-                        );
-                      } else {
-                        return const SizedBox(
-                          height: 200,
-                          child: NodataWidget(),
-                        );
-                      }
-                    },
-                  )
+                  ketLuanHop(),
+                  textKetLuanHopNhiemVu(),
+                  listDanhSachNhiemVu()
                 ],
               ),
             ),
@@ -174,6 +71,72 @@ class _KetLuanHopWidgetState extends State<KetLuanHopWidget> {
       ),
     );
   }
+
+  Widget textKetLuanHopNhiemVu() => Text(
+        S.current.danh_sach_nhiem_vu,
+        style: textNormalCustom(
+          fontWeight: FontWeight.w500,
+          fontSize: 14.0.textScale(),
+          color: dateColor,
+        ),
+      );
+
+  Widget ketLuanHop() => StreamBuilder<KetLuanHopModel>(
+        stream: widget.cubit.ketLuanHopSubject.stream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data = snapshot.data;
+            return ItemKetLuanHopWidget(
+              title: '${S.current.ket_luan_hop} (${data?.title ?? ''})',
+              time: data?.thoiGian ?? '',
+              trangThai: data?.trangThai ?? TrangThai.ChoDuyet,
+              tinhTrang: data?.tinhTrang ?? TinhTrang.TrungBinh,
+              id: widget.id,
+              cubit: widget.cubit,
+              onTap: () {
+                isShow = !isShow;
+                setState(() {});
+              },
+              listFile: data?.file ?? [],
+            );
+          } else {
+            return const SizedBox(
+              height: 200,
+              child: NodataWidget(),
+            );
+          }
+        },
+      );
+
+  Widget listDanhSachNhiemVu() =>
+      StreamBuilder<List<DanhSachNhiemVuLichHopModel>>(
+        stream: widget.cubit.danhSachNhiemVuLichHopSubject.stream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data = snapshot.data ?? [];
+            return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return ItemDanhSachNhiemVu(
+                  hanXuLy: data[index].hanXuLy,
+                  loaiNV: data[index].loaiNhiemVu,
+                  ndTheoDoi: data[index].noiDungTheoDoi,
+                  soNhiemVu: data[index].soNhiemVu,
+                  tinhHinhThucHien: data[index].tinhHinhThucHienNoiBo,
+                  trangThaiNhiemVu: data[index].trangThai,
+                );
+              },
+            );
+          } else {
+            return const SizedBox(
+              height: 200,
+              child: NodataWidget(),
+            );
+          }
+        },
+      );
 }
 
 class ItemKetLuanHopWidget extends StatelessWidget {
@@ -349,7 +312,7 @@ class ItemKetLuanHopWidget extends StatelessWidget {
                   data[index],
                   style: textDetailHDSD(
                     fontSize: 14.0.textScale(),
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                   ),
                 );
               },
@@ -384,17 +347,6 @@ class ItemDanhSachNhiemVu extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 16.0,
-        ),
-        Text(
-          S.current.danh_sach_nhiem_vu,
-          style: textNormalCustom(
-            fontWeight: FontWeight.w500,
-            fontSize: 14.0.textScale(),
-            color: dateColor,
-          ),
-        ),
         Container(
           margin: EdgeInsets.only(top: 16.0.textScale()),
           padding: EdgeInsets.all(16.0.textScale()),

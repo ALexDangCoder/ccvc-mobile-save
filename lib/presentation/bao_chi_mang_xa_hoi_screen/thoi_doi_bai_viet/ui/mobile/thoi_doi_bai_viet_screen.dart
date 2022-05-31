@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/bloc/theo_doi_bai_viet_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/ui/mobile/widgets/bai_viet_item.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
     with AutomaticKeepAliveClientMixin {
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
-
+  final _debouncer = Debouncer(milliseconds: 500);
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -48,6 +49,13 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: BaseSearchBar(
               hintText: S.current.nhap_link,
+              onChange: (value){
+                if(value.isNotEmpty){
+                  _debouncer.run(() {
+                    theoDoiBaiVietCubit.followTopic(value);
+                  });
+                }
+              },
             ),
           ),
           const SizedBox(

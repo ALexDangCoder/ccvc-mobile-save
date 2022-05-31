@@ -999,5 +999,13 @@
   "email_ban_nhap_khong_khop_voi_email_da_dang_ky": "Email bạn nhập không khớp với email bạn đã đăng ký!",
   "mat_khau_cua_ban_da_duoc_gui_den_sdt": "Mật khẩu của bạn đã được gửi đến SĐT",
   "sdt_ban_nhap_khong_khop_voi_sdt_da_dang_ky": "SĐT bạn nhập không khớp với SĐT bạn đã đăng ký!",
-  "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại."
+  "no_internet": "Hệ thống hiện đang mất kết nối. Vui lòng thử lại.",
+  "tuong_tac_noi_bo": "Tương tác nội bộ",
+  "bao_cao": "Báo cáo",
+  "phan_anh_kien_nghi": "Phản ánh kiến nghị",
+  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
+  "phan_xu_ly" : "Phân xử lý",
+  "boc_bang" : "Bóc băng",
+  "dich_truc_tuyen" : "Dịch trực tuyến",
+  "them_file_boc_bang" : "Thêm file bóc băng"
 }

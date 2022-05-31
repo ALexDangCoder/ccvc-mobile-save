@@ -128,6 +128,7 @@ const bgGridView = Color(0xffFBFCFD);
 const bgTabletItem = Color(0xffFBFCFD);
 
 const borderCaneder = Color(0xff586B8B);
+const color586B8B = Color(0xff586B8B);
 
 const colorNumberCellQLVB = Color(0xffFCFDFD);
 

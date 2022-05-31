@@ -10,7 +10,9 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
+import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -103,12 +105,43 @@ class _SpeechToTextMobileState extends State<SpeechToTextMobile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarDefaultBack(
-        S.current.chuyen_giong_noi_thanh_van_ban,
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
-      body: Column(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          spaceH20,
+          Text(
+            S.current.chon_thiet_bi,
+            style: textNormalCustom(
+              color: color586B8B,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.textScale(),
+            ),
+          ),
+          spaceH8,
+          CoolDropDown(
+            initData: cubit.mList.first,
+            placeHoder: cubit.mList.first,
+            onChange: (value) {},
+            listData: cubit.mList,
+          ),
+          InputInfoUserWidget(
+            title: S.current.tep_am_thanh,
+            child: TextFieldValidator(
+              hintText: S.current.tep_am_thanh,
+              maxLength: 255,
+            ),
+          ),
+          InputInfoUserWidget(
+            title: S.current.thoi_luong_phut,
+            child: TextFieldValidator(
+              hintText: S.current.thoi_gian,
+              maxLength: 255,
+            ),
+          ),
           const SizedBox(
             height: 40,
           ),

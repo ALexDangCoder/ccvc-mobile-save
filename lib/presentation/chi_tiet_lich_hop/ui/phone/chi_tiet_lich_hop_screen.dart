@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_ho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuong_trinh_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuyen_giong_noi_thanh_van_ban/ui/mobile/speech_to_text_mobile.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/cong_tac_chuan_bi_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/phat_bieu_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
@@ -24,6 +25,7 @@ import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 
 class DetailMeetCalenderScreen extends StatefulWidget {
   final String id;
@@ -189,7 +191,16 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                         id: widget.id,
                         cubit: cubit,
                       ),
-
+                      GestureDetector(
+                        child: const Text('lucc'),
+                        onTap: () {
+                          showBottomSheetCustom(
+                            context,
+                            title: S.current.dich_truc_tuyen,
+                            child: const SpeechToTextMobile(),
+                          );
+                        },
+                      )
                     ],
                   ),
                 ),

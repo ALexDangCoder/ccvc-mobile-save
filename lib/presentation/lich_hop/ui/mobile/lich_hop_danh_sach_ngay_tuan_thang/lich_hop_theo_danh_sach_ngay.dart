@@ -1,10 +1,14 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/lich_hop.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/widget/folow_key_broard/follow_key_broad.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuyen_giong_noi_thanh_van_ban/ui/mobile/speech_to_text_mobile.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/bloc/lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/item_menu_lich_hop.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/widget/widget_item_lich_hop.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import '../lich_hop_extension.dart';
@@ -75,6 +79,11 @@ class _LichHopTheoDanhSachNgayState extends State<LichHopTheoDanhSachNgay> {
                               id: data.items?[index].id ?? '',
                             ),
                           ),
+                        );
+                        showBottomSheetCustom(
+                          context,
+                          title: S.current.dich_truc_tuyen,
+                          child: const SpeechToTextMobile(),
                         );
                       },
                       title: data.items?[index].title ?? '',

@@ -1,4 +1,4 @@
-import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/mobile/speech_to_text_mobile.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/chuyen_giong_noi_thanh_van_ban/ui/mobile/speech_to_text_mobile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class _BocBangWidgetState extends State<BocBangWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [Text(''), SpeechToTextMobile()],
+      children: const [SpeechToTextMobile()],
     );
   }
 }

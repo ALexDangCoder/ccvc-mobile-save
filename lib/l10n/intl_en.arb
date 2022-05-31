@@ -1003,5 +1003,10 @@
   "tuong_tac_noi_bo": "Tương tác nội bộ",
   "bao_cao": "Báo cáo",
   "phan_anh_kien_nghi": "Phản ánh kiến nghị",
-  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm"
+  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
+  "dich_truc_tuyen": "Dịch trực tuyến",
+  "chon_thiet_bi": "Chọn thiết bị",
+  "tep_am_thanh": "Tên tệp âm thanh",
+  "thoi_luong_phut": "Thời lượng mỗi tệp (phút)",
+  "thoi_luong": "Thời lượng"
 }

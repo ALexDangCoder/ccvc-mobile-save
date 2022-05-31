@@ -4,6 +4,4 @@ class ChuyenGiongNoiThanhVanBanCubit {
   BehaviorSubject<bool> isVoiceSubject = BehaviorSubject.seeded(false);
 
   Stream<bool> get isVoiceStream => isVoiceSubject.stream;
-
-  List<String> mList = ['Điện thoại', 'Tablet' ];
 }

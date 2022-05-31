@@ -15,7 +15,7 @@ class _TabThongTinXuLyPAKNTabletState extends State<TabThongTinXuLyPAKNTablet> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(top: 8, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
       child: Column(
         children: [
           itemThongTinXuLyPAKN(),

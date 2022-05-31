@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_den_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_di_response.dart';
@@ -69,6 +71,18 @@ abstract class QuanLyVanBanClient {
   @POST(ApiConstants.DANH_SACH_VB_DI)
   Future<DanhSachVBDiResponse> getDanhSachVanBanDiDashBoard(
     @Body() DanhSachVBDiRequest danhSachVBDiRequest,
+  );
+  @POST(ApiConstants.UPDATE_Y_KIEN_XU_LY)
+  Future<PostFileResponse> updateComment(
+    @Body() UpdateCommentRequest listComment,
+  );
+  @POST(ApiConstants.CHO_Y_KIEN)
+  Future<PostFileResponse> giveComment(
+    @Body() GiveCommentRequest comment,
+  );
+  @POST(ApiConstants.TRA_LOI_Y_KIEN_VAN_BAN_DEN)
+  Future<PostFileResponse> relayCommentDocumentIncome(
+    @Body() RelayCommentRequest relay,
   );
 
   @GET(ApiConstants.CHI_TIET_VAN_BAN_DI)

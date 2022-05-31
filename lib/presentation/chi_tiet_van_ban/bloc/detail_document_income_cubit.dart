@@ -2,12 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/thong_tin_gui_nhan.dart';
 import 'package:ccvc_mobile/domain/repository/qlvb_repository/qlvb_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -86,10 +89,10 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
   Stream<List<DanhSachYKienXuLy>> get danhSachYKienXuLyStream =>
       danhSachYKienXuLySubject.stream;
 
-  List<DanhSachYKienXuLy> listComment = [];
+  List<DanhSachYKienXuLy> giveComment = [];
+  List<DanhSachYKienXuLy> commentsReply = [];
 
   Future<void> getListCommend(String id) async {
-    listComment.clear();
     showLoading();
     final Queue queue = Queue(parallel: 2);
     unawaited(queue.add(() => getDanhSachYKienXuLy(id)));
@@ -99,23 +102,145 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
     });
   }
 
+  Future<void> relay(
+    String comment,
+    List<PickImageFileModel> listFile,
+    String documentId,
+    String taskId,
+  ) async {
+    showLoading();
+    final listIdFile = await postListFile(listFile);
+    final isSuccess = await postRelay(
+      comment,
+      listIdFile,
+      documentId,
+      taskId,
+    );
+    showContent();
+    if (isSuccess) {
+      showSuccessComment();
+      showLoading();
+      await getLichSuXinYKien(documentId);
+      showContent();
+    } else {
+      showFailComment();
+    }
+  }
+
   Future<void> comment(
     String comment,
     List<PickImageFileModel> listFile,
+    String documentId,
+    String taskId,
   ) async {
+    showLoading();
     final listIdFile = await postListFile(listFile);
-    await postComment(comment, listIdFile);
+    final isSuccess = await postComment(
+      comment,
+      listIdFile,
+      documentId,
+      taskId,
+    );
+    showContent();
+    if (isSuccess) {
+      showSuccessComment();
+      showLoading();
+      await getDanhSachYKienXuLy(documentId);
+      showContent();
+    } else {
+      showFailComment();
+    }
   }
 
-  Future<void> postComment(String comment, List<String> listIdFile) async {}
+  Future<bool> postComment(
+    String comment,
+    List<String> listIdFile,
+    String documentId,
+    String taskId,
+  ) async {
+    bool dataReturn = false;
+    final request = UpdateCommentRequest(
+      danhSachYKien: [
+        DanhSachYKienRequest(
+          hashValue: '',
+          noiDung: comment,
+          files: listIdFile
+              .map(
+                (e) => YKienXuLyFileDinhKemRequest(
+                  idFile: e,
+                  dataKySo: '',
+                  keyKySo: '',
+                ),
+              )
+              .toList(),
+        )
+      ],
+      vanBanDenId: documentId,
+      taskId: taskId,
+    );
+    final result = await _qLVBRepo.updateComment(request);
+    result.when(
+      success: (isSuccess) {
+        dataReturn = isSuccess;
+      },
+      error: (e) {},
+    );
+    return dataReturn;
+  }
+
+  void showSuccessComment() {
+    MessageConfig.show(
+      title: S.current.cho_y_kien_thanh_cong,
+    );
+  }
+
+  void showFailComment() {
+    MessageConfig.show(
+      title: S.current.cho_y_kien_that_bai,
+      messState: MessState.error,
+    );
+  }
+
+  Future<bool> postRelay(
+    String comment,
+    List<String> listIdFile,
+    String documentId,
+    String taskId,
+  ) async {
+    bool dataReturn = false;
+    final request = RelayCommentRequest(
+      hashValue: '',
+      noiDung: comment,
+      files: listIdFile
+          .map(
+            (e) => YKienXuLyFileDinhKemRequest(
+              idFile: e,
+              dataKySo: '',
+              keyKySo: '',
+            ),
+          )
+          .toList(),
+      taskId: taskId,
+      documentId: documentId,
+    );
+    final result = await _qLVBRepo.relayCommentDocumentIncome(request);
+    result.when(
+      success: (isSuccess) {
+        dataReturn = isSuccess;
+      },
+      error: (e) {},
+    );
+    return dataReturn;
+  }
 
   Future<List<String>> postListFile(List<PickImageFileModel> listPath) async {
+    if (listPath.isEmpty) return [];
     final List<String> idFileUpload = [];
     final Queue queue = Queue(parallel: listPath.length);
     for (final element in listPath) {
       unawaited(
         queue.add(
-          () => uploadFile(element.path ?? '' , idFileUpload),
+          () => uploadFile(element.path ?? '', idFileUpload),
         ),
       );
     }
@@ -123,7 +248,7 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
     return idFileUpload;
   }
 
-  Future<void> uploadFile(String path,  List<String> idFileUpload) async {
+  Future<void> uploadFile(String path, List<String> idFileUpload) async {
     final result = await _qLVBRepo.postFile(
       path: File(path),
     );
@@ -141,8 +266,8 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
     final result = await _qLVBRepo.getDataDanhSachYKien(vanBanId);
     result.when(
       success: (res) {
-        listComment.addAll(res.data ?? []);
-        danhSachYKienXuLySubject.add(listComment);
+        giveComment = res.data ?? [];
+        danhSachYKienXuLySubject.add([...giveComment, ...commentsReply]);
       },
       error: (error) {},
     );
@@ -153,8 +278,8 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
     final result = await _qLVBRepo.getLichSuXinYKien(vanBanId);
     result.when(
       success: (res) {
-        listComment.addAll(res.data ?? []);
-        danhSachYKienXuLySubject.add(listComment);
+        commentsReply = res.data ?? [];
+        danhSachYKienXuLySubject.add([...giveComment, ...commentsReply]);
       },
       error: (error) {},
     );

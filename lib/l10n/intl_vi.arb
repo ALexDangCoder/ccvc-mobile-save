@@ -948,8 +948,8 @@
   "theo_loai": "Theo loại",
   "theo_don_vi": "Theo đơn vị",
   "ban_co_muon_xoa_thong_bao": "Bạn có muốn xóa thông báo?",
-  "danh_dau_tat_ca_da_doc": "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
   "doc_tat_ca": "Đọc tất cả",
+  "danh_dau_tat_ca_da_doc": "Bạn có muốn đánh dấu tất cả thông báo là đã đọc? Lưu ý rằng hành động này sẽ không thể gỡ  bỏ.",
   "nguoi_tao": "Người tạo",
   "giong_noi": "Giọng nói",
   "copy_success": "Copy thành công",
@@ -992,12 +992,15 @@
   "tuong_tac_noi_bo": "Tương tác nội bộ",
   "bao_cao": "Báo cáo",
   "phan_anh_kien_nghi": "Phản ánh kiến nghị",
-  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
-  "dich_truc_tuyen": "Dịch trực tuyến",
   "chon_thiet_bi": "Chọn thiết bị",
   "tep_am_thanh": "Tên tệp âm thanh",
   "thoi_luong_phut": "Thời lượng mỗi tệp (phút)",
-  "thoi_luong": "Thời lượng"
+  "thoi_luong": "Thời lượng",
+  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
+  "phan_xu_ly" : "Phân xử lý",
+  "boc_bang" : "Bóc băng",
+  "dich_truc_tuyen" : "Dịch trực tuyến",
+  "them_file_boc_bang" : "Thêm file bóc băng"
 }
 
 

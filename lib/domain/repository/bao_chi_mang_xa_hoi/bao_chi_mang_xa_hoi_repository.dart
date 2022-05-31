@@ -57,6 +57,10 @@ mixin BaoChiMangXaHoiRepository {
     int topic,
   );
 
+  Future<Result<BaiVietModel>> followTopic(
+    String url,
+  );
+
   Future<Result<TinTucModel>> searchTinTuc(
     int pageIndex,
     int pageSize,

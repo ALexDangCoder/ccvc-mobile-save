@@ -654,6 +654,8 @@ class DanhSachChoYKienResponse {
   bool? isCanSuaXinYKien;
   @JsonKey(name: 'IsNguoiDangNhapCoTheTraLoi')
   bool? isNguoiDangNhapCoTheTraLoi;
+  @JsonKey(name: 'TraLois')
+  List<DanhSachChoYKienResponse>? traLois;
 
   DanhSachChoYKienResponse({
     this.id,
@@ -708,6 +710,7 @@ class DanhSachChoYKienResponse {
         isCanXoa: isCanXoa,
         isCanSuaXinYKien: isCanSuaXinYKien,
         isNguoiDangNhapCoTheTraLoi: isNguoiDangNhapCoTheTraLoi,
+        traLoi: traLois?.map((e) => e.toModel()).toList() ?? [],
       );
 }
 
@@ -719,14 +722,11 @@ class DanhSachFilesResponse {
   String? id;
   @JsonKey(name: 'IsSign')
   String? isSign;
-  @JsonKey(name: 'DuongDan')
-  String? duongDan;
 
   DanhSachFilesResponse({
     this.ten,
     this.id,
     this.isSign,
-    this.duongDan,
   });
 
   factory DanhSachFilesResponse.fromJson(
@@ -740,6 +740,5 @@ class DanhSachFilesResponse {
         ten: ten,
         id: id,
         isSign: isSign,
-        duongDan: duongDan,
       );
 }

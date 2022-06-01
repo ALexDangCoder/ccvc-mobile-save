@@ -36,7 +36,6 @@ class _BieuDoTrangThaiTheoLoaiMobileState
     return Container(
       color: Colors.transparent,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: PieChart(
@@ -61,7 +60,7 @@ class _BieuDoTrangThaiTheoLoaiMobileState
                   final result = widget.chartData[index];
                   return GestureDetector(
                     onTap: () {
-                      widget.ontap(widget.cubit.chartData[index].title
+                      widget.ontap(widget.chartData[index].title
                           .split(' ')
                           .join('_')
                           .toUpperCase()

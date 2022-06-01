@@ -1,4 +1,7 @@
+import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/danh_sach/danh_sach_nhiem_vu_mobile.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -81,16 +84,10 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: LoadingOnly(
           stream: _nhiemVuCubit.stateStream,
-          child: StreamBuilder<List<TongHopNhiemVuModel>>(
+          child: StreamBuilder<DocumentDashboardModel>(
             stream: _nhiemVuCubit.getTonghopNhiemVu,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? <TongHopNhiemVuModel>[];
-              if (data.isEmpty) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 100),
-                  child: NodataWidget(),
-                );
-              }
+              final data = snapshot.data ?? DocumentDashboardModel();
               return GridView.count(
                 padding: EdgeInsets.zero,
                 crossAxisCount: 2,
@@ -98,39 +95,32 @@ class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
                 crossAxisSpacing: 17,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(
-                  data.length,
-                  (index) {
-                    final result = data[index];
-                    return GestureDetector(
-                      onTap: () {
-                        // _nhiemVuCubit.clickScreen(result.tongHopNhiemVuModel);
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => DanhSachNhiemVuMobile(
-                        //       ngayBatDau: _nhiemVuCubit.startDate.toString(),
-                        //       ngayKetThuc: _nhiemVuCubit.endDate.toString(),
-                        //       // ignore: avoid_bool_literals_in_conditional_expressions
-                        //       isCheck: _nhiemVuCubit.selectKeyDonVi ==
-                        //               SelectKey.DON_VI
-                        //           ? false
-                        //           : true,
-                        //       mangTrangThai: _nhiemVuCubit.mangTrangThai,
-                        //       trangThaiHanXuLy: _nhiemVuCubit.trangThaiHanXuLy,
-                        //     ),
-                        //   ),
-                        // );
-                      },
-                      child: NhiemVuWidget(
-                        title: result.tongHopNhiemVuModel.getText(),
-                        urlIcon: result.tongHopNhiemVuModel.urlImg(),
-                        value: result.value.toString(),
-                        type: result.tongHopNhiemVuModel,
-                      ),
-                    );
-                  },
-                ),
+                children: [
+                  NhiemVuWidget(
+                    title: S.current.cho_phan_xu_ly,
+                    urlIcon: ImageAssets.icNhiemVuDangThucHien,
+                    value: data.soLuongChoPhanXuLy.toString(),
+                    type: TongHopNhiemVuType.choPhanXuLy,
+                  ),
+                  NhiemVuWidget(
+                    title: S.current.chua_thuc_hien,
+                    urlIcon: ImageAssets.icDangThucHienQuaHan,
+                    value: data.soLuongChuaThucHien.toString(),
+                    type: TongHopNhiemVuType.chuaThucHien,
+                  ),
+                  NhiemVuWidget(
+                    title: S.current.dang_thuc_hien,
+                    urlIcon: ImageAssets.icDangThucHienTrongHan,
+                    value: data.soLuongDangThucHien.toString(),
+                    type: TongHopNhiemVuType.dangThucHien,
+                  ),
+                  NhiemVuWidget(
+                    title: S.current.hoan_thanh_nhiem_vu,
+                    urlIcon: ImageAssets.icHoanThanhNhiemVu,
+                    value: data.soLuongHoanThanhNhiemVu.toString(),
+                    type: TongHopNhiemVuType.hoanThanhNhiemVu,
+                  ),
+                ],
               );
             },
           ),

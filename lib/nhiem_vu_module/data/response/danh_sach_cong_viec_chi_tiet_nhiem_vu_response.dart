@@ -258,12 +258,15 @@ class DanhSachCongViecChiTietNhiemVuModelResponse extends Equatable {
 class PostYKienResponse extends Equatable {
   @JsonKey(name: 'IsSuccess')
   bool? isSuccess;
+  @JsonKey(name: 'Code')
+  int? code;
   @JsonKey(name: 'Data')
   dynamic data;
 
   PostYKienResponse(
     this.isSuccess,
     this.data,
+    this.code,
   );
 
   factory PostYKienResponse.fromJson(Map<String, dynamic> json) =>

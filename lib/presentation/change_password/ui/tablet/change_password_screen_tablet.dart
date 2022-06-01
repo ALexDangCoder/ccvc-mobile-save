@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
-import 'package:ccvc_mobile/presentation/reset_password/ui/tablet/send_mail_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/reset_password/ui/tablet/fogot_password_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -255,11 +255,12 @@ class _ChangePassWordScreenTabletState
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text.trim(),
-                                    passwordOld:
-                                        matKhauHienTaiController.text.trim(),
-                                    repeatPassword:
-                                        nhapLaiMatKhauController.text.trim())
+                              password: matKhauMoiController.text.trim(),
+                              passwordOld: matKhauHienTaiController.text.trim(),
+                              repeatPassword:
+                                  nhapLaiMatKhauController.text.trim(),
+                              context: context,
+                            )
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

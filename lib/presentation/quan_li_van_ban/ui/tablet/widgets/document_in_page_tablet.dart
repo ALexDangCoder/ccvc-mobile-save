@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/container_info_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/tablet/chi_tiet_van_ban_den_tablet.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
-import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/mobile/widgets/common_infor_mobile.dart';
+import 'package:ccvc_mobile/presentation/quan_li_van_ban/ui/widgets/common_info.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -52,7 +52,7 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                 stream: widget.qlvbCubit.getVbDen,
                 builder: (context, snapshot) {
                   final dataVBDen = snapshot.data ?? DocumentDashboardModel();
-                  return CommonInformationMobile(
+                  return CommonInformationDocumentManagement(
                     isTablet: true,
                     chartData: widget.qlvbCubit.chartDataVbDen,
                     documentDashboardModel: dataVBDen,
@@ -62,12 +62,12 @@ class _DocumentInPageTabletState extends State<DocumentInPageTablet>
                           widget.qlvbCubit.documentInStatusCode == value
                               ? ''
                               : value;
-                      widget.qlvbCubit.listDataDanhSachVBDen();
+                      widget.qlvbCubit.getListIncomeDocument();
                     },
                     onStatusTap: (key) {
                       widget.qlvbCubit.documentInStatusCode = '';
                       widget.qlvbCubit.documentInSubStatusCode = key;
-                      widget.qlvbCubit.listDataDanhSachVBDen();
+                      widget.qlvbCubit.getListIncomeDocument();
                     },
                   );
                 },

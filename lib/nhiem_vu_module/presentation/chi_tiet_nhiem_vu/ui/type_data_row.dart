@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_ban_lien_quan.dart';
@@ -8,6 +9,7 @@ import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 enum TypeDataNV { file, status, text }
@@ -43,7 +45,8 @@ extension TypeData on TypeDataNV {
                       }
                       await saveFile(
                         e.ten ?? '',
-                        'http://${e.pathIOC}',
+                        '${Get.find<AppConstants>().baseUrlQLNV}${e.duongDan}',
+                        http: true,
                       )
                           .then(
                             (value) => MessageConfig.show(
@@ -60,7 +63,7 @@ extension TypeData on TypeDataNV {
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -123,7 +126,7 @@ extension StatusChiTietNV on StatusNV {
       case StatusNV.CHO_PHAN_XU_LY:
         return statusChiTietNhiemVu(
           name: S.current.cho_phan_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
         );
       case StatusNV.TRA_LAI:
         return statusChiTietNhiemVu(

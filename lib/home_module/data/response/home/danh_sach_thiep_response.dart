@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
+
 class DanhSachThiepResponse {
   Data? data;
   int? statusCode;
@@ -72,4 +74,6 @@ class PageData {
     type = json['type'];
     isDeleted = json['isDeleted'];
   }
+  ThiepSinhNhatModel toDomain() =>
+      ThiepSinhNhatModel(id: id ?? '', imgUrl: imgUrl ?? '');
 }

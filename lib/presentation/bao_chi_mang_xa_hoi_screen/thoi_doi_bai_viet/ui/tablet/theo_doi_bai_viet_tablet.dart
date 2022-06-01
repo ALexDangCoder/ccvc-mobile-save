@@ -23,7 +23,7 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet>
     with AutomaticKeepAliveClientMixin {
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
-  final _debouncer = Debouncer(milliseconds: 500);
+  final _debouncer = Debouncer(milliseconds: 2000);
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +60,13 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet>
             ),
             child: BaseSearchBar(
               hintText: S.current.nhap_link,
+              onSubmit: (value){
+                if(value.isNotEmpty){
+                  _debouncer.run(() {
+                    theoDoiBaiVietCubit.followTopic(value);
+                  });
+                }
+              },
               onChange: (value){
                 if(value.isNotEmpty){
                   _debouncer.run(() {

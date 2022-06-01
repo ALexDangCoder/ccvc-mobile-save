@@ -651,6 +651,9 @@ class _EditPersonalInformationTabletScreen
                                 idTinh: cubit.idTinh,
                                 idHuyen: cubit.idHuyen,
                                 idXa: cubit.idXa,
+                                anhChuKy: cubit.pathAnhChuKy,
+                                anhDaiDien: cubit.pathAnhDaiDien,
+                                anhKyNhay: cubit.pathAnhKyNhay,
                               )
                                   .then((value) {
                                 if (value) {

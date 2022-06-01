@@ -131,7 +131,7 @@ abstract class BaoChiMangXaHoiService {
     @Query('treeNode') int treeNode,
   );
 
-  @GET(ApiConstants.THEO_DOI_BAI_VIET)
+  @POST(ApiConstants.THEO_DOI_BAI_VIET)
   Future<BaiVietResponse> followTopic(
     @Query('url') String url,
   );

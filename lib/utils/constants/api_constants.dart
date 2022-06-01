@@ -243,6 +243,7 @@ class ApiConstants {
   static const THEO_DOI_BAI_VIET =
       '/api/NewsNetViews/theo_doi';
   static const CHANGE_PASS = '/api/auth/change-pass';
+  static const FORGOT_PASSWORD = '/api/auth/forgot-password';
   static const THEM_Y_KIEN = '/vpdt/api/ScheduleOpinion/create';
   static const TIEN_TRINH_XU_LY = '/pakn/api/KienNghi/TienTrinhXulyPAKN';
   static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';

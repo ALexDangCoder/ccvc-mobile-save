@@ -8,7 +8,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/bloc/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/mobile/nhiem_vu_don_vi_mobile.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/ui/tablet/widget/bieu_do_don_vi_row_tablet.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/bieu_do_trang_thai_theo_loai.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/bieu_do_trang_thai_theo_loai_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/nhiem_vu_item_tablet_new.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/state_select_bieu_do_trang_thai.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -136,83 +136,80 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                             padding:
                                 const EdgeInsets.only(bottom: 20.0, left: 16.0),
                             child: StreamBuilder<List<ChartData>>(
-                              stream: widget.danhSachCubit.statusSuject,
-                              initialData:
-                                  widget.danhSachCubit.chartDataNhiemVuCaNhan,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data ??
-                                    widget.danhSachCubit.chartDataNhiemVuCaNhan;
-                                return BieuDoNhiemVuDonViRowTablet(
-                                  chartData: data,
-                                  cubit: widget.danhSachCubit,
-                                  ontap: (value) {
-                                    widget.danhSachCubit.mangTrangThai = value;
-                                    widget.danhSachCubit.trangThaiHanXuLy =
-                                        null;
-                                    setState(() {
-                                      widget.danhSachCubit.postDanhSachNhiemVu(
-                                        index: 0,
-                                        isNhiemVuCaNhan: widget.isCheck,
-                                        isSortByHanXuLy: true,
-                                        mangTrangThai: [
-                                          widget.danhSachCubit.mangTrangThai
-                                        ],
-                                        ngayTaoNhiemVu: {
-                                          'FromDate':
-                                              widget.danhSachCubit.ngayDauTien,
-                                          'ToDate':
-                                              widget.danhSachCubit.ngayKetThuc
-                                        },
-                                        size: widget.danhSachCubit.pageSize,
-                                        keySearch:
-                                            widget.danhSachCubit.keySearch,
-                                        trangThaiHanXuLy: widget
-                                            .danhSachCubit.trangThaiHanXuLy,
-                                      );
-                                    });
-                                  },
-                                  onTapStatusBox: (value_status_box) {
-                                    widget.danhSachCubit.mangTrangThai = '';
-                                    widget.danhSachCubit.trangThaiHanXuLy =
-                                        value_status_box;
-                                    setState(() {
-                                      widget.danhSachCubit.postDanhSachNhiemVu(
-                                        index: 0,
-                                        isNhiemVuCaNhan: widget.isCheck,
-                                        isSortByHanXuLy: true,
-                                        mangTrangThai: [
-                                          widget.danhSachCubit.mangTrangThai
-                                        ],
-                                        ngayTaoNhiemVu: {
-                                          'FromDate':
-                                              widget.danhSachCubit.ngayDauTien,
-                                          'ToDate':
-                                              widget.danhSachCubit.ngayKetThuc
-                                        },
-                                        size: widget.danhSachCubit.pageSize,
-                                        keySearch:
-                                            widget.danhSachCubit.keySearch,
-                                        trangThaiHanXuLy: widget
-                                            .danhSachCubit.trangThaiHanXuLy,
-                                      );
-                                    });
-                                  },
-                                );
-                              },
-                            ),
+                                stream: widget.danhSachCubit.statusSuject,
+                                initialData:
+                                    widget.danhSachCubit.chartDataTheoLoai,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ??
+                                      widget.danhSachCubit.chartDataTheoLoai;
+                                  return BieuDoTrangThaiTheoLoaiTablet(
+                                    chartData: data,
+                                    cubit: widget.danhSachCubit,
+                                    ontap: (value) {
+                                      widget.danhSachCubit.mangTrangThai =
+                                          value;
+                                      widget.danhSachCubit.trangThaiHanXuLy =
+                                          null;
+                                      setState(() {});
+                                    },
+                                  );
+                                }),
                           );
                         } else if (data.map((e) => e.isCheck).elementAt(1) ==
                             true) {
                           return Container(
                             padding:
                                 const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                            child: BieuDoTrangThaiTheoLoaiMobile(
-                              chartData: widget.danhSachCubit.chartDataTheoLoai,
+                            child: BieuDoNhiemVuDonViRowTablet(
+                              chartData:
+                                  widget.danhSachCubit.chartData,
                               cubit: widget.danhSachCubit,
                               ontap: (value) {
                                 widget.danhSachCubit.mangTrangThai = value;
                                 widget.danhSachCubit.trangThaiHanXuLy = null;
-                                setState(() {});
+                                setState(() {
+                                  widget.danhSachCubit.postDanhSachNhiemVu(
+                                    index: 0,
+                                    isNhiemVuCaNhan: widget.isCheck,
+                                    isSortByHanXuLy: true,
+                                    mangTrangThai: [
+                                      widget.danhSachCubit.mangTrangThai
+                                    ],
+                                    ngayTaoNhiemVu: {
+                                      'FromDate':
+                                          widget.danhSachCubit.ngayDauTien,
+                                      'ToDate': widget.danhSachCubit.ngayKetThuc
+                                    },
+                                    size: widget.danhSachCubit.pageSize,
+                                    keySearch: widget.danhSachCubit.keySearch,
+                                    trangThaiHanXuLy:
+                                        widget.danhSachCubit.trangThaiHanXuLy,
+                                  );
+                                });
+                              },
+                              onTapStatusBox: (value_status_box) {
+                                widget.danhSachCubit.mangTrangThai = '';
+                                widget.danhSachCubit.trangThaiHanXuLy =
+                                    value_status_box;
+                                setState(() {
+                                  widget.danhSachCubit.postDanhSachNhiemVu(
+                                    index: 0,
+                                    isNhiemVuCaNhan: widget.isCheck,
+                                    isSortByHanXuLy: true,
+                                    mangTrangThai: [
+                                      widget.danhSachCubit.mangTrangThai
+                                    ],
+                                    ngayTaoNhiemVu: {
+                                      'FromDate':
+                                          widget.danhSachCubit.ngayDauTien,
+                                      'ToDate': widget.danhSachCubit.ngayKetThuc
+                                    },
+                                    size: widget.danhSachCubit.pageSize,
+                                    keySearch: widget.danhSachCubit.keySearch,
+                                    trangThaiHanXuLy:
+                                        widget.danhSachCubit.trangThaiHanXuLy,
+                                  );
+                                });
                               },
                             ),
                           );

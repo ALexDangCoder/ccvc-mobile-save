@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/quan_li_van_ban/bloc/qlvb_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -29,6 +30,9 @@ class SearchBarDocumentManagement extends StatefulWidget {
 class _SearchBarDocumentManagementState
     extends State<SearchBarDocumentManagement> {
   TextEditingController textController = TextEditingController();
+
+  Debouncer debouncer = Debouncer();
+
 
   @override
   void initState() {
@@ -79,8 +83,8 @@ class _SearchBarDocumentManagementState
                           setState(() {});
                           widget.qlvbCubit.keySearch =
                               textController.value.text;
-                          widget.qlvbCubit.listDataDanhSachVBDen();
-                          widget.qlvbCubit.listDataDanhSachVBDi();
+                          widget.qlvbCubit.getListIncomeDocument();
+                          widget.qlvbCubit.getListOutcomeDocument();
                         },
                         child: const Icon(Icons.clear, color: coloriCon),
                       ),
@@ -98,11 +102,16 @@ class _SearchBarDocumentManagementState
                     ),
                   )
                 : GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       widget.qlvbCubit.setSelectSearch();
                     },
-                    child: const Icon(
-                      Icons.search,
+                    // child: const Icon(
+                    //   Icons.search,
+                    //   color: coloriCon,
+                    // ),
+                    child: ImageAssets.svgAssets(
+                      ImageAssets.icBack,
                       color: coloriCon,
                     ),
                   ),
@@ -121,10 +130,10 @@ class _SearchBarDocumentManagementState
           ),
           onChanged: (text) {
             setState(() {});
-            widget.qlvbCubit.debouncer.run(() {
+            debouncer.run(() {
               widget.qlvbCubit.keySearch = text;
-              widget.qlvbCubit.listDataDanhSachVBDen();
-              widget.qlvbCubit.listDataDanhSachVBDi();
+              widget.qlvbCubit.getListIncomeDocument();
+              widget.qlvbCubit.getListOutcomeDocument();
             });
           },
         ),

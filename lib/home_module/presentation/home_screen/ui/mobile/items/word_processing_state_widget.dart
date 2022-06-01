@@ -171,17 +171,17 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                       chartData: [
                         ChartData(
                             S.current.cho_trinh_ky,
-                            data.soLuongChoTrinhKy.toDouble() ,
+                            data.soLuongChoTrinhKy.toDouble(),
                             choTrinhKyColor,
                             SelectKey.CHO_TRINH_KY),
                         ChartData(
                             S.current.cho_xu_ly,
-                            data.soLuongChoXuLy.toDouble() ,
+                            data.soLuongChoXuLy.toDouble(),
                             choXuLyColor,
                             SelectKey.CHO_XU_LY),
                         ChartData(
                             S.current.da_xu_ly,
-                            data.soLuongDaXuLy.toDouble() ,
+                            data.soLuongDaXuLy.toDouble(),
                             daXuLyColor,
                             SelectKey.DA_XU_LY),
                         ChartData(
@@ -191,7 +191,7 @@ class _WordProcessingStateWidgetState extends State<WordProcessingStateWidget> {
                             SelectKey.CHO_CAP_SO),
                         ChartData(
                             S.current.cho_ban_hanh,
-                            data.soLuongChoBanHanh.toDouble() ,
+                            data.soLuongChoBanHanh.toDouble(),
                             choBanHanhColor,
                             SelectKey.CHO_BAN_HANH)
                       ],

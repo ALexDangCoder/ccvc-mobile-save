@@ -1,16 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/utils/dowload_file.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/bloc/detail_row_cubit.dart';
+import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/checkbox/custom_checkbox.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import 'bloc/detail_row_cubit.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 
 class DetailDocumentRow extends StatefulWidget {
   final DocumentDetailRow row;
@@ -60,33 +59,16 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                         .map(
                           (e) => GestureDetector(
                             onTap: () async {
-                              final status = await Permission.storage.status;
-                              if (!status.isGranted) {
-                                await Permission.storage.request();
-                                await Permission.manageExternalStorage
-                                    .request();
-                              }
-
-                              await saveFile(
-                                e.ten ?? '',
-                                e.duongDan ?? '',
-                              )
-                                  .then(
-                                    (value) => MessageConfig.show(
-                                      title: S.current.tai_file_thanh_cong,
-                                    ),
-                                  )
-                                  .onError(
-                                    (error, stackTrace) => MessageConfig.show(
-                                      title: S.current.tai_file_that_bai,
-                                      messState: MessState.error,
-                                    ),
-                                  );
+                              final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+                              await handleSaveFile(
+                                name: e.ten ?? '',
+                                url: '$baseURL${e.duongDan}',
+                              );
                             },
                             child: Text(
                               e.ten ?? '',
                               style: textNormalCustom(
-                                color: choXuLyColor,
+                                color: color5A8DEE,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14.0,
                               ),

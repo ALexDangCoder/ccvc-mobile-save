@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/home_module/domain/model/home/WidgetType.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/phan_anh_kien_nghi_don_vi_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_xu_li_van_ban_don_vi.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/phan_anh_kien_nghi_don_vi_tablet.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/tablet/items/tinh_hinh_xu_li_van_ban_don_vi_tablet.dart';
@@ -13,7 +14,7 @@ import '/home_module/presentation/home_screen/ui/mobile/items/nhiem_vu_widget.da
 import '/home_module/presentation/home_screen/ui/mobile/items/people_opinions_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/press_social_net_word_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/sinh_nhat_widget.dart';
-import '/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_pakn_cua_ca_nhan.dart';
+
 import '/home_module/presentation/home_screen/ui/mobile/items/summary_of_task_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/word_processing_state_widget.dart';
 import '/home_module/presentation/home_screen/ui/mobile/items/work_list_widget.dart';

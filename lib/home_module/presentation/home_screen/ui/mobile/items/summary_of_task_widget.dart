@@ -17,6 +17,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class SummaryOfTaskWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const SummaryOfTaskWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -27,6 +28,7 @@ class SummaryOfTaskWidget extends StatefulWidget {
 class _SummaryOfTaskWidgetState extends State<SummaryOfTaskWidget> {
   late HomeCubit cubit;
   final TongHopNhiemVuCubit _nhiemVuCubit = TongHopNhiemVuCubit();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies

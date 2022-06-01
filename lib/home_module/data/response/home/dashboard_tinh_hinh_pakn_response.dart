@@ -31,18 +31,18 @@ class Data {
 
   Data(
       {this.choTiepNhan,
-      this.phanXuLy,
-      this.dangXuLy,
-      this.choDuyet,
-      this.choBoSungThongTin,
-      this.quaHan,
-      this.denHan,
-      this.trongHan,
-      this.choTiepNhanXuLy,
-      this.choXuLy,
-      this.choPhanXuLy,
-      this.daPhanCong,
-      this.daHoanThanh});
+        this.phanXuLy,
+        this.dangXuLy,
+        this.choDuyet,
+        this.choBoSungThongTin,
+        this.quaHan,
+        this.denHan,
+        this.trongHan,
+        this.choTiepNhanXuLy,
+        this.choXuLy,
+        this.choPhanXuLy,
+        this.daPhanCong,
+        this.daHoanThanh});
 
   Data.fromJson(Map<String, dynamic> json) {
     choTiepNhan = json['ChoTiepNhan'];

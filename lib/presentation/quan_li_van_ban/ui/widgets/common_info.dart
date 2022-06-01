@@ -9,7 +9,7 @@ import 'package:ccvc_mobile/widgets/chart/status_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CommonInformationMobile extends StatefulWidget {
+class CommonInformationDocumentManagement extends StatefulWidget {
   final DocumentDashboardModel? documentDashboardModel;
   final String? title;
   final Function(String) onPieTap;
@@ -17,7 +17,7 @@ class CommonInformationMobile extends StatefulWidget {
   final bool isTablet;
   final Function(String) onStatusTap;
 
-  const CommonInformationMobile({
+  const CommonInformationDocumentManagement({
     Key? key,
     this.documentDashboardModel,
     this.title,
@@ -28,11 +28,11 @@ class CommonInformationMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CommonInformationMobileState createState() =>
-      _CommonInformationMobileState();
+  _CommonInformationDocumentManagementState createState() =>
+      _CommonInformationDocumentManagementState();
 }
 
-class _CommonInformationMobileState extends State<CommonInformationMobile> {
+class _CommonInformationDocumentManagementState extends State<CommonInformationDocumentManagement> {
   int selectedIndex = -1;
   String sKey = '';
 

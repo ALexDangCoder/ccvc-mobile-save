@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_den_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_di_response.dart';
@@ -80,6 +82,7 @@ class QLVBImlp implements QLVBRepository {
       },
     );
   }
+
 
   @override
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDen(
@@ -286,5 +289,28 @@ class QLVBImlp implements QLVBRepository {
             NodePhanXuLy<DonViLuongModel>?>(
         () => _quanLyVanBanClient.getLuongXuLyVanBanDen(id),
         (res) => res.toDomain());
+  }
+
+  @override
+  Future<Result<bool>> updateComment(UpdateCommentRequest comments) {
+    return runCatchingAsync<PostFileResponse , bool>(
+        () => _quanLyVanBanClient.updateComment(comments) ,
+        (res) => res.isSuccess ?? false,
+    );
+  }
+
+  @override
+  Future<Result<bool>> giveComment(GiveCommentRequest comments) {
+    return runCatchingAsync<PostFileResponse , bool>(
+        () => _quanLyVanBanClient.giveComment(comments) ,
+        (res) => res.isSuccess ?? false,
+    );
+  }
+  @override
+  Future<Result<bool>> relayCommentDocumentIncome(RelayCommentRequest relay) {
+    return runCatchingAsync<PostFileResponse , bool>(
+        () => _quanLyVanBanClient.relayCommentDocumentIncome(relay) ,
+        (res) => res.isSuccess ?? false
+    );
   }
 }

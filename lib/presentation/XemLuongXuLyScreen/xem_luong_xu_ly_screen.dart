@@ -10,10 +10,12 @@ import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_close.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/container_status_luong_xu_ly_widget.dart';
+
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/widgets/tree_view_widget.dart';
 import 'package:ccvc_mobile/presentation/XemLuongXuLyScreen/bloc/xem_luong_xu_ly_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+
 class XemLuongXuLyScreen extends StatefulWidget {
   final String id;
   const XemLuongXuLyScreen({Key? key, required this.id}) : super(key: key);
@@ -57,137 +59,139 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                           final result = donViLuongModel as DonViLuongModel;
                           return result.isRoot()
                               ? Container(
-                            constraints: const BoxConstraints(
-                              maxWidth: 200,
-                            ),
-                            padding: const EdgeInsets.only(
-                                top: 13, bottom: 10),
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: borderColor,
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  donViLuongModel.tenDonVi ?? '',
-                                  maxLines: 2,
-                                  style: textNormal(
-                                    fontColorTablet2,
-                                    14,
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 200,
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  '${S.current.nguoi_tao}:${donViLuongModel.ten}',
-                                  style: textNormal(infoColor, 12),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 13, bottom: 10),
+                                  clipBehavior: Clip.hardEdge,
                                   decoration: BoxDecoration(
-                                    color: donViLuongModel.getColor(),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: borderColor,
+                                    ),
                                     borderRadius: const BorderRadius.all(
-                                      Radius.circular(30),
+                                      Radius.circular(8),
                                     ),
                                   ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 5,
-                                    horizontal: 11,
-                                  ),
-                                  child: FittedBox(
-                                    child: Text(
-                                      '${donViLuongModel.trangThai}',
-                                      maxLines: 1,
-                                      style: textNormalCustom(
-                                        color: donViLuongModel.textColor(),
-                                        fontSize: 12,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        donViLuongModel.tenDonVi ?? '',
+                                        maxLines: 2,
+                                        style: textNormal(
+                                          fontColorTablet2,
+                                          14,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                    ),
+                                      Text(
+                                        '${S.current.nguoi_tao}:${donViLuongModel.ten}',
+                                        style: textNormal(infoColor, 12),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: donViLuongModel.getColor(),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(30),
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 5,
+                                          horizontal: 11,
+                                        ),
+                                        child: FittedBox(
+                                          child: Text(
+                                            '${donViLuongModel.trangThai}',
+                                            maxLines: 1,
+                                            style: textNormalCustom(
+                                              color:
+                                                  donViLuongModel.textColor(),
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
                               : ContainerStatusLuongXuLyWidget(
-                              colorBorder: donViLuongModel.vaiTroColor(),
-                              child: Column(
-                                children: [
-                                  if (result.isCaNhan ?? false)
-                                    Container(
-                                      margin:
-                                      const EdgeInsets.only(bottom: 10),
-                                      width: 48,
-                                      height: 48,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.red),
-                                      child: CachedNetworkImage(
-                                        imageUrl: '',
-                                        fit: BoxFit.cover,
-                                        errorWidget:
-                                            (context, url, error) =>
-                                            Container(
+                                  colorBorder: donViLuongModel.vaiTroColor(),
+                                  child: Column(
+                                    children: [
+                                      if (result.isCaNhan ?? false)
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 10),
+                                          width: 48,
+                                          height: 48,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.red),
+                                          child: CachedNetworkImage(
+                                            imageUrl: '',
+                                            fit: BoxFit.cover,
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Container(
                                               color: Colors.black,
                                               child: Image.asset(
                                                 ImageAssets.anhDaiDienMacDinh,
                                               ),
                                             ),
+                                          ),
+                                        )
+                                      else
+                                        Text(
+                                          donViLuongModel.tenDonVi ?? '',
+                                          maxLines: 2,
+                                          style: textNormal(
+                                            selectColorTabbar,
+                                            14,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      Text(
+                                        ' result.textChucVuDonVi',
+                                        style: textNormal(
+                                          infoColor,
+                                          12,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
-                                    )
-                                  else
-                                    Text(
-                                      donViLuongModel.tenDonVi ?? '',
-                                      maxLines: 2,
-                                      style: textNormal(
-                                        selectColorTabbar,
-                                        14,
+                                      const SizedBox(
+                                        height: 10,
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  Text(
-                                   ' result.textChucVuDonVi',
-                                    style: textNormal(
-                                      infoColor,
-                                      12,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: donViLuongModel.getColor(),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(30),
-                                      ),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 5,
-                                      horizontal: 11,
-                                    ),
-                                    child: FittedBox(
-                                      child: Text(
-                                        '${donViLuongModel.trangThai}',
-                                        maxLines: 1,
-                                        style: textNormalCustom(
-                                          color: donViLuongModel.textColor(),
-                                          fontSize: 12,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: donViLuongModel.getColor(),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(30),
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 5,
+                                          horizontal: 11,
+                                        ),
+                                        child: FittedBox(
+                                          child: Text(
+                                            '${donViLuongModel.trangThai}',
+                                            maxLines: 1,
+                                            style: textNormalCustom(
+                                              color:
+                                                  donViLuongModel.textColor(),
+                                              fontSize: 12,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ));
+                                    ],
+                                  ));
                         },
                       );
                     }
@@ -295,7 +299,6 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
     required String title,
     BoxShape boxShape = BoxShape.circle,
   }) {
-
     return Row(
       children: [
         Container(

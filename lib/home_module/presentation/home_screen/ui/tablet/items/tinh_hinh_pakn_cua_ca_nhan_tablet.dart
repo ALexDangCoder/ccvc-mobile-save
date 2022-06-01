@@ -1,8 +1,7 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/tinh_hinh_pakn_cua_ca_nhan.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/mobile/danh_sach_yknd_screen.dart';

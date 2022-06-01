@@ -128,7 +128,7 @@ class _WordProcessingStateWidgetState
                                     yellowColor),
                                 ChartData(
                                     S.current.trong_han,
-                                    data.soLuongTrongHan.toDouble() ,
+                                    data.soLuongTrongHan.toDouble(),
                                     choTrinhKyColor)
                               ],
                               onTap: (index) {
@@ -180,7 +180,7 @@ class _WordProcessingStateWidgetState
                             ),
                             ChartData(
                               S.current.cho_xu_ly,
-                              data.soLuongChoXuLy.toDouble() ,
+                              data.soLuongChoXuLy.toDouble(),
                               choXuLyColor,
                             ),
                             ChartData(
@@ -195,7 +195,7 @@ class _WordProcessingStateWidgetState
                             ),
                             ChartData(
                               S.current.cho_ban_hanh,
-                              data.soLuongChoBanHanh.toDouble() ,
+                              data.soLuongChoBanHanh.toDouble(),
                               choBanHanhColor,
                             )
                           ],

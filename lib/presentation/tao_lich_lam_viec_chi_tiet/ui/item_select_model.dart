@@ -69,7 +69,7 @@ List<ItemSelectModel> listColorDefault = [
   ItemSelectModel(
     isSelect: false,
     text: 'Màu xanh nước biển',
-    color: choXuLyColor,
+    color: color5A8DEE,
   ),
   ItemSelectModel(
     isSelect: false,

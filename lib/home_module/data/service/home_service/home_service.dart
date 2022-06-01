@@ -1,5 +1,7 @@
 import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
 
+import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
+
 import '/home_module/data/request/account/gui_loi_chuc_request.dart';
 import '/home_module/data/response/home/danh_sach_thiep_response.dart';
 import '/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
@@ -41,7 +43,6 @@ abstract class HomeServiceGateWay {
   @factoryMethod
   factory HomeServiceGateWay(Dio dio, {String baseUrl}) = _HomeServiceGateWay;
 
-  
   @GET(ApiConstants.DOASHBOARD_TINH_HINH_XU_LY_PAKN)
   Future<DashboardTinhHinhPAKNResponse> getDashboardTinhHinhPAKN(@Query('isDonVi') bool isDonVi);
   

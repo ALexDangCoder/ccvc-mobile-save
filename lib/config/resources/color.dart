@@ -50,16 +50,16 @@ const titleItemEdit = Color(0xff586B8B);
 const bgColor = Color(0xffE5E5E5);
 const bgWidgets = Color(0xffF9FAFF);
 const duyetColor = Color(0xffbe5504);
-const capSoColor = Color(0xff00BA8D);
-const banHanhColor = Color(0xff5252D4);
-const daTrinhColor = Color(0xff9B7938);
-const daDuyetColor = Color(0xff27AE60);
-const choBanHanhLuongColor = Color(0xff56CCF2);
-const traLaiColor = Color(0xffF2C94C);
-const soanThaoColor = Color(0xff6FCF97);
-const kyDuyetColor = Color(0xffBB6BD9);
-const kiemTraThucTheColor = Color(0xffCF6F6F);
-const nguoiCapSoColor = Color(0xffB6CF6F);
+const capSoColor = Color(0xffb6fcd5);
+const banHanhColor = Color(0xff1350f3);
+const daTrinhColor = Color(0xff8eb8ad);
+const daDuyetColor = Color(0xfff69df6);
+const choBanHanhLuongColor = Color(0xffffc307);
+const traLaiColor = Color(0xff3cdb84);
+const soanThaoColor = Color(0xffdeddcf);
+const kyDuyetColor = Color(0xffFFFF00);
+const kiemTraThucTheColor = Color(0xffFF7F50);
+const nguoiCapSoColor = Color(0xffc6d7f9);
 const nguoiChuTriColor = Color(0xff2467d2);
 const phoiHopColor = Color(0xff2ed47a);
 const nhanDeBietColor = Color(0xffEFECEC);
@@ -87,7 +87,7 @@ const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const shadowColor = Color(0xff6262eb);
-const choXuLyColor = Color(0xff5A8DEE);
+const color5A8DEE = Color(0xff5A8DEE);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -118,8 +118,8 @@ const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
 const xamColor = Color(0xffBAA59F);
-const nhiemVuBoColor = Color(0xff0A45B9);
-const nhiemDonViColor = Color(0xff1CE2BF);
+const color0A45B9 = Color(0xff0A45B9);
+const color1CE2BF = Color(0xff1CE2BF);
 const chuaThucHienColor = Color(0xffF2994A);
 const color81B2DF = Color(0xff81B2DF);
 const colorF2994A = Color(0xffF2994A);
@@ -202,6 +202,12 @@ const enableButton = Color(0xFF2A30CB);
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
   Color unselectColor();
+
+  Color choXuLyColor();
+
+  Color nhiemDonViColor();
+
+  Color nhiemVuBoColor();
 
   Color primaryColor();
 
@@ -361,12 +367,42 @@ class DefaultApp extends AppColor {
   Color textBodyTimeColor() {
     return textBodyTime;
   }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
 }
 
 class BlueApp extends AppColor {
   @override
   Color unselectColor() {
     return colorA2AEBD;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
   }
 
   @override
@@ -448,6 +484,7 @@ class BlueApp extends AppColor {
   Color buttonUnfocus() {
     return AqiColor;
   }
+
 
   @override
   Color colorField() {
@@ -478,9 +515,25 @@ class BlueApp extends AppColor {
   Color textBodyTimeColor() {
     return textBodyTime;
   }
+
 }
 
 class PinkApp extends AppColor {
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
   @override
   Color unselectColor() {
     return colorA2AEBD;
@@ -568,6 +621,7 @@ class PinkApp extends AppColor {
 
   @override
   Color colorField() {
+
     return pinkColor;
   }
 
@@ -599,6 +653,21 @@ class PinkApp extends AppColor {
 }
 
 class YellowApp extends AppColor {
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
   @override
   Color unselectColor() {
     return colorA2AEBD;

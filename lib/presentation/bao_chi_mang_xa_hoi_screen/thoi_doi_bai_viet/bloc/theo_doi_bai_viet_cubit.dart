@@ -2,15 +2,14 @@ import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/theo_doi_bai_viet/theo_doi_bai_viet_model.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
-import 'package:ccvc_mobile/nhiem_vu_module/widget/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/bloc/theo_doi_bai_viet_state.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 
 class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
   TheoDoiBaiVietCubit() : super(TheoDoiStateInitial());
@@ -78,16 +77,20 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
   Future<void> followTopic(String url) async {
     final result = await _BCMXHRepo.followTopic(url);
     showLoading();
-    result.when(success: (res) {
-      showContent();
-      if(res != null){
-        list.insert(0, res);
-        emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
-      }
-    }, error: (error) {
-      MessageConfig.show(
-        title: error.message,
-      );
-    });
+    result.when(
+      success: (res) {
+        showContent();
+        if (res != null) {
+          list.insert(0, res);
+          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
+        }
+      },
+      error: (error) {
+        showContent();
+        Fluttertoast.showToast(
+          msg: error.message,
+        );
+      },
+    );
   }
 }

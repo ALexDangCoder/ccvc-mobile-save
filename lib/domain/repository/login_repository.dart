@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_inf
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/account/change_pass_model.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
+import 'package:ccvc_mobile/domain/model/account/forgot_password_model.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_app_model.dart';
 import 'package:ccvc_mobile/domain/model/account/permission_menu_model.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
@@ -47,6 +48,7 @@ mixin AccountRepository {
     String password,
     String repeatPassword,
   );
+  Future<Result<ForgotPasswordModel>> forgotPassword(String email);
 
   Future<Result<List<PermissionMenuModel>>> getPermissionMenu();
 

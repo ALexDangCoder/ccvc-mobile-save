@@ -5,12 +5,16 @@ import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/ket_noi_module/widgets/dialog/dialog.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'lich_su_van_ban_model.dart';
 
 const QUA_HAN = 'QUA_HAN';
 const CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
@@ -70,10 +74,27 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                 .map(
                   (e) => GestureDetector(
                     onTap: () async {
-                      await handleSaveFile(
-                        name: e.ten ?? '',
-                        url: e.pathIOC ?? '',
-                      );
+                      final status = await Permission.storage.status;
+                      if (!status.isGranted) {
+                        await Permission.storage.request();
+                        await Permission.manageExternalStorage.request();
+                      }
+                      await saveFile(
+                        e.ten ?? '',
+                        '${Get.find<AppConstants>().baseUrlQLNV}${e.duongDan}',
+                        http: true,
+                      )
+                          .then(
+                            (value) => MessageConfig.show(
+                              title: S.current.tai_file_thanh_cong,
+                            ),
+                          )
+                          .onError(
+                            (error, stackTrace) => MessageConfig.show(
+                              title: S.current.tai_file_that_bai,
+                              messState: MessState.error,
+                            ),
+                          );
                     },
                     child: Text(
                       e.ten ?? '',

@@ -97,7 +97,7 @@ class _ChiTietVanBanDiTabletState extends State<ChiTietVanBanDiTablet> {
                   ),
                   VBDiYKienXuLyExpandWidget(
                     isTablet: true,
-                    cubit: commonDetailDocumentGoCubit,
+                    cubit: CommentDetailDocumentGoCubit(),
                     idDocument: widget.id,
                   ),
                   VBDiLichSuCapNhatExpandWidget(

@@ -17,7 +17,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 
 class VBDiYKienXuLyExpandWidget extends StatefulWidget {
-  final CommonDetailDocumentGoCubit cubit;
+  final CommentDetailDocumentGoCubit cubit;
   final String idDocument;
   final bool isTablet;
 
@@ -41,13 +41,13 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {
-        widget.cubit.getChiTietVanBanDi(widget.idDocument);
+        widget.cubit.getDanhSachYKien(widget.idDocument);
       },
       error: AppException('', S.current.something_went_wrong),
       stream: widget.cubit.stateStream,
       child: RefreshIndicator(
         onRefresh: () async {
-          await widget.cubit.getChiTietVanBanDi(widget.idDocument);
+          await widget.cubit.getDanhSachYKien(widget.idDocument);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -75,10 +75,10 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                 constraints: const BoxConstraints(
                   minHeight: 500,
                 ),
-                child: StreamBuilder<ChiTietVanBanDiModel>(
-                  stream: widget.cubit.chiTietVanBanDiSubject,
+                child: StreamBuilder<List<DanhSachChoYKien>>(
+                  stream: widget.cubit.yKienXuLYSubject,
                   builder: (context, snapshot) {
-                    final dataDSCYK = snapshot.data?.danhSachChoYKien ?? [];
+                    final dataDSCYK = snapshot.data ?? [];
                     return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,

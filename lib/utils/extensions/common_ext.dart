@@ -100,6 +100,21 @@ Color getColorFromPriorityCode(String code) {
   }
 }
 
+Color getColorFromPriorityCodeUpperCase(String code) {
+  switch (code) {
+    case DocumentState.BINH_THUONG_UPPER:
+      return daXuLyColor;
+    case DocumentState.KHAN_UPPER:
+      return choVaoSoColor;
+    case DocumentState.THUONG_KHAN_UPPER:
+      return thuongKhanColor;
+    case DocumentState.HOA_TOC_UPPER:
+      return statusCalenderRed;
+    default:
+      return titleColor;
+  }
+}
+
 String getCodeFromTitlePieChart(String title) {
   return title.split(' ').join('_').toUpperCase().vietNameseParse();
 }

@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/theo_doi_bai_viet/theo_doi_bai_viet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/bloc/theo_doi_bai_viet_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/ui/tablet/widgets/bai_viet_item_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
@@ -22,6 +23,7 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet>
     with AutomaticKeepAliveClientMixin {
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
+  final _debouncer = Debouncer(milliseconds: 2000);
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,20 @@ class _TheoDoiBaiVietTabletState extends State<TheoDoiBaiVietTablet>
             ),
             child: BaseSearchBar(
               hintText: S.current.nhap_link,
+              onSubmit: (value){
+                if(value.isNotEmpty){
+                  _debouncer.run(() {
+                    theoDoiBaiVietCubit.followTopic(value);
+                  });
+                }
+              },
+              onChange: (value){
+                if(value.isNotEmpty){
+                  _debouncer.run(() {
+                    theoDoiBaiVietCubit.followTopic(value);
+                  });
+                }
+              },
             ),
           ),
           const SizedBox(

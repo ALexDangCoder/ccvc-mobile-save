@@ -718,7 +718,7 @@ class DanhSachChoYKienResponse {
 class DanhSachFilesResponse {
   @JsonKey(name: 'Ten')
   String? ten;
-  @JsonKey(name: 'ID')
+  @JsonKey(name: 'Id')
   String? id;
   @JsonKey(name: 'IsSign')
   String? isSign;

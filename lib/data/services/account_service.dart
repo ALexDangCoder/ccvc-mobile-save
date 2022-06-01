@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/account/change_pass_request.dart';
 import 'package:ccvc_mobile/data/request/account/chuyen_pham_vi_request.dart';
+import 'package:ccvc_mobile/data/request/account/forgot_password_request.dart';
 import 'package:ccvc_mobile/data/request/account_request.dart';
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
 import 'package:ccvc_mobile/data/response/account/change_pass_response.dart';
+import 'package:ccvc_mobile/data/response/account/forgot_password_response.dart';
 import 'package:ccvc_mobile/data/response/account/list_permission_response.dart';
 import 'package:ccvc_mobile/data/response/account/login_response.dart';
 import 'package:ccvc_mobile/data/response/account/permission_menu_response.dart';
@@ -56,6 +58,10 @@ abstract class AccountService {
   @PUT(ApiConstants.CHANGE_PASS)
   Future<ChangePassResponse> changePass(
       @Body() ChangePassRequest changePassRequest);
+
+  @POST(ApiConstants.FORGOT_PASSWORD)
+  Future<ForgotPasswordResponse> forgotPassword(
+      @Body() ForgotPasswordRequest forgotPasswordRequest);
 }
 
 @RestApi()

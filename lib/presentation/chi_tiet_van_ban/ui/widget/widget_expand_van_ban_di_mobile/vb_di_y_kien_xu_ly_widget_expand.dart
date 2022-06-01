@@ -3,10 +3,12 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -256,9 +258,12 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                 onTap: () {
                   final baseURL = Get.find<AppConstants>().baseUrlQLNV;
                   handleSaveFile(
-                    url: baseURL,
-                    name: e.ten ?? '',
-                  );
+                      url: baseURL + ApiConstants.DOWNLOAD_FILE,
+                      name: e.ten ?? '',
+                      query: {
+                        'token': PrefsService.getToken(),
+                        'fileId': e.id,
+                      });
                 },
                 child: SizedBox(
                   child: Text(

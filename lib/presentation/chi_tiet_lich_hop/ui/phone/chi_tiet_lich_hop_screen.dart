@@ -1,9 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/bieu_quyet_widget.dart';
@@ -23,7 +21,6 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
-import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -70,11 +67,11 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                   listSelect: data
                       .map(
                         (e) => e.getMenuLichHop(
-                      context,
-                      cubit,
-                      widget.id,
-                    ),
-                  )
+                          context,
+                          cubit,
+                          widget.id,
+                        ),
+                      )
                       .toList(),
                 );
               }),
@@ -131,13 +128,13 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                                   .valueData()
                                   .map(
                                     (e) => Container(
-                                  margin: const EdgeInsets.only(top: 16),
-                                  child: RowDataWidget(
-                                    urlIcon: e.urlIcon,
-                                    text: e.text,
-                                  ),
-                                ),
-                              )
+                                      margin: const EdgeInsets.only(top: 16),
+                                      child: RowDataWidget(
+                                        urlIcon: e.urlIcon,
+                                        text: e.text,
+                                      ),
+                                    ),
+                                  )
                                   .toList(),
                             ),
                             spaceH16,
@@ -184,7 +181,9 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                       id: widget.id,
                       cubit: cubit,
                     ),
-                    BocBangWidget(cubit: cubit,)
+                    BocBangWidget(
+                      cubit: cubit,
+                    ),
                   ],
                 ),
               ),

@@ -10,7 +10,7 @@ import 'package:ccvc_mobile/presentation/login/bloc/login_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/login_provider.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
-import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/send_mail_screen.dart';
+import 'package:ccvc_mobile/presentation/reset_password/ui/mobile/forgot_password_screen.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/button/button_custom_bottom.dart';
@@ -233,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const SendMailScreen(),
+                              builder: (context) => const ForgotPasswordScreen(),
                             ),
                           );
                         },

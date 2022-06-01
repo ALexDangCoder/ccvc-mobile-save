@@ -36,7 +36,6 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             await upLoadImg(context, 1, toast);
           },
           cubit.managerPersonalInformationModel.anhDaiDienFilePath ?? '',
-          true,
         ),
         pickChuKy(
           context,
@@ -45,7 +44,6 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             await upLoadChuKy(context, 2, toast);
           },
           cubit.managerPersonalInformationModel.anhChuKyFilePath ?? '',
-          true,
         ),
         pickAnhKyNhay(
           context,
@@ -54,7 +52,6 @@ class AvatarAndSignatureTablet extends StatelessWidget {
             await upLoadKyNhay(context, 3, toast);
           },
           cubit.managerPersonalInformationModel.anhChuKyNhayFilePath ?? '',
-          true,
         )
       ],
     );
@@ -76,6 +73,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
         );
       } else {
         cubit.avatarPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
@@ -96,6 +94,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
         );
       } else {
         cubit.chuKyPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
@@ -116,12 +115,17 @@ class AvatarAndSignatureTablet extends StatelessWidget {
         );
       } else {
         cubit.kyNhayPathSubject.sink.add(_path);
+        await cubit.uploadFile(_path.path);
       }
     } else {}
   }
 
-  Widget pickAnhDaiDien(BuildContext context, String text, Function() onTap,
-      String url, bool isAvatarUser) {
+  Widget pickAnhDaiDien(
+    BuildContext context,
+    String text,
+    Function() onTap,
+    String url,
+  ) {
     return Column(
       children: [
         GestureDetector(
@@ -188,8 +192,12 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     );
   }
 
-  Widget pickChuKy(BuildContext context, String text, Function() onTap,
-      String url, bool isAvatarUser) {
+  Widget pickChuKy(
+    BuildContext context,
+    String text,
+    Function() onTap,
+    String url,
+  ) {
     return Column(
       children: [
         GestureDetector(
@@ -257,8 +265,12 @@ class AvatarAndSignatureTablet extends StatelessWidget {
     );
   }
 
-  Widget pickAnhKyNhay(BuildContext context, String text, Function() onTap,
-      String url, bool isAvatarUser) {
+  Widget pickAnhKyNhay(
+    BuildContext context,
+    String text,
+    Function() onTap,
+    String url,
+  ) {
     return Column(
       children: [
         GestureDetector(

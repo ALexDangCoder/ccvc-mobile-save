@@ -76,11 +76,14 @@ mixin QLVBRepository {
   ]);
 
   Future<Result<ChiTietVanBanDiModel>> getDataChiTietVanBanDi(String id);
+  Future<Result<List<DanhSachChoYKien>>> getYKienXuLyVBDi(String id);
 
   Future<Result<ChiTietVanBanDenModel>> getDataChiTietVanBanDen(
-      String processId, String taskId, bool isYKien);
+      String processId, String taskId,{ bool? isYKien});
 
   Future<Result<DataThongTinGuiNhanModel>> getDataThongTinGuiNhan(String id);
+
+  Future<Result<List<VanBanHoiBaoModel>?>> getHoiBaoVanBanDen(String processId);
 
   Future<Result<DataLichSuVanBanModel>> getDataLichSuVanBanDen(
     String processId,

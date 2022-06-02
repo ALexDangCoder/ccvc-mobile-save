@@ -3,10 +3,12 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_go_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/comment_widget.dart';
+import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
@@ -15,7 +17,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 
 class VBDiYKienXuLyExpandWidget extends StatefulWidget {
-  final CommonDetailDocumentGoCubit cubit;
+  final CommentDetailDocumentGoCubit cubit;
   final String idDocument;
   final bool isTablet;
 
@@ -39,13 +41,13 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
     return StateStreamLayout(
       textEmpty: S.current.khong_co_du_lieu,
       retry: () {
-        widget.cubit.getChiTietVanBanDi(widget.idDocument);
+        widget.cubit.getDanhSachYKien(widget.idDocument);
       },
       error: AppException('', S.current.something_went_wrong),
       stream: widget.cubit.stateStream,
       child: RefreshIndicator(
         onRefresh: () async {
-          await widget.cubit.getChiTietVanBanDi(widget.idDocument);
+          await widget.cubit.getDanhSachYKien(widget.idDocument);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -73,10 +75,10 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                 constraints: const BoxConstraints(
                   minHeight: 500,
                 ),
-                child: StreamBuilder<ChiTietVanBanDiModel>(
-                  stream: widget.cubit.chiTietVanBanDiSubject,
+                child: StreamBuilder<List<DanhSachChoYKien>>(
+                  stream: widget.cubit.yKienXuLYSubject,
                   builder: (context, snapshot) {
-                    final dataDSCYK = snapshot.data?.danhSachChoYKien ?? [];
+                    final dataDSCYK = snapshot.data ?? [];
                     return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -256,9 +258,12 @@ class _VBDiYKienXuLyExpandWidgetState extends State<VBDiYKienXuLyExpandWidget> {
                 onTap: () {
                   final baseURL = Get.find<AppConstants>().baseUrlQLNV;
                   handleSaveFile(
-                    url: baseURL,
-                    name: e.ten ?? '',
-                  );
+                      url: baseURL + ApiConstants.DOWNLOAD_FILE,
+                      name: e.ten ?? '',
+                      query: {
+                        'token': PrefsService.getToken(),
+                        'fileId': e.id,
+                      });
                 },
                 child: SizedBox(
                   child: Text(

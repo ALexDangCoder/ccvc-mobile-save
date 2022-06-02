@@ -65,7 +65,7 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
           } else {
             MessageConfig.show(
               messState: MessState.customIcon,
-              title: err.message,
+              title: S.current.tai_khoan_hien_khong_ton_tai,
               urlIcon: ImageAssets.icUserNotExits,
             );
             Navigator.pop(context);
@@ -74,6 +74,46 @@ class ChangePasswordCubit extends BaseCubit<ChangePassWordState> {
           }
         } else {
           thongBao.sink.add(err.message);
+        }
+        showContent();
+      },
+    );
+  }
+
+  Future<void> forgotPassword({
+    required String email,
+    required BuildContext context,
+  }) async {
+    showLoading();
+    final result = await _loginRepo.forgotPassword(email);
+    result.when(
+      success: (res) {
+        showContent();
+        MessageConfig.show(
+          messState: MessState.customIcon,
+          title: S.current.mat_khau_cua_ban_da_duoc_gui_den_email,
+          urlIcon: ImageAssets.icEmailPopup,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w400,
+          showTitle2: true,
+          title2: (res.messages?.split('email').last) ?? '',
+        );
+        Navigator.of(context).pop();
+      },
+      error: (err) {
+        showContent();
+        if (err is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else if (err.code == StatusCodeConst.STATUS_NOT_FOUND) {
+          MessageConfig.show(
+              messState: MessState.customIcon,
+              urlIcon: ImageAssets.icWarningPopUp,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              title: S.current.email_ban_nhap_khong_khop_voi_email_da_dang_ky);
         }
         showContent();
       },

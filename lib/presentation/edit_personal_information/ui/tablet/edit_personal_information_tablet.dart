@@ -67,6 +67,9 @@ class _EditPersonalInformationTabletScreen
       sdtCoquanController.text = event.phoneCoQuan ?? '';
       sdtController.text = event.phoneDiDong ?? '';
       diaChiLienHeController.text = event.diaChi ?? '';
+      cubit.pathAnhDaiDien = event.anhDaiDienFilePath ?? '';
+      cubit.pathAnhChuKy = event.anhChuKyFilePath ?? '';
+      cubit.pathAnhKyNhay = event.anhChuKyNhayFilePath ?? '';
     });
     super.initState();
     toast.init(context);
@@ -651,6 +654,9 @@ class _EditPersonalInformationTabletScreen
                                 idTinh: cubit.idTinh,
                                 idHuyen: cubit.idHuyen,
                                 idXa: cubit.idXa,
+                                anhChuKy: cubit.pathAnhChuKy,
+                                anhDaiDien: cubit.pathAnhDaiDien,
+                                anhKyNhay: cubit.pathAnhKyNhay,
                               )
                                   .then((value) {
                                 if (value) {

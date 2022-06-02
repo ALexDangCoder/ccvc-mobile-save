@@ -188,6 +188,10 @@ class DocumentState {
   static const String KHAN = 'Khan';
   static const String THUONG_KHAN = 'ThuongKhan';
   static const String HOA_TOC = 'HoaToc';
+  static const String BINH_THUONG_UPPER = 'BINH_THUONG';
+  static const String KHAN_UPPER = 'KHAN';
+  static const String THUONG_KHAN_UPPER = 'THUONG_KHAN';
+  static const String HOA_TOC_UPPER = 'HOA_TOC';
 }
 
 class SelectKeyPath {

@@ -992,6 +992,10 @@
   "tuong_tac_noi_bo": "Tương tác nội bộ",
   "bao_cao": "Báo cáo",
   "phan_anh_kien_nghi": "Phản ánh kiến nghị",
+  "chon_thiet_bi": "Chọn thiết bị",
+  "tep_am_thanh": "Tên tệp âm thanh",
+  "thoi_luong_phut": "Thời lượng mỗi tệp (phút)",
+  "thoi_luong": "Thời lượng",
   "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
   "hinh_thuc_hop": "Hình thức họp",
   "ky_thuat": "Kỹ thuật",
@@ -1014,7 +1018,10 @@
   "diem": "Điểm",
   "diem_chinh": "Điểm chính",
   "diem_phu": "Điểm phụ",
-  "diem_cau_chinh_phu": "Điểm cầu chính/phụ"
+  "diem_cau_chinh_phu": "Điểm cầu chính/phụ",
+  "boc_bang" : "Bóc băng",
+  "dich_truc_tuyen" : "Dịch trực tuyến",
+  "them_file_boc_bang" : "Thêm file bóc băng"
 }
 
 

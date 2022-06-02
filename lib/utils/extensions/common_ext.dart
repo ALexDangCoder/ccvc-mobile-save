@@ -19,7 +19,11 @@ Future<void> launchURL(String url) async {
   }
 }
 
-Future<void> handleSaveFile({required String url, required String name}) async {
+Future<void> handleSaveFile({
+  required String url,
+  required String name,
+  Map<String, dynamic>? query,
+}) async {
   final status = await Permission.storage.status;
   if (!status.isGranted) {
     await Permission.storage.request();
@@ -28,6 +32,7 @@ Future<void> handleSaveFile({required String url, required String name}) async {
   await saveFile(
     name,
     url,
+    query: query,
   )
       .then(
         (value) => MessageConfig.show(
@@ -89,6 +94,21 @@ Color getColorFromPriorityCode(String code) {
     case DocumentState.THUONG_KHAN:
       return thuongKhanColor;
     case DocumentState.HOA_TOC:
+      return statusCalenderRed;
+    default:
+      return titleColor;
+  }
+}
+
+Color getColorFromPriorityCodeUpperCase(String code) {
+  switch (code) {
+    case DocumentState.BINH_THUONG_UPPER:
+      return daXuLyColor;
+    case DocumentState.KHAN_UPPER:
+      return choVaoSoColor;
+    case DocumentState.THUONG_KHAN_UPPER:
+      return thuongKhanColor;
+    case DocumentState.HOA_TOC_UPPER:
       return statusCalenderRed;
     default:
       return titleColor;

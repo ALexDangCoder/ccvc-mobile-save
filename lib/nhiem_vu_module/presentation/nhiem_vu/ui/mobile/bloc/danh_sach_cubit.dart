@@ -23,7 +23,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   DanhSachCubit() : super(DanhSachStateInitial());
 
   NhiemVuRepository get repo => Get.find();
-  int pageSize = 10;
+  int pageSize = 5;
   int pageIndex = 1;
   bool isCaNhan = true;
   String keySearch = '';
@@ -33,8 +33,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   final BehaviorSubject<List<ItemSellectBieuDo>> selectBieuDoModelSubject =
       BehaviorSubject.seeded([
-    ItemSellectBieuDo(stateBieuDo.TheoTrangThai, true),
-    ItemSellectBieuDo(stateBieuDo.TheoLoai, false),
+    ItemSellectBieuDo(stateBieuDo.TheoLoai, true),
+    ItemSellectBieuDo(stateBieuDo.TheoTrangThai, false),
     ItemSellectBieuDo(stateBieuDo.TheoDonVi, false),
   ]);
 
@@ -421,7 +421,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
             .toList();
         chartData.removeLast();
         chartData.removeAt(0);
-        statusSuject.sink.add(chartData);
+        statusSuject.sink.add(chartDataTheoLoai);
         showContent();
       },
       error: (error) {

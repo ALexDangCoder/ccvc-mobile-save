@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/generated/l10n.dart';
+
 class TaoLichHopRequest {
   String? typeScheduleId;
   String? linhVucId;
@@ -196,5 +198,15 @@ class DsDiemCau {
     data['canBoDauMoi_SDT'] = canBoDauMoiSDT;
     data['loaiDiemCau'] = loaiDiemCau;
     return data;
+  }
+
+  String getLoaiDiemCau(){
+    if(loaiDiemCau == 1){
+      return S.current.diem_chinh;
+    }else if(loaiDiemCau == 2){
+      return S.current.diem_phu;
+    }else{
+      return '';
+    }
   }
 }

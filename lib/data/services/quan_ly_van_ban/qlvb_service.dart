@@ -88,12 +88,20 @@ abstract class QuanLyVanBanClient {
   @GET(ApiConstants.CHI_TIET_VAN_BAN_DI)
   Future<ChiTietVanBanDiDataResponse> getDataChiTietVanBanDi(
       @Path('id') String id);
+  @GET(ApiConstants.Y_KIEN_VAN_BAN_DI)
+  Future<YKienXuLyResponse> getYKienXuLyVBDi(
+      @Path('id') String id);
 
   @GET(ApiConstants.CHI_TIET_VAN_BAN_DEN)
   Future<ChiTietVanBanDenDataResponse> getDataChiTietVanBanDen(
     @Query('processId') String processId,
     @Query('taskId') String taskId,
-    @Query('IsYKien') bool isYKien,
+    @Query('IsYKien') bool? isYKien,
+  );
+
+  @GET(ApiConstants.HOI_BAO_VAN_BAN_DEN)
+  Future<HoiBaoVanBanResponse> getHoiBaoVanBanDen(
+    @Query('processId') String processId,
   );
 
   @GET(ApiConstants.THONG_TIN_GUI_NHAN)

@@ -97,6 +97,7 @@ class Items {
       canBoId: canBoId ?? '',
       userId: userId ?? '',
       donViId: donViId ?? '',
+      tenDonVi: tenDonVi ?? '',
     );
   }
 }

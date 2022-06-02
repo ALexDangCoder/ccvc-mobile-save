@@ -16,6 +16,8 @@ class DonViModel {
   String userId = '';
   String tenCoQuan = '';
 
+  String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
+
   DonViModel({
     required this.id,
     required this.name,

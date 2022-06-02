@@ -7,12 +7,14 @@ class ContainerToggleWidget extends StatelessWidget {
   final bool initData;
   final String title;
   final Function(bool) onChange;
+  final bool showDivider;
 
   const ContainerToggleWidget({
     Key? key,
     this.title = '',
     required this.onChange,
     this.initData = false,
+    this.showDivider = true,
   }) : super(key: key);
 
   @override
@@ -20,11 +22,11 @@ class ContainerToggleWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 9),
       margin: const EdgeInsets.only(left: 29),
-      decoration: const BoxDecoration(
+      decoration: showDivider ? const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: colorECEEF7),
         ),
-      ),
+      ) : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -39,7 +39,6 @@ class _BieuDoNhiemVuMobileState extends State<BieuDoNhiemVuMobile> {
     return Container(
       color: Colors.transparent,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PieChart(
             isSubjectInfo: false,

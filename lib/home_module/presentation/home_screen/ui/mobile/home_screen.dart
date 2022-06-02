@@ -15,6 +15,8 @@ import '/home_module/presentation/home_screen/ui/mobile/widgets/header_widget.da
 import '/home_module/presentation/home_screen/ui/widgets/thong_bao_message_widget.dart';
 import '/widgets/views/state_stream_layout.dart';
 import 'home_icon.dart';
+import 'items/summary_of_task_widget.dart';
+import 'items/work_list_widget.dart';
 
 GlobalKey<HomeScreenMobileState> keyHomeMobile =
     GlobalKey<HomeScreenMobileState>();
@@ -124,35 +126,38 @@ class HomeScreenMobileState extends State<HomeScreenMobile> {
                   ],
                 ),
                 SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      const HeaderWidget(),
-                      StreamBuilder<List<WidgetModel>>(
-                        stream: homeCubit.getConfigWidget,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <WidgetModel>[];
-                          if (data.isNotEmpty) {
-                            return Column(
-                              children: List.generate(data.length, (index) {
-                                final type = data[index];
-                                return type.widgetType?.getItemsMobile() ??
-                                    const SizedBox();
-                              }),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        color: backgroundColorApp,
-                        padding: const EdgeInsets.symmetric(vertical: 25),
-                        child: const MarqueeWidget(),
-                      )
-                    ],
-                  ),
+                    child: WorkListWidget(
+                        homeItemType:WidgetType.listWork,
+                    ),
+                  // child: Column(
+                  //   children: [
+                  //     const HeaderWidget(),
+                  //     StreamBuilder<List<WidgetModel>>(
+                  //       stream: homeCubit.getConfigWidget,
+                  //       builder: (context, snapshot) {
+                  //         final data = snapshot.data ?? <WidgetModel>[];
+                  //         if (data.isNotEmpty) {
+                  //           return Column(
+                  //             children: List.generate(data.length, (index) {
+                  //               final type = data[index];
+                  //               return type.widgetType?.getItemsMobile() ??
+                  //                   const SizedBox();
+                  //             }),
+                  //           );
+                  //         }
+                  //         return const SizedBox();
+                  //       },
+                  //     ),
+                  //     const SizedBox(
+                  //       height: 5,
+                  //     ),
+                  //     Container(
+                  //       color: backgroundColorApp,
+                  //       padding: const EdgeInsets.symmetric(vertical: 25),
+                  //       child: const MarqueeWidget(),
+                  //     )
+                  //   ],
+                  // ),
                 )
               ],
             ),

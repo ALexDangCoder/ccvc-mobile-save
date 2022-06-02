@@ -196,4 +196,5 @@ abstract class HomeServiceCCVC {
   @GET(ApiConstants.GET_LIST_THONG_TIN_THIEP)
   Future<DanhSachThiepResponse> getDanhSachThiep(@Query('pageIndex') int pageIndex,@Query('pageSize') int pageSize);
 
+
 }

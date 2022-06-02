@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/config/resources/color.dart';
@@ -11,7 +13,6 @@ import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
 import '/home_module/presentation/home_screen/ui/widgets/cong_viec_cell.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/utils/constants/image_asset.dart';
 import '/home_module/widgets/text/dialog/show_dialog.dart';
 import '/home_module/widgets/text/text/no_data_widget.dart';
@@ -30,6 +31,9 @@ class WorkListWidget extends StatefulWidget {
 class _WorkListWidgetState extends State<WorkListWidget> {
   late HomeCubit cubit;
   DanhSachCongViecCubit danhSachCVCubit = DanhSachCongViecCubit();
+  BehaviorSubject<bool> _isHienThi = BehaviorSubject.seeded(true);
+
+  Stream<bool> get isHienThi => _isHienThi.stream;
 
   @override
   void didChangeDependencies() {
@@ -58,18 +62,78 @@ class _WorkListWidgetState extends State<WorkListWidget> {
       title: S.current.work_list,
       urlIcon: ImageAssets.icPlus,
       onTapIcon: () {
-        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        // print('---------- click icon--------------------');
+        // HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        showBottomSheetCustom(
+          context,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 8,
+                ),
+                child: Text(
+                  S.current.cong_viec,
+                  style: textNormalCustom(
+                    color: titleItemEdit,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              customTextField(),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 8,
+                ),
+                child: Text(
+                  S.current.nguoi_thuc_hien,
+                  style: textNormalCustom(
+                    color: titleItemEdit,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              customTextField(suffixIcon: Icon(Icons.add)),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isHienThi.sink.add(!_isHienThi.value);
+                  });
+                },
+                icon: const Icon(Icons.add),
+              ),
+              StreamBuilder<bool>(
+                stream: isHienThi,
+                builder: (context, snapshot) {
+                  final bool data = snapshot.data ?? false;
+                  return Visibility(
+                    child: Container(
+                      color: Colors.blue,
+                      height: 100,
+                    ),
+                    visible: data,
+                  );
+                },
+              ),
+            ],
+          ),
+          title: S.current.them_cong_viec,
+        );
       },
       isCustomDialog: true,
-      dialogSelect: DialogSettingWidget(
-        type: widget.homeItemType,
-        customDialog: AddToDoWidget(
-          onTap: (value) {
-            cubit.closeDialog();
-            danhSachCVCubit.addTodo(value);
-          },
-        ),
-      ),
+      // dialogSelect: DialogSettingWidget(
+      //   type: widget.homeItemType,
+      //   customDialog: AddToDoWidget(
+      //     onTap: (value) {
+      //       cubit.closeDialog();
+      //       danhSachCVCubit.addTodo(value);
+      //     },
+      //   ),
+      // ),
       child: LoadingOnly(
         stream: danhSachCVCubit.stateStream,
         child: Column(
@@ -295,4 +359,27 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
       ),
     );
   }
+}
+
+Widget customTextField({Widget? suffixIcon, Function()? onTap,}) {
+  return TextFormField(
+    onChanged: (value) {},
+    onTap: () {},
+    decoration: InputDecoration(
+      counterText: '',
+      hintText: 'Nhap cong viec',
+      hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      suffixIcon: suffixIcon ?? const SizedBox(),
+      // prefixIcon: widget.prefixIcon,
+      // fillColor: widget.isEnabled
+      //     ? widget.fillColor ?? Colors.transparent
+      //     : borderColor.withOpacity(0.3),
+      // filled: true,
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: borderColor),
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+      ),
+    ),
+  );
 }

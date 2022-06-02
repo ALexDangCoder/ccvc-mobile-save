@@ -992,17 +992,16 @@
   "tuong_tac_noi_bo": "Tương tác nội bộ",
   "bao_cao": "Báo cáo",
   "phan_anh_kien_nghi": "Phản ánh kiến nghị",
-<<<<<<< HEAD
   "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
-  "tinh_hinh_xu_ly_vb_don_vi": "Tình hình xử lý văn bản của đơn vị"
-
-||||||| e18b3067
-  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm"
-=======
-  "them_tai_lieu_dinh_kem" : "Thêm tài liệu đính kèm",
-  "phan_xu_ly" : "Phân xử lý"
->>>>>>> develop
-
+  "tinh_hinh_xu_ly_vb_don_vi": "Tình hình xử lý văn bản của đơn vị",
+  "chon_thiet_bi": "Chọn thiết bị",
+  "tep_am_thanh": "Tên tệp âm thanh",
+  "thoi_luong_phut": "Thời lượng mỗi tệp (phút)",
+  "thoi_luong": "Thời lượng",
+  "phan_xu_ly" : "Phân xử lý",
+  "boc_bang" : "Bóc băng",
+  "dich_truc_tuyen" : "Dịch trực tuyến",
+  "them_file_boc_bang" : "Thêm file bóc băng"
 }
 
 

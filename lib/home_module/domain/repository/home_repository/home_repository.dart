@@ -53,11 +53,11 @@ abstract class HomeRepository {
   );
 
   Future<Result<VanBanDonViModel>> getTinhHinhXuLyVanBan(
-      String canBoId,
-      String donViId,
-      String startDate,
-      String endDate,
-      );
+    String canBoId,
+    String donViId,
+    String startDate,
+    String endDate,
+  );
 
   Future<Result<List<CalendarMeetingModel>>> getNhiemVu(
       NhiemVuRequest nhiemVuRequest);
@@ -104,7 +104,10 @@ abstract class HomeRepository {
       DanhSachCongViecRequest request);
 
   Future<Result<MessageModel>> guiLoiChuc(GuiLoiChucRequest guiLoiChucRequest);
+
   Future<Result<List<ThiepSinhNhatModel>>> listThiepMoi();
+
   Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
       bool isDonVi);
+
 }

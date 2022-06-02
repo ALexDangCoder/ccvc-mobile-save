@@ -310,7 +310,9 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                         height: 180,
                         padding: const EdgeInsets.all(16),
                         margin: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 16),
+                          vertical: 20,
+                          horizontal: 16,
+                        ),
                         decoration: BoxDecoration(
                           color: buttonColor,
                           border: Border.all(

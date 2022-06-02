@@ -220,10 +220,11 @@ class _YKienSuLyWidgetExpandTabletState
               focus: true,
               onSend: (comment, listData) {
                 widget.cubit.relay(
-                  comment,
-                  listData,
-                  widget.processId,
-                  widget.taskId,
+                  listFile: listData,
+                  comment: comment,
+                  documentId: widget.processId,
+                  taskId: widget.taskId,
+                  commentId: id ?? '',
                 );
               },
             )

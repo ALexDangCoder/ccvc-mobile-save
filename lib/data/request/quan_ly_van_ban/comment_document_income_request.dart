@@ -81,7 +81,7 @@ class RelayCommentRequest {
   @JsonKey(name: 'TaskId')
   final String taskId;
   @JsonKey(name: 'TaskXinYKienId')
-  final String documentId;
+  final String taskXinYKienId;
   @JsonKey(name: 'YKienXuLyFileDinhKem')
   final List<YKienXuLyFileDinhKemRequest> files;
 
@@ -91,7 +91,7 @@ class RelayCommentRequest {
     required this.noiDung,
     required this.files,
     required this.taskId,
-    required this.documentId,
+    required this.taskXinYKienId,
     this.idYKienTraLoi,
   });
 

@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/bloc/date_time_cupertino_custom_cubit.dart';
 import 'package:ccvc_mobile/widgets/switch/custom_switch.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +22,9 @@ class CupertinoTimePickerCustom extends StatefulWidget {
     this.initTimeEnd,
     this.initDateStart,
     this.initDateEnd,
+    required this.onDateTimeChanged,
   }) : super(key: key);
+
   final bool isAddMargin;
   final bool isSwitchButtonChecked;
   final Function(bool)? onSwitchPressed;
@@ -28,6 +32,12 @@ class CupertinoTimePickerCustom extends StatefulWidget {
   final DateTime? initTimeEnd;
   final DateTime? initDateStart;
   final DateTime? initDateEnd;
+  final Function(
+    String timeStart,
+    String timeEnd,
+    String dateStart,
+    String dateEnd,
+  ) onDateTimeChanged;
 
   @override
   _CupertinoTimePickerCustomState createState() =>
@@ -44,21 +54,23 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
     cubit = DateTimeCupertinoCustomCubit();
     debouncer = Debouncer();
     cubit.onTimeChanged(
-      timeSelected: widget.initTimeStart ?? DateTime.now(),
-      typePicker: TypePickerDateTime.TIME_START,
-    );
-    cubit.onTimeChanged(
       timeSelected: widget.initTimeEnd ?? DateTime.now(),
       typePicker: TypePickerDateTime.TIME_END,
-    );
-    cubit.onTimeChanged(
-      timeSelected: widget.initDateStart ?? DateTime.now(),
-      typePicker: TypePickerDateTime.DATE_START,
     );
     cubit.onTimeChanged(
       timeSelected: widget.initDateEnd ?? DateTime.now(),
       typePicker: TypePickerDateTime.DATE_END,
     );
+    cubit.onTimeChanged(
+      timeSelected: widget.initTimeStart ?? DateTime.now(),
+      typePicker: TypePickerDateTime.TIME_START,
+    );
+    cubit.onTimeChanged(
+      timeSelected: widget.initDateStart ?? DateTime.now(),
+      typePicker: TypePickerDateTime.DATE_START,
+    );
+    cubit.isSwitchBtnCheckedSubject.add(widget.isSwitchButtonChecked);
+
   }
 
   @override
@@ -109,9 +121,13 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                           value: isChecked,
                           onToggle: (bool value) {
                             cubit.handleSwitchButtonPressed(isChecked: value);
-                            if (widget.onSwitchPressed != null) {
-                              widget.onSwitchPressed!(value);
-                            }
+                            widget.onSwitchPressed?.call(value);
+                            widget.onDateTimeChanged(
+                              cubit.timeBeginSubject.value,
+                              cubit.timeEndSubject.value,
+                              cubit.dateBeginSubject.value,
+                              cubit.dateEndSubject.value,
+                            );
                           },
                         );
                       },
@@ -123,6 +139,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
           ],
         ),
         spaceH24,
+
         ///bắt đầu
         Padding(
           padding: const EdgeInsets.only(left: 30.0),
@@ -207,15 +224,26 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                           backgroundColor: backgroundColorApp,
                           mode: cubit.getTypePicker(typePicker),
                           use24hFormat: true,
-                          initialDateTime:
-                              widget.initTimeStart ?? DateTime.now(),
+                          initialDateTime: '${cubit.dateBeginSubject.value} '
+                                  '${cubit.timeBeginSubject.value}'
+                              .convertStringToDate(
+                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                          ),
                           onDateTimeChanged: (value) {
-                            debouncer.run(() {
-                              cubit.onTimeChanged(
-                                timeSelected: value,
-                                typePicker: typePicker,
-                              );
-                            });
+                            debouncer.run(
+                              () {
+                                cubit.onTimeChanged(
+                                  timeSelected: value,
+                                  typePicker: typePicker,
+                                );
+                                widget.onDateTimeChanged(
+                                  cubit.timeBeginSubject.value,
+                                  cubit.timeEndSubject.value,
+                                  cubit.dateBeginSubject.value,
+                                  cubit.dateEndSubject.value,
+                                );
+                              },
+                            );
                           },
                         )
                       : const SizedBox(
@@ -226,6 +254,7 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
             );
           },
         ),
+
         ///kết thúc
         spaceH24,
         Padding(
@@ -308,22 +337,38 @@ class _CupertinoTimePickerCustomState extends State<CupertinoTimePickerCustom> {
                   duration: Duration(milliseconds: cubit.duration),
                   child: isShowPicker
                       ? CupertinoDatePicker(
+                          key: UniqueKey(),
                           maximumDate: DateTime(2099, 12, 30),
-                          minimumDate: DateTime(1900),
+                          minimumDate: '${cubit.dateBeginSubject.value} '
+                                  '${cubit.timeBeginSubject.value}'
+                              .convertStringToDate(
+                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                          ),
                           maximumYear: 2099,
-                          minimumYear: 1900,
+                          minimumYear: cubit.getYearNumber(),
                           backgroundColor: backgroundColorApp,
                           mode: cubit.getTypePicker(typePicker),
                           use24hFormat: true,
-                          initialDateTime:
-                              widget.initTimeStart ?? DateTime.now(),
+                          initialDateTime: '${cubit.dateEndSubject.value} '
+                                  '${cubit.timeEndSubject.value}'
+                              .convertStringToDate(
+                            formatPattern: DateTimeFormat.DATE_DD_MM_HM,
+                          ),
                           onDateTimeChanged: (value) {
-                            debouncer.run(() {
-                              cubit.onTimeChanged(
-                                timeSelected: value,
-                                typePicker: typePicker,
-                              );
-                            });
+                            debouncer.run(
+                              () {
+                                cubit.onTimeChanged(
+                                  timeSelected: value,
+                                  typePicker: typePicker,
+                                );
+                                widget.onDateTimeChanged(
+                                  cubit.timeBeginSubject.value,
+                                  cubit.timeEndSubject.value,
+                                  cubit.dateBeginSubject.value,
+                                  cubit.dateEndSubject.value,
+                                );
+                              },
+                            );
                           },
                         )
                       : const SizedBox(

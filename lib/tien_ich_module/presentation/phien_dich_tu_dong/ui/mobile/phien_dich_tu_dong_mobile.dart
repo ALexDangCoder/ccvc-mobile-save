@@ -203,6 +203,7 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                     child: TextField(
                       controller: textEditingController,
                       onChanged: (String value) {
+                        print(value);
                         debouncer.run(
                           () {
                             cubit.translateDocument(document: value);

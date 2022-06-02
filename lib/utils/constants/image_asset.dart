@@ -523,6 +523,7 @@ class ImageAssets {
   static const String itemMenuLichLamViecTablet= '$baseImg/item_lichlamviec_menu_tablet.svg';
   static const String itemMenuBaoCao= '$baseImg/item_bao_cao_menu.svg';
   static const String itemMenuBaoCaoTablet= '$baseImg/item_baocao_menu_tablet.svg';
+  static const String icLink= '$baseImg/icLink.svg';
 
   static SvgPicture svgAssets(
     String name, {

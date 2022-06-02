@@ -93,7 +93,7 @@ class _ChiTietVanBanDiMobileState extends State<ChiTietVanBanDiMobile> {
                     idDocument: widget.id,
                   ),
                   VBDiYKienXuLyExpandWidget(
-                    cubit: commonDetailDocumentGoCubit,
+                    cubit: CommentDetailDocumentGoCubit(),
                     idDocument: widget.id,
                   ),
                   VBDiLichSuCapNhatExpandWidget(

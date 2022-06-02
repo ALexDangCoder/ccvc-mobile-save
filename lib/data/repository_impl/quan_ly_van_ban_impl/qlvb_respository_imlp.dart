@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/data/request/quan_ly_van_ban/danh_sach_vb_di_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_den_response.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_van_ban/chi_tiet_van_ban_di_response.dart';
@@ -160,13 +162,31 @@ class QLVBImlp implements QLVBRepository {
   }
 
   @override
+  Future<Result<List<DanhSachChoYKien>>> getYKienXuLyVBDi(String id) {
+    return runCatchingAsync<YKienXuLyResponse, List<DanhSachChoYKien>>(
+        () => _quanLyVanBanClient.getYKienXuLyVBDi(id),
+        (response) =>
+            response.danhSachChoYKien?.map((e) => e.toModel()).toList() ?? []);
+  }
+
+  @override
   Future<Result<ChiTietVanBanDenModel>> getDataChiTietVanBanDen(
-      String processId, String taskId, bool isYKien) {
+      String processId, String taskId,
+      {bool? isYKien}) {
     return runCatchingAsync<ChiTietVanBanDenDataResponse,
             ChiTietVanBanDenModel>(
         () => _quanLyVanBanClient.getDataChiTietVanBanDen(
             processId, taskId, isYKien),
         (response) => response.data!.toModel());
+  }
+
+  @override
+  Future<Result<List<VanBanHoiBaoModel>?>> getHoiBaoVanBanDen(
+      String processId) {
+    return runCatchingAsync<HoiBaoVanBanResponse, List<VanBanHoiBaoModel>?>(
+      () => _quanLyVanBanClient.getHoiBaoVanBanDen(processId),
+      (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
+    );
   }
 
   @override
@@ -195,14 +215,12 @@ class QLVBImlp implements QLVBRepository {
 
   @override
   Future<Result<String>> postFile({required File path}) {
-    return runCatchingAsync<PostFileResponse,
-        String>(
-          () =>
-          _quanLyVanBanClient.postFile([path]),
-          (response) {
-        if(response.isSuccess.toString() == 'true') {
+    return runCatchingAsync<PostFileResponse, String>(
+      () => _quanLyVanBanClient.postFile([path]),
+      (response) {
+        if (response.isSuccess.toString() == 'true') {
           final List<dynamic> list = response.data;
-          final Map<String,dynamic> map = list.first;
+          final Map<String, dynamic> map = list.first;
           return map['Id'].toString();
         } else {
           return 'false';
@@ -286,5 +304,28 @@ class QLVBImlp implements QLVBRepository {
             NodePhanXuLy<DonViLuongModel>?>(
         () => _quanLyVanBanClient.getLuongXuLyVanBanDen(id),
         (res) => res.toDomain());
+  }
+
+  @override
+  Future<Result<bool>> updateComment(UpdateCommentRequest comments) {
+    return runCatchingAsync<PostFileResponse, bool>(
+      () => _quanLyVanBanClient.updateComment(comments),
+      (res) => res.isSuccess ?? false,
+    );
+  }
+
+  @override
+  Future<Result<bool>> giveComment(GiveCommentRequest comments) {
+    return runCatchingAsync<PostFileResponse, bool>(
+      () => _quanLyVanBanClient.giveComment(comments),
+      (res) => res.isSuccess ?? false,
+    );
+  }
+
+  @override
+  Future<Result<bool>> relayCommentDocumentIncome(RelayCommentRequest relay) {
+    return runCatchingAsync<PostFileResponse, bool>(
+        () => _quanLyVanBanClient.relayCommentDocumentIncome(relay),
+        (res) => res.isSuccess ?? false);
   }
 }

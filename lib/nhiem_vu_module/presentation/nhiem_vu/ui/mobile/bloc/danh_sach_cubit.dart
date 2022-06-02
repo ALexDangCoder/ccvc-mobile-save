@@ -23,7 +23,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   DanhSachCubit() : super(DanhSachStateInitial());
 
   NhiemVuRepository get repo => Get.find();
-  int pageSize = 10;
+  int pageSize = 5;
   int pageIndex = 1;
   bool isCaNhan = true;
   String keySearch = '';
@@ -33,8 +33,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   final BehaviorSubject<List<ItemSellectBieuDo>> selectBieuDoModelSubject =
       BehaviorSubject.seeded([
-    ItemSellectBieuDo(stateBieuDo.TheoTrangThai, true),
-    ItemSellectBieuDo(stateBieuDo.TheoLoai, false),
+    ItemSellectBieuDo(stateBieuDo.TheoLoai, true),
+    ItemSellectBieuDo(stateBieuDo.TheoTrangThai, false),
     ItemSellectBieuDo(stateBieuDo.TheoDonVi, false),
   ]);
 
@@ -400,6 +400,15 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     result.when(
       success: (res) {
         loaiNhiemVuSuject.sink.add(res.data?.trangThaiXuLy ?? []);
+        for (final LoaiNhiemVuComomModel value in res.data?.loaiNhiemVu ?? []) {
+          chartDataTheoLoai.add(
+            ChartData(
+              value.text.toString(),
+              (value.value ?? 0).toDouble(),
+              value.giaTri.toString().statusCharLoaiDSNV(),
+            ),
+          );
+        }
 
         chartData = (res.data?.trangThai ?? [])
             .map(
@@ -412,7 +421,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
             .toList();
         chartData.removeLast();
         chartData.removeAt(0);
-        statusSuject.sink.add(chartData);
+        statusSuject.sink.add(chartDataTheoLoai);
         showContent();
       },
       error: (error) {
@@ -542,23 +551,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       daXuLyColor,
     ),
   ];
-  final List<ChartData> chartDataTheoLoai = [
-    ChartData(
-      'Nhiệm vụ CP/VPVP',
-      12,
-      choXuLyColor,
-    ),
-    ChartData(
-      'Nhiệm vụ Bộ',
-      12,
-      nhiemVuBoColor,
-    ),
-    ChartData(
-      'Nhiệm vụ đơn vị',
-      14,
-      nhiemDonViColor,
-    ),
-  ];
+  final List<ChartData> chartDataTheoLoai = [];
 
   final List<ChartData> chartDataNhiemVu = [
     ChartData(

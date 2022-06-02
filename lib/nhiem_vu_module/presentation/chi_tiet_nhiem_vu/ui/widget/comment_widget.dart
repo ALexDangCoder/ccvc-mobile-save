@@ -70,7 +70,8 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        DateTime.parse(widget.object.ngayTao ?? '')
+                        DateTime
+                            .parse(widget.object.ngayTao ?? '')
                             .formatApiListBieuQuyetMobile,
                         softWrap: true,
                         style: textNormalCustom(
@@ -123,7 +124,9 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                             GestureDetector(
                               onTap: () async {
                                 final appConstants =
-                                    Get.find<AppConstants>().baseUrlQLNV;
+                                    Get
+                                        .find<AppConstants>()
+                                        .baseUrlQLNV;
                                 final status = await Permission.storage.status;
                                 if (!status.isGranted) {
                                   await Permission.storage.request();
@@ -131,51 +134,59 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                       .request();
                                 }
                                 if (widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.pathIOC ==
+                                    .fileDinhKem?.pathIOC ==
                                     null) {
                                   await saveFile(
                                     widget.object.yKienXuLyFileDinhKem?[index]
-                                            .fileDinhKem?.ten ??
+                                        .fileDinhKem?.ten ??
                                         '',
-                                    '$appConstants/${widget.object.yKienXuLyFileDinhKem?[index].fileDinhKem?.duongDan ?? ''}',
+                                    '$appConstants${widget.object
+                                        .yKienXuLyFileDinhKem?[index]
+                                        .fileDinhKem?.duongDan ?? ''}',
+                                    http: true,
                                   )
                                       .then(
-                                        (value) => MessageConfig.show(
-                                          title: S.current.tai_file_thanh_cong,
-                                        ),
-                                      )
-                                      .onError(
-                                        (error, stackTrace) =>
-                                            MessageConfig.show(
-                                          title: S.current.tai_file_that_bai,
-                                          messState: MessState.error,
-                                        ),
-                                      );
+                                          (value) {
+                                        if (value == true) {
+                                          MessageConfig.show(
+                                            title: S.current
+                                                .tai_file_thanh_cong,
+                                          );
+                                        } else {
+                                          MessageConfig.show(
+                                            title: S.current.tai_file_that_bai,
+                                            messState: MessState.error,
+                                          );
+                                        }
+                                      }
+                                  );
                                 } else {
                                   await saveFile(
                                     widget.object.yKienXuLyFileDinhKem?[index]
-                                            .fileDinhKem?.ten ??
+                                        .fileDinhKem?.ten ??
                                         '',
                                     widget.object.yKienXuLyFileDinhKem?[index]
                                         .fileDinhKem?.pathIOC,
+                                    http: true,
                                   )
                                       .then(
-                                        (value) => MessageConfig.show(
+                                        (value) =>
+                                        MessageConfig.show(
                                           title: S.current.tai_file_thanh_cong,
                                         ),
-                                      )
+                                  )
                                       .onError(
                                         (error, stackTrace) =>
-                                            MessageConfig.show(
+                                        MessageConfig.show(
                                           title: S.current.tai_file_that_bai,
                                           messState: MessState.error,
                                         ),
-                                      );
+                                  );
                                 }
                               },
                               child: Text(
                                 widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.ten ??
+                                    .fileDinhKem?.ten ??
                                     '',
                                 style: textNormalCustom(
                                   color: textColorMangXaHoi,

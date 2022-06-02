@@ -377,3 +377,43 @@ class FileDinhKemsVanBanDen {
         nguoiTao: ngayTao,
       );
 }
+
+class VanBanHoiBaoModel {
+  final String id;
+  final List<FileDinhKems> files;
+  final String soKyHieu;
+
+  final String trichYeu;
+  final String nguoiSoanThao;
+
+  const VanBanHoiBaoModel({
+    this.id = '',
+    required this.files,
+    this.soKyHieu = '',
+    this.nguoiSoanThao = '',
+    this.trichYeu = '',
+  });
+
+  List<DocumentDetailRow> toListRow() => <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.so_ky_hieu,
+          soKyHieu ,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.nguoi_soan_thao,
+          nguoiSoanThao ,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.trich_yeu,
+          trichYeu ,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.file_dinh_kem,
+          files,
+          TypeDocumentDetailRow.fileActacks,
+        ),
+      ];
+}

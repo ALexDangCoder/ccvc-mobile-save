@@ -373,7 +373,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                   ),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                   ),
                   child: Text(
                     dsKetQuaPakn.trangThaiText ?? '',

@@ -1,6 +1,6 @@
+import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-
-import 'document_detail_row.dart';
 
 class ChiTietVanBanDiModel {
   String? id;
@@ -36,8 +36,9 @@ class ChiTietVanBanDiModel {
   String? noiNhanTrongHeThong;
   String? noiNhanNgoaiHeThong;
   String? nhanDeBiet;
+  String? trangThai;
+  String? maTrangThai;
   List<FileDinhKemVanBanDiModel>? fileDinhKemVanBanDiResponses;
-  List<DanhSachChoYKien>? danhSachChoYKien;
   bool? isCanTrinhKy;
   bool? isCanHuyTrinhKy;
   bool? isCanThuHoiBanHanh;
@@ -73,6 +74,8 @@ class ChiTietVanBanDiModel {
     this.kyHieuVanBanGoc,
     this.isDaKyPhieuTrinh,
     this.idDoKhan,
+    this.maTrangThai,
+    this.trangThai,
     this.doKhan,
     this.issuedAmount,
     this.isLaVanBanTraLoi,
@@ -90,7 +93,6 @@ class ChiTietVanBanDiModel {
     this.noiNhanNgoaiHeThong,
     this.nhanDeBiet,
     this.fileDinhKemVanBanDiResponses,
-    this.danhSachChoYKien,
     this.isCanTrinhKy,
     this.isCanHuyTrinhKy,
     this.isCanThuHoiBanHanh,
@@ -130,7 +132,7 @@ class ChiTietVanBanDiModel {
         DocumentDetailRow(
           S.current.do_khan,
           doKhan ?? '',
-          TypeDocumentDetailRow.text,
+          TypeDocumentDetailRow.priority,
         ),
       ],
       <DocumentDetailRow>[
@@ -151,8 +153,8 @@ class ChiTietVanBanDiModel {
         ),
         DocumentDetailRow(
           S.current.trang_thai,
-          '',
-          TypeDocumentDetailRow.text,
+          trangThai ?? '',
+          TypeDocumentDetailRow.textStatus,
         ),
       ],
       <DocumentDetailRow>[
@@ -230,12 +232,12 @@ class ChiTietVanBanDiModel {
       DocumentDetailRow(
         S.current.do_khan,
         doKhan ?? '',
-        TypeDocumentDetailRow.text,
+        TypeDocumentDetailRow.priority,
       ),
       DocumentDetailRow(
         S.current.trang_thai,
-        '',
-        TypeDocumentDetailRow.text,
+        trangThai ?? '',
+        TypeDocumentDetailRow.textStatus,
       ),
     ];
 
@@ -296,7 +298,8 @@ class VanBanDenModel {
   String? soKyHieu;
   String? donViBanHanh;
   String? trichYeu;
-  List<dynamic>? files;
+  String? hanXuLy;
+  List<FileDinhKems>? files;
 
   VanBanDenModel({
     this.id,
@@ -305,6 +308,7 @@ class VanBanDenModel {
     this.soKyHieu,
     this.donViBanHanh,
     this.trichYeu,
+    this.hanXuLy,
     this.files,
   });
 
@@ -331,13 +335,13 @@ class VanBanDenModel {
         ),
         DocumentDetailRow(
           S.current.ngay_han_xu_ly,
-          '',
+          hanXuLy ?? '',
           TypeDocumentDetailRow.text,
         ),
         DocumentDetailRow(
           S.current.file_dinh_kem,
           files ?? [],
-          TypeDocumentDetailRow.fileVanBanDi,
+          TypeDocumentDetailRow.fileActacks,
         ),
       ];
 }
@@ -348,6 +352,7 @@ class NguoiKyDuyetModel {
   String? tenNguoiKy;
   String? donViNguoiKy;
   String? vaiTro;
+  String? chucVu;
   int? loaiBanHanh;
   int? thuTu;
   String? idUser;
@@ -355,6 +360,7 @@ class NguoiKyDuyetModel {
   NguoiKyDuyetModel({
     this.id,
     this.idHost,
+    this.chucVu,
     this.tenNguoiKy,
     this.donViNguoiKy,
     this.vaiTro,
@@ -515,6 +521,7 @@ class DanhSachChoYKien {
   bool? isCanXoa;
   bool? isCanSuaXinYKien;
   bool? isNguoiDangNhapCoTheTraLoi;
+  List<DanhSachChoYKien> traLoi;
 
   DanhSachChoYKien({
     this.id,
@@ -538,6 +545,7 @@ class DanhSachChoYKien {
     this.isCanXoa,
     this.isCanSuaXinYKien,
     this.isNguoiDangNhapCoTheTraLoi,
+    required this.traLoi,
   });
 }
 
@@ -545,12 +553,10 @@ class DanhSachFiles {
   String? ten;
   String? id;
   String? isSign;
-  String? duongDan;
 
   DanhSachFiles({
     this.ten,
     this.id,
     this.isSign,
-    this.duongDan,
   });
 }

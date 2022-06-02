@@ -60,7 +60,7 @@ class LineChartWidget extends StatelessWidget {
         ),
         series: <ChartSeries<LineChartData, String>>[
           StackedLineSeries<LineChartData, String>(
-            color: choXuLyColor,
+            color: color5A8DEE,
             dataSource: listData,
             xValueMapper: (LineChartData sales, _) => sales.date,
             yValueMapper: (LineChartData sales, _) => sales.count,
@@ -75,7 +75,7 @@ class LineChartWidget extends StatelessWidget {
             ),
             markerSettings: const MarkerSettings(
               isVisible: true,
-              color: choXuLyColor,
+              color: color5A8DEE,
             ),
           ),
         ],

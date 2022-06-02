@@ -58,6 +58,9 @@ class ApiConstants {
   static const EDIT_PERSON_INFORMATION = '/api/CanBo/add-or-update';
   static const UPLOAD_FILE = '/api/CanBo/upload';
   static const UPLOAD_FILE_COMMON = '/qlvb/api/Common/UploadMultiFile';
+  static const UPDATE_Y_KIEN_XU_LY = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/update-y-kien';
+  static const CHO_Y_KIEN = '/qlvb/api/xin-y-kien/cho-y-kien';
+  static const TRA_LOI_Y_KIEN_VAN_BAN_DEN = '/qlvb/api/qlvb/van-ban-den/y-kien-xu-ly/tra-loi-xin-y-kien';
 
   static const LICH_LAM_VIEC_DASHBOARD =
       '/vpdt/api/Schedules/count-in-dashboard';
@@ -76,7 +79,8 @@ class ApiConstants {
   static const EVENT_CALENDAR_LICH_LV = '/vpdt/api/Schedules/Ngay-co-lich';
   static const CHUONG_TRINH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
-  static const CHI_TIET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}?';
+  static const CHI_TIET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}';
+  static const Y_KIEN_VAN_BAN_DI = '/qlvb/api/van-ban-di/y-kien-van-ban-di/{id}';
   static const CHI_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/{id}?';
 
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
@@ -170,6 +174,7 @@ class ApiConstants {
   static const DASH_BOARD_TAT_CA_CHU_DE = '/api/NewsNetViews/dashboard';
   static const GET_LIST_TAT_CA_CHU_DE = '/api/NewsNetViews/search_news';
   static const CHI_TIET_VAN_BAN_DEN = '/qlvb/api/VanBan/ChiTietVanBanDen';
+  static const HOI_BAO_VAN_BAN_DEN = '/qlvb/api/vanban/van-ban-di-response';
   static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
   static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
   static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
@@ -235,7 +240,10 @@ class ApiConstants {
       '/api/NewsNetViews/thong_ke_theo_nguon';
   static const BAO_CAO_THEO_SAC_THAI_LINE_CHART =
       '/api/NewsNetViews/thong_ke_theo_sac_thai';
+  static const THEO_DOI_BAI_VIET =
+      '/api/NewsNetViews/theo_doi';
   static const CHANGE_PASS = '/api/auth/change-pass';
+  static const FORGOT_PASSWORD = '/api/auth/forgot-password';
   static const THEM_Y_KIEN = '/vpdt/api/ScheduleOpinion/create';
   static const TIEN_TRINH_XU_LY = '/pakn/api/KienNghi/TienTrinhXulyPAKN';
   static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
@@ -250,6 +258,7 @@ class ApiConstants {
   static const DAT_NUOC_SELECT = '/vpdt/api/Country/country-list';
   static const POST_Y_KIEN_XU_LY = '/pakn/api/TaskYKien/XinYKien';
   static const POST_CHO_Y_KIEN_XU_LY = '/PAKN/api/TaskYKien/ChoYKien';
+  static const DOWNLOAD_FILE = '/api/Common/DownloadFile';
   static const GET_LOCATION_ADDRESS = '/pakn/api/location';
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
   static const CREATE_DEVICE = '/api/DeviceNotification/create-device';

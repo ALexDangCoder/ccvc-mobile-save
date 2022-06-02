@@ -22,6 +22,10 @@ extension StringMoneyFormat on String {
 }
 
 extension VietNameseParse on String {
+
+  String get textToCode => this.split(' ').join('_').toUpperCase().vietNameseParse();
+
+
   String vietNameseParse() {
     var result = this;
 

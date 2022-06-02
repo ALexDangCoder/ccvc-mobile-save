@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/danh_sach_y_kien_xu_ly_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_income_cubit.dart';
@@ -10,17 +11,21 @@ import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 
 import '../comment_widget.dart';
 
 class YKienXuLyExpandWidgetMobile extends StatefulWidget {
   final CommentsDetailDocumentCubit cubit;
   final String processId;
+  final String taskId;
 
   const YKienXuLyExpandWidgetMobile({
     Key? key,
     required this.cubit,
     required this.processId,
+    required this.taskId,
   }) : super(key: key);
 
   @override
@@ -67,7 +72,12 @@ class _YKienXuLyExpandWidgetMobileState
                   ),
                   child: WidgetComments(
                     onSend: (comment, listData) {
-                      widget.cubit.comment(comment,listData);
+                      widget.cubit.comment(
+                        comment,
+                        listData,
+                        widget.processId,
+                        widget.taskId,
+                      );
                     },
                   ),
                 ),
@@ -205,7 +215,7 @@ class _YKienXuLyExpandWidgetMobileState
           spaceH6,
           Row(
             children: [
-              _listFile(fileDinhKem),
+              Expanded(child: _listFile(fileDinhKem)),
               spaceW13,
               _relayButton(canRelay, index)
             ],
@@ -216,7 +226,13 @@ class _YKienXuLyExpandWidgetMobileState
             WidgetComments(
               focus: true,
               onSend: (comment, listData) {
-                widget.cubit.comment(comment,listData);
+                widget.cubit.relay(
+                  listFile: listData,
+                  comment: comment,
+                  documentId: widget.processId,
+                  taskId: widget.taskId,
+                  commentId: id ?? '',
+                );
               },
             )
         ],
@@ -252,23 +268,26 @@ class _YKienXuLyExpandWidgetMobileState
   Widget _listFile(List<YKienXuLyFileDinhKem> data) {
     if (data.isNotEmpty) {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: data
             .map(
               (e) => GestureDetector(
                 onTap: () {
+                  final baseURL = Get.find<AppConstants>().baseUrlQLNV;
                   handleSaveFile(
-                    url:
-                        '$DO_MAIN_DOWLOAD_FILE${e.fileDinhKem?.duongDan ?? ''}',
+                    url: '$baseURL${e.fileDinhKem?.duongDan ?? ''}',
                     name: e.fileDinhKem?.ten ?? '',
                   );
                 },
-                child: Text(
-                  e.fileDinhKem?.ten ?? '',
-                  style: textNormalCustom(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                    color: textColorMangXaHoi,
-                  ), //infoColor
+                child: SizedBox(
+                  child: Text(
+                    e.fileDinhKem?.ten ?? '',
+                    style: textNormalCustom(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      color: textColorMangXaHoi,
+                    ), //infoColor
+                  ),
                 ),
               ),
             )

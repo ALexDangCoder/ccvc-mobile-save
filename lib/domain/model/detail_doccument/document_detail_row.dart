@@ -1,20 +1,21 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
+import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:get/get.dart';
 
 import 'lich_su_van_ban_model.dart';
 
 const QUA_HAN = 'QUA_HAN';
+const CHO_TRINH_KY = 'CHO_TRINH_KY';
 const CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
 const DANG_THUC_HIEN = 'DANG_THUC_HIEN';
 const CHO_VAO_SO = 'CHO_VAO_SO';
@@ -31,7 +32,8 @@ enum TypeDocumentDetailRow {
   checkbox,
   text,
   fileActacks,
-  statusText,
+  priority,
+  textStatus,
   status,
   fileVanBanDi
 }
@@ -63,6 +65,15 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             fontSize: 14.0.textScale(),
           ),
         );
+        case TypeDocumentDetailRow.textStatus:
+        return Text(
+          row.value,
+          style: textNormalCustom(
+            color: row.value.toString().textToCode.getStatusVanBan().getStatusColor(),
+            fontWeight: FontWeight.w400,
+            fontSize: 14.0.textScale(),
+          ),
+        );
       case TypeDocumentDetailRow.fileActacks:
         {
           final data = row.value as List<FileDinhKems>;
@@ -72,31 +83,17 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                 .map(
                   (e) => GestureDetector(
                     onTap: () async {
-                      final status = await Permission.storage.status;
-                      if (!status.isGranted) {
-                        await Permission.storage.request();
-                        await Permission.manageExternalStorage.request();
-                      }
-                      await saveFile(
-                        e.ten ?? '',
-                        e.pathIOC,
-                      )
-                          .then(
-                            (value) => MessageConfig.show(
-                              title: S.current.tai_file_thanh_cong,
-                            ),
-                          )
-                          .onError(
-                            (error, stackTrace) => MessageConfig.show(
-                              title: S.current.tai_file_that_bai,
-                              messState: MessState.error,
-                            ),
-                          );
+                      final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+                      await handleSaveFile(
+                        url: '$baseURL${e.duongDan}',
+                        name: e.ten ?? '',
+                      );
+
                     },
                     child: Text(
                       e.ten ?? '',
                       style: textNormalCustom(
-                        color: choXuLyColor,
+                        color: color5A8DEE,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.textScale(),
                       ),
@@ -112,11 +109,16 @@ extension TypeDataDocument on TypeDocumentDetailRow {
 
           return data.getStatusVanBan().getStatus();
         }
-      case TypeDocumentDetailRow.statusText:
+      case TypeDocumentDetailRow.priority:
         {
-          final data = row.value as String;
-
-          return data.getStatusVanBan().getStatus();
+          return Text(
+            row.value,
+            style: textNormalCustom(
+              color: getColorFromPriorityCodeUpperCase(row.value.toString().textToCode),
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.textScale(),
+            ),
+          );
         }
       case TypeDocumentDetailRow.checkbox:
         return Row(
@@ -146,22 +148,22 @@ extension TypeDataDocument on TypeDocumentDetailRow {
             final data = row.value;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ...data
-                    .map(
-                      (e) => GestureDetector(
-                        onTap: () async {
-                          await handleSaveFile(
-                            url: '$DO_MAIN_DOWLOAD_FILE${e.duongDan}',
-                            name: e.ten ?? '',
-                          );
-                        },
-                        child: Text(
-                          e.ten ?? '',
-                          style: textNormalCustom(
-                            color: choXuLyColor,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0.textScale(),
+              children: <Widget>[...data
+                  .map(
+                    (e) => GestureDetector(
+                      onTap: () async {
+                        final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+                        await handleSaveFile(
+                          url: '$baseURL${e.duongDan}',
+                          name: e.ten ?? '',
+                        );
+                      },
+                      child: Text(
+                        e.ten ?? '',
+                        style: textNormalCustom(
+                          color: color5A8DEE,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.textScale(),
                           ),
                         ),
                       ),
@@ -179,6 +181,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
 
 enum StatusVanBan {
   QUA_HAN,
+  CHO_TRINH_KY,
   CHUA_THUC_HIEN,
   DANG_THUC_HIEN,
   CHO_VAO_SO,
@@ -199,6 +202,12 @@ extension StatusChiTietVanBan on StatusVanBan {
         return statusChiTietVanBan(
           name: S.current.qua_han,
           background: statusCalenderRed,
+          changeTextColor: changeTextColor,
+        );
+        case StatusVanBan.CHO_TRINH_KY:
+        return statusChiTietVanBan(
+          name: S.current.cho_trinh_ky,
+          background: choTrinhKyColor,
           changeTextColor: changeTextColor,
         );
       case StatusVanBan.CHUA_THUC_HIEN:
@@ -228,7 +237,7 @@ extension StatusChiTietVanBan on StatusVanBan {
       case StatusVanBan.CHO_XU_LY:
         return statusChiTietVanBan(
           name: S.current.cho_xu_ly,
-          background: choXuLyColor,
+          background: color5A8DEE,
           changeTextColor: changeTextColor,
         );
       case StatusVanBan.DANG_XU_LY:
@@ -269,6 +278,36 @@ extension StatusChiTietVanBan on StatusVanBan {
         );
     }
   }
+  Color getStatusColor({bool changeTextColor = false}) {
+    switch (this) {
+      case StatusVanBan.QUA_HAN:
+        return statusCalenderRed;
+      case StatusVanBan.CHO_TRINH_KY:
+        return choTrinhKyColor;
+      case StatusVanBan.CHUA_THUC_HIEN:
+        return yellowColor;
+      case StatusVanBan.DANG_THUC_HIEN:
+        return AqiColor;
+      case StatusVanBan.CHO_VAO_SO:
+        return choVaoSoColor;
+      case StatusVanBan.NHAN_DE_BIET:
+        return choVaoSoColor;
+      case StatusVanBan.CHO_XU_LY:
+        return color5A8DEE;
+      case StatusVanBan.DANG_XU_LY:
+        return dangXyLyColor;
+      case StatusVanBan.CHO_TIEP_NHAN:
+        return itemWidgetNotUse;
+      case StatusVanBan.CHO_PHAN_XU_LY:
+        return yellowColor;
+      case StatusVanBan.THU_HOI:
+        return yellowColor;
+      case StatusVanBan.DA_HOAN_THANH:
+        return daXuLyColor;
+      case StatusVanBan.TRA_LAI:
+        return statusCalenderRed;
+    }
+  }
 }
 
 extension GetStatusVanBan on String {
@@ -276,10 +315,10 @@ extension GetStatusVanBan on String {
     switch (this) {
       case QUA_HAN:
         return StatusVanBan.QUA_HAN;
-
+      case CHO_TRINH_KY :
+        return StatusVanBan.CHO_TRINH_KY;
       case CHUA_THUC_HIEN:
         return StatusVanBan.CHUA_THUC_HIEN;
-
       case DANG_THUC_HIEN:
         return StatusVanBan.DANG_THUC_HIEN;
       case CHO_VAO_SO:

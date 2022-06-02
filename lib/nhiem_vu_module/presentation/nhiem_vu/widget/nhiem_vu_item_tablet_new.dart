@@ -25,7 +25,7 @@ class NhiemVuItemTabletNew extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20.0),
-        height: 150,
+        padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           border: Border.all(color: borderItemCalender),
           borderRadius: BorderRadius.circular(10.0),
@@ -38,132 +38,113 @@ class NhiemVuItemTabletNew extends StatelessWidget {
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0, top: 6.0),
-                          child: Container(
-                            width: 8.0,
-                            height: 8.0,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: statusCalenderRed,
-                            ),
-                          ),
-                        ),
-                      ],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0, top: 6.0),
+                  child: Container(
+                    width: 8.0,
+                    height: 8.0,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: statusCalenderRed,
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    (data.noiDungTheoDoi ?? '').parseHtml(),
+                    style: titleAppbar(
+                      fontSize: 16.0,
+                      color: data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
+                          textTitle,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  spaceH8,
+                  Column(
+                    children: [
+                      Row(
                         children: [
                           Text(
-                            (data.noiDungTheoDoi ?? '').parseHtml(),
-                            style: titleAppbar(
-                                fontSize: 16.0,
-                                color:
-                                    data.trangThaiHanXuLy?.trangThaiHanXuLy() ??
-                                        textTitle),
+                            data.hanXuLy ?? DateTime.now().formatDdMMYYYY,
+                            style: textNormalCustom(
+                              color: textBodyTime,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          spaceW10,
+                          Text(
+                            'Chủ trì',
+                            style: textNormalCustom(
+                              color: color667793,
+                              fontWeight: FontWeight.w500,
+                            ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    data.hanXuLy ??
-                                        DateTime.now().formatDdMMYYYY,
-                                    style: textNormalCustom(
-                                      color: textBodyTime,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  Text(
-                                    'Chủ trì',
-                                    style: textNormalCustom(
-                                      color: color667793,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 8.0,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          // data.nguoiGiaoViec ?? '',
-                                          'Phạm Viết Cương',
-                                          style: textNormalCustom(
-                                            color: color667793,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        const SizedBox(
-                                          height: 8.0,
-                                        ),
-                                        Text(
-                                          '${S.current.nhiem_vu}: ${data.loaiNhiemVu}',
-                                          style: textNormalCustom(
-                                            color: color667793,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 101.0,
-                                    height: 24.0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      color: data.maTrangThai
-                                          ?.trangThaiColorNhiemVu(),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        data.trangThai ?? '',
-                                        style: textNormalCustom(fontSize: 12.0),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
                         ],
                       ),
-                    )
-                  ],
-                ),
+                      spaceH8,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data.nguoiGiaoViec ?? '',
+                                  style: textNormalCustom(
+                                    color: color667793,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  '${S.current.nhiem_vu}: ${data.loaiNhiemVu}',
+                                  style: textNormalCustom(
+                                    color: color667793,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 101.0,
+                            height: 24.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: data.maTrangThai?.trangThaiColorNhiemVu(),
+                            ),
+                            child: Center(
+                              child: Text(
+                                data.trangThai ?? '',
+                                style: textNormalCustom(fontSize: 12.0),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

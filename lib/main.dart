@@ -27,7 +27,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 Future<void> mainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+ // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await PrefsService.init();
   await Firebase.initializeApp();
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(

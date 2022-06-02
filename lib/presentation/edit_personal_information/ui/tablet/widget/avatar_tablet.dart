@@ -69,7 +69,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
         cubit.avatarPathSubject.sink.add(_path);
@@ -90,11 +90,11 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
         cubit.chuKyPathSubject.sink.add(_path);
-        await cubit.uploadFile(_path.path);
+        await cubit.uploadFileChuKi(_path.path);
       }
     } else {}
   }
@@ -111,11 +111,11 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
         cubit.kyNhayPathSubject.sink.add(_path);
-        await cubit.uploadFile(_path.path);
+        await cubit.uploadFileKiNhay(_path.path);
       }
     } else {}
   }

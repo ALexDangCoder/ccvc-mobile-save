@@ -143,28 +143,22 @@ extension SettingScreen on ThongBaoCubit {
     try {
       permissionStatus = await PermissionHandler.permissionsGranted ?? false;
 
-      if(!permissionStatus) {
+      if (!permissionStatus) {
         await PermissionHandler.openDoNotDisturbSetting();
       }
-    } catch (err) {
-      print(err);
-    }
+    } catch (err) {}
   }
 
   Future<void> setSilentMode() async {
     try {
       await SoundMode.setSoundMode(RingerModeStatus.silent);
-    } on PlatformException {
-      print('Do Not Disturb access permissions required!');
-    }
+    } catch (e) {}
   }
 
   Future<void> setNormalMode() async {
     try {
       await SoundMode.setSoundMode(RingerModeStatus.normal);
-    } on PlatformException {
-      print('Do Not Disturb access permissions required!');
-    }
+    } on PlatformException {}
   }
 
   void changeSwitch(String appCode, bool status) {
@@ -271,11 +265,10 @@ extension ThongBaoScreen on ThongBaoCubit {
 }
 
 extension BackgroundNoti on ThongBaoCubit {
-    void pushNoti(Map<String, dynamic> json, BuildContext context) {
+  void pushNoti(Map<String, dynamic> json, BuildContext context) {
     final BackgroundModel noti = BackgroundModel.fromJson(json);
-     (noti.typeNoti ?? '').getEnumDetail
-         .getScreenDetail(context);
-    }
+    (noti.typeNoti ?? '').getEnumDetail.getScreenDetail(context);
+  }
 }
 
 extension AppCodes on String {

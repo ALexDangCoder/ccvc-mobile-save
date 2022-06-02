@@ -373,3 +373,51 @@ class FileDinhKemVanBanDenResponse extends Equatable {
   @override
   List<Object?> get props => [];
 }
+
+@JsonSerializable()
+class HoiBaoVanBanResponse {
+  @JsonKey(name: 'Data')
+  final List<DataHoiBaoVanBanResponse>? data;
+
+  const HoiBaoVanBanResponse({this.data}); //todo convert to Model to use
+
+  factory HoiBaoVanBanResponse.fromJson(Map<String, dynamic> json) =>
+      _$HoiBaoVanBanResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$HoiBaoVanBanResponseToJson(this);
+}
+
+@JsonSerializable()
+class DataHoiBaoVanBanResponse {
+  @JsonKey(name: 'Id')
+  final String? id;
+  @JsonKey(name: 'SoKyHieu')
+  final String? soKyHieu;
+  @JsonKey(name: 'TrichYeu')
+  final String? trichYeu;
+  @JsonKey(name: 'NguoiSoanThao')
+  final String? nguoiSoanThao;
+  @JsonKey(name: 'Files')
+  final List<FileDinhKemVanBanDenResponse>? files;
+
+  const DataHoiBaoVanBanResponse({
+    this.id,
+    this.nguoiSoanThao,
+    this.trichYeu,
+    this.soKyHieu,
+    this.files,
+  });
+  factory DataHoiBaoVanBanResponse.fromJson(Map<String, dynamic> json) =>
+      _$DataHoiBaoVanBanResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DataHoiBaoVanBanResponseToJson(this);
+
+  VanBanHoiBaoModel toModel() => VanBanHoiBaoModel(
+        files:
+            files?.map((e) => e.toModel().toFileDinhKemModel()).toList() ?? [],
+        trichYeu: trichYeu?.parseHtml() ?? '',
+        nguoiSoanThao: nguoiSoanThao ?? '',
+        soKyHieu: soKyHieu ?? '',
+        id: id ?? '',
+      );
+}

@@ -227,10 +227,11 @@ class _YKienXuLyExpandWidgetMobileState
               focus: true,
               onSend: (comment, listData) {
                 widget.cubit.relay(
-                  comment,
-                  listData,
-                  widget.processId,
-                  widget.taskId,
+                  listFile: listData,
+                  comment: comment,
+                  documentId: widget.processId,
+                  taskId: widget.taskId,
+                  commentId: id ?? '',
                 );
               },
             )
@@ -274,8 +275,7 @@ class _YKienXuLyExpandWidgetMobileState
                 onTap: () {
                   final baseURL = Get.find<AppConstants>().baseUrlQLNV;
                   handleSaveFile(
-                    url:
-                        '$baseURL${e.fileDinhKem?.duongDan ?? ''}',
+                    url: '$baseURL${e.fileDinhKem?.duongDan ?? ''}',
                     name: e.fileDinhKem?.ten ?? '',
                   );
                 },

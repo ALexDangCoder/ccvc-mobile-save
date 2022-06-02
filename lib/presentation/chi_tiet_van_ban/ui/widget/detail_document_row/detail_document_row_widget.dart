@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.da
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/ui/widget/detail_document_row/bloc/detail_row_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/checkbox/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -59,7 +60,8 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                         .map(
                           (e) => GestureDetector(
                             onTap: () async {
-                              final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+                              final baseURL =
+                                  Get.find<AppConstants>().baseUrlQLNV;
                               await handleSaveFile(
                                 name: e.ten ?? '',
                                 url: '$baseURL${e.duongDan}',
@@ -205,6 +207,78 @@ class _DetailDocumentRowState extends State<DetailDocumentRow> {
                             ),
                           ),
                         ),
+                )
+              ],
+            ),
+          );
+        }
+      case TypeDocumentDetailRow.priority:
+        {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    widget.row.title,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: titleColumn,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: widget.isTablet ? 26 : 6,
+                  child: Text(
+                    widget.row.value,
+                    style: textNormalCustom(
+                      color: getColorFromPriorityCodeUpperCase(
+                        widget.row.value.toString().textToCode,
+                      ),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+      case TypeDocumentDetailRow.textStatus:
+        {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    widget.row.title,
+                    style: textNormalCustom(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: titleColumn,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: widget.isTablet ? 26 : 6,
+                  child: Text(
+                    widget.row.value,
+                    style: textNormalCustom(
+                      color: widget.row.value
+                          .toString()
+                          .textToCode
+                          .getStatusVanBan()
+                          .getStatusColor(),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.0,
+                    ),
+                  ),
                 )
               ],
             ),

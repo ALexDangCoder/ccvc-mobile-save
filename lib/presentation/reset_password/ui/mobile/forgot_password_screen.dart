@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -57,6 +58,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: [
                       const SizedBox(height: 20.0),
                       TextFieldValidator(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(' '),
+                        ],
                         controller: emailController,
                         hintText:
                             '${S.current.email}/${S.current.so_dien_thoai}',
@@ -76,11 +80,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           if ((value ?? '').isNotEmpty) {
                             if (isCheckSdt || isCheckEmail) {
                             } else {
-                              return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                              return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}!';
                             }
                           } else {
                             return (value ?? '').checkTruongNull(
-                                '${S.current.email}/${S.current.so_dien_thoai}');
+                              '${S.current.email}/${S.current.so_dien_thoai}!',
+                            );
                           }
                         },
                       ),

@@ -3,6 +3,8 @@ import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'chi_tiet_van_ban_den_response.dart';
+
 part 'chi_tiet_van_ban_di_response.g.dart';
 
 @JsonSerializable()
@@ -18,6 +20,21 @@ class ChiTietVanBanDiDataResponse {
       _$ChiTietVanBanDiDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChiTietVanBanDiDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class YKienXuLyResponse {
+  @JsonKey(name: 'Data')
+  List<DanhSachChoYKienResponse>? danhSachChoYKien;
+
+  YKienXuLyResponse(this.danhSachChoYKien);
+
+  factory YKienXuLyResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$YKienXuLyResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$YKienXuLyResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -88,10 +105,13 @@ class ChiTietVanBanDiResponse {
   String? noiNhanNgoaiHeThong;
   @JsonKey(name: 'NhanDeBiet')
   String? nhanDeBiet;
+  @JsonKey(name: 'MaTrangThai')
+  String? maTrangThai;
+  @JsonKey(name: 'TrangThai')
+  String? trangThai;
   @JsonKey(name: 'FileDinhKemVanBanDiResponses')
   List<FileDinhKemVanBanDiResponse>? fileDinhKemVanBanDiResponses;
-  @JsonKey(name: 'DanhSachChoYKien')
-  List<DanhSachChoYKienResponse>? danhSachChoYKien;
+
   @JsonKey(name: 'IsCanTrinhKy')
   bool? isCanTrinhKy;
   @JsonKey(name: 'IsCanHuyTrinhKy')
@@ -146,6 +166,8 @@ class ChiTietVanBanDiResponse {
     this.idDoKhan,
     this.doKhan,
     this.issuedAmount,
+    this.maTrangThai,
+    this.trangThai,
     this.isLaVanBanTraLoi,
     this.isVanBanQppl,
     this.isVanBanDiBanHanh,
@@ -159,7 +181,6 @@ class ChiTietVanBanDiResponse {
     this.noiNhanNgoaiHeThong,
     this.nhanDeBiet,
     this.fileDinhKemVanBanDiResponses,
-    this.danhSachChoYKien,
     this.isCanTrinhKy,
     this.isCanHuyTrinhKy,
     this.isCanThuHoiBanHanh,
@@ -197,6 +218,8 @@ class ChiTietVanBanDiResponse {
             : DateTime.parse(dueDate ?? '').toStringWithListFormat,
         ngayTao: ngayTao,
         ngayBanHanh: ngayBanHanh,
+        trangThai:  trangThai,
+        maTrangThai:  maTrangThai,
         loaiNguonDuLieu: loaiNguonDuLieu,
         tenNguoiSoanThao: tenNguoiSoanThao,
         donViSoanThao: donViSoanThao,
@@ -233,8 +256,6 @@ class ChiTietVanBanDiResponse {
                 ?.map((e) => e.toModelFileDinhKemVanBanDi())
                 .toList() ??
             [],
-        danhSachChoYKien:
-            danhSachChoYKien?.map((e) => e.toModel()).toList() ?? [],
         isCanTrinhKy: isCanTrinhKy,
         isCanHuyTrinhKy: isCanHuyTrinhKy,
         isCanThuHoiBanHanh: isCanThuHoiBanHanh,
@@ -309,8 +330,10 @@ class VanBanDenResponse {
   String? donViBanHanh;
   @JsonKey(name: 'TrichYeu')
   String? trichYeu;
+  @JsonKey(name: 'HanXuLy')
+  String? hanXuLy;
   @JsonKey(name: 'Files')
-  List<dynamic>? files;
+  List<FileDinhKemVanBanDenResponse>? files;
 
   VanBanDenResponse({
     this.id,
@@ -320,6 +343,7 @@ class VanBanDenResponse {
     this.donViBanHanh,
     this.trichYeu,
     this.files,
+    this.hanXuLy
   });
 
   factory VanBanDenResponse.fromJson(
@@ -335,8 +359,9 @@ class VanBanDenResponse {
         soDen: soDen,
         soKyHieu: soKyHieu,
         donViBanHanh: donViBanHanh,
+        hanXuLy: hanXuLy,
         trichYeu: trichYeu?.parseHtml() ?? '',
-        files: files,
+        files: files?.map((e) => e.toModel().toFileDinhKemModel()).toList() ?? [],
       );
 }
 
@@ -352,6 +377,8 @@ class NguoiKyDuyetDiResponse {
   String? donViNguoiKy;
   @JsonKey(name: 'VaiTro')
   String? vaiTro;
+  @JsonKey(name: 'ChucVu')
+  String? chucVu;
   @JsonKey(name: 'LoaiBanHanh')
   int? loaiBanHanh;
   @JsonKey(name: 'ThuTu')
@@ -364,6 +391,7 @@ class NguoiKyDuyetDiResponse {
     this.idHost,
     this.tenNguoiKy,
     this.donViNguoiKy,
+    this.chucVu,
     this.vaiTro,
     this.loaiBanHanh,
     this.thuTu,
@@ -383,6 +411,7 @@ class NguoiKyDuyetDiResponse {
         tenNguoiKy: tenNguoiKy,
         donViNguoiKy: donViNguoiKy,
         vaiTro: vaiTro,
+        chucVu: chucVu,
         loaiBanHanh: loaiBanHanh,
         thuTu: thuTu,
         idUser: idUser,

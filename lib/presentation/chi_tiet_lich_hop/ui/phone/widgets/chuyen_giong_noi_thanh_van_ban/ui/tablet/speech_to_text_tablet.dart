@@ -9,7 +9,9 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_
 import 'package:ccvc_mobile/tien_ich_module/presentation/chuyen_giong_noi_thanh_van_ban/ui/widget/voice_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
+import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
+import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -101,15 +103,42 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarDefaultBack(
-        S.current.chuyen_giong_noi_thanh_van_ban,
-      ),
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SizedBox(
-            height: 40,
+          spaceH20,
+          Text(
+            S.current.chon_thiet_bi,
+            style: textNormalCustom(
+              color: color586B8B,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.textScale(),
+            ),
+            textAlign: TextAlign.left,
           ),
+          spaceH8,
+          CoolDropDown(
+            initData: cubit.mList.first,
+            placeHoder: cubit.mList.first,
+            onChange: (value) {},
+            listData: cubit.mList,
+          ),
+          InputInfoUserWidget(
+            title: S.current.tep_am_thanh,
+            child: TextFieldValidator(
+              hintText: S.current.tep_am_thanh,
+              maxLength: 255,
+            ),
+          ),
+          InputInfoUserWidget(
+            title: S.current.thoi_luong_phut,
+            child: TextFieldValidator(
+              hintText: S.current.thoi_gian,
+              maxLength: 255,
+            ),
+          ),
+          spaceH32,
           if (Platform.isAndroid)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 17),
@@ -198,16 +227,18 @@ class _SpeechToTextTabletState extends State<SpeechToTextTablet> {
                 ],
               ),
             ),
-          Container(
-            padding: EdgeInsets.all(24.0.textScale(space: 4)),
-            child: Text(
-              _hasSpeech
-                  ? S.current.thay_doi_giong_noi
-                  : S.current.speech_not_available,
-              style: textNormalCustom(
-                color: textTitle,
-                fontWeight: FontWeight.w500,
-                fontSize: 18.0.textScale(),
+          Center(
+            child: Container(
+              padding: EdgeInsets.all(24.0.textScale(space: 4)),
+              child: Text(
+                _hasSpeech
+                    ? S.current.thay_doi_giong_noi
+                    : S.current.speech_not_available,
+                style: textNormalCustom(
+                  color: textTitle,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0.textScale(),
+                ),
               ),
             ),
           ),

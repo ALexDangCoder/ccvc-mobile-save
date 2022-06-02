@@ -21,22 +21,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CreatTodoOrUpdateVer2Widget extends StatefulWidget {
+class CreatTodoOrUpdateWidget extends StatefulWidget {
   final bool? isCreat;
   final TodoDSCVModel? todo;
   final DanhSachCongViecTienIchCubit cubit;
 
-  const CreatTodoOrUpdateVer2Widget(
+  const CreatTodoOrUpdateWidget(
       {Key? key, required this.cubit, this.todo, this.isCreat})
       : super(key: key);
 
   @override
-  _CreatTodoOrUpdateVer2WidgetState createState() =>
-      _CreatTodoOrUpdateVer2WidgetState();
+  _CreatTodoOrUpdateWidgetState createState() =>
+      _CreatTodoOrUpdateWidgetState();
 }
 
-class _CreatTodoOrUpdateVer2WidgetState
-    extends State<CreatTodoOrUpdateVer2Widget> {
+class _CreatTodoOrUpdateWidgetState
+    extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController tieuDeController = TextEditingController();
   final TextEditingController noteControler = TextEditingController();
 
@@ -143,7 +143,7 @@ class _CreatTodoOrUpdateVer2WidgetState
                                 right: 30,
                               ),
                               child: Text(
-                                snapshot.data?.data() ?? '',
+                                snapshot.data?.dataAll() ?? '',
                                 style: textNormalCustom(
                                   color: titleItemEdit,
                                   fontWeight: FontWeight.w400,

@@ -52,140 +52,149 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: BaseAppBar(
-        leadingIcon: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SvgPicture.asset(ImageAssets.icBack),
-        ),
-        title: S.current.chi_tiet_lich_hop,
-        actions: [
-          StreamBuilder<List<PERMISSION_DETAIL>>(
-              stream: cubit.listButtonSubject.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? [];
-                return MenuSelectWidget(
-                  listSelect: data
-                      .map(
-                        (e) => e.getMenuLichHop(
-                      context,
-                      cubit,
-                      widget.id,
-                    ),
-                  )
-                      .toList(),
-                );
-              }),
-          const SizedBox(
-            width: 16,
-          )
-        ],
+    return StateStreamLayout(
+      textEmpty: S.current.khong_co_du_lieu,
+      retry: () {},
+      error: AppException(
+        S.current.error,
+        S.current.error,
       ),
-      body: ProviderWidget<DetailMeetCalenderCubit>(
-        cubit: cubit,
-        child: DetailMeetCalendarInherited(
+      stream: cubit.stateStream,
+      child: Scaffold(
+        appBar: BaseAppBar(
+          leadingIcon: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset(ImageAssets.icBack),
+          ),
+          title: S.current.chi_tiet_lich_hop,
+          actions: [
+            StreamBuilder<List<PERMISSION_DETAIL>>(
+                stream: cubit.listButtonSubject.stream,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? [];
+                  return MenuSelectWidget(
+                    listSelect: data
+                        .map(
+                          (e) => e.getMenuLichHop(
+                            context,
+                            cubit,
+                            widget.id,
+                          ),
+                        )
+                        .toList(),
+                  );
+                }),
+            const SizedBox(
+              width: 16,
+            )
+          ],
+        ),
+        body: ProviderWidget<DetailMeetCalenderCubit>(
           cubit: cubit,
-          child: ExpandGroup(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                await cubit.initData(id: widget.id);
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ListView(
-                  children: [
-                    StreamBuilder<ChiTietLichHopModel>(
-                      stream: cubit.chiTietLichLamViecSubject.stream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Container();
-                        }
-                        final data = snapshot.data ?? ChiTietLichHopModel();
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.circle,
-                                  size: 12,
-                                  color: statusCalenderRed,
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Text(
-                                  data.title,
-                                  style: textNormalCustom(
-                                    color: titleCalenderWork,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
+          child: DetailMeetCalendarInherited(
+            cubit: cubit,
+            child: ExpandGroup(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await cubit.initData(id: widget.id);
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ListView(
+                    children: [
+                      StreamBuilder<ChiTietLichHopModel>(
+                        stream: cubit.chiTietLichLamViecSubject.stream,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Container();
+                          }
+                          final data = snapshot.data ?? ChiTietLichHopModel();
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.circle,
+                                    size: 12,
+                                    color: statusCalenderRed,
                                   ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: data
-                                  .valueData()
-                                  .map(
-                                    (e) => Container(
-                                  margin: const EdgeInsets.only(top: 16),
-                                  child: RowDataWidget(
-                                    urlIcon: e.urlIcon,
-                                    text: e.text,
+                                  const SizedBox(
+                                    width: 16,
                                   ),
-                                ),
+                                  Text(
+                                    data.title,
+                                    style: textNormalCustom(
+                                      color: titleCalenderWork,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: data
+                                    .valueData()
+                                    .map(
+                                      (e) => Container(
+                                        margin: const EdgeInsets.only(top: 16),
+                                        child: RowDataWidget(
+                                          urlIcon: e.urlIcon,
+                                          text: e.text,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                              spaceH16,
+                              ThongTinLienHeWidget(
+                                thongTinTxt: data.chuTriModel.dauMoiLienHe,
+                                sdtTxt: data.chuTriModel.soDienThoai,
                               )
-                                  .toList(),
-                            ),
-                            spaceH16,
-                            ThongTinLienHeWidget(
-                              thongTinTxt: data.chuTriModel.dauMoiLienHe,
-                              sdtTxt: data.chuTriModel.soDienThoai,
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 10),
-                      child: CongTacChuanBiWidget(
+                            ],
+                          );
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16, bottom: 10),
+                        child: CongTacChuanBiWidget(
+                          cubit: cubit,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: ChuongTrinhHopWidget(
+                          id: widget.id,
+                          cubit: cubit,
+                        ),
+                      ),
+                      ThanhPhanThamGiaWidget(
                         cubit: cubit,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: ChuongTrinhHopWidget(
+                      TaiLieuWidget(
+                        cubit: cubit,
+                      ),
+                      PhatBieuWidget(
+                        cubit: cubit,
+                        id: widget.id,
+                      ),
+                      BieuQuyetWidget(
                         id: widget.id,
                         cubit: cubit,
                       ),
-                    ),
-                    ThanhPhanThamGiaWidget(
-                      cubit: cubit,
-                    ),
-                    TaiLieuWidget(
-                      cubit: cubit,
-                    ),
-                    PhatBieuWidget(
-                      cubit: cubit,
-                      id: widget.id,
-                    ),
-                    BieuQuyetWidget(
-                      id: widget.id,
-                      cubit: cubit,
-                    ),
-                    KetLuanHopWidget(
-                      cubit: cubit,
-                      id: widget.id,
-                    ),
-                    YKienCuocHopWidget(
-                      id: widget.id,
-                      cubit: cubit,
-                    ),
-                    BocBangWidget(cubit: cubit,)
-                  ],
+                      KetLuanHopWidget(
+                        cubit: cubit,
+                        id: widget.id,
+                      ),
+                      YKienCuocHopWidget(
+                        id: widget.id,
+                        cubit: cubit,
+                      ),
+                      BocBangWidget(cubit: cubit,)
+                    ],
+                  ),
                 ),
               ),
             ),

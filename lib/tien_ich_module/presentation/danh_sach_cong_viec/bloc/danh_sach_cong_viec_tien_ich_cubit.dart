@@ -64,8 +64,6 @@ class DanhSachCongViecTienIchCubit
 
   DanhSachCongViecTienIchCubit() : super(MainStateInitial());
 
-  BehaviorSubject<bool> enabled = BehaviorSubject.seeded(true);
-
   final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
 
@@ -121,7 +119,7 @@ class DanhSachCongViecTienIchCubit
     showLoading();
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
-    unawaited(listNguoiThucHien());
+    await listNguoiThucHien();
     unawaited(getNHomCVMoi());
     doDataTheoFilter();
     addValueWithTypeToDSCV();
@@ -365,8 +363,6 @@ class DanhSachCongViecTienIchCubit
     return false;
   }
 
-  String person = '';
-
   ///chinh sưa và update công việc
   Future<void> editWork({
     bool? isTicked,
@@ -375,22 +371,32 @@ class DanhSachCongViecTienIchCubit
     bool? isDeleted,
     required TodoDSCVModel todo,
   }) async {
+    dynamic checkData({dynamic changeData, dynamic defaultData}) {
+      if (changeData == '' || changeData == null || changeData == defaultData) {
+        return defaultData ?? '';
+      } else {
+        return changeData ?? '';
+      }
+    }
+
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,
-        inUsed: inUsed ?? todo.inUsed,
-        important: important ?? todo.important,
-        isDeleted: isDeleted ?? todo.isDeleted,
+        inUsed: checkData(changeData: inUsed, defaultData: todo.inUsed),
+        important:
+            checkData(changeData: important, defaultData: todo.important),
+        isDeleted:
+            checkData(changeData: isDeleted, defaultData: todo.isDeleted),
         createdOn: todo.createdOn,
         createdBy: todo.createdBy,
         isTicked: isTicked ?? todo.isTicked,
-        label: titleChange ?? todo.label,
+        label: checkData(changeData: titleChange, defaultData: todo.label),
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
         note: noteChange ?? todo.note,
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
-            : DateTime.parse(dateChange).formatDayCalendar,
+            : DateTime.parse(dateChange).formatApi,
         performer: toDoListRequest.performer ?? todo.performer,
       ),
     );
@@ -417,13 +423,18 @@ class DanhSachCongViecTienIchCubit
     );
   }
 
-  late ItemChonBienBanCuocHopModel dataListNguoiThucHienModelDefault;
+  ItemChonBienBanCuocHopModel dataListNguoiThucHienModelDefault =
+      ItemChonBienBanCuocHopModel(items: []);
 
   ///tim nguoi thuc hien
   void timNguoiTHucHien(String text) {
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(NguoiThucHienModel person) {
-      return person.data().toLowerCase().vietNameseParse().contains(searchTxt);
+      return person
+          .dataAll()
+          .toLowerCase()
+          .vietNameseParse()
+          .contains(searchTxt);
     }
 
     final vl = dataListNguoiThucHienModelDefault.items
@@ -433,10 +444,12 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// tim nguoi thuc hien theo id
-  String convertIdToPerson(String vl) {
-    for (final e in dataListNguoiThucHienModelDefault.items) {
-      if (e.id == vl) {
-        return e.data();
+  String convertIdToPerson({required String vl, bool? hasChucVu}) {
+    for (final e in listNguoiThucHienSubject.value) {
+      if (e.id == vl && (hasChucVu ?? false)) {
+        return e.dataAll();
+      } else {
+        return e.dataWithChucVu();
       }
     }
     return '';
@@ -457,7 +470,7 @@ class DanhSachCongViecTienIchCubit
       nguoiThucHienSubject.add(
         NguoiThucHienModel(
           id: '',
-          hoten: convertIdToPerson(todo.performer ?? ''),
+          hoten: convertIdToPerson(vl: todo.performer ?? ''),
           donVi: [],
           chucVu: [],
         ),

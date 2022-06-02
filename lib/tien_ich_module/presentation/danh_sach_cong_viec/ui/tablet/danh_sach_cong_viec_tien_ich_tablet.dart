@@ -13,7 +13,6 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/blo
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/mobile/danh_sach_cong_viec_tien_ich_mobile.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/addToDoWidget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_dscv_tien_tich.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chinh_sua_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/creat_todo_ver2_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -59,7 +58,7 @@ class _DanhSachCongViecTienIchTabletState
               showDiaLogTablet(
                 context,
                 title: S.current.them_cong_viec,
-                child: CreatTodoOrUpdateVer2Widget(
+                child: CreatTodoOrUpdateWidget(
                   cubit: cubit,
                 ),
                 isBottomShow: false,
@@ -183,8 +182,7 @@ class _DanhSachCongViecTienIchTabletState
                                                 context,
                                                 title:
                                                     S.current.ban_co_chac_muon,
-                                                child:
-                                                    CreatTodoOrUpdateVer2Widget(
+                                                child: CreatTodoOrUpdateWidget(
                                                   cubit: cubit,
                                                   todo: todo,
                                                   isCreat: false,
@@ -198,6 +196,7 @@ class _DanhSachCongViecTienIchTabletState
                                             },
                                             enabled: !(todo.isTicked ?? true),
                                             isDaBiXoa: dataType == DBX,
+                                            cubit: cubit,
                                           );
                                         },
                                       )
@@ -270,6 +269,7 @@ class _DanhSachCongViecTienIchTabletState
                                             );
                                           },
                                           text: todo.label ?? '',
+                                          cubit: cubit,
                                         );
                                       }),
                                     )

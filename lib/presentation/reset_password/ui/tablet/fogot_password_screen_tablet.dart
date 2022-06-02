@@ -62,6 +62,7 @@ class _ForgotPasswordScreenTabletState
                       TextFieldValidator(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(' '),
+                          FilteringTextInputFormatter(RegExp(r'[{}]'),allow: false),
                         ],
                         fillColor: backgroundColorApp,
                         controller: emailController,

@@ -72,18 +72,15 @@ class _MyAppState extends State<MyApp> {
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
-    FirebaseMessaging.instance.getToken().then((value) => {
-    print('<<<<<<<<<<< $value')
-    });
     cubitThongBao.checkPermissionSilent();
     cubitThongBao.getSettingNoti();
     cubitThongBao.isSilent();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       cubitThongBao.getThongBaoQuanTrong();
     });
-    FirebaseMessaging.instance.getInitialMessage().then(
-          (value) => {cubitThongBao.pushNoti(value?.data ?? {}, context)},
-        );
+    // FirebaseMessaging.instance.getInitialMessage().then(
+    //       (value) => {cubitThongBao.pushNoti(value?.data ?? {}, context)},
+    //     );
   }
 
   @override

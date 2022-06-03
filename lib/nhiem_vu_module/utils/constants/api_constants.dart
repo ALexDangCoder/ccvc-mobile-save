@@ -42,7 +42,7 @@ class ApiConstants {
       '/qlvb/api/qlnv/van-ban-lien-quan/{id}?';
   static const GET_LUONG_XU_LY_NHIEM_VU = '/qlvb/api/qlnv/nhiem-vu/luong-xu-ly';
   static const String UPLOAD_FILE = '/qlvb/api/Common/UploadMultiFile';
-  static const POST_BIEU_DO_THEO_DON_VI = '//qlvb/api/qlnv/ccvc/bieu-do-don-vi';
+  static const POST_BIEU_DO_THEO_DON_VI = '/qlvb/api/qlnv/ccvc/bieu-do-don-vi';
 
 }
 

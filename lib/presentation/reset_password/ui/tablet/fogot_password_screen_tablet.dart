@@ -1,5 +1,4 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
-import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
@@ -12,6 +11,7 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ForgotPasswordScreenTablet extends StatefulWidget {
@@ -59,25 +59,15 @@ class _ForgotPasswordScreenTabletState
                   child: Column(
                     children: [
                       const SizedBox(height: 80.0),
-                      Text(
-                        S.current.nhan_ma_xac_minh,
-                        style: textNormalCustom(
-                            color: color3D5586, fontSize: 20.0),
-                      ),
-                      const SizedBox(height: 40.0),
-                      Text(
-                        S.current.de_nhan_ma_xac_minh,
-                        style: textNormalCustom(
-                          fontSize: 16.0,
-                          color: color3D5586,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(height: 24.0),
                       TextFieldValidator(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(' '),
+                          FilteringTextInputFormatter(RegExp(r'[{}]'),allow: false),
+                        ],
                         fillColor: backgroundColorApp,
                         controller: emailController,
-                        hintText: S.current.email,
+                        hintText:
+                            '${S.current.email}/${S.current.so_dien_thoai}',
                         prefixIcon: SizedBox(
                           width: 20,
                           height: 20,
@@ -94,11 +84,12 @@ class _ForgotPasswordScreenTabletState
                           if ((value ?? '').isNotEmpty) {
                             if (isCheckSdt || isCheckEmail) {
                             } else {
-                              return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}';
+                              return '${S.current.sai_dinh_dang_truong} ${S.current.email}/${S.current.so_dien_thoai}!';
                             }
                           } else {
                             return (value ?? '').checkTruongNull(
-                                '${S.current.email}/${S.current.so_dien_thoai}');
+                              '${S.current.email}/${S.current.so_dien_thoai}!',
+                            );
                           }
                         },
                       ),
@@ -109,8 +100,9 @@ class _ForgotPasswordScreenTabletState
                         onPressed: () async {
                           if (keyGroup.currentState!.validator()) {
                             await cubit.forgotPassword(
-                                email: emailController.text.trim(),
-                                context: context);
+                              email: emailController.text.trim(),
+                              context: context,
+                            );
                           }
                         },
                       ),

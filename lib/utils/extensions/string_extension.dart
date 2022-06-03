@@ -22,6 +22,10 @@ extension StringMoneyFormat on String {
 }
 
 extension VietNameseParse on String {
+
+  String get textToCode => this.split(' ').join('_').toUpperCase().vietNameseParse();
+
+
   String vietNameseParse() {
     var result = this;
 
@@ -63,8 +67,8 @@ extension FormatAddressConfirm on String {
     return DateFormat(newPattern).format(DateFormat(oldPattern).parse(this));
   }
 
-  DateTime convertStringToDate() {
-    return DateFormat('yyyy-MM-dd').parse(this);
+  DateTime convertStringToDate({String formatPattern = 'yyyy-MM-dd'}) {
+    return DateFormat(formatPattern).parse(this);
   }
 }
 

@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/data/request/home/nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/request/ngay_tao_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/bieu_do_theo_don_vi_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/chi_tiet_cong_viec_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/chi_tiet_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/danh_sach_cong_viec_chi_tiet_nhiem_vu_response.dart';
@@ -140,15 +143,21 @@ abstract class NhiemVuService {
   Future<PostYKienResponse> postYKienXULy(
     @Body() Map<String, dynamic> map,
   );
+
   @GET(ApiConstants.DOWNLOAD_FILE)
   Future<PostYKienResponse> downloadFile(
-      @Query('fileId') String fileId,
-      @Query('token') String token,
-      );
+    @Query('fileId') String fileId,
+    @Query('token') String token,
+  );
 
   @POST(ApiConstants.UPLOAD_FILE)
   @MultiPart()
   Future<PostYKienResponse> postFile(
     @Part() List<File> path,
+  );
+
+  @POST(ApiConstants.POST_BIEU_DO_THEO_DON_VI)
+  Future<BieuDoTheoDonViResponse> postBieuDoTheoDonVi(
+    @Body() NgayTaoNhiemVuRequest ngayTaoNhiemVuRequest,
   );
 }

@@ -122,6 +122,10 @@ extension DateFormatString on DateTime {
     return dateString;
   }
 
+  String dateTimeFormatter({required String pattern}) {
+    return DateFormat(pattern).format(this);
+  }
+
   String getDayofWeekTxt() {
     switch (weekday) {
       case 1:
@@ -184,4 +188,6 @@ extension DateFormatString on DateTime {
   }
 
   DateTime _getDate(DateTime d) => DateTime(d.year, d.month, d.day);
+
+
 }

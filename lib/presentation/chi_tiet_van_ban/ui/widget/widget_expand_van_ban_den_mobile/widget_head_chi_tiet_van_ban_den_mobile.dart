@@ -12,6 +12,8 @@ import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
+import '../widget_in_expand_van_ban.dart';
+
 class WidgetHeadChiTietVanBanDenMobile extends StatefulWidget {
   final CommonDetailDocumentCubit cubit;
   final String processId;
@@ -81,14 +83,32 @@ class _WidgetHeadChiTietVanBanDenMobileState
                         S.current.van_ban_qppl,
                         value: data.isQPPL ?? false,
                       ),
+                      spaceH16,
                       checkRow(
                         S.current.hoi_bao_van_ban,
                         value: data.isHoiBao ?? false,
                       ),
+                      StreamBuilder<List<VanBanHoiBaoModel>>(
+                        stream: widget.cubit.vanBanHoiBaoSubject,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? [];
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: data.map(
+                              (e) => WidgetInExpandVanBan(
+                                row: e.toListRow(),
+                              ),
+                            ).toList(),
+                          );
+                        },
+                      ),
+                      spaceH16 ,
                       checkRow(
                         S.current.da_nhan_ban_giay,
                         value: data.isNhanBanGiay ?? false,
                       ),
+                      spaceH8,
                       if (data.isNhanBanGiay ?? false)
                         DetailDocumentRow(
                           row: DocumentDetailRow(
@@ -112,30 +132,27 @@ class _WidgetHeadChiTietVanBanDenMobileState
     );
   }
 
-  Widget checkRow(String title, {required bool value}) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          children: [
-            SizedBox(
-              height: 20,
-              width: 41,
-              child: CustomCheckBox(
-                title: '',
-                isCheck: value,
-                onChange: (bool check) {},
-              ),
-            ),
-            AutoSizeText(
-              title,
-              style: textNormalCustom(
-                color: titleItemEdit,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ],
+  Widget checkRow(String title, {required bool value}) => Row(
+    children: [
+      SizedBox(
+        height: 20,
+        width: 41,
+        child: CustomCheckBox(
+          title: '',
+          isCheck: value,
+          onChange: (bool check) {},
         ),
-      );
+      ),
+      AutoSizeText(
+        title,
+        style: textNormalCustom(
+          color: titleItemEdit,
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    ],
+  );
 
   @override
   // TODO: implement wantKeepAlive

@@ -20,6 +20,7 @@ class ChuyenVanBanThanhGiongNoiCubit
   String? voidTone;
   String url = '';
 
+  /// các giọng
   List<VoidTone> dataDrop = [
     VoidTone(text: S.current.nu_mien_bac, code: north_female_lien),
     VoidTone(text: S.current.nam_mien_bac, code: north_male_hieu),
@@ -50,6 +51,7 @@ class ChuyenVanBanThanhGiongNoiCubit
   BehaviorSubject<String> textEditingSubject = BehaviorSubject();
   AudioPlayer audioPlayer = AudioPlayer();
 
+  /// đọc âm thanh
   Future<void> playMusic(String url) async {
     final int result = await audioPlayer.play(url);
     if (result == 1) {
@@ -64,6 +66,19 @@ class ChuyenVanBanThanhGiongNoiCubit
 
   Future<void> stopMusic() async {
     await audioPlayer.stop();
+  }
+
+  /// check ẩn hiện nút đọc
+  void checkEnable(String value) {
+    if (text != value) {
+      text = value;
+      enableButton.sink.add(true);
+    }
+    else if(value.isEmpty) {
+      enableButton.sink.add(false);
+    }else{
+      enableButton.sink.add(true);
+    }
   }
 }
 

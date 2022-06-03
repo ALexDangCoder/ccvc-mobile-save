@@ -74,100 +74,6 @@ class CommonDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
       }
     }
   }
-
-  Future<void> comment({
-    required String comment,
-    required List<PickImageFileModel> listData,
-    required String processId,
-    String? idParent,
-  }) async {
-    showLoading();
-    final listIdFile = await postListFile(listData);
-    final isSuccess = await postComment(
-      comment,
-      listIdFile,
-      processId,
-      idParent,
-    );
-    showContent();
-    if (isSuccess) {
-      showSuccessComment();
-      showLoading();
-      await getChiTietVanBanDi(processId);
-      showContent();
-    } else {
-      showFailComment();
-    }
-  }
-
-  Future<bool> postComment(
-    String comment,
-    List<String> listIdFile,
-    String documentId,
-    String? idParent,
-  ) async {
-    bool dataReturn = false;
-    final request = GiveCommentRequest(
-      files: listIdFile,
-      idProcess: documentId,
-      noiDung: comment,
-    );
-    if (idParent == null){
-      request.hashValue = 'SHA256';
-    }else{
-      request.idParent = idParent;
-    }
-    final result = await _qLVBRepo.giveComment(request);
-    result.when(
-      success: (isSuccess) {
-        dataReturn = isSuccess;
-      },
-      error: (e) {},
-    );
-    return dataReturn;
-  }
-
-  Future<List<String>> postListFile(List<PickImageFileModel> listPath) async {
-    if (listPath.isEmpty) return [];
-    final List<String> idFileUpload = [];
-    final Queue queue = Queue(parallel: listPath.length);
-    for (final element in listPath) {
-      unawaited(
-        queue.add(
-          () => uploadFile(element.path ?? '', idFileUpload),
-        ),
-      );
-    }
-    await queue.onComplete;
-    return idFileUpload;
-  }
-
-  Future<void> uploadFile(String path, List<String> idFileUpload) async {
-    final result = await _qLVBRepo.postFile(
-      path: File(path),
-    );
-    result.when(
-      success: (data) {
-        if (data != 'false') {
-          idFileUpload.add(data);
-        }
-      },
-      error: (error) {},
-    );
-  }
-
-  void showSuccessComment() {
-    MessageConfig.show(
-      title: S.current.cho_y_kien_thanh_cong,
-    );
-  }
-
-  void showFailComment() {
-    MessageConfig.show(
-      title: S.current.cho_y_kien_that_bai,
-      messState: MessState.error,
-    );
-  }
 }
 
 class HistoryUpdateDetailDocumentGoCubit
@@ -310,6 +216,121 @@ class UnsubscribeDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
       error: (error) {
         showError();
       },
+    );
+  }
+}
+
+class CommentDetailDocumentGoCubit extends BaseCubit<DetailDocumentState> {
+  CommentDetailDocumentGoCubit() : super(DetailDocumentInitial()) {
+    showContent();
+  }
+
+  final QLVBRepository _qLVBRepo = Get.find();
+
+  BehaviorSubject<List<DanhSachChoYKien>> yKienXuLYSubject = BehaviorSubject();
+
+  Future<void> getDanhSachYKien(String id) async {
+    showLoading();
+    final result = await _qLVBRepo.getYKienXuLyVBDi(id);
+    result.when(
+      success: (data) {
+        yKienXuLYSubject.sink.add(data);
+      },
+      error: (_) {},
+    );
+  }
+
+  Future<void> comment({
+    required String comment,
+    required List<PickImageFileModel> listData,
+    required String processId,
+    String? idParent,
+  }) async {
+    showLoading();
+    final listIdFile = await postListFile(listData);
+    final isSuccess = await postComment(
+      comment,
+      listIdFile,
+      processId,
+      idParent,
+    );
+    showContent();
+    if (isSuccess) {
+      showSuccessComment();
+      showLoading();
+      await getDanhSachYKien(processId);
+      showContent();
+    } else {
+      showFailComment();
+    }
+  }
+
+  Future<bool> postComment(
+    String comment,
+    List<String> listIdFile,
+    String documentId,
+    String? idParent,
+  ) async {
+    bool dataReturn = false;
+    final request = GiveCommentRequest(
+      files: listIdFile,
+      idProcess: documentId,
+      noiDung: comment,
+    );
+    if (idParent == null) {
+      request.hashValue = 'SHA256';
+    } else {
+      request.idParent = idParent;
+    }
+    final result = await _qLVBRepo.giveComment(request);
+    result.when(
+      success: (isSuccess) {
+        dataReturn = isSuccess;
+      },
+      error: (e) {},
+    );
+    return dataReturn;
+  }
+
+  Future<List<String>> postListFile(List<PickImageFileModel> listPath) async {
+    if (listPath.isEmpty) return [];
+    final List<String> idFileUpload = [];
+    final Queue queue = Queue(parallel: listPath.length);
+    for (final element in listPath) {
+      unawaited(
+        queue.add(
+          () => uploadFile(element.path ?? '', idFileUpload),
+        ),
+      );
+    }
+    await queue.onComplete;
+    return idFileUpload;
+  }
+
+  Future<void> uploadFile(String path, List<String> idFileUpload) async {
+    final result = await _qLVBRepo.postFile(
+      path: File(path),
+    );
+    result.when(
+      success: (data) {
+        if (data != 'false') {
+          idFileUpload.add(data);
+        }
+      },
+      error: (error) {},
+    );
+  }
+
+  void showSuccessComment() {
+    MessageConfig.show(
+      title: S.current.cho_y_kien_thanh_cong,
+    );
+  }
+
+  void showFailComment() {
+    MessageConfig.show(
+      title: S.current.cho_y_kien_that_bai,
+      messState: MessState.error,
     );
   }
 }

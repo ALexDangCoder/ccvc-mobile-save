@@ -79,7 +79,8 @@ class ApiConstants {
   static const EVENT_CALENDAR_LICH_LV = '/vpdt/api/Schedules/Ngay-co-lich';
   static const CHUONG_TRINH_HOP =
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
-  static const CHI_TIET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}?';
+  static const CHI_TIET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}';
+  static const Y_KIEN_VAN_BAN_DI = '/qlvb/api/van-ban-di/y-kien-van-ban-di/{id}';
   static const CHI_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/{id}?';
 
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
@@ -173,6 +174,7 @@ class ApiConstants {
   static const DASH_BOARD_TAT_CA_CHU_DE = '/api/NewsNetViews/dashboard';
   static const GET_LIST_TAT_CA_CHU_DE = '/api/NewsNetViews/search_news';
   static const CHI_TIET_VAN_BAN_DEN = '/qlvb/api/VanBan/ChiTietVanBanDen';
+  static const HOI_BAO_VAN_BAN_DEN = '/qlvb/api/vanban/van-ban-di-response';
   static const CREATE_METTING = '/vpdt/api/MeetingSchedule/create-meeting';
   static const THEM_PHIEN_HOP = '/api/LogAction/add-log';
   static const THONG_TIN_GUI_NHAN = '/qlvb/api/VanBan/lich-su-gui-nhan/{id}?';
@@ -247,7 +249,8 @@ class ApiConstants {
   static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const SETTING_NOTIFY = '/api/Notification/setting';
-  static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
+  static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/notifi-impotant';
+  static const GET_HOC_PHAN = '/api/Notification/list';
   static const READ_ALL = '/api/Notification/read-all';
   static const DELETE_NOTIFY = '/api/Notification/delete';
   static const TINH_SELECT = '/vpdt/api/Country/province-list';

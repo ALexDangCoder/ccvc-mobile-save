@@ -1,9 +1,13 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/data/home/nhiem_vu_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/request/ngay_tao_nhiem_vu_request.dart'
+    as request;
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/bieu_do_theo_don_vi_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/dash_broash/dash_broash_nhiem_vu_model.dart';
@@ -55,180 +59,9 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   String mangTrangThai = '';
   int? trangThaiHanXuLy;
   bool checkDataNhiemVu = false;
-  List<String> titleNhiemVu = [
-    'Trung tâm tin học',
-    'Văn phòng Bộ ',
-    'Vụ Tổng hợp kinh tế  ',
-    'Vụ Kinh tế địa phương',
-    'Vụ Tài chính, tiền tệ',
-    'Vụ Kinh tế công nghiệp',
-    'Vụ Kinh tế dịch vụ',
-    'Vụ Kết cấu hạ tầng và ...',
-  ];
-  List<List<ChartData>> listData = [
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        8,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 5, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        8,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        8,
-        daXuLyColor,
-      ),
-    ],
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        5,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 3, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        5,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        5,
-        daXuLyColor,
-      ),
-    ],
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        7,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 5, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        7,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        7,
-        daXuLyColor,
-      ),
-    ],
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        6,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 4, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        6,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        6,
-        daXuLyColor,
-      ),
-    ],
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        3,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 2, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        3,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        3,
-        daXuLyColor,
-      ),
-    ],
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        2,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 1, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        2,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        2,
-        daXuLyColor,
-      ),
-    ],
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        9,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 6, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        9,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        9,
-        daXuLyColor,
-      ),
-    ],
-    [
-      ChartData(
-        S.current.cho_phan_xu_ly,
-        6,
-        choXuLyColor,
-      ),
-      ChartData(S.current.chua_thuc_hien, 4, choVaoSoColor),
-      ChartData(
-        S.current.dang_thuc_hien,
-        6,
-        choTrinhKyColor,
-      ),
-      ChartData(
-        S.current.da_thuc_hien,
-        6,
-        daXuLyColor,
-      ),
-    ],
-  ];
-  List<ChartData> listStatusData = [
-    ChartData(
-      S.current.cho_phan_xu_ly,
-      30,
-      choXuLyColor,
-    ),
-    ChartData(S.current.chua_thuc_hien, 12, choVaoSoColor),
-    ChartData(
-      S.current.dang_thuc_hien,
-      14,
-      choTrinhKyColor,
-    ),
-    ChartData(
-      S.current.da_thuc_hien,
-      12,
-      daXuLyColor,
-    ),
-  ];
+  List<String> titleNhiemVu = [];
+  List<List<ChartData>> listData = [];
+  List<ChartData> listStatusData = [];
 
   void callApi(bool isCheckCaNhan) {
     initTimeRange();
@@ -245,6 +78,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   void callApiDonVi(bool isCheckCaNhan) {
     initTimeRange();
+    postBieuDoTheoDonVi(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     // getDashBroashCongViec(
     //   ngayDauTien: ngayDauTien,
@@ -254,6 +88,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   }
 
   void callApiDashBroashDonVi(bool isCheckCaNhan) {
+    postBieuDoTheoDonVi(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     getDashBroashNhiemVu(ngayDauTien: ngayDauTien, ngayCuoiCung: ngayKetThuc);
     // getDashBroashCongViec(
     //   ngayDauTien: ngayDauTien,
@@ -422,6 +257,76 @@ class DanhSachCubit extends BaseCubit<BaseState> {
         chartData.removeLast();
         chartData.removeAt(0);
         statusSuject.sink.add(chartDataTheoLoai);
+        showContent();
+      },
+      error: (error) {
+        showError();
+      },
+    );
+  }
+
+  Future<void> postBieuDoTheoDonVi({
+    required String ngayDauTien,
+    required String ngayCuoiCung,
+  }) async {
+    showLoading();
+    final result = await repo.postBieuDoTheoDonVi(request.NgayTaoNhiemVuRequest(
+      ngayTaoNhiemVu: request.NgayTaoNhiemVu(
+        fromDate: ngayDauTien,
+        toDate: ngayCuoiCung,
+      ),
+    ));
+    result.when(
+      success: (res) {
+        for (final NhiemVuDonViModel value in res.nhiemVuDonVi ?? []) {
+          titleNhiemVu.add(value.tenDonVi ?? '');
+          listData.add(
+            [
+              ChartData(
+                S.current.cho_phan_xu_ly,
+                (value.tinhTrangXuLy?.choPhanXuLy ?? 0).toDouble(),
+                choXuLyColor,
+              ),
+              ChartData(
+                S.current.chua_thuc_hien,
+                (value.tinhTrangXuLy?.chuaThucHien ?? 0).toDouble(),
+                choVaoSoColor,
+              ),
+              ChartData(
+                S.current.dang_thuc_hien,
+                (value.tinhTrangXuLy?.dangThucHien ?? 0).toDouble(),
+                choTrinhKyColor,
+              ),
+              ChartData(
+                S.current.da_thuc_hien,
+                (value.tinhTrangXuLy?.daThucHien ?? 0).toDouble(),
+                daXuLyColor,
+              ),
+            ],
+          );
+        }
+        listStatusData.addAll([
+          ChartData(
+            S.current.cho_phan_xu_ly,
+            (res.tinhTrangXuLy?.choPhanXuLy ?? 0).toDouble(),
+            choXuLyColor,
+          ),
+          ChartData(
+            S.current.chua_thuc_hien,
+            (res.tinhTrangXuLy?.chuaThucHien ?? 0).toDouble(),
+            choVaoSoColor,
+          ),
+          ChartData(
+            S.current.dang_thuc_hien,
+            (res.tinhTrangXuLy?.dangThucHien ?? 0).toDouble(),
+            choTrinhKyColor,
+          ),
+          ChartData(
+            S.current.da_thuc_hien,
+            (res.tinhTrangXuLy?.daThucHien ?? 0).toDouble(),
+            daXuLyColor,
+          ),
+        ]);
         showContent();
       },
       error: (error) {

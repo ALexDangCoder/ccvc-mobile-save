@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget_tablet.dart';
 import 'package:ccvc_mobile/widgets/listview/list_complex_load_more.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -102,125 +103,127 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                 ],
               ),
               child: ExpandOnlyWidget(
-                  isPadingIcon: true,
-                  initExpand: true,
-                  header: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 24.0),
-                          child: Text(
-                            S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
-                            style: textNormalCustom(
-                                color: titleColor, fontSize: 16.0.textScale()),
-                          ),
+                isPadingIcon: true,
+                initExpand: true,
+                header: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 24.0),
+                        child: Text(
+                          S.current.tong_hop_tinh_hinh_xu_ly_nhiem_vu,
+                          style: textNormalCustom(
+                              color: titleColor, fontSize: 16.0.textScale()),
                         ),
-                        StateSelectBieuDoTrangThaiWidget(
-                          cubit: widget.danhSachCubit,
-                        ),
-                      ],
-                    ),
+                      ),
+                      StateSelectBieuDoTrangThaiWidget(
+                        cubit: widget.danhSachCubit,
+                      ),
+                    ],
                   ),
-                  child: StreamBuilder<List<ItemSellectBieuDo>>(
-                      stream: widget.danhSachCubit.selectBieuDoModelSubject,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? [];
-                        if (data.isEmpty) {
-                          return const SizedBox();
-                        }
-                        if (data.map((e) => e.isCheck).first == true) {
-                          return Container(
-                            padding:
-                                const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                            child: StreamBuilder<List<ChartData>>(
-                                stream: widget.danhSachCubit.statusSuject,
-                                initialData:
-                                    widget.danhSachCubit.chartDataTheoLoai,
-                                builder: (context, snapshot) {
-                                  final data = snapshot.data ??
-                                      widget.danhSachCubit.chartDataTheoLoai;
-                                  return BieuDoTrangThaiTheoLoaiTablet(
-                                    chartData: data,
-                                    cubit: widget.danhSachCubit,
-                                    ontap: (value) {
-                                      widget.danhSachCubit.mangTrangThai =
-                                          value;
-                                      widget.danhSachCubit.trangThaiHanXuLy =
-                                          null;
-                                      setState(() {});
-                                    },
-                                  );
-                                }),
-                          );
-                        } else if (data.map((e) => e.isCheck).elementAt(1) ==
-                            true) {
-                          return Container(
-                            padding:
-                                const EdgeInsets.only(bottom: 20.0, left: 16.0),
-                            child: BieuDoNhiemVuDonViRowTablet(
-                              chartData:
-                                  widget.danhSachCubit.chartData,
-                              cubit: widget.danhSachCubit,
-                              ontap: (value) {
-                                widget.danhSachCubit.mangTrangThai = value;
-                                widget.danhSachCubit.trangThaiHanXuLy = null;
-                                setState(() {
-                                  widget.danhSachCubit.postDanhSachNhiemVu(
-                                    index: 0,
-                                    isNhiemVuCaNhan: widget.isCheck,
-                                    isSortByHanXuLy: true,
-                                    mangTrangThai: [
-                                      widget.danhSachCubit.mangTrangThai
-                                    ],
-                                    ngayTaoNhiemVu: {
-                                      'FromDate':
-                                          widget.danhSachCubit.ngayDauTien,
-                                      'ToDate': widget.danhSachCubit.ngayKetThuc
-                                    },
-                                    size: widget.danhSachCubit.pageSize,
-                                    keySearch: widget.danhSachCubit.keySearch,
-                                    trangThaiHanXuLy:
-                                        widget.danhSachCubit.trangThaiHanXuLy,
-                                  );
-                                });
-                              },
-                              onTapStatusBox: (value_status_box) {
-                                widget.danhSachCubit.mangTrangThai = '';
-                                widget.danhSachCubit.trangThaiHanXuLy =
-                                    value_status_box;
-                                setState(() {
-                                  widget.danhSachCubit.postDanhSachNhiemVu(
-                                    index: 0,
-                                    isNhiemVuCaNhan: widget.isCheck,
-                                    isSortByHanXuLy: true,
-                                    mangTrangThai: [
-                                      widget.danhSachCubit.mangTrangThai
-                                    ],
-                                    ngayTaoNhiemVu: {
-                                      'FromDate':
-                                          widget.danhSachCubit.ngayDauTien,
-                                      'ToDate': widget.danhSachCubit.ngayKetThuc
-                                    },
-                                    size: widget.danhSachCubit.pageSize,
-                                    keySearch: widget.danhSachCubit.keySearch,
-                                    trangThaiHanXuLy:
-                                        widget.danhSachCubit.trangThaiHanXuLy,
-                                  );
-                                });
-                              },
-                            ),
-                          );
-                        } else {
-                          return StatusWidgetTablet(
-                            listData: widget.danhSachCubit.listData,
-                            listStatusData: widget.danhSachCubit.listStatusData,
-                            title: widget.danhSachCubit.titleNhiemVu,
-                          );
-                        }
-                      })),
+                ),
+                child: StreamBuilder<List<ItemSellectBieuDo>>(
+                  stream: widget.danhSachCubit.selectBieuDoModelSubject,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? [];
+                    if (data.isEmpty) {
+                      return const SizedBox();
+                    }
+                    if (data.map((e) => e.isCheck).first == true) {
+                      return Container(
+                        padding:
+                            const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                        child: StreamBuilder<List<ChartData>>(
+                            stream: widget.danhSachCubit.statusSuject,
+                            initialData: widget.danhSachCubit.chartDataTheoLoai,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ??
+                                  widget.danhSachCubit.chartDataTheoLoai;
+                              return BieuDoTrangThaiTheoLoaiTablet(
+                                chartData: data,
+                                cubit: widget.danhSachCubit,
+                                ontap: (value) {
+                                  widget.danhSachCubit.mangTrangThai = value;
+                                  widget.danhSachCubit.trangThaiHanXuLy = null;
+                                  setState(() {});
+                                },
+                              );
+                            }),
+                      );
+                    } else if (data.map((e) => e.isCheck).elementAt(1) ==
+                        true) {
+                      return Container(
+                        padding:
+                            const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                        child: BieuDoNhiemVuDonViRowTablet(
+                          chartData: widget.danhSachCubit.chartData,
+                          cubit: widget.danhSachCubit,
+                          ontap: (value) {
+                            widget.danhSachCubit.mangTrangThai = value;
+                            widget.danhSachCubit.trangThaiHanXuLy = null;
+                            setState(() {
+                              widget.danhSachCubit.postDanhSachNhiemVu(
+                                index: 0,
+                                isNhiemVuCaNhan: widget.isCheck,
+                                isSortByHanXuLy: true,
+                                mangTrangThai: [
+                                  widget.danhSachCubit.mangTrangThai
+                                ],
+                                ngayTaoNhiemVu: {
+                                  'FromDate': widget.danhSachCubit.ngayDauTien,
+                                  'ToDate': widget.danhSachCubit.ngayKetThuc
+                                },
+                                size: widget.danhSachCubit.pageSize,
+                                keySearch: widget.danhSachCubit.keySearch,
+                                trangThaiHanXuLy:
+                                    widget.danhSachCubit.trangThaiHanXuLy,
+                              );
+                            });
+                          },
+                          onTapStatusBox: (value_status_box) {
+                            widget.danhSachCubit.mangTrangThai = '';
+                            widget.danhSachCubit.trangThaiHanXuLy =
+                                value_status_box;
+                            setState(() {
+                              widget.danhSachCubit.postDanhSachNhiemVu(
+                                index: 0,
+                                isNhiemVuCaNhan: widget.isCheck,
+                                isSortByHanXuLy: true,
+                                mangTrangThai: [
+                                  widget.danhSachCubit.mangTrangThai
+                                ],
+                                ngayTaoNhiemVu: {
+                                  'FromDate': widget.danhSachCubit.ngayDauTien,
+                                  'ToDate': widget.danhSachCubit.ngayKetThuc
+                                },
+                                size: widget.danhSachCubit.pageSize,
+                                keySearch: widget.danhSachCubit.keySearch,
+                                trangThaiHanXuLy:
+                                    widget.danhSachCubit.trangThaiHanXuLy,
+                              );
+                            });
+                          },
+                        ),
+                      );
+                    } else {
+                      if (widget.danhSachCubit.listData.isNotEmpty) {
+                        return StatusWidgetTablet(
+                          listData: widget.danhSachCubit.listData,
+                          listStatusData: widget.danhSachCubit.listStatusData,
+                          title: widget.danhSachCubit.titleNhiemVu,
+                        );
+                      } else {
+                        return const NodataWidget(
+                          height: 250,
+                        );
+                      }
+                    }
+                  },
+                ),
+              ),
             ),
           ),
         ],

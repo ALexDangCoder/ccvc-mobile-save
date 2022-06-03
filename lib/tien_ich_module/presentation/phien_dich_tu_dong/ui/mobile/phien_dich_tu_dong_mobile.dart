@@ -195,122 +195,167 @@ class _PhienDichTuDongMobileState extends State<PhienDichTuDongMobile> {
                   ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              child: Stack(
                 children: [
-                  //need translate
-                  Expanded(
-                    child: TextField(
-                      controller: textEditingController,
-                      onChanged: (String value) {
-                        print(value);
-                        debouncer.run(
-                          () {
-                            cubit.translateDocument(document: value);
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      //need translate
+                      Expanded(
+                        child: TextField(
+                          controller: textEditingController,
+                          onChanged: (String value) {
+                            debouncer.run(
+                              () {
+                                cubit.lengthTextSubject.add(value.length);
+                                cubit.translateDocument(document: value);
+                              },
+                            );
                           },
-                        );
-                      },
-                      decoration: const InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
+                          decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                            ),
+                            counterText: '',
                           ),
+                          maxLines: null,
+                          maxLength: 5000,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                          ),
-                        ),
-                        counterText: '',
                       ),
-                      maxLines: null,
-                      maxLength: 5000,
-                    ),
+                      //mic
+                      if (Platform.isAndroid)
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: speech.isListening
+                              ? stopListening
+                              : startListening,
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              bottom: 20,
+                            ),
+                            child: SvgPicture.asset(
+                              ImageAssets.icVoiceMini,
+                              color: speech.isListening
+                                  ? AppTheme.getInstance().colorField()
+                                  : textBodyTime,
+                            ),
+                          ),
+                        ),
+                      if (Platform.isIOS)
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: isListening ? stopListening : startListening,
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              bottom: 20,
+                            ),
+                            child: SvgPicture.asset(
+                              ImageAssets.icVoiceMini,
+                              color: isListening
+                                  ? AppTheme.getInstance().colorField()
+                                  : textBodyTime,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                  //mic
-                  if (Platform.isAndroid)
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap:
-                          speech.isListening ? stopListening : startListening,
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          bottom: 20,
-                        ),
-                        child: SvgPicture.asset(
-                          ImageAssets.icVoiceMini,
-                          color: speech.isListening
-                              ? AppTheme.getInstance().colorField()
-                              : textBodyTime,
-                        ),
-                      ),
-                    ),
-                  if (Platform.isIOS)
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: isListening ? stopListening : startListening,
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          bottom: 20,
-                        ),
-                        child: SvgPicture.asset(
-                          ImageAssets.icVoiceMini,
-                          color: isListening
-                              ? AppTheme.getInstance().colorField()
-                              : textBodyTime,
-                        ),
-                      ),
-                    ),
+                  //icon delete
+                  StreamBuilder<String>(
+                    stream: cubit.textTranslateSubject,
+                    builder: (context, snapshot) {
+                      final isNotEmpty = (snapshot.data ?? '').isNotEmpty;
+                      return isNotEmpty
+                          ? Positioned(
+                              top: 5,
+                              right: 5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  textEditingController.clear();
+                                  cubit.textTranslateSubject.add('');
+                                },
+                                child: ImageAssets.svgAssets(
+                                  ImageAssets.icX,
+                                  width: 20,
+                                  height: 20,
+                                  fit: BoxFit.cover,
+                                  color: textBodyTime.withOpacity(0.5),
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink();
+                    },
+                  ),
                 ],
               ),
             ),
 
             //translated
-            Container(
-              height: 180,
-              padding: const EdgeInsets.all(16),
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-              decoration: BoxDecoration(
-                color: buttonColor,
-                border: Border.all(
-                  color: borderColor.withOpacity(0.5),
-                ),
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: shadowContainerColor.withOpacity(0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  StreamBuilder<String>(
-                    stream: cubit.textTranslateStream,
-                    builder: (context, snapshot) {
-                      final data = snapshot.data ?? '';
-                      return Expanded(
-                        child: SingleChildScrollView(
-                          child: Text(
-                            textEditingController.text.isEmpty ? '' : data,
-                            style: textNormalCustom(
-                              color: AppTheme.getInstance().dfBtnTxtColor(),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
+            StreamBuilder<String>(
+              stream: cubit.textTranslateSubject,
+              builder: (context, snapshot) {
+                final bool isNotEmpty = (snapshot.data ?? '').isNotEmpty;
+                return isNotEmpty
+                    ? Container(
+                        height: 180,
+                        padding: const EdgeInsets.all(16),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 16,
                         ),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                        decoration: BoxDecoration(
+                          color: buttonColor,
+                          border: Border.all(
+                            color: borderColor.withOpacity(0.5),
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: shadowContainerColor.withOpacity(0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            StreamBuilder<String>(
+                              stream: cubit.textTranslateStream,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? '';
+                                return Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Text(
+                                      textEditingController.text.isEmpty
+                                          ? ''
+                                          : data,
+                                      style: textNormalCustom(
+                                        color: AppTheme.getInstance()
+                                            .dfBtnTxtColor(),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink();
+              },
             ),
             const SizedBox(
               height: 16,

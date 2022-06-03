@@ -4,6 +4,8 @@ import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/node_phan_xu_ly.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_cong_viec_request.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/request/danh_sach_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/request/ngay_tao_nhiem_vu_request.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/data/response/bieu_do_theo_don_vi_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/chi_tiet_cong_viec_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/chi_tiet_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/danh_sach_cong_viec_chi_tiet_nhiem_vu_response.dart';
@@ -21,6 +23,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/data/response/xem_luong_xu_ly_respon
 import 'package:ccvc_mobile/nhiem_vu_module/data/response/y_kien_su_ly_nhiem_vu_response.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/service/nhiem_vu_service.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_cong_viec_nhiem_vu/chi_tiet_cong_viec_nhiem_vu_model.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/bieu_do_theo_don_vi_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/danh_sach_cong_viec_chi_tiet_nhiem_vu.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_cap_nhat_thth.dart';
@@ -263,6 +266,16 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
           return 'false';
         }
       },
+    );
+  }
+
+  @override
+  Future<Result<BieuDoTheoDonViModel>> postBieuDoTheoDonVi(
+    NgayTaoNhiemVuRequest ngayTaoNhiemVuRequest,
+  ) {
+    return runCatchingAsync<BieuDoTheoDonViResponse, BieuDoTheoDonViModel>(
+      () => nhiemVuService.postBieuDoTheoDonVi(ngayTaoNhiemVuRequest),
+      (response) => response.data?.toModel() ?? BieuDoTheoDonViModel(),
     );
   }
 }

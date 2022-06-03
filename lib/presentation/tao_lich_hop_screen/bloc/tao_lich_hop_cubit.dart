@@ -52,11 +52,27 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     timeTo: DateTime.now()
         .add(const Duration(hours: 1))
         .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+    isAllDay: false,
+    bitTrongDonVi: true,
   );
 
   String donViId = '';
 
   Future<void> createMeeting() async {
+    if(taoLichHopRequest.typeScheduleId?.isEmpty ?? true){
+      try {
+        taoLichHopRequest.typeScheduleId = _loaiLich.value.first.id;
+      }catch(e){
+        //
+      }
+    }
+    if(taoLichHopRequest.linhVucId?.isEmpty ?? true){
+      try {
+        taoLichHopRequest.linhVucId = _linhVuc.value.first.id;
+      }catch(e){
+        //
+      }
+    }
     if (taoLichHopRequest.isAllDay ?? false) {
       taoLichHopRequest.timeTo = '';
       taoLichHopRequest.timeStart = '';

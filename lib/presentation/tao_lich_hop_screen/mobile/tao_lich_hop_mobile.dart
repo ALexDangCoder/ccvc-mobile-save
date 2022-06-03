@@ -35,6 +35,7 @@ class TaoLichHopMobileScreen extends StatefulWidget {
 
 class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   late TaoLichHopCubit _cubit;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void didChangeDependencies() {
@@ -55,174 +56,183 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
           stream: _cubit.stateStream,
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ExpandGroup(
-                  child: Column(
-                    children: [
-                      TextFieldStyle(
-                        urlIcon: ImageAssets.icEdit,
-                        hintText: S.current.tieu_de,
-                        onChange: (value) {
-                          _cubit.taoLichHopRequest.title = value;
-                        },
-                        maxLength: 200,
-                      ),
-                      spaceH5,
-                      StreamBuilder<List<LoaiSelectModel>>(
-                        stream: _cubit.loaiLich,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <LoaiSelectModel>[];
-                          return SelectOnlyExpand(
-                            urlIcon: ImageAssets.icCalendar,
-                            title: S.current.loai_hop,
-                            value: _cubit.selectLoaiHop?.name ?? '',
-                            listSelect: data.map((e) => e.name).toList(),
-                            onChange: (index) {
-                              _cubit.taoLichHopRequest.typeScheduleId =
-                                  data[index].id;
-                            },
-                          );
-                        },
-                      ),
-                      spaceH5,
-                      StreamBuilder<List<LoaiSelectModel>>(
-                        stream: _cubit.linhVuc,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? <LoaiSelectModel>[];
-                          return SelectOnlyExpand(
-                            urlIcon: ImageAssets.icWork,
-                            title: S.current.linh_vuc,
-                            value: _cubit.selectLinhVuc?.name ?? '',
-                            listSelect: data.map((e) => e.name).toList(),
-                            onChange: (index) {
-                              _cubit.taoLichHopRequest.linhVucId =
-                                  data[index].id;
-                            },
-                          );
-                        },
-                      ),
-                      CupertinoTimePickerCustom(
-                        initTimeEnd:
-                            DateTime.now().add(const Duration(hours: 1)),
-                        onDateTimeChanged: (
-                          String timeStart,
-                          String timeEnd,
-                          String dateStart,
-                          String dateEnd,
-                        ) {
-                          _cubit.taoLichHopRequest.timeStart = timeStart;
-                          _cubit.taoLichHopRequest.timeTo = timeEnd;
-                          _cubit.taoLichHopRequest.ngayBatDau = dateStart
-                              .convertStringToDate(
-                                formatPattern: DateFormatApp.date,
-                              )
-                              .formatApi;
-                          _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
-                              .convertStringToDate(
-                                formatPattern: DateFormatApp.date,
-                              )
-                              .formatApi;
-                        },
-                        onSwitchPressed: (value) {
-                          _cubit.taoLichHopRequest.isAllDay = value;
-                        },
-                      ),
-                      spaceH5,
-                      SelectOnlyExpand(
-                        urlIcon: ImageAssets.icNhacLai,
-                        title: S.current.nhac_lai,
-                        value: FakeDataTaoLichHop.nhacLai.first,
-                        listSelect: FakeDataTaoLichHop.nhacLai,
-                      ),
-                      spaceH5,
-                      SelectOnlyExpand(
-                        urlIcon: ImageAssets.icNhacLai,
-                        title: S.current.lich_lap,
-                        value: FakeDataTaoLichHop.lichLap.first,
-                        listSelect: FakeDataTaoLichHop.lichLap,
-                      ),
-                      spaceH5,
-                      SelectOnlyExpand(
-                        urlIcon: ImageAssets.icMucDoHop,
-                        title: S.current.muc_do_hop,
-                        value: FakeDataTaoLichHop.mucDoHop.first,
-                        listSelect: FakeDataTaoLichHop.mucDoHop,
-                      ),
-                      spaceH12,
-                      CoQuanChuTri(
-                        cubit: _cubit,
-                      ),
-                      spaceH24,
-                      TextFieldStyle(
-                        urlIcon: ImageAssets.icDocument,
-                        hintText: S.current.noi_dung,
-                        maxLines: 4,
-                        onChange: (value) {
-                          _cubit.taoLichHopRequest.noiDung = value;
-                        },
-                      ),
-                      spaceH24
-                    ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ExpandGroup(
+                    child: Column(
+                      children: [
+                        TextFieldStyle(
+                          urlIcon: ImageAssets.icEdit,
+                          hintText: S.current.tieu_de,
+                          onChange: (value) {
+                            _cubit.taoLichHopRequest.title = value;
+                          },
+                          validate: (value) {
+                            return value.isEmpty
+                                ? S.current.khong_duoc_de_trong
+                                : null;
+                          },
+                          maxLength: 200,
+                        ),
+                        spaceH5,
+                        StreamBuilder<List<LoaiSelectModel>>(
+                          stream: _cubit.loaiLich,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? <LoaiSelectModel>[];
+                            return SelectOnlyExpand(
+                              urlIcon: ImageAssets.icCalendar,
+                              title: S.current.loai_hop,
+                              value: _cubit.selectLoaiHop?.name ?? '',
+                              listSelect: data.map((e) => e.name).toList(),
+                              onChange: (index) {
+                                _cubit.taoLichHopRequest.typeScheduleId =
+                                    data[index].id;
+                              },
+                            );
+                          },
+                        ),
+                        spaceH5,
+                        StreamBuilder<List<LoaiSelectModel>>(
+                          stream: _cubit.linhVuc,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? <LoaiSelectModel>[];
+                            return SelectOnlyExpand(
+                              urlIcon: ImageAssets.icWork,
+                              title: S.current.linh_vuc,
+                              value: _cubit.selectLinhVuc?.name ?? '',
+                              listSelect: data.map((e) => e.name).toList(),
+                              onChange: (index) {
+                                _cubit.taoLichHopRequest.linhVucId =
+                                    data[index].id;
+                              },
+                            );
+                          },
+                        ),
+                        CupertinoTimePickerCustom(
+                          initTimeEnd:
+                              DateTime.now().add(const Duration(hours: 1)),
+                          onDateTimeChanged: (
+                            String timeStart,
+                            String timeEnd,
+                            String dateStart,
+                            String dateEnd,
+                          ) {
+                            _cubit.taoLichHopRequest.timeStart = timeStart;
+                            _cubit.taoLichHopRequest.timeTo = timeEnd;
+                            _cubit.taoLichHopRequest.ngayBatDau = dateStart
+                                .convertStringToDate(
+                                  formatPattern: DateFormatApp.date,
+                                )
+                                .formatApi;
+                            _cubit.taoLichHopRequest.ngayKetThuc = dateEnd
+                                .convertStringToDate(
+                                  formatPattern: DateFormatApp.date,
+                                )
+                                .formatApi;
+                          },
+                          onSwitchPressed: (value) {
+                            _cubit.taoLichHopRequest.isAllDay = value;
+                          },
+                        ),
+                        spaceH5,
+                        SelectOnlyExpand(
+                          urlIcon: ImageAssets.icNhacLai,
+                          title: S.current.nhac_lai,
+                          value: FakeDataTaoLichHop.nhacLai.first,
+                          listSelect: FakeDataTaoLichHop.nhacLai,
+                        ),
+                        spaceH5,
+                        SelectOnlyExpand(
+                          urlIcon: ImageAssets.icNhacLai,
+                          title: S.current.lich_lap,
+                          value: FakeDataTaoLichHop.lichLap.first,
+                          listSelect: FakeDataTaoLichHop.lichLap,
+                        ),
+                        spaceH5,
+                        SelectOnlyExpand(
+                          urlIcon: ImageAssets.icMucDoHop,
+                          title: S.current.muc_do_hop,
+                          value: FakeDataTaoLichHop.mucDoHop.first,
+                          listSelect: FakeDataTaoLichHop.mucDoHop,
+                        ),
+                        spaceH12,
+                        CoQuanChuTri(
+                          cubit: _cubit,
+                        ),
+                        spaceH24,
+                        TextFieldStyle(
+                          urlIcon: ImageAssets.icDocument,
+                          hintText: S.current.noi_dung,
+                          maxLines: 4,
+                          onChange: (value) {
+                            _cubit.taoLichHopRequest.noiDung = value;
+                          },
+                        ),
+                        spaceH24
+                      ],
+                    ),
                   ),
-                ),
-                TitleChildWidget(
-                  title: S.current.dau_moi_lien_he,
-                  child: Column(
-                    children: [
-                      TextFieldStyle(
-                        urlIcon: ImageAssets.icPeople,
-                        hintText: S.current.ho_ten,
-                        onChange: (value) {
-                          _cubit.taoLichHopRequest.chuTri?.dauMoiLienHe = value;
-                        },
-                      ),
-                      spaceH16,
-                      TextFieldStyle(
-                        urlIcon: ImageAssets.icCuocGoi,
-                        hintText: S.current.so_dien_thoai,
-                        onChange: (value) {
-                          _cubit.taoLichHopRequest.chuTri?.soDienThoai = value;
-                        },
-                      ),
-                    ],
+                  TitleChildWidget(
+                    title: S.current.dau_moi_lien_he,
+                    child: Column(
+                      children: [
+                        TextFieldStyle(
+                          urlIcon: ImageAssets.icPeople,
+                          hintText: S.current.ho_ten,
+                          onChange: (value) {
+                            _cubit.taoLichHopRequest.chuTri?.dauMoiLienHe =
+                                value;
+                          },
+                        ),
+                        spaceH16,
+                        TextFieldStyle(
+                          urlIcon: ImageAssets.icCuocGoi,
+                          hintText: S.current.so_dien_thoai,
+                          onChange: (value) {
+                            _cubit.taoLichHopRequest.chuTri?.soDienThoai =
+                                value;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                spaceH24,
-                HinhThucHop(cubit: _cubit),
-                spaceH24,
-                ChonPhongHopScreen(
-                  dateFrom: '${_cubit.taoLichHopRequest.ngayBatDau} '
-                      '${_cubit.taoLichHopRequest.timeStart}',
-                  dateTo:
-                      '${_cubit.taoLichHopRequest.ngayKetThuc} '
-                          '${_cubit.taoLichHopRequest.timeTo}',
-                  id: _cubit.donViId,
-                  onChange: (value) {},
-                ),
-                spaceH15,
-                ExpandGroup(
-                  child: Column(
-                    children: [
-                      const ThanhPhanThamGiaExpandWidget(),
-                      ChuongTrinhHopWidget(
-                        cubit: _cubit,
-                      ),
-                      TaiLieuCuocHopWidget(
-                        cubit: _cubit,
-                      )
-                    ],
+                  spaceH24,
+                  HinhThucHop(cubit: _cubit),
+                  spaceH24,
+                  ChonPhongHopScreen(
+                    dateFrom: '${_cubit.taoLichHopRequest.ngayBatDau} '
+                        '${_cubit.taoLichHopRequest.timeStart}',
+                    dateTo: '${_cubit.taoLichHopRequest.ngayKetThuc} '
+                        '${_cubit.taoLichHopRequest.timeTo}',
+                    id: _cubit.donViId,
+                    onChange: (value) {},
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: ButtonBottom(
-                    text: S.current.tao_lich_hop,
-                    onPressed: () {},
+                  spaceH15,
+                  ExpandGroup(
+                    child: Column(
+                      children: [
+                        const ThanhPhanThamGiaExpandWidget(),
+                        ChuongTrinhHopWidget(
+                          cubit: _cubit,
+                        ),
+                        TaiLieuCuocHopWidget(
+                          cubit: _cubit,
+                        )
+                      ],
+                    ),
                   ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: ButtonBottom(
+                      text: S.current.tao_lich_hop,
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

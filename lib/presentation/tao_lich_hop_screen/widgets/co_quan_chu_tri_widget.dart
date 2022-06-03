@@ -23,7 +23,7 @@ class CoQuanChuTri extends StatefulWidget {
 }
 
 class _CoQuanChuTriState extends State<CoQuanChuTri> {
-  bool isTrongDonVi = false;
+  bool isTrongDonVi = true;
   bool isNgoaiDonVi = false;
   int indexSelected = -1;
 

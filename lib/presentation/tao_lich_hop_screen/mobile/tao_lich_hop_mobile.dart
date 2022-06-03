@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
@@ -98,12 +97,15 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                             value: _cubit.selectLinhVuc?.name ?? '',
                             listSelect: data.map((e) => e.name).toList(),
                             onChange: (index) {
-                              _cubit.taoLichHopRequest.linhVucId = data[index].id;
+                              _cubit.taoLichHopRequest.linhVucId =
+                                  data[index].id;
                             },
                           );
                         },
                       ),
                       CupertinoTimePickerCustom(
+                        initTimeEnd:
+                            DateTime.now().add(const Duration(hours: 1)),
                         onDateTimeChanged: (
                           String timeStart,
                           String timeEnd,
@@ -157,7 +159,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         urlIcon: ImageAssets.icDocument,
                         hintText: S.current.noi_dung,
                         maxLines: 4,
-                        onChange: (value){
+                        onChange: (value) {
                           _cubit.taoLichHopRequest.noiDung = value;
                         },
                       ),
@@ -172,7 +174,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                       TextFieldStyle(
                         urlIcon: ImageAssets.icPeople,
                         hintText: S.current.ho_ten,
-                        onChange: (value){
+                        onChange: (value) {
                           _cubit.taoLichHopRequest.chuTri?.dauMoiLienHe = value;
                         },
                       ),
@@ -180,7 +182,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                       TextFieldStyle(
                         urlIcon: ImageAssets.icCuocGoi,
                         hintText: S.current.so_dien_thoai,
-                        onChange: (value){
+                        onChange: (value) {
                           _cubit.taoLichHopRequest.chuTri?.soDienThoai = value;
                         },
                       ),
@@ -191,6 +193,12 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                 HinhThucHop(cubit: _cubit),
                 spaceH24,
                 ChonPhongHopScreen(
+                  dateFrom: '${_cubit.taoLichHopRequest.ngayBatDau} '
+                      '${_cubit.taoLichHopRequest.timeStart}',
+                  dateTo:
+                      '${_cubit.taoLichHopRequest.ngayKetThuc} '
+                          '${_cubit.taoLichHopRequest.timeTo}',
+                  id: _cubit.donViId,
                   onChange: (value) {},
                 ),
                 spaceH15,

@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_state.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -44,14 +45,18 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   LoaiSelectModel? selectLoaiHop;
   LoaiSelectModel? selectLinhVuc;
   NguoiChutriModel? selectNguoiChuTri;
-  TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest();
+  TaoLichHopRequest taoLichHopRequest = TaoLichHopRequest(
+    ngayBatDau: DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+    ngayKetThuc: DateTime.now().dateTimeFormatter(pattern: DateFormatApp.date),
+    timeStart: DateTime.now().dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+    timeTo: DateTime.now()
+        .add(const Duration(hours: 1))
+        .dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
+  );
+
+  String donViId = '';
 
   Future<void> createMeeting() async {
-    if (taoLichHopRequest.title?.isEmpty ?? true) {
-      // thong bao validate
-      return;
-    }
-
     if (taoLichHopRequest.isAllDay ?? false) {
       taoLichHopRequest.timeTo = '';
       taoLichHopRequest.timeStart = '';
@@ -70,7 +75,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     _getLoaiLich();
     _getPhamVi();
     getCanBo();
-    // _getNguoiChuTri();
   }
 
   Future<void> _getLoaiLich() async {
@@ -117,10 +121,9 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   final BehaviorSubject<List<DonViModel>> danhSachCB = BehaviorSubject();
 
   Future<void> getCanBo() async {
-    final dataUser = HiveLocal.getDataUser();
     final result = await thanhPhanThamGiaRp.getSeachCanBo(
       SearchCanBoRequest(
-        iDDonVi: dataUser?.userInformation?.donViTrucThuoc?.id,
+        iDDonVi: donViId,
         pageIndex: 1,
         pageSize: 100,
       ),

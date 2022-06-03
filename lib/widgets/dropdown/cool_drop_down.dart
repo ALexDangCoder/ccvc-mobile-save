@@ -10,6 +10,7 @@ class CoolDropDown extends StatefulWidget {
   final Function(int) onChange;
   final List<String> listData;
   final double? setWidth;
+  final useCustomHintColors;
 
   const CoolDropDown({
     Key? key,
@@ -18,6 +19,7 @@ class CoolDropDown extends StatefulWidget {
     required this.listData,
     required this.initData,
     this.setWidth,
+    this.useCustomHintColors = false,
   }) : super(key: key);
 
   @override
@@ -73,7 +75,9 @@ class _CoolDropDownState extends State<CoolDropDown> {
       ),
       placeholderTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleCalenderWork,
+        color: widget.useCustomHintColors
+            ? titleCalenderWork.withOpacity(0.5)
+            : titleCalenderWork,
       ),
       resultBD: BoxDecoration(
         borderRadius: BorderRadius.circular(6),

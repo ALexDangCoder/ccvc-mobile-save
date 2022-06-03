@@ -26,7 +26,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       AppStateCt.of(context).appState.refreshToken.listen((value) {
-        log('>>>>>>>>>>>>>>>>>>>>>');
         globalKey = GlobalKey();
         if (isMobile()) {
           keyHomeMobile = GlobalKey<HomeScreenMobileState>();

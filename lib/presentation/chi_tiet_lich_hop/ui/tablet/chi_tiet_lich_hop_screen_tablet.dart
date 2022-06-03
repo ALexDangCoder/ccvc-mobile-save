@@ -217,7 +217,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                                 child: ThongTinCuocHopWidget(
                                   cubit: cubit,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),

@@ -18,11 +18,11 @@ import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:platform_device_id/platform_device_id.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginCubit extends BaseCubit<LoginState> {
@@ -113,11 +113,12 @@ class LoginCubit extends BaseCubit<LoginState> {
   }
 
   String get getPlatform => Platform.isAndroid ? DEVICE_ANDROID : DEVICE_IOS;
+  Future<String?> get getTokkenNoti => FirebaseMessaging.instance.getToken();
 
   Future<void> createDevice() async {
     String? deviceId;
     try {
-      deviceId = await PlatformDeviceId.getDeviceId;
+      deviceId = await getTokkenNoti;
       await _serviceNoti.createDevice(
         DeviceRequest(
           id: '00000000-0000-0000-0000-000000000000',

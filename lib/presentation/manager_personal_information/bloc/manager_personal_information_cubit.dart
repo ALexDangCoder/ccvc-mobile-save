@@ -121,8 +121,24 @@ class ManagerPersonalInformationCubit
     final result = await _managerRepo.uploadFile(File(path));
     result.when(
       success: (res) {
-        pathAnhChuKy = res.data?.filePath ?? '';
         pathAnhDaiDien = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+  }
+  Future<void> uploadFileChuKi(String path) async {
+    final result = await _managerRepo.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnhChuKy = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+  }
+  Future<void> uploadFileKiNhay(String path) async {
+    final result = await _managerRepo.uploadFile(File(path));
+    result.when(
+      success: (res) {
         pathAnhKyNhay = res.data?.filePath ?? '';
       },
       error: (error) {},

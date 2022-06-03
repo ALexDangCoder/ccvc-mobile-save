@@ -17,6 +17,7 @@ Future<T?> showDiaLogTablet<T>(
   double maxHeight = 878,
   double width = 592,
   double? setHeight,
+  bool showButtomTablet = false,
 }) {
   return showDialog(
     context: context,
@@ -35,6 +36,7 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: setHeight ?? maxHeight,
           width: width,
+          showButtonTapLet: showButtomTablet,
           child: child,
         ),
       );
@@ -51,6 +53,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final bool isBottomShow;
   final double maxHeight;
   final double width;
+  final bool showButtonTapLet;
 
   const _DiaLogFeatureWidget({
     Key? key,
@@ -62,6 +65,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
+    required this.showButtonTapLet,
   }) : super(key: key);
 
   @override
@@ -118,6 +122,23 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                       title: btnRightTxt,
                       isLeft: false,
                     )
+                  ],
+                ),
+              )
+            else
+              const SizedBox(),
+            if (showButtonTapLet)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    button(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      title: btnLeftTxt,
+                    ),
                   ],
                 ),
               )

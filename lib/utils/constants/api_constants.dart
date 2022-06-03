@@ -249,7 +249,8 @@ class ApiConstants {
   static const KET_QUA_XU_LY = '/pakn/api/Tasks/ds-van-ban-di-theo-phan-cap';
   static const GET_NOTIFY_APP_CODES = '/api/Notification/appcodes';
   static const SETTING_NOTIFY = '/api/Notification/setting';
-  static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/list';
+  static const GET_THONG_BAO_QUAN_TRONG = '/api/Notification/notifi-impotant';
+  static const GET_HOC_PHAN = '/api/Notification/list';
   static const READ_ALL = '/api/Notification/read-all';
   static const DELETE_NOTIFY = '/api/Notification/delete';
   static const TINH_SELECT = '/vpdt/api/Country/province-list';

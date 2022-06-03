@@ -1,15 +1,25 @@
+import 'dart:convert';
+
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/thong_bao/setting_notify_request.dart';
+import 'package:ccvc_mobile/domain/model/thong_bao/background_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/setting_notify_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_model.dart';
 import 'package:ccvc_mobile/domain/model/thong_bao/thong_bao_quan_trong_model.dart';
 import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_state.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/thong_bao_type.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/ui/type_detail.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sound_mode/permission_handler.dart';
+import 'package:sound_mode/sound_mode.dart';
+import 'package:sound_mode/utils/ringer_mode_statuses.dart';
 
 class ThongBaoCubit extends BaseCubit<ThongBaoState> {
   ThongBaoCubit() : super(ThongBaoStateInitial());
@@ -80,6 +90,7 @@ extension SettingScreen on ThongBaoCubit {
           stateAppCode = stateAppCode.map((e) => e.trim()).toList();
           settingSubject.add(value);
         }
+        modeSilent = value.modeSilent ?? false;
       },
       error: (error) {},
     );
@@ -113,9 +124,41 @@ extension SettingScreen on ThongBaoCubit {
     );
   }
 
+  void isSilent() {
+    if (modeSilent) {
+      setSilentMode();
+    } else {
+      setNormalMode();
+    }
+  }
+
   void changeModeSilent() {
     modeSilent = !modeSilent;
+    isSilent();
     postSetting();
+  }
+
+  Future<void> checkPermissionSilent() async {
+    bool permissionStatus = false;
+    try {
+      permissionStatus = await PermissionHandler.permissionsGranted ?? false;
+
+      if (!permissionStatus) {
+        await PermissionHandler.openDoNotDisturbSetting();
+      }
+    } catch (err) {}
+  }
+
+  Future<void> setSilentMode() async {
+    try {
+      await SoundMode.setSoundMode(RingerModeStatus.silent);
+    } catch (e) {}
+  }
+
+  Future<void> setNormalMode() async {
+    try {
+      await SoundMode.setSoundMode(RingerModeStatus.normal);
+    } on PlatformException {}
   }
 
   void changeSwitch(String appCode, bool status) {
@@ -218,6 +261,13 @@ extension ThongBaoScreen on ThongBaoCubit {
 
   void selectNotiAppCode(String appCode) {
     this.appCode = appCode;
+  }
+}
+
+extension BackgroundNoti on ThongBaoCubit {
+  void pushNoti(Map<String, dynamic> json, BuildContext context) {
+    final BackgroundModel noti = BackgroundModel.fromJson(json);
+    (noti.typeNoti ?? '').getEnumDetail.getScreenDetail(context);
   }
 }
 

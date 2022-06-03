@@ -67,6 +67,9 @@ class _EditPersonalInformationTabletScreen
       sdtCoquanController.text = event.phoneCoQuan ?? '';
       sdtController.text = event.phoneDiDong ?? '';
       diaChiLienHeController.text = event.diaChi ?? '';
+      cubit.pathAnhDaiDien = event.anhDaiDienFilePath ?? '';
+      cubit.pathAnhChuKy = event.anhChuKyFilePath ?? '';
+      cubit.pathAnhKyNhay = event.anhChuKyNhayFilePath ?? '';
     });
     super.initState();
     toast.init(context);

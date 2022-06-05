@@ -31,9 +31,9 @@ class WorkListWidget extends StatefulWidget {
 class _WorkListWidgetState extends State<WorkListWidget> {
   late HomeCubit cubit;
   DanhSachCongViecCubit danhSachCVCubit = DanhSachCongViecCubit();
-  BehaviorSubject<bool> _isHienThi = BehaviorSubject.seeded(true);
+  BehaviorSubject<bool> _isShowListCanBo = BehaviorSubject.seeded(false);
 
-  Stream<bool> get isHienThi => _isHienThi.stream;
+  Stream<bool> get isShowListCanBo => _isShowListCanBo.stream;
 
   @override
   void didChangeDependencies() {
@@ -63,7 +63,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
       urlIcon: ImageAssets.icPlus,
       onTapIcon: () {
         // print('---------- click icon--------------------');
-        // HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
         showBottomSheetCustom(
           context,
           child: Column(
@@ -97,28 +97,40 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                   ),
                 ),
               ),
-              customTextField(suffixIcon: Icon(Icons.add)),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _isHienThi.sink.add(!_isHienThi.value);
-                  });
-                },
-                icon: const Icon(Icons.add),
-              ),
+              customTextField(
+                  suffixIcon: SizedBox(
+                    width: 4,
+                    height: 4,
+                    child: SvgPicture.asset(ImageAssets.ic_down),
+                  ),
+                  onTap: () {
+                    _isShowListCanBo.sink.add(!_isShowListCanBo.value);
+                  }),
               StreamBuilder<bool>(
-                stream: isHienThi,
-                builder: (context, snapshot) {
-                  final bool data = snapshot.data ?? false;
-                  return Visibility(
-                    child: Container(
-                      color: Colors.blue,
-                      height: 100,
-                    ),
-                    visible: data,
-                  );
-                },
-              ),
+                  stream: isShowListCanBo,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data ?? false;
+                    return Visibility(
+                        visible: true,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                          return SizedBox(
+                            height: 200,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text('header'),
+                                  Text('leading'),
+                                ],
+                              ),
+                            ),
+                          );
+                        }));
+                  }),
+              SizedBox(height: 400),
             ],
           ),
           title: S.current.them_cong_viec,
@@ -361,10 +373,15 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
   }
 }
 
-Widget customTextField({Widget? suffixIcon, Function()? onTap,}) {
+Widget customTextField({
+  Widget? suffixIcon,
+  Function()? onTap,
+}) {
   return TextFormField(
     onChanged: (value) {},
-    onTap: () {},
+    onTap: () {
+      onTap!();
+    },
     decoration: InputDecoration(
       counterText: '',
       hintText: 'Nhap cong viec',

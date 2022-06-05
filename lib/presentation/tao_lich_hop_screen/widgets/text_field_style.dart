@@ -10,6 +10,7 @@ class TextFieldStyle extends StatelessWidget {
   final int maxLines;
   final Function(String)? onChange;
   final TextEditingController? controller;
+  final int? maxLength;
 
   const TextFieldStyle(
       {Key? key,
@@ -17,7 +18,7 @@ class TextFieldStyle extends StatelessWidget {
       required this.urlIcon,
       this.maxLines = 1,
       this.onChange,
-      this.controller})
+      this.controller, this.maxLength,})
       : super(key: key);
 
   @override
@@ -58,12 +59,14 @@ class TextFieldStyle extends StatelessWidget {
           onChange!(value);
         }
       },
+      maxLength: maxLength,
       maxLines: maxLines,
       style: textNormal(color3D5586, 16),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: textNormal(textBodyTime, 16),
         border: InputBorder.none,
+        counterText: '',
         isDense: true,
         contentPadding: EdgeInsets.zero,
       ),

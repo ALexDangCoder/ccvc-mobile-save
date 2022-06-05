@@ -126,38 +126,38 @@ class HomeScreenMobileState extends State<HomeScreenMobile> {
                   ],
                 ),
                 SliverToBoxAdapter(
-                    child: WorkListWidget(
-                        homeItemType:WidgetType.listWork,
-                    ),
-                  // child: Column(
-                  //   children: [
-                  //     const HeaderWidget(),
-                  //     StreamBuilder<List<WidgetModel>>(
-                  //       stream: homeCubit.getConfigWidget,
-                  //       builder: (context, snapshot) {
-                  //         final data = snapshot.data ?? <WidgetModel>[];
-                  //         if (data.isNotEmpty) {
-                  //           return Column(
-                  //             children: List.generate(data.length, (index) {
-                  //               final type = data[index];
-                  //               return type.widgetType?.getItemsMobile() ??
-                  //                   const SizedBox();
-                  //             }),
-                  //           );
-                  //         }
-                  //         return const SizedBox();
-                  //       },
-                  //     ),
-                  //     const SizedBox(
-                  //       height: 5,
-                  //     ),
-                  //     Container(
-                  //       color: backgroundColorApp,
-                  //       padding: const EdgeInsets.symmetric(vertical: 25),
-                  //       child: const MarqueeWidget(),
-                  //     )
-                  //   ],
-                  // ),
+                    // child: WorkListWidget(
+                    //     homeItemType:WidgetType.listWork,
+                    // ),
+                  child: Column(
+                    children: [
+                      const HeaderWidget(),
+                      StreamBuilder<List<WidgetModel>>(
+                        stream: homeCubit.getConfigWidget,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? <WidgetModel>[];
+                          if (data.isNotEmpty) {
+                            return Column(
+                              children: List.generate(data.length, (index) {
+                                final type = data[index];
+                                return type.widgetType?.getItemsMobile() ??
+                                    const SizedBox();
+                              }),
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        color: backgroundColorApp,
+                        padding: const EdgeInsets.symmetric(vertical: 25),
+                        child: const MarqueeWidget(),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),

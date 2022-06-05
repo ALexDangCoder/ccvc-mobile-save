@@ -67,7 +67,7 @@ class _DanhSachCongViecTienIchMobileState
                           child: Container(
                             padding: const EdgeInsets.only(top: 20),
                             child: Text(
-                              todo.data(),
+                              todo.dataAll(),
                               style: textNormalCustom(
                                 color: titleItemEdit,
                                 fontWeight: FontWeight.w400,

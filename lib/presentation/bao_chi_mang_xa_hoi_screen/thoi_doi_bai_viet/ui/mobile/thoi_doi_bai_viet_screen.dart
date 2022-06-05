@@ -23,7 +23,7 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
     with AutomaticKeepAliveClientMixin {
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
-  final _debouncer = Debouncer(milliseconds: 500);
+  final _debouncer = Debouncer(milliseconds: 2000);
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -49,6 +49,13 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: BaseSearchBar(
               hintText: S.current.nhap_link,
+              onSubmit: (value){
+                if(value.isNotEmpty){
+                  _debouncer.run(() {
+                    theoDoiBaiVietCubit.followTopic(value);
+                  });
+                }
+              },
               onChange: (value){
                 if(value.isNotEmpty){
                   _debouncer.run(() {

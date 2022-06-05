@@ -133,7 +133,7 @@ class VBDiThongTinKyDuyetExpandWidgetMobile extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: '${item.vaiTro ?? ''} - ',
+                          text: '${item.chucVu ?? ''} - ',
                           style: textNormalCustom(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,

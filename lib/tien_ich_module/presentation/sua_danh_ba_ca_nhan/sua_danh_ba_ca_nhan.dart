@@ -49,7 +49,6 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     hoTenController.text = widget.item.hoTen ?? '';
     diaDiemController.text = widget.item.diaChi ?? '';
@@ -59,6 +58,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
     sdtCoquanController.text = widget.item.phoneCoQuan ?? '';
     sdtRiengController.text = widget.item.phoneNhaRieng ?? '';
     ngaySinh = widget.item.ngaySinh ?? '';
+    widget.cubit.pathAnh = widget.item.anhDaiDienFilePath ?? '';
     toast.init(context);
   }
 

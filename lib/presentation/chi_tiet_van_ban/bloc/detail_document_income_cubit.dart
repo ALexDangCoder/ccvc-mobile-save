@@ -24,17 +24,30 @@ class CommonDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
 
   final QLVBRepository _qLVBRepo = Get.find();
 
+  ChiTietVanBanDenModel chiTietVanBanDenModel = ChiTietVanBanDenModel();
+
   BehaviorSubject<ChiTietVanBanDenModel> chiTietVanBanDenSubject =
       BehaviorSubject();
-  ChiTietVanBanDenModel chiTietVanBanDenModel = ChiTietVanBanDenModel();
+  BehaviorSubject<List<VanBanHoiBaoModel>> vanBanHoiBaoSubject =
+      BehaviorSubject();
+
+  Future<void> getHoiBaoVanBanDen(String processId) async {
+    final listHoiBaoVanBan = await _qLVBRepo.getHoiBaoVanBanDen(processId);
+    listHoiBaoVanBan.when(
+      success: (data) {
+        vanBanHoiBaoSubject.sink.add(data ?? []);
+      },
+      error: (e) {},
+    );
+  }
 
   Future<void> getChiTietVanBanDen(
     String processId,
     String taskId,
   ) async {
     showLoading();
-    final result =
-        await _qLVBRepo.getDataChiTietVanBanDen(processId, taskId, false);
+    unawaited(getHoiBaoVanBanDen(processId));
+    final result = await _qLVBRepo.getDataChiTietVanBanDen(processId, taskId);
     result.when(
       success: (res) {
         showContent();
@@ -102,18 +115,19 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
     });
   }
 
-  Future<void> relay(
-    String comment,
-    List<PickImageFileModel> listFile,
-    String documentId,
-    String taskId,
-  ) async {
+  Future<void> relay({
+    required String comment,
+    required List<PickImageFileModel> listFile,
+    required String documentId,
+    required String commentId,
+    required String taskId,
+  }) async {
     showLoading();
     final listIdFile = await postListFile(listFile);
     final isSuccess = await postRelay(
       comment,
       listIdFile,
-      documentId,
+      commentId,
       taskId,
     );
     showContent();
@@ -204,7 +218,7 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
   Future<bool> postRelay(
     String comment,
     List<String> listIdFile,
-    String documentId,
+    String taskXinYKienId,
     String taskId,
   ) async {
     bool dataReturn = false;
@@ -221,7 +235,7 @@ class CommentsDetailDocumentCubit extends BaseCubit<DetailDocumentState> {
           )
           .toList(),
       taskId: taskId,
-      documentId: documentId,
+      taskXinYKienId: taskXinYKienId,
     );
     final result = await _qLVBRepo.relayCommentDocumentIncome(request);
     result.when(

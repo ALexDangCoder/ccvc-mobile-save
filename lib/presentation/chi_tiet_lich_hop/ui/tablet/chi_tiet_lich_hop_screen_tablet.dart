@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/moi
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/phat_bieu_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/sua_lich_hop_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/widgets/thong_tin_cuoc_hop_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/boc_bang_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/phan_cong_thu_ky.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/tao_boc_bang_widget.dart';
@@ -43,7 +44,7 @@ class DetailMeetCalenderTablet extends StatefulWidget {
 
 class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
   late DetailMeetCalenderCubit cubit;
-  final _controller = TabController(vsync: AnimatedListState(), length: 8);
+  final _controller = TabController(vsync: AnimatedListState(), length: 9);
 
   @override
   void initState() {
@@ -184,7 +185,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
       body: Padding(
         padding: const EdgeInsets.only(top: 16, right: 16.0, left: 16.0),
         child: DefaultTabController(
-          length: 8,
+          length: 9,
           child: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -217,7 +218,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                                 child: ThongTinCuocHopWidget(
                                   cubit: cubit,
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -306,6 +307,11 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                             S.current.y_kien_cuop_hop,
                           ),
                         ),
+                        Tab(
+                          child: Text(
+                            S.current.boc_bang,
+                          ),
+                        ),
                       ],
                     ),
                     content: TabBarView(
@@ -334,6 +340,9 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                           id: widget.id,
                           cubit: cubit,
                         ),
+                        BocBangWidget(
+                          cubit: cubit,
+                        )
                       ],
                     ),
                   ),

@@ -132,7 +132,8 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           onTap: onTap,
           child: Container(
             height: 150,
-            width: 155,
+            width: 150,
+            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               border: Border.all(color: colorLineSearch.withOpacity(0.3)),
               shape: BoxShape.circle,
@@ -154,6 +155,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhDaiDienFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
                           padding: const EdgeInsets.all(54.0),
@@ -204,7 +206,8 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           onTap: onTap,
           child: Container(
             height: 150,
-            width: 155,
+            width: 150,
+            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               border: Border.all(color: colorLineSearch.withOpacity(0.3)),
               shape: BoxShape.circle,
@@ -227,9 +230,10 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhChuKyFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
-                          padding: const EdgeInsets.all(54.0),
+                          padding: const EdgeInsets.all(34.0),
                           child: SvgPicture.asset(
                             ImageAssets.icImage,
                             color: AppTheme.getInstance().colorField(),
@@ -277,7 +281,8 @@ class AvatarAndSignatureTablet extends StatelessWidget {
           onTap: onTap,
           child: Container(
             height: 150,
-            width: 155,
+            width: 150,
+            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               border: Border.all(color: colorLineSearch.withOpacity(0.3)),
               shape: BoxShape.circle,
@@ -300,9 +305,10 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhChuKyNhayFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
-                          padding: const EdgeInsets.all(54.0),
+                          padding: const EdgeInsets.all(34.0),
                           child: SvgPicture.asset(
                             ImageAssets.icImage,
                             color: AppTheme.getInstance().colorField(),
@@ -312,6 +318,7 @@ class AvatarAndSignatureTablet extends StatelessWidget {
                     ),
                   );
                 } else {
+                  cubit.pathAnhKyNhay = snapshot.data?.path ?? '';
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.file(

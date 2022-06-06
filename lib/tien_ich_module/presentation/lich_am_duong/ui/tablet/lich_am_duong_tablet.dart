@@ -111,6 +111,8 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                               cubit.selectTime = dateTime;
                                               cubit.changeDateTimeSubject
                                                   .add(dateTime);
+                                              cubit.dateTimeSubject.sink
+                                                  .add(dateTime);
                                               Navigator.pop(context);
                                             },
                                             textStyle: tokenDetailAmount(
@@ -127,6 +129,8 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                           cubit.startDate =
                                               start.formatApiDDMMYYYY;
                                           cubit.getLichAmDuong(cubit.startDate);
+                                          cubit.dateTimeSubject.sink
+                                              .add(start);
                                           cubit.selectTime = selectDay;
                                         },
                                         tablet: true,
@@ -141,71 +145,6 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                         isCheckLunar: true,
                                       ),
                                     ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(
-                                    //       top: 20.0,
-                                    //       bottom: 20.0,
-                                    //       left: 20.0,
-                                    //       right: 20.0),
-                                    //   child: Row(
-                                    //     children: [
-                                    //       Expanded(
-                                    //         child: Row(
-                                    //           mainAxisAlignment:
-                                    //               MainAxisAlignment.center,
-                                    //           children: [
-                                    //             Container(
-                                    //               height: 12.0,
-                                    //               width: 12.0,
-                                    //               decoration:
-                                    //                   const BoxDecoration(
-                                    //                 color: choVaoSoColor,
-                                    //                 shape: BoxShape.circle,
-                                    //               ),
-                                    //             ),
-                                    //             const SizedBox(
-                                    //               width: 10.0,
-                                    //             ),
-                                    //             Text(
-                                    //               S.current.ngay_hoang_dao,
-                                    //               style: textNormalCustom(
-                                    //                 fontSize: 16.0,
-                                    //                 color: titleColumn,
-                                    //               ),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //       Expanded(
-                                    //         child: Row(
-                                    //           mainAxisAlignment:
-                                    //               MainAxisAlignment.center,
-                                    //           children: [
-                                    //             Container(
-                                    //               height: 12.0,
-                                    //               width: 12.0,
-                                    //               decoration:
-                                    //                   const BoxDecoration(
-                                    //                 color: titleColor,
-                                    //                 shape: BoxShape.circle,
-                                    //               ),
-                                    //             ),
-                                    //             const SizedBox(
-                                    //               width: 10.0,
-                                    //             ),
-                                    //             Text(
-                                    //               S.current.ngay_hach_dao,
-                                    //               style: textNormalCustom(
-                                    //                 fontSize: 16.0,
-                                    //                 color: titleColumn,
-                                    //               ),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),

@@ -77,6 +77,10 @@ extension DateFormatString on DateTime {
     return DateFormat('dd-MM-yyyy').format(this);
   }
 
+  String get formatApiMMYYYY {
+    return DateFormat('MM-yyyy').format(this);
+  }
+
   String get startEndWeek {
     final day = DateTime(year, month, this.day);
 

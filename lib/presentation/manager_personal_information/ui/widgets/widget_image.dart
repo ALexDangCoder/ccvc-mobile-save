@@ -27,7 +27,8 @@ class _WigetImageState extends State<WigetImage> {
           children: [
             Container(
               height: 150,
-              width: 155,
+              width: 150,
+              clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 border: Border.all(color: colorLineSearch.withOpacity(0.3)),
                 shape: BoxShape.circle,
@@ -45,6 +46,7 @@ class _WigetImageState extends State<WigetImage> {
                   imageUrl: widget.cubit.managerPersonalInformationModel
                           .anhDaiDienFilePath ??
                       '',
+                  fit: BoxFit.cover,
                   errorWidget: (_, __, ___) {
                     return Container(
                       padding: const EdgeInsets.all(54.0),
@@ -69,7 +71,8 @@ class _WigetImageState extends State<WigetImage> {
           children: [
             Container(
               height: 150,
-              width: 155,
+              width: 150,
+              clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 border: Border.all(color: colorLineSearch.withOpacity(0.3)),
                 shape: BoxShape.circle,
@@ -87,6 +90,7 @@ class _WigetImageState extends State<WigetImage> {
                   imageUrl: widget.cubit.managerPersonalInformationModel
                           .anhChuKyFilePath ??
                       '',
+                  fit: BoxFit.cover,
                   errorWidget: (_, __, ___) {
                     return Container(
                       padding: const EdgeInsets.all(54.0),
@@ -111,7 +115,8 @@ class _WigetImageState extends State<WigetImage> {
           children: [
             Container(
               height: 150,
-              width: 155,
+              width: 150,
+              clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 border: Border.all(color: colorLineSearch.withOpacity(0.3)),
                 shape: BoxShape.circle,
@@ -129,6 +134,7 @@ class _WigetImageState extends State<WigetImage> {
                   imageUrl: widget.cubit.managerPersonalInformationModel
                           .anhChuKyNhayFilePath ??
                       '',
+                  fit: BoxFit.cover,
                   errorWidget: (_, __, ___) {
                     return Container(
                       padding: const EdgeInsets.all(54.0),

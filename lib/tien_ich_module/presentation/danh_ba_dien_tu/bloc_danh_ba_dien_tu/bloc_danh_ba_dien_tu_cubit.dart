@@ -236,6 +236,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   String pathAnh = '';
 
   Future<void> uploadFiles(String path) async {
+    showLoading();
     final result = await tienIchRepTree.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -243,6 +244,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       },
       error: (error) {},
     );
+    showContent();
   }
 
   Future<bool> postDanhSach({

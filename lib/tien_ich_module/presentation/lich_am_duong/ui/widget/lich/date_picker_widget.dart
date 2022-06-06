@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/cuper_am_duong_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -173,7 +175,11 @@ class FlutterRoundedCupertinoDatePickerWidgetAmDuong extends StatefulWidget {
 
     final TextPainter painter = TextPainter(
       text: TextSpan(
-        style: themeTextStyle(context),
+        style: textNormalCustom(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+          color: color3D5586,
+        ),
         text: longestText,
       ),
       textDirection: Directionality.of(context),
@@ -216,7 +222,7 @@ class CupertinoDatePickerDateAmDuongState
     selectedDay = widget.initialDateTime.day;
     selectedMonth = widget.initialDateTime.month;
     selectedYear = widget.initialDateTime.year;
-    lunarController = FixedExtentScrollController();
+    lunarController = FixedExtentScrollController(initialItem: 1);
     dayController = FixedExtentScrollController(initialItem: selectedDay - 1);
     monthController =
         FixedExtentScrollController(initialItem: selectedMonth - 1);

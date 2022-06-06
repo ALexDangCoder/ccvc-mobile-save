@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/config/app_config.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/ui/main_diem_danh/main_diem_danh_screen.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/phone/danh_sach_chung_screen.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/tab/danh_sach_chung_screen_tablet.dart';
@@ -34,6 +35,7 @@ final listFeature = [
   MenuType.baoCao,
   MenuType.tuongTacNoiBo,
   MenuType.baoChiMangXaHoi,
+  MenuType.diemDanh,
   MenuType.ketNoi,
   MenuType.tienIch,
 ];
@@ -59,6 +61,7 @@ enum MenuType {
   tuongTacNoiBo,
   lichLamViec,
   baoCao,
+  diemDanh
 }
 
 extension MenuTypeItem on MenuType {
@@ -135,6 +138,14 @@ extension MenuTypeItem on MenuType {
             iconMobile: ImageAssets.icBaoChiMangXaHoi,
           ),
           title: S.current.bao_chi_mang_xa_hoi,
+        );
+      case MenuType.diemDanh:
+        return MenuCellType(
+          url: urlIconScreen(
+            iconTablet: ImageAssets.icDiemDanhTopMenu,
+            iconMobile: ImageAssets.icDiemDanhTopMenu,
+          ),
+          title: S.current.diem_danh,
         );
       case MenuType.ketNoi:
         return MenuCellType(
@@ -216,6 +227,11 @@ extension GetScreen on MenuType {
             body: TabbarNewspaper(),
           ),
           tabletScreen: const TabbarNewspaperTablet(),
+        );
+      case MenuType.diemDanh:
+        return screenDevice(
+          mobileScreen: const MainDiemDanhScreen(),
+          tabletScreen: const MainDiemDanhScreen(),
         );
       case MenuType.ketNoi:
         return screenDevice(

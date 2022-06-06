@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/btn_them_cong_viec.dart';
 import 'package:ccvc_mobile/home_module/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/config/resources/color.dart';
@@ -31,9 +31,6 @@ class WorkListWidget extends StatefulWidget {
 class _WorkListWidgetState extends State<WorkListWidget> {
   late HomeCubit cubit;
   DanhSachCongViecCubit danhSachCVCubit = DanhSachCongViecCubit();
-  BehaviorSubject<bool> _isShowListCanBo = BehaviorSubject.seeded(false);
-
-  Stream<bool> get isShowListCanBo => _isShowListCanBo.stream;
 
   @override
   void didChangeDependencies() {
@@ -62,77 +59,10 @@ class _WorkListWidgetState extends State<WorkListWidget> {
       title: S.current.work_list,
       urlIcon: ImageAssets.icPlus,
       onTapIcon: () {
-        // print('---------- click icon--------------------');
-        HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
+        // HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
         showBottomSheetCustom(
           context,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  bottom: 8,
-                ),
-                child: Text(
-                  S.current.cong_viec,
-                  style: textNormalCustom(
-                    color: titleItemEdit,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-              customTextField(),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  bottom: 8,
-                ),
-                child: Text(
-                  S.current.nguoi_thuc_hien,
-                  style: textNormalCustom(
-                    color: titleItemEdit,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-              customTextField(
-                  suffixIcon: SizedBox(
-                    width: 4,
-                    height: 4,
-                    child: SvgPicture.asset(ImageAssets.ic_down),
-                  ),
-                  onTap: () {
-                    _isShowListCanBo.sink.add(!_isShowListCanBo.value);
-                  }),
-              StreamBuilder<bool>(
-                  stream: isShowListCanBo,
-                  builder: (context, snapshot) {
-                    final data = snapshot.data ?? false;
-                    return Visibility(
-                        visible: true,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                          return SizedBox(
-                            height: 200,
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Text('header'),
-                                  Text('leading'),
-                                ],
-                              ),
-                            ),
-                          );
-                        }));
-                  }),
-              SizedBox(height: 400),
-            ],
-          ),
+          child: const BottomSheetThemCongViec(),
           title: S.current.them_cong_viec,
         );
       },
@@ -373,30 +303,3 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
   }
 }
 
-Widget customTextField({
-  Widget? suffixIcon,
-  Function()? onTap,
-}) {
-  return TextFormField(
-    onChanged: (value) {},
-    onTap: () {
-      onTap!();
-    },
-    decoration: InputDecoration(
-      counterText: '',
-      hintText: 'Nhap cong viec',
-      hintStyle: textNormal(titleItemEdit.withOpacity(0.5), 14),
-      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      suffixIcon: suffixIcon ?? const SizedBox(),
-      // prefixIcon: widget.prefixIcon,
-      // fillColor: widget.isEnabled
-      //     ? widget.fillColor ?? Colors.transparent
-      //     : borderColor.withOpacity(0.3),
-      // filled: true,
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: borderColor),
-        borderRadius: BorderRadius.all(Radius.circular(6)),
-      ),
-    ),
-  );
-}

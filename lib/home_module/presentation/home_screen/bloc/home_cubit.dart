@@ -11,6 +11,8 @@ import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -324,7 +326,24 @@ class DanhSachCongViecCubit extends HomeCubit {
     id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
   }
 
+  final BehaviorSubject<bool> _isShowListCanBo = BehaviorSubject.seeded(false);
+
+  Stream<bool> get isShowListCanBo => _isShowListCanBo.stream;
+
+  final BehaviorSubject<IconListCanBo> _isShowIcon =
+      BehaviorSubject.seeded(IconListCanBo.DOWN);
+
+  Stream<IconListCanBo> get getIcon => _isShowIcon.stream;
+
   Stream<TodoListModel> get getTodoList => _getTodoList.stream;
+
+  void setDisplayListCanBo(bool isShow) {
+    _isShowListCanBo.sink.add(isShow);
+  }
+
+  void setDisplayIcon(IconListCanBo iconListCanBo) {
+    _isShowIcon.sink.add(iconListCanBo);
+  }
 
   void tickerListWord({required TodoModel todo, bool removeDone = true}) {
     final data = _getTodoList.value;
@@ -502,6 +521,49 @@ class DanhSachCongViecCubit extends HomeCubit {
       error: (err) {},
     );
   }
+
+  IconModdel getIconListCanBo(IconListCanBo iconListCanBo, TextEditingController controller) {
+    switch (iconListCanBo) {
+      case IconListCanBo.UP:
+        return IconModdel(
+          icon: const Icon(Icons.add),
+          onTapItem: (){
+            _isShowIcon.sink.add(IconListCanBo.DOWN);
+          },
+        );
+      case IconListCanBo.DOWN:
+        return IconModdel(
+          icon: const Icon(Icons.favorite),
+          onTapItem: (){
+            _isShowIcon.sink.add(IconListCanBo.UP);
+          },
+        );
+      case IconListCanBo.CLOSE:
+        return IconModdel(
+          icon: const Icon(Icons.book),
+          onTapItem: (){
+            controller.clear();
+            _isShowIcon.sink.add(IconListCanBo.DOWN);
+          },
+        );
+    }
+  }
+
+  Future<void>getListNguoiGan(int pageIndex, int pageSize, bool isGetAll) async {
+    final result = await homeRep.listNguoiGanCongViec(
+      isGetAll, pageSize,pageIndex,
+    );
+    showContent();
+    result.when(
+        success: (res) {
+       print('-------------------------------- thanh cong------------------------');
+    },
+    error: (err) {
+    print('-------------------------------- that bai------------------------');
+
+    },
+    );
+  }
 }
 
 /// Tổng hợp nhiệm vụ
@@ -637,10 +699,11 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
 
   void getDocument() {
     callApi(
-        canBoId: canBoId,
-        donViId: donViId,
-        startDate: '',
-        endDate: '',);
+      canBoId: canBoId,
+      donViId: donViId,
+      startDate: '',
+      endDate: '',
+    );
   }
 
   @override
@@ -681,8 +744,7 @@ class VanBanDonViCubit extends HomeCubit with SelectKeyDialog {
       success: (res) {
         _getVanBanDonVi.sink.add(res);
       },
-      error: (err) {
-      },
+      error: (err) {},
     );
   }
 

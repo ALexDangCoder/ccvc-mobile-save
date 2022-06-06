@@ -3,8 +3,10 @@ import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_reques
 import 'package:ccvc_mobile/home_module/data/response/home/danh_sach_thiep_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/nguoi_gan_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
@@ -322,6 +324,18 @@ class HomeImpl extends HomeRepository {
       (res) =>
           res.data?.toDomain() ??
           VanBanDonViModel(vbDen: VBDenDonVi(), vbDi: VBDiDonVi()),
+    );
+  }
+
+  @override
+  Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(bool isGetAll, int pageSize, int pageIndex) {
+    return runCatchingAsync<NguoiGanResponse, NguoiGanCongViecModel>(
+          () => _homeServiceGateWay.getListNguoiGan(
+            pageIndex,
+            pageSize,
+            isGetAll,
+      ),
+          (res) =>res.data?.toDomain() ?? NguoiGanCongViecModel(items: []),
     );
   }
 }

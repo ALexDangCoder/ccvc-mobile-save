@@ -36,7 +36,7 @@ class ApiConstants {
   static const GET_LIST_THONG_TIN_THIEP  = '/api/CmsCard/lay-danhsach-thongtin-thiep';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN = '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const TINH_HINH_XU_LY_VAN_BAN = '/qlvb/api/ccvc/tinh-hinh-xu-ly-van-ban';
-  static const GET_LIST_CAN_BO = 'common/CanBo/search';
+  static const GET_LIST_CAN_BO = '/api/CanBo/search';
 
 
 

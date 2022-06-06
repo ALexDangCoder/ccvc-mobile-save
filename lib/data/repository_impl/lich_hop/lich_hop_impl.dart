@@ -183,14 +183,14 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<AddFileModel>> postFileTaoLichHop(
-    int entityType,
-    String entityName,
-    String entityId,
+  Future<Result<List<AddFileModel>>> postFileTaoLichHop(
+    int? entityType,
+    String? entityName,
+    String? entityId,
     bool isMutil,
     List<File> files,
   ) {
-    return runCatchingAsync<AddFileTaoLichHopResponse, AddFileModel>(
+    return runCatchingAsync<UploadFileWithMeetingResponse, List<AddFileModel>>(
       () => _hopServices.postFile(
         entityType,
         entityName,
@@ -198,7 +198,7 @@ class HopRepositoryImpl implements HopRepository {
         isMutil,
         files,
       ),
-      (response) => response.toModel(),
+      (response) => response.toList(),
     );
   }
 
@@ -766,17 +766,17 @@ class HopRepositoryImpl implements HopRepository {
   @override
   Future<Result<List<DonViConPhong>>> getDonViConPhongHop(String id) {
     return runCatchingAsync<DonViConPhongResponse, List<DonViConPhong>>(
-          () => _hopServices.danhSachDVChaConPhong(id),
-          (response) => response.toListModel(),
+      () => _hopServices.danhSachDVChaConPhong(id),
+      (response) => response.toListModel(),
     );
   }
 
   @override
-  Future<Result<List<PhongHopModel>>> getPhongHop(String id, String from, String to, bool isTTDH) {
+  Future<Result<List<PhongHopModel>>> getPhongHop(
+      String id, String from, String to, bool isTTDH) {
     return runCatchingAsync<DSPhongHopResponse, List<PhongHopModel>>(
-          () => _hopServices.danhSachPhongHop(id,from,to,isTTDH),
-          (response) => response.toListModel(),
+      () => _hopServices.danhSachPhongHop(id, from, to, isTTDH),
+      (response) => response.toListModel(),
     );
   }
-
 }

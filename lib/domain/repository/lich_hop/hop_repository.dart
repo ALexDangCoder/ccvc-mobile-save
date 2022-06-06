@@ -131,10 +131,10 @@ mixin HopRepository {
 
   Future<Result<List<String>>> postEventCalendar(EventCalendarRequest request);
 
-  Future<Result<AddFileModel>> postFileTaoLichHop(
-    int entityType,
-    String entityName,
-    String entityId,
+  Future<Result<List<AddFileModel>>> postFileTaoLichHop(
+    int? entityType,
+    String? entityName,
+    String? entityId,
     bool isMutil,
     List<File> files,
   );

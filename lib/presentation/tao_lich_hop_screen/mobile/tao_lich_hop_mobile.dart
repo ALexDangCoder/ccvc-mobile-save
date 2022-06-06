@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
@@ -208,7 +209,20 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     dateTo: '${_cubit.taoLichHopRequest.ngayKetThuc} '
                         '${_cubit.taoLichHopRequest.timeTo}',
                     id: _cubit.donViId,
-                    onChange: (value) {},
+                    onChange: (value) {
+                      _cubit.taoLichHopRequest.phongHop = value.phongHop;
+                      _cubit.taoLichHopRequest.phongHop?.noiDungYeuCau =
+                          value.yeuCauKhac;
+                      _cubit.taoLichHopRequest.phongHopThietBi =
+                          value.listThietBi
+                              .map(
+                                (e) => PhongHopThietBi(
+                                  tenThietBi: e.tenThietBi,
+                                  soLuong: e.soLuong.toString(),
+                                ),
+                              )
+                              .toList();
+                    },
                   ),
                   spaceH15,
                   ExpandGroup(
@@ -228,7 +242,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
-                      onPressed: () {},
+                      onPressed: () {
+                        _cubit.createMeeting();
+                        if (_formKey.currentState?.validate() ?? false) {}
+                      },
                     ),
                   ),
                 ],

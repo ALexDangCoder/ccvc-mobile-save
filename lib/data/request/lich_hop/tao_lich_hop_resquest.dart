@@ -127,7 +127,7 @@ class ChuTri {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['donViId'] = donViId;
+    data['donViId'] = donViId == null ? null : donViId;
     data['canBoId'] = canBoId;
     data['tenCanBo'] = tenCanBo;
     data['tenCoQuan'] = tenCoQuan;

@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/don_vi_con_phong_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/widgets/radio/radio_button.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/bloc/chon_phong_hoc_cubit.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/loai_phong_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/yeu_cau_them_thiet_bi_widget.dart';
@@ -20,7 +21,6 @@ import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ChonPhongHopScreen extends StatefulWidget {
   final Function(ChonPhongHopModel) onChange;
@@ -115,6 +115,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   final TextEditingController controller = TextEditingController();
   ThanhPhanThamGiaCubit cubit = ThanhPhanThamGiaCubit();
   final _key = GlobalKey<FormState>();
+  int groupValue = -1;
 
   @override
   void initState() {
@@ -145,6 +146,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                   loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
                   listThietBi: widget.chonPhongHopCubit.listThietBi,
                   yeuCauKhac: controller.text,
+                  phongHop: widget.chonPhongHopCubit.phongHop,
                 ),
               );
             },
@@ -159,6 +161,15 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                 initLoaiPhong: widget.chonPhongHopCubit.loaiPhongHopEnum,
                 onChange: (value) {
                   widget.chonPhongHopCubit.setLoaiPhongHop(value);
+                  if (widget.chonPhongHopCubit.donViSelectedId.isNotEmpty) {
+                    widget.chonPhongHopCubit.getPhongHop(
+                      id: widget.chonPhongHopCubit.donViSelectedId,
+                      from: widget.from,
+                      to: widget.to,
+                      isTTDH: widget.chonPhongHopCubit.loaiPhongHopEnum ==
+                          LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH,
+                    );
+                  }
                 },
               ),
               spaceH25,
@@ -176,6 +187,8 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                     onChange: (index) {
                       widget.chonPhongHopCubit.donViSelected =
                           listData[index].tenDonVi;
+                      widget.chonPhongHopCubit.donViSelectedId =
+                          listData[index].id;
                       widget.chonPhongHopCubit.getPhongHop(
                         id: listData[index].id,
                         from: widget.from,
@@ -220,8 +233,19 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: listData.length,
-                          itemBuilder: (_, index) =>
-                              itemPhongHop(listData[index]),
+                          itemBuilder: (_, index) => itemPhongHop(
+                              phongHop: listData[index],
+                              index: index,
+                              groupValue: groupValue,
+                              onChange: (index) {
+                                widget.chonPhongHopCubit.phongHop
+                                  ..donViId = listData[index].donViDuyetId
+                                  ..ten = listData[index].ten
+                                  ..bitTTDH = listData[index].bit_TTDH
+                                  ..phongHopId = listData[index].id;
+                                groupValue = index;
+                                setState(() {});
+                              }),
                         );
                       },
                     ),
@@ -248,7 +272,12 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   }
 }
 
-Widget itemPhongHop(PhongHopModel phongHop) {
+Widget itemPhongHop({
+  required PhongHopModel phongHop,
+  required int index,
+  required int groupValue,
+  required Function(int) onChange,
+}) {
   return Container(
     padding: const EdgeInsets.all(16),
     margin: const EdgeInsets.only(bottom: 12),
@@ -297,23 +326,31 @@ Widget itemPhongHop(PhongHopModel phongHop) {
                   spaceW8,
                   Expanded(
                     flex: 7,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(
-                        phongHop.listThietBi.length,
-                        (index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 4.0),
-                          child: Text(
-                            '${phongHop.listThietBi[index].tenThietBi} '
-                            '(${phongHop.listThietBi[index].soLuong})',
+                    child: phongHop.listThietBi.isEmpty
+                        ? Text(
+                            S.current.khong,
                             style: textNormal(
-                              titleItemEdit,
-                              14,
+                              color3D5586,
+                              14.0.textScale(),
+                            ),
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: List.generate(
+                              phongHop.listThietBi.length,
+                              (index) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
+                                child: Text(
+                                  '${phongHop.listThietBi[index].tenThietBi} '
+                                  '(${phongHop.listThietBi[index].soLuong})',
+                                  style: textNormal(
+                                    titleItemEdit,
+                                    14,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                   )
                 ],
               ),
@@ -337,7 +374,14 @@ Widget itemPhongHop(PhongHopModel phongHop) {
           right: 0,
           child: GestureDetector(
             onTap: () {},
-            child: SvgPicture.asset(ImageAssets.icDeleteRed),
+            child: RadioButton<int>(
+              onChange: (value) {
+                onChange(value ?? -1);
+              },
+              value: index,
+              groupValue: groupValue,
+              useBlueColor: true,
+            ),
           ),
         )
       ],

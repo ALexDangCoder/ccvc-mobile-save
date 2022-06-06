@@ -117,6 +117,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
                       widget.cubit.taoLichHopRequest.linkTrucTuyen = '';
                       kieuLinkHop = 1;
                     }
+                    widget.cubit.taoLichHopRequest.bitLinkTrongHeThong =
+                        value;
                     setState(() {});
                   });
                 },
@@ -289,6 +291,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                       diemCau.loaiDiemCau ??= 1;
                       dsDiemCau.add(diemCau);
                       widget.cubit.dsDiemCauSubject.add(dsDiemCau);
+                      widget.cubit.taoLichHopRequest.dsDiemCau?.add(diemCau);
                       MessageConfig.show(
                         title: S.current.thay_doi_thanh_cong,
                       );

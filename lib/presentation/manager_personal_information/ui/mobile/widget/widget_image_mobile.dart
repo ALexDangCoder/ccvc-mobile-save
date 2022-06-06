@@ -46,6 +46,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                     imageUrl: widget.cubit.managerPersonalInformationModel
                             .anhDaiDienFilePath ??
                         '',
+                    fit: BoxFit.cover,
                     errorWidget: (_, __, ___) {
                       return Container(
                         padding: const EdgeInsets.all(34.0),
@@ -90,6 +91,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                     imageUrl: widget.cubit.managerPersonalInformationModel
                             .anhChuKyFilePath ??
                         '',
+                    fit: BoxFit.cover,
                     errorWidget: (_, __, ___) {
                       return Container(
                         padding: const EdgeInsets.all(34.0),
@@ -134,6 +136,7 @@ class _WidgetImageMobileState extends State<WidgetImageMobile> {
                     imageUrl: widget.cubit.managerPersonalInformationModel
                             .anhChuKyNhayFilePath ??
                         '',
+                    fit: BoxFit.cover,
                     errorWidget: (_, __, ___) {
                       return Container(
                         padding: const EdgeInsets.all(34.0),

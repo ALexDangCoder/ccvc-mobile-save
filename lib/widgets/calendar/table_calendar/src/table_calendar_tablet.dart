@@ -3,6 +3,7 @@
 
 import 'dart:math';
 
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -203,6 +204,8 @@ class TableCalendarTablet<T> extends StatefulWidget {
   final void Function(PageController pageController)? onCalendarCreated;
   final bool isCheckLunar;
   final Function(BuildContext contexts)? onTap;
+  final DateTime? dateTimeHeader;
+  final LichAmDuongCubit cubit;
 
   /// Creates a `TableCalendar` widget.
   TableCalendarTablet({
@@ -260,6 +263,8 @@ class TableCalendarTablet<T> extends StatefulWidget {
     this.onPageChanged,
     this.onFormatChanged,
     this.onCalendarCreated,
+    this.dateTimeHeader,
+    required this.cubit,
   })  : assert(availableCalendarFormats.keys.contains(calendarFormat)),
         assert(availableCalendarFormats.length <= CalendarFormat.values.length),
         assert(weekendDays.isNotEmpty
@@ -453,32 +458,38 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
           ValueListenableBuilder<DateTime>(
             valueListenable: _focusedDay,
             builder: (context, value, _) {
-              return CalendarHeader(
-                headerTitleBuilder: widget.calendarBuilders.headerTitleBuilder,
-                focusedMonth: value,
-                onLeftChevronTap: _onLeftChevronTap,
-                onRightChevronTap: _onRightChevronTap,
-                onHeaderTap: () {
-                  if (widget.onTap != null) {
-                    widget.onTap!(context);
-                  }
-                  widget.onHeaderTapped?.call(value);
-                },
-                onHeaderLongPress: () =>
-                    widget.onHeaderLongPressed?.call(value),
-                headerStyle: widget.headerStyle,
-                availableCalendarFormats: widget.availableCalendarFormats,
-                calendarFormat: widget.calendarFormat,
-                locale: widget.locale,
-                onFormatButtonTap: (format) {
-                  assert(
-                    widget.onFormatChanged != null,
-                    'Using `FormatButton` without providing `onFormatChanged` will have no effect.',
-                  );
+              return StreamBuilder<DateTime>(
+                  stream: widget.cubit.dateTimeSubject,
+                  initialData: value,
+                  builder: (context, snapshot) {
+                    return CalendarHeader(
+                      headerTitleBuilder:
+                          widget.calendarBuilders.headerTitleBuilder,
+                      focusedMonth: snapshot.data ?? value,
+                      onLeftChevronTap: _onLeftChevronTap,
+                      onRightChevronTap: _onRightChevronTap,
+                      onHeaderTap: () {
+                        if (widget.onTap != null) {
+                          widget.onTap!(context);
+                        }
+                        widget.onHeaderTapped?.call(value);
+                      },
+                      onHeaderLongPress: () =>
+                          widget.onHeaderLongPressed?.call(value),
+                      headerStyle: widget.headerStyle,
+                      availableCalendarFormats: widget.availableCalendarFormats,
+                      calendarFormat: widget.calendarFormat,
+                      locale: widget.locale,
+                      onFormatButtonTap: (format) {
+                        assert(
+                          widget.onFormatChanged != null,
+                          'Using `FormatButton` without providing `onFormatChanged` will have no effect.',
+                        );
 
-                  widget.onFormatChanged?.call(format);
-                },
-              );
+                        widget.onFormatChanged?.call(format);
+                      },
+                    );
+                  });
             },
           ),
         Flexible(

@@ -11,7 +11,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/provider_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/button/double_button_bottom.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/button/button_bottom.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/calendar/table_calendar/table_calendar_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
@@ -76,7 +76,11 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                       onDateTimeChanged: (value) {
                         cubit.time = value;
                       },
-                      textStyleDate: titleAppbar(),
+                      textStyleDate: textNormalCustom(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        color: color3D5586,
+                      ),
                       initialDateTime: DateTime.now(),
                     ),
                   ),
@@ -85,10 +89,8 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                       top: 24,
                       bottom: 32,
                     ),
-                    child: DoubleButtonBottom(
-                      title2: S.current.chon,
-                      title1: S.current.dong,
-                      onPressed2: () async {
+                    child: ButtonBottom(
+                      onPressed: () async {
                         await cubit.getLichAmDuong(
                           cubit.time.formatApiDDMMYYYY,
                         );
@@ -96,36 +98,32 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                         cubit.changeDateTimeSubject.add(cubit.time);
                         Navigator.pop(context);
                       },
-                      onPressed1: () {
-                        Navigator.pop(context);
-                      },
+                      text: S.current.chon_ngay,
                     ),
                   )
                 ],
               ),
             );
           },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${S.current.thang} ${DateTime.now().month} ',
-                style: textNormalCustom(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
-                  color: textTitle,
-                ),
-              ),
-              Text(
-                '- ${DateTime.now().year}',
-                style: textNormalCustom(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
-                  color: textTitle,
-                ),
-              ),
-            ],
-          ),
+          child: StreamBuilder<LichAmDuong>(
+              stream: cubit.lichAmDuongStream,
+              builder: (context, snap) {
+                final date = snap.data?.ngayAmLich?.solarDate ?? DateTime.now();
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${S.current.thang} '
+                      '${DateTime.parse(date.toString()).formatApiMMYYYY} ',
+                      style: textNormalCustom(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                        color: textTitle,
+                      ),
+                    ),
+                  ],
+                );
+              }),
         ),
       ),
       body: ProviderWidget<LichAmDuongCubit>(

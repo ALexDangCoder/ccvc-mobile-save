@@ -71,7 +71,7 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: 300,
+                    height: 250,
                     child: FlutterRoundedCupertinoDatePickerWidgetAmDuong(
                       onDateTimeChanged: (value) {
                         cubit.time = value;

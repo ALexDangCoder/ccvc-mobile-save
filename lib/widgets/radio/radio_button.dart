@@ -9,6 +9,7 @@ class RadioButton<T> extends StatelessWidget {
   final T groupValue;
   final Function(T?) onChange;
   final String title;
+  final MainAxisSize mainAxisSize;
 
   const RadioButton({
     Key? key,
@@ -16,6 +17,7 @@ class RadioButton<T> extends StatelessWidget {
     required this.groupValue,
     required this.onChange,
     this.title = '',
+    this.mainAxisSize = MainAxisSize.max,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class RadioButton<T> extends StatelessWidget {
       child: Container(
         color: Colors.transparent,
         child: Row(
+          mainAxisSize: mainAxisSize,
           children: [
             SizedBox(
               height: 20,

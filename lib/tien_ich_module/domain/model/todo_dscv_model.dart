@@ -51,4 +51,36 @@ class TodoDSCVModel {
     this.performer,
     this.groupId,
   });
+
+  bool showDotOne() {
+    if (performer != '' && createdOn != '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool showDotTwo() {
+    if (performer != '' && showIconNote()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool showIconFile() {
+    if (performer != '' && createdOn != '') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool showIconNote() {
+    if (note == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

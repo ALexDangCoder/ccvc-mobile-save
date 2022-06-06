@@ -60,6 +60,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       TextFieldValidator(
                         inputFormatters: [
                           FilteringTextInputFormatter.deny(' '),
+                          FilteringTextInputFormatter(RegExp(r'[{}]'),allow: false),
                         ],
                         controller: emailController,
                         hintText:

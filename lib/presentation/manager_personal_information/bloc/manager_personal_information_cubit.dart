@@ -118,6 +118,7 @@ class ManagerPersonalInformationCubit
   }
 
   Future<void> uploadFile(String path) async {
+    showLoading();
     final result = await _managerRepo.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -125,8 +126,11 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+    showContent();
   }
+
   Future<void> uploadFileChuKi(String path) async {
+    showLoading();
     final result = await _managerRepo.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -134,8 +138,11 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+    showContent();
   }
+
   Future<void> uploadFileKiNhay(String path) async {
+    showLoading();
     final result = await _managerRepo.uploadFile(File(path));
     result.when(
       success: (res) {
@@ -143,6 +150,7 @@ class ManagerPersonalInformationCubit
       },
       error: (error) {},
     );
+    showContent();
   }
 
   Future<void> getInfo({

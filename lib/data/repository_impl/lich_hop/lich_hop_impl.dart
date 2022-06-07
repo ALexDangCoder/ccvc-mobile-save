@@ -34,6 +34,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dar
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phat_bieu_lich_hop_response.dart';
@@ -48,6 +49,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dar
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
@@ -85,6 +87,8 @@ import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/select_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/don_vi_con_phong_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/them_y_kiem_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/co_cau_lich_hop.dart';
@@ -179,14 +183,14 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<AddFileModel>> postFileTaoLichHop(
-    int entityType,
-    String entityName,
-    String entityId,
+  Future<Result<List<AddFileModel>>> postFileTaoLichHop(
+    int? entityType,
+    String? entityName,
+    String? entityId,
     bool isMutil,
     List<File> files,
   ) {
-    return runCatchingAsync<AddFileTaoLichHopResponse, AddFileModel>(
+    return runCatchingAsync<UploadFileWithMeetingResponse, List<AddFileModel>>(
       () => _hopServices.postFile(
         entityType,
         entityName,
@@ -194,7 +198,7 @@ class HopRepositoryImpl implements HopRepository {
         isMutil,
         files,
       ),
-      (response) => response.toModel(),
+      (response) => response.toList(),
     );
   }
 
@@ -756,6 +760,23 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
       () => _hopServices.postHuyDiemDanh(data),
       (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<DonViConPhong>>> getDonViConPhongHop(String id) {
+    return runCatchingAsync<DonViConPhongResponse, List<DonViConPhong>>(
+      () => _hopServices.danhSachDVChaConPhong(id),
+      (response) => response.toListModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<PhongHopModel>>> getPhongHop(
+      String id, String from, String to, bool isTTDH) {
+    return runCatchingAsync<DSPhongHopResponse, List<PhongHopModel>>(
+      () => _hopServices.danhSachPhongHop(id, from, to, isTTDH),
+      (response) => response.toListModel(),
     );
   }
 }

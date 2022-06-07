@@ -139,6 +139,7 @@ const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
 const String AVATAR_DEFAULT =
     'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 const String BASE_URL_MEETING  = 'https://emeeting.vn/';
+const String ENTITY_THU_MOI_HOP  = 'ThuMoiHop';
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
   static const HOUR_FORMAT = _dtFormat2;

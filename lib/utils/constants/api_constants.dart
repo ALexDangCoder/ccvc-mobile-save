@@ -264,6 +264,8 @@ class ApiConstants {
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
   static const CREATE_DEVICE = '/api/DeviceNotification/create-device';
   static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
+  static const DS_DON_VI_CON_PHONG = '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
+  static const DS_PHONG_HOP = '/vpdt/api/PhongHop/lay-theo-don-vi';
 }
 
 class ImageConstants {

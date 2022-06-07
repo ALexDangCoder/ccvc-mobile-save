@@ -42,11 +42,6 @@ class _BieuDoTrangThaiTheoLoaiMobileState
             chartData: widget.chartData,
             onTap: (int value) {
               widget.ontap(widget.chartData[value].id.toString());
-              // widget.ontap(widget.chartData[value].title
-              //     .split(' ')
-              //     .join('_')
-              //     .toUpperCase()
-              //     .vietNameseParse());
             },
           ),
           Column(
@@ -59,11 +54,6 @@ class _BieuDoTrangThaiTheoLoaiMobileState
               return GestureDetector(
                 onTap: () {
                   widget.ontap(widget.chartData[index].id.toString());
-                  // widget.ontap(widget.chartData[index].title
-                  //     .split(' ')
-                  //     .join('_')
-                  //     .toUpperCase()
-                  //     .vietNameseParse());
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),

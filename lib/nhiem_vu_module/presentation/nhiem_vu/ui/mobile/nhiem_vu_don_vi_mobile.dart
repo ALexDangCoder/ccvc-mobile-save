@@ -122,8 +122,10 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                               .danhSachCubit.trangThaiHanXuLy,
                                         );
                                       },
-                                      child: const Icon(Icons.clear,
-                                          color: coloriCon),
+                                      child: const Icon(
+                                        Icons.clear,
+                                        color: coloriCon,
+                                      ),
                                     ),
                                   ),
                                 )
@@ -312,9 +314,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     index: 0,
                                     isNhiemVuCaNhan: widget.isCheck,
                                     isSortByHanXuLy: true,
-                                    mangTrangThai: [
-                                      widget.danhSachCubit.mangTrangThai
-                                    ],
+                                    mangTrangThai: [],
                                     ngayTaoNhiemVu: {
                                       'FromDate':
                                           widget.danhSachCubit.ngayDauTien,
@@ -324,6 +324,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     keySearch: widget.danhSachCubit.keySearch,
                                     trangThaiHanXuLy:
                                         widget.danhSachCubit.trangThaiHanXuLy,
+                                    loaiNhiemVuId: value,
                                   );
                                 });
                               },
@@ -345,9 +346,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               index: 0,
                               isNhiemVuCaNhan: widget.isCheck,
                               isSortByHanXuLy: true,
-                              mangTrangThai: [
-                                widget.danhSachCubit.mangTrangThai
-                              ],
                               ngayTaoNhiemVu: {
                                 'FromDate': widget.danhSachCubit.ngayDauTien,
                                 'ToDate': widget.danhSachCubit.ngayKetThuc
@@ -356,6 +354,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               keySearch: widget.danhSachCubit.keySearch,
                               trangThaiHanXuLy:
                                   widget.danhSachCubit.trangThaiHanXuLy,
+                              mangTrangThai: [value],
                             );
                           });
                         },

@@ -27,8 +27,9 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 Future<void> _messageHandler(RemoteMessage message) async {
-  print('background message ${message.notification!.body}');
+
 }
+
 Future<void> mainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -69,22 +70,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  Future<void> getTokken()async {
-    final fcmTokken = await FirebaseMessaging.instance.getToken();
-    print('$fcmTokken ??????????????');
-  }
-
   @override
   void initState() {
+
     super.initState();
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
-    getTokken();
-    messaging.getToken().then((value) => {
-    print('$value ????????????????')
-    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');

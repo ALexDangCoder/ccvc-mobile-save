@@ -17,11 +17,11 @@ import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:platform_device_id/platform_device_id.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginCubit extends BaseCubit<LoginState> {
@@ -57,6 +57,11 @@ class LoginCubit extends BaseCubit<LoginState> {
     showContent();
   }
 
+  Future<String?> getTokken() async {
+    final fcmTokken = await FirebaseMessaging.instance.getToken();
+    return fcmTokken;
+  }
+
   Future<void> loginAndSaveinfo({
     required String userName,
     required String passWord,
@@ -84,13 +89,12 @@ class LoginCubit extends BaseCubit<LoginState> {
         createDevice();
       },
       error: (err) {
-        if(err is NoNetworkException){
+        if (err is NoNetworkException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
           );
-        }else
-        if (err.code == 401) {
+        } else if (err.code == 401) {
           thongBao.sink.add(S.current.sai_tai_khoan_hoac_mat_khau);
         } else {
           thongBao.sink.add(S.current.dang_nhap_khong_thanh_cong);
@@ -104,19 +108,18 @@ class LoginCubit extends BaseCubit<LoginState> {
   String get getPlatform => Platform.isAndroid ? DEVICE_ANDROID : DEVICE_IOS;
 
   Future<void> createDevice() async {
-    String? deviceId;
+    String tokken = await getTokken() ?? '';
     try {
-      deviceId = await PlatformDeviceId.getDeviceId;
       await _serviceNoti.createDevice(
         DeviceRequest(
           id: '00000000-0000-0000-0000-000000000000',
           isActive: true,
-          registationId: deviceId,
+          registationId: tokken,
           deviceType: getPlatform,
         ),
       );
     } catch (e) {
-      deviceId = 'Failed to get deviceId.';
+      tokken = 'Failed to get deviceId.';
       log(e.toString());
     }
   }

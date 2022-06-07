@@ -68,7 +68,7 @@ class _WorkListWidgetState extends State<WorkListTabletWidget> {
         customDialog: AddToDoWidget(
           onTap: (value) {
             cubit.closeDialog();
-            danhSachCVCubit.addTodo(value);
+            // danhSachCVCubit.addTodo(value,'');
           },
         ),
       ),

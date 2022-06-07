@@ -131,12 +131,6 @@ abstract class HomeServiceGateWay {
   Future<DanhSachCongViecResponse> getDanhSachCongViec(
       @Body() DanhSachCongViecRequest request);
 
-  @GET(ApiConstants.GET_LIST_CAN_BO)
-  Future<NguoiGanResponse> getListNguoiGan(
-      @Query('PageIndex') int pageIndex,
-      @Query('PageSize') int pageSize,
-      @Query('IsGetAll') bool isGetAll,
-      );
 }
 
 @RestApi()
@@ -202,5 +196,25 @@ abstract class HomeServiceCCVC {
   @GET(ApiConstants.GET_LIST_THONG_TIN_THIEP)
   Future<DanhSachThiepResponse> getDanhSachThiep(
       @Query('pageIndex') int pageIndex, @Query('pageSize') int pageSize);
+
+  @GET(ApiConstants.GET_LIST_CAN_BO)
+  Future<NguoiGanResponse> getListNguoiGan(
+      @Query('PageIndex') int pageIndex,
+      @Query('PageSize') int pageSize,
+      @Query('IsGetAll') bool isGetAll,
+      );
+
+}
+
+@RestApi()
+abstract class HomeServiceCommon {
+  @factoryMethod
+  factory HomeServiceCommon(Dio dio, {String baseUrl}) = _HomeServiceCommon;
+  @GET(ApiConstants.GET_LIST_CAN_BO)
+  Future<NguoiGanResponse> getListNguoiGan(
+      @Query('PageIndex') int pageIndex,
+      @Query('PageSize') int pageSize,
+      @Query('IsGetAll') bool isGetAll,
+      );
 
 }

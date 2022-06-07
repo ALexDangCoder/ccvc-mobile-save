@@ -76,6 +76,8 @@ class ImageAssets {
   static const String edit_dscv = '$baseImg/edit_dscv.svg';
   static const String ic_up = '$baseImg/ic_up.svg';
   static const String ic_down = '$baseImg/ic_down.svg';
+  static const String ic_close = '$baseImg/ic_close.svg';
+
 
   static const String appBarBackgroundXanh =
       '$baseImg/app_bar_backgroud_xanh.png';

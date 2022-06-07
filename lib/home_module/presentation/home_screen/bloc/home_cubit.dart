@@ -8,11 +8,15 @@ import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
 import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/nguoi_gan_cong_viec_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/van_ban_don_vi_model.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -333,9 +337,16 @@ class DanhSachCongViecCubit extends HomeCubit {
   final BehaviorSubject<IconListCanBo> _isShowIcon =
       BehaviorSubject.seeded(IconListCanBo.DOWN);
 
+  final BehaviorSubject<List<ItemRowData>> _danhSachNguoiGan =
+      BehaviorSubject.seeded([]);
+
+  Stream<List<ItemRowData>> get getDanhSachNguoiGan => _danhSachNguoiGan.stream;
+
   Stream<IconListCanBo> get getIcon => _isShowIcon.stream;
 
   Stream<TodoListModel> get getTodoList => _getTodoList.stream;
+
+  final List<ItemRowData> inforCanBo = [];
 
   void setDisplayListCanBo(bool isShow) {
     _isShowListCanBo.sink.add(isShow);
@@ -368,7 +379,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     }
   }
 
-  Future<void> addTodo(String label) async {
+  Future<void> addTodo(String label, String nguoiGanId) async {
     if (label.trim().isEmpty) {
       return;
     }
@@ -379,6 +390,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         isTicked: false,
         important: false,
         inUsed: true,
+        performer:nguoiGanId,
       ),
     );
     showContent();
@@ -522,26 +534,29 @@ class DanhSachCongViecCubit extends HomeCubit {
     );
   }
 
-  IconModdel getIconListCanBo(IconListCanBo iconListCanBo, TextEditingController controller) {
+  IconModdel getIconListCanBo(
+      IconListCanBo iconListCanBo, TextEditingController controller) {
     switch (iconListCanBo) {
       case IconListCanBo.UP:
         return IconModdel(
-          icon: const Icon(Icons.add),
-          onTapItem: (){
+          icon: SvgPicture.asset(ImageAssets.ic_up),
+          onTapItem: () {
             _isShowIcon.sink.add(IconListCanBo.DOWN);
+            _isShowListCanBo.sink.add(!_isShowListCanBo.value);
           },
         );
       case IconListCanBo.DOWN:
         return IconModdel(
-          icon: const Icon(Icons.favorite),
-          onTapItem: (){
+          icon: SvgPicture.asset(ImageAssets.ic_down),
+          onTapItem: () {
             _isShowIcon.sink.add(IconListCanBo.UP);
+            _isShowListCanBo.sink.add(!_isShowListCanBo.value);
           },
         );
       case IconListCanBo.CLOSE:
         return IconModdel(
-          icon: const Icon(Icons.book),
-          onTapItem: (){
+          icon: SvgPicture.asset(ImageAssets.ic_close),
+          onTapItem: () {
             controller.clear();
             _isShowIcon.sink.add(IconListCanBo.DOWN);
           },
@@ -549,20 +564,49 @@ class DanhSachCongViecCubit extends HomeCubit {
     }
   }
 
-  Future<void>getListNguoiGan(int pageIndex, int pageSize, bool isGetAll) async {
+  Future<void> getListNguoiGan(
+      int pageIndex, int pageSize, bool isGetAll) async {
     final result = await homeRep.listNguoiGanCongViec(
-      isGetAll, pageSize,pageIndex,
+      isGetAll,
+      pageSize,
+      pageIndex,
     );
     showContent();
     result.when(
-        success: (res) {
-       print('-------------------------------- thanh cong------------------------');
-    },
-    error: (err) {
-    print('-------------------------------- that bai------------------------');
-
-    },
+      success: (res) {
+        final List<ItemNguoiGanModel> listNguoiGan = res.items;
+        for (final element in listNguoiGan) {
+          final List<String> inforDisPlay = [];
+          final String chucVu = element.chucVu.join(',');
+          final String donVi = element.donVi.join(',');
+          inforDisPlay.add(element.hoTen);
+          inforDisPlay.add(donVi);
+          inforDisPlay.add(chucVu);
+          final String result = inforDisPlay.join('-');
+          inforCanBo.add(ItemRowData(infor: result, id: element.id,));
+        }
+        _danhSachNguoiGan.sink.add(inforCanBo);
+      },
+      error: (err) {},
     );
+  }
+
+  void searchNguoiGan(String key) {
+    List<ItemRowData> listDataSearch;
+    if (inforCanBo.isEmpty) {
+      listDataSearch = [];
+    } else {
+      listDataSearch = inforCanBo;
+    }
+    final resultSearch = listDataSearch
+        .where(
+          (element) => element.infor
+              .toLowerCase()
+              .vietNameseParse()
+              .contains(key.toLowerCase().vietNameseParse()),
+        )
+        .toList();
+    _danhSachNguoiGan.sink.add(resultSearch);
   }
 }
 

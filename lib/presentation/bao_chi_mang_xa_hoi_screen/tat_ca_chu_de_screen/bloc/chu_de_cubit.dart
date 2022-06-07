@@ -46,8 +46,8 @@ class ChuDeCubit extends BaseCubit<ChuDeState> {
     S.current.uy_ban_nhan_dan_tinh,
     S.current.lanh_dao_tinh
   ];
-  static const String HOM_NAY = 'hôm nay';
-  static const String HOM_QUA = 'hôm qua';
+  static const String HOM_NAY = 'Hôm nay';
+  static const String HOM_QUA = 'Hôm qua';
   static const String BAY_NGAY_TRUOC = '7 ngày trước';
   static const String BA_MUOI_NGAY_TRUOC = '30 ngày trước';
 

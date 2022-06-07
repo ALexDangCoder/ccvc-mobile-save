@@ -42,6 +42,10 @@ extension DateFormatString on DateTime {
     return DateFormat('dd/MM/yyyy | HH:mm:ss').format(this);
   }
 
+  String get formatApiAmDuong {
+    return DateFormat('EEEE, dd MM, yyyy').format(this);
+  }
+
   String get formatDayCalendar {
     final dateString =
         (DateFormat('dd-MM, yyyy').format(this)).replaceAll('-', ' tháng ');
@@ -71,6 +75,10 @@ extension DateFormatString on DateTime {
 
   String get formatApiDDMMYYYY {
     return DateFormat('dd-MM-yyyy').format(this);
+  }
+
+  String get formatApiMMYYYY {
+    return DateFormat('MM-yyyy').format(this);
   }
 
   String get startEndWeek {

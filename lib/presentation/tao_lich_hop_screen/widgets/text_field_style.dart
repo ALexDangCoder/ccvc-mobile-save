@@ -9,16 +9,20 @@ class TextFieldStyle extends StatelessWidget {
   final String urlIcon;
   final int maxLines;
   final Function(String)? onChange;
+  final Function(String)? validate;
   final TextEditingController? controller;
+  final int? maxLength;
 
-  const TextFieldStyle(
-      {Key? key,
-      this.hintText,
-      required this.urlIcon,
-      this.maxLines = 1,
-      this.onChange,
-      this.controller})
-      : super(key: key);
+  const TextFieldStyle({
+    Key? key,
+    this.hintText,
+    required this.urlIcon,
+    this.maxLines = 1,
+    this.onChange,
+    this.controller,
+    this.maxLength,
+    this.validate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,27 +47,32 @@ class TextFieldStyle extends StatelessWidget {
                 bottom: BorderSide(color: colorECEEF7),
               ),
             ),
-            child: textField(),
+            child: textField(
+              validate: validate,
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget textField() {
-    return TextField(
+  Widget textField({Function(String)? validate}) {
+    return TextFormField(
+      validator: (value) {
+        return validate?.call(value ?? '');
+      },
       controller: controller,
       onChanged: (value) {
-        if (onChange != null) {
-          onChange!(value);
-        }
+        onChange?.call(value);
       },
+      maxLength: maxLength,
       maxLines: maxLines,
       style: textNormal(color3D5586, 16),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: textNormal(textBodyTime, 16),
         border: InputBorder.none,
+        counterText: '',
         isDense: true,
         contentPadding: EdgeInsets.zero,
       ),

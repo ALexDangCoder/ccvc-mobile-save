@@ -35,72 +35,68 @@ class _BieuDoTrangThaiTheoLoaiMobileState
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
         children: [
-          Expanded(
-            child: PieChart(
-              isSubjectInfo: false,
-              chartData: widget.chartData,
-              onTap: (int value) {
-                widget.ontap(widget.chartData[value].title
-                    .split(' ')
-                    .join('_')
-                    .toUpperCase()
-                    .vietNameseParse());
-              },
-            ),
+          PieChart(
+            isSubjectInfo: false,
+            chartData: widget.chartData,
+            onTap: (int value) {
+              widget.ontap(widget.chartData[value].title
+                  .split(' ')
+                  .join('_')
+                  .toUpperCase()
+                  .vietNameseParse());
+            },
           ),
-          Expanded(
-              child: Column(
+          Column(
             children: [
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.chartData.length,
-                itemBuilder: (context, index) {
-                  final result = widget.chartData[index];
-                  return GestureDetector(
-                    onTap: () {
-                      widget.ontap(widget.cubit.chartData[index].title
-                          .split(' ')
-                          .join('_')
-                          .toUpperCase()
-                          .vietNameseParse());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 14,
-                            width: 14,
-                            decoration: BoxDecoration(
-                              color: result.color,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Flexible(
-                            child: FittedBox(
-                              child: Text(
-                                '${result.title} (${result.value.toInt()})',
-                                style: textNormal(
-                                  infoColor,
-                                  14.0.textScale(),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.chartData.length,
+            itemBuilder: (context, index) {
+              final result = widget.chartData[index];
+              return GestureDetector(
+                onTap: () {
+                  widget.ontap(widget.chartData[index].title
+                      .split(' ')
+                      .join('_')
+                      .toUpperCase()
+                      .vietNameseParse());
                 },
-              ),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 14,
+                        width: 14,
+                        decoration: BoxDecoration(
+                          color: result.color,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Flexible(
+                        child: FittedBox(
+                          child: Text(
+                            '${result.title} (${result.value.toInt()})',
+                            style: textNormal(
+                              infoColor,
+                              14.0.textScale(),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
             ],
-          )),
+          ),
         ],
       ),
     );

@@ -115,5 +115,6 @@ class DataDSCV {
         createdOn: createdOn,
         performer: performer,
         groupId: groupId,
+        note: note,
       );
 }

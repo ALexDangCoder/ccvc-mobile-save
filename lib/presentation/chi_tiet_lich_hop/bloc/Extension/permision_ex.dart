@@ -11,11 +11,10 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.da
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
+
 ///permission
 extension PermissionLichHop on DetailMeetCalenderCubit {
   Future<void> getNguoiChuTri(String id) async {
-    final dataUser = HiveLocal.getDataUser();
-
     final result = await hopRp.getNguoiTheoDoi(
       NguoiTheoDoiRequest(
         isTheoDoi: true,
@@ -438,25 +437,25 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   ///btn them phien hop
   bool isBtnThemPhienHop() {
-    if (chiTietLichLamViecSubject.value.chuTriModel.canBoId ==
-            (dataUser?.userId ?? '') ||
-        isThuKy()) {
+    if ((getChiTietLichHopModel.chuTriModel.canBoId.isNotEmpty) &&
+        (getChiTietLichHopModel.chuTriModel.canBoId ==
+                (dataUser?.userId ?? '') ||
+            isThuKy())) {
       return true;
     }
-
     return false;
   }
 
-  ///======================= check tab thanh phan tham gia =======================
+  ///======================= check tab thanh phan tham gia =====================
 
   bool isTaoLich() {
-    return chiTietLichLamViecSubject.value.createdBy ==
+    return getChiTietLichHopModel.createdBy ==
         (dataUser?.userId ?? '');
   }
 
   ///btn moi nguoi tham gia
   bool isBtnMoiNguoiThamGia() {
-    if (chiTietLichLamViecSubject.value.chuTriModel.canBoId ==
+    if (getChiTietLichHopModel.chuTriModel.canBoId ==
             (dataUser?.userId ?? '') ||
         isThuKy() ||
         isTaoLich()) {
@@ -489,12 +488,12 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   List<PhienHopModel> phienHop() {
     return converStringToPhienHop(
-        chiTietLichLamViecSubject.value.lichHop_PhienHopStr ?? '');
+        getChiTietLichHopModel.lichHop_PhienHopStr ?? '');
   }
 
   List<NguoiTaoStr> nguoiTao() {
     return converStringToNguoiTao(
-        chiTietLichLamViecSubject.value.nguoiTao_str ?? '');
+        getChiTietLichHopModel.nguoiTao_str ?? '');
   }
 
   bool isNguoiTaoPhatBieu() {
@@ -503,7 +502,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   bool isChuTri() {
-    return chiTietLichLamViecSubject.value.chuTriModel.canBoId.toLowerCase() ==
+    return getChiTietLichHopModel.chuTriModel.canBoId.toLowerCase() ==
         (dataUser?.userId ?? '');
   }
 
@@ -557,7 +556,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   ///btn soan ket luan hop
   bool isSoanKetLuanHop() {
     if (xemKetLuanHopModel == KetLuanHopModel.empty() &&
-        chiTietLichLamViecSubject.value.status == 2) {
+        getChiTietLichHopModel.status == 2) {
       return true;
     }
     return false;

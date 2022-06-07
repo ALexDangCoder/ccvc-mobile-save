@@ -130,12 +130,16 @@ const _dtFormat5 = 'MMM dd, yyyy';
 const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
 const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
 const _dtFormat8 = 'd/MM/yyyy';
+const _dtFormat9 = 'dd/MM/yyyy HH:mm';
+const HOUR_MINUTE_FORMAT = 'Hm';
+
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
 const String AVATAR_DEFAULT =
     'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
-
+const String BASE_URL_MEETING  = 'https://emeeting.vn/';
+const String ENTITY_THU_MOI_HOP  = 'ThuMoiHop';
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
   static const HOUR_FORMAT = _dtFormat2;
@@ -145,6 +149,7 @@ class DateTimeFormat {
   static const DATE_MM_DD_YYYY = _dtFormat6;
   static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
   static const DATE_DD_MM_YYYY = _dtFormat8;
+  static const  DATE_DD_MM_HM = _dtFormat9;
 }
 
 class ThongBaoTypeConstant {
@@ -184,6 +189,10 @@ class DocumentState {
   static const String KHAN = 'Khan';
   static const String THUONG_KHAN = 'ThuongKhan';
   static const String HOA_TOC = 'HoaToc';
+  static const String BINH_THUONG_UPPER = 'BINH_THUONG';
+  static const String KHAN_UPPER = 'KHAN';
+  static const String THUONG_KHAN_UPPER = 'THUONG_KHAN';
+  static const String HOA_TOC_UPPER = 'HOA_TOC';
 }
 
 class SelectKeyPath {
@@ -212,6 +221,7 @@ class DateFormatApp {
   static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+  static String timeFormat = 'Hm';
 }
 
 class StatusYKND {
@@ -238,3 +248,42 @@ class MenuItemConst {
   static const BAO_CAO = 'bao-cao';
 }
 
+class StatusCodeConst {
+  static int STATUS_CONTINUE = 100;
+  static int STATUS_SWITCHING_PROTOCOLS = 101;
+  static int STATUS_PROCESSING = 102;
+
+  static int STATUS_OK = 200;
+  static int STATUS_CREATED = 201;
+  static int STATUS_ACCEPTED = 202;
+  static int STATUS_NON_AUTHORITATIVE_INFO = 203;
+  static int STATUS_NO_CONTENT = 204;
+  static int STATUS_RESET_CONTENT = 205;
+  static int STATUS_PARTIAL_CONTENT = 206;
+  static int STATUS_MULTI_STATUS = 207;
+  static int STATUS_ALREADY_REPORTED = 208;
+
+  static int STATUS_MULTIPLE_CHOICES = 300;
+  static int STATUS_MOVED_PERMANENTLY = 301;
+  static int STATUS_FOUND = 302;
+  static int STATUS_SEE_OTHER = 303;
+  static int STATUS_NOT_MODIFIED = 304;
+  static int STATUS_USE_PROXY = 305;
+
+  static int STATUS_BAD_REQUEST = 400;
+  static int STATUS_UNAUTHORIZED = 401;
+  static int STATUS_FORBIDDEN = 403;
+  static int STATUS_NOT_FOUND = 404;
+  static int STATUS_METHOD_NOT_ALLOWED = 405;
+  static int STATUS_NOT_ACCEPTABLE = 406;
+  static int STATUS_REQUEST_TIMEOUT = 408;
+  static int STATUS_CONFLICT = 409;
+  static int STATUS_GONE = 410;
+
+  static int STATUS_INTERNAL_SERVER_ERROR = 500;
+  static int STATUS_NOT_IMPLEMENTED = 501;
+  static int STATUS_BAD_GATEWAY = 502;
+  static int STATUS_SERVICE_UNAVAILABLE = 503;
+  static int STATUS_GATEWAY_TIMEOUT = 504;
+  static int STATUS_HTTP_VERSION_NOT_SUPPORTED = 505;
+}

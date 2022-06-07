@@ -22,6 +22,7 @@ class TableCalendarWidget extends StatefulWidget {
   final bool isCalendar;
   late bool? tablet;
   late bool? isFomatMonth;
+  final bool isCheckLunar;
   final LichAmDuongCubit cubit;
   final Function(DateTime day) selectDay;
   final Function(DateTime? start, DateTime? end, DateTime? focusedDay)
@@ -30,9 +31,13 @@ class TableCalendarWidget extends StatefulWidget {
   final Function(String value)? onSearch;
   final Type_Choose_Option_Day type;
   final List<DateTime>? eventsLoader;
+  final Function(BuildContext context)? onTap;
+  final DateTime? dateTimeHeader;
 
   TableCalendarWidget({
     Key? key,
+    this.onTap,
+    this.isCheckLunar = false,
     this.isCalendar = true,
     this.tablet = false,
     this.isFomatMonth = true,
@@ -43,6 +48,7 @@ class TableCalendarWidget extends StatefulWidget {
     this.eventsLoader,
     required this.selectDay,
     required this.cubit,
+    this.dateTimeHeader,
   }) : super(key: key);
 
   @override
@@ -234,15 +240,23 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                       firstDay: DateTime.utc(2021, 8, 20),
                       lastDay: DateTime.utc(2030, 8, 20),
                       focusedDay: _selectedDay,
+                      isCheckLuner: widget.isCheckLunar,
                     ),
                   )
                 else
                   TableCalendarTablet(
+                    dateTimeHeader: widget.dateTimeHeader,
                     eventLoader: (day) =>
                         widget.eventsLoader
                             ?.where((element) => isSameDay(element, day))
                             .toList() ??
                         [],
+                    onTap: (contexts) {
+                      if (widget.onTap != null) {
+                        widget.onTap!(contexts);
+                      }
+                    },
+                    isCheckLunar: widget.isCheckLunar,
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     onDaySelected: _onDaySelect,
                     // rangeSelectionMode: _rangeSelectionMode,
@@ -330,6 +344,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     firstDay: DateTime.utc(2021, 8, 20),
                     lastDay: DateTime.utc(2030, 8, 20),
                     focusedDay: _selectedDay,
+                    cubit: widget.cubit,
                   ),
               ],
             )),

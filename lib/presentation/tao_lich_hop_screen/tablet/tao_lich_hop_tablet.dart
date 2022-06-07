@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
@@ -123,16 +123,16 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                           listSelect: FakeDataTaoLichHop.mucDoHop,
                         ),
                         spaceH5,
-                        StreamBuilder<List<NguoiChutriModel>>(
-                            stream: _cubit.nguoiChuTri,
+                        StreamBuilder<List<DonViModel>>(
+                            stream: _cubit.danhSachCB,
                             builder: (context, snapshot) {
                               final data =
-                                  snapshot.data ?? <NguoiChutriModel>[];
+                                  snapshot.data ?? <DonViModel>[];
                               return SelectOnlyExpand(
                                 urlIcon: ImageAssets.icPeople,
                                 title: S.current.nguoi_chu_tri,
                                 value: _cubit.selectNguoiChuTri?.title() ?? '',
-                                listSelect: data.map((e) => e.title()).toList(),
+                                listSelect: data.map((e) => e.title).toList(),
                               );
                             }),
                         spaceH24,

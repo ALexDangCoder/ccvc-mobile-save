@@ -80,7 +80,6 @@ class ContainerState extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
           color: isCheck ? linkColor : backgroundColorApp),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             name,

@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 class PicKDateCupertinoCubit extends BaseCubit<PickDateCupertinoState> {
   PicKDateCupertinoCubit() : super(PickDateCupertinoInitial());
 
-  BehaviorSubject<bool> isDateTimeSubject = BehaviorSubject.seeded(true);
+  BehaviorSubject<bool> isDateTimeSubject = BehaviorSubject();
 
   BehaviorSubject<DateTime> startDateSubject = BehaviorSubject.seeded(
     DateTime.now(),

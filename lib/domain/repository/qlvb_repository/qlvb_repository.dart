@@ -1,6 +1,10 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/request/home/danh_sach_van_ban_den_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/cho_y_kien_request.dart';
+import 'package:ccvc_mobile/data/request/quan_ly_van_ban/comment_document_income_request.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_den_model.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/chi_tiet_van_ban_di_model.dart';
@@ -33,7 +37,19 @@ mixin QLVBRepository {
   Future<Result<DanhSachVanBanModel>> getVanBanModel();
 
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDen(
-      DanhSachVBRequest danhSachVBRequest);
+    DanhSachVBRequest danhSachVBRequest,
+  );
+
+  Future<Result<bool>> updateComment(
+    UpdateCommentRequest comments,
+  );
+  Future<Result<bool>> giveComment(
+    GiveCommentRequest comments,
+  );
+
+  Future<Result<bool>> relayCommentDocumentIncome(
+    RelayCommentRequest relay,
+  );
 
   Future<Result<DanhSachVanBanModel>> getDanhSachVbDi({
     required String startDate,
@@ -60,18 +76,27 @@ mixin QLVBRepository {
   ]);
 
   Future<Result<ChiTietVanBanDiModel>> getDataChiTietVanBanDi(String id);
+  Future<Result<List<DanhSachChoYKien>>> getYKienXuLyVBDi(String id);
 
   Future<Result<ChiTietVanBanDenModel>> getDataChiTietVanBanDen(
-      String processId, String taskId, bool isYKien);
+      String processId, String taskId,{ bool? isYKien});
 
   Future<Result<DataThongTinGuiNhanModel>> getDataThongTinGuiNhan(String id);
 
+  Future<Result<List<VanBanHoiBaoModel>?>> getHoiBaoVanBanDen(String processId);
+
   Future<Result<DataLichSuVanBanModel>> getDataLichSuVanBanDen(
-      String processId, String type);
+    String processId,
+    String type,
+  );
+
+  Future<Result<String>> postFile({required File path});
 
   Future<Result<List<dynamic>>> getTheoDoiVanBan(String id);
 
   Future<Result<DataDanhSachYKienXuLy>> getDataDanhSachYKien(String vanBanId);
+
+  Future<Result<DataDanhSachYKienXuLy>> getLichSuXinYKien(String vanBanId);
 
   Future<Result<DataLichSuThuHoiVanBanDi>> getLichSuThuHoiVanBanDi(
       String id, String vanBanId);

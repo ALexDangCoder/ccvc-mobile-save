@@ -283,4 +283,14 @@ class BaoChiMangXaHoiImpl implements BaoChiMangXaHoiRepository {
       return res.toDomain();
     });
   }
+
+  @override
+  Future<Result<BaiVietModel>> followTopic(String url) {
+    return runCatchingAsync<BaiVietResponse, BaiVietModel>(
+        () => _baoChiMangXaHoiService.followTopic(
+              url,
+            ), (res) {
+      return res.toDomain();
+    });
+  }
 }

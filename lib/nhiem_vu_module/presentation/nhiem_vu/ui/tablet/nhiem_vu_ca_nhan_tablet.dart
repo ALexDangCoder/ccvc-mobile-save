@@ -187,7 +187,6 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
           ),
         ],
         callApi: (page) {
-          print('call');
           widget.danhSachCubit.postDanhSachNhiemVu(
             index: page,
             isNhiemVuCaNhan: widget.isCheck,

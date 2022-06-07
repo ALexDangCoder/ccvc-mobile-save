@@ -224,8 +224,10 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                     color: Colors.white,
                                   ),
                                 ),
+                                counterText: '',
                               ),
                               maxLines: null,
+                              maxLength: 5000,
                             ),
                           ),
                           Padding(
@@ -277,7 +279,7 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                   builder: (context, snapshot) {
                                     final count = snapshot.data ?? 0;
                                     return Text(
-                                      '$count/1000',
+                                      '$count/5000',
                                       style: textNormal(
                                         iconColorDown,
                                         14,

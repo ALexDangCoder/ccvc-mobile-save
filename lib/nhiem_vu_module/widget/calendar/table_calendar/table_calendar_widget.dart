@@ -29,6 +29,7 @@ class TableCalendarWidget extends StatefulWidget {
   final Function(String value)? onSearch;
   final Type_Choose_Option_Day type;
   final List<DateTime>? eventsLoader;
+  final DateTime? dateTimeHeader;
 
   TableCalendarWidget({
     Key? key,
@@ -42,6 +43,7 @@ class TableCalendarWidget extends StatefulWidget {
     this.eventsLoader,
     required this.selectDay,
     required this.cubit,
+    this.dateTimeHeader,
   }) : super(key: key);
 
   @override
@@ -219,6 +221,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                   )
                 else
                   TableCalendarTablet(
+                    dateTimeHeader: widget.dateTimeHeader,
                     eventLoader: (day) =>
                         widget.eventsLoader
                             ?.where((element) => isSameDay(element, day))
@@ -305,6 +308,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                     firstDay: DateTime.utc(2021, 8, 20),
                     lastDay: DateTime.utc(2030, 8, 20),
                     focusedDay: _selectedDay,
+                    cubit: widget.cubit,
                   ),
               ],
             )),

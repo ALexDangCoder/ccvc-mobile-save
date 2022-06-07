@@ -3,6 +3,8 @@
 
 import 'dart:math';
 
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
@@ -200,14 +202,20 @@ class TableCalendarTablet<T> extends StatefulWidget {
 
   /// Called when the calendar is created. Exposes its PageController.
   final void Function(PageController pageController)? onCalendarCreated;
+  final bool isCheckLunar;
+  final Function(BuildContext contexts)? onTap;
+  final DateTime? dateTimeHeader;
+  final LichAmDuongCubit cubit;
 
   /// Creates a `TableCalendar` widget.
   TableCalendarTablet({
     Key? key,
+    this.isCheckLunar = false,
     required DateTime focusedDay,
     required DateTime firstDay,
     required DateTime lastDay,
     DateTime? currentDay,
+    this.onTap,
     this.locale,
     this.rangeStartDay,
     this.rangeEndDay,
@@ -255,6 +263,8 @@ class TableCalendarTablet<T> extends StatefulWidget {
     this.onPageChanged,
     this.onFormatChanged,
     this.onCalendarCreated,
+    this.dateTimeHeader,
+    required this.cubit,
   })  : assert(availableCalendarFormats.keys.contains(calendarFormat)),
         assert(availableCalendarFormats.length <= CalendarFormat.values.length),
         assert(weekendDays.isNotEmpty
@@ -448,27 +458,38 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
           ValueListenableBuilder<DateTime>(
             valueListenable: _focusedDay,
             builder: (context, value, _) {
-              return CalendarHeader(
-                headerTitleBuilder: widget.calendarBuilders.headerTitleBuilder,
-                focusedMonth: value,
-                onLeftChevronTap: _onLeftChevronTap,
-                onRightChevronTap: _onRightChevronTap,
-                onHeaderTap: () => widget.onHeaderTapped?.call(value),
-                onHeaderLongPress: () =>
-                    widget.onHeaderLongPressed?.call(value),
-                headerStyle: widget.headerStyle,
-                availableCalendarFormats: widget.availableCalendarFormats,
-                calendarFormat: widget.calendarFormat,
-                locale: widget.locale,
-                onFormatButtonTap: (format) {
-                  assert(
-                    widget.onFormatChanged != null,
-                    'Using `FormatButton` without providing `onFormatChanged` will have no effect.',
-                  );
+              return StreamBuilder<DateTime>(
+                  stream: widget.cubit.dateTimeSubject,
+                  initialData: value,
+                  builder: (context, snapshot) {
+                    return CalendarHeader(
+                      headerTitleBuilder:
+                          widget.calendarBuilders.headerTitleBuilder,
+                      focusedMonth: snapshot.data ?? value,
+                      onLeftChevronTap: _onLeftChevronTap,
+                      onRightChevronTap: _onRightChevronTap,
+                      onHeaderTap: () {
+                        if (widget.onTap != null) {
+                          widget.onTap!(context);
+                        }
+                        widget.onHeaderTapped?.call(value);
+                      },
+                      onHeaderLongPress: () =>
+                          widget.onHeaderLongPressed?.call(value),
+                      headerStyle: widget.headerStyle,
+                      availableCalendarFormats: widget.availableCalendarFormats,
+                      calendarFormat: widget.calendarFormat,
+                      locale: widget.locale,
+                      onFormatButtonTap: (format) {
+                        assert(
+                          widget.onFormatChanged != null,
+                          'Using `FormatButton` without providing `onFormatChanged` will have no effect.',
+                        );
 
-                  widget.onFormatChanged?.call(format);
-                },
-              );
+                        widget.onFormatChanged?.call(format);
+                      },
+                    );
+                  });
             },
           ),
         Flexible(
@@ -610,6 +631,7 @@ class _TableCalendarTabletState<T> extends State<TableCalendarTablet<T>> {
           isWeekend: isWeekend,
           isHoliday: widget.holidayPredicate?.call(day) ?? false,
           locale: widget.locale,
+          isCheckLunar: widget.isCheckLunar,
         );
 
         children.add(content);

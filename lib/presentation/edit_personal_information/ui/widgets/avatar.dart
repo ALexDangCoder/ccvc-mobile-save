@@ -69,7 +69,7 @@ class AvatarAndSignature extends StatelessWidget {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
         cubit.avatarPathSubject.sink.add(_path);
@@ -90,11 +90,11 @@ class AvatarAndSignature extends StatelessWidget {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
         cubit.chuKyPathSubject.sink.add(_path);
-        await cubit.uploadFile(_path.path);
+        await cubit.uploadFileChuKi(_path.path);
       }
     } else {}
   }
@@ -111,11 +111,11 @@ class AvatarAndSignature extends StatelessWidget {
           child: ShowToast(
             text: S.current.dung_luong_toi_da,
           ),
-          gravity: ToastGravity.BOTTOM,
+          gravity: ToastGravity.TOP_RIGHT,
         );
       } else {
         cubit.kyNhayPathSubject.sink.add(_path);
-        await cubit.uploadFile(_path.path);
+        await cubit.uploadFileKiNhay(_path.path);
       }
     } else {}
   }
@@ -154,6 +154,7 @@ class AvatarAndSignature extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhDaiDienFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
                           padding: const EdgeInsets.all(34.0),
@@ -227,6 +228,7 @@ class AvatarAndSignature extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhChuKyFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
                           padding: const EdgeInsets.all(34.0),
@@ -300,6 +302,7 @@ class AvatarAndSignature extends StatelessWidget {
                       imageUrl: cubit.managerPersonalInformationModel
                               .anhChuKyNhayFilePath ??
                           '',
+                      fit: BoxFit.cover,
                       errorWidget: (_, __, ___) {
                         return Container(
                           padding: const EdgeInsets.all(34.0),

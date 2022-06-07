@@ -42,6 +42,8 @@ import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/select_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/don_vi_con_phong_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_phien_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/them_y_kiem_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_ke_lich_hop/co_cau_lich_hop.dart';
@@ -129,10 +131,10 @@ mixin HopRepository {
 
   Future<Result<List<String>>> postEventCalendar(EventCalendarRequest request);
 
-  Future<Result<AddFileModel>> postFileTaoLichHop(
-    int entityType,
-    String entityName,
-    String entityId,
+  Future<Result<List<AddFileModel>>> postFileTaoLichHop(
+    int? entityType,
+    String? entityName,
+    String? entityId,
     bool isMutil,
     List<File> files,
   );
@@ -307,5 +309,16 @@ mixin HopRepository {
 
   Future<Result<ResponseModel>> postHuyDiemDanh(
     String data,
+  );
+
+  Future<Result<List<DonViConPhong>>> getDonViConPhongHop(
+    String id,
+  );
+
+  Future<Result<List<PhongHopModel>>> getPhongHop(
+    String id,
+    String from,
+    String to,
+    bool isTTDH,
   );
 }

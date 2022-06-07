@@ -191,36 +191,33 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverToBoxAdapter(
-                  child: DetailMeetCalendarInherited(
-                    cubit: cubit,
-                    child: ExpandGroup(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: backgroundColorApp,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                            ),
-                            border:
-                                Border.all(color: borderColor.withOpacity(0.5)),
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 10,
-                                  color: shadowContainerColor.withOpacity(0.05))
-                            ],
+                  child: ExpandGroup(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: backgroundColorApp,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
                           ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: ThongTinCuocHopWidget(
-                                  cubit: cubit,
-                                ),
+                          border:
+                          Border.all(color: borderColor.withOpacity(0.5)),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: const Offset(0, 4),
+                                blurRadius: 10,
+                                color: shadowContainerColor.withOpacity(0.05))
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ThongTinCuocHopWidget(
+                                cubit: cubit,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

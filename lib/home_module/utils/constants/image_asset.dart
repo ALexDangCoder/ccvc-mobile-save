@@ -58,7 +58,7 @@ class ImageAssets {
   static const String icClose = '$baseImg/ic_close.svg';
   static const String ic_delete_dscv = '$baseImg/ic_delete_dscv.svg';
   static const String ic_hoan_tac = '$baseImg/ic_hoan_tac.svg';
-  static const String iconNote_dscv = '$baseImg/iconNote_dscv.svg';
+  static const String iconNote_dscv = '$baseImg/ic_note_dscv.svg.svg';
 
 
 

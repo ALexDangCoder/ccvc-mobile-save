@@ -23,7 +23,7 @@ class CoQuanChuTri extends StatefulWidget {
 }
 
 class _CoQuanChuTriState extends State<CoQuanChuTri> {
-  bool isTrongDonVi = false;
+  bool isTrongDonVi = true;
   bool isNgoaiDonVi = false;
   int indexSelected = -1;
 
@@ -219,7 +219,10 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     spacingFile: 16,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
-                    onChange: (list) {},
+                    onChange: (list) {
+                      widget.cubit.listFile = list;
+                    },
+                    hasMultipleFile: true,
                   )
                 ],
               ),

@@ -1021,7 +1021,11 @@
   "diem_cau_chinh_phu": "Điểm cầu chính/phụ",
   "boc_bang" : "Bóc băng",
   "dich_truc_tuyen" : "Dịch trực tuyến",
-  "them_file_boc_bang" : "Thêm file bóc băng"
+  "them_file_boc_bang" : "Thêm file bóc băng",
+  "xem_truoc_phong_hop": "Xem trước phòng họp",
+  "thiet_bi": "Thiết bị",
+  "phong_trong": "Phòng trống",
+  "phong_ban": "Phòng bận"
 }
 
 

@@ -85,9 +85,7 @@ class Data {
   String? createdBy;
   String? updatedOn;
   String? updatedBy;
-
   String? note;
-
   String? performer;
 
   Data({
@@ -129,5 +127,6 @@ class Data {
         isTicked: isTicked,
         createdBy: createdBy,
         createdOn: createdOn,
+        performer: performer,
       );
 }

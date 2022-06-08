@@ -348,12 +348,27 @@ class DanhSachCongViecCubit extends HomeCubit {
 
   final List<ItemRowData> inforCanBo = [];
 
+  List<ItemNguoiGanModel> listNguoiGan = [];
+
   void setDisplayListCanBo(bool isShow) {
     _isShowListCanBo.sink.add(isShow);
   }
 
   void setDisplayIcon(IconListCanBo iconListCanBo) {
     _isShowIcon.sink.add(iconListCanBo);
+  }
+
+  Future<void> callApi() async {
+    showLoading();
+    final queue = Queue(parallel: 2);
+    await queue.add(
+      () => getListNguoiGan(1, 9999, true),
+    );
+    await queue.add(
+      () => getToDoList(),
+    );
+    unawaited(queue.onComplete.then((_) => showContent()));
+    queue.dispose();
   }
 
   void tickerListWord({required TodoModel todo, bool removeDone = true}) {
@@ -390,7 +405,7 @@ class DanhSachCongViecCubit extends HomeCubit {
         isTicked: false,
         important: false,
         inUsed: true,
-        performer:nguoiGanId,
+        performer: nguoiGanId,
       ),
     );
     showContent();
@@ -571,10 +586,10 @@ class DanhSachCongViecCubit extends HomeCubit {
       pageSize,
       pageIndex,
     );
-    showContent();
     result.when(
       success: (res) {
-        final List<ItemNguoiGanModel> listNguoiGan = res.items;
+        showContent();
+        listNguoiGan = res.items;
         for (final element in listNguoiGan) {
           final List<String> inforDisPlay = [];
           final String chucVu = element.chucVu.join(',');
@@ -583,12 +598,18 @@ class DanhSachCongViecCubit extends HomeCubit {
           inforDisPlay.add(donVi);
           inforDisPlay.add(chucVu);
           final String result = inforDisPlay.join('-');
-          inforCanBo.add(ItemRowData(infor: result, id: element.id,));
+          inforCanBo.add(ItemRowData(
+            infor: result,
+            id: element.id,
+          ),);
         }
         _danhSachNguoiGan.sink.add(inforCanBo);
       },
       error: (err) {},
     );
+  }
+  void initListDataCanBo(){
+    _danhSachNguoiGan.sink.add(inforCanBo);
   }
 
   void searchNguoiGan(String key) {
@@ -607,6 +628,16 @@ class DanhSachCongViecCubit extends HomeCubit {
         )
         .toList();
     _danhSachNguoiGan.sink.add(resultSearch);
+  }
+
+  String getName(String id) {
+    const String name = '';
+    for (final element in listNguoiGan) {
+      if (element.id == id) {
+        return element.hoTen;
+      }
+    }
+    return name;
   }
 }
 

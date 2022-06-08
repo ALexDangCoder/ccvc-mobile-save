@@ -43,7 +43,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    danhSachCVCubit.getToDoList();
+    danhSachCVCubit.callApi();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
         danhSachCVCubit.getToDoList();
@@ -62,20 +62,18 @@ class _WorkListWidgetState extends State<WorkListWidget> {
         // HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
         showBottomSheetCustom(
           context,
-          child: const BottomSheetThemCongViec(),
+          child: BottomSheetThemCongViec(
+            danhSachCVCubit: danhSachCVCubit,
+          ),
           title: S.current.them_cong_viec,
-        );
+        ).then((value) {
+          danhSachCVCubit.setDisplayIcon(
+            IconListCanBo.DOWN,
+          );
+          danhSachCVCubit.setDisplayListCanBo(false);
+        });
       },
       isCustomDialog: true,
-      // dialogSelect: DialogSettingWidget(
-      //   type: widget.homeItemType,
-      //   customDialog: AddToDoWidget(
-      //     onTap: (value) {
-      //       cubit.closeDialog();
-      //       danhSachCVCubit.addTodo(value);
-      //     },
-      //   ),
-      // ),
       child: LoadingOnly(
         stream: danhSachCVCubit.stateStream,
         child: Column(
@@ -91,6 +89,8 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                     children: List.generate(data.length, (index) {
                       final todo = data[index];
                       return CongViecCell(
+                        nguoiGan: danhSachCVCubit
+                            .getName(data[index].performer ?? ''),
                         text: todo.label ?? '',
                         todoModel: todo,
                         onCheckBox: (value) {
@@ -159,6 +159,8 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                         children: List.generate(data.length, (index) {
                           final todo = data[index];
                           return CongViecCell(
+                            nguoiGan: danhSachCVCubit
+                                .getName(data[index].performer ?? ''),
                             enabled: false,
                             todoModel: todo,
                             onCheckBox: (value) {
@@ -302,4 +304,3 @@ class _AddToDoWidgetState extends State<AddToDoWidget> {
     );
   }
 }
-

@@ -19,6 +19,7 @@ class TodoModel {
   String? updatedOn;
   String? updatedBy;
   String? note;
+  String? performer;
 
   TodoModel({
     this.id,
@@ -32,6 +33,7 @@ class TodoModel {
     this.updatedOn,
     this.updatedBy,
     this.note,
+    this.performer,
   });
 }
 

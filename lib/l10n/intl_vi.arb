@@ -1023,7 +1023,9 @@
   "boc_bang" : "Bóc băng",
   "dich_truc_tuyen" : "Dịch trực tuyến",
   "them_file_boc_bang" : "Thêm file bóc băng",
-  "nhap_cong_viec": "Nhập công việc"
+  "nhap_cong_viec": "Nhập công việc",
+  "nguoi_gan": "Người gán:"
+
 }
 
 

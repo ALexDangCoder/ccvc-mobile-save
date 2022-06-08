@@ -183,7 +183,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         return itemPositioningBuilder(
           context,
           Text(
-            strYear,
+            "strYear",
             style: widget.textStyleDate,
           ),
         );

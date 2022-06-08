@@ -122,6 +122,12 @@ abstract class TienIchService {
   Future<PostAnhResponse> uploadFile(
     @Part() File fileUpload,
   );
+
+  @POST(ApiConstants.POST_FILE_DSCV)
+  @MultiPart()
+  Future<PostAnhResponse> uploadFileDSCV(
+    @Part() File fileUpload,
+  );
 }
 
 @RestApi()

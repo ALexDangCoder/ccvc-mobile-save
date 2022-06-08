@@ -193,7 +193,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               initData: isDuyetKyThuat,
               title: S.current.duyet_ky_thuat,
               onChange: (value) {
-                widget.cubit.taoLichHopRequest.bitYeuCauDuyet = value;
+                widget.cubit.taoLichHopRequest.isDuyetKyThuat = value;
               },
             ),
           ),

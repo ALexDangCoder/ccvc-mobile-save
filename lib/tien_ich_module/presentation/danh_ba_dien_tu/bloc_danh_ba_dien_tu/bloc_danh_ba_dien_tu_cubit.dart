@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/sua_danh_sach_request.dart';
@@ -37,6 +38,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   BehaviorSubject<String> tenDonVi =
       BehaviorSubject.seeded(S.current.UBND_tinh_dong_nai);
   BehaviorSubject<String> idDonVi = BehaviorSubject();
+  BehaviorSubject<String> isCheckValidate = BehaviorSubject.seeded('  ');
 
   ////////////////////////////////////////////////////////////////////////
   DanhBaDienTuRepository get tienIchRep => Get.find();
@@ -54,7 +56,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   String email = '';
   bool gioiTinh = true;
   String ngaySinh = '';
-  String dateDanhSach = DateTime.now().formatApiDanhBa;
+  String dateDanhSach = '';
   String cmtnd = '';
   String anhDaiDienFilePath = '';
   String anhChuKyFilePath = '';
@@ -293,11 +295,18 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         isCheck = true;
       },
       error: (error) {
-        MessageConfig.show(
-          title: S.current.them_danh_ba_ca_nhan_khong_thanh_cong,
-          messState: MessState.error,
-        );
-        isCheck = false;
+        if (error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.them_danh_ba_ca_nhan_khong_thanh_cong,
+            messState: MessState.error,
+          );
+          isCheck = false;
+        }
       },
     );
     return isCheck;
@@ -359,11 +368,18 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         isCheckSuccess = true;
       },
       error: (error) {
-        MessageConfig.show(
-          title: S.current.thay_doi_that_bai,
-          messState: MessState.error,
-        );
-        isCheckSuccess = false;
+        if (error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.thay_doi_that_bai,
+            messState: MessState.error,
+          );
+          isCheckSuccess = false;
+        }
       },
     );
     return isCheckSuccess;

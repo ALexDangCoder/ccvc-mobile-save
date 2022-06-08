@@ -156,14 +156,14 @@ class _XemLuongXuLyScreenState extends State<XemLuongXuLyScreen> {
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
-                                      Text(
-                                        ' result.textChucVuDonVi',
-                                        style: textNormal(
-                                          infoColor,
-                                          12,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
+                                      // Text(
+                                      //   result.,
+                                      //   style: textNormal(
+                                      //     infoColor,
+                                      //     12,
+                                      //   ),
+                                      //   textAlign: TextAlign.center,
+                                      // ),
                                       const SizedBox(
                                         height: 10,
                                       ),

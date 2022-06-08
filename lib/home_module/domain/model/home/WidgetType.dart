@@ -112,10 +112,12 @@ class WidgetModel {
         return WidgetType.eventOfDay;
       case WidgetTypeConstant.SINH_NHAT:
         return WidgetType.sinhNhat;
-      case WidgetTypeConstant.TINH_HINH_XU_LY_Y_KIEN:
+      case WidgetTypeConstant.TINH_HINH_XU_LY_PAKN_DON_VI:
         return WidgetType.phanAnhKienNghiDonVi;
       case WidgetTypeConstant.NHIEM_VU:
         return WidgetType.nhiemVu;
+      case WidgetTypeConstant.TINH_HINH_XU_LY_PAKN_CA_NHAN:
+        return WidgetType.situationHandlingPeople;
     }
   }
 

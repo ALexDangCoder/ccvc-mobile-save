@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -88,6 +89,7 @@ Future<Map<String, dynamic>> pickImageFunc({
     _resultMap[NAME_OF_FILE] = newImage.name;
     return _resultMap;
   } on PlatformException catch (e) {
+    await MessageConfig.showDialogSetting();
     throw 'Cant upload image $e';
   }
 }

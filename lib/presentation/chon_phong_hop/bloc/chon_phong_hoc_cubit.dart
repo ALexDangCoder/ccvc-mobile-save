@@ -16,7 +16,9 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   final BehaviorSubject<List<ThietBiValue>> _listThietBi =
       BehaviorSubject<List<ThietBiValue>>();
 
-  ChonPhongHopCubit() : super(ConPhongHopStateInitial());
+  ChonPhongHopCubit() : super(ConPhongHopStateInitial()){
+    showContent();
+  }
 
   Stream<List<ThietBiValue>> get listThietBiStream => _listThietBi.stream;
 

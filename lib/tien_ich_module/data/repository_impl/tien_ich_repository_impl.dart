@@ -260,4 +260,14 @@ class TienIchRepositoryImpl implements TienIchRepository {
       (res) => res.toMoDel(),
     );
   }
+
+  @override
+  Future<Result<PostAnhModel>> uploadFileDSCV(File files) {
+    return runCatchingAsync<PostAnhResponse, PostAnhModel>(
+      () => _tienIchService.uploadFileDSCV(
+        files,
+      ),
+      (res) => res.toMoDel(),
+    );
+  }
 }

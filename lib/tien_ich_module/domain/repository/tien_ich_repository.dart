@@ -89,4 +89,6 @@ mixin TienIchRepository {
   );
 
   Future<Result<PostAnhModel>> uploadFile(File files);
+
+  Future<Result<PostAnhModel>> uploadFileDSCV(File files);
 }

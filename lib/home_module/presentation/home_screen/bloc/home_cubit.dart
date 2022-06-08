@@ -955,7 +955,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         _getDanhSachVb.sink.add(res);
       },
       error: (err) {
-        err;
+
       },
     );
   }
@@ -982,7 +982,7 @@ class VanBanCubit extends HomeCubit with SelectKeyDialog {
         _getDanhSachVb.sink.add(res);
       },
       error: (err) {
-        err;
+
       },
     );
   }

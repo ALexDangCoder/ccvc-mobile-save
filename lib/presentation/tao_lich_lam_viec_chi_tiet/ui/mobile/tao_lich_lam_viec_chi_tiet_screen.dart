@@ -25,6 +25,8 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
@@ -119,20 +121,20 @@ class _TaoLichLamViecChiTietScreenState
               },
             ),
           ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              await taoLichLamViecCubit.loadData();
-            },
-            child: ProviderWidget<TaoLichLamViecCubit>(
-              cubit: taoLichLamViecCubit,
-              child: StateStreamLayout(
-                textEmpty: S.current.khong_co_du_lieu,
-                retry: () {},
-                error: AppException(
-                  S.current.error,
-                  S.current.error,
-                ),
-                stream: taoLichLamViecCubit.stateStream,
+          body: StateStreamLayout(
+            textEmpty: S.current.khong_co_du_lieu,
+            retry: () {},
+            error: AppException(
+              S.current.error,
+              S.current.error,
+            ),
+            stream: taoLichLamViecCubit.stateStream,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await taoLichLamViecCubit.loadData();
+              },
+              child: ProviderWidget<TaoLichLamViecCubit>(
+                cubit: taoLichLamViecCubit,
                 child: ExpandGroup(
                   child: Container(
                     margin: const EdgeInsets.only(
@@ -160,6 +162,16 @@ class _TaoLichLamViecChiTietScreenState
                           ),
                           LoaiLichWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
+                          ),
+                          CupertinoMaterialPicker(
+                            onDateTimeChanged: (
+                              String timeStart,
+                              String timeEnd,
+                              String dateStart,
+                              String dateEnd,
+                            ) {
+
+                            },
                           ),
                           StartEndDateWidget(
                             icMargin: false,

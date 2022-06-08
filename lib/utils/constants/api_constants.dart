@@ -66,7 +66,7 @@ class ApiConstants {
       '/vpdt/api/Schedules/count-in-dashboard';
   static const LICH_LAM_VIEC_DASHBOARD_RIGHT =
       '/vpdt/api/Schedules/dashboard-schedule';
-  static const GET_TREE_DON_VI = '/common/DonVi/get-tree?';
+  static const GET_TREE_DON_VI = '/common/DonVi/get-tree';
   static const SEARCH_CAN_BO = '/vpdt/api/CanBo/search';
   static const CATEGORY_LIST = '/vpdt/api/Category/list';
   static const SCHEDULE_FIELD = '/vpdt/api/ScheduleField/list';
@@ -81,7 +81,7 @@ class ApiConstants {
       '/vpdt/api/MeetingSchedule/danh-sach-can-bo-lich-hop';
   static const CHI_TIET_VAN_BAN_DI = '/qlvb/api/van-ban-di/{id}';
   static const Y_KIEN_VAN_BAN_DI = '/qlvb/api/van-ban-di/y-kien-van-ban-di/{id}';
-  static const CHI_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/{id}?';
+  static const CHI_TIET_LICH_LAM_VIEC = '/vpdt/api/Schedules/{id}';
 
   static const THEM_PHIEN_HOP_CHI_TIET = '/vpdt/api/meetingsection/them-moi';
   static const TRANG_THAI = '/vpdt/api/ReportStatus/list';
@@ -105,19 +105,19 @@ class ApiConstants {
   static const THU_HOI_HOP = '/vpdt/api/MeetingSchedule/thu-hoi';
 
   static const XOA_LICH_LAM_VIEC =
-      '/vpdt/api/Schedules/delete-schedule?scheduleId={id}&only=true&isLichLap=true&?';
+      '/vpdt/api/Schedules/delete-schedule';
 
   static const POST_DANH_SACH_LICH_LAM_VIEC =
       '/vpdt/api/Schedules/danh-sach-lich';
   static const TAO_MOI_BAN_GHI = '/vpdt/api/ScheduleOpinion/create';
   static const CANCEL_TIET_LICH_LAM_VIEC =
-      '/vpdt/api/Schedules/change-status?scheduleId={id}&statusId=8&isMulti=false';
+      '/vpdt/api/Schedules/change-status';
   static const SCHEDULE_REPORT_LIST = '/vpdt/api/ScheduleReport/list';
   static const DELETE_SCHEDULE_REPORT = '/vpdt/api/ScheduleReport/delete';
   static const SCHEDULE_OPINION_LIST = '/vpdt/api/ScheduleOpinion/list';
   static const UPDATE_SCHEDULE_REPORT = '/vpdt/api/ScheduleReport/update';
   static const REPORT_STATUS_LIST = '/vpdt/api/ReportStatus/list';
-  static const DELETE_DETAIL_CELENDER_MEET = '/vpdt/api/MeetingSchedule?';
+  static const DELETE_DETAIL_CELENDER_MEET = '/vpdt/api/MeetingSchedule';
 
   static const CANCEL_DETAIL_CELENDER_MEET =
       '/vpdt/api/MeetingSchedule/cancel?';

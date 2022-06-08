@@ -76,7 +76,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
             });
             // Navigator.pop(context);
           },
-          setHeight: 400,
+          setHeight: 400, funcBtnPop: () {},
         );
       },
       child: Row(

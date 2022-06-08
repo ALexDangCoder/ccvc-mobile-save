@@ -15,13 +15,14 @@ class DanhBaDienTuMobile extends StatefulWidget {
   _DanhBaDienTuMobileState createState() => _DanhBaDienTuMobileState();
 }
 
-class _DanhBaDienTuMobileState extends State<DanhBaDienTuMobile> {
-  var _controller = TabController(vsync: AnimatedListState(), length: 2);
-
+class _DanhBaDienTuMobileState extends State<DanhBaDienTuMobile>
+    with SingleTickerProviderStateMixin {
+  // var _controller = TabController(vsync: AnimatedListState(), length: 2);
+  late TabController _controller;
   @override
   void initState() {
     super.initState();
-    _controller = TabController(vsync: AnimatedListState(), length: 2);
+    _controller = TabController(vsync: this, length: 2);
   }
 
   @override

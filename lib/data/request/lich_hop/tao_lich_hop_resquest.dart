@@ -31,38 +31,41 @@ class TaoLichHopRequest {
   String? dateRepeat;
   String? days;
   bool? bitLinkTrongHeThong;
+  bool? isDuyetKyThuat;
 
-  TaoLichHopRequest(
-      {this.typeScheduleId,
-      this.linhVucId,
-      this.title,
-      this.ngayBatDau,
-      this.ngayKetThuc,
-      this.timeStart,
-      this.timeTo,
-      this.mucDo,
-      this.isLichLap,
-      this.isNhacLich,
-      this.isAllDay,
-      this.congKhai,
-      this.lichDonVi,
-      this.noiDung,
-      this.bitHopTrucTuyen,
-      this.chuTri,
-      this.diaDiemHop,
-      this.phongHop,
-      this.phongHopThietBi,
-      this.status,
-      this.bitYeuCauDuyet,
-      this.linkTrucTuyen,
-      this.bitTrongDonVi,
-      this.dsDiemCau,
-      this.thuMoiFiles,
-      this.typeReminder,
-      this.typeRepeat,
-      this.dateRepeat,
-      this.days,
-      this.bitLinkTrongHeThong});
+  TaoLichHopRequest({
+    this.typeScheduleId,
+    this.linhVucId,
+    this.title,
+    this.ngayBatDau,
+    this.ngayKetThuc,
+    this.timeStart,
+    this.timeTo,
+    this.mucDo,
+    this.isLichLap,
+    this.isNhacLich,
+    this.isAllDay,
+    this.congKhai,
+    this.lichDonVi,
+    this.noiDung,
+    this.bitHopTrucTuyen,
+    this.chuTri,
+    this.diaDiemHop,
+    this.phongHop,
+    this.phongHopThietBi,
+    this.status,
+    this.bitYeuCauDuyet,
+    this.linkTrucTuyen,
+    this.bitTrongDonVi,
+    this.dsDiemCau,
+    this.thuMoiFiles,
+    this.typeReminder,
+    this.typeRepeat,
+    this.dateRepeat,
+    this.days,
+    this.bitLinkTrongHeThong,
+    this.isDuyetKyThuat,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -105,6 +108,7 @@ class TaoLichHopRequest {
     data['dateRepeat'] = dateRepeat;
     data['days'] = days;
     data['bit_LinkTrongHeThong'] = bitLinkTrongHeThong;
+    data['isDuyetKyThuat'] = isDuyetKyThuat;
     return data;
   }
 }
@@ -127,7 +131,7 @@ class ChuTri {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['donViId'] = donViId == null ? null : donViId;
+    data['donViId'] = donViId;
     data['canBoId'] = canBoId;
     data['tenCanBo'] = tenCanBo;
     data['tenCoQuan'] = tenCoQuan;

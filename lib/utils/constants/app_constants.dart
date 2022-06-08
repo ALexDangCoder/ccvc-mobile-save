@@ -246,6 +246,7 @@ class MenuItemConst {
   static const TUONG_TAC_NOI_BO = 'tuong-tac-noi-bo';
   static const LICH_LAM_VIEC = 'lichlamviec';
   static const BAO_CAO = 'bao-cao';
+  static const DIEM_DANH='dashboard';
 }
 
 class StatusCodeConst {

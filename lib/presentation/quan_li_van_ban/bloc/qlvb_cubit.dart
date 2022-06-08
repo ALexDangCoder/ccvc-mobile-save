@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:core';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
@@ -14,6 +15,7 @@ import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
 
 class QLVBCCubit extends BaseCubit<QLVBState> {
@@ -73,13 +75,16 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     showSearchSubject.sink.add(!showSearchSubject.value);
   }
 
-  void callAPi() {
+  Future<void> callAPi() async {
+    final queue = Queue();
     showLoading();
     initTimeRange();
-    getDashBoardIncomeDocument();
-    getDashBoardOutcomeDocument();
-    getListIncomeDocument(initCall: true);
-    getListOutcomeDocument();
+    unawaited(queue.add(() =>  getDashBoardIncomeDocument()));
+    unawaited(queue.add(() =>  getDashBoardOutcomeDocument()));
+    unawaited(queue.add(() =>  getListIncomeDocument()));
+    unawaited(queue.add(() =>  getListOutcomeDocument()));
+    await queue.onComplete;
+    showContent();
   }
 
   final QLVBRepository _qLVBRepo = Get.find();
@@ -182,9 +187,6 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
     bool initCall = false,
   }) async {
     List<VanBanModel> listVbDi = [];
-    if (!initCall) {
-      showLoading();
-    }
     final result = await _qLVBRepo.getDanhSachVbDi(
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
@@ -206,14 +208,10 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       success: (res) {
         listVbDi = res.pageData ?? [];
         _getDanhSachVBDi.sink.add(listVbDi);
-        if (!initCall) {
-          showContent();
-        }
+
       },
       error: (err) {
-        if (!initCall) {
-          showError();
-        }
+
         return err;
       },
     );
@@ -245,14 +243,8 @@ class QLVBCCubit extends BaseCubit<QLVBState> {
       success: (res) {
         listVbDen = res.pageData ?? [];
         _getDanhSachVBDen.sink.add(listVbDen);
-        if (!initCall) {
-          showContent();
-        }
       },
       error: (error) {
-        if (!initCall) {
-          showError();
-        }
         return error;
       },
     );

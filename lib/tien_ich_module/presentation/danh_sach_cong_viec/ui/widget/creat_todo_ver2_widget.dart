@@ -195,6 +195,16 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                     }
                   },
                 ),
+                StreamBuilder<String>(
+                  stream: widget.cubit.nameFile,
+                  builder: (context, snapshot) {
+                    return ListFileFromAPI(
+                      data: snapshot.data ?? '',
+                      onTap: () {},
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
                 ItemTextFieldWidgetDSNV(
                   initialValue: widget.todo?.note ?? '',
                   title: S.current.ghi_chu,
@@ -205,18 +215,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   maxLine: 8,
                   controller: noteControler,
                 ),
-                StreamBuilder<String>(
-                  stream: widget.cubit.nameFile,
-                  builder: (context, snapshot) {
-                    return ListFileFromAPI(
-                      data: snapshot.data ?? '',
-                      onTap: () {},
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE
                       ? EdgeInsets.zero

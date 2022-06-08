@@ -63,7 +63,9 @@ class TodoDSCVModel {
   }
 
   bool showDotTwo() {
-    if (performer != '' && showIconNote()) {
+    if (performer != '' && showIconNote() ||
+        filePath != '' ||
+        filePath != null) {
       return true;
     } else {
       return false;
@@ -71,7 +73,7 @@ class TodoDSCVModel {
   }
 
   bool showIconFile() {
-    if (performer != '' && createdOn != '') {
+    if (filePath != '' || filePath != null) {
       return true;
     } else {
       return false;

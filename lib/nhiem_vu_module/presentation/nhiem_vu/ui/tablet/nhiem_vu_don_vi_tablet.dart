@@ -148,7 +148,25 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                 ontap: (value) {
                                   widget.danhSachCubit.mangTrangThai = value;
                                   widget.danhSachCubit.trangThaiHanXuLy = null;
-                                  setState(() {});
+                                  setState(() {
+                                    widget.danhSachCubit.postDanhSachNhiemVu(
+                                      index: 0,
+                                      isNhiemVuCaNhan: widget.isCheck,
+                                      isSortByHanXuLy: true,
+                                      mangTrangThai: [],
+                                      ngayTaoNhiemVu: {
+                                        'FromDate':
+                                            widget.danhSachCubit.ngayDauTien,
+                                        'ToDate':
+                                            widget.danhSachCubit.ngayKetThuc
+                                      },
+                                      size: widget.danhSachCubit.pageSize,
+                                      keySearch: widget.danhSachCubit.keySearch,
+                                      trangThaiHanXuLy:
+                                          widget.danhSachCubit.trangThaiHanXuLy,
+                                      loaiNhiemVuId: value,
+                                    );
+                                  });
                                 },
                               );
                             }),

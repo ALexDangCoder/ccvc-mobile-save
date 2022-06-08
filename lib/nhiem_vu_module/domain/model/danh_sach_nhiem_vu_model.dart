@@ -9,11 +9,11 @@ class DanhSachNhiemVuModel {
   int? totalPage;
 
   DanhSachNhiemVuModel({
-    required this.pageData,
-    required this.totalRows,
-    required this.currentPage,
-    required this.pageSize,
-    required this.totalPage,
+    this.pageData,
+    this.totalRows,
+    this.currentPage,
+    this.pageSize,
+    this.totalPage,
   });
 }
 

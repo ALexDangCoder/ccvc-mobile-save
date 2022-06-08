@@ -2,22 +2,17 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_column_chart.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/mobile/danh_sach_yknd_screen.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_y_kien_nd/ui/tablet/danh_sach_yknd_tablet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/domain/model/home/WidgetType.dart';
-import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/tablet/widgets/container_background_tablet_widget.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
 import '/home_module/widgets/chart/base_pie_chart.dart';
-import '/home_module/widgets/text/text/no_data_widget.dart';
 import '/home_module/widgets/text/views/loading_only.dart';
 
 class TinhHinhPAKNCuaCaNhanTabletWidget extends StatefulWidget {
@@ -85,110 +80,95 @@ class _SituationOfHandlingPeopleWidgetState
         child: LoadingOnly(
           stream: _yKienCubit.stateStream,
           child: StreamBuilder<DocumentDashboardModel>(
-              stream: _yKienCubit.getTinhHinhXuLy,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? DocumentDashboardModel();
+            stream: _yKienCubit.getTinhHinhXuLy,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? DocumentDashboardModel();
 
-                return Padding(
-                  padding: const EdgeInsets.only(left: 24, bottom:10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 12),
-                              child: Text(
-                                S.current.tiep_nhan,
-                                style: textNormalCustom(
-                                  color: dateColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
+              return Padding(
+                padding: const EdgeInsets.only(left: 24, bottom: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            child: Text(
+                              S.current.tiep_nhan,
+                              style: textNormalCustom(
+                                color: dateColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Stack(
-                              children: [
-                                SizedBox(
-                                  height: 260,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: List.generate(
-                                      8,
-                                          (index) => const MySeparator(
-                                        color: lineColor,
-                                        height: 2,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                statusWidget([
-                                  ChartData(
-                                    S.current.cho_tiep_nhan,
-                                    data.soLuongChoTiepNhan.toDouble(),
-                                    choTrinhKyColor,
-                                    SelectKey.CHO_TRINH_KY,
-                                  ),
-                                  ChartData(
-                                    S.current.phan_xu_ly,
-                                    data.soLuongPhanXuLy.toDouble(),
-                                    numberOfCalenders,
-                                    SelectKey.CHO_XU_LY,
-                                  ),
-                                  ChartData(
-                                    S.current.dang_xu_ly,
-                                    data.soLuongDangXuLy.toDouble(),
-                                    daXuLyColor,
-                                    SelectKey.DA_XU_LY,
-                                  ),
-                                  ChartData(
-                                    S.current.cho_duyet,
-                                    data.soLuongChoDuyet.toDouble(),
-                                    choCapSoColor,
-                                    SelectKey.CHO_CAP_SO,
-                                  ),
-                                  ChartData(
-                                    S.current.cho_bo_sung_thong_tin,
-                                    data.soLuongChoBoSungThongTin.toDouble(),
-                                    choBanHanhColor,
-                                    SelectKey.CHO_BAN_HANH,
-                                  )
-                                ]),
-                              ],
+                          ),
+                          StatusColumnChart(listData: [
+                            ChartData(
+                              S.current.cho_tiep_nhan,
+                              data.soLuongChoTiepNhan.toDouble(),
+                              choTrinhKyColor,
+                              SelectKey.CHO_TRINH_KY,
                             ),
-                            const SizedBox(
-                              height: 24,
+                            ChartData(
+                              S.current.phan_xu_ly,
+                              data.soLuongPhanXuLy.toDouble(),
+                              numberOfCalenders,
+                              SelectKey.CHO_XU_LY,
                             ),
-                            StatusWidget(
-                              listData: [
-                                ChartData(
-                                  S.current.qua_han,
-                                  data.soLuongQuaHan.toDouble(),
-                                  statusCalenderRed,
-                                  SelectKey.CHO_VAO_SO,
-                                ),
-                                ChartData(
-                                  S.current.den_han,
-                                  data.soLuongDenHan.toDouble(),
-                                  yellowColor,
-                                  SelectKey.DANG_XU_LY,
-                                ),
-                                ChartData(
-                                  S.current.trong_han,
-                                  data.soLuongTrongHan.toDouble(),
-                                  choTrinhKyColor,
-                                  SelectKey.DA_XU_LY,
-                                ),
-                              ],
+                            ChartData(
+                              S.current.dang_xu_ly,
+                              data.soLuongDangXuLy.toDouble(),
+                              daXuLyColor,
+                              SelectKey.DA_XU_LY,
                             ),
-
-                          ],
-                        ),
+                            ChartData(
+                              S.current.cho_duyet,
+                              data.soLuongChoDuyet.toDouble(),
+                              choCapSoColor,
+                              SelectKey.CHO_CAP_SO,
+                            ),
+                            ChartData(
+                              S.current.cho_bo_sung_thong_tin,
+                              data.soLuongChoBoSungThongTin.toDouble(),
+                              choBanHanhColor,
+                              SelectKey.CHO_BAN_HANH,
+                            )
+                          ]),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          StatusWidget(
+                            listData: [
+                              ChartData(
+                                S.current.qua_han,
+                                data.soLuongQuaHan.toDouble(),
+                                statusCalenderRed,
+                                SelectKey.CHO_VAO_SO,
+                              ),
+                              ChartData(
+                                S.current.den_han,
+                                data.soLuongDenHan.toDouble(),
+                                yellowColor,
+                                SelectKey.DANG_XU_LY,
+                              ),
+                              ChartData(
+                                S.current.trong_han,
+                                data.soLuongTrongHan.toDouble(),
+                                choTrinhKyColor,
+                                SelectKey.DA_XU_LY,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 168,),
-                      Expanded(child:  PieChart(
+                    ),
+                    const SizedBox(
+                      width: 168,
+                    ),
+                    Expanded(
+                      child: PieChart(
                         paddingTop: 0,
                         title: S.current.xu_ly,
                         chartData: [
@@ -223,36 +203,38 @@ class _SituationOfHandlingPeopleWidgetState
                             itemWidgetUsing,
                           ),
                         ],
-                      ),),
-                    ],
-                  ),
-                );
-                // return PieChart(
-                //   chartData: List.generate(
-                //     data.length,
-                //     (index) {
-                //       final result = data[index];
-                //       final color = TinhHinhYKienModel.listColor[index];
-                //       return ChartData(
-                //         result.status,
-                //         result.soLuong.toDouble(),
-                //         color,
-                //       );
-                //     },
-                //   ),
-                //   onTap: (value, key) {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => DanhSachYKND(
-                //           endDate: _yKienCubit.endDate.toString(),
-                //           startDate: _yKienCubit.startDate.toString(),
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // );
-              },),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+              // return PieChart(
+              //   chartData: List.generate(
+              //     data.length,
+              //     (index) {
+              //       final result = data[index];
+              //       final color = TinhHinhYKienModel.listColor[index];
+              //       return ChartData(
+              //         result.status,
+              //         result.soLuong.toDouble(),
+              //         color,
+              //       );
+              //     },
+              //   ),
+              //   onTap: (value, key) {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => DanhSachYKND(
+              //           endDate: _yKienCubit.endDate.toString(),
+              //           startDate: _yKienCubit.startDate.toString(),
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // );
+            },
+          ),
         ),
       ),
     );

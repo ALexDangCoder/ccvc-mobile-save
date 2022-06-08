@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/situation_of_handling_people_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_column_chart.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -107,55 +108,39 @@ class _SituationOfHandlingPeopleWidgetState
                               ),
                             ),
                           ),
-                          Stack(
-                            children: [
-                              SizedBox(
-                                height: 260,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: List.generate(
-                                    8,
-                                    (index) => const MySeparator(
-                                      color: colorECEEF7,
-                                      height: 2,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              statusWidget([
-                                ChartData(
-                                  S.current.cho_tiep_nhan,
-                                  data.soLuongChoTiepNhan.toDouble(),
-                                  choTrinhKyColor,
-                                  SelectKey.CHO_TRINH_KY,
-                                ),
-                                ChartData(
-                                  S.current.phan_xu_ly,
-                                  data.soLuongPhanXuLy.toDouble(),
-                                  numberOfCalenders,
-                                  SelectKey.CHO_XU_LY,
-                                ),
-                                ChartData(
-                                  S.current.dang_xu_ly,
-                                  data.soLuongDangXuLy.toDouble(),
-                                  daXuLyColor,
-                                  SelectKey.DA_XU_LY,
-                                ),
-                                ChartData(
-                                  S.current.cho_duyet,
-                                  data.soLuongChoDuyet.toDouble(),
-                                  choCapSoColor,
-                                  SelectKey.CHO_CAP_SO,
-                                ),
-                                ChartData(
-                                  S.current.cho_bo_sung_thong_tin,
-                                  data.soLuongChoBoSungThongTin.toDouble(),
-                                  choBanHanhColor,
-                                  SelectKey.CHO_BAN_HANH,
-                                )
-                              ]),
-                            ],
+                          StatusColumnChart(listData: [
+                            ChartData(
+                              S.current.cho_tiep_nhan,
+                              data.soLuongChoTiepNhan.toDouble(),
+                              choTrinhKyColor,
+                              SelectKey.CHO_TRINH_KY,
+                            ),
+                            ChartData(
+                              S.current.phan_xu_ly,
+                              data.soLuongPhanXuLy.toDouble(),
+                              numberOfCalenders,
+                              SelectKey.CHO_XU_LY,
+                            ),
+                            ChartData(
+                              S.current.dang_xu_ly,
+                              data.soLuongDangXuLy.toDouble(),
+                              daXuLyColor,
+                              SelectKey.DA_XU_LY,
+                            ),
+                            ChartData(
+                              S.current.cho_duyet,
+                              data.soLuongChoDuyet.toDouble(),
+                              choCapSoColor,
+                              SelectKey.CHO_CAP_SO,
+                            ),
+                            ChartData(
+                              S.current.cho_bo_sung_thong_tin,
+                              data.soLuongChoBoSungThongTin.toDouble(),
+                              choBanHanhColor,
+                              SelectKey.CHO_BAN_HANH,
+                            )
+                          ],
+
                           ),
                           const SizedBox(
                             height: 24,

@@ -198,7 +198,7 @@ const purpleChart = Color(0xFF8E7EFF);
 const grayChart = Color(0xFF667793);
 const textTitleColumn = Color(0xff667793);
 const blueFilterDateWidget = Color(0xFFF1F4FF);
-const enableButton = Color(0xFF2A30CB);
+const enableButton = Color(0xFFc0c0c0);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {

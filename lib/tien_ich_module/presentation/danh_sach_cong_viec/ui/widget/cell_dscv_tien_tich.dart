@@ -69,7 +69,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: borderButtomColor)),
       ),
-      child: Column(
+      child: Stack(
         children: [
           Row(
             children: [
@@ -122,73 +122,77 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                         ),
                       ),
               ),
-              Row(
-                children: [
-                  if (widget.isTheEdit)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: GestureDetector(
-                        onTap: widget.onEdit,
-                        child: SvgPicture.asset(ImageAssets.icEditBlue),
-                      ),
-                    ),
-                  Padding(
+              if (widget.isTheEdit)
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: GestureDetector(
+                    onTap: widget.onEdit,
+                    child: SvgPicture.asset(ImageAssets.icEditBlue),
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: widget.onStar,
+                  child: SvgPicture.asset(
+                    widget.todoModel.important ?? false
+                        ? ImageAssets.icStarFocus
+                        : ImageAssets.icStarUnfocus,
+                  ),
+                ),
+              ),
+              if (widget.isDaBiXoa)
+                GestureDetector(
+                  onTap: widget.onThuHoi,
+                  child: Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child: GestureDetector(
-                      onTap: widget.onStar,
-                      child: SvgPicture.asset(
-                        widget.todoModel.important ?? false
-                            ? ImageAssets.icStarFocus
-                            : ImageAssets.icStarUnfocus,
-                      ),
+                    child: SvgPicture.asset(
+                      ImageAssets.ic_hoan_tac,
                     ),
                   ),
-                  if (widget.isDaBiXoa)
-                    GestureDetector(
-                      onTap: widget.onThuHoi,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: SvgPicture.asset(
-                          ImageAssets.ic_hoan_tac,
-                        ),
-                      ),
+                ),
+              if (widget.isDaBiXoa)
+                GestureDetector(
+                  onTap: widget.onXoaVinhVien,
+                  child: SvgPicture.asset(
+                    ImageAssets.ic_delete_dscv,
+                  ),
+                )
+              else
+                GestureDetector(
+                  onTap: widget.onClose,
+                  child: Container(
+                    color: Colors.transparent,
+                    child: SvgPicture.asset(
+                      ImageAssets.icClose,
                     ),
-                  if (widget.isDaBiXoa)
-                    GestureDetector(
-                      onTap: widget.onXoaVinhVien,
-                      child: SvgPicture.asset(
-                        ImageAssets.ic_delete_dscv,
-                      ),
-                    )
-                  else
-                    GestureDetector(
-                      onTap: widget.onClose,
-                      child: Container(
-                        color: Colors.transparent,
-                        child: SvgPicture.asset(
-                          ImageAssets.icClose,
-                        ),
-                      ),
-                    )
-                ],
-              )
+                  ),
+                )
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 31),
+            padding: const EdgeInsets.only(left: 31, top: 35, bottom: 8),
             child: Row(
               children: [
                 textUnder(
                   DateTime.parse(widget.todoModel.createdOn ?? '').formatApi,
                 ),
-                if (widget.todoModel.showDotOne()) circle(),
-                textUnder(
-                  widget.cubit.convertIdToPerson(
-                    vl: widget.todoModel.performer ?? '',
-                    hasChucVu: true,
-                  ),
-                ),
-                if (widget.todoModel.showDotTwo()) circle(),
+                if (widget.todoModel.showDotOne()) circleWidget(),
+                StreamBuilder<Object>(
+                    stream: widget.cubit.listNguoiThucHienSubject,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return textUnder(
+                          widget.cubit.convertIdToPerson(
+                            vl: widget.todoModel.performer ?? '',
+                            hasChucVu: true,
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    }),
+                if (widget.todoModel.showDotTwo()) circleWidget(),
                 if (widget.todoModel.showIconNote())
                   SvgPicture.asset(
                     ImageAssets.iconNote_dscv,
@@ -209,7 +213,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
         ),
       );
 
-  Widget circle() => Container(
+  Widget circleWidget() => Container(
         margin: const EdgeInsets.only(left: 8, right: 8, top: 4),
         width: 4,
         height: 4,

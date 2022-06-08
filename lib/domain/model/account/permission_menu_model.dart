@@ -34,6 +34,8 @@ class PermissionMenuModel {
         return MenuType.lichLamViec;
       case MenuItemConst.BAO_CAO:
         return MenuType.baoCao;
+      case MenuItemConst.DIEM_DANH:
+        return MenuType.diemDanh;
     }
   }
 }

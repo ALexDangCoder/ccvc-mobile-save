@@ -14,7 +14,6 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/addToDoWidget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_dscv_tien_tich.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chinh_sua_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/creat_todo_ver2_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/menu_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
@@ -58,7 +57,7 @@ class _DanhSachCongViecTienIchMobileState
             showBottomSheetCustom(
               context,
               title: S.current.them_cong_viec,
-              child: CreatTodoOrUpdateVer2Widget(
+              child: CreatTodoOrUpdateWidget(
                 cubit: cubit,
               ),
             );
@@ -96,94 +95,107 @@ class _DanhSachCongViecTienIchMobileState
                           cubit.search(value);
                         },
                       ),
-                      if (dataType == CVCB ||
-                          dataType == CVQT ||
-                          dataType == GCT ||
-                          dataType == NCVM ||
-                          dataType == DBX)
-                        StreamBuilder<List<TodoDSCVModel>>(
-                          stream: cubit.listDSCV.stream,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data
-                                    ?.where(
-                                      (element) => dataType != DBX
-                                          ? element.isTicked == false
-                                          : element.inUsed == false,
-                                    )
-                                    .toList() ??
-                                [];
-                            if (data.isNotEmpty) {
-                              return ListView.builder(
-                                key: UniqueKey(),
-                                itemCount: data.length,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  final todo = data[index];
-                                  return CongViecCellTienIch(
-                                    isTheEdit: dataType != DBX,
-                                    text: todo.label ?? '',
-                                    todoModel: todo,
-                                    onCheckBox: (value) {
-                                      cubit.editWork(
-                                        todo: todo,
-                                        isTicked: !(todo.isTicked ?? false),
-                                      );
-                                    },
-                                    onStar: () {
-                                      cubit.editWork(
-                                        todo: todo,
-                                        important: !(todo.important ?? false),
-                                      );
-                                    },
-                                    onClose: () {
-                                      showDiaLog(
-                                        context,
-                                        funcBtnRight: () {
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (dataType == CVCB || dataType == NCVM)
+                            textTitle(
+                              S.current.cong_viec_cua_ban,
+                              cubit.listCongViecCuaBan.length,
+                            ),
+                          if (dataType == CVCB ||
+                              dataType == CVQT ||
+                              dataType == GCT ||
+                              dataType == NCVM ||
+                              dataType == DBX)
+                            StreamBuilder<List<TodoDSCVModel>>(
+                              stream: cubit.listDSCV.stream,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data
+                                        ?.where(
+                                          (element) => dataType != DBX
+                                              ? element.isTicked == false
+                                              : element.inUsed == false,
+                                        )
+                                        .toList() ??
+                                    [];
+                                if (data.isNotEmpty) {
+                                  return ListView.builder(
+                                    key: UniqueKey(),
+                                    itemCount: data.length,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      final todo = data[index];
+                                      return CongViecCellTienIch(
+                                        isTheEdit: dataType != DBX,
+                                        text: todo.label ?? '',
+                                        todoModel: todo,
+                                        onCheckBox: (value) {
                                           cubit.editWork(
                                             todo: todo,
-                                            inUsed: !(todo.inUsed ?? false),
+                                            isTicked: !(todo.isTicked ?? false),
                                           );
                                         },
-                                        icon: SvgPicture.asset(
-                                          ImageAssets.icDeleteLichHop,
-                                        ),
-                                        title: S.current.xoa_cong_viec,
-                                        textContent:
-                                            S.current.ban_chac_chan_muon_xoa,
-                                        btnLeftTxt: S.current.huy,
-                                        btnRightTxt: S.current.xoa,
+                                        onStar: () {
+                                          cubit.editWork(
+                                            todo: todo,
+                                            important:
+                                                !(todo.important ?? false),
+                                          );
+                                        },
+                                        onClose: () {
+                                          showDiaLog(
+                                            context,
+                                            funcBtnRight: () {
+                                              cubit.editWork(
+                                                todo: todo,
+                                                inUsed: !(todo.inUsed ?? false),
+                                              );
+                                            },
+                                            icon: SvgPicture.asset(
+                                              ImageAssets.icDeleteLichHop,
+                                            ),
+                                            title: S.current.xoa_cong_viec,
+                                            textContent: S
+                                                .current.ban_chac_chan_muon_xoa,
+                                            btnLeftTxt: S.current.huy,
+                                            btnRightTxt: S.current.xoa,
+                                          );
+                                        },
+                                        onChange: (controller) {
+                                          cubit.editWork(
+                                            todo: todo,
+                                          );
+                                          cubit.titleChange = controller.text;
+                                        },
+                                        onEdit: () {
+                                          showBottomSheetCustom(
+                                            context,
+                                            title: S.current.chinh_sua,
+                                            child: CreatTodoOrUpdateWidget(
+                                              cubit: cubit,
+                                              todo: todo,
+                                              isCreat: false,
+                                            ),
+                                          );
+                                        },
+                                        enabled: !(todo.isTicked ?? true),
+                                        isDaBiXoa: dataType == DBX,
+                                        cubit: cubit,
                                       );
                                     },
-                                    onChange: (controller) {
-                                      cubit.editWork(
-                                        todo: todo,
-                                      );
-                                      cubit.titleChange = controller.text;
-                                    },
-                                    onEdit: () {
-                                      showBottomSheetCustom(
-                                        context,
-                                        title: S.current.chinh_sua,
-                                        child: CreatTodoOrUpdateVer2Widget(
-                                          cubit: cubit,
-                                          todo: todo,
-                                          isCreat: false,
-                                        ),
-                                      );
-                                    },
-                                    enabled: !(todo.isTicked ?? true),
-                                    isDaBiXoa: dataType == DBX,
                                   );
-                                },
-                              );
-                            }
-                            return const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 30),
-                              child: NodataWidget(),
-                            );
-                          },
-                        ),
+                                }
+                                return const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 30),
+                                  child: NodataWidget(),
+                                );
+                              },
+                            ),
+                        ],
+                      ),
                       if (dataType == CVCB ||
                           dataType == DHT ||
                           dataType == NCVM)
@@ -191,15 +203,9 @@ class _DanhSachCongViecTienIchMobileState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (dataType == CVCB || dataType == NCVM)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Text(
-                                  S.current.da_hoan_thanh,
-                                  style: textNormalCustom(
-                                    fontSize: 14,
-                                    color: infoColor,
-                                  ),
-                                ),
+                              textTitle(
+                                S.current.da_hoan_thanh,
+                                cubit.listDaHoanThanh.length,
                               ),
                             StreamBuilder<List<TodoDSCVModel>>(
                               stream: cubit.listDSCV.stream,
@@ -251,6 +257,7 @@ class _DanhSachCongViecTienIchMobileState
                                           );
                                         },
                                         text: todo.label ?? '',
+                                        cubit: cubit,
                                       );
                                     }),
                                   );
@@ -273,6 +280,42 @@ class _DanhSachCongViecTienIchMobileState
       ),
     );
   }
+
+  Widget textTitle(String text, int count) => Padding(
+        padding: const EdgeInsets.only(top: 16),
+        child: Row(
+          children: [
+            Text(
+              text,
+              style: textNormalCustom(
+                fontSize: 14,
+                color: infoColor,
+              ),
+            ),
+            const Expanded(
+              child: SizedBox(),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 4,
+                horizontal: 5,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: textDefault,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                count.toString(),
+                style: textNormalCustom(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12.0.textScale(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 AppBar appBarDSCV({required DanhSachCongViecTienIchCubit cubit, context}) {

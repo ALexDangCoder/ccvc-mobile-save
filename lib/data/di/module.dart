@@ -17,6 +17,9 @@ import 'package:ccvc_mobile/data/services/quan_ly_widget/quan_ly_widget_service.
 import 'package:ccvc_mobile/data/services/thanh_phan_tham_gia/thanh_phan_tham_gia_service.dart';
 import 'package:ccvc_mobile/data/services/thong_bao_service/thong_bao_service.dart';
 import 'package:ccvc_mobile/data/services/y_kien_nguoi_dan/y_kien_nguoi_dan_service.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/repository_impl/diem_danh_repository_impl.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/service/diem_danh_service.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
@@ -170,6 +173,13 @@ void configureDependencies() {
     ),
   );
   Get.put<NhiemVuRepository>(NhiemVuRepoImpl(Get.find()));
+
+  Get.put(
+    DiemDanhService(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+  Get.put<DiemDanhRepository>(DiemDanhRepoImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;

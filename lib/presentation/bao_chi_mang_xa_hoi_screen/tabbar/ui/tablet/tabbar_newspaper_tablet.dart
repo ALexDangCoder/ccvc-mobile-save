@@ -91,29 +91,20 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> {
           ],
         ),
       ),
-      body: StateStreamLayout(
-        stream: cubit.stateStream,
-        retry: () {},
-        textEmpty: S.current.khong_co_du_lieu,
-        error: AppException(
-          S.current.error,
-          S.current.error,
-        ),
-        child: TabBarView(
-          controller: _controller,
-          children: [
-            //  TinRadioScreen(title: 'Tin Radio', tinTucThoiSuBloc: TinTucThoiSuBloc(),),
-            const TatCaChuDeScreenTablet(),
-            TheoDoiBaiVietTablet(
-              topic: cubit.topic,
-              key: UniqueKey(),
-            ),
-            TinTucThoiSuScreenTablet(
-              tinTucThoiSuBloc: TinTucThoiSuBloc(),
-              pContext: context,
-            ),
-          ],
-        ),
+      body: TabBarView(
+        controller: _controller,
+        children: [
+          //  TinRadioScreen(title: 'Tin Radio', tinTucThoiSuBloc: TinTucThoiSuBloc(),),
+          const TatCaChuDeScreenTablet(),
+          TheoDoiBaiVietTablet(
+            topic: cubit.topic,
+            key: UniqueKey(),
+          ),
+          TinTucThoiSuScreenTablet(
+            tinTucThoiSuBloc: TinTucThoiSuBloc(),
+            pContext: context,
+          ),
+        ],
       ),
     );
   }

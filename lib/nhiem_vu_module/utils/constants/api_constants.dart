@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const DANHSACHNHIEMVU = '/qlvb/api/qlnv/nhiem-vu/get-all';
+  static const DANHSACHNHIEMVU = '/qlvb/api/qlnv/ccvc/ds-nhiem-vu';
   static const DANHSACHCONGVIEC =
       '/qlvb/api/qlnv/cong-viec/danhsachcongvieccanhan';
   static const POST_Y_KIEN_XU_LY_NHIEM_VU = '/qlvb/api/qlnv/y-kien-xu-ly/them';

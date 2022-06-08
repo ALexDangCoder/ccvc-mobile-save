@@ -1,13 +1,65 @@
+import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/don_vi_con_phong_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
+import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ChonPhongHopCubit {
+import 'chon_phong_hoc_state.dart';
+
+class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   LoaiPhongHopEnum loaiPhongHopEnum = LoaiPhongHopEnum.PHONG_HOP_THUONG;
   final List<ThietBiValue> listThietBi = [];
   final BehaviorSubject<List<ThietBiValue>> _listThietBi =
       BehaviorSubject<List<ThietBiValue>>();
 
+  ChonPhongHopCubit() : super(ConPhongHopStateInitial());
+
   Stream<List<ThietBiValue>> get listThietBiStream => _listThietBi.stream;
+
+  final BehaviorSubject<List<DonViConPhong>> donViSubject = BehaviorSubject();
+
+  final BehaviorSubject<bool> isShowPhongHopSubject =
+      BehaviorSubject.seeded(false);
+
+  final BehaviorSubject<List<PhongHopModel>> phongHopSubject =
+      BehaviorSubject();
+
+  HopRepository get hopRepository => Get.find();
+
+  PhongHop phongHop = PhongHop();
+  String donViSelected = '';
+  String donViSelectedId = '';
+
+  Future<void> getDonViConPhong(String id) async {
+    final rs = await hopRepository.getDonViConPhongHop(id);
+    rs.when(
+      success: (res) {
+        donViSubject.add(res);
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getPhongHop({
+    required String id,
+    required String from,
+    required String to,
+    required bool isTTDH,
+  }) async {
+    showLoading();
+    final rs = await hopRepository.getPhongHop(id, from, to, isTTDH);
+    rs.when(
+      success: (res) {
+        phongHopSubject.add(res);
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
 
   void addThietBi(ThietBiValue value) {
     listThietBi.add(value);

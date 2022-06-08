@@ -26,6 +26,7 @@ class ApiConstants {
   static const TRANSLATE_FILE = '/api/Common/dich_tai_lieu';
   static const CHUYEN_VB_SANG_GIONG_NOI =
       '/api/TichHop/chuyen-vanban-sang-giongnoi';
+  static const POST_FILE_DSCV = '/api/CmsCard/upload-file';
 }
 
 class ImageConstants {

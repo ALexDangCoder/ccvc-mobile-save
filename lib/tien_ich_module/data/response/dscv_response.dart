@@ -72,21 +72,24 @@ class DataDSCV {
   String? note;
   String? performer;
   String? groupId;
+  String? filePath;
 
-  DataDSCV(
-      {this.id,
-      this.label,
-      this.isTicked,
-      this.important,
-      this.inUsed,
-      this.isDeleted,
-      this.createdOn,
-      this.createdBy,
-      this.updatedOn,
-      this.updatedBy,
-      this.note,
-      this.performer,
-      this.groupId});
+  DataDSCV({
+    this.id,
+    this.label,
+    this.isTicked,
+    this.important,
+    this.inUsed,
+    this.isDeleted,
+    this.createdOn,
+    this.createdBy,
+    this.updatedOn,
+    this.updatedBy,
+    this.note,
+    this.performer,
+    this.groupId,
+    this.filePath,
+  });
 
   DataDSCV.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -102,6 +105,7 @@ class DataDSCV {
     note = json['note'];
     performer = json['performer'];
     groupId = json['groupId'];
+    filePath = json['filePath'];
   }
 
   TodoDSCVModel toDomain() => TodoDSCVModel(
@@ -116,5 +120,6 @@ class DataDSCV {
         performer: performer,
         groupId: groupId,
         note: note,
+        filePath: filePath,
       );
 }

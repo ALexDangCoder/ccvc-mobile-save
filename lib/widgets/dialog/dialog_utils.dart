@@ -85,6 +85,7 @@ class DialogUtils {
       },
     );
   }
+
 }
 
 Future<bool?> showToast(
@@ -101,4 +102,5 @@ Future<bool?> showToast(
     backgroundColor: Colors.black,
     textColor: Colors.white.withOpacity(0.8),
   );
+
 }

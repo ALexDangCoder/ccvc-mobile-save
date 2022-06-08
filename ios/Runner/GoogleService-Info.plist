@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>222424476578-l5r9l1kc7h5vm4invci3rsr13rb6qquf.apps.googleusercontent.com</string>
+	<string>902628814863-cofaah0em54k5v53t23rgtc6nuhl62sj.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.222424476578-l5r9l1kc7h5vm4invci3rsr13rb6qquf</string>
+	<string>com.googleusercontent.apps.902628814863-cofaah0em54k5v53t23rgtc6nuhl62sj</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDokB_d2UXDQztvEy4aKLodo_7Tl_FJ5BA</string>
+	<string>AIzaSyD1AMJvHsjrnvafpLZCHytOXt8ZL81-Kgk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>222424476578</string>
+	<string>902628814863</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.edsolabs.ccvc-mobile</string>
 	<key>PROJECT_ID</key>
-	<string>mpi-synodus</string>
+	<string>ccvc-mobile</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mpi-synodus.appspot.com</string>
+	<string>ccvc-mobile.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:222424476578:ios:415056501855e8a72ea0fb</string>
+	<string>1:902628814863:ios:88942844a5ce77e1ddb37a</string>
 </dict>
 </plist>

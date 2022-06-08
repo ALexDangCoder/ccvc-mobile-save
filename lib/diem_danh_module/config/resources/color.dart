@@ -15,17 +15,51 @@ const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
 
+const color3D5586 = Color(0xff3D5586);
+
 ///=========== Using to make change app theme ================================
-abstract class AppColor {}
+abstract class AppColor {
+  Color titleColor();
+}
 
-class LightApp extends AppColor {}
+class LightApp extends AppColor {
+  @override
+  Color titleColor() {
+    return color3D5586;
+  }
+}
 
-class DarkApp extends AppColor {}
+class DarkApp extends AppColor {
+  @override
+  Color titleColor() {
+    return color3D5586;
+  }
+}
 
-class DefaultApp extends AppColor {}
+class DefaultApp extends AppColor {
+  @override
+  Color titleColor() {
+    return color3D5586;
+  }
+}
 
-class BlueApp extends AppColor {}
+class BlueApp extends AppColor {
+  @override
+  Color titleColor() {
+    return color3D5586;
+  }
+}
 
-class PinkApp extends AppColor {}
+class PinkApp extends AppColor {
+  @override
+  Color titleColor() {
+    return color3D5586;
+  }
+}
 
-class YellowApp extends AppColor {}
+class YellowApp extends AppColor {
+  @override
+  Color titleColor() {
+    return color3D5586;
+  }
+}

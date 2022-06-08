@@ -6,10 +6,11 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/fake_data_tao_lich.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/chuong_trinh_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/co_quan_chu_tri_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/hinh_thuc_hop.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/lich_lap_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/nhac_lich_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tai_lieu_cuoc_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/thanh_phan_tham_gia_widget_expand.dart';
@@ -56,6 +57,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
           error: AppException('', S.current.something_went_wrong),
           stream: _cubit.stateStream,
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Form(
               key: _formKey,
@@ -139,25 +141,62 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                           },
                         ),
                         spaceH5,
-                        SelectOnlyExpand(
+                        NhacLichWidget(
                           urlIcon: ImageAssets.icNhacLai,
                           title: S.current.nhac_lai,
-                          value: FakeDataTaoLichHop.nhacLai.first,
-                          listSelect: FakeDataTaoLichHop.nhacLai,
+                          value: danhSachThoiGianNhacLich.first.label,
+                          listSelect: danhSachThoiGianNhacLich
+                              .map((e) => e.label)
+                              .toList(),
+                          onChange: (index) {
+                            _cubit.taoLichHopRequest.typeReminder =
+                                danhSachThoiGianNhacLich[index].id;
+                            if (index == 0) {
+                              _cubit.taoLichHopRequest.isNhacLich = false;
+                            } else {
+                              _cubit.taoLichHopRequest.isNhacLich = true;
+                            }
+                          },
+                          onTogglePressed: (value) {
+                            _cubit.taoLichHopRequest.congKhai = value;
+                          },
                         ),
                         spaceH5,
-                        SelectOnlyExpand(
+                        LichLapWidget(
                           urlIcon: ImageAssets.icNhacLai,
                           title: S.current.lich_lap,
-                          value: FakeDataTaoLichHop.lichLap.first,
-                          listSelect: FakeDataTaoLichHop.lichLap,
+                          value: danhSachLichLap.first.label,
+                          listSelect:
+                              danhSachLichLap.map((e) => e.label).toList(),
+                          onChange: (index) {
+                            _cubit.taoLichHopRequest.typeRepeat =
+                                danhSachLichLap[index].id;
+                            if (index == 0) {
+                              _cubit.taoLichHopRequest.isLichLap = false;
+                            } else {
+                              _cubit.taoLichHopRequest.isLichLap = true;
+                            }
+                          },
+                          onDayPicked: (value, index) {
+                            _cubit.taoLichHopRequest.days = index.toString();
+                          },
+                          onDateChange: (value) {
+                            _cubit.taoLichHopRequest.dateRepeat =
+                                value.changeToNewPatternDate(
+                              DateFormatApp.date,
+                              DateFormatApp.dateTimeBackEnd,
+                            );
+                          },
                         ),
                         spaceH5,
                         SelectOnlyExpand(
                           urlIcon: ImageAssets.icMucDoHop,
                           title: S.current.muc_do_hop,
-                          value: FakeDataTaoLichHop.mucDoHop.first,
-                          listSelect: FakeDataTaoLichHop.mucDoHop,
+                          value: mucDoHop.first.label,
+                          listSelect: mucDoHop.map((e) => e.label).toList(),
+                          onChange: (index) {
+                            _cubit.taoLichHopRequest.mucDo = mucDoHop[index].id;
+                          },
                         ),
                         spaceH12,
                         CoQuanChuTri(
@@ -192,6 +231,16 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         TextFieldStyle(
                           urlIcon: ImageAssets.icCuocGoi,
                           hintText: S.current.so_dien_thoai,
+                          validate: (value) {
+                            if (value.isEmpty) {
+                              return null;
+                            }
+                            final phoneRegex = RegExp(VN_PHONE);
+                            final bool checkRegex = phoneRegex.hasMatch(value);
+                            return checkRegex
+                                ? null
+                                : S.current.nhap_sai_dinh_dang;
+                          },
                           onChange: (value) {
                             _cubit.taoLichHopRequest.chuTri?.soDienThoai =
                                 value;
@@ -243,8 +292,9 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
                       onPressed: () {
-                        _cubit.createMeeting();
-                        if (_formKey.currentState?.validate() ?? false) {}
+                        if (_formKey.currentState?.validate() ?? false) {
+                          _cubit.createMeeting();
+                        }
                       },
                     ),
                   ),

@@ -1036,6 +1036,23 @@
   "xem_truoc_phong_hop": "Xem trước phòng họp",
   "thiet_bi": "Thiết bị",
   "phong_trong": "Phòng trống",
-  "phong_ban": "Phòng bận"
+  "phong_ban": "Phòng bận",
+  "diem_danh_ca_nhan": "Điểm danh cá nhân",
+  "quan_ly_nhan_dien_khuon_mat": "Quản lý nhận diện khuôn mặt",
+  "quan_ly_nhan_dien_bien_so_xe": "Quản lý nhận diện biển số xe",
+  "so_lan_di_muon": "Số lần đi muộn",
+  "so_lan_ve_som": "Số lần về sớm",
+  "so_ngay_nghi": "Số ngày nghỉ",
+  "so_ngay_phep_con_lai": "Số ngày phép còn lại",
+  "anh_khong_deo_kinh": "Ảnh không đeo kính",
+  "anh_deo_kinh": "Ảnh đeo kính",
+  "goc_anh": "Góc ảnh",
+  "anh_mat_nhin_chinh_dien": "Ảnh mặt nhìn chính diện",
+  "anh_mat_nhin_sang_phai": "Ảnh mặt nhìn sang phải",
+  "anh_chup_mat_tu_tren_xuong": "Ảnh chụp mặt từ trên xuống",
+  "anh_chup_mat_tu_duoi_len": "Ảnh chụp mặt từ dưới lên",
+  "mo_cai_dat" : "Mở cài đặt",
+  "ban_can_mo_quyen_de_truy_cap_ung_dung" :  "Bạn cần mở quyền truy cập ứng dụng",
+  "lap_den": "Lặp đến ngày"
 
 }

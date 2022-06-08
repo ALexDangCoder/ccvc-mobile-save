@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/widgets/dialog_tablet.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -13,8 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-class SelectDate extends StatefulWidget {
-  final String? value;
+class SelectDateThem extends StatefulWidget {
   final Function(String) onSelectDate;
   final String? hintText;
   final Color? backgroundColor;
@@ -22,10 +22,10 @@ class SelectDate extends StatefulWidget {
   final bool isObligatory;
   final double? paddings;
   final bool isTablet;
+  final DanhBaDienTuCubit cubit;
 
-  const SelectDate({
+  const SelectDateThem({
     Key? key,
-    this.value,
     required this.onSelectDate,
     this.hintText,
     this.backgroundColor,
@@ -33,226 +33,357 @@ class SelectDate extends StatefulWidget {
     this.paddings,
     this.isObligatory = false,
     this.isTablet = false,
+    required this.cubit,
   }) : super(key: key);
 
   @override
   _CustomDropDownState createState() => _CustomDropDownState();
 }
 
-class _CustomDropDownState extends State<SelectDate> {
+class _CustomDropDownState extends State<SelectDateThem> {
   String dateSelect = '';
 
   @override
   void initState() {
-    if (!widget.isObligatory) {
-      dateSelect = widget.value.toString();
-    }
     super.initState();
+    dateSelect = '';
+    widget.cubit.isCheckValidate.add(' ');
   }
 
   @override
   Widget build(BuildContext context) {
     return widget.isTablet
-        ? GestureDetector(
-            onTap: () {
-              showDiaLogTablet(
-                context,
-                title: S.current.chon_ngay,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 300,
-                        child: FlutterRoundedCupertinoDatePickerWidget(
-                          onDateTimeChanged: (value) {
-                            dateSelect = value.toString();
-                            final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss')
-                                .parse(dateSelect)
-                                .formatApiDanhBa;
-                            dateSelect = dateFormat;
-
-                            widget.onSelectDate(dateSelect);
-                          },
-                          textStyleDate: titleAppbar(),
-                          initialDateTime: DateTime.parse(dateSelect),
-                        ),
+        ? Row(
+            children: [
+              Container(
+                width: 16.0.textScale(space: 4),
+                height: 16.0.textScale(space: 4),
+                color: Colors.transparent,
+                child: widget.leadingIcon ??
+                    SvgPicture.asset(ImageAssets.icCalenderDb),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        top: 16,
+                        bottom: 16,
+                        left: 16,
                       ),
-                    ],
-                  ),
-                ),
-                btnRightTxt: S.current.chon,
-                btnLeftTxt: S.current.dong,
-                funcBtnOk: () {
-                  setState(() {
-                    widget.onSelectDate(dateSelect);
-                  });
-                },
-                setHeight: 400,
-              );
-            },
-            child: Row(
-              children: [
-                Container(
-                  width: 16.0.textScale(space: 4),
-                  height: 16.0.textScale(space: 4),
-                  color: Colors.transparent,
-                  child: widget.leadingIcon ??
-                      SvgPicture.asset(ImageAssets.icCalenderDb),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(
-                          top: 16,
-                          bottom: 16,
-                          left: 16,
-                        ),
-                        child: widget.value == null
-                            ? Text(
-                                widget.hintText ?? S.current.vuiLongChon,
+                      child: dateSelect.isEmpty
+                          ? GestureDetector(
+                              onTap: () {
+                                showDiaLogTablet(
+                                  context,
+                                  title: S.current.chon_ngay,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child:
+                                              FlutterRoundedCupertinoDatePickerWidget(
+                                            onDateTimeChanged: (value) {
+                                              dateSelect = value.toString();
+                                              widget.onSelectDate(
+                                                dateSelect,
+                                              );
+                                            },
+                                            textStyleDate: titleAppbar(),
+                                            initialDateTime: DateTime.now(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  btnRightTxt: S.current.chon,
+                                  btnLeftTxt: S.current.dong,
+                                  funcBtnOk: () {
+                                    setState(() {
+                                      widget.onSelectDate(dateSelect);
+                                    });
+                                  },
+                                  setHeight: 400,
+                                  funcBtnPop: () {
+                                    widget.cubit.dateDanhSach = '';
+                                  },
+                                ).then((value) {
+                                  widget.cubit.isCheckValidate.sink
+                                      .add(widget.cubit.dateDanhSach);
+                                  widget.cubit.dateDanhSach = '';
+                                });
+                              },
+                              child: Text(
+                                widget.hintText ?? '',
                                 style: tokenDetailAmount(
-                                  fontSize: 14.0.textScale(),
-                                  color: color3D5586,
+                                  fontSize: 14.0,
+                                  color: colorA2AEBD,
                                 ),
-                              )
-                            : Text(
-                                widget.isObligatory
-                                    ? DateFormat('yyyy-MM-ddTHH:mm:ss')
-                                        .parse(widget.value ?? '')
-                                        .toStringWithListFormat
-                                    : DateFormat('yyyy-MM-ddTHH:mm:ss')
-                                        .parse(dateSelect)
-                                        .toStringWithListFormat,
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                showDiaLogTablet(
+                                  context,
+                                  title: S.current.chon_ngay,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 300,
+                                          child:
+                                              FlutterRoundedCupertinoDatePickerWidget(
+                                            onDateTimeChanged: (value) {
+                                              dateSelect = value.toString();
+                                              widget.onSelectDate(
+                                                dateSelect,
+                                              );
+                                            },
+                                            textStyleDate: titleAppbar(),
+                                            initialDateTime:
+                                                DateTime.parse(dateSelect),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  btnRightTxt: S.current.chon,
+                                  btnLeftTxt: S.current.dong,
+                                  funcBtnOk: () {
+                                    setState(() {
+                                      widget.onSelectDate(dateSelect);
+                                    });
+                                  },
+                                  setHeight: 400,
+                                  funcBtnPop: () {
+                                    widget.cubit.dateDanhSach = '';
+                                  },
+                                ).then((value) {
+                                  widget.cubit.isCheckValidate.sink
+                                      .add(widget.cubit.dateDanhSach);
+                                  widget.cubit.dateDanhSach = '';
+                                });
+                              },
+                              child: Text(
+                                DateFormat('yyyy-MM-dd HH:mm:ss')
+                                    .parse(dateSelect)
+                                    .toStringWithListFormat,
                                 style: tokenDetailAmount(
-                                  fontSize: 14.0.textScale(),
+                                  fontSize: 14.0,
                                   color: color3D5586,
                                 ),
                               ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 16),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: colorECEEF7),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        : GestureDetector(
-            onTap: () {
-              showBottomSheetCustom(
-                context,
-                title: S.current.chon_ngay,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: FlutterRoundedCupertinoDatePickerWidget(
-                        onDateTimeChanged: (value) {
-                          dateSelect = value.toString();
-                          final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss')
-                              .parse(
-                                dateSelect,
-                              )
-                              .formatApiDanhBa;
-                          dateSelect = dateFormat;
-
-                          widget.onSelectDate(
-                            dateSelect,
+                            ),
+                    ),
+                    StreamBuilder<String>(
+                      initialData: widget.cubit.dateDanhSach,
+                      stream: widget.cubit.isCheckValidate,
+                      builder: (context, snap) {
+                        if (snap.data?.isNotEmpty ?? true) {
+                          return Container();
+                        } else {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text(
+                              '${S.current.ban_phai_nhap_truong} '
+                              '${S.current.ngay_sinh_require}!',
+                              style: tokenDetailAmount(
+                                fontSize: 12.0,
+                                color: redChart,
+                              ),
+                            ),
                           );
-                        },
-                        textStyleDate: titleAppbar(),
-                        initialDateTime: DateTime.parse(
-                          dateSelect,
+                        }
+                      },
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 16),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: colorECEEF7),
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        top: 24,
-                        bottom: 32,
-                      ),
-                      child: DoubleButtonBottom(
-                        title2: S.current.chon,
-                        title1: S.current.dong,
-                        onPressed2: () {
-                          setState(() {
-                            widget.onSelectDate(
-                              dateSelect,
-                            );
-                          });
-                          Navigator.pop(context);
-                        },
-                        onPressed1: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    )
                   ],
                 ),
-              );
-            },
-            child: Row(
-              children: [
-                Container(
-                  width: 16.0.textScale(space: 4),
-                  height: 16.0.textScale(space: 4),
-                  color: Colors.transparent,
-                  child: widget.leadingIcon ??
-                      SvgPicture.asset(ImageAssets.icCalenderDb),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(
-                          top: 16,
-                          bottom: 16,
-                          left: 16,
-                        ),
-                        child: widget.value == null
-                            ? Text(
-                                widget.value ?? S.current.vuiLongChon,
+              ),
+            ],
+          )
+        : Row(
+            children: [
+              Container(
+                width: 16.0.textScale(space: 4),
+                height: 16.0.textScale(space: 4),
+                color: Colors.transparent,
+                child: widget.leadingIcon ??
+                    SvgPicture.asset(ImageAssets.icCalenderDb),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        top: 16,
+                        bottom: 16,
+                        left: 16,
+                      ),
+                      child: dateSelect.isEmpty
+                          ? GestureDetector(
+                              onTap: () {
+                                showBottomSheetCustom(
+                                  context,
+                                  title: S.current.chon_ngay,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.4,
+                                        child:
+                                            FlutterRoundedCupertinoDatePickerWidget(
+                                          onDateTimeChanged: (value) {
+                                            dateSelect = value.toString();
+                                            widget.onSelectDate(
+                                              dateSelect,
+                                            );
+                                          },
+                                          textStyleDate: titleAppbar(),
+                                          initialDateTime: DateTime.now(),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                          top: 24,
+                                          bottom: 32,
+                                        ),
+                                        child: DoubleButtonBottom(
+                                          title2: S.current.chon,
+                                          title1: S.current.dong,
+                                          onPressed2: () {
+                                            setState(() {
+                                              widget.onSelectDate(
+                                                dateSelect,
+                                              );
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          onPressed1: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ).then((value) {
+                                  widget.cubit.isCheckValidate.sink
+                                      .add(widget.cubit.dateDanhSach);
+                                  widget.cubit.dateDanhSach = '';
+                                });
+                              },
+                              child: Text(
+                                widget.hintText ?? '',
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: color3D5586,
+                                  color: colorA2AEBD,
                                 ),
-                              )
-                            : Text(
-                                widget.isObligatory
-                                    ? DateFormat('yyyy-MM-ddTHH:mm:ss')
-                                        .parse(widget.value ?? '')
-                                        .toStringWithListFormat
-                                    : DateFormat('yyyy-MM-ddTHH:mm:ss')
-                                        .parse(dateSelect)
-                                        .toStringWithListFormat,
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                showBottomSheetCustom(
+                                  context,
+                                  title: S.current.chon_ngay,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.4,
+                                        child:
+                                            FlutterRoundedCupertinoDatePickerWidget(
+                                          onDateTimeChanged: (value) {
+                                            dateSelect = value.toString();
+                                            widget.onSelectDate(
+                                              dateSelect,
+                                            );
+                                          },
+                                          textStyleDate: titleAppbar(),
+                                          initialDateTime:
+                                              DateTime.parse(dateSelect),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                          top: 24,
+                                          bottom: 32,
+                                        ),
+                                        child: DoubleButtonBottom(
+                                          title2: S.current.chon,
+                                          title1: S.current.dong,
+                                          onPressed2: () {
+                                            setState(() {
+                                              widget.onSelectDate(
+                                                dateSelect,
+                                              );
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          onPressed1: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                DateFormat('yyyy-MM-dd HH:mm:ss')
+                                    .parse(dateSelect)
+                                    .toStringWithListFormat,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
                                   color: color3D5586,
                                 ),
                               ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 16),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: colorECEEF7),
-                          ),
+                            ),
+                    ),
+                    StreamBuilder<String>(
+                      initialData: widget.cubit.dateDanhSach,
+                      stream: widget.cubit.isCheckValidate,
+                      builder: (context, snap) {
+                        if (snap.data?.isNotEmpty ?? true) {
+                          return Container();
+                        } else {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text(
+                              '${S.current.ban_phai_nhap_truong} '
+                              '${S.current.ngay_sinh_require}!',
+                              style: tokenDetailAmount(
+                                fontSize: 12,
+                                color: redChart,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 16),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: colorECEEF7),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
   }
 }

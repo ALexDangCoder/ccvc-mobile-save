@@ -1,12 +1,15 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/button/button_select_file.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
@@ -20,6 +23,7 @@ import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreatTodoOrUpdateWidget extends StatefulWidget {
   final bool? isCreat;
@@ -35,8 +39,7 @@ class CreatTodoOrUpdateWidget extends StatefulWidget {
       _CreatTodoOrUpdateWidgetState();
 }
 
-class _CreatTodoOrUpdateWidgetState
-    extends State<CreatTodoOrUpdateWidget> {
+class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   final TextEditingController tieuDeController = TextEditingController();
   final TextEditingController noteControler = TextEditingController();
 
@@ -46,6 +49,7 @@ class _CreatTodoOrUpdateWidgetState
 
     widget.cubit.initDataNguoiTHucHienTextFild(widget.todo ?? TodoDSCVModel());
     super.initState();
+    widget.cubit.nameFile.sink.add(widget.todo?.filePath ?? '');
   }
 
   @override
@@ -185,7 +189,11 @@ class _CreatTodoOrUpdateWidgetState
                 ),
                 ButtonSelectFile(
                   title: S.current.them_tai_lieu_dinh_kem,
-                  onChange: (files) {},
+                  onChange: (files) {
+                    if (files.isNotEmpty) {
+                      widget.cubit.uploadFilesWithFile(files[0]);
+                    }
+                  },
                 ),
                 ItemTextFieldWidgetDSNV(
                   initialValue: widget.todo?.note ?? '',
@@ -196,6 +204,15 @@ class _CreatTodoOrUpdateWidgetState
                   },
                   maxLine: 8,
                   controller: noteControler,
+                ),
+                StreamBuilder<String>(
+                  stream: widget.cubit.nameFile,
+                  builder: (context, snapshot) {
+                    return ListFileFromAPI(
+                      data: snapshot.data ?? '',
+                      onTap: () {},
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,

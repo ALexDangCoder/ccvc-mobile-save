@@ -1,10 +1,12 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/domain/model/chon_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/don_vi_con_phong_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/radio/radio_button.dart';
+import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/bloc/chon_phong_hoc_cubit.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/loai_phong_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/widgets/yeu_cau_them_thiet_bi_widget.dart';
@@ -20,6 +22,7 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/textformfield/block_textview.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 
 class ChonPhongHopScreen extends StatefulWidget {
@@ -129,142 +132,148 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
         maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
       width: double.infinity,
-      child: FollowKeyBoardWidget(
-        bottomWidget: Padding(
-          padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
-          child: DoubleButtonBottom(
-            isTablet: isMobile() == false,
-            title1: S.current.dong,
-            title2: S.current.xac_nhan,
-            onPressed1: () {
-              Navigator.pop(context);
-            },
-            onPressed2: () {
-              Navigator.pop(
-                context,
-                ChonPhongHopModel(
-                  loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
-                  listThietBi: widget.chonPhongHopCubit.listThietBi,
-                  yeuCauKhac: controller.text,
-                  phongHop: widget.chonPhongHopCubit.phongHop,
-                ),
-              );
-            },
+      child: StateStreamLayout(
+        textEmpty: S.current.khong_co_du_lieu,
+        retry: () {},
+        error: AppException('', S.current.something_went_wrong),
+        stream: widget.chonPhongHopCubit.stateStream,
+        child: FollowKeyBoardWidget(
+          bottomWidget: Padding(
+            padding: EdgeInsets.symmetric(vertical: isMobile() ? 24 : 0),
+            child: DoubleButtonBottom(
+              isTablet: isMobile() == false,
+              title1: S.current.dong,
+              title2: S.current.xac_nhan,
+              onPressed1: () {
+                Navigator.pop(context);
+              },
+              onPressed2: () {
+                Navigator.pop(
+                  context,
+                  ChonPhongHopModel(
+                    loaiPhongHopEnum: widget.chonPhongHopCubit.loaiPhongHopEnum,
+                    listThietBi: widget.chonPhongHopCubit.listThietBi,
+                    yeuCauKhac: controller.text,
+                    phongHop: widget.chonPhongHopCubit.phongHop,
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              LoaiPhongHopWidget(
-                initLoaiPhong: widget.chonPhongHopCubit.loaiPhongHopEnum,
-                onChange: (value) {
-                  widget.chonPhongHopCubit.setLoaiPhongHop(value);
-                  if (widget.chonPhongHopCubit.donViSelectedId.isNotEmpty) {
-                    widget.chonPhongHopCubit.getPhongHop(
-                      id: widget.chonPhongHopCubit.donViSelectedId,
-                      from: widget.from,
-                      to: widget.to,
-                      isTTDH: widget.chonPhongHopCubit.loaiPhongHopEnum ==
-                          LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH,
-                    );
-                  }
-                },
-              ),
-              spaceH25,
-              Text(
-                S.current.don_vi,
-                style: textNormal(titleItemEdit, 14),
-              ),
-              spaceH8,
-              StreamBuilder<List<DonViConPhong>>(
-                stream: widget.chonPhongHopCubit.donViSubject,
-                builder: (context, snapshot) {
-                  final listData = snapshot.data ?? [];
-                  return CoolDropDown(
-                    key: UniqueKey(),
-                    onChange: (index) {
-                      widget.chonPhongHopCubit.donViSelected =
-                          listData[index].tenDonVi;
-                      widget.chonPhongHopCubit.donViSelectedId =
-                          listData[index].id;
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                LoaiPhongHopWidget(
+                  initLoaiPhong: widget.chonPhongHopCubit.loaiPhongHopEnum,
+                  onChange: (value) {
+                    widget.chonPhongHopCubit.setLoaiPhongHop(value);
+                    if (widget.chonPhongHopCubit.donViSelectedId.isNotEmpty) {
                       widget.chonPhongHopCubit.getPhongHop(
-                        id: listData[index].id,
+                        id: widget.chonPhongHopCubit.donViSelectedId,
                         from: widget.from,
                         to: widget.to,
                         isTTDH: widget.chonPhongHopCubit.loaiPhongHopEnum ==
                             LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH,
                       );
-                    },
-                    useCustomHintColors: true,
-                    listData: listData.map((e) => e.tenDonVi).toList(),
-                    initData: widget.chonPhongHopCubit.donViSelected,
-                    placeHoder: S.current.chon_don_vi,
-                  );
-                },
-              ),
-              spaceH20,
-              GestureDetector(
-                onTap: () {
-                  widget.chonPhongHopCubit.isShowPhongHopSubject.add(
-                    !widget.chonPhongHopCubit.isShowPhongHopSubject.value,
-                  );
-                },
-                child: Text(
-                  S.current.xem_truoc_phong_hop,
-                  style: textNormal(bgButtonDropDown, 14).copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                    }
+                  },
                 ),
-              ),
-              spaceH20,
-              StreamBuilder<bool>(
-                stream: widget.chonPhongHopCubit.isShowPhongHopSubject,
-                builder: (context, snapshot) {
-                  final bool isShow = snapshot.data ?? false;
-                  return Visibility(
-                    visible: isShow,
-                    child: StreamBuilder<List<PhongHopModel>>(
-                      stream: widget.chonPhongHopCubit.phongHopSubject,
-                      builder: (context, snapshot) {
-                        final listData = snapshot.data ?? [];
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: listData.length,
-                          itemBuilder: (_, index) => itemPhongHop(
-                              phongHop: listData[index],
-                              index: index,
-                              groupValue: groupValue,
-                              onChange: (index) {
-                                widget.chonPhongHopCubit.phongHop
-                                  ..donViId = listData[index].donViDuyetId
-                                  ..ten = listData[index].ten
-                                  ..bitTTDH = listData[index].bit_TTDH
-                                  ..phongHopId = listData[index].id;
-                                groupValue = index;
-                                setState(() {});
-                              }),
+                spaceH25,
+                Text(
+                  S.current.don_vi,
+                  style: textNormal(titleItemEdit, 14),
+                ),
+                spaceH8,
+                StreamBuilder<List<DonViConPhong>>(
+                  stream: widget.chonPhongHopCubit.donViSubject,
+                  builder: (context, snapshot) {
+                    final listData = snapshot.data ?? [];
+                    return CoolDropDown(
+                      key: UniqueKey(),
+                      onChange: (index) {
+                        widget.chonPhongHopCubit.donViSelected =
+                            listData[index].tenDonVi;
+                        widget.chonPhongHopCubit.donViSelectedId =
+                            listData[index].id;
+                        widget.chonPhongHopCubit.getPhongHop(
+                          id: listData[index].id,
+                          from: widget.from,
+                          to: widget.to,
+                          isTTDH: widget.chonPhongHopCubit.loaiPhongHopEnum ==
+                              LoaiPhongHopEnum.PHONG_TRUNG_TAM_DIEU_HANH,
                         );
                       },
+                      useCustomHintColors: true,
+                      listData: listData.map((e) => e.tenDonVi).toList(),
+                      initData: widget.chonPhongHopCubit.donViSelected,
+                      placeHoder: S.current.chon_don_vi,
+                    );
+                  },
+                ),
+                spaceH20,
+                GestureDetector(
+                  onTap: () {
+                    widget.chonPhongHopCubit.isShowPhongHopSubject.add(
+                      !widget.chonPhongHopCubit.isShowPhongHopSubject.value,
+                    );
+                  },
+                  child: Text(
+                    S.current.xem_truoc_phong_hop,
+                    style: textNormal(bgButtonDropDown, 14).copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
-                  );
-                },
-              ),
-              spaceH20,
-              YeuCauThemThietBiWidget(
-                chonPhongHopCubit: widget.chonPhongHopCubit,
-                onClose: () {},
-              ),
-              spaceH20,
-              BlockTextView(
-                formKey: _key,
-                isRequired: false,
-                title: S.current.yeu_cau_de_chuan_bi_phong,
-                contentController: controller,
-              ),
-            ],
+                  ),
+                ),
+                spaceH20,
+                StreamBuilder<bool>(
+                  stream: widget.chonPhongHopCubit.isShowPhongHopSubject,
+                  builder: (context, snapshot) {
+                    final bool isShow = snapshot.data ?? false;
+                    return Visibility(
+                      visible: isShow,
+                      child: StreamBuilder<List<PhongHopModel>>(
+                        stream: widget.chonPhongHopCubit.phongHopSubject,
+                        builder: (context, snapshot) {
+                          final listData = snapshot.data ?? [];
+                          return listData.isNotEmpty ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: listData.length,
+                            itemBuilder: (_, index) => itemPhongHop(
+                                phongHop: listData[index],
+                                index: index,
+                                groupValue: groupValue,
+                                onChange: (index) {
+                                  widget.chonPhongHopCubit.phongHop
+                                    ..donViId = listData[index].donViDuyetId
+                                    ..ten = listData[index].ten
+                                    ..bitTTDH = listData[index].bit_TTDH
+                                    ..phongHopId = listData[index].id;
+                                  groupValue = index;
+                                  setState(() {});
+                                },),
+                          ) : const NodataWidget();
+                        },
+                      ),
+                    );
+                  },
+                ),
+                spaceH20,
+                YeuCauThemThietBiWidget(
+                  chonPhongHopCubit: widget.chonPhongHopCubit,
+                  onClose: () {},
+                ),
+                spaceH20,
+                BlockTextView(
+                  formKey: _key,
+                  isRequired: false,
+                  title: S.current.yeu_cau_de_chuan_bi_phong,
+                  contentController: controller,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -77,7 +77,7 @@ class TodoDSCVModel {
   }
 
   bool showIconNote() {
-    if (note == null) {
+    if (note == null || note == '') {
       return false;
     } else {
       return true;

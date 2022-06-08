@@ -3,6 +3,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_ba_dien_tu.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/sua_anh_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/sua_danh_ba_ca_nhan/widget/select_date_sua.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/select_date.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
@@ -104,7 +105,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       widget.cubit.diaChi = value;
                     },
                   ),
-                  SelectDate(
+                  SelectDateSua(
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
                     value: widget.item.ngaySinh ?? '',
                     onSelectDate: (dateTime) {
@@ -259,7 +260,7 @@ class _SuaDanhBaCaNhanState extends State<SuaDanhBaCaNhan> {
                       return null;
                     },
                   ),
-                  SelectDate(
+                  SelectDateSua(
                     isTablet: true,
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
                     value: widget.item.ngaySinh,

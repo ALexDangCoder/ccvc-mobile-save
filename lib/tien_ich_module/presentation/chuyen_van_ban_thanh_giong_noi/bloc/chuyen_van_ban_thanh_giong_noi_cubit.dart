@@ -17,7 +17,7 @@ class ChuyenVanBanThanhGiongNoiCubit
 
   TienIchRepository get tienIchRepTree => Get.find();
   String text = '';
-  String? voidTone;
+  String voidTone = '';
   String url = '';
 
   /// các giọng
@@ -33,7 +33,7 @@ class ChuyenVanBanThanhGiongNoiCubit
     showLoading();
     final result = await tienIchRepTree.chuyenVBSangGiongNoi(
       text,
-      voidTone ?? north_female_lien,
+      voidTone,
     );
     result.when(
       success: (res) {
@@ -69,14 +69,10 @@ class ChuyenVanBanThanhGiongNoiCubit
   }
 
   /// check ẩn hiện nút đọc
-  void checkEnable(String value) {
-    if (text != value) {
-      text = value;
-      enableButton.sink.add(true);
-    }
-    else if(value.isEmpty) {
+  void checkEnable() {
+    if (text.isEmpty) {
       enableButton.sink.add(false);
-    }else{
+    } else {
       enableButton.sink.add(true);
     }
   }

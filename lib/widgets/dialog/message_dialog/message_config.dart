@@ -1,7 +1,11 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/mess_dialog_pop_up.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 enum MessState { error, success, customIcon }
 
@@ -58,5 +62,44 @@ class MessageConfig {
       case MessState.customIcon:
         return urlIcon;
     }
+  }
+
+  static Future<void> showDialogSetting({
+    String? okBtnTxt,
+    String? cancelBtnTxt,
+  }) async {
+    final Widget okButton = TextButton(
+      child: Text(
+        okBtnTxt ?? S.current.mo_cai_dat,
+        style: textNormal(redChart, 14),
+      ),
+      onPressed: () {
+        Navigator.pop(_context!);
+        openAppSettings();
+      },
+    );
+
+    final Widget cancelBtnText = TextButton(
+      child: Text(
+        cancelBtnTxt ?? S.current.bo_qua,
+        style: textNormal(redChart, 14),
+      ),
+      onPressed: () {
+        Navigator.pop(_context!);
+      },
+    );
+    // set up the AlertDialog
+    final AlertDialog alert = AlertDialog(
+      title: Text(S.current.ban_can_mo_quyen_de_truy_cap_ung_dung,
+          style: textNormal(titleColumn, 15)),
+      actions: [okButton, cancelBtnText],
+    );
+
+    return showDialog(
+      context: _context!,
+      builder: (_) {
+        return alert;
+      },
+    );
   }
 }

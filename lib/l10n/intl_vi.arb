@@ -1039,7 +1039,10 @@
   "anh_mat_nhin_chinh_dien": "Ảnh mặt nhìn chính diện",
   "anh_mat_nhin_sang_phai": "Ảnh mặt nhìn sang phải",
   "anh_chup_mat_tu_tren_xuong": "Ảnh chụp mặt từ trên xuống",
-  "anh_chup_mat_tu_duoi_len": "Ảnh chụp mặt từ dưới lên"
+  "anh_chup_mat_tu_duoi_len": "Ảnh chụp mặt từ dưới lên",
+  "mo_cai_dat" : "Mở cài đặt",
+  "ban_can_mo_quyen_de_truy_cap_ung_dung" :  "Bạn cần mở quyền truy cập ứng dụng"
+
 }
 
 

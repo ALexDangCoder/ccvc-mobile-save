@@ -74,14 +74,15 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.diaChi = value;
                     },
                   ),
-                  SelectDate(
+                  SelectDateThem(
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
-                    value: DateFormat('yyyy-MM-dd HH:mm:ss')
-                        .parse(widget.cubit.times)
-                        .formatApiDanhBa,
+                    hintText: S.current.ngay_sinh_require,
                     onSelectDate: (dateTime) {
                       widget.cubit.dateDanhSach = dateTime;
+                      widget.cubit.isCheckValidate.sink
+                          .add(widget.cubit.dateDanhSach);
                     },
+                    cubit: widget.cubit,
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icMessage,
@@ -150,7 +151,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   spaceH16,
                   DoubleButtonBottom(
                     onPressed2: () async {
-                      if (keyGroup.currentState!.validator()) {
+                      if (keyGroup.currentState!.validator() &&
+                          widget.cubit.dateDanhSach.isNotEmpty) {
+                        widget.cubit.isCheckValidate.sink
+                            .add(widget.cubit.dateDanhSach);
                         await widget.cubit
                             .postDanhSach(
                           hoTen: widget.cubit.hoTen,
@@ -164,7 +168,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                           anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
-                          widget.cubit.anhChuKyNhayFilePath,
+                              widget.cubit.anhChuKyNhayFilePath,
                           diaChi: widget.cubit.diaChi,
                           isDeleted: widget.cubit.isDeleted,
                           thuTu: widget.cubit.thuTu ?? 0,
@@ -175,7 +179,11 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                             Navigator.pop(context);
                           }
                         });
-                      } else {}
+                      } else {
+                        widget.cubit.isCheckValidate.sink.add(
+                          widget.cubit.dateDanhSach,
+                        );
+                      }
                     },
                     onPressed1: () {
                       Navigator.pop(context);
@@ -216,15 +224,17 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       return null;
                     },
                   ),
-                  SelectDate(
+                  SelectDateThem(
+                    key: UniqueKey(),
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
-                    value: DateFormat('yyyy-MM-dd HH:mm:ss')
-                        .parse(widget.cubit.times)
-                        .formatApiDanhBa,
+                    hintText: S.current.ngay_sinh_require,
+                    isTablet: true,
                     onSelectDate: (dateTime) {
                       widget.cubit.dateDanhSach = dateTime;
+                      widget.cubit.isCheckValidate.sink
+                          .add(widget.cubit.dateDanhSach);
                     },
-                    isTablet: true,
+                    cubit: widget.cubit,
                   ),
                   spaceH14,
                   CustomRadioButton(
@@ -300,7 +310,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   DoubleButtonBottom(
                     isTablet: true,
                     onPressed2: () async {
-                      if (keyGroup.currentState!.validator()) {
+                      if (keyGroup.currentState!.validator() &&
+                          widget.cubit.dateDanhSach.isNotEmpty) {
+                        widget.cubit.isCheckValidate.sink
+                            .add(widget.cubit.dateDanhSach);
                         await widget.cubit
                             .postDanhSach(
                           hoTen: widget.cubit.hoTen,
@@ -314,7 +327,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                           anhDaiDienFilePath: widget.cubit.pathAnh,
                           anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
                           anhChuKyNhayFilePath:
-                          widget.cubit.anhChuKyNhayFilePath,
+                              widget.cubit.anhChuKyNhayFilePath,
                           diaChi: widget.cubit.diaChi,
                           isDeleted: widget.cubit.isDeleted,
                           thuTu: widget.cubit.thuTu ?? 0,
@@ -325,7 +338,11 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                             Navigator.pop(context);
                           }
                         });
-                      } else {}
+                      } else {
+                        widget.cubit.isCheckValidate.sink.add(
+                          widget.cubit.dateDanhSach,
+                        );
+                      }
                     },
                     onPressed1: () {
                       Navigator.pop(context);

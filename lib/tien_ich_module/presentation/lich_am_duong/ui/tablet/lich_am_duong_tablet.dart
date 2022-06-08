@@ -117,7 +117,7 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                             },
                                             textStyle: tokenDetailAmount(
                                               color: titleCalenderWork,
-                                              fontSize: 16,
+                                              fontSize: 12,
                                             ),
                                           );
                                         },

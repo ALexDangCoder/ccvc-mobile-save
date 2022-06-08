@@ -1,30 +1,28 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/ui/menu/diem_danh_menu_mobile.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/ui/menu/diem_danh_menu_tabllet.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_tabllet.dart';import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
-import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class DiemDanhCaNhanTabletScreen extends StatefulWidget {
+class QuanLyNhanDienKhuonMatTabletScreen extends StatefulWidget {
   DiemDanhCubit cubit;
 
-  DiemDanhCaNhanTabletScreen({Key? key, required this.cubit}) : super(key: key);
+  QuanLyNhanDienKhuonMatTabletScreen({Key? key, required this.cubit})
+      : super(key: key);
 
   @override
-  _DiemDanhCaNhanTabletScreenState createState() =>
-      _DiemDanhCaNhanTabletScreenState();
+  _QuanLyNhanDienKhuonMatTabletScreenState createState() =>
+      _QuanLyNhanDienKhuonMatTabletScreenState();
 }
 
-class _DiemDanhCaNhanTabletScreenState
-    extends State<DiemDanhCaNhanTabletScreen> {
+class _QuanLyNhanDienKhuonMatTabletScreenState
+    extends State<QuanLyNhanDienKhuonMatTabletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: S.current.diem_danh_ca_nhan,
+      appBar: BaseAppBar(title: S.current.quan_ly_nhan_dien_khuon_mat,
         leadingIcon: IconButton(
           onPressed: () => {Navigator.pop(context)},
           icon: SvgPicture.asset(
@@ -48,7 +46,7 @@ class _DiemDanhCaNhanTabletScreenState
       ),
       body: Container(
         child: Center(
-          child: Text(S.current.diem_danh_ca_nhan,
+          child: Text(S.current.quan_ly_nhan_dien_khuon_mat,
             style: textNormalCustom(
               color: Colors.black54,
               fontSize: 16.0,

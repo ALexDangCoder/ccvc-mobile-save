@@ -86,7 +86,7 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                           ),
                           spaceW10,
                           Text(
-                            'Chủ trì',
+                            data.ownerTypeName ?? '',
                             style: textNormalCustom(
                               color: color667793,
                               fontWeight: FontWeight.w500,

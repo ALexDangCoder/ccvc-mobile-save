@@ -89,7 +89,7 @@ class NhiemVuItemMobile extends StatelessWidget {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              'Chủ trì',
+                              data.ownerTypeName ?? '',
                               style: titleAppbar(fontSize: 16.0),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,

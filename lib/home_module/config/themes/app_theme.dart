@@ -5,16 +5,15 @@ import '/home_module/config/resources/color.dart';
 
 class AppTheme {
   static AppColor getInstance() {
-    switch(APP_THEME){
+    switch (APP_THEME) {
       case AppMode.MAC_DINH:
-         return DefaultApp();
+        return DefaultApp();
       case AppMode.XANH:
         return BlueApp();
       case AppMode.HONG:
         return PinkApp();
       case AppMode.VANG:
-       return YellowApp();
+        return YellowApp();
     }
-
   }
 }

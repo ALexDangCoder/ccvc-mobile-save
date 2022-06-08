@@ -1,5 +1,5 @@
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_cong_viec_nhiem_vu/ui/tablet/chi_tiet_cong_viec_nhiem_vu_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_cubit.dart';
@@ -25,7 +25,7 @@ class DanhSachCongViecTablet extends StatefulWidget {
     required this.ngayBatDau,
     required this.ngayKetThuc,
     required this.mangTrangThai,
-     this.trangThaiHanXuLy,
+    this.trangThaiHanXuLy,
   }) : super(key: key);
 
   @override

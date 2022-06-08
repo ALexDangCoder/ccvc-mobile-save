@@ -24,6 +24,7 @@ class ButtonSelectFile extends StatefulWidget {
   final Widget Function(BuildContext, File)? builder;
   List<File> files;
   final double? spacingFile;
+
   ButtonSelectFile({
     Key? key,
     this.background,
@@ -141,7 +142,7 @@ Widget itemListFile(
           child: Text(
             file.path.convertNameFile(),
             style: textNormalCustom(
-              color: choXuLyColor,
+              color: color5A8DEE,
               fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
             ),

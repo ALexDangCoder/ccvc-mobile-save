@@ -6,7 +6,7 @@ import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/change_password/bloc/change_password_cubit.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/text_error.dart';
-import 'package:ccvc_mobile/presentation/reset_password/ui/tablet/send_mail_screen_tablet.dart';
+import 'package:ccvc_mobile/presentation/reset_password/ui/tablet/fogot_password_screen_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
@@ -129,18 +129,18 @@ class _ChangePassWordScreenTabletState
                       StreamBuilder<String>(
                           stream: cubit.thongBao,
                           builder: (context, snapshot) {
-                            final data=snapshot.data??'';
-                            if(data.isNotEmpty){
+                            final data = snapshot.data ?? '';
+                            if (data.isNotEmpty) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 24.0),
-                                child: WidgetTextError(text: data,),
+                                child: WidgetTextError(
+                                  text: data,
+                                ),
                               );
-                            }else{
+                            } else {
                               return const SizedBox();
                             }
-
-                          }
-                      ),
+                          }),
                       TextFieldValidator(
                         maxLength: 32,
                         fillColor: backgroundColorApp,
@@ -189,7 +189,8 @@ class _ChangePassWordScreenTabletState
                               value!.isNotEmpty) {
                             return S.current.khong_trung_mat_khau_moi;
                           } else {
-                            return (value ?? '').checkPassWordChangePass('Mật khẩu mới!');
+                            return (value ?? '')
+                                .checkPassWordChangePass('Mật khẩu mới!');
                           }
                         },
                       ),
@@ -243,24 +244,6 @@ class _ChangePassWordScreenTabletState
                           }
                         },
                       ),
-                      const SizedBox(height: 24.0),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const SendMailScreenTablet(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          '${S.current.quen_mat_khau}?',
-                          style: textNormalCustom(
-                            color: AppTheme.getInstance().colorField(),
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 36.0),
                       DoubleButtonBottom(
                         title1: S.current.cancel,
@@ -272,10 +255,12 @@ class _ChangePassWordScreenTabletState
                           if (keyGroup.currentState!.validator()) {
                             await cubit
                                 .changePassWord(
-                                    password: matKhauMoiController.text.trim(),
-                                    passwordOld: matKhauHienTaiController.text.trim(),
-                                    repeatPassword:
-                                        nhapLaiMatKhauController.text.trim())
+                              password: matKhauMoiController.text.trim(),
+                              passwordOld: matKhauHienTaiController.text.trim(),
+                              repeatPassword:
+                                  nhapLaiMatKhauController.text.trim(),
+                              context: context,
+                            )
                                 .then((value) {
                               if (cubit.isSuccess == true) {
                                 MessageConfig.show(

@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+
 import '/home_module/utils/constants/app_constants.dart';
 
 enum WidgetType {
@@ -30,7 +32,7 @@ class WidgetModel {
   int? minHeight;
   int? maxHeight;
   int? maxWidth;
-  Map<String,dynamic>? props={};
+  Map<String, dynamic>? props = {};
   bool? static;
   bool? isResizable;
   String? thumbnail;
@@ -49,6 +51,7 @@ class WidgetModel {
   int? minH;
   int? minW;
   WidgetType? widgetType;
+  String? imagePre;
 
   WidgetModel({
     required this.id,
@@ -84,6 +87,7 @@ class WidgetModel {
     this.widgetType,
   }) {
     widgetType = fromEnum();
+    imagePre = getStringImage();
   } //
 
   WidgetType? fromEnum() {
@@ -108,10 +112,41 @@ class WidgetModel {
         return WidgetType.eventOfDay;
       case WidgetTypeConstant.SINH_NHAT:
         return WidgetType.sinhNhat;
-      case WidgetTypeConstant.TINH_HINH_XU_LY_Y_KIEN:
-        return WidgetType.situationHandlingPeople;
+      case WidgetTypeConstant.TINH_HINH_XU_LY_PAKN_DON_VI:
+        return WidgetType.phanAnhKienNghiDonVi;
       case WidgetTypeConstant.NHIEM_VU:
         return WidgetType.nhiemVu;
+      case WidgetTypeConstant.TINH_HINH_XU_LY_PAKN_CA_NHAN:
+        return WidgetType.situationHandlingPeople;
+    }
+  }
+
+  String? getStringImage() {
+    switch (component) {
+      case WidgetTypeConstant.TINH_HINH_XU_LY_VAN_BAN:
+        return ImageAssets.preTinhHinhXuLyVaNBanMobile;
+      case WidgetTypeConstant.VAN_BAN:
+        return ImageAssets.preVanBanMobile;
+      case WidgetTypeConstant.TONG_HOP_NHIEM_VU:
+        return ImageAssets.preTongHopNhiemVu;
+      case WidgetTypeConstant.Y_KIEN_NGUOI_DAN:
+        return ImageAssets.preDanhSachPAKN;
+      case WidgetTypeConstant.LICH_LAM_VIEC:
+        return ImageAssets.preLichLamViec;
+      case WidgetTypeConstant.LICH_HOP:
+        return ImageAssets.preLichHop;
+      case WidgetTypeConstant.BAO_CHI:
+        return ImageAssets.preBXMXH;
+      case WidgetTypeConstant.DANH_SANH_CONG_VIEC:
+        return ImageAssets.preDanhSachCongViec;
+      case WidgetTypeConstant.SU_KIEN_TRONG_NGAY:
+        return ImageAssets.preSuKienTrongNgay;
+      case WidgetTypeConstant.SINH_NHAT:
+        return ImageAssets.preSinhNhat;
+      case WidgetTypeConstant.TINH_HINH_XU_LY_Y_KIEN:
+        return ImageAssets.preTinhHinhPAKNCaNhan;
+      case WidgetTypeConstant.NHIEM_VU:
+        return ImageAssets.preNhiemVu;
     }
   }
 }
@@ -126,16 +161,16 @@ class Props {
     return data;
   }
 }
-  Map<String, dynamic> widgetModelToJson(WidgetModel instance){
-    String? setAppId;
-    if(instance.appId==''){
-      setAppId=null;
-    }
-    else{
-      setAppId=instance.appId;
-    }
-    return  <String, dynamic>{
-      'id': instance.id,
+
+Map<String, dynamic> widgetModelToJson(WidgetModel instance) {
+  String? setAppId;
+  if (instance.appId == '') {
+    setAppId = null;
+  } else {
+    setAppId = instance.appId;
+  }
+  return <String, dynamic>{
+    'id': instance.id,
     'name': instance.name,
     'widgetTypeId': instance.widgetTypeId,
     'description': instance.description,
@@ -164,7 +199,6 @@ class Props {
     'maxW': instance.maxW,
     'minH': instance.minH,
     'minW': instance.minW,
-    'props':instance.props
+    'props': instance.props
   };
-  }
-
+}

@@ -8,6 +8,7 @@ class DanhSachYKienPAKNRequest {
   final String kienNghiId;
   @JsonKey(name: 'Type')
   final int? type;
+
   DanhSachYKienPAKNRequest({
     required this.kienNghiId,
     required this.type,

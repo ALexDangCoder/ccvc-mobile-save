@@ -8,61 +8,74 @@ import 'package:flutter/material.dart';
 
 class WidgetInExpand extends StatelessWidget {
   final List<RowDataExpandModel> row;
-  final ChiTietNVCubit cubit;
+  final ChiTietNVCubit? cubit;
+  final bool? hasTap;
+  final Function? onTap;
 
   const WidgetInExpand({
     Key? key,
     required this.row,
-    required this.cubit,
+    this.cubit,
+    this.hasTap,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: 16.0.textScale(),
-      ),
-      padding: const EdgeInsets.only(
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
-      decoration: BoxDecoration(
-        color: bgDropDown.withOpacity(0.1),
-        border: Border.all(
-          color: bgDropDown.withOpacity(0.5),
+    return InkWell(
+      onTap: () {
+        if (hasTap == true) {
+          onTap!();
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+          top: 16.0.textScale(),
         ),
-        borderRadius: BorderRadius.circular(6.0.textScale(space: 6)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: row
-            .map(
-              (e) => Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        e.key,
-                        style: textNormalCustom(
-                          color: dateColor,
-                          fontSize: 14.0.textScale(),
-                          fontWeight: FontWeight.w400,
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 16,
+        ),
+        decoration: BoxDecoration(
+          color: bgDropDown.withOpacity(0.1),
+          border: Border.all(
+            color: bgDropDown.withOpacity(0.5),
+          ),
+          borderRadius: BorderRadius.circular(6.0.textScale(space: 6)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: row
+              .map(
+                (e) => Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          e.key,
+                          style: textNormalCustom(
+                            color: dateColor,
+                            fontSize: 14.0.textScale(),
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 14.0.textScale(),
-                    ),
-                    Expanded(
-                        flex: 5, child: e.type.getWidget(row: e, cubit: cubit)),
-                  ],
+                      SizedBox(
+                        width: 14.0.textScale(),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: e.type.getWidget(row: e, cubit: cubit),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
-            .toList(),
+              )
+              .toList(),
+        ),
       ),
     );
   }

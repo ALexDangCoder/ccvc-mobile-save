@@ -19,12 +19,19 @@ class AppConstants {
   @JsonKey(name: 'base_url_NOTI')
   String baseUrlNOTI;
 
+  @JsonKey(name: 'base_url_DOWNLOAD_QLNV')
+  String baseUrlQLNV;
+  @JsonKey(name: 'base_url_DOWNLOAD_PANK')
+  String baseUrlPAKN;
+
   AppConstants(
     this.type,
     this.baseUrlGateWay,
     this.baseUrlCommon,
     this.baseUrlCCVC,
     this.baseUrlNOTI,
+    this.baseUrlQLNV,
+    this.baseUrlPAKN,
   );
 
   factory AppConstants.fromJson(Map<String, dynamic> json) =>

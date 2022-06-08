@@ -149,7 +149,7 @@ class ChiTietYKNDModel {
     return listCheckbox;
   }
 
-   getFile() {
+  getFile() {
     if (fileDinhKem.isNotEmpty) {
       final List<String> listFileName = [];
       for (final element in fileDinhKem) {
@@ -181,8 +181,6 @@ class HeaderChiTietYKNDModel {
   });
 }
 
-
-
 class DataRowChiTietKienNghi {
   final String title;
   final String? content;
@@ -193,8 +191,10 @@ class DataRowChiTietKienNghi {
 class ListRowYKND {
   final String title;
   final List<String>? content;
+  final List<String>? urlDownload;
+  final List<String>? nameFile;
 
-  ListRowYKND({required this.title, this.content});
+  ListRowYKND({required this.title, this.content, this.urlDownload, this.nameFile});
 }
 
 class NguoiPhanAnhModel {
@@ -204,6 +204,12 @@ class NguoiPhanAnhModel {
   String? diaChiEmail;
   String? soDienthoai;
   String? diaChiChiTiet;
+  String? tinhThanhPho;
+  String? quanHuyen;
+  String? xaPhuong;
+  String? idTinhTp;
+  String? idQuanHuyen;
+  String? idXaPhuong;
 
   NguoiPhanAnhModel({
     this.doiTuong,
@@ -212,6 +218,12 @@ class NguoiPhanAnhModel {
     this.diaChiEmail,
     this.soDienthoai,
     this.diaChiChiTiet,
+    this.tinhThanhPho,
+    this.quanHuyen,
+    this.xaPhuong,
+    this.idTinhTp,
+    this.idQuanHuyen,
+    this.idXaPhuong,
   });
 }
 
@@ -225,8 +237,8 @@ class ThongTinXuLy {
 class KetQuaXuLy {
   final String? chuyenVienXuLy;
   final String? donViXuLy;
-  final String?  vaiTroXuLy;
-  final String?  noiDungXuLy;
+  final String? vaiTroXuLy;
+  final String? noiDungXuLy;
   final String? soHieuVanBan;
   final String? ngayBanHanh;
   final String? trichYeu;

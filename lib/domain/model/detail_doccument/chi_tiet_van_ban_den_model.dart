@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/generated/l10n.dart';
 
 import 'document_detail_row.dart';
+import 'lich_su_van_ban_model.dart';
 
 class ChiTietVanBanDenModel {
   String? vanBanId;
@@ -145,8 +146,16 @@ class ChiTietVanBanDenModel {
         soDen == null ? '' : soDen.toString(),
         TypeDocumentDetailRow.text,
       ),
-      DocumentDetailRow(S.current.so_phu, soPhu == null ? '' : soPhu.toString(),
-          TypeDocumentDetailRow.text),
+      DocumentDetailRow(
+        S.current.so_phu,
+        soPhu == null ? '' : soPhu.toString(),
+        TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.ngay_den,
+        ngayDen ?? '',
+        TypeDocumentDetailRow.text,
+      ),
       DocumentDetailRow(
         S.current.noi_gui,
         donViBanHanh ?? '',
@@ -158,7 +167,7 @@ class ChiTietVanBanDenModel {
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-        S.current.so_ky_hieu_,
+        S.current.so_ky_hieu,
         soKyHieu ?? '',
         TypeDocumentDetailRow.text,
       ),
@@ -168,9 +177,14 @@ class ChiTietVanBanDenModel {
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
-        S.current.ngay_den,
-        ngayDen ?? '',
+        S.current.trich_yeu,
+        trichYeu ?? '',
         TypeDocumentDetailRow.text,
+      ),
+      DocumentDetailRow(
+        S.current.file_dinh_kem,
+        fileDinhKems?.map((e) => e.toFileDinhKemModel()).toList() ?? [],
+        TypeDocumentDetailRow.fileActacks,
       ),
       DocumentDetailRow(
         S.current.do_khan,
@@ -184,7 +198,7 @@ class ChiTietVanBanDenModel {
       ),
       DocumentDetailRow(
         S.current.han_xu_ly,
-       hanXuLyCover() ,
+        hanXuLy ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -192,8 +206,11 @@ class ChiTietVanBanDenModel {
         nguoiKy ?? '',
         TypeDocumentDetailRow.text,
       ),
-      DocumentDetailRow(S.current.so_ban, soBan == null ? '' : soBan.toString(),
-          TypeDocumentDetailRow.text),
+      DocumentDetailRow(
+        S.current.so_ban,
+        soBan == null ? '' : soBan.toString(),
+        TypeDocumentDetailRow.text,
+      ),
       DocumentDetailRow(
         S.current.so_trang,
         soTrang == null ? '' : soTrang.toString(),
@@ -204,43 +221,106 @@ class ChiTietVanBanDenModel {
         phuongThucNhan ?? '',
         TypeDocumentDetailRow.text,
       ),
-      DocumentDetailRow(
-        S.current.trich_yeu,
-        trichYeu ?? '',
-        TypeDocumentDetailRow.text,
-      ),
     ];
 
+    return list;
+  }
+
+  List<List<DocumentDetailRow>> toListRowTablet() {
+    final List<List<DocumentDetailRow>> list = [
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.so_van_ban,
+          soVanBan ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.loai_van_ban,
+          loaiVanBan ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_ban_hanh,
+          ngayBanHanh ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_han_xu_ly,
+          ngayHanXuLy ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.so_ban,
+          soBan == null ? '' : soBan.toString(),
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.so_den,
+          soDen == null ? '' : soDen.toString(),
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.so_ky_hieu,
+          soKyHieu ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.ngay_den,
+          ngayDen ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.han_xu_ly,
+          hanXuLy ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.so_trang,
+          soTrang == null ? '' : soTrang.toString(),
+          TypeDocumentDetailRow.text,
+        ),
+      ],
+      <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.so_phu,
+          soPhu == null ? '' : soPhu.toString(),
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.noi_gui,
+          donViBanHanh ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.do_khan,
+          doKhan ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.nguoi_ky,
+          nguoiKy ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.phuong_thuc_nhan,
+          phuongThucNhan ?? '',
+          TypeDocumentDetailRow.text,
+        ),
+      ]
+    ];
     return list;
   }
 
   String hanXuLyCover() {
     if (hanXuLy == "") {
       return '';
-    } else if(hanXuLy!=null){
+    } else if (hanXuLy != null) {
       return 'Quá hạn ${hanXuLy!.substring(1)} ngày ';
-    }else{
+    } else {
       return '';
     }
-  }
-
-  List<DocumentDetailRow> toListCheckBox() {
-    final List<DocumentDetailRow> listCheckbox = [
-      DocumentDetailRow(S.current.van_ban_qppl, isQPPL ?? false,
-          TypeDocumentDetailRow.checkbox),
-      DocumentDetailRow(
-        S.current.hoi_bao_van_ban,
-        isHoiBao ?? false,
-        TypeDocumentDetailRow.checkbox,
-      ),
-      DocumentDetailRow(
-        S.current.da_nhan_ban_giay,
-        isNhanBanGiay ?? false,
-        TypeDocumentDetailRow.checkbox,
-      )
-    ];
-
-    return listCheckbox;
   }
 }
 
@@ -280,4 +360,60 @@ class FileDinhKemsVanBanDen {
     this.index,
     this.ngayTao,
   });
+
+  FileDinhKems toFileDinhKemModel() => FileDinhKems(
+        id: id,
+        idFileGoc: idFileGoc,
+        processId: processId,
+        ten: ten,
+        duongDan: duongDan,
+        duoiMoRong: duoiMoRong,
+        dungLuong: dungLuong,
+        kieuDinhKem: kieuDinhKem,
+        isSign: isSign,
+        qrCreated: (qrCreated ?? false).toString(),
+        index: index,
+        nguoiTaoId: nguoiTaoId,
+        nguoiTao: ngayTao,
+      );
+}
+
+class VanBanHoiBaoModel {
+  final String id;
+  final List<FileDinhKems> files;
+  final String soKyHieu;
+
+  final String trichYeu;
+  final String nguoiSoanThao;
+
+  const VanBanHoiBaoModel({
+    this.id = '',
+    required this.files,
+    this.soKyHieu = '',
+    this.nguoiSoanThao = '',
+    this.trichYeu = '',
+  });
+
+  List<DocumentDetailRow> toListRow() => <DocumentDetailRow>[
+        DocumentDetailRow(
+          S.current.so_ky_hieu,
+          soKyHieu ,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.nguoi_soan_thao,
+          nguoiSoanThao ,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.trich_yeu,
+          trichYeu ,
+          TypeDocumentDetailRow.text,
+        ),
+        DocumentDetailRow(
+          S.current.file_dinh_kem,
+          files,
+          TypeDocumentDetailRow.fileActacks,
+        ),
+      ];
 }

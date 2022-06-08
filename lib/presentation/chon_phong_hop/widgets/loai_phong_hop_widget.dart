@@ -7,9 +7,14 @@ import 'package:flutter/material.dart';
 
 class LoaiPhongHopWidget extends StatefulWidget {
   final Function(LoaiPhongHopEnum) onChange;
+  final LoaiPhongHopEnum initLoaiPhong;
 
-  const LoaiPhongHopWidget({Key? key, required this.onChange})
-      : super(key: key);
+  const LoaiPhongHopWidget({
+    Key? key,
+    required this.onChange,
+    this.initLoaiPhong = LoaiPhongHopEnum.PHONG_HOP_THUONG,
+  }) : super(key: key);
+
   @override
   _LoaiPhongHopWidgetState createState() => _LoaiPhongHopWidgetState();
 }
@@ -21,6 +26,7 @@ class _LoaiPhongHopWidgetState extends State<LoaiPhongHopWidget> {
       title: S.current.loai_phong_hop,
       child: _LoaiPhongHopGroup(
         onChange: widget.onChange,
+        initLoaiPhong: widget.initLoaiPhong,
       ),
     );
   }
@@ -28,15 +34,25 @@ class _LoaiPhongHopWidgetState extends State<LoaiPhongHopWidget> {
 
 class _LoaiPhongHopGroup extends StatefulWidget {
   final Function(LoaiPhongHopEnum) onChange;
+  final LoaiPhongHopEnum initLoaiPhong;
 
-  const _LoaiPhongHopGroup({Key? key, required this.onChange})
-      : super(key: key);
+  const _LoaiPhongHopGroup({
+    Key? key,
+    required this.onChange,
+    required this.initLoaiPhong,
+  }) : super(key: key);
+
   @override
   __LoaiPhongHopGroupState createState() => __LoaiPhongHopGroupState();
 }
 
 class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
-  LoaiPhongHopEnum selectLoaiPhong = LoaiPhongHopEnum.PHONG_HOP_THUONG;
+  late LoaiPhongHopEnum selectLoaiPhong;
+  @override
+  void initState() {
+    super.initState();
+    selectLoaiPhong = widget.initLoaiPhong;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,7 +70,7 @@ class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
             setState(() {});
           },
         ),
-         SizedBox(
+        SizedBox(
           height: 20.0.textScale(space: -2),
         ),
         RadioButton<LoaiPhongHopEnum>(
@@ -64,7 +80,6 @@ class __LoaiPhongHopGroupState extends State<_LoaiPhongHopGroup> {
           onChange: (value) {
             selectLoaiPhong = value ?? LoaiPhongHopEnum.PHONG_HOP_THUONG;
             widget.onChange(selectLoaiPhong);
-
             setState(() {});
           },
         )

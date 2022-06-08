@@ -11,7 +11,7 @@ class PieChart extends StatelessWidget {
   final List<ChartData> chartData;
   final String title;
   final double paddingTop;
-  final Function(int,SelectKey?)? onTap;
+  final Function(int, SelectKey?)? onTap;
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
   final bool isThongKeLichHop;
@@ -54,43 +54,41 @@ class PieChart extends StatelessWidget {
             child: chartData.indexWhere((element) => element.value != 0) == -1
                 ? const NodataWidget()
                 : SfCircularChart(
+                    enableMultiSelection: false,
                     margin: EdgeInsets.zero,
-                    onDataLabelTapped: (value){
+                    onDataLabelTapped: (value) {
                       if (onTap != null) {
                         final key = chartData[value.pointIndex];
 
-                        onTap!(value.pointIndex ,key.key);
+                        onTap!(value.pointIndex, key.key);
                       } else {}
                     },
                     series: [
                       // Renders doughnut chart
                       DoughnutSeries<ChartData, String>(
-                        innerRadius: '45',
-                        dataSource: chartData,
-                        pointColorMapper: (ChartData data, _) => data.color,
-                        xValueMapper: (ChartData data, _) => data.title,
-                        yValueMapper: (ChartData data, _) => data.value,
-                        dataLabelMapper: (ChartData data, _) =>
-                            percent(data.value),
-                        onPointTap: (value) {
-                          if (onTap != null) {
-                            final key = chartData[value.pointIndex ?? 0];
+                          innerRadius: '45',
+                          dataSource: chartData,
+                          pointColorMapper: (ChartData data, _) => data.color,
+                          xValueMapper: (ChartData data, _) => data.title,
+                          yValueMapper: (ChartData data, _) => data.value,
+                          dataLabelMapper: (ChartData data, _) =>
+                              percent(data.value),
+                          onPointTap: (value) {
+                            if (onTap != null) {
+                              final key = chartData[value.pointIndex ?? 0];
 
-                            onTap!(value.pointIndex ?? 0,key.key);
-                          } else {}
-                        },
-                        dataLabelSettings:
-                             DataLabelSettings(
-                               useSeriesColor: true,
-                                isVisible: true,
-                                showZeroValue: false,
-                                textStyle: textNormalCustom(
-                                  color: backgroundColorApp,
-                                  fontSize: 14,
-                                ),
-                              )
-
-                      )
+                              onTap!(value.pointIndex ?? 0, key.key);
+                            } else {}
+                          },
+                          dataLabelSettings: DataLabelSettings(
+                            useSeriesColor: true,
+                            isVisible: true,
+                            showZeroValue: false,
+                            textStyle: textNormalCustom(
+                              color: backgroundColorApp,
+                              fontSize: 14,
+                            ),
+                          ))
                     ],
                   ),
           ),
@@ -111,7 +109,7 @@ class PieChart extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       if (onTap != null) {
-                        onTap!(index,chartData[index].key);
+                        onTap!(index, chartData[index].key);
                       } else {}
                     },
                     child: Row(
@@ -163,6 +161,7 @@ class PieChart extends StatelessWidget {
 
 class ChartData {
   ChartData(this.title, this.value, this.color, [this.key]);
+
   final SelectKey? key;
   final String title;
   final double value;

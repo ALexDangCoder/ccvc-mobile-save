@@ -37,6 +37,11 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
   final BehaviorSubject<List<YKNDByMonth>> _chartSoLuongYkNDByMonth =
       BehaviorSubject<List<YKNDByMonth>>();
 
+  final BehaviorSubject<List<ChartData>> _statusChartData =
+      BehaviorSubject<List<ChartData>>();
+
+  Stream<List<ChartData>> get statusChartData => _statusChartData.stream;
+
   Stream<List<YKNDByMonth>> get chartSoLuongYkNDByMonth =>
       _chartSoLuongYkNDByMonth.stream;
 
@@ -55,8 +60,8 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
       _listBaoCaoYKND.stream;
 
   DashBroadItemYKNDModel dashBroadItemYKNDModel = DashBroadItemYKNDModel();
-
   final List<ChartData> listDataChart = [];
+  final List<ChartData> listStatusDataChart = [];
 
   final List<String> titleBaoCaoYKND = [
     S.current.cho_tiep_nhan,
@@ -65,10 +70,10 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     S.current.dang_xu_ly,
     S.current.so_luong_y_kien,
   ];
-  final List<YKienNguoiDanDashBroadItem> listInitDataBaoCao=[
+  final List<YKienNguoiDanDashBroadItem> listInitDataBaoCao = [
     YKienNguoiDanDashBroadItem(
       img: ImageAssets.ic_tong_so_yknd,
-      numberOfCalendars:0,
+      numberOfCalendars: 0,
       typeName: S.current.so_y_kien_tiep_nha,
     ),
     YKienNguoiDanDashBroadItem(
@@ -93,9 +98,9 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
 
   Future<void> callApi(
     String startDate,
-    String endDate,
-      {List<String>? listDonVi,}
-  ) async {
+    String endDate, {
+    List<String>? listDonVi,
+  }) async {
     final queue = Queue(parallel: 5);
 
     unawaited(
@@ -236,6 +241,7 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
     result.when(
       success: (res) {
         listDataChart.clear();
+        listStatusDataChart.clear();
         final dataResponse = res.listDataDashBoard;
         for (final element in dataResponse) {
           getDataDashBoardBaoCaoThongKe(element, dashBroadItemYKNDModel);
@@ -276,8 +282,30 @@ class BaoCaoThongKeYKNDCubit extends BaseCubit<BaoCaoThongKeYKNDState> {
             choXuLyYKND,
           ),
         );
+        listStatusDataChart.add(
+          ChartData(
+            S.current.qua_han,
+            dashBroadItemYKNDModel.quaHan?.toDouble() ?? 0,
+            redChart,
+          ),
+        );
+        listStatusDataChart.add(
+          ChartData(
+            S.current.den_han,
+            dashBroadItemYKNDModel.denHan?.toDouble() ?? 0,
+            orangeNhatChart,
+          ),
+        );
+        listStatusDataChart.add(
+          ChartData(
+            S.current.trong_han,
+            dashBroadItemYKNDModel.denHan?.toDouble() ?? 0,
+            choTrinhKyColor,
+          ),
+        );
+
         _listChartDashBoard.sink.add(listDataChart);
-        _dashBoardBaoCaoYKND.sink.add(dashBroadItemYKNDModel);
+        _statusChartData.sink.add(listStatusDataChart);
       },
       error: (err) {
         return;
@@ -384,6 +412,9 @@ void getDataDashBoardBaoCaoThongKe(
       break;
     case CodeStatusYKND.TRONG_HAN_YKND:
       dashBroadItemYKNDModel.trongHan = data.soLuong;
+      break;
+    case CodeStatusYKND.DEN_HAN_YKND:
+      dashBroadItemYKNDModel.denHan = data.soLuong;
       break;
     default:
       break;

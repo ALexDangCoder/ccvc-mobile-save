@@ -1,6 +1,6 @@
-
 import '/home_module/domain/model/home/calendar_metting_model.dart';
 import '/home_module/utils/extensions/string_extension.dart';
+
 class DanhSachCongViecResponse {
   List<PageData>? pageData;
   int? totalRows;
@@ -139,12 +139,12 @@ class PageData {
     coTheGan = json['CoTheGan'];
     coTheXoa = json['CoTheXoa'];
   }
-  CalendarMeetingModel toDomain() => CalendarMeetingModel(
-    title: noiDungCongViec?.parseHtml() ?? '',
-    loaiNhiemVu: nguoiGiaoViec ?? '',
-    hanXuLy: hanXuLy ?? '',
-    maTrangThai: maTrangThai ?? '',
-    id: id ?? '',
 
-  );
+  CalendarMeetingModel toDomain() => CalendarMeetingModel(
+      title: noiDungCongViec?.parseHtml() ?? '',
+      loaiNhiemVu: nguoiGiaoViec ?? '',
+      hanXuLy: hanXuLy ?? '',
+      maTrangThai: maTrangThai ?? '',
+      id: id ?? '',
+      trangThaiHanXuLy: trangThaiHanXuLy ?? -1);
 }

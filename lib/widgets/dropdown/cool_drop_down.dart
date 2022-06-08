@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
-import 'package:cool_dropdown/cool_dropdown.dart';
+import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down/cool_drop_down_custom.dart';
 import 'package:flutter/material.dart';
 
 class CoolDropDown extends StatefulWidget {
@@ -10,6 +10,7 @@ class CoolDropDown extends StatefulWidget {
   final Function(int) onChange;
   final List<String> listData;
   final double? setWidth;
+  final useCustomHintColors;
 
   const CoolDropDown({
     Key? key,
@@ -18,6 +19,7 @@ class CoolDropDown extends StatefulWidget {
     required this.listData,
     required this.initData,
     this.setWidth,
+    this.useCustomHintColors = false,
   }) : super(key: key);
 
   @override
@@ -46,9 +48,9 @@ class _CoolDropDownState extends State<CoolDropDown> {
   Widget build(BuildContext context) {
     return CoolDropdown(
       defaultValue: initIndex < 0 ? null : pokemonsMap[initIndex],
-      resultWidth: MediaQuery.of(context).size.width,
-      dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,
-      dropdownHeight: 120,
+      // resultWidth: MediaQuery.of(context).size.width,
+      // dropdownWidth: widget.setWidth ?? MediaQuery.of(context).size.width - 52,
+      dropdownHeight: 200,
       resultAlign: Alignment.center,
       dropdownList: pokemonsMap,
       onChange: (value) {
@@ -73,7 +75,9 @@ class _CoolDropDownState extends State<CoolDropDown> {
       ),
       placeholderTS: tokenDetailAmount(
         fontSize: 14.0.textScale(),
-        color: titleCalenderWork,
+        color: widget.useCustomHintColors
+            ? titleCalenderWork.withOpacity(0.5)
+            : titleCalenderWork,
       ),
       resultBD: BoxDecoration(
         borderRadius: BorderRadius.circular(6),

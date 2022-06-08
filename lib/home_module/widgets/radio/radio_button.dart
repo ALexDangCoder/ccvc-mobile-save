@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ class RadioButton<T> extends StatelessWidget {
   final T groupValue;
   final Function(T?) onChange;
   final String title;
+  final bool useBlueColor;
 
   const RadioButton({
     Key? key,
@@ -18,6 +18,7 @@ class RadioButton<T> extends StatelessWidget {
     required this.groupValue,
     required this.onChange,
     this.title = '',
+    this.useBlueColor = false,
   }) : super(key: key);
 
   @override
@@ -36,7 +37,9 @@ class RadioButton<T> extends StatelessWidget {
               child: Radio<T>(
                 fillColor: MaterialStateColor.resolveWith((states) {
                   if (states.isEmpty) {
-                    return radioUnfocusColor;
+                    return useBlueColor
+                        ? AppTheme.getInstance().colorSelect().withOpacity(0.8)
+                        : radioUnfocusColor;
                   }
                   return AppTheme.getInstance().colorSelect();
                 }),

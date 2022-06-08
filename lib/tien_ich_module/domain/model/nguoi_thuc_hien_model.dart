@@ -27,9 +27,11 @@ class NguoiThucHienModel {
     required this.chucVu,
   });
 
-  String data() {
-    String value =
-        '${hoten.isNotEmpty ? hoten : ''}${donVi.isNotEmpty ? ' - ${donVi.join(', ')}' : ''}${chucVu.isNotEmpty ? ' - ${chucVu.join(', ')}' : ''}';
-    return value;
+  String dataAll() {
+    return '${hoten.isNotEmpty ? hoten : ''}${donVi.isNotEmpty ? ' - ${donVi.join(', ')}' : ''}${chucVu.isNotEmpty ? ' - ${chucVu.join(', ')}' : ''}';
+  }
+
+  String dataWithChucVu() {
+    return '${hoten.isNotEmpty ? hoten : ''}${donVi.isNotEmpty ? ' - ${chucVu.join(', ')}' : ''}';
   }
 }

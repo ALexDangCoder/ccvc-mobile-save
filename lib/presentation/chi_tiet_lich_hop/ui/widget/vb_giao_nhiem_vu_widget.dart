@@ -121,9 +121,7 @@ class _VBGiaoNhiemVuState extends State<VBGiaoNhiemVu> {
           sb20(),
           ButtonSelectFile(
             title: S.current.tai_lieu_dinh_kem,
-            onChange: (List<File> files) {
-              print(files);
-            },
+            onChange: (List<File> files) {},
             files: [],
           ),
           SizedBox(

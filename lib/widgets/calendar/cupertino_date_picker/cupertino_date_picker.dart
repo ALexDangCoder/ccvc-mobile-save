@@ -86,11 +86,7 @@ class _DatePickerLayoutDelegate extends MultiChildLayoutDelegate {
   }
 }
 
-enum PickerColumnType {
-  dayOfMonth,
-  month,
-  year,
-}
+enum PickerColumnType { dayOfMonth, month, year }
 
 class FlutterRoundedCupertinoDatePickerWidget extends StatefulWidget {
   final TextStyle textStyleDate;
@@ -206,6 +202,8 @@ class CupertinoDatePickerDateState
   late FixedExtentScrollController monthController;
   late FixedExtentScrollController yearController;
 
+  late FixedExtentScrollController lunarController;
+
   Map<int, double> estimatedColumnWidths = <int, double>{};
 
   @override
@@ -214,7 +212,7 @@ class CupertinoDatePickerDateState
     selectedDay = widget.initialDateTime.day;
     selectedMonth = widget.initialDateTime.month;
     selectedYear = widget.initialDateTime.year;
-
+    lunarController = FixedExtentScrollController();
     dayController = FixedExtentScrollController(initialItem: selectedDay - 1);
     monthController =
         FixedExtentScrollController(initialItem: selectedMonth - 1);
@@ -281,8 +279,11 @@ class CupertinoDatePickerDateState
   }
 
   bool _keepInValidRange(ScrollEndNotification notification) {
+    final int daysInCurrentMonth =
+        DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
     final int desiredDay =
         DateTime(selectedYear, selectedMonth, selectedDay).day;
+
     if (desiredDay != selectedDay) {
       SchedulerBinding.instance!.addPostFrameCallback((Duration timestamp) {
         dayController.animateToItem(
@@ -291,7 +292,8 @@ class CupertinoDatePickerDateState
           curve: Curves.easeOut,
         );
       });
-    }
+    } else if (selectedDay > daysInCurrentMonth) {}
+
     setState(() {});
     return false;
   }

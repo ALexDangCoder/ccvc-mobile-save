@@ -19,6 +19,7 @@ class HiveLocal {
   static late Box<String> _tagKey;
   static late Box<PermissionApp> _listPermission;
   static const TAG_KEY = 'TAG_KEY';
+
   static Future<void> init() async {
     Hive.registerAdapter(DataUserAdapter());
     Hive.registerAdapter(UserInformationAdapter());
@@ -37,8 +38,9 @@ class HiveLocal {
     que.cancel();
   }
 
-  static void saveDataUser(DataUser dataUser) {
-    _userBox.add(dataUser);
+  static Future<void> saveDataUser(DataUser dataUser) async {
+    await _userBox.clear();
+    await _userBox.add(dataUser);
   }
 
   static void clearData() {
@@ -117,5 +119,4 @@ class HiveLocal {
   static Future<void> addTagList(List<String> tagList) async {
     await _tagKey.addAll(tagList);
   }
-
 }

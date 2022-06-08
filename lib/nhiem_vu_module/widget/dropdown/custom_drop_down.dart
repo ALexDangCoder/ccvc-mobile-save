@@ -71,7 +71,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                             widget.value ?? '',
                             style: tokenDetailAmount(
                               fontSize: 14.0.textScale(),
-                              color: titleColor,
+                              color: color3D5586,
                             ),
                           ),
                         )
@@ -80,7 +80,11 @@ class _CustomDropDownState extends State<CustomDropDown> {
                           underline: Container(),
                           isExpanded: true,
                           value: widget.value,
-                          hint: widget.hint ?? Text(S.current.select_validate),
+                          hint: widget.hint ??
+                              Text(
+                                S.current.select_validate,
+                                style: textNormal(infoColor, 14),
+                              ),
                           icon: Container(),
                           focusColor: statusCalenderRed,
                           onChanged: (value) {
@@ -105,7 +109,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                       value,
                                       style: tokenDetailAmount(
                                         fontSize: 14.0.textScale(),
-                                        color: titleColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   );
@@ -117,7 +121,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                       S.current.danh_sach_rong,
                                       style: tokenDetailAmount(
                                         fontSize: 14.0.textScale(),
-                                        color: titleColor,
+                                        color: color3D5586,
                                       ),
                                     ),
                                   )

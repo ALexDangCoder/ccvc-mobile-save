@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:rxdart/rxdart.dart';
@@ -31,16 +32,12 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
   ).formatApiSS;
 
   final BaoChiMangXaHoiRepository _BCMXHRepo = Get.find();
+  List<BaiVietModel> list = [];
 
   Future<void> getListBaiVietTheoDoi(
-    String startDate,
-    String enDate,
-    int topic,
-      int page,
-      int size
-  ) async {
+      String startDate, String enDate, int topic, int page, int size) async {
     loadMorePage = page;
-   // showLoading();
+    // showLoading();
     final result = await _BCMXHRepo.getBaiVietTheoDoi(
       page,
       size,
@@ -52,16 +49,21 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
       success: (res) {
         // totalPage=res.totalPages;
         // _listBaiVietTheoDoi.sink.add(res);
+        list = res.listBaiViet;
         if (page == ApiConstants.PAGE_BEGIN) {
-
-          if (res.listBaiViet.isEmpty) {
+          if (list.isEmpty) {
             showEmpty();
           } else {
             showContent();
-            emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.listBaiViet));
+            emit(
+              CompletedLoadMore(
+                CompleteType.SUCCESS,
+                posts: res.listBaiViet,
+              ),
+            );
           }
         } else {
-          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: res.listBaiViet));
+          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
         }
       },
       error: (err) {
@@ -69,6 +71,26 @@ class TheoDoiBaiVietCubit extends BaseCubit<BaseState> {
         showError();
       },
     );
-   // showContent();
+    // showContent();
+  }
+
+  Future<void> followTopic(String url) async {
+    final result = await _BCMXHRepo.followTopic(url);
+    showLoading();
+    result.when(
+      success: (res) {
+        showContent();
+        if (res != null) {
+          list.insert(0, res);
+          emit(CompletedLoadMore(CompleteType.SUCCESS, posts: list));
+        }
+      },
+      error: (error) {
+        showContent();
+        Fluttertoast.showToast(
+          msg: error.message,
+        );
+      },
+    );
   }
 }

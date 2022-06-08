@@ -13,3 +13,12 @@ class Loading extends MenuState {
   @override
   List<Object> get props => [];
 }
+
+class ChuyenPhamViSucsess extends MenuState {
+  final String token;
+
+  ChuyenPhamViSucsess(this.token);
+
+  @override
+  List<Object> get props => [this.token];
+}

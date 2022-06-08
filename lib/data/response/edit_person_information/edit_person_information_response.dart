@@ -12,7 +12,9 @@ class EditPersonInformationResponse extends Equatable {
 
   EditPersonInformationResponse(this.data);
 
-  factory EditPersonInformationResponse.fromJson(Map<String, dynamic> json,) =>
+  factory EditPersonInformationResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$EditPersonInformationResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$EditPersonInformationResponseToJson(this);
@@ -22,7 +24,7 @@ class EditPersonInformationResponse extends Equatable {
 }
 
 @JsonSerializable()
-class DataEditPersonInformationResponse extends Equatable{
+class DataEditPersonInformationResponse extends Equatable {
   @JsonKey(name: 'data')
   String? data;
   @JsonKey(name: 'isSuccess')
@@ -31,7 +33,8 @@ class DataEditPersonInformationResponse extends Equatable{
   DataEditPersonInformationResponse();
 
   factory DataEditPersonInformationResponse.fromJson(
-      Map<String, dynamic> json,) =>
+    Map<String, dynamic> json,
+  ) =>
       _$DataEditPersonInformationResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
@@ -43,5 +46,4 @@ class DataEditPersonInformationResponse extends Equatable{
   @override
   // TODO: implement props
   List<Object?> get props => [];
-
 }

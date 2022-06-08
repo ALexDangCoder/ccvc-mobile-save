@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
-import 'package:ccvc_mobile/home_module/data/response/home/todo_current_user_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/detail_huong_dan_su_dung_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/lich_am_duong_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/list_nguoi_thuc_hien_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/post_anh_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/todo_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/topic_hdsd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tra_cuu_van_ban_phap_luat_response.dart';
@@ -79,6 +82,46 @@ abstract class TienIchService {
   Future<PhanCongThuKyResponse> xoaCongViec(
     @Query('id') String id,
   );
+
+  @POST(ApiConstants.TAO_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> createNhomCongViecMoi(
+    @Field('label') String label,
+  );
+
+  @PUT(ApiConstants.SUA_TEN_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> updateLabelGroupTodoList(
+    @Field('id') String id,
+    @Field('label') String newLabel,
+  );
+
+  @DELETE(ApiConstants.XOA_NHOM_CONG_VIEC_MOI)
+  @FormUrlEncoded()
+  Future<ThemNhomCVMoiDSCVResponse> deleteGroupTodoList(
+    @Query('id') String id,
+  );
+
+  @POST(ApiConstants.CHUYEN_VB_SANG_GIONG_NOI)
+  @FormUrlEncoded()
+  Future<ChuyenVBThanhGiongNoiResponse> chuyenVBSangGiongNoi(
+    @Field('text') String text,
+    @Field('voiceTone') String voiceTone,
+  );
+
+  @POST(ApiConstants.TRANSLATE_FILE)
+  @MultiPart()
+  Future<String> translateFile(
+    @Part() File file,
+    @Part() String target,
+    @Part() String source,
+  );
+
+  @POST(ApiConstants.POST_FILE)
+  @MultiPart()
+  Future<PostAnhResponse> uploadFile(
+    @Part() File fileUpload,
+  );
 }
 
 @RestApi()
@@ -108,7 +151,23 @@ abstract class TienIchServiceCommon {
 
   @GET(ApiConstants.TREE_DANH_BA)
   @FormUrlEncoded()
-  Future<TreeDanhBaResponse> TreeDanhBa(
+  Future<TreeDanhBaResponse> treeDanhBa(
     @Query('soCap') int soCap,
+    @Query('idDonViCha') String idDonViCha,
+  );
+}
+
+@RestApi()
+abstract class TienIchServiceGateWay {
+  @factoryMethod
+  factory TienIchServiceGateWay(Dio dio, {String baseUrl}) =
+      _TienIchServiceGateWay;
+
+  @POST(ApiConstants.TRANSLATE_DOCUMENT)
+  @MultiPart()
+  Future<String> translateDocument(
+    @Part() String vanBan,
+    @Part() String target,
+    @Part() String source,
   );
 }

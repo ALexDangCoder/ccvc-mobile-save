@@ -31,6 +31,8 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
   final List<SelectKey>? listSelect;
   final Function(SelectKey)? onChangeKey;
   final bool isCustomDialog;
+  final Function()? onTapTitle;
+
   const ContainerBackgroundTabletWidget({
     Key? key,
     required this.child,
@@ -41,7 +43,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.padding,
     this.onTapIcon,
     this.spacingTitle = 20,
-    this.isShowSubtitle=true,
+    this.isShowSubtitle = true,
     this.maxHeight,
     this.minHeight,
     this.paddingChild = const EdgeInsets.symmetric(vertical: 20),
@@ -50,6 +52,7 @@ class ContainerBackgroundTabletWidget extends StatefulWidget {
     this.listSelect,
     this.onChangeKey,
     this.isCustomDialog = false,
+    this.onTapTitle,
   }) : super(key: key);
 
   @override
@@ -114,13 +117,20 @@ class _ContainerBackgroudWidgetState
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      widget.title,
-                                      style: textNormalCustom(
-                                        fontSize: 16.0.textScale(space: 4),
-                                        color: textTitle,
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (widget.onTapTitle != null) {
+                                          widget.onTapTitle!();
+                                        }
+                                      },
+                                      child: Text(
+                                        widget.title,
+                                        style: textNormalCustom(
+                                          fontSize: 16.0.textScale(space: 4),
+                                          color: textTitle,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     if (widget.selectKeyDialog != null) ...[
                                       const SizedBox(
@@ -130,10 +140,13 @@ class _ContainerBackgroudWidgetState
                                         stream: widget.selectKeyDialog!
                                             .selectKeyDialog.stream,
                                         builder: (context, snapshot) {
-                                          return widget.isShowSubtitle?Text(
-                                            subTitle(),
-                                            style: textNormal(titleColumn, 16),
-                                          ): const SizedBox();
+                                          return widget.isShowSubtitle
+                                              ? Text(
+                                                  subTitle(),
+                                                  style: textNormal(
+                                                      titleColumn, 16),
+                                                )
+                                              : const SizedBox();
                                         },
                                       )
                                     ] else
@@ -206,10 +219,10 @@ class _ContainerBackgroudWidgetState
   String subTitle() {
     final data = widget.selectKeyDialog;
     if (widget.isUnit) {
-      if (data?.selectKeyTime == SelectKey.TUY_CHON) {
-        return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
-      }
-      return '${data!.selectKeyDonVi.getText()} - ${data.selectKeyTime.getText()}';
+      // if (data?.selectKeyTime == SelectKey.TUY_CHON) {
+      //   return '${data!.selectKeyDonVi.getText()} - ${data.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';
+      // }
+      return '${data!.selectKeyDonVi.getText()}';
     }
     if (data?.selectKeyTime == SelectKey.TUY_CHON) {
       return '${data!.startDate.toStringWithListFormat} - ${data.endDate.toStringWithListFormat}';

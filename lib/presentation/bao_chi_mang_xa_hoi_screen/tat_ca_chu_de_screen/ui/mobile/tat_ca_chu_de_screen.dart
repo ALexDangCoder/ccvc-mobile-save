@@ -35,12 +35,13 @@ class TatCaChuDeScreen extends StatefulWidget {
 class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
-  ChuDeCubit chuDeCubit = ChuDeCubit();
+  late ChuDeCubit chuDeCubit;
   String defaultTime = ChuDeCubit.HOM_NAY;
 
   @override
   void initState() {
     super.initState();
+    chuDeCubit = ChuDeCubit();
     chuDeCubit.callApi();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -59,234 +60,265 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException('1', ''),
-          stream: chuDeCubit.stateStream,
-          child: RefreshIndicator(
-            onRefresh: () async {
-              chuDeCubit.pageIndex = 1;
-              chuDeCubit.totalPage = 1;
-              setState(() {
-                defaultTime = ChuDeCubit.HOM_NAY;
-              });
-              await chuDeCubit.callApi();
-            },
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 20,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomDropDown(
+                      paddingTop: 0,
+                      paddingLeft: 16,
+                      value: defaultTime,
+                      items: chuDeCubit.dropDownItem,
+                      onSelectItem: (index) {
+                        chuDeCubit.getOptionDate(
+                          chuDeCubit.dropDownItem[index],
+                        );
+                        chuDeCubit.getDashboard(
+                          chuDeCubit.startDate,
+                          chuDeCubit.endDate,
+                          isShow: true,
+                        );
+                        chuDeCubit.getListTatCaCuDe(
+                          chuDeCubit.startDate,
+                          chuDeCubit.endDate,
+                          isShow: true,
+                        );
+                      },
                     ),
-                    Row(
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: AppTheme.getInstance()
+                            .colorField()
+                            .withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: SvgPicture.asset(
+                            ImageAssets.ic_box_serach,
+                            fit: BoxFit.cover,
+                            color: AppTheme.getInstance().colorField(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      showBottomSheetCustom(
+                        context,
+                        child: SearchBanTinBtnSheet(
+                          cubit: chuDeCubit,
+                        ),
+                        title: S.current.tim_kiem,
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: StateStreamLayout(
+                textEmpty: S.current.khong_co_du_lieu,
+                retry: () {
+                  chuDeCubit.callApi();
+                },
+                error: AppException(
+                    S.current.error, S.current.something_went_wrong),
+                stream: chuDeCubit.stateStream,
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    chuDeCubit.pageIndex = 1;
+                    chuDeCubit.totalPage = 1;
+                    setState(() {
+                      defaultTime = ChuDeCubit.HOM_NAY;
+                    });
+                    await chuDeCubit.callApi();
+                  },
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: CustomDropDown(
-                            paddingTop: 0,
-                            paddingLeft: 16,
-                            value: defaultTime,
-                            items: chuDeCubit.dropDownItem,
-                            onSelectItem: (index) {
-                              chuDeCubit.getOptionDate(
-                                chuDeCubit.dropDownItem[index],
-                              );
-                              chuDeCubit.getDashboard(
-                                chuDeCubit.startDate,
-                                chuDeCubit.endDate,
-                              );
-                              chuDeCubit.getListTatCaCuDe(
-                                chuDeCubit.startDate,
-                                chuDeCubit.endDate,
-                              );
-                            },
-                          ),
-                        ),
                         const SizedBox(
-                          width: 16,
+                          height: 20,
                         ),
-                        GestureDetector(
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color:  AppTheme.getInstance().colorField().withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Center(
-                              child: SizedBox(
-                                width: 22,
-                                height: 22,
-                                child: SvgPicture.asset(
-                                  ImageAssets.ic_box_serach,
-                                  fit: BoxFit.cover,
-                                  color:  AppTheme.getInstance().colorField(),
-                                ),
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            showBottomSheetCustom(
-                              context,
-                              child: SearchBanTinBtnSheet(
-                                cubit: chuDeCubit,
-                              ),
-                              title: S.current.tim_kiem,
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    StreamBuilder<DashBoardModel>(
-                      stream: chuDeCubit.streamDashBoard,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data?.listItemDashBoard ?? [];
-                        return GridView.count(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          crossAxisCount: 2,
-                          childAspectRatio: 2.3,
-                          children: data
-                              .map(
-                                (e) => ItemInfomation(
-                                  infomationModel: e,
-                                ),
-                              )
-                              .toList(),
-                        );
-                      },
-                    ),
-                    StreamBuilder<TuongTacThongKeResponseModel>(
-                      stream: chuDeCubit.dataBaoCaoThongKe,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ??
-                            TuongTacThongKeResponseModel(
-                              danhSachTuongtacThongKe: [],
-                            );
-                        return SizedBox(
-                          height: 240,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data.danhSachTuongtacThongKe.length,
-                            itemBuilder: (context, index) {
-                              return ItemTableTopic(
-                                chuDeCubit.listTitle[index],
-                                '',
-                                data
-                                    .danhSachTuongtacThongKe[index]
-                                    .dataTuongTacThongKeModel
-                                    .interactionStatistic,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: StreamBuilder<DashBoardModel>(
+                            stream: chuDeCubit.streamDashBoard,
+                            builder: (context, snapshot) {
+                              final data =
+                                  snapshot.data?.listItemDashBoard ?? [];
+                              return GridView.count(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                crossAxisCount: 2,
+                                childAspectRatio: 2.3,
+                                children: data
+                                    .map(
+                                      (e) => ItemInfomation(
+                                        infomationModel: e,
+                                      ),
+                                    )
+                                    .toList(),
                               );
                             },
                           ),
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    StreamBuilder<List<ChuDeModel>>(
-                      stream: chuDeCubit.listYKienNguoiDan,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final listChuDe = snapshot.data ?? [];
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                S.current.tin_noi_bat,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: titleColor,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              HotNews(
-                                chuDeCubit.hotNewData.avartar ?? '',
-                                chuDeCubit.hotNewData.title ?? '',
-                                DateTime.parse(
-                                  chuDeCubit.hotNewData.publishedTime ?? '',
-                                ).formatApiSSAM,
-                                chuDeCubit.hotNewData.contents ?? '',
-                                chuDeCubit.hotNewData.url ?? '',
-                              ),
-                              const SizedBox(
-                                height: 16,
-                                child: Divider(
-                                  color: lineColor,
-                                  height: 1,
-                                ),
-                              ),
-                              ListView.builder(
-                                itemCount: chuDeCubit.listChuDeLoadMore.length,
+                        ),
+                        StreamBuilder<TuongTacThongKeResponseModel>(
+                          stream: chuDeCubit.dataBaoCaoThongKe,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ??
+                                TuongTacThongKeResponseModel(
+                                  danhSachTuongtacThongKe: [],
+                                );
+                            return Container(
+                              height: 240,
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: ListView.builder(
                                 shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: data.danhSachTuongtacThongKe.length,
                                 itemBuilder: (context, index) {
-                                  if (index ==
-                                      chuDeCubit.listChuDeLoadMore.length - 1) {
-                                    if (chuDeCubit.listChuDeLoadMore.length +
-                                            1 ==
-                                        chuDeCubit.totalItem) {
-                                      return const SizedBox();
-                                    } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppTheme.getInstance()
-                                              .primaryColor(),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                  return Column(
-                                    children: [
-                                      ItemListNews(
-                                        listChuDe[index].avartar ?? '',
-                                        listChuDe[index].title ?? '',
-                                        DateTime.parse(
-                                          listChuDe[index].publishedTime ?? '',
-                                        ).formatApiSSAM,
-                                        listChuDe[index].url ?? '',
-                                      ),
-                                      const SizedBox(
-                                        height: 16,
-                                        child: Divider(
-                                          color: lineColor,
-                                          height: 1,
-                                        ),
-                                      ),
-                                    ],
-                                  );
+                                  return index == 0
+                                      ? ItemTableTopic(
+                                        chuDeCubit.listTitle[index],
+                                        '',
+                                        data
+                                            .danhSachTuongtacThongKe[index]
+                                            .dataTuongTacThongKeModel
+                                            .interactionStatistic,
+                                      )
+                                      : const SizedBox.shrink();
                                 },
                               ),
-                            ],
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: StreamBuilder<List<ChuDeModel>>(
+                            stream: chuDeCubit.listYKienNguoiDan,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                final listChuDe = snapshot.data ?? [];
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      S.current.tin_noi_bat,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: color3D5586,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    HotNews(
+                                      chuDeCubit.hotNewData.avartar ?? '',
+                                      chuDeCubit.hotNewData.title ?? '',
+                                      DateTime.parse(
+                                        chuDeCubit.hotNewData.publishedTime ??
+                                            '',
+                                      ).formatApiSSAM,
+                                      chuDeCubit.hotNewData.contents ?? '',
+                                      chuDeCubit.hotNewData.url ?? '',
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                      child: Divider(
+                                        color:
+                                            AppTheme.getInstance().lineColor(),
+                                        height: 1,
+                                      ),
+                                    ),
+                                    ListView.builder(
+                                      itemCount:
+                                          chuDeCubit.listChuDeLoadMore.length,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        if (index ==
+                                            chuDeCubit
+                                                    .listChuDeLoadMore.length -
+                                                1) {
+                                          if (chuDeCubit.listChuDeLoadMore
+                                                      .length +
+                                                  1 ==
+                                              chuDeCubit.totalItem) {
+                                            return const SizedBox();
+                                          } else {
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                color: AppTheme.getInstance()
+                                                    .primaryColor(),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                        return Column(
+                                          children: [
+                                            ItemListNews(
+                                              listChuDe[index].avartar ?? '',
+                                              listChuDe[index].title ?? '',
+                                              DateTime.parse(
+                                                listChuDe[index]
+                                                        .publishedTime ??
+                                                    '',
+                                              ).formatApiSSAM,
+                                              listChuDe[index].url ?? '',
+                                            ),
+                                            SizedBox(
+                                              height: 16,
+                                              child: Divider(
+                                                color: AppTheme.getInstance()
+                                                    .lineColor(),
+                                                height: 1,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

@@ -50,7 +50,7 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
       selectKeyDialog: _lichHopCubit,
       listSelect: const [
         SelectKey.LICH_HOP_CUA_TOI,
-        SelectKey.LICH_HOP_DUOC_MOI,
+        SelectKey.LICH_CHO_XAC_NHAN,
         SelectKey.LICH_HOP_CAN_DUYET,
       ],
       onTapIcon: () {
@@ -66,17 +66,16 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
               type: widget.homeItemType,
               listSelectKey: [
                 DialogData(
-                  onSelect: (value, startDate, endDate) {
-                    _lichHopCubit.selectDate(
-                        selectKey: value,
-                        startDate: startDate,
-                        endDate: endDate);
-                  },
-                  initValue: _lichHopCubit.selectKeyTime,
-                  title: S.current.time,
+                    onSelect: (value, startDate, endDate) {
+                      _lichHopCubit.selectDate(
+                          selectKey: value,
+                          startDate: startDate,
+                          endDate: endDate);
+                    },
+                    initValue: _lichHopCubit.selectKeyTime,
+                    title: S.current.time,
                     startDate: _lichHopCubit.startDate,
-                    endDate: _lichHopCubit.endDate
-                )
+                    endDate: _lichHopCubit.endDate)
               ],
             );
           }),
@@ -113,16 +112,9 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
                             ? S.current.truc_tuyen
                             : S.current.truc_tiep,
                         colorStatus: result.isHopTrucTuyen
-                            ? sideBtnSelected.withOpacity(0.5)
+                            ? itemWidgetUsing
                             : choXuLyColor,
                         backGroundStatus: true,
-                        status2: result
-                                .trangThaiTheoUserEnum(_lichHopCubit.userId)
-                                ?.getText() ??
-                            '',
-                        colorStatus2: result
-                            .trangThaiTheoUserEnum(_lichHopCubit.userId)
-                            ?.getColor(),
                         backGroundStatus2: true,
                         title: result.title,
                         listData: [
@@ -130,6 +122,11 @@ class _MeetingScheduleWidgetState extends State<MeetingScheduleWidget> {
                             urlIcon: ImageAssets.icTime,
                             key: S.current.time,
                             value: result.convertTime(),
+                          ),
+                          InfoData(
+                            urlIcon: ImageAssets.icAddress,
+                            key: S.current.dia_diem,
+                            value: result.address,
                           ),
                           InfoData(
                             urlIcon: ImageAssets.icPeople,

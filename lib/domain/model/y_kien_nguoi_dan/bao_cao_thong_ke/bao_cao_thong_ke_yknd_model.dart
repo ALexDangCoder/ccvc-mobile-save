@@ -46,6 +46,7 @@ class DashBroadItemYKNDModel {
   int? choXuLy = 0;
   int? quaHan = 0;
   int? trongHan = 0;
+  int? denHan = 0;
 
   DashBroadItemYKNDModel({
     this.chuyenXuLy,
@@ -55,6 +56,7 @@ class DashBroadItemYKNDModel {
     this.choXuLy,
     this.quaHan,
     this.trongHan,
+    this.denHan,
   });
 }
 
@@ -82,7 +84,6 @@ class ChartDonViModel {
   ChartDonViModel({required this.listChartData});
 }
 
-
 class DonViYKNDModel {
   String donViID;
   String tenLinhVuc;
@@ -97,16 +98,15 @@ class DonViYKNDModel {
   });
 }
 
-
 class ChartYKNDByMonthModel {
   List<YKNDByMonth> listChartData;
 
   ChartYKNDByMonthModel({required this.listChartData});
 }
+
 class YKNDByMonth {
   int month;
-  int  quantities;
-
+  int quantities;
 
   YKNDByMonth({
     required this.month,
@@ -122,4 +122,5 @@ class CodeStatusYKND {
   static const CHO_XU_LY_YKND = 'ChoXuLy';
   static const QUA_HAN_YKND = 'QuaHan';
   static const TRONG_HAN_YKND = 'TrongHan';
+  static const DEN_HAN_YKND = 'DenHan';
 }

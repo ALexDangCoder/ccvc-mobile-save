@@ -42,13 +42,16 @@ class DataResponseVBDen {
         pageData: pageData
             .map(
               (e) => VanBanModel(
-                doKhan: e.doKhan,
-                loaiVanBan: e.loaiVanBan,
-                ngayDen: e.ngayDen,
-                iD: e.iD,
-                nguoiSoanThao: e.nguoiSoanThao,
-                taskId: e.taskId,
-              ),
+                  doKhan: e.doKhan,
+                  loaiVanBan: e.loaiVanBan,
+                  ngayDen: e.ngayDen,
+                  iD: e.iD,
+                  nguoiSoanThao: e.nguoiSoanThao,
+                  taskId: e.taskId,
+                  sender: e.NoiGui,
+                  statusCode: e.TrangThaiXuLy,
+                  number: e.SoKyHieu,
+                  trichYeu: e.trichYeu),
             )
             .toList(),
         currentPage: currentPage,
@@ -72,14 +75,27 @@ class PageDataResponseVBDen {
   String? iD;
   @JsonKey(name: 'TaskId')
   String? taskId;
+  @JsonKey(name: 'NoiGui')
+  String? NoiGui;
+  @JsonKey(name: 'SoKyHieu')
+  String? SoKyHieu;
+  @JsonKey(name: 'TrangThaiXuLy')
+  int? TrangThaiXuLy;
+  @JsonKey(name: 'TrichYeu')
+  String? trichYeu;
 
-  PageDataResponseVBDen(
-      {this.iD,
-      this.doKhan,
-      this.loaiVanBan,
-      this.ngayDen,
-      this.nguoiSoanThao,
-      this.taskId});
+  PageDataResponseVBDen({
+    this.iD,
+    this.doKhan,
+    this.loaiVanBan,
+    this.ngayDen,
+    this.nguoiSoanThao,
+    this.taskId,
+    this.NoiGui,
+    this.SoKyHieu,
+    this.TrangThaiXuLy,
+    this.trichYeu,
+  });
 
   factory PageDataResponseVBDen.fromJson(Map<String, dynamic> json) =>
       _$PageDataResponseVBDenFromJson(json);
@@ -87,10 +103,15 @@ class PageDataResponseVBDen {
   Map<String, dynamic> toJson() => _$PageDataResponseVBDenToJson(this);
 
   VanBanModel toDomain() => VanBanModel(
-      iD: iD,
-      nguoiSoanThao: nguoiSoanThao,
-      loaiVanBan: loaiVanBan,
-      doKhan: doKhan,
-      ngayDen: ngayDen,
-      taskId: taskId,);
+        iD: iD,
+        nguoiSoanThao: nguoiSoanThao,
+        loaiVanBan: loaiVanBan,
+        doKhan: doKhan,
+        ngayDen: ngayDen,
+        taskId: taskId,
+        statusCode: TrangThaiXuLy,
+        number: SoKyHieu,
+        sender: NoiGui,
+        trichYeu: trichYeu,
+      );
 }

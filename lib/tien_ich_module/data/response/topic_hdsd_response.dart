@@ -78,19 +78,20 @@ class TopicHDSDResponse extends Equatable {
       _$TopicHDSDResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$TopicHDSDResponseToJson(this);
-  TopicHDSD toModel()=>TopicHDSD(
-      maTopic: maTopic,
-      icon: icon,
-      id: id,
-      title: title,
-      order: order,
-      inUsed: inUsed,
-      isDeleted: isDeleted,
-      createdOn: createdOn,
-      createdBy: createdBy,
-      updatedOn: updatedOn,
-      updatedBy: updatedBy,
-  );
+
+  TopicHDSD toModel() => TopicHDSD(
+        maTopic: maTopic,
+        icon: icon,
+        id: id,
+        title: title,
+        order: order,
+        inUsed: inUsed,
+        isDeleted: isDeleted,
+        createdOn: createdOn,
+        createdBy: createdBy,
+        updatedOn: updatedOn,
+        updatedBy: updatedBy,
+      );
 
   //todo convert to Model to use
   @override

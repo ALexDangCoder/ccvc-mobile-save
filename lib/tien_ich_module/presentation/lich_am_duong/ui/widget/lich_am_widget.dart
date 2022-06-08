@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class LichAmWidget extends StatelessWidget {
   final String thu;
   final String ngayAmLichStr;
 
-  LichAmWidget({
+  const LichAmWidget({
     Key? key,
     required this.ngayAmLich,
     required this.thu,
@@ -20,38 +21,55 @@ class LichAmWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              titleLichAm(thu, fontSize: 18.0, fontWeight: FontWeight.w500),
+              spaceW6,
+              titleLichAm(
+                DateTime.parse(
+                  ngayAmLich.solarDate ?? DateTime.now().toString(),
+                ).formatApiDDMMYYYY,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               titleLichAm(
-                thu,
-                fontSize: 14.0,
+                '${S.current.am_lich}: ${ngayAmLich.day ?? ''}-'
+                ' ${ngayAmLich.month ?? ''}- ${ngayAmLich.year ?? ''}',
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
+                color: AqiColor,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              titleLichAm(
+                '${S.current.ngay} ${ngayAmLich.dayName ?? ''}',
+                fontSize: 12.0,
                 fontWeight: FontWeight.w500,
                 color: AqiColor,
               ),
               titleLichAm(
-                  DateTime.parse(
-                    ngayAmLich.solarDate ?? DateTime.now().toString(),
-                  ).formatDayCalendar,
-                  fontSize: 16.0,),
+                ' - ${S.current.thang} ${ngayAmLich.monthLongName ?? ''}',
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
+                color: AqiColor,
+              ),
               titleLichAm(
-                  '${ngayAmLich.day??''}, Tháng ${ngayAmLich.month??''} (AL), ${ngayAmLich.yearName??''}',
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w500,
-                  color: AqiColor),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              titleLichAm('N. ${ngayAmLich.yearName ?? ''}',
-                  fontSize: 12.0, fontWeight: FontWeight.w500, color: AqiColor),
-              titleLichAm('T. ${ngayAmLich.monthLongName ?? ''}',
-                  fontSize: 12.0, fontWeight: FontWeight.w500, color: AqiColor),
+                ' - ${S.current.nam} ${ngayAmLich.yearName ?? ''}',
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
+                color: AqiColor,
+              ),
             ],
           )
         ],
@@ -69,7 +87,7 @@ Widget titleLichAm(String title,
       style: textNormalCustom(
         fontSize: fontSize ?? 12.0,
         fontWeight: fontWeight ?? FontWeight.w400,
-        color: color ?? titleColor,
+        color: color ?? color3D5586,
       ),
     ),
   );

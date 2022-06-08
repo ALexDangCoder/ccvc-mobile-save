@@ -1,23 +1,19 @@
+import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/app_bar/base_app_bar.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/ghi_chu_ky_hieu_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_hoang_dao_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_ly_thuan_phong_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/date_picker_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich_am_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/ngay_bach_ky_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/nhi_thap_bat_tu_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/sao_tot_sao_xau_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/thap_nhi_kien_tru_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/tuoi_xung_theo_ngay_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/tuoi_xung_theo_thang_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/provider_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/button/button_bottom.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/calendar/table_calendar/table_calendar_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_date_picker.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +28,7 @@ class LichAmDuongMobile extends StatefulWidget {
 
 class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
   late LichAmDuongCubit cubit;
+  bool isCheckOnTap = true;
 
   @override
   void initState() {
@@ -44,21 +41,12 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
+        isCheckTabBar: true,
         actions: [
           IconButton(
             onPressed: () {
-              CupertinoRoundedDatePickerWidget.show(
-                context,
-                minimumYear: 1990,
-                maximumYear: 2060,
-                initialDate: DateTime.now(),
-                onTap: (dateTime) async {
-                  await cubit.getLichAmDuong(dateTime.formatApiDDMMYYYY);
-                  cubit.selectTime = dateTime;
-                  cubit.changeDateTimeSubject.add(dateTime);
-                  Navigator.pop(context);
-                },
-              );
+              isCheckOnTap = !isCheckOnTap;
+              setState(() {});
             },
             icon: Container(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -74,6 +62,68 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
           icon: SvgPicture.asset(
             ImageAssets.icBack,
           ),
+        ),
+        child: GestureDetector(
+          onTap: () {
+            showBottomSheetCustom(
+              context,
+              title: S.current.chon_ngay,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 250,
+                    child: FlutterRoundedCupertinoDatePickerWidgetAmDuong(
+                      onDateTimeChanged: (value) {
+                        cubit.time = value;
+                      },
+                      textStyleDate: textNormalCustom(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        color: color3D5586,
+                      ),
+                      initialDateTime: DateTime.now(),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 24,
+                      bottom: 32,
+                    ),
+                    child: ButtonBottom(
+                      onPressed: () async {
+                        await cubit.getLichAmDuong(
+                          cubit.time.formatApiDDMMYYYY,
+                        );
+                        cubit.selectTime = cubit.time;
+                        cubit.changeDateTimeSubject.add(cubit.time);
+                        Navigator.pop(context);
+                      },
+                      text: S.current.chon_ngay,
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+          child: StreamBuilder<LichAmDuong>(
+              stream: cubit.lichAmDuongStream,
+              builder: (context, snap) {
+                final date = snap.data?.ngayAmLich?.solarDate ?? DateTime.now();
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${S.current.thang} '
+                      '${DateTime.parse(date.toString()).formatApiMMYYYY} ',
+                      style: textNormalCustom(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                        color: textTitle,
+                      ),
+                    ),
+                  ],
+                );
+              }),
         ),
       ),
       body: ProviderWidget<LichAmDuongCubit>(
@@ -106,88 +156,40 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                             thu: snapshot.data?.thu ?? '',
                             ngayAmLichStr: snapshot.data?.ngayAmLicgStr ?? '',
                           ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 12.0),
+                            child: Divider(
+                              thickness: 1,
+                            ),
+                          ),
                           GioHoangDaoWidget(
                             listGioHoangDao: snapshot.data?.gioHoangDao ?? [],
                             sao: snapshot.data?.nguHanh?.sao ?? '',
                             truc: snapshot.data?.nguHanh?.truc ?? '',
                             hanh: snapshot.data?.nguHanh?.hanh ?? '',
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                '${S.current.tiet_khi}:',
+                                style: textNormalCustom(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: AqiColor,
+                                ),
+                              ),
+                              spaceW3,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: titleLichAm(
+                                  '${snapshot.data?.tietKhi}',
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: color3D5586,
+                                ),
+                              ),
+                            ],
                           ),
-                          TuoiXungTheoNgayWidget(
-                            listTuoiXungTheoNgay:
-                                snapshot.data?.tuoiXungTheoNgay ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          TuoiXungTheoThangWidget(
-                            listTuoiXungTheoThang:
-                                snapshot.data?.tuoiXungTheoThang ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          NgayBachKyWidget(
-                            listNgayBachKy: snapshot.data?.ngayBachKy ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          ThapNhiKienTruWidget(
-                            thapNhiKienTru: snapshot.data?.thapNhiKienTru ??
-                                ThapNhiKienTru(),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          ThapNhiBatTuWidget(
-                            thapNhiBatTu:
-                                snapshot.data?.thapNhiBatTu ?? ThapNhiBatTu(),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          SaoTotSaoXauWidget(
-                            listSaoTot: snapshot.data?.saoTot ?? [],
-                            listSaoXau: snapshot.data?.saoXau ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          GioLyThuanPhongWidget(
-                            listGioLyThuanPhong:
-                                snapshot.data?.gioLyThuanPhong ?? [],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 12.0),
-                            child: Divider(
-                              thickness: 1,
-                            ),
-                          ),
-                          const GhiChuKyHieuWidget(),
                         ],
                       );
                     },
@@ -198,15 +200,20 @@ class _LichAmDuongMobileState extends State<LichAmDuongMobile> {
                 stream: cubit.changeDateTimeSubject.stream,
                 builder: (context, snapshot) {
                   return TableCalendarWidget(
+                    isFomatMonth: isCheckOnTap,
                     onChange: (DateTime start, DateTime end, selectDay) {
                       cubit.startDate = start.formatApiDDMMYYYY;
                       cubit.getLichAmDuong(cubit.startDate);
                       cubit.selectTime = selectDay;
                     },
-                    onChangeRange: (DateTime? start, DateTime? end,
-                        DateTime? focusedDay) {},
+                    onChangeRange: (
+                      DateTime? start,
+                      DateTime? end,
+                      DateTime? focusedDay,
+                    ) {},
                     selectDay: (day) => cubit.selectDay(day),
                     cubit: cubit,
+                    isCheckLunar: true,
                   );
                 },
               ),

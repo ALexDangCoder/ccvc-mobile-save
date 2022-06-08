@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_lich_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/lich_hop.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
@@ -51,9 +50,9 @@ class _LichHopTheoDanhSachNgayState extends State<LichHopTheoDanhSachNgay> {
           cubit: widget.cubit,
           type: widget.type,
         ),
-
-       const SizedBox(height: 16,),
-
+        const SizedBox(
+          height: 16,
+        ),
         Expanded(
           child: StreamBuilder<DanhSachLichHopModel>(
             stream: widget.cubit.danhSachLichHopStream,

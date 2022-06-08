@@ -1,7 +1,7 @@
-
-import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/mobile/items/phan_anh_kien_nghi_don_vi_widget.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/mequee_widget.dart';
 import 'package:ccvc_mobile/presentation/thong_bao/ui/mobile/thong_bao_screen.dart';
 import 'package:flutter/material.dart';
+
 import '/data/exception/app_exception.dart';
 import '/generated/l10n.dart';
 import '/home_module/config/resources/color.dart';
@@ -15,9 +15,8 @@ import '/home_module/presentation/home_screen/ui/widgets/thong_bao_message_widge
 import '/widgets/views/state_stream_layout.dart';
 import 'home_icon.dart';
 
-final keyHomeMobile = GlobalKey<_HomeScreenMobileState>();
-
-
+GlobalKey<HomeScreenMobileState> keyHomeMobile =
+    GlobalKey<HomeScreenMobileState>();
 
 class HomeScreenMobile extends StatefulWidget {
   const HomeScreenMobile({
@@ -25,10 +24,10 @@ class HomeScreenMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HomeScreenMobile> createState() => _HomeScreenMobileState();
+  State<HomeScreenMobile> createState() => HomeScreenMobileState();
 }
 
-class _HomeScreenMobileState extends State<HomeScreenMobile> {
+class HomeScreenMobileState extends State<HomeScreenMobile> {
   ScrollController scrollController = ScrollController();
   HomeCubit homeCubit = HomeCubit();
 
@@ -65,7 +64,8 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
             child: CustomScrollView(
               controller: scrollController,
               physics: const ClampingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),),
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               slivers: [
                 SliverAppBar(
                   floating: true,
@@ -89,7 +89,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                   ),
                   centerTitle: true,
                   flexibleSpace: Container(
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(appBarUrlIcon()),
                         fit: BoxFit.fill,
@@ -142,6 +142,14 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                           return const SizedBox();
                         },
                       ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        color: backgroundColorApp,
+                        padding: const EdgeInsets.symmetric(vertical: 25),
+                        child: const MarqueeWidget(),
+                      )
                     ],
                   ),
                 )
@@ -152,5 +160,4 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
       ),
     );
   }
-
 }

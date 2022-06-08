@@ -1,5 +1,8 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:equatable/equatable.dart';
 
 class DataLichSuThuHoiVanBanDi {
   String? messages;
@@ -38,32 +41,36 @@ class LichSuThuHoiVanBanDi {
     final List<DocumentDetailRow> list = [
       DocumentDetailRow(
         S.current.nguoi_thu_hoi,
-        nguoiThuHoi??'',
+        nguoiThuHoi ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.don_vi_thu_hoi,
-        donViThuHoi??'',
+        donViThuHoi ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGian ?? '',
+        thoiGian?.changeToNewPatternDate(
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
+            '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.noi_dung_thu_hoi,
-        noiDungThuHoi??'',
+        noiDungThuHoi ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.nguoi_bi_thu_hoi,
-        nguoiBiThuHoi??'',
+        nguoiBiThuHoi ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.don_vi_bi_thu_hoi,
-        donViBiThuHoi??'',
+        donViBiThuHoi ?? '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -76,7 +83,8 @@ class LichSuThuHoiVanBanDi {
   }
 }
 
-class Files {
+// ignore: must_be_immutable
+class Files extends Equatable {
   String? id;
   String? ten;
   String? duongDan;
@@ -84,11 +92,15 @@ class Files {
   String? dungLuong;
   String? kieuDinhKem;
 
-  Files(
-      {this.id,
-      this.ten,
-      this.duongDan,
-      this.duoiMoRong,
-      this.dungLuong,
-      this.kieuDinhKem});
+  Files({
+    this.id,
+    this.ten,
+    this.duongDan,
+    this.duoiMoRong,
+    this.dungLuong,
+    this.kieuDinhKem,
+  });
+
+  @override
+  List<Object?> get props => [];
 }

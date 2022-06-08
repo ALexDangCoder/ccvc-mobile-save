@@ -7,19 +7,12 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/bloc/lichh_am_duong_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/tablet/widget/gio_hoang_dao_widget_tablet.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/tablet/widget/text_lich_am_hom_nay.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/gio_ly_thuan_phong_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/ngay_bach_ky_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/nhi_thap_bat_tu_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/sao_tot_sao_xau_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/thap_nhi_kien_tru_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/tuoi_xung_theo_ngay_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/tuoi_xung_theo_thang_widget.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/cupertino_rounded_date.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/provider_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/calendar/table_calendar/table_calendar_widget.dart';
-import 'package:ccvc_mobile/tien_ich_module/widget/dialog/show_dialog_date_picker.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,30 +39,7 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
     return Scaffold(
       backgroundColor: bgTabletColor,
       appBar: BaseAppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              CupertinoRoundedDatePickerWidgetDialog.show(
-                context,
-                minimumYear: 1990,
-                maximumYear: 2060,
-                initialDate: DateTime.now(),
-                onTap: (dateTime) async {
-                  await cubit.getLichAmDuong(dateTime.formatApiDDMMYYYY);
-                  cubit.selectTime = dateTime;
-                  cubit.changeDateTimeSubject.add(dateTime);
-                  Navigator.pop(context);
-                },
-              );
-            },
-            icon: Container(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: SvgPicture.asset(
-                ImageAssets.icIconMenuLichAmDuongTablet,
-              ),
-            ),
-          ),
-        ],
+        actions: const [],
         title: S.current.lich_am_duong,
         leadingIcon: IconButton(
           onPressed: () => {Navigator.pop(context)},
@@ -127,6 +97,30 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                         right: 20.0,
                                       ),
                                       child: TableCalendarWidget(
+                                        onTap: (_) {
+                                          CupertinoRoundedDatePickerWidgetDialogAmDuong
+                                              .show(
+                                            context,
+                                            minimumYear: 1990,
+                                            maximumYear: 2060,
+                                            initialDate: DateTime.now(),
+                                            onTap: (dateTime) async {
+                                              await cubit.getLichAmDuong(
+                                                dateTime.formatApiDDMMYYYY,
+                                              );
+                                              cubit.selectTime = dateTime;
+                                              cubit.changeDateTimeSubject
+                                                  .add(dateTime);
+                                              cubit.dateTimeSubject.sink
+                                                  .add(dateTime);
+                                              Navigator.pop(context);
+                                            },
+                                            textStyle: tokenDetailAmount(
+                                              color: titleCalenderWork,
+                                              fontSize: 12,
+                                            ),
+                                          );
+                                        },
                                         onChange: (
                                           DateTime start,
                                           DateTime end,
@@ -135,6 +129,8 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                           cubit.startDate =
                                               start.formatApiDDMMYYYY;
                                           cubit.getLichAmDuong(cubit.startDate);
+                                          cubit.dateTimeSubject.sink
+                                              .add(start);
                                           cubit.selectTime = selectDay;
                                         },
                                         tablet: true,
@@ -146,71 +142,7 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                         selectDay: (DateTime day) =>
                                             cubit.selectDay(day),
                                         cubit: cubit,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 20.0,
-                                          bottom: 20.0,
-                                          left: 20.0,
-                                          right: 20.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 12.0,
-                                                  width: 12.0,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: choVaoSoColor,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10.0,
-                                                ),
-                                                Text(
-                                                  S.current.ngay_hoang_dao,
-                                                  style: textNormalCustom(
-                                                    fontSize: 16.0,
-                                                    color: titleColumn,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 12.0,
-                                                  width: 12.0,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: titleColor,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10.0,
-                                                ),
-                                                Text(
-                                                  S.current.ngay_hach_dao,
-                                                  style: textNormalCustom(
-                                                    fontSize: 16.0,
-                                                    color: titleColumn,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                        isCheckLunar: true,
                                       ),
                                     ),
                                   ],
@@ -255,13 +187,14 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                                           children: [
                                             Container(
                                               decoration: BoxDecoration(
-                                                  color: AppTheme.getInstance()
-                                                      .colorField(),
-                                                  border: Border.all(
-                                                    width: 0.5,
-                                                    color: borderColor
-                                                        .withOpacity(0.5),
-                                                  )),
+                                                color: AppTheme.getInstance()
+                                                    .colorField(),
+                                                border: Border.all(
+                                                  width: 0.5,
+                                                  color: borderColor
+                                                      .withOpacity(0.5),
+                                                ),
+                                              ),
                                               child: TextLichAmHomNay(
                                                 color: backgroundColorApp,
                                                 fontSize: 16.0,
@@ -481,7 +414,22 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24, top: 24),
+                              child: Text(
+                                '${S.current.tong_quan_ngay_am_lich}'
+                                ' ${snapshot.data?.ngayAmLich?.day}/'
+                                ' ${snapshot.data?.ngayAmLich?.month}/'
+                                ' ${snapshot.data?.ngayAmLich?.year}',
+                                style: textNormalCustom(
+                                  color: titleColor,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
                             GioHoangDaoWidgetTablet(
                               listGioHoangDao: snapshot.data?.gioHoangDao ?? [],
                               sao: snapshot.data?.nguHanh?.sao ?? '',
@@ -490,114 +438,114 @@ class _LichAmDuongTabletState extends State<LichAmDuongTablet> {
                               ngayAmLichStr: snapshot.data?.ngayAmLicgStr ?? '',
                               tietKhi: snapshot.data?.tietKhi ?? '',
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 24.0,
-                                left: 24.0,
-                              ),
-                              child: Column(
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(bottom: 12.0),
-                                    child: Divider(
-                                      thickness: 1,
-                                      color: bgDropDown,
-                                    ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: TuoiXungTheoNgayWidget(
-                                          listTuoiXungTheoNgay:
-                                              snapshot.data?.tuoiXungTheoNgay ??
-                                                  [],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: TuoiXungTheoThangWidget(
-                                          listTuoiXungTheoThang: snapshot
-                                                  .data?.tuoiXungTheoThang ??
-                                              [],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(bottom: 12.0),
-                                    child: Divider(
-                                      thickness: 1,
-                                      color: bgDropDown,
-                                    ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: ThapNhiKienTruWidget(
-                                          thapNhiKienTru:
-                                              snapshot.data?.thapNhiKienTru ??
-                                                  ThapNhiKienTru(),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 30.0,
-                                      ),
-                                      Expanded(
-                                        child: NgayBachKyWidget(
-                                          listNgayBachKy:
-                                              snapshot.data?.ngayBachKy ?? [],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(bottom: 12.0),
-                                    child: Divider(
-                                      thickness: 1,
-                                      color: bgDropDown,
-                                    ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: ThapNhiBatTuWidget(
-                                          thapNhiBatTu:
-                                              snapshot.data?.thapNhiBatTu ??
-                                                  ThapNhiBatTu(),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 30.0,
-                                      ),
-                                      Expanded(
-                                        child: SaoTotSaoXauWidget(
-                                          listSaoTot:
-                                              snapshot.data?.saoTot ?? [],
-                                          listSaoXau:
-                                              snapshot.data?.saoXau ?? [],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(bottom: 12.0),
-                                    child: Divider(
-                                      thickness: 1,
-                                      color: bgDropDown,
-                                    ),
-                                  ),
-                                  GioLyThuanPhongWidget(
-                                    listGioLyThuanPhong:
-                                        snapshot.data?.gioLyThuanPhong ?? [],
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(
+                            //     right: 24.0,
+                            //     left: 24.0,
+                            //   ),
+                            //   child: Column(
+                            //     children: [
+                            //       const Padding(
+                            //         padding: EdgeInsets.only(bottom: 12.0),
+                            //         child: Divider(
+                            //           thickness: 1,
+                            //           color: bgDropDown,
+                            //         ),
+                            //       ),
+                            //       // Row(
+                            //       //   crossAxisAlignment:
+                            //       //   CrossAxisAlignment.start,
+                            //       //   children: [
+                            //       //     Expanded(
+                            //       //       child: TuoiXungTheoNgayWidget(
+                            //       //         listTuoiXungTheoNgay:
+                            //       //         snapshot.data?.tuoiXungTheoNgay ??
+                            //       //             [],
+                            //       //       ),
+                            //       //     ),
+                            //       //     Expanded(
+                            //       //       child: TuoiXungTheoThangWidget(
+                            //       //         listTuoiXungTheoThang: snapshot
+                            //       //             .data?.tuoiXungTheoThang ??
+                            //       //             [],
+                            //       //       ),
+                            //       //     ),
+                            //       //   ],
+                            //       // ),
+                            //       // const Padding(
+                            //       //   padding: EdgeInsets.only(bottom: 12.0),
+                            //       //   child: Divider(
+                            //       //     thickness: 1,
+                            //       //     color: bgDropDown,
+                            //       //   ),
+                            //       // ),
+                            //       // Row(
+                            //       //   crossAxisAlignment:
+                            //       //   CrossAxisAlignment.start,
+                            //       //   children: [
+                            //       //     Expanded(
+                            //       //       child: ThapNhiKienTruWidget(
+                            //       //         thapNhiKienTru:
+                            //       //         snapshot.data?.thapNhiKienTru ??
+                            //       //             ThapNhiKienTru(),
+                            //       //       ),
+                            //       //     ),
+                            //       //     const SizedBox(
+                            //       //       width: 30.0,
+                            //       //     ),
+                            //       //     Expanded(
+                            //       //       child: NgayBachKyWidget(
+                            //       //         listNgayBachKy:
+                            //       //         snapshot.data?.ngayBachKy ?? [],
+                            //       //       ),
+                            //       //     ),
+                            //       //   ],
+                            //       // ),
+                            //       // const Padding(
+                            //       //   padding: EdgeInsets.only(bottom: 12.0),
+                            //       //   child: Divider(
+                            //       //     thickness: 1,
+                            //       //     color: bgDropDown,
+                            //       //   ),
+                            //       // ),
+                            //       // Row(
+                            //       //   crossAxisAlignment:
+                            //       //   CrossAxisAlignment.start,
+                            //       //   children: [
+                            //       //     Expanded(
+                            //       //       child: ThapNhiBatTuWidget(
+                            //       //         thapNhiBatTu:
+                            //       //         snapshot.data?.thapNhiBatTu ??
+                            //       //             ThapNhiBatTu(),
+                            //       //       ),
+                            //       //     ),
+                            //       //     const SizedBox(
+                            //       //       width: 30.0,
+                            //       //     ),
+                            //       //     Expanded(
+                            //       //       child: SaoTotSaoXauWidget(
+                            //       //         listSaoTot:
+                            //       //         snapshot.data?.saoTot ?? [],
+                            //       //         listSaoXau:
+                            //       //         snapshot.data?.saoXau ?? [],
+                            //       //       ),
+                            //       //     ),
+                            //       //   ],
+                            //       // ),
+                            //       // const Padding(
+                            //       //   padding: EdgeInsets.only(bottom: 12.0),
+                            //       //   child: Divider(
+                            //       //     thickness: 1,
+                            //       //     color: bgDropDown,
+                            //       //   ),
+                            //       // ),
+                            //       // GioLyThuanPhongWidget(
+                            //       //   listGioLyThuanPhong:
+                            //       //   snapshot.data?.gioLyThuanPhong ?? [],
+                            //       // ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

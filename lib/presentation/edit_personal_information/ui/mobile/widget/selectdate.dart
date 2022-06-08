@@ -58,6 +58,7 @@ class _CustomDropDownState extends State<SelectDate> {
               SizedBox(
                 height: 300,
                 child: FlutterRoundedCupertinoDatePickerWidget(
+                  maximumDate: DateTime.now(),
                   onDateTimeChanged: (value) {
                     dateSelect = value.toString();
                     widget.onSelectDate(dateSelect);
@@ -119,7 +120,7 @@ class _CustomDropDownState extends State<SelectDate> {
                                 widget.hintText ?? S.current.vuiLongChon,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               )
                             : Text(
@@ -129,7 +130,7 @@ class _CustomDropDownState extends State<SelectDate> {
                                         .toStringWithListFormat,
                                 style: tokenDetailAmount(
                                   fontSize: 14.0.textScale(),
-                                  color: titleColor,
+                                  color: color3D5586,
                                 ),
                               ),
                       )

@@ -63,14 +63,13 @@ class _IncomingDocumentScreenDashBoardTabletState
   }
 
   void callApi(
-    int page,
-    String startDate,
-    String endDate,
+      int page,
+      String startDate,
+      String endDate,
       bool isDanhSachChoTrinhKy,
       bool isDanhSachDaXuLy,
       bool isDanhSachChoXuLy,
-      List<int> trangThaiFilter
-  ) {
+      List<int> trangThaiFilter) {
     cubit.listDataDanhSachVBDiDashBoard(
       startDate: startDate,
       endDate: endDate,

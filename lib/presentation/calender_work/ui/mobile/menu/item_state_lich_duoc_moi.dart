@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 enum stateLDM { ChoXacNhan, ThamGia, TuChoi }
 
 extension StateLichHop on stateLDM {
-  bool? getListState (stateLDM state) {
+  bool? getListState(stateLDM state) {
     if (this == state) {
       return true;
     } else {
@@ -49,7 +49,7 @@ extension StateLDM on stateLDM {
       case stateLDM.ChoXacNhan:
         return ContainerState(
           name: S.current.cho_xac_nhan,
-          color: choXuLyColor,
+          color: color5A8DEE,
           index: index,
         );
 

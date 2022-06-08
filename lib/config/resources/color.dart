@@ -19,11 +19,11 @@ const attackFile = Color(0xff8F9CAE);
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);
 const tabUnselected = Color(0xFFA9B8BD);
-
+//sideTextInactiveColor
 //custom color
 const signInRowColor = Color(0xFFA9B8BD);
 const signInTextColor = Color(0xff0ABAB5);
-const sideTextInactiveColor = Color(0xFFB9C4D0);
+const colorB9C4D0 = Color(0xFFB9C4D0);
 const signInTextSecondaryColor = Color(0xFF8F8F8F);
 const dotActiveColor = Color(0xff0ABAB5);
 const dividerColor = Color(0xffcacfd7);
@@ -45,6 +45,7 @@ const itemWidgetNotUse = Color(0xffFF9F43);
 const backgroundWidget = Color(0xffF0F6FF);
 const textDefault = Color(0xff7966FF);
 const textTitle = Color(0xff3D5586);
+const denHanColor = Color(0xff0046FF);
 const titleItemEdit = Color(0xff586B8B);
 const bgColor = Color(0xffE5E5E5);
 const bgWidgets = Color(0xffF9FAFF);
@@ -59,22 +60,23 @@ const soanThaoColor = Color(0xffdeddcf);
 const kyDuyetColor = Color(0xffFFFF00);
 const kiemTraThucTheColor = Color(0xffFF7F50);
 const nguoiCapSoColor = Color(0xffc6d7f9);
-const nguoiChuTriColor =  Color(0xff2467d2);
+const nguoiChuTriColor = Color(0xff2467d2);
 const phoiHopColor = Color(0xff2ed47a);
 const nhanDeBietColor = Color(0xffEFECEC);
 const choVaoSoLuongColor = Color(0xff0034ff);
 const choPhanXuLyColor = Color(0xff5252d4);
 const choXuLyLuongColor = Color(0xff8b4db4);
 const dangXuLyLuongColor = Color(0xff59c6fa);
-const daXuLyLuongColor =  Color(0xff42b432);
+const daXuLyLuongColor = Color(0xff42b432);
 const thuHoiLuongColor = Color(0xff9b7938);
 const traLaiLuongColor = Color(0xffe5f52f);
 
-const nguoiKyVanBanColor = Color(0xff00FF00);
+const nguoiKyVanBanColor = Color(0xff5694F2);
 const textDropDownColor = Color(0xff3D5586);
 const bgDropDown = Color(0xFFE2E8F0);
 const bgButtonDropDown = Color(0xff7966FF);
 const bgQLVBTablet = Color(0xffF9FAFF);
+const coloriCon = Color(0xffA2AEBD);
 
 const bgrCalendar = Color(0xFFE9E9E9);
 const bgrChart = Color(0xFF00CFE8);
@@ -84,7 +86,8 @@ const AqiColor = Color(0xffA2AEBD);
 const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
-const choXuLyColor = Color(0xff5A8DEE);
+const shadowColor = Color(0xff6262eb);
+const color5A8DEE = Color(0xff5A8DEE);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -115,6 +118,11 @@ const grapeColor = Color(0xff9B51E0);
 const pinkColor = Color(0xffFB7897);
 const smokeColor = Color(0xff636363);
 const xamColor = Color(0xffBAA59F);
+const color0A45B9 = Color(0xff0A45B9);
+const color1CE2BF = Color(0xff1CE2BF);
+const chuaThucHienColor = Color(0xffF2994A);
+const color81B2DF = Color(0xff81B2DF);
+const colorF2994A = Color(0xffF2994A);
 
 const bgTag = Color(0xffF2F0FF);
 
@@ -122,22 +130,23 @@ const bgGridView = Color(0xffFBFCFD);
 const bgTabletItem = Color(0xffFBFCFD);
 
 const borderCaneder = Color(0xff586B8B);
+const color586B8B = Color(0xff586B8B);
 
 const colorNumberCellQLVB = Color(0xffFCFDFD);
 
 //tabbar color
 const labelColor = Color(0xff7966FF);
-const unselectedLabelColor = Color(0xff667793);
+const color667793 = Color(0xff667793);
 const indicatorColor = Color(0xff7966FF);
-const titleColor = Color(0xFF3D5586);
+const color3D5586 = Color(0xFF3D5586);
 const colorBlack = Color(0xff000000);
 const errorBorderColor = Color(0xFF585782);
 
-const lineColor = Color(0xffECEEF7);
+const colorECEEF7 = Color(0xffECEEF7);
 const buttonColor = Color(0xff7966FF);
 const buttonColor2 = Color(0x1A7966FF);
 //tabar color
-const unselectLabelColor = Color(0xFFA2AEBD);
+const colorA2AEBD = Color(0xFFA2AEBD);
 const selectColorTabbar = Color(0xFF304261);
 const whiteHide = Color(0xFFEAEEF5);
 const greyHide = Color(0xFFF5F6FA);
@@ -187,11 +196,20 @@ const greenChart = Color(0xFF28C76F);
 const orangeNhatChart = Color(0xFFFDB000);
 const purpleChart = Color(0xFF8E7EFF);
 const grayChart = Color(0xFF667793);
-
-
+const textTitleColumn = Color(0xff667793);
+const blueFilterDateWidget = Color(0xFFF1F4FF);
+const enableButton = Color(0xFFc0c0c0);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
+  Color unselectColor();
+
+  Color choXuLyColor();
+
+  Color nhiemDonViColor();
+
+  Color nhiemVuBoColor();
+
   Color primaryColor();
 
   Color accentColor();
@@ -225,183 +243,22 @@ abstract class AppColor {
   Color buttonUnfocus();
 
   Color colorField();
-}
 
-class LightApp extends AppColor {
-  @override
-  Color primaryColor() {
-    return colorPrimary;
-  }
+  Color lineColor();
 
-  @override
-  Color accentColor() {
-    return colorAccent;
-  }
+  Color unselectedColor();
 
-  @override
-  Color statusColor() {
-    return const Color(0xFFFCFCFC);
-  }
+  Color unselectedLabelColor();
 
-  @override
-  Color mainColor() {
-    return const Color(0xFF30536F);
-  }
-
-  @override
-  Color bgColor() {
-    return const Color(0xFFFCFCFC);
-  }
-
-  @override
-  Color dfBtnColor() {
-    return const Color(0xFF324452);
-  }
-
-  @override
-  Color dfBtnTxtColor() {
-    return const Color(0xFFFFFFFF);
-  }
-
-  @override
-  Color dfTxtColor() {
-    return const Color(0xFF303742);
-  }
-
-  @override
-  Color secondTxtColor() {
-    return const Color(0xFF9097A3);
-  }
-
-  @override
-  Color txtLightColor() {
-    return Colors.white.withOpacity(0.85);
-  }
-
-  @override
-  Color sideBtnColor() {
-    return const Color(0xFFDCFFFE);
-  }
-
-  @override
-  Color disableColor() {
-    return const Color(0xFFA9B8BD);
-  }
-
-  @override
-  Color titleColor() {
-    return const Color(0xff3D5586);
-  }
-
-  @override
-  Color backGroundColor() {
-    return const Color(0xffFFFFFF);
-  }
-
-  @override
-  Color subTitleColor() {
-    return const Color(0xff5A8DEE);
-  }
-
-  @override
-  Color buttonUnfocus() {
-    return textDefault;
-  }
-
-  @override
-  Color colorField() {
-    return backgroundColorApp;
-  }
-}
-
-class DarkApp extends AppColor {
-  @override
-  Color primaryColor() {
-    return colorPrimary;
-  }
-
-  @override
-  Color accentColor() {
-    return colorAccent;
-  }
-
-  @override
-  Color statusColor() {
-    return const Color(0xFFFCFCFC);
-  }
-
-  @override
-  Color mainColor() {
-    return const Color(0xFF30536F);
-  }
-
-  @override
-  Color bgColor() {
-    return const Color(0xFFFCFCFC);
-  }
-
-  @override
-  Color dfBtnColor() {
-    return const Color(0xFF324452);
-  }
-
-  @override
-  Color dfBtnTxtColor() {
-    return const Color(0xFFFFFFFF);
-  }
-
-  @override
-  Color dfTxtColor() {
-    return const Color(0xFF303742);
-  }
-
-  @override
-  Color secondTxtColor() {
-    return const Color(0xFF9097A3);
-  }
-
-  @override
-  Color txtLightColor() {
-    return Colors.white.withOpacity(0.85);
-  }
-
-  @override
-  Color sideBtnColor() {
-    return const Color(0xFFDCFFFE);
-  }
-
-  @override
-  Color disableColor() {
-    return const Color(0xFFA9B8BD);
-  }
-
-  @override
-  Color titleColor() {
-    return const Color(0xff3D5586);
-  }
-
-  @override
-  Color backGroundColor() {
-    return const Color(0xffFFFFFF);
-  }
-
-  @override
-  Color subTitleColor() {
-    return const Color(0xff5A8DEE);
-  }
-
-  @override
-  Color buttonUnfocus() {
-    return textDefault;
-  }
-
-  @override
-  Color colorField() {
-    return backgroundColorApp;
-  }
+  Color sideTextInactiveColor();
 }
 
 class DefaultApp extends AppColor {
+  @override
+  Color unselectColor() {
+    return colorA2AEBD;
+  }
+
   @override
   Color colorField() {
     return textDefault;
@@ -485,11 +342,71 @@ class DefaultApp extends AppColor {
   @override
   Color buttonUnfocus() {
     return AqiColor;
+  }
+
+  @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
+  }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
+  }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
   }
 }
 
 class BlueApp extends AppColor {
   @override
+  Color unselectColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
   Color primaryColor() {
     return colorPrimary;
   }
@@ -551,7 +468,7 @@ class BlueApp extends AppColor {
 
   @override
   Color titleColor() {
-    return const Color(0xff3D5586);
+    return color3D5586;
   }
 
   @override
@@ -568,14 +485,61 @@ class BlueApp extends AppColor {
   Color buttonUnfocus() {
     return AqiColor;
   }
+
 
   @override
   Color colorField() {
     return numberOfCalenders;
   }
+
+  @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
+  }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
+  }
+
 }
 
 class PinkApp extends AppColor {
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color unselectColor() {
+    return colorA2AEBD;
+  }
+
   @override
   Color primaryColor() {
     return colorPrimary;
@@ -638,7 +602,7 @@ class PinkApp extends AppColor {
 
   @override
   Color titleColor() {
-    return const Color(0xff3D5586);
+    return color3D5586;
   }
 
   @override
@@ -658,11 +622,58 @@ class PinkApp extends AppColor {
 
   @override
   Color colorField() {
+
     return pinkColor;
+  }
+
+  @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
+  }
+
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
   }
 }
 
 class YellowApp extends AppColor {
+  @override
+  Color nhiemVuBoColor() {
+    return color0A45B9;
+  }
+
+  @override
+  Color nhiemDonViColor() {
+    return color1CE2BF;
+  }
+
+  @override
+  Color choXuLyColor() {
+    return color5A8DEE;
+  }
+
+  @override
+  Color unselectColor() {
+    return colorA2AEBD;
+  }
+
   @override
   Color primaryColor() {
     return colorPrimary;
@@ -725,7 +736,7 @@ class YellowApp extends AppColor {
 
   @override
   Color titleColor() {
-    return const Color(0xff3D5586);
+    return color3D5586;
   }
 
   @override
@@ -746,6 +757,31 @@ class YellowApp extends AppColor {
   @override
   Color colorField() {
     return yellowColor;
+  }
+
+  @override
+  Color lineColor() {
+    return colorECEEF7;
+  }
+
+  @override
+  Color unselectedColor() {
+    return color667793;
+  }
+
+  @override
+  Color unselectedLabelColor() {
+    return colorA2AEBD;
+  }
+
+  @override
+  Color sideTextInactiveColor() {
+    return colorB9C4D0;
+  }
+
+  @override
+  Color textBodyTimeColor() {
+    return textBodyTime;
   }
 }
 

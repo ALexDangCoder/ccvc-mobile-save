@@ -12,6 +12,7 @@ class _DotAnimationWidgetState extends State<DotAnimationWidget>
   late AnimationController animationController;
   late Animation<double> animation;
   late Animation<double> animationOpacity;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -20,8 +21,8 @@ class _DotAnimationWidgetState extends State<DotAnimationWidget>
         AnimationController(vsync: this, duration: const Duration(seconds: 1))
           ..repeat();
     animation = Tween<double>(begin: 25, end: 50).animate(animationController);
-    
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -39,7 +40,10 @@ class _DotAnimationWidgetState extends State<DotAnimationWidget>
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.transparent,
-            border: Border.all(color: const Color(0xff62bd19).withOpacity(1- animationController.value), width: 3)),
+            border: Border.all(
+                color: const Color(0xff62bd19)
+                    .withOpacity(1 - animationController.value),
+                width: 3)),
         child: Center(
           child: Container(
             height: 25,

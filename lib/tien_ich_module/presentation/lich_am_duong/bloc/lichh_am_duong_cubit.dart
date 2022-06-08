@@ -17,6 +17,8 @@ class LichAmDuongCubit extends BaseCubit<LichAmDuongState> {
   String startDate = DateTime.now().formatApiDDMMYYYY;
   DateTime selectTime = DateTime.now();
   BehaviorSubject<DateTime> changeDateTimeSubject = BehaviorSubject();
+  BehaviorSubject<DateTime> dateTimeSubject = BehaviorSubject();
+  DateTime time = DateTime.now();
 
   bool selectDay(DateTime day) {
     return selectTime.year == day.year &&

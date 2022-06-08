@@ -16,6 +16,7 @@ class Item {
   String? message;
   bool? needConfirmation;
   bool? pin;
+  String? subSystem;
   String? receiceId;
   String? redirectUrl;
   String? rejectReason;
@@ -23,7 +24,6 @@ class Item {
   String? seenDate;
   String? sentId;
   int? status;
-  String? subSystem;
   String? timeSent;
   String? title;
 

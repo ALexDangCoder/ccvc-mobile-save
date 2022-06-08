@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
+import 'package:ccvc_mobile/data/request/lich_lam_viec/check_trung_lich_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/danh_sach_lich_lam_viec_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/lich_lam_viec_right_request.dart';
 import 'package:ccvc_mobile/data/request/lich_lam_viec/tao_moi_ban_ghi_request.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/trang_thai/tran
 import 'package:ccvc_mobile/data/response/lich_hop/catogory_list_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/event_calendar_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/nguoi_chu_trinh_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/check_trung_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/danh_sach_lich_lam_viec_response.dart';
@@ -25,11 +27,11 @@ import 'package:ccvc_mobile/data/response/lich_lam_viec/menu_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_lich_lam_viec_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tao_moi_ban_ghi_response.dart';
+import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_trang_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/xoa_bao_cao_response.dart';
 import 'package:ccvc_mobile/data/response/list_lich_lv/list_lich_lv_response.dart';
 import 'package:ccvc_mobile/data/response/them_y_kien_response/them_y_kien_response.dart';
-import 'package:ccvc_mobile/data/response/lich_lam_viec/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_service.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/cancel_lich_lam_viec_model.dart';
@@ -240,6 +242,121 @@ class LichLamViecImlp implements LichLamViecRepository {
     String title,
     String typeScheduleId,
     String linhVucId,
+    String tinhId,
+    String TenTinh,
+    String huyenId,
+    String TenHuyen,
+    String xaId,
+    String TenXa,
+    String country,
+    String countryId,
+    String dateFrom,
+    String timeFrom,
+    String dateTo,
+    String timeTo,
+    String content,
+    String location,
+    String vehicle,
+    String expectedResults,
+    String results,
+    int status,
+    String rejectReason,
+    bool publishSchedule,
+    String tags,
+    bool isLichDonVi,
+    bool isLichLanhDao,
+    String canBoChuTriId,
+    String donViId,
+    String note,
+    bool isAllDay,
+    bool isSendMail,
+    List<DonViModel> scheduleCoperativeRequest,
+    int typeRemider,
+    int typeRepeat,
+    String dateRepeat,
+    String dateRepeat1,
+    bool only,
+    List<int> days,
+  ) {
+    final _data = FormData();
+    _data.fields.add(MapEntry('title', title));
+    _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
+    _data.fields.add(MapEntry('linhVucId', linhVucId));
+    _data.fields.add(MapEntry('tinhId', tinhId));
+    _data.fields.add(MapEntry('TenTinh', TenTinh));
+    _data.fields.add(MapEntry('huyenId', huyenId));
+    _data.fields.add(MapEntry('TenHuyen', TenHuyen));
+    _data.fields.add(MapEntry('xaId', xaId));
+    _data.fields.add(MapEntry('TenXa', TenXa));
+    _data.fields.add(MapEntry('country', country));
+    _data.fields.add(MapEntry('countryId', countryId));
+    _data.fields.add(MapEntry('dateFrom', dateFrom));
+    _data.fields.add(MapEntry('timeFrom', timeFrom));
+    _data.fields.add(MapEntry('dateTo', dateTo));
+    _data.fields.add(MapEntry('timeTo', timeTo));
+    _data.fields.add(MapEntry('content', content));
+    _data.fields.add(MapEntry('location', location));
+    _data.fields.add(MapEntry('vehicle', vehicle));
+    _data.fields.add(MapEntry('expectedResults', expectedResults));
+    _data.fields.add(MapEntry('results', results));
+    _data.fields.add(MapEntry('status', status.toString()));
+    _data.fields.add(MapEntry('rejectReason', rejectReason));
+    _data.fields.add(MapEntry('publishSchedule', publishSchedule.toString()));
+    _data.fields.add(MapEntry('tags', tags));
+    _data.fields.add(MapEntry('isLichDonVi', isLichDonVi.toString()));
+    _data.fields.add(MapEntry('isLichLanhDao', isLichLanhDao.toString()));
+    _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
+    _data.fields.add(MapEntry('donViId', donViId));
+    _data.fields.add(MapEntry('note', note));
+    _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
+    _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
+
+    for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].donViId',
+          scheduleCoperativeRequest[i].id,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].canBoId',
+          scheduleCoperativeRequest[i].canBoId,
+        ),
+      );
+      _data.fields.add(
+        MapEntry(
+          'ScheduleCoperativeRequest[$i].taskContent',
+          scheduleCoperativeRequest[i].noidung,
+        ),
+      );
+    }
+
+    _data.fields
+        .add(MapEntry('repeatCalendar.typeRepeat', typeRepeat.toString()));
+    _data.fields.add(MapEntry(
+        'scheduleReminderRequest.typeRemider', typeRemider.toString()));
+    final dateRepeats = [dateRepeat, dateRepeat1];
+    for (int i = 0; i < dateRepeats.length; i++) {
+      _data.fields.add(
+          MapEntry('repeatCalendar.dateRepeat[$i]', dateRepeats[i].toString()));
+    }
+    _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
+    for (int i = 0; i < days.length; i++) {
+      _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
+    }
+
+    return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
+      () => lichLamViecService.taoLichLamviec(_data),
+      (res) => res.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<MessageModel>> suaLichLamViec(
+    String title,
+    String typeScheduleId,
+    String linhVucId,
     String TenTinh,
     String TenHuyen,
     String TenXa,
@@ -336,143 +453,43 @@ class LichLamViecImlp implements LichLamViecRepository {
       (res) => res.toDomain(),
     );
   }
-  @override
-  Future<Result<MessageModel>> suaLichLamViec(
-      String title,
-      String typeScheduleId,
-      String linhVucId,
-      String TenTinh,
-      String TenHuyen,
-      String TenXa,
-      String dateFrom,
-      String timeFrom,
-      String dateTo,
-      String timeTo,
-      String content,
-      String location,
-      String vehicle,
-      String expectedResults,
-      String results,
-      int status,
-      String rejectReason,
-      bool publishSchedule,
-      String tags,
-      bool isLichDonVi,
-      String canBoChuTriId,
-      String donViId,
-      String note,
-      bool isAllDay,
-      bool isSendMail,
-      List<DonViModel> scheduleCoperativeRequest,
-      int typeRemider,
-      int typeRepeat,
-      String dateRepeat,
-      String dateRepeat1,
-      bool only,
-      List<int> days,
-      ) {
-    final _data = FormData();
-    _data.fields.add(MapEntry('title', title));
-    _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
-    _data.fields.add(MapEntry('linhVucId', linhVucId));
-    _data.fields.add(MapEntry('TenTinh', TenTinh));
-    _data.fields.add(MapEntry('TenHuyen', TenHuyen));
-    _data.fields.add(MapEntry('TenXa', TenXa));
-    _data.fields.add(MapEntry('dateFrom', dateFrom));
-    _data.fields.add(MapEntry('timeFrom', timeFrom));
-    _data.fields.add(MapEntry('dateTo', dateTo));
-    _data.fields.add(MapEntry('timeTo', timeTo));
-    _data.fields.add(MapEntry('content', content));
-    _data.fields.add(MapEntry('vehicle', vehicle));
-    _data.fields.add(MapEntry('expectedResults', expectedResults));
-    _data.fields.add(MapEntry('results', results));
-    _data.fields.add(MapEntry('status', status.toString()));
-    _data.fields.add(MapEntry('rejectReason', rejectReason));
-    _data.fields.add(MapEntry('publishSchedule', publishSchedule.toString()));
-    _data.fields.add(MapEntry('tags', tags));
-    _data.fields.add(MapEntry('isLichDonVi', isLichDonVi.toString()));
-    _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
-    _data.fields.add(MapEntry('donViId', donViId));
-    _data.fields.add(MapEntry('note', note));
-    _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
-    _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
 
-    for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
-      _data.fields.add(
-        MapEntry(
-          'ScheduleCoperativeRequest[$i].donViId',
-          scheduleCoperativeRequest[i].id,
-        ),
-      );
-      _data.fields.add(
-        MapEntry(
-          'ScheduleCoperativeRequest[$i].canBoId',
-          scheduleCoperativeRequest[i].canBoId,
-        ),
-      );
-      _data.fields.add(
-        MapEntry(
-          'ScheduleCoperativeRequest[$i].taskContent',
-          scheduleCoperativeRequest[i].noidung,
-        ),
-      );
-    }
-
-    _data.fields
-        .add(MapEntry('repeatCalendar.typeRepeat', typeRepeat.toString()));
-    _data.fields.add(MapEntry(
-        'scheduleReminderRequest.typeRemider', typeRemider.toString()));
-    final dateRepeats = [dateRepeat, dateRepeat1];
-    for (int i = 0; i < dateRepeats.length; i++) {
-      _data.fields.add(
-          MapEntry('repeatCalendar.dateRepeat[$i]', dateRepeats[i].toString()));
-    }
-    _data.fields.add(MapEntry('repeatCalendar.only', only.toString()));
-    for (int i = 0; i < days.length; i++) {
-      _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
-    }
-
-    return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-          () => lichLamViecService.taoLichLamviec(_data),
-          (res) => res.toDomain(),
-    );
-  }
   @override
   Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
-      String title,
-      String typeScheduleId,
-      String linhVucId,
-      String TenTinh,
-      String TenHuyen,
-      String TenXa,
-      String countryId,
-      String dateFrom,
-      String timeFrom,
-      String dateTo,
-      String timeTo,
-      String content,
-      String location,
-      String vehicle,
-      String expectedResults,
-      String results,
-      int status,
-      String rejectReason,
-      bool publishSchedule,
-      String tags,
-      bool isLichDonVi,
-      String canBoChuTriId,
-      String donViId,
-      String note,
-      bool isAllDay,
-      bool isSendMail,
-      List<DonViModel> scheduleCoperativeRequest,
-      int typeRemider,
-      int typeRepeat,
-      String dateRepeat,
-      String dateRepeat1,
-      bool only,
-      List<int> days,
-      ) {
+    String title,
+    String typeScheduleId,
+    String linhVucId,
+    String TenTinh,
+    String TenHuyen,
+    String TenXa,
+    String countryId,
+    String dateFrom,
+    String timeFrom,
+    String dateTo,
+    String timeTo,
+    String content,
+    String location,
+    String vehicle,
+    String expectedResults,
+    String results,
+    int status,
+    String rejectReason,
+    bool publishSchedule,
+    String tags,
+    bool isLichDonVi,
+    String canBoChuTriId,
+    String donViId,
+    String note,
+    bool isAllDay,
+    bool isSendMail,
+    List<DonViModel> scheduleCoperativeRequest,
+    int typeRemider,
+    int typeRepeat,
+    String dateRepeat,
+    String dateRepeat1,
+    bool only,
+    List<int> days,
+  ) {
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
     _data.fields.add(MapEntry('typeScheduleId', typeScheduleId));
@@ -536,8 +553,8 @@ class LichLamViecImlp implements LichLamViecRepository {
     }
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-          () => lichLamViecService.taoLichLamviec(_data),
-          (res) => res.toDomain(),
+      () => lichLamViecService.taoLichLamviec(_data),
+      (res) => res.toDomain(),
     );
   }
 
@@ -594,17 +611,16 @@ class LichLamViecImlp implements LichLamViecRepository {
       HuyenSelectRequest huyenSelectRequest) {
     return runCatchingAsync<PageDaTaHuyenSelectModelResponse,
         DaTaHuyenSelectModel>(
-          () => lichLamViecService.huyenSelect(huyenSelectRequest),
-          (response) => response.data?.toModel() ?? DaTaHuyenSelectModel(),
+      () => lichLamViecService.huyenSelect(huyenSelectRequest),
+      (response) => response.data?.toModel() ?? DaTaHuyenSelectModel(),
     );
   }
 
   @override
   Future<Result<DaTaXaSelectModel>> xaSelect(XaSelectRequest xaSelectRequest) {
-    return runCatchingAsync<PageDaTaXaSelectModelResponse,
-        DaTaXaSelectModel>(
-          () => lichLamViecService.xaSelect(xaSelectRequest),
-          (response) => response.data?.toModel() ?? DaTaXaSelectModel(),
+    return runCatchingAsync<PageDaTaXaSelectModelResponse, DaTaXaSelectModel>(
+      () => lichLamViecService.xaSelect(xaSelectRequest),
+      (response) => response.data?.toModel() ?? DaTaXaSelectModel(),
     );
   }
 
@@ -616,5 +632,13 @@ class LichLamViecImlp implements LichLamViecRepository {
       () => lichLamViecService.datNuocSelect(datNuocSelectRequest),
       (response) => response.data?.toModel() ?? DataDatNuocSelectModel(),
     );
+  }
+
+  @override
+  Future<Result<MessageModel>> checkTrungLichLamviec(
+      CheckTrungLichRequest body) {
+    return runCatchingAsync<CheckTrungLichLamViecResponse, MessageModel>(
+        () => lichLamViecService.checkTrungLichLamviec(body),
+        (response) => response.toDomain());
   }
 }

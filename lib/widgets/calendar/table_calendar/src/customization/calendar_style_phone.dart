@@ -135,6 +135,7 @@ class CalendarStyle {
 
   /// TextStyle for day cells that do not match any other styles.
   final TextStyle defaultTextStyle;
+  final TextStyle lunarTextStyle;
 
   /// Decoration for day cells that do not match any other styles.
   final Decoration defaultDecoration;
@@ -147,6 +148,10 @@ class CalendarStyle {
 
   /// Creates a `CalendarStyle` used by `TableCalendar` widget.
   const CalendarStyle({
+    this.lunarTextStyle = const TextStyle(
+      fontSize: 10,
+      color: Color(0xFFA2AEBD),
+    ),
     this.isTodayHighlighted = true,
     this.canMarkersOverflow = true,
     this.outsideDaysVisible = true,
@@ -159,7 +164,7 @@ class CalendarStyle {
     this.markersAlignment = Alignment.bottomCenter,
     this.markersMaxCount = 1,
     this.cellMargin = const EdgeInsets.all(6.0),
-    this.cellPadding = const EdgeInsets.all(9.0),
+    this.cellPadding = const EdgeInsets.all(4.0),
     this.cellAlignment = Alignment.center,
     this.markersOffset = const PositionedOffset(),
     this.rangeHighlightColor = const Color(0xFFBBDDFF),
@@ -177,7 +182,7 @@ class CalendarStyle {
     ),
     this.selectedTextStyle = const TextStyle(
       color: const Color(0xFFFAFAFA),
-      fontSize: 16.0 ,
+      fontSize: 16.0,
     ),
     this.selectedDecoration = const BoxDecoration(
       color: const Color(0xFF7966FF),
@@ -212,9 +217,11 @@ class CalendarStyle {
       ),
       shape: BoxShape.circle,
     ),
-    this.weekendTextStyle = const TextStyle(color: const Color(0xFFA2AEBD), fontSize: 16),
+    this.weekendTextStyle =
+        const TextStyle(color: const Color(0xFFA2AEBD), fontSize: 16),
     this.weekendDecoration = const BoxDecoration(shape: BoxShape.circle),
-    this.defaultTextStyle = const TextStyle(fontSize: 16 ,color: const Color(0xFF3D5586)),
+    this.defaultTextStyle =
+        const TextStyle(fontSize: 16, color: const Color(0xFF3D5586)),
     this.defaultDecoration = const BoxDecoration(shape: BoxShape.circle),
     this.rowDecoration = const BoxDecoration(),
     this.tableBorder = const TableBorder(),

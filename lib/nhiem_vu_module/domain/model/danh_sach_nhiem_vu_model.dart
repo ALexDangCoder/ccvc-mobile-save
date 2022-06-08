@@ -9,11 +9,11 @@ class DanhSachNhiemVuModel {
   int? totalPage;
 
   DanhSachNhiemVuModel({
-    required this.pageData,
-    required this.totalRows,
-    required this.currentPage,
-    required this.pageSize,
-    required this.totalPage,
+    this.pageData,
+    this.totalRows,
+    this.currentPage,
+    this.pageSize,
+    this.totalPage,
   });
 }
 
@@ -135,21 +135,36 @@ class PageData {
   });
 }
 
+extension checkColorTitle on int {
+  Color trangThaiHanXuLy() {
+    switch (this) {
+      case 1:
+        return denHanColor;
+      case 2:
+        return statusCalenderRed;
+      case 3:
+        return textTitle;
+      default:
+        return textTitle;
+    }
+  }
+}
+
 extension CheckColor on String {
   Color trangThaiColorNhiemVu() {
     switch (this) {
       case 'QUA_HAN':
         return statusCalenderRed;
       case 'CHUA_THUC_HIEN':
-        return AqiColor;
+        return choVaoSoColor;
       case 'DANG_THUC_HIEN':
-        return yellowColor;
+        return choTrinhKyColor;
       case 'THU_HOI':
         return yellowColor;
       case 'DA_HOAN_THANH':
         return daXuLyColor;
       case 'CHO_PHAN_XU_LY':
-        return choXuLyColor;
+        return color5A8DEE;
       case 'TRA_LAI':
         return statusCalenderRed;
       default:
@@ -167,11 +182,11 @@ extension CheckColor on String {
         return ['DA_THUC_HIEN'];
       case 'DA_HOAN_THANH':
         return ['DA_HOAN_THANH'];
-        case 'THU_HOI':
+      case 'THU_HOI':
         return ['THU_HOI'];
       case 'CHO_PHAN_XU_LY':
         return ['CHO_PHAN_XU_LY'];
-        case 'TRA_LAI':
+      case 'TRA_LAI':
         return ['TRA_LAI'];
       default:
         return [];

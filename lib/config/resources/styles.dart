@@ -4,6 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 const emptyView = SizedBox(width: 0, height: 0);
 
+Widget appDivider = Container(
+  height: 6,
+  color: homeColor,
+);
+
 /// height and width space
 
 const spaceH2 = SizedBox(height: 2);
@@ -49,9 +54,13 @@ const spaceW15 = SizedBox(width: 15);
 const spaceW16 = SizedBox(width: 16);
 const spaceW18 = SizedBox(width: 18);
 const spaceW20 = SizedBox(width: 20);
+const spaceW23 = SizedBox(width: 23);
+const spaceW24 = SizedBox(width: 24);
 const spaceW25 = SizedBox(width: 25);
 const spaceW28 = SizedBox(width: 28);
 const spaceW30 = SizedBox(width: 30);
+const spaceW40 = SizedBox(width: 40);
+const spaceW48 = SizedBox(width: 48);
 const spaceW56 = SizedBox(width: 56);
 const spaceW60 = SizedBox(width: 60);
 const spaceW78 = SizedBox(width: 78);
@@ -115,7 +124,7 @@ TextStyle textNormalCustom({
   );
 }
 
-TextStyle titleAppbar({Color color = titleColor, double fontSize = 18}) {
+TextStyle titleAppbar({Color color = color3D5586, double fontSize = 18}) {
   return GoogleFonts.roboto(
     color: color,
     fontWeight: FontWeight.w500,

@@ -7,7 +7,6 @@ import 'package:ccvc_mobile/presentation/edit_hdsd/ui/widget/base_popup.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/bloc/hoi_dap_cubit.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/widget/custom_hoi_dap_widget_tablet.dart';
 import 'package:ccvc_mobile/presentation/hoi_dap/widget/show_drop_drow_button_hoi_dap.dart';
-import 'package:ccvc_mobile/presentation/search_screen/ui/widget/search_widget.dart';
 import 'package:ccvc_mobile/presentation/them_hdsd/ui/tablet/them_hdsd_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
@@ -50,7 +49,10 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
                   funcBtnOk: () {},
                 );
               },
-              icon: SvgPicture.asset(ImageAssets.icAddButtonCalenderTablet,color: AppTheme.getInstance().colorField(),),
+              icon: SvgPicture.asset(
+                ImageAssets.icAddButtonCalenderTablet,
+                color: AppTheme.getInstance().colorField(),
+              ),
             ),
           )
         ],
@@ -59,9 +61,9 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
         padding: const EdgeInsets.only(top: 28.0, right: 30.0, left: 30.0),
         child: Column(
           children: [
-            SearchWidget(
-              hintText: S.current.tim_kiem_hoi_dap,
-            ),
+            // SearchWidget(
+            //   hintText: S.current.tim_kiem_hoi_dap,
+            // ),
             const SizedBox(
               height: 28.0,
             ),
@@ -75,7 +77,7 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
                         S.current.ban_co_the_tim_kiem_hoi_dap,
                         style: textNormalCustom(
                           fontSize: 16.0,
-                          color: unselectedLabelColor,
+                          color: color667793,
                         ),
                       ),
                     ),
@@ -85,7 +87,7 @@ class _HoiDapScreenTabletState extends State<HoiDapScreenTablet> {
                           S.current.chu_de,
                           style: textNormalCustom(
                             fontSize: 16.0,
-                            color: unselectedLabelColor,
+                            color: color667793,
                           ),
                         ),
                         const SizedBox(

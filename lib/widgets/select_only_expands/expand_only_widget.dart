@@ -7,6 +7,7 @@ class ExpandOnlyWidget extends StatefulWidget {
   final Widget header;
   final Widget child;
   final bool isShowIcon;
+  final bool? isPadingIcon;
   final AnimationController? initController;
 
   const ExpandOnlyWidget({
@@ -16,6 +17,7 @@ class ExpandOnlyWidget extends StatefulWidget {
     required this.header,
     this.isShowIcon = true,
     this.initController,
+    this.isPadingIcon,
   }) : super(key: key);
 
   @override
@@ -34,14 +36,10 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
   void initState() {
     super.initState();
     prepareAnimations();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    groupProvider = GroupProvider.of(context);
-    findGroupExpanded();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      groupProvider = GroupProvider.of(context);
+      findGroupExpanded();
+    });
   }
 
   void findGroupExpanded() {
@@ -109,20 +107,39 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
             children: [
               Flexible(child: widget.header),
               if (widget.isShowIcon)
-                AnimatedBuilder(
-                  animation: expandController,
-                  builder: (context, _) {
-                    return expandController.value == 0
-                        ? const Icon(
-                            Icons.keyboard_arrow_down_outlined,
-                            color: AqiColor,
-                          )
-                        : const Icon(
-                            Icons.keyboard_arrow_up_rounded,
-                            color: AqiColor,
-                          );
-                  },
-                )
+                if (widget.isPadingIcon == true)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: AnimatedBuilder(
+                      animation: expandController,
+                      builder: (context, _) {
+                        return expandController.value == 0
+                            ? const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: AqiColor,
+                              )
+                            : const Icon(
+                                Icons.keyboard_arrow_up_rounded,
+                                color: AqiColor,
+                              );
+                      },
+                    ),
+                  )
+                else
+                  AnimatedBuilder(
+                    animation: expandController,
+                    builder: (context, _) {
+                      return expandController.value == 0
+                          ? const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: AqiColor,
+                            )
+                          : const Icon(
+                              Icons.keyboard_arrow_up_rounded,
+                              color: AqiColor,
+                            );
+                    },
+                  )
               else
                 const SizedBox()
             ],

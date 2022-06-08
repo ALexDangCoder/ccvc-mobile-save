@@ -21,41 +21,43 @@ class _MenuTienIchTabletState extends State<MenuTienIchTablet> {
     return Scaffold(
       backgroundColor: bgTabletColor,
       appBar: AppBarDefaultBack(S.current.tien_ich),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 28),
-        child: Column(
-          children: [
-            Container(
-              height: 300,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(ImageAssets.imageTienIchTablet),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 28),
+          child: Column(
+            children: [
+              Container(
+                height: 300,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(ImageAssets.imageTienIchTablet),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 28.0,
-            ),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisSpacing: 28,
-              mainAxisSpacing: 28,
-              childAspectRatio: 1.25,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 4,
-              children: List.generate(listFeatureTienIch.length, (index) {
-                final type = listFeatureTienIch[index];
-                return itemMenuTienIchTablet(type, () {
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => type.getScreenTienIch(),
-                    ),
-                  );
-                });
-              }),
-            )
-          ],
+              const SizedBox(
+                height: 28.0,
+              ),
+              GridView.count(
+                shrinkWrap: true,
+                crossAxisSpacing: 28,
+                mainAxisSpacing: 28,
+                childAspectRatio: 1.25,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 4,
+                children: List.generate(listFeatureTienIch.length, (index) {
+                  final type = listFeatureTienIch[index];
+                  return itemMenuTienIchTablet(type, () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => type.getScreenTienIch(),
+                      ),
+                    );
+                  });
+                }),
+              )
+            ],
+          ),
         ),
       ),
     );

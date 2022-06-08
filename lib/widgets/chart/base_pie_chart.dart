@@ -1,6 +1,5 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,8 @@ class PieChart extends StatelessWidget {
   final bool isSubjectInfo;
   final double paddingLeftSubTitle;
   final bool isThongKeLichHop;
+  final TextStyle? tittleStyle;
+  final bool isVectical;
 
   const PieChart({
     Key? key,
@@ -24,6 +25,8 @@ class PieChart extends StatelessWidget {
     this.isSubjectInfo = true,
     this.paddingLeftSubTitle = 0,
     this.isThongKeLichHop = true,
+    this.tittleStyle,
+    this.isVectical = true,
   }) : super(key: key);
 
   @override
@@ -40,53 +43,171 @@ class PieChart extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   title,
-                  style: textNormalCustom(
-                    color: infoColor,
-                    fontSize: 16,
-                  ),
+                  style: tittleStyle ??
+                      textNormalCustom(
+                        color: infoColor,
+                        fontSize: 16,
+                      ),
                 ),
               ),
             ),
           ),
-        SizedBox(
-          width: 270,
-          height: 270,
-          child: chartData.indexWhere((element) => element.value != 0) == -1
-              ? const NodataWidget()
-              : SfCircularChart(
-                  margin: EdgeInsets.zero,
-                  series: [
-                    // Renders doughnut chart
-                    DoughnutSeries<ChartData, String>(
-                      innerRadius: '45',
-                      dataSource: chartData,
-                      pointColorMapper: (ChartData data, _) => data.color,
-                      xValueMapper: (ChartData data, _) => data.title,
-                      yValueMapper: (ChartData data, _) => data.value,
-                      dataLabelMapper: (ChartData data, _) =>
-                          percent(data.value),
-                      onPointTap: (value) {
-                        if (onTap != null) {
-                          onTap!(value.pointIndex ?? 0);
-                        } else {}
-                      },
-                      dataLabelSettings: isThongKeLichHop
-                          ? DataLabelSettings(
-                              isVisible: true,
-                              showZeroValue: false,
-                              textStyle: textNormalCustom(
-                                color: backgroundColorApp,
-                                fontSize: 14,
+        if (isVectical)
+          SizedBox(
+            width: 270,
+            height: 270,
+            child: chartData.indexWhere((element) => element.value != 0) == -1
+                ? const NodataWidget()
+                : SfCircularChart(
+                    margin: EdgeInsets.zero,
+                    onDataLabelTapped: (value) {
+                      if (onTap != null) {
+                        final key = chartData[value.pointIndex];
+                        onTap!(value.pointIndex);
+                      } else {}
+                    },
+                    series: [
+                      // Renders doughnut chart
+                      DoughnutSeries<ChartData, String>(
+                          innerRadius: '45',
+                          dataSource: chartData,
+                          pointColorMapper: (ChartData data, _) => data.color,
+                          pointRadiusMapper: (ChartData data, _) => data.size,
+                          xValueMapper: (ChartData data, _) => data.title,
+                          yValueMapper: (ChartData data, _) => data.value,
+                          dataLabelMapper: (ChartData data, _) =>
+                              percent(data.value),
+                          onPointTap: (value) {
+                            if (onTap != null) {
+                              final key = chartData[value.pointIndex ?? 0];
+
+                              onTap!(
+                                value.pointIndex ?? 0,
+                              );
+                            } else {}
+                          },
+                          dataLabelSettings: DataLabelSettings(
+                            useSeriesColor: true,
+                            isVisible: true,
+                            showZeroValue: false,
+                            textStyle: textNormalCustom(
+                              color: backgroundColorApp,
+                              fontSize: 14,
+                            ),
+                          ))
+                    ],
+                  ),
+          )
+        else
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  width: 270,
+                  height: 270,
+                  child: chartData
+                              .indexWhere((element) => element.value != 0) ==
+                          -1
+                      ? const NodataWidget()
+                      : SfCircularChart(
+                          margin: EdgeInsets.zero,
+                          onDataLabelTapped: (value) {
+                            if (onTap != null) {
+                              final key = chartData[value.pointIndex];
+                              onTap!(value.pointIndex);
+                            } else {}
+                          },
+                          series: [
+                            // Renders doughnut chart
+                            DoughnutSeries<ChartData, String>(
+                                innerRadius: '45',
+                                dataSource: chartData,
+                                pointColorMapper: (ChartData data, _) =>
+                                    data.color,
+                                pointRadiusMapper: (ChartData data, _) =>
+                                    data.size,
+                                xValueMapper: (ChartData data, _) => data.title,
+                                yValueMapper: (ChartData data, _) => data.value,
+                                dataLabelMapper: (ChartData data, _) =>
+                                    percent(data.value),
+                                onPointTap: (value) {
+                                  if (onTap != null) {
+                                    final key =
+                                        chartData[value.pointIndex ?? 0];
+
+                                    onTap!(
+                                      value.pointIndex ?? 0,
+                                    );
+                                  } else {}
+                                },
+                                dataLabelSettings: DataLabelSettings(
+                                  useSeriesColor: true,
+                                  isVisible: true,
+                                  showZeroValue: false,
+                                  textStyle: textNormalCustom(
+                                    color: backgroundColorApp,
+                                    fontSize: 14,
+                                  ),
+                                ))
+                          ],
+                        ),
+                ),
+              ),
+              const SizedBox(
+                width: 60,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: paddingLeftSubTitle),
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    childAspectRatio: 9,
+                    mainAxisSpacing: 10.0.textScale(space: 4),
+                    crossAxisSpacing: 10,
+                    children: List.generate(chartData.length, (index) {
+                      final result = chartData[index];
+                      return GestureDetector(
+                        onTap: () {
+                          if (onTap != null) {
+                            onTap!(index);
+                          } else {}
+                        },
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 14,
+                              width: 14,
+                              decoration: BoxDecoration(
+                                color: result.color,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Flexible(
+                              child: FittedBox(
+                                child: Text(
+                                  '${result.title} (${result.value.toInt()})',
+                                  style: textNormal(
+                                    infoColor,
+                                    14.0.textScale(),
+                                  ),
+                                ),
                               ),
                             )
-                          : const DataLabelSettings(
-                              isVisible: true,
-                            ),
-                    ),
-                  ],
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
                 ),
-        ),
-        if (isSubjectInfo)
+              ),
+            ],
+          ),
+        if (isSubjectInfo && isVectical)
           Padding(
             padding: EdgeInsets.only(left: paddingLeftSubTitle),
             child: GridView.count(
@@ -98,7 +219,6 @@ class PieChart extends StatelessWidget {
               crossAxisSpacing: 10,
               children: List.generate(chartData.length, (index) {
                 final result = chartData[index];
-                // ignore: avoid_unnecessary_containers
                 return GestureDetector(
                   onTap: () {
                     if (onTap != null) {
@@ -152,9 +272,19 @@ class PieChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData(this.title, this.value, this.color);
+  ChartData(
+    this.title,
+    this.value,
+    this.color, {
+    this.size,
+    this.key,
+    this.id,
+  });
 
+  final String? id;
   final String title;
   final double value;
   final Color color;
+  final String? size;
+  final String? key;
 }

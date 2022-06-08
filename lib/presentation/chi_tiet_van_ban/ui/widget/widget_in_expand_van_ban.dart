@@ -1,18 +1,17 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_van_ban/bloc/detail_document_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class WidgetInExpandVanBan extends StatelessWidget {
   final List<DocumentDetailRow> row;
-  final DetailDocumentCubit cubit;
+  final int flexValue;
 
   const WidgetInExpandVanBan({
     Key? key,
     required this.row,
-    required this.cubit,
+    this.flexValue = 5,
   }) : super(key: key);
 
   @override
@@ -57,8 +56,8 @@ class WidgetInExpandVanBan extends StatelessWidget {
                         width: 14.0.textScale(),
                       ),
                       Expanded(
-                        flex: 5,
-                        child: e.type.getWidgetVanBan(row: e, cubit: cubit),
+                        flex: flexValue,
+                        child: e.type.getWidgetVanBan(row: e),
                       ),
                     ],
                   ),

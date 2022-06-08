@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_mod
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/radio_button.dart';
+import 'package:ccvc_mobile/presentation/edit_personal_information/ui/widgets/follow_key_broash.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -135,8 +136,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                     : ListView.builder(
                                         itemCount: snapshot.data?.length ?? 0,
                                         itemBuilder: (context, index) {
-                                          final data = snapshot.data?[index] ??
-                                              TinhHuyenXaModel();
+                                          TinhHuyenXaModel();
                                           return Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -149,25 +149,25 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
                                                 ),
                                                 child: CustomRadioButtonCheck(
                                                   isCheckButton: itemSelected ==
-                                                      (widget.items[index].id ??
+                                                      (listData[index].id ??
                                                           ''),
                                                   onSelectItem: () {
-                                                    itemSelected = widget
-                                                            .items[index].id ??
-                                                        '';
+                                                    itemSelected =
+                                                        listData[index].id ??
+                                                            '';
                                                     selectedItemSubject.sink
                                                         .add(
-                                                      widget.items[index]
-                                                              .name ??
+                                                      listData[index].name ??
                                                           '',
                                                     );
                                                     widget.onChange(
                                                       index,
-                                                      data.id ?? '',
+                                                      listData[index].id ?? '',
                                                     );
                                                     Navigator.of(context).pop();
                                                   },
-                                                  name: data.name,
+                                                  name: listData[index].name ??
+                                                      '',
                                                 ),
                                               ),
                                               Container(
@@ -195,97 +195,100 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
             : showBottomSheetCustom(
                 context,
                 title: widget.title ?? S.current.chon_tinh_thanh_pho,
-                child: SingleChildScrollView(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    decoration: const BoxDecoration(
-                      color: backgroundColorApp,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        spaceH20,
-                        BaseSearchBar(
-                          onChange: (keySearch) async {
-                            searchList = widget.items
-                                .where(
-                                  (item) => (item.name ?? '')
-                                      .trim()
-                                      .toLowerCase()
-                                      .vietNameseParse()
-                                      .contains(
-                                        keySearch
-                                            .trim()
-                                            .toLowerCase()
-                                            .vietNameseParse(),
-                                      ),
-                                )
-                                .toList();
-                            searchItemSubject.sink.add(searchList);
-                          },
-                        ),
-                        spaceH4,
-                        Expanded(
-                          child: StreamBuilder<List<TinhHuyenXaModel>>(
-                            stream: searchItemSubject,
-                            builder: (context, snapshot) {
-                              final listData = snapshot.data ?? [];
-                              return listData.isEmpty
-                                  ? const Padding(
-                                      padding: EdgeInsets.all(16),
-                                      child: NodataWidget(),
-                                    )
-                                  : ListView.builder(
-                                      itemCount: snapshot.data?.length ?? 0,
-                                      itemBuilder: (context, index) {
-                                        final data = snapshot.data?[index] ??
-                                            TinhHuyenXaModel();
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              color: Colors.transparent,
-                                              padding: const EdgeInsets.only(
-                                                top: 18,
-                                                bottom: 18,
-                                              ),
-                                              child: CustomRadioButtonCheck(
-                                                isCheckButton: itemSelected ==
-                                                    (widget.items[index].id ??
-                                                        ''),
-                                                onSelectItem: () {
-                                                  itemSelected =
-                                                      widget.items[index].id ??
-                                                          '';
-                                                  selectedItemSubject.sink.add(
-                                                    widget.items[index].name ??
-                                                        '',
-                                                  );
-                                                  widget.onChange(
-                                                    index,
-                                                    data.id ?? '',
-                                                  );
-                                                  Navigator.of(context).pop();
-                                                },
-                                                name: data.name,
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 1,
-                                              color: cellColorborder,
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    );
+                child: FollowKeyBoardWidget(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      decoration: const BoxDecoration(
+                        color: backgroundColorApp,
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          spaceH20,
+                          BaseSearchBar(
+                            onChange: (keySearch) async {
+                              searchList = widget.items
+                                  .where(
+                                    (item) => (item.name ?? '')
+                                        .trim()
+                                        .toLowerCase()
+                                        .vietNameseParse()
+                                        .contains(
+                                          keySearch
+                                              .trim()
+                                              .toLowerCase()
+                                              .vietNameseParse(),
+                                        ),
+                                  )
+                                  .toList();
+                              searchItemSubject.sink.add(searchList);
                             },
                           ),
-                        ),
-                        spaceH10
-                      ],
+                          spaceH4,
+                          Expanded(
+                            child: StreamBuilder<List<TinhHuyenXaModel>>(
+                              stream: searchItemSubject,
+                              builder: (context, snapshot) {
+                                final listData = snapshot.data ?? [];
+                                return listData.isEmpty
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: NodataWidget(),
+                                      )
+                                    : ListView.builder(
+                                        itemCount: listData.length,
+                                        itemBuilder: (context, index) {
+                                          // final data = listData[index];
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                color: Colors.transparent,
+                                                padding: const EdgeInsets.only(
+                                                  top: 18,
+                                                  bottom: 18,
+                                                ),
+                                                child: CustomRadioButtonCheck(
+                                                  isCheckButton: itemSelected ==
+                                                      (listData[index].id ??
+                                                          ''),
+                                                  onSelectItem: () {
+                                                    itemSelected =
+                                                        listData[index].id ??
+                                                            '';
+                                                    selectedItemSubject.sink
+                                                        .add(
+                                                      listData[index].name ??
+                                                          '',
+                                                    );
+                                                    widget.onChange(
+                                                      index,
+                                                      listData[index].id ?? '',
+                                                    );
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  name: listData[index].name ??
+                                                      '',
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 1,
+                                                color: cellColorborder,
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      );
+                              },
+                            ),
+                          ),
+                          spaceH10
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -309,7 +312,7 @@ class _CustomSelectTinhState extends State<CustomSelectTinh> {
               snapshot.data ?? '',
               style: tokenDetailAmount(
                 fontSize: 14.0.textScale(),
-                color: titleColor,
+                color: color3D5586,
               ),
             );
           },

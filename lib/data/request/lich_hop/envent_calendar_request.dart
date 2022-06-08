@@ -14,16 +14,17 @@ class EventCalendarRequest {
   int? month;
   int? year;
 
-  EventCalendarRequest(
-      {required this.DateFrom,
-      required this.DateTo,
-      required this.DonViId,
-      required this.PageIndex,
-      required this.PageSize,
-      required this.UserId,
-      required this.isLichCuaToi,
-      required this.month,
-      required this.year,});
+  EventCalendarRequest({
+    required this.DateFrom,
+    required this.DateTo,
+    required this.DonViId,
+    required this.PageIndex,
+    required this.PageSize,
+    required this.UserId,
+    required this.isLichCuaToi,
+    required this.month,
+    required this.year,
+  });
 
   factory EventCalendarRequest.fromJson(Map<String, dynamic> json) =>
       _$EventCalendarRequestFromJson(json);

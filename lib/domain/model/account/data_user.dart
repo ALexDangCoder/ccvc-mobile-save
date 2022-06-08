@@ -7,11 +7,13 @@ class DataLogin {
   DataUser? dataUser;
   bool? succeeded;
   int? statusCode;
+  String? message;
 
   DataLogin({
-   required this.dataUser,
-    required  this.succeeded,
-    required  this.statusCode,
+    required this.dataUser,
+    required this.succeeded,
+    required this.statusCode,
+    required this.message,
   });
 }
 

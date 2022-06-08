@@ -57,6 +57,10 @@ mixin BaoChiMangXaHoiRepository {
     int topic,
   );
 
+  Future<Result<BaiVietModel>> followTopic(
+    String url,
+  );
+
   Future<Result<TinTucModel>> searchTinTuc(
     int pageIndex,
     int pageSize,
@@ -72,35 +76,37 @@ mixin BaoChiMangXaHoiRepository {
   );
 
   Future<Result<List<TinTongHopModel>>> tinTongHopBaoCaoThongKe(
-      String fromDate,
-      String enddDate,
-      );
+    String fromDate,
+    String enddDate,
+  );
 
   Future<Result<NguonBaoCaoModel>> baoCaoTheoNguon(
-      String fromDate,
-      String enddDate,
-      int treeNode,
-      );
+    String fromDate,
+    String enddDate,
+    int treeNode,
+  );
+
   Future<Result<SacThaiModel>> baoCaoTheoSacThai(
-      String fromDate,
-      String enddDate,
-      int treeNode,
-      );
+    String fromDate,
+    String enddDate,
+    int treeNode,
+  );
 
   Future<Result<List<LineChartData>>> baoCaoTheoThoiGian(
-      ThongKeTheoThoiGianRequest thoiGianRequest,
-      );
+    ThongKeTheoThoiGianRequest thoiGianRequest,
+  );
+
   Future<Result<NguonBaoCaoLineChartModel>> baoCaoTheoNguonLineChart(
-      String fromDate,
-      String endDate,
-      int treeNodesID,
-      String treeNodesTitle,
-      int sourceId,
-      );
+    String fromDate,
+    String endDate,
+    int treeNodesID,
+    String treeNodesTitle,
+    int sourceId,
+  );
 
   Future<Result<SacThaiLineChartModel>> baoCaoTheoSacThaiLineChart(
-      String fromDate,
-      String enddDate,
-      int treeNode,
-      );
+    String fromDate,
+    String enddDate,
+    int treeNode,
+  );
 }

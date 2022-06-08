@@ -19,7 +19,15 @@ class NetworkHandler {
     if (errorCode == 503) {
       return MaintenanceException();
     }
-    return parsedException;
+    if (error.response?.data['message'] != null) {
+      return AppException(
+        S.current.error,
+        error.response?.data['message'] ?? S.current.something_went_wrong,
+        error.response?.statusCode,
+      );
+    } else {
+      return parsedException;
+    }
   }
 
   static bool _isNetWorkError(DioError error) {
@@ -44,8 +52,10 @@ class NetworkHandler {
 
   static AppException _parseError(DioError error) {
     if (error.response?.data is! Map<String, dynamic>) {
-      return AppException(S.current.error, S.current.something_went_wrong,error.response?.statusCode);
+      return AppException(S.current.error, S.current.something_went_wrong,
+          error.response?.statusCode);
     }
-    return AppException(S.current.error, S.current.something_went_wrong,error.response?.statusCode);
+    return AppException(S.current.error, S.current.something_went_wrong,
+        error.response?.statusCode);
   }
 }

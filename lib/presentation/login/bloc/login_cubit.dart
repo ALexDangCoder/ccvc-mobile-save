@@ -1,15 +1,24 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/data/request/thong_bao/device_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/model/account/data_user.dart';
 import 'package:ccvc_mobile/domain/model/account/login_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/domain/repository/thong_bao/thong_bao_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/bloc/login_state.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -21,12 +30,14 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   AccountRepository get _loginRepo => Get.find();
 
+  ThongBaoRepository get _serviceNoti => Get.find();
+
   bool isHideClearData = false;
   bool isCheckEye1 = true;
   bool isHideEye1 = false;
   bool passIsError = false;
   final toast = FToast();
-  BehaviorSubject<String> thongBao=BehaviorSubject();
+  BehaviorSubject<String> thongBao = BehaviorSubject();
 
   bool? getEmail(String text) {
     int result = text.indexOf('@');
@@ -71,29 +82,55 @@ class LoginCubit extends BaseCubit<LoginState> {
         );
 
         HiveLocal.saveDataUser(dataUser);
+        createDevice();
       },
       error: (err) {
-        if (err.code == 401) {
+        thongBao.sink.add('');
+        if (err is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else if (err.code == StatusCodeConst.STATUS_UNAUTHORIZED) {
           thongBao.sink.add(S.current.sai_tai_khoan_hoac_mat_khau);
-          // toast.showToast(
-          //   child: ShowToast(
-          //     text: S.current.sai_tai_khoan_hoac_mat_khau,
-          //   ),
-          //   gravity: ToastGravity.BOTTOM,
-          // );
+        } else if (err.code == StatusCodeConst.STATUS_BAD_REQUEST) {
+          if (err.message.contains(S.current.sai_tai_khoan_hoac_mat_khau)) {
+            thongBao.sink.add(err.message);
+          } else {
+            MessageConfig.show(
+              messState: MessState.customIcon,
+              title: S.current.tai_khoan_hien_khong_ton_tai,
+              urlIcon: ImageAssets.icUserNotExits,
+            );
+          }
         } else {
           thongBao.sink.add(S.current.dang_nhap_khong_thanh_cong);
-          // toast.showToast(
-          //   child: ShowToast(
-          //     text: S.current.dang_nhap_khong_thanh_cong,
-          //   ),
-          //   gravity: ToastGravity.BOTTOM,
-          // );
         }
         emit(LoginError(err.message));
         showContent();
       },
     );
+  }
+
+  String get getPlatform => Platform.isAndroid ? DEVICE_ANDROID : DEVICE_IOS;
+  Future<String?> get getTokkenNoti => FirebaseMessaging.instance.getToken();
+
+  Future<void> createDevice() async {
+    String? deviceId;
+    try {
+      deviceId = await getTokkenNoti;
+      await _serviceNoti.createDevice(
+        DeviceRequest(
+          id: '00000000-0000-0000-0000-000000000000',
+          isActive: true,
+          registationId: deviceId,
+          deviceType: getPlatform,
+        ),
+      );
+    } catch (e) {
+      deviceId = 'Failed to get deviceId.';
+      log(e.toString());
+    }
   }
 
   Future<void> getPermission() async {

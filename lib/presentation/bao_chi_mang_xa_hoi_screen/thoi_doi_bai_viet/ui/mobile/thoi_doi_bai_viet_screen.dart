@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/bloc/theo_doi_bai_viet_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/ui/mobile/widgets/bai_viet_item.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,11 @@ class TheoDoiBaiVietScreen extends StatefulWidget {
   _TheoDoiBaiVietScreenState createState() => _TheoDoiBaiVietScreenState();
 }
 
-class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen> with AutomaticKeepAliveClientMixin{
+class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController nhapLaiMatKhauController = TextEditingController();
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
+  final _debouncer = Debouncer(milliseconds: 2000);
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -29,7 +32,7 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen> with Automa
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.only(top: 20.0,left: 16.0,right: 16.0),
+            padding: const EdgeInsets.only(top: 20.0, left: 16.0, right: 16.0),
             child: Text(
               S.current.nhap_linK_bao_cao,
               style: textNormalCustom(
@@ -46,6 +49,20 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen> with Automa
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: BaseSearchBar(
               hintText: S.current.nhap_link,
+              onSubmit: (value){
+                if(value.isNotEmpty){
+                  _debouncer.run(() {
+                    theoDoiBaiVietCubit.followTopic(value);
+                  });
+                }
+              },
+              onChange: (value){
+                if(value.isNotEmpty){
+                  _debouncer.run(() {
+                    theoDoiBaiVietCubit.followTopic(value);
+                  });
+                }
+              },
             ),
           ),
           const SizedBox(
@@ -64,43 +81,42 @@ class _TheoDoiBaiVietScreenState extends State<TheoDoiBaiVietScreen> with Automa
           const SizedBox(
             height: 14,
           ),
-      Expanded(
-        child: ListViewLoadMore(
-          cubit: theoDoiBaiVietCubit,
-          isListView: true,
-          callApi: (page) => {
-            callApi(
-              page,
-            )
-          },
-          viewItem: (value, index) =>
-              itemBaiViet(value as BaiVietModel),
-        ),
-      ),
+          Expanded(
+            child: ListViewLoadMore(
+              cubit: theoDoiBaiVietCubit,
+              isListView: true,
+              callApi: (page) => {
+                callApi(
+                  page,
+                )
+              },
+              viewItem: (value, index) => itemBaiViet(value as BaiVietModel),
+            ),
+          ),
         ],
       ),
     );
   }
+
   void callApi(int page) {
     theoDoiBaiVietCubit.getListBaiVietTheoDoi(
-      theoDoiBaiVietCubit.endDate,
-      theoDoiBaiVietCubit.startDate,
-      widget.topic,
-      page,
-        ApiConstants.DEFAULT_PAGE_SIZE
-    );
+        theoDoiBaiVietCubit.endDate,
+        theoDoiBaiVietCubit.startDate,
+        widget.topic,
+        page,
+        ApiConstants.DEFAULT_PAGE_SIZE);
   }
-  Widget itemBaiViet(BaiVietModel data){
-   return Container(
-     padding: const EdgeInsets.symmetric(horizontal: 16),
-     child: BaiVietItem(
+
+  Widget itemBaiViet(BaiVietModel data) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: BaiVietItem(
         baiVietModel: data,
       ),
-   );
+    );
   }
 
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
-

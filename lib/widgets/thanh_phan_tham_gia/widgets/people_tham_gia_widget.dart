@@ -96,7 +96,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
           flex: 6,
           child: Text(
             value,
-            style: textNormal(titleColor, 14.0.textScale()),
+            style: textNormal(color3D5586, 14.0.textScale()),
           ),
         )
       ],
@@ -105,7 +105,7 @@ class PeopleThamGiaWidget extends StatelessWidget {
 
   Widget textField({required Function(String) onChange}) {
     return TextField(
-      style: textNormal(titleColor, 14.0.textScale()),
+      style: textNormal(color3D5586, 14.0.textScale()),
       onChanged: (value) {
         onChange(value);
       },

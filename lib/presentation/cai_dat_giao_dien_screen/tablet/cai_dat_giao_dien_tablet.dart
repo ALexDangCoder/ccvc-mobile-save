@@ -43,7 +43,7 @@ class _CaiDatGiaoDienTabletState extends State<CaiDatGiaoDienTablet> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-          const  CaiDatMauTabletWidget(),
+            const CaiDatMauTabletWidget(),
             const SizedBox(
               height: 6,
             ),

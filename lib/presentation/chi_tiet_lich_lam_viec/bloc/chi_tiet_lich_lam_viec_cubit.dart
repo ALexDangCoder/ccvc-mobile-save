@@ -94,11 +94,7 @@ class ChiTietLichLamViecCubit extends BaseCubit<BaseState> {
 
   Future<void> cancel(String id) async {
     final rs = await detailLichLamViec.cancelCalenderWork(id);
-    rs.when(
-        success: (data) {
-          print('trang thai huy: $data');
-        },
-        error: (error) {});
+    rs.when(success: (data) {}, error: (error) {});
   }
 
   Future<void> getListTinhTrang() async {

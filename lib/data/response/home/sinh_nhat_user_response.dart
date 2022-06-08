@@ -45,10 +45,12 @@ class Data {
     tenCanBo = json['tenCanBo'];
     email = json['email'];
   }
+
   SinhNhatUserModel toDomain() => SinhNhatUserModel(
         canBoId: canBoId ?? '',
         ngaySinh: ngaySinh ?? '',
         tenCanBo: tenCanBo ?? '',
         gioiTinh: gioiTinh ?? '',
+        email: email ?? '',
       );
 }

@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class ThongTinXuLyPhanAnh extends StatefulWidget {
   final List<DataRowChiTietKienNghi> listRow;
 
-  const ThongTinXuLyPhanAnh({Key? key, required this.listRow}) : super(key: key);
+  const ThongTinXuLyPhanAnh({Key? key, required this.listRow})
+      : super(key: key);
 
   @override
   _ThongTinXuLyPhanAnhState createState() => _ThongTinXuLyPhanAnhState();

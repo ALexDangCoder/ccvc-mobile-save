@@ -43,6 +43,8 @@ const fittingBg = Color(0xFFF2F2F2);
 const itemWidgetUsing = Color(0xff28C76F);
 const itemWidgetNotUse = Color(0xffFF9F43);
 const backgroundWidget = Color(0xffF0F6FF);
+const chuTriColor = Color(0xff6FCF97);
+const phoiHopColor = Color(0xffBB6BD9);
 const textDefault = Color(0xff7966FF);
 const textTitle = Color(0xff3D5586);
 const titleItemEdit = Color(0xff586B8B);
@@ -62,13 +64,14 @@ const infoColor = Color(0xff667793);
 const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const choXuLyColor = Color(0xff5A8DEE);
+const chuaThucHienColor = Color(0xffF2994A);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
 const choTrinhKyColor = Color(0xff02C5DD);
 const choCapSoColor = Color(0xffFF6D99);
 const choBanHanhColor = Color(0xff374FC7);
-const radioUnfocusColor = Color(0xffE2E8F0);
+const colorE2E8F0 = Color(0xffE2E8F0);
 const radioFocusColor = Color(0xff7966FF);
 const borderButtomColor = Color(0xffE2E8F0);
 const backgroundRowColor = Color(0xffF5F8FD);
@@ -151,6 +154,8 @@ const unFocusColor = Color(0xffF2F0FF);
 const colorImageLichHop = Color(0xffF1F7FF);
 const dangThucHienPurble = Color(0xffBB6BD9);
 const textUnfocus = Color(0xffF9F9FA);
+const nhiemVuBoColor = Color(0xff0A45B9);
+const nhiemDonViColor = Color(0xff1CE2BF);
 
 ///=========== Using to make change app theme ================================
 abstract class AppColor {
@@ -187,6 +192,7 @@ abstract class AppColor {
   Color buttonUnfocus();
 
   Color colorField();
+  Color radioUnfocusColor();
 }
 
 class LightApp extends AppColor {
@@ -273,6 +279,11 @@ class LightApp extends AppColor {
   @override
   Color colorField() {
     return backgroundColorApp;
+  }
+
+  @override
+  Color radioUnfocusColor() {
+   return colorE2E8F0;
   }
 }
 
@@ -361,6 +372,11 @@ class DarkApp extends AppColor {
   Color colorField() {
     return backgroundColorApp;
   }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
+  }
 }
 
 class DefaultApp extends AppColor {
@@ -447,6 +463,11 @@ class DefaultApp extends AppColor {
   @override
   Color buttonUnfocus() {
     return AqiColor;
+  }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
   }
 }
 
@@ -535,6 +556,11 @@ class BlueApp extends AppColor {
   Color colorField() {
     return numberOfCalenders;
   }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
+  }
 }
 
 class PinkApp extends AppColor {
@@ -622,6 +648,11 @@ class PinkApp extends AppColor {
   Color colorField() {
     return pinkColor;
   }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
+  }
 }
 
 class YellowApp extends AppColor {
@@ -708,6 +739,11 @@ class YellowApp extends AppColor {
   @override
   Color colorField() {
     return yellowColor;
+  }
+
+  @override
+  Color radioUnfocusColor() {
+    return colorE2E8F0;
   }
 }
 

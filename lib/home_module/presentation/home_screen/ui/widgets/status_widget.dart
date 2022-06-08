@@ -3,9 +3,18 @@ import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
 import 'package:ccvc_mobile/home_module/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+
 class StatusWidget extends StatelessWidget {
   final List<ChartData> listData;
-  const StatusWidget({Key? key, required this.listData}) : super(key: key);
+  final Function(ChartData)? onSelectItem;
+  final bool showZeroValue;
+
+  const StatusWidget({
+    Key? key,
+    required this.listData,
+    this.onSelectItem,
+    this.showZeroValue = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +27,38 @@ class StatusWidget extends StatelessWidget {
           child: Row(
             children: listData
                 .map(
-                  (e) => Expanded(
-                flex: e.value.toInt(),
-                child: Container(
-                  color: e.color,
-                  child: Center(
-                    child: Text(
-                      e.value.toInt().toString(),
-                      style: textNormal(
-                        backgroundColorApp,
-                        14.0.textScale(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )
+                  (e) => (e.value.toInt() == 0 && showZeroValue == false)
+                      ? const SizedBox.shrink()
+                      : Expanded(
+                          flex: e.value.toInt(),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (onSelectItem != null) {
+                                // ignore: prefer_null_aware_method_calls
+                                onSelectItem!(e);
+                              }
+                            },
+                            child: Container(
+                              color: e.color,
+                              child: Center(
+                                child: Text(
+                                  e.value.toInt().toString(),
+                                  style: textNormal(
+                                    backgroundColorApp,
+                                    14.0.textScale(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                )
                 .toList(),
           ),
         ),
-        const SizedBox(height: 26,),
+        const SizedBox(
+          height: 26,
+        ),
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

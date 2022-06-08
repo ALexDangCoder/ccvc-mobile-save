@@ -20,8 +20,8 @@ const KIEM_TRA_THUC_THE = 3;
 const CAP_SO_BAN_HANH = 4;
 
 List<DataRowLuongXuLy> chuThichTrangThai = [
-  DataRowLuongXuLy(title: S.current.cho_trinh_ky, color: xamColor),
-  DataRowLuongXuLy(title: S.current.cho_duyet, color: duyetColor),
+  DataRowLuongXuLy(title: S.current.cho_trinh_ky, color: color81B2DF),
+  DataRowLuongXuLy(title: S.current.cho_duyet, color: colorF2994A),
   DataRowLuongXuLy(title: S.current.cho_cap_so, color: capSoColor),
   DataRowLuongXuLy(title: S.current.da_ban_hanh, color: banHanhColor),
   DataRowLuongXuLy(title: S.current.da_trinh_ky, color: daTrinhColor),
@@ -53,6 +53,7 @@ class LuongXuLyVBDiModel {
   String? idTrinhKy;
   String? id;
   bool? isDenLuot;
+
   LuongXuLyVBDiModel(
       {this.infoCanBo,
       this.trangThaiHienTai,
@@ -65,14 +66,14 @@ class LuongXuLyVBDiModel {
   DataRowLuongXuLy getTrangThai() {
     switch (trangThaiHienTai) {
       case CHO_TRINH_KY:
-        return DataRowLuongXuLy(title: S.current.cho_trinh_ky, color: xamColor);
+        return DataRowLuongXuLy(title: S.current.cho_trinh_ky, color: color81B2DF);
       case DA_TRINH_KY:
         return DataRowLuongXuLy(
           title: S.current.da_trinh_ky,
           color: daTrinhColor,
         );
       case CHO_DUYET:
-        return DataRowLuongXuLy(title: S.current.cho_duyet, color: duyetColor);
+        return DataRowLuongXuLy(title: S.current.cho_duyet, color: colorF2994A);
       case DA_DUYET:
         return DataRowLuongXuLy(title: S.current.da_duyet, color: daDuyetColor);
       case CHO_CAP_SO:

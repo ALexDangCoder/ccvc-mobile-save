@@ -1,6 +1,8 @@
+
 import 'package:ccvc_mobile/presentation/tabbar_screen/bloc/main_cubit.dart';
 import 'package:ccvc_mobile/presentation/tabbar_screen/ui/tabbar_item.dart';
 import 'package:ccvc_mobile/presentation/tabbar_screen/ui/widgets/custom_navigator_tabbar.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -32,25 +34,33 @@ class _MainTabBarViewState extends State<MainTabBarView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<TabBarType>(
-      stream: _cubit.selectTabBar,
-      builder: (context, snapshot) {
-        final type = snapshot.data ?? TabBarType.home;
-        return Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: IndexedStack(
-            index: _getIndexListScreen(type),
-            children: _listScreen.map((e) => e.widget).toList(),
-          ),
-          bottomNavigationBar: BottomTabBarWidget(
-            selectItemIndex: type.index,
-            onChange: (value) {
-              _addScreen(value);
-              _cubit.selectTab(value);
-            },
-          ),
-        );
-      },
+    return ProviderWidget<MainCubit>(
+      cubit: _cubit,
+      child: StreamBuilder<TabBarType>(
+        stream: _cubit.selectTabBar,
+        builder: (context, snapshot) {
+          final type = snapshot.data ?? TabBarType.home;
+          return Scaffold(
+            resizeToAvoidBottomInset: true,
+            body: IndexedStack(
+              index: _getIndexListScreen(type),
+              children: _listScreen.map((e) => e.widget).toList(),
+            ),
+            bottomNavigationBar: BottomTabBarWidget(
+              selectItemIndex: type.index,
+              onChange: (value) {
+                _addScreen(value);
+                _cubit.selectTab(value);
+              },
+              onDoubleTap: (value) {
+                _addScreen(value);
+                _cubit.selectTab(value);
+                _cubit.selectDoubleTap(value);
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 

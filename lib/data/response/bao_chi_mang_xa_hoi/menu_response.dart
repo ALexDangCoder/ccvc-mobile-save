@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/domain/model/bao_chi_mang_xa_hoi/menu_bcmxh.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'menu_response.g.dart';
+
 @JsonSerializable()
 class MenuBCMXHResponse {
   @JsonKey(name: 'id')
@@ -24,7 +25,7 @@ class MenuBCMXHResponse {
 
   ListMenuItemModel toDomain() => ListMenuItemModel(
         id: id ?? '',
-        nodeid: nodeid??0,
+        nodeid: nodeid ?? 0,
         title: title ?? '',
         subMenu: subMenu?.map((e) => e.toDomain()).toList() ?? [],
       );

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DataThongTinGuiNhanModel {
@@ -28,13 +29,13 @@ class ThongTinGuiNhanModel {
   String? trangThai;
 
   ThongTinGuiNhanModel({
-     this.nguoiGui,
-     this.donViGui,
-     this.donViNhan,
-     this.trangThai,
-     this.nguoiNhan,
-     this.thoiGian,
-     this.vaiTroXuLy,
+    this.nguoiGui,
+    this.donViGui,
+    this.donViNhan,
+    this.trangThai,
+    this.nguoiNhan,
+    this.thoiGian,
+    this.vaiTroXuLy,
   });
 
   ThongTinGuiNhanModel.fromDetail();
@@ -53,7 +54,11 @@ class ThongTinGuiNhanModel {
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGian ?? '',
+        thoiGian?.changeToNewPatternDate(
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
+            '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -73,8 +78,8 @@ class ThongTinGuiNhanModel {
       ),
       DocumentDetailRow(
         S.current.trang_thai,
-        trangThai?.split(' ').join('_').toUpperCase().vietNameseParse() ?? '',
-        TypeDocumentDetailRow.status,
+        trangThai ?? '',
+        TypeDocumentDetailRow.text,
       ),
     ];
     return list;

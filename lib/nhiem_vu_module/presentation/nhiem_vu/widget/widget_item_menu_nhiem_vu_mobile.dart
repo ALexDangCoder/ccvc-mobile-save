@@ -38,7 +38,9 @@ class ItemMenuNhiemVuWidgetMobile extends StatelessWidget {
               width: 15.0.textScale(space: 8),
               child: SvgPicture.asset(
                 icon,
-                color: isSelect ? Colors.white : AppTheme.getInstance().colorField(),
+                color: isSelect
+                    ? Colors.white
+                    : AppTheme.getInstance().colorField(),
               ),
             ),
             SizedBox(
@@ -47,7 +49,7 @@ class ItemMenuNhiemVuWidgetMobile extends StatelessWidget {
             Text(
               name,
               style: textNormalCustom(
-                color: isSelect ? Colors.white : titleColor,
+                color: isSelect ? Colors.white : color3D5586,
                 fontWeight: FontWeight.w400,
                 fontSize: 16.0.textScale(space: 4),
               ),

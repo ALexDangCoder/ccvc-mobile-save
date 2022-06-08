@@ -90,7 +90,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 0
                                           ? backgroundColorApp
-                                          : titleColor,
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),
@@ -126,7 +126,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 1
                                           ? backgroundColorApp
-                                          : titleColor,
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),
@@ -162,7 +162,7 @@ class _WidgetSelectOptionHeaderState extends State<WidgetSelectOptionHeader> {
                                       fontSize: 16.0,
                                       color: widget.cubit.index.value == 2
                                           ? backgroundColorApp
-                                          : titleColor,
+                                          : color3D5586,
                                     ),
                                   ),
                                 ),

@@ -1,5 +1,11 @@
-
 import 'package:ccvc_mobile/data/result/result.dart';
+import 'package:ccvc_mobile/home_module/data/request/account/gui_loi_chuc_request.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/danh_sach_thiep_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/dashboard_tinh_hinh_pakn_response.dart';
+import 'package:ccvc_mobile/home_module/data/response/home/gui_loi_chuc_response.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/message_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/thiep_sinh_nhat_model.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/y_kien_nguoi_dan_model.dart';
 
 import '/home_module/data/request/home/danh_sach_cong_viec_resquest.dart';
 import '/home_module/data/request/home/danh_sach_van_ban_den_request.dart';
@@ -44,6 +50,7 @@ import '/home_module/domain/repository/home_repository/home_repository.dart';
 class HomeImpl extends HomeRepository {
   final HomeServiceGateWay _homeServiceGateWay;
   final HomeServiceCCVC _homeServiceCCVC;
+
   HomeImpl(this._homeServiceGateWay, this._homeServiceCCVC);
 
   @override
@@ -63,10 +70,9 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<TinhHuongKhanCapModel>>> getTinhHuongKhanCap() {
-    return runCatchingAsync<TinhHuongKhanCapResponse,
-        List<TinhHuongKhanCapModel>>(
-      () => _homeServiceCCVC.getTinhHuongKhanCap(),
+  Future<Result<List<TinBuonModel>>> getTinBuon() {
+    return runCatchingAsync<TinhHuongKhanCapResponse, List<TinBuonModel>>(
+      () => _homeServiceCCVC.getTinBuon(),
       (res) => res.data?.map((e) => e.toDomain()).toList() ?? [],
     );
   }
@@ -122,18 +128,18 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<TongHopNhiemVuModel>>> getTongHopNhiemVu(
-    bool isCaNhan,
-    String ngayDauTien,
-    String ngayCuoiCung,
+  Future<Result<DocumentDashboardModel>> getTongHopNhiemVu(
+    String userId,
+    String canBoId,
+    String donViId,
   ) {
-    return runCatchingAsync<TongHopNhiemVuResponse, List<TongHopNhiemVuModel>>(
+    return runCatchingAsync<TongHopNhiemVuResponse, DocumentDashboardModel>(
       () => _homeServiceGateWay.getTongHopNhiemVu(
-        isCaNhan,
-        ngayDauTien,
-        ngayCuoiCung,
+        userId,
+        canBoId,
+        donViId,
       ),
-      (res) => res.toDomain(),
+      (res) => res.data?.toDomain() ?? DocumentDashboardModel(),
     );
   }
 
@@ -160,7 +166,7 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<List<DocumentModel>>> getYKienNguoidan(
+  Future<Result<List<YKienNguoiDanModel>>> getYKienNguoidan(
     int pageSize,
     int page,
     String trangThai,
@@ -170,7 +176,8 @@ class HomeImpl extends HomeRepository {
     String userId, [
     String? loaiMenu,
   ]) {
-    return runCatchingAsync<ListYKienNguoiDanResponse, List<DocumentModel>>(
+    return runCatchingAsync<ListYKienNguoiDanResponse,
+        List<YKienNguoiDanModel>>(
       () => _homeServiceGateWay.getListYKienNguoiDan(
         pageSize,
         page,
@@ -275,5 +282,29 @@ class HomeImpl extends HomeRepository {
             List<CalendarMeetingModel>>(
         () => _homeServiceGateWay.getDanhSachCongViec(request),
         (res) => res.pageData?.map((e) => e.toDomain()).toList() ?? []);
+  }
+
+  @override
+  Future<Result<MessageModel>> guiLoiChuc(GuiLoiChucRequest guiLoiChucRequest) {
+    return runCatchingAsync<GuiLoiChucResponse, MessageModel>(
+        () => _homeServiceCCVC.guiLoiChuc(guiLoiChucRequest),
+        (res) => res.toDomain());
+  }
+
+  @override
+  Future<Result<List<ThiepSinhNhatModel>>> listThiepMoi() {
+    return runCatchingAsync<DanhSachThiepResponse, List<ThiepSinhNhatModel>>(
+      () => _homeServiceCCVC.getDanhSachThiep(1, 100),
+      (res) => res.data?.pageData?.map((e) => e.toDomain()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
+      bool isDonVi) {
+    return runCatchingAsync<DashboardTinhHinhPAKNResponse,
+            DocumentDashboardModel>(
+        () => _homeServiceGateWay.getDashboardTinhHinhPAKN(isDonVi),
+        (res) => res.data?.toDomain() ?? DocumentDashboardModel());
   }
 }

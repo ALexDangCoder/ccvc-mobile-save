@@ -10,16 +10,18 @@ import 'package:flutter_svg/svg.dart';
 class ItemThongBaoMobile extends StatefulWidget {
   final String id;
   final String image;
+  final bool isImage;
   final String title;
   final int unreadCount;
   final bool isLine;
   final Function() onTap;
   final bool isSwitch;
+  final bool valueSwitch;
   final Function(bool status) onChange;
 
   const ItemThongBaoMobile({
     Key? key,
-    required this.image,
+    this.image = '',
     required this.title,
     required this.id,
     this.unreadCount = 0,
@@ -27,6 +29,8 @@ class ItemThongBaoMobile extends StatefulWidget {
     required this.onTap,
     this.isSwitch = false,
     required this.onChange,
+    this.valueSwitch = false,
+    this.isImage = true,
   }) : super(key: key);
 
   @override
@@ -53,11 +57,14 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset(
-                        widget.image,
-                        height: 24.0.textScale(space: 10),
-                        width: 24.0.textScale(space: 10),
-                      ),
+                      if (widget.isImage)
+                        SvgPicture.asset(
+                          widget.image,
+                          height: 24.0.textScale(space: 10),
+                          width: 24.0.textScale(space: 10),
+                        )
+                      else
+                        Container(),
                       SizedBox(
                         width: 12.0.textScale(space: 8),
                       ),
@@ -73,11 +80,11 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
                   ),
                   if (widget.isSwitch)
                     CustomSwitch(
-                      value: isSwitch,
+                      value: widget.valueSwitch,
                       onToggle: (value) {
                         isSwitch = value;
-                        widget.onChange(value);
                         setState(() {});
+                        widget.onChange(value);
                       },
                     )
                   else
@@ -123,7 +130,7 @@ class _ItemThongBaoMobileState extends State<ItemThongBaoMobile> {
               Container(
                 height: 1,
                 width: double.maxFinite,
-                color: lineColor,
+                color: colorECEEF7,
               )
             else
               Container()

@@ -131,7 +131,9 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                     showBottomSheetCustom(
                       context,
                       title: S.current.sua_lich_cong_tac_trong_nuoc,
-                      child:  SuaLichCongTacTrongNuocPhone(cubit: chiTietLichLamViecCubit,),
+                      child: SuaLichCongTacTrongNuocPhone(
+                        cubit: chiTietLichLamViecCubit,
+                      ),
                     );
                   },
                 ),

@@ -64,7 +64,7 @@ class _DanhSachYKNDState extends State<DanhSachYKND> {
                       hintStyle: textNormalCustom(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: unselectLabelColor,
+                        color: colorA2AEBD,
                       ),
                     ),
                   )
@@ -95,7 +95,6 @@ class _DanhSachYKNDState extends State<DanhSachYKND> {
   }
 
   Widget _content() {
-    print('--------------------------------------- call data-------------------------');
     return ListViewLoadMore(
       cubit: cubit,
       isListView: true,

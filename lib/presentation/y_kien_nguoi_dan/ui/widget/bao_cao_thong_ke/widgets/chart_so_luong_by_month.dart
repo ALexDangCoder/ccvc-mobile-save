@@ -66,11 +66,10 @@ class ChartSoLuongByMonthWidget extends StatelessWidget {
             ),
             series: <ChartSeries<YKNDByMonth, int>>[
               StackedLineSeries<YKNDByMonth, int>(
-                color: choXuLyColor,
+                color: color5A8DEE,
                 dataSource: dataByMonth,
                 xValueMapper: (YKNDByMonth sales, _) => sales.month,
-                yValueMapper: (YKNDByMonth sales, _) =>
-                sales.quantities,
+                yValueMapper: (YKNDByMonth sales, _) => sales.quantities,
                 dataLabelSettings: DataLabelSettings(
                   isVisible: true,
                   textStyle: textNormalCustom(
@@ -82,7 +81,7 @@ class ChartSoLuongByMonthWidget extends StatelessWidget {
                 ),
                 markerSettings: const MarkerSettings(
                   isVisible: true,
-                  color: choXuLyColor,
+                  color: color5A8DEE,
                 ),
               )
             ],
@@ -92,4 +91,3 @@ class ChartSoLuongByMonthWidget extends StatelessWidget {
     );
   }
 }
-

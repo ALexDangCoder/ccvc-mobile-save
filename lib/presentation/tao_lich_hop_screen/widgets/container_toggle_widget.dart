@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/widgets/switch/custom_switch.dart';
@@ -8,10 +7,14 @@ class ContainerToggleWidget extends StatelessWidget {
   final bool initData;
   final String title;
   final Function(bool) onChange;
+  final bool showDivider;
+
   const ContainerToggleWidget({
     Key? key,
     this.title = '',
-    required this.onChange, this.initData = false,
+    required this.onChange,
+    this.initData = false,
+    this.showDivider = true,
   }) : super(key: key);
 
   @override
@@ -19,11 +22,11 @@ class ContainerToggleWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 9),
       margin: const EdgeInsets.only(left: 29),
-      decoration: const BoxDecoration(
+      decoration: showDivider ? const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: lineColor),
+          bottom: BorderSide(color: colorECEEF7),
         ),
-      ),
+      ) : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -44,6 +47,7 @@ class ContainerToggleWidget extends StatelessWidget {
 class CustomToggle extends StatefulWidget {
   final bool initValue;
   final Function(bool) onChange;
+
   const CustomToggle({Key? key, this.initValue = false, required this.onChange})
       : super(key: key);
 
@@ -53,6 +57,7 @@ class CustomToggle extends StatefulWidget {
 
 class _CustomToggleState extends State<CustomToggle> {
   bool isCheck = false;
+
   @override
   void initState() {
     // TODO: implement initState

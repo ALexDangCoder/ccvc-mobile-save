@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_yknd_model.dart';
@@ -49,30 +48,30 @@ class _ThongTinNguoiPhanAnhState extends State<NguoiPhanAnhTablet> {
                 children: [
                   RadioImage(
                     type: S.current.ca_nhan,
-                    isSelect: widget.indexCheck==0?true:false,
+                    isSelect: widget.indexCheck == 0 ? true : false,
                   ),
                   const SizedBox(
                     height: 16,
                   ),
                   RadioImage(
-                      isSelect: widget.indexCheck==2?true:false,
+                      isSelect: widget.indexCheck == 2 ? true : false,
                       type: S.current.to_chuc),
                   const SizedBox(
                     height: 16,
                   ),
                   RadioImage(
-                  isSelect: widget.indexCheck==1?true:false,
+                      isSelect: widget.indexCheck == 1 ? true : false,
                       type: S.current.doanh_nghiep),
                   const SizedBox(
                     height: 16,
                   ),
                   RadioImage(
-                    isSelect: widget.indexCheck==3?true:false,
-                    type: S.current.co_quan_nha_muoc,),
-                   const SizedBox(
+                    isSelect: widget.indexCheck == 3 ? true : false,
+                    type: S.current.co_quan_nha_muoc,
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
-
                 ],
               ),
             ),
@@ -186,6 +185,7 @@ class _ThongTinNguoiPhanAnhTabletState
 class RadioImage extends StatelessWidget {
   final bool isSelect;
   final String type;
+
   const RadioImage({
     Key? key,
     this.isSelect = false,

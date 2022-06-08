@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/dropdown/custom_drop_down.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/search/base_search_bar.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/chi_tiet_lich_hop_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -161,7 +162,8 @@ class SelectThuKyCell extends StatelessWidget {
                     } else {
                       cubit.dataThuKyOrThuHoiDeFault[vl].isThuKy = true;
                     }
-                    cubit.listNguoiCHuTriModel.sink.add(cubit.dataThuKyOrThuHoiDeFault);
+                    cubit.listNguoiCHuTriModel.sink
+                        .add(cubit.dataThuKyOrThuHoiDeFault);
                     log(cubit.listNguoiCHuTriModel.value.toString());
                   },
                 ),
@@ -280,7 +282,7 @@ class _DropDownSearchThuKyState extends State<DropDownSearchThuKy> {
                     '',
                     style: tokenDetailAmount(
                       fontSize: 14.0.textScale(),
-                      color: titleColor,
+                      color: color3D5586,
                     ),
                   ),
           ),

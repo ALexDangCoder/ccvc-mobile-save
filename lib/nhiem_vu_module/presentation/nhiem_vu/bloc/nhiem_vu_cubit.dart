@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
-import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/config/resources/color.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/bloc/nhiem_vu_state.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
@@ -14,7 +14,10 @@ class NhiemVuCubit extends BaseCubit<NhiemVuState> {
   final BehaviorSubject<ChartData> _dataChartNhiemVu =
       BehaviorSubject<ChartData>();
   BehaviorSubject<List<bool>> selectTypeNhiemVuSubject =
-      BehaviorSubject.seeded([true, false]);
+      BehaviorSubject.seeded([true, false, false]);
+  BehaviorSubject<bool> isSearchSubject = BehaviorSubject();
+
+  Stream<bool> get searchStream => isSearchSubject.stream;
 
   Stream<ChartData> get dataChartNhiemVu => _dataChartNhiemVu.stream;
   final List<ChartData> chartDataNhiemVu = [

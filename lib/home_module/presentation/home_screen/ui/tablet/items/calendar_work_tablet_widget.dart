@@ -1,6 +1,6 @@
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/chi_tiet_lich_hop_screen.dart';
+import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/presentation/calender_work/main_calendar/main_calender_work_tablet.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/tablet/chi_tiet_lich_hop_screen_tablet.dart';
-import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/phone/chi_tiet_lich_lam_viec_screen.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +20,7 @@ import '/home_module/widgets/text/views/loading_only.dart';
 
 class CalendarWorkTabletWidget extends StatefulWidget {
   final WidgetType homeItemType;
+
   const CalendarWorkTabletWidget({Key? key, required this.homeItemType})
       : super(key: key);
 
@@ -29,14 +30,15 @@ class CalendarWorkTabletWidget extends StatefulWidget {
 
 class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
   final LichLamViecCubit _lamViecCubit = LichLamViecCubit();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _lamViecCubit.callApi();
+    _lamViecCubit.setChangeKey(SelectKey.LICH_CUA_TOI);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        _lamViecCubit.callApi();
+        _lamViecCubit.setChangeKey(_lamViecCubit.selectKey);
       });
     });
   }
@@ -45,26 +47,39 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
   Widget build(BuildContext context) {
     return ContainerBackgroundTabletWidget(
       title: S.current.calendar_work,
+      onTapTitle: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CalenderWorkDayTablet(
+              isBack: true,
+            ),
+          ),
+        );
+      },
       maxHeight: 415,
       minHeight: 415,
       onTapIcon: () {
         HomeProvider.of(context).homeCubit.showDialog(widget.homeItemType);
       },
       selectKeyDialog: _lamViecCubit,
+      listSelect: const [SelectKey.LICH_CUA_TOI, SelectKey.LICH_CHO_XAC_NHAN],
+      onChangeKey: (value) {
+        _lamViecCubit.setChangeKey(value);
+      },
       dialogSelect: StreamBuilder(
         stream: _lamViecCubit.selectKeyDialog,
         builder: (context, _) => DialogSettingWidget(
           listSelectKey: [
             DialogData(
-              initValue: _lamViecCubit.selectKeyTime,
-              onSelect: (value, startDate, endDate) {
-                _lamViecCubit.selectDate(
-                    selectKey: value, startDate: startDate, endDate: endDate);
-              },
-              title: S.current.time,
-              startDate: _lamViecCubit.startDate,
-              endDate: _lamViecCubit.endDate
-            )
+                initValue: _lamViecCubit.selectKeyTime,
+                onSelect: (value, startDate, endDate) {
+                  _lamViecCubit.selectDate(
+                      selectKey: value, startDate: startDate, endDate: endDate);
+                },
+                title: S.current.time,
+                startDate: _lamViecCubit.startDate,
+                endDate: _lamViecCubit.endDate)
           ],
           type: widget.homeItemType,
         ),
@@ -88,24 +103,23 @@ class _CalendarWorkWidgetState extends State<CalendarWorkTabletWidget> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: GestureDetector(
                       onTap: () {
-                        if(result.screenTypeMetting == ScreenTypeMetting.LICH_LAM_VIEC) {
+                        if (result.screenTypeMetting ==
+                            ScreenTypeMetting.LICH_LAM_VIEC) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  ChiTietLamViecTablet(
-                                    id: result.id,
-                                  ),
+                              builder: (context) => ChiTietLamViecTablet(
+                                id: result.id,
+                              ),
                             ),
                           );
-                        }else{
+                        } else {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailMeetCalenderTablet(
-                                    id: result.id,
-                                  ),
+                              builder: (context) => DetailMeetCalenderTablet(
+                                id: result.id,
+                              ),
                             ),
                           );
                         }

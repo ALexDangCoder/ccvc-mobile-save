@@ -1,44 +1,48 @@
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
+import 'package:ccvc_mobile/home_module/domain/model/home/document_dashboard_model.dart';
+import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_column_chart.dart';
 import 'package:ccvc_mobile/home_module/presentation/home_screen/ui/widgets/status_widget.dart';
 import 'package:ccvc_mobile/home_module/utils/constants/app_constants.dart';
-import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
 import '/home_module/domain/model/home/WidgetType.dart';
-import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
+
 import '/home_module/presentation/home_screen/bloc/home_cubit.dart';
 import '/home_module/presentation/home_screen/ui/home_provider.dart';
 import '/home_module/presentation/home_screen/ui/mobile/widgets/container_backgroud_widget.dart';
-import '/home_module/presentation/home_screen/ui/widgets/dialog_setting_widget.dart';
+
 import '/home_module/widgets/chart/base_pie_chart.dart';
-import '/home_module/widgets/text/text/no_data_widget.dart';
+
 import '/home_module/widgets/text/views/loading_only.dart';
 
-class SituationOfHandlingPeopleWidget extends StatefulWidget {
+class TinhHinhPAKNCuaCaNhanMobileWidget extends StatefulWidget {
   final WidgetType homeItemType;
 
-  const SituationOfHandlingPeopleWidget({Key? key, required this.homeItemType})
+  const TinhHinhPAKNCuaCaNhanMobileWidget(
+      {Key? key, required this.homeItemType})
       : super(key: key);
 
   @override
-  State<SituationOfHandlingPeopleWidget> createState() =>
+  State<TinhHinhPAKNCuaCaNhanMobileWidget> createState() =>
       _SituationOfHandlingPeopleWidgetState();
 }
 
 class _SituationOfHandlingPeopleWidgetState
-    extends State<SituationOfHandlingPeopleWidget> {
-  final TinhHinhXuLyYKienCubit _yKienCubit = TinhHinhXuLyYKienCubit();
+    extends State<TinhHinhPAKNCuaCaNhanMobileWidget> {
+  final TinhHinhXuLyPAKNCubit _yKienCubit = TinhHinhXuLyPAKNCubit();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _yKienCubit.callApi();
+    _yKienCubit.callApi(false);
+
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       HomeProvider.of(context).homeCubit.refreshListen.listen((value) {
-        _yKienCubit.callApi();
+        _yKienCubit.callApi(false);
       });
     });
   }
@@ -53,39 +57,13 @@ class _SituationOfHandlingPeopleWidgetState
       },
       isShowSubTitle: false,
       selectKeyDialog: _yKienCubit,
-      // dialogSelect: StreamBuilder(
-      //     stream: _yKienCubit.selectKeyDialog,
-      //     builder: (context, snapshot) {
-      //       return DialogSettingWidget(
-      //         type: widget.homeItemType,
-      //         listSelectKey: <DialogData>[
-      //           DialogData(
-      //             onSelect: (value, startDate, endDate) {
-      //               _yKienCubit.selectDate(
-      //                   selectKey: value,
-      //                   startDate: startDate,
-      //                   endDate: endDate);
-      //             },
-      //             initValue: _yKienCubit.selectKeyTime,
-      //             title: S.current.time,
-      //             startDate: _yKienCubit.startDate,
-      //             endDate: _yKienCubit.endDate,
-      //           )
-      //         ],
-      //       );
-      //     }),
       child: LoadingOnly(
         stream: _yKienCubit.stateStream,
-        child: StreamBuilder<List<TinhHinhYKienModel>>(
+        child: StreamBuilder<DocumentDashboardModel>(
             stream: _yKienCubit.getTinhHinhXuLy,
             builder: (context, snapshot) {
-              final data = snapshot.data ?? <TinhHinhYKienModel>[];
-              if (data.isEmpty) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 100),
-                  child: NodataWidget(),
-                );
-              }
+              final data = snapshot.data ?? DocumentDashboardModel();
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -100,75 +78,59 @@ class _SituationOfHandlingPeopleWidgetState
                       ),
                     ),
                   ),
-                  Stack(
-                    children: [
-                      SizedBox(
-                        height: 260,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(
-                            8,
-                            (index) => const MySeparator(
-                              color: lineColor,
-                              height: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                      statusWidget([
-                        ChartData(
-                          S.current.cho_trinh_ky,
-                          30,
-                          choTrinhKyColor,
-                          SelectKey.CHO_TRINH_KY,
-                        ),
-                        ChartData(
-                          S.current.cho_xu_ly,
-                          12,
-                          choXuLyColor,
-                          SelectKey.CHO_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.da_xu_ly,
-                          14,
-                          daXuLyColor,
-                          SelectKey.DA_XU_LY,
-                        ),
-                        ChartData(
-                          S.current.cho_cap_so,
-                          14,
-                          choCapSoColor,
-                          SelectKey.CHO_CAP_SO,
-                        ),
-                        ChartData(
-                          S.current.cho_ban_hanh,
-                          14,
-                          choBanHanhColor,
-                          SelectKey.CHO_BAN_HANH,
-                        )
-                      ]),
-                    ],
-                  ),
+                  StatusColumnChart(listData: [
+                    ChartData(
+                      S.current.cho_tiep_nhan,
+                      data.soLuongChoTiepNhan.toDouble(),
+                      choTrinhKyColor,
+                      SelectKey.CHO_TRINH_KY,
+                    ),
+                    ChartData(
+                      S.current.phan_xu_ly,
+                      data.soLuongPhanXuLy.toDouble(),
+                      numberOfCalenders,
+                      SelectKey.CHO_XU_LY,
+                    ),
+                    ChartData(
+                      S.current.dang_xu_ly,
+                      data.soLuongDangXuLy.toDouble(),
+                      daXuLyColor,
+                      SelectKey.DA_XU_LY,
+                    ),
+                    ChartData(
+                      S.current.cho_duyet,
+                      data.soLuongChoDuyet.toDouble(),
+                      choCapSoColor,
+                      SelectKey.CHO_CAP_SO,
+                    ),
+                    ChartData(
+                      S.current.cho_bo_sung_thong_tin,
+                      data.soLuongChoBoSungThongTin.toDouble(),
+                      choBanHanhColor,
+                      SelectKey.CHO_BAN_HANH,
+                    )
+                  ]),
                   const SizedBox(
                     height: 24,
                   ),
                   StatusWidget(
+                    showZeroValue: false,
                     listData: [
                       ChartData(
                         S.current.qua_han,
-                        14,
+                        data.soLuongQuaHan.toDouble(),
                         statusCalenderRed,
                         SelectKey.CHO_VAO_SO,
                       ),
                       ChartData(
                         S.current.den_han,
-                        14,
+                        data.soLuongDenHan.toDouble(),
                         yellowColor,
                         SelectKey.DANG_XU_LY,
                       ),
                       ChartData(
                         S.current.trong_han,
-                        14,
+                        data.soLuongTrongHan.toDouble(),
                         choTrinhKyColor,
                         SelectKey.DA_XU_LY,
                       ),
@@ -179,32 +141,32 @@ class _SituationOfHandlingPeopleWidgetState
                     chartData: [
                       ChartData(
                         S.current.cho_tiep_nhan_xu_ly,
-                        14,
+                        data.soLuongChoTiepNhanXuLy.toDouble(),
                         choTrinhKyColor,
                       ),
                       ChartData(
                         S.current.cho_xu_ly,
-                        14,
+                        data.soLuongChoXuLy.toDouble(),
                         numberOfCalenders,
                       ),
                       ChartData(
                         S.current.cho_phan_xu_ly,
-                        14,
+                        data.soLuongChoPhanXuLy.toDouble(),
                         radioFocusColor,
                       ),
                       ChartData(
                         S.current.cho_duyet,
-                        14,
+                        data.soLuongChoDuyet.toDouble(),
                         choCapSoColor,
                       ),
                       ChartData(
                         S.current.da_phan_cong,
-                        14,
+                        data.soLuongDaPhanCong.toDouble(),
                         choBanHanhColor,
                       ),
                       ChartData(
                         S.current.da_hoan_thanh,
-                        14,
+                        data.soLuongDaHoanThanh.toDouble(),
                         itemWidgetUsing,
                       ),
                     ],
@@ -242,116 +204,7 @@ class _SituationOfHandlingPeopleWidgetState
   }
 }
 
-Widget statusWidget(List<ChartData> listData) {
-  final data = listData.map((e) => e.value).toList();
-  final total = data.reduce((a, b) => a + b);
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: listData
-              .map(
-                (e) => Row(
-                  children: [
-                    Container(
-                      height: 260,
-                      width: 38,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: lineColor,
-                      ),
-                      // color: e.color,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: (total - (e.value)).toInt(),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                FittedBox(
-                                  child: Text(
-                                    e.value.toInt().toString(),
-                                    style: textNormal(
-                                      textTitleColumn,
-                                      14.0.textScale(),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: e.value.toInt(),
-                            child: Container(
-                              width: 38,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: e.color,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-              .toList(),
-        ),
-      ),
-      const SizedBox(
-        height: 24,
-      ),
-      GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 2,
-        childAspectRatio: 9,
-        mainAxisSpacing: 10.0.textScale(space: 4),
-        crossAxisSpacing: 10,
-        children: List.generate(listData.length, (index) {
-          final result = listData[index];
-          // ignore: avoid_unnecessary_containers
-          return GestureDetector(
-            onTap: () {},
-            child: Row(
-              children: [
-                Container(
-                  height: 14,
-                  width: 14,
-                  decoration: BoxDecoration(
-                    color: result.color,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                Flexible(
-                  child: FittedBox(
-                    child: Text(
-                      '${result.title} (${result.value.toInt()})',
-                      style: textNormal(
-                        infoColor,
-                        14.0.textScale(),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        }),
-      ),
-    ],
-  );
-}
+
 
 class MySeparator extends StatelessWidget {
   const MySeparator({Key? key, this.height = 1, this.color = Colors.black})

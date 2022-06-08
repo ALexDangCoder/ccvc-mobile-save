@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/domain/model/detail_doccument/document_detail_row.dart';
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ban_di_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DataLichSuKyDuyetVanBanDi {
   String? messages;
@@ -54,7 +56,6 @@ class LichSuKyDuyetVanBanDi {
         donViNhan ?? '',
         TypeDocumentDetailRow.text,
       ),
-
       DocumentDetailRow(
         S.current.nguoi_gui,
         nguoiGui ?? '',
@@ -67,12 +68,16 @@ class LichSuKyDuyetVanBanDi {
       ),
       DocumentDetailRow(
         S.current.thoi_gian,
-        thoiGian ?? '',
+        thoiGian?.changeToNewPatternDate(
+              DateTimeFormat.DATE_BE_RESPONSE_FORMAT,
+              DateTimeFormat.DATE_DD_MM_YYYY,
+            ) ??
+            '',
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
         S.current.trang_thai,
-        trangThaiDuyet(action??0),
+        trangThaiDuyet(action ?? 0),
         TypeDocumentDetailRow.text,
       ),
       DocumentDetailRow(
@@ -83,8 +88,9 @@ class LichSuKyDuyetVanBanDi {
     ];
     return list;
   }
+
   String trangThaiDuyet(int number) {
-    switch(number){
+    switch (number) {
       case 0:
         return S.current.trinh_ky;
       case 1:
@@ -111,6 +117,5 @@ class LichSuKyDuyetVanBanDi {
         return S.current.cap_nhat_van_ban;
     }
     return '';
-
   }
 }

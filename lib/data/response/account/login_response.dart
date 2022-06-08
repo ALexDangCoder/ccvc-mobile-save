@@ -12,11 +12,14 @@ class LoginResponse {
   bool? succeeded;
   @JsonKey(name: 'statusCode')
   int? statusCode;
+  @JsonKey(name: 'message')
+  String? message;
 
   LoginResponse({
     this.data,
     this.succeeded,
     this.statusCode,
+    this.message,
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
@@ -25,8 +28,9 @@ class LoginResponse {
   Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 
   DataLogin toModel() => DataLogin(
-    dataUser:data?.toDomainDataUser(),
-    succeeded:succeeded,
-    statusCode: statusCode,
-  );
+        dataUser: data?.toDomainDataUser(),
+        succeeded: succeeded,
+        statusCode: statusCode,
+        message: message,
+      );
 }

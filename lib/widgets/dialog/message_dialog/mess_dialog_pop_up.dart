@@ -9,11 +9,20 @@ class MessageDialogPopup extends StatefulWidget {
   final Function() onDismiss;
   final String urlIcon;
   final String title;
-  const MessageDialogPopup({
+  final String? title2;
+  bool? showTitle2;
+  FontWeight? fontWeight;
+  double? fontSize;
+
+  MessageDialogPopup({
     Key? key,
     required this.onDismiss,
     this.urlIcon = '',
     this.title = '',
+    this.title2 = '',
+    this.showTitle2 = false,
+    this.fontWeight = FontWeight.w500,
+    this.fontSize = 18.0,
   }) : super(key: key);
 
   @override
@@ -23,6 +32,7 @@ class MessageDialogPopup extends StatefulWidget {
 class _MessageDialogPopupState extends State<MessageDialogPopup>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -64,7 +74,7 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 50),
                   padding:
-                     const  EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
                   constraints: const BoxConstraints(minWidth: 300),
                   decoration: BoxDecoration(
                     color: backgroundColorApp,
@@ -88,12 +98,29 @@ class _MessageDialogPopupState extends State<MessageDialogPopup>
                         width: 56,
                         height: 56,
                       ),
-                      spaceH32,
+                      const SizedBox(
+                        height: 40,
+                      ),
                       Text(
                         widget.title,
-                        style:
-                            textNormalCustom(fontSize: 18, color: titleColor),
-                      )
+                        textAlign: TextAlign.center,
+                        style: textNormalCustom(
+                            fontSize: widget.fontSize,
+                            color: color3D5586,
+                            fontWeight: widget.fontWeight),
+                      ),
+                      if (widget.showTitle2 ?? false)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            widget.title2 ?? '',
+                            textAlign: TextAlign.center,
+                            style: textNormalCustom(
+                                fontSize: 18, color: labelColor),
+                          ),
+                        )
+                      else
+                        const SizedBox(),
                     ],
                   ),
                 ),

@@ -31,6 +31,9 @@ const int NCVM = 5;
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
+  String dateChange = '';
+  String? noteChange;
+  String? titleChange;
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -61,10 +64,10 @@ class DanhSachCongViecTienIchCubit
 
   DanhSachCongViecTienIchCubit() : super(MainStateInitial());
 
-  BehaviorSubject<bool> enabled = BehaviorSubject.seeded(true);
-
-  final BehaviorSubject<List<NguoiThucHienModel>> nguoiThucHien =
+  final BehaviorSubject<List<NguoiThucHienModel>> listNguoiThucHienSubject =
       BehaviorSubject<List<NguoiThucHienModel>>();
+
+  BehaviorSubject<NguoiThucHienModel> nguoiThucHienSubject = BehaviorSubject();
 
   BehaviorSubject<List<NhomCVMoiModel>> nhomCVMoiSubject =
       BehaviorSubject<List<NhomCVMoiModel>>();
@@ -162,10 +165,13 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.getListNguoiThucHien(true, 999, 1);
     result.when(
       success: (res) {
-        nguoiThucHien.sink.add(res.items);
+        showContent();
+        listNguoiThucHienSubject.sink.add(res.items);
         dataListNguoiThucHienModelDefault = res;
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -247,33 +253,97 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// them moi cong viec
-  Future<void> addTodo(String label) async {
+  Future<void> addTodo() async {
+    if (titleChange != '') {
+      showLoading();
+      final result = await tienIchRep.createTodo(
+        CreateToDoRequest(
+          groupId: statusDSCV.value == NCVM ? groupId : null,
+          label: titleChange,
+          isTicked: false,
+          important: false,
+          inUsed: true,
+          finishDay:
+              dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
+          note: noteChange == '' ? null : noteChange,
+          performer: nguoiThucHienSubject.value.id == ''
+              ? null
+              : nguoiThucHienSubject.value.id,
+        ),
+      );
+      result.when(
+        success: (res) {
+          showContent();
+          final data = listDSCV.value;
+          data.insert(
+            0,
+            res,
+          );
+          listDSCV.sink.add(data);
+          callAndFillApiAutu();
+          closeDialog();
+        },
+        error: (err) {
+          showError();
+        },
+      );
+    }
+  }
+
+  /// them nhóm công việc
+  Future<void> addGroupTodo(String label) async {
     if (label.trim().isEmpty) {
       return;
     }
     showLoading();
-    final result = await tienIchRep.createTodo(
-      CreateToDoRequest(
-        groupId: statusDSCV.value == NCVM ? groupId : null,
-        label: label,
-        isTicked: false,
-        important: false,
-        inUsed: true,
-      ),
-    );
-    showContent();
+    final result = await tienIchRep.createNhomCongViecMoi(label);
     result.when(
       success: (res) {
-        final data = listDSCV.value;
-        data.insert(
-          0,
-          res,
-        );
-        listDSCV.sink.add(data);
-
-        closeDialog();
+        showContent();
+        final List<NhomCVMoiModel> data = nhomCVMoiSubject.value;
+        data.insert(0, res);
+        nhomCVMoiSubject.sink.add(data);
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
+    );
+  }
+
+  /// sửa tên nhóm công việc
+  Future<void> updateLabelTodoList(String label) async {
+    if (label.trim().isEmpty) {
+      return;
+    }
+    showLoading();
+    final result = await tienIchRep.updateLabelTodoList(groupId, label);
+    result.when(
+      success: (res) {
+        showContent();
+        titleAppBar.sink.add(res.label);
+      },
+      error: (err) {
+        showError();
+      },
+    );
+  }
+
+  /// xóa nhóm công việc
+  Future<void> deleteGroupTodoList() async {
+    showLoading();
+    final result = await tienIchRep.deleteGroupTodoList(groupId);
+    result.when(
+      success: (res) {
+        showContent();
+        titleAppBar.sink.add(S.current.cong_viec_cua_ban);
+        statusDSCV.sink.add(CVCB);
+        doDataTheoFilter();
+        addValueWithTypeToDSCV();
+        getNHomCVMoi();
+      },
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -285,22 +355,6 @@ class DanhSachCongViecTienIchCubit
     addValueWithTypeToDSCV();
   }
 
-  /// xoa cong viec
-  Future<void> xoaCongViec(String id) async {
-    if (id.isEmpty) {
-      return;
-    }
-    showLoading();
-    final result = await tienIchRep.xoaCongViec(id);
-    showContent();
-    await result.when(
-      success: (res) async {
-        callAndFillApiAutu();
-      },
-      error: (err) {},
-    );
-  }
-
   /// tìm kiếm cong việc theo nhóm cong việc
   bool isList(TodoDSCVModel toDo, String idGr) {
     if (toDo.groupId != null) {
@@ -309,20 +363,7 @@ class DanhSachCongViecTienIchCubit
     return false;
   }
 
-  String dateChange = '';
-
-  String? noteChange;
-
-  String? titleChange;
-
-  String person = '';
-
-  void getPersontodo({required String person}) {
-    this.person = person;
-  }
-
   ///chinh sưa và update công việc
-
   Future<void> editWork({
     bool? isTicked,
     bool? important,
@@ -330,56 +371,114 @@ class DanhSachCongViecTienIchCubit
     bool? isDeleted,
     required TodoDSCVModel todo,
   }) async {
+    showLoading();
+    dynamic checkData({dynamic changeData, dynamic defaultData}) {
+      if (changeData == '' || changeData == null || changeData == defaultData) {
+        return defaultData ?? '';
+      } else {
+        return changeData ?? '';
+      }
+    }
+
     final result = await tienIchRep.upDateTodo(
       ToDoListRequest(
         id: todo.id,
-        inUsed: inUsed ?? todo.inUsed,
-        important: important ?? todo.important,
-        isDeleted: isDeleted ?? todo.isDeleted,
+        inUsed: checkData(changeData: inUsed, defaultData: todo.inUsed),
+        important:
+            checkData(changeData: important, defaultData: todo.important),
+        isDeleted:
+            checkData(changeData: isDeleted, defaultData: todo.isDeleted),
         createdOn: todo.createdOn,
         createdBy: todo.createdBy,
         isTicked: isTicked ?? todo.isTicked,
-        label: titleChange ?? todo.label,
+        label: checkData(changeData: titleChange, defaultData: todo.label),
         updatedBy: HiveLocal.getDataUser()?.userInformation?.id ?? '',
         updatedOn: DateTime.now().formatApi,
         note: noteChange ?? todo.note,
         finishDay: dateChange.isEmpty
             ? DateTime.now().formatApi
-            : DateTime.parse(dateChange).formatDayCalendar,
+            : DateTime.parse(dateChange).formatApi,
         performer: toDoListRequest.performer ?? todo.performer,
       ),
     );
-    await result.when(
-      success: (res) async {
+    result.when(
+      success: (res) {
+        showContent();
+        final data = listDSCV.value;
+        if (isTicked != null) {
+          data.insert(0, res);
+          data.remove(todo);
+          listDSCV.sink.add(data);
+        }
+        if (important != null) {
+          data.insert(data.indexOf(todo), res);
+          listDSCV.sink.add(data);
+        }
+        if (inUsed != null) {
+          data.remove(todo);
+          listDSCV.sink.add(data);
+        }
+        if (isDeleted != null) {}
         callAndFillApiAutu();
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
-  late ItemChonBienBanCuocHopModel dataListNguoiThucHienModelDefault;
+  ItemChonBienBanCuocHopModel dataListNguoiThucHienModelDefault =
+      ItemChonBienBanCuocHopModel(items: []);
 
   ///tim nguoi thuc hien
   void timNguoiTHucHien(String text) {
     final searchTxt = text.trim().toLowerCase().vietNameseParse();
     bool isListCanBo(NguoiThucHienModel person) {
-      return person.data().toLowerCase().vietNameseParse().contains(searchTxt);
+      return person
+          .dataAll()
+          .toLowerCase()
+          .vietNameseParse()
+          .contains(searchTxt);
     }
 
     final vl = dataListNguoiThucHienModelDefault.items
         .where((element) => isListCanBo(element))
         .toList();
-    nguoiThucHien.sink.add(vl);
+    listNguoiThucHienSubject.sink.add(vl);
   }
 
   /// tim nguoi thuc hien theo id
-  String convertIdToPerson(String vl) {
-    String personWithId = '';
-    for (final e in dataListNguoiThucHienModelDefault.items) {
-      if (e.id == vl) {
-        personWithId = e.data();
+  String convertIdToPerson({required String vl, bool? hasChucVu}) {
+    for (final e in listNguoiThucHienSubject.value) {
+      if (e.id == vl && (hasChucVu ?? false)) {
+        return e.dataAll();
+      } else {
+        return e.dataWithChucVu();
       }
     }
-    return personWithId;
+    return '';
+  }
+
+  ///init data nguoi thuc hien
+  void initDataNguoiTHucHienTextFild(TodoDSCVModel todo) {
+    if (todo.performer == '' || todo.performer == null) {
+      nguoiThucHienSubject.add(
+        NguoiThucHienModel(
+          id: '',
+          hoten: S.current.tim_theo_nguoi,
+          donVi: [],
+          chucVu: [],
+        ),
+      );
+    } else {
+      nguoiThucHienSubject.add(
+        NguoiThucHienModel(
+          id: '',
+          hoten: convertIdToPerson(vl: todo.performer ?? ''),
+          donVi: [],
+          chucVu: [],
+        ),
+      );
+    }
   }
 }

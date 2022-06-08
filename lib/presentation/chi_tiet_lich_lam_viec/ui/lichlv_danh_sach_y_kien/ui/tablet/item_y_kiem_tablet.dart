@@ -45,7 +45,7 @@ class ItemYKienTablet extends StatelessWidget {
                 yKienModel.name,
                 style: textNormalCustom(
                   fontSize: 16,
-                  color: titleColor,
+                  color: color3D5586,
                 ),
               ),
               Expanded(
@@ -69,7 +69,7 @@ class ItemYKienTablet extends StatelessWidget {
           Text(
             yKienModel.content,
             style: textNormalCustom(
-              color: titleColor,
+              color: color3D5586,
               fontWeight: FontWeight.w400,
               fontSize: 14.0.textScale(),
             ),

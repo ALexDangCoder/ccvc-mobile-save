@@ -26,11 +26,12 @@ class _ItemTinhWidgetState extends State<ItemTinhWidget> {
           onChange: (value) {
             widget.taoLichLamViecCubit.tinhSelectModel?.tenTinhThanh =
                 data[value].tenTinhThanh;
+            widget.taoLichLamViecCubit.tinhSelectModel?.id = data[value].id;
             widget.taoLichLamViecCubit.getDataHuyen(data[value].id ?? '');
           },
           urlIcon: ImageAssets.icViTri,
           listSelect: data.map((e) => e.tenTinhThanh ?? '').toList(),
-          value: widget.taoLichLamViecCubit.tinhSelectModel?.tenTinhThanh??'',
+          value: widget.taoLichLamViecCubit.tinhSelectModel?.tenTinhThanh ?? '',
           title: S.current.tinh,
         );
       },

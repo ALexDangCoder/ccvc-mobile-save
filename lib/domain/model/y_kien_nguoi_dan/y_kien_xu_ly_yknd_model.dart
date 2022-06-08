@@ -17,12 +17,14 @@ class YKienXuLyYKNDModel {
   String? nguoiChoYKien;
   bool? daChoYKien;
   String? noiDung;
-  String? ngayTao;
+  String ngayTao;
   String? ngaySua;
   int? type;
   String? tenNguoiChoYKien;
   String? tenNguoiXinYKien;
-  String? dSFile;
+  List<FileModel>? dSFile;
+  String? anhDaiDienNguoiCho;
+  String? anhDaiDienNguoiXin;
 
   YKienXuLyYKNDModel({
     this.id,
@@ -31,11 +33,37 @@ class YKienXuLyYKNDModel {
     this.nguoiChoYKien,
     this.daChoYKien,
     this.noiDung,
-    this.ngayTao,
+    this.ngayTao = '',
     this.ngaySua,
     this.type,
     this.tenNguoiChoYKien,
     this.tenNguoiXinYKien,
     this.dSFile,
+    this.anhDaiDienNguoiXin,
+    this.anhDaiDienNguoiCho,
   });
+}
+
+class FileModel {
+  String? id;
+  String? ten;
+  String? duongDan;
+  String? dungLuong;
+  bool? daKySo;
+  bool? daGanQR;
+  String? ngayTao;
+  String? nguoiTaoId;
+  bool? suDung;
+
+  FileModel(
+    this.id,
+    this.ten,
+    this.duongDan,
+    this.dungLuong,
+    this.daKySo,
+    this.daGanQR,
+    this.ngayTao,
+    this.nguoiTaoId,
+    this.suDung,
+  );
 }

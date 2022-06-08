@@ -17,7 +17,6 @@ import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/dropdown/cool_drop_down.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
@@ -68,6 +67,9 @@ class _EditPersonalInformationTabletScreen
       sdtCoquanController.text = event.phoneCoQuan ?? '';
       sdtController.text = event.phoneDiDong ?? '';
       diaChiLienHeController.text = event.diaChi ?? '';
+      cubit.pathAnhDaiDien = event.anhDaiDienFilePath ?? '';
+      cubit.pathAnhChuKy = event.anhChuKyFilePath ?? '';
+      cubit.pathAnhKyNhay = event.anhChuKyNhayFilePath ?? '';
     });
     super.initState();
     toast.init(context);
@@ -91,6 +93,8 @@ class _EditPersonalInformationTabletScreen
         child: RefreshIndicator(
           onRefresh: () async {
             await cubit.getInfo(id: widget.id);
+            cubit.huyenSubject.sink.add([]);
+            cubit.xaSubject.sink.add([]);
             if (keyGroup.currentState!.validator()) {
             } else {}
           },
@@ -199,13 +203,29 @@ class _EditPersonalInformationTabletScreen
                                   InputInfoUserWidget(
                                     title: user.keys.elementAt(3),
                                     child: TextFieldValidator(
-                                      maxLength: 2,
-                                      checkNumber: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
                                       textInputType: TextInputType.number,
                                       hintText: S.current.thu_tus,
                                       controller: thuTuController,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      onChange: (value) {
+                                        if (value.length > 2) {
+                                          final input = value.substring(0, 2);
+                                          thuTuController.text = input;
+                                          thuTuController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 2),
+                                          );
+                                        }
+                                      },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -232,11 +252,27 @@ class _EditPersonalInformationTabletScreen
                                     child: TextFieldValidator(
                                       hintText: S.current.cmnd,
                                       controller: cmndController,
-                                      maxLength: 255,
                                       textInputType: TextInputType.number,
-                                      checkNumber: [
+                                      inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
+                                      onChange: (value) {
+                                        if (value.length > 255) {
+                                          final input = value.substring(0, 255);
+                                          cmndController.text = input;
+                                          cmndController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 255),
+                                          );
+                                        }
+                                      },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -300,10 +336,26 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.sdt_co_quan,
                                       controller: sdtCoquanController,
                                       textInputType: TextInputType.number,
-                                      maxLength: 255,
-                                      checkNumber: [
+                                      inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
+                                      onChange: (value) {
+                                        if (value.length > 255) {
+                                          final input = value.substring(0, 255);
+                                          sdtCoquanController.text = input;
+                                          sdtCoquanController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 255),
+                                          );
+                                        }
+                                      },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
+                                      },
                                     ),
                                   ),
                                   InputInfoUserWidget(
@@ -312,10 +364,26 @@ class _EditPersonalInformationTabletScreen
                                       hintText: S.current.so_dien_thoai,
                                       controller: sdtController,
                                       textInputType: TextInputType.number,
-                                      maxLength: 255,
-                                      checkNumber: [
+                                      inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly
                                       ],
+                                      onChange: (value) {
+                                        if (value.length > 255) {
+                                          final input = value.substring(0, 255);
+                                          sdtController.text = input;
+                                          sdtController.selection =
+                                              TextSelection.fromPosition(
+                                            const TextPosition(offset: 255),
+                                          );
+                                        }
+                                      },
+                                      validatorPaste: (value) {
+                                        if (value.trim().validateCopyPaste() !=
+                                            null) {
+                                          return true;
+                                        }
+                                        return false;
+                                      },
                                     ),
                                   ),
                                   StreamBuilder<List<TinhHuyenXaModel>>(
@@ -341,21 +409,17 @@ class _EditPersonalInformationTabletScreen
                                             cubit
                                                 .managerPersonalInformationModel
                                                 .xa = null;
-
+                                            cubit.idXa = '';
+                                            cubit.idHuyen = '';
                                             cubit.getDataHuyenXa(
                                               isXa: false,
-                                              parentId:
-                                                  cubit.tinhModel[indexes].id ??
-                                                      '',
+                                              parentId: id,
                                             );
                                             if (indexes >= 0) {
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.tinh =
-                                                data[indexes].name ?? '';
-                                            cubit.idTinh =
-                                                data[indexes].id ?? '';
+                                            cubit.idTinh = id;
                                           },
                                           onRemove: () {
                                             cubit.huyenSubject.sink.add([]);
@@ -395,18 +459,13 @@ class _EditPersonalInformationTabletScreen
                                                 .xa = null;
                                             cubit.getDataHuyenXa(
                                               isXa: true,
-                                              parentId: cubit
-                                                      .huyenModel[indexes].id ??
-                                                  '',
+                                              parentId: id,
                                             );
                                             if (indexes >= 0) {
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.huyen =
-                                                data[indexes].name ?? '';
-                                            cubit.idHuyen =
-                                                data[indexes].id ?? '';
+                                            cubit.idHuyen = id;
                                           },
                                           onRemove: () {
                                             cubit.xaSubject.sink.add([]);
@@ -441,8 +500,7 @@ class _EditPersonalInformationTabletScreen
                                               cubit.isCheckTinhSubject.sink
                                                   .add(false);
                                             }
-                                            cubit.xa = data[indexes].name ?? '';
-                                            cubit.idXa = data[indexes].id ?? '';
+                                            cubit.idXa = id;
                                           },
                                           onRemove: () {
                                             cubit.isCheckTinhSubject.sink
@@ -596,20 +654,15 @@ class _EditPersonalInformationTabletScreen
                                 idTinh: cubit.idTinh,
                                 idHuyen: cubit.idHuyen,
                                 idXa: cubit.idXa,
+                                anhChuKy: cubit.pathAnhChuKy,
+                                anhDaiDien: cubit.pathAnhDaiDien,
+                                anhKyNhay: cubit.pathAnhKyNhay,
                               )
-                                  .then(
-                                (value) {
-                                  return MessageConfig.show(
-                                    title: S.current.thay_doi_thanh_cong,
-                                  );
-                                },
-                              ).onError(
-                                (error, stackTrace) => MessageConfig.show(
-                                  title: S.current.thay_doi_that_bai,
-                                  messState: MessState.error,
-                                ),
-                              );
-                              Navigator.pop(context, true);
+                                  .then((value) {
+                                if (value) {
+                                  Navigator.pop(context, true);
+                                }
+                              });
                             } else {
                               return;
                             }

@@ -11,8 +11,8 @@ class PhatBanTinBloc extends BaseCubit<PhatBanTinState> {
   final BehaviorSubject<bool> _isLoopMode = BehaviorSubject.seeded(false);
   final BehaviorSubject<bool> _isRePlay = BehaviorSubject.seeded(false);
 
-
   Stream<bool> get isLoopMode => _isLoopMode.stream;
+
   Stream<bool> get isRePlay => _isRePlay.stream;
 
   Stream<bool> get streamPlay => _isPlay.stream;
@@ -26,6 +26,7 @@ class PhatBanTinBloc extends BaseCubit<PhatBanTinState> {
   void setLoopMode() {
     _isLoopMode.sink.add(!_isLoopMode.value);
   }
+
   void setRePlayMode() {
     _isRePlay.sink.add(!_isRePlay.value);
   }
@@ -36,7 +37,7 @@ class PhatBanTinBloc extends BaseCubit<PhatBanTinState> {
     } else {
       if (index < 0) {
         _indexRadio.sink.add(0);
-      } else if(index >maxSize){
+      } else if (index > maxSize) {
         _indexRadio.sink.add(maxSize);
       }
     }
@@ -45,10 +46,10 @@ class PhatBanTinBloc extends BaseCubit<PhatBanTinState> {
   int getIndexRadio() {
     return _indexRadio.value;
   }
-  String intToDate(int time ){
-    final date = DateTime.fromMillisecondsSinceEpoch(time*1000);
-    final result = DateFormat( 'mm:ss').format(date);
+
+  String intToDate(int time) {
+    final date = DateTime.fromMillisecondsSinceEpoch(time * 1000);
+    final result = DateFormat('mm:ss').format(date);
     return result;
   }
 }
-

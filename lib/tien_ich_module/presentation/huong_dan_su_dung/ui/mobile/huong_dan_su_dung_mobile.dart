@@ -53,208 +53,203 @@ class _HuongDanSuDungMobileState extends State<HuongDanSuDungMobile> {
           ),
           stream: cubit.stateStream,
           child: StreamBuilder<bool>(
-              stream: cubit.selectSearchStream,
-              builder: (context, snapshot) {
-                final selectData = snapshot.data ?? false;
-                return ExpandGroup(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: BaseSearchBar(
-                          hintText: S.current.tim_kiem_cau_hoi,
-                          onChange: (value) {
-                            cubit.searchAllDanhSach(value);
-                            if (value.isNotEmpty || value == null) {
-                              cubit.setSelectSearch(true);
-                            } else {
-                              cubit.setSelectSearch(false);
-                            }
-                          },
-                        ),
+            stream: cubit.selectSearchStream,
+            builder: (context, snapshot) {
+              final selectData = snapshot.data ?? false;
+              return ExpandGroup(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: BaseSearchBar(
+                        hintText: S.current.tim_kiem_cau_hoi,
+                        onChange: (value) {
+                          cubit.searchAllDanhSach(value);
+                          if (value.isNotEmpty || value == null) {
+                            cubit.setSelectSearch(true);
+                          } else {
+                            cubit.setSelectSearch(false);
+                          }
+                        },
                       ),
-                      if (!selectData)
-                        Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () async {
-                              await cubit.loadData();
-                            },
-                            child: Center(
-                              child: SingleChildScrollView(
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                child: StreamBuilder<List<TopicHDSD>>(
-                                  stream: cubit.getTopicHDSDStream,
-                                  builder: (context, snapshot) {
-                                    final data = snapshot.data ?? [];
-                                    if (data.isNotEmpty) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(24.0),
-                                        child: GridView.count(
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 20,
-                                          mainAxisSpacing: 20,
-                                          childAspectRatio: 1.25,
-                                          children: List.generate(data.length,
-                                              (index) {
-                                            return ItemHuongDanSuDung(
-                                              url: data[index].toIcon(),
-                                              title: '${data[index].title}',
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HuongDanSuDungDetailMobile(
-                                                      title:
-                                                          data[index].title ??
-                                                              '',
-                                                      id: data[index].id ?? '',
-                                                    ),
+                    ),
+                    if (!selectData)
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            await cubit.loadData();
+                          },
+                          child: Center(
+                            child: SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              child: StreamBuilder<List<TopicHDSD>>(
+                                stream: cubit.getTopicHDSDStream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ?? [];
+                                  if (data.isNotEmpty) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(24.0),
+                                      child: GridView.count(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 20,
+                                        mainAxisSpacing: 20,
+                                        childAspectRatio: 1.25,
+                                        children:
+                                            List.generate(data.length, (index) {
+                                          return ItemHuongDanSuDung(
+                                            url: data[index].toIcon(),
+                                            title: '${data[index].title}',
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HuongDanSuDungDetailMobile(
+                                                    title:
+                                                        data[index].title ?? '',
+                                                    id: data[index].id ?? '',
                                                   ),
-                                                );
-                                              },
-                                            );
-                                          }),
-                                        ),
-                                      );
-                                    } else {
-                                      return const Center(
-                                        child: NodataWidget(),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      else
-                        Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () async {
-                              await cubit.loadData();
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 16.0,
-                                left: 16.0,
-                                right: 16.0,
-                              ),
-                              child: SingleChildScrollView(
-                                child: StreamBuilder<List<DanhSachTitleHDSD>>(
-                                  stream: cubit.getDanhSachTitleHDSDStream,
-                                  builder: (context, snapshot) {
-                                    final data = snapshot.data ?? [];
-                                    return data.isEmpty
-                                        ? const Center(
-                                            child: NodataWidget(),
-                                          )
-                                        : ListView.builder(
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: data.length,
-                                            itemBuilder: (context, index) {
-                                              return ExpandOnlyWidget(
-                                                onTap: () async {
-                                                  cubit
-                                                      .detailHuongDanSuDungSubject
-                                                      .sink
-                                                      .add(
-                                                          DetailHuongDanSuDung());
-                                                  await cubit
-                                                      .getDetailDanhSachHuongDanSuDung(
-                                                    data[index].id ?? '',
-                                                  );
-                                                },
-                                                header: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          vertical: 10,
-                                                        ),
-                                                        child: Text(
-                                                          data[index].title ??
-                                                              '',
-                                                          style:
-                                                              textNormalCustom(
-                                                            color: titleColumn,
-                                                            fontSize: 16,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
                                                 ),
-                                                child: StreamBuilder<
-                                                        DetailHuongDanSuDung>(
-                                                    stream: cubit
-                                                        .getDetailHuongDanSuDungStream,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      return Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Html(
-                                                            style: {
-                                                              'body': Style(
-                                                                color:
-                                                                    titleColumn,
-                                                                fontSize:
-                                                                    const FontSize(
-                                                                  14.0,
-                                                                ),
-                                                              ),
-                                                            },
-                                                            data:
-                                                                addDomainImage(
-                                                              snapshot.data
-                                                                      ?.content ??
-                                                                  '',
-                                                            ),
-                                                            onImageTap: (
-                                                              url,
-                                                              contexts,
-                                                              attributes,
-                                                              element,
-                                                            ) =>
-                                                                {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          FullScreenImageViewer(
-                                                                    url ?? '',
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            },
-                                                          ),
-                                                        ],
-                                                      );
-                                                    }),
                                               );
                                             },
                                           );
-                                  },
-                                ),
+                                        }),
+                                      ),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: NodataWidget(),
+                                    );
+                                  }
+                                },
                               ),
                             ),
                           ),
                         ),
-                    ],
-                  ),
-                );
-              },),
+                      )
+                    else
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            await cubit.loadData();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 16.0,
+                              left: 16.0,
+                              right: 16.0,
+                            ),
+                            child: SingleChildScrollView(
+                              child: StreamBuilder<List<DanhSachTitleHDSD>>(
+                                stream: cubit.getDanhSachTitleHDSDStream,
+                                builder: (context, snapshot) {
+                                  final data = snapshot.data ?? [];
+                                  return data.isEmpty
+                                      ? const Center(
+                                          child: NodataWidget(),
+                                        )
+                                      : ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: data.length,
+                                          itemBuilder: (context, index) {
+                                            return ExpandOnlyWidget(
+                                              onTap: () async {
+                                                cubit
+                                                    .detailHuongDanSuDungSubject
+                                                    .sink
+                                                    .add(
+                                                        DetailHuongDanSuDung());
+                                                await cubit
+                                                    .getDetailDanhSachHuongDanSuDung(
+                                                  data[index].id ?? '',
+                                                );
+                                              },
+                                              header: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        vertical: 10,
+                                                      ),
+                                                      child: Text(
+                                                        data[index].title ?? '',
+                                                        style: textNormalCustom(
+                                                          color: titleColumn,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: StreamBuilder<
+                                                      DetailHuongDanSuDung>(
+                                                  stream: cubit
+                                                      .getDetailHuongDanSuDungStream,
+                                                  builder: (context, snapshot) {
+                                                    return Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Html(
+                                                          style: {
+                                                            'body': Style(
+                                                              color:
+                                                                  titleColumn,
+                                                              fontSize:
+                                                                  const FontSize(
+                                                                14.0,
+                                                              ),
+                                                            ),
+                                                          },
+                                                          data: addDomainImage(
+                                                            snapshot.data
+                                                                    ?.content ??
+                                                                '',
+                                                          ),
+                                                          onImageTap: (
+                                                            url,
+                                                            contexts,
+                                                            attributes,
+                                                            element,
+                                                          ) =>
+                                                              {
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        FullScreenImageViewer(
+                                                                  url ?? '',
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }),
+                                            );
+                                          },
+                                        );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

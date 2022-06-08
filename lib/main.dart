@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/strings.dart';
@@ -11,7 +10,10 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/data/di/module.dart';
 import 'package:ccvc_mobile/home_module/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/presentation/splash/bloc/app_state.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,8 +27,16 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 Future<void> mainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+ // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await PrefsService.init();
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   final appDocumentDirectory =
       await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
@@ -43,6 +53,8 @@ Future<void> mainApp() async {
   runApp(const MyApp());
 }
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -52,6 +64,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
+  final ThongBaoCubit cubitThongBao = Get.find();
 
   @override
   void initState() {
@@ -59,6 +72,15 @@ class _MyAppState extends State<MyApp> {
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
+    cubitThongBao.checkPermissionSilent();
+    cubitThongBao.getSettingNoti();
+    cubitThongBao.isSilent();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      cubitThongBao.getThongBaoQuanTrong();
+    });
+    // FirebaseMessaging.instance.getInitialMessage().then(
+    //       (value) => {cubitThongBao.pushNoti(value?.data ?? {}, context)},
+    //     );
   }
 
   @override
@@ -86,8 +108,7 @@ class _MyAppState extends State<MyApp> {
               textSelectionTheme: TextSelectionThemeData(
                 cursorColor: AppTheme.getInstance().primaryColor(),
                 selectionColor: AppTheme.getInstance().primaryColor(),
-                selectionHandleColor:
-                AppTheme.getInstance().primaryColor(),
+                selectionHandleColor: AppTheme.getInstance().primaryColor(),
               ),
               colorScheme: ColorScheme.fromSwatch().copyWith(
                 secondary: AppTheme.getInstance().accentColor(),

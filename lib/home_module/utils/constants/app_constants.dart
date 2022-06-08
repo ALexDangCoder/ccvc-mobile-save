@@ -1,4 +1,3 @@
-
 enum AppMode { LIGHT, DARK }
 enum DeviceType { MOBILE, TABLET }
 enum ServerType { DEV, QA, STAGING, PRODUCT }
@@ -6,8 +5,6 @@ enum ServerType { DEV, QA, STAGING, PRODUCT }
 enum LoadingType { REFRESH, LOAD_MORE }
 
 enum CompleteType { SUCCESS, ERROR }
-
-
 
 enum AuthMode { LOGIN, REGISTER }
 
@@ -29,6 +26,8 @@ enum SelectKey {
   DA_XU_LY,
   CHO_TIEP_NHAN,
   LICH_HOP_CUA_TOI,
+  LICH_CUA_TOI,
+  LICH_CHO_XAC_NHAN,
   LICH_DUOC_MOI,
   LICH_HOP_DUOC_MOI,
   LICH_HOP_CAN_DUYET,
@@ -48,6 +47,7 @@ enum SelectKey {
 enum DocumentStatus {
   DEN_HAN,
   QUA_HAN,
+  TRONG_HAN,
   CHO_TIEP_NHAN,
   HOAN_THANH,
   CHO_XAC_NHAN,
@@ -74,6 +74,7 @@ const String CHO_TIEP_NHAN = 'CHO_TIEP_NHAN';
 const String CHO_XAC_NHAN = 'CHO_XAC_NHAN';
 const String THAM_GIA = 'THAM_GIA';
 const String CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
+const String CHO_XU_LY = 'CHO_XU_LY';
 
 const String CALENDAR_TYPE_DAY = 'Day';
 const String CALENDAR_TYPE_MONTH = 'Month';
@@ -131,6 +132,8 @@ class WidgetTypeConstant {
   static const String SINH_NHAT = 'SinhNhat';
   static const String TINH_HINH_XU_LY_Y_KIEN = 'TinhHinhXuLyYKienNguoiDan';
   static const String NHIEM_VU = 'NhienVuWidGet';
+  static const String TINH_HINH_XU_LY_PAKN_CA_NHAN = 'TinhHinhXuLyPAKNCaNhan';
+  static const String TINH_HINH_XU_LY_PAKN_DON_VI = 'PhanAnhKienNghiDonVi';
 }
 
 class DocumentState {
@@ -163,7 +166,6 @@ class NhiemVuStatus {
   static const CHO_PHAN_XU_LY = 'CHO_PHAN_XU_LY';
   static const CHUA_THUC_HIEN = 'CHUA_THUC_HIEN';
   static const DANG_THUC_HIEN = 'DANG_THUC_HIEN';
-
 }
 
 class DateFormatApp {
@@ -173,4 +175,8 @@ class DateFormatApp {
   static String dateBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SSS';
   static String dateTimeBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss';
   static String dateSecondBackEnd = 'yyyy-MM-dd\'T\'HH:mm:ss.SS';
+}
+
+class PermissionConst {
+  static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }

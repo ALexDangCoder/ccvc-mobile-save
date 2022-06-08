@@ -52,8 +52,8 @@ class _ListVBDenState extends State<ListVBDen> {
                           context,
                           MaterialPageRoute(
                             builder: (contetx) => ChiTietVanBanDenTablet(
-                              processId: widget.list[index].iD??'',
-                              taskId: widget.list[index].taskId??'',
+                              processId: widget.list[index].iD ?? '',
+                              taskId: widget.list[index].taskId ?? '',
                             ),
                           ),
                         );
@@ -100,4 +100,3 @@ Widget buttonChitiet(String text, Function onTap) {
     ),
   );
 }
-

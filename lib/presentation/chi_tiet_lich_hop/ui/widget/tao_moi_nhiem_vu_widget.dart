@@ -16,12 +16,12 @@ import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:html_editor_enhanced/utils/utils.dart';
 
 import 'chon_ngay_widget.dart';
 import 'dropdown_widget.dart';
 import 'ket_luan_hop_widget.dart';
-import 'package:flutter_svg/svg.dart';
 
 class TaoMoiNhiemVuWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -410,7 +410,7 @@ class ItemVbGIaoNhiemVuWidget extends StatelessWidget {
                   data[index],
                   style: textDetailHDSD(
                     fontSize: 14.0.textScale(),
-                    color: choXuLyColor,
+                    color: color5A8DEE,
                   ),
                 );
               },

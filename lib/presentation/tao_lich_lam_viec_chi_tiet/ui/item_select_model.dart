@@ -69,7 +69,7 @@ List<ItemSelectModel> listColorDefault = [
   ItemSelectModel(
     isSelect: false,
     text: 'Màu xanh nước biển',
-    color: choXuLyColor,
+    color: color5A8DEE,
   ),
   ItemSelectModel(
     isSelect: false,
@@ -127,23 +127,24 @@ extension StartOfEndExtension on StartOfEnd {
     switch (this) {
       case StartOfEnd.START:
         return StreamBuilder<DateTime>(
-            stream: StartEndDateInherited.of(context)
-                .picKDateCupertinoCubit
-                .startDateStream,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? DateTime.now();
+          stream: StartEndDateInherited.of(context)
+              .picKDateCupertinoCubit
+              .startDateStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? DateTime.now();
 
-              return Text(
-                data.formatDateTime,
-                style: textNormalCustom(
-                  color: dateColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                ),
-              );
-            },);
+            return Text(
+              data.formatDateTime,
+              style: textNormalCustom(
+                color: dateColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ),
+            );
+          },
+        );
 
-      case StartOfEnd.END :
+      case StartOfEnd.END:
         return StreamBuilder<DateTime>(
           stream: StartEndDateInherited.of(context)
               .picKDateCupertinoCubit
@@ -159,9 +160,10 @@ extension StartOfEndExtension on StartOfEnd {
                 fontSize: 16,
               ),
             );
-          },);
+          },
+        );
 
-      case StartOfEnd.DIFFERENCE :
+      case StartOfEnd.DIFFERENCE:
         return Text(
           title ?? '',
           style: textNormalCustom(

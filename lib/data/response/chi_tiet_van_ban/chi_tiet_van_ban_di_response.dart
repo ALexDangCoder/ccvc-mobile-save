@@ -3,6 +3,8 @@ import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'chi_tiet_van_ban_den_response.dart';
+
 part 'chi_tiet_van_ban_di_response.g.dart';
 
 @JsonSerializable()
@@ -18,6 +20,21 @@ class ChiTietVanBanDiDataResponse {
       _$ChiTietVanBanDiDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChiTietVanBanDiDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class YKienXuLyResponse {
+  @JsonKey(name: 'Data')
+  List<DanhSachChoYKienResponse>? danhSachChoYKien;
+
+  YKienXuLyResponse(this.danhSachChoYKien);
+
+  factory YKienXuLyResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$YKienXuLyResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$YKienXuLyResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -41,7 +58,7 @@ class ChiTietVanBanDiResponse {
   @JsonKey(name: 'NgayBanHanh')
   String? ngayBanHanh;
   @JsonKey(name: 'LoaiNguonDuLieu')
-  String? loaiNguonDuLieu;
+  int? loaiNguonDuLieu;
   @JsonKey(name: 'TenNguoiSoanThao')
   String? tenNguoiSoanThao;
   @JsonKey(name: 'DonViSoanThao')
@@ -73,9 +90,9 @@ class ChiTietVanBanDiResponse {
   @JsonKey(name: 'IsVanBanChiDao')
   bool? isVanBanChiDao;
   @JsonKey(name: 'VanBanDenResponses')
-  List<String>? vanBanDenResponses;
+  List<VanBanDenResponse>? vanBanDenResponses;
   @JsonKey(name: 'VanBanChiDaoResponses')
-  List<String>? vanBanChiDaoResponses;
+  List<VanBanChiDaoResponse>? vanBanChiDaoResponses;
   @JsonKey(name: 'NguoiTheoDoiResponses')
   List<NguoiTheoDoiResponse>? nguoiTheoDoiResponses;
   @JsonKey(name: 'NguoiKyDuyetResponses')
@@ -88,10 +105,13 @@ class ChiTietVanBanDiResponse {
   String? noiNhanNgoaiHeThong;
   @JsonKey(name: 'NhanDeBiet')
   String? nhanDeBiet;
+  @JsonKey(name: 'MaTrangThai')
+  String? maTrangThai;
+  @JsonKey(name: 'TrangThai')
+  String? trangThai;
   @JsonKey(name: 'FileDinhKemVanBanDiResponses')
   List<FileDinhKemVanBanDiResponse>? fileDinhKemVanBanDiResponses;
-  @JsonKey(name: 'DanhSachChoYKien')
-  List<DanhSachChoYKienResponse>? danhSachChoYKien;
+
   @JsonKey(name: 'IsCanTrinhKy')
   bool? isCanTrinhKy;
   @JsonKey(name: 'IsCanHuyTrinhKy')
@@ -146,6 +166,8 @@ class ChiTietVanBanDiResponse {
     this.idDoKhan,
     this.doKhan,
     this.issuedAmount,
+    this.maTrangThai,
+    this.trangThai,
     this.isLaVanBanTraLoi,
     this.isVanBanQppl,
     this.isVanBanDiBanHanh,
@@ -159,7 +181,6 @@ class ChiTietVanBanDiResponse {
     this.noiNhanNgoaiHeThong,
     this.nhanDeBiet,
     this.fileDinhKemVanBanDiResponses,
-    this.danhSachChoYKien,
     this.isCanTrinhKy,
     this.isCanHuyTrinhKy,
     this.isCanThuHoiBanHanh,
@@ -197,6 +218,8 @@ class ChiTietVanBanDiResponse {
             : DateTime.parse(dueDate ?? '').toStringWithListFormat,
         ngayTao: ngayTao,
         ngayBanHanh: ngayBanHanh,
+        trangThai:  trangThai,
+        maTrangThai:  maTrangThai,
         loaiNguonDuLieu: loaiNguonDuLieu,
         tenNguoiSoanThao: tenNguoiSoanThao,
         donViSoanThao: donViSoanThao,
@@ -215,8 +238,10 @@ class ChiTietVanBanDiResponse {
         isVanBanQppl: isVanBanQppl,
         isVanBanDiBanHanh: isVanBanDiBanHanh,
         isVanBanChiDao: isVanBanChiDao,
-        vanBanDenResponses: vanBanDenResponses,
-        vanBanChiDaoResponses: vanBanChiDaoResponses,
+        vanBanDenResponses:
+            vanBanDenResponses?.map((e) => e.toModel()).toList() ?? [],
+        vanBanChiDaoResponses:
+            vanBanChiDaoResponses?.map((e) => e.toModel()).toList() ?? [],
         nguoiTheoDoiResponses:
             nguoiTheoDoiResponses?.map((e) => e.toModel()).toList() ?? [],
         nguoiKyDuyetResponses: nguoiKyDuyetResponse
@@ -231,8 +256,6 @@ class ChiTietVanBanDiResponse {
                 ?.map((e) => e.toModelFileDinhKemVanBanDi())
                 .toList() ??
             [],
-        danhSachChoYKien:
-            danhSachChoYKien?.map((e) => e.toModel()).toList() ?? [],
         isCanTrinhKy: isCanTrinhKy,
         isCanHuyTrinhKy: isCanHuyTrinhKy,
         isCanThuHoiBanHanh: isCanThuHoiBanHanh,
@@ -253,6 +276,96 @@ class ChiTietVanBanDiResponse {
 }
 
 @JsonSerializable()
+class VanBanChiDaoResponse {
+  @JsonKey(name: 'Id')
+  String? id;
+  @JsonKey(name: 'IdDonViCaNhan')
+  String? idDonViCaNhan;
+  @JsonKey(name: 'TenDonViCaNhan')
+  String? tenDonViCaNhan;
+  @JsonKey(name: 'IsDonVi')
+  bool? isDonVi;
+  @JsonKey(name: 'NoiDung')
+  String? noiDung;
+  @JsonKey(name: 'NgayXuLy')
+  String? ngayXuLy;
+
+  VanBanChiDaoResponse({
+    this.id,
+    this.idDonViCaNhan,
+    this.tenDonViCaNhan,
+    this.isDonVi,
+    this.noiDung,
+    this.ngayXuLy,
+  });
+
+  factory VanBanChiDaoResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$VanBanChiDaoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VanBanChiDaoResponseToJson(this);
+
+  VanBanChiDaoModel toModel() => VanBanChiDaoModel(
+        id: id ?? '',
+        idDonViCaNhan: idDonViCaNhan ?? '',
+        tenDonViCaNhan: tenDonViCaNhan ?? '',
+        isDonVi: isDonVi ?? false,
+        noiDung: noiDung ?? '',
+        ngayXuLy: ngayXuLy ?? '',
+      );
+}
+
+@JsonSerializable()
+class VanBanDenResponse {
+  @JsonKey(name: 'Id')
+  String? id;
+  @JsonKey(name: 'IsKhongTuDongHoanThanh')
+  bool? isKhongTuDongHoanThanh;
+  @JsonKey(name: 'SoDen')
+  String? soDen;
+  @JsonKey(name: 'SoKyHieu')
+  String? soKyHieu;
+  @JsonKey(name: 'DonViBanHanh')
+  String? donViBanHanh;
+  @JsonKey(name: 'TrichYeu')
+  String? trichYeu;
+  @JsonKey(name: 'HanXuLy')
+  String? hanXuLy;
+  @JsonKey(name: 'Files')
+  List<FileDinhKemVanBanDenResponse>? files;
+
+  VanBanDenResponse({
+    this.id,
+    this.isKhongTuDongHoanThanh,
+    this.soDen,
+    this.soKyHieu,
+    this.donViBanHanh,
+    this.trichYeu,
+    this.files,
+    this.hanXuLy
+  });
+
+  factory VanBanDenResponse.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$VanBanDenResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VanBanDenResponseToJson(this);
+
+  VanBanDenModel toModel() => VanBanDenModel(
+        id: id,
+        isKhongTuDongHoanThanh: isKhongTuDongHoanThanh,
+        soDen: soDen,
+        soKyHieu: soKyHieu,
+        donViBanHanh: donViBanHanh,
+        hanXuLy: hanXuLy,
+        trichYeu: trichYeu?.parseHtml() ?? '',
+        files: files?.map((e) => e.toModel().toFileDinhKemModel()).toList() ?? [],
+      );
+}
+
+@JsonSerializable()
 class NguoiKyDuyetDiResponse {
   @JsonKey(name: 'Id')
   String? id;
@@ -264,6 +377,8 @@ class NguoiKyDuyetDiResponse {
   String? donViNguoiKy;
   @JsonKey(name: 'VaiTro')
   String? vaiTro;
+  @JsonKey(name: 'ChucVu')
+  String? chucVu;
   @JsonKey(name: 'LoaiBanHanh')
   int? loaiBanHanh;
   @JsonKey(name: 'ThuTu')
@@ -276,6 +391,7 @@ class NguoiKyDuyetDiResponse {
     this.idHost,
     this.tenNguoiKy,
     this.donViNguoiKy,
+    this.chucVu,
     this.vaiTro,
     this.loaiBanHanh,
     this.thuTu,
@@ -295,6 +411,7 @@ class NguoiKyDuyetDiResponse {
         tenNguoiKy: tenNguoiKy,
         donViNguoiKy: donViNguoiKy,
         vaiTro: vaiTro,
+        chucVu: chucVu,
         loaiBanHanh: loaiBanHanh,
         thuTu: thuTu,
         idUser: idUser,
@@ -566,6 +683,8 @@ class DanhSachChoYKienResponse {
   bool? isCanSuaXinYKien;
   @JsonKey(name: 'IsNguoiDangNhapCoTheTraLoi')
   bool? isNguoiDangNhapCoTheTraLoi;
+  @JsonKey(name: 'TraLois')
+  List<DanhSachChoYKienResponse>? traLois;
 
   DanhSachChoYKienResponse({
     this.id,
@@ -620,6 +739,7 @@ class DanhSachChoYKienResponse {
         isCanXoa: isCanXoa,
         isCanSuaXinYKien: isCanSuaXinYKien,
         isNguoiDangNhapCoTheTraLoi: isNguoiDangNhapCoTheTraLoi,
+        traLoi: traLois?.map((e) => e.toModel()).toList() ?? [],
       );
 }
 
@@ -627,7 +747,7 @@ class DanhSachChoYKienResponse {
 class DanhSachFilesResponse {
   @JsonKey(name: 'Ten')
   String? ten;
-  @JsonKey(name: 'ID')
+  @JsonKey(name: 'Id')
   String? id;
   @JsonKey(name: 'IsSign')
   String? isSign;

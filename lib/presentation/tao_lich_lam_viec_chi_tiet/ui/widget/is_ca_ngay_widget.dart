@@ -12,11 +12,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class IsCaNgayWidget extends StatefulWidget {
   final bool isMargin;
   final Function(bool value) isCheck;
+  final bool isChecked;
 
   const IsCaNgayWidget({
     Key? key,
     this.isMargin = true,
     required this.isCheck,
+    this.isChecked = true,
   }) : super(key: key);
 
   @override
@@ -24,8 +26,13 @@ class IsCaNgayWidget extends StatefulWidget {
 }
 
 class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
-  bool isCheck = true;
+  late bool isCheck;
 
+  @override
+  void initState() {
+    super.initState();
+    isCheck = widget.isChecked;
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +57,7 @@ class _IsCaNgayWidgetState extends State<IsCaNgayWidget> {
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: lineColor,
+                    color: colorECEEF7,
                   ),
                 ),
               ),

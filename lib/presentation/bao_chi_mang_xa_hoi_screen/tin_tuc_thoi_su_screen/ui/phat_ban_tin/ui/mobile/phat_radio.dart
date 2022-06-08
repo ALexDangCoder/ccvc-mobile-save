@@ -10,13 +10,13 @@ class PlayRadio extends StatefulWidget {
   final AudioPlayer player;
   final List<String> listLinkRadio;
   final int initPlay;
-  final Function(int value) setRadio;
+  final Function() onChangeEnd;
 
   const PlayRadio({
     Key? key,
     required this.player,
+    required this.onChangeEnd,
     required this.listLinkRadio,
-    required this.setRadio,
     this.initPlay = 0,
   }) : super(key: key);
 
@@ -69,6 +69,8 @@ class _PlayRadioState extends State<PlayRadio> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       widget.player.stop();
+    } else {
+      widget.player.play();
     }
   }
 
@@ -94,13 +96,11 @@ class _PlayRadioState extends State<PlayRadio> with WidgetsBindingObserver {
           duration: positionData?.duration ?? Duration.zero,
           position: positionData?.position ?? Duration.zero,
           bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
-          onChangeEnd: () {
-            widget.player.seekToNext();
-          },
           onChange: (value) {
-            // print('set change values seekbar');
-              widget.player.seek(Duration(seconds: 500));
-            // widget.setRadio(value);
+            widget.player.seek(Duration(seconds: value));
+          },
+          onChangeEnd: () {
+            widget.onChangeEnd();
           },
         );
       },
@@ -124,14 +124,14 @@ class SeekBar extends StatefulWidget {
   final Duration position;
   final Duration bufferedPosition;
   final Duration duration;
-  final Function() onChangeEnd;
   final Function(int value) onChange;
+  final Function() onChangeEnd;
 
   const SeekBar({
     Key? key,
-    required this.onChangeEnd,
     required this.position,
     required this.onChange,
+    required this.onChangeEnd,
     required this.bufferedPosition,
     required this.duration,
   }) : super(key: key);
@@ -141,19 +141,16 @@ class SeekBar extends StatefulWidget {
 }
 
 class _SeekBarState extends State<SeekBar> {
-  late double max;
+  int count = 0;
 
   @override
   void initState() {
     super.initState();
-    print('------------------value max init -------------------- ${widget.duration.inSeconds.toDouble()}');
-    max=widget.position.inSeconds.toDouble();
   }
+
   @override
   Widget build(BuildContext context) {
-    print('-----------------------------value ${widget.position.inSeconds.toDouble()}---------');
-    print('-----------------------------max ${widget.duration.inSeconds.toDouble()}---------');
-    double valueSeekbar=widget.position.inSeconds.toDouble();
+    nextItemCallBack(widget.position.inSeconds, widget.duration.inSeconds);
     return Container(
       color: borderButtomColor,
       child: SliderTheme(
@@ -163,35 +160,31 @@ class _SeekBarState extends State<SeekBar> {
           thumbColor: AppTheme.getInstance().colorField(),
           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         ),
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.maxFinite,
-              height: 6,
-              child: Slider(
-                value: widget.position.inSeconds.toDouble(),
-                max: widget.duration.inSeconds.toDouble(),
-                activeColor: AppTheme.getInstance().colorField(),
-                inactiveColor: borderButtomColor,
-                onChangeEnd: (value) {
-                  widget.onChangeEnd();
-                },
-                onChanged: (double value) {
-                  // print('------------value on change------------------ ${value}');
-                  // widget.onChange(value.round());
-                },
-              ),
-            ),
-            GestureDetector(
-              child: Icon(Icons.add),
-              onTap: (){
-                widget.onChange(500);
-              },
-            )
-          ],
+        child: SizedBox(
+          width: double.maxFinite,
+          height: 6,
+          child: Slider(
+            value: widget.position.inSeconds.toDouble(),
+            max: widget.duration.inSeconds.toDouble(),
+            activeColor: AppTheme.getInstance().colorField(),
+            inactiveColor: borderButtomColor,
+            onChanged: (double value) {
+              widget.onChange(value.round());
+            },
+          ),
         ),
       ),
     );
+  }
+
+  void nextItemCallBack(int currentTime, int endTime) {
+    if (currentTime == endTime) {
+      count++;
+      if (count == 3) {
+        widget.onChangeEnd();
+        count = 0;
+      }
+    }
   }
 }
 

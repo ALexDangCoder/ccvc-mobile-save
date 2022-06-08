@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/ChuyenVBThanhGiong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_sach_title_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/detail_huong_dan_su_dung.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/post_anh_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/topic_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/tra_cuu_van_ban_phap_luat_model.dart';
@@ -42,8 +46,9 @@ mixin TienIchRepository {
     String date,
   );
 
-  Future<Result<List<TreeDonViDanhBA>>> TreeDanhBa(
+  Future<Result<List<TreeDonViDanhBA>>> treeDanhBa(
     int soCap,
+    String idDonViCha,
   );
 
   Future<Result<PageTraCuuVanBanPhapLuatModel>> getTraCuuVanBanPhapLuat(
@@ -59,4 +64,29 @@ mixin TienIchRepository {
   Future<Result<List<TodoDSCVModel>>> getListDSCVGanChoToi();
 
   Future<Result<ResponseModel>> xoaCongViec(String id);
+
+  Future<Result<NhomCVMoiModel>> createNhomCongViecMoi(String label);
+
+  Future<Result<NhomCVMoiModel>> updateLabelTodoList(String id, String label);
+
+  Future<Result<NhomCVMoiModel>> deleteGroupTodoList(String id);
+
+  Future<Result<ChuyenVBThanhGiongModel>> chuyenVBSangGiongNoi(
+    String text,
+    String voiceTone,
+  );
+
+  Future<Result<String>> translateDocument(
+    String document,
+    String target,
+    String source,
+  );
+
+  Future<Result<String>> translateFile(
+    File file,
+    String target,
+    String source,
+  );
+
+  Future<Result<PostAnhModel>> uploadFile(File files);
 }

@@ -8,6 +8,7 @@ class HanXuLyWidget extends StatelessWidget {
   final List<ChartData> data;
   final double paddingLeftSubTitle;
   final Function(int)? onTap;
+
   const HanXuLyWidget({
     Key? key,
     this.data = const [],
@@ -22,18 +23,27 @@ class HanXuLyWidget extends StatelessWidget {
         Row(
           children: List.generate(data.length, (index) {
             final result = data[index];
-            return result.value ==0? const SizedBox() : Expanded(
-              flex: result.value.toInt(),
-              child: Container(
-                height: 38,
-                color: result.color,
-                alignment: Alignment.center,
-                child: Text(
-                  result.value.toInt().toString(),
-                  style: textNormal(Colors.white, 14),
-                ),
-              ),
-            );
+            return result.value == 0
+                ? const SizedBox()
+                : Expanded(
+                    flex: result.value.toInt(),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (onTap != null) {
+                          onTap!(index);
+                        } else {}
+                      },
+                      child: Container(
+                        height: 38,
+                        color: result.color,
+                        alignment: Alignment.center,
+                        child: Text(
+                          result.value.toInt().toString(),
+                          style: textNormal(Colors.white, 14),
+                        ),
+                      ),
+                    ),
+                  );
           }),
         ),
         const SizedBox(

@@ -2,16 +2,20 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/edit_person_information/edit_person_information_request.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/debouncer.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/manager_personal_information_state.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/bloc/pick_image_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -47,9 +51,9 @@ class ManagerPersonalInformationCubit
   final BehaviorSubject<int> _checkRadioSubject = BehaviorSubject();
   final BehaviorSubject<List<TinhHuyenXaModel>> xaSubject =
       BehaviorSubject.seeded([]);
-  final isCheckRegex = RegExp(r'^[0-9]{0,2}$');
-  final isCheckCccd = RegExp(r'^[0-9]{0,255}$');
-  final isCheckValue = RegExp(r'^[a-z!@#$%^&*()-+=:;]$');
+  final isCheckRegex = RegExp('[0-9]');
+  final isCheckValue = RegExp(r'^[a-zA-Z0-9\+]*$');
+  bool? checkLoad;
 
   Stream<ManagerPersonalInformationModel> get managerStream =>
       managerPersonSubject.stream;
@@ -87,6 +91,25 @@ class ManagerPersonalInformationCubit
 
   AccountRepository get _managerRepo => Get.find();
   bool isChechValidate = false;
+  String valueText = '';
+  String pathAnhDaiDien = '';
+  String pathAnhKyNhay = '';
+  String pathAnhChuKy = '';
+
+  void checkCopyPaste(
+    String value,
+    TextEditingController thuTu,
+    int offset,
+  ) {
+    try {
+      int.parse(value);
+      thuTu.selection = TextSelection.fromPosition(
+        TextPosition(offset: offset),
+      );
+    } catch (e) {
+      thuTu.text = thuTu.text.substring(0, 2);
+    }
+  }
 
   String checkThuTu(String? thuTu) {
     if (thuTu == null || thuTu == '') {
@@ -95,9 +118,46 @@ class ManagerPersonalInformationCubit
     return thuTu;
   }
 
+  Future<void> uploadFile(String path) async {
+    showLoading();
+    final result = await _managerRepo.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnhDaiDien = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  Future<void> uploadFileChuKi(String path) async {
+    showLoading();
+    final result = await _managerRepo.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnhChuKy = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  Future<void> uploadFileKiNhay(String path) async {
+    showLoading();
+    final result = await _managerRepo.uploadFile(File(path));
+    result.when(
+      success: (res) {
+        pathAnhKyNhay = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
   Future<void> getInfo({
     String id = '',
   }) async {
+    showLoading();
     final result = await _managerRepo.getInfo(id);
     result.when(
       success: (res) {
@@ -115,6 +175,7 @@ class ManagerPersonalInformationCubit
           );
         }
         managerPersonSubject.sink.add(managerPersonalInformationModel);
+        showContent();
       },
       error: (error) {},
     );
@@ -163,7 +224,7 @@ class ManagerPersonalInformationCubit
     );
   }
 
-  Future<void> getEditPerson({
+  Future<bool> getEditPerson({
     String id = '',
     String maCanBo = '',
     String name = '',
@@ -183,6 +244,9 @@ class ManagerPersonalInformationCubit
     String idHuyen = '',
     String idXa = '',
     String? iDDonViHoatDong,
+    String anhDaiDien = '',
+    String anhChuKy = '',
+    String anhKyNhay = '',
   }) async {
     final EditPersonInformationRequest editPerson =
         EditPersonInformationRequest(
@@ -199,9 +263,9 @@ class ManagerPersonalInformationCubit
       userId: '',
       iDDonViHoatDong: '00000000-0000-0000-0000-000000000000',
       cmtnd: cmnt,
-      anhDaiDienFilePath: '',
-      anhChuKyFilePath: '',
-      anhChuKyNhayFilePath: '',
+      anhDaiDienFilePath: anhDaiDien,
+      anhChuKyFilePath: anhChuKy,
+      anhChuKyNhayFilePath: anhKyNhay,
       bitChuyenCongTac: false,
       thoiGianCapNhat: '',
       bitNhanTinBuonEmail: false,
@@ -227,14 +291,35 @@ class ManagerPersonalInformationCubit
       userAccounts: editPersonInformationRequest.userAccounts,
       lsCanBoKiemNhiemResponse: [],
     );
+    bool isCheck = true;
+    showLoading();
     final result = await _managerRepo.getEditPerson(editPerson);
     result.when(
       success: (res) {
         dataEditPersonInformation = res;
         dataEditSubject.sink.add(dataEditPersonInformation);
+        MessageConfig.show(
+          title: S.current.thay_doi_thanh_cong,
+        );
+        isCheck = true;
       },
-      error: (error) {},
+      error: (error) {
+        if (error is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.thay_doi_that_bai,
+            messState: MessState.error,
+          );
+          isCheck = false;
+        }
+      },
     );
+    showContent();
+    return isCheck;
   }
 
   //

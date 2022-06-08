@@ -1,25 +1,31 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/responseModel.dart';
-import 'package:ccvc_mobile/home_module/data/response/home/todo_current_user_response.dart';
-import 'package:ccvc_mobile/home_module/domain/model/home/todo_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/request/to_do_list_request.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/chuyen_vb_thanh_giong_noi_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/danh_sach_hssd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/detail_huong_dan_su_dung_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/dscv_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/lich_am_duong_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/list_nguoi_thuc_hien_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/nhom_cv_moi_dscv_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/post_anh_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/todo_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/topic_hdsd_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tra_cuu_van_ban_phap_luat_response.dart';
+import 'package:ccvc_mobile/tien_ich_module/data/response/translate_document_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/response/tree_danh_ba_response.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/service/tien_ich_service.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/ChuyenVBThanhGiong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/danh_sach_title_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/detail_huong_dan_su_dung.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/lich_am_duong.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/post_anh_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/topic_hdsd.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/tra_cuu_van_ban_phap_luat_model.dart';
@@ -30,9 +36,10 @@ class TienIchRepositoryImpl implements TienIchRepository {
   final TienIchService _tienIchService;
   final TienIchServiceCommon _tienIchServiceCommon;
   final TienIchServiceUAT _tienIchServiceUAT;
+  final TienIchServiceGateWay _tienIchServiceGateWay;
 
   TienIchRepositoryImpl(this._tienIchService, this._tienIchServiceUAT,
-      this._tienIchServiceCommon);
+      this._tienIchServiceCommon, this._tienIchServiceGateWay);
 
   @override
   Future<Result<List<TopicHDSD>>> getTopicHDSD() {
@@ -113,9 +120,10 @@ class TienIchRepositoryImpl implements TienIchRepository {
   }
 
   @override
-  Future<Result<List<TreeDonViDanhBA>>> TreeDanhBa(int soCap) {
+  Future<Result<List<TreeDonViDanhBA>>> treeDanhBa(
+      int soCap, String idDonViCha) {
     return runCatchingAsync<TreeDanhBaResponse, List<TreeDonViDanhBA>>(
-      () => _tienIchServiceCommon.TreeDanhBa(soCap),
+      () => _tienIchServiceCommon.treeDanhBa(soCap, idDonViCha),
       (response) => response.toModel(),
     );
   }
@@ -160,6 +168,96 @@ class TienIchRepositoryImpl implements TienIchRepository {
     return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
       () => _tienIchService.xoaCongViec(id),
       (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<NhomCVMoiModel>> createNhomCongViecMoi(String label) {
+    return runCatchingAsync<ThemNhomCVMoiDSCVResponse, NhomCVMoiModel>(
+      () => _tienIchService.createNhomCongViecMoi(label),
+      (response) => response.data?.toModel() ?? NhomCVMoiModel(),
+    );
+  }
+
+  @override
+  Future<Result<NhomCVMoiModel>> updateLabelTodoList(String id, String label) {
+    return runCatchingAsync<ThemNhomCVMoiDSCVResponse, NhomCVMoiModel>(
+      () => _tienIchService.updateLabelGroupTodoList(id, label),
+      (response) => response.data?.toModel() ?? NhomCVMoiModel(),
+    );
+  }
+
+  @override
+  Future<Result<NhomCVMoiModel>> deleteGroupTodoList(String id) {
+    return runCatchingAsync<ThemNhomCVMoiDSCVResponse, NhomCVMoiModel>(
+      () => _tienIchService.deleteGroupTodoList(id),
+      (response) => response.data?.toModel() ?? NhomCVMoiModel(),
+    );
+  }
+
+  @override
+  Future<Result<ChuyenVBThanhGiongModel>> chuyenVBSangGiongNoi(
+    String text,
+    String voiceTone,
+  ) {
+    return runCatchingAsync<ChuyenVBThanhGiongNoiResponse,
+        ChuyenVBThanhGiongModel>(
+      () => _tienIchService.chuyenVBSangGiongNoi(text, voiceTone),
+      (response) => response.toDomain(),
+    );
+  }
+
+  @override
+  Future<Result<String>> translateDocument(
+      String document, String target, String source) {
+    return runCatchingAsync<String, String>(
+        () => _tienIchServiceGateWay.translateDocument(
+              document,
+              target,
+              source,
+            ), (response) {
+      try {
+        return DataTranslateResponse.fromJson(json.decode(response))
+                .data
+                ?.translations
+                ?.first
+                .translatedText ??
+            '';
+      } catch (e) {
+        return '';
+      }
+    });
+  }
+
+  @override
+  Future<Result<String>> translateFile(
+      File file, String target, String source) {
+    return runCatchingAsync<String, String>(
+        () => _tienIchService.translateFile(
+              file,
+              target,
+              source,
+            ), (response) {
+      try {
+        return DataTranslateResponse.fromJson(json.decode(response))
+                .data
+                ?.translations
+                ?.first
+                .translatedText ??
+            '';
+      } catch (e) {
+        return '';
+      }
+    });
+  }
+
+  @override
+  Future<Result<PostAnhModel>> uploadFile(File files) {
+    return runCatchingAsync<PostAnhResponse, PostAnhModel>(
+      () => _tienIchService.uploadFile(
+        files,
+      ),
+      (res) => res.toMoDel(),
     );
   }
 }

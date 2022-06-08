@@ -21,9 +21,8 @@ class ItemTableTopic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width,
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         border: Border.all(
@@ -46,22 +45,22 @@ class ItemTableTopic extends StatelessWidget {
               style: textNormalCustom(
                 fontWeight: FontWeight.w500,
                 fontSize: 16.0.textScale(space: 4),
-                color: titleColor,
+                color: color3D5586,
               ),
             ),
           ),
           Row(
-            children:  [
+            children: [
               Expanded(
                 child: ItemInTable(
-                   '${dataItem.articleCount}',
+                  '${dataItem.articleCount}',
                   S.current.bai_viet,
                   ImageAssets.icBaiViet,
                 ),
               ),
               Expanded(
                 child: ItemInTable(
-                    '${dataItem.likeCount}',
+                  '${dataItem.likeCount}',
                   S.current.like,
                   ImageAssets.icLike,
                 ),
@@ -69,7 +68,7 @@ class ItemTableTopic extends StatelessWidget {
             ],
           ),
           Row(
-            children:  [
+            children: [
               Expanded(
                 child: ItemInTable(
                   '${dataItem.shareCount}',
@@ -95,7 +94,7 @@ class ItemTableTopic extends StatelessWidget {
                 style: textNormalCustom(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color:  AppTheme.getInstance().colorField(),
+                  color: AppTheme.getInstance().colorField(),
                 ),
               ),
             ),
@@ -129,7 +128,7 @@ class ItemInTable extends StatelessWidget {
           Text(
             index,
             style: textNormalCustom(
-              color: titleColor,
+              color: color3D5586,
               fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
@@ -143,7 +142,7 @@ class ItemInTable extends StatelessWidget {
               Text(
                 content,
                 style: textNormalCustom(
-                  color: unselectLabelColor,
+                  color: colorA2AEBD,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),

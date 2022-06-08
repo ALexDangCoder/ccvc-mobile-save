@@ -1,4 +1,29 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/domain/model/home/pham_vi_model.dart';
+
+class ListPhamViResponse {
+  List<PhamViResponse>? data;
+  int? statusCode;
+  bool? succeeded;
+
+  ListPhamViResponse({this.data, this.statusCode, this.succeeded});
+
+  ListPhamViResponse.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = <PhamViResponse>[];
+      json['data'].forEach((v) {
+        data!.add(PhamViResponse.fromJson(v));
+      });
+    }
+    statusCode = json['statusCode'];
+    succeeded = json['succeeded'];
+  }
+
+  List<PhamViModel> toDomain() {
+    return data?.map((e) => e.toDomain()).toList() ?? [];
+  }
+}
 
 class PhamViResponse {
   String? userId;
@@ -22,22 +47,24 @@ class PhamViResponse {
       this.isDefault,
       this.isCurrentActive});
 
-  PhamViModel toDomain() =>
-      PhamViModel(chucVu: chucVu ?? '', chucVuId: chucVuId ?? '', ngaySinh: DateTime.now().toString());
+  PhamViModel toDomain() => PhamViModel(
+        chucVu: chucVu ?? '',
+        chucVuId: chucVuId ?? '',
+        ngaySinh: DateTime.now().toString(),
+        isCurrentActive: isCurrentActive ?? false,
+        donVi: donVi ?? '',
+        userCanBoDepartmentId: userCanBoDepartmentId ?? '',
+      );
 
   PhamViResponse.fromJson(Map<String, dynamic> json) {
-    final data = json['data'];
-    if (json.isNotEmpty) {
-      final result = data[0];
-      userId = result['userId'];
-      canBoDepartmentId = result['canBoDepartmentId'];
-      userCanBoDepartmentId = result['userCanBoDepartmentId'];
-      chucVuId = result['chucVuId'];
-      donViId = result['donViId'];
-      chucVu = result['chucVu'];
-      donVi = result['donVi'];
-      isDefault = result['isDefault'];
-      isCurrentActive = result['isCurrentActive'];
-    }
+    userId = json['userId'];
+    canBoDepartmentId = json['canBoDepartmentId'];
+    userCanBoDepartmentId = json['userCanBoDepartmentId'];
+    chucVuId = json['chucVuId'];
+    donViId = json['donViId'];
+    chucVu = json['chucVu'];
+    donVi = json['donVi'];
+    isDefault = json['isDefault'];
+    isCurrentActive = json['isCurrentActive'];
   }
 }

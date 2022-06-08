@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -25,6 +24,7 @@ class DialogSettingWidget extends StatefulWidget {
   final WidgetType type;
   final Widget? labelWidget;
   final Function()? onLabel;
+
   const DialogSettingWidget({
     Key? key,
     this.listSelectKey,
@@ -43,6 +43,7 @@ class _DialogSettingWidgetState extends State<DialogSettingWidget> {
   final _key = GlobalKey();
   final LayerLink _layerLink = LayerLink();
   late ScrollController controller;
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -131,6 +132,7 @@ class DialogSelectWidget extends StatefulWidget {
   final LayerLink layerLink;
   final ScrollController controller;
   final Function()? onLabel;
+
   const DialogSelectWidget({
     Key? key,
     this.listSelectKey,
@@ -154,6 +156,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
   double insertBottom = 0;
   bool isShowTp = true;
   late AnimationController animationController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -353,6 +356,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
 class SelectCell extends StatefulWidget {
   final DialogData data;
   final Function(SelectKey)? onSelect;
+
   const SelectCell({Key? key, required this.data, this.onSelect})
       : super(key: key);
 
@@ -362,6 +366,7 @@ class SelectCell extends StatefulWidget {
 
 class _SelectCellState extends State<SelectCell> {
   late SelectKey selectKey;
+
   @override
   void initState() {
     super.initState();
@@ -428,6 +433,7 @@ class MenuSelectCell<T> extends StatelessWidget {
   final T groupValue;
   final Function(T?) onChange;
   final String title;
+
   const MenuSelectCell({
     Key? key,
     required this.value,
@@ -470,14 +476,14 @@ class DialogData {
   final Function(SelectKey, DateTime, DateTime) onSelect;
   DateTime? startDate;
   DateTime? endDate;
+
   DialogData({
     required this.title,
     this.key = const [
       SelectKey.HOM_NAY,
       SelectKey.TUAN_NAY,
       SelectKey.THANG_NAY,
-      SelectKey.NAM_NAY,
-      SelectKey.TUY_CHON
+      SelectKey.NAM_NAY
     ],
     this.startDate,
     this.endDate,

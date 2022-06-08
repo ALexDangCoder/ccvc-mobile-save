@@ -17,6 +17,9 @@ import 'package:ccvc_mobile/data/services/quan_ly_widget/quan_ly_widget_service.
 import 'package:ccvc_mobile/data/services/thanh_phan_tham_gia/thanh_phan_tham_gia_service.dart';
 import 'package:ccvc_mobile/data/services/thong_bao_service/thong_bao_service.dart';
 import 'package:ccvc_mobile/data/services/y_kien_nguoi_dan/y_kien_nguoi_dan_service.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/repository_impl/diem_danh_repository_impl.dart';
+import 'package:ccvc_mobile/diem_danh_module/data/service/diem_danh_service.dart';
+import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
@@ -34,6 +37,7 @@ import 'package:ccvc_mobile/ket_noi_module/domain/repository/ket_noi_repository.
 import 'package:ccvc_mobile/nhiem_vu_module/data/repository_impl/nhiem_vu_repository_impl.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/data/service/nhiem_vu_service.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/repository/nhiem_vu_repository.dart';
+import 'package:ccvc_mobile/presentation/thong_bao/bloc/thong_bao_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/repository_impl/danh_ba_dien_tu_impl.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/repository_impl/tien_ich_repository_impl.dart';
 import 'package:ccvc_mobile/tien_ich_module/data/service/danh_ba_dien_tu_service.dart';
@@ -81,7 +85,7 @@ void configureDependencies() {
   Get.put(ThongBaoService(provideDio(baseOption: BaseURLOption.NOTI)));
 
   Get.put<ThongBaoRepository>(ThongBaoImpl(Get.find()));
-
+  Get.put<ThongBaoCubit>(ThongBaoCubit());
   Get.put(
     YKienNguoiDanService(
       provideDio(baseOption: BaseURLOption.GATE_WAY),
@@ -141,8 +145,21 @@ void configureDependencies() {
       provideDio(baseOption: BaseURLOption.API_AND_UAT),
     ),
   );
+
+  Get.put(
+    TienIchServiceGateWay(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+
   Get.put<TienIchRepository>(
-      TienIchRepositoryImpl(Get.find(), Get.find(), Get.find()));
+    TienIchRepositoryImpl(
+      Get.find(),
+      Get.find(),
+      Get.find(),
+      Get.find(),
+    ),
+  );
   Get.put(
     DanhBaDienTuService(
       provideDio(baseOption: BaseURLOption.COMMON),
@@ -156,6 +173,13 @@ void configureDependencies() {
     ),
   );
   Get.put<NhiemVuRepository>(NhiemVuRepoImpl(Get.find()));
+
+  Get.put(
+    DiemDanhService(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+  Get.put<DiemDanhRepository>(DiemDanhRepoImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;

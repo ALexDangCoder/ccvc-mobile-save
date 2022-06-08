@@ -25,7 +25,7 @@ class GioLyThuanPhongWidget extends StatelessWidget {
             S.current.gio_ly_thuan_phong,
             style: textNormalCustom(
               fontSize: 16.0,
-              color: titleColor,
+              color: color3D5586,
             ),
           ),
         ),
@@ -33,10 +33,10 @@ class GioLyThuanPhongWidget extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: listGioLyThuanPhong.length,
-          itemBuilder: (context,index){
+          itemBuilder: (context, index) {
             return titleGioLyThuanPhong(
-              listGioLyThuanPhong[index].ten??'',
-              listGioLyThuanPhong[index].moTa??'',
+              listGioLyThuanPhong[index].ten ?? '',
+              listGioLyThuanPhong[index].moTa ?? '',
             );
           },
         )
@@ -54,16 +54,18 @@ Widget titleGioLyThuanPhong(String title, String values) {
         Text(
           title,
           style: textNormalCustom(
-            color:  AppTheme.getInstance().colorField(),
+            color: AppTheme.getInstance().colorField(),
             fontWeight: FontWeight.w500,
             fontSize: 14.0.textScale(),
           ),
         ),
-        const SizedBox(height: 6.0,),
+        const SizedBox(
+          height: 6.0,
+        ),
         Text(
           values,
           style: textNormalCustom(
-            color:  titleColor,
+            color: color3D5586,
             fontWeight: FontWeight.w400,
             fontSize: 14.0.textScale(),
           ),

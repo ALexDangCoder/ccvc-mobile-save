@@ -13,7 +13,8 @@ class DanhSachNhiemVuMobile extends StatefulWidget {
   final String ngayBatDau;
   final String ngayKetThuc;
   final List<String> mangTrangThai;
-final int? trangThaiHanXuLy;
+  final int? trangThaiHanXuLy;
+
   const DanhSachNhiemVuMobile({
     Key? key,
     required this.isCheck,
@@ -82,7 +83,7 @@ class _DanhSachNhiemVuMobileState extends State<DanhSachNhiemVuMobile> {
           },
           size: cubit.pageSize,
           keySearch: cubit.keySearch,
-          trangThaiHanXuLy: widget.trangThaiHanXuLy,
+          trangThaiHanXuLy: widget.trangThaiHanXuLy, isFilter: false,
         )
       },
       viewItem: (value, index) {

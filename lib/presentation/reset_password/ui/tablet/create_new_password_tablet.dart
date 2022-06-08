@@ -29,7 +29,7 @@ class _CreateNewPassWordTabletState extends State<CreateNewPassWordTablet> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBarDefaultBack(S.current.dat_lai_mat_khau),
+      appBar: AppBarDefaultBack(S.current.doi_lai_mat_khau),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
@@ -39,7 +39,7 @@ class _CreateNewPassWordTabletState extends State<CreateNewPassWordTablet> {
                 const SizedBox(height: 80.0),
                 Text(
                   S.current.tao_mk_moi_cho,
-                  style: textNormalCustom(color: titleColor, fontSize: 20.0),
+                  style: textNormalCustom(color: color3D5586, fontSize: 20.0),
                 ),
                 const SizedBox(height: 28.0),
                 Row(
@@ -48,7 +48,7 @@ class _CreateNewPassWordTabletState extends State<CreateNewPassWordTablet> {
                     Text(
                       '${S.current.account}:',
                       style: textNormalCustom(
-                        color: titleColor,
+                        color: color3D5586,
                         fontSize: 16.0,
                       ),
                     ),

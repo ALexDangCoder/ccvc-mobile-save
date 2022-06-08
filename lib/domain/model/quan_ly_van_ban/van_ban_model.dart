@@ -4,16 +4,28 @@ class VanBanModel {
   String? loaiVanBan;
   String? ngayDen;
   String? nguoiSoanThao;
-  String ? taskId;
+  String? donViSoanThao;
+  String? taskId;
+  String? number;
+  int? statusCode;
+  String? sender;
+  String? priorityCode;
+  String? trichYeu;
 
-  VanBanModel({
-    this.iD,
-    this.doKhan,
-    this.loaiVanBan,
-    this.ngayDen,
-    this.nguoiSoanThao,
-    this.taskId,
-  });
+  VanBanModel(
+      {this.iD,
+      this.doKhan,
+      this.loaiVanBan,
+      this.ngayDen,
+      this.nguoiSoanThao,
+      this.taskId,
+      this.statusCode,
+      this.number,
+      this.sender,
+      this.donViSoanThao,
+      this.priorityCode,
+      this.trichYeu});
+
   VanBanModel.empty();
 }
 

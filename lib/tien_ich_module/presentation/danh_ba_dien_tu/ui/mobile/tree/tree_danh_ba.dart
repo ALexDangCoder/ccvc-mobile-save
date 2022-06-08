@@ -4,7 +4,6 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/presentation/list_menu/ui/tablet/widgetTablet/dropdow_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_danh_ba_dien_tu/bloc_danh_ba_dien_tu_cubit.dart';
-import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/bloc_tree/danh_sach_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/ui/mobile/tree/model/TreeModel.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/tree.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -27,113 +26,92 @@ class DanhBaWidget extends StatefulWidget {
 }
 
 class _DanhBaScreenState extends State<DanhBaWidget> {
-  final DanhBaCubit danhBaCubit = DanhBaCubit();
-
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    widget.cubit.getTree();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    danhBaCubit.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DropdownWidgetTablet(
-            title: StreamBuilder<String>(
-                stream: widget.cubit.tenDonVi.stream,
-                builder: (context, snapshot) {
-                  return Container(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.7,
-                    ),
-                    child: Text(
-                      snapshot.data.toString(),
-                      style: textNormal(titleColor, 14),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  );
-                }),
-            child: SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.only(top: 11),
-                decoration: BoxDecoration(
-                  border: Border.all(color: borderColor),
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
-                ),
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.4,
-                ),
-                child: Column(
-                  children: [
-                    BaseSearchBarNoBorder(
-                      hintText: S.current.nhap_don_vi,
-                      onChange: (vl) {
-                        widget.cubit.searchTree(vl);
-                      },
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        border: Border(top: BorderSide(color: borderColor)),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: StreamBuilder(
-                        stream: widget.cubit.listTreeDanhBaSubject.stream,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<dynamic> snapshot) {
-                          if (widget.cubit.listTreeDanhBa.isEmpty) {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: NodataWidget(),
-                            );
-                          } else {
-                            return Scrollbar(
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  maxHeight:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                ),
-                                color: Colors.white,
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      child: NodeWidget(
-                                        onChange: (vl) {
-                                          widget.onChange(vl);
-                                        },
-                                        key: UniqueKey(),
-                                        node: widget.cubit.getRoot(),
-                                        cubit: widget.cubit,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
+      child: DropdownWidgetTablet(
+        title: StreamBuilder<String>(
+          stream: widget.cubit.tenDonVi.stream,
+          builder: (context, snapshot) {
+            return Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.5,
               ),
+              child: Text(
+                snapshot.data ?? '',
+                style: textNormal(color3D5586, 14),
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
+          },
+        ),
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(top: 11),
+            decoration: BoxDecoration(
+              border: Border.all(color: borderColor),
+              borderRadius: const BorderRadius.all(Radius.circular(6)),
+            ),
+            child: Column(
+              children: [
+                BaseSearchBarNoBorder(
+                  hintText: S.current.nhap_don_vi,
+                  onChange: (vl) {
+                    widget.cubit.searchTree2(vl);
+                  },
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: borderSide(),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: StreamBuilder(
+                    stream: widget.cubit.listTreeDanhBaSubject.stream,
+                    builder: (context, snapshot) {
+                      if (widget.cubit.listTreeDanhBa.isEmpty) {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: NodataWidget(),
+                        );
+                      } else {
+                        return Scrollbar(
+                          child: Container(
+                            constraints: const BoxConstraints(
+                              maxHeight: 300,
+                            ),
+                            color: Colors.white,
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height,
+                                  child: NodeWidget(
+                                    onChange: (vl) {
+                                      widget.onChange(vl);
+                                    },
+                                    key: UniqueKey(),
+                                    node: widget.cubit.getRoot(),
+                                    cubit: widget.cubit,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                )
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -159,8 +137,9 @@ class _NodeWidgetState extends State<NodeWidget> {
   void initState() {
     super.initState();
     nodeCubit = NodeCubit(
-        tree: widget.cubit.listTreeDanhBaSubject.value
-            .getChild(widget.node!.value.id));
+      tree: widget.cubit.listTreeDanhBaSubject.value
+          .getChild(widget.node?.value.id ?? ''),
+    );
     nodeCubit.init();
   }
 
@@ -168,9 +147,11 @@ class _NodeWidgetState extends State<NodeWidget> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double widthSize = size.width;
-    return StreamBuilder<Tree>(
+    return StreamBuilder<dynamic>(
       stream: widget.cubit.listTreeDanhBaSubject.stream,
-      builder: (BuildContext context, AsyncSnapshot<Tree> snapshot) {
+      builder: (context, snapshot) {
+        final hasChild = widget.node?.value.hasDonViCon ?? false;
+        final idDonviCha = widget.node?.value.iDDonViCha;
         if (widget.node != null) {
           return SingleChildScrollView(
             child: Column(
@@ -180,19 +161,22 @@ class _NodeWidgetState extends State<NodeWidget> {
                   width: widthSize,
                   child: GestureDetector(
                     onTap: () {
-                      widget.node!.isHasChild == false
-                          ? widget.cubit.getValueTree(
-                              id: isExpand ? widget.node!.value.id : '',
-                              donVi:
-                                  isExpand ? widget.node!.value.tenDonVi : '',
-                            )
-                          : setState(() {});
-                      widget.node!.isHasChild == true
-                          ? isExpand = !isExpand
-                          : setState(() {});
-                      widget.onChange(
-                        widget.node?.value ?? TreeDonViDanhBA.Emty(),
-                      );
+                      if (hasChild) {
+                        setState(() {
+                          isExpand = !isExpand;
+                        });
+                      } else {
+                        widget.cubit.getValueTree(
+                          nodeHSCV: widget.node ??
+                              NodeHSCV(
+                                iDDonViCha: '',
+                                value: TreeDonViDanhBA.Emty(),
+                              ),
+                        );
+                        widget.onChange(
+                          widget.node?.value ?? TreeDonViDanhBA.Emty(),
+                        );
+                      }
                     },
                     child: Row(
                       children: [
@@ -200,28 +184,22 @@ class _NodeWidgetState extends State<NodeWidget> {
                           flex: 8,
                           child: Container(
                             padding: EdgeInsets.only(
-                              bottom:
-                                  widget.node!.value.iD_DonVi_Cha != '' ? 6 : 0,
-                              top:
-                                  widget.node!.value.iD_DonVi_Cha != '' ? 6 : 0,
+                              bottom: idDonviCha != '' ? 6 : 0,
+                              top: idDonviCha != '' ? 6 : 0,
                             ),
                             decoration: BoxDecoration(
-                              border: widget.node!.value.iD_DonVi_Cha != ''
-                                  ? isExpand
-                                      ? const Border()
-                                      : const Border(
-                                          bottom:
-                                              BorderSide(color: borderColor))
-                                  : const Border(),
+                              border: idDonviCha != '' && isExpand
+                                  ? const Border()
+                                  : borderSide(),
                             ),
                             child: Row(
                               children: [
                                 Expanded(
                                   flex: 9,
-                                  child: widget.node!.value.iD_DonVi_Cha != ''
+                                  child: idDonviCha != ''
                                       ? Text(
-                                          widget.node!.value.tenDonVi,
-                                          style: textNormal(titleColor, 14),
+                                          widget.node?.value.tenDonVi ?? '',
+                                          style: textNormal(color3D5586, 14),
                                         )
                                       : const SizedBox(),
                                 ),
@@ -230,26 +208,19 @@ class _NodeWidgetState extends State<NodeWidget> {
                                     StreamBuilder<String>(
                                       stream: widget.cubit.idDonVi.stream,
                                       builder: (context, snapshot) {
-                                        return snapshot.data.toString() ==
-                                                widget.node!.value.id
-                                            ? (widget.node!.isHasChild)
-                                                ? const SizedBox()
-                                                : SvgPicture.asset(
-                                                    ImageAssets.ic_tick,
-                                                  )
+                                        final data = snapshot.data;
+                                        return data.toString() ==
+                                                    widget.node?.value.id &&
+                                                hasChild == false
+                                            ? iconTick()
                                             : const SizedBox();
                                       },
                                     ),
-                                    if (widget.node!.value.iD_DonVi_Cha != '')
-                                      widget.node!.isHasChild
+                                    if (idDonviCha != '')
+                                      hasChild
                                           ? isExpand
-                                              ? const Icon(
-                                                  Icons.keyboard_arrow_up,
-                                                  color: Color(0xFFA2AEBD),
-                                                )
-                                              : const Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  color: Color(0xFFA2AEBD))
+                                              ? iconUp()
+                                              : iconDown()
                                           : const SizedBox(),
                                   ],
                                 )
@@ -276,8 +247,7 @@ class _NodeWidgetState extends State<NodeWidget> {
                             (e) => Container(
                               decoration: BoxDecoration(
                                 border: e == data.last
-                                    ? const Border(
-                                        bottom: BorderSide(color: borderColor))
+                                    ? borderSide()
                                     : const Border(),
                               ),
                               child: NodeWidget(
@@ -295,16 +265,32 @@ class _NodeWidgetState extends State<NodeWidget> {
                     },
                   )
                 else
-                  Container(),
+                  const SizedBox(),
               ],
             ),
           );
         } else {
-          return const SizedBox(
-            height: 0,
-          );
+          return const SizedBox();
         }
       },
     );
   }
+
+  Widget iconUp() => const Icon(
+        Icons.keyboard_arrow_up,
+        color: AqiColor,
+      );
+
+  Widget iconDown() => const Icon(
+        Icons.keyboard_arrow_down,
+        color: AqiColor,
+      );
+
+  Widget iconTick() => SvgPicture.asset(
+        ImageAssets.ic_tick,
+      );
 }
+
+Border borderSide() => const Border(
+      bottom: BorderSide(color: borderColor),
+    );

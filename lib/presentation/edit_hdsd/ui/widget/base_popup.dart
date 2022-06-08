@@ -72,7 +72,7 @@ class DiaLogFeatureWidget extends StatelessWidget {
                     child: Text(
                       title,
                       style:
-                          textNormalCustom(color: titleColor, fontSize: 20.0),
+                          textNormalCustom(color: color3D5586, fontSize: 20.0),
                     ),
                   ),
                   Expanded(

@@ -12,7 +12,6 @@ import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/listview/listview_loadmore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class DanhBaCaNhan extends StatefulWidget {
   const DanhBaCaNhan({Key? key}) : super(key: key);
@@ -48,20 +47,6 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
               spaceH20,
               SizedBox(
                 height: 40,
-                child: Row(
-                  children: [
-                    Image.asset(ImageAssets.icDanhBa),
-                    spaceW16,
-                    Text(
-                      S.current.danh_ba_tu_may,
-                      style: tokenDetailAmount(fontSize: 16, color: titleColor),
-                    )
-                  ],
-                ),
-              ),
-              spaceH16,
-              SizedBox(
-                height: 40,
                 child: GestureDetector(
                   onTap: () {
                     showBottomSheetCustom(
@@ -82,7 +67,7 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
                       Text(
                         S.current.them_moi,
                         style:
-                            tokenDetailAmount(fontSize: 16, color: titleColor),
+                            tokenDetailAmount(fontSize: 16, color: color3D5586),
                       )
                     ],
                   ),
@@ -114,81 +99,32 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
                 },
               ),
               spaceH20,
-              SizedBox(
-                height: 40,
+              GestureDetector(
+                onTap: () {
+                  showDiaLogTablet(
+                    context,
+                    optinalHeight: 844,
+                    title: S.current.them_danh_ba_ca_nhan,
+                    isBottomShow: false,
+                    child: ThemDanhBaCaNhan(
+                      cubit: cubit,
+                    ),
+                    funcBtnOk: () {},
+                  );
+                },
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Image.asset(ImageAssets.icDanhBa),
-                        spaceW16,
-                        Text(
-                          S.current.danh_ba_tu_may,
-                          style: tokenDetailAmount(
-                            fontSize: 16,
-                            color: titleColor,
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: labelColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                        left: 30,
-                        right: 30,
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(ImageAssets.icDongBo),
-                          spaceW12,
-                          Text(
-                            S.current.dong_bo,
-                            style: tokenDetailAmount(
-                              fontSize: 14,
-                              color: labelColor,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    Image.asset(ImageAssets.icThemMoi),
+                    spaceW16,
+                    Text(
+                      S.current.them_moi,
+                      style:
+                          tokenDetailAmount(fontSize: 16, color: color3D5586),
+                    )
                   ],
                 ),
               ),
-              spaceH16,
-              SizedBox(
-                height: 40,
-                child: GestureDetector(
-                  onTap: () {
-                    showDiaLogTablet(
-                      context,
-                      title: S.current.them_danh_ba_ca_nhan,
-                      isBottomShow: false,
-                      child: ThemDanhBaCaNhan(
-                        cubit: cubit,
-                      ),
-                      funcBtnOk: () {},
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(ImageAssets.icThemMoi),
-                      spaceW16,
-                      Text(
-                        S.current.them_moi,
-                        style:
-                            tokenDetailAmount(fontSize: 16, color: titleColor),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              spaceH30,
+              spaceH20,
               Expanded(
                 flex: 6,
                 child: Container(

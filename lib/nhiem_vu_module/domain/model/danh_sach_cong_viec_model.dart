@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class DanhSachCongViecModel {
@@ -106,45 +109,76 @@ class PageDatas {
 extension CheckColor on String {
   Color trangThaiToColor() {
     switch (this) {
-      case 'thu-hoi':
+      case NhiemVuLowerCase.THU_HOI:
         return Colors.red;
-      case 'cho-phan-xu-ly':
-        return choXuLyColor;
-      case 'chua-thuc-hien':
-        return Colors.red;
-      case 'dang-thuc-hien':
-        return yellowColor;
-      case 'da-hoan-thanh':
+      case NhiemVuLowerCase.CHO_PHAN_XU_LY:
+        return color5A8DEE;
+      case NhiemVuLowerCase.CHUA_THUC_HIEN:
+        return choVaoSoColor;
+      case NhiemVuLowerCase.DANG_THUC_HIEN:
+        return choTrinhKyColor;
+      case NhiemVuLowerCase.DA_HOAN_THANH:
         return daXuLyColor;
-      case 'tra-lai':
+      case NhiemVuLowerCase.TRA_LAI:
         return Colors.red;
       default:
         return Colors.red;
     }
   }
 
+
+  Color statusCharLoaiDSNV() {
+    switch (this) {
+      case NhiemVuLowerCase.NHIEM_VU_DON_VI:
+        return AppTheme.getInstance().nhiemDonViColor();
+      case NhiemVuLowerCase.NHIEM_VU_CP_CPCP:
+        return AppTheme.getInstance().choXuLyColor();
+      case NhiemVuLowerCase.NHIEM_VU_UBND_TINH:
+        return color0A45B9;
+      default:
+        return AppTheme.getInstance().mainColor();
+    }
+  }
+
+
   Color status() {
     switch (this) {
-      case 'qua-han':
+      case NhiemVuLowerCase.QUA_HAN:
         return statusCalenderRed;
-      case 'den-han':
-        return dangXyLyColor;
-      case 'trong-han':
-        return numberOfCalenders;
+      case NhiemVuLowerCase.DEN_HAN:
+        return denHanColor;
+      case NhiemVuLowerCase.TRONG_HAN:
+        return textTitle;
       default:
         return Colors.red;
     }
   }
+
   int statusBox() {
     switch (this) {
-      case 'qua-han':
+      case NhiemVuLowerCase.QUA_HAN:
         return 2;
-      case 'den-han':
+      case NhiemVuLowerCase.DEN_HAN:
         return 1;
-      case 'trong-han':
+      case NhiemVuLowerCase.TRONG_HAN:
         return 3;
       default:
         return 2;
+    }
+  }
+
+  String titleTrangThai() {
+    switch (this) {
+      case CHUA_THUC_HIEN:
+        return S.current.chua_thuc_hien;
+      case DA_HOAN_THANH:
+        return S.current.da_thuc_hien;
+      case DANG_THUC_HIEN:
+        return S.current.dang_thuc_hien;
+      case CHO_PHAN_XU_LY:
+        return S.current.cho_phan_xu_ly;
+      default:
+        return '';
     }
   }
 }

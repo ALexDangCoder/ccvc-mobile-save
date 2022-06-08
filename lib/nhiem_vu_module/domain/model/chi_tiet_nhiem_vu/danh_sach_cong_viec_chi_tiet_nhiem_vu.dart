@@ -1,7 +1,8 @@
+import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/van_ban_lien_quan.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/type_data_row.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class DanhSachCongViecChiTietNhiemVuModel {
   int? stt;
@@ -43,6 +44,8 @@ class DanhSachCongViecChiTietNhiemVuModel {
   bool? coTheHuy;
   bool? coTheGan;
   bool? coTheXoa;
+  String? vanBanLienQuan;
+  List<FileDinhKems>? file;
 
   DanhSachCongViecChiTietNhiemVuModel.empty();
 
@@ -86,6 +89,8 @@ class DanhSachCongViecChiTietNhiemVuModel {
     this.coTheHuy,
     this.coTheGan,
     this.coTheXoa,
+    this.vanBanLienQuan,
+    this.file,
   });
 
   List<RowDataExpandModel> listDSCV() {
@@ -128,6 +133,80 @@ class DanhSachCongViecChiTietNhiemVuModel {
       RowDataExpandModel(
         key: S.current.trang_thai,
         value: maTrangThai ?? '',
+        type: TypeDataNV.status,
+      ),
+    ];
+
+    return listData;
+  }
+
+  List<RowDataExpandModel> listLSGV() {
+    List<RowDataExpandModel> listData = [
+      RowDataExpandModel(
+        key: S.current.nguoi_giao_viec,
+        value: nguoiGiaoViec ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.don_vi_giao_viec,
+        value: donViGiaoViec ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.thoi_gian,
+        value: thoiGianGiaoViec ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.nguoi_xu_ly,
+        value: nguoiThucHien ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.don_vi_xu_ly,
+        value: donViThucHien ?? '',
+        type: TypeDataNV.text,
+      ),
+    ];
+
+    return listData;
+  }
+
+  List<RowDataExpandModel> listLSTDTT() {
+    List<RowDataExpandModel> listData = [
+      RowDataExpandModel(
+        key: S.current.nguoi_cap_nhat,
+        value: nguoiGiaoViec ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.don_vi,
+        value: donViGiaoViec ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.thoi_gian,
+        value: thoiGianGiaoViec ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.tinh_hinh_thuc_hien,
+        value: noiDungCongViec?.parseHtml() ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.van_ban_lien_quan,
+        value: vanBanLienQuan ?? '',
+        type: TypeDataNV.text,
+      ),
+      RowDataExpandModel(
+        key: S.current.file_dinh_kem,
+        value: file ?? [],
+        type: TypeDataNV.file,
+      ),
+      RowDataExpandModel(
+        key: S.current.trang_thai,
+        value: trangThai ?? '',
         type: TypeDataNV.status,
       ),
     ];

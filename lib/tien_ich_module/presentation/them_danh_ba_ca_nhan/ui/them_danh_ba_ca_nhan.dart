@@ -4,6 +4,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/bloc_da
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/chon_anh.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/them_danh_ba_ca_nhan/widget/select_date.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/button/double_button_bottom.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/folow_key_broard/follow_key_broad.dart';
@@ -11,8 +12,12 @@ import 'package:ccvc_mobile/tien_ich_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/radio_button/custom_radio_button.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/text_form_field_them_moi.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class ThemDanhBaCaNhan extends StatefulWidget {
   final DanhBaDienTuCubit cubit;
@@ -25,6 +30,13 @@ class ThemDanhBaCaNhan extends StatefulWidget {
 
 class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
   final keyGroup = GlobalKey<FormGroupState>();
+  final toast = FToast();
+
+  @override
+  void initState() {
+    super.initState();
+    toast.init(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +49,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
               child: Column(
                 children: [
                   spaceH24,
-                  const AvatarDanhBa(),
+                  AvatarDanhBa(
+                    toast: toast,
+                    cubit: widget.cubit,
+                  ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icEditDb,
                     hintText: S.current.ho_ten_cb,
@@ -46,7 +61,8 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return S.current.khong_duoc_de_trong;
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.ho_ten_cb}!';
                       }
                       return null;
                     },
@@ -58,12 +74,15 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.diaChi = value;
                     },
                   ),
-                  SelectDate(
+                  SelectDateThem(
                     leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
-                    value: '',
+                    hintText: S.current.ngay_sinh_require,
                     onSelectDate: (dateTime) {
-                      widget.cubit.ngaySinh = dateTime;
+                      widget.cubit.dateDanhSach = dateTime;
+                      widget.cubit.isCheckValidate.sink
+                          .add(widget.cubit.dateDanhSach);
                     },
+                    cubit: widget.cubit,
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icMessage,
@@ -72,7 +91,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      return (value ?? '').checkEmailBoolean();
                     },
                   ),
                   TextFieldStyle(
@@ -81,30 +100,43 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },
+                    textInputType: TextInputType.number,
                     validator: (value) {
-                      return (value ?? '').checkSdt();
+                      return (value ?? '').checkSdtRequire();
                     },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icPhoneCp,
-                    hintText: S.current.sdt_co_quan,
+                    hintText: S.current.sdt_co_quan_require,
                     onChange: (value) {
                       widget.cubit.phoneCoQuan = value;
                     },
+                    textInputType: TextInputType.number,
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCallDb,
-                    hintText: S.current.sdt_nha_rieng,
+                    hintText: S.current.sdt_nha_rieng_require,
                     onChange: (value) {
                       widget.cubit.phoneNhaRieng = value;
                     },
+                    textInputType: TextInputType.number,
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   spaceH16,
                   CustomRadioButton(
@@ -118,11 +150,40 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   ),
                   spaceH16,
                   DoubleButtonBottom(
-                    onPressed2: () {
-                      if (keyGroup.currentState!.validator()) {
-                        widget.cubit.callApi();
-                        Navigator.pop(context);
-                      } else {}
+                    onPressed2: () async {
+                      if (keyGroup.currentState!.validator() &&
+                          widget.cubit.dateDanhSach.isNotEmpty) {
+                        widget.cubit.isCheckValidate.sink
+                            .add(widget.cubit.dateDanhSach);
+                        await widget.cubit
+                            .postDanhSach(
+                          hoTen: widget.cubit.hoTen,
+                          phoneDiDong: widget.cubit.phoneDiDong,
+                          phoneCoQuan: widget.cubit.phoneCoQuan,
+                          phoneNhaRieng: widget.cubit.phoneNhaRieng,
+                          email: widget.cubit.email,
+                          gioiTinh: widget.cubit.gioiTinh,
+                          ngaySinh: widget.cubit.dateDanhSach,
+                          cmtnd: widget.cubit.cmtnd,
+                          anhDaiDienFilePath: widget.cubit.pathAnh,
+                          anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
+                          anhChuKyNhayFilePath:
+                              widget.cubit.anhChuKyNhayFilePath,
+                          diaChi: widget.cubit.diaChi,
+                          isDeleted: widget.cubit.isDeleted,
+                          thuTu: widget.cubit.thuTu ?? 0,
+                          groupIds: widget.cubit.groupIds ?? [],
+                        )
+                            .then((value) {
+                          if (value) {
+                            Navigator.pop(context);
+                          }
+                        });
+                      } else {
+                        widget.cubit.isCheckValidate.sink.add(
+                          widget.cubit.dateDanhSach,
+                        );
+                      }
                     },
                     onPressed1: () {
                       Navigator.pop(context);
@@ -145,7 +206,10 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
               child: Column(
                 children: [
                   spaceH24,
-                  const AvatarDanhBa(),
+                  AvatarDanhBa(
+                    toast: toast,
+                    cubit: widget.cubit,
+                  ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icEditDb,
                     hintText: S.current.ho_ten_cb,
@@ -154,18 +218,25 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return S.current.khong_duoc_de_trong;
+                        return '${S.current.ban_phai_nhap_truong} '
+                            '${S.current.ho_ten_cb}!';
                       }
                       return null;
                     },
                   ),
-                  SelectDate(
-                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenderDb),
-                    value: '',
+                  SelectDateThem(
+                    key: UniqueKey(),
+                    leadingIcon: SvgPicture.asset(ImageAssets.icCalenders),
+                    hintText: S.current.ngay_sinh_require,
+                    isTablet: true,
                     onSelectDate: (dateTime) {
-                      widget.cubit.ngaySinh = dateTime;
+                      widget.cubit.dateDanhSach = dateTime;
+                      widget.cubit.isCheckValidate.sink
+                          .add(widget.cubit.dateDanhSach);
                     },
+                    cubit: widget.cubit,
                   ),
+                  spaceH14,
                   CustomRadioButton(
                     title: S.current.gioi_tinh,
                     onchange: (value) {
@@ -182,7 +253,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                       widget.cubit.email = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkEmail();
+                      return (value ?? '').checkEmailBoolean();
                     },
                   ),
                   TextFieldStyle(
@@ -191,30 +262,43 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },
+                    textInputType: TextInputType.number,
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCalling,
-                    hintText: S.current.so_dien_thoai,
+                    hintText: S.current.sdt_s,
                     onChange: (value) {
                       widget.cubit.phoneDiDong = value;
                     },
                     validator: (value) {
-                      return (value ?? '').checkSdt();
+                      return (value ?? '').checkSdtRequire();
                     },
+                    textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icPhoneCp,
-                    hintText: S.current.sdt_co_quan,
+                    hintText: S.current.sdt_co_quan_require,
                     onChange: (value) {
                       widget.cubit.phoneCoQuan = value;
                     },
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
+                    textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icCallDb,
-                    hintText: S.current.sdt_nha_rieng,
+                    hintText: S.current.sdt_nha_rieng_require,
                     onChange: (value) {
                       widget.cubit.phoneNhaRieng = value;
                     },
+                    validator: (value) {
+                      return (value ?? '').checkSdtRequire();
+                    },
+                    textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   TextFieldStyle(
                     urlIcon: ImageAssets.icLocation,
@@ -225,11 +309,40 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                   ),
                   DoubleButtonBottom(
                     isTablet: true,
-                    onPressed2: () {
-                      if (keyGroup.currentState!.validator()) {
-                        widget.cubit.callApi();
-                        Navigator.pop(context);
-                      } else {}
+                    onPressed2: () async {
+                      if (keyGroup.currentState!.validator() &&
+                          widget.cubit.dateDanhSach.isNotEmpty) {
+                        widget.cubit.isCheckValidate.sink
+                            .add(widget.cubit.dateDanhSach);
+                        await widget.cubit
+                            .postDanhSach(
+                          hoTen: widget.cubit.hoTen,
+                          phoneDiDong: widget.cubit.phoneDiDong,
+                          phoneCoQuan: widget.cubit.phoneCoQuan,
+                          phoneNhaRieng: widget.cubit.phoneNhaRieng,
+                          email: widget.cubit.email,
+                          gioiTinh: widget.cubit.gioiTinh,
+                          ngaySinh: widget.cubit.dateDanhSach,
+                          cmtnd: widget.cubit.cmtnd,
+                          anhDaiDienFilePath: widget.cubit.pathAnh,
+                          anhChuKyFilePath: widget.cubit.anhChuKyFilePath,
+                          anhChuKyNhayFilePath:
+                              widget.cubit.anhChuKyNhayFilePath,
+                          diaChi: widget.cubit.diaChi,
+                          isDeleted: widget.cubit.isDeleted,
+                          thuTu: widget.cubit.thuTu ?? 0,
+                          groupIds: widget.cubit.groupIds ?? [],
+                        )
+                            .then((value) {
+                          if (value) {
+                            Navigator.pop(context);
+                          }
+                        });
+                      } else {
+                        widget.cubit.isCheckValidate.sink.add(
+                          widget.cubit.dateDanhSach,
+                        );
+                      }
                     },
                     onPressed1: () {
                       Navigator.pop(context);

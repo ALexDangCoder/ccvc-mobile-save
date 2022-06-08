@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/pick_image_file_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/chi_tiet_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/danh_sach_cong_viec_chi_tiet_nhiem_vu.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/lich_su_cap_nhat_thth.dart';
@@ -191,12 +192,79 @@ class ChiTietNVCubit extends BaseCubit<ChiTietNVState> {
   }
 
   void getListVanBanLienQuanNhiemVu(List<VanBanLienQuanNhiemVuModel> list) {
-    for (final data in list) {
-      if (data.daGanVanBan == true) {
-        vanBanGiaoNhiemVuSubject.sink.add([data]);
-      } else {
-        vanBanKhacNhiemVuSubject.sink.add([data]);
-      }
+    vanBanGiaoNhiemVuSubject.sink.add(
+        list.where((element) => element.hinhThucVanBan == 'lienquan').toList());
+    vanBanKhacNhiemVuSubject.sink.add(
+        list.where((element) => element.hinhThucVanBan == 'khac').toList());
+  }
+
+  /// Xin ý kiến
+
+  final BehaviorSubject<String> validateNhapYkien = BehaviorSubject.seeded('');
+  final List<PickImageFileModel> listPickFileMain = [];
+  int byteToMb = 1048576;
+  int size = 0;
+  String idNhiemVu = '';
+  List<Map<String, String>> listFileId = [];
+
+  bool checkFile(int size) {
+    if (size / byteToMb > 30) {
+      return false;
+    } else {
+      return true;
     }
+  }
+
+  Future<void> uploadFile({
+    required List<File> path,
+  }) async {
+    final result = await nhiemVuRepo.postFile(
+      path: path,
+    );
+    result.when(
+      success: (res) {
+        if (res != 'false') {
+          listFileId.add(
+            {
+              'FileDinhKemId': res,
+            },
+          );
+        }
+      },
+      error: (error) {
+        showContent();
+      },
+    );
+  }
+
+  Future<String> postYKienXuLy({
+    required String nhiemvuId,
+    required String noiDung,
+    required List<Map<String, String>> fileId,
+  }) async {
+    String status = '';
+    showLoading();
+    final Map<String, dynamic> map = {
+      'NhiemVuId': nhiemvuId,
+      'HashValue': '',
+      'IsSign': 'false',
+      'NoiDung': noiDung,
+      'YKienXuLyFileDinhKem': fileId,
+    };
+    final result = await nhiemVuRepo.postYKienXuLy(
+      map: map,
+    );
+    result.when(
+      success: (res) {
+        status = res;
+        getYKienXuLyNhiemVu(idNhiemVu);
+        showContent();
+      },
+      error: (error) {
+        status = '';
+        showContent();
+      },
+    );
+    return status;
   }
 }

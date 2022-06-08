@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomRadioButtonCheck extends StatefulWidget {
   final Function() onSelectItem;
-  bool isCheckButton = false;
+  bool isCheckButton;
   final String? name;
 
   CustomRadioButtonCheck({
@@ -36,7 +36,7 @@ class _CustomRadioButtonCheckState extends State<CustomRadioButtonCheck> {
             Text(
               widget.name ?? '',
               style: tokenDetailAmount(
-                color: titleColor,
+                color: color3D5586,
                 fontSize: 14,
               ),
             ),

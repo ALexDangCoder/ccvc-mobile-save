@@ -48,10 +48,10 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   @override
   void initState() {
     selectedEvents = {};
-    _selectedDay = widget.initTime ?? DateTime.now();
     super.initState();
   }
 
+  DateTime storeSelectDay = DateTime.now();
   bool isSearch = false;
   bool isFomat = true;
   DateTime _selectedDay = DateTime.now();
@@ -119,6 +119,17 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
         ),
         date,
       );
+    }
+    storeSelectDay = _selectedDay;
+  }
+
+  @override
+  void didUpdateWidget(covariant TableCalendarWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (cubit.isMatchDay(oldWidget.initTime, widget.initTime)) {
+      _selectedDay = storeSelectDay;
+    } else {
+      _selectedDay = widget.initTime ?? storeSelectDay;
     }
   }
 
@@ -196,7 +207,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           children: [
                             widget.type.getTextWidget(
                               cubit: cubit,
-                              textColor: titleColor,
+                              textColor: color3D5586,
                             ),
                             const Icon(
                               Icons.arrow_drop_down_sharp,
@@ -250,7 +261,7 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
                           fontWeight: FontWeight.w500,
                         ),
                         defaultTextStyle: textNormalCustom(
-                          color: titleColor,
+                          color: color3D5586,
                           fontSize: 14.0.textScale(),
                           fontWeight: FontWeight.w500,
                         ),

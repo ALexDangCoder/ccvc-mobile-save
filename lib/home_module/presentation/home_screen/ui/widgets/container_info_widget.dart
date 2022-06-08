@@ -14,6 +14,7 @@ class ContainerInfoWidget extends StatelessWidget {
   final String status2;
   final Color? colorStatus2;
   final bool backGroundStatus2;
+
   const ContainerInfoWidget({
     Key? key,
     required this.listData,
@@ -76,6 +77,7 @@ class ContainerInfoWidget extends StatelessWidget {
                         '${data.key}: ${data.value}',
                         style: textNormal(infoColor, 14.0.textScale()),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                     ),
                   ],
@@ -99,9 +101,8 @@ class ContainerInfoWidget extends StatelessWidget {
                   child: Text(
                     status,
                     style: textNormalCustom(
-                      color: backGroundStatus
-                          ? backgroundColorApp
-                          : colorStatus,
+                      color:
+                          backGroundStatus ? backgroundColorApp : colorStatus,
                       fontSize: backGroundStatus
                           ? 12.0.textScale()
                           : 14.0.textScale(),
@@ -124,9 +125,8 @@ class ContainerInfoWidget extends StatelessWidget {
                   child: Text(
                     status2,
                     style: textNormalCustom(
-                      color: backGroundStatus2
-                          ? backgroundColorApp
-                          : colorStatus2,
+                      color:
+                          backGroundStatus2 ? backgroundColorApp : colorStatus2,
                       fontSize: backGroundStatus2
                           ? 12.0.textScale()
                           : 14.0.textScale(),
@@ -146,5 +146,6 @@ class InfoData {
   final String key;
   final String value;
   final String urlIcon;
+
   const InfoData({this.key = '', this.value = '', this.urlIcon = ''});
 }

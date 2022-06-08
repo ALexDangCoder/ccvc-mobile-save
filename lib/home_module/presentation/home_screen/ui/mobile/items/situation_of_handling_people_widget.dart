@@ -237,45 +237,56 @@ Widget statusWidget(List<ChartData> listData) {
                     Container(
                       height: 260,
                       width: 38,
+                      alignment: Alignment.bottomCenter,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: lineColor,
                       ),
                       // color: e.color,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: (total - (e.value)).toInt(),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                      child: e.value.toInt() == 0
+                          ? FittedBox(
+                              child: Text(
+                                e.value.toInt().toString(),
+                                style: textNormal(
+                                  textTitleColumn,
+                                  14.0.textScale(),
+                                ),
+                              ),
+                            )
+                          : Column(
                               children: [
-                                FittedBox(
-                                  child: Text(
-                                    e.value.toInt().toString(),
-                                    style: textNormal(
-                                      textTitleColumn,
-                                      14.0.textScale(),
-                                    ),
+                                Expanded(
+                                  flex: (total - (e.value)).toInt(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      FittedBox(
+                                        child: Text(
+                                          e.value.toInt().toString(),
+                                          style: textNormal(
+                                            textTitleColumn,
+                                            14.0.textScale(),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
+                                Expanded(
+                                  flex: e.value.toInt(),
+                                  child: Container(
+                                    width: 38,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: e.color,
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                          ),
-                          Expanded(
-                            flex: e.value.toInt(),
-                            child: Container(
-                              width: 38,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: e.color,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
                     ),
                   ],
                 ),

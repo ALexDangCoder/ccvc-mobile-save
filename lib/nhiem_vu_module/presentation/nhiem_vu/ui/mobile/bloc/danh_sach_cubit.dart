@@ -140,6 +140,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required Map<String, String> ngayTaoNhiemVu,
     required int size,
     int? trangThaiHanXuLy,
+    String? loaiNhiemVuId,
   }) async {
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
@@ -152,6 +153,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       ngayTaoNhiemVu: ngayTaoNhiemVu,
       size: size,
       trangThaiHanXuLy: trangThaiHanXuLy,
+      loaiNhiemVuId: loaiNhiemVuId,
     );
     showLoading();
     loadMorePage = index ?? 1;
@@ -241,6 +243,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
               value.text.toString(),
               (value.value ?? 0).toDouble(),
               value.giaTri.toString().statusCharLoaiDSNV(),
+              id: value.id,
             ),
           );
         }

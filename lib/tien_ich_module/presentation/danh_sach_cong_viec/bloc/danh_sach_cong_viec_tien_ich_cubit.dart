@@ -119,7 +119,7 @@ class DanhSachCongViecTienIchCubit
     showLoading();
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
-    await listNguoiThucHien();
+    unawaited(listNguoiThucHien());
     unawaited(getNHomCVMoi());
     doDataTheoFilter();
     addValueWithTypeToDSCV();
@@ -253,7 +253,6 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// them moi cong viec
-
   Future<void> addTodo() async {
     if (titleChange != '') {
       showLoading();
@@ -264,7 +263,8 @@ class DanhSachCongViecTienIchCubit
           isTicked: false,
           important: false,
           inUsed: true,
-          finishDay: dateChange == '' ? null : dateChange,
+          finishDay:
+              dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
           note: noteChange == '' ? null : noteChange,
           performer: nguoiThucHienSubject.value.id == ''
               ? null
@@ -371,6 +371,7 @@ class DanhSachCongViecTienIchCubit
     bool? isDeleted,
     required TodoDSCVModel todo,
   }) async {
+    showLoading();
     dynamic checkData({dynamic changeData, dynamic defaultData}) {
       if (changeData == '' || changeData == null || changeData == defaultData) {
         return defaultData ?? '';
@@ -402,6 +403,7 @@ class DanhSachCongViecTienIchCubit
     );
     result.when(
       success: (res) {
+        showContent();
         final data = listDSCV.value;
         if (isTicked != null) {
           data.insert(0, res);
@@ -419,7 +421,9 @@ class DanhSachCongViecTienIchCubit
         if (isDeleted != null) {}
         callAndFillApiAutu();
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 

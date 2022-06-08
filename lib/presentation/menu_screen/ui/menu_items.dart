@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/diem_danh_module/presentation/ui/main_diem_danh/main_diem_danh_screen.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/ui/main_diem_danh/main_diem_danh_tablet_screen.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/phone/danh_sach_chung_screen.dart';
 import 'package:ccvc_mobile/ket_noi_module/presentation/danh_sach_chung/ui/tab/danh_sach_chung_screen_tablet.dart';
@@ -231,7 +232,7 @@ extension GetScreen on MenuType {
       case MenuType.diemDanh:
         return screenDevice(
           mobileScreen: const MainDiemDanhScreen(),
-          tabletScreen: const MainDiemDanhScreen(),
+          tabletScreen: const MainDiemDanhTabletScreen(),
         );
       case MenuType.ketNoi:
         return screenDevice(

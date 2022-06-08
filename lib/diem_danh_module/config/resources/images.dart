@@ -1,4 +1,4 @@
 ///Base path
-const baseImg = 'assets/images';
+const baseImg = 'lib/diem_danh_module/assets/images';
 const baseStyleImg = 'assets/style';
 const baseMenuImg = 'assets/menu';

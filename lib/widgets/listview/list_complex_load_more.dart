@@ -88,6 +88,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                 widget.cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
               widget.cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
+
               } else {
                 widget.cubit.showContent();
               }
@@ -98,7 +99,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
           }
           widget.cubit.loadMoreList.addAll(state.posts ?? []);
           widget.cubit.canLoadMore =
-              (state.posts?.length ?? 0) >= ApiConstants.DEFAULT_PAGE_SIZE;
+              (state.posts?.length ?? 0) >= ApiConstants.DEFAULT_PAGE_SIZE_QLNV;
           widget.cubit.loadMoreLoading = false;
           widget.cubit.loadMoreSink.add(widget.cubit.loadMoreLoading);
           widget.cubit.loadMoreListController.add(widget.cubit.loadMoreList);

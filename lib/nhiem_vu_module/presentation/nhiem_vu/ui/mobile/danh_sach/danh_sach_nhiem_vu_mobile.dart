@@ -83,7 +83,7 @@ class _DanhSachNhiemVuMobileState extends State<DanhSachNhiemVuMobile> {
           },
           size: cubit.pageSize,
           keySearch: cubit.keySearch,
-          trangThaiHanXuLy: widget.trangThaiHanXuLy,
+          trangThaiHanXuLy: widget.trangThaiHanXuLy, isFilter: false,
         )
       },
       viewItem: (value, index) {

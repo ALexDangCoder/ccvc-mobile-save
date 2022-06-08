@@ -220,7 +220,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
                     onChange: (list) {
-                      widget.cubit.listFile = list;
+                      widget.cubit.listThuMoi = list;
                     },
                     hasMultipleFile: true,
                   )

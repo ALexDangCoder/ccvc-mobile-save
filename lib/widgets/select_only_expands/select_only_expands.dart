@@ -71,6 +71,9 @@ class _ExpandedSectionState extends State<SelectOnlyExpand>
           widget.listSelect.indexWhere((element) => element == widget.value);
       if (index != -1) {
         valueSelect = widget.listSelect[index];
+        if (widget.onChange != null) {
+          widget.onChange!(index);
+        }
       } else {
         valueSelect = '';
       }

@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tong_so_luong_khach_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -12,8 +13,8 @@ import 'package:ccvc_mobile/widgets/thong_tin_khach_moi_widget/them_thong_tin_kh
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
-  const ThanhPhanThamGiaExpandWidget({Key? key}) : super(key: key);
-
+  const ThanhPhanThamGiaExpandWidget({Key? key, required this.cubit}) : super(key: key);
+  final TaoLichHopCubit cubit;
   @override
   Widget build(BuildContext context) {
     return ExpandOnlyWidget(

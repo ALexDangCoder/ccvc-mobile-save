@@ -321,4 +321,14 @@ mixin HopRepository {
     String to,
     bool isTTDH,
   );
+
+  Future<Result<String>> checkLichHopTrung(
+    String? scheduleId,
+    String donViId,
+    String userId,
+    String timeFrom,
+    String timeTo,
+    String dateFrom,
+    String dateTo,
+  );
 }

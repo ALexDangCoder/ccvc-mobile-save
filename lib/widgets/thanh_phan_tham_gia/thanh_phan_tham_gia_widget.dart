@@ -34,7 +34,6 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _cubit.getTree();
     _cubit.listPeopleThamGia.listen((event) {

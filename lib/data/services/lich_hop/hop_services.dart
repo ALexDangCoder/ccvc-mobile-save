@@ -405,4 +405,15 @@ abstract class HopServices {
     @Query('DenNgay') String DenNgay,
     @Query('Bit_TTDH') bool Bit_TTDH,
   );
+
+  @GET(ApiConstants.CHECK_LICH_HOP_TRUNG)
+  Future<dynamic> checkLichHopTrung(
+    @Query('ScheduleId') String? scheduleId,
+    @Query('DonViId') String donViId,
+    @Query('UserId') String userId,
+    @Query('TimeFrom') String timeFrom,
+    @Query('TimeTo') String timeTo,
+    @Query('DateFrom') String dateFrom,
+    @Query('DateTo') String dateTo,
+  );
 }

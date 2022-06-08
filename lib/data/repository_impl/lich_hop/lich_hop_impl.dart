@@ -34,7 +34,6 @@ import 'package:ccvc_mobile/data/response/lich_hop/chuong_trinh_hop_response.dar
 import 'package:ccvc_mobile/data/response/lich_hop/co_cau_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_bieu_quyet_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_can_bo_response.dart';
-import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_lich_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_nguoi_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/danh_sach_phat_bieu_lich_hop_response.dart';
@@ -49,6 +48,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/select_phien_hop_response.dar
 import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/phong_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
@@ -777,6 +777,35 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<DSPhongHopResponse, List<PhongHopModel>>(
       () => _hopServices.danhSachPhongHop(id, from, to, isTTDH),
       (response) => response.toListModel(),
+    );
+  }
+
+  @override
+  Future<Result<String>> checkLichHopTrung(
+      String? scheduleId,
+      String donViId,
+      String userId,
+      String timeFrom,
+      String timeTo,
+      String dateFrom,
+      String dateTo,) {
+    return runCatchingAsync<dynamic, String>(
+      () => _hopServices.checkLichHopTrung(
+        scheduleId,
+        donViId,
+        userId,
+        timeFrom,
+        timeTo,
+        dateFrom,
+        dateTo,
+      ),
+      (response) {
+        try{
+          return (response as Map<String, dynamic>)['code'];
+        }catch(e){
+          return '';
+        }
+      },
     );
   }
 }

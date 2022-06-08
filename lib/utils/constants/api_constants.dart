@@ -266,6 +266,7 @@ class ApiConstants {
   static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
   static const DS_DON_VI_CON_PHONG = '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
   static const DS_PHONG_HOP = '/vpdt/api/PhongHop/lay-theo-don-vi';
+  static const CHECK_LICH_HOP_TRUNG = '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
 }
 
 class ImageConstants {

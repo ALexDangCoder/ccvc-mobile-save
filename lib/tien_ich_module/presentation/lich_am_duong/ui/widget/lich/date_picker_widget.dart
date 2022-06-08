@@ -154,7 +154,7 @@ class FlutterRoundedCupertinoDatePickerWidgetAmDuong extends StatefulWidget {
         for (int i = 1; i <= 31; i++) {
           final String dayOfMonth = localizations.datePickerDayOfMonth(i);
           if (longestText.length < dayOfMonth.length)
-            longestText = 'tHUES 5' + dayOfMonth;
+            longestText = 'Thứ 5' + dayOfMonth;
         }
         break;
       case PickerColumnType.month:

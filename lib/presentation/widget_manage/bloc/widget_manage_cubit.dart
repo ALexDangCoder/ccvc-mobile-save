@@ -110,6 +110,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     final List<WidgetModel> listUpdate = _listWidgetUsing.value;
     final element = listUpdate.removeAt(oldIndex);
     listUpdate.insert(newIndex, element);
+    listUsing=listUpdate;
+    setFullParaNotUse();
     if (APP_DEVICE == DeviceType.TABLET) {
       keyHomeTablet.currentState?.homeCubit.orderWidget(listUpdate);
     } else {
@@ -200,6 +202,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void> onRefreshData() async {
+    _listWidgetUsing.sink.add([]);
+    _listWidgetNotUse.sink.add([]);
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {

@@ -106,12 +106,12 @@ extension StatusChiTietNV on StatusNV {
       case StatusNV.CHUA_THUC_HIEN:
         return statusChiTietNhiemVu(
           name: S.current.chua_thuc_hien,
-          background: AqiColor,
+          background: yellowColor,
         );
       case StatusNV.DANG_THUC_HIEN:
         return statusChiTietNhiemVu(
           name: S.current.dang_thuc_hien,
-          background: yellowColor,
+          background: blueNhatChart,
         );
       case StatusNV.THU_HOI:
         return statusChiTietNhiemVu(

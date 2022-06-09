@@ -23,6 +23,9 @@ class ImageAssets {
   static const String imgAnhNhinSangPhaiDeoKinh = '$baseImg/anh_nhin_sang_phai_deo_kinh.jpg';
   static const String imgAnhNhinSangTrai = '$baseImg/anh_nhin_sang_trai.jpg';
   static const String imgAnhNhinSangTraiDeoKinh = '$baseImg/anh_nhin_sang_trai_deo_kinh.jpg';
+  static const String imgBienSoXe = '$baseImg/bien_so_xe.png';
+  static const String icVectorFloatAction = '$baseImg/ic_vector_float_action.svg';
+  static const String icXoaNhanhDienBienSoXe = '$baseImg/ic_xoa_nhan_dien_bien_so_xe.svg';
 
 
 

@@ -1,8 +1,8 @@
-import 'package:ccvc_mobile/diem_danh_module/presentation/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/bloc/diem_danh_state.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/ui/tablet/diem_danh_ca_nhan_tablet_screen.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/ui/tablet/quan_ly_nhan_dien_bien_so_xe_tablet_screen.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/ui/tablet/quan_ly_nhan_dien_khuon_mat_tablet_screen.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/diem_danh_ca_nhan/ui/tablet/diem_danh_ca_nhan_tablet_screen.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_state.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_bien_so_xe/ui/tablet/quan_ly_nhan_dien_bien_so_xe_tablet_screen.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/quan_ly_nhan_dien_khuon_mat/ui/tablet/quan_ly_nhan_dien_khuon_mat_tablet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

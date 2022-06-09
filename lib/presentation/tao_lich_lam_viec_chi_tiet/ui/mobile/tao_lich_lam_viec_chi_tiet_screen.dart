@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -25,7 +27,6 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
-import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
@@ -164,26 +165,34 @@ class _TaoLichLamViecChiTietScreenState
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
                           CupertinoMaterialPicker(
+                            onSwitchPressed: (value){
+                              taoLichLamViecCubit.isCheckAllDaySubject
+                                  .add(value);
+                            },
                             onDateTimeChanged: (
                               String timeStart,
                               String timeEnd,
                               String dateStart,
                               String dateEnd,
                             ) {
-
-                            },
-                          ),
-                          StartEndDateWidget(
-                            icMargin: false,
-                            onEndDateTimeChanged: (DateTime value) {
-                              taoLichLamViecCubit.listeningEndDataTime(value);
-                            },
-                            onStartDateTimeChanged: (DateTime value) {
-                              taoLichLamViecCubit.listeningStartDataTime(value);
-                            },
-                            isCheck: (bool value) {
-                              taoLichLamViecCubit.isCheckAllDaySubject
-                                  .add(value);
+                              taoLichLamViecCubit.listeningEndDataTime(
+                                DateTime.parse(
+                                  timeFormat(
+                                    '$dateEnd $timeEnd',
+                                    'dd/MM/yyyy hh:mm',
+                                    'yyyy-MM-dd hh:mm:ss.ms',
+                                  ),
+                                ),
+                              );
+                              taoLichLamViecCubit.listeningStartDataTime(
+                                DateTime.parse(
+                                  timeFormat(
+                                    '$dateStart $timeStart',
+                                    'dd/MM/yyyy hh:mm',
+                                    'yyyy-MM-dd hh:mm:ss.ms',
+                                  ),
+                                ),
+                              );
                             },
                           ),
                           NhacLaiWidget(

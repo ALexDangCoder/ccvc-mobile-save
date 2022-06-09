@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
@@ -20,7 +19,10 @@ class DateTimeCupertinoCustomCubit
   BehaviorSubject<String> dateBeginSubject = BehaviorSubject();
   BehaviorSubject<String> timeEndSubject = BehaviorSubject();
   BehaviorSubject<String> dateEndSubject = BehaviorSubject();
-  BehaviorSubject<TypePickerDateTime> typePickerSubject = BehaviorSubject();
+  BehaviorSubject<TypePickerDateTime> typePickerSubjectStart =
+      BehaviorSubject.seeded(TypePickerDateTime.TIME_START);
+  BehaviorSubject<TypePickerDateTime> typePickerSubjectEnd =
+      BehaviorSubject.seeded(TypePickerDateTime.TIME_END);
   BehaviorSubject<bool> isShowBeginPickerSubject =
       BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isShowEndPickerSubject = BehaviorSubject.seeded(false);
@@ -49,7 +51,7 @@ class DateTimeCupertinoCustomCubit
   Future<void> handleDateTimePressed({
     bool isBegin = true,
   }) async {
-    if (lastedType != typePickerSubject.value) {
+    if (lastedType != typePickerSubjectStart.value) {
       if (isShowBeginPickerSubject.value) {
         isShowBeginPickerSubject.sink.add(false);
       }
@@ -63,8 +65,12 @@ class DateTimeCupertinoCustomCubit
         : isShowEndPickerSubject.sink.add(!isShowEndPickerSubject.value);
   }
 
-  void setTypePicker(TypePickerDateTime type) {
-    typePickerSubject.sink.add(type);
+  void setTypePickerStart(TypePickerDateTime type) {
+    typePickerSubjectStart.sink.add(type);
+  }
+
+  void setTypePickerEnd(TypePickerDateTime type) {
+    typePickerSubjectEnd.sink.add(type);
   }
 
   CupertinoDatePickerMode getTypePicker(TypePickerDateTime type) {
@@ -173,7 +179,7 @@ class DateTimeCupertinoCustomCubit
     dateBeginSubject.close();
     timeEndSubject.close();
     dateEndSubject.close();
-    typePickerSubject.close();
+    typePickerSubjectStart.close();
     isShowBeginPickerSubject.close();
     isShowEndPickerSubject.close();
   }

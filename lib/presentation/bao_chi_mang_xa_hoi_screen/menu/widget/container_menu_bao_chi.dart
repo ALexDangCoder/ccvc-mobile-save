@@ -17,6 +17,7 @@ class ContainerMenuBaoChiWidget extends StatefulWidget {
   final TypeContainer type;
   final Widget? childExpand;
   final Function onTap;
+  final bool isShow;
 
   const ContainerMenuBaoChiWidget({
     Key? key,
@@ -28,6 +29,7 @@ class ContainerMenuBaoChiWidget extends StatefulWidget {
     this.isTypeContainer = true,
     this.childExpand,
     required this.onTap,
+    this.isShow = true,
   }) : super(key: key);
 
   @override

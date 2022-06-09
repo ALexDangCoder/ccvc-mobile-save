@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/bloc/tin_tuc_thoi_su_bloc.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi_su_screen/ui/tablet/tin_tuc_thoi_su_tablet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,15 +23,20 @@ class TabbarNewspaperTablet extends StatefulWidget {
   State<TabbarNewspaperTablet> createState() => _TabbarNewspaperTabletState();
 }
 
-class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> {
-  var _controller = TabController(vsync: AnimatedListState(), length: 4);
+class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> with SingleTickerProviderStateMixin {
+  late TabController _controller;
   BaoChiMangXaHoiBloc cubit = BaoChiMangXaHoiBloc();
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(vsync: AnimatedListState(), length: 3);
+    _controller = TabController(vsync: this, length: 3)..addListener(_onListen);
     cubit.getMenu();
+  }
+  void _onListen() {
+    eventBus.on<FireTopic>().listen((event) {
+      _controller.animateTo(0, duration: const Duration(milliseconds: 500));
+    });
   }
 
   @override

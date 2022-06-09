@@ -93,6 +93,7 @@ dependencies:
   http: ^0.13.4
   platform_device_id: ^1.0.1
   sound_mode: ^2.0.2
+  transparent_pointer: ^1.0.0
 
 dev_dependencies:
   flutter_test:

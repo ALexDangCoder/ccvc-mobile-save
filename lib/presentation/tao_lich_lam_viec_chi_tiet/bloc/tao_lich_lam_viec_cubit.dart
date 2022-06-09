@@ -378,7 +378,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
           '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
       dateEnd ?? DateTime.now().formatApi,
       timeEnd ??
-          '${DateTime.now().hour.toString()}:${(DateTime.now().minute).toString()}',
+          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
       content,
       location,
       '',
@@ -404,18 +404,15 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       true,
       lichLapItem1,
     );
-    result.when(success: (res) {
-      emit(CreateSuccess());
-      showContent();
-    }, error: (error) {
-      toast.showToast(
-        child: ShowToast(
-          text: error.message,
-        ),
-        gravity: ToastGravity.BOTTOM,
-      );
-      showContent();
-    });
+    result.when(
+      success: (res) {
+        emit(CreateSuccess());
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
   }
 
   Future<void> suaLichLamViec() async {

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/form_group/form_group.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,6 +25,8 @@ class TextFieldStyle extends StatefulWidget {
   final Color? fillColor;
   final String urlIcon;
   final List<TextInputFormatter>? inputFormatters;
+  final bool Function(String)? validatorPaste;
+  final int? maxLenght;
 
   const TextFieldStyle({
     Key? key,
@@ -40,6 +45,8 @@ class TextFieldStyle extends StatefulWidget {
     this.fillColor,
     this.inputFormatters,
     required this.urlIcon,
+    this.validatorPaste,
+    this.maxLenght,
   }) : super(key: key);
 
   @override
@@ -48,14 +55,36 @@ class TextFieldStyle extends StatefulWidget {
 
 class _TextFieldStyleState extends State<TextFieldStyle> {
   final key = GlobalKey<FormState>();
+  late TextSelectionControls _selectionControls;
   FormProvider? formProvider;
 
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    formProvider = FormProvider.of(context);
+  void initState() {
+    super.initState();
+    if (Platform.isIOS) {
+      _selectionControls = AppCupertinoTextSelectionControls(
+        validatorPaste: (value) {
+          if (widget.validatorPaste == null) {
+            return true;
+          } else {
+            return widget.validatorPaste!(value);
+          }
+        },
+      );
+    } else {
+      _selectionControls = AppMaterialTextSelectionControls(
+        validatorPaste: (value) {
+          if (widget.validatorPaste == null) {
+            return true;
+          } else {
+            return widget.validatorPaste!(value);
+          }
+        },
+      );
+    }
+
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      formProvider = FormProvider.of(context);
       if (formProvider != null) {
         if (widget.validator != null) {
           final validator =
@@ -69,6 +98,12 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
     if (formProvider != null) {
       formProvider?.validator.addAll({key: true});
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    formProvider?.validator.remove(key);
   }
 
   @override
@@ -107,6 +142,8 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
     return Form(
       key: key,
       child: TextFormField(
+        maxLength: widget.maxLenght,
+        selectionControls: _selectionControls,
         inputFormatters: widget.inputFormatters,
         controller: widget.controller,
         obscureText: widget.obscureText ?? false,
@@ -129,6 +166,7 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
         style: textNormal(color3D5586, 14),
         enabled: widget.isEnabled,
         decoration: InputDecoration(
+          counterText: '',
           hintText: widget.hintText,
           hintStyle: textNormal(textBodyTime, 14),
           contentPadding: EdgeInsets.zero,
@@ -161,5 +199,87 @@ class _TextFieldStyleState extends State<TextFieldStyle> {
         },
       ),
     );
+  }
+}
+
+class AppCupertinoTextSelectionControls extends CupertinoTextSelectionControls {
+  AppCupertinoTextSelectionControls({
+    required this.validatorPaste,
+  });
+
+  final bool Function(String) validatorPaste;
+
+  @override
+  Future<void> handlePaste(final TextSelectionDelegate delegate) async {
+    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    if (validatorPaste(data?.text ?? '')) {
+      await handlePasteValidator(delegate, data?.text);
+    } else {
+      delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+      delegate.hideToolbar();
+    }
+  }
+
+  Future<void> handlePasteValidator(
+      TextSelectionDelegate delegate, String? text) async {
+    final TextEditingValue value =
+        delegate.textEditingValue; // Snapshot the input before using `await`.
+    if (text != null) {
+      delegate.userUpdateTextEditingValue(
+        TextEditingValue(
+          text: value.selection.textBefore(value.text) +
+              text +
+              value.selection.textAfter(value.text),
+          selection: TextSelection.collapsed(
+            offset: value.selection.start + text.length,
+          ),
+        ),
+        SelectionChangedCause.toolBar,
+      );
+    }
+    delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+    delegate.hideToolbar();
+  }
+}
+
+class AppMaterialTextSelectionControls extends MaterialTextSelectionControls {
+  AppMaterialTextSelectionControls({
+    required this.validatorPaste,
+  });
+
+  final bool Function(String)? validatorPaste;
+
+  @override
+  Future<void> handlePaste(final TextSelectionDelegate delegate) async {
+    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    final validator = validatorPaste!(data?.text ?? '');
+
+    if (validator) {
+      await handlePasteValidator(delegate, data?.text);
+    } else {
+      delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+      delegate.hideToolbar();
+    }
+  }
+
+  Future<void> handlePasteValidator(
+      TextSelectionDelegate delegate, String? text) async {
+    final TextEditingValue value =
+        delegate.textEditingValue; // Snapshot the input before using `await`.
+    if (text != null) {
+      delegate.userUpdateTextEditingValue(
+        TextEditingValue(
+          text: value.selection.textBefore(value.text) +
+              text +
+              value.selection.textAfter(value.text),
+          selection: TextSelection.collapsed(
+            offset: value.selection.start + text.length,
+          ),
+        ),
+        SelectionChangedCause.toolBar,
+      );
+    }
+    delegate.bringIntoView(delegate.textEditingValue.selection.extent);
+    delegate.hideToolbar();
   }
 }

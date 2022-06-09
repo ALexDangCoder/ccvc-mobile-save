@@ -1,8 +1,8 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/bloc/diem_danh_state.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/ui/widget/widget_item_menu_diem_danh_mobile.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_state.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/widget/widget_item_menu_diem_danh_mobile.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';

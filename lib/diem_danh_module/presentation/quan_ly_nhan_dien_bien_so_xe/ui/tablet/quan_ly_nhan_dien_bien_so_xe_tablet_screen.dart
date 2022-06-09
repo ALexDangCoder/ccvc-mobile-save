@@ -1,26 +1,25 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/bloc/diem_danh_cubit.dart';
-import 'package:ccvc_mobile/diem_danh_module/presentation/ui/menu/diem_danh_menu_mobile.dart';
-import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/main_diem_danh/bloc/diem_danh_cubit.dart';
+import 'package:ccvc_mobile/diem_danh_module/presentation/menu/diem_danh_menu_tabllet.dart';import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class QuanLyNhanDienBienSoXeMobileScreen extends StatefulWidget {
+class QuanLyNhanDienBienSoXeTabletScreen extends StatefulWidget {
   DiemDanhCubit cubit;
 
-  QuanLyNhanDienBienSoXeMobileScreen({Key? key, required this.cubit})
+  QuanLyNhanDienBienSoXeTabletScreen({Key? key, required this.cubit})
       : super(key: key);
 
   @override
-  _QuanLyNhanDienBienSoXeMobileScreenState createState() =>
-      _QuanLyNhanDienBienSoXeMobileScreenState();
+  _QuanLyNhanDienBienSoXeTabletScreenState createState() =>
+      _QuanLyNhanDienBienSoXeTabletScreenState();
 }
 
-class _QuanLyNhanDienBienSoXeMobileScreenState
-    extends State<QuanLyNhanDienBienSoXeMobileScreen> {
+class _QuanLyNhanDienBienSoXeTabletScreenState
+    extends State<QuanLyNhanDienBienSoXeTabletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +32,12 @@ class _QuanLyNhanDienBienSoXeMobileScreenState
         ),
         actions: [
           IconButton(onPressed: (){
-            DrawerSlide.navigatorSlide(
-              context: context,
-              screen: DiemDanhMenuMobile(
-                cubit: widget.cubit,
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DiemDanhMenuTablet(
+                  cubit: widget.cubit,
+                ),
               ),
             );
           }, icon: SvgPicture.asset(

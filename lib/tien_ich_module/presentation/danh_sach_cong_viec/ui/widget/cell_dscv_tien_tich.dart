@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:flutter/material.dart';
@@ -175,23 +176,25 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
             child: Row(
               children: [
                 textUnder(
-                  DateTime.parse(widget.todoModel.createdOn ?? '').formatApi,
+                  DateTime.parse(widget.todoModel.createdOn ?? '')
+                      .toStringWithListFormat,
                 ),
                 if (widget.todoModel.showDotOne()) circleWidget(),
-                StreamBuilder<Object>(
-                    stream: widget.cubit.listNguoiThucHienSubject,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return textUnder(
-                          widget.cubit.convertIdToPerson(
-                            vl: widget.todoModel.performer ?? '',
-                            hasChucVu: true,
-                          ),
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    }),
+                StreamBuilder<List<NguoiThucHienModel>>(
+                  stream: widget.cubit.listNguoiThucHienSubject,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && widget.todoModel.showDotOne()) {
+                      return textUnder(
+                        widget.cubit.convertIdToPerson(
+                          vl: widget.todoModel.performer ?? '',
+                          hasChucVu: false,
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
                 if (widget.todoModel.showDotTwo()) circleWidget(),
                 if (widget.todoModel.showIconNote())
                   SvgPicture.asset(

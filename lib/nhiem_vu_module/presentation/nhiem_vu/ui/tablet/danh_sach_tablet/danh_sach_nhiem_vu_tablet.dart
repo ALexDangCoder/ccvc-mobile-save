@@ -61,6 +61,7 @@ class _DanhSachNhiemVuTabletState extends State<DanhSachNhiemVuTablet> {
       isListView: true,
       callApi: (page) => {
         danhSachCubit.postDanhSachNhiemVu(
+          isFilter: false,
           index: page,
           isNhiemVuCaNhan: widget.isCheck,
           isSortByHanXuLy: true,

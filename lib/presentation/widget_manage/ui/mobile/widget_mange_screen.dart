@@ -23,7 +23,7 @@ class WidgetManageScreen extends StatefulWidget {
 }
 
 class _WidgetManageScreenState extends State<WidgetManageScreen> {
-  WidgetManageCubit widgetManageCubit = WidgetManageCubit();
+  late WidgetManageCubit widgetManageCubit = WidgetManageCubit();
 
   @override
   void initState() {

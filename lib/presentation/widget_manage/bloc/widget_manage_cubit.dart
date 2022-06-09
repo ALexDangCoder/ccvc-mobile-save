@@ -42,24 +42,33 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetTypeConstant.TIN_BUON,
   ];
 
-  Future<void> _getListWidgetUsing() async {
-    if (APP_DEVICE == DeviceType.TABLET) {
-      listUsing = keyHomeTablet.currentState?.homeCubit.getListWidget ?? [];
-    } else {
-      listUsing = keyHomeMobile.currentState?.homeCubit.getListWidget ?? [];
-    }
-    if (listUsing.isNotEmpty) {
-      listTitleWidgetUse = listUsing.map((e) => e.name).toList();
-      _listWidgetUsing.sink.add(listUsing);
-    } else {
-      _listWidgetUsing.sink.add([]);
-    }
+  Future<void> _getListWidgetNotUse() async {
+    listNotUse.clear();
+    final result = await _qlWidgetRepo.getListWidget();
+    result.when(
+      success: (res) {
+        for (final element in res) {
+          // ignore: iterable_contains_unrelated_type
+          if (!listTitleWidgetUse.contains(element.name) &&
+              !removeWidget.contains(element.component)) {
+            for (final fullPara in listTempFullPara) {
+              if (fullPara.name == element.name) {
+                listNotUse.add(fullPara);
+              }
+            }
+          }
+        }
+        _listWidgetNotUse.sink.add(listNotUse);
+      },
+      error: (err) {
+        return;
+      },
+    );
   }
 
-  Future<void>loadApi() async{
-    final queue = Queue(parallel: 4);
+  Future<void> loadApi() async {
+    final queue = Queue(parallel: 3);
     await queue.add(() => _getListWidgetUsing());
-    await queue.add(() => configWidget());
     await queue.add(() => setFullParaNotUse());
     await queue.add(() => _getListWidgetNotUse());
     await queue.onComplete;
@@ -119,30 +128,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   final QuanLyWidgetRepository _qlWidgetRepo = Get.find();
 
-  Future<void> _getListWidgetNotUse() async {
-    listNotUse.clear();
-    final result = await _qlWidgetRepo.getListWidget();
-    result.when(
-      success: (res) {
-        for (final element in res) {
-          // ignore: iterable_contains_unrelated_type
-          if (!listTitleWidgetUse.contains(element.name) &&
-              !removeWidget.contains(element.component)) {
-            for (final fullPara in listTempFullPara) {
-              if (fullPara.name == element.name) {
-                listNotUse.add(fullPara);
-              }
-            }
-          }
-        }
-        _listWidgetNotUse.sink.add(listNotUse);
-      },
-      error: (err) {
-        return;
-      },
-    );
-  }
-
   Future<void> setFullParaNotUse() async {
     final result = await _qlWidgetRepo.resetListWidget();
     result.when(
@@ -190,12 +175,13 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
 
   HomeRepository get homeRep => Get.find();
 
-  Future<void> configWidget() async {
+  Future<void> _getListWidgetUsing() async {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
         res.removeWhere((element) => removeWidget.contains(element.component));
-        listUsing=res;
+        listUsing = res;
+        listTitleWidgetUse = listUsing.map((e) => e.name).toList();
         _listWidgetUsing.sink.add(listUsing);
       },
       error: (err) {},

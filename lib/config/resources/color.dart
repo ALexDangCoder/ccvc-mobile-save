@@ -148,6 +148,7 @@ const buttonColor = Color(0xff7966FF);
 const buttonColor2 = Color(0x1A7966FF);
 //tabar color
 const colorA2AEBD = Color(0xFFA2AEBD);
+const color4C6FFF = Color(0xFF4C6FFF);
 const selectColorTabbar = Color(0xFF304261);
 const whiteHide = Color(0xFFEAEEF5);
 const greyHide = Color(0xFFF5F6FA);

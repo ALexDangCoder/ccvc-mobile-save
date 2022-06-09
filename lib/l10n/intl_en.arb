@@ -1069,6 +1069,10 @@
   "xe_can_bo": "Xe cán bộ",
   "xe_lanh_dao": "Xe lãnh đạo",
   "xe_may": "Xe máy",
-  "xe_o_to": "Ô tô"
+  "xe_o_to": "Ô tô",
+  "chia_se":"Chia sẻ",
+  "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
+  "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
+  "chon_nhom":"Chọn nhóm"
 
 }

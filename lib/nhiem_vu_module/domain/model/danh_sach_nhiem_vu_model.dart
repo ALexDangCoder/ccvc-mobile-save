@@ -74,7 +74,7 @@ class PageData {
   int? wTrangThai;
   bool? isHoanThanhQuaHan;
   String? idCuocHop;
-
+  String? ownerTypeName;
   PageData({
     this.id,
     this.soNhiemVu,
@@ -132,6 +132,7 @@ class PageData {
     this.wTrangThai,
     this.isHoanThanhQuaHan,
     this.idCuocHop,
+    this.ownerTypeName
   });
 }
 

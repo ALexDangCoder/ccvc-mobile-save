@@ -1,5 +1,5 @@
+import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/build_picker.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/lich_am_duong/ui/widget/lich/date_picker_widget.dart';
-import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/build_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_rounded_date_picker/src/era_mode.dart';
@@ -14,7 +14,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
     final int daysInCurrentMonth =
         DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
 
-    return BuildPicker(
+    return BuildPickerCusTom(
       offAxisFraction: offAxisFraction,
       controller: dayController,
       backgroundColor: widget.background,
@@ -56,7 +56,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
     double offAxisFraction,
     TransitionBuilder itemPositioningBuilder,
   ) {
-    return BuildPicker(
+    return BuildPickerCusTom(
       offAxisFraction: offAxisFraction,
       controller: monthController,
       backgroundColor: widget.background,
@@ -83,7 +83,7 @@ extension CupertinoDataPicker on CupertinoDatePickerDateAmDuongState {
     TransitionBuilder itemPositioningBuilder,
   ) {
     int counter = 0;
-    return BuildPicker(
+    return BuildPickerCusTom(
       looping: false,
       offAxisFraction: offAxisFraction,
       controller: lunarController,

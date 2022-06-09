@@ -1049,10 +1049,14 @@
   "goc_anh": "Góc ảnh",
   "anh_mat_nhin_chinh_dien": "Ảnh mặt nhìn chính diện",
   "anh_mat_nhin_sang_phai": "Ảnh mặt nhìn sang phải",
+  "anh_mat_nhin_sang_trai": "Ảnh mặt nhìn sang trái ",
   "anh_chup_mat_tu_tren_xuong": "Ảnh chụp mặt từ trên xuống",
   "anh_chup_mat_tu_duoi_len": "Ảnh chụp mặt từ dưới lên",
   "mo_cai_dat" : "Mở cài đặt",
-  "ban_can_mo_quyen_de_truy_cap_ung_dung" :  "Bạn cần mở quyền truy cập ứng dụng"
-
+  "ban_can_mo_quyen_de_truy_cap_ung_dung" :  "Bạn cần mở quyền truy cập ứng dụng",
+  "thong_ke": "Thống kê",
+  "tai_anh_len": "Tải ảnh lên",
+  "anh_mau": "Ảnh mẫu",
+  "lap_den": "Lặp đến ngày"
 
 }

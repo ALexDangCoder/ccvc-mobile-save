@@ -23,7 +23,7 @@ class CoQuanChuTri extends StatefulWidget {
 }
 
 class _CoQuanChuTriState extends State<CoQuanChuTri> {
-  bool isTrongDonVi = true;
+  bool isTrongDonVi = false;
   bool isNgoaiDonVi = false;
   int indexSelected = -1;
 
@@ -114,7 +114,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                                   widget.cubit.taoLichHopRequest.chuTri
                                     ?..tenCanBo = data[index].tenCanBo
                                     ..tenCoQuan = data[index].tenCoQuan
-                                    ..canBoId = data[index].canBoId
+                                    ..canBoId = data[index].userId
                                     ..donViId = data[index].donViId;
                                   setState(() {
                                     indexSelected = index;

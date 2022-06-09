@@ -20,11 +20,13 @@ import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DanhSachCongViecTienIchMobile extends StatefulWidget {
   const DanhSachCongViecTienIchMobile({Key? key}) : super(key: key);
@@ -98,11 +100,6 @@ class _DanhSachCongViecTienIchMobileState
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (dataType == CVCB || dataType == NCVM)
-                            textTitle(
-                              S.current.cong_viec_cua_ban,
-                              cubit.listCongViecCuaBan.length,
-                            ),
                           if (dataType == CVCB ||
                               dataType == CVQT ||
                               dataType == GCT ||
@@ -120,72 +117,84 @@ class _DanhSachCongViecTienIchMobileState
                                         .toList() ??
                                     [];
                                 if (data.isNotEmpty) {
-                                  return ListView.builder(
-                                    key: UniqueKey(),
-                                    itemCount: data.length,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      final todo = data[index];
-                                      return CongViecCellTienIch(
-                                        isTheEdit: dataType != DBX,
-                                        text: todo.label ?? '',
-                                        todoModel: todo,
-                                        onCheckBox: (value) {
-                                          cubit.editWork(
-                                            todo: todo,
-                                            isTicked: !(todo.isTicked ?? false),
-                                          );
-                                        },
-                                        onStar: () {
-                                          cubit.editWork(
-                                            todo: todo,
-                                            important:
-                                                !(todo.important ?? false),
-                                          );
-                                        },
-                                        onClose: () {
-                                          showDiaLog(
-                                            context,
-                                            funcBtnRight: () {
+                                  return Column(
+                                    children: [
+                                      if (dataType == CVCB || dataType == NCVM)
+                                        textTitle(
+                                          S.current.gan_cho_toi,
+                                          data.length,
+                                        ),
+                                      ListView.builder(
+                                        key: UniqueKey(),
+                                        itemCount: data.length,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          final todo = data[index];
+                                          return CongViecCellTienIch(
+                                            isTheEdit: dataType != DBX,
+                                            text: todo.label ?? '',
+                                            todoModel: todo,
+                                            onCheckBox: (value) {
                                               cubit.editWork(
                                                 todo: todo,
-                                                inUsed: !(todo.inUsed ?? false),
+                                                isTicked:
+                                                    !(todo.isTicked ?? false),
                                               );
                                             },
-                                            icon: SvgPicture.asset(
-                                              ImageAssets.icDeleteLichHop,
-                                            ),
-                                            title: S.current.xoa_cong_viec,
-                                            textContent: S
-                                                .current.ban_chac_chan_muon_xoa,
-                                            btnLeftTxt: S.current.huy,
-                                            btnRightTxt: S.current.xoa,
+                                            onStar: () {
+                                              cubit.editWork(
+                                                todo: todo,
+                                                important:
+                                                    !(todo.important ?? false),
+                                              );
+                                            },
+                                            onClose: () {
+                                              showDiaLog(
+                                                context,
+                                                funcBtnRight: () {
+                                                  cubit.editWork(
+                                                    todo: todo,
+                                                    inUsed:
+                                                        !(todo.inUsed ?? false),
+                                                  );
+                                                },
+                                                icon: SvgPicture.asset(
+                                                  ImageAssets.icDeleteLichHop,
+                                                ),
+                                                title: S.current.xoa_cong_viec,
+                                                textContent: S.current
+                                                    .ban_chac_chan_muon_xoa,
+                                                btnLeftTxt: S.current.huy,
+                                                btnRightTxt: S.current.xoa,
+                                              );
+                                            },
+                                            onChange: (controller) {
+                                              cubit.editWork(
+                                                todo: todo,
+                                              );
+                                              cubit.titleChange =
+                                                  controller.text;
+                                            },
+                                            onEdit: () {
+                                              showBottomSheetCustom(
+                                                context,
+                                                title: S.current.chinh_sua,
+                                                child: CreatTodoOrUpdateWidget(
+                                                  cubit: cubit,
+                                                  todo: todo,
+                                                  isCreat: false,
+                                                ),
+                                              );
+                                            },
+                                            enabled: !(todo.isTicked ?? true),
+                                            isDaBiXoa: dataType == DBX,
+                                            cubit: cubit,
                                           );
                                         },
-                                        onChange: (controller) {
-                                          cubit.editWork(
-                                            todo: todo,
-                                          );
-                                          cubit.titleChange = controller.text;
-                                        },
-                                        onEdit: () {
-                                          showBottomSheetCustom(
-                                            context,
-                                            title: S.current.chinh_sua,
-                                            child: CreatTodoOrUpdateWidget(
-                                              cubit: cubit,
-                                              todo: todo,
-                                              isCreat: false,
-                                            ),
-                                          );
-                                        },
-                                        enabled: !(todo.isTicked ?? true),
-                                        isDaBiXoa: dataType == DBX,
-                                        cubit: cubit,
-                                      );
-                                    },
+                                      ),
+                                    ],
                                   );
                                 }
                                 return const Padding(
@@ -199,25 +208,25 @@ class _DanhSachCongViecTienIchMobileState
                       if (dataType == CVCB ||
                           dataType == DHT ||
                           dataType == NCVM)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (dataType == CVCB || dataType == NCVM)
-                              textTitle(
-                                S.current.da_hoan_thanh,
-                                cubit.listDaHoanThanh.length,
-                              ),
-                            StreamBuilder<List<TodoDSCVModel>>(
-                              stream: cubit.listDSCV.stream,
-                              builder: (context, snapshot) {
-                                final data = snapshot.data
-                                        ?.where(
-                                          (element) => element.isTicked == true,
-                                        )
-                                        .toList() ??
-                                    [];
-                                if (data.isNotEmpty) {
-                                  return Column(
+                        StreamBuilder<List<TodoDSCVModel>>(
+                          stream: cubit.listDSCV.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data
+                                    ?.where(
+                                      (element) => element.isTicked == true,
+                                    )
+                                    .toList() ??
+                                [];
+                            if (data.isNotEmpty) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (dataType == CVCB || dataType == NCVM)
+                                    textTitle(
+                                      S.current.da_hoan_thanh,
+                                      data.length,
+                                    ),
+                                  Column(
                                     children:
                                         List.generate(data.length, (index) {
                                       final todo = data[index];
@@ -260,15 +269,15 @@ class _DanhSachCongViecTienIchMobileState
                                         cubit: cubit,
                                       );
                                     }),
-                                  );
-                                }
-                                return const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 30),
-                                  child: NodataWidget(),
-                                );
-                              },
-                            ),
-                          ],
+                                  ),
+                                ],
+                              );
+                            }
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 30),
+                              child: NodataWidget(),
+                            );
+                          },
                         ),
                     ],
                   );
@@ -280,6 +289,8 @@ class _DanhSachCongViecTienIchMobileState
       ),
     );
   }
+
+
 
   Widget textTitle(String text, int count) => Padding(
         padding: const EdgeInsets.only(top: 16),

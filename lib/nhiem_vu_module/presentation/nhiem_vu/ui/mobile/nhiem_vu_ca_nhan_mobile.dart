@@ -113,6 +113,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                               widget.danhSachCubit.keySearch,
                                           trangThaiHanXuLy: widget
                                               .danhSachCubit.trangThaiHanXuLy,
+                                          isFilter: true,
                                         );
                                       },
                                       child: const Icon(Icons.clear,
@@ -158,6 +159,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                               keySearch: widget.danhSachCubit.keySearch,
                               trangThaiHanXuLy:
                                   widget.danhSachCubit.trangThaiHanXuLy,
+                              isFilter: true,
                             );
                           } else {
                             widget.danhSachCubit.debouncer.run(() {
@@ -180,6 +182,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                 keySearch: widget.danhSachCubit.keySearch,
                                 trangThaiHanXuLy:
                                     widget.danhSachCubit.trangThaiHanXuLy,
+                                isFilter: true,
                               );
                             });
                             // setState(() {});
@@ -310,6 +313,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                 keySearch: widget.danhSachCubit.keySearch,
                                 trangThaiHanXuLy:
                                     widget.danhSachCubit.trangThaiHanXuLy,
+                                isFilter: true,
                               );
                             });
                           },
@@ -333,6 +337,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
                                 keySearch: widget.danhSachCubit.keySearch,
                                 trangThaiHanXuLy:
                                     widget.danhSachCubit.trangThaiHanXuLy,
+                                isFilter: true,
                               );
                             });
                           },
@@ -360,7 +365,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
               },
               size: widget.danhSachCubit.pageSize,
               keySearch: widget.danhSachCubit.keySearch,
-              trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+              trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy, isFilter: false,
             );
           },
           isListView: true,
@@ -409,7 +414,7 @@ class _NhiemVuCaNhanMobileState extends State<NhiemVuCaNhanMobile> {
           },
           size: widget.danhSachCubit.pageSize,
           keySearch: widget.danhSachCubit.keySearch,
-          trangThaiHanXuLy: trangThaiHanXuLy,
+          trangThaiHanXuLy: trangThaiHanXuLy, isFilter: false,
         )
       },
       viewItem: (value, index) {

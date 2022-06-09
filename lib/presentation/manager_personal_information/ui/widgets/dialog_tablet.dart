@@ -14,6 +14,7 @@ Future<T?> showDiaLogTablet<T>(
   String? btnLeftTxt,
   bool isBottomShow = true,
   required Function() funcBtnOk,
+  required Function() funcBtnPop,
   double maxHeight = 878,
   double width = 592,
   double? setHeight,
@@ -35,6 +36,7 @@ Future<T?> showDiaLogTablet<T>(
           isBottomShow: isBottomShow,
           maxHeight: setHeight ?? maxHeight,
           width: width,
+          funcBtnPop: funcBtnPop,
           child: child,
         ),
       );
@@ -48,6 +50,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
   final String btnRightTxt;
   final String btnLeftTxt;
   final Function() funcBtnOk;
+  final Function() funcBtnPop;
   final bool isBottomShow;
   final double maxHeight;
   final double width;
@@ -62,6 +65,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
     required this.isBottomShow,
     required this.maxHeight,
     required this.width,
+    required this.funcBtnPop,
   }) : super(key: key);
 
   @override
@@ -85,6 +89,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
+                      funcBtnPop;
                       Navigator.pop(context);
                     },
                     child: SvgPicture.asset(ImageAssets.icClose),
@@ -106,6 +111,7 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                   children: [
                     button(
                       onTap: () {
+                        funcBtnPop;
                         Navigator.pop(context);
                       },
                       title: btnLeftTxt,

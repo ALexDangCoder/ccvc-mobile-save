@@ -5,6 +5,6 @@ import 'package:rxdart/rxdart.dart';
 
 class DanhSachBaoCaoCubit extends BaseCubit<DanhSachBaoCaoState> {
   DanhSachBaoCaoCubit() : super(DanhSachBaoCaoInitial());
-  bool isCheckList = true;
   BehaviorSubject<String> textFilter = BehaviorSubject.seeded(S.current.tu_a_z);
+  BehaviorSubject<bool> isCheckList = BehaviorSubject.seeded(true);
 }

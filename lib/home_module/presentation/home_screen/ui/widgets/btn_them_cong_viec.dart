@@ -24,7 +24,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
   TextEditingController controller = TextEditingController();
   bool isSelected = false;
   String label = '';
-  String nguoiGanID = '';
+  String nguoiGanID='';
 
   @override
   void initState() {
@@ -64,6 +64,12 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                 hintText: S.current.nhap_cong_viec,
                 onChange: (value) {
                   label = value;
+                },
+                onValidate: (text){
+                  if(text.isEmpty){
+                    return 'Text is empty';
+                  }
+                  return null;
                 },
               ),
               Padding(
@@ -201,6 +207,7 @@ Widget customTextField({
   Function()? onTap,
   String? hintText,
   Function(String text)? onChange,
+  Function(String text)? onValidate,
   TextEditingController? controller,
 }) {
   return TextFormField(
@@ -211,6 +218,9 @@ Widget customTextField({
     },
     onTap: () {
       onTap != null ? onTap() : null;
+    },
+    validator: (text){
+      onValidate != null ? onValidate(text??'') : null;
     },
     decoration: InputDecoration(
       counterText: '',

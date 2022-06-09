@@ -88,6 +88,7 @@ const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const shadowColor = Color(0xff6262eb);
 const color5A8DEE = Color(0xff5A8DEE);
+const color02C5DD = Color(0xff02C5DD);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -376,7 +377,7 @@ class DefaultApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override
@@ -398,7 +399,7 @@ class BlueApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override
@@ -532,7 +533,7 @@ class PinkApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override
@@ -666,7 +667,7 @@ class YellowApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override

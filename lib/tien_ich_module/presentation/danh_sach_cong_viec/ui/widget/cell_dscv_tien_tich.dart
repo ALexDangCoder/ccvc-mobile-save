@@ -210,7 +210,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: SvgPicture.asset(
-                      ImageAssets.iconNote_dscv,
+                      ImageAssets.ic_ghim_dscv,
                     ),
                   ),
               ],

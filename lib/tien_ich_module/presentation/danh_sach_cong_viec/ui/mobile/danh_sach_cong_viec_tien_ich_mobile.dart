@@ -26,7 +26,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class DanhSachCongViecTienIchMobile extends StatefulWidget {
   const DanhSachCongViecTienIchMobile({Key? key}) : super(key: key);
@@ -197,9 +196,19 @@ class _DanhSachCongViecTienIchMobileState
                                     ],
                                   );
                                 }
-                                return const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 30),
-                                  child: NodataWidget(),
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 30),
+                                  child: Column(
+                                    children: [
+                                      if (dataType == CVCB || dataType == NCVM)
+                                        textTitle(
+                                          S.current.gan_cho_toi,
+                                          data.length,
+                                        ),
+                                      const NodataWidget(),
+                                    ],
+                                  ),
                                 );
                               },
                             ),
@@ -273,9 +282,18 @@ class _DanhSachCongViecTienIchMobileState
                                 ],
                               );
                             }
-                            return const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 30),
-                              child: NodataWidget(),
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 30),
+                              child: Column(
+                                children: [
+                                  if (dataType == CVCB || dataType == NCVM)
+                                    textTitle(
+                                      S.current.da_hoan_thanh,
+                                      data.length,
+                                    ),
+                                  const NodataWidget(),
+                                ],
+                              ),
                             );
                           },
                         ),
@@ -289,8 +307,6 @@ class _DanhSachCongViecTienIchMobileState
       ),
     );
   }
-
-
 
   Widget textTitle(String text, int count) => Padding(
         padding: const EdgeInsets.only(top: 16),

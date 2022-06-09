@@ -70,9 +70,9 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
-                child: ListFileFromAPI(
+                child: FileFromAPIWidget(
                   data: data[index] ?? '',
-                  onTap: () {},
+                  onTapDelete: () {},
                 ),
               );
             },
@@ -81,11 +81,11 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
       );
 }
 
-class ListFileFromAPI extends StatelessWidget {
-  final Function onTap;
+class FileFromAPIWidget extends StatelessWidget {
+  final Function onTapDelete;
   final String data;
 
-  const ListFileFromAPI({Key? key, required this.onTap, required this.data})
+  const FileFromAPIWidget({Key? key, required this.onTapDelete, required this.data})
       : super(key: key);
 
   @override
@@ -112,7 +112,7 @@ class ListFileFromAPI extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              onTap();
+              onTapDelete();
             },
             child: SvgPicture.asset(ImageAssets.icDelete),
           ),

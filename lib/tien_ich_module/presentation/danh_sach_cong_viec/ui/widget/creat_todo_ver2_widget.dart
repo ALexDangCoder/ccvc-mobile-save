@@ -56,9 +56,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    widget.cubit.dateChange = '';
-    widget.cubit.noteChange = '';
-    widget.cubit.titleChange = '';
+    widget.cubit.disposs();
   }
 
   @override
@@ -191,6 +189,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   title: S.current.them_tai_lieu_dinh_kem,
                   onChange: (files) {
                     if (files.isNotEmpty) {
+                      widget.cubit.nameFile.sink.add('');
                       widget.cubit.uploadFilesWithFile(files[0]);
                     }
                   },
@@ -198,10 +197,20 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                 StreamBuilder<String>(
                   stream: widget.cubit.nameFile,
                   builder: (context, snapshot) {
-                    return ListFileFromAPI(
-                      data: snapshot.data ?? '',
-                      onTap: () {},
-                    );
+                    if (snapshot.hasData &&
+                        (widget.todo?.showIconFile() ?? true) &&
+                        snapshot.data != '') {
+                      return FileFromAPIWidget(
+                        data: snapshot.data ?? '',
+                        onTapDelete: () {
+                          widget.cubit.editWork(
+                            todo: widget.todo ?? TodoDSCVModel(),
+                            filePathTodo: '',
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox();
                   },
                 ),
                 const SizedBox(height: 20),

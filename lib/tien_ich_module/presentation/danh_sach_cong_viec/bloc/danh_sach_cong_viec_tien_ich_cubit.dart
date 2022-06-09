@@ -35,6 +35,7 @@ class DanhSachCongViecTienIchCubit
   String dateChange = '';
   String? noteChange;
   String? titleChange;
+  String filePath = '';
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -272,6 +273,7 @@ class DanhSachCongViecTienIchCubit
           performer: toDoListRequest.performer == ''
               ? null
               : nguoiThucHienSubject.value.id,
+          filePath: filePath,
         ),
       );
       result.when(
@@ -372,6 +374,7 @@ class DanhSachCongViecTienIchCubit
     bool? important,
     bool? inUsed,
     bool? isDeleted,
+    String? filePathTodo,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
@@ -402,6 +405,7 @@ class DanhSachCongViecTienIchCubit
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatApi,
         performer: toDoListRequest.performer ?? todo.performer,
+        filePath: checkData(changeData: filePathTodo, defaultData: filePath),
       ),
     );
     result.when(
@@ -422,6 +426,9 @@ class DanhSachCongViecTienIchCubit
           listDSCV.sink.add(data);
         }
         if (isDeleted != null) {}
+        if (filePathTodo != null) {
+          nameFile.sink.add('');
+        }
         callAndFillApiAutu();
       },
       error: (err) {
@@ -498,10 +505,17 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.uploadFileDSCV(file);
     result.when(
       success: (res) {
-        callAndFillApiAutu();
+        filePath = res.data?.filePath ?? '';
       },
       error: (error) {},
     );
     showContent();
+  }
+
+  void disposs() {
+    dateChange = '';
+    noteChange = '';
+    titleChange = '';
+    filePath = '';
   }
 }

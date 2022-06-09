@@ -192,7 +192,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                         id: widget.id,
                         cubit: cubit,
                       ),
-                      BocBangWidget(cubit: cubit,)
+                      BocBangWidget(
+                        cubit: cubit,
+                        context: context,
+                      )
                     ],
                   ),
                 ),

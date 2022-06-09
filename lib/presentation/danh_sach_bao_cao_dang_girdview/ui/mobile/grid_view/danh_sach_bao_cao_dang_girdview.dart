@@ -3,11 +3,8 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/bloc/danh_sach_bao_cao_dang_girdview_cubit.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/widget/item_gridview.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/widget/item_list.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/widget/report_list.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/filter_bao_cao.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/item_chi_tiet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +111,7 @@ class _DanhSachBaoCaoDangGirdviewMobileState
                         children: [
                           GestureDetector(
                             onTap: () {
-                                cubit.isCheckList.sink.add(true);
+                              cubit.isCheckList.sink.add(true);
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -124,7 +121,8 @@ class _DanhSachBaoCaoDangGirdviewMobileState
                                 ImageAssets.icGridView,
                                 color: snapshot.data ?? false
                                     ? AppTheme.getInstance().colorField()
-                                    : AppTheme.getInstance().unselectedLabelColor(),
+                                    : AppTheme.getInstance()
+                                        .unselectedLabelColor(),
                               ),
                             ),
                           ),
@@ -134,46 +132,64 @@ class _DanhSachBaoCaoDangGirdviewMobileState
                             },
                             child: SvgPicture.asset(
                               ImageAssets.icListHopMobile,
-                              color: snapshot.data ?? false
+                              color: !(snapshot.data ?? false)
                                   ? AppTheme.getInstance().colorField()
-                                  : AppTheme.getInstance().unselectedLabelColor(),
+                                  : AppTheme.getInstance()
+                                      .unselectedLabelColor(),
                             ),
                           ),
                         ],
                       );
-                    }
+                    },
                   ),
                 ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 16,
-                  left: 16,
-                  top: 2,
-                  bottom: 12,
-                ),
-                child: Text(
-                  S.current.all,
-                  style: textNormalCustom(
-                    fontSize: 14.0,
-                    color: infoColor,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
               ),
             ),
             StreamBuilder<bool>(
               stream: cubit.isCheckList,
               builder: (context, snapshot) {
-                return ReportList(
-                  isCheckList: snapshot.data ?? false,
+                return Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        titleBaoCao(S.current.yeu_thich),
+                        ReportList(
+                          isCheckList: snapshot.data ?? false,
+                        ),
+                        titleBaoCao(S.current.all),
+                        ReportList(
+                          isCheckList: snapshot.data ?? false,
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              }
+              },
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget titleBaoCao(String title) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 16,
+          left: 16,
+          top: 2,
+          bottom: 12,
+        ),
+        child: Text(
+          title,
+          style: textNormalCustom(
+            fontSize: 14.0,
+            color: infoColor,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

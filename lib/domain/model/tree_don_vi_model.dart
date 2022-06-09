@@ -1,3 +1,5 @@
+import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+
 class DonViModel {
   String id = '';
   String name = '';
@@ -15,6 +17,9 @@ class DonViModel {
   String donViId = '';
   String userId = '';
   String tenCoQuan = '';
+
+  //param sử dụng tại tạo lịch làm việc
+  bool? isSendEmail = false;
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
 
@@ -36,6 +41,42 @@ class DonViModel {
     this.userId = '',
     this.tenCoQuan = '',
   });
+
+  MoiHopRequest convertTrongHeThong() {
+    return MoiHopRequest(
+      DauMoiLienHe: dauMoiLienHe,
+      Email: email,
+      SoDienThoai: sdt,
+      TenCoQuan: tenCoQuan,
+      VaiTroThamGia: vaiTroThamGia,
+      email: email,
+      id: id,
+      noiDungLamViec: noidung,
+      soDienThoai: sdt,
+      tenCanBo: tenCanBo,
+      tenDonVi: tenDonVi,
+      status: status,
+      type: type,
+      userId: userId,
+      donViId: donViId,
+      CanBoId: canBoId,
+      chucVu: chucVu,
+    );
+  }
+
+  MoiHopRequest convertNgoaiHeThong() {
+    return MoiHopRequest(
+      DauMoiLienHe: dauMoiLienHe,
+      GhiChu: '',
+      TenCoQuan: tenCoQuan,
+      VaiTroThamGia: vaiTroThamGia,
+      dauMoi: dauMoiLienHe,
+      email: email,
+      noiDungLamViec: noidung,
+      soDienThoai: sdt,
+      tenDonVi: tenDonVi,
+    );
+  }
 }
 
 class Node<T> {

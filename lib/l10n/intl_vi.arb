@@ -1043,7 +1043,10 @@
   "mo_cai_dat" : "Mở cài đặt",
   "ban_can_mo_quyen_de_truy_cap_ung_dung" :  "Bạn cần mở quyền truy cập ứng dụng",
   "lap_den": "Lặp đến ngày",
-  "lich_trung": "Cán bộ này có cuộc họp trong thời gian bạn chọn, xin lưu ý!"
+  "lich_trung": "Cán bộ này có cuộc họp trong thời gian bạn chọn, xin lưu ý!",
+  "can_bo_phoi_hop": "Cán bộ phối hợp",
+  "can_bo_chu_tri": "Cán bộ chủ trì",
+  "nd_cong_viec": "ND công việc"
 }
 
 

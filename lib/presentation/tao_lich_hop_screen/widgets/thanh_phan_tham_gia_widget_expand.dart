@@ -1,10 +1,10 @@
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/tong_so_luong_khach_widget.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/thanh_phan_tham_gia_widget.dart';
@@ -41,15 +41,20 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
           ),
           ThanhPhanThamGiaWidget(
             isPhuongThucNhan: true,
-            onChange: (value) {},
+            onChange: (value) {
+              cubit.listThanhPhanThamGia.addAll(value);
+            },
             phuongThucNhan: (value) {},
+            isTaoHop: true,
           ),
           spaceH16,
           TitleChildWidget(
             title: S.current.don_vi_phoi_hop_khac,
             sizeTitle: 14,
             child: ThemDonViPhoiHopKhacWidget(
-              onChange: (List<DonViModel> value) {},
+              onChange: (List<DonViModel> value) {
+                cubit.listThanhPhanThamGia.addAll(value);
+              },
             ),
           ),
           spaceH24,
@@ -57,11 +62,12 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
             title: S.current.khach_moi,
             sizeTitle: 14,
             child: ThemThongTinKhachMoiWidget(
-              onChange: (List<DonViModel> value) {},
+              onChange: (List<DonViModel> value) {
+                cubit.listThanhPhanThamGia.addAll(value);
+              },
             ),
           ),
           spaceH20,
-          const TongSoLuongKhachWidget()
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_can_bo/them_can_bo_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/them_don_vi_widget/them_don_vi_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/people_tham_gia_widget.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/thanh_phan_tham_gia_tao_hop.dart';
 import 'package:flutter/material.dart';
 
 class ThanhPhanThamGiaWidget extends StatefulWidget {
@@ -16,6 +17,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
   final Function(bool) phuongThucNhan;
 
   final bool isPhuongThucNhan;
+  final bool isTaoHop;
 
   const ThanhPhanThamGiaWidget({
     Key? key,
@@ -23,6 +25,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     required this.onChange,
     required this.phuongThucNhan,
     this.listPeopleInit,
+    this.isTaoHop = false,
   }) : super(key: key);
 
   @override
@@ -124,10 +127,15 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 data.length,
                 (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
-                  child: PeopleThamGiaWidget(
-                    donVi: data[index],
-                    cubit: _cubit,
-                  ),
+                  child: widget.isTaoHop
+                      ? ItemPeopleThamGia(
+                          cubit: _cubit,
+                          donVi: data[index],
+                        )
+                      : PeopleThamGiaWidget(
+                          donVi: data[index],
+                          cubit: _cubit,
+                        ),
                 ),
               ),
             );

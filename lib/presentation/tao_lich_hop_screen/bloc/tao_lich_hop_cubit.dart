@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -127,6 +129,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   List<File> listThuMoi = [];
   List<File> listTaiLieu = [];
 
+  List<DonViModel> listThanhPhanThamGia = [];
+
   Future<void> createMeeting() async {
     showLoading();
     if (listThuMoi.isNotEmpty) {
@@ -136,17 +140,22 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     final result = await hopRp.taoLichHop(taoLichHopRequest);
     result.when(
       success: (res) {
-        final Queue queue = Queue(parallel: 3);
-        queue.add(
-          () => postFileTaoLichHop(
-            files: listTaiLieu,
-            entityId: res.id,
-            entityName: ENTITY_TAI_LIEU_HOP,
-          ),
-        );
-        MessageConfig.show(
-          title: S.current.tao_thanh_cong,
-        );
+        if (res.id.isNotEmpty) {
+          final Queue queue = Queue(parallel: 3);
+          queue.add(
+            () => postFileTaoLichHop(
+              files: listTaiLieu,
+              entityId: res.id,
+              entityName: ENTITY_TAI_LIEU_HOP,
+            ),
+          );
+          queue.onComplete.then((value) {
+            MessageConfig.show(
+              title: S.current.tao_thanh_cong,
+            );
+          });
+          queue.cancel();
+        }
       },
       error: (error) {
         MessageConfig.show(
@@ -156,6 +165,23 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       },
     );
     showContent();
+  }
+
+  Future<void> themThanhPhanThamGia({
+    required String idHop,
+    required bool isSendEmail,
+  }) async {
+    final List<MoiHopRequest> listMoiHop = listThanhPhanThamGia.map((e) {
+          return e.id.isNotEmpty
+              ? e.convertTrongHeThong()
+              : e.convertNgoaiHeThong();
+        }).toList();
+    final result =
+        await hopRp.postMoiHop(idHop, false, isSendEmail, listMoiHop);
+    result.when(
+      success: (res) {},
+      error: (error) {},
+    );
   }
 
   void loadData() {

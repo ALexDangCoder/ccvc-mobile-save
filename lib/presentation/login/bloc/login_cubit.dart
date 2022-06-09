@@ -58,6 +58,11 @@ class LoginCubit extends BaseCubit<LoginState> {
     showContent();
   }
 
+  Future<String?> getTokken() async {
+    final fcmTokken = await FirebaseMessaging.instance.getToken();
+    return fcmTokken;
+  }
+
   Future<void> loginAndSaveinfo({
     required String userName,
     required String passWord,

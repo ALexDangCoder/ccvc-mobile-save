@@ -49,7 +49,7 @@ extension StateLDM on stateLDM {
       case stateLDM.ChoXacNhan:
         return ContainerState(
           name: S.current.cho_xac_nhan,
-          color: color5A8DEE,
+          color: color02C5DD,
           index: index,
         );
 

@@ -1,6 +1,9 @@
+import 'package:ccvc_mobile/config/app_config.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/home_module/widgets/text/text/no_data_widget.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/chi_tiet_nhiem_vu/danh_sach_cong_viec_chi_tiet_nhiem_vu.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_cong_viec_nhiem_vu/ui/mobile/chi_tiet_cong_viec_nhiem_vu.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_cong_viec_nhiem_vu/ui/tablet/chi_tiet_cong_viec_nhiem_vu_tablet.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/bloc/chi_tiet_nhiem_vu_cubit.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/presentation/chi_tiet_nhiem_vu/ui/widget/widget_in_expand.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +44,11 @@ class DanhSachCongViecWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChitietCongViecNhiemVuMobile(
-                            id: e.id ?? '',
-                          ),
+                          builder: (context) => APP_DEVICE == DeviceType.MOBILE
+                              ? ChitietCongViecNhiemVuMobile(
+                                  id: e.id ?? '',
+                                )
+                              : ChitietCongViecNhiemVuTablet(id: e.id ?? ''),
                         ),
                       );
                     },

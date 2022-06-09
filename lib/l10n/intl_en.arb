@@ -1057,6 +1057,10 @@
   "thong_ke": "Thống kê",
   "tai_anh_len": "Tải ảnh lên",
   "anh_mau": "Ảnh mẫu",
-  "lap_den": "Lặp đến ngày"
+  "lap_den": "Lặp đến ngày",
+  "chia_se":"Chia sẻ",
+  "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
+  "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
+  "chon_nhom":"Chọn nhóm"
 
 }

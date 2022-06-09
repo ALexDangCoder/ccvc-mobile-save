@@ -39,6 +39,7 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     WidgetTypeConstant.HANH_CHINH_CONG,
     WidgetTypeConstant.LICH_LAM_VIEC_LICH_HOP,
     WidgetTypeConstant.TONG_HOP_HCC,
+    WidgetTypeConstant.TIN_BUON,
   ];
 
   Future<void> _getListWidgetUsing() async {
@@ -56,8 +57,9 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
   }
 
   Future<void>loadApi() async{
-    final queue = Queue(parallel: 3);
+    final queue = Queue(parallel: 4);
     await queue.add(() => _getListWidgetUsing());
+    await queue.add(() => configWidget());
     await queue.add(() => setFullParaNotUse());
     await queue.add(() => _getListWidgetNotUse());
     await queue.onComplete;
@@ -163,15 +165,8 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
       success: (res) {
         listUsing.clear();
         listNotUse.clear();
+        res.removeWhere((element) => removeWidget.contains(element.component));
         listUsing = res;
-        listTitleWidgetUse = listUsing.map((e) => e.name).toList();
-        for (final element in res) {
-          // ignore: iterable_contains_unrelated_type
-          if (!listTitleWidgetUse.contains(element.name) &&
-              !removeWidget.contains(element.component)) {
-            listNotUse.add(element);
-          }
-        }
         _listWidgetUsing.sink.add(listUsing);
         _listWidgetNotUse.sink.add(listNotUse);
         orderWidgetHome(_listWidgetUsing.value);
@@ -199,7 +194,9 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     final result = await homeRep.getDashBoardConfig();
     result.when(
       success: (res) {
-        _listWidgetUsing.sink.add(res);
+        res.removeWhere((element) => removeWidget.contains(element.component));
+        listUsing=res;
+        _listWidgetUsing.sink.add(listUsing);
       },
       error: (err) {},
     );
@@ -210,7 +207,6 @@ class WidgetManageCubit extends BaseCubit<WidgetManageState> {
     for (final element in listUsing) {
       listMap.add(widgetModelToJson(element));
     }
-    // json.encode(listMap);
     listResponse.clear();
     for (final element in listMap) {
       listResponse.add(json.encode(element));

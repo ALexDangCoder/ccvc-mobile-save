@@ -160,6 +160,8 @@ extension GetScreenMenu on TypeCalendarMenu {
       case TypeCalendarMenu.LichCuaToi:
         return Padding(
           padding: const EdgeInsets.only(
+            right: 8,
+            left: 8,
             top: 16.0,
           ),
           child: type.getTextLLVWidget(
@@ -171,6 +173,8 @@ extension GetScreenMenu on TypeCalendarMenu {
       case TypeCalendarMenu.LichDuocMoi:
         return Padding(
           padding: const EdgeInsets.only(
+            right: 8,
+            left: 8,
             top: 16.0,
           ),
           child: Column(
@@ -178,6 +182,8 @@ extension GetScreenMenu on TypeCalendarMenu {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
+                  right: 8,
+                  left: 8,
                   top: 16.0,
                 ),
                 child: Row(
@@ -205,6 +211,8 @@ extension GetScreenMenu on TypeCalendarMenu {
       case TypeCalendarMenu.LichTaoHo:
         return Padding(
           padding: const EdgeInsets.only(
+            right: 8,
+            left: 8,
             top: 32.0,
           ),
           child: type.getTextLLVWidget(
@@ -216,6 +224,8 @@ extension GetScreenMenu on TypeCalendarMenu {
       default:
         return Padding(
           padding: const EdgeInsets.only(
+            right: 8,
+            left: 8,
             top: 32.0,
           ),
           child: Text(

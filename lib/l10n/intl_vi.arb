@@ -1024,7 +1024,8 @@
   "dich_truc_tuyen" : "Dịch trực tuyến",
   "them_file_boc_bang" : "Thêm file bóc băng",
   "nhap_cong_viec": "Nhập công việc",
-  "nguoi_gan": "Người gán:"
+  "nguoi_gan": "Người gán:",
+  "ban_phai_nhap_truong_nay": "Bạn phải nhập trường này"
 
 }
 

@@ -15,6 +15,7 @@ import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -45,9 +46,7 @@ import '/home_module/utils/extensions/date_time_extension.dart';
 
 class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
-
   HomeRepository get homeRep => Get.find();
-
   AccountRepository get accountRp => Get.find();
   DataUser? dataUser = HiveLc.HiveLocal.getDataUser();
   String id = '';
@@ -329,7 +328,7 @@ class DanhSachCongViecCubit extends HomeCubit {
   DanhSachCongViecCubit() {
     id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
   }
-
+    HomeRepository get homeRepCongViec => Get.find();
   final BehaviorSubject<bool> _isShowListCanBo = BehaviorSubject.seeded(false);
 
   Stream<bool> get isShowListCanBo => _isShowListCanBo.stream;
@@ -350,6 +349,9 @@ class DanhSachCongViecCubit extends HomeCubit {
 
   List<ItemNguoiGanModel> listNguoiGan = [];
 
+  static List<ItemNguoiGanModel> listNguoiGanStatic = [];
+
+
   void setDisplayListCanBo(bool isShow) {
     _isShowListCanBo.sink.add(isShow);
   }
@@ -361,9 +363,12 @@ class DanhSachCongViecCubit extends HomeCubit {
   Future<void> callApi() async {
     showLoading();
     final queue = Queue(parallel: 2);
-    await queue.add(
-      () => getListNguoiGan(1, 9999, true),
-    );
+    unawaited(queue.add(
+          () => getListNguoiGan(1, 9999, true),
+    ),);
+    // await queue.add(
+    //   () => getListNguoiGan(1, 9999, true),
+    // );
     await queue.add(
       () => getToDoList(),
     );
@@ -578,9 +583,9 @@ class DanhSachCongViecCubit extends HomeCubit {
         );
     }
   }
-
   Future<void> getListNguoiGan(
       int pageIndex, int pageSize, bool isGetAll) async {
+    showLoading();
     final result = await homeRep.listNguoiGanCongViec(
       isGetAll,
       pageSize,
@@ -608,6 +613,8 @@ class DanhSachCongViecCubit extends HomeCubit {
       error: (err) {},
     );
   }
+
+
   void initListDataCanBo(){
     _danhSachNguoiGan.sink.add(inforCanBo);
   }

@@ -211,10 +211,9 @@ abstract class HomeServiceCommon {
   @factoryMethod
   factory HomeServiceCommon(Dio dio, {String baseUrl}) = _HomeServiceCommon;
   @GET(ApiConstants.GET_LIST_CAN_BO)
-  Future<NguoiGanResponse> getListNguoiGan(
+    Future<NguoiGanResponse> getListNguoiGan(
       @Query('PageIndex') int pageIndex,
       @Query('PageSize') int pageSize,
       @Query('IsGetAll') bool isGetAll,
       );
-
 }

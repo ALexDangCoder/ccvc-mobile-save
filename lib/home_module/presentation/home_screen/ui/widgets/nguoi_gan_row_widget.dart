@@ -11,7 +11,6 @@ class NguoiGanRowWidget extends StatelessWidget {
     return GestureDetector(
       child: Container(
         padding: const EdgeInsets.only(top: 16,left: 16),
-        margin: const EdgeInsets.only(top: 16,left: 16),
         child:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

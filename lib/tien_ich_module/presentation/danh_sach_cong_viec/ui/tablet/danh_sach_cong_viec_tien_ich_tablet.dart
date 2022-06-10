@@ -64,6 +64,7 @@ class _DanhSachCongViecTienIchTabletState
                 isBottomShow: false,
                 funcBtnOk: () {},
                 maxHeight: 200,
+                funcBtnPop: () {},
               );
             },
             backgroundColor: AppTheme.getInstance().colorField(),
@@ -192,6 +193,7 @@ class _DanhSachCongViecTienIchTabletState
                                                 },
                                                 btnRightTxt: S.current.dong_y,
                                                 btnLeftTxt: S.current.khong,
+                                                funcBtnPop: () {},
                                               );
                                             },
                                             enabled: !(todo.isTicked ?? true),

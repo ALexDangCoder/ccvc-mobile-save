@@ -1,6 +1,7 @@
 class ApiConstants {
   static const LOGIN = '/api/auth/login';
   static const int DEFAULT_PAGE_SIZE = 10;
+  static const int DEFAULT_PAGE_SIZE_QLNV = 5;
   static const int PAGE_BEGIN = 1;
   static const int NOT_SAVED_ID = -1;
   static const int TIME_OUT = 30;
@@ -264,6 +265,8 @@ class ApiConstants {
   static const GET_DANH_SACH_PAKN = '/pakn/api/IocApi/danh-sach-pakn';
   static const CREATE_DEVICE = '/api/DeviceNotification/create-device';
   static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
+  static const DS_DON_VI_CON_PHONG = '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
+  static const DS_PHONG_HOP = '/vpdt/api/PhongHop/lay-theo-don-vi';
 }
 
 class ImageConstants {

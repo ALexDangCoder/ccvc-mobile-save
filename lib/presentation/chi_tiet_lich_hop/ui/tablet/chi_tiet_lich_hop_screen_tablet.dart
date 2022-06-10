@@ -341,7 +341,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                           cubit: cubit,
                         ),
                         BocBangWidget(
-                          cubit: cubit,
+                          cubit: cubit, context: context,
                         )
                       ],
                     ),

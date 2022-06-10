@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -6,6 +5,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/container_toggle_widget.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/them_link_hop_dialog.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/title_child_widget.dart';
@@ -117,6 +117,8 @@ class _HinhThucHopState extends State<HinhThucHop> {
                       widget.cubit.taoLichHopRequest.linkTrucTuyen = '';
                       kieuLinkHop = 1;
                     }
+                    widget.cubit.taoLichHopRequest.bitLinkTrongHeThong =
+                        value;
                     setState(() {});
                   });
                 },
@@ -191,7 +193,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
               initData: isDuyetKyThuat,
               title: S.current.duyet_ky_thuat,
               onChange: (value) {
-                widget.cubit.taoLichHopRequest.bitYeuCauDuyet = value;
+                widget.cubit.taoLichHopRequest.isDuyetKyThuat = value;
               },
             ),
           ),
@@ -268,7 +270,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
                     /// điểm chính = 1
                     /// điểm phụ = 2
                     /// => điểm cầu = index +1
-                    log(index.toString());
                     diemCau.loaiDiemCau = index + 1;
                   },
                   listData: [
@@ -290,6 +291,7 @@ class _HinhThucHopState extends State<HinhThucHop> {
                       diemCau.loaiDiemCau ??= 1;
                       dsDiemCau.add(diemCau);
                       widget.cubit.dsDiemCauSubject.add(dsDiemCau);
+                      widget.cubit.taoLichHopRequest.dsDiemCau?.add(diemCau);
                       MessageConfig.show(
                         title: S.current.thay_doi_thanh_cong,
                       );
@@ -452,29 +454,6 @@ class ItemDiemCau extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget rowInfo({required String key, required String value}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 3,
-          child: Text(
-            key,
-            style: textNormal(infoColor, 14.0.textScale()),
-          ),
-        ),
-        spaceW8,
-        Expanded(
-          flex: 7,
-          child: Text(
-            value,
-            style: textNormal(color3D5586, 14.0.textScale()),
-          ),
-        )
-      ],
     );
   }
 }

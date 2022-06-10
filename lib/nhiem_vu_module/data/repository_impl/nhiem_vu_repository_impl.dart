@@ -50,7 +50,7 @@ class NhiemVuRepoImpl implements NhiemVuRepository {
   ) {
     return runCatchingAsync<DanhSachNhiemVuResponse, DanhSachNhiemVuModel>(
       () => nhiemVuService.danhSachNhiemVu(danhSachNhiemVuRequest),
-      (response) => response.toDoMain(),
+      (response) => response.daTa?.toDoMain() ?? DanhSachNhiemVuModel(),
     );
   }
 

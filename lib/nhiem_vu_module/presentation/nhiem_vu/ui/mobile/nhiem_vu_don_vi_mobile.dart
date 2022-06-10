@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/nhiem_vu_module/presentation/nhiem_vu/widget/state_s
 import 'package:ccvc_mobile/nhiem_vu_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/chart/base_pie_chart.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
 import 'package:ccvc_mobile/widgets/filter_date_time/filter_date_time_widget.dart';
@@ -120,10 +121,13 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                               widget.danhSachCubit.keySearch,
                                           trangThaiHanXuLy: widget
                                               .danhSachCubit.trangThaiHanXuLy,
+                                          isFilter: true,
                                         );
                                       },
-                                      child: const Icon(Icons.clear,
-                                          color: coloriCon),
+                                      child: const Icon(
+                                        Icons.clear,
+                                        color: coloriCon,
+                                      ),
                                     ),
                                   ),
                                 )
@@ -165,6 +169,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               keySearch: widget.danhSachCubit.keySearch,
                               trangThaiHanXuLy:
                                   widget.danhSachCubit.trangThaiHanXuLy,
+                              isFilter: true,
                             );
                           } else {
                             widget.danhSachCubit.debouncer.run(() {
@@ -173,6 +178,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               widget.danhSachCubit.mangTrangThai = '';
                               widget.danhSachCubit.isHideClearData = true;
                               widget.danhSachCubit.postDanhSachNhiemVu(
+                                isFilter: true,
                                 index: 0,
                                 isNhiemVuCaNhan: widget.isCheck,
                                 isSortByHanXuLy: true,
@@ -312,9 +318,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     index: 0,
                                     isNhiemVuCaNhan: widget.isCheck,
                                     isSortByHanXuLy: true,
-                                    mangTrangThai: [
-                                      widget.danhSachCubit.mangTrangThai
-                                    ],
+                                    mangTrangThai: [],
                                     ngayTaoNhiemVu: {
                                       'FromDate':
                                           widget.danhSachCubit.ngayDauTien,
@@ -324,6 +328,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     keySearch: widget.danhSachCubit.keySearch,
                                     trangThaiHanXuLy:
                                         widget.danhSachCubit.trangThaiHanXuLy,
+                                    loaiNhiemVuId: value,
+                                    isFilter: true,
                                   );
                                 });
                               },
@@ -342,12 +348,10 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                           widget.danhSachCubit.trangThaiHanXuLy = null;
                           setState(() {
                             widget.danhSachCubit.postDanhSachNhiemVu(
+                              isFilter: true,
                               index: 0,
                               isNhiemVuCaNhan: widget.isCheck,
                               isSortByHanXuLy: true,
-                              mangTrangThai: [
-                                widget.danhSachCubit.mangTrangThai
-                              ],
                               ngayTaoNhiemVu: {
                                 'FromDate': widget.danhSachCubit.ngayDauTien,
                                 'ToDate': widget.danhSachCubit.ngayKetThuc
@@ -356,6 +360,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               keySearch: widget.danhSachCubit.keySearch,
                               trangThaiHanXuLy:
                                   widget.danhSachCubit.trangThaiHanXuLy,
+                              mangTrangThai: [value],
                             );
                           });
                         },
@@ -365,6 +370,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               value_status_box;
                           setState(() {
                             widget.danhSachCubit.postDanhSachNhiemVu(
+                              isFilter: true,
                               index: 0,
                               isNhiemVuCaNhan: widget.isCheck,
                               isSortByHanXuLy: true,
@@ -390,6 +396,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         listData: widget.danhSachCubit.listData,
                         listStatusData: widget.danhSachCubit.listStatusData,
                         title: widget.danhSachCubit.titleNhiemVu,
+                        danhSachCubit: widget.danhSachCubit,
+                        isCheck: widget.isCheck,
                       );
                     } else {
                       return const NodataWidget(
@@ -407,6 +415,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
           ],
           callApi: (page) {
             widget.danhSachCubit.postDanhSachNhiemVu(
+              isFilter: false,
               index: page,
               isNhiemVuCaNhan: widget.isCheck,
               isSortByHanXuLy: true,
@@ -521,13 +530,17 @@ class StatusWidget extends StatefulWidget {
   final List<List<ChartData>> listData;
   final List<ChartData> listStatusData;
   final List<String> title;
+  final DanhSachCubit danhSachCubit;
+  final bool isCheck;
 
-  const StatusWidget(
-      {Key? key,
-      required this.listData,
-      required this.listStatusData,
-      required this.title})
-      : super(key: key);
+  const StatusWidget({
+    Key? key,
+    required this.listData,
+    required this.listStatusData,
+    required this.title,
+    required this.danhSachCubit,
+    required this.isCheck,
+  }) : super(key: key);
 
   @override
   _StatusWidgetState createState() => _StatusWidgetState();
@@ -640,18 +653,63 @@ class _StatusWidgetState extends State<StatusWidget> {
                                               children:
                                                   element.reversed.map((e) {
                                                 sumRowChart += e.value.toInt();
-                                                return Container(
-                                                  height: 28,
-                                                  width: (e.value) * heSo,
-                                                  color: e.color,
-                                                  child: Center(
-                                                    child: Text(
-                                                      e.value
-                                                          .toInt()
-                                                          .toString(),
-                                                      style: textNormal(
-                                                        backgroundColorApp,
-                                                        14.0.textScale(),
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    widget.danhSachCubit
+                                                            .mangTrangThai =
+                                                        e.title
+                                                            .split(' ')
+                                                            .join('_')
+                                                            .toUpperCase()
+                                                            .vietNameseParse();
+                                                    widget.danhSachCubit
+                                                            .trangThaiHanXuLy =
+                                                        null;
+                                                    setState(() {
+                                                      widget.danhSachCubit
+                                                          .postDanhSachNhiemVu(
+                                                        isFilter: true,
+                                                        index: 0,
+                                                        isNhiemVuCaNhan:
+                                                            widget.isCheck,
+                                                        isSortByHanXuLy: true,
+                                                        mangTrangThai: [
+                                                          widget.danhSachCubit
+                                                              .mangTrangThai
+                                                        ],
+                                                        ngayTaoNhiemVu: {
+                                                          'FromDate': widget
+                                                              .danhSachCubit
+                                                              .ngayDauTien,
+                                                          'ToDate': widget
+                                                              .danhSachCubit
+                                                              .ngayKetThuc
+                                                        },
+                                                        size: widget
+                                                            .danhSachCubit
+                                                            .pageSize,
+                                                        keySearch: widget
+                                                            .danhSachCubit
+                                                            .keySearch,
+                                                        trangThaiHanXuLy: widget
+                                                            .danhSachCubit
+                                                            .trangThaiHanXuLy,
+                                                      );
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    height: 28,
+                                                    width: (e.value) * heSo,
+                                                    color: e.color,
+                                                    child: Center(
+                                                      child: Text(
+                                                        e.value
+                                                            .toInt()
+                                                            .toString(),
+                                                        style: textNormal(
+                                                          backgroundColorApp,
+                                                          14.0.textScale(),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -702,7 +760,30 @@ class _StatusWidgetState extends State<StatusWidget> {
               final result = widget.listStatusData[index];
               // ignore: avoid_unnecessary_containers
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  widget.danhSachCubit.mangTrangThai = result.title
+                      .split(' ')
+                      .join('_')
+                      .toUpperCase()
+                      .vietNameseParse();
+                  widget.danhSachCubit.trangThaiHanXuLy = null;
+                  setState(() {
+                    widget.danhSachCubit.postDanhSachNhiemVu(
+                      isFilter: true,
+                      index: 0,
+                      isNhiemVuCaNhan: widget.isCheck,
+                      isSortByHanXuLy: true,
+                      mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                      ngayTaoNhiemVu: {
+                        'FromDate': widget.danhSachCubit.ngayDauTien,
+                        'ToDate': widget.danhSachCubit.ngayKetThuc
+                      },
+                      size: widget.danhSachCubit.pageSize,
+                      keySearch: widget.danhSachCubit.keySearch,
+                      trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+                    );
+                  });
+                },
                 child: Row(
                   children: [
                     Container(

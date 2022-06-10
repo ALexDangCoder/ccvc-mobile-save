@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
@@ -262,16 +261,24 @@ extension lichHopOptionDayCubit on Type_Choose_Option_Day {
 
   Widget getLichHopStateDangLich({
     required LichHopCubit cubit,
+    required Type_Choose_Option_Day type,
   }) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
         return LichHopTheoNgay(
           cubit: cubit,
+          type: type,
         );
       case Type_Choose_Option_Day.WEEK:
-        return LichHopTheoTuan(cubit: cubit);
+        return LichHopTheoTuan(
+          cubit: cubit,
+          type: type,
+        );
       case Type_Choose_Option_Day.MONTH:
-        return LichHopTheoThang(cubit: cubit);
+        return LichHopTheoThang(
+          cubit: cubit,
+          type: type,
+        );
       default:
         return const SizedBox();
     }
@@ -353,6 +360,7 @@ extension lichHopCubit on LichHopState {
     } else if (this is LichHopStateDangLich) {
       return type.getLichHopStateDangLich(
         cubit: cubit,
+        type: type,
       );
     } else if (this is LichHopStateDangDanhSach) {
       return type.getLichHopStateDanhSach(cubit);

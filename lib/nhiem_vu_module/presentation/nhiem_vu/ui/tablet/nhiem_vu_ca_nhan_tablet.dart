@@ -63,6 +63,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                 widget.danhSachCubit.keySearch = text;
                 widget.danhSachCubit.mangTrangThai = '';
                 widget.danhSachCubit.postDanhSachNhiemVu(
+                  isFilter: true,
                   index: 0,
                   isNhiemVuCaNhan: widget.isCheck,
                   isSortByHanXuLy: true,
@@ -134,6 +135,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                               widget.danhSachCubit.trangThaiHanXuLy = null;
                               setState(() {
                                 widget.danhSachCubit.postDanhSachNhiemVu(
+                                  isFilter: true,
                                   index: 0,
                                   isNhiemVuCaNhan: widget.isCheck,
                                   isSortByHanXuLy: true,
@@ -158,6 +160,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                                   value_status_box;
                               setState(() {
                                 widget.danhSachCubit.postDanhSachNhiemVu(
+                                  isFilter: true,
                                   index: 0,
                                   isNhiemVuCaNhan: widget.isCheck,
                                   isSortByHanXuLy: true,
@@ -188,6 +191,7 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
         ],
         callApi: (page) {
           widget.danhSachCubit.postDanhSachNhiemVu(
+            isFilter: false,
             index: page,
             isNhiemVuCaNhan: widget.isCheck,
             isSortByHanXuLy: true,

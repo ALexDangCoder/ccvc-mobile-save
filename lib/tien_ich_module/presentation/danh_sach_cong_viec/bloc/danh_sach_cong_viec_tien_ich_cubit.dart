@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:core';
+import 'dart:io';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
@@ -75,6 +76,8 @@ class DanhSachCongViecTienIchCubit
   final BehaviorSubject<WidgetType?> _showDialogSetting =
       BehaviorSubject<WidgetType?>();
 
+  BehaviorSubject<String> nameFile = BehaviorSubject();
+
   ///init cac list
   void doDataTheoFilter() {
     listGop = [
@@ -119,7 +122,7 @@ class DanhSachCongViecTienIchCubit
     showLoading();
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
-    await listNguoiThucHien();
+    unawaited(listNguoiThucHien());
     unawaited(getNHomCVMoi());
     doDataTheoFilter();
     addValueWithTypeToDSCV();
@@ -253,7 +256,6 @@ class DanhSachCongViecTienIchCubit
   }
 
   /// them moi cong viec
-
   Future<void> addTodo() async {
     if (titleChange != '') {
       showLoading();
@@ -264,9 +266,10 @@ class DanhSachCongViecTienIchCubit
           isTicked: false,
           important: false,
           inUsed: true,
-          finishDay: dateChange == '' ? null : dateChange,
+          finishDay:
+              dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
           note: noteChange == '' ? null : noteChange,
-          performer: nguoiThucHienSubject.value.id == ''
+          performer: toDoListRequest.performer == ''
               ? null
               : nguoiThucHienSubject.value.id,
         ),
@@ -371,6 +374,7 @@ class DanhSachCongViecTienIchCubit
     bool? isDeleted,
     required TodoDSCVModel todo,
   }) async {
+    showLoading();
     dynamic checkData({dynamic changeData, dynamic defaultData}) {
       if (changeData == '' || changeData == null || changeData == defaultData) {
         return defaultData ?? '';
@@ -402,6 +406,7 @@ class DanhSachCongViecTienIchCubit
     );
     result.when(
       success: (res) {
+        showContent();
         final data = listDSCV.value;
         if (isTicked != null) {
           data.insert(0, res);
@@ -419,7 +424,9 @@ class DanhSachCongViecTienIchCubit
         if (isDeleted != null) {}
         callAndFillApiAutu();
       },
-      error: (err) {},
+      error: (err) {
+        showError();
+      },
     );
   }
 
@@ -445,13 +452,20 @@ class DanhSachCongViecTienIchCubit
 
   /// tim nguoi thuc hien theo id
   String convertIdToPerson({required String vl, bool? hasChucVu}) {
-    for (final e in listNguoiThucHienSubject.value) {
-      if (e.id == vl && (hasChucVu ?? false)) {
-        return e.dataAll();
-      } else {
-        return e.dataWithChucVu();
+    if (hasChucVu ?? true) {
+      for (final e in listNguoiThucHienSubject.value) {
+        if (vl == e.id) {
+          return e.dataAll();
+        }
+      }
+    } else {
+      for (final e in listNguoiThucHienSubject.value) {
+        if (vl == e.id) {
+          return e.dataWithChucVu();
+        }
       }
     }
+
     return '';
   }
 
@@ -476,5 +490,18 @@ class DanhSachCongViecTienIchCubit
         ),
       );
     }
+  }
+
+  ///up file
+  Future<void> uploadFilesWithFile(File file) async {
+    showLoading();
+    final result = await tienIchRep.uploadFileDSCV(file);
+    result.when(
+      success: (res) {
+        callAndFillApiAutu();
+      },
+      error: (error) {},
+    );
+    showContent();
   }
 }

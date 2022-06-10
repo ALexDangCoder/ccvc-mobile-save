@@ -141,6 +141,7 @@ const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
 const String AVATAR_DEFAULT =
     'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 const String BASE_URL_MEETING  = 'https://emeeting.vn/';
+const String ENTITY_THU_MOI_HOP  = 'ThuMoiHop';
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
   static const HOUR_FORMAT = _dtFormat2;
@@ -176,6 +177,7 @@ class WidgetTypeConstant {
   static const String HANH_CHINH_CONG = 'HanhChinhCong';
   static const String LICH_LAM_VIEC_LICH_HOP = 'BoxLichVaHop';
   static const String TONG_HOP_HCC = 'TongHopHCC';
+  static const String TIN_BUON = 'TinBuon';
 }
 
 class DocumentState {
@@ -249,6 +251,7 @@ class MenuItemConst {
   static const TUONG_TAC_NOI_BO = 'tuong-tac-noi-bo';
   static const LICH_LAM_VIEC = 'lichlamviec';
   static const BAO_CAO = 'bao-cao';
+  static const DIEM_DANH='dashboard';
 }
 
 class StatusCodeConst {

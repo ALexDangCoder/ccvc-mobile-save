@@ -56,6 +56,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
                 SizedBox(
                   height: 300,
                   child: FlutterRoundedCupertinoDatePickerWidget(
+                    maximumDate: DateTime.now(),
                     onDateTimeChanged: (value) {
                       dateSelect = value.toString();
                       widget.onSelectDate(dateSelect);
@@ -76,7 +77,7 @@ class _CustomDropDownState extends State<SelectDateTablet> {
             });
             // Navigator.pop(context);
           },
-          setHeight: 400,
+          setHeight: 400, funcBtnPop: () {},
         );
       },
       child: Row(

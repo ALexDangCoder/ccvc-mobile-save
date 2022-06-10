@@ -22,9 +22,9 @@ class TableCalendarCubit {
   }
 
   bool isMatchDay(DateTime? oldData, DateTime? newData) {
-    if (oldData == null || newData == null || oldData == newData) return false;
+    if (oldData == null || newData == null || oldData == newData) return true;
 
-    if (oldData != newData) return true;
+    if (oldData != newData) return false;
 
     return false;
   }

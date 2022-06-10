@@ -222,7 +222,6 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                               cubit.callApiTuan();
                             },
                             onTapmonth: () {
-                              setState(() {});
                               cubit.chooseTypeCalender(
                                 Type_Choose_Option_Day.MONTH,
                               );

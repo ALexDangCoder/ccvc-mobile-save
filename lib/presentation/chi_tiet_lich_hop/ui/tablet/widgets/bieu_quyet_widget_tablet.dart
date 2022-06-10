@@ -66,7 +66,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                       return Column(
                         children: [
                           CellBieuQuyet(
-                            infoModel: _list[index],
+                            infoModel: _list[index], cubit: widget.cubit,
                           ),
                         ],
                       );

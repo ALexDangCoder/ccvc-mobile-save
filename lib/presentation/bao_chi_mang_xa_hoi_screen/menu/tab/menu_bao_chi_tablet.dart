@@ -12,11 +12,12 @@ import 'package:flutter_svg/svg.dart';
 class MenuBaoChiTablet extends StatefulWidget {
   final BaoChiMangXaHoiBloc cubit;
   final Function() onChange;
+  final int topic;
 
   const MenuBaoChiTablet({
     Key? key,
     required this.cubit,
-    required this.onChange,
+    required this.onChange, required this.topic,
   }) : super(key: key);
 
   @override
@@ -66,6 +67,8 @@ class _MenuBaoChiTabletState extends State<MenuBaoChiTablet> {
                           itemCount: widget.cubit.listSubMenu[index].length,
                           itemBuilder: (context, indexItem) {
                             return ContainerMenuBaoChiTabletWidget(
+                              initExpand: widget.topic == widget
+                                  .cubit.listSubMenu[index][indexItem].nodeId,
                               name: widget
                                   .cubit.listSubMenu[index][indexItem].title,
                               onTap: () {

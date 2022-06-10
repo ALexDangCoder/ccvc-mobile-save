@@ -27,7 +27,6 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
   Stream<int> get indexSelectItem => _selectColorItem.stream;
 
   int topic = 848;
-
   Stream<List<ChuDeModel>> get listYKienNguoiDan => _listYKienNguoiDan.stream;
 
   Stream<List<ListMenuItemModel>> get dataMenu => _dataMenu.stream;

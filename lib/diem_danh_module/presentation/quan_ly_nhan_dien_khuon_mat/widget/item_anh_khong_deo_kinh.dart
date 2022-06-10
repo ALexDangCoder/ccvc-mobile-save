@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/diem_danh_module/config/resources/color.dart';
 import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
           Text(
             S.current.goc_anh,
             style: textNormalCustom(
-                fontSize: 16.0,
+                fontSize: 16.0.textScale(),
                 fontWeight: FontWeight.w500,
                 color: color3D5586),
           ),
@@ -38,7 +39,7 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
           ),
           spaceH16,
           SizedBox(
-            height: 164,
+            height: 164.0.textScale(space: 56.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +50,7 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
                     children: [
                       Positioned.fill(
                         child: Container(
-                          height: 164,
+                          height: 164.0.textScale(space: 56.0),
                           decoration: BoxDecoration(
                             border: Border.all(color: colorE2E8F0),
                             borderRadius: BorderRadius.circular(8.0),
@@ -60,9 +61,12 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
                                 spreadRadius: 2,
                               ),
                             ],
+                            image: DecorationImage(
+                              image: AssetImage(image),
+                              fit: BoxFit.cover,
+                            ),
 
                           ),
-                          child: Image.asset(image,fit: BoxFit.cover,),
                         ),
                       ),
                       Padding(
@@ -112,7 +116,7 @@ class ItemAnhKhongDeoKinh extends StatelessWidget {
                           S.current.tai_anh_len,
                           style: textNormal(
                             color667793,
-                            14.0,
+                            14.0.textScale(),
                           ),
                         ),
                       ],

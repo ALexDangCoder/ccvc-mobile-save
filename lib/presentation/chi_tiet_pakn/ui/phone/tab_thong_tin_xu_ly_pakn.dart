@@ -12,6 +12,13 @@ class TabThongTinXuLyPAKN extends StatefulWidget {
 }
 
 class _TabThongTinXuLyPAKNState extends State<TabThongTinXuLyPAKN> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

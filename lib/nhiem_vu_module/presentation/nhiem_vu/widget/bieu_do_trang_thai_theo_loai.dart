@@ -49,6 +49,7 @@ class _BieuDoTrangThaiTheoLoaiMobileState
           ListView.builder(
             shrinkWrap: true,
             itemCount: widget.chartData.length,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               final result = widget.chartData[index];
               return GestureDetector(

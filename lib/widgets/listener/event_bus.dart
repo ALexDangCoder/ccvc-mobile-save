@@ -7,3 +7,8 @@ class UnAuthEvent {
 
   UnAuthEvent(this.message);
 }
+class FireTopic {
+  final int topic;
+
+  FireTopic(this.topic);
+}

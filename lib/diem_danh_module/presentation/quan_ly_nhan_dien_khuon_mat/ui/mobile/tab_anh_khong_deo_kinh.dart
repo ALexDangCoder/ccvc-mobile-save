@@ -3,9 +3,14 @@ import 'package:ccvc_mobile/diem_danh_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-class TabAnhKhongDeoKinh extends StatelessWidget {
+class TabAnhKhongDeoKinh extends StatefulWidget {
   const TabAnhKhongDeoKinh({Key? key}) : super(key: key);
 
+  @override
+  State<TabAnhKhongDeoKinh> createState() => _TabAnhKhongDeoKinhState();
+}
+
+class _TabAnhKhongDeoKinhState extends State<TabAnhKhongDeoKinh> {
   @override
   Widget build(BuildContext context) {
     return Container(

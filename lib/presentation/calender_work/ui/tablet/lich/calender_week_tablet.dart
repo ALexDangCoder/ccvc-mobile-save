@@ -21,12 +21,20 @@ class _CalenderWeekTabletState extends State<CalenderWeekTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    widget.cubit.stateCalendarDaySubject.listen((value) {});
+    widget.cubit.stateCalendarDaySubject.value
+        .addPropertyChangedListener((value) {
+      widget.cubit.updateDataSlideCalendar(
+        widget.cubit.stateCalendarDaySubject.value.displayDate ??
+            widget.cubit.selectDay,
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<CalendarController>(
-        stream: widget.cubit.stateCalendarSubject.stream,
+        stream: widget.cubit.stateCalendarWeekSubject.stream,
         builder: (context, snapshot) {
           final data = snapshot.data ?? CalendarController();
 

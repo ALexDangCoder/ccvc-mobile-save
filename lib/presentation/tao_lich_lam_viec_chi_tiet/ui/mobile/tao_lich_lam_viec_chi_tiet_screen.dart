@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -25,6 +27,7 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
@@ -119,20 +122,20 @@ class _TaoLichLamViecChiTietScreenState
               },
             ),
           ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              await taoLichLamViecCubit.loadData();
-            },
-            child: ProviderWidget<TaoLichLamViecCubit>(
-              cubit: taoLichLamViecCubit,
-              child: StateStreamLayout(
-                textEmpty: S.current.khong_co_du_lieu,
-                retry: () {},
-                error: AppException(
-                  S.current.error,
-                  S.current.error,
-                ),
-                stream: taoLichLamViecCubit.stateStream,
+          body: StateStreamLayout(
+            textEmpty: S.current.khong_co_du_lieu,
+            retry: () {},
+            error: AppException(
+              S.current.error,
+              S.current.error,
+            ),
+            stream: taoLichLamViecCubit.stateStream,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await taoLichLamViecCubit.loadData();
+              },
+              child: ProviderWidget<TaoLichLamViecCubit>(
+                cubit: taoLichLamViecCubit,
                 child: ExpandGroup(
                   child: Container(
                     margin: const EdgeInsets.only(
@@ -161,18 +164,40 @@ class _TaoLichLamViecChiTietScreenState
                           LoaiLichWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
-                          StartEndDateWidget(
-                            icMargin: false,
-                            onEndDateTimeChanged: (DateTime value) {
-                              taoLichLamViecCubit.listeningEndDataTime(value);
-                            },
-                            onStartDateTimeChanged: (DateTime value) {
-                              taoLichLamViecCubit.listeningStartDataTime(value);
-                            },
-                            isCheck: (bool value) {
+                          CupertinoMaterialPicker(
+                            onSwitchPressed: (value){
                               taoLichLamViecCubit.isCheckAllDaySubject
                                   .add(value);
                             },
+
+                            onDateTimeChanged: (
+                              String timeStart,
+                              String timeEnd,
+                              String dateStart,
+                              String dateEnd,
+                            ) {
+                              taoLichLamViecCubit.checkValidateTime();
+                              taoLichLamViecCubit.listeningEndDataTime(
+                                DateTime.parse(
+                                  timeFormat(
+                                    '$dateEnd $timeEnd',
+                                    'dd/MM/yyyy hh:mm',
+                                    'yyyy-MM-dd hh:mm:ss.ms',
+                                  ),
+                                ),
+                              );
+                              taoLichLamViecCubit.listeningStartDataTime(
+                                DateTime.parse(
+                                  timeFormat(
+                                    '$dateStart $timeStart',
+                                    'dd/MM/yyyy hh:mm',
+                                    'yyyy-MM-dd hh:mm:ss.ms',
+                                  ),
+                                ),
+                              );
+                            }, validateTime: (bool value) {
+
+                          },
                           ),
                           NhacLaiWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,

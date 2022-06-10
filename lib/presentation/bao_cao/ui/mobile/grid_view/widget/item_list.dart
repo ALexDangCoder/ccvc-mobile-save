@@ -1,16 +1,17 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/danh_sach_bao_cao_dang_girdview.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/item_folder.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/xem_them_bottom_sheet.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/list_report_girdview.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_folder.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/xem_them_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ItemList extends StatelessWidget {
-  const ItemList({Key? key}) : super(key: key);
+  final ReportItem item;
+
+  const ItemList({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +33,10 @@ class ItemList extends StatelessWidget {
       child: Row(
         children: [
           ItemFolder(
-            type: TypeLoai.THU_MUC,
-            isChiaSe: true,
-            isItemListView: true,
+            type: item.typeTitle == 'Folder' ? TypeLoai.THU_MUC : TypeLoai.BAO_CAO,
+            isShare: true,
+            fileNumber: item.numberReport ?? 0,
+            isListView: true,
           ),
           Expanded(
             child: Padding(
@@ -46,7 +48,7 @@ class ItemList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'S.current.bac_caodfsadfsadfsadfsadfasdfsadf',
+                    item.name ?? '',
                     maxLines: 1,
                     style: textNormalCustom(
                       color: textTitle,
@@ -57,7 +59,7 @@ class ItemList extends StatelessWidget {
                   ),
                   spaceH4,
                   Text(
-                    '18/5/2022',
+                    item.dateTime ?? '',
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,

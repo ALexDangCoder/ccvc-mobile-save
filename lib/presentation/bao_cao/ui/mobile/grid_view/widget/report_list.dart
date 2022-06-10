@@ -1,14 +1,18 @@
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/widget/item_gridview.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/widget/item_list.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/item_chi_tiet.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/widget/item_gridview.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/widget/item_list.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_chi_tiet.dart';
 import 'package:flutter/material.dart';
 
 class ReportList extends StatelessWidget {
+  final bool isCheckList;
+  final List<ReportItem> listReport;
+
   const ReportList({
     Key? key,
     required this.isCheckList,
+    required this.listReport,
   }) : super(key: key);
-  final bool isCheckList;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,9 @@ class ReportList extends StatelessWidget {
             ),
             itemCount: 3,
             itemBuilder: (context, index) {
-              return ItemGridView();
+              return ItemGridView(
+                item: listReport[index],
+              );
             },
           )
         : Container(
@@ -52,7 +58,9 @@ class ReportList extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const ItemList(),
+                  child: ItemList(
+                    item: listReport[index],
+                  ),
                 );
               },
             ),

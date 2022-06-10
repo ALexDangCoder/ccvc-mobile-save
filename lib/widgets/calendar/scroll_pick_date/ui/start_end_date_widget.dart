@@ -68,8 +68,6 @@ class _StartEndDateWidgetState extends State<StartEndDateWidget> {
                 initData: widget.initStartData,
                 minimumDate: DateTime(
                   DateTime.now().year,
-                  1,
-                  1,
                 ),
                 mode: dataBool
                     ? CupertinoDatePickerMode.date

@@ -345,6 +345,7 @@ class _TabYKienXuLyState extends State<TabYKienXuLy> {
                           await saveFile(
                             dataSnb.ten.toString(),
                             dataSnb.duongDan.toString(),
+                            http: true,
                           )
                               .then(
                                 (value) => MessageConfig.show(

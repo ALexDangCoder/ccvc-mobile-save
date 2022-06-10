@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_animation_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,9 @@ class ContainerMenuBaoChiWidget extends StatefulWidget {
   final TypeContainer type;
   final Widget? childExpand;
   final Function onTap;
+  final bool isShow;
+  final bool selected;
+  final bool initExpand;
 
   const ContainerMenuBaoChiWidget({
     Key? key,
@@ -28,6 +32,9 @@ class ContainerMenuBaoChiWidget extends StatefulWidget {
     this.isTypeContainer = true,
     this.childExpand,
     required this.onTap,
+    this.isShow = true,
+    this.selected = false,
+    this.initExpand = false,
   }) : super(key: key);
 
   @override
@@ -37,6 +44,12 @@ class ContainerMenuBaoChiWidget extends StatefulWidget {
 
 class _ContainerMenuBaoChiWidgetState extends State<ContainerMenuBaoChiWidget> {
   bool isExpand = false;
+
+  @override
+  void initState() {
+    isExpand = widget.initExpand;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +100,9 @@ class _ContainerMenuBaoChiWidgetState extends State<ContainerMenuBaoChiWidget> {
                           widget.name,
                           style: tokenDetailAmount(
                             fontSize: 14.0.textScale(),
+                            color: widget.selected
+                                ? AppTheme.getInstance().colorField()
+                                : null,
                           ),
                         ),
                       ),

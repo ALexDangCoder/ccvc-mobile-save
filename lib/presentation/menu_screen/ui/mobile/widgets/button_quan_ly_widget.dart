@@ -39,9 +39,11 @@ class ButtonQuanLyMobileWidget extends StatelessWidget {
                 child: SvgPicture.asset(ImageAssets.icNewButton),
               ),
               Center(
-                child: Text(
-                  S.current.quan_ly_widget,
-                  style: textNormalCustom(color: Colors.white, fontSize: 14),
+                child: FittedBox(
+                  child: Text(
+                    S.current.quan_ly_widget,
+                    style: textNormalCustom(color: Colors.white, fontSize: 14),
+                  ),
                 ),
               )
             ],

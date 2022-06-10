@@ -19,9 +19,9 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -168,14 +168,21 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   void listeningStartDataTime(DateTime dateAndTime) {
     dateFrom = dateAndTime.formatApi;
-    timeFrom =
-        '${dateAndTime.hour.toString()}:${dateAndTime.minute.toString()}';
+    if (isCheckAllDaySubject.value == true) {
+      timeFrom = START_TIME;
+    } else {
+      timeFrom = dateAndTime.formatApiFixMeet;
+    }
     startDateSubject.add(dateAndTime);
   }
 
   void listeningEndDataTime(DateTime dateAndTime) {
     dateEnd = dateAndTime.formatApi;
-    timeEnd = '${dateAndTime.hour.toString()}:${dateAndTime.minute.toString()}';
+    if (isCheckAllDaySubject.value == true) {
+      timeEnd = END_TIME;
+    } else {
+      timeEnd = dateAndTime.formatApiFixMeet;
+    }
     endDateSubject.add(dateAndTime);
   }
 
@@ -302,6 +309,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     required String content,
     required String location,
   }) async {
+    showLoading();
     final result =
         await _lichLamViec.checkTrungLichLamviec(CheckTrungLichRequest(
       dateFrom: dateFrom ?? DateTime.now().formatApi,
@@ -315,6 +323,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     ));
     result.when(
         success: (res) {
+          showContent();
           if (res.data == true) {
             showDiaLog(
               context,
@@ -360,59 +369,57 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       datNuocSelectModel?.id = '';
     }
     final result = await _lichLamViec.taoLichLamViec(
-        title,
-        selectLoaiLichId ?? '',
-        selectLinhVuc?.id ?? '',
-        tinhSelectModel?.id ?? '',
-        tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.id ?? '',
-        huyenSelectModel?.tenQuanHuyen ?? '',
-        xaSelectModel?.id ?? '',
-        xaSelectModel?.tenXaPhuong ?? '',
-        datNuocSelectModel?.name ?? '',
-        datNuocSelectModel?.id ?? '',
-        dateFrom ?? DateTime.now().formatApi,
-        timeFrom ??
-            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        dateEnd ?? DateTime.now().formatApi,
-        timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute).toString()}',
-        content,
-        location,
-        '',
-        '',
-        '',
-        2,
-        '',
-        publishSchedule ?? false,
-        //cong khai lich
-        '',
-        false,
-        true,
-        selectNguoiChuTri?.userId ?? '',
-        selectNguoiChuTri?.donViId ?? '',
-        '',
-        isCheckAllDaySubject.value,
-        true,
-        donviModel ?? [],
-        selectNhacLai.value ?? 1,
-        selectLichLap.id ?? 0,
-        dateFrom ?? DateTime.now().formatApi,
-        dateTimeLapDenNgay.formatApi,
-        true,
-        lichLapItem1);
-    result.when(success: (res) {
-      emit(CreateSuccess());
-      showContent();
-    }, error: (error) {
-      toast.showToast(
-        child: ShowToast(
-          text: error.message,
-        ),
-        gravity: ToastGravity.BOTTOM,
-      );
-      showContent();
-    });
+      title,
+      selectLoaiLichId ?? '',
+      selectLinhVuc?.id ?? '',
+      tinhSelectModel?.id ?? '',
+      tinhSelectModel?.tenTinhThanh ?? '',
+      huyenSelectModel?.id ?? '',
+      huyenSelectModel?.tenQuanHuyen ?? '',
+      xaSelectModel?.id ?? '',
+      xaSelectModel?.tenXaPhuong ?? '',
+      datNuocSelectModel?.name ?? '',
+      datNuocSelectModel?.id ?? '',
+      dateFrom ?? DateTime.now().formatApi,
+      timeFrom ??
+          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      dateEnd ?? DateTime.now().formatApi,
+      timeEnd ??
+          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      content,
+      location,
+      '',
+      '',
+      '',
+      2,
+      '',
+      publishSchedule ?? false,
+      //cong khai lich
+      '',
+      false,
+      true,
+      selectNguoiChuTri?.userId ?? '',
+      selectNguoiChuTri?.donViId ?? '',
+      '',
+      isCheckAllDaySubject.value,
+      true,
+      donviModel ?? [],
+      selectNhacLai.value ?? 1,
+      selectLichLap.id ?? 0,
+      dateFrom ?? DateTime.now().formatApi,
+      dateTimeLapDenNgay.formatApi,
+      true,
+      lichLapItem1,
+    );
+    result.when(
+      success: (res) {
+        emit(CreateSuccess());
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
   }
 
   Future<void> suaLichLamViec() async {

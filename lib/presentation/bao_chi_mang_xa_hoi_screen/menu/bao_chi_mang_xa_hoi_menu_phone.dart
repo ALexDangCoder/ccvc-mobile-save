@@ -14,12 +14,12 @@ class BaoChiMangXaHoiMenu extends StatefulWidget {
   final Function() onChange;
   final int topic;
 
-  const BaoChiMangXaHoiMenu(
-      {Key? key,
-      required this.cubit,
-      required this.onChange,
-      required this.topic})
-      : super(key: key);
+  const BaoChiMangXaHoiMenu({
+    Key? key,
+    required this.cubit,
+    required this.onChange,
+    required this.topic,
+  }) : super(key: key);
 
   @override
   _BaoChiMangXaHoiMenuState createState() => _BaoChiMangXaHoiMenuState();
@@ -27,6 +27,13 @@ class BaoChiMangXaHoiMenu extends StatefulWidget {
 
 class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
+  int initId = 848;
+
+  @override
+  void initState() {
+    initId = widget.cubit.checkExpand(widget.topic).id;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +62,13 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                     return ContainerMenuBaoChiWidget(
                       name: widget.cubit.listTitleItemMenu[index].title,
                       icon: ImageAssets.icMenuItemBCMXH,
-                      initExpand: widget.topic ==
+                      selected: widget.cubit.listSubMenu[index].isEmpty
+                          ? initId ==
+                                  widget.cubit.listTitleItemMenu[index].nodeId
+                              ? true
+                              : false
+                          : false,
+                      initExpand: initId ==
                           widget.cubit.listTitleItemMenu[index].nodeId,
                       type: widget.cubit.listSubMenu[index].isEmpty
                           ? TypeContainer.number
@@ -66,6 +79,9 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                         itemCount: widget.cubit.listSubMenu[index].length,
                         itemBuilder: (context, indexItem) {
                           return ContainerMenuBaoChiWidget(
+                            selected: widget.topic ==
+                                widget
+                                    .cubit.listSubMenu[index][indexItem].nodeId,
                             name: widget
                                 .cubit.listSubMenu[index][indexItem].title,
                             onTap: () {
@@ -76,7 +92,6 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                                 ),
                               );
                               widget.onChange();
-                              widget.cubit.slectColorItem(indexItem);
                               Navigator.pop(context);
                             },
                           );

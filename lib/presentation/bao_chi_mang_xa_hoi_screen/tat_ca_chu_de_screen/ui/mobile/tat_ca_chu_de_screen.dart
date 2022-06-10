@@ -198,6 +198,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: data.danhSachTuongtacThongKe.length,
                                 itemBuilder: (context, index) {
                                   return index == 0

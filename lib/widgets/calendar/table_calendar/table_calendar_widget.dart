@@ -126,11 +126,13 @@ class _TableCalendarWidgetState extends State<TableCalendarWidget> {
   @override
   void didUpdateWidget(covariant TableCalendarWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
+    print('${oldWidget.initTime} ?????? ${widget.initTime}');
     if (cubit.isMatchDay(oldWidget.initTime, widget.initTime)) {
       _selectedDay = storeSelectDay;
     } else {
-      _selectedDay = widget.initTime ?? storeSelectDay;
+      _selectedDay = widget.initTime!;
     }
+    cubit.moveTimeSubject.add(_selectedDay);
   }
 
   @override

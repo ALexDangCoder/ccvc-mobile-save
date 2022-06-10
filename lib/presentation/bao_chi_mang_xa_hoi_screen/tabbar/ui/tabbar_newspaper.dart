@@ -10,6 +10,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tin_tuc_thoi
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/drawer/drawer_slide.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,19 +23,42 @@ class TabbarNewspaper extends StatefulWidget {
 }
 
 class _TabbarNewspaperState extends State<TabbarNewspaper>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   late final TinTucThoiSuBloc blocTinTuc;
 
-  var _controller = TabController(vsync: AnimatedListState(), length: 3);
+  late TabController _controller;
   late final BaoChiMangXaHoiBloc cubit;
+  int topic = 848;
 
   @override
   void initState() {
     super.initState();
+    initData();
+    handleEventBus();
+  }
+
+  void initData() {
     blocTinTuc = TinTucThoiSuBloc();
     cubit = BaoChiMangXaHoiBloc();
-    _controller = TabController(vsync: AnimatedListState(), length: 3);
+    _controller = TabController(vsync: this, length: 3)..addListener(_onListen);
     cubit.getMenu();
+  }
+
+  void handleEventBus() {
+    eventBus.on<FireTopic>().listen((event) {
+      setState(() {
+        topic = event.topic;
+      });
+    });
+  }
+
+  void _onListen() {
+    eventBus.on<FireTopic>().listen((event) {
+      _controller.animateTo(0, duration: const Duration(milliseconds: 500));
+      setState(() {
+        topic = event.topic;
+      });
+    });
   }
 
   @override
@@ -64,6 +88,7 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
               DrawerSlide.navigatorSlide(
                 context: context,
                 screen: BaoChiMangXaHoiMenu(
+                  topic: topic,
                   onChange: () {
                     cubit.changeScreenMenu();
                   },
@@ -105,7 +130,6 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
             const TatCaChuDeScreen(),
             TheoDoiBaiVietScreen(
               key: UniqueKey(),
-              topic: cubit.topic,
             ),
             TinTucThoiSuScreen(
               tinTucThoiSuBloc: blocTinTuc,

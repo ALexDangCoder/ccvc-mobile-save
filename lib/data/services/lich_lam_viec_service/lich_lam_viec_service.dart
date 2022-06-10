@@ -96,11 +96,21 @@ abstract class LichLamViecService {
     @Body() DanhSachLichLamViecRequest danhSachLichLamViecRequest,
   );
 
+//?scheduleId={id}&only=true&isLichLap=true&?
   @DELETE(ApiConstants.XOA_LICH_LAM_VIEC)
-  Future<DeleteCalenderWorkResponse> deleteCalenderWork(@Path('id') String id);
+  Future<DeleteCalenderWorkResponse> deleteCalenderWork(
+    @Query('scheduleId') String id,
+    @Query('only') bool only,
+    @Query('isLichLap') bool isLichLap,
+  );
 
+//?scheduleId={id}&statusId=8&isMulti=false
   @GET(ApiConstants.CANCEL_TIET_LICH_LAM_VIEC)
-  Future<CancelCalenderWorkResponse> cancelCalenderWork(@Path('id') String id);
+  Future<CancelCalenderWorkResponse> cancelCalenderWork(
+    @Query('scheduleId') String id,
+    @Query('statusId') int statusId,
+    @Query('isMulti') bool isMulti,
+  );
 
   @GET(ApiConstants.SCHEDULE_OPINION_LIST)
   Future<DanhSachYKienResponse> getDanhSachYKien(

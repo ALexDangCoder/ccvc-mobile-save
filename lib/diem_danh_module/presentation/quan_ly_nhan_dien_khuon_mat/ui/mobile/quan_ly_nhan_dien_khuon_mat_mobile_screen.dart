@@ -75,8 +75,12 @@ class _QuanLyNhanDienKhuonMatMobileScreenState
             controller: _tabController,
             indicatorSize: TabBarIndicatorSize.tab,
             labelColor: AppTheme.getInstance().colorField(),
-            unselectedLabelColor: colorA2AEBD,
+            unselectedLabelColor: color667793,
             indicatorColor: AppTheme.getInstance().colorField(),
+            unselectedLabelStyle: textNormalCustom(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+            ),
             labelStyle: textNormalCustom(
               fontSize: 14.0,
               fontWeight: FontWeight.w700,

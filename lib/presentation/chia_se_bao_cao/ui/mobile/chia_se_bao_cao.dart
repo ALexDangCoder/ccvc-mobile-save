@@ -1,10 +1,11 @@
 import 'dart:ui';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/bloc/chia_se_bao_cao_cubit.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/tab_cung_he_thong.dart';
+import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/tab_ngoai_he_thong.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -153,7 +154,9 @@ class _ChiaSeBaoCaoMobileState extends State<ChiaSeBaoCaoMobile>
                 TabCungHeThongMobile(
                   cubit: cubit,
                 ),
-                Container(),
+                TabNgoaiHeThongMobile(
+                  cubit: cubit,
+                ),
               ],
             ),
           ),

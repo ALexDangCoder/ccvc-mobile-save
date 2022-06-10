@@ -12,6 +12,18 @@ class ImageAssets {
   static const String icMenuCalender = '$baseImg/menu_calender.svg';
   static const String icBack = '$baseImg/ic_back.svg';
   static const String icExit = '$baseImg/ic_exit.svg';
+  static const String icUpAnh = '$baseImg/ic_up_anh.svg';
+  static const String imgAnhChinhDien = '$baseImg/anh_chinh_dien.jpg';
+  static const String imgAnhChinhDienDeoKinh = '$baseImg/anh_chinh_dien_deo_kinh.jpg';
+  static const String imgAnhChupMatTuDuoiLen = '$baseImg/anh_chup_mat_tu_duoi_len.jpg';
+  static const String imgAnhChupMatTuDuoiLenDeoKinh = '$baseImg/anh_chup_mat_tu_duoi_len_deo_kinh.jpg';
+  static const String imgAnhChupMatTuTrenXuong = '$baseImg/anh_chup_mat_tu_tren_xuong.jpg';
+  static const String imgAnhChupMatTuTrenXuongDeoKinh = '$baseImg/anh_chup_mat_tu_tren_xuong_deo_kinh.jpg';
+  static const String imgAnhNhinSangPhai = '$baseImg/anh_nhin_sang_phai.jpg';
+  static const String imgAnhNhinSangPhaiDeoKinh = '$baseImg/anh_nhin_sang_phai_deo_kinh.jpg';
+  static const String imgAnhNhinSangTrai = '$baseImg/anh_nhin_sang_trai.jpg';
+  static const String imgAnhNhinSangTraiDeoKinh = '$baseImg/anh_nhin_sang_trai_deo_kinh.jpg';
+
 
 
   static SvgPicture svgAssets(

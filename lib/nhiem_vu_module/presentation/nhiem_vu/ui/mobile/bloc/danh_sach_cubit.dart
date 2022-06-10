@@ -30,8 +30,8 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   int pageSize = 5;
   int pageIndex = 1;
   bool isCaNhan = true;
+  bool isNhiemVuDonViCon = false;
   String keySearch = '';
-  BehaviorSubject<List<PageData>> dataSubject = BehaviorSubject();
   BehaviorSubject<List<PageDatas>> dataSubjects = BehaviorSubject();
   BehaviorSubject<String> searchSubjects = BehaviorSubject();
 
@@ -113,7 +113,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       mangTrangThai: [],
       ngayTaoNhiemVu: {'FromDate': start, 'ToDate': end},
       size: pageSize,
-      keySearch: keySearch,
+      keySearch: keySearch, isFilter: false,
     );
   }
 
@@ -133,6 +133,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
 
   Future<void> postDanhSachNhiemVu({
     required int? index,
+    required bool isFilter,
     required bool isNhiemVuCaNhan,
     required bool isSortByHanXuLy,
     required String keySearch,
@@ -142,9 +143,13 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     int? trangThaiHanXuLy,
     String? loaiNhiemVuId,
   }) async {
+    if (isFilter) {
+      loadMoreList.clear();
+    }
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
+      isNhiemVuDonViCon: isNhiemVuDonViCon,
       index: index,
       isNhiemVuCaNhan: isNhiemVuCaNhan,
       isSortByHanXuLy: isSortByHanXuLy,
@@ -160,7 +165,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
       success: (res) {
-        dataSubject.sink.add(res.pageData ?? []);
         if (index == ApiConstants.PAGE_BEGIN) {
           if (res.pageData?.isEmpty ?? true) {
             showContent();

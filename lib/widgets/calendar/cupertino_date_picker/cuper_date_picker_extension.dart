@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/build_picker.dart';
 import 'package:ccvc_mobile/widgets/calendar/cupertino_date_picker/cupertino_date_picker.dart';
@@ -17,8 +15,10 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         DateTime(selectedYear, (selectedMonth + 1) % 12, 0).day;
     for (int i = 0; i < daysInCurrentMonth; i++) {
       if (widget.maximumDate != null) {
-        final day = i +1 ;
-        if (day > widget.maximumDate!.day) {
+        final day = i + 1;
+        if (day > widget.maximumDate!.day &&
+            selectedYear == widget.maximumDate?.year &&
+            selectedMonth == widget.maximumDate?.month) {
           continue;
         }
       }
@@ -69,12 +69,14 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
     for (int i = 0; i < 12; i++) {
       final month = i + 1;
       if (widget.maximumDate != null) {
-        if (month > widget.maximumDate!.month) {
+        if (month > widget.maximumDate!.month &&
+            selectedYear == widget.maximumDate?.year) {
           continue;
         }
       }
       if (widget.minimumDate != null) {
-        if (month < widget.minimumDate!.month) {
+        if (month < widget.minimumDate!.month &&
+            selectedYear == widget.maximumDate?.year) {
           continue;
         }
       }

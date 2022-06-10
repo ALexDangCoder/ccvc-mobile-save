@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_cong_viec_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/domain/model/danh_sach_nhiem_vu_model.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/utils/extensions/date_time_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,7 +87,7 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                           ),
                           spaceW10,
                           Text(
-                            'Chủ trì',
+                            data.ownerTypeName ?? '',
                             style: textNormalCustom(
                               color: color667793,
                               fontWeight: FontWeight.w500,
@@ -132,7 +133,7 @@ class NhiemVuItemTabletNew extends StatelessWidget {
                             ),
                             child: Center(
                               child: Text(
-                                data.trangThai ?? '',
+                                (data.maTrangThai ?? '').titleTrangThai(),
                                 style: textNormalCustom(fontSize: 12.0),
                               ),
                             ),

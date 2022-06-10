@@ -89,6 +89,7 @@ const linkColor = Color(0xff7966FF);
 const shadowContainerColor = Color(0xff6566E9);
 const shadowColor = Color(0xff6262eb);
 const color5A8DEE = Color(0xff5A8DEE);
+const color02C5DD = Color(0xff02C5DD);
 const dangXyLyColor = Color(0xff7966FF);
 const daXuLyColor = Color(0xff28C76F);
 const choVaoSoColor = Color(0xffFF9F43);
@@ -148,6 +149,7 @@ const buttonColor = Color(0xff7966FF);
 const buttonColor2 = Color(0x1A7966FF);
 //tabar color
 const colorA2AEBD = Color(0xFFA2AEBD);
+const color4C6FFF = Color(0xFF4C6FFF);
 const selectColorTabbar = Color(0xFF304261);
 const whiteHide = Color(0xFFEAEEF5);
 const greyHide = Color(0xFFF5F6FA);
@@ -377,7 +379,7 @@ class DefaultApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override
@@ -399,7 +401,7 @@ class BlueApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override
@@ -533,7 +535,7 @@ class PinkApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override
@@ -667,7 +669,7 @@ class YellowApp extends AppColor {
 
   @override
   Color choXuLyColor() {
-    return color5A8DEE;
+    return color02C5DD;
   }
 
   @override

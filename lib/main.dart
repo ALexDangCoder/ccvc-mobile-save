@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/strings.dart';
@@ -25,9 +27,13 @@ import 'package:hive/hive.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
+Future<void> _messageHandler(RemoteMessage message) async {
+
+}
+
 Future<void> mainApp() async {
   WidgetsFlutterBinding.ensureInitialized();
- // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await PrefsService.init();
   await Firebase.initializeApp();
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -35,8 +41,10 @@ Future<void> mainApp() async {
     badge: true,
     sound: true,
   );
+
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_messageHandler);
+
   final appDocumentDirectory =
       await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
@@ -53,8 +61,6 @@ Future<void> mainApp() async {
   runApp(const MyApp());
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
-
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -64,23 +70,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppState appStateCubit = AppState();
-  final ThongBaoCubit cubitThongBao = Get.find();
-
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
   @override
   void initState() {
+
     super.initState();
     appStateCubit.getThemeApp();
     appStateCubit.getTokenPrefs();
     checkDeviceType();
-    cubitThongBao.checkPermissionSilent();
-    cubitThongBao.getSettingNoti();
-    cubitThongBao.isSilent();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      cubitThongBao.getThongBaoQuanTrong();
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
     });
-    // FirebaseMessaging.instance.getInitialMessage().then(
-    //       (value) => {cubitThongBao.pushNoti(value?.data ?? {}, context)},
-    //     );
   }
 
   @override

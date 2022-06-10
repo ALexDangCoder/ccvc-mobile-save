@@ -5,15 +5,20 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/widget/
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tabbar/bloc/bao_chi_mang_xa_hoi_cubit.dart';
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/thoi_doi_bai_viet/bloc/theo_doi_bai_viet_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BaoChiMangXaHoiMenu extends StatefulWidget {
   final BaoChiMangXaHoiBloc cubit;
   final Function() onChange;
+  final int topic;
 
   const BaoChiMangXaHoiMenu(
-      {Key? key, required this.cubit, required this.onChange})
+      {Key? key,
+      required this.cubit,
+      required this.onChange,
+      required this.topic})
       : super(key: key);
 
   @override
@@ -50,7 +55,11 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                     return ContainerMenuBaoChiWidget(
                       name: widget.cubit.listTitleItemMenu[index].title,
                       icon: ImageAssets.icMenuItemBCMXH,
-                      type: TypeContainer.expand,
+                      initExpand: widget.topic ==
+                          widget.cubit.listTitleItemMenu[index].nodeId,
+                      type: widget.cubit.listSubMenu[index].isEmpty
+                          ? TypeContainer.number
+                          : TypeContainer.expand,
                       childExpand: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -60,54 +69,30 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                             name: widget
                                 .cubit.listSubMenu[index][indexItem].title,
                             onTap: () {
-                              widget.cubit.topic = widget
-                                  .cubit.listSubMenu[index][indexItem].nodeId;
+                              eventBus.fire(
+                                FireTopic(
+                                  widget.cubit.listSubMenu[index][indexItem]
+                                      .nodeId,
+                                ),
+                              );
                               widget.onChange();
                               widget.cubit.slectColorItem(indexItem);
                               Navigator.pop(context);
                             },
                           );
-                          // return GestureDetector(
-                          //   child: StreamBuilder(
-                          //     stream: widget.cubit.indexSelectItem,
-                          //     builder: (context, snapshot) {
-                          //       final data = snapshot.data;
-                          //       return Container(
-                          //         // color: data == indexItem
-                          //         //     ? linkColor
-                          //         //     : backgroundColorApp,
-                          //         // padding: const EdgeInsets.fromLTRB(
-                          //         //   32,
-                          //         //   0,
-                          //         //   0,
-                          //         //   16,
-                          //         // ),
-                          //         child: Text(
-                          //           widget.cubit.listSubMenu[index][indexItem]
-                          //               .title,
-                          //           style: tokenDetailAmount(
-                          //             color: textTitle,
-                          //             fontSize: 14.0.textScale(),
-                          //           ),
-                          //         ),
-                          //       );
-                          //     },
-                          //   ),
-                          //   onTap: () {
-                          //     widget.cubit.topic = widget
-                          //         .cubit.listSubMenu[index][indexItem].nodeId;
-                          //     widget.onChange();
-                          //     widget.cubit.slectColorItem(indexItem);
-                          //     Navigator.pop(context);
-                          //   },
-                          // );
                         },
                       ),
-                      onTap: () {
-                        widget.cubit.topic =
-                            widget.cubit.listTitleItemMenu[index].nodeId;
-                        widget.onChange();
-                      },
+                      onTap: widget.cubit.listSubMenu[index].isEmpty
+                          ? () {
+                              eventBus.fire(
+                                FireTopic(
+                                  widget.cubit.listTitleItemMenu[index].nodeId,
+                                ),
+                              );
+                              widget.onChange();
+                              Navigator.pop(context);
+                            }
+                          : () {},
                     );
                   },
                 ),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/result_xin_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/tien_trinh_xu_ly_model.dart';
@@ -19,6 +20,10 @@ mixin YKienNguoiDanRepository {
     String donViId,
     String fromDate,
     String toDate,
+  );
+
+  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
+    bool isDonVi,
   );
 
   Future<Result<PhanLoaiModel>> dasdBoardPhanLoai(

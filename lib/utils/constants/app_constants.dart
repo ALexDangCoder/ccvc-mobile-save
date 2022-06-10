@@ -32,6 +32,7 @@ enum AppBackGround {
 enum SelectKey {
   CA_NHAN,
   DON_VI,
+  DA_XU_LY,
   HOM_NAY,
   TUAN_NAY,
   THANG_NAY,
@@ -287,4 +288,8 @@ class StatusCodeConst {
   static int STATUS_SERVICE_UNAVAILABLE = 503;
   static int STATUS_GATEWAY_TIMEOUT = 504;
   static int STATUS_HTTP_VERSION_NOT_SUPPORTED = 505;
+}
+
+class PermissionConst {
+  static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }

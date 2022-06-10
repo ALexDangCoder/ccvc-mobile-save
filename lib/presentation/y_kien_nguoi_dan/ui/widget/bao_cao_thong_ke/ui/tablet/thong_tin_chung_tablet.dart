@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/tablet/chi_tiet_pakn_tablet.dart';
@@ -39,7 +40,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
-    //  cubit.callApi();
+    widget.cubit.getDashBoardPAKNTest();
     widget.cubit.getDanhSachPAKN();
   }
 
@@ -143,19 +144,26 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
                             )
                           ],
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Expanded(
-                              child: TiepCanWidget(),
-                            ),
-                            SizedBox(
-                              width: 115,
-                            ),
-                            Expanded(
-                              child: XuLyWidget(),
-                            ),
-                          ],
+                        ///hia
+                        child: StreamBuilder<DocumentDashboardModel>(
+                          stream: widget.cubit.getTinhHinhXuLy.stream,
+                          builder: (ctx, snapshot) {
+                            final data = snapshot.data ?? DocumentDashboardModel();
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children:  [
+                                Expanded(
+                                  child: TiepCanWidget(model: data,),
+                                ),
+                                SizedBox(
+                                  width: 115,
+                                ),
+                                Expanded(
+                                  child: XuLyWidget(model: data,),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ),
                       spaceH20,

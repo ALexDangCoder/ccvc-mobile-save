@@ -8,8 +8,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.da
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
-import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_widget.dart';
-import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -218,11 +216,11 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                         SizedBox(
                           height: 20,
                         ),
-                        TiepCanWidget(),
+                        // TiepCanWidget(),
                         SizedBox(
                           height: 33,
                         ),
-                        XuLyWidget(),
+                        // XuLyWidget(),
                       ],
                     ),
                   ),

@@ -1064,7 +1064,6 @@
   "mo_cai_dat" : "Mở cài đặt",
   "ban_can_mo_quyen_de_truy_cap_ung_dung" :  "Bạn cần mở quyền truy cập ứng dụng",
   "thay_doi_phong": "Thay đổi phòng",
-  "lap_den": "Lặp đến ngày",
   "thong_ke": "Thống kê",
   "tai_anh_len": "Tải ảnh lên",
   "anh_mau": "Ảnh mẫu",
@@ -1085,5 +1084,6 @@
   "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
   "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
   "chon_nhom":"Chọn nhóm",
-  "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu"
+  "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+  "tu_choi_ky_thuat": "Từ chối kỹ thuật"
 }

@@ -1,4 +1,5 @@
 import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 
@@ -29,10 +30,10 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     );
   }
 
-//TODO
+  ///lấy danh sách phòng họp theo chi tiết họp
   Future<void> getDanhSachPhongHop() async {
-    final ChiTietLichHopModel chiTietLichHopModel =
-        chiTietLichLamViecSubject.value;
+    showLoading();
+    final ChiTietLichHopModel chiTietLichHopModel = chiTietLichHopSubject.value;
     final result = await hopRp.getDanhSachPhongHop(
       chiTietLichHopModel.chuTriModel.donViId,
       chiTietLichHopModel.ngayBatDau,
@@ -50,9 +51,11 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     showContent();
   }
 
+  ///hủy hoặc duyệt phòng họp
   Future<void> huyOrDuyetPhongHop(
     bool isDuyet,
   ) async {
+    showLoading();
     final result = await hopRp.huyOrDuyetPhongHop(
       idCuocHop,
       isDuyet,
@@ -71,8 +74,10 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     showContent();
   }
 
+  /// chọn phòng họp mới
   Future<void> thayDoiPhongHop() async {
-    ChiTietLichHopModel chiTietLichHopModel = chiTietLichLamViecSubject.value;
+    showLoading();
+    ChiTietLichHopModel chiTietLichHopModel = chiTietLichHopSubject.value;
     final result = await hopRp.thayDoiPhongHop(
       chiTietLichHopModel.phongHopMode.bit_TTDH,
       idCuocHop,
@@ -92,8 +97,8 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     showContent();
   }
 
-//TODO
-  Future<void> duyetOrHuyDuyetThietBi(
+  /// duyệt hoặc hủy duyệt thiết bị TODO
+  Future<bool> duyetOrHuyDuyetThietBi(
     bool isDuyet,
     String thietBiId,
   ) async {
@@ -106,19 +111,39 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     result.when(
       success: (res) {
         if (res.succeeded ?? false) {
-          initData(boolGetChiTietLichHop: true);
+          return true;
         }
       },
       error: (err) {
         showError();
+        return false;
       },
     );
+    return false;
+  }
+
+  Future<void> forToduyetOrHuyDuyetThietBi({
+    required List<ThietBiPhongHopModel> listTHietBiDuocChon,
+    required bool isDuyet,
+  }) async {
+    showLoading();
+    final List<bool> checkAllFinal = [];
+    for (int i = 0; i <= listTHietBiDuocChon.length; i++) {
+      await duyetOrHuyDuyetThietBi(isDuyet, listTHietBiDuocChon[i].id).then(
+        (vl) => checkAllFinal.add(vl),
+      );
+    }
+    if (!checkAllFinal.contains(false)) {
+      await initData(boolGetDanhSachThietBi: true);
+    }
     showContent();
   }
 
+  /// duyệt hoặc hủy duyệt kỹ thuât
   Future<void> duyetOrHuyDuyetKyThuat(
     bool isDuyet,
   ) async {
+    showLoading();
     final result = await hopRp.duyetOrHuyDuyetKyThuat(
       idCuocHop,
       isDuyet,
@@ -137,8 +162,9 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     showContent();
   }
 
+  /// chọn phong họp khi chưa có phòng họp nào
   Future<void> chonPhongHop() async {
-    ChiTietLichHopModel chiTietLichHopModel = chiTietLichLamViecSubject.value;
+    ChiTietLichHopModel chiTietLichHopModel = chiTietLichHopSubject.value;
 
     taoLichHopRequest.typeScheduleId = chiTietLichHopModel.typeScheduleId;
     taoLichHopRequest.linhVucId = chiTietLichHopModel.linhVuc;

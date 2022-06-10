@@ -147,11 +147,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Stream<List<MoiHopModel>> get listMoiHopStream => listMoiHopSubject.stream;
 
-  BehaviorSubject<ChiTietLichHopModel> chiTietLichLamViecSubject =
+  BehaviorSubject<ChiTietLichHopModel> chiTietLichHopSubject =
       BehaviorSubject();
 
   ChiTietLichHopModel get getChiTietLichHopModel =>
-      chiTietLichLamViecSubject.valueOrNull ?? ChiTietLichHopModel();
+      chiTietLichHopSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>

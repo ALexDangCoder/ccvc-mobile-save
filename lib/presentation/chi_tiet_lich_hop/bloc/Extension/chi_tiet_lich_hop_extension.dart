@@ -59,7 +59,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
       success: (res) {
         showContent();
         res.loaiHop = _findLoaiHop(res.typeScheduleId)?.name ?? '';
-        chiTietLichLamViecSubject.add(res);
+        chiTietLichHopSubject.add(res);
       },
       error: (err) {
         showError();

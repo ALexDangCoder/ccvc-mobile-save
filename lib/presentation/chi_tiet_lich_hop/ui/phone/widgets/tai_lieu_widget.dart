@@ -59,7 +59,7 @@ class _TaiLieuWidgetState extends State<TaiLieuWidget> {
       );
 
   Widget listFileFromApi() => StreamBuilder<ChiTietLichHopModel>(
-        stream: widget.cubit.chiTietLichLamViecSubject,
+        stream: widget.cubit.chiTietLichHopSubject,
         builder: (context, snapshot) {
           final data =
               snapshot.data?.fileData!.map((e) => e.name).toList() ?? [];

@@ -83,7 +83,6 @@ class ChiTietLichHopModel {
     this.nguoiTao_str = '',
     this.lichHop_PhienHopStr,
     this.diaDiemHop,
-
   });
 
   String mucDoHopWithInt() {

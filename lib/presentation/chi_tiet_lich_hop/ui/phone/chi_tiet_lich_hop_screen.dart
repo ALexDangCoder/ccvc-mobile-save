@@ -72,21 +72,22 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
           title: S.current.chi_tiet_lich_hop,
           actions: [
             StreamBuilder<List<PERMISSION_DETAIL>>(
-                stream: cubit.listButtonSubject.stream,
-                builder: (context, snapshot) {
-                  final data = snapshot.data ?? [];
-                  return MenuSelectWidget(
-                    listSelect: data
-                        .map(
-                          (e) => e.getMenuLichHop(
-                            context,
-                            cubit,
-                            widget.id,
-                          ),
-                        )
-                        .toList(),
-                  );
-                }),
+              stream: cubit.listButtonSubject.stream,
+              builder: (context, snapshot) {
+                final data = snapshot.data ?? [];
+                return MenuSelectWidget(
+                  listSelect: data
+                      .map(
+                        (e) => e.getMenuLichHop(
+                          context,
+                          cubit,
+                          widget.id,
+                        ),
+                      )
+                      .toList(),
+                );
+              },
+            ),
             const SizedBox(
               width: 16,
             )
@@ -104,10 +105,10 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                 child: ListView(
                   children: [
                     StreamBuilder<ChiTietLichHopModel>(
-                      stream: cubit.chiTietLichLamViecSubject.stream,
+                      stream: cubit.chiTietLichHopSubject.stream,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
-                          return Container();
+                          return const SizedBox();
                         }
                         final data = snapshot.data ?? ChiTietLichHopModel();
                         return Column(

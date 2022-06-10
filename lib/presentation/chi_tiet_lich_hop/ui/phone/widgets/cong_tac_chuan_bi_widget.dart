@@ -1,20 +1,19 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/chi_tiet_lich_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/permision_ex.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chon_phonghop_in_detail.dart';
 import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
-import 'package:ccvc_mobile/widgets/button/solid_button.dart';
+import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:get/get.dart';
 
 class CongTacChuanBiWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
@@ -26,6 +25,8 @@ class CongTacChuanBiWidget extends StatefulWidget {
 }
 
 class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
+  List<ThietBiPhongHopModel> listTHietBiDuocChon = [];
+
   @override
   Widget build(BuildContext context) {
     return ExpandOnlyWidget(
@@ -85,45 +86,57 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
               }
               return Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Row(
-                      children: [
-                        ButtonOtherWidget(
-                          text: S.current.duyet,
-                          color: itemWidgetUsing,
-                          ontap: () {
-                            widget.cubit.huyOrDuyetPhongHop(true);
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: ButtonOtherWidget(
-                            text: S.current.tu_choi,
-                            color: statusCalenderRed,
-                            ontap: () {
-                              widget.cubit.huyOrDuyetPhongHop(false);
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: ButtonOtherWidget(
-                            text: S.current.thay_doi_phong,
-                            color: bgButtonDropDown,
-                            ontap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ChonPhongHopDetailHopScreen(),
+                  StreamBuilder<ChiTietLichHopModel>(
+                    stream: widget.cubit.chiTietLichHopSubject.stream,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData && widget.cubit.checkPermission()) {
+                        return const SizedBox();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Row(
+                          children: [
+                            /// check quyền hiển thị từ trạng thái phòng họp và quuyền của app
+                            if (widget.cubit.checkDuyetPhong())
+                              ButtonOtherWidget(
+                                text: S.current.duyet,
+                                color: itemWidgetUsing,
+                                ontap: () {
+                                  widget.cubit.huyOrDuyetPhongHop(true);
+                                },
+                              ),
+                            if (widget.cubit.checkHuyDuyet())
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: ButtonOtherWidget(
+                                  text: S.current.tu_choi,
+                                  color: statusCalenderRed,
+                                  ontap: () {
+                                    widget.cubit.huyOrDuyetPhongHop(false);
+                                  },
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            if (widget.cubit.checkThayDoiPhong())
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: ButtonOtherWidget(
+                                  text: S.current.thay_doi_phong,
+                                  color: bgButtonDropDown,
+                                  ontap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ChonPhongHopDetailHopScreen(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   ThongTinPhongWidget(
                     thongTinPhongHopModel: data,
@@ -152,23 +165,44 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
-                        child: Row(
-                          children: [
-                            ButtonOtherWidget(
-                              text: S.current.duyet,
-                              color: itemWidgetUsing,
-                              ontap: () {},
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 12),
-                              child: ButtonOtherWidget(
-                                text: S.current.tu_choi,
-                                color: statusCalenderRed,
-                                ontap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
+                        child: StreamBuilder<ChiTietLichHopModel>(
+                            stream: widget.cubit.chiTietLichHopSubject.stream,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData &&
+                                  widget.cubit.checkPermission()) {
+                                return const SizedBox();
+                              }
+                              return Row(
+                                children: [
+                                  ButtonOtherWidget(
+                                    text: S.current.duyet,
+                                    color: itemWidgetUsing,
+                                    ontap: () {
+                                      widget.cubit.forToduyetOrHuyDuyetThietBi(
+                                        listTHietBiDuocChon:
+                                            listTHietBiDuocChon,
+                                        isDuyet: true,
+                                      );
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12),
+                                    child: ButtonOtherWidget(
+                                      text: S.current.tu_choi,
+                                      color: statusCalenderRed,
+                                      ontap: () {
+                                        widget.cubit
+                                            .forToduyetOrHuyDuyetThietBi(
+                                          listTHietBiDuocChon:
+                                              listTHietBiDuocChon,
+                                          isDuyet: false,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }),
                       ),
                       Column(
                         children: List.generate(
@@ -177,6 +211,13 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                             padding: const EdgeInsets.only(bottom: 16),
                             child: ThongTinYeuCauThietBiWidget(
                               model: data[index],
+                              onChange: (vl) {
+                                if (vl) {
+                                  listTHietBiDuocChon.add(data[index]);
+                                } else {
+                                  listTHietBiDuocChon.remove(data[index]);
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -185,29 +226,50 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  children: [
-                    ButtonOtherWidget(
-                      text: 'duyệt kỹ thuật',
-                      color: itemWidgetUsing,
-                      ontap: () {
-                        widget.cubit.duyetOrHuyDuyetKyThuat(true);
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: ButtonOtherWidget(
-                        text: 'từ chối kỹ thuật',
-                        color: statusCalenderRed,
-                        ontap: () {
-                          widget.cubit.duyetOrHuyDuyetKyThuat(false);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+              StreamBuilder<ThongTinPhongHopModel?>(
+                stream: widget.cubit.getThongTinPhongHop,
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  if (!snapshot.hasData &&
+                      data == null &&
+                      widget.cubit.checkPermissionDKT()) {
+                    return const SizedBox();
+                  }
+                  return StreamBuilder<ChiTietLichHopModel>(
+                    stream: widget.cubit.chiTietLichHopSubject.stream,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const SizedBox();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Row(
+                          children: [
+                            if (widget.cubit.checkDuyetKyThuat())
+                              ButtonOtherWidget(
+                                text: S.current.duyet_ky_thuat,
+                                color: itemWidgetUsing,
+                                ontap: () {
+                                  widget.cubit.duyetOrHuyDuyetKyThuat(true);
+                                },
+                              )
+                            else
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: ButtonOtherWidget(
+                                  text: S.current.tu_choi_ky_thuat,
+                                  color: statusCalenderRed,
+                                  ontap: () {
+                                    widget.cubit.duyetOrHuyDuyetKyThuat(false);
+                                  },
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
@@ -281,13 +343,16 @@ class ThongTinPhongWidget extends StatelessWidget {
 }
 
 class ThongTinYeuCauThietBiWidget extends StatelessWidget {
+  final Function(bool) onChange;
   final ThietBiPhongHopModel model;
 
-  const ThongTinYeuCauThietBiWidget({Key? key, required this.model})
+  const ThongTinYeuCauThietBiWidget(
+      {Key? key, required this.model, required this.onChange})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool check = false;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -297,9 +362,21 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          RowDataWidget(
-            keyTxt: S.current.loai_thiet_bi,
-            value: model.loaiThietBi ?? '',
+          Row(
+            children: [
+              RowDataWidget(
+                keyTxt: S.current.loai_thiet_bi,
+                value: model.loaiThietBi ?? '',
+              ),
+              CustomCheckBox(
+                isOnlyCheckbox: true,
+                title: '',
+                isCheck: check,
+                onChange: (vl) {
+                  onChange(vl);
+                },
+              )
+            ],
           ),
           spaceH10,
           RowDataWidget(

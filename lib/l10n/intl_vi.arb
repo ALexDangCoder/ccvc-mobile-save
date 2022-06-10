@@ -1043,13 +1043,7 @@
   "anh_mat_nhin_sang_trai": "Ảnh mặt nhìn sang trái ",
   "anh_chup_mat_tu_tren_xuong": "Ảnh chụp mặt từ trên xuống",
   "anh_chup_mat_tu_duoi_len": "Ảnh chụp mặt từ dưới lên",
-  <<<<<<<
-  HEAD
-  "mo_cai_dat": "Mở cài đặt",
-  "ban_can_mo_quyen_de_truy_cap_ung_dung": "Bạn cần mở quyền truy cập ứng dụng",
   "thay_doi_phong": "Thay đổi phòng",
-  "lap_den": "Lặp đến ngày"
-  =======
   "sap_xep_theo_ten": "Sắp xếp theo tên",
   "sap_xep": "Sắp xếp",
   "yeu_thich": "Yêu thích",
@@ -1076,7 +1070,8 @@
   "xe_lanh_dao": "Xe lãnh đạo",
   "xe_may": "Xe máy",
   "xe_o_to": "Ô tô",
-  "thoi_gian_bat_dau": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu"
+  "thoi_gian_bat_dau": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+  "tu_choi_ky_thuat": "Từ chối kỹ thuật"
 }
 
 

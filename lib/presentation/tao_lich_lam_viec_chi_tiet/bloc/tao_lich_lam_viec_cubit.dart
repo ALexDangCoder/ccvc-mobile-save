@@ -19,9 +19,9 @@ import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/widget_manage/widget_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/login/ui/widgets/show_toast.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_state.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/item_select_model.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
@@ -168,14 +168,21 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
 
   void listeningStartDataTime(DateTime dateAndTime) {
     dateFrom = dateAndTime.formatApi;
-    timeFrom =
-        '${dateAndTime.hour.toString()}:${dateAndTime.minute.toString()}';
+    if (isCheckAllDaySubject.value == true) {
+      timeFrom = START_TIME;
+    } else {
+      timeFrom = dateAndTime.formatApiFixMeet;
+    }
     startDateSubject.add(dateAndTime);
   }
 
   void listeningEndDataTime(DateTime dateAndTime) {
     dateEnd = dateAndTime.formatApi;
-    timeEnd = '${dateAndTime.hour.toString()}:${dateAndTime.minute.toString()}';
+    if (isCheckAllDaySubject.value == true) {
+      timeEnd = END_TIME;
+    } else {
+      timeEnd = dateAndTime.formatApiFixMeet;
+    }
     endDateSubject.add(dateAndTime);
   }
 

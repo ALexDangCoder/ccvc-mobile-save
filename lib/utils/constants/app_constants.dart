@@ -135,6 +135,8 @@ const _dtFormat10 = 'dd/MM/yyyy';
 const _dtFormat11 = 'dd-MM-yyyy';
 const HOUR_MINUTE_FORMAT = 'Hm';
 
+const START_TIME='8:00';
+const END_TIME='18:00';
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';

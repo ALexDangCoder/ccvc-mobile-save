@@ -7,6 +7,8 @@
   "error_network": "No internet!",
   "retry": "Retry",
   "unauthorized": "Your session has expired. Please sign in.",
+  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cập",
+  "them_moi_doi_tuong": "Thêm mới đối tượng",
   "search": "Search...",
   "phan_hoi": "Phản hồi",
   "list_empty": "Danh sách trống",
@@ -1066,7 +1068,8 @@
   "xe_can_bo": "Xe cán bộ",
   "xe_lanh_dao": "Xe lãnh đạo",
   "xe_may": "Xe máy",
-  "xe_o_to": "Ô tô"
+  "xe_o_to": "Ô tô",
+  "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu"
 }
 
 

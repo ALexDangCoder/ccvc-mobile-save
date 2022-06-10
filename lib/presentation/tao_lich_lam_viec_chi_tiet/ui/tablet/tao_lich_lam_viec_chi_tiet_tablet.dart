@@ -27,7 +27,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/th
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
-import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -201,18 +201,26 @@ class _TaoLichLamViecChiTietTabletState
                                     LoaiLichWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                     ),
-                                    StartEndDateWidget(
-                                      onEndDateTimeChanged: (DateTime value) {
-                                        taoLichLamViecCubit
-                                            .listeningEndDataTime(value);
-                                      },
-                                      onStartDateTimeChanged: (DateTime value) {
-                                        taoLichLamViecCubit
-                                            .listeningStartDataTime(value);
-                                      },
-                                      isCheck: (bool value) {
+                                    CupertinoMaterialPicker(
+                                      onSwitchPressed: (value) {
                                         taoLichLamViecCubit.isCheckAllDaySubject
                                             .add(value);
+                                      },
+                                      onDateTimeChanged: (
+                                        String timeStart,
+                                        String timeEnd,
+                                        String dateStart,
+                                        String dateEnd,
+                                      ) {
+                                        sendData(
+                                          dateEnd,
+                                          timeEnd,
+                                          dateStart,
+                                          timeEnd,
+                                        );
+                                      },
+                                      validateTime: (bool value) {
+                                        //todo Hưng
                                       },
                                     ),
                                     NhacLaiWidget(
@@ -251,34 +259,35 @@ class _TaoLichLamViecChiTietTabletState
                                     ),
                                     //tinh
                                     StreamBuilder<bool>(
-                                        stream:
-                                            taoLichLamViecCubit.checkTrongNuoc,
-                                        builder: (context, snapshot) {
-                                          final data = snapshot.data ?? false;
-                                          if (!data) {
-                                            return Column(
-                                              children: [
-                                                ItemTinhWidget(
-                                                  taoLichLamViecCubit:
-                                                      taoLichLamViecCubit,
-                                                ),
-                                                ItemHuyenWidget(
-                                                  taoLichLamViecCubit:
-                                                      taoLichLamViecCubit,
-                                                ),
-                                                ItemXaWidget(
-                                                  taoLichLamViecCubit:
-                                                      taoLichLamViecCubit,
-                                                ),
-                                              ],
-                                            );
-                                          } else {
-                                            return ItemDatNuocWidget(
-                                              taoLichLamViecCubit:
-                                                  taoLichLamViecCubit,
-                                            );
-                                          }
-                                        }),
+                                      stream:
+                                          taoLichLamViecCubit.checkTrongNuoc,
+                                      builder: (context, snapshot) {
+                                        final data = snapshot.data ?? false;
+                                        if (!data) {
+                                          return Column(
+                                            children: [
+                                              ItemTinhWidget(
+                                                taoLichLamViecCubit:
+                                                    taoLichLamViecCubit,
+                                              ),
+                                              ItemHuyenWidget(
+                                                taoLichLamViecCubit:
+                                                    taoLichLamViecCubit,
+                                              ),
+                                              ItemXaWidget(
+                                                taoLichLamViecCubit:
+                                                    taoLichLamViecCubit,
+                                              ),
+                                            ],
+                                          );
+                                        } else {
+                                          return ItemDatNuocWidget(
+                                            taoLichLamViecCubit:
+                                                taoLichLamViecCubit,
+                                          );
+                                        }
+                                      },
+                                    ),
                                     TextFormWidget(
                                       controller: diaDiemController,
                                       image: ImageAssets.icViTri,
@@ -387,6 +396,29 @@ class _TaoLichLamViecChiTietTabletState
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  void sendData(
+      String dateEnd, String timeEnd, String dateStart, String timeStart) {
+    taoLichLamViecCubit.checkValidateTime();
+    taoLichLamViecCubit.listeningEndDataTime(
+      DateTime.parse(
+        timeFormat(
+          '$dateEnd $timeEnd',
+          'dd/MM/yyyy hh:mm',
+          'yyyy-MM-dd hh:mm:ss.ms',
+        ),
+      ),
+    );
+    taoLichLamViecCubit.listeningStartDataTime(
+      DateTime.parse(
+        timeFormat(
+          '$dateStart $timeStart',
+          'dd/MM/yyyy hh:mm',
+          'yyyy-MM-dd hh:mm:ss.ms',
         ),
       ),
     );

@@ -163,13 +163,13 @@ extension LichLv on CalenderState {
     required CalenderCubit cubit,
     Type_Choose_Option_Day type = Type_Choose_Option_Day.DAY,
   }) {
-    return StreamBuilder<List<DateTime>>(
-      stream: cubit.eventsStream,
-      builder: (context, snapshot) {
-        return StreamBuilder<DateTime>(
-          stream: cubit.streamInitTime,
-          builder: (context, snap) {
-            final datas = snap.data ?? DateTime.now();
+    return StreamBuilder<DateTime>(
+      stream: cubit.streamInitTime,
+      builder: (context, snap) {
+        final datas = snap.data ?? DateTime.now();
+        return StreamBuilder<List<DateTime>>(
+          stream: cubit.eventsStream,
+          builder: (context, snapshot) {
             return TableCalendarWidget(
               initTime: datas,
               eventsLoader: snapshot.data,

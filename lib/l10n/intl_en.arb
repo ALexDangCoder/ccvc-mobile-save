@@ -8,7 +8,7 @@
   "retry": "Retry",
   "unauthorized": "Your session has expired. Please sign in.",
   "don_vi_nhan_va_theo_doi_van_ban": "Đơn vị nhận và theo dõi văn bản",
-  "van_ban_lien_quan_kbh": "Văn bản liên quan(không ban hành)",
+  "van_ban_lien_quan_kbh": "Văn bản liên quan(không ban hành) ",
   "search": "Search...",
   "list_empty": "Danh sách trống",
   "press_socialNetWord": "Báo chí - mạng xã hội",
@@ -69,6 +69,8 @@
   "chu_nhat": "Chủ nhật",
   "chon_ngay": "Chọn ngày",
   "da_hoan_thanh": "Đã hoàn thành",
+  "doi_tuong_da_duoc_truy_cap": "Đối tượng đã được truy cập",
+  "them_moi_doi_tuong": "Thêm mới đối tượng",
   "them_cong_viec": "Thêm công việc",
   "using": "Widgets đang sử dụng",
   "not_use": "Widgets chưa sử dụng",
@@ -1080,5 +1082,6 @@
   "chia_se":"Chia sẻ",
   "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
   "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
-  "chon_nhom":"Chọn nhóm"
+  "chon_nhom":"Chọn nhóm",
+  "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu"
 }

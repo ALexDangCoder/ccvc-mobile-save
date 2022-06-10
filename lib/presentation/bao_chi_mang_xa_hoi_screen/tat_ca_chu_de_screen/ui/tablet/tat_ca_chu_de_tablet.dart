@@ -123,6 +123,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
                             height: 270,
                             child: ListView.builder(
                               shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: data.danhSachTuongtacThongKe.length,
                               itemBuilder: (context, index) {
                                 return index == 0 ? ItemTableTopicTablet(

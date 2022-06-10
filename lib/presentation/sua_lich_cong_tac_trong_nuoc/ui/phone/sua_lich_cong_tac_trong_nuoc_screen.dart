@@ -182,7 +182,9 @@ class _SuaLichCongTacTrongNuocPhoneState
                           ) {},
                           onSwitchPressed: (value) {
                             taoLichLamViecCubit.isCheckAllDaySubject.add(value);
-                          },
+                          }, validateTime: (bool value) {
+
+                        },
                         ),
                         StreamBuilder<List<NhacLaiModel>>(
                             stream: taoLichLamViecCubit.nhacLai,

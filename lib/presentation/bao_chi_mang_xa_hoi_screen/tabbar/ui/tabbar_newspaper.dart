@@ -29,10 +29,12 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
   late TabController _controller;
   late final BaoChiMangXaHoiBloc cubit;
   int topic = 848;
+
   @override
   void initState() {
     super.initState();
     initData();
+    handleEventBus();
   }
 
   void initData() {
@@ -42,10 +44,20 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
     cubit.getMenu();
   }
 
+  void handleEventBus() {
+    eventBus.on<FireTopic>().listen((event) {
+      setState(() {
+        topic = event.topic;
+      });
+    });
+  }
+
   void _onListen() {
     eventBus.on<FireTopic>().listen((event) {
       _controller.animateTo(0, duration: const Duration(milliseconds: 500));
-      topic = event.topic;
+      setState(() {
+        topic = event.topic;
+      });
     });
   }
 

@@ -19,6 +19,7 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
   final BehaviorSubject<List<ListMenuItemModel>> _dataMenu =
       BehaviorSubject<List<ListMenuItemModel>>();
   final BehaviorSubject<bool> _changeItemMenu = BehaviorSubject.seeded(false);
+  final BehaviorSubject<int> topicSubject = BehaviorSubject.seeded(848);
 
   Stream<bool> get changeItemMenu => _changeItemMenu.stream;
 
@@ -27,6 +28,7 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
   Stream<int> get indexSelectItem => _selectColorItem.stream;
 
   int topic = 848;
+
   Stream<List<ChuDeModel>> get listYKienNguoiDan => _listYKienNguoiDan.stream;
 
   Stream<List<ListMenuItemModel>> get dataMenu => _dataMenu.stream;
@@ -34,6 +36,7 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
   String endDate = DateTime.now().formatApiEndDay;
   List<MenuData> listTitleItemMenu = [];
   List<List<MenuItemModel>> listSubMenu = [];
+  List<ListMenuItemModel> tree = [];
   DashBoardTatCaChuDeRequest dashBoardTatCaChuDeRequest =
       DashBoardTatCaChuDeRequest(
     pageIndex: 1,
@@ -78,8 +81,9 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
     final result = await _BCMXHRepo.getMenuBCMXH();
     result.when(
       success: (res) {
+        tree = res;
         listTitleItemMenu =
-            res.map((e) => MenuData(nodeId: e.nodeid, title: e.title)).toList();
+            res.map((e) => MenuData(nodeId: e.nodeId, title: e.title)).toList();
         for (final element in res) {
           listSubMenu.add(element.subMenu);
         }
@@ -90,4 +94,25 @@ class BaoChiMangXaHoiBloc extends BaseCubit<BaoCHiMangXaHoiState> {
     );
     showContent();
   }
+
+  TreeId checkExpand(int id) {
+    bool flag = false;
+    for (final element in tree) {
+      for (final item in element.subMenu) {
+        if (item.nodeId == id) {
+          return TreeId(true, element.nodeId);
+        } else {
+          flag = false;
+        }
+      }
+    }
+    return TreeId(flag, 848);
+  }
+}
+
+class TreeId {
+  bool expanded;
+  int id;
+
+  TreeId(this.expanded, this.id);
 }

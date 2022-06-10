@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,6 +26,7 @@ class DateTimeCupertinoCustomCubit
   BehaviorSubject<bool> isShowBeginPickerSubject =
       BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isShowEndPickerSubject = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> validateTime = BehaviorSubject.seeded(false);
 
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;
@@ -121,6 +123,7 @@ class DateTimeCupertinoCustomCubit
         );
         break;
     }
+  }
 
     /// handle datetime begin greater than datetime end
 
@@ -129,6 +132,29 @@ class DateTimeCupertinoCustomCubit
     /// Returns a negative value if this DateTime [isBefore] [other].
     /// It returns 0 if it [isAtSameMomentAs] [other],
     /// and returns a positive value otherwise (when this [isAfter] [other]).
+  void checkTime() {
+    final begin = DateTime.parse(
+      timeFormat(
+        '${dateBeginSubject.value} ${timeBeginSubject.value}',
+        'dd/MM/yyyy hh:mm',
+        'yyyy-MM-dd hh:mm',
+      ),
+    );
+    final end = DateTime.parse(
+      timeFormat(
+        '${dateEndSubject.value} ${timeEndSubject.value}',
+        'dd/MM/yyyy hh:mm',
+        'yyyy-MM-dd hh:mm',
+      ),
+    );
+    if (begin.isAtSameMomentAs(end) ||
+        begin.isAfter(end) ||
+        end.isAtSameMomentAs(begin) ||
+        end.isBefore(begin)) {
+      validateTime.sink.add(true);
+    } else {
+      validateTime.sink.add(false);
+    }
   }
 
   int getYearNumber() {

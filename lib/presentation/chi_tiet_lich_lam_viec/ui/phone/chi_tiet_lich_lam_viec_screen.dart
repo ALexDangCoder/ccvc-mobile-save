@@ -126,7 +126,6 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                     textOption: false,
                     child: SuaLichCongTacTrongNuocPhone(
                       cubit: chiTietLichLamViecCubit,
-                      id: widget.id,
                     ),
                   );
                 },

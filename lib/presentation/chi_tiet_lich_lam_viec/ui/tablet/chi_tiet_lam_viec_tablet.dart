@@ -128,7 +128,6 @@ class _ChiTietLamViecTabletState extends State<ChiTietLamViecTablet> {
                     title: S.current.sua_lich_cong_tac_trong_nuoc,
                     child: SuaLichCongTacTrongNuocPhone(
                       cubit: chiTietLichLamViecCubit,
-                        id: '',
                     ),
                   );
                 },

@@ -229,7 +229,7 @@ class _XemLuongXuLyVbDiState extends State<XemLuongXuLyVbDi> {
                                 Expanded(
                                   child: rowChuThich(
                                     boxShape: BoxShape.rectangle,
-                                    index: 0,
+                                    index: 1,
                                   ),
                                 ),
                                 Expanded(

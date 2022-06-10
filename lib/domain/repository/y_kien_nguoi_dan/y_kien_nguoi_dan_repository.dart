@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_mode
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_board_phan_loai_mode.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/location_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_xy_ly_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
@@ -49,6 +50,11 @@ mixin YKienNguoiDanRepository {
   );
 
   Future<Result<ChiTietYKNDDataModel>> chiTietYKienNguoiDan(
+    String KienNghiId,
+    String TaskId,
+  );
+
+  Future<Result<ThongTinXuLyPAKNModel>> thongTinXuLyPAKN(
     String KienNghiId,
     String TaskId,
   );

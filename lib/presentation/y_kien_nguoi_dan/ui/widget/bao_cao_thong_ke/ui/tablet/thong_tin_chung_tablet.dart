@@ -40,7 +40,7 @@ class _ThongTinChungYKNDTabletState extends State<ThongTinChungYKNDTablet>
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
-    widget.cubit.getDashBoardPAKNTest();
+    widget.cubit.getDashBoardPAKN();
     widget.cubit.getDanhSachPAKN();
   }
 

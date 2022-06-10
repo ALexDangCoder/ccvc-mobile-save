@@ -437,8 +437,8 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
     );
   }
 
-  ///test call api chart pakn
-  Future<void> getDashBoardPAKNTest() async {
+
+  Future<void> getDashBoardPAKN() async {
     final result = await _YKNDRepo.getDashboardTinhHinhXuLyPAKN(false);
     result.when(
       success: (success) {

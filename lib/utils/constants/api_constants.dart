@@ -214,6 +214,7 @@ class ApiConstants {
       '/pakn/api/IocApi/thong-ke-pakn-theo-trang-thai';
   static const DANH_SACH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const CHI_TIET_Y_KIEN_NGUOI_DAN = '/pakn/api/Tasks/chi-tiet-kien-nghi';
+  static const THONG_TIN_XU_LY_PAKN = '/pakn/api/Tasks/chi-tiet-kien-nghi';
   static const SEARCH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const GET_LIST_WIDGET = '/api/Widget/get-list-widget?';
   static const GET_DANH_SACH_Y_KIEN_PAKN =

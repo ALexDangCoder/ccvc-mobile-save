@@ -1,6 +1,7 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/nhiem_vu_module/widget/views/state_stream_layout.dart';
@@ -8,6 +9,8 @@ import 'package:ccvc_mobile/presentation/chi_tiet_pakn/ui/phone/chi_tiet_pakn.da
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/block/y_kien_nguoidan_cubit.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/mobile/widgets/y_kien_nguoi_dan_menu.dart';
 import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/bao_cao_thong_ke/widgets/expanded_pakn.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/tiep_can_widget.dart';
+import 'package:ccvc_mobile/presentation/y_kien_nguoi_dan/ui/widget/xu_ly_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -36,7 +39,7 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
   void initState() {
     super.initState();
     widget.cubit.initTimeRange();
-    //  widget.cubit.callApi();
+    widget.cubit.getDashBoardPAKN();
     widget.cubit.getDanhSachPAKN();
   }
 
@@ -210,18 +213,24 @@ class _ThongTinChungYKNDScreenState extends State<ThongTinChungYKNDScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ExpandPAKNWidget(
                     name: S.current.tinh_hinh_xu_ly_pakn,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // TiepCanWidget(),
-                        SizedBox(
-                          height: 33,
-                        ),
-                        // XuLyWidget(),
-                      ],
+                    child: StreamBuilder<DocumentDashboardModel>(
+                      stream: widget.cubit.getTinhHinhXuLy,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? DocumentDashboardModel();
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children:  [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TiepCanWidget(model: data,),
+                            const SizedBox(
+                              height: 33,
+                            ),
+                            XuLyWidget(model: data,),
+                          ],
+                        );
+                      }
                     ),
                   ),
                 ),

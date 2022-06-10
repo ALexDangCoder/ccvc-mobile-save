@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_phan_loai_
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_xy_ly_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/y_kien_xu_ly_response.dart';
@@ -54,6 +55,8 @@ abstract class YKienNguoiDanService {
     @Query('DenNgay') String DenNgay,
   );
 
+
+
   @GET(ApiConstants.DANH_SACH_Y_KIEN_NGUOI_DAN)
   Future<DanhSachYKienNguoiDanResponse> getDanhSachYKienNguoiDan(
     @Query('TuNgay') String tuNgay,
@@ -69,6 +72,13 @@ abstract class YKienNguoiDanService {
   Future<ChiTietKienNghiResponse> chiTietYKienNguoiDan(
     @Body() ChiTietKienNghiRequest chiTietKienNghiRequest,
   );
+  
+  
+  @POST(ApiConstants.THONG_TIN_XU_LY_PAKN)
+  Future<ThongTinXuLyTotalResponse> thongTinXuLyPAKN(
+      @Query('KienNghiId') String kienNghiID,
+      @Query('TaskId') String taskId,
+      );
 
   @GET(ApiConstants.SEARCH_Y_KIEN_NGUOI_DAN)
   Future<SearchYKienNguoiDanResponse> searchDanhSachYKienNguoiDan(

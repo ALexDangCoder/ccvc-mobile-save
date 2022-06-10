@@ -115,7 +115,11 @@ class _ChiTietPKANTabletState extends State<ChiTietPKANTablet>
                   id: widget.iD,
                   taskId: widget.taskID,
                 ),
-                TabThongTinXuLyPAKNTablet(),
+                TabThongTinXuLyPAKNTablet(
+                  cubit: cubit,
+                  id: widget.iD,
+                  taskId: widget.taskID,
+                ),
                 TabKetQuaXuLyTablet(
                   id: widget.iD,
                   taskId: widget.taskID,

@@ -19,7 +19,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/ma
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -160,20 +160,18 @@ class _SuaLichCongTacTrongNuocPhoneState
                             );
                           },
                         ),
-                        //bug chua fix
-                        StartEndDateWidget(
-                          icMargin: taoLichLamViecCubit.allDay,
-                          // initEndData: DateTime.parse(dataDetail.dateTimeTo??''),
-                          // initStartData: DateTime.parse(dataDetail.dateTimeFrom??''),
-                          onEndDateTimeChanged: (DateTime value) {
-                            taoLichLamViecCubit.dateEnd = value.toString();
-                          },
-                          onStartDateTimeChanged: (DateTime value) {
-                            taoLichLamViecCubit.dateFrom = value.toString();
-                          },
-                          isCheck: (bool value) {
+                        CupertinoMaterialPicker(
+                          onDateTimeChanged: (
+                            String timeStart,
+                            String timeEnd,
+                            String dateStart,
+                            String dateEnd,
+                          ) {},
+                          onSwitchPressed: (value) {
                             taoLichLamViecCubit.isCheckAllDaySubject.add(value);
-                          },
+                          }, validateTime: (bool value) {
+
+                        },
                         ),
                         StreamBuilder<List<NhacLaiModel>>(
                             stream: taoLichLamViecCubit.nhacLai,

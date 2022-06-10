@@ -131,8 +131,12 @@ const _dtFormat6 = 'MM/dd/yyyy HH:mm:ss';
 const _dtFormat7 = 'dd/MM/yyyy | HH:mm:ss';
 const _dtFormat8 = 'd/MM/yyyy';
 const _dtFormat9 = 'dd/MM/yyyy HH:mm';
+const _dtFormat10 = 'dd/MM/yyyy';
+const _dtFormat11 = 'dd-MM-yyyy';
 const HOUR_MINUTE_FORMAT = 'Hm';
 
+const START_TIME='8:00';
+const END_TIME='18:00';
 
 const String DO_MAIN_DOWLOAD_FILE = 'http://api-qlvb-nv.dongnai.edsolabs.vn';
 const String DO_MAIN_LICH_AM_DUONG = 'https://api-and-uat.chinhquyendientu.vn';
@@ -150,6 +154,8 @@ class DateTimeFormat {
   static const DATE_BE_RESPONSE_FORMAT = _dtFormat7;
   static const DATE_DD_MM_YYYY = _dtFormat8;
   static const  DATE_DD_MM_HM = _dtFormat9;
+  static const  DAY_MONTH_YEAR = _dtFormat10;
+  static const  DAY_MONTH_YEAR_BETWEEN = _dtFormat11;
 }
 
 class ThongBaoTypeConstant {

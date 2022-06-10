@@ -39,7 +39,10 @@ class _ItemRowChiTietState extends State<ItemRowChiTiet> {
           icon: ImageAssets.icCalendarUnFocus,
           value: widget.data.typeScheduleName,
         ),
-        rowData(icon: ImageAssets.icNotify, value: ''),
+        rowData(
+          icon: ImageAssets.icNotify,
+          value: widget.data.scheduleReminder?.nhacLai(),
+        ),
         rowData(
           icon: ImageAssets.icPerson,
           value: widget.data.canBoChuTri?.hoTen ?? '',

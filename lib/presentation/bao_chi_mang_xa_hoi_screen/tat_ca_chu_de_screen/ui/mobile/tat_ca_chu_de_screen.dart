@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_d
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/dropdown/custom_drop_down.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
     super.initState();
     chuDeCubit = ChuDeCubit();
     chuDeCubit.callApi();
+    _handleEventBus();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -51,6 +53,11 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
           chuDeCubit.getListTatCaCuDe(chuDeCubit.startDate, chuDeCubit.endDate);
         }
       }
+    });
+  }
+  void _handleEventBus() {
+    eventBus.on<FireTopic>().listen((event) {
+      chuDeCubit.callApi();
     });
   }
 
@@ -191,6 +198,7 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                               padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: data.danhSachTuongtacThongKe.length,
                                 itemBuilder: (context, index) {
                                   return index == 0

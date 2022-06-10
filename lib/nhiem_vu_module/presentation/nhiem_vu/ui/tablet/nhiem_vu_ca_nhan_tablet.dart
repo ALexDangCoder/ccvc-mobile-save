@@ -63,8 +63,6 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                 widget.danhSachCubit.keySearch = text;
                 widget.danhSachCubit.mangTrangThai = '';
                 widget.danhSachCubit.postDanhSachNhiemVu(
-                  isFilter: true,
-                  index: 0,
                   isNhiemVuCaNhan: widget.isCheck,
                   isSortByHanXuLy: true,
                   mangTrangThai: [widget.danhSachCubit.mangTrangThai],
@@ -134,9 +132,8 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                               widget.danhSachCubit.mangTrangThai = value;
                               widget.danhSachCubit.trangThaiHanXuLy = null;
                               setState(() {
+                                widget.danhSachCubit.loadMoreList.clear();
                                 widget.danhSachCubit.postDanhSachNhiemVu(
-                                  isFilter: true,
-                                  index: 0,
                                   isNhiemVuCaNhan: widget.isCheck,
                                   isSortByHanXuLy: true,
                                   mangTrangThai: [
@@ -159,9 +156,8 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
                               widget.danhSachCubit.trangThaiHanXuLy =
                                   value_status_box;
                               setState(() {
+                                widget.danhSachCubit.loadMoreList.clear();
                                 widget.danhSachCubit.postDanhSachNhiemVu(
-                                  isFilter: true,
-                                  index: 0,
                                   isNhiemVuCaNhan: widget.isCheck,
                                   isSortByHanXuLy: true,
                                   mangTrangThai: [
@@ -191,7 +187,6 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
         ],
         callApi: (page) {
           widget.danhSachCubit.postDanhSachNhiemVu(
-            isFilter: false,
             index: page,
             isNhiemVuCaNhan: widget.isCheck,
             isSortByHanXuLy: true,

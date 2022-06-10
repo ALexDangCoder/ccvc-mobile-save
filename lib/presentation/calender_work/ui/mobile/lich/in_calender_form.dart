@@ -30,7 +30,14 @@ class _InCalenderFormState extends State<InCalenderForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarSubject.listen((value) {});
+    widget.cubit.stateCalendarDaySubject.listen((value) {});
+    widget.cubit.stateCalendarDaySubject.value
+        .addPropertyChangedListener((value) {
+      widget.cubit.updateDataSlideCalendar(
+        widget.cubit.stateCalendarDaySubject.value.displayDate ??
+            widget.cubit.selectDay,
+      );
+    });
   }
 
   @override
@@ -47,7 +54,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
         ),
         Expanded(
           child: StreamBuilder<CalendarController>(
-              stream: widget.cubit.stateCalendarSubject.stream,
+              stream: widget.cubit.stateCalendarDaySubject.stream,
               builder: (context, snapshot) {
                 final data = snapshot.data ?? CalendarController();
 
@@ -70,7 +77,8 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                 appointmentTextStyle:
                                     textNormalCustom(color: backgroundColorApp),
                                 todayHighlightColor: statusCalenderRed,
-                                timeSlotViewSettings: const TimeSlotViewSettings(
+                                timeSlotViewSettings:
+                                    const TimeSlotViewSettings(
                                   timeIntervalHeight: 54,
                                 ),
                                 selectionDecoration: const BoxDecoration(
@@ -105,7 +113,8 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                         vertical: 2.0,
                                       ),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6.0),
+                                        borderRadius:
+                                            BorderRadius.circular(6.0),
                                         color:
                                             AppTheme.getInstance().colorField(),
                                       ),

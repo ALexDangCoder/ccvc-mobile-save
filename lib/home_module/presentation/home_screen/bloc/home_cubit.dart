@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
@@ -29,7 +28,6 @@ import '/home_module/domain/model/home/document_model.dart';
 import '/home_module/domain/model/home/press_network_model.dart';
 import '/home_module/domain/model/home/sinh_nhat_model.dart';
 import '/home_module/domain/model/home/su_kien_model.dart';
-import '/home_module/domain/model/home/tinh_hinh_y_kien_model.dart';
 import '/home_module/domain/model/home/tinh_huong_khan_cap_model.dart';
 import '/home_module/domain/model/home/todo_model.dart';
 import '/home_module/domain/model/home/tong_hop_nhiem_vu_model.dart';
@@ -70,7 +68,6 @@ class HomeCubit extends BaseCubit<HomeState> {
     final result = await homeRep.getTinBuon();
     result.when(
       success: (res) {
-        log('${res}');
         _tinhHuongKhanCap.sink.add(res);
       },
       error: (err) {},

@@ -151,6 +151,7 @@ class _BaiVietItemState extends State<BaiVietItem> {
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () {
+
               Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -1,4 +1,3 @@
-
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/config/base/base_state.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -88,7 +87,6 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                 widget.cubit.loadMorePage == ApiConstants.PAGE_BEGIN) {
               widget.cubit.loadMoreList.clear();
               if ((state.posts ?? []).isEmpty) {
-
               } else {
                 widget.cubit.showContent();
               }
@@ -127,118 +125,96 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
             },
             child: RefreshIndicator(
               onRefresh: refreshPosts,
-              child: Stack(
-                children: [
-                  StreamBuilder(
-                    stream: widget.cubit.loadMoreListStream,
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<List<dynamic>> snapshot,
-                    ) {
-                      if (widget.isListView == true) {
-                        return SingleChildScrollView(
-                          child: Column(
+              child: StreamBuilder(
+                stream: widget.cubit.loadMoreListStream,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<List<dynamic>> snapshot,
+                ) {
+                  if (widget.isListView == true) {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ...widget.childrenView,
+                          Row(
+                            mainAxisAlignment: (snapshot.data?.length ?? 0) > 0
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.center,
                             children: [
-                              ...widget.childrenView,
-                              Row(
-                                mainAxisAlignment:
-                                    (snapshot.data?.length ?? 0) > 0
-                                        ? MainAxisAlignment.start
-                                        : MainAxisAlignment.center,
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20.0,
+                                    horizontal: 16.0.textScale(space: 14.0)),
+                                child: Text(
+                                  S.current.danh_sach_nhiem_vu,
+                                  style: textNormalCustom(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.0.textScale(space: 4.0),
+                                    color: textDropDownColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          if ((snapshot.data?.length ?? 0) > 0)
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: snapshot.data?.length ?? 0,
+                              itemBuilder: (ctx, index) {
+                                return widget.viewItem(
+                                    snapshot.data![index], index);
+                              },
+                            )
+                          else
+                            Center(
+                              child: Column(
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 20.0,
-                                        horizontal:
-                                            16.0.textScale(space: 14.0)),
-                                    child: Text(
-                                      S.current.danh_sach_nhiem_vu,
-                                      style: textNormalCustom(
-                                        fontWeight: FontWeight.w500,
+                                  const SizedBox(
+                                    height: 30.0,
+                                  ),
+                                  SvgPicture.asset(
+                                    ImageAssets.icNoDataNhiemVu,
+                                  ),
+                                  const SizedBox(
+                                    height: 30.0,
+                                  ),
+                                  Text(
+                                    S.current.khong_co_thong_tin_nhiem_vu,
+                                    style: textNormalCustom(
                                         fontSize: 16.0.textScale(space: 4.0),
-                                        color: textDropDownColor,
-                                      ),
-                                    ),
+                                        color: grayChart),
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
                                   ),
                                 ],
                               ),
-                              if ((snapshot.data?.length ?? 0) > 0)
-                                ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data?.length ?? 0,
-                                  itemBuilder: (ctx, index) {
-                                    return widget.viewItem(
-                                        snapshot.data![index], index);
-                                  },
-                                )
-                              else
-                                Center(
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 30.0,
-                                      ),
-                                      SvgPicture.asset(
-                                        ImageAssets.icNoDataNhiemVu,
-                                      ),
-                                      const SizedBox(
-                                        height: 30.0,
-                                      ),
-                                      Text(
-                                        S.current.khong_co_thong_tin_nhiem_vu,
-                                        style: textNormalCustom(
-                                            fontSize:
-                                                16.0.textScale(space: 4.0),
-                                            color: grayChart),
-                                      ),
-                                      const SizedBox(
-                                        height: 10.0,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return GridView.builder(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 16,
-                            bottom: 32,
-                          ),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: widget.crossAxisSpacing ?? 28,
-                            childAspectRatio: widget.checkRatio ?? 2 / 3,
-                          ),
-                          itemCount: snapshot.data?.length ?? 0,
-                          itemBuilder: (_, index) {
-                            return widget.viewItem(
-                                snapshot.data![index], index);
-                          },
-                        );
-                      }
-                    },
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 16,
-                    left: 16,
-                    child: StreamBuilder<bool>(
-                      stream: widget.cubit.loadMoreStream,
-                      builder: (context, snapshot) {
-                        return snapshot.data ?? false
-                            ? LoadingItem()
-                            : const SizedBox();
+                            ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return GridView.builder(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 16,
+                        bottom: 32,
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: widget.crossAxisSpacing ?? 28,
+                        childAspectRatio: widget.checkRatio ?? 2 / 3,
+                      ),
+                      itemCount: snapshot.data?.length ?? 0,
+                      itemBuilder: (_, index) {
+                        return widget.viewItem(snapshot.data![index], index);
                       },
-                    ),
-                  )
-                ],
+                    );
+                  }
+                },
               ),
             ),
           ),

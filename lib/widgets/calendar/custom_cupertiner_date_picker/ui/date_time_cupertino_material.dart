@@ -396,6 +396,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
               ),
               child: StreamBuilder<TypePickerDateTime>(
                 stream: cubit.typePickerSubjectEnd,
+                initialData: TypePickerDateTime.TIME_END,
                 builder: (context, snapshot) {
                   final typePicker =
                       snapshot.data ?? TypePickerDateTime.TIME_END;

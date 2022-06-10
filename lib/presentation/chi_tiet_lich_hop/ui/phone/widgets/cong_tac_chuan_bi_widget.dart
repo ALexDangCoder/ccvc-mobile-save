@@ -1,21 +1,42 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/Extension/cong_tac_chuan_bi_extension.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/phone/widgets/row_data_widget.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/chon_phonghop_in_detail.dart';
+import 'package:ccvc_mobile/presentation/chon_phong_hop/chon_phong_hop_screen.dart';
+import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_only_widget.dart';
+import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:get/get.dart';
 
-class CongTacChuanBiWidget extends StatelessWidget {
+class CongTacChuanBiWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
 
   const CongTacChuanBiWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
+  State<CongTacChuanBiWidget> createState() => _CongTacChuanBiWidgetState();
+}
+
+class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
+  @override
   Widget build(BuildContext context) {
     return ExpandOnlyWidget(
+      onchange: (vl) {
+        if (vl) {
+          widget.cubit.initData(
+            boolGetDanhSachThietBi: true,
+            boolGetThongTinPhongHopApi: true,
+          );
+        }
+      },
       header: Row(
         children: [
           Expanded(
@@ -41,46 +62,154 @@ class CongTacChuanBiWidget extends StatelessWidget {
         titleType(
           title: S.current.thong_tin_phong,
           child: StreamBuilder<ThongTinPhongHopModel?>(
-            stream: cubit.getThongTinPhongHop,
+            stream: widget.cubit.getThongTinPhongHop,
             builder: (context, snapshot) {
               final data = snapshot.data;
               if (data == null) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 50),
-                  child: NodataWidget(),
+                return ChonPhongHopScreen(
+                  onChange: (vl) {
+                    widget.cubit.taoLichHopRequest.phongHop = vl.phongHop;
+                    widget.cubit.taoLichHopRequest.phongHop?.noiDungYeuCau =
+                        vl.yeuCauKhac;
+                    widget.cubit.taoLichHopRequest.phongHopThietBi =
+                        vl.listThietBi
+                            .map(
+                              (e) => PhongHopThietBi(
+                                tenThietBi: e.tenThietBi,
+                                soLuong: e.soLuong.toString(),
+                              ),
+                            )
+                            .toList();
+                  },
                 );
               }
-              return ThongTinPhongWidget(
-                thongTinPhongHopModel: data,
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Row(
+                      children: [
+                        ButtonOtherWidget(
+                          text: S.current.duyet,
+                          color: itemWidgetUsing,
+                          ontap: () {
+                            widget.cubit.huyOrDuyetPhongHop(true);
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: ButtonOtherWidget(
+                            text: S.current.tu_choi,
+                            color: statusCalenderRed,
+                            ontap: () {
+                              widget.cubit.huyOrDuyetPhongHop(false);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: ButtonOtherWidget(
+                            text: S.current.thay_doi_phong,
+                            color: bgButtonDropDown,
+                            ontap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ChonPhongHopDetailHopScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ThongTinPhongWidget(
+                    thongTinPhongHopModel: data,
+                  ),
+                ],
               );
             },
           ),
         ),
         spaceH20,
         titleType(
-          title: S.current.yeu_cau_de_chuan_bi_phong,
-          child: StreamBuilder<List<ThietBiPhongHopModel>>(
-            stream: cubit.getListThietBi,
-            builder: (context, snapshot) {
-              final data = snapshot.data ?? <ThietBiPhongHopModel>[];
-              if (data.isEmpty) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 50),
-                  child: NodataWidget(),
-                );
-              }
-              return Column(
-                children: List.generate(
-                  data.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: ThongTinYeuCauThietBiWidget(
-                      model: data[index],
+          title: S.current.thong_tin_yeu_cau_thiet_bi,
+          child: Column(
+            children: [
+              StreamBuilder<List<ThietBiPhongHopModel>>(
+                stream: widget.cubit.getListThietBi,
+                builder: (context, snapshot) {
+                  final data = snapshot.data ?? <ThietBiPhongHopModel>[];
+                  if (data.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 50),
+                      child: NodataWidget(),
+                    );
+                  }
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Row(
+                          children: [
+                            ButtonOtherWidget(
+                              text: S.current.duyet,
+                              color: itemWidgetUsing,
+                              ontap: () {},
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12),
+                              child: ButtonOtherWidget(
+                                text: S.current.tu_choi,
+                                color: statusCalenderRed,
+                                ontap: () {},
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: List.generate(
+                          data.length,
+                          (index) => Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: ThongTinYeuCauThietBiWidget(
+                              model: data[index],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Row(
+                  children: [
+                    ButtonOtherWidget(
+                      text: 'duyệt kỹ thuật',
+                      color: itemWidgetUsing,
+                      ontap: () {
+                        widget.cubit.duyetOrHuyDuyetKyThuat(true);
+                      },
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: ButtonOtherWidget(
+                        text: 'từ chối kỹ thuật',
+                        color: statusCalenderRed,
+                        ontap: () {
+                          widget.cubit.duyetOrHuyDuyetKyThuat(false);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ),
       ],
@@ -185,6 +314,33 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
             isStatus: true,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ButtonOtherWidget extends StatelessWidget {
+  final String text;
+  final Color color;
+  final Function ontap;
+
+  const ButtonOtherWidget(
+      {Key? key, required this.text, required this.color, required this.ontap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: ontap(),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.15),
+        ),
+        child: Text(
+          text,
+          style: textNormalCustom(color: color),
+        ),
       ),
     );
   }

@@ -45,7 +45,7 @@ extension ChiTietLichHop on DetailMeetCalenderCubit {
 
   Future<void> getChiTietLichHop(String id) async {
     showLoading();
-    this.id = id;
+    this.idCuocHop = id;
     final loaiHop = await hopRp
         .getLoaiHop(CatogoryListRequest(pageIndex: 1, pageSize: 100, type: 1));
     loaiHop.when(

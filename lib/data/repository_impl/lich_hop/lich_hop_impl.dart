@@ -772,11 +772,81 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<List<PhongHopModel>>> getPhongHop(
+  Future<Result<List<PhongHopModel>>> getDanhSachPhongHop(
       String id, String from, String to, bool isTTDH) {
     return runCatchingAsync<DSPhongHopResponse, List<PhongHopModel>>(
       () => _hopServices.danhSachPhongHop(id, from, to, isTTDH),
       (response) => response.toListModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> huyOrDuyetPhongHop(
+    String hopId,
+    bool isDuyet,
+    String lyDo,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.huyOrDuyetPhongHop(hopId, isDuyet, lyDo),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> thayDoiPhongHop(
+    bool bit_TTDH,
+    String lichHopId,
+    String phongHopId,
+    String tenPhong,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.thayDoiPhongHop(
+        bit_TTDH,
+        lichHopId,
+        phongHopId,
+        tenPhong,
+      ),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> duyetOrHuyDuyetThietBi(
+    bool isDuyet,
+    String lichHopId,
+    String lyDo,
+    String thietBiId,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.duyetOrHuyDuyetThietBi(
+        isDuyet,
+        lichHopId,
+        lyDo,
+        thietBiId,
+      ),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> duyetOrHuyDuyetKyThuat(
+    String hopId,
+    bool isDuyet,
+    String lyDo,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.duyetOrHuyDuyetKyThuat(hopId, isDuyet, lyDo),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> chonPhongHopMetting(
+    TaoLichHopRequest taoLichHopRequest,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.chonPhongHopMetting(taoLichHopRequest),
+      (res) => res.toModel(),
     );
   }
 }

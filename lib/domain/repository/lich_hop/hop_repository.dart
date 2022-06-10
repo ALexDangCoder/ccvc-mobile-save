@@ -17,6 +17,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/domain/model/add_file_model.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/so_luong_phat_bieu_model.dart';
@@ -227,7 +228,8 @@ mixin HopRepository {
       String lichHopId);
 
   Future<Result<ChiTietLichHopModel>> taoLichHop(
-      TaoLichHopRequest taoLichHopRequest);
+    TaoLichHopRequest taoLichHopRequest,
+  );
 
   Future<Result<XemKetLuanHopModel>> getXemKetLuanHop(String id);
 
@@ -315,10 +317,40 @@ mixin HopRepository {
     String id,
   );
 
-  Future<Result<List<PhongHopModel>>> getPhongHop(
+  Future<Result<List<PhongHopModel>>> getDanhSachPhongHop(
     String id,
     String from,
     String to,
     bool isTTDH,
+  );
+
+  Future<Result<ResponseModel>> huyOrDuyetPhongHop(
+    String hopId,
+    bool isDuyet,
+    String lyDo,
+  );
+
+  Future<Result<ResponseModel>> thayDoiPhongHop(
+    bool bit_TTDH,
+    String lichHopId,
+    String phongHopId,
+    String tenPhong,
+  );
+
+  Future<Result<ResponseModel>> duyetOrHuyDuyetThietBi(
+    bool isDuyet,
+    String lichHopId,
+    String lyDo,
+    String thietBiId,
+  );
+
+  Future<Result<ResponseModel>> duyetOrHuyDuyetKyThuat(
+    String hopId,
+    bool isDuyet,
+    String lyDo,
+  );
+
+  Future<Result<ResponseModel>> chonPhongHopMetting(
+    TaoLichHopRequest taoLichHopRequest,
   );
 }

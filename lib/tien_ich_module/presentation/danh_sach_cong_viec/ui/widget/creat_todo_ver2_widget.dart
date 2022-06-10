@@ -197,11 +197,12 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                 StreamBuilder<String>(
                   stream: widget.cubit.nameFile,
                   builder: (context, snapshot) {
+                    final data = snapshot.data;
                     if (snapshot.hasData &&
                         (widget.todo?.showIconFile() ?? true) &&
-                        snapshot.data != '') {
+                        data != '') {
                       return FileFromAPIWidget(
-                        data: snapshot.data ?? '',
+                        data: data ?? '',
                         onTapDelete: () {
                           widget.cubit.editWork(
                             todo: widget.todo ?? TodoDSCVModel(),

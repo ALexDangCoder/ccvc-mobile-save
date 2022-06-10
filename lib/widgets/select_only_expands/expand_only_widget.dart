@@ -9,6 +9,7 @@ class ExpandOnlyWidget extends StatefulWidget {
   final bool isShowIcon;
   final bool? isPadingIcon;
   final AnimationController? initController;
+  final Function(bool)? onchange;
 
   const ExpandOnlyWidget({
     Key? key,
@@ -18,6 +19,7 @@ class ExpandOnlyWidget extends StatefulWidget {
     this.isShowIcon = true,
     this.initController,
     this.isPadingIcon,
+    this.onchange,
   }) : super(key: key);
 
   @override
@@ -40,6 +42,8 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
       groupProvider = GroupProvider.of(context);
       findGroupExpanded();
     });
+
+    // widget.onchange?.call(isExpanded);
   }
 
   void findGroupExpanded() {
@@ -101,6 +105,11 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
             } else {
               isExpanded = !isExpanded;
               _runExpandCheck();
+            }
+            if (expandController.value == 0) {
+              widget.onchange?.call(true);
+            } else {
+              widget.onchange?.call(false);
             }
           },
           child: Row(

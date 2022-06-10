@@ -28,6 +28,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/moi_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
@@ -72,11 +73,12 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<CanBoModel> dataThanhPhanThamGia = [];
   List<String?> data = [];
   List<String> selectPhatBieu = [];
-  String id = '';
+  String idCuocHop = '';
   List<LoaiSelectModel> listLoaiHop = [];
   String? ngaySinhs;
   String chonNgay = '';
   List<File>? listFile = [];
+  PhongHop chosePhongHop = PhongHop();
 
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
@@ -177,7 +179,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<DanhSachNhiemVuLichHopModel>>
       danhSachNhiemVuLichHopSubject = BehaviorSubject();
+
   BehaviorSubject<List<DanhSachNguoiThamGiaModel>> nguoiThamGiaSubject =
+      BehaviorSubject();
+
+  final BehaviorSubject<List<PhongHopModel>> phongHopSubject =
       BehaviorSubject();
   List<DanhSachNguoiThamGiaModel> listData = [];
 
@@ -191,48 +197,55 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   TimerData end = TimerData(hour: 0, minutes: 0);
 
   Future<void> initData({
-    required String id,
+    bool? boolGetChiTietLichHop,
+    bool? boolGetThongTinPhongHopApi,
+    bool? boolGetDanhSachThietBi,
   }) async {
-    await getChiTietLichHop(id);
+    if (boolGetChiTietLichHop ?? false) {
+      await getChiTietLichHop(idCuocHop);
+    }
 
     final queue = Queue(parallel: 15);
-    unawaited(queue.add(() => getDanhSachThuHoiLichHop(id)));
+    // unawaited(queue.add(() => getDanhSachThuHoiLichHop(id)));
 
     ///Công tác chuẩn bị
-    unawaited(queue.add(() => getThongTinPhongHopApi()));
-    unawaited(queue.add(() => getDanhSachThietBi()));
+    if (boolGetThongTinPhongHopApi ?? false) {
+      unawaited(queue.add(() => getThongTinPhongHopApi()));
+    }
+    if (boolGetDanhSachThietBi ?? false) {
+      unawaited(queue.add(() => getDanhSachThietBi()));
+    }
 
     ///Chương trình họp
-    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
-    unawaited(queue.add(() => getListPhienHop(id)));
+    // unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
+    // unawaited(queue.add(() => getListPhienHop(id)));
 
     ///Phát biểu
-    unawaited(
-        queue.add(() => getDanhSachPhatBieuLichHop(status: 0, lichHopId: id)));
-    unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
+    // unawaited(
+    //     queue.add(() => getDanhSachPhatBieuLichHop(status: 0, lichHopId: id)));
+    // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
 
     ///Biểu quyết
-    unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: id)));
-    unawaited(queue.add(() => callApi(id)));
-    // unawaited(queue.add(() => getDanhSachBieuQuyetLichHop(id)));
+    // unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: id)));
+    // unawaited(queue.add(() => callApi(id)));
 
     ///Thành phần tham gia
-    unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));
-    unawaited(queue.add(() => themThanhPhanThamGia()));
+    // unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));
+    // unawaited(queue.add(() => themThanhPhanThamGia()));
 
     ///kết luận họp
-    unawaited(queue.add(() => getDanhSachNhiemVu(id)));
-    unawaited(queue.add(() => getXemKetLuanHop(id)));
-    unawaited(queue.add(() => getDanhSachLoaiNhiemVu()));
-    unawaited(queue.add(() => ListStatusKetLuanHop()));
-    unawaited(queue.add(() => postChonMauHop()));
+    // unawaited(queue.add(() => getDanhSachNhiemVu(id)));
+    // unawaited(queue.add(() => getXemKetLuanHop(id)));
+    // unawaited(queue.add(() => getDanhSachLoaiNhiemVu()));
+    // unawaited(queue.add(() => ListStatusKetLuanHop()));
+    // unawaited(queue.add(() => postChonMauHop()));
 
     ///ý kiến
-    unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
-    unawaited(queue.add(() => getDanhSachPhienHop(id)));
+    // unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
+    // unawaited(queue.add(() => getDanhSachPhienHop(id)));
 
     ///nguoi theo doi
-    unawaited(queue.add(() => getNguoiChuTri(id)));
+    // unawaited(queue.add(() => getNguoiChuTri(id)));
 
     ///check permission button
     initDataButton();

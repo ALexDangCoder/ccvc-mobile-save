@@ -22,9 +22,8 @@ extension StringMoneyFormat on String {
 }
 
 extension VietNameseParse on String {
-
-  String get textToCode => this.split(' ').join('_').toUpperCase().vietNameseParse();
-
+  String get textToCode =>
+      this.split(' ').join('_').toUpperCase().vietNameseParse();
 
   String vietNameseParse() {
     var result = this;
@@ -125,6 +124,21 @@ extension CheckValidate on String {
     }
   }
 
+  String? checkEmailBoolean2(String text) {
+    final isCheck = RegExp(
+      r'^[a-zA-Z0-9]+([\.{1}][a-zA-Z0-9]+)?@[a-zA-Z0-9]+(\.[a-zA-Z]{2,})?(\.[a-zA-Z]{2,})$',
+    ).hasMatch(this);
+    if (isCheck) {
+      if ((indexOf('@')) > 64 || (length - indexOf('.') - 1) > 254) {
+        return '${S.current.sai_dinh_dang_truong} $text';
+      } else {
+        return null;
+      }
+    } else {
+      return '${S.current.sai_dinh_dang_truong} $text!';
+    }
+  }
+
   String? checkPassWordChangePass(String name) {
     final isCheck =
         RegExp(r"^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,32}$")
@@ -175,6 +189,15 @@ extension CheckValidate on String {
       return null;
     } else {
       return S.current.nhap_sai_dinh_dang;
+    }
+  }
+
+  String? checkSdtRequire2(String text) {
+    final isCheckSdt = RegExp(r'^0+([0-9]{9})$').hasMatch(this);
+    if (isCheckSdt) {
+      return null;
+    } else {
+      return '${S.current.sai_dinh_dang_truong}' '$text!';
     }
   }
 

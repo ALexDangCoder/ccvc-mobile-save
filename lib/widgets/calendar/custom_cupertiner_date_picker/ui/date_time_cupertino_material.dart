@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -60,6 +62,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     super.initState();
     cubit = DateTimeCupertinoCustomCubit();
     debouncer = Debouncer();
+    log(widget.initTimeStart.toString() + '>>>>>>>>>>>>>>>>>>');
     cubit.onTimeChanged(
       timeSelected: widget.initTimeEnd ?? DateTime.now(),
       typePicker: TypePickerDateTime.TIME_END,
@@ -291,7 +294,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                               cubit.dateEndSubject.value,
                             );
                           },
-                          initialDate: DateTime.now(),
+                          initialDate: widget.initDateStart ?? DateTime.now(),
                         ),
                       );
               },
@@ -451,7 +454,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                 cubit.dateEndSubject.value,
                               );
                             },
-                            initialDate: DateTime.now(),
+                            initialDate: widget.initDateEnd ?? DateTime.now(),
                           ),
                         );
                 },

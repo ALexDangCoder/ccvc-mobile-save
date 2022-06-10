@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -101,6 +100,7 @@ class DateTimeCupertinoCustomCubit
 
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
+
         timeBeginSubject.sink.add(
           timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
         );
@@ -129,35 +129,6 @@ class DateTimeCupertinoCustomCubit
     /// Returns a negative value if this DateTime [isBefore] [other].
     /// It returns 0 if it [isAtSameMomentAs] [other],
     /// and returns a positive value otherwise (when this [isAfter] [other]).
-    if (typePicker == TypePickerDateTime.TIME_START) {
-      final DateTime timeEnd =
-          '${dateEndSubject.value} ${timeEndSubject.value}'.convertStringToDate(
-        formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-      );
-      if (timeSelected.compareTo(timeEnd) > 0) {
-        timeEndSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-        );
-      }
-    }
-
-    if (typePicker == TypePickerDateTime.DATE_START) {
-      final DateTime dateEnd =
-          '${dateEndSubject.value} ${timeEndSubject.value}'.convertStringToDate(
-        formatPattern: DateFormatApp.date,
-      );
-      final timeSelectFormatted =
-          '${dateBeginSubject.value} ${timeBeginSubject.value}'
-              .convertStringToDate(
-        formatPattern: DateFormatApp.date,
-      );
-      if (timeSelectFormatted.compareTo(dateEnd) > 0) {
-        timeEndSubject.sink.add(timeBeginSubject.value);
-        dateEndSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-        );
-      }
-    }
   }
 
   int getYearNumber() {

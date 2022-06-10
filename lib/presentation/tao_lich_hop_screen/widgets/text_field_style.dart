@@ -4,16 +4,17 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TextFieldStyle extends StatelessWidget {
+class TextFieldStyle extends StatefulWidget {
   final String? hintText;
   final String urlIcon;
   final int maxLines;
+  String? initialText;
   final Function(String)? onChange;
   final Function(String)? validate;
-  final TextEditingController? controller;
+  TextEditingController? controller;
   final int? maxLength;
 
-  const TextFieldStyle({
+  TextFieldStyle({
     Key? key,
     this.hintText,
     required this.urlIcon,
@@ -21,34 +22,46 @@ class TextFieldStyle extends StatelessWidget {
     this.onChange,
     this.controller,
     this.maxLength,
-    this.validate,
+    this.validate, this.initialText,
   }) : super(key: key);
 
+  @override
+  State<TextFieldStyle> createState() => _TextFieldStyleState();
+}
+
+class _TextFieldStyleState extends State<TextFieldStyle> {
+  late TextEditingController _controller;
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.initialText ?? '');
+    widget.controller = _controller;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment:
-          maxLines == 1 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          widget.maxLines == 1 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         Container(
           width: 16.0.textScale(space: 4),
           height: 16.0.textScale(space: 4),
           color: Colors.transparent,
-          child: SvgPicture.asset(urlIcon),
+          child: SvgPicture.asset(widget.urlIcon),
         ),
         const SizedBox(
           width: 14,
         ),
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: maxLines == 1 ? 9 : 0),
+            padding: EdgeInsets.symmetric(vertical: widget.maxLines == 1 ? 9 : 0),
             decoration: const BoxDecoration(
               border: Border(
                 bottom: BorderSide(color: colorECEEF7),
               ),
             ),
             child: textField(
-              validate: validate,
+              validate: widget.validate,
             ),
           ),
         ),
@@ -61,15 +74,15 @@ class TextFieldStyle extends StatelessWidget {
       validator: (value) {
         return validate?.call(value ?? '');
       },
-      controller: controller,
+      controller: widget.controller,
       onChanged: (value) {
-        onChange?.call(value);
+        widget.onChange?.call(value);
       },
-      maxLength: maxLength,
-      maxLines: maxLines,
+      maxLength: widget.maxLength,
+      maxLines: widget.maxLines,
       style: textNormal(color3D5586, 16),
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: widget.hintText,
         hintStyle: textNormal(textBodyTime, 16),
         border: InputBorder.none,
         counterText: '',

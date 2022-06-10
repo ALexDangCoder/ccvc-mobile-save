@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/tat_ca_chu_d
 import 'package:ccvc_mobile/presentation/choose_time/bloc/choose_time_cubit.dart';
 import 'package:ccvc_mobile/presentation/choose_time/ui/choose_time_screen.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
+import 'package:ccvc_mobile/widgets/listener/event_bus.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,12 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
           _scrollController.position.maxScrollExtent) {}
     });
     chuDeCubit.callApi();
+    _handleEventBus();
+  }
+  void _handleEventBus() {
+    eventBus.on<FireTopic>().listen((event) {
+      chuDeCubit.callApi();
+    });
   }
 
   @override
@@ -116,6 +123,7 @@ class _TatCaChuDeScreenTabletState extends State<TatCaChuDeScreenTablet>
                             height: 270,
                             child: ListView.builder(
                               shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: data.danhSachTuongtacThongKe.length,
                               itemBuilder: (context, index) {
                                 return index == 0 ? ItemTableTopicTablet(

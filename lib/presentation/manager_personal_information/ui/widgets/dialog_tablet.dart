@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/tien_ich_module/widget/button/button_bottom.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -129,7 +130,20 @@ class _DiaLogFeatureWidget extends StatelessWidget {
                 ),
               )
             else
-              const SizedBox()
+              Container(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  bottom: 30,
+                ),
+                child: ButtonBottom(
+                  onPressed: () {
+                    funcBtnOk();
+                    Navigator.pop(context);
+                  },
+                  text: btnRightTxt,
+                ),
+              )
           ],
         ),
       ),

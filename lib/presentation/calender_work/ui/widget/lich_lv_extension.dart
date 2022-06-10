@@ -102,19 +102,25 @@ extension LichLVOpition on Type_Choose_Option_Day {
     }
   }
 
-  Widget getCalendarLvStateDangLichMobile(CalenderCubit cubit) {
+  Widget getCalendarLvStateDangLichMobile(
+    CalenderCubit cubit,
+    Type_Choose_Option_Day type,
+  ) {
     switch (this) {
       case Type_Choose_Option_Day.DAY:
         return InCalenderForm(
           cubit: cubit,
+          type: type,
         );
       case Type_Choose_Option_Day.WEEK:
         return CalenderWeekMobile(
           cubit: cubit,
+          type: type,
         );
       case Type_Choose_Option_Day.MONTH:
         return CalenderFormMonth(
           cubit: cubit,
+          type: type,
         );
       default:
         return Container();
@@ -157,13 +163,13 @@ extension LichLv on CalenderState {
     required CalenderCubit cubit,
     Type_Choose_Option_Day type = Type_Choose_Option_Day.DAY,
   }) {
-    return StreamBuilder<List<DateTime>>(
-      stream: cubit.eventsStream,
-      builder: (context, snapshot) {
-        return StreamBuilder<DateTime>(
-          stream: cubit.streamInitTime,
-          builder: (context, snap) {
-            final datas = snap.data ?? DateTime.now();
+    return StreamBuilder<DateTime>(
+      stream: cubit.streamInitTime,
+      builder: (context, snap) {
+        final datas = snap.data ?? DateTime.now();
+        return StreamBuilder<List<DateTime>>(
+          stream: cubit.eventsStream,
+          builder: (context, snapshot) {
             return TableCalendarWidget(
               initTime: datas,
               eventsLoader: snapshot.data,
@@ -206,7 +212,7 @@ extension LichLv on CalenderState {
     if (this is LichLVStateDangList) {
       return type.getLichLVDangListMobile(cubit, type);
     } else if (this is LichLVStateDangLich) {
-      return type.getCalendarLvStateDangLichMobile(cubit);
+      return type.getCalendarLvStateDangLichMobile(cubit, type);
     } else {
       return const SizedBox();
     }

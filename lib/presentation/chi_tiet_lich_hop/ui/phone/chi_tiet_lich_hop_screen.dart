@@ -193,6 +193,7 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     ),
                     BocBangWidget(
                       cubit: cubit,
+                      context: context,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16),

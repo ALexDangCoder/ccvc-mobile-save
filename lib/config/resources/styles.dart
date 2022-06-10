@@ -22,7 +22,9 @@ const spaceH12 = SizedBox(height: 12);
 const spaceH14 = SizedBox(height: 14);
 const spaceH15 = SizedBox(height: 15);
 const spaceH16 = SizedBox(height: 16);
+const spaceH18 = SizedBox(height: 18);
 const spaceH20 = SizedBox(height: 20);
+const spaceH22 = SizedBox(height: 22);
 const spaceH24 = SizedBox(height: 24);
 const spaceH26 = SizedBox(height: 26);
 const spaceH25 = SizedBox(height: 25);
@@ -76,12 +78,12 @@ TextStyle textNormal(Color? color, double? fontSize) {
 }
 
 TextStyle tokenDetailAmount({
-  Color color = Colors.white,
+  Color? color,
   double fontSize = 24,
   FontWeight weight = FontWeight.w400,
 }) {
   return GoogleFonts.roboto(
-    color: color,
+    color: color ??  Colors.white,
     fontWeight: weight,
     fontStyle: FontStyle.normal,
     fontSize: fontSize,

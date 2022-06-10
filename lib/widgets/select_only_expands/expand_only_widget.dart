@@ -23,10 +23,10 @@ class ExpandOnlyWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ExpandedSectionState createState() => _ExpandedSectionState();
+  ExpandedSectionState createState() => ExpandedSectionState();
 }
 
-class _ExpandedSectionState extends State<ExpandOnlyWidget>
+class ExpandedSectionState extends State<ExpandOnlyWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController expandController;
   late Animation<double> animation;
@@ -86,11 +86,26 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
       }
     }
   }
+  bool get isExpandedGroup => groupProvider!.validator[key] ?? false;
 
   @override
   void didUpdateWidget(ExpandOnlyWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     _runExpandCheck();
+  }
+
+  void expandGesture() {
+    if (groupProvider != null) {
+      groupProvider!.validator[key] = true;
+      _runExpandCheck();
+    }
+  }
+
+  void collapseGesture() {
+    if (groupProvider != null) {
+      groupProvider!.validator[key] = false;
+      _runExpandCheck();
+    }
   }
 
   @override
@@ -99,6 +114,7 @@ class _ExpandedSectionState extends State<ExpandOnlyWidget>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             if (groupProvider != null) {
               groupProvider!.expand(key);

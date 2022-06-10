@@ -40,7 +40,7 @@ class DataResponse {
 
   Map<String, dynamic> toJson() => _$DataResponseToJson(this);
 
-  DanhSachNhiemVuModel toDoMain() => DanhSachNhiemVuModel (
+  DanhSachNhiemVuModel toDoMain() => DanhSachNhiemVuModel(
         pageData: pageData?.map((e) => e.toDomain()).toList() ?? [],
         totalRows: totalRows,
         currentPage: currentPage,
@@ -163,6 +163,8 @@ class PageDataResponse {
   bool? isHoanThanhQuaHan;
   @JsonKey(name: 'IdCuocHop')
   String? idCuocHop;
+  @JsonKey(name: 'OwnerTypeName')
+  String? ownerTypeName;
 
   PageDataResponse();
 
@@ -174,6 +176,7 @@ class PageDataResponse {
   Map<String, dynamic> toJson() => _$PageDataResponseToJson(this);
 
   PageData toDomain() => PageData(
+        ownerTypeName: ownerTypeName ?? '',
         id: id ?? '',
         soNhiemVu: soNhiemVu ?? '',
         noiDungTheoDoi: noiDungTheoDoi ?? '',

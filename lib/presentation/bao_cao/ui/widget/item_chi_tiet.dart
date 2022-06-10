@@ -26,16 +26,7 @@ class ItemChiTiet extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  showModalBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (_) {
-                      return const ChiaSeBaoCaoMobile(
 
-                      );
-                    },
-                  );
                 },
                 child: Column(
                   children: [

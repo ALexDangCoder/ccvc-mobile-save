@@ -50,8 +50,10 @@ class CupertinoMaterialPicker extends StatefulWidget {
 class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
   late final DateTimeCupertinoCustomCubit cubit;
   late final Debouncer debouncer;
-  final keyExpandedEnd = GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
-  final keyExpandedBegin = GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
+  final keyExpandedEnd =
+      GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
+  final keyExpandedBegin =
+      GlobalObjectKey<ExpandedSectionState>(ExpandedSectionState());
 
   @override
   void initState() {
@@ -142,11 +144,17 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
             )
           ],
         ),
-        spaceH24,
 
         ///bắt đầu
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: colorECEEF7,
+              ),
+            ),
+          ),
           child: ExpandOnlyWidget(
             key: keyExpandedBegin,
             isShowIcon: false,
@@ -176,7 +184,8 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           } else {
                             keyExpandedBegin.currentState?.expandGesture();
                           }
-                          cubit.setTypePickerStart(TypePickerDateTime.TIME_START);
+                          cubit.setTypePickerStart(
+                              TypePickerDateTime.TIME_START);
                           cubit.handleDateTimePressed();
                           cubit.lastedType = TypePickerDateTime.TIME_START;
                         },
@@ -289,9 +298,15 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
             ),
           ),
         ),
-        spaceH24,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: colorECEEF7,
+              ),
+            ),
+          ),
           child: ExpandOnlyWidget(
               key: keyExpandedEnd,
               isShowIcon: false,

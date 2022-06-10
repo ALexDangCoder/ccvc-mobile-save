@@ -26,7 +26,7 @@ class TabbarNewspaperTablet extends StatefulWidget {
 class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> with SingleTickerProviderStateMixin {
   late TabController _controller;
   BaoChiMangXaHoiBloc cubit = BaoChiMangXaHoiBloc();
-
+  int topic = 848;
   @override
   void initState() {
     super.initState();
@@ -36,6 +36,7 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> with Sing
   void _onListen() {
     eventBus.on<FireTopic>().listen((event) {
       _controller.animateTo(0, duration: const Duration(milliseconds: 500));
+      topic = event.topic;
     });
   }
 
@@ -67,6 +68,7 @@ class _TabbarNewspaperTabletState extends State<TabbarNewspaperTablet> with Sing
                   context,
                   MaterialPageRoute(
                     builder: (_) => MenuBaoChiTablet(
+                      topic: topic,
                       onChange: () {
                         cubit.changeScreenMenu();
                       },

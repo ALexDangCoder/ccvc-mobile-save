@@ -76,12 +76,12 @@ TextStyle textNormal(Color? color, double? fontSize) {
 }
 
 TextStyle tokenDetailAmount({
-  Color color = Colors.white,
+  Color? color,
   double fontSize = 24,
   FontWeight weight = FontWeight.w400,
 }) {
   return GoogleFonts.roboto(
-    color: color,
+    color: color ??  Colors.white,
     fontWeight: weight,
     fontStyle: FontStyle.normal,
     fontSize: fontSize,

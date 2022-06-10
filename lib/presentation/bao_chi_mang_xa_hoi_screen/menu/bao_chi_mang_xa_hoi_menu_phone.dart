@@ -12,9 +12,13 @@ import 'package:flutter_svg/svg.dart';
 class BaoChiMangXaHoiMenu extends StatefulWidget {
   final BaoChiMangXaHoiBloc cubit;
   final Function() onChange;
+  final int topic;
 
   const BaoChiMangXaHoiMenu(
-      {Key? key, required this.cubit, required this.onChange})
+      {Key? key,
+      required this.cubit,
+      required this.onChange,
+      required this.topic})
       : super(key: key);
 
   @override
@@ -51,7 +55,11 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                     return ContainerMenuBaoChiWidget(
                       name: widget.cubit.listTitleItemMenu[index].title,
                       icon: ImageAssets.icMenuItemBCMXH,
-                      type: widget.cubit.listSubMenu[index].isEmpty ? TypeContainer.number : TypeContainer.expand,
+                      initExpand: widget.topic ==
+                          widget.cubit.listTitleItemMenu[index].nodeId,
+                      type: widget.cubit.listSubMenu[index].isEmpty
+                          ? TypeContainer.number
+                          : TypeContainer.expand,
                       childExpand: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -74,15 +82,17 @@ class _BaoChiMangXaHoiMenuState extends State<BaoChiMangXaHoiMenu> {
                           );
                         },
                       ),
-                      onTap: widget.cubit.listSubMenu[index].isEmpty ? () {
-                        eventBus.fire(
-                          FireTopic(
-                              widget.cubit.listTitleItemMenu[index].nodeId,
-                          ),
-                        );
-                        widget.onChange();
-                        Navigator.pop(context);
-                      } : (){},
+                      onTap: widget.cubit.listSubMenu[index].isEmpty
+                          ? () {
+                              eventBus.fire(
+                                FireTopic(
+                                  widget.cubit.listTitleItemMenu[index].nodeId,
+                                ),
+                              );
+                              widget.onChange();
+                              Navigator.pop(context);
+                            }
+                          : () {},
                     );
                   },
                 ),

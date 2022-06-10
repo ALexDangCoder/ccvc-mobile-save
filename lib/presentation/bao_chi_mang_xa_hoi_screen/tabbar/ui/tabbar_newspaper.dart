@@ -28,7 +28,7 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
 
   late TabController _controller;
   late final BaoChiMangXaHoiBloc cubit;
-
+  int topic = 848;
   @override
   void initState() {
     super.initState();
@@ -45,6 +45,7 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
   void _onListen() {
     eventBus.on<FireTopic>().listen((event) {
       _controller.animateTo(0, duration: const Duration(milliseconds: 500));
+      topic = event.topic;
     });
   }
 
@@ -75,6 +76,7 @@ class _TabbarNewspaperState extends State<TabbarNewspaper>
               DrawerSlide.navigatorSlide(
                 context: context,
                 screen: BaoChiMangXaHoiMenu(
+                  topic: topic,
                   onChange: () {
                     cubit.changeScreenMenu();
                   },

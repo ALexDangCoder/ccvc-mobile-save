@@ -2,7 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/danh_sach_bao_cao_dang_girdview.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/list_report_girdview.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_ung_dung_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -59,8 +59,8 @@ class _XemThemBottomSheetState extends State<XemThemBottomSheet> {
               children: [
                 ItemFolder(
                   type: TypeLoai.THU_MUC,
-                  isChiaSe: true,
-                  isItemListView: true,
+                  isShare: true,
+                  isListView: true,
                 ),
                 Expanded(
                   child: Padding(

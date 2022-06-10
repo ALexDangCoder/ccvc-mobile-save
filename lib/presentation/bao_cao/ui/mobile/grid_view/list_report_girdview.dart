@@ -2,9 +2,9 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/bloc/danh_sach_bao_cao_dang_girdview_cubit.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/mobile/grid_view/widget/report_list.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/filter_bao_cao.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/bloc/report_list_cubit.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/widget/report_list.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/filter_bao_cao.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:flutter/material.dart';
@@ -155,10 +155,12 @@ class _DanhSachBaoCaoDangGirdviewMobileState
                       children: [
                         titleBaoCao(S.current.yeu_thich),
                         ReportList(
+                          listReport: cubit.dumpData,
                           isCheckList: snapshot.data ?? false,
                         ),
                         titleBaoCao(S.current.all),
                         ReportList(
+                          listReport: cubit.dumpData,
                           isCheckList: snapshot.data ?? false,
                         ),
                       ],

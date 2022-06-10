@@ -169,12 +169,14 @@ class _TaoLichLamViecChiTietScreenState
                               taoLichLamViecCubit.isCheckAllDaySubject
                                   .add(value);
                             },
+
                             onDateTimeChanged: (
                               String timeStart,
                               String timeEnd,
                               String dateStart,
                               String dateEnd,
                             ) {
+                              taoLichLamViecCubit.checkValidateTime();
                               taoLichLamViecCubit.listeningEndDataTime(
                                 DateTime.parse(
                                   timeFormat(
@@ -193,7 +195,9 @@ class _TaoLichLamViecChiTietScreenState
                                   ),
                                 ),
                               );
-                            },
+                            }, validateTime: (bool value) {
+
+                          },
                           ),
                           NhacLaiWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,

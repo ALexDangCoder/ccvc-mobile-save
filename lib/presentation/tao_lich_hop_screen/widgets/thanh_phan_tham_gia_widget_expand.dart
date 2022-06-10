@@ -43,6 +43,9 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
             isPhuongThucNhan: true,
             onChange: (value) {
               cubit.listThanhPhanThamGia.addAll(value);
+              cubit.listThanhPhanThamGiaSubject.sink.add(
+                cubit.listThanhPhanThamGia.toList(),
+              );
             },
             phuongThucNhan: (value) {},
             isTaoHop: true,
@@ -52,8 +55,12 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
             title: S.current.don_vi_phoi_hop_khac,
             sizeTitle: 14,
             child: ThemDonViPhoiHopKhacWidget(
+              isTaoHop: true,
               onChange: (List<DonViModel> value) {
                 cubit.listThanhPhanThamGia.addAll(value);
+                cubit.listThanhPhanThamGiaSubject.add(
+                  cubit.listThanhPhanThamGia.toList(),
+                );
               },
             ),
           ),
@@ -62,8 +69,12 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
             title: S.current.khach_moi,
             sizeTitle: 14,
             child: ThemThongTinKhachMoiWidget(
+              isMoiHop: true,
               onChange: (List<DonViModel> value) {
                 cubit.listThanhPhanThamGia.addAll(value);
+                cubit.listThanhPhanThamGiaSubject.add(
+                  cubit.listThanhPhanThamGia.toList(),
+                );
               },
             ),
           ),

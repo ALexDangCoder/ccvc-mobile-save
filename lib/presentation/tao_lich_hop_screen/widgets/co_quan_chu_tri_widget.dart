@@ -113,12 +113,10 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                                 onTap: () {
                                   widget.cubit.taoLichHopRequest.chuTri
                                       ?..tenCanBo = data[index].tenCanBo
-                                      ..tenCoQuan = data[index].tenCoQuan
+                                      ..tenCoQuan = data[index].tenDonVi
                                       ..canBoId = data[index].userId
                                       ..donViId = data[index].donViId;
-                                    widget.cubit.listThanhPhanThamGia.add(
-                                      data[index],
-                                    );
+                                  widget.cubit.chuTri = data[index];
                                     setState(() {
                                       indexSelected = index;
                                     });
@@ -219,6 +217,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ),
                   spaceH24,
                   ButtonSelectFile(
+                    files: [],
                     spacingFile: 16,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,

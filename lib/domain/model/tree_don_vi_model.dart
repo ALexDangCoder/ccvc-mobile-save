@@ -1,4 +1,5 @@
-import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 
 class DonViModel {
   String id = '';
@@ -20,6 +21,7 @@ class DonViModel {
 
   //param sử dụng tại tạo lịch làm việc
   bool? isSendEmail = false;
+  int? soLuong = 0;
 
   String get title => '$tenCanBo ${tenDonVi.isNotEmpty ? '- $tenDonVi' : ''}';
 
@@ -40,43 +42,64 @@ class DonViModel {
     this.donViId = '',
     this.userId = '',
     this.tenCoQuan = '',
+    this.soLuong,
   });
 
-  MoiHopRequest convertTrongHeThong() {
-    return MoiHopRequest(
-      DauMoiLienHe: dauMoiLienHe,
-      Email: email,
-      SoDienThoai: sdt,
-      TenCoQuan: tenCoQuan,
-      VaiTroThamGia: vaiTroThamGia,
+  // MoiThamGiaHopRequest convertTrongHeThong() {
+  //   return MoiThamGiaHopRequest(
+  //     VaiTroThamGia: vaiTroThamGia,
+  //     noiDungLamViec: noidung,
+  //     tenCanBo: tenCanBo,
+  //     tenDonVi:  vaiTroThamGia == 1 ? name : tenDonVi,
+  //     status: status,
+  //     type: type,
+  //     userId: userId,
+  //     donViId: vaiTroThamGia == 1
+  //         ? (id.isEmpty ? null : id)
+  //         : (donViId.isEmpty ? null : donViId),
+  //     CanBoId: canBoId.isEmpty ? null : canBoId,
+  //     chucVu: chucVu,
+  //   );
+  // }
+  MoiThamGiaHopRequest convertTrongHeThong(String lichHopId){
+    return MoiThamGiaHopRequest(
+      canBoId: canBoId.isEmpty ? null : canBoId,
+      donViId: vaiTroThamGia == 1
+              ? (id.isEmpty ? null : id)
+              : (donViId.isEmpty ? null : donViId),
       email: email,
-      id: id,
-      noiDungLamViec: noidung,
-      soDienThoai: sdt,
+      lichHopId: lichHopId,
       tenCanBo: tenCanBo,
-      tenDonVi: tenDonVi,
-      status: status,
-      type: type,
-      userId: userId,
-      donViId: donViId,
-      CanBoId: canBoId,
-      chucVu: chucVu,
+       tenCoQuan: tenCoQuan,
+      vaiTroThamGia: vaiTroThamGia,
+      soDienThoai: sdt,
+      createAt: DateTime.now().formatApiTaoBieuQuyet,
     );
   }
 
-  MoiHopRequest convertNgoaiHeThong() {
-    return MoiHopRequest(
-      DauMoiLienHe: dauMoiLienHe,
-      GhiChu: '',
-      TenCoQuan: tenCoQuan,
-      VaiTroThamGia: vaiTroThamGia,
-      dauMoi: dauMoiLienHe,
-      email: email,
-      noiDungLamViec: noidung,
+  MoiThamGiaHopRequest convertNgoaiHeThong(String lichHopId) {
+    return MoiThamGiaHopRequest(
+       dauMoiLienHe: dauMoiLienHe,
+      createAt: DateTime.now().formatApiTaoBieuQuyet,
       soDienThoai: sdt,
-      tenDonVi: tenDonVi,
+      vaiTroThamGia: vaiTroThamGia,
+      tenCoQuan: tenCoQuan,
+       tenCanBo: tenCanBo,
+      email: email,
+      lichHopId: lichHopId,
     );
   }
+
+  //MoiHopRequest(
+//       DauMoiLienHe: dauMoiLienHe,
+//       GhiChu: '',
+//       TenCoQuan: tenCoQuan,
+//       VaiTroThamGia: vaiTroThamGia,
+//       dauMoi: dauMoiLienHe,
+//       email: email,
+//       noiDungLamViec: noidung,
+//       soDienThoai: sdt,
+//       tenDonVi: tenDonVi,
 }
 
 class Node<T> {

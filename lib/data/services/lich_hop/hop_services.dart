@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dar
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
@@ -52,6 +53,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.d
 import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/phong_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/them_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
@@ -416,4 +418,19 @@ abstract class HopServices {
     @Query('DateFrom') String dateFrom,
     @Query('DateTo') String dateTo,
   );
+
+  @POST(ApiConstants.MOI_HOP)
+  Future<ThanhPhanThamGiaResponse> moiHop(
+      @Query('lichHopId') String lichHopId,
+      @Query('IsMultipe') bool IsMultipe,
+      @Query('isSendMail') bool isSendMail,
+      @Body() List<MoiThamGiaHopRequest> body,
+      );
+
+  @POST(ApiConstants.THEM_PHIEN_HOP_CHI_TIET)
+  Future<ThemPhienHopResponse> themPhienHop(
+      @Query('lichHopId') String lichHopId,
+      @Body() FormData data,
+      );
+
 }

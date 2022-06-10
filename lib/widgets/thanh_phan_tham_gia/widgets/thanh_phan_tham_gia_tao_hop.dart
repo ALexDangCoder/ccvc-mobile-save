@@ -16,6 +16,7 @@ class ItemPeopleThamGia extends StatelessWidget {
   final String noiDungCV;
   final bool isChuTri;
   final bool isSendEmail;
+  final bool isKhachMoi;
 
   const ItemPeopleThamGia({
     Key? key,
@@ -24,6 +25,7 @@ class ItemPeopleThamGia extends StatelessWidget {
     this.noiDungCV = '',
     this.isChuTri = false,
     this.isSendEmail = false,
+    this.isKhachMoi = false,
   }) : super(key: key);
 
   @override
@@ -51,21 +53,36 @@ class ItemPeopleThamGia extends StatelessWidget {
               SizedBox(
                 height: 10.0.textScale(space: 10),
               ),
-              rowInfo(value: donVi.chucVu, key: S.current.chuc_vu),
-              SizedBox(
-                height: 10.0.textScale(space: 10),
-              ),
+              if (!isKhachMoi) ...[
+                rowInfo(value: donVi.chucVu, key: S.current.chuc_vu),
+                SizedBox(
+                  height: 10.0.textScale(space: 10),
+                ),
+              ],
+              if (!isKhachMoi)
+                ...[
+                  rowInfo(
+                    value: isChuTri
+                        ? S.current.can_bo_chu_tri
+                        : S.current.can_bo_phoi_hop,
+                    key: S.current.vai_tro,
+                  ),
+                  SizedBox(
+                    height: 10.0.textScale(space: 10),
+                  ),
+                ],
+              if(isKhachMoi)
+                ...[
+                  rowInfo(
+                    value: donVi.soLuong.toString(),
+                    key: S.current.so_luong,
+                  ),
+                  SizedBox(
+                    height: 10.0.textScale(space: 10),
+                  ),
+                ],
               rowInfo(
-                value: isChuTri
-                    ? S.current.can_bo_chu_tri
-                    : S.current.can_bo_phoi_hop,
-                key: S.current.vai_tro,
-              ),
-              SizedBox(
-                height: 10.0.textScale(space: 10),
-              ),
-              rowInfo(
-                value: noiDungCV,
+                value: isKhachMoi ? donVi.noidung : noiDungCV,
                 key: S.current.nd_cong_viec,
               ),
               SizedBox(

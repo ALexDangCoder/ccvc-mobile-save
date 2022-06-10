@@ -4,9 +4,10 @@ import 'dart:math';
 
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/category_list_request.dart';
-import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/search_can_bo_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/domain/locals/hive_local.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
@@ -20,6 +21,7 @@ import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:queue/queue.dart';
 import 'package:rxdart/rxdart.dart';
@@ -128,15 +130,21 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   List<File> listThuMoi = [];
   List<File> listTaiLieu = [];
+  List<File> listTaiLieuPhienHop = [];
 
-  List<DonViModel> listThanhPhanThamGia = [];
+  Set<DonViModel> listThanhPhanThamGia = {};
 
-  Future<void> createMeeting() async {
+  DonViModel chuTri = DonViModel(name: '', id: '');
+
+  List<TaoPhienHopRequest> taoPhienHopRequest = [];
+
+  BehaviorSubject<List<DonViModel>> listThanhPhanThamGiaSubject =
+      BehaviorSubject.seeded([]);
+
+  Future<void> createMeeting(BuildContext context) async {
     showLoading();
-    if (listThuMoi.isNotEmpty) {
-      await postFileTaoLichHop(files: listThuMoi);
-      taoLichHopRequest.thuMoiFiles = fileIds.join(',');
-    }
+    await postFileTaoLichHop(files: listThuMoi);
+    taoLichHopRequest.thuMoiFiles = fileIds.join(',');
     final result = await hopRp.taoLichHop(taoLichHopRequest);
     result.when(
       success: (res) {
@@ -149,12 +157,25 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
               entityName: ENTITY_TAI_LIEU_HOP,
             ),
           );
+          queue.add(
+            () => themThanhPhanThamGia(
+              isSendEmail: true,
+              idHop: res.id,
+            ),
+          );
+          queue.add(
+            () => themPhienHop(
+              res.id,
+            ),
+          );
           queue.onComplete.then((value) {
             MessageConfig.show(
               title: S.current.tao_thanh_cong,
             );
           });
           queue.cancel();
+          showContent();
+          Navigator.pop(context);
         }
       },
       error: (error) {
@@ -162,24 +183,26 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           messState: MessState.error,
           title: S.current.tao_that_bai,
         );
+        showContent();
       },
     );
-    showContent();
   }
-
   Future<void> themThanhPhanThamGia({
     required String idHop,
     required bool isSendEmail,
   }) async {
-    final List<MoiHopRequest> listMoiHop = listThanhPhanThamGia.map((e) {
-          return e.id.isNotEmpty
-              ? e.convertTrongHeThong()
-              : e.convertNgoaiHeThong();
-        }).toList();
-    final result =
-        await hopRp.postMoiHop(idHop, false, isSendEmail, listMoiHop);
+    final List<MoiThamGiaHopRequest> listMoiHop = listThanhPhanThamGia.map((e) {
+      return e.id.isNotEmpty || e.donViId.isNotEmpty
+          ? e.convertTrongHeThong(idHop)
+          : e.convertNgoaiHeThong(idHop);
+    }).toList();
+     await hopRp.moiHop(idHop, false, isSendEmail, listMoiHop);
+  }
+
+  Future<void> themPhienHop(String lichHopId) async {
+    final result = await hopRp.themPhienHop(lichHopId, taoPhienHopRequest);
     result.when(
-      success: (res) {},
+      success: (value) {},
       error: (error) {},
     );
   }
@@ -206,7 +229,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     showContent();
   }
 
-  Future<void> checkLichTrung() async {
+  Future<void> checkLichTrung(BuildContext context) async {
     /// check cả ngày?
     if (taoLichHopRequest.isAllDay ?? false) {
       taoLichHopRequest.timeTo = '';
@@ -236,7 +259,6 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       taoLichHopRequest.days ??= '1';
     }
     if (taoLichHopRequest.bitTrongDonVi ?? false) {
-      showLoading();
       final rs = await hopRp.checkLichHopTrung(
         null,
         taoLichHopRequest.chuTri?.donViId ?? '',
@@ -251,7 +273,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           if (res.isNotEmpty) {
             isLichTrung.add(true);
           } else {
-            createMeeting();
+            createMeeting(context);
           }
         },
         error: (error) {
@@ -261,9 +283,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
         },
       );
-      showContent();
     } else {
-      await createMeeting();
+      await createMeeting(context);
     }
   }
 
@@ -323,7 +344,9 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     bool isMutil = true,
     required List<File> files,
   }) async {
-    showLoading();
+    if (files.isEmpty) {
+      return;
+    }
     final result = await hopRp.postFileTaoLichHop(
       entityType,
       entityName,

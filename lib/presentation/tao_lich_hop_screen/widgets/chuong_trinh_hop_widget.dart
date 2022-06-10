@@ -1,9 +1,11 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -100,11 +102,18 @@ class ThemPhienHopScreen extends StatefulWidget {
 class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   final _key = GlobalKey<FormGroupState>();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
+  final TaoPhienHopRequest taoPhienHopRequest = TaoPhienHopRequest(
+    thoiGian_BatDau: DateTime.now().formatApiSuaPhienHop,
+    thoiGian_KetThuc: DateTime.now().formatApiSuaPhienHop,
+  );
+
+  String timeStart = '00:00';
+  String timeEnd = '00:00';
+  String thoiGianHop = DateTime.now().formatApi;
 
   @override
   void initState() {
     super.initState();
-    widget.cubit.getChuongTrinhHop('7b4f68c6-f835-4bea-b6f2-06250412ae70');
   }
 
   @override
@@ -121,6 +130,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
             onPressed2: () {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
+                taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
+                taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
+                widget.cubit.taoPhienHopRequest.add(taoPhienHopRequest);
                 Navigator.pop(context);
               }
             },
@@ -143,7 +155,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   isObligatory: true,
                   child: TextFieldValidator(
                     hintText: S.current.nhap_ten_phien_hop,
-                    onChange: (value) {},
+                    onChange: (value) {
+                      taoPhienHopRequest.tieuDe = value;
+                    },
                     validator: (value) {
                       return value?.checkNull();
                     },
@@ -154,7 +168,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   isObligatory: true,
                   child: CustomSelectDate(
                     value: DateTime.now(),
-                    onSelectDate: (value) {},
+                    onSelectDate: (value) {
+                      thoiGianHop = value.formatApi;
+                    },
                     paddings: 12,
                     leadingIcon: SvgPicture.asset(
                       isMobile()
@@ -167,23 +183,52 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 BaseChooseTimerWidget(
                   key: _keyBaseTime,
                   validator: () {},
+                  onChange: (timeBegin, timerEn) {
+                    timeStart = timeBegin.timerToString;
+                    timeEnd = timerEn.timerToString;
+                  },
                 ),
                 InputInfoUserWidget(
                   title: S.current.nguoi_chu_tri,
-                  child: StreamBuilder<ChuongTrinhHopModel>(
-                    stream: widget.cubit.chuongTrinhHopStream,
+                  child: StreamBuilder<List<DonViModel>>(
+                    stream: widget.cubit.listThanhPhanThamGiaSubject,
                     builder: (context, snapshot) {
-                      final data = snapshot.data ?? ChuongTrinhHopModel.empty();
-                      final dataString = data.listCanBo
-                              ?.map((e) => e.tenCanBo ?? '')
-                              .toList() ??
-                          [];
-
+                      final data = snapshot.data ?? [];
+                      if (widget.cubit.chuTri.id.isNotEmpty) {
+                        if (!data.contains(widget.cubit.chuTri)) {
+                          data.insert(0, widget.cubit.chuTri);
+                        }
+                      }
                       return DropDownSearch(
                         title: S.current.nguoi_chu_tri,
                         hintText: S.current.chon_nguoi_chu_tri,
-                        onChange: (value) {},
-                        listSelect: dataString,
+                        onChange: (index) {
+                          taoPhienHopRequest.canBoId =
+                              data[index].canBoId.isNotEmpty
+                                  ? data[index].canBoId
+                                  : null;
+                          taoPhienHopRequest.donViId =
+                              data[index].donViId.isNotEmpty
+                                  ? data[index].donViId
+                                  : data[index].id.isNotEmpty
+                                      ? data[index].id
+                                      : null;
+                          taoPhienHopRequest.hoTen =
+                              data[index].tenCanBo.isNotEmpty
+                                  ? data[index].tenCanBo
+                                  : data[index].name.isNotEmpty
+                                      ? data[index].name
+                                      : '';
+                        },
+                        listSelect: data
+                            .map(
+                              (e) => e.tenCanBo.isNotEmpty
+                                  ? e.tenCanBo
+                                  : e.name.isNotEmpty
+                                      ? e.name
+                                      : e.tenDonVi,
+                            )
+                            .toList(),
                       );
                     },
                   ),
@@ -193,7 +238,9 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   isObligatory: true,
                   child: TextFieldValidator(
                     maxLine: 5,
-                    onChange: (value) {},
+                    onChange: (value) {
+                      taoPhienHopRequest.noiDung = value;
+                    },
                     validator: (value) {
                       return value?.checkNull();
                     },
@@ -203,7 +250,12 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 ButtonSelectFile(
                   spacingFile: 16,
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (value) {},
+                  icon: ImageAssets.icShareFile,
+                  files: [],
+                  onChange: (value) {
+                    taoPhienHopRequest.Files = value;
+                  },
+                  hasMultipleFile: true,
                 )
               ],
             ),

@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dar
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/response/chi_tiet_lich_lam_viec/so_luong_phat_bieu_response.dart';
@@ -50,6 +52,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/danh_sach_don_vi_con_phong_res.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/phong_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/them_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
@@ -102,6 +105,8 @@ import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/menu_model.dart';
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
+import 'package:dio/dio.dart';
+import 'package:dio/src/form_data.dart';
 
 class HopRepositoryImpl implements HopRepository {
   final HopServices _hopServices;
@@ -800,12 +805,74 @@ class HopRepositoryImpl implements HopRepository {
         dateTo,
       ),
       (response) {
-        try{
+        try {
           return (response as Map<String, dynamic>)['code'];
-        }catch(e){
+        } catch (e) {
           return '';
         }
       },
+    );
+  }
+
+  @override
+  Future<Result<List<CanBoModel>>> moiHop(String lichHopId, bool IsMultipe,
+      bool isSendMail, List<MoiThamGiaHopRequest> body) {
+    return runCatchingAsync<ThanhPhanThamGiaResponse, List<CanBoModel>>(
+      () => _hopServices.moiHop(lichHopId, IsMultipe, isSendMail, body),
+      (response) => response.data?.map((e) => e.toModel()).toList() ?? [],
+    );
+  }
+
+  @override
+  Future<Result<bool>> themPhienHop(
+      String lichHopId, List<TaoPhienHopRequest> phienHops) async {
+    final _data = FormData();
+    for (int i = 0; i < phienHops.length; i++) {
+      if(phienHops[i].canBoId != null) {
+        _data.fields.add(
+        MapEntry('[$i].canBoId', phienHops[i].canBoId!),
+      );
+      }
+      if(phienHops[i].canBoId != null) {
+        _data.fields.add(
+          MapEntry('[$i].donViId', phienHops[i].donViId!),
+        );
+      }
+      _data.fields.add(
+        MapEntry('[$i].thoiGian_BatDau', phienHops[i].thoiGian_BatDau),
+      );
+      _data.fields.add(
+        MapEntry('[$i].thoiGian_KetThuc', phienHops[i].thoiGian_KetThuc),
+      );
+      _data.fields.add(
+        MapEntry('[$i].noiDung', phienHops[i].noiDung),
+      );
+      _data.fields.add(
+        MapEntry('[$i].tieuDe', phienHops[i].tieuDe),
+      );
+      _data.fields.add(
+        MapEntry('[$i].hoTen', phienHops[i].hoTen),
+      );
+      _data.fields.add(
+        MapEntry('[$i].IsMultipe', phienHops[i].IsMultipe.toString()),
+      );
+      if (phienHops[i].Files?.isNotEmpty ?? false) {
+        for (int j = 0; j < phienHops[i].Files!.length; j++) {
+          final MultipartFile file = await MultipartFile.fromFile(
+            phienHops[i].Files![j].path,
+          );
+          _data.files.add(
+            MapEntry(
+              '[$i].Files',
+              file,
+            ),
+          );
+        }
+      }
+    }
+    return runCatchingAsync<ThemPhienHopResponse, bool>(
+      () => _hopServices.themPhienHop(lichHopId, _data),
+      (response) => response.isSucces,
     );
   }
 }

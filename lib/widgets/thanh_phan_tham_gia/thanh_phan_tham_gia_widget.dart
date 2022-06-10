@@ -18,6 +18,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
 
   final bool isPhuongThucNhan;
   final bool isTaoHop;
+  final String noiDungCV;
 
   const ThanhPhanThamGiaWidget({
     Key? key,
@@ -26,6 +27,7 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     required this.phuongThucNhan,
     this.listPeopleInit,
     this.isTaoHop = false,
+    this.noiDungCV = '',
   }) : super(key: key);
 
   @override
@@ -111,9 +113,6 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   )
                 ],
               ),
-              // SizedBox(
-              //   height: 20.0.textScale(space: -2),
-              // ),
             ],
           )
         else
@@ -129,6 +128,7 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isTaoHop
                       ? ItemPeopleThamGia(
+                          noiDungCV: widget.noiDungCV,
                           cubit: _cubit,
                           donVi: data[index],
                         )

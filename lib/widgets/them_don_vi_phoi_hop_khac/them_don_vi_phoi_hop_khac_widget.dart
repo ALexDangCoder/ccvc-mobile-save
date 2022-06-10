@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
@@ -21,10 +22,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemDonViPhoiHopKhacWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
+  final bool isTaoHop;
 
   const ThemDonViPhoiHopKhacWidget({
     Key? key,
     required this.onChange,
+    this.isTaoHop = false,
   }) : super(key: key);
 
   @override
@@ -65,10 +68,15 @@ class _ThemDonViPhoiHopKhacWidgetState
                 data.length,
                 (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
-                  child: ItemThanhPhanWidget(
-                    data: data[index],
-                    cubit: cubit,
-                  ),
+                  child: widget.isTaoHop
+                      ? ItemDonViPhoiHopWidget(
+                          data: data[index],
+                          cubit: cubit,
+                        )
+                      : ItemThanhPhanWidget(
+                          data: data[index],
+                          cubit: cubit,
+                        ),
                 ),
               ),
             );
@@ -195,6 +203,119 @@ class ItemThanhPhanWidget extends StatelessWidget {
   }
 }
 
+class ItemDonViPhoiHopWidget extends StatelessWidget {
+  final DonViModel data;
+  final ThanhPhanThamGiaCubit cubit;
+
+  const ItemDonViPhoiHopWidget({
+    Key? key,
+    required this.data,
+    required this.cubit,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: borderButtomColor.withOpacity(0.1),
+        border: Border.all(color: borderButtomColor),
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
+      ),
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              rowInfo(
+                value: data.tenDonVi,
+                key: S.current.dv_phoi_hop,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              rowInfo(value: data.dauMoiLienHe, key: S.current.nguoi_pho_hop),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3.0.textScale().toInt(),
+                    child: Text(
+                      S.current.noi_dung,
+                      style: textNormal(infoColor, 14),
+                    ),
+                  ),
+                  spaceW8,
+                  Expanded(
+                    flex: 7,
+                    child: textField(
+                      onChange: (value) {
+                        data.noidung = value;
+                      },
+                      initValue: data.noidung,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: () {
+                cubit.removeDonViPhoiHop(data);
+              },
+              child: SvgPicture.asset(ImageAssets.icDeleteRed),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget textField({
+    Function(String)? onChange,
+    String? hintText,
+    String? initValue,
+  }) {
+    return TextFormField(
+      onChanged: (value) {
+        onChange?.call(value);
+      },
+      initialValue: initValue,
+      style: textNormal(color3D5586, 16),
+      decoration: InputDecoration(
+        hintText: hintText ?? S.current.nhap_noi_dung_cong_viec,
+        hintStyle: textNormal(textBodyTime, 16),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: borderButtomColor),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      ),
+    );
+  }
+}
+
 class ThemDonViPhoiHopKhacScreen extends StatefulWidget {
   final ThanhPhanThamGiaCubit cubit;
 
@@ -247,7 +368,6 @@ class _ThemDonViPhoiHopKhacScreenState
                 widget.cubit.addDonViPhoiHopKhac(
                   DonViModel(
                     id: '',
-                    name: _tenDonViController.text,
                     dauMoiLienHe: _dauMoiLamViecController.text,
                     noidung: _noiDungLamViecController.text,
                     email: _emailController.text,
@@ -255,6 +375,7 @@ class _ThemDonViPhoiHopKhacScreenState
                     vaiTroThamGia: 4,
                     tenDonVi: _tenDonViController.text,
                     tenCoQuan: _tenDonViController.text,
+                    name: '',
                   ),
                 );
                 Navigator.pop(context);

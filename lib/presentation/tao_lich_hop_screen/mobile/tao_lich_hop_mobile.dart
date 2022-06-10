@@ -60,7 +60,8 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
           btnLeftTxt: S.current.khong,
           isCenterTitle: true,
           funcBtnRight: (){
-            _cubit.createMeeting();
+            Navigator.pop(context);
+            _cubit.createMeeting(context);
           },);
       }
     });
@@ -314,7 +315,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                       text: S.current.tao_lich_hop,
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          _cubit.checkLichTrung();
+                          _cubit.checkLichTrung(context);
                         }
                       },
                     ),

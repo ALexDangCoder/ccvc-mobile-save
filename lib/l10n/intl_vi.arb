@@ -1066,7 +1066,11 @@
   "xe_can_bo": "Xe cán bộ",
   "xe_lanh_dao": "Xe lãnh đạo",
   "xe_may": "Xe máy",
-  "xe_o_to": "Ô tô"
+  "xe_o_to": "Ô tô",
+  "danh_sach_thiep_va_loi_chuc" : "Danh sách thiệp và lời chúc",
+  "thiep_danh_toi_ban" : "Thiệp dành tới bạn"
+
+
 }
 
 

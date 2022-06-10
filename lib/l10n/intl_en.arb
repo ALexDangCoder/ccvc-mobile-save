@@ -1080,5 +1080,7 @@
   "chia_se":"Chia sẻ",
   "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
   "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
-  "chon_nhom":"Chọn nhóm"
+  "chon_nhom":"Chọn nhóm",
+  "danh_sach_thiep_va_loi_chuc" : "Danh sách thiệp và lời chúc",
+  "thiep_danh_toi_ban" : "Thiệp dành tới bạn"
 }

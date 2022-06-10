@@ -160,21 +160,6 @@ class _SuaLichCongTacTrongNuocPhoneState
                             );
                           },
                         ),
-                        //bug chua fix
-                        // StartEndDateWidget(
-                        //   icMargin: taoLichLamViecCubit.allDay,
-                        //   // initEndData: DateTime.parse(dataDetail.dateTimeTo??''),
-                        //   // initStartData: DateTime.parse(dataDetail.dateTimeFrom??''),
-                        //   onEndDateTimeChanged: (DateTime value) {
-                        //     taoLichLamViecCubit.dateEnd = value.toString();
-                        //   },
-                        //   onStartDateTimeChanged: (DateTime value) {
-                        //     taoLichLamViecCubit.dateFrom = value.toString();
-                        //   },
-                        //   isCheck: (bool value) {
-                        //     taoLichLamViecCubit.isCheckAllDaySubject.add(value);
-                        //   },
-                        // ),
                         CupertinoMaterialPicker(
                           onDateTimeChanged: (
                             String timeStart,
@@ -184,7 +169,9 @@ class _SuaLichCongTacTrongNuocPhoneState
                           ) {},
                           onSwitchPressed: (value) {
                             taoLichLamViecCubit.isCheckAllDaySubject.add(value);
-                          },
+                          }, validateTime: (bool value) {
+
+                        },
                         ),
                         StreamBuilder<List<NhacLaiModel>>(
                             stream: taoLichLamViecCubit.nhacLai,

@@ -1082,5 +1082,6 @@
   "chia_se":"Chia sẻ",
   "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
   "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
-  "chon_nhom":"Chọn nhóm"
+  "chon_nhom":"Chọn nhóm",
+  "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu"
 }

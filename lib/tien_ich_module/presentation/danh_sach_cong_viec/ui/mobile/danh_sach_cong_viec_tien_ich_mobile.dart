@@ -176,15 +176,19 @@ class _DanhSachCongViecTienIchMobileState
                                                   controller.text;
                                             },
                                             onEdit: () {
-                                              showBottomSheetCustom(
-                                                context,
-                                                title: S.current.chinh_sua,
-                                                child: CreatTodoOrUpdateWidget(
-                                                  cubit: cubit,
-                                                  todo: todo,
-                                                  isCreat: false,
-                                                ),
-                                              );
+                                              if (cubit.listNguoiThucHienSubject
+                                                  .hasValue) {
+                                                showBottomSheetCustom(
+                                                  context,
+                                                  title: S.current.chinh_sua,
+                                                  child:
+                                                      CreatTodoOrUpdateWidget(
+                                                    cubit: cubit,
+                                                    todo: todo,
+                                                    isCreat: false,
+                                                  ),
+                                                );
+                                              }
                                             },
                                             enabled: !(todo.isTicked ?? true),
                                             isDaBiXoa: dataType == DBX,

@@ -221,13 +221,11 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
     );
   }
 
-  Widget textUnder(String text) => Flexible(
-        child: Text(
-          text,
-          overflow: TextOverflow.ellipsis,
-          style: textDetailHDSD(fontSize: 12, color: textTitleColumn),
-        ),
-      );
+  Widget textUnder(String text) => Text(
+    text,
+    overflow: TextOverflow.ellipsis,
+    style: textDetailHDSD(fontSize: 12, color: textTitleColumn),
+  );
 
   Widget circleWidget() => Container(
         margin: const EdgeInsets.only(left: 8, top: 4),

@@ -189,8 +189,18 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   title: S.current.them_tai_lieu_dinh_kem,
                   onChange: (files) {
                     if (files.isNotEmpty) {
-                      widget.cubit.nameFile.sink.add('');
-                      widget.cubit.uploadFilesWithFile(files[0]);
+                      if (widget.isCreat ?? true) {
+                        widget.cubit.uploadFilesWithFile(files[0]);
+                      } else {
+                        widget.cubit.nameFile.sink.add('');
+                        widget.cubit.uploadFilesWithFile(files[0]).then(
+                              (value) => widget.cubit.editWork(
+                                filePathTodo:
+                                    widget.cubit.nameFile.valueOrNull ?? '',
+                                todo: widget.todo ?? TodoDSCVModel(),
+                              ),
+                            );
+                      }
                     }
                   },
                 ),

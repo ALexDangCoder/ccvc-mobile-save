@@ -35,6 +35,7 @@ class DanhSachCongViecTienIchCubit
   String dateChange = '';
   String? noteChange;
   String? titleChange;
+  String filePath = '';
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -269,10 +270,11 @@ class DanhSachCongViecTienIchCubit
           finishDay:
               dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
           note: noteChange == '' ? null : noteChange,
-          performer: toDoListRequest.performer == ''
+          performer: toDoListRequest.performer == '' ||
+                  toDoListRequest.performer == null
               ? null
               : nguoiThucHienSubject.value.id,
-          filePath: nameFile.value,
+          filePath: filePath,
         ),
       );
       result.when(
@@ -504,10 +506,10 @@ class DanhSachCongViecTienIchCubit
     showLoading();
     final result = await tienIchRep.uploadFileDSCV(file);
     result.when(
-      success: (res) {},
-      error: (error) {
-        showError();
+      success: (res) {
+        filePath = res.data?.filePath ?? '';
       },
+      error: (error) {},
     );
     showContent();
   }

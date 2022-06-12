@@ -11,6 +11,11 @@ class TaoPhienHopRequest {
   bool IsMultipe;
   List<File>? Files;
 
+  //sử dụng để xử lý UI
+  String? timeEnd;
+  String? date;
+  String? timeStart;
+
   TaoPhienHopRequest({
     this.canBoId,
     this.donViId,

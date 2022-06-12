@@ -47,7 +47,9 @@ class ThanhPhanThamGiaExpandWidget extends StatelessWidget {
                 cubit.listThanhPhanThamGia.toList(),
               );
             },
-            phuongThucNhan: (value) {},
+            phuongThucNhan: (value) {
+              cubit.isSendEmail = value;
+            },
             isTaoHop: true,
           ),
           spaceH16,

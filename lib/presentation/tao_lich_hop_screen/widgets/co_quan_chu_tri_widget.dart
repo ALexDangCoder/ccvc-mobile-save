@@ -111,6 +111,7 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                               ),
                               child: GestureDetector(
                                 onTap: () {
+                                  indexSelected = index;
                                   widget.cubit.taoLichHopRequest.chuTri
                                       ?..tenCanBo = data[index].tenCanBo
                                       ..tenCoQuan = data[index].tenDonVi
@@ -118,7 +119,6 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                                       ..donViId = data[index].donViId;
                                   widget.cubit.chuTri = data[index];
                                     setState(() {
-                                      indexSelected = index;
                                     });
                                   },
                                 child: Container(

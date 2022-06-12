@@ -92,7 +92,10 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   BehaviorSubject<List<DsDiemCau>> dsDiemCauSubject =
       BehaviorSubject.seeded([]);
 
-  BehaviorSubject<bool> isLichTrung = BehaviorSubject();
+  final BehaviorSubject<bool> isLichTrung = BehaviorSubject();
+
+  BehaviorSubject<List<TaoPhienHopRequest>> listPhienHop =
+      BehaviorSubject.seeded([]);
 
   LoaiSelectModel? selectLoaiHop;
   LoaiSelectModel? selectLinhVuc;
@@ -133,10 +136,8 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
   List<File> listTaiLieuPhienHop = [];
 
   Set<DonViModel> listThanhPhanThamGia = {};
-
+  bool isSendEmail = false;
   DonViModel chuTri = DonViModel(name: '', id: '');
-
-  List<TaoPhienHopRequest> taoPhienHopRequest = [];
 
   BehaviorSubject<List<DonViModel>> listThanhPhanThamGiaSubject =
       BehaviorSubject.seeded([]);
@@ -159,7 +160,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           );
           queue.add(
             () => themThanhPhanThamGia(
-              isSendEmail: true,
+              isSendEmail: isSendEmail,
               idHop: res.id,
             ),
           );
@@ -187,6 +188,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
       },
     );
   }
+
   Future<void> themThanhPhanThamGia({
     required String idHop,
     required bool isSendEmail,
@@ -196,15 +198,18 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
           ? e.convertTrongHeThong(idHop)
           : e.convertNgoaiHeThong(idHop);
     }).toList();
-     await hopRp.moiHop(idHop, false, isSendEmail, listMoiHop);
+    await hopRp.moiHop(idHop, false, isSendEmail, listMoiHop);
   }
 
   Future<void> themPhienHop(String lichHopId) async {
-    final result = await hopRp.themPhienHop(lichHopId, taoPhienHopRequest);
-    result.when(
-      success: (value) {},
-      error: (error) {},
-    );
+    final taoPhienHopRequest = listPhienHop.value;
+    if (taoPhienHopRequest.isNotEmpty) {
+      final result = await hopRp.themPhienHop(lichHopId, taoPhienHopRequest);
+      result.when(
+        success: (value) {},
+        error: (error) {},
+      );
+    }
   }
 
   void loadData() {

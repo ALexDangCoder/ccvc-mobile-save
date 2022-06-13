@@ -71,6 +71,7 @@ class _CongTacChuanBiWidgetTabletState
                       padding: const EdgeInsets.only(bottom: 16),
                       child: ThongTinYeuCauThietBiWidget(
                         model: data[index],
+                        onChange: (bool) {},
                       ),
                     ),
                   ),

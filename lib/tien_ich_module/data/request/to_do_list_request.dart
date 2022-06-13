@@ -14,6 +14,7 @@ class ToDoListRequest {
   String? note;
   String? status;
   String? performer;
+  String? filePath;
 
   ToDoListRequest({
     this.id,
@@ -31,6 +32,7 @@ class ToDoListRequest {
     this.note,
     this.status,
     this.performer,
+    this.filePath,
   });
 
   Map<String, dynamic> toJson() {
@@ -50,6 +52,8 @@ class ToDoListRequest {
     data['note'] = note;
     data['status'] = status;
     data['performer'] = performer;
+    data['filePath'] = filePath;
+
     return data;
   }
 }
@@ -63,6 +67,7 @@ class CreateToDoRequest {
   String? finishDay;
   String? note;
   String? performer;
+  String? filePath;
 
   CreateToDoRequest({
     this.label,
@@ -73,6 +78,7 @@ class CreateToDoRequest {
     this.finishDay,
     this.note,
     this.performer,
+    this.filePath,
   });
 
   CreateToDoRequest.fromJson(Map<String, dynamic> json) {
@@ -83,6 +89,7 @@ class CreateToDoRequest {
     finishDay = json['finishDay'];
     note = json['note'];
     performer = json['performer'];
+    filePath = json['filePath'];
   }
 
   Map<String, dynamic> toJson() {
@@ -95,6 +102,7 @@ class CreateToDoRequest {
     data['finishDay'] = finishDay;
     data['note'] = note;
     data['performer'] = performer;
+    data['filePath'] = filePath;
     return data;
   }
 }

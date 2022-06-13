@@ -313,6 +313,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
+
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
                           _cubit.checkLichTrung(context);

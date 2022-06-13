@@ -62,7 +62,6 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
     super.initState();
     cubit = DateTimeCupertinoCustomCubit();
     debouncer = Debouncer();
-    log(widget.initTimeStart.toString() + '>>>>>>>>>>>>>>>>>>');
     cubit.onTimeChanged(
       timeSelected: widget.initTimeEnd ?? DateTime.now(),
       typePicker: TypePickerDateTime.TIME_END,

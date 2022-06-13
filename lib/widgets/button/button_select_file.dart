@@ -3,14 +3,10 @@ import 'dart:io';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
-import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/dowload_file.dart';
-import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,9 +67,9 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
 
             if (result != null) {
               if (widget.hasMultipleFile) {
-                final listSelect = result.paths.map((path) => File(path!)).toList();
-                widget.files
-                    ?.addAll(listSelect);
+                final listSelect =
+                    result.paths.map((path) => File(path!)).toList();
+                widget.files?.addAll(listSelect);
               } else {
                 widget.files = result.paths.map((path) => File(path!)).toList();
               }
@@ -141,12 +137,6 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
                         }
                         setState(() {});
                       },
-                      onTapDowLoad: ()async{
-                        await handleSaveFile(
-                             url: e.path, name: 'abc',
-
-                        );
-                      },
                       spacingFile: widget.spacingFile,
                     );
                   }
@@ -162,7 +152,6 @@ class _ButtonSelectFileState extends State<ButtonSelectFile> {
 Widget itemListFile({
   required File file,
   required Function onTap,
-  required Function onTapDowLoad,
   double? spacingFile,
 }) {
   return Container(
@@ -177,17 +166,12 @@ Widget itemListFile({
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: GestureDetector(
-            onTap: () {
-              onTapDowLoad();
-            },
-            child: Text(
-              file.path.convertNameFile(),
-              style: textNormalCustom(
-                color: color5A8DEE,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.textScale(),
-              ),
+          child: Text(
+            file.path.convertNameFile(),
+            style: textNormalCustom(
+              color: color5A8DEE,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.textScale(),
             ),
           ),
         ),

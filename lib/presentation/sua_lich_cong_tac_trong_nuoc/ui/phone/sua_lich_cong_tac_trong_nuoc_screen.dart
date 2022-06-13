@@ -13,6 +13,7 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_li
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/text_field_style.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/custom_switch_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lap_den_ngay_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_lich_lap_tuy_chinh.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_quan_huyen_widget.dart';
@@ -22,6 +23,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/ta
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
@@ -53,6 +55,7 @@ class _SuaLichCongTacTrongNuocPhoneState
   TextEditingController noiDungController = TextEditingController();
   TextEditingController diaDiemController = TextEditingController();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -73,6 +76,7 @@ class _SuaLichCongTacTrongNuocPhoneState
     taoLichLamViecCubit.typeScheduleName = widget.event.typeScheduleName;
     taoLichLamViecCubit.changeOption.sink
         .add(widget.event.typeScheduleName ?? '');
+    taoLichLamViecCubit.publishSchedule = widget.event.publishSchedule;
 
     taoLichLamViecCubit.dateRepeat = widget.event.dateRepeat;
 
@@ -88,6 +92,7 @@ class _SuaLichCongTacTrongNuocPhoneState
       taoLichLamViecCubit.checkTrongNuoc.sink.add(false);
     }
     taoLichLamViecCubit.files = widget.event.files;
+    taoLichLamViecCubit.id = widget.event.id;
     taoLichLamViecCubit.loadData();
     super.initState();
   }
@@ -121,20 +126,26 @@ class _SuaLichCongTacTrongNuocPhoneState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        StreamBuilder<String>(
-                            initialData: taoLichLamViecCubit.typeScheduleName,
-                            stream: taoLichLamViecCubit.changeOption,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ?? '';
-                              return TextFieldStyle(
-                                controller: tieuDeController,
-                                urlIcon: ImageAssets.icEdit,
-                                hintText: '${S.current.tieu_de} $data',
-                                onChange: (vl) {
-                                  taoLichLamViecCubit.title = vl;
-                                },
-                              );
-                            }),
+                        Form(
+                          key: _formKey,
+                          child: StreamBuilder<String>(
+                              initialData: taoLichLamViecCubit.typeScheduleName,
+                              stream: taoLichLamViecCubit.changeOption,
+                              builder: (context, snapshot) {
+                                final data = snapshot.data ?? '';
+                                return TextFieldStyle(
+                                  controller: tieuDeController,
+                                  urlIcon: ImageAssets.icEdit,
+                                  hintText: '${S.current.tieu_de} $data',
+                                  onChange: (vl) {
+                                    taoLichLamViecCubit.title = vl;
+                                  },
+                                  validate: (value) {
+                                    return value.checkNull();
+                                  },
+                                );
+                              }),
+                        ),
                         StreamBuilder<List<LoaiSelectModel>>(
                           stream: taoLichLamViecCubit.loaiLich,
                           builder: (context, snapshot) {
@@ -277,6 +288,16 @@ class _SuaLichCongTacTrongNuocPhoneState
                               title: S.current.linh_vuc,
                             );
                           },
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 16.0, left: 30.0),
+                          child: CustomSwitchWidget(
+                            onToggle: (value) {
+                              taoLichLamViecCubit.publishSchedule = value;
+                            },
+                            value: taoLichLamViecCubit.publishSchedule??false,
+                          ),
                         ),
                         StreamBuilder<bool>(
                             stream: taoLichLamViecCubit.checkTrongNuoc,
@@ -435,9 +456,11 @@ class _SuaLichCongTacTrongNuocPhoneState
                           listPeopleInit: taoLichLamViecCubit
                               .chiTietLichLamViecModel.scheduleCoperatives,
                         ),
-                         TaiLieuWidget(
-                           files: (taoLichLamViecCubit.files ?? []).map((e) => File(e.path ?? '')).toList(),
-                         ),
+                        TaiLieuWidget(
+                          files: (taoLichLamViecCubit.files ?? [])
+                              .map((e) => File(e.path ?? ''))
+                              .toList(),
+                        ),
                       ],
                     ),
                   ),
@@ -449,7 +472,9 @@ class _SuaLichCongTacTrongNuocPhoneState
                         name: S.current.dong,
                         bgr: buttonColor.withOpacity(0.1),
                         colorName: textDefault,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -464,11 +489,16 @@ class _SuaLichCongTacTrongNuocPhoneState
                               name: S.current.luu,
                               bgr: labelColor,
                               colorName: Colors.white,
-                              onTap: () {
-                                if (!data) {
-                                  taoLichLamViecCubit.suaLichLamViec();
-                                } else {
-                                  taoLichLamViecCubit.suaLichLamViecNuocNgoai();
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  if (!data) {
+                                    await taoLichLamViecCubit.suaLichLamViec(context);
+
+                                  } else {
+                                    await taoLichLamViecCubit
+                                        .suaLichLamViecNuocNgoai(context);
+
+                                  }
                                 }
                               },
                             ),

@@ -203,12 +203,6 @@ class _TaoLichLamViecChiTietScreenState
                           const SizedBox(
                             height: 10,
                           ),
-                          MauMacDinhWidget(
-                            taoLichLamViecCubit: taoLichLamViecCubit,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
                           NguoiChuTriWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
@@ -312,7 +306,9 @@ class _TaoLichLamViecChiTietScreenState
                                 child: buttomWidget(
                                   background: buttonColor.withOpacity(0.1),
                                   title: S.current.dong,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
                                   textColor: buttonColor,
                                 ),
                               ),

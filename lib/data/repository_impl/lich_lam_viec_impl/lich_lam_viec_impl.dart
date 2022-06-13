@@ -379,6 +379,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -412,6 +413,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
     _data.fields.add(MapEntry('donViId', donViId));
     _data.fields.add(MapEntry('note', note));
+    _data.fields.add(MapEntry('id', id));
     _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
     _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
 
@@ -451,7 +453,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     }
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-      () => lichLamViecService.taoLichLamviec(_data),
+      () => lichLamViecService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );
   }
@@ -482,6 +484,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String canBoChuTriId,
     String donViId,
     String note,
+    String id,
     bool isAllDay,
     bool isSendMail,
     List<DonViModel> scheduleCoperativeRequest,
@@ -516,6 +519,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('canBoChuTriId', canBoChuTriId));
     _data.fields.add(MapEntry('donViId', donViId));
     _data.fields.add(MapEntry('note', note));
+    _data.fields.add(MapEntry('id', id));
     _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
     _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
 
@@ -555,7 +559,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     }
 
     return runCatchingAsync<TaoLichLamViecResponse, MessageModel>(
-      () => lichLamViecService.taoLichLamviec(_data),
+      () => lichLamViecService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );
   }

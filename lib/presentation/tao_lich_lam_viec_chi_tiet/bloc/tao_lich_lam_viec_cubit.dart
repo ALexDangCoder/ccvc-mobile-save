@@ -162,6 +162,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   ScheduleReminder? scheduleReminder;
   bool? publishSchedule;
   List<Files>? files;
+  String? id;
   ChiTietLichLamViecModel chiTietLichLamViecModel = ChiTietLichLamViecModel();
   final toast = FToast();
 
@@ -423,7 +424,9 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViec() async {
+  Future<void> suaLichLamViec(
+      BuildContext context
+      ) async {
     final result = await _lichLamViec.suaLichLamViec(
         title ?? '',
         selectLoaiLich?.id ?? '',
@@ -444,12 +447,14 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         '',
         2,
         '',
-        false,
+        publishSchedule ?? false,
+        //cong khai lich
         '',
         false,
         selectNguoiChuTri?.userId ?? '',
         selectNguoiChuTri?.donViId ?? '',
         '',
+        id??'',
         isCheckAllDaySubject.value,
         true,
         donviModel ?? [],
@@ -461,13 +466,16 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         lichLapItem1);
     result.when(success: (res) {
       emit(CreateSuccess());
+      Navigator.pop(context, true);
       showContent();
     }, error: (error) {
       showContent();
     });
   }
 
-  Future<void> suaLichLamViecNuocNgoai() async {
+  Future<void> suaLichLamViecNuocNgoai(
+      BuildContext context
+      ) async {
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
         title ?? '',
         selectLoaiLich?.id ?? '',
@@ -495,6 +503,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         selectNguoiChuTri?.userId ?? '',
         selectNguoiChuTri?.donViId ?? '',
         '',
+        id??'',
         isCheckAllDaySubject.value,
         true,
         donviModel ?? [],
@@ -506,6 +515,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
         lichLapItem1);
     result.when(success: (res) {
       emit(CreateSuccess());
+      Navigator.pop(context, true);
       showContent();
     }, error: (error) {
       showContent();

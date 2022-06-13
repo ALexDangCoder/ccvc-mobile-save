@@ -143,7 +143,13 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                     cubit: chiTietLichLamViecCubit,
                                     event: data,
                                   ),
-                                );
+                                ).then((value){
+                                  if (value == true) {
+                                    chiTietLichLamViecCubit.loadApi(widget.id);
+                                  } else if (value == null) {
+                                    return;
+                                  }
+                                });
                               },
                             ),
                           ],

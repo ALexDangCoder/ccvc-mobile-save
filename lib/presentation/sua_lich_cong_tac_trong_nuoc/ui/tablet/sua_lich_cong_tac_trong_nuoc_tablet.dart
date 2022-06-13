@@ -1,6 +1,8 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/bloc/chi_tiet_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/mobile/tao_lich_lam_viec_chi_tiet_screen.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/linh_vuc_widget.dart';
@@ -18,7 +20,10 @@ import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/da
 import 'package:flutter/material.dart';
 
 class SuaLichCongTacTrongNuocTablet extends StatefulWidget {
-  const SuaLichCongTacTrongNuocTablet({Key? key}) : super(key: key);
+  final ChiTietLichLamViecCubit cubit;
+  final ChiTietLichLamViecModel event;
+
+  const SuaLichCongTacTrongNuocTablet({Key? key, required this.cubit, required this.event}) : super(key: key);
 
   @override
   _SuaLichCongTacTrongNuocTabletState createState() =>
@@ -168,7 +173,7 @@ class _SuaLichCongTacTrongNuocTabletState
                       child: Container(
                         padding: const EdgeInsets.only(left: 14),
                         child: Column(
-                          children: const [
+                          children:  [
                             // ThanhPhanThamGiaTLWidget(),
                             TaiLieuWidget(),
                           ],
@@ -187,18 +192,35 @@ class _SuaLichCongTacTrongNuocTabletState
                       title: S.current.dong,
                       background: bgTag,
                       textColor: labelColor,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
                     const SizedBox(
                       width: 20,
                     ),
-                    buttomWidget(
-                      title: S.current.luu,
-                      background: textDefault,
-                      textColor: Colors.white,
-                      onTap: () {
+                    StreamBuilder<bool>(
+                        stream: taoLichLamViecCubit.checkTrongNuoc,
+                      builder: (context, snapshot) {
+                        final data = snapshot.data ?? false;
+                        return buttomWidget(
+                          title: S.current.luu,
+                          background: textDefault,
+                          textColor: Colors.white,
+                          onTap: ()async {
+                            if (_formKey.currentState!.validate()) {
+                              if (!data) {
+                                await taoLichLamViecCubit.suaLichLamViec(context);
 
-                      },
+                              } else {
+                                await taoLichLamViecCubit
+                                    .suaLichLamViecNuocNgoai(context);
+
+                              }
+                            }
+                          },
+                        );
+                      }
                     ),
                   ],
                 ),

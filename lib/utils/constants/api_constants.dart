@@ -268,7 +268,7 @@ class ApiConstants {
   static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
   static const DS_DON_VI_CON_PHONG = '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
   static const DS_PHONG_HOP = '/vpdt/api/PhongHop/lay-theo-don-vi';
-  static const LIST_REPORT = '/api/Folder/list';
+  static const LIST_REPORT = '/htcs/api/Folder/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN = '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const CHECK_LICH_HOP_TRUNG = '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
 }

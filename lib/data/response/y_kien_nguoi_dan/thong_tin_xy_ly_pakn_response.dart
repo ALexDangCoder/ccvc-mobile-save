@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_xy_ly_model.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'thong_tin_xy_ly_pakn_response.g.dart';
@@ -44,8 +46,10 @@ class ThongTinXuLyResponse {
   int? doiTuongId;
   @JsonKey(name: 'TenNguoiPhanAnh')
   String? tenNguoiPhanAnh;
-  @JsonKey(name: 'LuongXuLy')
-  String? luongXuLy;
+  // @JsonKey(name: 'LuongXuLy')
+  // String? luongXuLy;
+  @JsonKey(name: 'DonViDuocPhanXuLy')
+  String? donViDuocPhanXuLy;
 
   ThongTinXuLyResponse(
     this.isDuyet,
@@ -60,13 +64,23 @@ class ThongTinXuLyResponse {
     this.linhVucPAKNId,
     this.doiTuongId,
     this.tenNguoiPhanAnh,
-    this.luongXuLy,
+    // this.luongXuLy,
+    this.donViDuocPhanXuLy,
   );
 
   factory ThongTinXuLyResponse.fromJson(Map<String, dynamic> json) =>
       _$ThongTinXuLyResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThongTinXuLyResponseToJson(this);
+
+  List<DonViDuocPhanXuLyModel> convertStringIntoModel(String value) {
+    final List<dynamic> json = jsonDecode(value);
+    List<DonViDuocPhanXuLyModel> listDonViDuocPhanXuLy = [];
+    listDonViDuocPhanXuLy = json != null
+        ? json.map((e) => DonviPhanXuLyResponse.fromJson(e).toModel()).toList()
+        : [];
+    return listDonViDuocPhanXuLy;
+  }
 
   ThongTinXuLyPAKNModel toModel() => ThongTinXuLyPAKNModel(
         isDuyet: isDuyet ?? false,
@@ -81,9 +95,115 @@ class ThongTinXuLyResponse {
         linhVucPAKNId: linhVucPAKNId ?? -1,
         doiTuongId: doiTuongId ?? -1,
         tenNguoiPhanAnh: tenNguoiPhanAnh ?? '',
-        listLuongPAKN:
-            List<LuongXuLyPAKNModel>.from((jsonDecode(luongXuLy ?? '') as Iterable<LuongXuLyResponse>).map((e) => e.toModel()))
+        donViDuocPhanXuLy: convertStringIntoModel(donViDuocPhanXuLy ?? ''),
 
+        // listLuongPAKN:
+        //     List<LuongXuLyPAKNModel>.from((jsonDecode(luongXuLy ?? '') as Iterable<LuongXuLyResponse>).map((e) => e.toModel()))
+      );
+}
+
+const int Luu = 0;
+const int ChoTiepNhan = 1;
+const int ChoChuyenXuLy = 2;
+const int ChoTiepNhanXuLy = 3;
+const int ChoPhanCongXuLy = 4;
+const int ChoDonViDuyet = 5;
+const int ChoDuyet = 6;
+const int ChoChuyenDonVi = 7;
+const int DaHoanThanh = 8;
+const int ChoBoSungThongTin = 9;
+const int TuChoiTiepNhan = 10;
+const int HuyBo = 11;
+const int CanXuLy = 12;
+const int ChoDuyetChuyenDonViXuLy = 13;
+const int ChoXacNhanChuyenDonViXuLy = 14;
+const int HuyTrinh = 15;
+const int HuyDuyet = 16;
+const int ThuHoi = 17;
+const int ChoDuyetYCPH = 18;
+const int ChuyenXuLy = 19;
+const int DaPhanCong = 20;
+const int PhanXuLy = 21;
+const int ChoNguoiDanBoSungThongTin = 22;
+
+@JsonSerializable()
+class DonviPhanXuLyResponse {
+  @JsonKey(name: 'TenDonVi')
+  String? tenDonVi;
+
+  @JsonKey(name: 'VaiTro')
+  String? vaiTro;
+
+  @JsonKey(name: 'TrangThai')
+  int? trangThai;
+
+  @JsonKey(name: 'TaskContent')
+  String? noiDungXuLy;
+
+  DonviPhanXuLyResponse(
+      this.tenDonVi, this.vaiTro, this.trangThai, this.noiDungXuLy);
+
+  factory DonviPhanXuLyResponse.fromJson(Map<String, dynamic> json) =>
+      _$DonviPhanXuLyResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DonviPhanXuLyResponseToJson(this);
+
+  String convertHoatDong(int trangThai) {
+    switch (trangThai) {
+      case Luu:
+        return 'Lưu';
+      case ChoTiepNhan:
+        return 'Chờ tiếp nhận';
+      case ChoChuyenXuLy:
+        return 'Chờ chuyển xử lý';
+      case ChoTiepNhanXuLy:
+        return 'Chờ tiếp nhận xử lý';
+      case ChoPhanCongXuLy:
+        return 'Chờ phân công xử lý';
+      case ChoDonViDuyet:
+        return 'Chờ đơn vị duyệt';
+      case ChoDuyet:
+        return 'Chờ duyệt';
+      case ChoChuyenDonVi:
+        return 'Chờ chuyển đơn vị';
+      case DaHoanThanh:
+        return 'Đã hoàn thành';
+      case ChoBoSungThongTin:
+        return 'Chờ bổ sung thông tin';
+      case TuChoiTiepNhan:
+        return 'Từ chối tiếp nhận';
+      case HuyBo:
+        return 'Huỷ bỏ';
+      case CanXuLy:
+        return 'Cần xử lý';
+      case ChoDuyetChuyenDonViXuLy:
+        return 'Chờ duyệt chuyển đơn vị xử lý';
+      case ChoXacNhanChuyenDonViXuLy:
+        return 'Chờ xác nhận chuyển đơn vị xử lý';
+      case HuyTrinh:
+        return 'Huỷ trình';
+      case HuyDuyet:
+        return 'Huỷ duyệt';
+      case ThuHoi:
+        return 'Thu hồi';
+      case ChoDuyetYCPH:
+        return 'Chờ duyệt YCPH';
+      case ChuyenXuLy:
+        return 'Chuyển xử lý';
+      case DaPhanCong:
+        return 'Đã phân công';
+      case PhanXuLy:
+        return 'Phân xử lý';
+      default:
+        return 'Chờ người dân bổ sung thông tin';
+    }
+  }
+
+  DonViDuocPhanXuLyModel toModel() => DonViDuocPhanXuLyModel(
+        noiDungXuLy: (noiDungXuLy ?? '').parseHtml(),
+        tenDonVi: tenDonVi ?? '',
+        vaiTro: vaiTro ?? '',
+        hoatDong: convertHoatDong(trangThai ?? 0),
       );
 }
 

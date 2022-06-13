@@ -76,8 +76,7 @@ abstract class YKienNguoiDanService {
   
   @POST(ApiConstants.THONG_TIN_XU_LY_PAKN)
   Future<ThongTinXuLyTotalResponse> thongTinXuLyPAKN(
-      @Query('KienNghiId') String kienNghiID,
-      @Query('TaskId') String taskId,
+      @Body() ChiTietKienNghiRequest chiTietKienNghi,
       );
 
   @GET(ApiConstants.SEARCH_Y_KIEN_NGUOI_DAN)

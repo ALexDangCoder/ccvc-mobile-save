@@ -12,22 +12,27 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
   const ThiepChucMungSinhNhatWidget({
     Key? key,
     required this.data,
+    this.isTablet = false,
   }) : super(key: key);
   final BirthdayModel data;
+  final bool isTablet;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: borderColor.withOpacity(0.5)),
-          borderRadius: const BorderRadius.all(Radius.circular(12))),
+        border: Border.all(color: borderColor.withOpacity(0.5)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(12),
+        ),
+      ),
       child: Column(
         children: [
           Stack(
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child: ThiepBackgroundWidget(),
+               Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: ThiepBackgroundWidget(isTablet:  isTablet,),
               ),
               Positioned(
                 bottom: 0,
@@ -45,14 +50,12 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: data.avatar,
                         fit: BoxFit.cover,
-                        errorWidget:
-                            (context, url, error) =>
-                            Container(
-                              color: Colors.black,
-                              child: Image.asset(
-                                ImageAssets.anhDaiDienMacDinh,
-                              ),
-                            ),
+                        errorWidget: (context, url, error) => Container(
+                          color: Colors.black,
+                          child: Image.asset(
+                            ImageAssets.anhDaiDienMacDinh,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(

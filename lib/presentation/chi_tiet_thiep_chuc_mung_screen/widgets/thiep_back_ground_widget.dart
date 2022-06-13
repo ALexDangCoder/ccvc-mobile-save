@@ -3,7 +3,11 @@ import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class ThiepBackgroundWidget extends StatefulWidget {
-  const ThiepBackgroundWidget({Key? key}) : super(key: key);
+  const ThiepBackgroundWidget({
+    Key? key,
+    this.isTablet = false,
+  }) : super(key: key);
+  final bool isTablet;
 
   @override
   _ThiepBackgroundWidgetState createState() => _ThiepBackgroundWidgetState();
@@ -25,13 +29,20 @@ class _ThiepBackgroundWidgetState extends State<ThiepBackgroundWidget> {
           child: Container(
             height: 500.0.textScale(space: 300),
             width: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
+              border: widget.isTablet ? Border.all(
+                width: 4,
+                color: Colors.white,
+              ) : null ,
               color: Colors.tealAccent,
-
             ),
-            child: Image.network(
-              'https://hinhnen123.com/wp-content/uploads/2021/09/Dot-mat-999-anh-Ngoc-Trinh-bikini-sexy-nong-bong-khong-the-roi-mat-12.jpg',
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                'https://hinhnen123.com/wp-content/uploads/2021/09/Dot-mat-999-anh-Ngoc-Trinh-bikini-sexy-nong-bong-khong-the-roi-mat-12.jpg',
+                fit: BoxFit.cover,
+
+              ),
             ),
           ),
         ),

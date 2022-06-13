@@ -48,7 +48,12 @@ class _DanhSachThiepVaLoiChucMobileScreenState
                   );
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(
+                    top: 24,
+                    left: 30,
+                    bottom: 12,
+                    right: 30,
+                  ),
                   padding: const EdgeInsets.symmetric(
                     vertical: 20,
                     horizontal: 24,
@@ -65,7 +70,9 @@ class _DanhSachThiepVaLoiChucMobileScreenState
                       )
                     ],
                   ),
-                  child: LoiChucCell(data: data),
+                  child: LoiChucCell(
+                    data: data,
+                  ),
                 ),
               );
             } else {

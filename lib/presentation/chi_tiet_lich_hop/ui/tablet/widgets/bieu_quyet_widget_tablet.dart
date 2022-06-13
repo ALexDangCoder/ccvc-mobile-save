@@ -52,7 +52,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                   },
                 ).then((value) {
                   if (value == true) {
-                    widget.cubit.initData(id: widget.id);
+                    widget.cubit.initData();
                   } else if (value == null) {
                     return;
                   }

@@ -254,8 +254,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
 
     ///Biểu quyết
-    // unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: id)));
-    // unawaited(queue.add(() => callApi(id)));
+    unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: idCuocHop)));
+    unawaited(queue.add(() => callApi(idCuocHop)));
 
     ///Thành phần tham gia
     // unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));

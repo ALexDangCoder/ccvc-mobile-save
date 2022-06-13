@@ -94,7 +94,9 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
         );
       }),
       onSelectItem: (index) {
+        dayController.jumpToItem(selectedDay -1);
         selectedMonth = dataMonth[index];
+
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
           widget.onDateTimeChanged(
@@ -122,6 +124,8 @@ extension CupertinoDataPicker on CupertinoDatePickerDateState {
       ),
       onSelectedItemChanged: (int index) {
         selectedYear = index;
+        dayController.jumpToItem(selectedDay -1);
+
         if (DateTime(selectedYear, selectedMonth, selectedDay).day ==
             selectedDay) {
           widget.onDateTimeChanged(

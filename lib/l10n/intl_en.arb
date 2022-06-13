@@ -1083,10 +1083,15 @@
   "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
   "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
   "chon_nhom":"Chọn nhóm",
+<<<<<<< HEAD
+  "danh_sach_thiep_va_loi_chuc" : "Danh sách thiệp và lời chúc",
+  "thiep_danh_toi_ban" : "Thiệp dành tới bạn"
+=======
   "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
   "lich_trung": "Cán bộ này có cuộc họp trong thời gian bạn chọn, xin lưu ý!",
   "can_bo_phoi_hop": "Cán bộ phối hợp",
   "can_bo_chu_tri": "Cán bộ chủ trì",
   "nd_cong_viec": "ND công việc",
   "nguoi_phu_trach": "Người phụ trách"
+>>>>>>> develop
 }

@@ -97,6 +97,10 @@ void configureDependencies() {
   Get.put<YKienNguoiDanRepository>(
     YKienNguoiDanImpl(Get.find()),
   );
+  Get.put(ReportService(provideDio(baseOption: BaseURLOption.COMMON)));
+  Get.put<ReportRepository>(
+    ReportImpl(Get.find()),
+  );
 
   Get.put(
     QuanLyWidgetClient(

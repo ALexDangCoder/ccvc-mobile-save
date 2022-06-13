@@ -95,7 +95,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
               const SizedBox(
                 width: 13,
               ),
-              Expanded(
+              Flexible(
                 child: !widget.enabled
                     ? Container(
                         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -184,10 +184,13 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                   stream: widget.cubit.listNguoiThucHienSubject,
                   builder: (context, snapshot) {
                     if (snapshot.hasData && widget.todoModel.showDotOne()) {
-                      return textUnder(
-                        widget.cubit.convertIdToPerson(
-                          vl: widget.todoModel.performer ?? '',
-                          hasChucVu: false,
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: textUnder(
+                          widget.cubit.convertIdToPerson(
+                            vl: widget.todoModel.performer ?? '',
+                            hasChucVu: false,
+                          ),
                         ),
                       );
                     } else {
@@ -197,9 +200,19 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                 ),
                 if (widget.todoModel.showDotTwo()) circleWidget(),
                 if (widget.todoModel.showIconNote())
-                  SvgPicture.asset(
-                    ImageAssets.iconNote_dscv,
-                  )
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: SvgPicture.asset(
+                      ImageAssets.iconNote_dscv,
+                    ),
+                  ),
+                if (widget.todoModel.showIconFile())
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: SvgPicture.asset(
+                      ImageAssets.ic_ghim_dscv,
+                    ),
+                  ),
               ],
             ),
           )
@@ -208,16 +221,14 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
     );
   }
 
-  Widget textUnder(String text) => Flexible(
-        child: Text(
-          text,
-          overflow: TextOverflow.ellipsis,
-          style: textDetailHDSD(fontSize: 12, color: textTitleColumn),
-        ),
+  Widget textUnder(String text) => Text(
+        text,
+        overflow: TextOverflow.ellipsis,
+        style: textDetailHDSD(fontSize: 12, color: textTitleColumn),
       );
 
   Widget circleWidget() => Container(
-        margin: const EdgeInsets.only(left: 8, right: 8, top: 4),
+        margin: const EdgeInsets.only(left: 8, top: 4),
         width: 4,
         height: 4,
         decoration: const BoxDecoration(

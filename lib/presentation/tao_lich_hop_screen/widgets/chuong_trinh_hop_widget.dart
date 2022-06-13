@@ -267,6 +267,7 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                       final data = snapshot.data ?? [];
                       if (widget.cubit.chuTri.id.isNotEmpty) {
                         if (!data.contains(widget.cubit.chuTri)) {
+                          data.firstWhere((element) => element.type == 0);
                           data.insert(0, widget.cubit.chuTri);
                         }
                       }

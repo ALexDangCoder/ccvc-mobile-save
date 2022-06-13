@@ -28,7 +28,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
   final keyGroup = GlobalKey<FormGroupState>();
   bool isSelected = false;
   String label = '';
-  String nguoiGanID = '';
+  String? nguoiGanID;
 
   @override
   void initState() {

@@ -1,6 +1,13 @@
+import 'package:ccvc_mobile/data/di/module.dart';
+import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
+import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/home_module/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/nguoi_gan_response.dart';
 import 'package:ccvc_mobile/home_module/data/response/home/van_ban_don_vi_response.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' as Foundation;
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -130,7 +137,6 @@ abstract class HomeServiceGateWay {
   @POST(ApiConstants.DANH_SACH_CONG_VIEC)
   Future<DanhSachCongViecResponse> getDanhSachCongViec(
       @Body() DanhSachCongViecRequest request);
-
 }
 
 @RestApi()
@@ -199,11 +205,10 @@ abstract class HomeServiceCCVC {
 
   @GET(ApiConstants.GET_LIST_CAN_BO)
   Future<NguoiGanResponse> getListNguoiGan(
-      @Query('PageIndex') int pageIndex,
-      @Query('PageSize') int pageSize,
-      @Query('IsGetAll') bool isGetAll,
-      );
-
+    @Query('PageIndex') int pageIndex,
+    @Query('PageSize') int pageSize,
+    @Query('IsGetAll') bool isGetAll,
+  );
 }
 
 @RestApi()
@@ -211,9 +216,83 @@ abstract class HomeServiceCommon {
   @factoryMethod
   factory HomeServiceCommon(Dio dio, {String baseUrl}) = _HomeServiceCommon;
   @GET(ApiConstants.GET_LIST_CAN_BO)
-    Future<NguoiGanResponse> getListNguoiGan(
-      @Query('PageIndex') int pageIndex,
+  Future<NguoiGanResponse> getListNguoiGan(@Query('PageIndex') int pageIndex,
       @Query('PageSize') int pageSize,
-      @Query('IsGetAll') bool isGetAll,
-      );
+      @Query('IsGetAll') bool isGetAll,);
+
 }
+
+// class HomeServiceCommon {
+//   HomeServiceCommon(this._dio, {this.baseUrl});
+//   final Dio _dio;
+//
+//   String? baseUrl;
+//
+//   Future<NguoiGanResponse> getListNguoiGan(
+//       pageIndex, pageSize, isGetAll) async {
+//     const _extra = <String, dynamic>{};
+//     final queryParameters = <String, dynamic>{
+//       r'PageIndex': pageIndex,
+//       r'PageSize': pageSize,
+//       r'IsGetAll': isGetAll
+//     };
+//     final _data = <String, dynamic>{};
+//     final _result = await _dio.fetch<Map<String, dynamic>>(
+//         _setStreamType<NguoiGanResponse>(
+//             Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+//                 .compose(_dio.options, '/api/CanBo/search',
+//                     queryParameters: queryParameters, data: _data)
+//                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+//     final value = NguoiGanResponse.fromJson(_result.data!);
+//     return value;
+//   }
+//
+//   Dio provideDio() {
+//     int _connectTimeOut = 60000;
+//     final appConstants = Get.find<AppConstants>();
+//     final String baseUrl = appConstants.baseUrlCommon;
+//     final options = BaseOptions(
+//       baseUrl: baseUrl,
+//       receiveTimeout: _connectTimeOut,
+//       connectTimeout: _connectTimeOut,
+//       followRedirects: false,
+//     );
+//     final dio = Dio(options);
+//     dio.transformer = FlutterTransformer();
+//     dio.interceptors.add(
+//       InterceptorsWrapper(
+//         onRequest:
+//             (RequestOptions options, RequestInterceptorHandler handler) async {
+//           options.baseUrl = options.baseUrl;
+//           final token = PrefsService.getToken();
+//           if (token.isNotEmpty) {
+//             options.headers['Authorization'] = 'Bearer $token';
+//           }
+//           options.headers['Content-Type'] = 'application/json';
+//           return handler.next(options);
+//         },
+//         onResponse: (response, handler) {
+//           return handler.next(response); // continue
+//         },
+//         onError: (DioError e, handler) => handler.next(e),
+//       ),
+//     );
+//     if (Foundation.kDebugMode) {
+//       dio.interceptors.add(dioLogger());
+//     }
+//     return dio;
+//   }
+//
+//   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+//     if (T != dynamic &&
+//         !(requestOptions.responseType == ResponseType.bytes ||
+//             requestOptions.responseType == ResponseType.stream)) {
+//       if (T == String) {
+//         requestOptions.responseType = ResponseType.plain;
+//       } else {
+//         requestOptions.responseType = ResponseType.json;
+//       }
+//     }
+//     return requestOptions;
+//   }
+// }

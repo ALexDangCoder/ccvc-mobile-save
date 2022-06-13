@@ -46,7 +46,9 @@ import '/home_module/utils/extensions/date_time_extension.dart';
 
 class HomeCubit extends BaseCubit<HomeState> {
   HomeCubit() : super(MainStateInitial());
+
   HomeRepository get homeRep => Get.find();
+
   AccountRepository get accountRp => Get.find();
   DataUser? dataUser = HiveLc.HiveLocal.getDataUser();
   String id = '';
@@ -328,7 +330,8 @@ class DanhSachCongViecCubit extends HomeCubit {
   DanhSachCongViecCubit() {
     id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
   }
-    HomeRepository get homeRepCongViec => Get.find();
+
+  HomeRepository get homeRepCongViec => Get.find();
   final BehaviorSubject<bool> _isShowListCanBo = BehaviorSubject.seeded(false);
 
   Stream<bool> get isShowListCanBo => _isShowListCanBo.stream;
@@ -351,7 +354,6 @@ class DanhSachCongViecCubit extends HomeCubit {
 
   static List<ItemNguoiGanModel> listNguoiGanStatic = [];
 
-
   void setDisplayListCanBo(bool isShow) {
     _isShowListCanBo.sink.add(isShow);
   }
@@ -363,9 +365,11 @@ class DanhSachCongViecCubit extends HomeCubit {
   Future<void> callApi() async {
     showLoading();
     final queue = Queue(parallel: 2);
-    unawaited(queue.add(
-          () => getListNguoiGan(1, 9999, true),
-    ),);
+    unawaited(
+      queue.add(
+        () => getListNguoiGan(true,9999,1),
+      ),
+    );
     // await queue.add(
     //   () => getListNguoiGan(1, 9999, true),
     // );
@@ -399,7 +403,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     }
   }
 
-  Future<void> addTodo(String label, String nguoiGanId) async {
+  Future<void> addTodo(String label, String? nguoiGanId) async {
     if (label.trim().isEmpty) {
       return;
     }
@@ -583,8 +587,13 @@ class DanhSachCongViecCubit extends HomeCubit {
         );
     }
   }
+
+  // loadDataStatic() async {
+  //   print(await compute(getListNguoiGan, " "));
+  // }
+
   Future<void> getListNguoiGan(
-      int pageIndex, int pageSize, bool isGetAll) async {
+      bool isGetAll, int pageSize, int pageIndex) async {
     showLoading();
     final result = await homeRep.listNguoiGanCongViec(
       isGetAll,
@@ -603,10 +612,12 @@ class DanhSachCongViecCubit extends HomeCubit {
           inforDisPlay.add(donVi);
           inforDisPlay.add(chucVu);
           final String result = inforDisPlay.join('-');
-          inforCanBo.add(ItemRowData(
-            infor: result,
-            id: element.id,
-          ),);
+          inforCanBo.add(
+            ItemRowData(
+              infor: result,
+              id: element.id,
+            ),
+          );
         }
         _danhSachNguoiGan.sink.add(inforCanBo);
       },
@@ -614,8 +625,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     );
   }
 
-
-  void initListDataCanBo(){
+  void initListDataCanBo() {
     _danhSachNguoiGan.sink.add(inforCanBo);
   }
 

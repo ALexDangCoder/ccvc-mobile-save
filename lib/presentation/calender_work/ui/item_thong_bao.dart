@@ -228,9 +228,9 @@ extension GetScreenMenu on TypeCalendarMenu {
             left: 8,
             top: 32.0,
           ),
-          child: Text(
-            cubit.textDay,
-            style: textNormalCustom(color: textBodyTime),
+          child: type.getTextLLVWidget(
+            cubit: cubit,
+            textColor: textBodyTime,
           ),
         );
     }

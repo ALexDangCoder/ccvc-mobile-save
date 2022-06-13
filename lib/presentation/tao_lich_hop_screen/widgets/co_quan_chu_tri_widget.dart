@@ -111,15 +111,16 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                               ),
                               child: GestureDetector(
                                 onTap: () {
+                                  indexSelected = index;
                                   widget.cubit.taoLichHopRequest.chuTri
-                                    ?..tenCanBo = data[index].tenCanBo
-                                    ..tenCoQuan = data[index].tenCoQuan
-                                    ..canBoId = data[index].userId
-                                    ..donViId = data[index].donViId;
-                                  setState(() {
-                                    indexSelected = index;
-                                  });
-                                },
+                                      ?..tenCanBo = data[index].tenCanBo
+                                      ..tenCoQuan = data[index].tenDonVi
+                                      ..canBoId = data[index].userId
+                                      ..donViId = data[index].donViId;
+                                  widget.cubit.chuTri = data[index];
+                                    setState(() {
+                                    });
+                                  },
                                 child: Container(
                                   color: Colors.transparent,
                                   padding:
@@ -216,11 +217,12 @@ class _CoQuanChuTriState extends State<CoQuanChuTri> {
                   ),
                   spaceH24,
                   ButtonSelectFile(
+                    files: [],
                     spacingFile: 16,
                     title: S.current.files_dinh_kem,
                     icon: ImageAssets.icShareFile,
                     onChange: (list) {
-                      widget.cubit.listFile = list;
+                      widget.cubit.listThuMoi = list;
                     },
                     hasMultipleFile: true,
                   )

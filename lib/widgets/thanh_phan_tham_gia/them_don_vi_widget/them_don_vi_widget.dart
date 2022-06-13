@@ -40,7 +40,6 @@ class _ThemDonViScreenState extends State<ThemDonViWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.cubit.getTreeDonVi.listen((event) {
       _themDonViCubit.getTreeDonVi(event);
@@ -49,7 +48,6 @@ class _ThemDonViScreenState extends State<ThemDonViWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _themDonViCubit.dispose();
   }

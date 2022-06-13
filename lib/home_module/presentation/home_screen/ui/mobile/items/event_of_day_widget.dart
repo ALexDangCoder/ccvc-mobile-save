@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/ket_noi_module/presentation/detail_chung_ket_noi/ui/phone/detail_chung_ket_noi.dart';
 import 'package:flutter/material.dart';
 
 import '/generated/l10n.dart';
@@ -85,7 +86,16 @@ class _EventOfDayWidgetState extends State<EventOfDayWidget> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: EventWidget(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailChungKetNoi(
+                                id: suKien.id ?? '',
+                              ),
+                            ),
+                          );
+                        },
                         title: suKien.title ?? '',
                       ),
                     );

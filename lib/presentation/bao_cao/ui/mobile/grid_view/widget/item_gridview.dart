@@ -1,20 +1,24 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/item_chi_tiet.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/item_folder.dart';
-import 'package:ccvc_mobile/presentation/danh_sach_bao_cao_dang_girdview/ui/widget/xem_them_bottom_sheet.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_chi_tiet.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_folder.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/xem_them_bottom_sheet.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 
-import '../danh_sach_bao_cao_dang_girdview.dart';
+import '../list_report_girdview.dart';
 
 class ItemGridView extends StatelessWidget {
+  final ReportItem item;
+
   const ItemGridView({
     Key? key,
-    this.type = TypeLoai.BAO_CAO,
+    required this.item,
   }) : super(key: key);
-  final TypeLoai type;
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +86,9 @@ class ItemGridView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ItemFolder(
-                  type: type,
-                  isChiaSe: true,
+                  type: item.type == 0 ? TypeLoai.THU_MUC : TypeLoai.BAO_CAO,
+                  isShare: true,
+                  fileNumber: item.childrenTotal ?? 0,
                 ),
                 spaceH18,
                 Padding(
@@ -91,7 +96,7 @@ class ItemGridView extends StatelessWidget {
                     horizontal: 16,
                   ),
                   child: Text(
-                    'S.current.bac_caodfsadfsadfsadfsadfasdfsadf',
+                    item.name ?? '',
                     maxLines: 1,
                     style: textNormalCustom(
                       color: textTitle,
@@ -103,7 +108,10 @@ class ItemGridView extends StatelessWidget {
                 ),
                 spaceH4,
                 Text(
-                  '18/5/2022',
+                  (item.dateTime ?? '').changeToNewPatternDate(
+                    DateFormatApp.dateTimeBackEnd,
+                    DateFormatApp.date,
+                  ),
                   style: textNormalCustom(
                     color: infoColor,
                     fontWeight: FontWeight.w400,

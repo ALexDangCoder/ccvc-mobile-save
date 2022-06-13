@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/bao_cao_thong_ke_yknd_request/bao_cao_yknd_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/chi_tiet_kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/y_kien_nguoi_dan/danh_sach_y_kien_pakn_request.dart';
+import 'package:ccvc_mobile/data/response/dashboard_pakn/dashboard_tinh_hinh_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_yknd_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/chart_don_vi_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/bao_cao_thong_ke/chart_linh_vuc_khac_response.dart';
@@ -18,12 +19,14 @@ import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/dash_board_yknd_respo
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/ket_qua_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/location_address_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/search_y_kien_nguoi_dan_response.dart';
+import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_xy_ly_pakn_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/thong_tin_y_kien_nguoi_dan_resopnse.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/tien_trinh_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/response/y_kien_nguoi_dan/y_kien_xu_ly_response.dart';
 import 'package:ccvc_mobile/data/result/result.dart';
 import 'package:ccvc_mobile/data/services/y_kien_nguoi_dan/y_kien_nguoi_dan_service.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/bao_cao_thong_ke/bao_cao_thong_ke_yknd_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/char_pakn/document_dashboard_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/ket_qua_xu_ly.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/result_xin_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/chi_tiet_y_kien_nguoi_dan/tien_trinh_xu_ly_model.dart';
@@ -32,6 +35,7 @@ import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/danh_sach_ket_qua_mode
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_board_phan_loai_mode.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/dash_boarsh_yknd_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/location_model.dart';
+import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_xy_ly_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_y_kien_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_nguoi_dan_model.dart';
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/y_kien_xu_ly_yknd_model.dart';
@@ -361,5 +365,24 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
       ),
       (res) => res.toDomain(),
     );
+  }
+
+  @override
+  Future<Result<DocumentDashboardModel>> getDashboardTinhHinhXuLyPAKN(
+      bool isDonVi) {
+    return runCatchingAsync<DashboardTinhHinhPAKNResponse,
+            DocumentDashboardModel>(
+        () => _yKienNguoiDanService.getDashboardTinhHinhPAKN(isDonVi),
+        (res) => res.data?.toDomain() ?? DocumentDashboardModel());
+  }
+
+  @override
+  Future<Result<ThongTinXuLyPAKNModel>> thongTinXuLyPAKN(
+      String KienNghiId, String TaskId) {
+    return runCatchingAsync<ThongTinXuLyTotalResponse, ThongTinXuLyPAKNModel>(
+        () => _yKienNguoiDanService.thongTinXuLyPAKN(KienNghiId, TaskId),
+        (res) =>
+            res.thongTinXuLyResponse?.toModel() ??
+            ThongTinXuLyPAKNModel.seeded(),);
   }
 }

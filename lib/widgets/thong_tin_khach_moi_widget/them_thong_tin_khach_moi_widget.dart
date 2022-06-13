@@ -15,16 +15,19 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/widgets/thanh_phan_tham_gia_tao_hop.dart';
 import 'package:ccvc_mobile/widgets/them_don_vi_phoi_hop_khac/them_don_vi_phoi_hop_khac_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ThemThongTinKhachMoiWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
+  final bool isMoiHop;
 
   const ThemThongTinKhachMoiWidget({
     Key? key,
     required this.onChange,
+    this.isMoiHop = false,
   }) : super(key: key);
 
   @override
@@ -47,6 +50,9 @@ class _ThemDonViPhoiHopKhacWidgetState
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: widget.isMoiHop
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.center,
       children: [
         SolidButton(
           onTap: () {
@@ -62,12 +68,18 @@ class _ThemDonViPhoiHopKhacWidgetState
             return Column(
               children: List.generate(
                 data.length,
-                (index) => Padding(
+                    (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
-                  child: ItemThanhPhanWidget(
-                    data: data[index],
-                    cubit: cubit,
-                  ),
+                  child: widget.isMoiHop
+                      ? ItemPeopleThamGia(
+                          donVi: data[index],
+                          cubit: cubit,
+                          isKhachMoi: widget.isMoiHop,
+                        )
+                      : ItemThanhPhanWidget(
+                          data: data[index],
+                          cubit: cubit,
+                        ),
                 ),
               ),
             );
@@ -124,6 +136,7 @@ class _ThemDonViPhoiHopKhacScreenState
       TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _sdtController = TextEditingController();
+  final TextEditingController _soLuongController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +167,7 @@ class _ThemDonViPhoiHopKhacScreenState
                     vaiTroThamGia: 5,
                     dauMoiLienHe: '',
                     tenCanBo: _hoTenController.text,
+                    soLuong: int.parse(_soLuongController.text),
                   ),
                 );
                 Navigator.pop(context);
@@ -235,6 +249,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         title: S.current.tong_so_luong_khach,
                         isObligatory: true,
                         child: TextFieldValidator(
+                          controller: _soLuongController,
                           hintText: S.current.nhap_so_luong,
                           textInputType: TextInputType.number,
                           suffixIcon: SizedBox(

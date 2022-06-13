@@ -3,7 +3,6 @@ import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/chia_se_bao_cao.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-import 'package:ccvc_mobile/utils/screen_controller.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,16 +26,7 @@ class ItemChiTiet extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  showModalBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (_) {
-                      return const ChiaSeBaoCaoMobile(
 
-                      );
-                    },
-                  );
                 },
                 child: Column(
                   children: [

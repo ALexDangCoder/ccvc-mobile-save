@@ -441,6 +441,11 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
   //
   // }
 
+  Future<void> getThongTinXuLyPAKN(String kienNghiId, String taskId) async {
+    final result = await YKNDRepo.thongTinXuLyPAKN(kienNghiId, taskId);
+    result.when(success: (success) {}, error: (error) {});
+  }
+
   Future<void> getThongTinPAKN(
     String kienNghiId,
     String taskId,

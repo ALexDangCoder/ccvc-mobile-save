@@ -1,7 +1,7 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -26,6 +26,7 @@ class DateTimeCupertinoCustomCubit
   BehaviorSubject<bool> isShowBeginPickerSubject =
       BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isShowEndPickerSubject = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> validateTime = BehaviorSubject.seeded(false);
 
   TypePickerDateTime lastedType = TypePickerDateTime.TIME_START;
   final int duration = 250;
@@ -101,6 +102,7 @@ class DateTimeCupertinoCustomCubit
 
     switch (typePicker) {
       case TypePickerDateTime.TIME_START:
+
         timeBeginSubject.sink.add(
           timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
         );
@@ -121,6 +123,7 @@ class DateTimeCupertinoCustomCubit
         );
         break;
     }
+  }
 
     /// handle datetime begin greater than datetime end
 
@@ -129,34 +132,28 @@ class DateTimeCupertinoCustomCubit
     /// Returns a negative value if this DateTime [isBefore] [other].
     /// It returns 0 if it [isAtSameMomentAs] [other],
     /// and returns a positive value otherwise (when this [isAfter] [other]).
-    if (typePicker == TypePickerDateTime.TIME_START) {
-      final DateTime timeEnd =
-          '${dateEndSubject.value} ${timeEndSubject.value}'.convertStringToDate(
-        formatPattern: DateTimeFormat.DATE_DD_MM_HM,
-      );
-      if (timeSelected.compareTo(timeEnd) > 0) {
-        timeEndSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: HOUR_MINUTE_FORMAT),
-        );
-      }
-    }
-
-    if (typePicker == TypePickerDateTime.DATE_START) {
-      final DateTime dateEnd =
-          '${dateEndSubject.value} ${timeEndSubject.value}'.convertStringToDate(
-        formatPattern: DateFormatApp.date,
-      );
-      final timeSelectFormatted =
-          '${dateBeginSubject.value} ${timeBeginSubject.value}'
-              .convertStringToDate(
-        formatPattern: DateFormatApp.date,
-      );
-      if (timeSelectFormatted.compareTo(dateEnd) > 0) {
-        timeEndSubject.sink.add(timeBeginSubject.value);
-        dateEndSubject.sink.add(
-          timeSelected.dateTimeFormatter(pattern: DateFormatApp.date),
-        );
-      }
+  void checkTime() {
+    final begin = DateTime.parse(
+      timeFormat(
+        '${dateBeginSubject.value} ${timeBeginSubject.value}',
+        'dd/MM/yyyy hh:mm',
+        'yyyy-MM-dd hh:mm',
+      ),
+    );
+    final end = DateTime.parse(
+      timeFormat(
+        '${dateEndSubject.value} ${timeEndSubject.value}',
+        'dd/MM/yyyy hh:mm',
+        'yyyy-MM-dd hh:mm',
+      ),
+    );
+    if (begin.isAtSameMomentAs(end) ||
+        begin.isAfter(end) ||
+        end.isAtSameMomentAs(begin) ||
+        end.isBefore(begin)) {
+      validateTime.sink.add(true);
+    } else {
+      validateTime.sink.add(false);
     }
   }
 

@@ -32,6 +32,7 @@ enum AppBackGround {
 enum SelectKey {
   CA_NHAN,
   DON_VI,
+  DA_XU_LY,
   HOM_NAY,
   TUAN_NAY,
   THANG_NAY,
@@ -144,6 +145,7 @@ const String AVATAR_DEFAULT =
     'http://ccvc.dongnai.edsolabs.vn/img/1.9cba4a79.png';
 const String BASE_URL_MEETING  = 'https://emeeting.vn/';
 const String ENTITY_THU_MOI_HOP  = 'ThuMoiHop';
+const String ENTITY_TAI_LIEU_HOP  = 'TaiLieuHop';
 class DateTimeFormat {
   static const DEFAULT_FORMAT = _dtFormat1;
   static const HOUR_FORMAT = _dtFormat2;
@@ -294,4 +296,8 @@ class StatusCodeConst {
   static int STATUS_SERVICE_UNAVAILABLE = 503;
   static int STATUS_GATEWAY_TIMEOUT = 504;
   static int STATUS_HTTP_VERSION_NOT_SUPPORTED = 505;
+}
+
+class PermissionConst {
+  static String VB_DEN_VAO_SO_VAN_BAN_BANG_TAY = 'quan-ly-loai-so-van-ban';
 }

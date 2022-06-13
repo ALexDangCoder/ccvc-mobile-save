@@ -214,6 +214,7 @@ class ApiConstants {
       '/pakn/api/IocApi/thong-ke-pakn-theo-trang-thai';
   static const DANH_SACH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const CHI_TIET_Y_KIEN_NGUOI_DAN = '/pakn/api/Tasks/chi-tiet-kien-nghi';
+  static const THONG_TIN_XU_LY_PAKN = '/pakn/api/Tasks/chi-tiet-kien-nghi';
   static const SEARCH_Y_KIEN_NGUOI_DAN = '/pakn/api/IocApi/danh-sach-pakn?';
   static const GET_LIST_WIDGET = '/api/Widget/get-list-widget?';
   static const GET_DANH_SACH_Y_KIEN_PAKN =
@@ -267,6 +268,9 @@ class ApiConstants {
   static const UPDATE_DEVICE = '/api/DeviceNotification/update-device';
   static const DS_DON_VI_CON_PHONG = '/vpdt/api/DonVi/danh-sach-don-vi-cha-co-phong-hop';
   static const DS_PHONG_HOP = '/vpdt/api/PhongHop/lay-theo-don-vi';
+  static const LIST_REPORT = '/api/Folder/list';
+  static const DOASHBOARD_TINH_HINH_XU_LY_PAKN = '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
+  static const CHECK_LICH_HOP_TRUNG = '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
 }
 
 class ImageConstants {

@@ -1,9 +1,12 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
-import 'package:ccvc_mobile/domain/model/lich_hop/chuong_trinh_hop.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
+import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/bloc/tao_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/presentation/tao_lich_hop_screen/widgets/row_info.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -20,6 +23,7 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/textformfield/form_group.dart';
 import 'package:ccvc_mobile/widgets/textformfield/text_field_validator.dart';
 import 'package:ccvc_mobile/widgets/timer/base_timer_picker.dart';
+import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,6 +53,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: 0.0.textScale(space: 10),
@@ -59,18 +64,43 @@ class ChuongTrinhHopWidget extends StatelessWidget {
             },
             text: S.current.them_phien_hop,
             urlIcon: ImageAssets.icAddButtonCalenderTablet,
-          )
+          ),
+          spaceH16,
+          StreamBuilder<List<TaoPhienHopRequest>>(
+            stream: cubit.listPhienHop,
+            builder: (context, snapshot) {
+              final data = snapshot.data ?? [];
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: data.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (_, index) {
+                  return ItemPhienHop(
+                    phienHop: data[index],
+                    onTapRemove: () {
+                      data.removeAt(index);
+                      cubit.listPhienHop.sink.add(data);
+                    },
+                    onTapEdit: () {
+                      showDialog(context, index: index);
+                    },
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
     );
   }
 
-  void showDialog(BuildContext context) {
+  void showDialog(BuildContext context, {int index = -1}) {
     if (isMobile()) {
       showBottomSheetCustom(
         context,
         child: ThemPhienHopScreen(
           cubit: cubit,
+          indexEdit: index,
         ),
         title: S.current.them_phien_hop,
       );
@@ -81,6 +111,7 @@ class ChuongTrinhHopWidget extends StatelessWidget {
         isBottomShow: false,
         child: ThemPhienHopScreen(
           cubit: cubit,
+          indexEdit: index,
         ),
         funcBtnOk: () {},
       );
@@ -90,8 +121,13 @@ class ChuongTrinhHopWidget extends StatelessWidget {
 
 class ThemPhienHopScreen extends StatefulWidget {
   final TaoLichHopCubit cubit;
+  final int indexEdit;
 
-  const ThemPhienHopScreen({Key? key, required this.cubit}) : super(key: key);
+  const ThemPhienHopScreen({
+    Key? key,
+    required this.cubit,
+    this.indexEdit = -1,
+  }) : super(key: key);
 
   @override
   _ThemPhienHopScreenState createState() => _ThemPhienHopScreenState();
@@ -100,11 +136,34 @@ class ThemPhienHopScreen extends StatefulWidget {
 class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
   final _key = GlobalKey<FormGroupState>();
   final _keyBaseTime = GlobalKey<BaseChooseTimerWidgetState>();
+  late final TaoPhienHopRequest taoPhienHopRequest;
+
+  late String timeStart;
+  late String timeEnd;
+  String thoiGianHop = DateTime.now().formatApi;
 
   @override
   void initState() {
     super.initState();
-    widget.cubit.getChuongTrinhHop('7b4f68c6-f835-4bea-b6f2-06250412ae70');
+    if (widget.indexEdit >= 0) {
+      taoPhienHopRequest = widget.cubit.listPhienHop.value[widget.indexEdit];
+    } else {
+      taoPhienHopRequest = TaoPhienHopRequest(
+        thoiGian_BatDau: DateTime.now().formatApiSuaPhienHop,
+        thoiGian_KetThuc: DateTime.now()
+            .add(
+              const Duration(hours: 1),
+            )
+            .formatApiSuaPhienHop,
+      );
+    }
+    timeStart = taoPhienHopRequest.timeStart ?? DateTime.now().formatHourMinute;
+    timeEnd = taoPhienHopRequest.timeEnd ??
+        DateTime.now()
+            .add(
+              const Duration(hours: 1),
+            )
+            .formatHourMinute;
   }
 
   @override
@@ -121,6 +180,16 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
             onPressed2: () {
               _keyBaseTime.currentState?.validator();
               if (_key.currentState?.validator() ?? false) {
+                taoPhienHopRequest.thoiGian_BatDau = '$thoiGianHop $timeStart';
+                taoPhienHopRequest.thoiGian_KetThuc = '$thoiGianHop $timeEnd';
+                taoPhienHopRequest.timeEnd = timeEnd;
+                final listPhienHop = widget.cubit.listPhienHop.value;
+                if (widget.indexEdit >= 0) {
+                  listPhienHop[widget.indexEdit] = taoPhienHopRequest;
+                } else {
+                  listPhienHop.add(taoPhienHopRequest);
+                }
+                widget.cubit.listPhienHop.sink.add(listPhienHop);
                 Navigator.pop(context);
               }
             },
@@ -142,8 +211,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.them_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
+                    initialValue: taoPhienHopRequest.tieuDe,
                     hintText: S.current.nhap_ten_phien_hop,
-                    onChange: (value) {},
+                    onChange: (value) {
+                      taoPhienHopRequest.tieuDe = value;
+                    },
                     validator: (value) {
                       return value?.checkNull();
                     },
@@ -153,8 +225,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.thoi_gian_hop,
                   isObligatory: true,
                   child: CustomSelectDate(
-                    value: DateTime.now(),
-                    onSelectDate: (value) {},
+                    value: taoPhienHopRequest.date?.convertStringToDate() ??
+                        DateTime.now(),
+                    onSelectDate: (value) {
+                      thoiGianHop = value.formatApi;
+                    },
                     paddings: 12,
                     leadingIcon: SvgPicture.asset(
                       isMobile()
@@ -165,25 +240,67 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 ),
                 spaceH20,
                 BaseChooseTimerWidget(
+                  timeBatDau: timeStart.getTimeData(
+                    timeReturnParseFail: TimerData(
+                      hour: DateTime.now().hour,
+                      minutes: DateTime.now().minute,
+                    ),
+                  ),
+                  timeKetThuc: timeEnd.getTimeData(
+                    timeReturnParseFail: TimerData(
+                      hour: DateTime.now().hour + 1,
+                      minutes: DateTime.now().minute,
+                    ),
+                  ),
                   key: _keyBaseTime,
                   validator: () {},
+                  onChange: (timeBegin, timerEn) {
+                    timeStart = timeBegin.timerToString;
+                    timeEnd = timerEn.timerToString;
+                  },
                 ),
                 InputInfoUserWidget(
                   title: S.current.nguoi_chu_tri,
-                  child: StreamBuilder<ChuongTrinhHopModel>(
-                    stream: widget.cubit.chuongTrinhHopStream,
+                  child: StreamBuilder<List<DonViModel>>(
+                    stream: widget.cubit.listThanhPhanThamGiaSubject,
                     builder: (context, snapshot) {
-                      final data = snapshot.data ?? ChuongTrinhHopModel.empty();
-                      final dataString = data.listCanBo
-                              ?.map((e) => e.tenCanBo ?? '')
-                              .toList() ??
-                          [];
-
+                      final data = snapshot.data ?? [];
+                      if (widget.cubit.chuTri.id.isNotEmpty) {
+                        if (!data.contains(widget.cubit.chuTri)) {
+                          data.insert(0, widget.cubit.chuTri);
+                        }
+                      }
                       return DropDownSearch(
                         title: S.current.nguoi_chu_tri,
                         hintText: S.current.chon_nguoi_chu_tri,
-                        onChange: (value) {},
-                        listSelect: dataString,
+                        initSelected: taoPhienHopRequest.hoTen,
+                        onChange: (index) {
+                          taoPhienHopRequest.canBoId =
+                              data[index].canBoId.isNotEmpty
+                                  ? data[index].canBoId
+                                  : null;
+                          taoPhienHopRequest.donViId =
+                              data[index].donViId.isNotEmpty
+                                  ? data[index].donViId
+                                  : data[index].id.isNotEmpty
+                                      ? data[index].id
+                                      : null;
+                          taoPhienHopRequest.hoTen =
+                              data[index].tenCanBo.isNotEmpty
+                                  ? data[index].tenCanBo
+                                  : data[index].name.isNotEmpty
+                                      ? data[index].name
+                                      : '';
+                        },
+                        listSelect: data
+                            .map(
+                              (e) => e.tenCanBo.isNotEmpty
+                                  ? e.tenCanBo
+                                  : e.name.isNotEmpty
+                                      ? e.name
+                                      : e.tenDonVi,
+                            )
+                            .toList(),
                       );
                     },
                   ),
@@ -192,8 +309,11 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                   title: S.current.noi_dung_phien_hop,
                   isObligatory: true,
                   child: TextFieldValidator(
+                    initialValue: taoPhienHopRequest.noiDung,
                     maxLine: 5,
-                    onChange: (value) {},
+                    onChange: (value) {
+                      taoPhienHopRequest.noiDung = value;
+                    },
                     validator: (value) {
                       return value?.checkNull();
                     },
@@ -203,12 +323,139 @@ class _ThemPhienHopScreenState extends State<ThemPhienHopScreen> {
                 ButtonSelectFile(
                   spacingFile: 16,
                   title: S.current.tai_lieu_dinh_kem,
-                  onChange: (value) {},
+                  icon: ImageAssets.icShareFile,
+                  files: taoPhienHopRequest.Files ?? [],
+                  onChange: (value) {
+                    taoPhienHopRequest.Files = value;
+                  },
+                  hasMultipleFile: true,
                 )
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ItemPhienHop extends StatelessWidget {
+  const ItemPhienHop({
+    Key? key,
+    required this.phienHop,
+    required this.onTapRemove,
+    required this.onTapEdit,
+  }) : super(key: key);
+  final TaoPhienHopRequest phienHop;
+  final Function onTapRemove;
+  final Function onTapEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: borderButtomColor.withOpacity(0.1),
+        border: Border.all(color: borderButtomColor),
+        borderRadius: const BorderRadius.all(Radius.circular(6)),
+      ),
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 50.0),
+                child: Text(
+                  phienHop.tieuDe,
+                  style: textNormal(color3D5586, 16).copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              rowInfo(
+                value: '${phienHop.thoiGian_BatDau}'
+                    '${phienHop.timeEnd?.isNotEmpty ?? false ? ' - ${phienHop.timeEnd}' : ''}',
+                key: S.current.thoi_gian,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              rowInfo(
+                value: phienHop.hoTen,
+                key: S.current.nguoi_phu_trach,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              rowInfo(
+                key: S.current.noi_dung,
+                value: phienHop.noiDung,
+              ),
+              SizedBox(
+                height: 10.0.textScale(space: 10),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      S.current.file,
+                      style: textNormal(infoColor, 14.0.textScale()),
+                    ),
+                  ),
+                  spaceW8,
+                  Expanded(
+                    flex: 7,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        phienHop.Files?.length ?? 0,
+                        (index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 4.0),
+                          child: Text(
+                            phienHop.Files?[index].path.convertNameFile() ?? '',
+                            style: textNormalCustom(
+                              color: color5A8DEE,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.0.textScale(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    onTapEdit();
+                  },
+                  child: SvgPicture.asset(ImageAssets.ic_edit),
+                ),
+                spaceW12,
+                GestureDetector(
+                  onTap: () {
+                    onTapRemove();
+                  },
+                  child: SvgPicture.asset(ImageAssets.icDeleteRed),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

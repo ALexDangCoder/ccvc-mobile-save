@@ -174,7 +174,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                   ExpandGroup(
                       child: Column(
                     children: [
-                      const ThanhPhanThamGiaExpandWidget(),
+                      ThanhPhanThamGiaExpandWidget(cubit: _cubit,),
                       spaceH10,
                       ChuongTrinhHopWidget(
                         cubit: _cubit,
@@ -184,7 +184,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileTabletScreen> {
                         cubit: _cubit,
                       )
                     ],
-                  ))
+                  ),)
                 ],
               ),
               titleLeft: S.current.thong_tin_lich,

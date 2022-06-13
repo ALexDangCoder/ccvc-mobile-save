@@ -13,3 +13,8 @@ class Loading extends TaoLichHopState {
   @override
   List<Object> get props => [];
 }
+class LichTrung extends TaoLichHopState {
+  @override
+  List<Object> get props => [];
+}
+

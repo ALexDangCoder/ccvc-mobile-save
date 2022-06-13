@@ -1068,7 +1068,13 @@
   "xe_can_bo": "Xe cán bộ",
   "xe_lanh_dao": "Xe lãnh đạo",
   "xe_may": "Xe máy",
-  "xe_o_to": "Ô tô"
+  "xe_o_to": "Ô tô",
+  "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+  "lich_trung": "Cán bộ này có cuộc họp trong thời gian bạn chọn, xin lưu ý!",
+  "can_bo_phoi_hop": "Cán bộ phối hợp",
+  "can_bo_chu_tri": "Cán bộ chủ trì",
+  "nd_cong_viec": "ND công việc",
+  "nguoi_phu_trach": "Người phụ trách"
 }
 
 

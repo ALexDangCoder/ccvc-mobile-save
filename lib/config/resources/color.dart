@@ -15,6 +15,7 @@ const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
 
+
 //bottom navigation color
 const bgBottomTab = Color(0xFFFCFCFC);
 const tabSelected = Color(0xff0ABAB5);

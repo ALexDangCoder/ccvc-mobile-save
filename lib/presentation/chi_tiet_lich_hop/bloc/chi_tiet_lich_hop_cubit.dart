@@ -79,6 +79,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   String chonNgay = '';
   List<File>? listFile = [];
   PhongHop chosePhongHop = PhongHop();
+  BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
 
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
@@ -193,8 +194,35 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<NguoiChutriModel> dataThuHoi = [];
 
-  TimerData start = TimerData(hour: 0, minutes: 0);
-  TimerData end = TimerData(hour: 0, minutes: 0);
+  DateTime timeNow = DateTime.now();
+  TimerData end = TimerData(hour: 00, minutes: 00);
+  TimerData start = TimerData(
+    hour: 00,
+    minutes: 00,
+  );
+
+  TimerData dateTimeNowStart() {
+    final TimerData start = TimerData(
+      hour: timeNow.hour,
+      minutes: timeNow.minute,
+    );
+    return start;
+  }
+
+  TimerData dateTimeNowEnd() {
+    final TimerData end = TimerData(
+      hour: timeNow.add(const Duration(hours: 1)).hour,
+      minutes: timeNow.minute,
+    );
+    return end;
+  }
+
+  int dateDiff(String startTime, String endTime) {
+    final start = DateTime.parse(startTime);
+    final end = DateTime.parse(endTime);
+    final result = end.difference(start).inSeconds;
+    return result;
+  }
 
   Future<void> initData({
     bool? boolGetChiTietLichHop,
@@ -327,4 +355,20 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
   void dispose() {}
+
+  String dateTimeCovert(int time) {
+    if (time < 10) {
+      return '0$time';
+    }
+    return '$time';
+  }
+
+  ///handle timer
+  bool isNotStartYet({required DateTime startTime}) {
+    if (DateTime.now().isBefore(startTime)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

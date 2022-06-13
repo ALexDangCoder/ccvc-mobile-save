@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
@@ -295,7 +297,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                             );
                             cubit.checkTime();
                           },
-                          initialDate: DateTime.now(),
+                          initialDate: widget.initDateStart ?? DateTime.now(),
                         ),
                       );
               },
@@ -457,7 +459,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                 cubit.dateEndSubject.value,
                               );
                             },
-                            initialDate: DateTime.now(),
+                            initialDate: widget.initDateEnd ?? DateTime.now(),
                           ),
                         );
                 },

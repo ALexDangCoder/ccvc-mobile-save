@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dar
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
@@ -15,6 +16,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/tao_bieu_quyet_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_lich_hop_resquest.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_nhiem_vu_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/tao_phien_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/them_phien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/them_y_kien_hop_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/thu_hoi_hop_request.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/chi_tiet_lich_hop/phan_cong_thu_ky_response.dart';
@@ -352,5 +354,27 @@ mixin HopRepository {
 
   Future<Result<ResponseModel>> chonPhongHopMetting(
     TaoLichHopRequest taoLichHopRequest,
+  );
+
+  Future<Result<String>> checkLichHopTrung(
+    String? scheduleId,
+    String donViId,
+    String userId,
+    String timeFrom,
+    String timeTo,
+    String dateFrom,
+    String dateTo,
+  );
+
+  Future<Result<List<CanBoModel>>> moiHop(
+    String lichHopId,
+    bool IsMultipe,
+    bool isSendMail,
+    List<MoiThamGiaHopRequest> body,
+  );
+
+  Future<Result<bool>> themPhienHop(
+    String lichHopId,
+    List<TaoPhienHopRequest> phienHops,
   );
 }

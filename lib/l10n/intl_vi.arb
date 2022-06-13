@@ -1072,7 +1072,12 @@
   "xe_o_to": "Ô tô",
   "thoi_gian_bat_dau": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
   "tu_choi_ky_thuat": "Từ chối kỹ thuật",
-  "ban_co_chac_chan_muon_xoa_cong_viec_nay": "Bạn có chắc chắn muốn móa vĩnh viễn công việc này"
+  "ban_co_chac_chan_muon_xoa_cong_viec_nay": "Bạn có chắc chắn muốn móa vĩnh viễn công việc này",
+  "lich_trung": "Cán bộ này có cuộc họp trong thời gian bạn chọn, xin lưu ý!",
+  "can_bo_phoi_hop": "Cán bộ phối hợp",
+  "can_bo_chu_tri": "Cán bộ chủ trì",
+  "nd_cong_viec": "ND công việc",
+  "nguoi_phu_trach": "Người phụ trách"
 }
 
 

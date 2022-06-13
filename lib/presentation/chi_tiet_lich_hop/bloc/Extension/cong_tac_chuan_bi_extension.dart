@@ -59,7 +59,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     final result = await hopRp.huyOrDuyetPhongHop(
       idCuocHop,
       isDuyet,
-      'ly do',
+      '',
     );
     result.when(
       success: (res) {
@@ -105,7 +105,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     final result = await hopRp.duyetOrHuyDuyetThietBi(
       isDuyet,
       idCuocHop,
-      'ly do',
+      '',
       thietBiId,
     );
     result.when(
@@ -147,7 +147,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     final result = await hopRp.duyetOrHuyDuyetKyThuat(
       idCuocHop,
       isDuyet,
-      'ly do',
+      '',
     );
     result.when(
       success: (res) {

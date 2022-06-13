@@ -10,9 +10,11 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/nh
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/search_name_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/text_form_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/appbar/base_app_bar.dart';
-import 'package:ccvc_mobile/widgets/calendar/scroll_pick_date/ui/start_end_date_widget.dart';
+import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:flutter/material.dart';
 
 class SuaLichCongTacTrongNuocTablet extends StatefulWidget {
@@ -96,10 +98,50 @@ class _SuaLichCongTacTrongNuocTabletState
                               taoLichLamViecCubit: taoLichLamViecCubit,
                             ),
                             const SearchNameWidget(),
-                            StartEndDateWidget(
-                              onEndDateTimeChanged: (DateTime value) {},
-                              onStartDateTimeChanged: (DateTime value) {},
-                              isCheck: (bool value) {},
+                            CupertinoMaterialPicker(
+                              initDateStart: taoLichLamViecCubit.dateTimeFrom
+                                  ?.convertStringToDate(),
+                              initTimeStart: taoLichLamViecCubit.dateTimeFrom
+                                  ?.convertStringToDate(
+                                      formatPattern:
+                                          DateFormatApp.dateTimeBackEnd),
+                              initDateEnd: taoLichLamViecCubit.dateTimeTo
+                                  ?.convertStringToDate(),
+                              initTimeEnd: taoLichLamViecCubit.dateTimeTo
+                                  ?.convertStringToDate(
+                                      formatPattern:
+                                          DateFormatApp.dateTimeBackEnd),
+                              onDateTimeChanged: (
+                                String timeStart,
+                                String timeEnd,
+                                String dateStart,
+                                String dateEnd,
+                              ) {
+                                taoLichLamViecCubit.checkValidateTime();
+                                taoLichLamViecCubit.listeningEndDataTime(
+                                  DateTime.parse(
+                                    timeFormat(
+                                      '$dateEnd $timeEnd',
+                                      'dd/MM/yyyy hh:mm',
+                                      'yyyy-MM-dd hh:mm:ss.ms',
+                                    ),
+                                  ),
+                                );
+                                taoLichLamViecCubit.listeningStartDataTime(
+                                  DateTime.parse(
+                                    timeFormat(
+                                      '$dateStart $timeStart',
+                                      'dd/MM/yyyy hh:mm',
+                                      'yyyy-MM-dd hh:mm:ss.ms',
+                                    ),
+                                  ),
+                                );
+                              },
+                              onSwitchPressed: (value) {
+                                taoLichLamViecCubit.isCheckAllDaySubject
+                                    .add(value);
+                              },
+                              validateTime: (bool value) {},
                             ),
                             NhacLaiWidget(
                               taoLichLamViecCubit: taoLichLamViecCubit,
@@ -154,7 +196,9 @@ class _SuaLichCongTacTrongNuocTabletState
                       title: S.current.luu,
                       background: textDefault,
                       textColor: Colors.white,
-                      onTap: () {},
+                      onTap: () {
+
+                      },
                     ),
                   ],
                 ),

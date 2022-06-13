@@ -6,7 +6,13 @@ enum TimeRange { HOM_NAY, TUAN_NAY, THANG_NAY, NAM_NAY }
 
 extension DateFormatString on DateTime {
   String get toStringWithAMPM {
-    final dateString = DateFormat.jm('en').format(this);
+    var dateString = '';
+    try {
+      dateString = DateFormat.jm('en').format(this);
+    }
+     catch(e){
+      return '';
+     }
     return dateString;
   }
 
@@ -43,6 +49,9 @@ extension DateFormatString on DateTime {
 
   String get formatApiTaoBieuQuyet {
     return DateFormat('yyyy-MM-ddTHH:mm').format(this);
+  }
+String get formatBE {
+    return DateFormat('yyyy-MM-ddTHH:mm:ss').format(this);
   }
 
   String get formatApiSuaPhienHop {

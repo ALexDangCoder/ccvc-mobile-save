@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -18,11 +16,11 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/it
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_quan_huyen_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_tinh_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/item_xa_widget.dart';
-import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/mau_mac_dinh_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
@@ -30,13 +28,15 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class SuaLichCongTacTrongNuocPhone extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
+  final ChiTietLichLamViecModel event;
 
   const SuaLichCongTacTrongNuocPhone({
-    Key? key, required this.cubit,
+    Key? key,
+    required this.cubit,
+    required this.event,
   }) : super(key: key);
 
   @override
@@ -54,38 +54,37 @@ class _SuaLichCongTacTrongNuocPhoneState
 
   @override
   void initState() {
-    widget.cubit.chiTietLichLamViecSubject.listen((event) {
-      taoLichLamViecCubit.chiTietLichLamViecModel = event;
-      taoLichLamViecCubit.selectedCountry = event.country ?? '';
-      taoLichLamViecCubit.selectedCountryID = event.countryId ?? '';
-      taoLichLamViecCubit.datNuocSelectModel?.id = event.countryId;
-      taoLichLamViecCubit.typeScheduleId = event.typeScheduleId;
-      taoLichLamViecCubit.dateEnd = event.dateTo;
-      taoLichLamViecCubit.timeFrom = event.timeFrom;
-      taoLichLamViecCubit.timeEnd = event.timeTo;
-      taoLichLamViecCubit.dateFrom = event.dateFrom;
-      taoLichLamViecCubit.dateTimeFrom = event.dateTimeFrom;
-      taoLichLamViecCubit.dateTimeTo = event.dateTimeTo;
-      taoLichLamViecCubit.linhVucString = event.linhVuc;
-      taoLichLamViecCubit.days = event.days;
-      taoLichLamViecCubit.typeRepeat = event.typeRepeat;
-      taoLichLamViecCubit.typeScheduleName = event.typeScheduleName;
-      taoLichLamViecCubit.changeOption.sink.add(event.typeScheduleName ?? '');
+    taoLichLamViecCubit.chiTietLichLamViecModel = widget.event;
+    taoLichLamViecCubit.selectedCountry = widget.event.country ?? '';
+    taoLichLamViecCubit.selectedCountryID = widget.event.countryId ?? '';
+    taoLichLamViecCubit.datNuocSelectModel?.id = widget.event.countryId;
+    taoLichLamViecCubit.typeScheduleId = widget.event.typeScheduleId;
+    taoLichLamViecCubit.dateEnd = widget.event.dateTo;
+    taoLichLamViecCubit.timeFrom = widget.event.timeFrom;
+    taoLichLamViecCubit.timeEnd = widget.event.timeTo;
+    taoLichLamViecCubit.dateFrom = widget.event.dateFrom;
+    taoLichLamViecCubit.dateTimeFrom = widget.event.dateTimeFrom;
+    taoLichLamViecCubit.dateTimeTo = widget.event.dateTimeTo;
+    taoLichLamViecCubit.linhVucString = widget.event.linhVuc;
+    taoLichLamViecCubit.days = widget.event.days;
+    taoLichLamViecCubit.typeRepeat = widget.event.typeRepeat;
+    taoLichLamViecCubit.typeScheduleName = widget.event.typeScheduleName;
+    taoLichLamViecCubit.changeOption.sink
+        .add(widget.event.typeScheduleName ?? '');
 
-      taoLichLamViecCubit.dateRepeat = event.dateRepeat;
+    taoLichLamViecCubit.dateRepeat = widget.event.dateRepeat;
 
-      taoLichLamViecCubit.scheduleReminder = event.scheduleReminder;
-      taoLichLamViecCubit
-          .chiTietLichLamViecModel.scheduleCoperatives=event.scheduleCoperatives;
-      tieuDeController.text = event.title ?? '';
-      noiDungController.text = event.content ?? '';
-      diaDiemController.text = event.location ?? '';
-      if (event.typeScheduleId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
-        taoLichLamViecCubit.checkTrongNuoc.sink.add(true);
-      } else {
-        taoLichLamViecCubit.checkTrongNuoc.sink.add(false);
-      }
-    });
+    taoLichLamViecCubit.scheduleReminder = widget.event.scheduleReminder;
+    taoLichLamViecCubit.chiTietLichLamViecModel.scheduleCoperatives =
+        widget.event.scheduleCoperatives;
+    tieuDeController.text = widget.event.title ?? '';
+    noiDungController.text = widget.event.content ?? '';
+    diaDiemController.text = widget.event.location ?? '';
+    if (widget.event.typeScheduleId == '1cc5fd91-a580-4a2d-bbc5-7ff3c2c3336e') {
+      taoLichLamViecCubit.checkTrongNuoc.sink.add(true);
+    } else {
+      taoLichLamViecCubit.checkTrongNuoc.sink.add(false);
+    }
     taoLichLamViecCubit.loadData();
     super.initState();
   }
@@ -170,21 +169,46 @@ class _SuaLichCongTacTrongNuocPhoneState
                           },
                         ),
                         CupertinoMaterialPicker(
-                           initDateStart:taoLichLamViecCubit.dateTimeFrom?.convertStringToDate(),
-                          initTimeStart: taoLichLamViecCubit.dateTimeFrom?.convertStringToDate(formatPattern: DateFormatApp.dateTimeBackEnd),
-                          initDateEnd: taoLichLamViecCubit.dateTimeTo?.convertStringToDate(),
-                          initTimeEnd: taoLichLamViecCubit.dateTimeTo?.convertStringToDate(formatPattern: DateFormatApp.dateTimeBackEnd),
+                          initDateStart: taoLichLamViecCubit.dateTimeFrom
+                              ?.convertStringToDate(),
+                          initTimeStart: taoLichLamViecCubit.dateTimeFrom
+                              ?.convertStringToDate(
+                                  formatPattern: DateFormatApp.dateTimeBackEnd),
+                          initDateEnd: taoLichLamViecCubit.dateTimeTo
+                              ?.convertStringToDate(),
+                          initTimeEnd: taoLichLamViecCubit.dateTimeTo
+                              ?.convertStringToDate(
+                                  formatPattern: DateFormatApp.dateTimeBackEnd),
                           onDateTimeChanged: (
                             String timeStart,
                             String timeEnd,
                             String dateStart,
                             String dateEnd,
-                          ) {},
+                          ) {
+                            taoLichLamViecCubit.checkValidateTime();
+                            taoLichLamViecCubit.listeningEndDataTime(
+                              DateTime.parse(
+                                timeFormat(
+                                  '$dateEnd $timeEnd',
+                                  'dd/MM/yyyy hh:mm',
+                                  'yyyy-MM-dd hh:mm:ss.ms',
+                                ),
+                              ),
+                            );
+                            taoLichLamViecCubit.listeningStartDataTime(
+                              DateTime.parse(
+                                timeFormat(
+                                  '$dateStart $timeStart',
+                                  'dd/MM/yyyy hh:mm',
+                                  'yyyy-MM-dd hh:mm:ss.ms',
+                                ),
+                              ),
+                            );
+                          },
                           onSwitchPressed: (value) {
                             taoLichLamViecCubit.isCheckAllDaySubject.add(value);
-                          }, validateTime: (bool value) {
-
-                        },
+                          },
+                          validateTime: (bool value) {},
                         ),
                         StreamBuilder<List<NhacLaiModel>>(
                             stream: taoLichLamViecCubit.nhacLai,
@@ -297,7 +321,6 @@ class _SuaLichCongTacTrongNuocPhoneState
                                 );
                               }
                             }),
-
                         TextFieldStyle(
                           controller: diaDiemController,
                           urlIcon: ImageAssets.icViTri,
@@ -363,19 +386,20 @@ class _SuaLichCongTacTrongNuocPhoneState
                               );
                             }),
                         StreamBuilder<bool>(
-                            stream: taoLichLamViecCubit
-                                .lichLapTuyChinhSubject.stream,
-                            builder: (context, snapshot) {
-                              final data = snapshot.data ?? false;
-                              return data
-                                  ? SuaLichLapTuyChinh(
-                                      taoLichLamViecCubit: taoLichLamViecCubit,
-                                      initDataTuyChinh:
-                                          taoLichLamViecCubit.listNgayChonTuan(
-                                              taoLichLamViecCubit.days ?? ''),
-                                    )
-                                  : Container();
-                            }),
+                          stream:
+                              taoLichLamViecCubit.lichLapTuyChinhSubject.stream,
+                          builder: (context, snapshot) {
+                            final data = snapshot.data ?? false;
+                            return data
+                                ? SuaLichLapTuyChinh(
+                                    taoLichLamViecCubit: taoLichLamViecCubit,
+                                    initDataTuyChinh:
+                                        taoLichLamViecCubit.listNgayChonTuan(
+                                            taoLichLamViecCubit.days ?? ''),
+                                  )
+                                : Container();
+                          },
+                        ),
                         StreamBuilder<bool>(
                           stream: taoLichLamViecCubit
                               .lichLapKhongLapLaiSubject.stream,

@@ -23,7 +23,7 @@ class DanhSachBietQuyetModel {
 }
 
 String loaiBieuQuyetFunc(bool loaiBieuQuyet) {
-  if (loaiBieuQuyet == true) {
+  if (loaiBieuQuyet == false) {
     return S.current.bo_khieu_kin;
   }
   return S.current.bo_phieu_cong_khai;

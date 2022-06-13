@@ -295,7 +295,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
   }
 
-  bool? loaiBieuQ = false;
+  bool loaiBieuQ = false;
   String date = DateTime.now().toStringWithListFormat;
 
   List<DanhSachNguoiThamGiaModel> listDanhSach = [];

@@ -88,6 +88,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                       .postThemBieuQuyetHop(
                     widget.id,
                     noiDungController.text,
+                    widget.cubit.date,
                   )
                       .then((value) {
                     MessageConfig.show(

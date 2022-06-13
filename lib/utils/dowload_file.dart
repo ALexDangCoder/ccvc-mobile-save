@@ -25,17 +25,19 @@ Future<bool> saveFile(
           filePath = '$dir/$_fileName';
           file = File(filePath);
           await file.writeAsBytes(bytes);
+          success = true;
         } catch (e) {
           final tempDir = await getExternalStorageDirectory();
           file = File(tempDir?.path ?? '');
           await file.writeAsBytes(bytes);
+          success = true;
         }
       } else {
         final tempDir = await getApplicationDocumentsDirectory();
         file = File(tempDir.path);
         await file.writeAsBytes(bytes);
+        success = true;
       }
-      success = true;
     } else {
       success = false;
     }

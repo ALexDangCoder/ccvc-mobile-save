@@ -444,6 +444,10 @@ class _YKienNhiemVuWidgetState extends State<YKienNhiemVuWidget> {
                   onTap: () {
                     setState(() {
                       if (pickImage == PickImage.PICK_MAIN) {
+                        widget.cubit.listFileId.removeAt(
+                          widget.cubit.listPickFileMain
+                              .indexWhere((element) => element == objPick),
+                        );
                         widget.cubit.listPickFileMain.remove(objPick);
                       } else {
                         //_listYkien.remove(objPick);

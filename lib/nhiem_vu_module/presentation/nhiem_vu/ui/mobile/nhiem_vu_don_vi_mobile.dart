@@ -309,6 +309,7 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                               cubit: widget.danhSachCubit,
                               ontap: (value) {
                                 widget.danhSachCubit.trangThaiHanXuLy = null;
+                                widget.danhSachCubit.loaiNhiemVuId=value;
                                 widget.danhSachCubit.loadMoreList.clear();
                                 setState(() {
                                   widget.danhSachCubit.postDanhSachNhiemVu(
@@ -324,7 +325,6 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                                     keySearch: widget.danhSachCubit.keySearch,
                                     trangThaiHanXuLy:
                                         widget.danhSachCubit.trangThaiHanXuLy,
-                                    loaiNhiemVuId: value,
                                   );
                                 });
                               },
@@ -340,6 +340,8 @@ class _NhiemVuDonViMobileState extends State<NhiemVuDonViMobile> {
                         cubit: widget.danhSachCubit,
                         ontap: (value) {
                           widget.danhSachCubit.trangThaiHanXuLy = null;
+                          widget.danhSachCubit.mangTrangThai =
+                              value;
                           setState(() {
                             widget.danhSachCubit.loadMoreList.clear();
                             widget.danhSachCubit.postDanhSachNhiemVu(

@@ -15,13 +15,14 @@ class DanhBaDienTuTablet extends StatefulWidget {
   _DanhBaDienTuTabletState createState() => _DanhBaDienTuTabletState();
 }
 
-class _DanhBaDienTuTabletState extends State<DanhBaDienTuTablet> {
-  var _controller = TabController(vsync: AnimatedListState(), length: 2);
+class _DanhBaDienTuTabletState extends State<DanhBaDienTuTablet>
+    with SingleTickerProviderStateMixin {
+  late TabController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(vsync: AnimatedListState(), length: 2);
+    _controller = TabController(vsync: this, length: 2);
   }
 
   @override

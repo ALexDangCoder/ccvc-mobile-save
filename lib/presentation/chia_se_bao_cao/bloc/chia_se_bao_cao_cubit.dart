@@ -1,5 +1,8 @@
 import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/danh_sach_nhom_cung_he_thong.dart';
+import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/rxdart.dart';
@@ -7,19 +10,55 @@ import 'package:rxdart/rxdart.dart';
 part 'chia_se_bao_cao_state.dart';
 
 class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
-  ChiaSeBaoCaoCubit() : super(ChiaSeBaoCaoInitial()){
+  ChiaSeBaoCaoCubit() : super(ChiaSeBaoCaoInitial()) {
     showContent();
   }
 
+  ReportRepository get _repo => Get.find();
+
   BehaviorSubject<List<NhomCungHeThong>> themNhomStream =
       BehaviorSubject.seeded([]);
+  BehaviorSubject<String> callAPI =
+  BehaviorSubject.seeded('');
   final BehaviorSubject<bool> _isDuocTruyCapSubject = BehaviorSubject<bool>();
 
   Stream<bool> get isDuocTruyCapStream => _isDuocTruyCapSubject.stream;
 
   Sink<bool> get isDuocTruyCapSink => _isDuocTruyCapSubject.sink;
 
-  Future<void> getGroup() async {}
+  Future<void> getGroup() async {
+    listResponse.clear();
+    listDropDown.clear();
+    listCheck.clear();
+    final rs = await _repo.getListGroup();
+    rs.when(
+      success: (res) {
+        for (int i = 0; i < res.length; i++) {
+          getMemberInGroup(res[i].idNhom ?? '', res[i]);
+        }
+      },
+      error: (error) {},
+    );
+  }
+
+  Future<void> getMemberInGroup(
+      String idGroup, NhomCungHeThong nhomCungHeThong) async {
+    final rs = await _repo.getListThanhVien(idGroup);
+    rs.when(
+      success: (res) {
+        listResponse.add(
+          NhomCungHeThong(
+            tenNhom: nhomCungHeThong.tenNhom,
+            idNhom: nhomCungHeThong.idNhom,
+            listThanhVien: res,
+          ),
+        );
+        listDropDown.add(nhomCungHeThong.tenNhom ?? '');
+        callAPI.add(SUCCESS);
+      },
+      error: (error) {},
+    );
+  }
 
   Future<void> getDonVi() async {}
 
@@ -45,35 +84,8 @@ class ChiaSeBaoCaoCubit extends BaseCubit<ChiaSeBaoCaoState> {
     themNhomStream.add(listCheck);
   }
 
-  List<NhomCungHeThong> listResponse = [
-    NhomCungHeThong(
-      tenNhom: 'Nhóm A',
-      listThanhVien: [
-        ThanhVien(tenThanhVien: 'Lê Sỹ Lâm'),
-        ThanhVien(tenThanhVien: 'Hà Văn Cường'),
-        ThanhVien(tenThanhVien: 'Đỗ Đức Doanh'),
-        ThanhVien(tenThanhVien: 'Tạ Quang Huy'),
-      ],
-    ),
-    NhomCungHeThong(
-      tenNhom: 'Nhóm B',
-      listThanhVien: [
-        ThanhVien(tenThanhVien: 'Lê Sỹ Lâm'),
-        ThanhVien(tenThanhVien: 'Hà Văn Cường'),
-      ],
-    ),
-    NhomCungHeThong(
-      tenNhom: 'Nhóm C',
-      listThanhVien: [
-        ThanhVien(tenThanhVien: 'Lê Sỹ Lâm'),
-      ],
-    ),
-  ];
-  List<String> listDropDown = [
-    'Nhóm A',
-    'Nhóm B',
-    'Nhóm C',
-  ];
+  List<NhomCungHeThong> listResponse = [];
+  List<String> listDropDown = [];
 
   List<NhomCungHeThong> listCheck = [];
 

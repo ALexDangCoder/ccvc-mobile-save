@@ -20,6 +20,19 @@ class LuongXuLyPAKNModel {
   });
 }
 
+class DonViDuocPhanXuLyModel {
+  final String tenDonVi;
+  final String vaiTro;
+  final String hoatDong;
+  final String noiDungXuLy;
+
+  DonViDuocPhanXuLyModel(
+      {required this.tenDonVi,
+      required this.vaiTro,
+      required this.hoatDong,
+      required this.noiDungXuLy,});
+}
+
 class ThongTinXuLyPAKNModel {
   final bool isDuyet;
   final int linhVucId;
@@ -33,7 +46,8 @@ class ThongTinXuLyPAKNModel {
   final int linhVucPAKNId;
   final int doiTuongId;
   final String tenNguoiPhanAnh;
-  final List<LuongXuLyPAKNModel>? listLuongPAKN;
+  final List<DonViDuocPhanXuLyModel>? donViDuocPhanXuLy;
+  // final List<LuongXuLyPAKNModel>? listLuongPAKN;
 
   ThongTinXuLyPAKNModel({
     required this.isDuyet,
@@ -48,7 +62,8 @@ class ThongTinXuLyPAKNModel {
     required this.linhVucPAKNId,
     required this.doiTuongId,
     required this.tenNguoiPhanAnh,
-    this.listLuongPAKN,
+    required this.donViDuocPhanXuLy,
+    // this.listLuongPAKN,
   });
 
   ThongTinXuLyPAKNModel.seeded({
@@ -64,6 +79,7 @@ class ThongTinXuLyPAKNModel {
     this.linhVucPAKNId = -1,
     this.doiTuongId = -1,
     this.tenNguoiPhanAnh = '',
-    this.listLuongPAKN,
+    this.donViDuocPhanXuLy,
+    // this.listLuongPAKN,
   });
 }

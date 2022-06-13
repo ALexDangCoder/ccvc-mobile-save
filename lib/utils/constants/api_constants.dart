@@ -25,6 +25,7 @@ class ApiConstants {
   static const String GET_DASHBOARD_VB_DEN =
       '/qlvb/api/danh-muc/dashboard-van-ban-den';
   static const String GET_VB_DI_SO_LUONG = '/qlvb/api/van-ban-di/so-luong?';
+  static const String GET_BIRTHDAY = '/appdieuhanh/api/CmsCard/lay-danhsach-chucmung';
   static const String GET_INFO = '/api/CanBo';
   static const String GET_TINH_HUYEN_XA = '/api/DanhMuc/tinh-thanh';
   static const String GET_TINH_HUYEN_XA_CHILD = '/api/DanhMuc/tinh-thanh';
@@ -279,13 +280,13 @@ class ApiConstants {
   static const DUYET_HOAC_HUYDUYET_KY_THUAT =
       '/vpdt/CanBoThamGia/duyet-ky-thuat';
 
-  static const LIST_REPORT = '/api/Folder/list';
-
+  static const LIST_REPORT = '/htcs/api/Folder/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN =
       '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
-
   static const CHECK_LICH_HOP_TRUNG =
       '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
+  static const LIST_GROUP_BAO_CAO = '/api/Group/search';
+  static const LIST_THANH_VIEN_BAO_CAO = '/api/users/ingroup';
 }
 
 class ImageConstants {

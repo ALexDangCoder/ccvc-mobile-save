@@ -5,7 +5,7 @@ const baseImg = 'lib/home_module/assets/images';
 
 class ImageAssets {
   ///Svg path
-
+  static const icHappyBirthday = '$baseImg/ic_happy_birthday.png';
   static const String bgAppBarTablet = '$baseImg/bg_app_bar.png';
   static const String icTongSoNhiemVu = '$baseImg/ic_tong_so_nhiem_vu.svg';
   static const String icHoanThanhNhiemVu =

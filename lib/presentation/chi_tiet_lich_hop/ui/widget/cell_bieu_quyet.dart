@@ -330,14 +330,45 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 ),
                               ),
                               spaceH14,
-                              Text(
-                                '00:00:00',
-                                style: textNormalCustom(
-                                  fontSize: 16,
-                                  color: statusCalenderRed,
-                                  fontWeight: FontWeight.w400,
+                              if (widget.cubit.isNotStartYet(
+                                startTime: timeDate ?? DateTime.now(),
+                              )) ...[
+                                Text(
+                                  '00:00:00',
+                                  style: textNormalCustom(
+                                    color: canceledColor,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              ] else ...[
+                                CountdownTimer(
+                                  controller: endCountdownController,
+                                  widgetBuilder:
+                                      (_, CurrentRemainingTime? time) {
+                                    if (time == null) {
+                                      return Text(
+                                        '00:00:00',
+                                        style: textNormalCustom(
+                                          color: canceledColor,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      );
+                                    }
+                                    return Text(
+                                      '${widget.cubit.dateTimeCovert(time.hours ?? 0)}:'
+                                      '${widget.cubit.dateTimeCovert(time.min ?? 0)}:'
+                                      '${widget.cubit.dateTimeCovert(time.sec ?? 0)}',
+                                      style: textNormalCustom(
+                                        color: canceledColor,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    );
+                                  },
                                 ),
-                              ),
+                              ],
                               spaceH14,
                               Text(
                                 loaiBieuQuyetFunc(

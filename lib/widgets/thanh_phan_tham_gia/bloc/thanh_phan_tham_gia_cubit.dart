@@ -1,15 +1,21 @@
+import 'package:ccvc_mobile/config/base/base_cubit.dart';
 import 'package:ccvc_mobile/domain/model/tree_don_vi_model.dart';
+import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/thanh_phan_tham_gia_reponsitory.dart';
+import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_state.dart';
 import 'package:get/get.dart' as GET_IT;
 import 'package:rxdart/rxdart.dart';
 
-class ThanhPhanThamGiaCubit {
+class ThanhPhanThamGiaCubit extends BaseCubit<ThanhPhanThamGiaState> {
   final List<DonViModel> listPeople = [];
+
+  ThanhPhanThamGiaCubit()
+      : super(MainStateInitial());
 
   ThanhPhanThamGiaReponsitory get hopRp => GET_IT.Get.find();
   bool phuongThucNhan = false;
   final BehaviorSubject<List<DonViModel>> _listPeopleThamGia =
-      BehaviorSubject<List<DonViModel>>();
+  BehaviorSubject<List<DonViModel>>();
 
   Stream<List<DonViModel>> get listPeopleThamGia => _listPeopleThamGia.stream;
   final BehaviorSubject<bool> _phuongThucNhan = BehaviorSubject.seeded(false);
@@ -17,13 +23,45 @@ class ThanhPhanThamGiaCubit {
   Stream<bool> get phuongThucNhanStream => _phuongThucNhan.stream;
 
   final BehaviorSubject<List<Node<DonViModel>>> _getTreeDonVi =
-      BehaviorSubject<List<Node<DonViModel>>>();
+  BehaviorSubject<List<Node<DonViModel>>>();
 
   Stream<List<Node<DonViModel>>> get getTreeDonVi => _getTreeDonVi.stream;
 
-  void addPeopleThamGia(
-    List<DonViModel> donViModel,
-  ) {
+  String timeStart = '';
+  String timeEnd = '';
+  String dateStart = '';
+  String dateEnd = '';
+
+  HopRepository get hopRepo => GET_IT.Get.find();
+
+  Future<bool> checkLichTrung({
+    required String donViId,
+    required String canBoId,
+  }) async {
+    bool isDuplicate = false;
+    showLoading();
+    final rs = await hopRepo.checkLichHopTrung(
+      null,
+      donViId,
+      canBoId,
+      timeStart,
+      timeEnd,
+      dateStart,
+      dateEnd,
+    );
+    rs.when(
+      success: (res) {
+        isDuplicate = res.isNotEmpty;
+      },
+      error: (error) {
+        isDuplicate = false;
+      },
+    );
+    showContent();
+    return isDuplicate;
+  }
+
+  void addPeopleThamGia(List<DonViModel> donViModel,) {
     for (final vl in donViModel) {
       if (listPeople.indexWhere((element) => element.id == vl.id) == -1) {
         listPeople.add(vl);

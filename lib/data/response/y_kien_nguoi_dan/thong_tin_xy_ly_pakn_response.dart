@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_xy_ly_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -151,51 +152,51 @@ class DonviPhanXuLyResponse {
   String convertHoatDong(int trangThai) {
     switch (trangThai) {
       case Luu:
-        return 'Lưu';
+        return S.current.luu;
       case ChoTiepNhan:
-        return 'Chờ tiếp nhận';
+        return S.current.cho_tiep_nhan;
       case ChoChuyenXuLy:
-        return 'Chờ chuyển xử lý';
+        return S.current.cho_chuyen_xu_ly;
       case ChoTiepNhanXuLy:
-        return 'Chờ tiếp nhận xử lý';
+        return S.current.cho_tiep_nhan_xu_ly;
       case ChoPhanCongXuLy:
-        return 'Chờ phân công xử lý';
+        return S.current.cho_phan_cong_xu_ly;
       case ChoDonViDuyet:
-        return 'Chờ đơn vị duyệt';
+        return S.current.cho_don_vi_duyet;
       case ChoDuyet:
-        return 'Chờ duyệt';
+        return S.current.cho_duyet;
       case ChoChuyenDonVi:
-        return 'Chờ chuyển đơn vị';
+        return S.current.cho_chuyen_don_vi;
       case DaHoanThanh:
-        return 'Đã hoàn thành';
+        return S.current.da_hoan_thanh;
       case ChoBoSungThongTin:
-        return 'Chờ bổ sung thông tin';
+        return S.current.cho_bo_sung_thong_tin;
       case TuChoiTiepNhan:
-        return 'Từ chối tiếp nhận';
+        return S.current.tu_choi_tiep_nhan;
       case HuyBo:
-        return 'Huỷ bỏ';
+        return S.current.huy_bo;
       case CanXuLy:
-        return 'Cần xử lý';
+        return S.current.can_xu_ly;
       case ChoDuyetChuyenDonViXuLy:
-        return 'Chờ duyệt chuyển đơn vị xử lý';
+        return S.current.cho_duyet_chuyen_dv_xu_ly;
       case ChoXacNhanChuyenDonViXuLy:
-        return 'Chờ xác nhận chuyển đơn vị xử lý';
+        return S.current.cho_xndvxl;
       case HuyTrinh:
-        return 'Huỷ trình';
+        return S.current.huy_trinh;
       case HuyDuyet:
-        return 'Huỷ duyệt';
+        return S.current.huy_duyet;
       case ThuHoi:
-        return 'Thu hồi';
+        return S.current.thu_hoi;
       case ChoDuyetYCPH:
-        return 'Chờ duyệt YCPH';
+        return S.current.cho_dycph;
       case ChuyenXuLy:
-        return 'Chuyển xử lý';
+        return S.current.chuyen_xu_ly;
       case DaPhanCong:
-        return 'Đã phân công';
+        return S.current.da_phan_cong;
       case PhanXuLy:
-        return 'Phân xử lý';
+        return S.current.phan_xu_ly;
       default:
-        return 'Chờ người dân bổ sung thông tin';
+        return S.current.cho_nguoi_dan_bo_sung_thong_tin;
     }
   }
 

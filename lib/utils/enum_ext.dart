@@ -8,6 +8,8 @@ extension SelectKeyExt on SelectKey {
     switch (this) {
       case SelectKey.CA_NHAN:
         return S.current.ca_nhan;
+      case SelectKey.DA_XU_LY:
+        return S.current.da_xu_ly;
       case SelectKey.DON_VI:
         return S.current.unit;
       case SelectKey.HOM_NAY:

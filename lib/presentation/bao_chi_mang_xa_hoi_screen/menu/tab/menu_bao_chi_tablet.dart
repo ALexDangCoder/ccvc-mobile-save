@@ -12,11 +12,13 @@ import 'package:flutter_svg/svg.dart';
 class MenuBaoChiTablet extends StatefulWidget {
   final BaoChiMangXaHoiBloc cubit;
   final Function() onChange;
+  final int topic;
 
   const MenuBaoChiTablet({
     Key? key,
     required this.cubit,
     required this.onChange,
+    required this.topic,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,13 @@ class MenuBaoChiTablet extends StatefulWidget {
 
 class _MenuBaoChiTabletState extends State<MenuBaoChiTablet> {
   TheoDoiBaiVietCubit theoDoiBaiVietCubit = TheoDoiBaiVietCubit();
+  int initId = 848;
+
+  @override
+  void initState() {
+    initId = widget.cubit.checkExpand(widget.topic).id;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +68,14 @@ class _MenuBaoChiTabletState extends State<MenuBaoChiTablet> {
                       return ContainerMenuBaoChiTabletWidget(
                         name: widget.cubit.listTitleItemMenu[index].title,
                         icon: ImageAssets.icMenuItemBCMXH,
+                        selected: widget.cubit.listSubMenu[index].isEmpty
+                            ? initId ==
+                                    widget.cubit.listTitleItemMenu[index].nodeId
+                                ? true
+                                : false
+                            : false,
+                        initExpand: initId ==
+                            widget.cubit.listTitleItemMenu[index].nodeId,
                         type: TypeContainer.expand,
                         childExpand: ListView.builder(
                           shrinkWrap: true,
@@ -66,6 +83,12 @@ class _MenuBaoChiTabletState extends State<MenuBaoChiTablet> {
                           itemCount: widget.cubit.listSubMenu[index].length,
                           itemBuilder: (context, indexItem) {
                             return ContainerMenuBaoChiTabletWidget(
+                              selected: widget.topic ==
+                                  widget.cubit.listSubMenu[index][indexItem]
+                                      .nodeId,
+                              initExpand: widget.topic ==
+                                  widget.cubit.listSubMenu[index][indexItem]
+                                      .nodeId,
                               name: widget
                                   .cubit.listSubMenu[index][indexItem].title,
                               onTap: () {

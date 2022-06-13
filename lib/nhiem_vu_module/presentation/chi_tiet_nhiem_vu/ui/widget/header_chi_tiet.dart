@@ -40,64 +40,66 @@ class HeaderChiTiet extends StatelessWidget {
                   ],
                 )
               : const BoxDecoration(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: row
-                .map(
-                  (e) => Container(
-                    margin: EdgeInsets.only(
-                      bottom: 10.0.textScale(),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: e.key,
-                                  style: textNormalCustom(
-                                    color: color667793,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14.0.textScale(),
-                                  ),
-                                ),
-                                if (e.isNote)
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: row
+                  .map(
+                    (e) => Container(
+                      margin: EdgeInsets.only(
+                        bottom: 10.0.textScale(),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: RichText(
+                              text: TextSpan(
+                                children: <TextSpan>[
                                   TextSpan(
-                                    text: ' *',
+                                    text: e.key,
                                     style: textNormalCustom(
-                                      color: Colors.red,
+                                      color: color667793,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14.0.textScale(),
                                     ),
-                                  )
-                                else
-                                  const TextSpan(text: ''),
-                              ],
+                                  ),
+                                  if (e.isNote)
+                                    TextSpan(
+                                      text: ' *',
+                                      style: textNormalCustom(
+                                        color: Colors.red,
+                                        fontSize: 14.0.textScale(),
+                                      ),
+                                    )
+                                  else
+                                    const TextSpan(text: ''),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 20.0.textScale(),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: (e.key != S.current.tinh_hinh_thuc_hien)
-                              ? Text(
-                                  e.value,
-                                  style: textNormalCustom(
-                                    color: textTitle,
-                                    fontSize: 16.0.textScale(),
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                )
-                              : getStatus(getStatusNV(e.value)),
-                        )
-                      ],
+                          SizedBox(
+                            width: 20.0.textScale(),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: (e.key != S.current.tinh_hinh_thuc_hien)
+                                ? Text(
+                                    e.value,
+                                    style: textNormalCustom(
+                                      color: textTitle,
+                                      fontSize: 16.0.textScale(),
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  )
+                                : getStatus(getStatusNV(e.value)),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
+                  )
+                  .toList(),
+            ),
           ),
         ),
       ],

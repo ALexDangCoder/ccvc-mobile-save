@@ -57,6 +57,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   String ngayDauTien = '';
   String ngayKetThuc = '';
   String mangTrangThai = '';
+  String loaiNhiemVuId = '';
   int? trangThaiHanXuLy;
   bool checkDataNhiemVu = false;
   List<String> titleNhiemVu = [];
@@ -113,7 +114,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       mangTrangThai: [],
       ngayTaoNhiemVu: {'FromDate': start, 'ToDate': end},
       size: pageSize,
-      keySearch: keySearch, isFilter: false,
+      keySearch: keySearch,
     );
   }
 
@@ -132,8 +133,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   Debouncer debouncer = Debouncer();
 
   Future<void> postDanhSachNhiemVu({
-    required int? index,
-    required bool isFilter,
+    int index = 1,
     required bool isNhiemVuCaNhan,
     required bool isSortByHanXuLy,
     required String keySearch,
@@ -141,11 +141,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required Map<String, String> ngayTaoNhiemVu,
     required int size,
     int? trangThaiHanXuLy,
-    String? loaiNhiemVuId,
   }) async {
-    if (isFilter) {
-      loadMoreList.clear();
-    }
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =
         DanhSachNhiemVuRequest(
@@ -161,7 +157,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
       loaiNhiemVuId: loaiNhiemVuId,
     );
     showLoading();
-    loadMorePage = index ?? 1;
+    loadMorePage = index;
     final result = await repo.danhSachNhiemVu(danhSachNhiemVuRequest);
     result.when(
       success: (res) {

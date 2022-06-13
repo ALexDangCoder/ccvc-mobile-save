@@ -183,9 +183,10 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
         } else {
           widget.cubit.isNhiemVuDonViCon = false;
         }
+        widget.cubit.mangTrangThai = '';
+        widget.cubit.loadMoreList.clear();
+        widget.cubit.loaiNhiemVuId='';
         widget.cubit.postDanhSachNhiemVu(
-          isFilter: true,
-          index: 0,
           isNhiemVuCaNhan: false,
           isSortByHanXuLy: true,
           mangTrangThai: [],

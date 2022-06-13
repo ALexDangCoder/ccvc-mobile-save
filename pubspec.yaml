@@ -65,6 +65,7 @@ dependencies:
   expandable: 5.0.1
   queue: ^3.1.0+1
   readmore: any
+  flutter_countdown_timer: ^4.1.0
 
   dots_indicator: ^2.0.0
   dotted_border:
@@ -93,6 +94,7 @@ dependencies:
   http: ^0.13.4
   platform_device_id: ^1.0.1
   sound_mode: ^2.0.2
+  transparent_pointer: ^1.0.0
 
 dev_dependencies:
   flutter_test:

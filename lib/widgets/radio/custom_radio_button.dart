@@ -41,7 +41,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               onChanged: (String? value) {
                 setState(() {});
                 groupValue = value ?? S.current.bo_khieu_kin;
-                widget.onchange(false);
+                widget.onchange(true);
               },
               groupValue: groupValue,
             ),
@@ -63,7 +63,7 @@ class _CustomRadioButtonsState extends State<CustomRadioButtons> {
               onChanged: (String? value) {
                 setState(() {});
                 groupValue = value ?? S.current.bo_phieu_cong_khai;
-                widget.onchange(true);
+                widget.onchange(false);
               },
               groupValue: groupValue,
             ),

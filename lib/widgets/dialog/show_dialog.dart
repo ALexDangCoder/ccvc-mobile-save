@@ -17,6 +17,7 @@ Future<T?> showDiaLog<T>(
   bool isBottomShow = true,
   bool isOneButton = true,
   required Function funcBtnRight,
+  bool isCenterTitle = false,
 }) {
   return showDialog(
     barrierDismissible: false,
@@ -66,6 +67,7 @@ Future<T?> showDiaLog<T>(
               Text(
                 title,
                 style: titleAppbar(),
+                textAlign: isCenterTitle ? TextAlign.center : null,
               ),
               if (isOneButton)
                 Column(

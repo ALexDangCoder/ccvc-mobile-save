@@ -25,7 +25,7 @@ class MenuBCMXHResponse {
 
   ListMenuItemModel toDomain() => ListMenuItemModel(
         id: id ?? '',
-        nodeid: nodeid ?? 0,
+        nodeId: nodeid ?? 0,
         title: title ?? '',
         subMenu: subMenu?.map((e) => e.toDomain()).toList() ?? [],
       );

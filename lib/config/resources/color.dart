@@ -8,12 +8,13 @@ const colorPrimary = Color(0xff0ABAB5);
 const colorPrimaryTransparent = Color(0x720ABAB5);
 const colorAccent = Color(0xffDCFFFE);
 const colorSelected = Color(0xFFE0F2F1);
-const mainTxtColor = Color(0xFF30536F);
+const v = Color(0xFF30536F);
 const dfTxtColor = Color(0xFF303742);
 const secondTxtColor = Color(0xFF808FA8);
 const highlightTxtColor = Color(0xff303742);
 const subTitle = Color(0xff8F9CAE);
 const attackFile = Color(0xff8F9CAE);
+
 
 //bottom navigation color
 const bgBottomTab = Color(0xFFFCFCFC);

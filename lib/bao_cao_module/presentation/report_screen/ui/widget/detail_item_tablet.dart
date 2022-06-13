@@ -6,8 +6,8 @@ import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ItemChiTietTablet extends StatelessWidget {
-  const ItemChiTietTablet({Key? key}) : super(key: key);
+class DetailItemTablet extends StatelessWidget {
+  const DetailItemTablet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

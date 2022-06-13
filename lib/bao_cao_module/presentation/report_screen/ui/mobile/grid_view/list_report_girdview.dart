@@ -1,30 +1,30 @@
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/grid_view/widget/report_list.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/report_filter.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/widget/report_list.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/filter_bao_cao.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DanhSachBaoCaoDangGirdviewMobile extends StatefulWidget {
-  const DanhSachBaoCaoDangGirdviewMobile({Key? key}) : super(key: key);
+class ReportListGridviewMobile extends StatefulWidget {
+  const ReportListGridviewMobile({Key? key}) : super(key: key);
 
   @override
-  _DanhSachBaoCaoDangGirdviewMobileState createState() =>
-      _DanhSachBaoCaoDangGirdviewMobileState();
+  _ReportListGridviewMobileState createState() =>
+      _ReportListGridviewMobileState();
 }
 
-class _DanhSachBaoCaoDangGirdviewMobileState
-    extends State<DanhSachBaoCaoDangGirdviewMobile> {
-  late DanhSachBaoCaoCubit cubit;
+class _ReportListGridviewMobileState
+    extends State<ReportListGridviewMobile> {
+  late ReportListCubit cubit;
 
   @override
   void initState() {
-    cubit = DanhSachBaoCaoCubit();
+    cubit = ReportListCubit();
     // TODO: implement initState
     super.initState();
     cubit.getListReport(
@@ -71,7 +71,7 @@ class _DanhSachBaoCaoDangGirdviewMobileState
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
-                        builder: (context) => FilterBaoCao(
+                        builder: (context) => ReportFilter(
                           cubit: cubit,
                         ),
                       );

@@ -1,9 +1,9 @@
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/detail_item_mobile.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/item_folder.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/show_more_bottom_sheet.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_chi_tiet.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_folder.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/xem_them_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -25,7 +25,7 @@ class ItemGridView extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => const ItemChiTiet(),
+            builder: (_) => const DetailItemMobile(),
           ),
         );
       },

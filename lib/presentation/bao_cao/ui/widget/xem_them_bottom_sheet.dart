@@ -1,15 +1,14 @@
+import 'package:ccvc_mobile/bao_cao_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/list_report_girdview.dart';
+import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/presentation/chia_se_bao_cao/ui/mobile/chia_se_bao_cao.dart';
 import 'package:ccvc_mobile/presentation/manager_personal_information/ui/mobile/widget/widget_ung_dung_mobile.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-
-import 'item_folder.dart';
 
 class XemThemBottomSheet extends StatefulWidget {
   const XemThemBottomSheet({Key? key}) : super(key: key);
@@ -58,8 +57,8 @@ class _XemThemBottomSheetState extends State<XemThemBottomSheet> {
             ),
             child: Row(
               children: [
-                ItemFolder(
-                  type: TypeLoai.THU_MUC,
+                const ItemFolder(
+                  type: FOLDER,
                   isShare: true,
                   isListView: true,
                 ),

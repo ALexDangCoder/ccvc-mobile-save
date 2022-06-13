@@ -1,7 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
-import 'package:ccvc_mobile/presentation/bao_cao/ui/mobile/grid_view/list_report_girdview.dart';
 import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/xem_them_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
@@ -33,7 +32,7 @@ class ItemList extends StatelessWidget {
       child: Row(
         children: [
           ItemFolder(
-            type: item.typeTitle == 'Folder' ? TypeLoai.THU_MUC : TypeLoai.BAO_CAO,
+            type: item.type ?? 0,
             isShare: true,
             fileNumber: item.numberReport ?? 0,
             isListView: true,

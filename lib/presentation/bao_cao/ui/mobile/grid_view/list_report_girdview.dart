@@ -10,11 +10,6 @@ import 'package:ccvc_mobile/widgets/appbar/mobile/base_app_bar_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum TypeLoai {
-  THU_MUC,
-  BAO_CAO,
-}
-
 class DanhSachBaoCaoDangGirdviewMobile extends StatefulWidget {
   const DanhSachBaoCaoDangGirdviewMobile({Key? key}) : super(key: key);
 

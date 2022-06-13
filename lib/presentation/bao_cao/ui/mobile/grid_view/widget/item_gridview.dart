@@ -5,12 +5,10 @@ import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_chi_tiet.dart';
 import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/item_folder.dart';
 import 'package:ccvc_mobile/presentation/bao_cao/ui/widget/xem_them_bottom_sheet.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ccvc_mobile/utils/constants/image_asset.dart';
-
-import '../list_report_girdview.dart';
 
 class ItemGridView extends StatelessWidget {
   final ReportItem item;
@@ -86,7 +84,7 @@ class ItemGridView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ItemFolder(
-                  type: item.type == 0 ? TypeLoai.THU_MUC : TypeLoai.BAO_CAO,
+                  type: item.type ?? 0,
                   isShare: true,
                   fileNumber: item.childrenTotal ?? 0,
                 ),

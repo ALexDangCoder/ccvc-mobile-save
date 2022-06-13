@@ -5,7 +5,7 @@ const baseImg = 'lib/home_module/assets/images';
 
 class ImageAssets {
   ///Svg path
-
+  static const icHappyBirthday = '$baseImg/ic_happy_birthday.png';
   static const String bgAppBarTablet = '$baseImg/bg_app_bar.png';
   static const String icTongSoNhiemVu = '$baseImg/ic_tong_so_nhiem_vu.svg';
   static const String icHoanThanhNhiemVu =
@@ -59,6 +59,7 @@ class ImageAssets {
   static const String ic_delete_dscv = '$baseImg/ic_delete_dscv.svg';
   static const String ic_hoan_tac = '$baseImg/ic_hoan_tac.svg';
   static const String iconNote_dscv = '$baseImg/iconNote_dscv.svg';
+  static const String ic_ghim_dscv = '$baseImg/ic_ghim_file.svg';
 
 
 

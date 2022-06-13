@@ -11,7 +11,6 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/permission_type.da
 
 import '../chi_tiet_lich_hop_cubit.dart';
 
-
 ///permission
 extension PermissionLichHop on DetailMeetCalenderCubit {
   Future<void> getNguoiChuTri(String id) async {
@@ -230,8 +229,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
 
   void initDataButton() {
     listButton.clear();
-    scheduleCoperatives =
-        dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
+    scheduleCoperatives = dataListStr(getChiTietLichHopModel.canBoThamGiaStr);
 
     ///check quyen sua lich
     if (getChiTietLichHopModel.thoiGianKetThuc.isEmpty &&
@@ -361,8 +359,19 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   ///1. check phong hop
 
   ///check button duyet phong
+  //0 = cho duyet
+  //1 = da duyet
+  //2 = huy duyet
   bool checkDuyetPhong() {
     return trangThaiPhong() == 0 || trangThaiPhong() == 2;
+  }
+
+  bool checkHuyDuyet() {
+    return trangThaiPhong() == 0 || trangThaiPhong() == 1;
+  }
+
+  bool checkThayDoiPhong() {
+    return trangThaiPhong() == 1 || trangThaiPhong() == 2;
   }
 
   bool checkPermission() {
@@ -374,10 +383,6 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
       return true;
     }
     return false;
-  }
-
-  bool checkHuyDuyet() {
-    return trangThaiPhong() == 0 || trangThaiPhong() == 1;
   }
 
   ///check button tu choi va huy duyet
@@ -449,8 +454,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   ///======================= check tab thanh phan tham gia =====================
 
   bool isTaoLich() {
-    return getChiTietLichHopModel.createdBy ==
-        (dataUser?.userId ?? '');
+    return getChiTietLichHopModel.createdBy == (dataUser?.userId ?? '');
   }
 
   ///btn moi nguoi tham gia
@@ -492,8 +496,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   List<NguoiTaoStr> nguoiTao() {
-    return converStringToNguoiTao(
-        getChiTietLichHopModel.nguoiTao_str ?? '');
+    return converStringToNguoiTao(getChiTietLichHopModel.nguoiTao_str ?? '');
   }
 
   bool isNguoiTaoPhatBieu() {

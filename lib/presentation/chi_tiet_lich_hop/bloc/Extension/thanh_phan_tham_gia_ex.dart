@@ -6,7 +6,7 @@ import '../chi_tiet_lich_hop_cubit.dart';
 ///thành phần tham gia
 extension ThanhPhanThamGia on DetailMeetCalenderCubit {
   Future<void> getDanhSachCuocHopTPTH() async {
-    final result = await hopRp.getDanhSachCuocHopTPTH(id);
+    final result = await hopRp.getDanhSachCuocHopTPTH(idCuocHop);
 
     result.when(
       success: (success) {
@@ -19,7 +19,7 @@ extension ThanhPhanThamGia on DetailMeetCalenderCubit {
 
   Future<void> themThanhPhanThamGia() async {
     final result =
-        await hopRp.postMoiHop(id, false, phuongThucNhan, moiHopRequest);
+        await hopRp.postMoiHop(idCuocHop, false, phuongThucNhan, moiHopRequest);
     result.when(
       success: (res) {
         getDanhSachCuocHopTPTH();

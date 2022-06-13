@@ -35,6 +35,7 @@ class DanhSachCongViecTienIchCubit
   String dateChange = '';
   String? noteChange;
   String? titleChange;
+  String filePath = '';
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -269,9 +270,11 @@ class DanhSachCongViecTienIchCubit
           finishDay:
               dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
           note: noteChange == '' ? null : noteChange,
-          performer: toDoListRequest.performer == ''
+          performer: toDoListRequest.performer == '' ||
+                  toDoListRequest.performer == null
               ? null
               : nguoiThucHienSubject.value.id,
+          filePath: filePath,
         ),
       );
       result.when(
@@ -372,6 +375,7 @@ class DanhSachCongViecTienIchCubit
     bool? important,
     bool? inUsed,
     bool? isDeleted,
+    String? filePathTodo,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
@@ -402,6 +406,8 @@ class DanhSachCongViecTienIchCubit
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatApi,
         performer: toDoListRequest.performer ?? todo.performer,
+        filePath:
+            checkData(changeData: filePathTodo, defaultData: nameFile.value),
       ),
     );
     result.when(
@@ -422,6 +428,9 @@ class DanhSachCongViecTienIchCubit
           listDSCV.sink.add(data);
         }
         if (isDeleted != null) {}
+        if (filePathTodo != null) {
+          nameFile.sink.add('');
+        }
         callAndFillApiAutu();
       },
       error: (err) {
@@ -498,10 +507,29 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.uploadFileDSCV(file);
     result.when(
       success: (res) {
+        filePath = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  ///xóa cong viec
+  Future<void> xoaCongViecVinhVien(String idCv) async {
+    showLoading();
+    final result = await tienIchRep.xoaCongViec(idCv);
+    result.when(
+      success: (res) {
         callAndFillApiAutu();
       },
       error: (error) {},
     );
     showContent();
+  }
+
+  void disposs() {
+    dateChange = '';
+    noteChange = '';
+    titleChange = '';
   }
 }

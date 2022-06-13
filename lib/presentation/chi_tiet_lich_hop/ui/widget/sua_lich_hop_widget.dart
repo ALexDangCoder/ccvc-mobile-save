@@ -48,7 +48,7 @@ class _SuaLichHopWidgetState extends State<SuaLichHopWidget> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: StreamBuilder<ChiTietLichHopModel>(
-            stream: widget.cubit.chiTietLichLamViecSubject,
+            stream: widget.cubit.chiTietLichHopSubject,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const SizedBox();

@@ -62,11 +62,13 @@ class ThietBiPhongHopModel {
   String? soLuong;
   int? trangThai;
   TrangThaiPhongHop trangThaiPhongHop = TrangThaiPhongHop.DA_DUYET;
+  String id;
 
   ThietBiPhongHopModel({
     this.loaiThietBi = '',
     this.soLuong = '0',
     this.trangThai = 0,
+    this.id = '',
   }) {
     trangThaiPhongHop = fromEnum();
   }

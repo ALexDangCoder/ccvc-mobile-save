@@ -59,6 +59,25 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
       body: ComplexLoadMore(
         childrenView: [
           FilterDateTimeWidgetTablet(
+            isBtnClose: true,
+            onClose: (v) {
+              textcontroller.clear();
+              widget.danhSachCubit.keySearch = '';
+              widget.danhSachCubit.mangTrangThai = '';
+              widget.danhSachCubit.loadMoreList.clear();
+              widget.danhSachCubit.postDanhSachNhiemVu(
+                isNhiemVuCaNhan: widget.isCheck,
+                isSortByHanXuLy: true,
+                mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                ngayTaoNhiemVu: {
+                  'FromDate': widget.danhSachCubit.ngayDauTien,
+                  'ToDate': widget.danhSachCubit.ngayKetThuc
+                },
+                size: widget.danhSachCubit.pageSize,
+                keySearch: widget.danhSachCubit.keySearch,
+                trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+              );
+            },
             initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
             context: context,
             onChooseDateFilter: (startDate, endDate) {
@@ -147,10 +166,10 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                 chartData: data,
                                 cubit: widget.danhSachCubit,
                                 ontap: (value) {
-                                  widget.danhSachCubit.mangTrangThai = value;
                                   widget.danhSachCubit.trangThaiHanXuLy = null;
+                                  widget.danhSachCubit.loaiNhiemVuId = value;
+                                  widget.danhSachCubit.loadMoreList.clear();
                                   setState(() {
-                                    widget.danhSachCubit.loadMoreList.clear();
                                     widget.danhSachCubit.postDanhSachNhiemVu(
                                       isNhiemVuCaNhan: widget.isCheck,
                                       isSortByHanXuLy: true,
@@ -165,7 +184,6 @@ class _NhiemVuDonViTabletState extends State<NhiemVuDonViTablet> {
                                       keySearch: widget.danhSachCubit.keySearch,
                                       trangThaiHanXuLy:
                                           widget.danhSachCubit.trangThaiHanXuLy,
-                                      loaiNhiemVuId: value,
                                     );
                                   });
                                 },
@@ -441,7 +459,9 @@ class _StatusWidgetTabletState extends State<StatusWidgetTablet> {
                                                             .trangThaiHanXuLy =
                                                         null;
                                                     setState(() {
-                                                      widget.danhSachCubit.loadMoreList.clear();
+                                                      widget.danhSachCubit
+                                                          .loadMoreList
+                                                          .clear();
                                                       widget.danhSachCubit
                                                           .postDanhSachNhiemVu(
                                                         isNhiemVuCaNhan:

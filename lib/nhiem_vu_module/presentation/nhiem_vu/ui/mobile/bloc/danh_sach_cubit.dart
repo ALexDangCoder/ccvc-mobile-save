@@ -57,6 +57,7 @@ class DanhSachCubit extends BaseCubit<BaseState> {
   String ngayDauTien = '';
   String ngayKetThuc = '';
   String mangTrangThai = '';
+  String loaiNhiemVuId = '';
   int? trangThaiHanXuLy;
   bool checkDataNhiemVu = false;
   List<String> titleNhiemVu = [];
@@ -140,7 +141,6 @@ class DanhSachCubit extends BaseCubit<BaseState> {
     required Map<String, String> ngayTaoNhiemVu,
     required int size,
     int? trangThaiHanXuLy,
-    String? loaiNhiemVuId,
   }) async {
     mangTrangThai.remove('');
     final DanhSachNhiemVuRequest danhSachNhiemVuRequest =

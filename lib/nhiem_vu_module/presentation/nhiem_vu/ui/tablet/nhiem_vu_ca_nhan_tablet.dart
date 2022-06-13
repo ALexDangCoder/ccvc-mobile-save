@@ -49,12 +49,31 @@ class _NhiemVuCaNhanTabletState extends State<NhiemVuCaNhanTablet> {
       body: ComplexLoadMore(
         childrenView: [
           FilterDateTimeWidgetTablet(
+            isBtnClose: true,
             initStartDate: DateTime.parse(widget.danhSachCubit.ngayDauTien),
             context: context,
             onChooseDateFilter: (startDate, endDate) {
               widget.danhSachCubit.ngayDauTien = startDate.formatApi;
               widget.danhSachCubit.ngayKetThuc = endDate.formatApi;
               widget.danhSachCubit.callApiDashBroash(true);
+            },
+            onClose: (v) {
+              textcontroller.clear();
+              widget.danhSachCubit.keySearch = '';
+              widget.danhSachCubit.mangTrangThai = '';
+              widget.danhSachCubit.loadMoreList.clear();
+              widget.danhSachCubit.postDanhSachNhiemVu(
+                isNhiemVuCaNhan: widget.isCheck,
+                isSortByHanXuLy: true,
+                mangTrangThai: [widget.danhSachCubit.mangTrangThai],
+                ngayTaoNhiemVu: {
+                  'FromDate': widget.danhSachCubit.ngayDauTien,
+                  'ToDate': widget.danhSachCubit.ngayKetThuc
+                },
+                size: widget.danhSachCubit.pageSize,
+                keySearch: '',
+                trangThaiHanXuLy: widget.danhSachCubit.trangThaiHanXuLy,
+              );
             },
             controller: textcontroller,
             onChange: (text) {

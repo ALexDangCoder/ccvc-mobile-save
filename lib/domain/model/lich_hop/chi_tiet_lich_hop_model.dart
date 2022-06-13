@@ -44,6 +44,7 @@ class ChiTietLichHopModel {
   bool? bit_PhongTrungTamDieuHanh;
   int? trangThaiDuyetKyThuat = -1;
   String? lichHop_PhienHopStr = '';
+  String? diaDiemHop;
 
   ChiTietLichHopModel({
     this.id = '',
@@ -81,6 +82,7 @@ class ChiTietLichHopModel {
     this.trangThaiDuyetKyThuat = -1,
     this.nguoiTao_str = '',
     this.lichHop_PhienHopStr,
+    this.diaDiemHop,
   });
 
   String mucDoHopWithInt() {
@@ -300,8 +302,9 @@ class ChuTriModel {
 class PhongHopMode {
   final String id;
   final String ten;
+  final bool bit_TTDH;
 
-  const PhongHopMode({this.id = '', this.ten = ''});
+  const PhongHopMode({this.id = '', this.ten = '', this.bit_TTDH = false});
 }
 
 class ChiTietDataRow {

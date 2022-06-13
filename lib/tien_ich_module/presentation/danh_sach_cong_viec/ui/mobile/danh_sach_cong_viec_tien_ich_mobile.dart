@@ -20,13 +20,11 @@ import 'package:ccvc_mobile/tien_ich_module/widget/search/base_search_bar.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/provider_widget.dart';
-import 'package:ccvc_mobile/widgets/dialog/show_toast.dart';
 import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class DanhSachCongViecTienIchMobile extends StatefulWidget {
   const DanhSachCongViecTienIchMobile({Key? key}) : super(key: key);
@@ -178,14 +176,41 @@ class _DanhSachCongViecTienIchMobileState
                                                   controller.text;
                                             },
                                             onEdit: () {
-                                              showBottomSheetCustom(
+                                              if (cubit.listNguoiThucHienSubject
+                                                  .hasValue) {
+                                                showBottomSheetCustom(
+                                                  context,
+                                                  title: S.current.chinh_sua,
+                                                  child:
+                                                      CreatTodoOrUpdateWidget(
+                                                    cubit: cubit,
+                                                    todo: todo,
+                                                    isCreat: false,
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            onThuHoi: () {
+                                              cubit.editWork(
+                                                todo: todo,
+                                                inUsed: !(todo.inUsed ?? false),
+                                              );
+                                            },
+                                            onXoaVinhVien: () {
+                                              showDiaLog(
                                                 context,
-                                                title: S.current.chinh_sua,
-                                                child: CreatTodoOrUpdateWidget(
-                                                  cubit: cubit,
-                                                  todo: todo,
-                                                  isCreat: false,
+                                                funcBtnRight: () {
+                                                  cubit.xoaCongViecVinhVien(
+                                                      todo.id ?? '');
+                                                },
+                                                icon: SvgPicture.asset(
+                                                  ImageAssets.icDeleteLichHop,
                                                 ),
+                                                title: S.current.xoa_cong_viec,
+                                                textContent: S.current
+                                                    .ban_co_chac_chan_muon_gui_mai_nay,
+                                                btnLeftTxt: S.current.huy,
+                                                btnRightTxt: S.current.xoa,
                                               );
                                             },
                                             enabled: !(todo.isTicked ?? true),
@@ -197,9 +222,19 @@ class _DanhSachCongViecTienIchMobileState
                                     ],
                                   );
                                 }
-                                return const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 30),
-                                  child: NodataWidget(),
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 30),
+                                  child: Column(
+                                    children: [
+                                      if (dataType == CVCB || dataType == NCVM)
+                                        textTitle(
+                                          S.current.gan_cho_toi,
+                                          data.length,
+                                        ),
+                                      const NodataWidget(),
+                                    ],
+                                  ),
                                 );
                               },
                             ),
@@ -273,9 +308,18 @@ class _DanhSachCongViecTienIchMobileState
                                 ],
                               );
                             }
-                            return const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 30),
-                              child: NodataWidget(),
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 30),
+                              child: Column(
+                                children: [
+                                  if (dataType == CVCB || dataType == NCVM)
+                                    textTitle(
+                                      S.current.da_hoan_thanh,
+                                      data.length,
+                                    ),
+                                  const NodataWidget(),
+                                ],
+                              ),
                             );
                           },
                         ),
@@ -289,8 +333,6 @@ class _DanhSachCongViecTienIchMobileState
       ),
     );
   }
-
-
 
   Widget textTitle(String text, int count) => Padding(
         padding: const EdgeInsets.only(top: 16),

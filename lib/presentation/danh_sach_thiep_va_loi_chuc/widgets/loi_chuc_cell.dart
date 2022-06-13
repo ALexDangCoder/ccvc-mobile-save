@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class LoiChucCell extends StatelessWidget {
               ),
               spaceH6,
               Text(
-                data.ngayGuiLoiChuc,
+                '${S.current.thoi_gian_chuc}(${data.ngayGuiLoiChuc})',
                 style: textNormal(infoColor, 14),
               )
             ],

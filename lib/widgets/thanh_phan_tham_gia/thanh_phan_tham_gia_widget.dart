@@ -19,6 +19,10 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
   final bool isPhuongThucNhan;
   final bool isTaoHop;
   final String noiDungCV;
+  final String? dateStart;
+  final String? dateEnd;
+  final String? timeStart;
+  final String? timeEnd;
 
   const ThanhPhanThamGiaWidget({
     Key? key,
@@ -28,6 +32,10 @@ class ThanhPhanThamGiaWidget extends StatefulWidget {
     this.listPeopleInit,
     this.isTaoHop = false,
     this.noiDungCV = '',
+    this.dateStart,
+    this.dateEnd,
+    this.timeStart,
+    this.timeEnd,
   }) : super(key: key);
 
   @override
@@ -44,6 +52,10 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
     _cubit.listPeopleThamGia.listen((event) {
       widget.onChange(event);
     });
+    _cubit.timeStart = widget.timeStart ?? '';
+    _cubit.timeEnd = widget.timeEnd ?? '';
+    _cubit.dateStart = widget.dateStart ?? '';
+    _cubit.dateEnd = widget.dateEnd ?? '';
     _cubit.phuongThucNhanStream.listen((event) {
       widget.phuongThucNhan(event);
     });

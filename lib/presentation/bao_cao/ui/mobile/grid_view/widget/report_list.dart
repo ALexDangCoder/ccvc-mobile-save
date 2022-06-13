@@ -32,7 +32,7 @@ class ReportList extends StatelessWidget {
               childAspectRatio: 1.5,
               mainAxisExtent: 130,
             ),
-            itemCount: 3,
+            itemCount: listReport.length,
             itemBuilder: (context, index) {
               return ItemGridView(
                 item: listReport[index],
@@ -45,7 +45,7 @@ class ReportList extends StatelessWidget {
               right: 16,
             ),
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: listReport.length,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {

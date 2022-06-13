@@ -32,6 +32,11 @@ class _DanhSachBaoCaoDangGirdviewMobileState
     cubit = DanhSachBaoCaoCubit();
     // TODO: implement initState
     super.initState();
+    cubit.getListReport(
+      folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00', //todo
+      sort: 0, //
+      keyWord: '',
+    );
   }
 
   @override
@@ -155,12 +160,12 @@ class _DanhSachBaoCaoDangGirdviewMobileState
                       children: [
                         titleBaoCao(S.current.yeu_thich),
                         ReportList(
-                          listReport: cubit.dumpData,
+                          listReport: cubit.listReport,
                           isCheckList: snapshot.data ?? false,
                         ),
                         titleBaoCao(S.current.all),
                         ReportList(
-                          listReport: cubit.dumpData,
+                          listReport: cubit.listReport,
                           isCheckList: snapshot.data ?? false,
                         ),
                       ],

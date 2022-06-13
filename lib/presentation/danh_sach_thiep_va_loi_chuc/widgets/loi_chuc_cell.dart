@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class LoiChucCell extends StatelessWidget {
@@ -12,8 +13,8 @@ class LoiChucCell extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 40,
-          height: 40,
+          width: 40.0.textScale(space: 16),
+          height: 40.0.textScale(space: 16),
           clipBehavior: Clip.antiAlias,
           decoration: const BoxDecoration(
             shape: BoxShape.circle
@@ -27,7 +28,7 @@ class LoiChucCell extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 14,
+          width: 14.0.textScale(space: 6),
         ),
         Expanded(
           child: Column(

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/domain/model/user_infomation_model.dart';
+import 'package:ccvc_mobile/presentation/danh_sach_thiep_va_loi_chuc/danh_sach_thiep_va_loi_chuc_screen.dart';
 import 'package:ccvc_mobile/presentation/danh_sach_thiep_va_loi_chuc/phone/danh_sach_thiep_va_loi_chuc_mobile_screen.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,7 @@ class InfoUserWidget extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  DanhSachThiepVaLoiChucMobileScreen()));
+                                  DanhSachThiepVaLoiChucScreen()));
                     },
                     child: Container(
                         color: Colors.transparent,

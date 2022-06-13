@@ -6,8 +6,8 @@ import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:flutter/material.dart';
 
-class ChiTietThiepChucMobileScreen extends StatefulWidget {
-  const ChiTietThiepChucMobileScreen({Key? key}) : super(key: key);
+class ChiTietThiepChucTabletScreen extends StatefulWidget {
+  const ChiTietThiepChucTabletScreen({Key? key}) : super(key: key);
 
   @override
   _ChiTietThiepChucMobileScreenState createState() =>
@@ -15,7 +15,7 @@ class ChiTietThiepChucMobileScreen extends StatefulWidget {
 }
 
 class _ChiTietThiepChucMobileScreenState
-    extends State<ChiTietThiepChucMobileScreen> {
+    extends State<ChiTietThiepChucTabletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

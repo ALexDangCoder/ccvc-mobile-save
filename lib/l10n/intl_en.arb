@@ -1061,8 +1061,8 @@
   "tu_z_a": "Sắp xếp theo tên (Z đến A)",
   "sap_xep_theo_moi_nhat": "Sắp xếp theo mới nhất",
   "sap_xep_theo_cu_nhat": "Sắp xếp theo cũ nhất",
-  "mo_cai_dat" : "Mở cài đặt",
-  "ban_can_mo_quyen_de_truy_cap_ung_dung" :  "Bạn cần mở quyền truy cập ứng dụng",
+  "mo_cai_dat": "Mở cài đặt",
+  "ban_can_mo_quyen_de_truy_cap_ung_dung": "Bạn cần mở quyền truy cập ứng dụng",
   "thay_doi_phong": "Thay đổi phòng",
   "thong_ke": "Thống kê",
   "tai_anh_len": "Tải ảnh lên",
@@ -1080,10 +1080,11 @@
   "xe_lanh_dao": "Xe lãnh đạo",
   "xe_may": "Xe máy",
   "xe_o_to": "Ô tô",
-  "chia_se":"Chia sẻ",
-  "chia_se_cung_he_thong":"Chia sẻ cùng hệ thống",
-  "chia_se_ngoai_he_thong":"Chia sẻ ngoài hệ thống",
-  "chon_nhom":"Chọn nhóm",
-  "thoi_gian_bat_dau" : "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
-  "tu_choi_ky_thuat": "Từ chối kỹ thuật"
+  "chia_se": "Chia sẻ",
+  "chia_se_cung_he_thong": "Chia sẻ cùng hệ thống",
+  "chia_se_ngoai_he_thong": "Chia sẻ ngoài hệ thống",
+  "chon_nhom": "Chọn nhóm",
+  "thoi_gian_bat_dau": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+  "tu_choi_ky_thuat": "Từ chối kỹ thuật",
+  "ban_co_chac_chan_muon_xoa_cong_viec_nay": "Bạn có chắc chắn muốn móa vĩnh viễn công việc này"
 }

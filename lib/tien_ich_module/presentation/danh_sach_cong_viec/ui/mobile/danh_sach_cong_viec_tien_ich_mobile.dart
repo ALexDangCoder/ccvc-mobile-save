@@ -190,6 +190,29 @@ class _DanhSachCongViecTienIchMobileState
                                                 );
                                               }
                                             },
+                                            onThuHoi: () {
+                                              cubit.editWork(
+                                                todo: todo,
+                                                inUsed: !(todo.inUsed ?? false),
+                                              );
+                                            },
+                                            onXoaVinhVien: () {
+                                              showDiaLog(
+                                                context,
+                                                funcBtnRight: () {
+                                                  cubit.xoaCongViecVinhVien(
+                                                      todo.id ?? '');
+                                                },
+                                                icon: SvgPicture.asset(
+                                                  ImageAssets.icDeleteLichHop,
+                                                ),
+                                                title: S.current.xoa_cong_viec,
+                                                textContent: S.current
+                                                    .ban_co_chac_chan_muon_gui_mai_nay,
+                                                btnLeftTxt: S.current.huy,
+                                                btnRightTxt: S.current.xoa,
+                                              );
+                                            },
                                             enabled: !(todo.isTicked ?? true),
                                             isDaBiXoa: dataType == DBX,
                                             cubit: cubit,

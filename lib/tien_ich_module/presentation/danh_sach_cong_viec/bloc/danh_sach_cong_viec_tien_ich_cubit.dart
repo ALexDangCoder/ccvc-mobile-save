@@ -514,6 +514,19 @@ class DanhSachCongViecTienIchCubit
     showContent();
   }
 
+  ///xóa cong viec
+  Future<void> xoaCongViecVinhVien(String idCv) async {
+    showLoading();
+    final result = await tienIchRep.xoaCongViec(idCv);
+    result.when(
+      success: (res) {
+        callAndFillApiAutu();
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
   void disposs() {
     dateChange = '';
     noteChange = '';

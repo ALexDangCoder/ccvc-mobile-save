@@ -95,7 +95,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
               const SizedBox(
                 width: 13,
               ),
-              Expanded(
+              Flexible(
                 child: !widget.enabled
                     ? Container(
                         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -222,10 +222,10 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
   }
 
   Widget textUnder(String text) => Text(
-    text,
-    overflow: TextOverflow.ellipsis,
-    style: textDetailHDSD(fontSize: 12, color: textTitleColumn),
-  );
+        text,
+        overflow: TextOverflow.ellipsis,
+        style: textDetailHDSD(fontSize: 12, color: textTitleColumn),
+      );
 
   Widget circleWidget() => Container(
         margin: const EdgeInsets.only(left: 8, top: 4),

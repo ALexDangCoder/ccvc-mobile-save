@@ -66,7 +66,7 @@ class PageData {
 
   BirthdayModel toModel() =>
       BirthdayModel(
-        tenNguoiGui: tenNguoiGui ?? '',
+        tenNguoiGui: tenNguoiGui?.split('T')[0] ?? '',
         avatar: avatar ?? '',
         loiChuc: loiChuc ?? '',
         ngayGuiLoiChuc: ngayGuiLoiChuc ?? '',

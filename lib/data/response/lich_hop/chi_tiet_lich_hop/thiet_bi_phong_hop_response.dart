@@ -50,5 +50,6 @@ class Data {
         trangThai: trangThai ?? 0,
         loaiThietBi: tenThietBi ?? '',
         soLuong: soLuong ?? '0',
+        id: id ?? '',
       );
 }

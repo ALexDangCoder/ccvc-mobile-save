@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/domain/model/account/permission_menu_model.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/up_load_anh_model.dart';
+import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
 import 'package:ccvc_mobile/domain/model/home/pham_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 
@@ -22,6 +23,11 @@ mixin AccountRepository {
   );
 
   Future<Result<List<TinhHuyenXaModel>>> getData();
+
+  Future<Result<List<BirthdayModel>>> getListBirthday(
+    int pageSize,
+    int pageIndex,
+  );
 
   Future<Result<List<TinhHuyenXaModel>>> getDataChild(
     String parentId,
@@ -48,6 +54,7 @@ mixin AccountRepository {
     String password,
     String repeatPassword,
   );
+
   Future<Result<ForgotPasswordModel>> forgotPassword(String email);
 
   Future<Result<List<PermissionMenuModel>>> getPermissionMenu();

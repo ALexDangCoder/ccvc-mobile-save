@@ -187,6 +187,13 @@ void configureDependencies() {
     ),
   );
   Get.put<DiemDanhRepository>(DiemDanhRepoImpl(Get.find()));
+
+  Get.put(
+    ReportService(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+  Get.put<ReportRepository>(ReportImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;

@@ -23,6 +23,7 @@ import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/appbar/app_bar_default_back.dart';
 import 'package:ccvc_mobile/widgets/button/button_bottom.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +41,30 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _cubit = ProviderWidget.of<TaoLichHopCubit>(context).cubit;
+    _cubit = ProviderWidget
+        .of<TaoLichHopCubit>(context)
+        .cubit;
+    _cubit.isLichTrung.listen((value) {
+      if (value) {
+        showDiaLog(context, title: S.current.lich_trung,
+          textContent: S.current.ban_co_muon_tiep_tuc_khong,
+          icon: ImageAssets.svgAssets(ImageAssets.ic_trung_hop),
+          btnRightTxt: S.current.dong_y,
+          btnLeftTxt: S.current.khong,
+          isCenterTitle: true,
+          funcBtnRight: (){
+            Navigator.pop(context);
+            _cubit.createMeeting(context);
+          },);
+      }
+    });
   }
 
   @override
@@ -277,7 +299,7 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                   ExpandGroup(
                     child: Column(
                       children: [
-                        const ThanhPhanThamGiaExpandWidget(),
+                        ThanhPhanThamGiaExpandWidget(cubit: _cubit),
                         ChuongTrinhHopWidget(
                           cubit: _cubit,
                         ),
@@ -291,9 +313,10 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
+
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
-                          _cubit.createMeeting();
+                          _cubit.checkLichTrung(context);
                         }
                       },
                     ),

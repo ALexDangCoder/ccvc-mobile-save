@@ -185,6 +185,7 @@ class _DialogSelectWidgetState extends State<DialogSelectWidget>
         }
         widget.cubit.mangTrangThai = '';
         widget.cubit.loadMoreList.clear();
+        widget.cubit.loaiNhiemVuId='';
         widget.cubit.postDanhSachNhiemVu(
           isNhiemVuCaNhan: false,
           isSortByHanXuLy: true,

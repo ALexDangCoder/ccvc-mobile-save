@@ -17,6 +17,7 @@ class DropDownSearch extends StatefulWidget {
   final String title;
   final Function(int) onChange;
   final String hintText;
+  final String initSelected;
 
   const DropDownSearch({
     Key? key,
@@ -24,6 +25,7 @@ class DropDownSearch extends StatefulWidget {
     this.title = '',
     required this.onChange,
     this.hintText = '',
+    this.initSelected = '',
   }) : super(key: key);
 
   @override
@@ -34,8 +36,13 @@ class _DropDownSearchState extends State<DropDownSearch> {
   final TextEditingController textEditingController = TextEditingController();
   BehaviorSubject<List<String>> searchItemSubject = BehaviorSubject();
   List<String> searchList = [];
-  String select = '';
+  late String select;
 
+  @override
+  void initState() {
+    super.initState();
+    select = widget.initSelected;
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

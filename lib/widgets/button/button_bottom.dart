@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 class ButtonBottom extends StatelessWidget {
   final Function onPressed;
   final String text;
+  final Color? buttonColor;
 
-  const ButtonBottom({Key? key, required this.onPressed, required this.text})
-      : super(key: key);
+  const ButtonBottom({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    this.buttonColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class ButtonBottom extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: Material(
-        color: AppTheme.getInstance().colorField().withOpacity(0.1),
+        color:  buttonColor ?? AppTheme.getInstance().colorField().withOpacity(0.1),
         child: InkWell(
           onTap: () {
             onPressed();

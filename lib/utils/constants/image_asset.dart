@@ -539,6 +539,8 @@ class ImageAssets {
   static const String icArrowDownSvg = '$baseImg/arrow_down_svg.svg';
   static const String icArrowUpSvg = '$baseImg/arrow_up_svg.svg';
   static const String icTimeBaoCaoSvg = '$baseImg/time_bao_cao_svg.svg';
+  static const String ic_trung_hop = '$baseImg/ic_trung_hop.svg';
+
 
   static SvgPicture svgAssets(
     String name, {

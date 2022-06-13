@@ -63,12 +63,6 @@ class _BocBangWidgetState extends State<BocBangWidget> {
           const SizedBox(
             height: 20,
           ),
-          DoubleButtonBottom(
-            title1: S.current.tham_du,
-            title2: S.current.tu_choi,
-            onPressed1: () {},
-            onPressed2: () {},
-          )
         ],
       );
 

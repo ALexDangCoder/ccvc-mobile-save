@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/loai_select_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/tinh_huyen_xa_model.dart';
@@ -18,6 +21,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/it
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/mau_mac_dinh_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/tai_lieu_widget.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/thanh_phan_tham_gia_widget.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/expand_group.dart';
@@ -26,13 +30,13 @@ import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/widgets/thanh_phan_tham_gia/bloc/thanh_phan_tham_gia_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 
 class SuaLichCongTacTrongNuocPhone extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
 
   const SuaLichCongTacTrongNuocPhone({
-    Key? key,
-    required this.cubit,
+    Key? key, required this.cubit,
   }) : super(key: key);
 
   @override
@@ -57,7 +61,11 @@ class _SuaLichCongTacTrongNuocPhoneState
       taoLichLamViecCubit.datNuocSelectModel?.id = event.countryId;
       taoLichLamViecCubit.typeScheduleId = event.typeScheduleId;
       taoLichLamViecCubit.dateEnd = event.dateTo;
+      taoLichLamViecCubit.timeFrom = event.timeFrom;
+      taoLichLamViecCubit.timeEnd = event.timeTo;
       taoLichLamViecCubit.dateFrom = event.dateFrom;
+      taoLichLamViecCubit.dateTimeFrom = event.dateTimeFrom;
+      taoLichLamViecCubit.dateTimeTo = event.dateTimeTo;
       taoLichLamViecCubit.linhVucString = event.linhVuc;
       taoLichLamViecCubit.days = event.days;
       taoLichLamViecCubit.typeRepeat = event.typeRepeat;
@@ -67,7 +75,8 @@ class _SuaLichCongTacTrongNuocPhoneState
       taoLichLamViecCubit.dateRepeat = event.dateRepeat;
 
       taoLichLamViecCubit.scheduleReminder = event.scheduleReminder;
-
+      taoLichLamViecCubit
+          .chiTietLichLamViecModel.scheduleCoperatives=event.scheduleCoperatives;
       tieuDeController.text = event.title ?? '';
       noiDungController.text = event.content ?? '';
       diaDiemController.text = event.location ?? '';
@@ -101,7 +110,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? '';
                       return Text(
-                        'Sửa ${data}',
+                        'Sửa $data',
                         style: textNormalCustom(fontSize: 18, color: textTitle),
                       );
                     }),
@@ -161,6 +170,10 @@ class _SuaLichCongTacTrongNuocPhoneState
                           },
                         ),
                         CupertinoMaterialPicker(
+                           initDateStart:taoLichLamViecCubit.dateTimeFrom?.convertStringToDate(),
+                          initTimeStart: taoLichLamViecCubit.dateTimeFrom?.convertStringToDate(formatPattern: DateFormatApp.dateTimeBackEnd),
+                          initDateEnd: taoLichLamViecCubit.dateTimeTo?.convertStringToDate(),
+                          initTimeEnd: taoLichLamViecCubit.dateTimeTo?.convertStringToDate(formatPattern: DateFormatApp.dateTimeBackEnd),
                           onDateTimeChanged: (
                             String timeStart,
                             String timeEnd,
@@ -199,14 +212,6 @@ class _SuaLichCongTacTrongNuocPhoneState
                         const SizedBox(
                           height: 10,
                         ),
-                        MauMacDinhWidget(
-                          taoLichLamViecCubit: taoLichLamViecCubit,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        // NguoiChuTriWidget(
-                        //     taoLichLamViecCubit: taoLichLamViecCubit),
                         StreamBuilder<List<NguoiChutriModel>>(
                             stream: taoLichLamViecCubit.nguoiChuTri,
                             builder: (context, snapshot) {

@@ -216,6 +216,12 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                                     16,
                                   ),
                                   decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                      right: 28,
+                                      top: 20,
+                                      bottom: 20,
+                                      left: 16,
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.white,

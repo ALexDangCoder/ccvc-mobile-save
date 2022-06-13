@@ -47,18 +47,20 @@ extension TypeData on TypeDataNV {
                         e.ten ?? '',
                         '${Get.find<AppConstants>().baseUrlQLNV}${e.duongDan}',
                         http: true,
-                      )
-                          .then(
-                            (value) => MessageConfig.show(
+                      ).then(
+                        (value) {
+                          if (value == true) {
+                            MessageConfig.show(
                               title: S.current.tai_file_thanh_cong,
-                            ),
-                          )
-                          .onError(
-                            (error, stackTrace) => MessageConfig.show(
+                            );
+                          } else {
+                            MessageConfig.show(
                               title: S.current.tai_file_that_bai,
                               messState: MessState.error,
-                            ),
-                          );
+                            );
+                          }
+                        },
+                      );
                     },
                     child: Text(
                       e.ten ?? '',

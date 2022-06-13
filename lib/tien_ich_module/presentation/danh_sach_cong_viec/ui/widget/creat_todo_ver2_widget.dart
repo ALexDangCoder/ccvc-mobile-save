@@ -56,9 +56,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    widget.cubit.dateChange = '';
-    widget.cubit.noteChange = '';
-    widget.cubit.titleChange = '';
+    widget.cubit.disposs();
   }
 
   @override
@@ -191,10 +189,42 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   title: S.current.them_tai_lieu_dinh_kem,
                   onChange: (files) {
                     if (files.isNotEmpty) {
-                      widget.cubit.uploadFilesWithFile(files[0]);
+                      if (widget.isCreat ?? true) {
+                        widget.cubit.uploadFilesWithFile(files[0]);
+                      } else {
+                        widget.cubit.nameFile.sink.add('');
+                        widget.cubit.uploadFilesWithFile(files[0]).then(
+                              (value) => widget.cubit.editWork(
+                                filePathTodo:
+                                    widget.cubit.nameFile.valueOrNull ?? '',
+                                todo: widget.todo ?? TodoDSCVModel(),
+                              ),
+                            );
+                      }
                     }
                   },
                 ),
+                StreamBuilder<String>(
+                  stream: widget.cubit.nameFile,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data;
+                    if (snapshot.hasData &&
+                        (widget.todo?.showIconFile() ?? true) &&
+                        data != '') {
+                      return FileFromAPIWidget(
+                        data: data ?? '',
+                        onTapDelete: () {
+                          widget.cubit.editWork(
+                            todo: widget.todo ?? TodoDSCVModel(),
+                            filePathTodo: '',
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                const SizedBox(height: 20),
                 ItemTextFieldWidgetDSNV(
                   initialValue: widget.todo?.note ?? '',
                   title: S.current.ghi_chu,
@@ -205,18 +235,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                   maxLine: 8,
                   controller: noteControler,
                 ),
-                StreamBuilder<String>(
-                  stream: widget.cubit.nameFile,
-                  builder: (context, snapshot) {
-                    return ListFileFromAPI(
-                      data: snapshot.data ?? '',
-                      onTap: () {},
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE
                       ? EdgeInsets.zero

@@ -201,7 +201,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           },
                         ).then((value) {
                           if (value == true) {
-                            widget.cubit.initData(id: id);
+                            widget.cubit.initData();
                           } else if (value == null) {
                             return;
                           }
@@ -230,7 +230,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               MessageConfig.show(
                                 title: S.current.xoa_thanh_cong,
                               );
-                              widget.cubit.initData(id: id);
+                              widget.cubit.initData();
                             }).onError((error, stackTrace) {
                               MessageConfig.show(
                                 title: S.current.xoa_that_bai,
@@ -389,7 +389,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                           title: S.current.sua_phien_hop,
                         ).then((value) {
                           if (value == true) {
-                            widget.cubit.initData(id: id);
+                            widget.cubit.initData();
                           } else if (value == null) {
                             return;
                           }
@@ -417,7 +417,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                               MessageConfig.show(
                                 title: S.current.xoa_thanh_cong,
                               );
-                              widget.cubit.initData(id: id);
+                              widget.cubit.initData();
                             }).onError((error, stackTrace) {
                               MessageConfig.show(
                                 title: S.current.xoa_that_bai,

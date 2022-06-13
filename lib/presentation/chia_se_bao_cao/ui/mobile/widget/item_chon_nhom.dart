@@ -90,10 +90,10 @@ class ChonNhomWidget extends StatelessWidget {
             ] else
               SizedBox(
                 height: 40.h,
+                width: 341.w,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: item.listThanhVien?.length ?? 0,
                   itemBuilder: (context, int index) {
                     return Row(

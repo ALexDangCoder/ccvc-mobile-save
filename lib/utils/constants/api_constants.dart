@@ -271,6 +271,8 @@ class ApiConstants {
   static const LIST_REPORT = '/api/Folder/list';
   static const DOASHBOARD_TINH_HINH_XU_LY_PAKN = '/pakn/api/Dashboard/tinh-hinh-xu-ly-pakn';
   static const CHECK_LICH_HOP_TRUNG = '/vpdt/api/MeetingSchedule/check-lich-hop-trung';
+  static const LIST_GROUP_BAO_CAO = '/api/Group/search';
+  static const LIST_THANH_VIEN_BAO_CAO = '/api/users/ingroup';
 }
 
 class ImageConstants {

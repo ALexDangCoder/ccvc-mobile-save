@@ -42,8 +42,10 @@ Future<Result<E>> runCatchingAsync<T, E>(
     res = response;
     return Result.success(map(response));
   } catch (e) {
+
     logger.e(e);
     if (e is DioError) {
+
       return Result.error(NetworkHandler.handleError(e));
     } else {
       return Result.error(

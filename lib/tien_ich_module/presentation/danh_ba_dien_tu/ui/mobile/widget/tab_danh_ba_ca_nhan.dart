@@ -41,7 +41,10 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
               BaseSearchBar(
                 hintText: S.current.tim_kiem_danh_ba,
                 onChange: (value) {
-                  cubit.searchListDanhSach(value.trim());
+                  cubit.debouncer.run(() {
+                    cubit.searchValue = value.trim();
+                    cubit.searchListDanhSach(cubit.searchValue);
+                  });
                 },
               ),
               spaceH20,
@@ -95,7 +98,10 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
               BaseSearchBar(
                 hintText: S.current.tim_kiem_danh_ba,
                 onChange: (value) {
-                  cubit.searchListDanhSach(value.trim());
+                  cubit.debouncer.run(() {
+                    cubit.searchValue = value.trim();
+                    cubit.searchListDanhSach(cubit.searchValue);
+                  });
                 },
               ),
               spaceH20,
@@ -144,7 +150,8 @@ class _DanhBaCaNhanState extends State<DanhBaCaNhan> {
       cubit: cubit,
       sinkWap: true,
       isListView: true,
-      callApi: (page) => {cubit.pageIndex = page, cubit.callApiDanhSach()},
+      callApi: (page) =>
+          {cubit.pageIndex = page, cubit.searchListDanhSach(cubit.searchValue)},
       viewItem: (value, index) => CellListCaNhan(
         item: value as Items,
         index: index ?? 0,

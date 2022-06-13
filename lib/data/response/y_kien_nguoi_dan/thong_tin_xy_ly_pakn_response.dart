@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:ccvc_mobile/domain/model/y_kien_nguoi_dan/thong_tin_xy_ly_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'thong_tin_xy_ly_pakn_response.g.dart';
@@ -44,8 +47,10 @@ class ThongTinXuLyResponse {
   int? doiTuongId;
   @JsonKey(name: 'TenNguoiPhanAnh')
   String? tenNguoiPhanAnh;
-  @JsonKey(name: 'LuongXuLy')
-  String? luongXuLy;
+  // @JsonKey(name: 'LuongXuLy')
+  // String? luongXuLy;
+  @JsonKey(name: 'DonViDuocPhanXuLy')
+  String? donViDuocPhanXuLy;
 
   ThongTinXuLyResponse(
     this.isDuyet,
@@ -60,13 +65,23 @@ class ThongTinXuLyResponse {
     this.linhVucPAKNId,
     this.doiTuongId,
     this.tenNguoiPhanAnh,
-    this.luongXuLy,
+    // this.luongXuLy,
+    this.donViDuocPhanXuLy,
   );
 
   factory ThongTinXuLyResponse.fromJson(Map<String, dynamic> json) =>
       _$ThongTinXuLyResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThongTinXuLyResponseToJson(this);
+
+  List<DonViDuocPhanXuLyModel> convertStringIntoModel(String value) {
+    final List<dynamic> json = jsonDecode(value);
+    List<DonViDuocPhanXuLyModel> listDonViDuocPhanXuLy = [];
+    listDonViDuocPhanXuLy = json != null
+        ? json.map((e) => DonviPhanXuLyResponse.fromJson(e).toModel()).toList()
+        : [];
+    return listDonViDuocPhanXuLy;
+  }
 
   ThongTinXuLyPAKNModel toModel() => ThongTinXuLyPAKNModel(
         isDuyet: isDuyet ?? false,
@@ -81,9 +96,115 @@ class ThongTinXuLyResponse {
         linhVucPAKNId: linhVucPAKNId ?? -1,
         doiTuongId: doiTuongId ?? -1,
         tenNguoiPhanAnh: tenNguoiPhanAnh ?? '',
-        listLuongPAKN:
-            List<LuongXuLyPAKNModel>.from((jsonDecode(luongXuLy ?? '') as Iterable<LuongXuLyResponse>).map((e) => e.toModel()))
+        donViDuocPhanXuLy: convertStringIntoModel(donViDuocPhanXuLy ?? ''),
 
+        // listLuongPAKN:
+        //     List<LuongXuLyPAKNModel>.from((jsonDecode(luongXuLy ?? '') as Iterable<LuongXuLyResponse>).map((e) => e.toModel()))
+      );
+}
+
+const int Luu = 0;
+const int ChoTiepNhan = 1;
+const int ChoChuyenXuLy = 2;
+const int ChoTiepNhanXuLy = 3;
+const int ChoPhanCongXuLy = 4;
+const int ChoDonViDuyet = 5;
+const int ChoDuyet = 6;
+const int ChoChuyenDonVi = 7;
+const int DaHoanThanh = 8;
+const int ChoBoSungThongTin = 9;
+const int TuChoiTiepNhan = 10;
+const int HuyBo = 11;
+const int CanXuLy = 12;
+const int ChoDuyetChuyenDonViXuLy = 13;
+const int ChoXacNhanChuyenDonViXuLy = 14;
+const int HuyTrinh = 15;
+const int HuyDuyet = 16;
+const int ThuHoi = 17;
+const int ChoDuyetYCPH = 18;
+const int ChuyenXuLy = 19;
+const int DaPhanCong = 20;
+const int PhanXuLy = 21;
+const int ChoNguoiDanBoSungThongTin = 22;
+
+@JsonSerializable()
+class DonviPhanXuLyResponse {
+  @JsonKey(name: 'TenDonVi')
+  String? tenDonVi;
+
+  @JsonKey(name: 'VaiTro')
+  String? vaiTro;
+
+  @JsonKey(name: 'TrangThai')
+  int? trangThai;
+
+  @JsonKey(name: 'TaskContent')
+  String? noiDungXuLy;
+
+  DonviPhanXuLyResponse(
+      this.tenDonVi, this.vaiTro, this.trangThai, this.noiDungXuLy);
+
+  factory DonviPhanXuLyResponse.fromJson(Map<String, dynamic> json) =>
+      _$DonviPhanXuLyResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DonviPhanXuLyResponseToJson(this);
+
+  String convertHoatDong(int trangThai) {
+    switch (trangThai) {
+      case Luu:
+        return S.current.luu;
+      case ChoTiepNhan:
+        return S.current.cho_tiep_nhan;
+      case ChoChuyenXuLy:
+        return S.current.cho_chuyen_xu_ly;
+      case ChoTiepNhanXuLy:
+        return S.current.cho_tiep_nhan_xu_ly;
+      case ChoPhanCongXuLy:
+        return S.current.cho_phan_cong_xu_ly;
+      case ChoDonViDuyet:
+        return S.current.cho_don_vi_duyet;
+      case ChoDuyet:
+        return S.current.cho_duyet;
+      case ChoChuyenDonVi:
+        return S.current.cho_chuyen_don_vi;
+      case DaHoanThanh:
+        return S.current.da_hoan_thanh;
+      case ChoBoSungThongTin:
+        return S.current.cho_bo_sung_thong_tin;
+      case TuChoiTiepNhan:
+        return S.current.tu_choi_tiep_nhan;
+      case HuyBo:
+        return S.current.huy_bo;
+      case CanXuLy:
+        return S.current.can_xu_ly;
+      case ChoDuyetChuyenDonViXuLy:
+        return S.current.cho_duyet_chuyen_dv_xu_ly;
+      case ChoXacNhanChuyenDonViXuLy:
+        return S.current.cho_xndvxl;
+      case HuyTrinh:
+        return S.current.huy_trinh;
+      case HuyDuyet:
+        return S.current.huy_duyet;
+      case ThuHoi:
+        return S.current.thu_hoi;
+      case ChoDuyetYCPH:
+        return S.current.cho_dycph;
+      case ChuyenXuLy:
+        return S.current.chuyen_xu_ly;
+      case DaPhanCong:
+        return S.current.da_phan_cong;
+      case PhanXuLy:
+        return S.current.phan_xu_ly;
+      default:
+        return S.current.cho_nguoi_dan_bo_sung_thong_tin;
+    }
+  }
+
+  DonViDuocPhanXuLyModel toModel() => DonViDuocPhanXuLyModel(
+        noiDungXuLy: (noiDungXuLy ?? '').parseHtml(),
+        tenDonVi: tenDonVi ?? '',
+        vaiTro: vaiTro ?? '',
+        hoatDong: convertHoatDong(trangThai ?? 0),
       );
 }
 

@@ -180,6 +180,18 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
     );
   }
 
+
+  @override
+  Future<Result<ThongTinXuLyPAKNModel>> thongTinXuLyPAKN(
+      String KienNghiId, String TaskId) {
+    return runCatchingAsync<ThongTinXuLyTotalResponse, ThongTinXuLyPAKNModel>(
+          () => _yKienNguoiDanService.thongTinXuLyPAKN(ChiTietKienNghiRequest(kienNghiId: KienNghiId, taskId: TaskId)),
+          (res) =>
+      res.thongTinXuLyResponse?.toModel() ??
+          ThongTinXuLyPAKNModel.seeded(),);
+  }
+
+
   @override
   Future<Result<ThongKeYKNDModel>> baoCaoYKienNguoiDan(
     String startDate,
@@ -376,13 +388,5 @@ class YKienNguoiDanImpl implements YKienNguoiDanRepository {
         (res) => res.data?.toDomain() ?? DocumentDashboardModel());
   }
 
-  @override
-  Future<Result<ThongTinXuLyPAKNModel>> thongTinXuLyPAKN(
-      String KienNghiId, String TaskId) {
-    return runCatchingAsync<ThongTinXuLyTotalResponse, ThongTinXuLyPAKNModel>(
-        () => _yKienNguoiDanService.thongTinXuLyPAKN(KienNghiId, TaskId),
-        (res) =>
-            res.thongTinXuLyResponse?.toModel() ??
-            ThongTinXuLyPAKNModel.seeded(),);
-  }
+
 }

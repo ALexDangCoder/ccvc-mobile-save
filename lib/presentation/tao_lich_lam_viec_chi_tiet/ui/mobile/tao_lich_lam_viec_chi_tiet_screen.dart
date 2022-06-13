@@ -305,7 +305,7 @@ class _TaoLichLamViecChiTietScreenState
                           ThanhPhanThamGiaTLWidget(
                             taoLichLamViecCubit: taoLichLamViecCubit,
                           ),
-                          const TaiLieuWidget(),
+                           TaiLieuWidget(),
                           Row(
                             children: [
                               Expanded(

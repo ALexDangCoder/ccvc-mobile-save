@@ -161,6 +161,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   String? dateRepeat;
   ScheduleReminder? scheduleReminder;
   bool? publishSchedule;
+  List<Files>? files;
   ChiTietLichLamViecModel chiTietLichLamViecModel = ChiTietLichLamViecModel();
   final toast = FToast();
 

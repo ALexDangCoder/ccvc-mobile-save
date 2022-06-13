@@ -338,7 +338,7 @@ class _TaoLichLamViecChiTietTabletState
                                     ThanhPhanThamGiaTLWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                     ),
-                                    const TaiLieuWidget(),
+                                     TaiLieuWidget(),
                                   ],
                                 ),
                               ),

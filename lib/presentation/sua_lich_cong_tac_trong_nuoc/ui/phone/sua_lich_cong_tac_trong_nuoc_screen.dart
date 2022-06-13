@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/chi_tiet_lich_lam_viec/chi_tiet_lich_lam_viec_model.dart';
@@ -85,6 +87,7 @@ class _SuaLichCongTacTrongNuocPhoneState
     } else {
       taoLichLamViecCubit.checkTrongNuoc.sink.add(false);
     }
+    taoLichLamViecCubit.files = widget.event.files;
     taoLichLamViecCubit.loadData();
     super.initState();
   }
@@ -324,7 +327,7 @@ class _SuaLichCongTacTrongNuocPhoneState
                         TextFieldStyle(
                           controller: diaDiemController,
                           urlIcon: ImageAssets.icViTri,
-                          hintText: S.current.ubnd_tinh_dong_nai,
+                          hintText: S.current.dia_diem,
                           onChange: (vl) {
                             taoLichLamViecCubit.location = vl;
                           },
@@ -432,7 +435,9 @@ class _SuaLichCongTacTrongNuocPhoneState
                           listPeopleInit: taoLichLamViecCubit
                               .chiTietLichLamViecModel.scheduleCoperatives,
                         ),
-                        const TaiLieuWidget(),
+                         TaiLieuWidget(
+                           files: (taoLichLamViecCubit.files ?? []).map((e) => File(e.path ?? '')).toList(),
+                         ),
                       ],
                     ),
                   ),

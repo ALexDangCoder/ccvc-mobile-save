@@ -18,6 +18,7 @@ Future<bool> saveFile(
     const String dir = '/storage/emulated/0/Download';
     final request = await httpClient.getUrl(Uri.parse(data));
     final responses = await request.close();
+    print(responses.statusCode);
     if (responses.statusCode == 200) {
       final bytes = await consolidateHttpClientResponseBytes(responses);
       if (Platform.isAndroid) {

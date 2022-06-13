@@ -104,8 +104,9 @@ class PeopleThamGiaWidget extends StatelessWidget {
   }
 
   Widget textField({required Function(String) onChange}) {
-    return TextField(
+    return TextFormField(
       style: textNormal(color3D5586, 14.0.textScale()),
+      initialValue: donVi.noidung,
       onChanged: (value) {
         onChange(value);
       },

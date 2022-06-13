@@ -16,6 +16,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_ba_dien_tu/widget/
 import 'package:ccvc_mobile/tien_ich_module/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
   treeDanhBaDienTu dataTypeTree = treeDanhBaDienTu();
 
   List<TreeDonViDanhBA> listTreeDanhBa = [];
-
+  Debouncer debouncer = Debouncer();
   final List<String> _listId = [];
   final List<String> _listParent = [];
   int levelTree = 0;
@@ -39,6 +40,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
       BehaviorSubject.seeded(S.current.UBND_tinh_dong_nai);
   BehaviorSubject<String> idDonVi = BehaviorSubject();
   BehaviorSubject<String> isCheckValidate = BehaviorSubject.seeded('  ');
+  String searchValue = '';
 
   ////////////////////////////////////////////////////////////////////////
   DanhBaDienTuRepository get tienIchRep => Get.find();
@@ -105,8 +107,8 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
     }
   }
 
-  void searchListDanhSach(String keyword) {
-    searchListDanhBaCaNhan(
+  Future<void> searchListDanhSach(String keyword) async {
+    await searchListDanhBaCaNhan(
       pageIndex: pageIndex,
       pageSize: pageSize,
       keyword: keyword,

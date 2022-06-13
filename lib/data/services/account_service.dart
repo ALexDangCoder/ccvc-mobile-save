@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/data/response/account/login_response.dart';
 import 'package:ccvc_mobile/data/response/account/permission_menu_response.dart';
 import 'package:ccvc_mobile/data/response/account/tinh_huyen_xa/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/response/edit_person_information/edit_person_information_response.dart';
+import 'package:ccvc_mobile/data/response/home/list_birthday_response.dart';
 import 'package:ccvc_mobile/data/response/home/pham_vi_response.dart';
 import 'package:ccvc_mobile/data/response/lich_lam_viec/chinh_sua_bao_cao_ket_qua_response.dart';
 import 'package:ccvc_mobile/data/response/manager_personal_information/manager_personal_information_response.dart';
@@ -44,6 +45,7 @@ abstract class AccountService {
   Future<UpLoadAnhResponse> uploadFile(
     @Part() File File,
   );
+
 
   @GET(ApiConstants.GET_TINH_HUYEN_XA)
   Future<TinhHuyenXaResponse> getData();
@@ -81,6 +83,13 @@ abstract class AccountServiceGateWay {
   @POST(ApiConstants.CHUYEN_PHAM_VI)
   Future<LoginResponse> chuyenPhamVi(
       @Body() ChuyenPhamViRequest chuyenPhamViRequest);
+
+
+  @GET(ApiConstants.GET_BIRTHDAY)
+  Future<ListBirthDayResponse> getListBirthday(
+      @Query('pageSize') int pageSize,
+      @Query('pageIndex') int pageIndex,
+      );
 }
 
 @RestApi()

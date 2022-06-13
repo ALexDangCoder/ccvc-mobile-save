@@ -48,7 +48,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ContainerToggleWidget(
-            key: UniqueKey(),
             showDivider: false,
             initData: isHopTrucTiep,
             title: S.current.hop_truc_tiep,
@@ -80,7 +79,6 @@ class _HinhThucHopState extends State<HinhThucHop> {
           ],
           spaceH5,
           ContainerToggleWidget(
-            key: UniqueKey(),
             initData: isHopTrucTuyen,
             title: S.current.hop_truc_tuyen,
             onChange: (value) {
@@ -189,10 +187,10 @@ class _HinhThucHopState extends State<HinhThucHop> {
           TitleChildWidget(
             title: S.current.ky_thuat,
             child: ContainerToggleWidget(
-              key: UniqueKey(),
               initData: isDuyetKyThuat,
               title: S.current.duyet_ky_thuat,
               onChange: (value) {
+                isDuyetKyThuat = value;
                 widget.cubit.taoLichHopRequest.isDuyetKyThuat = value;
               },
             ),

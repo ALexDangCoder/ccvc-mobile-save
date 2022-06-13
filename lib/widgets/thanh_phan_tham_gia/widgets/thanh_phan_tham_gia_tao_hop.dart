@@ -102,14 +102,18 @@ class ItemPeopleThamGia extends StatelessWidget {
                   child: SvgPicture.asset(ImageAssets.icDeleteRed),
                 ),
                 spaceW12,
-                GestureDetector(
-                  onTap: () {
-                    cubit.deletePeopleThamGia(donVi);
+                StreamBuilder<bool>(
+                  stream: cubit.phuongThucNhanStream,
+                  builder: (context, snapshot) {
+                    final bool isChecked = snapshot.data ?? false;
+                    return CusCheckBox(
+                      isChecked: isChecked,
+                      // enable: false,
+                      onChange: (value) {
+
+                      },
+                    );
                   },
-                  child: CusCheckBox(
-                    isChecked: isSendEmail,
-                    onChange: (value) {},
-                  ),
                 ),
               ],
             ),

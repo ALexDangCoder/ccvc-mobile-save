@@ -196,101 +196,131 @@ class _PhienDichTuDongTabletState extends State<PhienDichTuDongTablet> {
                           )
                         ],
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Stack(
                         children: [
-                          //input
-                          Expanded(
-                            child: TextField(
-                              controller: textEditingController,
-                              onChanged: (String value) {
-                                debouncer.run(() {
-                                  cubit.translateDocument(document: value);
-                                });
-                                cubit.lengthTextSubject.add(value.length);
-                              },
-                              style: textNormal(
-                                infoColor,
-                                16,
-                              ),
-                              decoration: const InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                counterText: '',
-                              ),
-                              maxLines: null,
-                              maxLength: 5000,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                //mic
-                                if (Platform.isAndroid)
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: speech.isListening
-                                        ? stopListening
-                                        : startListening,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(3),
-                                      child: SvgPicture.asset(
-                                        ImageAssets.icVoiceMini,
-                                        color: speech.isListening
-                                            ? AppTheme.getInstance()
-                                                .colorField()
-                                            : textBodyTime,
-                                      ),
-                                    ),
-                                  ),
-                                if (Platform.isIOS)
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: isListening
-                                        ? stopListening
-                                        : startListening,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(
-                                        3,
-                                      ),
-                                      child: SvgPicture.asset(
-                                        ImageAssets.icVoiceMini,
-                                        color: isListening
-                                            ? AppTheme.getInstance()
-                                                .colorField()
-                                            : textBodyTime,
-                                      ),
-                                    ),
-                                  ),
-                                StreamBuilder<int>(
-                                  stream: cubit.lengthTextStream,
-                                  builder: (context, snapshot) {
-                                    final count = snapshot.data ?? 0;
-                                    return Text(
-                                      '$count/5000',
-                                      style: textNormal(
-                                        iconColorDown,
-                                        14,
-                                      ),
-                                    );
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              //input
+                              Expanded(
+                                child: TextField(
+                                  controller: textEditingController,
+                                  onChanged: (String value) {
+                                    debouncer.run(() {
+                                      cubit.translateDocument(document: value);
+                                    });
+                                    cubit.lengthTextSubject.add(value.length);
                                   },
-                                )
-                              ],
-                            ),
+                                  style: textNormal(
+                                    infoColor,
+                                    16,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    counterText: '',
+                                  ),
+                                  maxLines: null,
+                                  maxLength: 5000,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    //mic
+                                    if (Platform.isAndroid)
+                                      GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: speech.isListening
+                                            ? stopListening
+                                            : startListening,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(3),
+                                          child: SvgPicture.asset(
+                                            ImageAssets.icVoiceMini,
+                                            color: speech.isListening
+                                                ? AppTheme.getInstance()
+                                                    .colorField()
+                                                : textBodyTime,
+                                          ),
+                                        ),
+                                      ),
+                                    if (Platform.isIOS)
+                                      GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: isListening
+                                            ? stopListening
+                                            : startListening,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(
+                                            3,
+                                          ),
+                                          child: SvgPicture.asset(
+                                            ImageAssets.icVoiceMini,
+                                            color: isListening
+                                                ? AppTheme.getInstance()
+                                                    .colorField()
+                                                : textBodyTime,
+                                          ),
+                                        ),
+                                      ),
+                                    StreamBuilder<int>(
+                                      stream: cubit.lengthTextStream,
+                                      builder: (context, snapshot) {
+                                        final count = snapshot.data ?? 0;
+                                        return Text(
+                                          '$count/5000',
+                                          style: textNormal(
+                                            iconColorDown,
+                                            14,
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ),
+                              spaceH20,
+                            ],
                           ),
-                          spaceH20,
+                          StreamBuilder<String>(
+                            stream: cubit.textTranslateSubject,
+                            builder: (context, snapshot) {
+                              final isNotEmpty = (snapshot.data ?? '').isNotEmpty;
+                              return isNotEmpty
+                                  ? Positioned(
+                                top: 10,
+                                right: 5,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    textEditingController.clear();
+                                    cubit.lengthTextSubject.sink.add(0);
+                                    cubit.textTranslateSubject.add('');
+                                  },
+                                  child: ImageAssets.svgAssets(
+                                    ImageAssets.icX,
+                                    width: 25,
+                                    height: 25,
+                                    fit: BoxFit.cover,
+                                    color: textBodyTime.withOpacity(0.5),
+                                  ),
+                                ),
+                              )
+                                  : const SizedBox.shrink();
+                            },
+                          ),
                         ],
                       ),
                     ),

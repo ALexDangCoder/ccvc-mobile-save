@@ -29,6 +29,12 @@ class _CusCheckBoxState extends State<CusCheckBox> {
   }
 
   @override
+  void didUpdateWidget(covariant CusCheckBox oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    value = widget.isChecked;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,

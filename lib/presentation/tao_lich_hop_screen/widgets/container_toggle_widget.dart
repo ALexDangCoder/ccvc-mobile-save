@@ -66,6 +66,13 @@ class _CustomToggleState extends State<CustomToggle> {
   }
 
   @override
+  void didUpdateWidget(covariant CustomToggle oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    isCheck = widget.initValue;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomSwitch(
       value: isCheck,

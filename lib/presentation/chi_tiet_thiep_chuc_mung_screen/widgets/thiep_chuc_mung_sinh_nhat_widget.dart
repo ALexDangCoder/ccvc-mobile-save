@@ -1,11 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_thiep_chuc_mung_screen/widgets/thiep_back_ground_widget.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class ThiepChucMungSinhNhatWidget extends StatelessWidget {
-  const ThiepChucMungSinhNhatWidget({Key? key}) : super(key: key);
+  const ThiepChucMungSinhNhatWidget({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+  final BirthdayModel data;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +39,27 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
                       height: 72.0.textScale(space: 48),
                       width: 72.0.textScale(space: 48),
                       decoration: const BoxDecoration(
-                          color: Colors.red, shape: BoxShape.circle),
+                        shape: BoxShape.circle,
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      child: CachedNetworkImage(
+                        imageUrl: data.avatar,
+                        fit: BoxFit.cover,
+                        errorWidget:
+                            (context, url, error) =>
+                            Container(
+                              color: Colors.black,
+                              child: Image.asset(
+                                ImageAssets.anhDaiDienMacDinh,
+                              ),
+                            ),
+                      ),
                     ),
                     const SizedBox(
                       height: 16,
                     ),
                     Text(
-                      'Cao Tiến Dũng',
+                      data.tenNguoiGui,
                       style: textNormalCustom(
                           fontSize: 16.0.textScale(space: 4), color: textTitle),
                     ),
@@ -45,7 +67,7 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
                       height: 4,
                     ),
                     Text(
-                      'Gửi thiệp mừng',
+                      S.current.gui_thiep_mung,
                       style: textNormal(color667793, 14.0.textScale()),
                     )
                   ],
@@ -60,7 +82,7 @@ class ThiepChucMungSinhNhatWidget extends StatelessWidget {
                 border: Border(
                     top: BorderSide(color: borderColor.withOpacity(0.5)))),
             child: Text(
-              "Chúc em tuổi mới thành công! Gặp nhiều may mắn trong cuộc sống!",
+              data.loiChuc,
               style: textNormal(color3D5586, 14.0.textScale(space: 4)),
               textAlign: TextAlign.center,
             ),

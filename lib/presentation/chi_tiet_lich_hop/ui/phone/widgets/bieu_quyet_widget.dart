@@ -63,7 +63,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                   itemCount: _list.length,
                   itemBuilder: (context, index) {
                     return CellBieuQuyet(
-                      infoModel: _list[index],
+                      infoModel: _list[index], cubit: widget.cubit,
                     );
                   },
                 );
@@ -80,3 +80,4 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
     );
   }
 }
+

@@ -97,7 +97,7 @@ class SelectDonViCell extends StatelessWidget {
         children: List.generate(listSelect.length + 1, (index) {
           if (index == listSelect.length) {
             return Container(
-              width: 200,
+              width: double.infinity,
               color: Colors.transparent,
               child: TextField(
                 onSubmitted: onSubmitted,

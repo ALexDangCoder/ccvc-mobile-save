@@ -2,9 +2,12 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/bloc/tao_lich_lam_viec_cubit.dart';
+import 'package:ccvc_mobile/utils/debouncer.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
-import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_date_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ItemLapDenNgayWidget extends StatefulWidget {
   final TaoLichLamViecCubit taoLichLamViecCubit;
@@ -23,6 +26,9 @@ class ItemLapDenNgayWidget extends StatefulWidget {
 }
 
 class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
+  late AnimationController? expandController;
+  bool isShowDatePicker = false;
+  final Debouncer deboucer = Debouncer();
   @override
   void initState() {
     super.initState();
@@ -46,37 +52,70 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        CupertinoRoundedDatePickerWidget.show(
-                          context,
-                          minimumYear: 2022,
-                          maximumYear: 2060,
-                          initialDate: DateTime.now(),
-                          onTap: (dateTime) async {
-                            widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-                                dateTime;
-                            widget.taoLichLamViecCubit.changeDateTimeSubject
-                                .add(dateTime);
-                            Navigator.pop(context);
-                          },
-                        );
+                        isShowDatePicker = !isShowDatePicker;
+                        setState(() {});
                       },
                       child: StreamBuilder<DateTime>(
                         stream: widget
                             .taoLichLamViecCubit.changeDateTimeSubject.stream,
                         builder: (context, snapshot) {
-                          return Text(
-                            widget.taoLichLamViecCubit.dateTimeLapDenNgay
-                                .toStringWithListFormat,
-                            style: textNormal(color3D5586, 16.0),
+                          return Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+                                Text(
+                                  widget.taoLichLamViecCubit.dateTimeLapDenNgay
+                                      .toStringWithListFormat,
+                                  style: textNormal(color3D5586, 16.0),
+                                ),
+                                spaceW10,
+                                RotatedBox(
+                                  quarterTurns:isShowDatePicker?0: 2,
+                                  child:  SvgPicture.asset(ImageAssets.icDropDown),
+                                )
+
+                              ],
+                            ),
                           );
                         },
                       ),
                     ),
+
                   ],
                 ),
-                const Divider(
-                  thickness: 1,
-                  color: colorECEEF7,
+                AnimatedContainer(
+                  duration: const Duration(
+                    milliseconds: 300,
+                  ),
+                  height: isShowDatePicker ? 200 : 1,
+                  child: isShowDatePicker
+                      ? CupertinoDatePicker(
+                    maximumDate: DateTime(2099, 12, 30),
+                    maximumYear: 2099,
+                    minimumYear: DateTime.now().year,
+                    backgroundColor: backgroundColorApp,
+                    mode: CupertinoDatePickerMode.date,
+                    use24hFormat: true,
+                    initialDateTime:widget.initDate,
+                    onDateTimeChanged: (value) {
+                      deboucer.run(() {
+                        widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+                            value;
+                        widget.taoLichLamViecCubit.changeDateTimeSubject
+                            .add(value);
+                        setState(() {});
+                      });
+                    },
+                  )
+                      : const SizedBox.shrink(),
+                ),
+                Visibility(
+                  visible: !isShowDatePicker,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 11),
+                    height: 1,
+                    color: colorA2AEBD.withOpacity(0.1),
+                  ),
                 ),
               ],
             ),
@@ -94,30 +133,29 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        CupertinoRoundedDatePickerWidget.show(
-                          context,
-                          minimumYear: 2022,
-                          maximumYear: 2060,
-                          initialDate: widget.initDate,
-                          onTap: (dateTime) async {
-                            widget.taoLichLamViecCubit.dateTimeLapDenNgay =
-                                dateTime;
-                            widget.taoLichLamViecCubit.changeDateTimeSubject
-                                .add(dateTime);
-                            Navigator.pop(context);
-                          },
-                        );
+                        isShowDatePicker = !isShowDatePicker;
+                        setState(() {});
                       },
                       child: StreamBuilder<DateTime>(
                         stream: widget
                             .taoLichLamViecCubit.changeDateTimeSubject.stream,
                         builder: (context, snapshot) {
-                          return Text(
-                            widget.taoLichLamViecCubit.dateTimeLapDenNgay
-                                .toStringWithListFormat,
-                            style: textNormal(
-                              color3D5586,
-                              16.0,
+                          return Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+                                Text(
+                                  widget.taoLichLamViecCubit.dateTimeLapDenNgay
+                                      .toStringWithListFormat,
+                                  style: textNormal(color3D5586, 16.0),
+                                ),
+                                spaceW10,
+                                RotatedBox(
+                                  quarterTurns:isShowDatePicker?0: 2,
+                                  child:  SvgPicture.asset(ImageAssets.icDropDown),
+                                )
+
+                              ],
                             ),
                           );
                         },
@@ -125,9 +163,39 @@ class _ItemLapDenNgayWidgetState extends State<ItemLapDenNgayWidget> {
                     ),
                   ],
                 ),
-                const Divider(
-                  thickness: 1,
-                  color: colorECEEF7,
+                AnimatedContainer(
+                  duration: const Duration(
+                    milliseconds: 300,
+                  ),
+                  height: isShowDatePicker ? 200 : 1,
+                  child: isShowDatePicker
+                      ? CupertinoDatePicker(
+                    maximumDate: DateTime(2099, 12, 30),
+                    maximumYear: 2099,
+                    minimumYear: DateTime.now().year,
+                    backgroundColor: backgroundColorApp,
+                    mode: CupertinoDatePickerMode.date,
+                    use24hFormat: true,
+                    initialDateTime:widget.initDate,
+                    onDateTimeChanged: (value) {
+                      deboucer.run(() {
+                        widget.taoLichLamViecCubit.dateTimeLapDenNgay =
+                            value;
+                        widget.taoLichLamViecCubit.changeDateTimeSubject
+                            .add(value);
+                        setState(() {});
+                      });
+                    },
+                  )
+                      : const SizedBox.shrink(),
+                ),
+                Visibility(
+                  visible: !isShowDatePicker,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 11),
+                    height: 1,
+                    color: colorA2AEBD.withOpacity(0.1),
+                  ),
                 ),
               ],
             ),

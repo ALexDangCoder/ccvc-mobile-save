@@ -112,6 +112,5 @@ abstract class HomeRepository {
       bool isDonVi);
 
   Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(
-      bool isGetAll,int pageSize, int pageIndex,);
-
+      bool isGetAll,int pageSize, int pageIndex,String keySearch,);
 }

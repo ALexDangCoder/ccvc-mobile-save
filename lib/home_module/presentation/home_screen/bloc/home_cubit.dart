@@ -15,7 +15,6 @@ import 'package:ccvc_mobile/home_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/home_module/utils/extensions/string_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -326,6 +325,12 @@ class DanhSachCongViecCubit extends HomeCubit {
   final BehaviorSubject<TodoListModel> _getTodoList =
       BehaviorSubject<TodoListModel>();
   String id = '';
+  int pageIndex = 1;
+  int totalPage = 1;
+  int totalItem = 1;
+  bool isSearching = false;
+  final List<String> danhSachTenNguoiGan=[];
+  final List<TodoModel> danhSachNguoiGan=[];
 
   DanhSachCongViecCubit() {
     id = HiveLc.HiveLocal.getDataUser()?.userInformation?.id ?? '';
@@ -367,7 +372,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     final queue = Queue(parallel: 2);
     unawaited(
       queue.add(
-        () => getListNguoiGan(true,9999,1),
+        () => getListNguoiGan(true, 5),
       ),
     );
     // await queue.add(
@@ -375,6 +380,12 @@ class DanhSachCongViecCubit extends HomeCubit {
     // );
     await queue.add(
       () => getToDoList(),
+
+    );
+
+    await queue.add(
+          () => getToDoList(),
+
     );
     unawaited(queue.onComplete.then((_) => showContent()));
     queue.dispose();
@@ -552,6 +563,7 @@ class DanhSachCongViecCubit extends HomeCubit {
     showContent();
     result.when(
       success: (res) {
+        danhSachNguoiGan.addAll(res.listTodoImportant);
         _getTodoList.sink.add(res);
       },
       error: (err) {},
@@ -588,21 +600,30 @@ class DanhSachCongViecCubit extends HomeCubit {
     }
   }
 
-  // loadDataStatic() async {
-  //   print(await compute(getListNguoiGan, " "));
-  // }
-
   Future<void> getListNguoiGan(
-      bool isGetAll, int pageSize, int pageIndex) async {
+    bool isGetAll,
+    int pageSize, {
+    String? keySearch,
+    bool notLoadMore = false,
+  }) async {
     showLoading();
     final result = await homeRep.listNguoiGanCongViec(
       isGetAll,
       pageSize,
       pageIndex,
+      keySearch ?? '',
     );
     result.when(
       success: (res) {
+        isSearching = false;
+        if (notLoadMore) {
+          listNguoiGan.clear();
+          inforCanBo.clear();
+          isSearching = true;
+        }
         showContent();
+        totalPage = res.totalPage ?? 0;
+        totalItem = res.totalCount ?? 1;
         listNguoiGan = res.items;
         for (final element in listNguoiGan) {
           final List<String> inforDisPlay = [];
@@ -647,14 +668,35 @@ class DanhSachCongViecCubit extends HomeCubit {
     _danhSachNguoiGan.sink.add(resultSearch);
   }
 
-  String getName(String id) {
-    const String name = '';
-    for (final element in listNguoiGan) {
-      if (element.id == id) {
-        return element.hoTen;
-      }
+  Future<void> getListNameCanBo() async{
+    danhSachNguoiGan.forEach((element) {
+      String name='';
+      getName(element.performer??'').then((value) =>name=value);
+       danhSachTenNguoiGan.add(name);
+    });
+  }
+
+  Future<String> getName(String id) async {
+    String nameCanbo = '';
+    if (id.isEmpty) {
+      return nameCanbo;
     }
-    return name;
+    final result = await homeRep.listNguoiGanCongViec(
+      true,
+      10,
+      pageIndex,
+      id,
+    );
+    result.when(
+      success: (res) {
+        if (res.items.isEmpty) {
+          return nameCanbo;
+        }
+        nameCanbo = res.items.first.hoTen;
+      },
+      error: (err) {},
+    );
+    return nameCanbo;
   }
 }
 

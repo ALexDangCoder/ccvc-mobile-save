@@ -1,7 +1,15 @@
 class NguoiGanCongViecModel {
   List<ItemNguoiGanModel> items;
+  int? pageIndex;
+  int? pageSize;
+  int? totalCount;
+  int? totalPage;
   NguoiGanCongViecModel({
     required this.items,
+    this.totalPage=0,
+    this.pageSize=0,
+    this.pageIndex=0,
+    this.totalCount=0,
   });
 }
 

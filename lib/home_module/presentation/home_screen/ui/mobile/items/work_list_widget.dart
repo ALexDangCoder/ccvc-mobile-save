@@ -89,8 +89,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                     children: List.generate(data.length, (index) {
                       final todo = data[index];
                       return CongViecCell(
-                        nguoiGan: danhSachCVCubit
-                            .getName(data[index].performer ?? ''),
+                        nguoiGan:danhSachCVCubit.danhSachTenNguoiGan[index],
                         text: todo.label ?? '',
                         todoModel: todo,
                         onCheckBox: (value) {
@@ -159,8 +158,7 @@ class _WorkListWidgetState extends State<WorkListWidget> {
                         children: List.generate(data.length, (index) {
                           final todo = data[index];
                           return CongViecCell(
-                            nguoiGan: danhSachCVCubit
-                                .getName(data[index].performer ?? ''),
+                            nguoiGan: '',
                             enabled: false,
                             todoModel: todo,
                             onCheckBox: (value) {

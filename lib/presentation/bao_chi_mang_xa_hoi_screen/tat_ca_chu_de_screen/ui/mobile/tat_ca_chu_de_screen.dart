@@ -188,20 +188,21 @@ class _TatCaChuDeScreenState extends State<TatCaChuDeScreen>
                                 );
                             return Container(
                               height: 240,
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: data.danhSachTuongtacThongKe.length,
                                 itemBuilder: (context, index) {
                                   return index == 0
                                       ? ItemTableTopic(
-                                        chuDeCubit.listTitle[index],
-                                        '',
-                                        data
-                                            .danhSachTuongtacThongKe[index]
-                                            .dataTuongTacThongKeModel
-                                            .interactionStatistic,
-                                      )
+                                          chuDeCubit.listTitle[index],
+                                          '',
+                                          data
+                                              .danhSachTuongtacThongKe[index]
+                                              .dataTuongTacThongKeModel
+                                              .interactionStatistic,
+                                        )
                                       : const SizedBox.shrink();
                                 },
                               ),

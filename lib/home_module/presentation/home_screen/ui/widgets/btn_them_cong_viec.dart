@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/config/themes/app_theme.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/home_module/config/resources/color.dart';
 import 'package:ccvc_mobile/home_module/config/resources/styles.dart';
@@ -25,15 +26,35 @@ class BottomSheetThemCongViec extends StatefulWidget {
 class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
   TextEditingController controller = TextEditingController();
   TextEditingController controllerCongViec = TextEditingController();
+  ScrollController scrollController = ScrollController();
   final keyGroup = GlobalKey<FormGroupState>();
   bool isSelected = false;
   String label = '';
   String? nguoiGanID;
+  String keySearch = '';
 
   @override
   void initState() {
-    widget.danhSachCVCubit.initListDataCanBo();
     super.initState();
+    widget.danhSachCVCubit.initListDataCanBo();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        if (widget.danhSachCVCubit.pageIndex <=
+            widget.danhSachCVCubit.totalPage) {
+          widget.danhSachCVCubit.pageIndex =
+              widget.danhSachCVCubit.pageIndex + 1;
+          if (widget.danhSachCVCubit.isSearching) {
+            widget.danhSachCVCubit.getListNguoiGan(
+              true,
+              5,
+              keySearch: keySearch,
+            );
+          }
+          widget.danhSachCVCubit.getListNguoiGan(true, 5);
+        }
+      }
+    });
   }
 
   @override
@@ -97,7 +118,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                     builder: (context, snapshot) {
                       final data = snapshot.data ?? IconListCanBo.DOWN;
                       final getShowIcon =
-                      widget.danhSachCVCubit.getIconListCanBo(
+                          widget.danhSachCVCubit.getIconListCanBo(
                         data,
                         controller,
                       );
@@ -122,8 +143,10 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                     }
                   },
                   onChange: (value) {
+                    keySearch = value;
                     Future.delayed(const Duration(seconds: 1), () {
-                      widget.danhSachCVCubit.searchNguoiGan(value);
+                      widget.danhSachCVCubit.getListNguoiGan(true, 5,
+                          keySearch: keySearch, notLoadMore: true,);
                     });
                   },
                 ),
@@ -141,9 +164,29 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                               final data = snapshot.data ?? [];
                               if (snapshot.hasData) {
                                 return ListView.builder(
+                                  controller: scrollController,
                                   shrinkWrap: true,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
+                                    if (index ==
+                                        widget.danhSachCVCubit.inforCanBo
+                                                .length - 1) {
+                                      if (widget.danhSachCVCubit.inforCanBo
+                                                  .length +
+                                              1 ==
+                                          widget.danhSachCVCubit.totalItem) {
+                                        return const SizedBox();
+                                      } else {
+                                        return const SizedBox();
+                                        // return Center(
+                                        //   child: CircularProgressIndicator(
+                                        //     color: AppTheme.getInstance()
+                                        //         .primaryColor(),
+                                        //   ),
+                                        // );
+                                      }
+                                    }
+
                                     return NguoiGanRowWidget(
                                       ontapItem: (String value) {
                                         controller.text = value;
@@ -192,7 +235,7 @@ class _BottomSheetThemCongViecState extends State<BottomSheetThemCongViec> {
                             if (controllerCongViec.text.isEmpty) {
                               keyGroup.currentState!.validator();
                             } else {
-                              label=controllerCongViec.text;
+                              label = controllerCongViec.text;
                               widget.danhSachCVCubit.addTodo(label, nguoiGanID);
                               Navigator.pop(context, false);
                             }

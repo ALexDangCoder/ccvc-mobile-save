@@ -5,8 +5,11 @@ class NguoiGanResponse {
   int? statusCode;
   bool? succeeded;
 
-  NguoiGanResponse(
-      {this.data, this.statusCode, this.succeeded,});
+  NguoiGanResponse({
+    this.data,
+    this.statusCode,
+    this.succeeded,
+  });
 
   NguoiGanResponse.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -15,7 +18,7 @@ class NguoiGanResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =<String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -32,12 +35,13 @@ class Data {
   int? totalCount;
   int? totalPage;
 
-  Data(
-      {this.items,
-        this.pageIndex,
-        this.pageSize,
-        this.totalCount,
-        this.totalPage,});
+  Data({
+    this.items,
+    this.pageIndex,
+    this.pageSize,
+    this.totalCount,
+    this.totalPage,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
@@ -63,9 +67,13 @@ class Data {
     data['totalPage'] = totalPage;
     return data;
   }
+
   NguoiGanCongViecModel toDomain() => NguoiGanCongViecModel(
-      items:items?.map((e) => e.toDomain()).toList()??[],
-  );
+      items: items?.map((e) => e.toDomain()).toList() ?? [],
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+      totalCount: totalCount,
+      totalPage: totalPage,);
 }
 
 class Items {
@@ -100,39 +108,40 @@ class Items {
   String? huyen;
   String? xa;
   String? hinhThucNhanTin;
-  Items(
-      {this.id,
-        this.maCanBo,
-        this.hoTen,
-        this.phoneDiDong,
-        this.phoneCoQuan,
-        this.phoneNhaRieng,
-        this.email,
-        this.gioiTinh,
-        this.gioiTinhStr,
-        this.ngaySinh,
-        this.userName,
-        this.cmtnd,
-        this.anhDaiDienFilePath,
-        this.anhChuKyFilePath,
-        this.anhChuKyNhayFilePath,
-        this.bitChuyenCongTac,
-        this.thoiGianCapNhat,
-        this.bitNhanTinBuonEmail,
-        this.bitNhanTinBuonSMS,
-        this.bitDanhBa,
-        this.chucVu,
-        this.donVi,
-        this.bitThuTruongDonVi,
-        this.bitDauMoiPAKN,
-        this.diaChi,
-        this.thuTu,
-        this.iThuTu,
-        this.tinh,
-        this.huyen,
-        this.xa,
-        this.hinhThucNhanTin,
-      });
+
+  Items({
+    this.id,
+    this.maCanBo,
+    this.hoTen,
+    this.phoneDiDong,
+    this.phoneCoQuan,
+    this.phoneNhaRieng,
+    this.email,
+    this.gioiTinh,
+    this.gioiTinhStr,
+    this.ngaySinh,
+    this.userName,
+    this.cmtnd,
+    this.anhDaiDienFilePath,
+    this.anhChuKyFilePath,
+    this.anhChuKyNhayFilePath,
+    this.bitChuyenCongTac,
+    this.thoiGianCapNhat,
+    this.bitNhanTinBuonEmail,
+    this.bitNhanTinBuonSMS,
+    this.bitDanhBa,
+    this.chucVu,
+    this.donVi,
+    this.bitThuTruongDonVi,
+    this.bitDauMoiPAKN,
+    this.diaChi,
+    this.thuTu,
+    this.iThuTu,
+    this.tinh,
+    this.huyen,
+    this.xa,
+    this.hinhThucNhanTin,
+  });
 
   Items.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -203,10 +212,11 @@ class Items {
     data['hinhThucNhanTin'] = hinhThucNhanTin;
     return data;
   }
+
   ItemNguoiGanModel toDomain() => ItemNguoiGanModel(
-      chucVu: chucVu??[],
-      id: id??'',
-      donVi: donVi??[],
-      hoTen:hoTen??'',
-  );
+        chucVu: chucVu ?? [],
+        id: id ?? '',
+        donVi: donVi ?? [],
+        hoTen: hoTen ?? '',
+      );
 }

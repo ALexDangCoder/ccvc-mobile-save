@@ -54,7 +54,12 @@ class HomeImpl extends HomeRepository {
   final HomeServiceGateWay _homeServiceGateWay;
   final HomeServiceCCVC _homeServiceCCVC;
   final HomeServiceCommon _homeServiceCommon;
-  HomeImpl(this._homeServiceGateWay, this._homeServiceCCVC,this._homeServiceCommon,);
+
+  HomeImpl(
+    this._homeServiceGateWay,
+    this._homeServiceCCVC,
+    this._homeServiceCommon,
+  );
 
   @override
   Future<Result<PhamViModel>> getPhamVi() {
@@ -328,14 +333,20 @@ class HomeImpl extends HomeRepository {
   }
 
   @override
-  Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(bool isGetAll, int pageSize, int pageIndex) {
+  Future<Result<NguoiGanCongViecModel>> listNguoiGanCongViec(
+    bool isGetAll,
+    int pageSize,
+    int pageIndex,
+  String kerSearch,
+  ) {
     return runCatchingAsync<NguoiGanResponse, NguoiGanCongViecModel>(
-          () => _homeServiceCommon.getListNguoiGan(
-            pageIndex,
-            pageSize,
-            isGetAll,
+      () => _homeServiceCommon.getListNguoiGan(
+        pageIndex,
+        pageSize,
+        isGetAll,
+        kerSearch,
       ),
-          (res) =>res.data?.toDomain() ?? NguoiGanCongViecModel(items: []),
+      (res) => res.data?.toDomain() ?? NguoiGanCongViecModel(items: []),
     );
   }
 }

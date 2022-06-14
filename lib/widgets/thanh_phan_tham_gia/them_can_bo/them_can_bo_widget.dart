@@ -11,6 +11,7 @@ import 'package:ccvc_mobile/widgets/button/solid_button.dart';
 import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
 import 'package:ccvc_mobile/widgets/dialog/modal_progress_hud.dart';
 import 'package:ccvc_mobile/widgets/dialog/show_dia_log_tablet.dart';
+import 'package:ccvc_mobile/widgets/dialog/show_dialog.dart';
 import 'package:ccvc_mobile/widgets/search/base_search_bar.dart';
 import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:ccvc_mobile/widgets/text/no_data_widget.dart';
@@ -163,11 +164,51 @@ class _ThemCanBoScreenState extends State<ThemCanBoScreen> {
                                 padding:
                                     EdgeInsets.only(top: index == 0 ? 0 : 16),
                                 child: CanBoWidget(
-                                  onCheckBox: (value) {
-                                    _themCanBoCubit.selectCanBo(
-                                      result,
-                                      isCheck: value,
-                                    );
+                                  onCheckBox: (value) async {
+                                    if (value) {
+                                      await _themCanBoCubit
+                                          .checkLichTrung(
+                                        donViId: result.donViId,
+                                        canBoId: result.canBoId,
+                                        dateEnd: widget.cubit.dateEnd,
+                                        dateStart: widget.cubit.dateStart,
+                                        timeEnd: widget.cubit.timeEnd,
+                                        timeStart: widget.cubit.timeStart,
+                                      )
+                                          .then((res) {
+                                        if (res) {
+                                          showDiaLog(
+                                            context,
+                                            title: S.current.lich_trung,
+                                            textContent: S.current
+                                                .ban_co_muon_tiep_tuc_khong,
+                                            icon: ImageAssets.svgAssets(
+                                                ImageAssets.ic_trung_hop),
+                                            btnRightTxt: S.current.dong_y,
+                                            btnLeftTxt: S.current.khong,
+                                            isCenterTitle: true,
+                                            funcBtnRight: () {
+                                              _themCanBoCubit.selectCanBo(
+                                                result,
+                                                isCheck: value,
+                                              );
+                                              setState(() {});
+                                            },
+                                          );
+                                        } else {
+                                          _themCanBoCubit.selectCanBo(
+                                            result,
+                                            isCheck: value,
+                                          );
+                                          setState(() {});
+                                        }
+                                      });
+                                    } else {
+                                      _themCanBoCubit.selectCanBo(
+                                        result,
+                                        isCheck: value,
+                                      );
+                                    }
                                   },
                                   canBoModel: result,
                                   themCanBoCubit: _themCanBoCubit,

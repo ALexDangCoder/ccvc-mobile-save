@@ -6,6 +6,7 @@ import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_thu_hoi_van_ba
 import 'package:ccvc_mobile/domain/model/detail_doccument/lich_su_van_ban_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/login/ui/widgets/custom_checkbox.dart';
+import 'package:ccvc_mobile/utils/dowload_file.dart';
 import 'package:ccvc_mobile/utils/extensions/common_ext.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
@@ -84,9 +85,10 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                   (e) => GestureDetector(
                     onTap: () async {
                       final baseURL = Get.find<AppConstants>().baseUrlQLNV;
-                      await handleSaveFile(
-                        url: '$baseURL${e.duongDan}',
-                        name: e.ten ?? '',
+                      await saveFile(
+                        fileName: e.ten ?? '',
+                        url: e.duongDan ?? '',
+                        downloadType: DomainDownloadType.QLNV
                       );
 
                     },
@@ -153,9 +155,10 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                     (e) => GestureDetector(
                       onTap: () async {
                         final baseURL = Get.find<AppConstants>().baseUrlQLNV;
-                        await handleSaveFile(
-                          url: '$baseURL${e.duongDan}',
-                          name: e.ten ?? '',
+                        await saveFile(
+                          url: e.duongDan,
+                          fileName: e.ten ?? '',
+                          downloadType: DomainDownloadType.QLNV
                         );
                       },
                       child: Text(

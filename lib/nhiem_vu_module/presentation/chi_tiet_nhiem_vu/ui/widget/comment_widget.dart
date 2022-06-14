@@ -137,13 +137,15 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                     .fileDinhKem?.pathIOC ==
                                     null) {
                                   await saveFile(
-                                    widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.ten ??
-                                        '',
-                                    '$appConstants${widget.object
-                                        .yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.duongDan ?? ''}',
-                                    http: true,
+                                    fileName:
+                                      widget.object.yKienXuLyFileDinhKem?[index]
+                                          .fileDinhKem?.ten ??
+                                          '',
+                                    url:
+                                    widget.object
+                                          .yKienXuLyFileDinhKem?[index]
+                                          .fileDinhKem?.duongDan ?? '',
+                                    downloadType: DomainDownloadType.QLNV
                                   )
                                       .then(
                                           (value) {
@@ -162,12 +164,14 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                   );
                                 } else {
                                   await saveFile(
+                                    fileName:
                                     widget.object.yKienXuLyFileDinhKem?[index]
                                         .fileDinhKem?.ten ??
                                         '',
+                                    url:
                                     widget.object.yKienXuLyFileDinhKem?[index]
-                                        .fileDinhKem?.pathIOC,
-                                    http: true,
+                                        .fileDinhKem?.pathIOC ?? '',
+                                    // http: true,
                                   )
                                       .then(
                                         (value) =>

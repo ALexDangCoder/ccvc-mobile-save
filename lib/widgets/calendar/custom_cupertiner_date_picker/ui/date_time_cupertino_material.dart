@@ -130,7 +130,6 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                           onToggle: (bool value) {
                             cubit.handleSwitchButtonPressed(isChecked: value);
                             widget.onSwitchPressed?.call(value);
-
                             widget.onDateTimeChanged(
                               cubit.timeBeginSubject.value,
                               cubit.timeEndSubject.value,
@@ -458,6 +457,7 @@ class _CupertinoMaterialPickerState extends State<CupertinoMaterialPicker> {
                                 cubit.dateBeginSubject.value,
                                 cubit.dateEndSubject.value,
                               );
+                              cubit.checkTime();
                             },
                             initialDate: widget.initDateEnd ?? DateTime.now(),
                           ),

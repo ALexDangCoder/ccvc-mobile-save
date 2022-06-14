@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -62,10 +61,6 @@ class _SuaLichCongTacTrongNuocPhoneState
 
   @override
   void initState() {
-    log(widget.event.timeFrom ?? '');
-    log(widget.event.timeTo ?? '');
-    log(widget.event.dateFrom ?? '');
-    log(widget.event.dateTo ?? '');
     taoLichLamViecCubit.listeningEndDataTime(
       DateTime.parse(
         timeFormat(
@@ -236,13 +231,6 @@ class _SuaLichCongTacTrongNuocPhoneState
                               String dateStart,
                               String dateEnd,
                             ) {
-                              log(timeStart +
-                                  ' -' +
-                                  dateStart +
-                                  ' -' +
-                                  timeEnd +
-                                  ' - ' +
-                                  dateEnd);
                               taoLichLamViecCubit.listeningEndDataTime(
                                 DateTime.parse(
                                   timeFormat(

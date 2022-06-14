@@ -59,18 +59,35 @@ class _SuaLichCongTacTrongNuocTabletState
   TextEditingController noiDungController = TextEditingController();
   TextEditingController diaDiemController = TextEditingController();
   ThanhPhanThamGiaCubit thamGiaCubit = ThanhPhanThamGiaCubit();
+  String dateTimeReceive = 'yyyy-MM-ddTHH:mm:ss';
+  String dateTimePicker = 'yyyy-MM-dd hh:mm';
+  String dateTimePut = 'yyyy-MM-dd hh:mm:ss.ms';
 
   @override
   void initState() {
+    taoLichLamViecCubit.listeningEndDataTime(
+      DateTime.parse(
+        timeFormat(
+          '${widget.event.dateTimeTo}',
+          dateTimeReceive,
+          dateTimePut,
+        ),
+      ),
+    );
+    taoLichLamViecCubit.listeningStartDataTime(
+      DateTime.parse(
+        timeFormat(
+          '${widget.event.dateTimeFrom}',
+          dateTimeReceive,
+          dateTimePut,
+        ),
+      ),
+    );
     taoLichLamViecCubit.chiTietLichLamViecModel = widget.event;
     taoLichLamViecCubit.selectedCountry = widget.event.country ?? '';
     taoLichLamViecCubit.selectedCountryID = widget.event.countryId ?? '';
     taoLichLamViecCubit.datNuocSelectModel?.id = widget.event.countryId;
     taoLichLamViecCubit.typeScheduleId = widget.event.typeScheduleId;
-    taoLichLamViecCubit.dateEnd = widget.event.dateTo;
-    taoLichLamViecCubit.timeFrom = widget.event.timeFrom;
-    taoLichLamViecCubit.timeEnd = widget.event.timeTo;
-    taoLichLamViecCubit.dateFrom = widget.event.dateFrom;
     taoLichLamViecCubit.dateTimeFrom = widget.event.dateTimeFrom;
     taoLichLamViecCubit.dateTimeTo = widget.event.dateTimeTo;
     taoLichLamViecCubit.linhVucString = widget.event.linhVuc;
@@ -296,8 +313,8 @@ class _SuaLichCongTacTrongNuocTabletState
                                     DateTime.parse(
                                       timeFormat(
                                         '$dateEnd $timeEnd',
-                                        'dd/MM/yyyy hh:mm',
-                                        'yyyy-MM-dd hh:mm:ss.ms',
+                                        dateTimePicker,
+                                        dateTimePut,
                                       ),
                                     ),
                                   );
@@ -305,8 +322,8 @@ class _SuaLichCongTacTrongNuocTabletState
                                     DateTime.parse(
                                       timeFormat(
                                         '$dateStart $timeStart',
-                                        'dd/MM/yyyy hh:mm',
-                                        'yyyy-MM-dd hh:mm:ss.ms',
+                                        dateTimePicker,
+                                        dateTimePut,
                                       ),
                                     ),
                                   );

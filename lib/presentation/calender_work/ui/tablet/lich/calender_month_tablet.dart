@@ -36,138 +36,131 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
   }
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<CalendarController>(
-      stream:null,
-      builder: (context, snapshot) {
-        final data = snapshot.data ?? CalendarController();
-
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 30, top: 24),
-            child: Container(
-              height: 500,
-              margin: const EdgeInsets.only(right: 30),
-              child: StreamBuilder<DataLichLvModel>(
-                stream: widget.cubit.streamListLich,
-                builder: (context, snapshot) {
-                  return SfCalendar(
-                    firstDayOfWeek: 1,
-                    allowAppointmentResize: true,
-                    controller: data,
-                    headerHeight: 0.0,
-                    view: CalendarView.month,
-                    todayHighlightColor: labelColor,
-                    appointmentTimeTextFormat: 'hh:mm:ss a',
-                    dataSource: widget.cubit.getCalenderDataSource(
-                      snapshot.data ?? DataLichLvModel(),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 30, top: 24),
+        child: Container(
+          height: 500,
+          margin: const EdgeInsets.only(right: 30),
+          child: StreamBuilder<DataLichLvModel>(
+            stream: widget.cubit.streamListLich,
+            builder: (context, snapshot) {
+              return SfCalendar(
+                firstDayOfWeek: 1,
+                allowAppointmentResize: true,
+                controller: widget.cubit.stateCalendarControllerMonth,
+                headerHeight: 0.0,
+                view: CalendarView.month,
+                todayHighlightColor: labelColor,
+                appointmentTimeTextFormat: 'hh:mm:ss a',
+                dataSource: widget.cubit.getCalenderDataSource(
+                  snapshot.data ?? DataLichLvModel(),
+                ),
+                viewHeaderStyle: ViewHeaderStyle(
+                  dayTextStyle: textNormalCustom(
+                    fontSize: 13,
+                    color: colorA2AEBD,
+                  ),
+                ),
+                monthViewSettings: MonthViewSettings(
+                  showTrailingAndLeadingDates: false,
+                  appointmentDisplayCount: 2,
+                  monthCellStyle: MonthCellStyle(
+                    backgroundColor: bgCalenderColor,
+                    trailingDatesTextStyle: textNormalCustom(
+                      fontSize: 14,
+                      color: iconColorDown,
                     ),
-                    viewHeaderStyle: ViewHeaderStyle(
-                      dayTextStyle: textNormalCustom(
-                        fontSize: 13,
-                        color: colorA2AEBD,
-                      ),
+                    textStyle: textNormalCustom(
+                      fontSize: 14,
+                      color: fontColorTablet2,
                     ),
-                    monthViewSettings: MonthViewSettings(
-                      showTrailingAndLeadingDates: false,
-                      appointmentDisplayCount: 2,
-                      monthCellStyle: MonthCellStyle(
-                        backgroundColor: bgCalenderColor,
-                        trailingDatesTextStyle: textNormalCustom(
-                          fontSize: 14,
-                          color: iconColorDown,
-                        ),
-                        textStyle: textNormalCustom(
-                          fontSize: 14,
-                          color: fontColorTablet2,
-                        ),
-                      ),
-                      // numberOfWeeksInView: 4,
-                      //showAgenda: true,
-                      appointmentDisplayMode:
-                          MonthAppointmentDisplayMode.appointment,
-                    ),
-                    selectionDecoration:
-                        const BoxDecoration(color: Colors.transparent),
-                    appointmentBuilder: (
-                      BuildContext context,
-                      CalendarAppointmentDetails calendarAppointmentDetails,
+                  ),
+                  // numberOfWeeksInView: 4,
+                  //showAgenda: true,
+                  appointmentDisplayMode:
+                  MonthAppointmentDisplayMode.appointment,
+                ),
+                selectionDecoration:
+                const BoxDecoration(color: Colors.transparent),
+                appointmentBuilder: (
+                    BuildContext context,
+                    CalendarAppointmentDetails calendarAppointmentDetails,
                     ) {
-                      final Appointment appointment =
-                          calendarAppointmentDetails.appointments.first;
+                  final Appointment appointment =
+                      calendarAppointmentDetails.appointments.first;
 
-                      if (calendarAppointmentDetails.appointments.length <= 1) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 2, bottom: 4),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2.0),
-                              color: choTrinhKyColor,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 8,
-                                      right: 8,
-                                    ),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) =>
-                                                ChiTietLamViecTablet(
+                  if (calendarAppointmentDetails.appointments.length <= 1) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 2, bottom: 4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2.0),
+                          color: choTrinhKyColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            ChiTietLamViecTablet(
                                               id: appointment.id.toString(),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      child: Text(
-                                        appointment.subject,
-                                        style: textNormalCustom(fontSize: 12),
-                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
+                                    );
+                                  },
+                                  child: Text(
+                                    appointment.subject,
+                                    style: textNormalCustom(fontSize: 12),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      } else {
-                        return GestureDetector(
-                          onTap: () {
-                            widget.cubit.chooseTypeCalender(
-                              Type_Choose_Option_Day.DAY,
-                            );
-                            widget.cubit.stateOptionDay =
-                                Type_Choose_Option_Day.DAY;
-                            widget.cubit.index.sink.add(0);
-                            widget.cubit.callApi();
-                          },
-                          child: Column(
-                            children: [
-                              Text(
-                                '...',
-                                style: textNormalCustom(
-                                  color: textBodyTime,
-                                  fontSize: 14,
                                 ),
                               ),
-                            ],
-                          ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return GestureDetector(
+                      onTap: () {
+                        widget.cubit.chooseTypeCalender(
+                          Type_Choose_Option_Day.DAY,
                         );
-                      }
-                    },
-                  );
+                        widget.cubit.stateOptionDay =
+                            Type_Choose_Option_Day.DAY;
+                        widget.cubit.index.sink.add(0);
+                        widget.cubit.callApi();
+                      },
+                      child: Column(
+                        children: [
+                          Text(
+                            '...',
+                            style: textNormalCustom(
+                              color: textBodyTime,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
-              ),
-            ),
+              );
+            },
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

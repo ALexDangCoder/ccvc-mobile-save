@@ -35,87 +35,81 @@ class _CalenderDayTabletState extends State<CalenderDayTablet> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<CalendarController>(
-        stream: null,
-        builder: (context, snapshot) {
-          final data = snapshot.data ?? CalendarController();
-
-          return Column(
-            children: [
-              spaceH28,
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(right: 30, left: 30),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: cellColorborder),
-                    borderRadius: BorderRadius.circular(8),
+    return Column(
+      children: [
+        spaceH28,
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.only(right: 30, left: 30),
+            decoration: BoxDecoration(
+              border: Border.all(color: cellColorborder),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: StreamBuilder<DataLichLvModel>(
+              stream: widget.cubit.streamListLich,
+              builder: (context, snapshot) {
+                return SfCalendar(
+                  viewHeaderHeight: 0.0,
+                  headerHeight: 0.0,
+                  controller: widget.cubit.stateCalendarControllerDay,
+                  timeSlotViewSettings: const TimeSlotViewSettings(
+                    timeIntervalHeight: 88,
                   ),
-                  child: StreamBuilder<DataLichLvModel>(
-                    stream: widget.cubit.streamListLich,
-                    builder: (context, snapshot) {
-                      return SfCalendar(
-                        viewHeaderHeight: 0.0,
-                        headerHeight: 0.0,
-                        controller: data,
-                        timeSlotViewSettings: const TimeSlotViewSettings(
-                          timeIntervalHeight: 88,
-                        ),
-                        selectionDecoration:
-                            const BoxDecoration(color: Colors.transparent),
-                        appointmentTextStyle:
-                            textNormalCustom(color: backgroundColorApp),
-                        todayHighlightColor: statusCalenderRed,
-                        appointmentTimeTextFormat: 'hh:mm:ss a',
-                        dataSource: widget.cubit.getCalenderDataSource(
-                          snapshot.data ?? DataLichLvModel(),
-                        ),
-                        appointmentBuilder: (
-                          BuildContext context,
-                          CalendarAppointmentDetails calendarAppointmentDetails,
-                        ) {
-                          final Appointment appointment =
-                              calendarAppointmentDetails.appointments.first;
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0,
-                              vertical: 2.0,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6.0),
-                              color: choTrinhKyColor,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => ChiTietLamViecTablet(
-                                            id: appointment.id.toString(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Text(
-                                      appointment.subject,
-                                      style: textNormalCustom(),
+                  selectionDecoration:
+                  const BoxDecoration(color: Colors.transparent),
+                  appointmentTextStyle:
+                  textNormalCustom(color: backgroundColorApp),
+                  todayHighlightColor: statusCalenderRed,
+                  appointmentTimeTextFormat: 'hh:mm:ss a',
+                  dataSource: widget.cubit.getCalenderDataSource(
+                    snapshot.data ?? DataLichLvModel(),
+                  ),
+                  appointmentBuilder: (
+                      BuildContext context,
+                      CalendarAppointmentDetails calendarAppointmentDetails,
+                      ) {
+                    final Appointment appointment =
+                        calendarAppointmentDetails.appointments.first;
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0,
+                        vertical: 2.0,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.0),
+                        color: choTrinhKyColor,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ChiTietLamViecTablet(
+                                      id: appointment.id.toString(),
                                     ),
                                   ),
-                                ),
-                              ],
+                                );
+                              },
+                              child: Text(
+                                appointment.subject,
+                                style: textNormalCustom(),
+                              ),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

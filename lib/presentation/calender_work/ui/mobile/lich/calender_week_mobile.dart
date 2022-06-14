@@ -51,15 +51,7 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
         const SizedBox(
           height: 10,
         ),
-        // Expanded(
-        //   child: StreamBuilder<CalendarController>(
-        //       stream: widget.cubit.stateCalendarWeekSubject.stream,
-        //       builder: (context, snapshot) {
-        //         final data = snapshot.data ?? CalendarController();
-        //
-        //         return ;
-        //       }),
-        // ),
+
         Expanded(child: Padding(
           padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
           child: StreamBuilder<DataLichLvModel>(

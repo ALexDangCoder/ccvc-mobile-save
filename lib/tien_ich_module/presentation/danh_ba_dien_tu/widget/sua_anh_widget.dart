@@ -35,6 +35,13 @@ class SuaAvatarDanhBa extends StatefulWidget {
 
 class _SuaAvatarDanhBaState extends State<SuaAvatarDanhBa> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.cubit.anhDanhBaCaNhan.sink.add(null);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: Row(

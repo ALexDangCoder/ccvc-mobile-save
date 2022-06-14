@@ -424,102 +424,110 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
     );
   }
 
-  Future<void> suaLichLamViec(
-      BuildContext context
-      ) async {
+  Future<void> suaLichLamViec(bool isMulti, BuildContext context) async {
     final result = await _lichLamViec.suaLichLamViec(
-        title ?? '',
-        selectLoaiLich?.id ?? '',
-        selectLinhVuc?.id ?? '',
-        tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.tenQuanHuyen ?? '',
-        xaSelectModel?.tenXaPhuong ?? '',
-        dateFrom ?? DateTime.now().formatApi,
-        timeFrom ??
-            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        dateEnd ?? DateTime.now().formatApi,
-        timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
-        content ?? '',
-        location ?? '',
-        '',
-        '',
-        '',
-        2,
-        '',
-        publishSchedule ?? false,
-        //cong khai lich
-        '',
-        false,
-        selectNguoiChuTri?.userId ?? '',
-        selectNguoiChuTri?.donViId ?? '',
-        '',
-        id??'',
-        isCheckAllDaySubject.value,
-        true,
-        donviModel ?? [],
-        selectNhacLai.value ?? 1,
-        selectLichLap.id ?? 0,
-        dateFrom ?? DateTime.now().formatApi,
-        dateTimeLapDenNgay.formatApi,
-        true,
-        lichLapItem1);
-    result.when(success: (res) {
-      emit(CreateSuccess());
-      Navigator.pop(context, true);
-      showContent();
-    }, error: (error) {
-      showContent();
-    });
+      title ?? '',
+      selectLoaiLich?.id ?? '',
+      selectLinhVuc?.id ?? '',
+      tinhSelectModel?.tenTinhThanh ?? '',
+      huyenSelectModel?.tenQuanHuyen ?? '',
+      xaSelectModel?.tenXaPhuong ?? '',
+      dateFrom ?? DateTime.now().formatApi,
+      timeFrom ??
+          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      dateEnd ?? DateTime.now().formatApi,
+      timeEnd ??
+          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      content ?? '',
+      location ?? '',
+      '',
+      '',
+      '',
+      2,
+      '',
+      publishSchedule ?? false,
+      //cong khai lich
+      '',
+      false,
+      selectNguoiChuTri?.userId ?? '',
+      selectNguoiChuTri?.donViId ?? '',
+      '',
+      id ?? '',
+      isCheckAllDaySubject.value,
+      true,
+      donviModel ?? [],
+      selectNhacLai.value ?? 1,
+      selectLichLap.id ?? 0,
+      dateFrom ?? DateTime.now().formatApi,
+      dateTimeLapDenNgay.formatApi,
+      true,
+      lichLapItem1,
+      isMulti,
+    );
+    result.when(
+      success: (res) {
+        emit(CreateSuccess());
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
   }
 
   Future<void> suaLichLamViecNuocNgoai(
-      BuildContext context
-      ) async {
+    bool isMulti,
+    BuildContext context,
+  ) async {
     final result = await _lichLamViec.suaLichLamViecNuocNgoai(
-        title ?? '',
-        selectLoaiLich?.id ?? '',
-        selectLinhVuc?.id ?? '',
-        tinhSelectModel?.tenTinhThanh ?? '',
-        huyenSelectModel?.tenQuanHuyen ?? '',
-        xaSelectModel?.tenXaPhuong ?? '',
-        selectedCountryID,
-        dateFrom ?? DateTime.now().formatApi,
-        timeFrom ??
-            '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
-        dateEnd ?? DateTime.now().formatApi,
-        timeEnd ??
-            '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
-        content ?? '',
-        location ?? '',
-        '',
-        '',
-        '',
-        2,
-        '',
-        false,
-        '',
-        false,
-        selectNguoiChuTri?.userId ?? '',
-        selectNguoiChuTri?.donViId ?? '',
-        '',
-        id??'',
-        isCheckAllDaySubject.value,
-        true,
-        donviModel ?? [],
-        selectNhacLai.value ?? 1,
-        selectLichLap.id ?? 0,
-        dateFrom ?? DateTime.now().formatApi,
-        dateTimeLapDenNgay.formatApi,
-        true,
-        lichLapItem1);
-    result.when(success: (res) {
-      emit(CreateSuccess());
-      Navigator.pop(context, true);
-      showContent();
-    }, error: (error) {
-      showContent();
-    });
+      title ?? '',
+      selectLoaiLich?.id ?? '',
+      selectLinhVuc?.id ?? '',
+      tinhSelectModel?.tenTinhThanh ?? '',
+      huyenSelectModel?.tenQuanHuyen ?? '',
+      xaSelectModel?.tenXaPhuong ?? '',
+      selectedCountryID,
+      dateFrom ?? DateTime.now().formatApi,
+      timeFrom ??
+          '${DateTime.now().hour.toString()}:${DateTime.now().minute.toString()}',
+      dateEnd ?? DateTime.now().formatApi,
+      timeEnd ??
+          '${DateTime.now().hour.toString()}:${(DateTime.now().minute + 1).toString()}',
+      content ?? '',
+      location ?? '',
+      '',
+      '',
+      '',
+      2,
+      '',
+      false,
+      '',
+      false,
+      selectNguoiChuTri?.userId ?? '',
+      selectNguoiChuTri?.donViId ?? '',
+      '',
+      id ?? '',
+      isCheckAllDaySubject.value,
+      true,
+      donviModel ?? [],
+      selectNhacLai.value ?? 1,
+      selectLichLap.id ?? 0,
+      dateFrom ?? DateTime.now().formatApi,
+      dateTimeLapDenNgay.formatApi,
+      true,
+      lichLapItem1,
+      isMulti,
+    );
+    result.when(
+      success: (res) {
+        emit(CreateSuccess());
+        Navigator.pop(context, true);
+        showContent();
+      },
+      error: (error) {
+        showContent();
+      },
+    );
   }
 
   Future<void> taoBaoCaoKetQua({

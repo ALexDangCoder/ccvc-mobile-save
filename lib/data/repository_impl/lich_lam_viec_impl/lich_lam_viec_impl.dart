@@ -389,6 +389,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String dateRepeat1,
     bool only,
     List<int> days,
+    bool isMulti,
   ) {
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
@@ -416,6 +417,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('id', id));
     _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
     _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
+    _data.fields.add(MapEntry('isMulti', isMulti.toString()));
 
     for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
       _data.fields.add(
@@ -494,6 +496,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     String dateRepeat1,
     bool only,
     List<int> days,
+    bool isMulti,
   ) {
     final _data = FormData();
     _data.fields.add(MapEntry('title', title));
@@ -522,6 +525,7 @@ class LichLamViecImlp implements LichLamViecRepository {
     _data.fields.add(MapEntry('id', id));
     _data.fields.add(MapEntry('isAllDay', isAllDay.toString()));
     _data.fields.add(MapEntry('isSendMail', isSendMail.toString()));
+    _data.fields.add(MapEntry('isMulti', isMulti.toString()));
 
     for (int i = 0; i < scheduleCoperativeRequest.length; i++) {
       _data.fields.add(

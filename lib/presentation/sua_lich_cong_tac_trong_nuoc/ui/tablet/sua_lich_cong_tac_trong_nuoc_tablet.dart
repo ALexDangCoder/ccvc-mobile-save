@@ -23,7 +23,9 @@ class SuaLichCongTacTrongNuocTablet extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
   final ChiTietLichLamViecModel event;
 
-  const SuaLichCongTacTrongNuocTablet({Key? key, required this.cubit, required this.event}) : super(key: key);
+  const SuaLichCongTacTrongNuocTablet(
+      {Key? key, required this.cubit, required this.event})
+      : super(key: key);
 
   @override
   _SuaLichCongTacTrongNuocTabletState createState() =>
@@ -173,7 +175,7 @@ class _SuaLichCongTacTrongNuocTabletState
                       child: Container(
                         padding: const EdgeInsets.only(left: 14),
                         child: Column(
-                          children:  [
+                          children: [
                             // ThanhPhanThamGiaTLWidget(),
                             TaiLieuWidget(),
                           ],
@@ -201,27 +203,25 @@ class _SuaLichCongTacTrongNuocTabletState
                     ),
                     StreamBuilder<bool>(
                         stream: taoLichLamViecCubit.checkTrongNuoc,
-                      builder: (context, snapshot) {
-                        final data = snapshot.data ?? false;
-                        return buttomWidget(
-                          title: S.current.luu,
-                          background: textDefault,
-                          textColor: Colors.white,
-                          onTap: ()async {
-                            if (_formKey.currentState!.validate()) {
-                              if (!data) {
-                                await taoLichLamViecCubit.suaLichLamViec(context);
-
-                              } else {
-                                await taoLichLamViecCubit
-                                    .suaLichLamViecNuocNgoai(context);
-
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? false;
+                          return buttomWidget(
+                            title: S.current.luu,
+                            background: textDefault,
+                            textColor: Colors.white,
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                if (!data) {
+                                  await taoLichLamViecCubit.suaLichLamViec(
+                                      true, context);
+                                } else {
+                                  await taoLichLamViecCubit
+                                      .suaLichLamViecNuocNgoai(true, context);
+                                }
                               }
-                            }
-                          },
-                        );
-                      }
-                    ),
+                            },
+                          );
+                        }),
                   ],
                 ),
               )

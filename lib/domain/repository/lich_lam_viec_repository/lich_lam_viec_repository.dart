@@ -176,6 +176,7 @@ mixin LichLamViecRepository {
     String dateRepeat1,
     bool only,
     List<int> days,
+    bool isMulti,
   );
 
   Future<Result<MessageModel>> suaLichLamViecNuocNgoai(
@@ -213,6 +214,7 @@ mixin LichLamViecRepository {
     String dateRepeat1,
     bool only,
     List<int> days,
+      bool isMulti,
   );
 
   Future<Result<MessageModel>> taoBaoCaoKetQua(

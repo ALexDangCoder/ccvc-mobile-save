@@ -255,7 +255,8 @@ abstract class HopServices {
 
   @POST(ApiConstants.CREATE_METTING)
   Future<ChiTietLichHopResponse> createMetting(
-      @Body() TaoLichHopRequest taoLichHopRequest);
+    @Body() TaoLichHopRequest taoLichHopRequest,
+  );
 
   @GET(ApiConstants.XEM_KET_LUAN_HOP)
   Future<XemKetLuanHopDataResponse> getXemKetLuanHop(@Query('id') String id);
@@ -406,6 +407,42 @@ abstract class HopServices {
     @Query('TuNgay') String TuNgay,
     @Query('DenNgay') String DenNgay,
     @Query('Bit_TTDH') bool Bit_TTDH,
+  );
+
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_PHONG_HOP)
+  Future<PhanCongThuKyResponse> huyOrDuyetPhongHop(
+    @Field('hopId') String hopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CHON_PHONG_HOP)
+  Future<PhanCongThuKyResponse> thayDoiPhongHop(
+    @Field('bit_TTDH') bool bit_TTDH,
+    @Field('lichHopId') String lichHopId,
+    @Field('phongHopId') String phongHopId,
+    @Field('tenPhong') String tenPhong,
+  );
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_THIET_BI)
+  Future<PhanCongThuKyResponse> duyetOrHuyDuyetThietBi(
+    @Field('isDuyet') bool isDuyet,
+    @Field('lichHopId') String lichHopId,
+    @Field('lyDo') String lyDo,
+    @Field('thietBiId') String thietBiId,
+  );
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_KY_THUAT)
+  Future<PhanCongThuKyResponse> duyetOrHuyDuyetKyThuat(
+    @Field('hopId') String hopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CHON_PHONG_HOP_METTING)
+  Future<PhanCongThuKyResponse> chonPhongHopMetting(
+    @Body() TaoLichHopRequest taoLichHopRequest,
   );
 
   @GET(ApiConstants.CHECK_LICH_HOP_TRUNG)

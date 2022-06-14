@@ -175,9 +175,9 @@ class _XemKetLuanHopWidgetState extends State<XemKetLuanHopWidget> {
                     onChange: (List<File> files) {},
                   ),
                 ),
-                ListFileFromAPI(
+                FileFromAPIWidget(
                   data: '',
-                  onTap: () {},
+                  onTapDelete: () {},
                 ),
                 Padding(
                   padding: APP_DEVICE == DeviceType.MOBILE

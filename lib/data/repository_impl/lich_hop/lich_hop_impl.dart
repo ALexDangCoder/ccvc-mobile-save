@@ -777,7 +777,7 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
-  Future<Result<List<PhongHopModel>>> getPhongHop(
+  Future<Result<List<PhongHopModel>>> getDanhSachPhongHop(
       String id, String from, String to, bool isTTDH) {
     return runCatchingAsync<DSPhongHopResponse, List<PhongHopModel>>(
       () => _hopServices.danhSachPhongHop(id, from, to, isTTDH),
@@ -786,6 +786,51 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
+  Future<Result<ResponseModel>> huyOrDuyetPhongHop(
+    String hopId,
+    bool isDuyet,
+    String lyDo,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.huyOrDuyetPhongHop(hopId, isDuyet, lyDo),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> thayDoiPhongHop(
+    bool bit_TTDH,
+    String lichHopId,
+    String phongHopId,
+    String tenPhong,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.thayDoiPhongHop(
+        bit_TTDH,
+        lichHopId,
+        phongHopId,
+        tenPhong,
+      ),
+      (response) => response.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<ResponseModel>> duyetOrHuyDuyetThietBi(
+    bool isDuyet,
+    String lichHopId,
+    String lyDo,
+    String thietBiId,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.duyetOrHuyDuyetThietBi(
+        isDuyet,
+        lichHopId,
+        lyDo,
+        thietBiId,
+      ),
+      (response) => response.toModel(),);
+  }
   Future<Result<String>> checkLichHopTrung(
       String? scheduleId,
       String donViId,
@@ -815,6 +860,16 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
+  Future<Result<ResponseModel>> duyetOrHuyDuyetKyThuat(
+    String hopId,
+    bool isDuyet,
+    String lyDo,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+          () => _hopServices.duyetOrHuyDuyetKyThuat(hopId, isDuyet, lyDo),
+          (response) => response.toModel(),
+    );
+  }
   Future<Result<List<CanBoModel>>> moiHop(String lichHopId, bool IsMultipe,
       bool isSendMail, List<MoiThamGiaHopRequest> body) {
     return runCatchingAsync<ThanhPhanThamGiaResponse, List<CanBoModel>>(
@@ -824,6 +879,13 @@ class HopRepositoryImpl implements HopRepository {
   }
 
   @override
+  Future<Result<ResponseModel>> chonPhongHopMetting(
+    TaoLichHopRequest taoLichHopRequest,
+  ) {
+    return runCatchingAsync<PhanCongThuKyResponse, ResponseModel>(
+      () => _hopServices.chonPhongHopMetting(taoLichHopRequest),
+      (res) => res.toModel(),
+    );}
   Future<Result<bool>> themPhienHop(
       String lichHopId, List<TaoPhienHopRequest> phienHops) async {
     final _data = FormData();
@@ -873,6 +935,7 @@ class HopRepositoryImpl implements HopRepository {
     return runCatchingAsync<ThemPhienHopResponse, bool>(
       () => _hopServices.themPhienHop(lichHopId, _data),
       (response) => response.isSucces,
+
     );
   }
 }

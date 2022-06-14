@@ -12,7 +12,7 @@ class NetworkHandler {
       return AppException(S.current.error, S.current.something_went_wrong);
     }
     if (_isNetWorkError(error)) {
-      return AppException(S.current.error, S.current.something_went_wrong);
+      return TimeoutException();
     }
     final parsedException = _parseError(error);
     final errorCode = error.response?.statusCode;

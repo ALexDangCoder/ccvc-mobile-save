@@ -9,8 +9,8 @@ import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/cac_lua_cho
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/ui/widget/xem_ket_luan_hop_widget.dart';
 import 'package:ccvc_mobile/presentation/edit_personal_information/ui/mobile/widget/selectdate.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/widgets/button/double_button_bottom.dart';
-import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/input_infor_user/input_info_user_widget.dart';
 import 'package:ccvc_mobile/widgets/radio/custom_radio_button.dart';
 import 'package:ccvc_mobile/widgets/textformfield/follow_key_board_widget.dart';
@@ -47,7 +47,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
     // TODO: implement initState
     super.initState();
     widget.cubit.cacLuaChonBieuQuyet = [];
-    widget.cubit.listDanhSach = [];
+    widget.cubit.listDanhSach = [DanhSachNguoiThamGiaModel()];
+    widget.cubit.isValidateSubject.sink.add(false);
   }
 
   @override
@@ -69,33 +70,25 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                 Navigator.pop(context);
               },
               onPressed2: () async {
+                print('VVVV${widget.cubit.loaiBieuQ}');
                 if (noiDungController.text.isEmpty ||
                     widget.cubit.cacLuaChonBieuQuyet.isEmpty ||
                     widget.cubit.listDanhSach.isEmpty) {
                   isShow = true;
-                  isShowValidate = true;
+                  widget.cubit.isValidateSubject.sink.add(true);
                   setState(() {});
-                  MessageConfig.show(
-                    title: S.current.tao_that_bai,
-                    messState: MessState.error,
-                  );
                   formKeyNoiDung.currentState!.validate();
                 } else {
                   isShow = false;
                   isShowValidate = false;
                   setState(() {});
-                  await widget.cubit
-                      .postThemBieuQuyetHop(
+                  await widget.cubit.postThemBieuQuyetHop(
                     widget.id,
                     noiDungController.text,
                     widget.cubit.date,
-                  )
-                      .then((value) {
-                    MessageConfig.show(
-                      title: S.current.tao_thanh_cong,
-                    );
-                    Navigator.pop(context, true);
-                  });
+                    widget.cubit.loaiBieuQ,
+                  );
+                  Navigator.pop(context, true);
                 }
               },
             ),
@@ -110,6 +103,7 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                   title: S.current.loai_bieu_quyet,
                   onchange: (value) {
                     widget.cubit.loaiBieuQ = value;
+                    print('VVVV${value}');
                   },
                 ),
                 InputInfoUserWidget(
@@ -121,7 +115,9 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     value: DateTime.now().toString(),
                     onSelectDate: (dateTime) {
                       if (mounted) setState(() {});
-                      widget.cubit.date = dateTime;
+                      final date =
+                          DateTime.parse(dateTime).toStringWithListFormat;
+                      widget.cubit.date = date;
                     },
                   ),
                 ),
@@ -132,6 +128,8 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     child: BaseChooseTimerWidget(
                       key: _keyBaseTime,
                       validator: () {},
+                      timeBatDau: widget.cubit.dateTimeNowStart(),
+                      timeKetThuc: widget.cubit.dateTimeNowEnd(),
                       onChange: (start, end) {
                         widget.cubit.start = start;
                         widget.cubit.end = end;
@@ -175,45 +173,46 @@ class _TextFormFieldWidgetState extends State<TaoBieuQuyetTabletWidget> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: ShowRequied(
-                    isShow: isShowValidate,
-                    child: InputInfoUserWidget(
-                      isObligatory: true,
-                      title: S.current.cac_lua_chon_bieu_quyet,
-                      child: StreamBuilder<List<DanhSachNguoiThamGiaModel>>(
-                        stream: widget.cubit.nguoiThamGiaSubject,
-                        builder: (context, snapshot) {
-                          final data = snapshot.data ?? [];
-                          if (data.isNotEmpty) {
-                            return Column(
-                              children: [
-                                CustomCheckBoxList(
-                                  urlIcon: ImageAssets.icDocument,
-                                  title: S.current.loai_bai_viet,
-                                  onChange: (value) {
-                                    if (widget.cubit.listDanhSach.isEmpty) {
-                                      isShowValidate = false;
-                                      setState(() {});
-                                    } else {
-                                      isShowValidate = true;
-                                      setState(() {});
-                                    }
-                                    widget.cubit.listDanhSach = value;
-                                  },
-                                  dataNguoiThamGia: data,
-                                ),
-                              ],
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
+                StreamBuilder<bool>(
+                    stream: widget.cubit.isValidateSubject,
+                    builder: (context, snapshot) {
+                      return ShowRequied(
+                        isShow: snapshot.data ?? true,
+                        child: InputInfoUserWidget(
+                          isObligatory: true,
+                          title: S.current.cac_lua_chon_bieu_quyet,
+                          child: StreamBuilder<List<DanhSachNguoiThamGiaModel>>(
+                            stream: widget.cubit.nguoiThamGiaSubject,
+                            builder: (context, snapshot) {
+                              final data = snapshot.data ?? [];
+                              if (data.isNotEmpty) {
+                                return Column(
+                                  children: [
+                                    CustomCheckBoxList(
+                                      urlIcon: ImageAssets.icDocument,
+                                      title: S.current.loai_bai_viet,
+                                      onChange: (value) {
+                                        if (widget.cubit.listDanhSach.isEmpty) {
+                                          widget.cubit.isValidateSubject.sink
+                                              .add(true);
+                                        } else {
+                                          widget.cubit.isValidateSubject.sink
+                                              .add(false);
+                                        }
+                                        widget.cubit.listDanhSach = value;
+                                      },
+                                      dataNguoiThamGia: data,
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),

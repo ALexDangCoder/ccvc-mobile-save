@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/blo
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_menu_custom.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/container_menu_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/theo_dang_lich_widget_dscv.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/button/button_custom_bottom.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/show_buttom_sheet/show_bottom_sheet.dart';
@@ -104,7 +105,8 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                   onTap: () {
                                     widget.cubit.titleAppBar
                                         .add(dataIndex.label);
-                                    widget.cubit.statusDSCV.sink.add(NCVM);
+                                    widget.cubit.statusDSCV.sink
+                                        .add(DSCVScreen.NCVM);
                                     widget.cubit.addValueWithTypeToDSCV();
                                     widget.cubit.groupId = dataIndex.id;
                                     Navigator.pop(context);
@@ -125,7 +127,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                           ),
                           child: ButtonCustomBottom(
                             title: S.current.them_nhom_cong_viec,
-                            isColorBlue: false,
+                            isColorBlue: true,
                             onPressed: () {
                               showBottomSheetCustom(
                                 context,
@@ -219,7 +221,8 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                     onTap: () {
                                       widget.cubit.titleAppBar
                                           .add(dataIndex.label);
-                                      widget.cubit.statusDSCV.sink.add(NCVM);
+                                      widget.cubit.statusDSCV.sink
+                                          .add(DSCVScreen.NCVM);
                                       widget.cubit.addValueWithTypeToDSCV();
                                       widget.cubit.groupId = dataIndex.id;
                                       Navigator.pop(context);
@@ -237,10 +240,11 @@ class _MenuDSCVState extends State<MenuDSCV> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsets.only(left: 8, right: 8, top: 20),
+                            const EdgeInsets.only(left: 200, right: 8, top: 20),
                         child: ButtonCustomBottom(
+                          size: 14,
                           title: S.current.them_nhom_cong_viec,
-                          isColorBlue: false,
+                          isColorBlue: true,
                           onPressed: () {
                             showDiaLogTablet(
                               context,

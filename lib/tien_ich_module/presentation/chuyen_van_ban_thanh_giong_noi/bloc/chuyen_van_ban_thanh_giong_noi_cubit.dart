@@ -22,11 +22,11 @@ class ChuyenVanBanThanhGiongNoiCubit
 
   /// các giọng
   List<VoidTone> dataDrop = [
-    VoidTone(text: S.current.nu_mien_bac, code: north_female_lien),
-    VoidTone(text: S.current.nam_mien_bac, code: north_male_hieu),
-    VoidTone(text: S.current.nu_mien_bac_ha, code: north_female_hongha),
-    VoidTone(text: S.current.nu_mien_nam, code: south_female_aihoa),
-    VoidTone(text: S.current.nu_mien_nam_nguyet, code: south_female_minhnguyet),
+    VoidTone(text: S.current.nu_mien_bac, code: KieuGiongNoi.north_female_lien),
+    VoidTone(text: S.current.nam_mien_bac, code: KieuGiongNoi.north_male_hieu),
+    VoidTone(text: S.current.nu_mien_bac_ha, code: KieuGiongNoi.north_female_hongha),
+    VoidTone(text: S.current.nu_mien_nam, code: KieuGiongNoi.south_female_aihoa),
+    VoidTone(text: S.current.nu_mien_nam_nguyet, code: KieuGiongNoi.south_female_minhnguyet),
   ];
 
   Future<void> chuyenVBSangGiongNoi() async {

@@ -165,7 +165,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                           if ((snapshot.data?.length ?? 0) > 0)
                             ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: widget.shrinkWap ?? false,
+                              shrinkWrap: widget.shrinkWap ?? true,
                               itemCount: snapshot.data?.length ?? 0,
                               itemBuilder: (ctx, index) {
                                 return widget.viewItem(
@@ -231,7 +231,7 @@ class _ComplexLoadMoreState extends State<ComplexLoadMore> {
                             ),
                           if ((snapshot.data?.length ?? 0) > 0)
                             GridView.builder(
-                              shrinkWrap: widget.shrinkWap ?? false,
+                              shrinkWrap: widget.shrinkWap ?? true,
                               padding: const EdgeInsets.only(
                                 left: 16,
                                 right: 16,

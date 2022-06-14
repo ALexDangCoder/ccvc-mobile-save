@@ -84,7 +84,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                 .map(
                   (e) => GestureDetector(
                     onTap: () async {
-                      final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+
                       await saveFile(
                         fileName: e.ten ?? '',
                         url: e.duongDan ?? '',
@@ -154,7 +154,7 @@ extension TypeDataDocument on TypeDocumentDetailRow {
                   .map(
                     (e) => GestureDetector(
                       onTap: () async {
-                        final baseURL = Get.find<AppConstants>().baseUrlQLNV;
+
                         await saveFile(
                           url: e.duongDan,
                           fileName: e.ten ?? '',

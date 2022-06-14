@@ -123,16 +123,14 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                final appConstants =
-                                    Get
-                                        .find<AppConstants>()
-                                        .baseUrlQLNV;
+
                                 final status = await Permission.storage.status;
                                 if (!status.isGranted) {
                                   await Permission.storage.request();
                                   await Permission.manageExternalStorage
                                       .request();
                                 }
+
                                 if (widget.object.yKienXuLyFileDinhKem?[index]
                                     .fileDinhKem?.pathIOC ==
                                     null) {
@@ -146,21 +144,6 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                           .yKienXuLyFileDinhKem?[index]
                                           .fileDinhKem?.duongDan ?? '',
                                     downloadType: DomainDownloadType.QLNV
-                                  )
-                                      .then(
-                                          (value) {
-                                        if (value == true) {
-                                          MessageConfig.show(
-                                            title: S.current
-                                                .tai_file_thanh_cong,
-                                          );
-                                        } else {
-                                          MessageConfig.show(
-                                            title: S.current.tai_file_that_bai,
-                                            messState: MessState.error,
-                                          );
-                                        }
-                                      }
                                   );
                                 } else {
                                   await saveFile(
@@ -172,19 +155,6 @@ class _YKienSuLyNhiemVuWidgetState extends State<YKienSuLyNhiemVuWidget> {
                                     widget.object.yKienXuLyFileDinhKem?[index]
                                         .fileDinhKem?.pathIOC ?? '',
                                     // http: true,
-                                  )
-                                      .then(
-                                        (value) =>
-                                        MessageConfig.show(
-                                          title: S.current.tai_file_thanh_cong,
-                                        ),
-                                  )
-                                      .onError(
-                                        (error, stackTrace) =>
-                                        MessageConfig.show(
-                                          title: S.current.tai_file_that_bai,
-                                          messState: MessState.error,
-                                        ),
                                   );
                                 }
                               },

@@ -4,9 +4,14 @@ import 'dart:io';
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/widgets/dialog/cupertino_loading.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -18,71 +23,22 @@ Future<String?> saveFile(
     required String url,
     Map<String, dynamic>? query,
     DomainDownloadType downloadType = DomainDownloadType.GATEWAY}) async {
+  late OverlayEntry overlayEntry = showLoading();
   try {
+    final OverlayState? overlayState = Overlay.of(MessageConfig.contextConfig!);
+    overlayState?.insert(overlayEntry);
     final response = await provideDio(baseOption: downloadType)
-        .post(url, queryParameters: query);
+        .get(url, queryParameters: query);
     await _saveFile(fileName, response.data);
+    overlayEntry.remove();
+    MessageConfig.show(title: S.current.tai_file_thanh_cong);
+
     return null;
   } on Exception catch (e) {
+    overlayEntry.remove();
+    MessageConfig.show(title: e.toString(), messState: MessState.error);
     return e.toString();
   }
-  // bool success = false;
-
-  // if (http == true) {
-  //   final HttpClient httpClient = HttpClient();
-  //   File file;
-  //   String filePath = '';
-  //   const String dir = '/storage/emulated/0/Download';
-  //   final request = await httpClient.getUrl(Uri.parse(data));
-  //   final responses = await request.close();
-  //   if (responses.statusCode == 200) {
-  //     final bytes = await consolidateHttpClientResponseBytes(responses);
-  //     if (Platform.isAndroid) {
-  //       try {
-  //         const String dir = '/storage/emulated/0/Download';
-  //         await writeFile(dir, _fileName, bytes);
-  //       } catch (e) {
-  //         final tempDir = await getExternalStorageDirectory();
-  //         await writeFile(tempDir?.path ?? '', _fileName, bytes);
-  //         success = true;
-  //       }
-  //     } else if (Platform.isIOS) {
-  //       final tempDir = await getApplicationDocumentsDirectory();
-  //       await writeFile(tempDir.path, _fileName, bytes);
-  //       success = true;
-  //     }
-  //   } else {
-  //     success = false;
-  //   }
-  // } else {
-  //   final response = await Dio()
-  //       .get(
-  //         data,
-  //         queryParameters: query,
-  //         options: Options(
-  //           responseType: ResponseType.bytes,
-  //           followRedirects: false,
-  //           receiveTimeout: 60000,
-  //         ),
-  //       )
-  //       .catchError((error) {});
-  //   final dynamic dataSave = response.data;
-  //   if (Platform.isAndroid) {
-  //     try {
-  //       const String dir = '/storage/emulated/0/Download';
-  //       await writeFile(dir, _fileName, dataSave);
-  //     } catch (e) {
-  //       final tempDir = await getExternalStorageDirectory();
-  //       await writeFile(tempDir?.path ?? '', _fileName, dataSave);
-  //       success = true;
-  //     }
-  //   } else if (Platform.isIOS) {
-  //     final tempDir = await getApplicationDocumentsDirectory();
-  //     await writeFile(tempDir.path, _fileName, dataSave);
-  //     success = false;
-  //   }
-  // }
-  // return success;
 }
 
 Future<void> _saveFile(String _fileName, dynamic data) async {
@@ -119,7 +75,6 @@ Future<void> writeFile(String path, String _fileName, dynamic data) async {
     count += 1;
     file = File(fullPath);
   }
-  log('${fullPath}');
   final raf = file.openSync(mode: FileMode.write);
   raf.writeFromSync(data);
   await raf.close();
@@ -188,5 +143,16 @@ PrettyDioLogger dioLogger() {
     requestHeader: true,
     requestBody: true,
     maxWidth: 100,
+  );
+}
+
+OverlayEntry showLoading() {
+  return OverlayEntry(
+    builder: (context) {
+      return  Scaffold(
+        backgroundColor: Colors.grey.withOpacity(0.3),
+        body: const Center(child: CupertinoLoading()),
+      );
+    },
   );
 }

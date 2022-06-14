@@ -23,11 +23,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ThemThongTinKhachMoiWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
   final bool isMoiHop;
+  final bool isCheckedEmail;
 
   const ThemThongTinKhachMoiWidget({
     Key? key,
     required this.onChange,
     this.isMoiHop = false,
+    this.isCheckedEmail = false,
   }) : super(key: key);
 
   @override
@@ -72,9 +74,10 @@ class _ThemDonViPhoiHopKhacWidgetState
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isMoiHop
                       ? ItemPeopleThamGia(
-                          donVi: data[index],
+                    donVi: data[index],
                           cubit: cubit,
                           isKhachMoi: widget.isMoiHop,
+                          isSendEmail: widget.isCheckedEmail,
                         )
                       : ItemThanhPhanWidget(
                           data: data[index],

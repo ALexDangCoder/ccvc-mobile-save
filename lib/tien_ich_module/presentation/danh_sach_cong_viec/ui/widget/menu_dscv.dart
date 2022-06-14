@@ -126,7 +126,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                             top: 4,
                           ),
                           child: ButtonCustomBottom(
-                            title: S.current.them_nhom_cong_viec,
+                            title: S.current.ten_nhom,
                             isColorBlue: true,
                             onPressed: () {
                               showBottomSheetCustom(
@@ -194,7 +194,7 @@ class _MenuDSCVState extends State<MenuDSCV> {
                   horizontal: 20,
                 ),
                 child: ContainerMenuDSCVWidget(
-                  name: S.current.nhom_cong_viec_moi,
+                  name: S.current.ten_nhom,
                   icon: ImageAssets.ic06,
                   type: TypeContainer.expand,
                   childExpand: Column(
@@ -229,7 +229,8 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                     },
                                     isSelect: true,
                                     number: widget.cubit.soLuongNhomCvMoi(
-                                        groupId: dataIndex.id),
+                                      groupId: dataIndex.id,
+                                    ),
                                   ),
                                 );
                               },

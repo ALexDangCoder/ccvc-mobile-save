@@ -21,12 +21,9 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
     final result = await hopRp.getListThietBiPhongHop(idCuocHop);
     result.when(
       success: (res) {
-        showContent();
         getListThietBiPhongHop.sink.add(res);
       },
-      error: (err) {
-        showError();
-      },
+      error: (err) {},
     );
   }
 
@@ -134,7 +131,7 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       );
     }
     if (!checkAllFinal.contains(false)) {
-      await initData(boolGetDanhSachThietBi: true);
+      await getDanhSachThietBi();
     }
     showContent();
   }
@@ -193,5 +190,11 @@ extension CongTacChuanBi on DetailMeetCalenderCubit {
       },
     );
     showContent();
+  }
+
+  Future<void> callApiCongTacChuanBi() async {
+    await getThongTinPhongHopApi();
+    await getDanhSachThietBi();
+    await getDanhSachPhongHop();
   }
 }

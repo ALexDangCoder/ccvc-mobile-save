@@ -352,7 +352,7 @@ extension PermissionLichHop on DetailMeetCalenderCubit {
   }
 
   int trangThaiPhong() {
-    return getThongTinPhongHopSb.value?.trangThai ?? 0;
+    return getThongTinPhongHopForPermision.trangThai ?? 0;
   }
 
   ///======================= check quyen tab cong tac chuan bi =======================

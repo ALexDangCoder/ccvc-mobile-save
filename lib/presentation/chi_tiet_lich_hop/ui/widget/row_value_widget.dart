@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RowDataWidget extends StatelessWidget {
@@ -28,9 +29,12 @@ class RowDataWidget extends StatelessWidget {
         const SizedBox(
           width: 14,
         ),
-        Text(
-          text,
-          style: textNormal(textTitle, 16),
+        Expanded(
+          child: Text(
+            text,
+            style: textNormal(textTitle, 16),
+            overflow: TextOverflow.ellipsis,
+          ),
         )
       ],
     );

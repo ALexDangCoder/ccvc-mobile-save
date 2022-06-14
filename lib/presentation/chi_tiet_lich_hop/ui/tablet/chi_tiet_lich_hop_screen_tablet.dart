@@ -50,7 +50,7 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
   void initState() {
     cubit = DetailMeetCalenderCubit();
     cubit.idCuocHop = widget.id;
-    cubit.initData();
+    cubit.initData(boolGetChiTietLichHop: true);
     super.initState();
   }
 
@@ -318,7 +318,6 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                           cubit: cubit,
                         ),
                         ChuongTrinhHopWidget(
-                          id: widget.id,
                           cubit: cubit,
                         ),
                         ThanhPhanThamGiaWidgetTablet(
@@ -338,7 +337,8 @@ class _DetailMeetCalenderTabletState extends State<DetailMeetCalenderTablet> {
                           cubit: cubit,
                         ),
                         BocBangWidget(
-                          cubit: cubit, context: context,
+                          cubit: cubit,
+                          context: context,
                         )
                       ],
                     ),

@@ -156,4 +156,9 @@ extension ChuongTrinhHop on DetailMeetCalenderCubit {
     startTime = '$hStart:$mStart';
     endTime = '$hEnd:$mEnd';
   }
+
+  Future<void> callApiChuongTrinhHop() async {
+    await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    await getListPhienHop(idCuocHop);
+  }
 }

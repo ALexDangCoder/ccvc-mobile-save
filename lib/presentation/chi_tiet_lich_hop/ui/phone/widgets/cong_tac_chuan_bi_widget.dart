@@ -32,10 +32,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
     return ExpandOnlyWidget(
       onchange: (vl) {
         if (vl) {
-          widget.cubit.initData(
-            boolGetDanhSachThietBi: true,
-            boolGetThongTinPhongHopApi: true,
-          );
+          widget.cubit.callApiCongTacChuanBi();
         }
       },
       header: Row(
@@ -62,7 +59,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
       children: [
         titleType(
           title: S.current.thong_tin_phong,
-          child: StreamBuilder<ThongTinPhongHopModel?>(
+          child: StreamBuilder<ThongTinPhongHopModel>(
             stream: widget.cubit.getThongTinPhongHop,
             builder: (context, snapshot) {
               final data = snapshot.data;
@@ -96,7 +93,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Row(
                           children: [
-                            /// check quyền hiển thị từ trạng thái phòng họp và quuyền của app
+                            /// check quyền hiển thị từ trạng thái phòng họp và quyền của app
                             if (widget.cubit.checkDuyetPhong())
                               ButtonOtherWidget(
                                 text: S.current.duyet,
@@ -226,7 +223,7 @@ class _CongTacChuanBiWidgetState extends State<CongTacChuanBiWidget> {
                   );
                 },
               ),
-              StreamBuilder<ThongTinPhongHopModel?>(
+              StreamBuilder<ThongTinPhongHopModel>(
                 stream: widget.cubit.getThongTinPhongHop,
                 builder: (context, snapshot) {
                   final data = snapshot.data;
@@ -362,19 +359,24 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
+          Stack(
             children: [
               RowDataWidget(
                 keyTxt: S.current.loai_thiet_bi,
                 value: model.loaiThietBi ?? '',
               ),
-              CustomCheckBox(
-                isOnlyCheckbox: true,
-                title: '',
-                isCheck: check,
-                onChange: (vl) {
-                  onChange(vl);
-                },
+              Row(
+                children: [
+                  const Expanded(child: SizedBox()),
+                  CustomCheckBox(
+                    isOnlyCheckbox: true,
+                    title: '',
+                    isCheck: check,
+                    onChange: (vl) {
+                      onChange(vl);
+                    },
+                  ),
+                ],
               )
             ],
           ),
@@ -399,7 +401,7 @@ class ThongTinYeuCauThietBiWidget extends StatelessWidget {
 class ButtonOtherWidget extends StatelessWidget {
   final String text;
   final Color color;
-  final Function ontap;
+  final Function() ontap;
 
   const ButtonOtherWidget(
       {Key? key, required this.text, required this.color, required this.ontap})
@@ -408,7 +410,7 @@ class ButtonOtherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ontap(),
+      onTap: ontap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(

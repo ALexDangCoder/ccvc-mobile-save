@@ -37,6 +37,7 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
   String donViSelectedId = '';
 
   Future<void> getDonViConPhong(String id) async {
+    showLoading();
     final rs = await hopRepository.getDonViConPhongHop(id);
     rs.when(
       success: (res) {
@@ -44,6 +45,7 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
       },
       error: (error) {},
     );
+    showContent();
   }
 
   Future<void> getPhongHop({

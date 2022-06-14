@@ -32,12 +32,10 @@ import 'package:flutter_svg/svg.dart';
 
 class ChuongTrinhHopWidget extends StatefulWidget {
   final DetailMeetCalenderCubit cubit;
-  final String id;
 
   const ChuongTrinhHopWidget({
     Key? key,
     required this.cubit,
-    required this.id,
   }) : super(key: key);
 
   @override
@@ -49,6 +47,11 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
   Widget build(BuildContext context) {
     return screenDevice(
       mobileScreen: ExpandOnlyWidget(
+        onchange: (vl) {
+          if (vl) {
+            widget.cubit.callApiChuongTrinhHop();
+          }
+        },
         header: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           color: Colors.transparent,
@@ -72,7 +75,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   showBottomSheetCustom(
                     context,
                     child: ThemPhienHopScreen(
-                      id: widget.id,
+                      id: widget.cubit.idCuocHop,
                       cubit: widget.cubit,
                     ),
                     title: S.current.them_phien_hop,
@@ -99,7 +102,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     return cellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
-                      id: widget.id,
+                      id: widget.cubit.idCuocHop,
                       isCheckTap: false,
                     );
                   },
@@ -121,7 +124,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                   title: S.current.them_phien_hop,
                   child: ThemPhienHopScreen(
                     cubit: widget.cubit,
-                    id: widget.id,
+                    id: widget.cubit.idCuocHop,
                   ),
                   isBottomShow: false,
                   funcBtnOk: () {
@@ -146,7 +149,7 @@ class _ChuongTrinhHopWidgetState extends State<ChuongTrinhHopWidget> {
                     return cellDetailMeet(
                       listPhienHopModel: data[index],
                       context: context,
-                      id: widget.id,
+                      id: widget.cubit.idCuocHop,
                       isCheckTap: true,
                     );
                   },

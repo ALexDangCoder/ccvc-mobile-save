@@ -166,7 +166,6 @@ class _DetailMeetCalenderScreenState extends State<DetailMeetCalenderScreen> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: ChuongTrinhHopWidget(
-                        id: widget.id,
                         cubit: cubit,
                       ),
                     ),

@@ -163,11 +163,15 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   final BehaviorSubject<String> themBieuQuyet = BehaviorSubject<String>();
 
-  final BehaviorSubject<ThongTinPhongHopModel?> getThongTinPhongHopSb =
-      BehaviorSubject<ThongTinPhongHopModel?>();
+  final BehaviorSubject<ThongTinPhongHopModel> getThongTinPhongHopSb =
+      BehaviorSubject<ThongTinPhongHopModel>();
 
-  Stream<ThongTinPhongHopModel?> get getThongTinPhongHop =>
+  Stream<ThongTinPhongHopModel> get getThongTinPhongHop =>
       getThongTinPhongHopSb.stream;
+
+  ThongTinPhongHopModel get getThongTinPhongHopForPermision =>
+      getThongTinPhongHopSb.valueOrNull ?? ThongTinPhongHopModel();
+
   final BehaviorSubject<List<ThietBiPhongHopModel>> getListThietBiPhongHop =
       BehaviorSubject<List<ThietBiPhongHopModel>>();
 
@@ -226,8 +230,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Future<void> initData({
     bool? boolGetChiTietLichHop,
-    bool? boolGetThongTinPhongHopApi,
-    bool? boolGetDanhSachThietBi,
+    bool? boolGetDanhSachNguoiChuTriPhienHop,
+    bool? boolGetListPhienHop,
   }) async {
     if (boolGetChiTietLichHop ?? false) {
       await getChiTietLichHop(idCuocHop);
@@ -236,17 +240,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     final queue = Queue(parallel: 15);
     // unawaited(queue.add(() => getDanhSachThuHoiLichHop(id)));
 
-    ///Công tác chuẩn bị
-    if (boolGetThongTinPhongHopApi ?? false) {
-      unawaited(queue.add(() => getThongTinPhongHopApi()));
-    }
-    if (boolGetDanhSachThietBi ?? false) {
-      unawaited(queue.add(() => getDanhSachThietBi()));
-    }
-
     ///Chương trình họp
-    // unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
-    // unawaited(queue.add(() => getListPhienHop(id)));
+    if (boolGetDanhSachNguoiChuTriPhienHop ?? false) {
+      await getDanhSachNguoiChuTriPhienHop(idCuocHop);
+    }
+    if (boolGetListPhienHop ?? false) {
+      await getListPhienHop(idCuocHop);
+    }
 
     ///Phát biểu
     // unawaited(
@@ -254,8 +254,8 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
 
     ///Biểu quyết
-    unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: idCuocHop)));
-    unawaited(queue.add(() => callApi(idCuocHop)));
+    // unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: idCuocHop)));
+    // unawaited(queue.add(() => callApi(idCuocHop)));
 
     ///Thành phần tham gia
     // unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));

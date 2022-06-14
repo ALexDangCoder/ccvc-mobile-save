@@ -18,7 +18,6 @@ class SelectDate extends StatefulWidget {
   final bool isObligatory;
   final double? paddings;
   final DateTime? initDateTime;
-  final String? maxDate;
 
   const SelectDate({
     Key? key,
@@ -30,7 +29,6 @@ class SelectDate extends StatefulWidget {
     this.leadingIcon,
     this.paddings,
     this.isObligatory = false,
-    this.maxDate,
   }) : super(key: key);
 
   @override
@@ -60,9 +58,7 @@ class _CustomDropDownState extends State<SelectDate> {
               SizedBox(
                 height: 300,
                 child: FlutterRoundedCupertinoDatePickerWidget(
-                  maximumDate: (widget.maxDate ?? '').isEmpty
-                      ? DateTime.parse('')
-                      : DateTime.now(),
+                  maximumDate: DateTime.now(),
                   onDateTimeChanged: (value) {
                     dateSelect = value.toString();
                     widget.onSelectDate(dateSelect);

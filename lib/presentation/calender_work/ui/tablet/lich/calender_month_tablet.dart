@@ -2,6 +2,7 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/list_lich_lv/list_lich_lv_model.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_lam_viec/ui/tablet/chi_tiet_lam_viec_tablet.dart';
 import 'package:ccvc_mobile/presentation/lich_hop/ui/mobile/lich_hop_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,19 +24,20 @@ class _CalenderMonthTabletState extends State<CalenderMonthTablet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarDaySubject.listen((value) {});
-    widget.cubit.stateCalendarDaySubject.value
+    widget.cubit.stateCalendarControllerDay
         .addPropertyChangedListener((value) {
-      widget.cubit.updateDataSlideCalendar(
-        widget.cubit.stateCalendarDaySubject.value.displayDate ??
-            widget.cubit.selectDay,
-      );
+      if (value == 'displayDate'){
+        widget.cubit.updateDataSlideCalendar(
+          widget.cubit.stateCalendarControllerDay.displayDate ??
+              widget.cubit.selectDay,
+        );
+      }
     });
   }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<CalendarController>(
-      stream: widget.cubit.stateCalendarMonthSubject.stream,
+      stream:null,
       builder: (context, snapshot) {
         final data = snapshot.data ?? CalendarController();
 

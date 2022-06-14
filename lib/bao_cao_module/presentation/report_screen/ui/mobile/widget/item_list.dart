@@ -3,7 +3,9 @@ import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
+import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
+import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -33,8 +35,8 @@ class ItemList extends StatelessWidget {
         children: [
           ItemFolder(
             type: item.type ?? 0,
-            isShare: true,
-            fileNumber: item.numberReport ?? 0,
+            isShare: true,//todo
+            fileNumber: item.childrenTotal ?? 0,
             isListView: true,
           ),
           Expanded(
@@ -58,7 +60,10 @@ class ItemList extends StatelessWidget {
                   ),
                   spaceH4,
                   Text(
-                    item.dateTime ?? '',
+                    (item.dateTime ?? '').changeToNewPatternDate(
+                      DateFormatApp.dateTimeBackEnd,
+                      DateFormatApp.date,
+                    ),
                     style: textNormalCustom(
                       color: infoColor,
                       fontWeight: FontWeight.w400,
@@ -80,7 +85,9 @@ class ItemList extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
-                builder: (context) => XemThemBottomSheet(),
+                builder: (context) => ShowMoreBottomSheet(
+                  reportItem: item,
+                ),
               );
             },
             child: Padding(

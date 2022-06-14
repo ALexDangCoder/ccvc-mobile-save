@@ -70,7 +70,7 @@ class _CustomDropDownState extends State<SelectDateThem> {
                           initialDateTime: dateSelect.isEmpty
                               ? DateTime.now()
                               : DateFormat('yyyy-MM-dd HH:mm:ss')
-                              .parse(dateSelect),
+                                  .parse(dateSelect),
                         ),
                       ),
                     ],
@@ -78,9 +78,13 @@ class _CustomDropDownState extends State<SelectDateThem> {
                 ),
                 btnRightTxt: S.current.chon_ngay,
                 funcBtnOk: () {
-                  setState(() {
+                  setState(() {});
+                  if (dateSelect.isNotEmpty) {
                     widget.onSelectDate(dateSelect);
-                  });
+                  } else {
+                    dateSelect = DateTime.now().toString();
+                    widget.onSelectDate(dateSelect);
+                  }
                   widget.cubit.isCheckValidate.add(dateSelect);
                 },
                 setHeight: 400,
@@ -190,11 +194,13 @@ class _CustomDropDownState extends State<SelectDateThem> {
                       child: ButtonBottom(
                         text: S.current.chon,
                         onPressed: () {
-                          setState(() {
-                            widget.onSelectDate(
-                              dateSelect,
-                            );
-                          });
+                          setState(() {});
+                          if (dateSelect.isNotEmpty) {
+                            widget.onSelectDate(dateSelect);
+                          } else {
+                            dateSelect = DateTime.now().toString();
+                            widget.onSelectDate(dateSelect);
+                          }
                           widget.cubit.isCheckValidate.add(dateSelect);
                           Navigator.pop(context);
                         },

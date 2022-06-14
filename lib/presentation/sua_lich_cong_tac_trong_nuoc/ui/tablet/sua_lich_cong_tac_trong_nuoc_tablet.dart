@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:ccvc_mobile/config/app_config.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
@@ -27,6 +28,7 @@ import 'package:ccvc_mobile/presentation/tao_lich_lam_viec_chi_tiet/ui/widget/th
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/string_extension.dart';
+import 'package:ccvc_mobile/utils/provider_widget.dart';
 import 'package:ccvc_mobile/widgets/calendar/custom_cupertiner_date_picker/ui/date_time_cupertino_material.dart';
 import 'package:ccvc_mobile/widgets/notify/notify_widget.dart';
 import 'package:ccvc_mobile/widgets/select_only_expands/select_only_expands.dart';
@@ -35,7 +37,6 @@ import 'package:ccvc_mobile/widgets/views/state_stream_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ccvc_mobile/utils/provider_widget.dart';
 
 class SuaLichCongTacTrongNuocTablet extends StatefulWidget {
   final ChiTietLichLamViecCubit cubit;
@@ -622,6 +623,7 @@ class _SuaLichCongTacTrongNuocTabletState
       ),
     );
   }
+
   void checkInside(bool data) {
     if (!data) {
       if (widget.event.isLichLap ?? false) {
@@ -636,15 +638,10 @@ class _SuaLichCongTacTrongNuocTabletState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          final flag = !value;
-          taoLichLamViecCubit.suaLichLamViec(
-            flag,
-          );
+          taoLichLamViecCubit.suaLichLamViec(only: !value);
         });
       } else {
-        taoLichLamViecCubit.suaLichLamViec(
-          false,
-        );
+        taoLichLamViecCubit.suaLichLamViec();
       }
     } else {
       if (widget.event.isLichLap ?? false) {
@@ -659,15 +656,12 @@ class _SuaLichCongTacTrongNuocTabletState
             textRadioBelow: S.current.tu_lich_nay,
           ),
         ).then((value) {
-          final flag = !value;
           taoLichLamViecCubit.suaLichLamViecNuocNgoai(
-            flag,
+            only: !value,
           );
         });
       } else {
-        taoLichLamViecCubit.suaLichLamViecNuocNgoai(
-          false,
-        );
+        taoLichLamViecCubit.suaLichLamViecNuocNgoai();
       }
     }
   }

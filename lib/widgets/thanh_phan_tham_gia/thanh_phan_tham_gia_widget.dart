@@ -135,14 +135,21 @@ class _ThanhPhanThamGiaWidgetState extends State<ThanhPhanThamGiaWidget> {
                 (index) => Padding(
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isTaoHop
-                      ? ItemPeopleThamGia(
-                    noiDungCV: widget.noiDungCV,
-                          cubit: _cubit,
-                          donVi: data[index],
-                          onDelete: () {
-                            widget.cubit?.listThanhPhanThamGia.remove(data[index]);
-                          },
-                        )
+                      ? StreamBuilder<bool>(
+                          stream: _cubit.phuongThucNhanStream,
+                          builder: (context, snapshot) {
+                            return ItemPeopleThamGia(
+                              noiDungCV: widget.noiDungCV,
+                              cubit: _cubit,
+                              donVi: data[index],
+                              onDelete: () {
+                                widget.cubit?.listThanhPhanThamGia.remove(
+                                  data[index],
+                                );
+                              },
+                              isSendEmail: snapshot.data ?? false,
+                            );
+                          })
                       : PeopleThamGiaWidget(
                           donVi: data[index],
                           cubit: _cubit,

@@ -137,10 +137,7 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
 
   Set<DonViModel> listThanhPhanThamGia = {};
   bool isSendEmail = false;
-  DonViModel chuTri = DonViModel(name: '', id: '');
-
-  BehaviorSubject<List<DonViModel>> listThanhPhanThamGiaSubject =
-      BehaviorSubject.seeded([]);
+  DonViModel? chuTri;
 
   Future<void> createMeeting(BuildContext context) async {
     showLoading();
@@ -382,6 +379,21 @@ class TaoLichHopCubit extends BaseCubit<TaoLichHopState> {
     return '$BASE_URL_MEETING$tenDonVi-$randomRes';
   }
 
+  List<String> getListTenCanBo(){
+    listThanhPhanThamGia.removeWhere((element) => element.vaiTroThamGia == 0);
+    if(chuTri != null) {
+      listThanhPhanThamGia
+      .add(chuTri!);
+    }
+    return listThanhPhanThamGia
+      .map(
+            (e) => e.tenCanBo.isNotEmpty
+            ? e.tenCanBo
+            : e.name.isNotEmpty
+            ? e.name
+            : e.tenDonVi,
+      ).toList();
+  }
   void dispose() {
     _loaiLich.close();
     _linhVuc.close();

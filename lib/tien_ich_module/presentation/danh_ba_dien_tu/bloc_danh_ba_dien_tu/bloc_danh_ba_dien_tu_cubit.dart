@@ -71,7 +71,8 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
 
   String search = '';
   BehaviorSubject<File> saveFile = BehaviorSubject();
-  final BehaviorSubject<ModelAnh> anhDanhBaCaNhan = BehaviorSubject();
+  final BehaviorSubject<ModelAnh?> anhDanhBaCaNhan = BehaviorSubject();
+  final BehaviorSubject<ModelAnh?> suaAnhDanhBaCaNhan = BehaviorSubject();
 
   String subString(String? name) {
     if (name != null) {
@@ -297,7 +298,7 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         isCheck = true;
       },
       error: (error) {
-        if (error is NoNetworkException) {
+        if (error is TimeoutException || error is NoNetworkException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
@@ -384,6 +385,9 @@ class DanhBaDienTuCubit extends BaseCubit<BaseState> {
         }
       },
     );
+    if (isCheckSuccess) {
+      anhDanhBaCaNhan.sink.add(null);
+    }
     return isCheckSuccess;
   }
 

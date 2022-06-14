@@ -344,7 +344,6 @@ class _ThemDonViPhoiHopKhacScreenState
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -410,6 +409,9 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _dauMoiLamViecController,
                           hintText: S.current.dau_moi_lam_viec,
+                          validator: (value) {
+                            return (value ?? '').checkNull();
+                          },
                         ),
                       ),
                       spaceH20,
@@ -428,9 +430,12 @@ class _ThemDonViPhoiHopKhacScreenState
                             width: 20,
                             height: 20,
                             child: Center(
-                                child: SvgPicture.asset(ImageAssets.ic_email)),
+                                child: SvgPicture.asset(ImageAssets.ic_email),),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkEmail();
                           },
                         ),
@@ -448,6 +453,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkSdt();
                           },
                         ),

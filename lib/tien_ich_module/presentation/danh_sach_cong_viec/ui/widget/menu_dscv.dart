@@ -5,6 +5,7 @@ import 'package:ccvc_mobile/home_module/widgets/dialog/show_dia_log_tablet.dart'
 import 'package:ccvc_mobile/presentation/bao_chi_mang_xa_hoi_screen/menu/widget/container_menu_bao_chi.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/button_botton_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/cell_menu_custom.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/container_menu_dscv.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/theo_dang_lich_widget_dscv.dart';
@@ -125,13 +126,14 @@ class _MenuDSCVState extends State<MenuDSCV> {
                             right: 17,
                             top: 4,
                           ),
-                          child: ButtonCustomBottom(
+                          child: ButtonCustomBottomDSCV(
                             title: S.current.them_nhom_cong_viec,
                             isColorBlue: true,
+                            size: 12,
                             onPressed: () {
                               showBottomSheetCustom(
                                 context,
-                                title: S.current.them_nhom_cong_viec,
+                                title: S.current.ten_nhom,
                                 child: AddToDoWidgetTienIch(
                                   onTap: (value) {
                                     widget.cubit.addGroupTodo(value);
@@ -229,7 +231,8 @@ class _MenuDSCVState extends State<MenuDSCV> {
                                     },
                                     isSelect: true,
                                     number: widget.cubit.soLuongNhomCvMoi(
-                                        groupId: dataIndex.id),
+                                      groupId: dataIndex.id,
+                                    ),
                                   ),
                                 );
                               },
@@ -241,14 +244,14 @@ class _MenuDSCVState extends State<MenuDSCV> {
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 200, right: 8, top: 20),
-                        child: ButtonCustomBottom(
+                        child: ButtonCustomBottomDSCV(
                           size: 14,
                           title: S.current.them_nhom_cong_viec,
                           isColorBlue: true,
                           onPressed: () {
                             showDiaLogTablet(
                               context,
-                              title: S.current.them_nhom_cong_viec,
+                              title: S.current.ten_nhom,
                               child: AddToDoWidgetTienIch(
                                 onTap: (value) {
                                   widget.cubit.addGroupTodo(value);

@@ -62,6 +62,7 @@ class _InListFormState extends State<InListForm> {
             child: StreamBuilder<DataLichLvModel>(
               stream: _cubit.streamListLich,
               builder: (context, snapshot) {
+                widget.cubit.getMatchDate(_cubit.dataLichLvModel);
                 return ListView.builder(
                   controller: _scrollController,
                   shrinkWrap: true,
@@ -95,8 +96,8 @@ class _InListFormState extends State<InListForm> {
                               .navigatorDetail(context, _cubit, index);
                         },
                         isTrung: _cubit.dataLichLvModel.listLichLVModel?[index]
-                                .isLichLap ??
-                            true,
+                                .isTrung ??
+                            false,
                       ),
                     );
                   },

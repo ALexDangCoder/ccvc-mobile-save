@@ -64,6 +64,13 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
 
   final List<ChartData> listChartPhanLoai = [];
 
+  void resetBeforeRefresh() {
+    pageSizeDSPAKN = 10;
+    pageNumberDSPAKN = 1;
+    initStartDate = DateTime.now();
+    tuKhoa = '';
+  }
+
   // final BehaviorSubject<DashboardTinhHinhXuLuModel> _dashBoardTinhHinhXuLy =
   //     BehaviorSubject<DashboardTinhHinhXuLuModel>();
 
@@ -408,16 +415,6 @@ class YKienNguoiDanCubitt extends BaseCubit<YKienNguoiDanState> {
       userId: userId,
       tuKhoa: tuKhoa,
     );
-
-    ///muốn test mở đoạn này ra
-    // final result = await _YKNDRepo.getDanhSachPAKN(
-    //   tuNgay: '05/04/2022',
-    //   donViId: '0bf3b2c3-76d7-4e05-a587-9165c3624d76',
-    //   denNgay: '17/05/2022',
-    //   pageSize: '10',
-    //   pageNumber: '1',
-    //   userId: '19266143-feee-44d0-828a-e29df215f481',
-    // );
     result.when(
       success: (success) {
         if (listDanhSachKetQuaPakn.hasValue) {

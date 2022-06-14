@@ -23,48 +23,48 @@ class ThongTinXuLyTotalResponse {
 
 @JsonSerializable()
 class ThongTinXuLyResponse {
-  @JsonKey(name: 'IsDuyet')
-  bool? isDuyet;
-  @JsonKey(name: 'LinhVucId')
-  int? linhVucId;
-  @JsonKey(name: 'PhanLoaiPAKN')
-  String? phanLoaiPAKN;
-  @JsonKey(name: 'SoPAKN')
-  String? soPAKN;
-  @JsonKey(name: 'TieuDe')
-  String? tieuDe;
-  @JsonKey(name: 'NoiDung')
-  String? noiDung;
-  @JsonKey(name: 'NguonPAKNId')
-  int? nguonPAKNID;
-  @JsonKey(name: 'LuatId')
-  int? luatId;
-  @JsonKey(name: 'NoiDungPAKNId')
-  int? noiDungPAKNId;
-  @JsonKey(name: 'LinhVucPAKNId')
-  int? linhVucPAKNId;
-  @JsonKey(name: 'DoiTuongId')
-  int? doiTuongId;
-  @JsonKey(name: 'TenNguoiPhanAnh')
-  String? tenNguoiPhanAnh;
+  // @JsonKey(name: 'IsDuyet')
+  // bool? isDuyet;
+  // @JsonKey(name: 'LinhVucId')
+  // int? linhVucId;
+  // @JsonKey(name: 'PhanLoaiPAKN')
+  // String? phanLoaiPAKN;
+  // @JsonKey(name: 'SoPAKN')
+  // String? soPAKN;
+  // @JsonKey(name: 'TieuDe')
+  // String? tieuDe;
+  // @JsonKey(name: 'NoiDung')
+  // String? noiDung;
+  // @JsonKey(name: 'NguonPAKNId')
+  // int? nguonPAKNID;
+  // @JsonKey(name: 'LuatId')
+  // int? luatId;
+  // @JsonKey(name: 'NoiDungPAKNId')
+  // int? noiDungPAKNId;
+  // @JsonKey(name: 'LinhVucPAKNId')
+  // int? linhVucPAKNId;
+  // @JsonKey(name: 'DoiTuongId')
+  // int? doiTuongId;
+  // @JsonKey(name: 'TenNguoiPhanAnh')
+  // String? tenNguoiPhanAnh;
   // @JsonKey(name: 'LuongXuLy')
   // String? luongXuLy;
   @JsonKey(name: 'DonViDuocPhanXuLy')
   String? donViDuocPhanXuLy;
 
   ThongTinXuLyResponse(
-    this.isDuyet,
-    this.linhVucId,
-    this.phanLoaiPAKN,
-    this.soPAKN,
-    this.tieuDe,
-    this.noiDung,
-    this.nguonPAKNID,
-    this.luatId,
-    this.noiDungPAKNId,
-    this.linhVucPAKNId,
-    this.doiTuongId,
-    this.tenNguoiPhanAnh,
+    // this.isDuyet,
+    // this.linhVucId,
+    // this.phanLoaiPAKN,
+    // this.soPAKN,
+    // this.tieuDe,
+    // this.noiDung,
+    // this.nguonPAKNID,
+    // this.luatId,
+    // this.noiDungPAKNId,
+    // this.linhVucPAKNId,
+    // this.doiTuongId,
+    // this.tenNguoiPhanAnh,
     // this.luongXuLy,
     this.donViDuocPhanXuLy,
   );
@@ -74,28 +74,32 @@ class ThongTinXuLyResponse {
 
   Map<String, dynamic> toJson() => _$ThongTinXuLyResponseToJson(this);
 
-  List<DonViDuocPhanXuLyModel> convertStringIntoModel(String value) {
-    final List<dynamic> json = jsonDecode(value);
-    List<DonViDuocPhanXuLyModel> listDonViDuocPhanXuLy = [];
-    listDonViDuocPhanXuLy = json != null
-        ? json.map((e) => DonviPhanXuLyResponse.fromJson(e).toModel()).toList()
-        : [];
-    return listDonViDuocPhanXuLy;
+  List<DonViDuocPhanXuLyModel> convertStringIntoModel(String? value) {
+    if((value ?? '').isNotEmpty) {
+      final List<dynamic> json = jsonDecode(value ?? '');
+      List<DonViDuocPhanXuLyModel> listDonViDuocPhanXuLy = [];
+      listDonViDuocPhanXuLy = json != null
+          ? json.map((e) => DonviPhanXuLyResponse.fromJson(e).toModel()).toList()
+          : [];
+      return listDonViDuocPhanXuLy;
+    } else {
+      return [];
+    }
   }
 
   ThongTinXuLyPAKNModel toModel() => ThongTinXuLyPAKNModel(
-        isDuyet: isDuyet ?? false,
-        linhVucId: -1,
-        phanLoaiPAKN: phanLoaiPAKN ?? '',
-        soPAKN: soPAKN ?? '',
-        tieuDe: tieuDe ?? '',
-        noiDung: noiDung ?? '',
-        nguonPAKNID: nguonPAKNID ?? -1,
-        luatId: luatId ?? -1,
-        noiDungPAKNId: noiDungPAKNId ?? -1,
-        linhVucPAKNId: linhVucPAKNId ?? -1,
-        doiTuongId: doiTuongId ?? -1,
-        tenNguoiPhanAnh: tenNguoiPhanAnh ?? '',
+        // isDuyet: isDuyet ?? false,
+        // linhVucId: -1,
+        // phanLoaiPAKN: phanLoaiPAKN ?? '',
+        // soPAKN: soPAKN ?? '',
+        // tieuDe: tieuDe ?? '',
+        // noiDung: noiDung ?? '',
+        // nguonPAKNID: nguonPAKNID ?? -1,
+        // luatId: luatId ?? -1,
+        // noiDungPAKNId: noiDungPAKNId ?? -1,
+        // linhVucPAKNId: linhVucPAKNId ?? -1,
+        // doiTuongId: doiTuongId ?? -1,
+        // tenNguoiPhanAnh: tenNguoiPhanAnh ?? '',
         donViDuocPhanXuLy: convertStringIntoModel(donViDuocPhanXuLy ?? ''),
 
         // listLuongPAKN:

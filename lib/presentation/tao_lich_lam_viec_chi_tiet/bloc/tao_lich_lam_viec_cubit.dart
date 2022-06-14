@@ -170,7 +170,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   bool allDay = true;
 
   void listeningStartDataTime(DateTime dateAndTime) {
-    dateFrom = dateAndTime.toString();
+    dateFrom = dateAndTime.formatApi;
     if (isCheckAllDaySubject.value == true) {
       timeFrom = START_TIME;
     } else {
@@ -180,7 +180,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
   }
 
   void listeningEndDataTime(DateTime dateAndTime) {
-    dateEnd = dateAndTime.toString();
+    dateEnd = dateAndTime.formatApi;
     if (isCheckAllDaySubject.value == true) {
       timeEnd = END_TIME;
     } else {
@@ -462,7 +462,7 @@ class TaoLichLamViecCubit extends BaseCubit<TaoLichLamViecState> {
       selectLichLap.id ?? 0,
       dateFrom ?? DateTime.now().formatApi,
       dateTimeLapDenNgay.formatApi,
-      true,
+      only,
       lichLapItem1,
     );
     result.when(

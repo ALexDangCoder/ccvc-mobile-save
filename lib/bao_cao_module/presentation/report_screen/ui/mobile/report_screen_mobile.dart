@@ -1,25 +1,27 @@
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/bloc/report_list_cubit.dart';
-import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/grid_view/widget/report_list.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_gridview.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/item_list.dart';
+import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/mobile/widget/report_list.dart';
 import 'package:ccvc_mobile/bao_cao_module/presentation/report_screen/ui/widget/report_filter.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/config/themes/app_theme.dart';
+import 'package:ccvc_mobile/domain/model/bao_cao/report_item.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/widgets/appbar/mobile/base_app_bar_mobile.dart';
+import 'package:ccvc_mobile/widgets/listview/list_complex_load_more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ReportListGridviewMobile extends StatefulWidget {
-  const ReportListGridviewMobile({Key? key}) : super(key: key);
+class ReportScreenMobile extends StatefulWidget {
+  const ReportScreenMobile({Key? key}) : super(key: key);
 
   @override
-  _ReportListGridviewMobileState createState() =>
-      _ReportListGridviewMobileState();
+  _ReportScreenMobileState createState() => _ReportScreenMobileState();
 }
 
-class _ReportListGridviewMobileState
-    extends State<ReportListGridviewMobile> {
+class _ReportScreenMobileState extends State<ReportScreenMobile> {
   late ReportListCubit cubit;
 
   @override
@@ -113,19 +115,15 @@ class _ReportListGridviewMobileState
                             onTap: () {
                               cubit.isCheckList.sink.add(true);
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                              ),
-                              child: SvgPicture.asset(
-                                ImageAssets.icGridView,
-                                color: snapshot.data ?? false
-                                    ? AppTheme.getInstance().colorField()
-                                    : AppTheme.getInstance()
-                                        .unselectedLabelColor(),
-                              ),
+                            child: SvgPicture.asset(
+                              ImageAssets.icGridView,
+                              color: snapshot.data ?? false
+                                  ? AppTheme.getInstance().colorField()
+                                  : AppTheme.getInstance()
+                                      .unselectedLabelColor(),
                             ),
                           ),
+                          spaceW16,
                           GestureDetector(
                             onTap: () {
                               cubit.isCheckList.sink.add(false);
@@ -149,22 +147,60 @@ class _ReportListGridviewMobileState
               stream: cubit.isCheckList,
               builder: (context, snapshot) {
                 return Expanded(
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        titleBaoCao(S.current.yeu_thich),
-                        ReportList(
-                          listReport: cubit.listReport,
-                          isCheckList: snapshot.data ?? false,
-                        ),
-                        titleBaoCao(S.current.all),
-                        ReportList(
-                          listReport: cubit.listReport,
-                          isCheckList: snapshot.data ?? false,
-                        ),
-                      ],
-                    ),
+                  child: ComplexLoadMore(
+                    titleNoData: S.current.khong_co_bao_cao,
+                    isTitle: false,
+                    shrinkWap: true,
+                    checkRatio: 1.5,
+                    crossAxisSpacing: 17,
+                    childrenView: [
+                      Column(
+                        children: [
+                          titleBaoCao(S.current.yeu_thich),
+                          StreamBuilder<List<ReportItem>>(
+                            stream: cubit.listReportFavorite,
+                            builder: (context, snapshot) {
+                              return (cubit.listReportFavorite.value.isNotEmpty)
+                                  ? ReportList(
+                                      scrollPhysics:
+                                          const NeverScrollableScrollPhysics(),
+                                      isCheckList: cubit.isCheckList.value,
+                                      listReport: snapshot.data ?? [],
+                                    )
+                                  : const SizedBox.shrink();
+                            },
+                          ),
+                        ],
+                      ),
+                      titleBaoCao(S.current.all),
+                    ],
+                    callApi: (page) {
+                      cubit.getListReport(
+                        folderId: 'dd29de06-f950-48a5-af92-ec30e1153a00', //todo
+                        sort: 0, //
+                        keyWord: '',
+                      );
+                    },
+                    isListView: !(snapshot.data ?? false),
+                    cubit: cubit,
+                    viewItem: (value, index) {
+                      try {
+                        return !(snapshot.data ?? false)
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
+                                child: ItemList(
+                                  item: value,
+                                ),
+                              )
+                            : ItemGridView(
+                                item: value,
+                              );
+                      } catch (e) {
+                        return const SizedBox();
+                      }
+                    },
                   ),
                 );
               },

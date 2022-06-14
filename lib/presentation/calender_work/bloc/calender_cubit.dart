@@ -217,6 +217,7 @@ class CalenderCubit extends BaseCubit<CalenderState> {
 
   Future<void> getListLichLV() async {
     showLoading();
+    print('');
     final DanhSachLichLamViecRequest data = DanhSachLichLamViecRequest(
       DateFrom: startDates.formatApi,
       DateTo: endDates.formatApi,
@@ -262,6 +263,13 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     showContent();
   }
 
+  ListLichLVModel getElementFromId(String id) {
+    return (listLichSubject.value.listLichLVModel ?? [])
+        .where((element) => element.id == id)
+        .toList()
+        .first;
+  }
+
   DataSource getCalenderDataSource(DataLichLvModel dataLichLvModels) {
     final List<Appointment> appointments = [];
 
@@ -271,21 +279,36 @@ class CalenderCubit extends BaseCubit<CalenderState> {
     recurrence.interval = 2;
     recurrence.recurrenceRange = RecurrenceRange.noEndDate;
     recurrence.recurrenceCount = 10;
-    for (int i = 0; i < (dataLichLvModels.listLichLVModel?.length ?? 0); i++) {
+    for (final i in dataLichLvModels.listLichLVModel ?? []) {
       appointments.add(
         Appointment(
           startTime: DateTime.parse(
-            dataLichLvModels.listLichLVModel?[i].dateTimeFrom ?? '',
+            i.dateTimeFrom ?? '',
           ),
           endTime: DateTime.parse(
-            dataLichLvModels.listLichLVModel?[i].dateTimeTo ?? '',
+            i.dateTimeTo ?? '',
           ),
-          subject: dataLichLvModels.listLichLVModel?[i].title ?? '',
+          subject: i.title ?? '',
           color: Colors.blue,
-          id: dataLichLvModels.listLichLVModel?[i].id ?? '',
+          id: i.id ?? '',
         ),
       );
     }
+
+    getMatchDate(dataLichLvModels);
+    // appointments.add(Appointment(startTime: DateTime(DateTime
+    //     .now()
+    //     .year, DateTime
+    //     .now()
+    //     .month, DateTime
+    //     .now()
+    //     .day, 3), endTime: DateTime(DateTime
+    //     .now()
+    //     .year, DateTime
+    //     .now()
+    //     .month, DateTime
+    //     .now()
+    //     .day, 4), subject: 'DAng Hung'),);
     return DataSource(appointments);
   }
 
@@ -500,5 +523,51 @@ extension HandleDataCalendar on CalenderCubit {
     );
     await menuCalendar();
     showContent();
+  }
+
+  void getMatchDate(DataLichLvModel data) {
+    if ((data.listLichLVModel ?? []).isEmpty) {
+      return;
+    }
+    (data.listLichLVModel ?? []).sort(
+      (a, b) => DateTime.parse(
+        a.dateTimeFrom ?? '',
+      ).compareTo(
+        DateTime.parse(
+          b.dateTimeFrom ?? '',
+        ),
+      ),
+    );
+    for (final e in data.listLichLVModel ?? []) {
+      (data.listLichLVModel ?? [])
+          .where(
+            (i) => DateTime.parse(
+              e.dateTimeTo ?? '',
+            ).isAfter(
+              DateTime.parse(
+                i.dateTimeFrom ?? '',
+              ),
+            ) && DateTime.parse(
+              e.dateTimeFrom ?? '',
+            ).isBefore(
+              DateTime.parse(
+                i.dateTimeFrom ?? '',
+              ),
+            ) && i.id != e.id,
+          )
+          .toList()
+          .forEach((element) {
+            element.isTrung = true;
+            e.isTrung = true;
+      });
+    }
+  }
+
+  bool isMatch(DateTime? oldData, DateTime? newData) {
+    if (oldData == null || newData == null || oldData == newData) return true;
+
+    if (oldData != newData) return false;
+
+    return false;
   }
 }

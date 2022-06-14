@@ -67,7 +67,7 @@ class _InCalenderFormState extends State<InCalenderForm> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 16),
                           child: StreamBuilder<DataLichLvModel>(
-                            stream: widget.cubit.listLichSubject,
+                            stream: widget.cubit.listLichSubject.stream,
                             builder: (context, snapshot) {
                               return SfCalendar(
                                 viewHeaderHeight: 0.0,
@@ -118,18 +118,42 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                         color:
                                             AppTheme.getInstance().colorField(),
                                       ),
-                                      child: Column(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Flexible(
-                                            child: Text(
-                                              appointment.subject,
-                                              style: textNormalCustom(
-                                                  fontSize: 12.0),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    appointment.subject,
+                                                    style: textNormalCustom(
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4.0),
+                                              ],
                                             ),
                                           ),
-                                          const SizedBox(height: 4.0),
+
+                                          if (widget.cubit
+                                                  .getElementFromId(
+                                                    appointment.id.toString(),
+                                                  )
+                                                  .isTrung)
+                                            const Icon(
+                                              Icons.circle,
+                                              color: Colors.red,
+                                              size: 10,
+                                            )
+                                          else
+                                            Container()
                                         ],
                                       ),
                                     ),

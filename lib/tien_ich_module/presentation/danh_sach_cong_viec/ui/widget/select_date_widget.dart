@@ -9,7 +9,7 @@ import 'package:ccvc_mobile/widgets/show_buttom_sheet/show_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SelectDate extends StatefulWidget {
+class SelectDateDSCV extends StatefulWidget {
   final String? value;
   final Function(String) onSelectDate;
   final String? hintText;
@@ -20,7 +20,7 @@ class SelectDate extends StatefulWidget {
   final DateTime? initDateTime;
   final String? maxDate;
 
-  const SelectDate({
+  const SelectDateDSCV({
     Key? key,
     this.value,
     required this.onSelectDate,
@@ -37,7 +37,7 @@ class SelectDate extends StatefulWidget {
   _CustomDropDownState createState() => _CustomDropDownState();
 }
 
-class _CustomDropDownState extends State<SelectDate> {
+class _CustomDropDownState extends State<SelectDateDSCV> {
   String dateSelect = '';
 
   @override
@@ -60,9 +60,6 @@ class _CustomDropDownState extends State<SelectDate> {
               SizedBox(
                 height: 300,
                 child: FlutterRoundedCupertinoDatePickerWidget(
-                  maximumDate: (widget.maxDate ?? '').isEmpty
-                      ? DateTime.parse('')
-                      : DateTime.now(),
                   onDateTimeChanged: (value) {
                     dateSelect = value.toString();
                     widget.onSelectDate(dateSelect);

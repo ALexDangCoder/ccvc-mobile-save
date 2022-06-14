@@ -14,6 +14,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.d
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/chon_nguoi_thuc_hien_screen.dart';
+import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/ui/widget/select_date_widget.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/customTextFieldVersion2.dart';
 import 'package:ccvc_mobile/tien_ich_module/widget/textformfield/follow_key_board_widget.dart';
 import 'package:ccvc_mobile/utils/constants/app_constants.dart';
@@ -83,7 +84,7 @@ class _CreatTodoOrUpdateWidgetState extends State<CreatTodoOrUpdateWidget> {
                 ),
                 InputInfoUserWidget(
                   title: S.current.ngay_hoan_thanh,
-                  child: SelectDate(
+                  child: SelectDateDSCV(
                     leadingIcon: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: SvgPicture.asset(ImageAssets.icCalendar),

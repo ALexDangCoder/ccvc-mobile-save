@@ -17,6 +17,7 @@ class ItemPeopleThamGia extends StatelessWidget {
   final bool isChuTri;
   final bool isSendEmail;
   final bool isKhachMoi;
+  final Function()? onDelete;
 
   const ItemPeopleThamGia({
     Key? key,
@@ -25,7 +26,7 @@ class ItemPeopleThamGia extends StatelessWidget {
     this.noiDungCV = '',
     this.isChuTri = false,
     this.isSendEmail = false,
-    this.isKhachMoi = false,
+    this.isKhachMoi = false, this.onDelete,
   }) : super(key: key);
 
   @override
@@ -97,6 +98,7 @@ class ItemPeopleThamGia extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
+                    onDelete?.call();
                     cubit.deletePeopleThamGia(donVi);
                   },
                   child: SvgPicture.asset(ImageAssets.icDeleteRed),

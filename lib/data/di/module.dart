@@ -97,7 +97,7 @@ void configureDependencies() {
   Get.put<YKienNguoiDanRepository>(
     YKienNguoiDanImpl(Get.find()),
   );
-  Get.put(ReportService(provideDio(baseOption: BaseURLOption.COMMON)));
+  Get.put(ReportService(provideDio(baseOption: BaseURLOption.GATE_WAY)));
   Get.put<ReportRepository>(
     ReportImpl(Get.find()),
   );

@@ -123,6 +123,7 @@ class __ChonPhongHopScreenState extends State<_ChonPhongHopScreen> {
   @override
   void initState() {
     super.initState();
+    controller.text = widget.chonPhongHopCubit.phongHop.noiDungYeuCau ?? '';
   }
 
   @override

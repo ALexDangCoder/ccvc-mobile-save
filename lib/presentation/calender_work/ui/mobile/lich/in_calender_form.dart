@@ -30,13 +30,13 @@ class _InCalenderFormState extends State<InCalenderForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarDaySubject.listen((value) {});
-    widget.cubit.stateCalendarDaySubject.value
-        .addPropertyChangedListener((value) {
-      // widget.cubit.updateDataSlideCalendar(
-      //   widget.cubit.stateCalendarDaySubject.value.displayDate ??
-      //       widget.cubit.selectDay,
-      // );
+    widget.cubit.stateCalendarControllerDay.addPropertyChangedListener((value) {
+      if (value == 'displayDate') {
+        widget.cubit.updateDataSlideCalendar(
+          widget.cubit.stateCalendarControllerDay.displayDate ??
+              widget.cubit.selectDay,
+        );
+      }
     });
   }
 
@@ -53,40 +53,35 @@ class _InCalenderFormState extends State<InCalenderForm> {
           height: 10,
         ),
         Expanded(
-          child: StreamBuilder<CalendarController>(
-              stream: widget.cubit.stateCalendarDaySubject.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? CalendarController();
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Column(
+              children: [
+                spaceH16,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: StreamBuilder<DataLichLvModel>(
+                      stream: widget.cubit.listLichSubject,
+                      builder: (context, snapshot) {
+                        return SfCalendar(
+                          viewHeaderHeight: 0.0,
+                          allowAppointmentResize: true,
+                          headerHeight: 0.0,
+                          controller: widget.cubit.stateCalendarControllerDay,
+                          appointmentTextStyle:
+                              textNormalCustom(color: backgroundColorApp),
+                          todayHighlightColor: statusCalenderRed,
+                          timeSlotViewSettings: const TimeSlotViewSettings(
+                            timeIntervalHeight: 54,
+                          ),
+                          selectionDecoration:
+                              const BoxDecoration(color: Colors.transparent),
+                          appointmentTimeTextFormat: 'hh:mm:ss a',
+                          dataSource: widget.cubit.getCalenderDataSource(
+                            snapshot.data ?? DataLichLvModel(),
+                          ),
 
-                return Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Column(
-                    children: [
-                      spaceH16,
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16),
-                          child: StreamBuilder<DataLichLvModel>(
-                            stream: widget.cubit.listLichSubject.stream,
-                            builder: (context, snapshot) {
-                              return SfCalendar(
-                                viewHeaderHeight: 0.0,
-                                allowAppointmentResize: true,
-                                headerHeight: 0.0,
-                                controller: data,
-                                appointmentTextStyle:
-                                    textNormalCustom(color: backgroundColorApp),
-                                todayHighlightColor: statusCalenderRed,
-                                timeSlotViewSettings:
-                                    const TimeSlotViewSettings(
-                                  timeIntervalHeight: 54,
-                                ),
-                                selectionDecoration: const BoxDecoration(
-                                    color: Colors.transparent),
-                                appointmentTimeTextFormat: 'hh:mm:ss a',
-                                dataSource: widget.cubit.getCalenderDataSource(
-                                  snapshot.data ?? DataLichLvModel(),
-                                ),
                                 appointmentBuilder: (
                                   BuildContext context,
                                   CalendarAppointmentDetails
@@ -156,19 +151,18 @@ class _InCalenderFormState extends State<InCalenderForm> {
                                             Container()
                                         ],
                                       ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                                ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                );
-              }),
-        ),
+                ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }

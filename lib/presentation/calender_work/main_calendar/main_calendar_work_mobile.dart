@@ -7,6 +7,7 @@ import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/ket_noi_module/widgets/drawer_slide/drawer_slide.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_cubit.dart';
 import 'package:ccvc_mobile/presentation/calender_work/bloc/calender_state.dart';
+import 'package:ccvc_mobile/presentation/calender_work/bloc/extension/ultis_ext.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/item_thong_bao.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/custom_item_calender_work.dart';
 import 'package:ccvc_mobile/presentation/calender_work/ui/mobile/widget/select_option_header.dart';
@@ -55,7 +56,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
             title: snapshot.data == TypeCalendarMenu.LichTheoLanhDao
                 ? cubit.titleAppbar
                 : snapshot.data?.getTitle() ??
-                    TypeCalendarMenu.LichCuaToi.getTitle(),
+                TypeCalendarMenu.LichCuaToi.getTitle(),
             leadingIcon: Row(
               children: [
                 if (widget.isBack)
@@ -117,7 +118,7 @@ class _CalenderWorkDayMobileState extends State<CalenderWorkDayMobile> {
                           },
                           cubit: cubitMenu,
                           streamDashBoard:
-                              cubit.lichLamViecDashBroadSubject.stream,
+                          cubit.lichLamViecDashBroadSubject.stream,
                           title: S.current.lich_lam_viec,
                         ),
                         thenValue: (value) {
@@ -292,7 +293,7 @@ Widget itemCalendarWorkIscheck(CalenderCubit cubit) {
                   image: ImageAssets.icTongSoLichLamviec,
                   typeName: S.current.tong_so_lich_lam_viec,
                   numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                          .countScheduleCaNhan ??
+                      .countScheduleCaNhan ??
                       0,
                 );
               },
@@ -349,7 +350,7 @@ Widget itemCalendarWorkDefault(CalenderCubit cubit) {
                     image: ImageAssets.icTongSoLichLamviec,
                     typeName: S.current.tong_so_lich_lam_viec,
                     numberOfCalendars: cubit.lichLamViecDashBroadSubject.value
-                            .countScheduleCaNhan ??
+                        .countScheduleCaNhan ??
                         0,
                   );
                 },

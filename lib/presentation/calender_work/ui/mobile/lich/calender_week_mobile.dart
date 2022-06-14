@@ -28,13 +28,14 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarDaySubject.listen((value) {});
-    widget.cubit.stateCalendarDaySubject.value
+    widget.cubit.stateCalendarControllerDay
         .addPropertyChangedListener((value) {
-      widget.cubit.updateDataSlideCalendar(
-        widget.cubit.stateCalendarDaySubject.value.displayDate ??
-            widget.cubit.selectDay,
-      );
+      if (value == 'displayDate'){
+        widget.cubit.updateDataSlideCalendar(
+          widget.cubit.stateCalendarControllerDay.displayDate ??
+              widget.cubit.selectDay,
+        );
+      }
     });
   }
 
@@ -50,84 +51,77 @@ class _CalenderWeekMobileState extends State<CalenderWeekMobile> {
         const SizedBox(
           height: 10,
         ),
-        Expanded(
-          child: StreamBuilder<CalendarController>(
-              stream: widget.cubit.stateCalendarWeekSubject.stream,
-              builder: (context, snapshot) {
-                final data = snapshot.data ?? CalendarController();
 
-                return Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: StreamBuilder<DataLichLvModel>(
-                    stream: widget.cubit.streamListLich,
-                    builder: (context, snapshot) {
-                      return SfCalendar(
-                        allowAppointmentResize: true,
-                        controller: data,
-                        viewHeaderHeight: 0.0,
-                        headerHeight: 0.0,
-                        appointmentTextStyle:
-                            textNormalCustom(color: backgroundColorApp),
-                        view: CalendarView.week,
-                        todayHighlightColor: statusCalenderRed,
-                        appointmentTimeTextFormat: 'hh:mm:ss a',
-                        dataSource: widget.cubit.getCalenderDataSource(
-                          snapshot.data ?? DataLichLvModel(),
-                        ),
-                        timeSlotViewSettings: const TimeSlotViewSettings(
-                          timeIntervalHeight: 54,
-                        ),
-                        selectionDecoration:
-                            const BoxDecoration(color: Colors.transparent),
-                        appointmentBuilder: (
-                          BuildContext context,
-                          CalendarAppointmentDetails calendarAppointmentDetails,
-                        ) {
-                          final Appointment appointment =
-                              calendarAppointmentDetails.appointments.first;
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6.0),
-                              color: AppTheme.getInstance().colorField(),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 5.0,
-                                vertical: 2.0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) =>
-                                                ChiTietLichLamViecScreen(
-                                              id: appointment.id.toString(),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Text(
-                                        appointment.subject,
-                                        style: textNormalCustom(),
-                                      ),
-                                    ),
+        Expanded(child: Padding(
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+          child: StreamBuilder<DataLichLvModel>(
+            stream: widget.cubit.streamListLich,
+            builder: (context, snapshot) {
+              return SfCalendar(
+                allowAppointmentResize: true,
+                controller: widget.cubit.stateCalendarControllerWeek,
+                viewHeaderHeight: 0.0,
+                headerHeight: 0.0,
+                appointmentTextStyle:
+                textNormalCustom(color: backgroundColorApp),
+                view: CalendarView.week,
+                todayHighlightColor: statusCalenderRed,
+                appointmentTimeTextFormat: 'hh:mm:ss a',
+                dataSource: widget.cubit.getCalenderDataSource(
+                  snapshot.data ?? DataLichLvModel(),
+                ),
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                  timeIntervalHeight: 54,
+                ),
+                selectionDecoration:
+                const BoxDecoration(color: Colors.transparent),
+                appointmentBuilder: (
+                    BuildContext context,
+                    CalendarAppointmentDetails calendarAppointmentDetails,
+                    ) {
+                  final Appointment appointment =
+                      calendarAppointmentDetails.appointments.first;
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: AppTheme.getInstance().colorField(),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0,
+                        vertical: 2.0,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        ChiTietLichLamViecScreen(
+                                          id: appointment.id.toString(),
+                                        ),
                                   ),
-                                ],
+                                );
+                              },
+                              child: Text(
+                                appointment.subject,
+                                style: textNormalCustom(),
                               ),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                );
-              }),
-        ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),),
       ],
     );
   }

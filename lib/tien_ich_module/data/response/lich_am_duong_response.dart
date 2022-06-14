@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'lich_am_duong_response.g.dart';
 
 @JsonSerializable()
-class DataLichAmDuongResponse extends Equatable {
+class DataLichAmDuongResponse {
   @JsonKey(name: 'data')
   LichAmDuongResponse? data;
   @JsonKey(name: 'statusCode')
@@ -29,14 +29,10 @@ class DataLichAmDuongResponse extends Equatable {
       _$DataLichAmDuongResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataLichAmDuongResponseToJson(this);
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class GioHoangDaoResponse extends Equatable {
+class GioHoangDaoResponse{
   @JsonKey(name: 'ten')
   String? ten;
   @JsonKey(name: 'gio')
@@ -63,7 +59,7 @@ class GioHoangDaoResponse extends Equatable {
 }
 
 @JsonSerializable()
-class GioHacDaoResponse extends Equatable {
+class GioHacDaoResponse{
   @JsonKey(name: 'ten')
   String? ten;
   @JsonKey(name: 'gio')
@@ -83,14 +79,10 @@ class GioHacDaoResponse extends Equatable {
         ten: ten,
         gio: gio,
       );
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class LichAmDuongResponse extends Equatable {
+class LichAmDuongResponse{
   @JsonKey(name: 'gioHoangDao')
   List<GioHoangDaoResponse>? gioHoangDao;
   @JsonKey(name: 'gioHacDao')
@@ -170,14 +162,10 @@ class LichAmDuongResponse extends Equatable {
         saoXau: saoXau?.map((e) => e.toModel()).toList(),
         gioLyThuanPhong: gioLyThuanPhong?.map((e) => e.toModel()).toList(),
       );
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class NgayAmLichResponse extends Equatable {
+class NgayAmLichResponse {
   @JsonKey(name: 'year')
   int? year;
   @JsonKey(name: 'month')
@@ -249,14 +237,10 @@ class NgayAmLichResponse extends Equatable {
         solarTerm: solarTerm,
         fullDayInfo: fullDayInfo,
       );
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class NguHanhResponse extends Equatable {
+class NguHanhResponse {
   @JsonKey(name: 'hanh')
   String? hanh;
   @JsonKey(name: 'sao')
@@ -288,14 +272,10 @@ class NguHanhResponse extends Equatable {
         mota: mota,
         kieuNgay: kieuNgay,
       );
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()
-class ChiTietTrucResponse extends Equatable {
+class ChiTietTrucResponse{
   @JsonKey(name: 'nenLam')
   String? nenLam;
   @JsonKey(name: 'khongNenLam')
@@ -319,10 +299,6 @@ class ChiTietTrucResponse extends Equatable {
         khongNenLam: khongNenLam,
         thongTinThem: thongTinThem,
       );
-
-  //todo convert to Model to use
-  @override
-  List<Object?> get props => [];
 }
 
 @JsonSerializable()

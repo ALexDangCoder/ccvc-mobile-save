@@ -106,6 +106,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     },
                     maxLenght: 255,
                     textInputType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validatorPaste: (value) {
                       if (value.trim().validateCopyPaste() != null) {
                         return true;
@@ -308,6 +309,7 @@ class _ThemDanhBaCaNhanState extends State<ThemDanhBaCaNhan> {
                     urlIcon: ImageAssets.icCmt,
                     hintText: S.current.so_cmt,
                     maxLenght: 255,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     onChange: (value) {
                       widget.cubit.cmtnd = value;
                     },

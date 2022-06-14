@@ -239,6 +239,14 @@ class TuoiXungTheoNgay {
   }
 }
 
+String checkValue(int date) {
+  if (date < 10) {
+    return '0$date';
+  } else {
+    return '$date';
+  }
+}
+
 class TuoiXungTheoThang {
   String? tenTuoi;
   String? nguHanh;

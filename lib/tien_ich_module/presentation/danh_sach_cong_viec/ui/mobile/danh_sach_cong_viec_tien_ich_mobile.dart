@@ -368,7 +368,6 @@ class ListUpDSCV extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      key: UniqueKey(),
       itemCount: data.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),

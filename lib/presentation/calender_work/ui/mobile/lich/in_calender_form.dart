@@ -33,10 +33,10 @@ class _InCalenderFormState extends State<InCalenderForm> {
     widget.cubit.stateCalendarDaySubject.listen((value) {});
     widget.cubit.stateCalendarDaySubject.value
         .addPropertyChangedListener((value) {
-      widget.cubit.updateDataSlideCalendar(
-        widget.cubit.stateCalendarDaySubject.value.displayDate ??
-            widget.cubit.selectDay,
-      );
+      // widget.cubit.updateDataSlideCalendar(
+      //   widget.cubit.stateCalendarDaySubject.value.displayDate ??
+      //       widget.cubit.selectDay,
+      // );
     });
   }
 

@@ -541,24 +541,35 @@ extension HandleDataCalendar on CalenderCubit {
     for (final e in data.listLichLVModel ?? []) {
       (data.listLichLVModel ?? [])
           .where(
-            (i) => DateTime.parse(
-              e.dateTimeTo ?? '',
-            ).isAfter(
-              DateTime.parse(
-                i.dateTimeFrom ?? '',
-              ),
-            ) && DateTime.parse(
-              e.dateTimeFrom ?? '',
-            ).isBefore(
-              DateTime.parse(
-                i.dateTimeFrom ?? '',
-              ),
-            ) && i.id != e.id,
+            (i) =>
+                (DateTime.parse(
+                      e.dateTimeTo ?? '',
+                    ).isAfter(
+                      DateTime.parse(
+                        i.dateTimeFrom ?? '',
+                      ),
+                    ) ||
+                    isMatch(
+                      DateTime.parse(
+                        e.dateTimeFrom ?? '',
+                      ),
+                      DateTime.parse(
+                        i.dateTimeFrom ?? '',
+                      ),
+                    )) &&
+                DateTime.parse(
+                  e.dateTimeFrom ?? '',
+                ).isBefore(
+                  DateTime.parse(
+                    i.dateTimeFrom ?? '',
+                  ),
+                ) &&
+                i.id != e.id,
           )
           .toList()
           .forEach((element) {
-            element.isTrung = true;
-            e.isTrung = true;
+        element.isTrung = true;
+        e.isTrung = true;
       });
     }
   }

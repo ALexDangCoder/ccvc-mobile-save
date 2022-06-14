@@ -145,7 +145,7 @@ class _ChiTietLichLamViecScreenState extends State<ChiTietLichLamViecScreen> {
                                   ),
                                 ).then((value){
                                   if (value == true) {
-                                    chiTietLichLamViecCubit.loadApi(widget.id);
+                                    Navigator.pop(context,true);
                                   } else if (value == null) {
                                     return;
                                   }

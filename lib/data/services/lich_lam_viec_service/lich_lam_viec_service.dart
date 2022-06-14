@@ -145,7 +145,7 @@ abstract class LichLamViecService {
   );
 
   @PUT(ApiConstants.TAO_LICH_LAM_VIEC)
-  Future<SuaLicLamViecResponse> suaLichLamviec(
+  Future<SuaLichLamViecResponse> suaLichLamviec(
     @Body() FormData data,
   );
 

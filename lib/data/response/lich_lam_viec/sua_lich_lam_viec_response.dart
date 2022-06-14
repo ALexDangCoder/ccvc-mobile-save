@@ -1,3 +1,4 @@
+
 import 'package:ccvc_mobile/domain/model/message_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -5,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'sua_lich_lam_viec_response.g.dart';
 
 @JsonSerializable()
-class SuaLicLamViecResponse extends Equatable {
+class SuaLichLamViecResponse extends Equatable {
   @JsonKey(name: 'statusCode')
   int? statusCode;
   @JsonKey(name: 'succeeded')
@@ -15,13 +16,13 @@ class SuaLicLamViecResponse extends Equatable {
   @JsonKey(name: 'message')
   String? message;
 
-  SuaLicLamViecResponse(
-      {this.statusCode, this.succeeded, this.code, this.message});
+  SuaLichLamViecResponse(
+      { this.statusCode, this.succeeded, this.code, this.message});
 
-  factory SuaLicLamViecResponse.fromJson(Map<String, dynamic> json) =>
-      _$SuaLicLamViecResponseFromJson(json);
+  factory SuaLichLamViecResponse.fromJson(Map<String, dynamic> json) =>
+      _$SuaLichLamViecResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SuaLicLamViecResponseToJson(this);
+  Map<String, dynamic> toJson() => _$SuaLichLamViecResponseToJson(this);
 
   MessageModel toDomain() {
     return MessageModel(code: code ?? '', succeeded: succeeded ?? false);

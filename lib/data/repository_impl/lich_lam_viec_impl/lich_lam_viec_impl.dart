@@ -453,7 +453,7 @@ class LichLamViecImlp implements LichLamViecRepository {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
 
-    return runCatchingAsync<SuaLicLamViecResponse, MessageModel>(
+    return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
       () => lichLamViecService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );
@@ -559,7 +559,7 @@ class LichLamViecImlp implements LichLamViecRepository {
       _data.fields.add(MapEntry('repeatCalendar.days[$i]', days[i].toString()));
     }
 
-    return runCatchingAsync<SuaLicLamViecResponse, MessageModel>(
+    return runCatchingAsync<SuaLichLamViecResponse, MessageModel>(
       () => lichLamViecService.suaLichLamviec(_data),
       (res) => res.toDomain(),
     );

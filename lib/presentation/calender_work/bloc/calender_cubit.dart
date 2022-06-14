@@ -575,9 +575,7 @@ extension HandleDataCalendar on CalenderCubit {
   }
 
   bool isMatch(DateTime? oldData, DateTime? newData) {
-    if (oldData == null || newData == null || oldData == newData) return true;
-
-    if (oldData != newData) return false;
+    if (oldData == newData) return true;
 
     return false;
   }

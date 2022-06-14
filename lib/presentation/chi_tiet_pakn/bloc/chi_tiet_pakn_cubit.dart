@@ -446,13 +446,15 @@ class ChiTietPaknCubit extends BaseCubit<ChiTietPaknState> {
     }
     showLoading();
     final result = await YKNDRepo.thongTinXuLyPAKN(kienNghiId, taskId);
-    showContent();
     result.when(
       success: (success) {
+        showContent();
         listThongTinXuLy.sink.add(success);
       },
       error: (error) {
-        return;
+        showContent();
+        listThongTinXuLy.sink.add(ThongTinXuLyPAKNModel.seeded());
+
       },
     );
   }

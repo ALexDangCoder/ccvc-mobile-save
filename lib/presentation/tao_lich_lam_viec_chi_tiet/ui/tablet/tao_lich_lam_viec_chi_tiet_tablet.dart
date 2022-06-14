@@ -226,12 +226,6 @@ class _TaoLichLamViecChiTietTabletState
                                     NhacLaiWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    MauMacDinhWidget(
-                                        taoLichLamViecCubit:
-                                            taoLichLamViecCubit),
                                     NguoiChuTriWidget(
                                       taoLichLamViecCubit: taoLichLamViecCubit,
                                     ),

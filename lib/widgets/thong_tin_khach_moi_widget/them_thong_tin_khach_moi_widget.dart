@@ -165,7 +165,7 @@ class _ThemDonViPhoiHopKhacScreenState
                     sdt: _sdtController.text,
                     tenCoQuan: _tenDonViController.text,
                     vaiTroThamGia: 5,
-                    dauMoiLienHe: '',
+                    dauMoiLienHe: _hoTenController.text,
                     tenCanBo: _hoTenController.text,
                     soLuong: int.parse(_soLuongController.text),
                   ),
@@ -191,7 +191,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         title: S.current.ho_va_ten,
                         child: TextFieldValidator(
                           controller: _hoTenController,
-                          hintText: S.current.ten_don_vi,
+                          hintText: S.current.ho_va_ten,
                           validator: (value) {
                             return (value ?? '').checkNull();
                           },
@@ -202,6 +202,9 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _tenDonViController,
                           hintText: S.current.dau_moi_lam_viec,
+                          validator: (value) {
+                            return (value ?? '').checkNull();
+                          },
                         ),
                       ),
                       spaceH20,
@@ -224,6 +227,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkEmail();
                           },
                         ),
@@ -241,6 +247,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkSdt();
                           },
                         ),

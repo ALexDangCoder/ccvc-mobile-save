@@ -281,25 +281,27 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                         '${_cubit.taoLichHopRequest.timeTo}',
                     id: _cubit.donViId,
                     onChange: (value) {
-                      _cubit.taoLichHopRequest.phongHop = value.phongHop;
-                      _cubit.taoLichHopRequest.phongHop?.noiDungYeuCau =
-                          value.yeuCauKhac;
-                      _cubit.taoLichHopRequest.phongHopThietBi =
-                          value.listThietBi
-                              .map(
-                                (e) => PhongHopThietBi(
-                                  tenThietBi: e.tenThietBi,
-                                  soLuong: e.soLuong.toString(),
-                                ),
-                              )
-                              .toList();
+                      if(value.phongHop?.phongHopId?.isNotEmpty ?? false) {
+                        _cubit.taoLichHopRequest.phongHop = value.phongHop;
+                      }
+                        _cubit.taoLichHopRequest.phongHop?.noiDungYeuCau =
+                            value.yeuCauKhac;
+                        _cubit.taoLichHopRequest.phongHopThietBi =
+                            value.listThietBi
+                                .map(
+                                  (e) => PhongHopThietBi(
+                                tenThietBi: e.tenThietBi,
+                                soLuong: e.soLuong.toString(),
+                              ),
+                            )
+                                .toList();
                     },
                   ),
                   spaceH15,
                   ExpandGroup(
                     child: Column(
                       children: [
-                        ThanhPhanThamGiaExpandWidget(cubit: _cubit),
+                        ThanhPhanThamGiaExpandWidget(cubit: _cubit,),
                         ChuongTrinhHopWidget(
                           cubit: _cubit,
                         ),
@@ -313,7 +315,6 @@ class _TaoLichHopScreenState extends State<TaoLichHopMobileScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: ButtonBottom(
                       text: S.current.tao_lich_hop,
-
                       onPressed: () {
                         if (_formKey.currentState?.validate() ?? false) {
                           _cubit.checkLichTrung(context);

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ccvc_mobile/config/resources/color.dart';
@@ -61,6 +62,28 @@ class _SuaLichCongTacTrongNuocPhoneState
 
   @override
   void initState() {
+    log(widget.event.timeFrom ?? '');
+    log(widget.event.timeTo ?? '');
+    log(widget.event.dateFrom ?? '');
+    log(widget.event.dateTo ?? '');
+    taoLichLamViecCubit.listeningEndDataTime(
+      DateTime.parse(
+        timeFormat(
+          '${widget.event.dateTo} ${widget.event.timeFrom}',
+          'yyyy-MM-ddTHH:mm:ss',
+          'yyyy-MM-dd hh:mm:ss.ms',
+        ),
+      ),
+    );
+    taoLichLamViecCubit.listeningStartDataTime(
+      DateTime.parse(
+        timeFormat(
+          '${widget.event.dateFrom} ${widget.event.timeFrom}',
+          'yyyy-MM-ddTHH:mm:ss',
+          'yyyy-MM-dd hh:mm:ss.ms',
+        ),
+      ),
+    );
     taoLichLamViecCubit.chiTietLichLamViecModel = widget.event;
     taoLichLamViecCubit.selectedCountry = widget.event.country ?? '';
     taoLichLamViecCubit.selectedCountryID = widget.event.countryId ?? '';
@@ -104,7 +127,7 @@ class _SuaLichCongTacTrongNuocPhoneState
     return BlocListener<TaoLichLamViecCubit, TaoLichLamViecState>(
       bloc: taoLichLamViecCubit,
       listener: (context, state) {
-        if(state is CreateSuccess){
+        if (state is CreateSuccess) {
           Navigator.pop(context, true);
         }
       },
@@ -213,7 +236,13 @@ class _SuaLichCongTacTrongNuocPhoneState
                               String dateStart,
                               String dateEnd,
                             ) {
-                              taoLichLamViecCubit.checkValidateTime();
+                              log(timeStart +
+                                  ' -' +
+                                  dateStart +
+                                  ' -' +
+                                  timeEnd +
+                                  ' - ' +
+                                  dateEnd);
                               taoLichLamViecCubit.listeningEndDataTime(
                                 DateTime.parse(
                                   timeFormat(
@@ -505,22 +534,23 @@ class _SuaLichCongTacTrongNuocPhoneState
                         width: 16,
                       ),
                       StreamBuilder<bool>(
-                          stream: taoLichLamViecCubit.checkTrongNuoc,
-                          builder: (context, snapshot) {
-                            final data = snapshot.data ?? false;
-                            return Expanded(
-                              child: btnSuaLich(
-                                name: S.current.luu,
-                                bgr: labelColor,
-                                colorName: Colors.white,
-                                onTap: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    checkInside(data);
-                                  }
-                                },
-                              ),
-                            );
-                          })
+                        stream: taoLichLamViecCubit.checkTrongNuoc,
+                        builder: (context, snapshot) {
+                          final data = snapshot.data ?? false;
+                          return Expanded(
+                            child: btnSuaLich(
+                              name: S.current.luu,
+                              bgr: labelColor,
+                              colorName: Colors.white,
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  checkInside(data);
+                                }
+                              },
+                            ),
+                          );
+                        },
+                      )
                     ],
                   ),
                 ],

@@ -35,83 +35,88 @@ class _TabCungHeThongMobileState extends State<TabCungHeThongMobile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spaceH24,
-              Container(
-                height: 40.h,
-                width: double.infinity,
-                padding: EdgeInsets.only(right: 15.w, left: 15.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(4.r)),
-                  border: Border.all(color: containerColorTab),
-                ),
-                child: Theme(
-                  data: ThemeData(
-                    hintColor: Colors.white24,
-                    selectedRowColor: Colors.white24,
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton2<String>(
-                      buttonDecoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20.r)),
+              StreamBuilder<String>(
+                stream: widget.cubit.callAPI,
+                builder: (context, snapshot) {
+                  return Container(
+                    height: 40.h,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(right: 15.w, left: 15.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                      border: Border.all(color: containerColorTab),
+                    ),
+                    child: Theme(
+                      data: ThemeData(
+                        hintColor: Colors.white24,
+                        selectedRowColor: Colors.white24,
                       ),
-                      items: widget.cubit.listDropDown.map((String model) {
-                        return DropdownMenuItem(
-                          value: model,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 32.w,
-                                height: 32.h,
-                                decoration: BoxDecoration(
-                                  color: color4C6FFF.withOpacity(0.1),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Image.asset(
-                                  ImageAssets.img_company,
-                                  height: 5.h,
-                                  width: 5.w,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                              spaceW5,
-                              Text(
-                                model,
-                                style: textNormal(
-                                  color3D5586,
-                                  14,
-                                ),
-                              ),
-                            ],
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          buttonDecoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(20.r)),
                           ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        widget.cubit.themNhom(newValue ?? '');
-                      },
-                      dropdownMaxHeight: 200,
-                      dropdownWidth: MediaQuery.of(context).size.width - 32.w,
-                      dropdownDecoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(4.r)),
-                      ),
-                      scrollbarThickness: 0,
-                      scrollbarAlwaysShow: false,
-                      offset: Offset(-16.w, 0),
-                      hint: Text(
-                        S.current.chon_nhom,
-                        style: textNormalCustom(
-                          color: color3D5586,
-                          fontSize: 14,
+                          items: widget.cubit.listDropDown.map((String model) {
+                            return DropdownMenuItem(
+                              value: model,
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 32.w,
+                                    height: 32.h,
+                                    decoration: BoxDecoration(
+                                      color: color4C6FFF.withOpacity(0.1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Image.asset(
+                                      ImageAssets.img_company,
+                                      height: 5.h,
+                                      width: 5.w,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  spaceW5,
+                                  Text(
+                                    model,
+                                    style: textNormal(
+                                      color3D5586,
+                                      14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            widget.cubit.themNhom(newValue ?? '');
+                          },
+                          dropdownMaxHeight: 200,
+                          dropdownWidth: MediaQuery.of(context).size.width - 32.w,
+                          dropdownDecoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(4.r)),
+                          ),
+                          scrollbarThickness: 0,
+                          scrollbarAlwaysShow: false,
+                          offset: Offset(-16.w, 0),
+                          hint: Text(
+                            S.current.chon_nhom,
+                            style: textNormalCustom(
+                              color: color3D5586,
+                              fontSize: 14,
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: colorA2AEBD,
+                          ),
                         ),
                       ),
-                      icon: const Icon(
-                        Icons.arrow_drop_down,
-                        color: colorA2AEBD,
-                      ),
                     ),
-                  ),
-                ),
+                  );
+                }
               ),
               spaceH20,
               StreamBuilder<List<NhomCungHeThong>>(

@@ -1,5 +1,6 @@
 import 'package:ccvc_mobile/data/di/flutter_transformer.dart';
 import 'package:ccvc_mobile/data/repository_impl/account_impl/account_impl.dart';
+import 'package:ccvc_mobile/data/repository_impl/bao_cao_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/lich_hop/lich_hop_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/lich_lam_viec_impl/lich_lam_viec_impl.dart';
@@ -9,6 +10,7 @@ import 'package:ccvc_mobile/data/repository_impl/thanh_phan_tham_gia_impl/thanh_
 import 'package:ccvc_mobile/data/repository_impl/thong_bao_impl/thong_bao_impl.dart';
 import 'package:ccvc_mobile/data/repository_impl/y_kien_nguoi_dan_impl/y_kien_nguoi_dan_impl.dart';
 import 'package:ccvc_mobile/data/services/account_service.dart';
+import 'package:ccvc_mobile/data/services/bao_cao/report_service.dart';
 import 'package:ccvc_mobile/data/services/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_service.dart';
 import 'package:ccvc_mobile/data/services/lich_hop/hop_services.dart';
 import 'package:ccvc_mobile/data/services/lich_lam_viec_service/lich_lam_viec_service.dart';
@@ -22,6 +24,7 @@ import 'package:ccvc_mobile/diem_danh_module/data/service/diem_danh_service.dart
 import 'package:ccvc_mobile/diem_danh_module/domain/repository/diem_danh_repository.dart';
 import 'package:ccvc_mobile/domain/env/model/app_constants.dart';
 import 'package:ccvc_mobile/domain/locals/prefs_service.dart';
+import 'package:ccvc_mobile/domain/repository/bao_cao/report_repository.dart';
 import 'package:ccvc_mobile/domain/repository/bao_chi_mang_xa_hoi/bao_chi_mang_xa_hoi_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_hop/hop_repository.dart';
 import 'package:ccvc_mobile/domain/repository/lich_lam_viec_repository/lich_lam_viec_repository.dart';
@@ -93,6 +96,10 @@ void configureDependencies() {
   );
   Get.put<YKienNguoiDanRepository>(
     YKienNguoiDanImpl(Get.find()),
+  );
+  Get.put(ReportService(provideDio(baseOption: BaseURLOption.GATE_WAY)));
+  Get.put<ReportRepository>(
+    ReportImpl(Get.find()),
   );
 
   Get.put(
@@ -180,6 +187,13 @@ void configureDependencies() {
     ),
   );
   Get.put<DiemDanhRepository>(DiemDanhRepoImpl(Get.find()));
+
+  Get.put(
+    ReportService(
+      provideDio(baseOption: BaseURLOption.GATE_WAY),
+    ),
+  );
+  Get.put<ReportRepository>(ReportImpl(Get.find()));
 }
 
 int _connectTimeOut = 60000;

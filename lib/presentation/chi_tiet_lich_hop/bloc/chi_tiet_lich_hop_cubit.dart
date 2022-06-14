@@ -28,6 +28,7 @@ import 'package:ccvc_mobile/domain/model/lich_hop/moi_hop.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/nguoi_chu_tri_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/phat_bieu_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/status_ket_luan_hop_model.dart';
+import 'package:ccvc_mobile/domain/model/lich_hop/tao_hop/phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/thong_tin_phong_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/xem_ket_luan_hop_model.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/y_kien_cuoc_hop.dart';
@@ -72,11 +73,13 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<CanBoModel> dataThanhPhanThamGia = [];
   List<String?> data = [];
   List<String> selectPhatBieu = [];
-  String id = '';
+  String idCuocHop = '';
   List<LoaiSelectModel> listLoaiHop = [];
   String? ngaySinhs;
   String chonNgay = '';
   List<File>? listFile = [];
+  PhongHop chosePhongHop = PhongHop();
+  BehaviorSubject<bool> isValidateSubject = BehaviorSubject();
 
   List<ButtonStatePhatBieu> buttonStatePhatBieu = [
     ButtonStatePhatBieu(
@@ -145,11 +148,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   Stream<List<MoiHopModel>> get listMoiHopStream => listMoiHopSubject.stream;
 
-  BehaviorSubject<ChiTietLichHopModel> chiTietLichLamViecSubject =
+  BehaviorSubject<ChiTietLichHopModel> chiTietLichHopSubject =
       BehaviorSubject();
 
   ChiTietLichHopModel get getChiTietLichHopModel =>
-      chiTietLichLamViecSubject.valueOrNull ?? ChiTietLichHopModel();
+      chiTietLichHopSubject.valueOrNull ?? ChiTietLichHopModel();
   BehaviorSubject<List<YkienCuocHopModel>> listYKienCuocHop = BehaviorSubject();
 
   BehaviorSubject<DanhSachPhatBieuLichHopModel>
@@ -177,7 +180,11 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   BehaviorSubject<List<DanhSachNhiemVuLichHopModel>>
       danhSachNhiemVuLichHopSubject = BehaviorSubject();
+
   BehaviorSubject<List<DanhSachNguoiThamGiaModel>> nguoiThamGiaSubject =
+      BehaviorSubject();
+
+  final BehaviorSubject<List<PhongHopModel>> phongHopSubject =
       BehaviorSubject();
   List<DanhSachNguoiThamGiaModel> listData = [];
 
@@ -187,52 +194,86 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
 
   List<NguoiChutriModel> dataThuHoi = [];
 
-  TimerData start = TimerData(hour: 0, minutes: 0);
-  TimerData end = TimerData(hour: 0, minutes: 0);
+  DateTime timeNow = DateTime.now();
+  TimerData end = TimerData(hour: 00, minutes: 00);
+  TimerData start = TimerData(
+    hour: 00,
+    minutes: 00,
+  );
+
+  TimerData dateTimeNowStart() {
+    final TimerData start = TimerData(
+      hour: timeNow.hour,
+      minutes: timeNow.minute,
+    );
+    return start;
+  }
+
+  TimerData dateTimeNowEnd() {
+    final TimerData end = TimerData(
+      hour: timeNow.add(const Duration(hours: 1)).hour,
+      minutes: timeNow.minute,
+    );
+    return end;
+  }
+
+  int dateDiff(String startTime, String endTime) {
+    final start = DateTime.parse(startTime);
+    final end = DateTime.parse(endTime);
+    final result = end.difference(start).inSeconds;
+    return result;
+  }
 
   Future<void> initData({
-    required String id,
+    bool? boolGetChiTietLichHop,
+    bool? boolGetThongTinPhongHopApi,
+    bool? boolGetDanhSachThietBi,
   }) async {
-    await getChiTietLichHop(id);
+    if (boolGetChiTietLichHop ?? false) {
+      await getChiTietLichHop(idCuocHop);
+    }
 
     final queue = Queue(parallel: 15);
-    unawaited(queue.add(() => getDanhSachThuHoiLichHop(id)));
+    // unawaited(queue.add(() => getDanhSachThuHoiLichHop(id)));
 
     ///Công tác chuẩn bị
-    unawaited(queue.add(() => getThongTinPhongHopApi()));
-    unawaited(queue.add(() => getDanhSachThietBi()));
+    if (boolGetThongTinPhongHopApi ?? false) {
+      unawaited(queue.add(() => getThongTinPhongHopApi()));
+    }
+    if (boolGetDanhSachThietBi ?? false) {
+      unawaited(queue.add(() => getDanhSachThietBi()));
+    }
 
     ///Chương trình họp
-    unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
-    unawaited(queue.add(() => getListPhienHop(id)));
+    // unawaited(queue.add(() => getDanhSachNguoiChuTriPhienHop(id)));
+    // unawaited(queue.add(() => getListPhienHop(id)));
 
     ///Phát biểu
-    unawaited(
-        queue.add(() => getDanhSachPhatBieuLichHop(status: 0, lichHopId: id)));
-    unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
+    // unawaited(
+    //     queue.add(() => getDanhSachPhatBieuLichHop(status: 0, lichHopId: id)));
+    // unawaited(queue.add(() => soLuongPhatBieuData(id: id)));
 
     ///Biểu quyết
-    unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: id)));
-    unawaited(queue.add(() => callApi(id)));
-    // unawaited(queue.add(() => getDanhSachBieuQuyetLichHop(id)));
+    unawaited(queue.add(() => getDanhSachNTGChuongTrinhHop(id: idCuocHop)));
+    unawaited(queue.add(() => callApi(idCuocHop)));
 
     ///Thành phần tham gia
-    unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));
-    unawaited(queue.add(() => themThanhPhanThamGia()));
+    // unawaited(queue.add(() => danhSachCanBoTPTG(id: id)));
+    // unawaited(queue.add(() => themThanhPhanThamGia()));
 
     ///kết luận họp
-    unawaited(queue.add(() => getDanhSachNhiemVu(id)));
-    unawaited(queue.add(() => getXemKetLuanHop(id)));
-    unawaited(queue.add(() => getDanhSachLoaiNhiemVu()));
-    unawaited(queue.add(() => ListStatusKetLuanHop()));
-    unawaited(queue.add(() => postChonMauHop()));
+    // unawaited(queue.add(() => getDanhSachNhiemVu(id)));
+    // unawaited(queue.add(() => getXemKetLuanHop(id)));
+    // unawaited(queue.add(() => getDanhSachLoaiNhiemVu()));
+    // unawaited(queue.add(() => ListStatusKetLuanHop()));
+    // unawaited(queue.add(() => postChonMauHop()));
 
     ///ý kiến
-    unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
-    unawaited(queue.add(() => getDanhSachPhienHop(id)));
+    // unawaited(queue.add(() => getDanhSachYKien(id, ' ')));
+    // unawaited(queue.add(() => getDanhSachPhienHop(id)));
 
     ///nguoi theo doi
-    unawaited(queue.add(() => getNguoiChuTri(id)));
+    // unawaited(queue.add(() => getNguoiChuTri(id)));
 
     ///check permission button
     initDataButton();
@@ -268,7 +309,7 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
     );
   }
 
-  bool? loaiBieuQ = false;
+  bool loaiBieuQ = false;
   String date = DateTime.now().toStringWithListFormat;
 
   List<DanhSachNguoiThamGiaModel> listDanhSach = [];
@@ -314,4 +355,20 @@ class DetailMeetCalenderCubit extends BaseCubit<DetailMeetCalenderState> {
   List<ThuHoiHopRequest> thuHoiHopRequest = [];
 
   void dispose() {}
+
+  String dateTimeCovert(int time) {
+    if (time < 10) {
+      return '0$time';
+    }
+    return '$time';
+  }
+
+  ///handle timer
+  bool isNotStartYet({required DateTime startTime}) {
+    if (DateTime.now().isBefore(startTime)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

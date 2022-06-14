@@ -199,6 +199,7 @@ class Data {
         isTaoTaoBocBang: isTaoBocBang ?? false,
         bit_PhongTrungTamDieuHanh: bitPhongTrungTamDieuHanh ?? false,
         lichHop_PhienHopStr: lichHop_PhienHopStr ?? '',
+        diaDiemHop: diaDiemHop ?? '',
       );
 }
 
@@ -256,6 +257,7 @@ class PhongHop {
   String? lichHopId;
   String? noiDungYeuCau;
   String? ten;
+  bool? bit_TTDH;
 
   PhongHop.fromJson(Map<String, dynamic> json) {
     donViId = json['donViId'];
@@ -263,9 +265,14 @@ class PhongHop {
     lichHopId = json['lichHopId'];
     noiDungYeuCau = json['noiDungYeuCau'];
     ten = json['ten'];
+    bit_TTDH = json['bit_TTDH'];
   }
 
-  PhongHopMode toDomain() => PhongHopMode(id: id ?? '', ten: ten ?? '');
+  PhongHopMode toDomain() => PhongHopMode(
+        id: id ?? '',
+        ten: ten ?? '',
+        bit_TTDH: bit_TTDH ?? false,
+      );
 }
 
 class FileData {

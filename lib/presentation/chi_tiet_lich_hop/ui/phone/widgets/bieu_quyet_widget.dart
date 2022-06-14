@@ -44,7 +44,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                   ),
                 ).then((value) {
                   if (value == true) {
-                    widget.cubit.initData(id: widget.id);
+                    widget.cubit.initData();
                   } else if (value == null) {
                     return;
                   }
@@ -63,7 +63,7 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
                   itemCount: _list.length,
                   itemBuilder: (context, index) {
                     return CellBieuQuyet(
-                      infoModel: _list[index],
+                      infoModel: _list[index], cubit: widget.cubit,
                     );
                   },
                 );
@@ -80,3 +80,4 @@ class _BieuQuyetWidgetState extends State<BieuQuyetWidget> {
     );
   }
 }
+

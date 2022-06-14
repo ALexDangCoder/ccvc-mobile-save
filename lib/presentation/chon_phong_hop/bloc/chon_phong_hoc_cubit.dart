@@ -53,7 +53,7 @@ class ChonPhongHopCubit extends BaseCubit<ConPhongHopState> {
     required bool isTTDH,
   }) async {
     showLoading();
-    final rs = await hopRepository.getPhongHop(id, from, to, isTTDH);
+    final rs = await hopRepository.getDanhSachPhongHop(id, from, to, isTTDH);
     rs.when(
       success: (res) {
         phongHopSubject.add(res);

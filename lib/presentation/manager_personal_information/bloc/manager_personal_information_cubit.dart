@@ -304,7 +304,7 @@ class ManagerPersonalInformationCubit
         isCheck = true;
       },
       error: (error) {
-        if (error is NoNetworkException) {
+        if (error is TimeoutException || error is NoNetworkException) {
           MessageConfig.show(
             title: S.current.no_internet,
             messState: MessState.error,
@@ -314,8 +314,8 @@ class ManagerPersonalInformationCubit
             title: S.current.thay_doi_that_bai,
             messState: MessState.error,
           );
-          isCheck = false;
         }
+        isCheck = false;
       },
     );
     showContent();

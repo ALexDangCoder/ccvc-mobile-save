@@ -8,6 +8,7 @@ import 'package:ccvc_mobile/data/request/lich_hop/danh_sach_thong_ke_request.dar
 import 'package:ccvc_mobile/data/request/lich_hop/envent_calendar_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/moi_hop_request.dart';
+import 'package:ccvc_mobile/data/request/lich_hop/moi_tham_gia_hop.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_chu_tri_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nguoi_theo_doi_request.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/nhiem_vu_chi_tiet_hop_request.dart';
@@ -52,6 +53,7 @@ import 'package:ccvc_mobile/data/response/lich_hop/statistic_by_month_response.d
 import 'package:ccvc_mobile/data/response/lich_hop/sua_chuong_trinh_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/sua_ket_luan_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/phong_hop_response.dart';
+import 'package:ccvc_mobile/data/response/lich_hop/tao_hop/them_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/tao_phien_hop_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/thanh_phan_tham_gia_response.dart';
 import 'package:ccvc_mobile/data/response/lich_hop/them_moi_bieu_quayet_response.dart';
@@ -253,7 +255,8 @@ abstract class HopServices {
 
   @POST(ApiConstants.CREATE_METTING)
   Future<ChiTietLichHopResponse> createMetting(
-      @Body() TaoLichHopRequest taoLichHopRequest);
+    @Body() TaoLichHopRequest taoLichHopRequest,
+  );
 
   @GET(ApiConstants.XEM_KET_LUAN_HOP)
   Future<XemKetLuanHopDataResponse> getXemKetLuanHop(@Query('id') String id);
@@ -405,4 +408,66 @@ abstract class HopServices {
     @Query('DenNgay') String DenNgay,
     @Query('Bit_TTDH') bool Bit_TTDH,
   );
+
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_PHONG_HOP)
+  Future<PhanCongThuKyResponse> huyOrDuyetPhongHop(
+    @Field('hopId') String hopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CHON_PHONG_HOP)
+  Future<PhanCongThuKyResponse> thayDoiPhongHop(
+    @Field('bit_TTDH') bool bit_TTDH,
+    @Field('lichHopId') String lichHopId,
+    @Field('phongHopId') String phongHopId,
+    @Field('tenPhong') String tenPhong,
+  );
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_THIET_BI)
+  Future<PhanCongThuKyResponse> duyetOrHuyDuyetThietBi(
+    @Field('isDuyet') bool isDuyet,
+    @Field('lichHopId') String lichHopId,
+    @Field('lyDo') String lyDo,
+    @Field('thietBiId') String thietBiId,
+  );
+
+  @POST(ApiConstants.DUYET_HOAC_HUYDUYET_KY_THUAT)
+  Future<PhanCongThuKyResponse> duyetOrHuyDuyetKyThuat(
+    @Field('hopId') String hopId,
+    @Field('isDuyet') bool isDuyet,
+    @Field('lyDo') String lyDo,
+  );
+
+  @POST(ApiConstants.CHON_PHONG_HOP_METTING)
+  Future<PhanCongThuKyResponse> chonPhongHopMetting(
+    @Body() TaoLichHopRequest taoLichHopRequest,
+  );
+
+  @GET(ApiConstants.CHECK_LICH_HOP_TRUNG)
+  Future<dynamic> checkLichHopTrung(
+    @Query('ScheduleId') String? scheduleId,
+    @Query('DonViId') String donViId,
+    @Query('UserId') String userId,
+    @Query('TimeFrom') String timeFrom,
+    @Query('TimeTo') String timeTo,
+    @Query('DateFrom') String dateFrom,
+    @Query('DateTo') String dateTo,
+  );
+
+  @POST(ApiConstants.MOI_HOP)
+  Future<ThanhPhanThamGiaResponse> moiHop(
+      @Query('lichHopId') String lichHopId,
+      @Query('IsMultipe') bool IsMultipe,
+      @Query('isSendMail') bool isSendMail,
+      @Body() List<MoiThamGiaHopRequest> body,
+      );
+
+  @POST(ApiConstants.THEM_PHIEN_HOP_CHI_TIET)
+  Future<ThemPhienHopResponse> themPhienHop(
+      @Query('lichHopId') String lichHopId,
+      @Body() FormData data,
+      );
+
 }

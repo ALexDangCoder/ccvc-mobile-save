@@ -1,5 +1,8 @@
+import 'package:ccvc_mobile/data/exception/app_exception.dart';
 import 'package:ccvc_mobile/data/request/lich_hop/kien_nghi_request.dart';
+import 'package:ccvc_mobile/generated/l10n.dart';
 import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
+import 'package:ccvc_mobile/widgets/dialog/message_dialog/message_config.dart';
 import 'package:ccvc_mobile/widgets/timer/time_date_widget.dart';
 
 ///Biẻu quyết
@@ -81,7 +84,8 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     cacLuaChonBieuQuyet.remove(value);
   }
 
-  Future<void> postThemBieuQuyetHop(String id, String noidung) async {
+  Future<void> postThemBieuQuyetHop(
+      String id, String noidung, String date, bool loaiBieuQuyet) async {
     await themBieuQuyetHopByLuc(
       dateStart: date,
       thoiGianBatDau: plusTaoBieuQuyet(
@@ -92,7 +96,7 @@ extension BieuQuyet on DetailMeetCalenderCubit {
         date,
         end,
       ),
-      loaiBieuQuyet: loaiBieuQ,
+      loaiBieuQuyet: loaiBieuQuyet,
       danhSachLuaChon: listLuaChon
           .map((e) => DanhSachLuaChon(tenLuaChon: e, mauBieuQuyet: 'primary'))
           .toList(),
@@ -139,10 +143,25 @@ extension BieuQuyet on DetailMeetCalenderCubit {
     );
     final result = await hopRp.themBieuQuyet(bieuQuyetRequest);
     result.when(
-      success: (res) {},
+      success: (res) {
+        MessageConfig.show(
+          title: S.current.tao_thanh_cong,
+        );
+      },
       error: (err) {
-        return;
+        if (err is NoNetworkException) {
+          MessageConfig.show(
+            title: S.current.no_internet,
+            messState: MessState.error,
+          );
+        } else {
+          MessageConfig.show(
+            title: S.current.tao_that_bai,
+            messState: MessState.error,
+          );
+        }
       },
     );
+    showContent();
   }
 }

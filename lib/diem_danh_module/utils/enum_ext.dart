@@ -1,6 +1,6 @@
 import 'package:ccvc_mobile/config/resources/color.dart';
+import 'package:ccvc_mobile/diem_danh_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
-import 'package:ccvc_mobile/utils/constants/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 
 extension SelectKeyExt on SelectKey {

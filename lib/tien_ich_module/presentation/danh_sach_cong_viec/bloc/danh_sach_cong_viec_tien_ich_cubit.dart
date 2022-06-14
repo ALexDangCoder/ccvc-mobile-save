@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.d
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nhom_cv_moi_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/repository/tien_ich_repository.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
 import 'package:ccvc_mobile/tien_ich_module/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
@@ -22,19 +23,13 @@ import 'package:rxdart/rxdart.dart';
 
 import 'danh_sach_cong_viec_tien_ich_state.dart';
 
-const int CVCB = 0;
-const int CVQT = 1;
-const int DHT = 2;
-const int GCT = 3;
-const int DBX = 4;
-const int NCVM = 5;
-
 class DanhSachCongViecTienIchCubit
     extends BaseCubit<DanhSachCongViecTienIchState> {
   TienIchRepository get tienIchRep => Get.find();
   String dateChange = '';
   String? noteChange;
   String? titleChange;
+  String filePath = '';
 
   ///id nhom nhiem vu
   String groupId = '';
@@ -107,14 +102,14 @@ class DanhSachCongViecTienIchCubit
     listDaBiXoa = listGop
         .where((e) => e.inUsed == false && e.isDeleted == false)
         .toList();
-    vlMenuDf[CVCB].number = listCongViecCuaBan
+    vlMenuDf[DSCVScreen.CVCB].number = listCongViecCuaBan
         .where((element) => element.isTicked == false)
         .toList()
         .length;
-    vlMenuDf[CVQT].number = listQuanTrong.length;
-    vlMenuDf[DHT].number = listDaHoanThanh.length;
-    vlMenuDf[GCT].number = listGanChoToi.length;
-    vlMenuDf[DBX].number = listDaBiXoa.length;
+    vlMenuDf[DSCVScreen.CVQT].number = listQuanTrong.length;
+    vlMenuDf[DSCVScreen.DHT].number = listDaHoanThanh.length;
+    vlMenuDf[DSCVScreen.GCT].number = listGanChoToi.length;
+    vlMenuDf[DSCVScreen.DBX].number = listDaBiXoa.length;
   }
 
   /// khoi tao data
@@ -181,17 +176,17 @@ class DanhSachCongViecTienIchCubit
   /// set filter data
   void addValueWithTypeToDSCV() {
     switch (statusDSCV.value) {
-      case CVCB:
+      case DSCVScreen.CVCB:
         return listDSCV.sink.add(listCongViecCuaBan);
-      case CVQT:
+      case DSCVScreen.CVQT:
         return listDSCV.sink.add(listQuanTrong);
-      case DHT:
+      case DSCVScreen.DHT:
         return listDSCV.sink.add(listDaHoanThanh);
-      case GCT:
+      case DSCVScreen.GCT:
         return listDSCV.sink.add(listGanChoToi);
-      case DBX:
+      case DSCVScreen.DBX:
         return listDSCV.sink.add(listDaBiXoa);
-      case NCVM:
+      case DSCVScreen.NCVM:
         return listDSCV.sink.add(
           toDoModelDefault
               .where((e) => isList(e, groupId) && e.inUsed == true)
@@ -261,7 +256,7 @@ class DanhSachCongViecTienIchCubit
       showLoading();
       final result = await tienIchRep.createTodo(
         CreateToDoRequest(
-          groupId: statusDSCV.value == NCVM ? groupId : null,
+          groupId: statusDSCV.value == DSCVScreen.NCVM ? groupId : null,
           label: titleChange,
           isTicked: false,
           important: false,
@@ -269,9 +264,11 @@ class DanhSachCongViecTienIchCubit
           finishDay:
               dateChange == '' ? null : DateTime.parse(dateChange).formatApi,
           note: noteChange == '' ? null : noteChange,
-          performer: toDoListRequest.performer == ''
+          performer: toDoListRequest.performer == '' ||
+                  toDoListRequest.performer == null
               ? null
               : nguoiThucHienSubject.value.id,
+          filePath: filePath,
         ),
       );
       result.when(
@@ -339,7 +336,7 @@ class DanhSachCongViecTienIchCubit
       success: (res) {
         showContent();
         titleAppBar.sink.add(S.current.cong_viec_cua_ban);
-        statusDSCV.sink.add(CVCB);
+        statusDSCV.sink.add(DSCVScreen.CVCB);
         doDataTheoFilter();
         addValueWithTypeToDSCV();
         getNHomCVMoi();
@@ -351,7 +348,7 @@ class DanhSachCongViecTienIchCubit
   }
 
   ///call and fill api autu
-  void callAndFillApiAutu() async {
+  Future<void> callAndFillApiAutu() async {
     await getToDoListDSCV();
     await getDSCVGanCHoToi();
     doDataTheoFilter();
@@ -372,6 +369,7 @@ class DanhSachCongViecTienIchCubit
     bool? important,
     bool? inUsed,
     bool? isDeleted,
+    String? filePathTodo,
     required TodoDSCVModel todo,
   }) async {
     showLoading();
@@ -402,11 +400,12 @@ class DanhSachCongViecTienIchCubit
             ? DateTime.now().formatApi
             : DateTime.parse(dateChange).formatApi,
         performer: toDoListRequest.performer ?? todo.performer,
+        filePath:
+            checkData(changeData: filePathTodo, defaultData: todo.filePath),
       ),
     );
     result.when(
       success: (res) {
-        showContent();
         final data = listDSCV.value;
         if (isTicked != null) {
           data.insert(0, res);
@@ -422,12 +421,16 @@ class DanhSachCongViecTienIchCubit
           listDSCV.sink.add(data);
         }
         if (isDeleted != null) {}
+        if (filePathTodo != null) {
+          nameFile.sink.add('');
+        }
         callAndFillApiAutu();
       },
       error: (err) {
         showError();
       },
     );
+    showContent();
   }
 
   ItemChonBienBanCuocHopModel dataListNguoiThucHienModelDefault =
@@ -498,10 +501,132 @@ class DanhSachCongViecTienIchCubit
     final result = await tienIchRep.uploadFileDSCV(file);
     result.when(
       success: (res) {
+        filePath = res.data?.filePath ?? '';
+      },
+      error: (error) {},
+    );
+    showContent();
+  }
+
+  ///xóa cong viec
+  Future<void> xoaCongViecVinhVien(String idCv) async {
+    showLoading();
+    final result = await tienIchRep.xoaCongViec(idCv);
+    result.when(
+      success: (res) {
         callAndFillApiAutu();
       },
       error: (error) {},
     );
     showContent();
+  }
+
+  /// hiển thị icon theo từng màn hình
+  List<int> showIcon({required int dataType, bool? isListUp}) {
+    if (isListUp ?? true) {
+      switch (dataType) {
+        case DSCVScreen.CVCB:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icEdit,
+            IconDSCV.icImportant,
+            IconDSCV.icClose
+          ];
+        case DSCVScreen.CVQT:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icClose,
+          ];
+        case DSCVScreen.DHT:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icClose,
+          ];
+        case DSCVScreen.GCT:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icClose,
+          ];
+        case DSCVScreen.DBX:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icHoanTac,
+            IconDSCV.icXoaVinhVien,
+          ];
+        case DSCVScreen.NCVM:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icEdit,
+            IconDSCV.icImportant,
+            IconDSCV.icClose
+          ];
+      }
+    } else {
+      switch (dataType) {
+        case DSCVScreen.CVCB:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icClose,
+          ];
+        case DSCVScreen.CVQT:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icClose,
+          ];
+        case DSCVScreen.DHT:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icClose,
+          ];
+        case DSCVScreen.GCT:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icClose,
+          ];
+        case DSCVScreen.DBX:
+          return [
+            IconDSCV.icCheckBox,
+            IconDSCV.icImportant,
+            IconDSCV.icHoanTac,
+            IconDSCV.icXoaVinhVien,
+          ];
+        case DSCVScreen.NCVM:
+          return [IconDSCV.icCheckBox, IconDSCV.icImportant, IconDSCV.icClose];
+      }
+    }
+
+    return [];
+  }
+
+  List<int> enableIcon(int dataType) {
+    switch (dataType) {
+      case DSCVScreen.CVCB:
+        return [];
+      case DSCVScreen.CVQT:
+        return [];
+      case DSCVScreen.DHT:
+        return [];
+      case DSCVScreen.GCT:
+        return [];
+      case DSCVScreen.DBX:
+        return [IconDSCV.icCheckBox, IconDSCV.icImportant];
+      case DSCVScreen.NCVM:
+        return [];
+    }
+    return [];
+  }
+
+  void disposs() {
+    dateChange = '';
+    noteChange = '';
+    titleChange = '';
   }
 }

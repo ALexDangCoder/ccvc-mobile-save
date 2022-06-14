@@ -2,18 +2,25 @@ import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/domain/model/lich_hop/danh_sach_bieu_quyet_model.dart';
 import 'package:ccvc_mobile/generated/l10n.dart';
+import 'package:ccvc_mobile/presentation/chi_tiet_lich_hop/bloc/chi_tiet_lich_hop_cubit.dart';
 import 'package:ccvc_mobile/utils/extensions/date_time_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/screen_device_extension.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:intl/intl.dart';
 
 class CellBieuQuyet extends StatefulWidget {
   final DanhSachBietQuyetModel infoModel;
+  final DetailMeetCalenderCubit cubit;
 
   const CellBieuQuyet({
     Key? key,
     required this.infoModel,
+    required this.cubit,
   }) : super(key: key);
 
   @override
@@ -21,6 +28,35 @@ class CellBieuQuyet extends StatefulWidget {
 }
 
 class _CellBieuQuyetState extends State<CellBieuQuyet> {
+  DateTime start = DateTime.now();
+  DateTime end = DateTime.now();
+
+  DateTime? timeDate;
+
+  late CountdownTimerController startCountdownController;
+  late CountdownTimerController endCountdownController;
+
+  @override
+  void initState() {
+    super.initState();
+    start = DateFormat('yyyy-MM-ddTHH:mm:ss')
+        .parse(widget.infoModel.thoiGianBatDau ?? '');
+    end = DateFormat('yyyy-MM-ddTHH:mm:ss')
+        .parse(widget.infoModel.thoiGianKetThuc ?? '');
+    final startMillisec = start.millisecondsSinceEpoch;
+    final endMillisec = end.millisecondsSinceEpoch;
+
+    timeDate = DateTime.fromMillisecondsSinceEpoch(startMillisec);
+
+    startCountdownController = CountdownTimerController(
+      endTime: startMillisec,
+    );
+
+    endCountdownController = CountdownTimerController(
+      endTime: endMillisec,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return screenDevice(
@@ -118,17 +154,48 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   spaceH12,
-                  Text(
-                    '00:00:00',
-                    style: textNormalCustom(
-                      fontSize: 16,
-                      color: statusCalenderRed,
-                      fontWeight: FontWeight.w400,
+                  if (widget.cubit.isNotStartYet(
+                    startTime: timeDate ?? DateTime.now(),
+                  )) ...[
+                    Text(
+                      '00:00:00',
+                      style: textNormalCustom(
+                        color: canceledColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ] else ...[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12, bottom: 12),
+                      child: CountdownTimer(
+                        controller: endCountdownController,
+                        widgetBuilder: (_, CurrentRemainingTime? time) {
+                          if (time == null) {
+                            return Text(
+                              '00:00:00',
+                              style: textNormalCustom(
+                                color: canceledColor,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            );
+                          }
+                          return Text(
+                            '${widget.cubit.dateTimeCovert(time.hours ?? 0)}:'
+                            '${widget.cubit.dateTimeCovert(time.min ?? 0)}:'
+                            '${widget.cubit.dateTimeCovert(time.sec ?? 0)}',
+                            style: textNormalCustom(
+                              color: canceledColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  spaceH12,
+                  ],
+                  spaceH10,
                   Text(
                     loaiBieuQuyetFunc(
                       widget.infoModel.loaiBieuQuyet ?? true,
@@ -263,14 +330,45 @@ class _CellBieuQuyetState extends State<CellBieuQuyet> {
                                 ),
                               ),
                               spaceH14,
-                              Text(
-                                '00:00:00',
-                                style: textNormalCustom(
-                                  fontSize: 16,
-                                  color: statusCalenderRed,
-                                  fontWeight: FontWeight.w400,
+                              if (widget.cubit.isNotStartYet(
+                                startTime: timeDate ?? DateTime.now(),
+                              )) ...[
+                                Text(
+                                  '00:00:00',
+                                  style: textNormalCustom(
+                                    color: canceledColor,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              ] else ...[
+                                CountdownTimer(
+                                  controller: endCountdownController,
+                                  widgetBuilder:
+                                      (_, CurrentRemainingTime? time) {
+                                    if (time == null) {
+                                      return Text(
+                                        '00:00:00',
+                                        style: textNormalCustom(
+                                          color: canceledColor,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      );
+                                    }
+                                    return Text(
+                                      '${widget.cubit.dateTimeCovert(time.hours ?? 0)}:'
+                                      '${widget.cubit.dateTimeCovert(time.min ?? 0)}:'
+                                      '${widget.cubit.dateTimeCovert(time.sec ?? 0)}',
+                                      style: textNormalCustom(
+                                        color: canceledColor,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    );
+                                  },
                                 ),
-                              ),
+                              ],
                               spaceH14,
                               Text(
                                 loaiBieuQuyetFunc(

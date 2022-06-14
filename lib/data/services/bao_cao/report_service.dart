@@ -1,3 +1,4 @@
+import 'package:ccvc_mobile/data/response/bao_cao/group_response.dart';
 import 'package:ccvc_mobile/data/response/bao_cao/report_response.dart';
 import 'package:ccvc_mobile/utils/constants/api_constants.dart';
 import 'package:dio/dio.dart';
@@ -17,4 +18,16 @@ abstract class ReportService {
     @Query('sort') int sort,
     @Query('keyWord') String keyWord,
   );
+  @POST(ApiConstants.LIST_GROUP_BAO_CAO)
+  Future<GroupImplResponse> getListGroup(
+      @Field('appId') String appId,
+      @Field('pageIndex') String pageIndex,
+      @Field('pageSize') String pageSize,
+      );
+  @GET(ApiConstants.LIST_THANH_VIEN_BAO_CAO)
+  Future<GroupImplResponse> getListThanhVien(
+      @Query('groupId') String groupId,
+      @Query('pageIndex') String pageIndex,
+      @Query('pageSize') String pageSize,
+      );
 }

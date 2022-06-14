@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
 import 'package:ccvc_mobile/data/exception/app_exception.dart';
@@ -42,94 +44,102 @@ class _ManagerPersonalInformationState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: bgColor,
-      appBar: BaseAppBar(
-        title: S.current.manager_information,
-        leadingIcon: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: SvgPicture.asset(ImageAssets.icBack),
-            onPressed: () {
-              Navigator.pop(context, _cubit.checkLoad);
-            },
-          ),
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditPersonInformationScreen(
-                    id: widget.id,
-                  ),
-                ),
-              ).then((value) {
-                if (value == true) {
-                  _cubit.loadApi(id: widget.id);
-                  _cubit.checkLoad = true;
-                } else if (value == null) {
-                  _cubit.checkLoad = false;
-                  return;
-                }
-                return;
-              });
-            },
-            child: SvgPicture.asset(
-              ImageAssets.icManager,
-              width: 17,
-              height: 17,
+    return WillPopScope(
+
+      onWillPop: () async {
+        Navigator.pop(context,_cubit.checkLoad);
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: bgColor,
+        appBar: BaseAppBar(
+          title: S.current.manager_information,
+          leadingIcon: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: SvgPicture.asset(ImageAssets.icBack),
+              onPressed: () {
+                Navigator.pop(context, _cubit.checkLoad);
+              },
             ),
           ),
-          spaceW10
-        ],
-      ),
-      body: ProviderWidget(
-        cubit: _cubit,
-        child: StateStreamLayout(
-          textEmpty: S.current.khong_co_du_lieu,
-          retry: () {},
-          error: AppException('1', ''),
-          stream: _cubit.stateStream,
-          child: RefreshIndicator(
-            onRefresh: () async {
-              await _cubit.loadApi(id: widget.id);
-            },
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: StreamBuilder<ManagerPersonalInformationModel>(
-                stream: _cubit.managerStream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const SizedBox();
-                  }
-                  return Container(
-                    color: backgroundColorApp,
-                    padding: const EdgeInsets.only(top: 2, left: 16, right: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        WidgetThongTinMobile(
-                          cubit: _cubit,
-                        ),
-                        spaceH20,
-                        WidgetDonVibMobile(
-                          cubit: _cubit,
-                        ),
-                        spaceH20,
-                        WidgetUngDungMobile(
-                          cubit: _cubit,
-                        ),
-                        spaceH20,
-                        WidgetImageMobile(
-                          cubit: _cubit,
-                        ),
-                        spaceH24,
-                      ],
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditPersonInformationScreen(
+                      id: widget.id,
                     ),
-                  );
-                },
+                  ),
+                ).then((value) {
+                  if (value == true) {
+
+                    _cubit.loadApi(id: widget.id);
+                    _cubit.checkLoad = true;
+                  } else if (value == null) {
+                    _cubit.checkLoad = false;
+                    return;
+                  }
+                  return;
+                });
+              },
+              child: SvgPicture.asset(
+                ImageAssets.icManager,
+                width: 17,
+                height: 17,
+              ),
+            ),
+            spaceW10
+          ],
+        ),
+        body: ProviderWidget(
+          cubit: _cubit,
+          child: StateStreamLayout(
+            textEmpty: S.current.khong_co_du_lieu,
+            retry: () {},
+            error: AppException('1', ''),
+            stream: _cubit.stateStream,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await _cubit.loadApi(id: widget.id);
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: StreamBuilder<ManagerPersonalInformationModel>(
+                  stream: _cubit.managerStream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const SizedBox();
+                    }
+                    return Container(
+                      color: backgroundColorApp,
+                      padding: const EdgeInsets.only(top: 2, left: 16, right: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          WidgetThongTinMobile(
+                            cubit: _cubit,
+                          ),
+                          spaceH20,
+                          WidgetDonVibMobile(
+                            cubit: _cubit,
+                          ),
+                          spaceH20,
+                          WidgetUngDungMobile(
+                            cubit: _cubit,
+                          ),
+                          spaceH20,
+                          WidgetImageMobile(
+                            cubit: _cubit,
+                          ),
+                          spaceH24,
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

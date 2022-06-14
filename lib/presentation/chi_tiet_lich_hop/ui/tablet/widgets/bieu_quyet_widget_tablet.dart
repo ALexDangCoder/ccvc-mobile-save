@@ -50,7 +50,13 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                   funcBtnOk: () {
                     Navigator.pop(context);
                   },
-                );
+                ).then((value) {
+                  if (value == true) {
+                    widget.cubit.initData();
+                  } else if (value == null) {
+                    return;
+                  }
+                });
               },
             ),
             StreamBuilder<List<DanhSachBietQuyetModel>>(
@@ -67,6 +73,7 @@ class _BieuQuyetWidgetTabletState extends State<BieuQuyetWidgetTablet> {
                         children: [
                           CellBieuQuyet(
                             infoModel: _list[index],
+                            cubit: widget.cubit,
                           ),
                         ],
                       );

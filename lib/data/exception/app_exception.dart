@@ -18,6 +18,9 @@ class CommonException extends AppException {
 class NoNetworkException extends AppException {
   NoNetworkException() : super(S.current.error, S.current.error_network);
 }
+class TimeoutException extends AppException {
+  TimeoutException() : super(S.current.error, S.current.error_network);
+}
 
 class ExpiredException extends AppException {
   ExpiredException() : super(S.current.error, S.current.error_network);

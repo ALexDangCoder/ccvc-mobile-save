@@ -292,7 +292,19 @@ class CupertinoDatePickerDateState
           curve: Curves.easeOut,
         );
       });
-    } else if (selectedDay > daysInCurrentMonth) {}
+    } else {
+      if (widget.maximumDate != null &&
+          widget.maximumDate!.year == selectedYear &&
+          widget.maximumDate!.month == selectedMonth
+      && selectedDay > widget.maximumDate!.day
+      ) {
+        dayController.animateToItem(
+          widget.maximumDate!.day - 1,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      }
+    }
 
     setState(() {});
     return false;

@@ -1,12 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ccvc_mobile/config/resources/color.dart';
 import 'package:ccvc_mobile/config/resources/styles.dart';
+import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
 import 'package:ccvc_mobile/utils/constants/image_asset.dart';
 import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 
 class LoiChucCell extends StatelessWidget {
-  const LoiChucCell({Key? key}) : super(key: key);
+  const LoiChucCell({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+  final BirthdayModel data;
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +21,9 @@ class LoiChucCell extends StatelessWidget {
           width: 40.0.textScale(space: 16),
           height: 40.0.textScale(space: 16),
           clipBehavior: Clip.antiAlias,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle
-          ),
+          decoration: const BoxDecoration(shape: BoxShape.circle),
           child: CachedNetworkImage(
-            imageUrl: '',
+            imageUrl: data.avatar,
             errorWidget: (context, url, error) => Container(
               color: Colors.black,
               child: Image.asset(ImageAssets.anhDaiDienMacDinh),
@@ -35,18 +38,18 @@ class LoiChucCell extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Tên người gửi',
+                data.tenNguoiGui,
                 style: textNormalCustom(fontSize: 14, color: textTitle),
               ),
               spaceH6,
               Text(
-                'Nội dung lời chúc ẹqoiw uewqoi ueoiqwu oiqwue iơque oiqu ioqu ơique iơque oiqwue iơqeu ơ',
+                data.loiChuc,
                 style: textNormal(infoColor, 14),
                 overflow: TextOverflow.ellipsis,
               ),
               spaceH6,
               Text(
-                'Thời gian chúc (19/02/2022 10:22:11)',
+                data.ngayGuiLoiChuc,
                 style: textNormal(infoColor, 14),
               )
             ],

@@ -30,14 +30,13 @@ class _InCalenderFormState extends State<InCalenderForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.cubit.stateCalendarControllerDay.
-        addPropertyChangedListener((value) {
-          if (value == 'displayDate'){
-            widget.cubit.updateDataSlideCalendar(
-              widget.cubit.stateCalendarControllerDay.displayDate ??
-                  widget.cubit.selectDay,
-            );
-          }
+    widget.cubit.stateCalendarControllerDay.addPropertyChangedListener((value) {
+      if (value == 'displayDate') {
+        widget.cubit.updateDataSlideCalendar(
+          widget.cubit.stateCalendarControllerDay.displayDate ??
+              widget.cubit.selectDay,
+        );
+      }
     });
   }
 
@@ -53,99 +52,6 @@ class _InCalenderFormState extends State<InCalenderForm> {
         const SizedBox(
           height: 10,
         ),
-        // Expanded(
-        //   child: StreamBuilder<CalendarController>(
-        //       stream: widget.cubit.stateCalendarDaySubject.stream,
-        //       builder: (context, snapshot) {
-        //         final data = snapshot.data ?? CalendarController();
-        //
-        //         return Padding(
-        //           padding: const EdgeInsets.only(left: 16),
-        //           child: Column(
-        //             children: [
-        //               spaceH16,
-        //               Expanded(
-        //                 child: Padding(
-        //                   padding: const EdgeInsets.only(right: 16),
-        //                   child: StreamBuilder<DataLichLvModel>(
-        //                     stream: widget.cubit.listLichSubject,
-        //                     builder: (context, snapshot) {
-        //                       return SfCalendar(
-        //                         viewHeaderHeight: 0.0,
-        //                         allowAppointmentResize: true,
-        //                         headerHeight: 0.0,
-        //                         controller: data,
-        //                         appointmentTextStyle:
-        //                             textNormalCustom(color: backgroundColorApp),
-        //                         todayHighlightColor: statusCalenderRed,
-        //                         timeSlotViewSettings:
-        //                             const TimeSlotViewSettings(
-        //                           timeIntervalHeight: 54,
-        //                         ),
-        //                         selectionDecoration: const BoxDecoration(
-        //                             color: Colors.transparent),
-        //                         appointmentTimeTextFormat: 'hh:mm:ss a',
-        //                         dataSource: widget.cubit.getCalenderDataSource(
-        //                           snapshot.data ?? DataLichLvModel(),
-        //                         ),
-        //                         appointmentBuilder: (
-        //                           BuildContext context,
-        //                           CalendarAppointmentDetails
-        //                               calendarAppointmentDetails,
-        //                         ) {
-        //                           final Appointment appointment =
-        //                               calendarAppointmentDetails
-        //                                   .appointments.first;
-        //                           return GestureDetector(
-        //                             onTap: () {
-        //                               Navigator.push(
-        //                                 context,
-        //                                 MaterialPageRoute(
-        //                                   builder: (_) =>
-        //                                       ChiTietLichLamViecScreen(
-        //                                     id: appointment.id.toString(),
-        //                                   ),
-        //                                 ),
-        //                               );
-        //                             },
-        //                             child: Container(
-        //                               padding: const EdgeInsets.symmetric(
-        //                                 horizontal: 5.0,
-        //                                 vertical: 2.0,
-        //                               ),
-        //                               decoration: BoxDecoration(
-        //                                 borderRadius:
-        //                                     BorderRadius.circular(6.0),
-        //                                 color:
-        //                                     AppTheme.getInstance().colorField(),
-        //                               ),
-        //                               child: Column(
-        //                                 crossAxisAlignment:
-        //                                     CrossAxisAlignment.start,
-        //                                 children: [
-        //                                   Flexible(
-        //                                     child: Text(
-        //                                       appointment.subject,
-        //                                       style: textNormalCustom(
-        //                                           fontSize: 12.0),
-        //                                     ),
-        //                                   ),
-        //                                   const SizedBox(height: 4.0),
-        //                                 ],
-        //                               ),
-        //                             ),
-        //                           );
-        //                         },
-        //                       );
-        //                     },
-        //                   ),
-        //                 ),
-        //               ),
-        //             ],
-        //           ),
-        //         );
-        //       }),
-        // ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 16),
@@ -175,46 +81,77 @@ class _InCalenderFormState extends State<InCalenderForm> {
                           dataSource: widget.cubit.getCalenderDataSource(
                             snapshot.data ?? DataLichLvModel(),
                           ),
-                          appointmentBuilder: (
-                            BuildContext context,
-                            CalendarAppointmentDetails
-                                calendarAppointmentDetails,
-                          ) {
-                            final Appointment appointment =
-                                calendarAppointmentDetails.appointments.first;
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => ChiTietLichLamViecScreen(
-                                      id: appointment.id.toString(),
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 5.0,
-                                  vertical: 2.0,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                  color: AppTheme.getInstance().colorField(),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        appointment.subject,
-                                        style: textNormalCustom(fontSize: 12.0),
+
+                                appointmentBuilder: (
+                                  BuildContext context,
+                                  CalendarAppointmentDetails
+                                      calendarAppointmentDetails,
+                                ) {
+                                  final Appointment appointment =
+                                      calendarAppointmentDetails
+                                          .appointments.first;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              ChiTietLichLamViecScreen(
+                                            id: appointment.id.toString(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0,
+                                        vertical: 2.0,
                                       ),
-                                    ),
-                                    const SizedBox(height: 4.0),
-                                  ],
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(6.0),
+                                        color:
+                                            AppTheme.getInstance().colorField(),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    appointment.subject,
+                                                    style: textNormalCustom(
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4.0),
+                                              ],
+                                            ),
+                                          ),
+
+                                          if (widget.cubit
+                                                  .getElementFromId(
+                                                    appointment.id.toString(),
+                                                  )
+                                                  .isTrung)
+                                            const Icon(
+                                              Icons.circle,
+                                              color: Colors.red,
+                                              size: 10,
+                                            )
+                                          else
+                                            Container()
+                                        ],
+                                      ),
                                 ),
-                              ),
                             );
                           },
                         );

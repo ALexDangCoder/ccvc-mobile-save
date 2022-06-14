@@ -62,6 +62,7 @@ class _InListFormTabletState extends State<InListFormTablet> {
             child: StreamBuilder<DataLichLvModel>(
               stream: _cubit.streamListLich,
               builder: (context, snapshot) {
+                widget.cubit.getMatchDate(_cubit.dataLichLvModel);
                 return ListView.builder(
                   controller: _scrollController,
                   shrinkWrap: true,

@@ -23,11 +23,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ThemThongTinKhachMoiWidget extends StatefulWidget {
   final Function(List<DonViModel> value) onChange;
   final bool isMoiHop;
+  final bool isCheckedEmail;
 
   const ThemThongTinKhachMoiWidget({
     Key? key,
     required this.onChange,
     this.isMoiHop = false,
+    this.isCheckedEmail = false,
   }) : super(key: key);
 
   @override
@@ -72,9 +74,10 @@ class _ThemDonViPhoiHopKhacWidgetState
                   padding: EdgeInsets.only(top: 20.0.textScale(space: -2)),
                   child: widget.isMoiHop
                       ? ItemPeopleThamGia(
-                          donVi: data[index],
+                    donVi: data[index],
                           cubit: cubit,
                           isKhachMoi: widget.isMoiHop,
+                          isSendEmail: widget.isCheckedEmail,
                         )
                       : ItemThanhPhanWidget(
                           data: data[index],
@@ -165,7 +168,7 @@ class _ThemDonViPhoiHopKhacScreenState
                     sdt: _sdtController.text,
                     tenCoQuan: _tenDonViController.text,
                     vaiTroThamGia: 5,
-                    dauMoiLienHe: '',
+                    dauMoiLienHe: _hoTenController.text,
                     tenCanBo: _hoTenController.text,
                     soLuong: int.parse(_soLuongController.text),
                   ),
@@ -191,7 +194,7 @@ class _ThemDonViPhoiHopKhacScreenState
                         title: S.current.ho_va_ten,
                         child: TextFieldValidator(
                           controller: _hoTenController,
-                          hintText: S.current.ten_don_vi,
+                          hintText: S.current.ho_va_ten,
                           validator: (value) {
                             return (value ?? '').checkNull();
                           },
@@ -202,6 +205,9 @@ class _ThemDonViPhoiHopKhacScreenState
                         child: TextFieldValidator(
                           controller: _tenDonViController,
                           hintText: S.current.dau_moi_lam_viec,
+                          validator: (value) {
+                            return (value ?? '').checkNull();
+                          },
                         ),
                       ),
                       spaceH20,
@@ -224,6 +230,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkEmail();
                           },
                         ),
@@ -241,6 +250,9 @@ class _ThemDonViPhoiHopKhacScreenState
                             ),
                           ),
                           validator: (value) {
+                            if(value?.isEmpty ?? true){
+                              return null;
+                            }
                             return (value ?? '').checkSdt();
                           },
                         ),

@@ -12,6 +12,7 @@ import 'package:ccvc_mobile/data/response/account/login_response.dart';
 import 'package:ccvc_mobile/data/response/account/permission_menu_response.dart';
 import 'package:ccvc_mobile/data/response/account/tinh_huyen_xa/tinh_huyen_xa_response.dart';
 import 'package:ccvc_mobile/data/response/edit_person_information/edit_person_information_response.dart';
+import 'package:ccvc_mobile/data/response/home/list_birthday_response.dart';
 import 'package:ccvc_mobile/data/response/home/pham_vi_response.dart';
 import 'package:ccvc_mobile/data/response/manager_personal_information/manager_personal_information_response.dart';
 import 'package:ccvc_mobile/data/response/up_load_anh/up_load_anh_response.dart';
@@ -25,6 +26,7 @@ import 'package:ccvc_mobile/domain/model/account/permission_menu_model.dart';
 import 'package:ccvc_mobile/domain/model/account/tinh_huyen_xa/tinh_huyen_xa_model.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/data_edit_person_information.dart';
 import 'package:ccvc_mobile/domain/model/edit_personal_information/up_load_anh_model.dart';
+import 'package:ccvc_mobile/domain/model/home/birthday_model.dart';
 import 'package:ccvc_mobile/domain/model/home/pham_vi_model.dart';
 import 'package:ccvc_mobile/domain/model/manager_personal_information/manager_personal_information_model.dart';
 import 'package:ccvc_mobile/domain/repository/login_repository.dart';
@@ -73,6 +75,17 @@ class AccountImpl implements AccountRepository {
         files,
       ),
       (res) => res.toModel(),
+    );
+  }
+
+  @override
+  Future<Result<List<BirthdayModel>>> getListBirthday(
+      int pageSize,
+      int pageIndex,
+      ) {
+    return runCatchingAsync<ListBirthDayResponse, List<BirthdayModel>>(
+          () => _accountServiceGateWay.getListBirthday(pageSize, pageIndex),
+          (res) => res.data?.pageData?.map((e) => e.toModel()).toList() ?? [],
     );
   }
 

@@ -3,6 +3,8 @@ import 'package:ccvc_mobile/home_module/utils/extensions/date_time_extension.dar
 import 'package:ccvc_mobile/tien_ich_module/domain/model/nguoi_thuc_hien_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/domain/model/todo_dscv_model.dart';
 import 'package:ccvc_mobile/tien_ich_module/presentation/danh_sach_cong_viec/bloc/danh_sach_cong_viec_tien_ich_cubit.dart';
+import 'package:ccvc_mobile/tien_ich_module/utils/constants/app_constants.dart';
+import 'package:ccvc_mobile/utils/extensions/size_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,30 +21,30 @@ class CongViecCellTienIch extends StatefulWidget {
   final Function()? onClose;
   final TodoDSCVModel todoModel;
   final Function(TextEditingController)? onChange;
-  final bool isTheEdit;
   final Function()? onEdit;
-  final bool isDaBiXoa;
   final Function()? onThuHoi;
   final Function()? onXoaVinhVien;
   final DanhSachCongViecTienIchCubit cubit;
+  final List<int>? isEnableIcon;
+  final List<int>? showIcon;
 
-  const CongViecCellTienIch(
-      {Key? key,
-      required this.text,
-      required this.onCheckBox,
-      this.onStar,
-      this.onClose,
-      required this.todoModel,
-      this.enabled = true,
-      this.borderBottom = true,
-      this.onChange,
-      this.isTheEdit = false,
-      this.onEdit,
-      this.isDaBiXoa = false,
-      this.onThuHoi,
-      this.onXoaVinhVien,
-      required this.cubit})
-      : super(key: key);
+  const CongViecCellTienIch({
+    Key? key,
+    required this.text,
+    required this.onCheckBox,
+    this.onStar,
+    this.onClose,
+    required this.todoModel,
+    this.enabled = true,
+    this.borderBottom = true,
+    this.onChange,
+    this.onEdit,
+    this.onThuHoi,
+    this.onXoaVinhVien,
+    required this.cubit,
+    this.isEnableIcon,
+    this.showIcon,
+  }) : super(key: key);
 
   @override
   State<CongViecCellTienIch> createState() => _CongViecCellTienIchState();
@@ -74,24 +76,29 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
         children: [
           Row(
             children: [
-              SizedBox(
-                width: 18,
-                height: 18,
-                child: Checkbox(
-                  checkColor: Colors.white,
-                  // color of tick Mark
-                  activeColor: AppTheme.getInstance().colorField(),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                  side: const BorderSide(width: 1.5, color: lineColor),
-                  value: widget.todoModel.isTicked ?? false,
+              if (widget.showIcon?.contains(IconDSCV.icCheckBox) ?? false)
+                SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: Checkbox(
+                    checkColor: Colors.white,
+                    // color of tick Mark
+                    activeColor: AppTheme.getInstance().colorField(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    side: const BorderSide(width: 1.5, color: lineColor),
+                    value: widget.todoModel.isTicked ?? false,
 
-                  onChanged: (value) {
-                    widget.onCheckBox(value ?? false);
-                  },
+                    onChanged:
+                        !(widget.isEnableIcon?.contains(IconDSCV.icCheckBox) ??
+                                false)
+                            ? (value) {
+                                widget.onCheckBox(value ?? false);
+                              }
+                            : null,
+                  ),
                 ),
-              ),
               const SizedBox(
                 width: 13,
               ),
@@ -106,7 +113,7 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                             style: textNormal(
                               infoColor,
                               14,
-                            ).copyWith(decoration: TextDecoration.lineThrough),
+                            ),
                           ),
                         ),
                       )
@@ -116,35 +123,46 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                           focusNode: focusNode,
                           controller: textEditingController,
                           enabled: widget.enabled,
-                          style: textNormal(infoColor, 14),
+                          style: textNormal(infoColor, 14.0.textScale()),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                           ),
                         ),
                       ),
               ),
-              if (widget.isTheEdit)
+              if (widget.showIcon?.contains(IconDSCV.icEdit) ?? false)
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: GestureDetector(
-                    onTap: widget.onEdit,
+                    onTap: !(widget.isEnableIcon?.contains(IconDSCV.icEdit) ??
+                            false)
+                        ? widget.onEdit
+                        : onTapNull,
                     child: SvgPicture.asset(ImageAssets.icEditBlue),
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: GestureDetector(
-                  onTap: widget.onStar,
-                  child: SvgPicture.asset(
-                    widget.todoModel.important ?? false
-                        ? ImageAssets.icStarFocus
-                        : ImageAssets.icStarUnfocus,
+              if (widget.showIcon?.contains(IconDSCV.icImportant) ?? false)
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: GestureDetector(
+                    onTap:
+                        !(widget.isEnableIcon?.contains(IconDSCV.icImportant) ??
+                                false)
+                            ? widget.onStar
+                            : onTapNull,
+                    child: SvgPicture.asset(
+                      widget.todoModel.important ?? false
+                          ? ImageAssets.icStarFocus
+                          : ImageAssets.icStarUnfocus,
+                    ),
                   ),
                 ),
-              ),
-              if (widget.isDaBiXoa)
+              if (widget.showIcon?.contains(IconDSCV.icHoanTac) ?? false)
                 GestureDetector(
-                  onTap: widget.onThuHoi,
+                  onTap: !(widget.isEnableIcon?.contains(IconDSCV.icHoanTac) ??
+                          false)
+                      ? widget.onThuHoi
+                      : onTapNull,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: SvgPicture.asset(
@@ -152,21 +170,28 @@ class _CongViecCellTienIchState extends State<CongViecCellTienIch> {
                     ),
                   ),
                 ),
-              if (widget.isDaBiXoa)
+              if (widget.showIcon?.contains(IconDSCV.icXoaVinhVien) ?? false)
                 GestureDetector(
-                  onTap: widget.onXoaVinhVien,
-                  child: SvgPicture.asset(
-                    ImageAssets.ic_delete_dscv,
-                  ),
-                )
-              else
-                GestureDetector(
-                  onTap: widget.onClose,
-                  child: Container(
-                    color: Colors.transparent,
+                  onTap:
+                      !(widget.isEnableIcon?.contains(IconDSCV.icXoaVinhVien) ??
+                              false)
+                          ? widget.onXoaVinhVien
+                          : onTapNull,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
                     child: SvgPicture.asset(
-                      ImageAssets.icClose,
+                      ImageAssets.ic_delete_dscv,
                     ),
+                  ),
+                ),
+              if (widget.showIcon?.contains(IconDSCV.icClose) ?? false)
+                GestureDetector(
+                  onTap: !(widget.isEnableIcon?.contains(IconDSCV.icClose) ??
+                          false)
+                      ? widget.onClose
+                      : onTapNull,
+                  child: SvgPicture.asset(
+                    ImageAssets.icClose,
                   ),
                 )
             ],

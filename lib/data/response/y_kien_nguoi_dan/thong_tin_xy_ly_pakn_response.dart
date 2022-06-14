@@ -76,7 +76,6 @@ class ThongTinXuLyResponse {
 
   List<DonViDuocPhanXuLyModel> convertStringIntoModel(String? value) {
     if((value ?? '').isNotEmpty) {
-      print('vao hia1');
       final List<dynamic> json = jsonDecode(value ?? '');
       List<DonViDuocPhanXuLyModel> listDonViDuocPhanXuLy = [];
       listDonViDuocPhanXuLy = json != null
@@ -84,7 +83,6 @@ class ThongTinXuLyResponse {
           : [];
       return listDonViDuocPhanXuLy;
     } else {
-      print('vao hia2');
       return [];
     }
   }
